@@ -254,6 +254,7 @@
 #pragma mark -
 - (IBAction)itemButtonPressed:(id)sender {
     QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
+    vc.showBackBtn = self.showBackBtn;
     vc.delegate = self;
     self.itemListVc = vc;
     vc.view.frame = self.view.bounds;
@@ -272,16 +273,29 @@
 }
 
 - (IBAction)trashBtnPressed:(id)sender {
-    [SHARE_NW_ENGINE matcherHide:self.showDict onSucceed:^{
-        [self showTextHud:@"删除成功"];
-        [self performSelector:@selector(backBtnPressed:) withObject:nil afterDelay:TEXT_HUD_DELAY];
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确定删除？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    [alert show];
+    
+}
+#pragma mark - AlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [SHARE_NW_ENGINE matcherHide:self.showDict onSucceed:^{
+            [self showTextHud:@"删除成功"];
+            [self performSelector:@selector(backBtnPressed:) withObject:nil afterDelay:TEXT_HUD_DELAY];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    }
+    else
+    {
+        [self showTextHud:@"取消删除"];
+    }
 }
 
 
-- (void)didClickItemListCloseBtn
+- (void)didClickItemListCloseBtn:(BOOL)showBackBtn
 {
     [UIView animateWithDuration:.3f animations:^{
         self.itemListVc.view.alpha = 0.f;
@@ -289,6 +303,10 @@
         [self setPlayModeBtnsHidden:NO];
         [self.itemListVc.view removeFromSuperview];
         [self.itemListVc removeFromParentViewController];
+        if (showBackBtn == YES) {
+              self.backBtn.hidden = YES;
+        }
+      
         self.itemListVc = nil;
     }];
 
@@ -304,11 +322,9 @@
 {
     NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
     
-//    NSString* urlStr = [NSString stringWithFormat:@"http://121.41.161.239/app-web?action=shareShow&_id=%@", showId];
-    
     //获取userID
     QSUserManager *um = [QSUserManager shareUserManager];
-    NSString* peopleID = um.userInfo[@"_id"];
+    NSString* peopleID = [QSCommonUtil getIdOrEmptyStr:um.userInfo];
     
     NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
     [self.shareVc showSharePanelWithUrl:urlStr];
@@ -367,7 +383,7 @@
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
-    [MobClick event:@"playVideo" attributes:@{@"showId" : self.showDict[@"_id"], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSCommonUtil getIdOrEmptyStr:self.showDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 
 #pragma mark - Discount

@@ -137,35 +137,23 @@
 
 - (MKNetworkOperation*)changeTrade:(NSDictionary*)tradeDict
                             status:(int)status
+                              info:(NSDictionary*)dict
                          onSucceed:(VoidBlock)succeedBlock
-                           onError:(ErrorBlock)errorBlock
+                           onError:(ErrorBlock)errorBlock;
 {
-    if (status == 3 || status == 14) {
-        return [self startOperationWithPath:PAHT_TRADE_STATUS_TO
-                                     method:@"POST"
-                                   paramers:@{
-                                              @"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict],
-                                              @"status" : @(status),
-                                              @"comments":[QSCommonUtil getCommentsStr:tradeDict]}
-                                onSucceeded:^(MKNetworkOperation *completedOperation)
-                {
-                    if (succeedBlock) {
-                        succeedBlock();
-                    }
-                }
-                                    onError:^(MKNetworkOperation *completedOperation, NSError *error)
-                {
-                    if (errorBlock) {
-                        errorBlock(error);
-                    }
-                }];
-
+    NSMutableDictionary* paramDict = nil;
+    if (dict) {
+        paramDict = [dict mutableCopy];
+    } else {
+        paramDict = [@{} mutableCopy];
     }
+    
+    paramDict[@"_id"] = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+    paramDict[@"status"] = @(status);
+    
     return [self startOperationWithPath:PAHT_TRADE_STATUS_TO
                                  method:@"POST"
-                               paramers:@{
-                                          @"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict],
-                                          @"status" : @(status)}
+                               paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {

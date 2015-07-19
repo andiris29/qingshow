@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var _ = require('underscore');
 
 var Trade = require('../../model/trades');
 var People = require('../../model/peoples');
@@ -75,10 +76,7 @@ trade.create = {
                     orderName = orderName.substring(0, orderName.length - 1);
                 }
 
-                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + 
-                    '&totalFee=' + trade.totalFee + 
-                    '&orderName=' + encodeURIComponent(orderName) + 
-                    '&clientIp=' + RequestHelper.getIp(req);
+                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
                     var jsonObject = JSON.parse(body);
                     if (jsonObject.metadata) {
@@ -120,97 +118,75 @@ var _statusValidationMap = {
     14 : [11, 16],
     17 : [1, 2]
 };
+
+var _validateStatus = function(trade, newStatus, callback) {
+    // Validate status
+    var valid = _statusValidationMap[newStatus];
+    if (valid && valid.indexOf(trade.status) !== -1) {
+        callback(null, trade);
+    } else {
+        callback(ServerError.TradeStatusChangeError);
+    }
+};
+
+var _weixinDeliveryNotify = function(trade) {
+    var payInfo = trade.pay.weixin;
+    var url = 'http://localhost:8080/payment/wechat/deliverNotify?openid=' + payInfo.OpenId + '&transid=' + payInfo.transaction_id + '&out_trade_no=' + trade._id + '&deliver_status=1&deliver_msg=OK';
+    request.get(url, function(error, response, body) {
+        var jsonObject = JSON.parse(body);
+        if (jsonObject.metadata) {
+            callback(jsonObject.metadata, trade);
+        } else {
+            if (jsonObject.data.errcode != '0') {
+                callback(jsonObject.data.errmsg, trade);
+            } else {
+                callback(null, trade);
+            }
+        }
+    });
+};
+
 trade.statusTo = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var param;
-        param = req.body;
+        var param = req.body,
+            newStatus = param.status;
         async.waterfall([
         function(callback) {
             // get trade;
             Trade.findOne({
                 '_id' : RequestHelper.parseId(param._id)
-            }).exec(function(error, trade) {
-                if (!error && !trade) {
-                    callback(ServerError.TradeNotExist);
-                }
-                if (error) {
-                    callback(error);
-                } else {
-                    callback(null, trade);
-                }
-            });
+            }, callback);
         },
         function(trade, callback) {
-            // Validate status
-            var valid = _statusValidationMap[param.status];
-            if (valid && valid.indexOf(trade.status) !== -1) {
-                callback(null, trade);
-            } else {
-                callback(ServerError.TradeStatusChangeError);
-            }
-
+            _validateStatus(trade, newStatus, callback);
         },
         function(trade, callback) {
             // update trade
-            var newStatus = param.status;
             if (newStatus == 1) {
                 // Save the parameters from payment server.
                 // handle at callback interface
                 callback(ServerError.TradeStatusChangeError);
             } else if (newStatus == 2) {
                 trade.agent = trade.agent || {};
-                trade.agent.taobaoUserNick = param['agent']['taobaoUserNick'];
-                trade.agent.taobaoTradeId = param['agent']['taobaoTradeId'];
-            } else if (newStatus == 3) {
+                trade.agent.taobaoUserNick = param.agent.taobaoUserNick;
+                trade.agent.taobaoTradeId = param.agent.taobaoTradeId;
+            } else if (newStatus == 3 || newStatus == 14) {
                 trade.logistic = trade.logistic || {};
-                trade.logistic.company = param['logistic']['company'];
-                trade.logistic.trackingId = param['logistic']['trackingId'];
-                // when use wechat pay, send deliver notify to wechat pay server
-                if (trade.pay.weixin.prepayid  != null) {
-                    var payInfo = trade.pay.weixin;
-                    var url = 'http://localhost:8080/payment/wechat/deliverNotify?openid=' + payInfo.OpenId + '&transid=' + payInfo.transaction_id + '&out_trade_no=' + trade._id + '&deliver_status=1&deliver_msg=OK';
-                    request.get(url, function(error, response, body) {
-                        var jsonObject = JSON.parse(body);
-                        if (jsonObject.metadata) {
-                            callback(jsonObject.metadata, trade);
-                            return;
-                        } else {
-                            if (jsonObject.data.errcode != '0') {
-                                callback(jsonObject.data.errmsg, trade);
-                                return;
-                            } 
-                        }
-                    });
+                trade.logistic.company = param.logistic.company;
+                trade.logistic.trackingId = param.logistic.trackingId;
+                if (trade.pay.weixin.prepayid != null) {
+                    _weixinDeliveryNotify(trade);
                 }
-            } else if (newStatus == 5) {
-                // handle at callback interface
-                callback(ServerError.TradeStatusChangeError);
             } else if (newStatus == 7) {
                 trade.returnLogistic = trade.returnLogistic || {};
-                trade.returnLogistic.company = param['returnLogistic']['company'];
-                trade.returnLogistic.trackingId = param['returnLogistic']['trackingId'];
-            } else if (newStatus == 8) {
-                // TODO Communicate with payment server to request refund. [weixin]
-            } else if (newStatus == 9) {
-                // Save the parameters from payment server.
-                // handle at callback interface
-                callback(ServerError.TradeStatusChangeError);
-            } else if (newStatus == 10) {
-                // TODO Save the parameters from payment server.
-            } else if (newStatus == 11) {
-            } else if (newStatus == 12) {
-            } else if (newStatus == 13) {
+                trade.returnLogistic.company = param.returnLogistic.company;
+                trade.returnLogistic.trackingId = param.returnLogistic.trackingId;
             }
-            //trade.status = newStatus;
-            trade.save(function(error, trade) {
-                callback(error, trade);
-            });
+            callback(null, trade);
         },
         function(trade, callback) {
-            // update status
-            var newStatus = param.status;
             TradeHelper.updateStatus(trade, newStatus, req.qsCurrentUserId, function(err, trade) {
                 callback(err, trade);
             });
@@ -218,6 +194,7 @@ trade.statusTo = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
+            TradeHelper.notify(trade);
         });
     }
 };
@@ -236,35 +213,17 @@ trade.queryCreatedBy = {
 trade.alipayCallback = {
     'method' : 'post',
     'func' : function(req, res) {
+        var newStatus = 1;
         async.waterfall([
         function(callback) {
-            // get trade
             Trade.findOne({
                 '_id' : RequestHelper.parseId(req.body.out_trade_no)
-            }).exec(function(error, trade) {
-                if (!error && !trade) {
-                    callback(ServerError.TradeNotExist);
-                } else if (error) {
-                    callback(error);
-                } else {
-                    callback(null, trade);
-                }
-            });
+            }, callback);
         },
         function(trade, callback) {
-            // Validate status
-            var valid = _statusValidationMap[req.body.status];
-            if (valid && valid.indexOf(trade.status) !== -1) {
-                callback(null, trade);
-            } else {
-                callback(ServerError.TradeStatusChangeError);
-            }
+            _validateStatus(trade, newStatus, callback);
         },
-        function(trade, callback){
-            var newStatus = req.body.status;
-            if (newStatus != 1 && newStatus != 5 && newStatus !=9 ) {
-                callback(ServerError.TradeStatusChangeError);
-            }
+        function(trade, callback) {
             trade.pay.alipay['trade_no'] = req.body['trade_no'];
             trade.pay.alipay['trade_status'] = req.body['trade_status'];
             trade.pay.alipay['total_fee'] = req.body['total_fee'];
@@ -283,27 +242,15 @@ trade.alipayCallback = {
                 'refund_status' : req.body['refund_status'],
                 //'date' : Date.now
             });
-            trade.save(function(error, trade) {
-                callback(error, trade);
-            });
+            callback(null, trade);
         },
         function(trade, callback) {
-            // update status
-            var newStatus = req.body.status;
-            TradeHelper.updateStatus(trade, newStatus, null, function(err, trade) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
-            // Send notification mail
-            TradeHelper.notify(trade, function(err, info) {
-                callback(err, trade);
-            });
-        }],
-        function(error, trade) {
+            TradeHelper.updateStatus(trade, newStatus, null, callback);
+        }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
+            TradeHelper.notify(trade);
         });
     }
 };
@@ -311,6 +258,7 @@ trade.alipayCallback = {
 trade.wechatCallback = {
     'method' : 'post',
     'func' : function(req, res) {
+        var newStatus = 1;
         async.waterfall([
         function(callback) {
             Trade.findOne({
@@ -326,21 +274,9 @@ trade.wechatCallback = {
             });
         },
         function(trade, callback) {
-            // Validate status
-            var newStatus = 1;
-            var valid = _statusValidationMap[newStatus];
-            if (valid && valid.indexOf(trade.status) !== -1) {
-                callback(null, trade, newStatus);
-            } else {
-                // handled trade
-                callback("pass", trade);
-            }
+            _validateStatus(trade, newStatus, callback);
         },
-        function(trade, newStatus, callback) {
-            if (newStatus != 1) {
-                callback(ServerError.TradeStatusChangeError);
-                return;
-            }
+        function(trade, callback) {
             trade.pay.weixin['trade_mode'] = req.body['trade_type'];
             trade.pay.weixin['partner'] = req.body['mch_id'];
             trade.pay.weixin['total_fee'] = req.body['total_fee'] / 100;
@@ -362,30 +298,18 @@ trade.wechatCallback = {
                 //'trade_state' : req.body['trade_state'],
                 //'date' : Date.now
             });
-            trade.save(function(error, trade) {
-                callback(error, trade);
-            });
+            callback(null, trade);
         },
         function(trade, callback) {
-            // update status
-            var newStatus = req.body.status;
-            TradeHelper.updateStatus(trade, newStatus, null, function(err, trade) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
-            // Send notification mail
-            TradeHelper.notify(trade, function(err, info) {
-                callback(err, trade);
-            });
-        }],
-        function(error, trade) {
-            if (error == "pass") {
+            TradeHelper.updateStatus(trade, newStatus, null, callback);
+        }], function(error, trade) {
+            if (error === 'pass') {
                 error = null;
             }
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
+            TradeHelper.notify(trade);
         });
     }
 };
@@ -410,7 +334,7 @@ trade.refreshPaymentStatus = {
             });
         },
         function(trade, callback) {
-            if(!trade.pay.alipay.trade_no) {
+            if (!trade.pay.alipay.trade_no) {
                 callback(null, trade);
             } else {
                 // pay with wechat
@@ -429,7 +353,7 @@ trade.refreshPaymentStatus = {
                         trade.pay.weixin['time_end'] = orderInfo['time_end'];
                         //trade.pay.weixin['AppId'] = orderInfo['appid'];
                         trade.pay.weixin['OpenId'] = orderInfo['openId'];
-                        
+
                         trade.pay.weixin.notifyLogs = trade.pay.weixin.notifyLogs || [];
                         if (trade.pay.weixin.notifyLogs.length > 0) {
                             trade.pay.weixin.notifyLogs[trade.pay.weixin.notifyLogs.length - 1].trade_state = orderInfo['trade_state'];
@@ -441,11 +365,48 @@ trade.refreshPaymentStatus = {
                     }
                 });
             }
-        }],
-        function(error, trade) {
+        }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
         });
     }
 };
+
+trade.autoReceiving = {
+    'method' : 'post',
+    'func' : function(req, res) {
+        var today = new Date();
+        var halfMonthBefor = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 14, today.getHours(), today.getMinutes(), today.getSeconds());
+        async.waterfall([
+        function(callback) {
+            Trade.find({
+                'status' : { 
+                    '$in' : [3, 14]
+                }
+            }).exec(callback);
+        },
+        function(trades, callback) {
+            var targets = _.filter(trades, function(trade) {
+                if (trade.statusLogs == null || trade.statusLogs.length == 0) {
+                    return false;
+                }
+                var lastlog = trade.statusLogs[trade.statusLogs.length - 1];
+                return lastlog.update < halfMonthBefor;
+            });
+
+            var tasks = targets.map(function(trade) {
+                return function(callback) {
+                    TradeHelper.updateStatus(trade, 15, null, callback);
+                }
+            });
+            async.parallel(tasks, function(err) {
+                callback(null, targets);
+            });
+        }],
+        function(err, trades) {
+            ResponseHelper.response(res, err);
+        });
+    }
+};
+

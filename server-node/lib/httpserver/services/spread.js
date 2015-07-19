@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var async = require('async');
 
 var Trace = require('../../model/traces');
-
+var People = require('../../model/peoples');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
+var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var ServerError = require('../server-error');
 
@@ -16,7 +17,7 @@ spread.download = {
     'method' : 'get',
     'func' : function(req, res) {
         var ip = RequestHelper.getIp(req);
-        _channelStore[ip] = req.queryString.channel;
+        _channelStore[ip] = req.queryString['questSharing.initiatorRef'];
         res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow');
     }
 };
@@ -24,6 +25,7 @@ spread.download = {
 spread.firstLaunch = {
     'method' : 'post',
     'func' : function(req, res) {
+        var MAX_PROGRESS = global.qsConfig.quest.maxProgress;
         var param = req.body;
         var ip = RequestHelper.getIp(req);
         var newlog = new Trace({
@@ -43,26 +45,84 @@ spread.firstLaunch = {
                 ResponseHelper.response(res, null, {
                     'trace' : trace
                 });
+
+                var initiatorRef = trace.behaviorInfo.firstLaunch.initiatorRef;
+                People.findOne({
+                    '_id' : initiatorRef
+                }).exec(function(err, people) {
+                    if (people) {
+                        if (people.questSharing && people.questSharing.status == 0) {
+                            people.questSharing.progress = people.questSharing.progress + 1;
+                            if (people.questSharing.progress >= MAX_PROGRESS) {
+                                people.questSharing.status = 1;
+                                PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, {
+                                    'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete
+                                }, null);
+                            } else {
+                                var message = PushNotificationHelper.MessageQuestSharingProgress;
+                                var objective = MAX_PROGRESS - people.questSharing.progress;
+                                message = message.replace("{0}", objective);
+                                PushNotificationHelper.push(people.jPushInfo.registrationIDs, message, {
+                                    'command' : PushNotificationHelper.CommandQuestSharingProgress
+                                }, null);
+                            }
+                        } else {
+                            people.questSharing = {
+                                status : 0,
+                                progress : 1, 
+                                reward : {}
+                            };
+                        }
+                        people.save();
+                    }
+                });
             }
         };
-        newlog.save(saveCallback);
+        //newlog.save(saveCallback);
         // firstLaunch
-        //Trace.findOne({
-        //    'deviceUid' : param.deviceUid
-        //}, function(err, trace) {
-        //    if (err) {
-        //        ResponseHelper.response(res, err);
-        //    } else if (trace) {
-        //        ResponseHelper.response(res, ServerError.AlreadyLaunched);
-        //    } else {
-        //        newlog.behaviorInfo = {
-        //            'firstLaunch' : {
-        //                'channel' : _channelStore[ip]
-        //            }
-        //        };
-        //        newlog.save(saveCallback);
-        //    }
-        //});
+        Trace.findOne({
+            'deviceUid' : param.deviceUid
+        }, function(err, trace) {
+            if (err) {
+                ResponseHelper.response(res, err);
+            } else if (trace) {
+                ResponseHelper.response(res);
+            } else {
+                newlog.behaviorInfo = {
+                    firstLaunch : {
+                        initiatorRef : RequestHelper.parseId(_channelStore[ip])
+                    }
+                };
+                newlog.save(saveCallback);
+            }
+        });
     }
 };
 
+spread.questSharingComplete = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var id = req.body.id;
+        var receiverUuid = req.body.receiverUuid;
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }).exec(function(err, people) {
+            if (err) {
+                ResponseHelper.response(res, err);
+            } else if (!people) {
+                ResponseHelper.response(res, ServerError.PeopleNotExist);
+            } else {
+                people.questSharing.reward = {
+                    'id' : id,
+                    'receiverUuid' : receiverUuid
+                };
+                people.save(function(err, people) {
+                    ResponseHelper.response(res, err, {
+                        'people' : people
+                    });
+                });
+            }
+        });
+    }
+};

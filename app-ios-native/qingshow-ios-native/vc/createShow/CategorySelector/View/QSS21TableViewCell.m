@@ -52,9 +52,6 @@
 #pragma mark -- 设置子控件
 - (void)setSubViewsWith:(NSDictionary *)cellDic andSelectedDic:(NSDictionary *)selectedDic
 {
-    if (selectedDic) {
-        self.recordDic = selectedDic;
-    }
     //设置title圆角
     [self setTitleButtonCornerRadius];
     
@@ -62,12 +59,11 @@
     [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
     
     NSArray *array = cellDic[@"children"];
-   // NSLog(@"cellDic = %@",cellDic);
-    [self setItemsWith:array];
+    [self setItemsWith:array select:selectedDic];
 }
 
 #pragma mark -- 设置scrollView item
-- (void)setItemsWith:(NSArray *)array
+- (void)setItemsWith:(NSArray *)array select:(NSDictionary*)dict
 {
     self.scrollView.contentSize = CGSizeMake(array.count*kItemWith, kItemHeight);
     for (QSS21ItemView *item in self.scrollView.subviews) {
@@ -91,11 +87,11 @@
         NSDictionary *itemDic = array[i];
         item.itemDic = itemDic;
         
-        [item setSubViewsValueWith:self.recordDic];
+        [item setSubViewsValueWith:dict];
         
         [self.scrollView addSubview:item];
         
-        }
+    }
     
 }
 
@@ -103,20 +99,8 @@
 - (void)changeitemState:(UITapGestureRecognizer *)gesture
 {
     QSS21ItemView *item = (QSS21ItemView *)gesture.view;
-    UIScrollView *scroll = (UIScrollView *)item.superview;
-    NSArray *items = scroll.subviews;
-    
-    if (self.recordDic == item.itemDic) {
-        self.recordDic = nil;
-    }else {
-        self.recordDic = item.itemDic;
-    }
-    
-    for (int i = 0; i < items.count; i ++) {
-        QSS21ItemView *itemBT = items[i];
-        if (itemBT.tag) {
-            [itemBT setSubViewsValueWith:self.recordDic];
-        }
+    if ([self.delegate respondsToSelector:@selector(didSelectItem:ofCell:)]) {
+        [self.delegate didSelectItem:item.itemDic ofCell:self];
     }
 }
 #pragma mark -- titleButton 设置圆角

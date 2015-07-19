@@ -67,25 +67,42 @@
         return [oldIdArray indexOfObject:idStr] == NSNotFound;
     }];
     
-    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
+//    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
     
+    NSMutableArray* mCates = [newCategoryArray mutableCopy];
+    for (int i = 0; i < self.maxColumn + 1; i++) {
+        NSArray* cates = [newCategoryArray filteredArrayUsingBlock:^BOOL(NSDictionary* dict) {
+            NSNumber* c = [QSCategoryUtil getMatchInfoColumn:dict];
+            return c && c.intValue == i;
+        }];
+        [mCates removeObjectsInArray:cates];
+        [self _addCategories:cates maxRow:cates.count - 1 maxColumn:self.maxColumn];
+    }
+    
+    if (mCates.count) {
+        [self _addCategories:mCates maxRow:self.maxRow maxColumn:self.maxColumn];
+    }
+}
+
+- (void)_addCategories:(NSArray*)newCategoryArray maxRow:(int)maxRow maxColumn:(int)maxColumn {
     for (NSDictionary* categoryDict in newCategoryArray) {
-        float sizeHeight = self.frame.size.height / (self.maxRow + 1);
-        float sizeWidth = self.frame.size.width / (self.maxColumn + 1);
+        float sizeHeight = self.frame.size.height / (maxRow + 1);
+        float sizeWidth = self.frame.size.width / (maxColumn + 1);
         int row = -1, column = -1;
         if ([QSCategoryUtil getMathchInfoRow:categoryDict]) {
             row = [QSCategoryUtil getMathchInfoRow:categoryDict].intValue;
         } else {
-            row = [QSRandomUtil randomRangeFrom:0 to:self.maxRow + 1];
+            row = [QSRandomUtil randomRangeFrom:0 to:maxRow + 1];
         }
         if ([QSCategoryUtil getMatchInfoColumn:categoryDict]) {
             column = [QSCategoryUtil getMatchInfoColumn:categoryDict].intValue;
         } else {
-            column = [QSRandomUtil randomRangeFrom:0 to:self.maxColumn + 1];
+            column = [QSRandomUtil randomRangeFrom:0 to:maxColumn + 1];
         }
-        float y = self.frame.size.height * (row + 0.5) / (self.maxRow + 1);
-        float x = self.frame.size.width * (column + 0.5) / (self.maxColumn + 1);
-
+        
+        float y = self.frame.size.height * (row + 0.5) / (maxRow + 1);
+        float x = self.frame.size.width * (column + 0.5) / (maxColumn + 1);
+        
         QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(x, y, sizeWidth, sizeHeight)];
         imgView.center = CGPointMake(x, y);
         imgView.userInteractionEnabled = YES;
@@ -100,6 +117,8 @@
         [self addSubview:imgView];
     }
 }
+
+
 
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst {
     NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:category];

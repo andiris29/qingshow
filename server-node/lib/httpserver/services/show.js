@@ -6,12 +6,16 @@ var Item = require('../../model/items');
 var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
+var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
+var People = require('../../model/peoples');
+
 //util
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
+var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var ServerError = require('../server-error');
 
@@ -174,6 +178,25 @@ show.comment = {
             showComment.save(function(err) {
                 callback();
             });
+        }, 
+        function(callback) {
+            RPeopleCreateShow.findOne({
+                'targetRef' : targetRef
+            }).exec(function(err, relationship) {
+                if (relationship) {
+                    People.findOne({
+                        '_id' : relationship.initiatorRef
+                    }).exec(function(err, people) {
+                        if (people) {
+                            PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageNewShowComment, {
+                                'id' : param._id,
+                                'command' : PushNotificationHelper.CommandNewShowComments
+                            }, null);
+                        }
+                    });
+                }
+            }); 
+            callback();
         }], function(err) {
             ResponseHelper.response(res, err);
         });

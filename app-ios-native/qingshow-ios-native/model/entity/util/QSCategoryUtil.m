@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
+
 #import "QSCategoryUtil.h"
 #import "QSCommonUtil.h"
+
 @implementation QSCategoryUtil
 + (NSArray*)getChildren:(NSDictionary*)categoryDict {
     return [QSCommonUtil getArrayValue:categoryDict key:@"children"];
@@ -50,5 +52,11 @@
     } else {
         return nil;
     }
+}
++ (NSNumber*)getOrder:(NSDictionary*)categoryDict {
+    return [QSCommonUtil getNumberValue:categoryDict key:@"order"];
+}
++ (NSNumber*)getMeasureComposition:(NSDictionary*)categoryDict {
+    return [QSCommonUtil getNumberValue:categoryDict key:@"measureComposition"];
 }
 @end

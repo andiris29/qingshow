@@ -7,7 +7,8 @@
 //
 
 #import "QSS21TableViewProvider.h"
-#import "QSS21TableViewCell.h"
+#import "QSCategoryUtil.h"
+#import "NSArray+QSExtension.h"
 
 #define selectorCellID @"QSS21SelectorCell"
 
@@ -45,7 +46,7 @@
 {
     
     QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[indexPath.row];
-    
+    cell.delegate = self;
     NSDictionary *cellDic = self.dataArray[indexPath.row];
     
     NSDictionary *dic = [self getSelectedDicCompareWithCellDic:cellDic];
@@ -83,15 +84,30 @@
 #pragma mark -- 获取选择categorys
 - (NSMutableArray *)getResultArray
 {
-    NSMutableArray *resultArray = [NSMutableArray array];
-    for (int i = 0 ; i < self.dataArray.count; i ++) {
-        QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[i];
-        if (cell.recordDic == nil) {
-            continue;
+    return self.selectedArray;
+}
+
+- (void)didSelectItem:(NSDictionary*)itemDict ofCell:(QSS21TableViewCell*)cell {
+    
+    BOOL f = YES;
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        NSDictionary* dict = self.selectedArray[i];
+        if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCategoryUtil getParentId:itemDict]] ) {
+            [self.selectedArray removeObject:dict];
+            i--;
+            if (dict == itemDict) {
+                f = NO;
+            }
+            
         }
-        [resultArray addObject:cell.recordDic];
-        [resultArray addObjectsFromArray:self.selectedArray];
+        
     }
-    return resultArray;
+
+    if (f && itemDict) {
+        [self.selectedArray addObject:itemDict];
+    }
+    
+    [self.view reloadData];
+    
 }
 @end

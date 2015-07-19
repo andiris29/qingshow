@@ -70,8 +70,6 @@
             if ([label.text isEqualToString:alertView.message]) {
                 label.font = NEWFONT;
             }
-            NSLog(@"label.text = %@",label.text);
-            
         }
     }
 }
@@ -128,7 +126,7 @@
 - (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic
 {
     __weak QSU09OrderListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE changeTrade:orderDic status:5 onSucceed:^{
+    [SHARE_NW_ENGINE changeTrade:orderDic status:5 info:nil onSucceed:^{
         [weakSelf showTextHud:@"收货成功！"];
     } onError:nil];
 }

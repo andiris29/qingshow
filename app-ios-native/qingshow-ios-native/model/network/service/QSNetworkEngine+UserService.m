@@ -36,14 +36,17 @@
                            onSucceed:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock
 {
-    
+    NSMutableDictionary* paramDict = [@{
+                                        @"idOrNickName" : userName,
+                                        @"password" : password
+                                        } mutableCopy];
+    if ([QSUserManager shareUserManager].JPushRegistrationID) {
+        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
+    }
     
     return [self startOperationWithPath:PATH_USER_LOGIN
                                  method:@"POST"
-                               paramers:@{
-                                          @"idOrNickName" : userName,
-                                          @"password" : password
-                                          }
+                               paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
@@ -68,13 +71,17 @@
                                         onError:(ErrorBlock)errorBlock
 {
     
+    NSMutableDictionary* paramDict = [@{
+                                        @"access_token" : accessToken,
+                                        @"uid" : uid
+                                        } mutableCopy];
+    if ([QSUserManager shareUserManager].JPushRegistrationID) {
+        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
+    }
     
     return [self startOperationWithPath:PATH_USER_LOGIN_WEIBO
                                  method:@"POST"
-                               paramers:@{
-                                          @"access_token" : accessToken,
-                                          @"uid" : uid
-                                          }
+                               paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
@@ -97,12 +104,16 @@
                                         onError:(ErrorBlock)errorBlock
 {
     
+    NSMutableDictionary* paramDict = [@{
+                                        @"code" : code
+                                        } mutableCopy];
+    if ([QSUserManager shareUserManager].JPushRegistrationID) {
+        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
+    }
     
     return [self startOperationWithPath:PATH_USER_LOGIN_WECHAT
                                  method:@"POST"
-                               paramers:@{
-                                          @"code" : code
-                                          }
+                               paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
@@ -124,9 +135,14 @@
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock
 {
+    NSMutableDictionary* paramDict = [@{} mutableCopy];
+    if ([QSUserManager shareUserManager].JPushRegistrationID) {
+        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
+    }
+    
     return [self startOperationWithPath:PATH_USER_LOGOUT
                                  method:@"POST"
-                               paramers:@{}
+                               paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;

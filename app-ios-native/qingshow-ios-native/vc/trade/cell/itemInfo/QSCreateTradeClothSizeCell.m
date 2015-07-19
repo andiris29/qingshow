@@ -25,7 +25,7 @@
 - (void)bindWithDict:(NSDictionary *)dict
 {
     QSItemCategory category = [QSItemUtil getItemCategory:dict];
-    if (category == QSItemCategoryShangyi || category == QSItemCategoryDress || category == QSItemCategoryNeida) {
+    if (category == QSItemCategoryClothSize) {
         self.titleLabel.text = @"上身数值";
         self.label1.text = @"胸围：";
         self.bustCircleOrWaistlineTextField.placeholder = @"70";

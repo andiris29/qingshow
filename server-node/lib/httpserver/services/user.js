@@ -34,6 +34,36 @@ var _decrypt = function(string) {
     return dec;
 };
 
+var _addRegistrationId = function(jPushInfo, registrationId) {
+    if (jPushInfo === null || jPushInfo.registrationIDs === null) {
+        jPushInfo = {
+            registrationIDs : []
+        };
+        jPushInfo.registrationIDs.push(registrationId);
+    } else {
+        if (jPushInfo.registrationIDs.indexOf(registrationId) === -1) {
+            jPushInfo.registrationIDs.push(registrationId);
+        }
+    }
+
+    return jPushInfo;
+};
+
+var _removeRegistrationId = function(jPushInfo, registrationId) {
+    if (jPushInfo === null || jPushInfo.registrationIDs === null) {
+        jPushInfo = {
+            registrationIDs : []
+        };
+        return jPushInfo;
+    }
+    var idx = jPushInfo.registrationIDs.indexOf(registrationId);
+
+    if (idx > -1) {
+        jPushInfo.registrationIDs.splice(idx, 1);
+    }
+    return jPushInfo;
+};
+
 var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo;
 _get = function(req, res) {
     async.waterfall([
@@ -106,16 +136,23 @@ _login = function(req, res) {
             req.session.userId = people._id;
             req.session.loginDate = new Date();
 
-            var retData = {
-                metadata : {
-                    //TODO change invilidateTime
-                    "invalidateTime" : 3600000
-                },
-                data : {
-                    people : people
+            people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
+
+            people.save(function(err, people) {
+                if (err) {
+                    ResponseHelper.response(res, err);
+                } else {
+                    var retData = {
+                        metadata : {
+                            "invalidateTime" : 3600000
+                        },
+                        data : {
+                            people : people
+                        }
+                    };
+                    res.json(retData);
                 }
-            };
-            res.json(retData);
+            });
         } else {
             //login fail
             delete req.session.userId;
@@ -126,6 +163,16 @@ _login = function(req, res) {
 };
 
 _logout = function(req, res) {
+    var id = req.qsCurrentUserId;
+    People.findOne({
+        '_id' : id
+    }).exec(function(err, people) {
+        if (err) {
+            return;
+        }
+        people.jPushInfo = _removeRegistrationId(people.jPushInfo, req.body.registrationId);
+        people.save();
+    });
     delete req.session.userId;
     delete req.session.loginDate;
     delete req.qsCurrentUserId;
@@ -166,6 +213,9 @@ _register = function(req, res) {
             userInfo : {
                 id : id,
                 encryptedPassword : _encrypt(password)
+            },
+            jPushInfo : {
+                registrationIDs : []
             }
         });
         people.save(function(err, people) {
@@ -465,7 +515,8 @@ _loginViaWeixin = function(req, res) {
                 callback(err);
                 return;
             } else if (people !== null) {
-                callback(null, people);
+                people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
+                people.save(callback);
                 return;
             }
             require('../../runtime/qsmail').debug('New user[weixin]: ' + user.openid, user.openid, function(err, info) {
@@ -485,6 +536,9 @@ _loginViaWeixin = function(req, res) {
                         headimgurl : user.headimgurl,
                         unionid : user.unionid
                     }
+                },
+                jPushInfo : {
+                    registrationIDs : [param.registrationId]
                 }
             });
 
@@ -543,7 +597,8 @@ _loginViaWeibo = function(req, res) {
                 callback(err);
                 return;
             } else if (people !== null) {
-                callback(null, people);
+                people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
+                people.save(callback);
                 return;
             }
             require('../../runtime/qsmail').debug('New user[weibo]: ' + user.id, user.id, function(err, info) {
@@ -561,6 +616,9 @@ _loginViaWeibo = function(req, res) {
                         gender : user.gender,
                         avatar_large : user.avatar_large 
                     }
+                },
+                jPushInfo : {
+                    registrationIDs : [param.registrationId]
                 }
             });
 

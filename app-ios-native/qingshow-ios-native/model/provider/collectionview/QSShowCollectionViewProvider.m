@@ -132,7 +132,6 @@
         cell.contentView.transform = CGAffineTransformMakeScale([UIScreen mainScreen].bounds.size.width/320, [UIScreen mainScreen].bounds.size.width/320);
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
         [cell bindData:dict];
-        
         return cell;
     }
 }

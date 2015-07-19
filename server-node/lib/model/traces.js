@@ -9,6 +9,14 @@ traceSchema = Schema({
     osType : Number,
     osVersion : String,
     behavior : String,
+    behaviorInfo : {
+        firstLaunch : {
+            initiatorRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'peoples'
+            }
+        }
+    },
     create : {
         type : Date,
         'default' : Date.now

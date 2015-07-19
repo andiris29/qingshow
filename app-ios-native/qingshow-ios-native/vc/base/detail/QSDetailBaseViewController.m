@@ -134,6 +134,12 @@
             weakSelf.currentTouchView = nil;
             weakSelf.canScrollBadgeViewUp = YES;
         }];
+    } else {
+        if (currentView.contentOffset.y + currentView.contentInset.top < ABS(self.topConstrain.constant)) {
+            CGPoint p = currentView.contentOffset;
+            p.y = ABS(self.topConstrain.constant) - currentView.contentInset.top;
+            currentView.contentOffset = p;
+        }
     }
 }
 

@@ -173,9 +173,7 @@
     NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
     
     QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
-    if (category == QSItemCategoryShangyi ||
-        category == QSItemCategoryDress ||
-        category == QSItemCategoryNeida) {
+    if (category == QSItemCategoryClothSize) {
         [array addObject:self.clothSizeCell];
         self.shoeSizeCell = nil;
         self.clothSizeCell.bustCircleOrWaistlineTextField.text = [QSPeopleUtil getBust:peopleDict];
@@ -338,9 +336,7 @@
     
     NSDictionary* measuerInfo = nil;
     QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
-    if (category == QSItemCategoryShangyi ||
-        category == QSItemCategoryDress ||
-        category == QSItemCategoryNeida) {
+    if (category == QSItemCategoryClothSize) {
         measuerInfo = @{
                         @"bust" : self.clothSizeCell.bustCircleOrWaistlineTextField.text,
                         @"shoulder" : self.clothSizeCell.shoulderOrHiplineTextField.text

@@ -10,8 +10,16 @@
 #import "QSAbstractRootViewController.h"
 
 
+@protocol QSS23MatcherPreviewViewControllerDelegate <NSObject>
+- (void)vc:(UIViewController*)vc didCreateNewMatcher:(NSDictionary*)matcherDict;
+
+@end
+
 @interface QSS23MatcherPreviewViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
+
+@property (weak, nonatomic) NSObject<QSS23MatcherPreviewViewControllerDelegate>* delegate;
 
 - (instancetype)initWithItems:(NSArray*)items coverImages:(UIImage*)coverImage menuProvider:(NSObject<QSMenuProviderDelegate>*)menuProvider;
 

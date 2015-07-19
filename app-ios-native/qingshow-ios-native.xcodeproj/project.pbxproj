@@ -132,6 +132,7 @@
 		EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6567741A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib */; };
 		EF6753BF1A6416C90045E96C /* QSG01ItemWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6753BD1A6416C90045E96C /* QSG01ItemWebViewController.m */; };
 		EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6753BE1A6416C90045E96C /* QSG01ItemWebViewController.xib */; };
+		EF6B4CA61B57F92C0060054F /* QSCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6B4CA51B57F92C0060054F /* QSCategoryManager.m */; };
 		EF7826AB1A4EB9EC00C69460 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */; };
 		EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */; };
 		EF7826B11A4F057900C69460 /* UIView+ScreenShot.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826B01A4F057900C69460 /* UIView+ScreenShot.m */; };
@@ -212,6 +213,7 @@
 		EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618AB1A125FCB00560699 /* QSS04CommentListViewController.xib */; };
 		EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */; };
 		EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */; };
+		EFA785C01B5AB5BC00CC227C /* QSPnsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */; };
 		EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */; };
 		EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */; };
 		EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */; };
@@ -290,6 +292,7 @@
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
 		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
 		EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */; };
+		EFEFD92A1B5A55A2009D691D /* QSTradeStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */; };
 		EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */; };
 		EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114931A0D2EEC009B7361 /* NSData+MKBase64.m */; };
 		EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114951A0D2EEC009B7361 /* NSDate+RFC1123.m */; };
@@ -300,6 +303,12 @@
 		EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF1149F1A0D2EEC009B7361 /* MKNetworkEngine.m */; };
 		EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A21A0D2EEC009B7361 /* MKNetworkOperation.m */; };
 		EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A51A0D2EEC009B7361 /* Reachability.m */; };
+		EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */; };
+		EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */; };
+		EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */; };
+		EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */; };
+		EFF58B561B55DDB1001A9AC8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B551B55DDB1001A9AC8 /* Security.framework */; };
+		EFF58B591B55DE86001A9AC8 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFF58B581B55DE86001A9AC8 /* PushConfig.plist */; };
 		EFF5B90B1A3F2F640048E634 /* QSS07ItemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF5B9081A3F2F640048E634 /* QSS07ItemListViewController.m */; };
 		EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9091A3F2F640048E634 /* QSS07ItemListViewController.xib */; };
 		EFF5B90F1A3F2F890048E634 /* QSItemListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF5B90E1A3F2F890048E634 /* QSItemListHeaderView.m */; };
@@ -613,6 +622,8 @@
 		EF6753BC1A6416C90045E96C /* QSG01ItemWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSG01ItemWebViewController.h; sourceTree = "<group>"; };
 		EF6753BD1A6416C90045E96C /* QSG01ItemWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSG01ItemWebViewController.m; sourceTree = "<group>"; };
 		EF6753BE1A6416C90045E96C /* QSG01ItemWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSG01ItemWebViewController.xib; sourceTree = "<group>"; };
+		EF6B4CA41B57F92C0060054F /* QSCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCategoryManager.h; sourceTree = "<group>"; };
+		EF6B4CA51B57F92C0060054F /* QSCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCategoryManager.m; sourceTree = "<group>"; };
 		EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		EF7826AC1A4EBA2200C69460 /* UIImage+BlurryImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BlurryImage.h"; sourceTree = "<group>"; };
 		EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BlurryImage.m"; sourceTree = "<group>"; };
@@ -753,6 +764,9 @@
 		EFA618AE1A125FE900560699 /* QSCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommentTableViewCell.h; sourceTree = "<group>"; };
 		EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCommentTableViewCell.m; sourceTree = "<group>"; };
 		EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCommentTableViewCell.xib; sourceTree = "<group>"; };
+		EFA785BC1B5AB59700CC227C /* QSPnsNotificationName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsNotificationName.h; sourceTree = "<group>"; };
+		EFA785BE1B5AB5BC00CC227C /* QSPnsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsHelper.h; sourceTree = "<group>"; };
+		EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPnsHelper.m; sourceTree = "<group>"; };
 		EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+UserService.h"; sourceTree = "<group>"; };
 		EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+UserService.m"; sourceTree = "<group>"; };
 		EFA98A771A38862800A8BFC7 /* QSNetworkEngine+Protect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+Protect.h"; sourceTree = "<group>"; };
@@ -892,6 +906,8 @@
 		EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EFEF032E1A30BBF100EC9B48 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		EFEFD9281B5A55A2009D691D /* QSTradeStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeStatus.h; sourceTree = "<group>"; };
+		EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeStatus.m; sourceTree = "<group>"; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		EFF114921A0D2EEC009B7361 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -915,6 +931,13 @@
 		EFF114A51A0D2EEC009B7361 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		EFF114A81A0D2EEC009B7361 /* MKNetworkKit-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKNetworkKit-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		EFF114A91A0D2EEC009B7361 /* MKNetworkKit-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "MKNetworkKit-iOS.xcodeproj"; sourceTree = "<group>"; };
+		EFF58B4B1B55DD5D001A9AC8 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
+		EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EFF58B551B55DDB1001A9AC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		EFF58B581B55DE86001A9AC8 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		EFF5B9071A3F2F640048E634 /* QSS07ItemListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS07ItemListViewController.h; sourceTree = "<group>"; };
 		EFF5B9081A3F2F640048E634 /* QSS07ItemListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS07ItemListViewController.m; sourceTree = "<group>"; };
 		EFF5B9091A3F2F640048E634 /* QSS07ItemListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS07ItemListViewController.xib; sourceTree = "<group>"; };
@@ -941,6 +964,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFF58B561B55DDB1001A9AC8 /* Security.framework in Frameworks */,
+				EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */,
+				EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */,
+				EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */,
 				EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */,
 				EF7826AB1A4EB9EC00C69460 /* CoreImage.framework in Frameworks */,
 				EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */,
@@ -948,6 +975,7 @@
 				EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */,
 				EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */,
 				EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */,
+				EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */,
 				EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */,
 				EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */,
 				EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */,
@@ -1483,6 +1511,8 @@
 				EF3013481AC31BD700568D92 /* AlipayOrder.m */,
 				EF3013441AC31AFC00568D92 /* QSPaymentService.h */,
 				EF3013451AC31AFC00568D92 /* QSPaymentService.m */,
+				EFEFD9281B5A55A2009D691D /* QSTradeStatus.h */,
+				EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */,
 			);
 			path = payment;
 			sourceTree = "<group>";
@@ -1501,6 +1531,15 @@
 			children = (
 			);
 			path = list;
+			sourceTree = "<group>";
+		};
+		EF6B4CA21B57F91C0060054F /* category */ = {
+			isa = PBXGroup;
+			children = (
+				EF6B4CA41B57F92C0060054F /* QSCategoryManager.h */,
+				EF6B4CA51B57F92C0060054F /* QSCategoryManager.m */,
+			);
+			path = category;
 			sourceTree = "<group>";
 		};
 		EF7826A41A4EB4F200C69460 /* resource */ = {
@@ -1731,6 +1770,10 @@
 		EF9A74101A02A82600095F07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EFF58B551B55DDB1001A9AC8 /* Security.framework */,
+				EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */,
+				EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */,
+				EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */,
 				EF921FBB1ACBB11100669124 /* libc++.dylib */,
 				EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */,
 				EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */,
@@ -1751,6 +1794,7 @@
 		EF9A74171A02A82600095F07 /* qingshow-ios-native */ = {
 			isa = PBXGroup;
 			children = (
+				EFF58B571B55DE18001A9AC8 /* pns */,
 				EF7826A41A4EB4F200C69460 /* resource */,
 				EFF1148C1A0D2EEC009B7361 /* libs */,
 				EF1A59191A06761800001AE0 /* vc */,
@@ -1800,6 +1844,7 @@
 		EF9A74461A02A87900095F07 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				EF6B4CA21B57F91C0060054F /* category */,
 				EFAB9C381B346FE5008A4EF5 /* provider */,
 				EF3013421AC31AE500568D92 /* payment */,
 				EFAB90BE1A20F87B00C69E42 /* entity */,
@@ -2310,6 +2355,7 @@
 		EFF1148C1A0D2EEC009B7361 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				EFF58B4A1B55DD5D001A9AC8 /* JPush */,
 				EF3012CE1AC3174000568D92 /* AlipaySDK */,
 				EF05E9401A7928DC00A58F72 /* umeng */,
 				EFA1F5631A5305DE00010F79 /* ImageCropper */,
@@ -2397,6 +2443,26 @@
 				EFF114B81A0D2EEC009B7361 /* libMKNetworkKit-iOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EFF58B4A1B55DD5D001A9AC8 /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				EFF58B4B1B55DD5D001A9AC8 /* APService.h */,
+				EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */,
+			);
+			path = JPush;
+			sourceTree = "<group>";
+		};
+		EFF58B571B55DE18001A9AC8 /* pns */ = {
+			isa = PBXGroup;
+			children = (
+				EFF58B581B55DE86001A9AC8 /* PushConfig.plist */,
+				EFA785BC1B5AB59700CC227C /* QSPnsNotificationName.h */,
+				EFA785BE1B5AB5BC00CC227C /* QSPnsHelper.h */,
+				EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */,
+			);
+			path = pns;
 			sourceTree = "<group>";
 		};
 		EFF5B9061A3F2F220048E634 /* item */ = {
@@ -2503,6 +2569,11 @@
 				TargetAttributes = {
 					EF9A740D1A02A82600095F07 = {
 						DevelopmentTeam = 5BNEAQ5WZS;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					EF9A742E1A02A82700095F07 = {
 						DevelopmentTeam = 5BNEAQ5WZS;
@@ -2560,6 +2631,7 @@
 				EF78E34D1AAF4CA400665EDD /* QSOrderListHeaderView.xib in Resources */,
 				EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
+				EFF58B591B55DE86001A9AC8 /* PushConfig.plist in Resources */,
 				68D16D051B341A4700A4646C /* QSS01MatchShowsViewController.xib in Resources */,
 				EF88D08E1ACEF90C002C4963 /* area.json in Resources */,
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
@@ -2667,6 +2739,7 @@
 				68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */,
 				EF810F4D1AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m in Sources */,
 				EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */,
+				EFA785C01B5AB5BC00CC227C /* QSPnsHelper.m in Sources */,
 				EF0C64311B21AAC20079B22E /* QSU02AbstractTableViewCell.m in Sources */,
 				EFF5B90B1A3F2F640048E634 /* QSS07ItemListViewController.m in Sources */,
 				EFAB9C6C1B346FE5008A4EF5 /* QSPeopleListTableViewProvider.m in Sources */,
@@ -2702,6 +2775,7 @@
 				EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */,
 				EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */,
 				EFED348E1AFC734F00F08A0D /* QSU06LoginViewController.m in Sources */,
+				EF6B4CA61B57F92C0060054F /* QSCategoryManager.m in Sources */,
 				8C0A2CF41B20287600F83991 /* QSBackBarItem.m in Sources */,
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
@@ -2725,6 +2799,7 @@
 				EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */,
 				EFAB9C5F1B346FE5008A4EF5 /* QSImageCollectionModel.m in Sources */,
 				EFAD75741B3A4C7300565DED /* QSMatcherCanvasView.m in Sources */,
+				EFEFD92A1B5A55A2009D691D /* QSTradeStatus.m in Sources */,
 				EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */,
 				EF3013381AC3174000568D92 /* base64.m in Sources */,
 				EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */,
@@ -2994,6 +3069,7 @@
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/JPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
@@ -3001,7 +3077,7 @@
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3032,6 +3108,7 @@
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/JPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
@@ -3039,7 +3116,7 @@
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

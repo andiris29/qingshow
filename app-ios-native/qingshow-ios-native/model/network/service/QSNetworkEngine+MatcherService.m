@@ -12,6 +12,7 @@
 #import "NSArray+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSCategoryUtil.h"
+#import "QSCategoryManager.h"
 
 #define PATH_MATCHER_QUERY_CATEGORIES @"matcher/queryCategories"
 #define PATH_MATCHER_QUERY_ITEMS @"matcher/queryItems"
@@ -27,11 +28,10 @@
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
             NSArray* resArray = [((NSArray*)[responseDict valueForKeyPath:@"data.categories"]) deepMutableCopy];
-            
-            resArray = [resArray filteredArrayUsingBlock:^BOOL(NSDictionary* category) {
-                return [QSCategoryUtil getMatchEnabled:category];
-                //return category;
+            resArray = [resArray sortedArrayUsingComparator:^NSComparisonResult(NSDictionary* obj1, NSDictionary* obj2) {
+                return [[QSCategoryUtil getOrder:obj1] compare:[QSCategoryUtil getOrder:obj2]];
             }];
+            
             NSMutableArray* retArray = [@[] mutableCopy];
             for (NSDictionary* dict in resArray) {
                 if ([QSCategoryUtil getParentId:dict].length == 0) {
@@ -51,6 +51,7 @@
                 }
             }
                     
+            [QSCategoryManager getInstance].categories = retArray;
             
             succeedBlock(retArray, responseDict[@"metadata"]);
         }
