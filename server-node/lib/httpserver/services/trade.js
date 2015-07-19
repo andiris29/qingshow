@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var _ = require('underscore');
 
 var Trade = require('../../model/trades');
 var People = require('../../model/peoples');
@@ -371,3 +372,41 @@ trade.refreshPaymentStatus = {
         });
     }
 };
+
+trade.autoReceiving = {
+    'method' : 'post',
+    'func' : function(req, res) {
+        var today = new Date();
+        var halfMonthBefor = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 14, today.getHours(), today.getMinutes(), today.getSeconds());
+        async.waterfall([
+        function(callback) {
+            Trade.find({
+                'status' : { 
+                    '$in' : [3, 14]
+                }
+            }).exec(callback);
+        },
+        function(trades, callback) {
+            var targets = _.filter(trades, function(trade) {
+                if (trade.statusLogs == null || trade.statusLogs.length == 0) {
+                    return false;
+                }
+                var lastlog = trade.statusLogs[trade.statusLogs.length - 1];
+                return lastlog.update < halfMonthBefor;
+            });
+
+            var tasks = targets.map(function(trade) {
+                return function(callback) {
+                    TradeHelper.updateStatus(trade, 15, null, callback);
+                }
+            });
+            async.parallel(tasks, function(err) {
+                callback(null, targets);
+            });
+        }],
+        function(err, trades) {
+            ResponseHelper.response(res, err);
+        });
+    }
+};
+
