@@ -175,12 +175,15 @@
         [self.contentVc pushViewController:[[QSS04CommentListViewController alloc] initWithShowId:showId] animated:NO];
     }
 }
+
 - (void)pnsDidNewRecommandation:(NSNotification*)noti {
-    
+    [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
 }
+
 - (void)pnsQuestSharingProgress:(NSNotification*)noti {
     
 }
+
 - (void)pnsQuestSharingCompleted:(NSNotification*)noti {
     
 }
