@@ -12,6 +12,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSShowUtil.h"
 #import "QSCommentUtil.h"
+#import "QSCommonUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
@@ -24,6 +25,7 @@
 
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 
+@property (strong, nonatomic) NSString* showId;
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) NSDictionary* previewDict;
 @property (strong, nonatomic) QSCommentListTableViewProvider* delegateObj;
@@ -35,18 +37,25 @@
 
 #pragma mark - Init
 
-
-- (id)initWithShow:(NSDictionary*)showDict;
-{
+- (instancetype)initWithShowId:(NSString*)showId {
     self = [self initWithNibName:@"QSS04CommentListViewController" bundle:nil];
     if (self) {
+        self.showId = showId;
         __weak QSS04CommentListViewController* weakSelf = self;
-        self.showDict = showDict;
+        
         self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE getCommentsOfShow:weakSelf.showDict page:page onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE getCommentsOfShowId:weakSelf.showId page:page onSucceed:succeedBlock onError:errorBlock];
         };
         [self.delegateObj fetchDataOfPage:1];
+    }
+    return self;
+}
+- (instancetype)initWithShow:(NSDictionary*)showDict
+{
+    self = [self initWithShowId:[QSCommonUtil getIdOrEmptyStr:showDict]];
+    if (self) {
+        self.showDict = showDict;
     }
     return self;
 }
@@ -108,7 +117,7 @@
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {
     NSString* destructiveTitle = nil;
-    if ([QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSCommentUtil getPeople:commemntDict]]/* || [QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSShowUtil getPeopleFromShow:self.showDict]]*/)
+    if ([QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSCommentUtil getPeople:commemntDict]])
     {
         destructiveTitle = @"删除";
     }
@@ -127,12 +136,22 @@
         //删除评论
         int index = self.clickIndex;
         self.clickIndex = -1;
-        [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
-            [self.delegateObj.resultArray removeObjectAtIndex:index];
-            [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        } onError:^(NSError *error) {
-            [self handleError:error];
-        }];
+        if (self.showDict) {
+            [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
+                [self.delegateObj.resultArray removeObjectAtIndex:index];
+                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        } else {
+            [SHARE_NW_ENGINE deleteCommentId:[QSCommonUtil getIdOrEmptyStr:comment] onSucceed:^{
+                [self.delegateObj.resultArray removeObjectAtIndex:index];
+                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        }
+
     } else if (buttonIndex == actionSheet.cancelButtonIndex)
     {
         self.clickIndex = -1;
@@ -185,16 +204,24 @@
             people = [QSCommentUtil getPeople:comment];
         }
         __weak QSS04CommentListViewController* weakSelf = self;
-        [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
-            [weakSelf.delegateObj reloadData];
-            [self showSuccessHudWithText:@"发送成功"];
-            self.textField.text = @"";
-        } onError:^(NSError *error) {
-            [self handleError:error];
-        }];
-
+        if (self.showDict) {
+            [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
+                [weakSelf.delegateObj reloadData];
+                [self showSuccessHudWithText:@"发送成功"];
+                self.textField.text = @"";
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        } else {
+            [SHARE_NW_ENGINE addComment:self.textField.text onShowId:self.showId reply:people onSucceed:^{
+                [weakSelf.delegateObj reloadData];
+                [self showSuccessHudWithText:@"发送成功"];
+                self.textField.text = @"";
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        }
         self.clickIndex = -1;
-
     }
 }
 

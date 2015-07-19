@@ -45,15 +45,13 @@
         }
     }];
 }
-
-- (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
-                             onSucceed:(DicBlock)succeedBlock
-                               onError:(ErrorBlock)errorBlock
-{
-
-    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : [QSCommonUtil getIdOrEmptyStr:showDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
-      
+- (MKNetworkOperation*)queryShowIdDetail:(NSString*)showId
+                               onSucceed:(DicBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : showId} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        
         if (succeedBlock) {
+            NSDictionary* retDict = nil;
             if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])
             {
                 NSDictionary *retDict = completedOperation.responseJSON;
@@ -62,20 +60,14 @@
                 if (dataArray.count) {
                     d = dataArray[0];
                 }
-                if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-                    NSMutableDictionary* mD = (NSMutableDictionary*)showDict;
-                    [mD updateWithDict:d];
-                }
-                succeedBlock(showDict);
-                return;
+                retDict = d;
             } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
                 NSArray* retArray = completedOperation.responseJSON;
                 if (retArray.count) {
-                    succeedBlock(retArray[0]);
-                    return;
+                    retDict = retArray[0];
                 }
             }
-            succeedBlock(nil);
+            succeedBlock([retDict deepMutableCopy]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -84,16 +76,32 @@
     }];
 }
 
-#pragma mark - Comment
-- (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict
-                                    page:(int)page
-                               onSucceed:(ArraySuccessBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
+                             onSucceed:(DicBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock
 {
+
+    return [self queryShowIdDetail:[QSCommonUtil getIdOrEmptyStr:showDict] onSucceed:^(NSDictionary *d) {
+        if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+            NSMutableDictionary* mD = (NSMutableDictionary*)showDict;
+            [mD updateWithDict:d];
+        }
+        
+        if (succeedBlock) {
+            succeedBlock(showDict);
+        }
+    } onError:errorBlock];
+}
+
+#pragma mark - Comment
+- (MKNetworkOperation*)getCommentsOfShowId:(NSString*)showId
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_SHOW_QUERY_COMMENTS
                                  method:@"GET"
                                paramers:@{
-                                          @"_id": showDict[@"_id"],
+                                          @"_id": showId,
                                           @"pageNo" : @(page),
                                           @"pageSize" : @10
                                           }
@@ -113,19 +121,54 @@
             }];
 }
 
+- (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict
+                                    page:(int)page
+                               onSucceed:(ArraySuccessBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+    return [self getCommentsOfShowId:[QSCommonUtil getIdOrEmptyStr:showDict] page:page onSucceed:succeedBlock onError:errorBlock];
+
+}
+
+- (MKNetworkOperation*)addComment:(NSString*)comment
+                         onShowId:(NSString*)showId
+                            reply:(NSDictionary*)peopleDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock {
+    NSMutableDictionary* paramDict = [@{@"_id": showId, @"comment": comment} mutableCopy];
+    if (peopleDict) {
+        paramDict[@"_atId"] = peopleDict[@"_id"];
+    }
+    
+    return [self startOperationWithPath:PATH_SHOW_COMMENT method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 - (MKNetworkOperation*)addComment:(NSString*)comment
                            onShow:(NSDictionary*)showDict
                             reply:(NSDictionary*)peopleDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock
 {
-    NSMutableDictionary* paramDict = [@{@"_id": showDict[@"_id"], @"comment": comment} mutableCopy];
-    if (peopleDict) {
-        paramDict[@"_atId"] = peopleDict[@"_id"];
-    }
-    
-    return [self startOperationWithPath:PATH_SHOW_COMMENT method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self addComment:comment onShowId:[QSCommonUtil getIdOrEmptyStr:showDict] reply:peopleDict onSucceed:^{
         [QSShowUtil addNumberComment:1ll forShow:showDict];
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:errorBlock];
+}
+
+- (MKNetworkOperation*)deleteCommentId:(NSString*)commentId
+                             onSucceed:(VoidBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_SHOW_DELETE_COMMENT method:@"POST" paramers:@{@"_id" : commentId} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }
@@ -141,18 +184,14 @@
                            onSucceed:(VoidBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_SHOW_DELETE_COMMENT method:@"POST" paramers:@{@"_id" : commentDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self deleteCommentId:[QSCommonUtil getIdOrEmptyStr:commentDict] onSucceed:^{
         if (showDict) {
             [QSShowUtil addNumberComment:-1ll forShow:showDict];
         }
         if (succeedBlock) {
             succeedBlock();
         }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+    } onError:errorBlock];
 }
 
 #pragma mark - Like

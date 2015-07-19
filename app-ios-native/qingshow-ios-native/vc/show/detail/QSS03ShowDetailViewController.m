@@ -33,7 +33,7 @@
 @interface QSS03ShowDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
-
+@property (strong, nonatomic) NSString* showId;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
@@ -44,13 +44,19 @@
     self.backBtn.hidden = _menuProvider != nil;
 }
 #pragma mark - Init Method
-- (id)initWithShow:(NSDictionary*)showDict
-{
+- (instancetype)initWithShowId:(NSString*)showId {
     self = [self initWithNibName:@"QSS03ShowDetailViewController" bundle:nil];
     if (self) {
-        self.showDict = showDict;
+        self.showId = showId;
         self.showDeletedBtn = NO;
-        
+    }
+    return self;
+}
+- (instancetype)initWithShow:(NSDictionary*)showDict
+{
+    self = [self initWithShowId:[QSCommonUtil getIdOrEmptyStr:showDict]];
+    if (self) {
+        self.showDict = showDict;
     }
     return self;
 }
@@ -64,7 +70,10 @@
     self.shareVc.delegate = self;
     [self.view addSubview:self.shareVc.view];
     self.shareVc.view.frame = self.view.bounds;
-    [self bindWithDict:self.showDict];
+    if (self.showDict) {
+        [self bindWithDict:self.showDict];
+    }
+
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
@@ -85,24 +94,42 @@
         if (self.showDict) {
             [weakSelf bindExceptImageWithDict:self.showDict];
         }
-        [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-            weakSelf.showDict = dict;
-            [weakSelf bindExceptImageWithDict:dict];
-            NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
-            if (!promotionDict) {
-                self.discountContainer.hidden = YES;
-            } else {
-                if (![QSPromotionUtil getIsEnabled:promotionDict]) {
-                    [self showDiscountContainer];
-                } else {
+        if (!self.showDict) {
+            [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
+                weakSelf.showDict = dict;
+                [weakSelf bindWithDict:dict];
+                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+                if (!promotionDict) {
                     self.discountContainer.hidden = YES;
+                } else {
+                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+                        [self showDiscountContainer];
+                    } else {
+                        self.discountContainer.hidden = YES;
+                    }
                 }
-            }
-        } onError:^(NSError *error) {
-            
-        }];
+            } onError:^(NSError *error) {
+                [self showErrorHudWithError:error];
+            }];
+        } else {
+            [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+                weakSelf.showDict = dict;
+                [weakSelf bindExceptImageWithDict:dict];
+                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+                if (!promotionDict) {
+                    self.discountContainer.hidden = YES;
+                } else {
+                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+                        [self showDiscountContainer];
+                    } else {
+                        self.discountContainer.hidden = YES;
+                    }
+                }
+            } onError:^(NSError *error) {
+                
+            }];
+        }
     }
-
     [MobClick beginLogPageView:PAGE_ID];
 }
 

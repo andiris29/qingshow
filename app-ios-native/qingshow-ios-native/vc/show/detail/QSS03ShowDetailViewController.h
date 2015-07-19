@@ -39,7 +39,8 @@
 
 
 #pragma mark - Init
-- (id)initWithShow:(NSDictionary*)showDict;
+- (instancetype)initWithShowId:(NSString*)showId;
+- (instancetype)initWithShow:(NSDictionary*)showDict;
 
 #pragma mark - IBAction
 - (IBAction)commentBtnPressed:(id)sender;

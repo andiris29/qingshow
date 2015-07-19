@@ -15,16 +15,26 @@
 #import "QSUserManager.h"
 #import "QSS20MatcherViewController.h"
 #import "QSS01MatchShowsViewController.h"
+#import "QSPnsNotificationName.h"
+#import "QSCommonUtil.h"
+#import "QSS03ShowDetailViewController.h"
+#import "QSS04CommentListViewController.h"
 
 @interface QSRootContainerViewController ()
 
-@property (strong, nonatomic) UIViewController* contentVc;
+@property (strong, nonatomic) UINavigationController* contentVc;
 
 @end
 
 @implementation QSRootContainerViewController
 
-
+- (instancetype)init {
+    self = [super init];
+    if (self){
+        [self registerForPnsNotifications];
+    }
+    return self;
+}
 
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
@@ -36,6 +46,7 @@
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+
 }
 
 - (void)showDefaultVc {
@@ -62,6 +73,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -139,6 +154,35 @@
     if (![QSUserManager shareUserManager].userInfo) {
         [self.navigationController pushViewController:[[QSU07RegisterViewController alloc] init] animated:YES];
     }
+}
+
+#pragma mark - Pns
+- (void)registerForPnsNotifications {
+    NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+    
+    [center addObserver:self selector:@selector(pnsDidReceiveNewShowComment:) name:kPnsNewShowCommentsNotification object:nil];
+    [center addObserver:self selector:@selector(pnsDidNewRecommandation:) name:kPnsNewRecommandationNotification object:nil];
+    [center addObserver:self selector:@selector(pnsQuestSharingProgress:) name:kPnsQuestSharingProgressNotification object:nil];
+    [center addObserver:self selector:@selector(pnsQuestSharingCompleted:) name:kPnsQuestSharingCompleteNotification object:nil];
+}
+- (void)pnsDidReceiveNewShowComment:(NSNotification*)noti {
+
+    if (self.contentVc) {
+        NSDictionary* userInfo = noti.userInfo;
+        NSString* showId = [QSCommonUtil getStringValue:userInfo key:@"showId"];
+        [self.contentVc popToRootViewControllerAnimated:NO];
+        [self.contentVc pushViewController:[[QSS03ShowDetailViewController alloc] initWithShowId:showId] animated:NO];
+        [self.contentVc pushViewController:[[QSS04CommentListViewController alloc] initWithShowId:showId] animated:NO];
+    }
+}
+- (void)pnsDidNewRecommandation:(NSNotification*)noti {
+    
+}
+- (void)pnsQuestSharingProgress:(NSNotification*)noti {
+    
+}
+- (void)pnsQuestSharingCompleted:(NSNotification*)noti {
+    
 }
 
 @end

@@ -20,6 +20,7 @@
 #import "QSNetworkKit.h"
 #import "APService.h"
 #import "QSPnsHelper.h"
+#import "QSCommonUtil.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -50,7 +51,7 @@
     //Start App
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
-    
+    self.rootVc = vc;
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
 
     nav.navigationBar.translucent = NO;
@@ -63,13 +64,22 @@
         [vc handleCurrentUser];
         [self hideLaunchImageAfterDelay:0.f];
         [vc showDefaultVc];
+        //Romote Notification
+        if (![QSCommonUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+            NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+            [QSPnsHelper handlePnsData:pnsUserInfo];
+        }
     } onError:^(NSError *error) {
         vc.hasFetchUserLogin = YES;
         [vc handleCurrentUser];
         [self hideLaunchImageAfterDelay:0.f];
         [vc showDefaultVc];
+        //Romote Notification
+        if (![QSCommonUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+            NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+            [QSPnsHelper handlePnsData:pnsUserInfo];
+        }
     }];
-
     return YES;
 }
 
@@ -333,13 +343,6 @@
     [APService registerDeviceToken:pToken];
 }
 
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-//    [APService handleRemoteNotification:userInfo];
-//    // 处理推送消息
-//    NSLog(@"userinfo:%@",userInfo);
-//    
-//    NSLog(@"收到推送消息:%@",[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]);
-//}
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"Registfail%@",error);
 }
@@ -365,9 +368,11 @@
     }
     
     [APService handleRemoteNotification:userInfo];
-    completionHandler(UIBackgroundFetchResultNewData);
-}
+    if (completionHandler) {
+        completionHandler(UIBackgroundFetchResultNewData);
+    }
 
+}
 
 #pragma mark - JPush
 - (void)didReceiveJPushRegistrionId:(NSNotification*)notification {
