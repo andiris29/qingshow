@@ -177,7 +177,9 @@
 }
 
 - (void)pnsDidNewRecommandation:(NSNotification*)noti {
-    [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
+    if ([QSUserManager shareUserManager].userInfo) {
+        [self.menuView triggerItemTypePressed:QSRootMenuItemMy];
+    }
 }
 
 - (void)pnsQuestSharingProgress:(NSNotification*)noti {
