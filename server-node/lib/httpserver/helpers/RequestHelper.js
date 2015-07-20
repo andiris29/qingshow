@@ -3,6 +3,8 @@ var _ = require('underscore');
 var async = require('async');
 var qsftp = require('../../runtime/qsftp');
 var path = require('path');
+var gm = require('gm');
+imageMagick = gm.subClass({ imageMagick : true });
 
 var RequestHelper = module.exports;
 
@@ -67,12 +69,10 @@ RequestHelper.parseIds = function(string) {
     });
 };
 
-RequestHelper.parseFile = function(req, uploadPath, callback) {
+RequestHelper.parseFile = function(req, uploadPath, resizeOptions, callback) {
     var formidable = require('formidable');
 
     var form = new formidable.IncomingForm();
-    //TODO remove following line, add runtime.ftp
-//    form.uploadDir = uploadPath;
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {
         if (err) {
@@ -84,6 +84,7 @@ RequestHelper.parseFile = function(req, uploadPath, callback) {
         }
 
         var savedName = path.basename(file.path);
+        var oldPath = file.path;
         var fullPath = path.join(uploadPath, savedName);
 
         qsftp.upload(file.path, fullPath, function (err) {
@@ -91,6 +92,26 @@ RequestHelper.parseFile = function(req, uploadPath, callback) {
             callback(err, fields, file);
         });
 
+        if (resizeOptions) {
+
+
+            resizeOptions.forEach(function (option) {
+                var lastDotIndex = oldPath.lastIndexOf('.');
+                var newPath = oldPath.substr(0, lastDotIndex) + option.suffix + oldPath.substr(lastDotIndex);
+
+                imageMagick(oldPath)
+                    .resize(option.width, option.height, '!')
+                    .autoOrient()
+                    .write(newPath, function (err) {
+                        if (!err) {
+                            var savedName = path.basename(newPath);
+                            var fullPath = path.join(uploadPath, savedName);
+                            qsftp.upload(newPath, fullPath, function (err) {
+                            });
+                        }
+                    });
+            });
+        }
     });
 };
 

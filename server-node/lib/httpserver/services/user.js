@@ -318,7 +318,12 @@ _update = function(req, res) {
 };
 
 _updatePortrait = function(req, res) {
-    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait');
+    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait',
+        [
+            {'suffix' : '_100', 'width' : 100, 'height' : 100},
+            {'suffix' : '_50', 'width' : 50, 'height' : 50},
+            {'suffix' : '_30', 'width' : 30, 'height' : 30}
+        ]);
 };
 
 _updateBackground = function(req, res) {
@@ -399,8 +404,8 @@ _saveReceiver = function(req, res) {
     });
 };
 
-var _upload = function(req, res, config, keyword) {
-    RequestHelper.parseFile(req, config.ftpPath, function(err, fields, file) {
+var _upload = function(req, res, config, keyword, resizeOptions) {
+    RequestHelper.parseFile(req, config.ftpPath, resizeOptions, function(err, fields, file) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
