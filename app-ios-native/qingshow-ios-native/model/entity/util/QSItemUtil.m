@@ -206,13 +206,13 @@
     NSNumber* maxPrice = maxSku[@"price"];
     if ([self hasDiscountInfo:itemDict]) {
         if (sortedSkus.count == 1 || (ABS(maxPrice.doubleValue - minPrice.doubleValue)) < 0.01) {
-            return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+            return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue)];
         } else {
             return [NSString stringWithFormat:@"￥%.2f-%.2f", minPrice.doubleValue, maxPrice.doubleValue];
         }
     } else {
         //min(skus[i].price) - 0.01
-        return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+        return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue)];
     }
     /*
     if (![QSCommonUtil checkIsDict:itemDict]) {
@@ -245,7 +245,7 @@
     }];
     NSDictionary* minSku = [sortedSkus firstObject];
     NSNumber* minPrice = minSku[@"promo_price"];
-    return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+    return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue)];
     /*
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
