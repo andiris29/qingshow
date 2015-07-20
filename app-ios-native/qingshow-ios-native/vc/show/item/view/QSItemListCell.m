@@ -31,7 +31,7 @@
     NSString *str = itemDic[@"categoryRef"];
    QSCategoryManager *manager = [QSCategoryManager getInstance];
     NSDictionary *dic =  [manager findCategoryOfId:str];
-
+    //NSLog(@"dic = %@",dic);
     [self.itemIcomImageView setImageFromURL:[QSCategoryUtil getIconUrl:dic]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDic];
 }

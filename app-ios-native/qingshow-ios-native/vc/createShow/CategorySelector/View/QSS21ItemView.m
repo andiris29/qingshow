@@ -32,7 +32,7 @@
         self.userInteractionEnabled = NO;
         [self.imgView setImageFromURL:[NSURL URLWithString:imgDisableUrl] placeHolderImage:[UIImage imageNamed:@"hoderImg"]];
     }
-    else {
+    else  {
         //缓存selectedimage
         UIImageView *cashView = [[UIImageView alloc] init];
         [cashView setImageFromURL:[NSURL URLWithString:imgSelectedUrl]];
