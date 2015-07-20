@@ -169,6 +169,10 @@ matcher.hide = {
             });
         },
         function(relationship, callback) {
+            if (relationship == null) {
+                callback(ServerError.ShowNotExist);
+                return;
+            }
             relationship.hideAgainstCreator = true;
             relationship.save(function(err, relationship) {
                 callback(err, relationship);
