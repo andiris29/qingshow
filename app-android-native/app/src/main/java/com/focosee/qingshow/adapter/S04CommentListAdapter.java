@@ -33,12 +33,16 @@ public class S04CommentListAdapter extends AbsAdapter<MongoComment> {
 
         holder.setText(R.id.item_comment_time, TimeUtil.formatDateTime_CN(comment.create));
 
-        holder.setOnClickListener(new View.OnClickListener() {
+        holder.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 context.setTheme(R.style.ActionSheetStyleIOS7);
-                if(context instanceof S04CommentActivity)
-                    ((S04CommentActivity)context).showActionSheet(position);
+                if (context instanceof S04CommentActivity) {
+                    ((S04CommentActivity) context).showActionSheet(position);
+                    return true;
+                }
+                return false;
             }
         });
     }

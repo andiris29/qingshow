@@ -47,12 +47,19 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/guide_page_textSize_small"
             android:textColor="@color/white"
-            android:paddingTop="20dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="一个为你独家定制的"/>
+
+        <TextView
+            android:id="@+id/g02_describe1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/guide_page_textSize_small"
+            android:textColor="@color/white"
             android:layout_marginBottom="50dp"
             android:gravity="center"
-            android:text="一个为你独家定制的服装搭配应用平台"/>
+            android:text="服装搭配应用平台"/>
 
 
     </LinearLayout>

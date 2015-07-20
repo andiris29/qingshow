@@ -80,13 +80,13 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/s01_backTop_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:visibility="gone"
-            android:src="@color/black"/>
+            android:background="@drawable/actionsheet_top_normal"/>
     </FrameLayout>
     <ImageView
         android:id="@+id/blur"

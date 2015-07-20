@@ -26,14 +26,19 @@ public class WelComeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
+    private static final String ARG_PARAM4 = "param4";
 
     // TODO: Rename and change types of parameters
     private int titleValue;
+    private int titleValue1;
     private int describeValue;
+    private int describeValue1;
     private int backgroundValue;
+    private int backgroundValue1;
 
     private TextView title;
     private TextView describe;
+    private TextView describe1;
     private ImageView background;
 
 
@@ -46,12 +51,13 @@ public class WelComeFragment extends Fragment {
      * @return A new instance of fragment WelComeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static WelComeFragment newInstance(int param1, int param2, int param3) {
+    public static WelComeFragment newInstance(int param1, int param2, int param3, int param4) {
         WelComeFragment fragment = new WelComeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
         args.putInt(ARG_PARAM2, param2);
         args.putInt(ARG_PARAM3, param3);
+        args.putInt(ARG_PARAM4, param4);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +72,8 @@ public class WelComeFragment extends Fragment {
         if (getArguments() != null) {
             titleValue = getArguments().getInt(ARG_PARAM1);
             describeValue = getArguments().getInt(ARG_PARAM2);
-            backgroundValue = getArguments().getInt(ARG_PARAM3);
+            describeValue1 = getArguments().getInt(ARG_PARAM3);
+            backgroundValue = getArguments().getInt(ARG_PARAM4);
         }
     }
 
@@ -78,10 +85,12 @@ public class WelComeFragment extends Fragment {
 
         title = (TextView) view.findViewById(R.id.g02_title);
         describe = (TextView) view.findViewById(R.id.g02_describe);
+        describe1 = (TextView) view.findViewById(R.id.g02_describe1);
         background = (ImageView) view.findViewById(R.id.g02_backgroud);
 
         title.setText(titleValue);
         describe.setText(describeValue);
+        describe1.setText(describeValue1);
         background.setImageResource(backgroundValue);
 
         return view;

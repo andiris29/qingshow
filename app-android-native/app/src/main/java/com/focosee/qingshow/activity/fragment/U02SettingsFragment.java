@@ -48,6 +48,7 @@ import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -74,17 +75,9 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
     @InjectView(R.id.backTextView)
-    TextView backTextView;
+    ImageView backTextView;
     @InjectView(R.id.ageEditText)
     EditText ageEditText;
-    @InjectView(R.id.bustEditText)
-    EditText bustEditText;
-    @InjectView(R.id.shoulderEditText)
-    EditText shoulderEditText;
-    @InjectView(R.id.waistlineEditText)
-    EditText waistlineEditText;
-    @InjectView(R.id.hiplineEditText)
-    EditText hiplineEditText;
     @InjectView(R.id.quitButton)
     Button quitButton;
     @InjectView(R.id.navigation_btn_match)
@@ -254,7 +247,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     getUser();
                 }
                 if (type == TYPE_PORTRAIT) {
-                    portraitImageView.setImageURI(Uri.parse(user.portrait));
+                    portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc_portrait(user.portrait, 50)));
                     portraitImageView.setAlpha(1f);
                 }
                 if (type == TYPE_BACKGROUD) {
@@ -285,10 +278,14 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
-            if (null != people.portrait)
-                ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
-            if (null != people.background)
-                ImageLoader.getInstance().displayImage(people.background, backgroundImageView, AppUtil.getModelBackgroundDisplayOptions());
+            if (null != people.portrait) {
+                portraitImageView.setImageURI(Uri.parse(people.portrait));
+                portraitImageView.setAlpha(1f);
+            }
+            if (null != people.background) {
+                backgroundImageView.setImageURI(Uri.parse(people.background));
+                backgroundImageView.setAlpha(1f);
+            }
             if (null != people.nickname)
                 nameEditText.setText(people.nickname);
             if(0 != people.age)
@@ -300,23 +297,17 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             sexTextView.setText(sexArgs[people.gender]);
             sexTextView.setTag(people.gender);
 
-            if(null != people.measureInfo){
-                if(0 != people.measureInfo.bust)
-                    bustEditText.setText(String.valueOf(people.measureInfo.bust));
-                if(0 != people.measureInfo.shoulder)
-                    shoulderEditText.setText(String.valueOf(people.measureInfo.shoulder));
-                if(0 != people.measureInfo.waist)
-                    waistlineEditText.setText(String.valueOf(people.measureInfo.waist));
-                if(0 != people.measureInfo.hips)
-                    hiplineEditText.setText(String.valueOf(people.measureInfo.hips));
-            }
-
             bodyTypeTextView.setText(bodyTypeArgs[people.bodyType]);
             bodyTypeTextView.setTag(people.bodyType);
             dressStyleEditText.setText(dressStyles[people.dressStyle]);
             dressStyleEditText.setTag(people.dressStyle);
-//            effectEditText.setText(expectations[people.expectations]);
-//            effectEditText.setTag(people.expectations);
+            String effectStr = "";
+            for(int index : people.expectations){
+                effectStr += expectations[index] + "|";
+            }
+            if(effectStr.length() > 0) effectStr = effectStr.substring(0, effectStr.length() - 1);
+            effectEditText.setText(effectStr);
+            effectEditText.setTag(people.expectations);
         }
     }
 
@@ -423,30 +414,20 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
     private void commitForm() {
         Map params = new HashMap();
-        Map<String, String> measureInfo = new HashMap<>();
         if (!nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
+        if (!ageEditText.getText().toString().equals(""))
+            params.put("age", ageEditText.getText().toString());
         if (!heightEditText.getText().toString().equals(""))
             params.put("height", heightEditText.getText().toString());
         if (!weightEditText.getText().toString().equals(""))
             params.put("weight", weightEditText.getText().toString());
         if (null != sexTextView.getTag())
             params.put("gender", sexTextView.getTag().toString());
-        if (!bustEditText.getText().toString().equals(""))
-            measureInfo.put("bust", bustEditText.getText().toString());
-        if (!shoulderEditText.getText().toString().equals(""))
-            measureInfo.put("shoulder", shoulderEditText.getText().toString());
-        if (!waistlineEditText.getText().toString().equals(""))
-            measureInfo.put("waist", waistlineEditText.getText().toString());
-        if (!hiplineEditText.getText().toString().equals(""))
-            measureInfo.put("hips", hiplineEditText.getText().toString());
         if (null != bodyTypeTextView.getTag())
             params.put("bodyType", bodyTypeTextView.getTag().toString());
         if (null != dressStyleEditText.getTag())
             params.put("dressStyle", dressStyleEditText.getTag().toString());
-        if (null != effectEditText.getTag())
-            params.put("expectations", effectEditText.getTag().toString());
-        params.put("measureInfo", measureInfo);
         UserCommand.update(params, new Callback() {
             @Override
             public void onComplete() {
@@ -476,10 +457,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         ageEditText.setOnFocusChangeListener(this);
         heightEditText.setOnFocusChangeListener(this);
         weightEditText.setOnFocusChangeListener(this);
-        bustEditText.setOnFocusChangeListener(this);
-        shoulderEditText.setOnFocusChangeListener(this);
-        waistlineEditText.setOnFocusChangeListener(this);
-        hiplineEditText.setOnFocusChangeListener(this);
 
         backTextView.setOnClickListener(new View.OnClickListener()
 
@@ -598,8 +575,12 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         {
             @Override
             public void onClick (View v){
-            getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-            showActionSheet(TAG_EXPECTATIONS);
+            U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", people);
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                    replace(R.id.settingsScrollView, fragment).commit();
         }
         }
 

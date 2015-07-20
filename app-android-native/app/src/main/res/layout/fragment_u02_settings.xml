@@ -18,19 +18,18 @@
     <LinearLayout
         android:id="@+id/titleBarRelativeLayout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#ffffff"
-        android:layout_weight="12">
+        android:layout_height="50dp"
+        android:background="#ffffff">
 
-        <TextView
+        <ImageView
             android:id="@+id/backTextView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:layout_weight="5"
-            android:padding="10dp"
-            android:text="@string/cancels"/>
+            android:src="@drawable/nav_btn_menu_n"
+            android:padding="10dp"/>
 
         <TextView
             android:layout_width="fill_parent"
@@ -49,12 +48,11 @@
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_height="fill_parent">
     <LinearLayout
         android:id="@+id/settingsLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -313,6 +311,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
-
     <include layout="@layout/menu"/>
 </android.support.v4.widget.DrawerLayout>
