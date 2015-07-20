@@ -137,6 +137,7 @@
             [cell bindWithDict:self.itemDict];
         }];
     }];
+    [self updatePriceRelatedCell];  //for total price
 }
 - (void)configView
 {

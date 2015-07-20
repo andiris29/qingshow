@@ -126,12 +126,14 @@
 + (NSNumber*)getPriceOfSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo quantity:(NSNumber*)quantity
 {
     NSDictionary* sku = [self findSkusWithSkuId:skuId taobaoInfo:taobaoInfo];
-    return sku[@"price"];
+    NSNumber* p = sku[@"price"];
+    return @(p.floatValue * quantity.intValue);
 }
 + (NSNumber*)getPromoPriceOfSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo quantity:(NSNumber*)quantity
 {
     NSDictionary* sku = [self findSkusWithSkuId:skuId taobaoInfo:taobaoInfo];
-    return sku[@"promo_price"];
+    NSNumber* p = sku[@"promo_price"];
+    return @(p.floatValue * quantity.intValue);
 }
 
 + (NSString*)getColorPropertyId:(NSDictionary*)taobaoInfoDict sku:(NSString*)skuId {

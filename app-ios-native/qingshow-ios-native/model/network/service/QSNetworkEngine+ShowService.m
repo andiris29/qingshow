@@ -52,17 +52,12 @@
         
         if (succeedBlock) {
             NSDictionary* retDict = nil;
-            if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])
+            id retData = completedOperation.responseJSON[@"data"][@"shows"];
+            if ([retData isKindOfClass:[NSDictionary class]])
             {
-                NSDictionary *retDict = completedOperation.responseJSON;
-                NSArray* dataArray = retDict[@"data"][@"shows"];
-                NSDictionary* d = nil;
-                if (dataArray.count) {
-                    d = dataArray[0];
-                }
-                retDict = d;
-            } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
-                NSArray* retArray = completedOperation.responseJSON;
+                retDict = retData;
+            } else if ([retData isKindOfClass:[NSArray class]]) {
+                NSArray* retArray = retData;
                 if (retArray.count) {
                     retDict = retArray[0];
                 }
