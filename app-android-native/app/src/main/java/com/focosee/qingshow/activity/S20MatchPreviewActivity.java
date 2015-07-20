@@ -3,12 +3,12 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
@@ -16,21 +16,20 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
-import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
 import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +44,10 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     @InjectView(R.id.image)
     ImageView image;
+    @InjectView(R.id.back)
+    ImageView back;
+    @InjectView(R.id.submitBtn)
+    Button submitBtn;
 
     private Bitmap bitmap;
     private List<String> itemRefs;
@@ -78,11 +81,22 @@ public class S20MatchPreviewActivity extends BaseActivity {
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         this.finish();
     }
 
+    private void allowClick() {
+        submitBtn.setClickable(true);
+        back.setClickable(true);
+    }
+
+    private void forbidClick() {
+        submitBtn.setClickable(false);
+        back.setClickable(false);
+    }
+
     private void saveMatch() {
+        forbidClick();
         Map map = new HashMap();
         try {
             JSONArray jsonArray = new JSONArray(QSGsonFactory.create().toJson(itemRefs));
@@ -94,8 +108,19 @@ public class S20MatchPreviewActivity extends BaseActivity {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getMatchSaveApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(S20MatchPreviewActivity.this, MetadataParser.getError(response));
+                    allowClick();
+                    return;
+                }
                 show = ShowParser.parse(response);
                 uploadImage();
+            }
+        }, new QSResponseErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                allowClick();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -107,13 +132,25 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 QSAppWebAPI.getUpdateMatchCoverApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(S20MatchPreviewActivity.this, MetadataParser.getError(response));
+                    allowClick();
+                    return;
+                }
                 show = ShowParser.parse(response);
                 S03Model.INSTANCE.setShow(show);
-                Intent intent = new Intent(S20MatchPreviewActivity.this,S03SHowActivity.class);
+                allowClick();
+                Intent intent = new Intent(S20MatchPreviewActivity.this, S03SHowActivity.class);
                 startActivity(intent);
                 S20MatchPreviewActivity.this.finish();
             }
-        }, null);
+        }, new QSResponseErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                allowClick();
+            }
+        });
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addBinaryPart("cover", BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.JPEG));
         multipartEntity.addStringPart("_id", show._id);

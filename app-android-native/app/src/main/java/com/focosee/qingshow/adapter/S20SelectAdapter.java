@@ -38,6 +38,7 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
     public void onBindViewHolder(AbsViewHolder holder, int position) {
         holder.setImgeByUrl(R.id.select_view, datas.get(position).thumbnail);
         RadioLayout bgView = holder.getView(R.id.item_bg);
+        holder.setText(R.id.price,datas.get(position).getPrice());
         bgView.setTag(new Integer(position));
 
         if (position != selectPos) {
