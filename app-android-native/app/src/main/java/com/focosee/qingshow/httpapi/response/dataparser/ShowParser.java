@@ -4,8 +4,10 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 
 /**
@@ -33,22 +35,30 @@ public class ShowParser {
         }
     }
 
-    public static LinkedList<MongoShow> parseQuery_itemString(JSONObject response){
+    public static LinkedList<MongoShow> parseQuery_itemString(JSONObject response) {
         Gson gson = QSGsonFactory.itemBuilder().create();
         return parseQuery(response, gson);
     }
 
-    public static LinkedList<MongoShow> parseQuery_categoryString(JSONObject respnose){
+    public static LinkedList<MongoShow> parseQuery_categoryString(JSONObject respnose) {
         Gson gson = QSGsonFactory.cateGoryBuilder().create();
         return parseQuery(respnose, gson);
     }
 
-    public static LinkedList<MongoShow> parseQuery_parentCategoryString(JSONObject respnose){
+    public static LinkedList<MongoShow> parseQuery_parentCategoryString(JSONObject respnose) {
         Gson gson = QSGsonFactory.parentCateGoryBuilder().create();
         return parseQuery(respnose, gson);
     }
 
-
-
-
+    public static MongoShow parse(JSONObject response) {
+        try {
+            String show = response.getJSONObject("data").getJSONObject("show").toString();
+            Gson gson = QSGsonFactory.itemBuilder().create();
+            return gson.fromJson(show, new TypeToken<MongoShow>() {
+            }.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

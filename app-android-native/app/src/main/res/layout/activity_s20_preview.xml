@@ -5,24 +5,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:background="@color/white"
+    <android.support.percent.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/nav_btn_back"
+            app:layout_marginLeftPercent="3%"
+            app:layout_widthPercent="12%" />
+
+    </android.support.percent.PercentFrameLayout>
 
     <ImageView
-        android:background="@color/white"
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="11" />
+        android:layout_weight="11"
+        android:background="@color/white" />
 
     <android.support.percent.PercentRelativeLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
+        android:background="@color/white"
         android:padding="10dp">
 
         <Button
@@ -39,3 +50,4 @@
             app:layout_widthPercent="45%" />
     </android.support.percent.PercentRelativeLayout>
 </LinearLayout>
+

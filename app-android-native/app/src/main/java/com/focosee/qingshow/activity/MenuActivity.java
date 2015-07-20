@@ -163,7 +163,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
-                _class = S21CategoryActivity.class;
+                _class = S20MatcherActivity.class;
                 break;
             case R.id.u01_people:
                 U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());

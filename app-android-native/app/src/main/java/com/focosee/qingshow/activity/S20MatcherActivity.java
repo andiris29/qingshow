@@ -50,14 +50,14 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/7/1.
  */
-public class S20MatcherActivity extends BaseActivity {
+public class S20MatcherActivity extends MenuActivity {
 
     @InjectView(R.id.canvas)
     QSCanvasView canvas;
     @InjectView(R.id.selectRV)
     RecyclerView selectRV;
 
-    public static final String S20_REFS = "S20_REFS";
+    public static final String S20_ITEMREFS = "S20_ITEMREFS";
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -83,6 +83,8 @@ public class S20MatcherActivity extends BaseActivity {
         setContentView(R.layout.activity_s20_matcher);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
+
+        initDrawer();
 
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
@@ -420,11 +422,11 @@ public class S20MatcherActivity extends BaseActivity {
         hasDraw = true;
 
         Intent intent = new Intent(S20MatcherActivity.this, S20MatchPreviewActivity.class);
-        List<MongoItem> items = new ArrayList<>();
+        ArrayList<String> itemRefs = new ArrayList<>();
         for (String s : allSelect.keySet()) {
-
+            itemRefs.add(allSelect.get(s).item._id);
         }
-
+        intent.putStringArrayListExtra(S20_ITEMREFS,itemRefs);
         startActivity(intent);
     }
 

@@ -244,8 +244,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         s03ImagePreground.setImageURI(Uri.parse(showDetailEntity.coverForeground));
         s03ImagePreground.setAspectRatio(0.56f);
 
-        image.setImageURI(Uri.parse(showDetailEntity.cover));
-        image.setAspectRatio(0.72f);
+        if (null != showDetailEntity.cover){
+            image.setImageURI(Uri.parse(showDetailEntity.cover));
+            image.setAspectRatio(0.72f);
+        }
 
         if (null != showDetailEntity.__context)
             commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
