@@ -43,7 +43,7 @@
 }
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict{
     NSString* path = [QSCommonUtil getStringValue:categoryDict key:@"icon"];
-   // NSLog(@"icon = %@",path);
+    //NSLog(@"icon = %@",categoryDict);
     NSRange range = [path rangeOfString:@".png"];
     NSString *rangeStr = [path substringToIndex:range.location];
     NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@.png",rangeStr];
