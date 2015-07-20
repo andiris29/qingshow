@@ -71,6 +71,7 @@ var tradeSchema = Schema({
     },
     statusLogs : [{
         status : Number,
+        comment : String,
         update : {
             type : Date,
             'default' : Date.now
