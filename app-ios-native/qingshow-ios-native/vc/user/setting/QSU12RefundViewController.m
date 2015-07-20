@@ -176,7 +176,7 @@
         __weak QSU12RefundViewController* weakSelf = self;
         [self hideKeyboardAndPicker];
         [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^{
-            [self showTextHud:@"退款成功"];
+            [self showTextHud:@"申请成功"];
             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
@@ -188,7 +188,7 @@
         __weak QSU12RefundViewController* weakSelf = self;
         [self hideKeyboardAndPicker];
         [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:11 info:dict onSucceed:^{
-            [self showTextHud:@"退款成功"];
+            [self showTextHud:@"申请成功"];
             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
