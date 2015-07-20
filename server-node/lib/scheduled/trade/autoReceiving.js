@@ -30,7 +30,7 @@ var _next = function(today) {
         var tasks = targets.map(function(trade) {
             return function(callback) {
                 winston.info('[Trade-autoReceived] ' + trade._id.toString() + ' change to received');
-                TradeHelper.updateStatus(trade, 15, null, callback);
+                TradeHelper.updateStatus(trade, 15, 'autoReceived', null, callback);
             };
         });
         async.parallel(tasks, function(err) {
