@@ -8,13 +8,14 @@ var qsmail = require('../../runtime/qsmail');
 
 var TradeHelper = module.exports;
 
-TradeHelper.updateStatus = function(trade, updateStatus, peopleId, callback) {
+TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callback) {
     var statusLog = {
-        'status' : updateStatus,
+        'status' : newStatus,
+        'comment' : comment,
         'peopleRef' : peopleId,
         'date' : Date.now
     };
-    trade.set('status', updateStatus);
+    trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
 

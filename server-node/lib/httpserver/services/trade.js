@@ -61,7 +61,7 @@ trade.create = {
         },
         function(trade, relationship, callback) {
             // Update trade status
-            TradeHelper.updateStatus(trade, 0, req.qsCurrentUserId, function(err) {
+            TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
                 callback(err, trade, relationship);
             });
         },
@@ -187,7 +187,7 @@ trade.statusTo = {
             callback(null, trade);
         },
         function(trade, callback) {
-            TradeHelper.updateStatus(trade, newStatus, req.qsCurrentUserId, function(err, trade) {
+            TradeHelper.updateStatus(trade, newStatus, param.comment, req.qsCurrentUserId, function(err, trade) {
                 callback(err, trade);
             });
         }], function(error, trade) {
@@ -245,7 +245,7 @@ trade.alipayCallback = {
             callback(null, trade);
         },
         function(trade, callback) {
-            TradeHelper.updateStatus(trade, newStatus, null, callback);
+            TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
@@ -301,7 +301,7 @@ trade.wechatCallback = {
             callback(null, trade);
         },
         function(trade, callback) {
-            TradeHelper.updateStatus(trade, newStatus, null, callback);
+            TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         }], function(error, trade) {
             if (error === 'pass') {
                 error = null;
@@ -397,8 +397,8 @@ trade.autoReceiving = {
 
             var tasks = targets.map(function(trade) {
                 return function(callback) {
-                    TradeHelper.updateStatus(trade, 15, null, callback);
-                }
+                    TradeHelper.updateStatus(trade, 15, null, null, callback);
+                };
             });
             async.parallel(tasks, function(err) {
                 callback(null, targets);
