@@ -59,7 +59,7 @@ public class S21CategoryActivity extends BaseActivity {
     }
 
     @OnClick(R.id.submit)
-    public void submit(){
+    public void submit() {
         S21CategoryEvent event = new S21CategoryEvent(selectCategories);
         EventBus.getDefault().post(event);
         this.finish();
@@ -93,7 +93,7 @@ public class S21CategoryActivity extends BaseActivity {
                         MongoParentCategories parentRef = cas.parentRef;
                         boolean activate = cas.isActivate();
 
-                        if (parentRef != null){
+                        if (parentRef != null) {
                             if (activate && (id.equals(parentRef._id))) {
                                 item.add(cas);
                             }
@@ -109,13 +109,14 @@ public class S21CategoryActivity extends BaseActivity {
     }
 
     private void show() {
-        S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(S21CategoryActivity.this, categories, items);
+        S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(S21CategoryActivity.this, categories, items,
+                getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS));
         adapter.setOnSelectChangeListener(new S21CategoryListViewAdapter.OnSelectChangeListener() {
             @Override
             public void onSelectChanged(int[] tempMemory) {
                 selectCategories.clear();
                 for (int i = 0; i < tempMemory.length; i++) {
-                    if (tempMemory[i] == 0){
+                    if (tempMemory[i] == 0) {
                         continue;
                     }
                     selectCategories.add(items.get(i).get(tempMemory[i] - 1)._id);

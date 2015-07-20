@@ -1,13 +1,18 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.net.Uri;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -32,29 +37,20 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     private String[] tempUri;
     private int[] tempMemory;
     private boolean[] tempPage;
-    private TextView tv1 = null;
-    private TextView tv2 = null;
-    private TextView tv3 = null;
-    private TextView tv4 = null;
-    private TextView tv5 = null;
-    private TextView tv6 = null;
-    private SimpleDraweeView img1 = null;
-    private SimpleDraweeView img2 = null;
-    private SimpleDraweeView img3 = null;
-    private SimpleDraweeView img4 = null;
-    private SimpleDraweeView img5 = null;
-    private SimpleDraweeView img6 = null;
+    private List<String> selectRefs;
+
 
     private OnSelectChangeListener onSelectChangeListener;
 
-    public interface OnSelectChangeListener{
+    public interface OnSelectChangeListener {
         void onSelectChanged(int[] tempMemory);
     }
 
-    public S21CategoryListViewAdapter(Context context, ArrayList<MongoCategories> categories, ArrayList<ArrayList<MongoCategories>> items) {
+    public S21CategoryListViewAdapter(Context context, ArrayList<MongoCategories> categories, ArrayList<ArrayList<MongoCategories>> items, List<String> selcetRefs) {
         this.categories = categories;
         this.items = items;
         this.context = context;
+        this.selectRefs = selcetRefs;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int lines = categories.size();
         tempTv = new TextView[lines];
@@ -71,7 +67,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return items.size();
+        return categories.size();
     }
 
     @Override
@@ -86,6 +82,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        int pos = position % categories.size();
+
         if (convertView != null) {
             holder = (Holder) convertView.getTag();
         } else {
@@ -94,151 +92,77 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             holder.titleName = (TextView) convertView.findViewById(R.id.item_s21_name);
             holder.viewPager = (ViewPager) convertView.findViewById(R.id.item_s21_middle);
         }
-        ArrayList<MongoCategories> item = items.get(position);
+        ArrayList<MongoCategories> item = items.get(pos);
 
-        if (item != null) {
-            String item_name = categories.get(position).getName();
-            List<View> mViews = new ArrayList<View>();
-            View view1 = mInflater.inflate(
-                    R.layout.item_s21_category_viewpager, null);
-            img1 = (SimpleDraweeView) view1.findViewById(R.id.item_s21_category_1);
-            img2 = (SimpleDraweeView) view1.findViewById(R.id.item_s21_category_2);
-            img3 = (SimpleDraweeView) view1.findViewById(R.id.item_s21_category_3);
-            tv1 = (TextView) view1
-                    .findViewById(R.id.item_s21_category_11);
-            tv2 = (TextView) view1
-                    .findViewById(R.id.item_s21_category_21);
-            tv3 = (TextView) view1
-                    .findViewById(R.id.item_s21_category_31);
-            View view2 = mInflater.inflate(
-                    R.layout.item_s21_category_viewpager, null);
-            img4 = (SimpleDraweeView) view2.findViewById(R.id.item_s21_category_1);
-            img5 = (SimpleDraweeView) view2.findViewById(R.id.item_s21_category_2);
-            img6 = (SimpleDraweeView) view2.findViewById(R.id.item_s21_category_3);
-            tv4 = (TextView) view2
-                    .findViewById(R.id.item_s21_category_11);
-            tv5 = (TextView) view2
-                    .findViewById(R.id.item_s21_category_21);
-            tv6 = (TextView) view2
-                    .findViewById(R.id.item_s21_category_31);
-            switch (item.size()) {
-                case 1:
-                    addData(tv1, img1, item, 1, position);
-                    img2.setVisibility(View.INVISIBLE);
-                    img3.setVisibility(View.INVISIBLE);
-                    tv2.setVisibility(View.INVISIBLE);
-                    tv3.setVisibility(View.INVISIBLE);
-                    mViews.add(view1);
-                    break;
-                case 2:
-                    addData(tv1, img1, item, 1, position);
-                    addData(tv2, img2, item, 2, position);
-                    img3.setVisibility(View.INVISIBLE);
-                    tv3.setVisibility(View.INVISIBLE);
-                    mViews.add(view1);
-                    break;
-                case 3:
-                    addData(tv1, img1, item, 1, position);
-                    addData(tv2, img2, item, 2, position);
-                    addData(tv3, img3, item, 3, position);
-                    mViews.add(view1);
-                    break;
-                case 4:
-                    addData(tv1, img1, item, 1, position);
-                    addData(tv2, img2, item, 2, position);
-                    addData(tv3, img3, item, 3, position);
-                    addData(tv4, img4, item, 4, position);
-                    img5.setVisibility(View.INVISIBLE);
-                    img6.setVisibility(View.INVISIBLE);
-                    tv5.setVisibility(View.INVISIBLE);
-                    tv6.setVisibility(View.INVISIBLE);
-                    mViews.add(view1);
-                    mViews.add(view2);
-                    break;
-                case 5:
-                    addData(tv1, img1, item, 1, position);
-                    addData(tv2, img2, item, 2, position);
-                    addData(tv3, img3, item, 3, position);
-                    addData(tv4, img4, item, 4, position);
-                    addData(tv5, img5, item, 5, position);
-                    img6.setVisibility(View.INVISIBLE);
-                    tv6.setVisibility(View.INVISIBLE);
-                    mViews.add(view1);
-                    mViews.add(view2);
-                    break;
-                case 6:
-                    addData(tv1, img1, item, 1, position);
-                    addData(tv2, img2, item, 2, position);
-                    addData(tv3, img3, item, 3, position);
-                    addData(tv4, img4, item, 4, position);
-                    addData(tv5, img5, item, 5, position);
-                    addData(tv6, img6, item, 6, position);
-                    mViews.add(view1);
-                    mViews.add(view2);
-                    break;
+        initViewPager(holder, item);
 
-                default:
-                    break;
-            }
-
-
-            switch ((int) tempMemory[position]) {
-                case 1:
-                    memory(tv1, img1, ImgUtil.changeImgUri(tempUri[position]));
-                    tempTv[position] = tv1;
-                    tempImg[position] = img1;
-                    break;
-                case 2:
-                    memory(tv2, img2, ImgUtil.changeImgUri(tempUri[position]));
-                    tempTv[position] = tv2;
-                    tempImg[position] = img2;
-                    break;
-                case 3:
-                    memory(tv3, img3, ImgUtil.changeImgUri(tempUri[position]));
-                    tempTv[position] = tv3;
-                    tempImg[position] = img3;
-                    break;
-                case 4:
-                    memory(tv4, img4, ImgUtil.changeImgUri(tempUri[position]));
-                    tempTv[position] = tv4;
-                    tempImg[position] = img4;
-                    break;
-                case 5:
-                    memory(tv5, img5, ImgUtil.changeImgUri(tempUri[position]));
-                    tempTv[position] = tv5;
-                    tempImg[position] = img5;
-                    break;
-                case 6:
-                    memory(tv6, img6, ImgUtil.changeImgUri(tempUri[position]));
-                    tempTv[position] = tv6;
-                    tempImg[position] = img6;
-                    break;
-
-                default:
-                    break;
-            }
-            holder.titleName.setText(item_name);
-            holder.viewPager
-                    .setAdapter(new S21CategoryViewPagerAdapter(mViews));
-            if (tempPage[position]) {
-                holder.viewPager.setCurrentItem(1);
-            }
-            convertView.setTag(holder);
-        }
+        convertView.setTag(holder);
 
         return convertView;
     }
 
+    private void initViewPager(Holder holder, ArrayList<MongoCategories> item) {
+        ViewPager viewPager = holder.viewPager;
+        int pageCount;
+        if (item.size() % 3 != 0) {
+            pageCount = (new Double(Math.ceil(item.size() / 3))).intValue() + 1;
+        } else {
+            pageCount = (new Double(Math.ceil(item.size() / 3))).intValue();
+        }
+
+        List<View> views = new ArrayList<>();
+
+        for (int i = 0; i < pageCount; i++) {
+            PercentRelativeLayout rootView = (PercentRelativeLayout) mInflater.inflate(R.layout.page_item_s21, null);
+            if (i == pageCount - 1 && item.size() % 3 != 0) {
+                addToPage(rootView, item, i, item.size() % 3);
+            } else {
+                addToPage(rootView, item, i, 3);
+            }
+            views.add(rootView);
+        }
+
+        viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
+    }
+
+    private void addToPage(PercentRelativeLayout rootView, ArrayList<MongoCategories> item, int i, int count) {
+        for (int j = 0; j < count; j++) {
+
+            LinearLayout itemView = (LinearLayout) mInflater.inflate(R.layout.item_s21_page, rootView, false);
+            SimpleDraweeView img = (SimpleDraweeView) itemView.findViewById(R.id.img);
+            TextView des = (TextView) itemView.findViewById(R.id.des);
+
+            addData(des, img, item, i * 3 + j, i);
+            Rect rect = new Rect();
+            holder.viewPager.getGlobalVisibleRect(rect);
+            PercentRelativeLayout.LayoutParams params = (PercentRelativeLayout.LayoutParams) itemView.getLayoutParams();
+            switch (j) {
+                case 1:
+                    params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                    break;
+                case 2:
+                    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+                    break;
+            }
+            rootView.addView(itemView, params);
+        }
+    }
+
     private void addData(TextView view, SimpleDraweeView img, ArrayList<MongoCategories> item, int index, int position) {
-        view.setText(item.get(index - 1).getName());
-        img.setImageURI(Uri.parse(item.get(index - 1).getIcon()));
+        MongoCategories category = item.get(index);
+        view.setText(category.getName());
+        img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.NORMAL));
         img.setTag(index);
-        img.setOnClickListener(new CategoryListener(position, view, item.get(index - 1).getIcon()));
+        img.setOnClickListener(new CategoryListener(position, view, category.getIcon()));
+//        for (String ref : selectRefs) {
+//            if (category._id.equals(ref)){
+//                img.callOnClick();
+//            }
+//        }
     }
 
 
     private void memory(TextView tv, SimpleDraweeView img, Uri uri) {
-        Log.i("tag","memory");
         tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
         img.setImageURI(uri);
     }
@@ -266,7 +190,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 tempPage[position] = false;
             }
             tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
-            img.setImageURI(ImgUtil.changeImgUri(uri));
+            img.setImageURI(ImgUtil.changeImgUri(uri, ImgUtil.CategoryImgType.SELECTED));
             if (tempTv[position] == null) {
                 tempTv[position] = tv;
                 tempImg[position] = img;
@@ -287,7 +211,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 }
             }
 
-            if (onSelectChangeListener != null){
+            if (onSelectChangeListener != null) {
                 onSelectChangeListener.onSelectChanged(tempMemory);
             }
 
@@ -295,7 +219,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
         private void reset(TextView tv, SimpleDraweeView img, String uri) {
             tv.setTextColor(context.getResources().getColor(R.color.black));
-            img.setImageURI(Uri.parse(uri));
+            img.setImageURI(ImgUtil.changeImgUri(uri, ImgUtil.CategoryImgType.NORMAL));
 
         }
 
@@ -304,5 +228,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     public void setOnSelectChangeListener(OnSelectChangeListener onSelectChangeListener) {
         this.onSelectChangeListener = onSelectChangeListener;
     }
+
 
 }

@@ -46,8 +46,6 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
         } else {
             bgView.setChecked(true);
             lastChecked = bgView;
-            int mPos = ((Integer) lastChecked.getTag()).intValue();
-            onCheckedChangeListener.onCheckedChange(datas.get(mPos),mPos,lastChecked);
         }
 
         bgView.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +59,7 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
                         lastChecked.setChecked(false);
                     }
                 }
+
                 lastChecked = radio;
                 selectPos = clickedPos;
                 onCheckedChangeListener.onCheckedChange(datas.get(clickedPos),clickedPos,lastChecked);

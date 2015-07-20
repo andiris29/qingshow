@@ -38,11 +38,27 @@ public class ImgUtil {
         return url + result + "." +type;
     }
 
-    public static Uri changeImgUri(String uri) {
+    public static Uri changeImgUri(String uri, CategoryImgType t) {
         String[] array = uri.split("\\.");
         String type = "." + array[array.length - 1];
         String result = "";
-        result = uri.replace(type, "_grey" + type);
+        switch (t){
+            case NORMAL:
+                result = uri.replace(type, "_normal" + type);
+            break;
+            case SELECTED:
+                result = uri.replace(type, "_selected" + type);
+                break;
+            case DISABLED:
+                result = uri.replace(type, "_disabled" + type);
+                break;
+        }
         return Uri.parse(result);
+    }
+
+    public enum CategoryImgType{
+        NORMAL,
+        SELECTED,
+        DISABLED
     }
 }

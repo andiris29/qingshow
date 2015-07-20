@@ -58,6 +58,7 @@ public class S20MatcherActivity extends MenuActivity {
     RecyclerView selectRV;
 
     public static final String S20_ITEMREFS = "S20_ITEMREFS";
+    public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -65,7 +66,7 @@ public class S20MatcherActivity extends MenuActivity {
 
     private Map<String, Select> allSelect;
     private List<String> categoryRefs;
-    private List<String> lastCategoryRefs;
+    private ArrayList<String> lastCategoryRefs;
 
     private String categoryRef = "";
     private int pagaSize = 10;
@@ -343,27 +344,27 @@ public class S20MatcherActivity extends MenuActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void checkBorder(QSImageView view) {
-        float nextX = view.getX();
-        float nextY = view.getY();
-        int intrinsicWidth = view.getImageView().getDrawable().getIntrinsicWidth();
-        int intrinsicHeight = view.getImageView().getDrawable().getIntrinsicHeight();
+    public void checkBorder(QSImageView view) {
+        float nextX = view.getX() * view.getLastScaleFactor();
+        float nextY = view.getY() * view.getLastScaleFactor();
+        float intrinsicWidth = view.getImageView().getDrawable().getIntrinsicWidth() * view.getLastScaleFactor();
+        float intrinsicHeight = view.getImageView().getDrawable().getIntrinsicHeight() * view.getLastScaleFactor();
 
-        if (view.getX() + intrinsicWidth > canvas.getWidth()) {
+        if (view.getX() * view.getLastScaleFactor() + intrinsicWidth > canvas.getWidth()) {
             nextX = canvas.getWidth() - intrinsicWidth;
         }
-        if (view.getY() + intrinsicHeight > canvas.getHeight()) {
+        if (view.getY() * view.getLastScaleFactor() + intrinsicHeight > canvas.getHeight()) {
             nextY = canvas.getHeight() - intrinsicHeight;
         }
-        if (view.getX() < 0) {
-            nextX = 0;
+        if (view.getX() < view.getX() *(1 - view.getLastScaleFactor())) {
+            nextX = view.getX() *(1 - view.getLastScaleFactor());
         }
-        if (view.getY() < 0) {
-            nextY = 0;
+        if (view.getY() < view.getY() *(1 - view.getLastScaleFactor())) {
+            nextY = view.getY() *(1 - view.getLastScaleFactor());
         }
-        Log.i("tag", "nextX: " + nextX + " nextY: " + nextY + " width: " + intrinsicWidth + " height: " + intrinsicHeight);
-        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", view.getY(), nextY);
-        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", view.getX(), nextX);
+
+        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", view.getY() * view.getLastScaleFactor(), nextY);
+        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", view.getX() * view.getLastScaleFactor(), nextX);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(x, y);
@@ -401,6 +402,7 @@ public class S20MatcherActivity extends MenuActivity {
         Intent intent = new Intent(S20MatcherActivity.this, S21CategoryActivity.class);
         lastCategoryRefs.clear();
         lastCategoryRefs.addAll(categoryRefs);
+        intent.putStringArrayListExtra(S20_SELECT_CATEGORYREFS,lastCategoryRefs);
         startActivity(intent);
     }
 
