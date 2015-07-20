@@ -11,7 +11,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSCategoryUtil.h"
-
+#import "QSCategoryManager.h"
 @implementation QSItemListCell
 
 - (void)awakeFromNib {
@@ -27,8 +27,12 @@
 
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
-    NSDictionary* category = [QSItemUtil getCategoryRef:itemDic];
-    [self.itemIcomImageView setImageFromURL:[QSCategoryUtil getIconUrl:category]];
+
+    NSString *str = itemDic[@"categoryRef"];
+   QSCategoryManager *manager = [QSCategoryManager getInstance];
+    NSDictionary *dic =  [manager findCategoryOfId:str];
+    //NSLog(@"dic = %@",dic);
+    [self.itemIcomImageView setImageFromURL:[QSCategoryUtil getIconUrl:dic]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDic];
 }
 @end
