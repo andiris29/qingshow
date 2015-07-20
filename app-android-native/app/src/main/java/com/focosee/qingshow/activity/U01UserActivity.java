@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -39,11 +37,10 @@ import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -222,8 +219,7 @@ public class U01UserActivity extends MenuActivity {
                 userHw.setText(user.height + "cm," + user.weight + "kg");
                 if (user.portrait != null)
                     userHead.setImageURI(Uri.parse(user.portrait));
-                if (null != user.background)
-                    ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
+                ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
                 if(user.__context.followedByCurrentUser)
                     userFollowBtn.setImageResource(R.drawable.unfollow_btn);
             }

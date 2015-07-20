@@ -22,6 +22,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
     private ViewPager mViewPager;
     private View view;
     private LinearLayout indicatorLayout;
+    private boolean isLastPagerSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
         mViewPager = (ViewPager) findViewById(R.id.g02_viewpager);
 
         mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-        mViewPager.setOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(this);
 
         mViewPager.setCurrentItem(0);
 
@@ -85,6 +86,10 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if(isLastPagerSelected){
+            startActivity(new Intent(G02WelcomeActivity.this, S01MatchShowsActivity.class));
+            finish();
+        }
         for (int i = 0; i < indicatorLayout.getChildCount(); i++) {
             if (i == position)
                 ((ImageView) indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_white);
@@ -95,7 +100,8 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
     @Override
     public void onPageSelected(int position) {
-
+        if(position == indicatorCount)
+            isLastPagerSelected = true;
     }
 
     @Override
@@ -115,6 +121,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
         private final int[] titleArgs = {R.string.guide_pager1_title, R.string.guide_pager2_title, R.string.guide_pager3_title};
         private final int[] describeArgs = {R.string.guide_pager1_describe, R.string.guide_pager2_describe, R.string.guide_pager3_describe};
+        private final int[] describeArgs1 = {R.string.guide_pager1_describe1, R.string.guide_pager2_describe1, R.string.guide_pager3_describe1};
         private final int[] backgroundArgs = {R.drawable.guide_page1_bg, R.drawable.guide_page2_bg, R.drawable.guide_page3_bg};
         private View[] views;
 
@@ -126,13 +133,13 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
         @Override
         public int getCount() {
-            return count;
+            return count + 1;
         }
 
         @Override
         public Fragment getItem(int position) {
 
-            WelComeFragment fragment = WelComeFragment.newInstance(titleArgs[position], describeArgs[position], backgroundArgs[position]);
+            WelComeFragment fragment = WelComeFragment.newInstance(titleArgs[position % indicatorCount], describeArgs[position % indicatorCount], describeArgs1[position % indicatorCount], backgroundArgs[position % indicatorCount]);
 
             return fragment;
         }

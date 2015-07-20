@@ -18,6 +18,7 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
     private SparseArray<View> views;
     private View itemView;
     private View.OnClickListener onClickListener;
+    private View.OnLongClickListener onLongClickListener;
 
     public AbsViewHolder(View itemView) {
         super(itemView);
@@ -90,6 +91,13 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
         this.onClickListener = onClickListener;
         if (null != onClickListener){
             itemView.setOnClickListener(onClickListener);
+        }
+    }
+
+    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+        if (null != onLongClickListener){
+            itemView.setOnLongClickListener(onLongClickListener);
         }
     }
 }

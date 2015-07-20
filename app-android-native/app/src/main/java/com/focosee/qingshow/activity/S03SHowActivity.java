@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -506,12 +507,32 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 }
                 break;
             case R.id.s03_del_btn:
+                hideShow();
                 break;
             case R.id.s03_portrait:
                 U01Model.INSTANCE.setUser(showDetailEntity.__context.createdBy);
                 startActivity(new Intent(S03SHowActivity.this, U01UserActivity.class));
                 break;
         }
+    }
+
+    private void hideShow(){
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(showDetailEntity._id), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, "repsonse_del:" + response);
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+
+                Toast.makeText(S03SHowActivity.this, R.string.delete_finish, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     class ShareClickListener implements View.OnClickListener {

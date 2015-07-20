@@ -7,104 +7,91 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.CheckedTextView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.adapter.U02ExceptionListViewAdapter;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.httpapi.request.QSStringRequest;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.QSModel;
+import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class U02SelectExceptionFragment extends Fragment {
+    @InjectView(R.id.backTextView)
+    TextView backTextView;
+    @InjectView(R.id.fragment_u02_select_exception_listview)
+    ListView listView;
+
+
     private Context context;
     private RequestQueue requestQueue;
 
-    private EditText currentPasswordEditText;
-    private EditText newPasswordEditText;
-    private EditText confirmPasswordEditText;
-    private TextView saveTextView;
-    private TextView backTextView;
+    private MongoPeople user;
+    private U02ExceptionListViewAdapter adapter;
 
     public U02SelectExceptionFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (null != getArguments()) {
+            user = (MongoPeople) getArguments().getSerializable("user");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_u02_change_password, container, false);
+        View view = inflater.inflate(R.layout.fragment_u02_select_exception, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        context = (Context) getActivity().getApplicationContext();
+        context = getActivity().getApplicationContext();
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
-        currentPasswordEditText = (EditText) getActivity().findViewById(R.id.currentPasswordEditText);
-        newPasswordEditText = (EditText) getActivity().findViewById(R.id.newPasswordEditText);
-        confirmPasswordEditText = (EditText) getActivity().findViewById(R.id.confirmPasswordEditText);
-
-        backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 U02SettingsFragment settingsFragment = new U02SettingsFragment();
-               // getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0,R.anim.push_left_in, 0).
+                // getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
                         replace(R.id.settingsScrollView, settingsFragment).commit();
+                saveUser();
             }
         });
 
-        saveTextView = (TextView) getActivity().findViewById(R.id.saveTextView);
-        saveTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!newPasswordEditText.getText().toString().equals(confirmPasswordEditText.getText().toString())) {
-                    Toast.makeText(context, "请确认两次输入密码是否一致", Toast.LENGTH_LONG).show();
-                } else if(!newPasswordEditText.getText().toString().equals("") &&
-                        !confirmPasswordEditText.getText().toString().equals("")){
-                    HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("currentPassword", currentPasswordEditText.getText().toString());
-                    params.put("password", newPasswordEditText.getText().toString());
+        adapter= new U02ExceptionListViewAdapter(getActivity(), user);
+        listView.setAdapter(adapter);
+    }
 
-                    QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            MongoPeople user = UserParser.parseUpdate(response);
-                            if (user == null) {
-                                ErrorHandler.handle(context, MetadataParser.getError(response));
-                            } else {
-                                QSModel.INSTANCE.setUser(user);
-                                U02SettingsFragment settingsFragment = new U02SettingsFragment();
-                                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
-                                Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    requestQueue.add(qxStringRequest);
-                }
+    private void saveUser(){
+        List<Integer> expectations = new ArrayList<>();
+        for (CheckedTextView ctv : adapter.getItemViews()) {
+            if(ctv.isChecked()) {
+                expectations.add((Integer)ctv.getTag());
             }
-        });
+        }
+        Map params = new HashMap();
+        params.put("expectations", expectations);
+        UserCommand.update(params, new Callback());
     }
 
     public void onResume() {
@@ -117,4 +104,9 @@ public class U02SelectExceptionFragment extends Fragment {
         MobclickAgent.onPageEnd("U08ChangePassword");
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 }

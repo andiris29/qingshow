@@ -23,6 +23,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -100,7 +101,7 @@ public class U06LoginActivity extends BaseActivity {
                                     }
                                 } else {
                                     QSModel.INSTANCE.setUser(user);
-
+                                    U01Model.INSTANCE.setUser(user);
                                     if(null != GoToWhereAfterLoginModel.INSTANCE.get_class()){
                                         Intent intent = new Intent(U06LoginActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
                                         startActivity(intent);
