@@ -38,6 +38,14 @@ public class ImgUtil {
         return url + result + "." +type;
     }
 
+    public static String getImgSrc_portrait(String url, int scale){
+
+        if(scale == 0)return url;
+        url = url.substring(0, url.lastIndexOf("."));
+        System.out.println("url:" + url);
+        return url + "_" + scale + ".png";
+    }
+
     public static Uri changeImgUri(String uri) {
         String[] array = uri.split("\\.");
         String type = "." + array[array.length - 1];

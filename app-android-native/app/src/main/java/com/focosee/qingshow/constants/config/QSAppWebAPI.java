@@ -56,6 +56,11 @@ public class QSAppWebAPI {
     private static final String QUERY_ITEMS = HOST_NAME + "/matcher/queryItems";
     private static final String MATCH_SAVE = HOST_NAME + "/matcher/save";
     private static final String UPDATE_COVER = HOST_NAME + "/matcher/updateCover";
+    private static final String MATCH_HIDE_API = HOST_NAME + "/matcher/hide";
+
+    public static String getMatchHideApi(String _id) {
+        return MATCH_HIDE_API + "?_id=" + _id;
+    }
 
     private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
     private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
