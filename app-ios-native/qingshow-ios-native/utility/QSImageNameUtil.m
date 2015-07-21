@@ -19,8 +19,14 @@ NSString* imageNameTypeToSuf(QSImageNameType type) {
             return @"_xxs";
         case QSImageNameTypeXXXS:
             return @"_xxxs";
+        case QSImageNameType30:
+            return @"_30";
+        case QSImageNameType50:
+            return @"_50";
+        case QSImageNameType100:
+            return @"_100";
         default:
-            return nil;
+            return @"";
             break;
     }
 }

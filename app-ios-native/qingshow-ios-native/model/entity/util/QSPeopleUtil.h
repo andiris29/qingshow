@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QSImageNameUtil.h"
 
 @interface QSPeopleUtil : NSObject
 
@@ -14,6 +15,7 @@
 + (NSString*)getGenderDesc:(NSDictionary*)modelDict;
 + (NSString*)getNickname:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
++ (NSURL*)getHeadIconUrl:(NSDictionary *)peopleDict type:(QSImageNameType)type;
 + (NSURL*)getBackgroundUrl:(NSDictionary*)peopleDict;
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict;
 + (NSString*)getProvinceDesc:(NSDictionary*)peopleDict;

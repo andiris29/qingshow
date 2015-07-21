@@ -11,6 +11,7 @@
 #import "QSPeopleUtil.h"
 #import "UINib+QSExtension.h"
 #import <QuartzCore/QuartzCore.h>
+#import "QSImageNameUtil.h"
 
 NSString* imgRowTypeToTitle(U02SectionImageRow type) {
     return @[@"个人头像", @"背景图片"][type];
@@ -18,7 +19,7 @@ NSString* imgRowTypeToTitle(U02SectionImageRow type) {
 NSURL* imgRowTypeToImgUrl(U02SectionImageRow type, NSDictionary* peopleDict) {
     switch (type) {
         case U02SectionImageRowHead:
-            return [QSPeopleUtil getHeadIconUrl:peopleDict];
+            return [QSImageNameUtil appendImageNameUrl:[QSPeopleUtil getHeadIconUrl:peopleDict] type:QSImageNameType100];
         case U02SectionImageRowBackground:
             return [QSPeopleUtil getBackgroundUrl:peopleDict];
         default:

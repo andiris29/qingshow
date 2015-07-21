@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, QSImageNameType) {
+    QSImageNameTypeOrigin,
     QSImageNameTypeS,
     QSImageNameTypeXS,
     QSImageNameTypeXXS,
     QSImageNameTypeXXXS,
+    QSImageNameType30,
+    QSImageNameType50,
+    QSImageNameType100
     
 };
 
