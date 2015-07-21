@@ -71,7 +71,7 @@
     [self.foregroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:showData]];
     [self.photoImageView setImageFromURL:[QSShowUtil getCoverUrl:showData] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.favorNumberLabel.text = [QSShowUtil getNumberLikeDescription:showData];
-    self.favorButton.selected = [QSShowUtil getIsLike:showData];
+   // self.favorButton.selected = [QSShowUtil getIsLike:showData];
     
     
     
@@ -85,7 +85,7 @@
     self.headIconImageViewBaseY = self.headIconImageView.frame.origin.y - baseHeight;
     self.nameLabelBaseY = self.nameLabel.frame.origin.y - baseHeight;
     self.favorNumberLabelBaseY = self.favorNumberLabel.frame.origin.y - baseHeight;
-    self.favorButtonBaseY = self.favorButton.frame.origin.y - baseHeight;
+    //self.favorButtonBaseY = self.favorButton.frame.origin.y - baseHeight;
     self.modelTapViewBaseY = self.modelTapView.frame.origin.y - baseHeight;
 }
 - (void)updateLayoutWithData:(NSDictionary*)showData
@@ -102,7 +102,7 @@
     [self updateViewFrame:self.headIconImageView withBase:self.headIconImageViewBaseY imageHeight:height];
     [self updateViewFrame:self.nameLabel withBase:self.nameLabelBaseY imageHeight:height];
     [self updateViewFrame:self.favorNumberLabel withBase:self.favorNumberLabelBaseY imageHeight:height];
-    [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
+    //[self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
     [self updateViewFrame:self.modelTapView withBase:self.modelTapViewBaseY imageHeight:height];
 }
 
