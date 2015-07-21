@@ -19,4 +19,5 @@
 //设置item的值
 - (void)setSubViewsValueWith:(NSDictionary *)selectedDic;
 
+- (void)setLastCellItem:(NSArray *)array;
 @end
