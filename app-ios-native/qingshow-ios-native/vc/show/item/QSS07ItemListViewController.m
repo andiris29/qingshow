@@ -131,6 +131,9 @@
             }
         }
     }
+//    for (int i = 0; i < array.count; i++) {
+//        NSLog(@"%d",[self getOrderFromDic:array[i]]);
+//    }
         return array;
 }
 - (int)getOrderFromDic:(NSDictionary *)dic
