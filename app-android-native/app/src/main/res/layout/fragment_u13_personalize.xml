@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mask_layer">
+    android:background="@color/s21_pink">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -263,44 +264,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <RadioButton
+                <CheckedTextView
                     android:id="@+id/result_0"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/selector_clothes_style"
-                    android:button="@null"
                     android:gravity="center"
                     android:text="显瘦"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <RadioButton
+                <CheckedTextView
                     android:id="@+id/result_1"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
                     android:layout_marginRight="10dp"
                     android:layout_toRightOf="@id/result_0"
                     android:background="@drawable/selector_clothes_style"
-                    android:button="@null"
                     android:gravity="center"
                     android:text="显高"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <RadioButton
+                <CheckedTextView
                     android:id="@+id/result_2"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
                     android:layout_toRightOf="@id/result_1"
                     android:background="@drawable/selector_clothes_style"
-                    android:button="@null"
                     android:gravity="center"
                     android:text="显身材"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <RadioButton
+                <CheckedTextView
                     android:id="@+id/result_3"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -308,13 +306,12 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/selector_clothes_style"
-                    android:button="@null"
                     android:gravity="center"
                     android:text="遮臀部"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <RadioButton
+                <CheckedTextView
                     android:id="@+id/result_4"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -323,13 +320,12 @@
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/result_3"
                     android:background="@drawable/selector_clothes_style"
-                    android:button="@null"
                     android:gravity="center"
                     android:text="遮肚腩"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <RadioButton
+                <CheckedTextView
                     android:id="@+id/result_5"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -337,7 +333,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/result_4"
                     android:background="@drawable/selector_clothes_style"
-                    android:button="@null"
                     android:gravity="center"
                     android:text="遮手臂"
                     android:textColor="@color/white"
@@ -354,7 +349,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:text="OK"
-            android:textColor="@color/white"
-            android:background="@drawable/red_btn"/>
+            android:textColor="@color/s21_pink"
+            android:background="@drawable/white"/>
     </LinearLayout>
 </ScrollView>

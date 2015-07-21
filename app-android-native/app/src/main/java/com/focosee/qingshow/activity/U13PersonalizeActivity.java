@@ -2,23 +2,18 @@ package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckedTextView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
-import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,11 +51,10 @@ public class U13PersonalizeActivity extends BaseActivity {
     @InjectViews({R.id.style_j, R.id.style_u})
     List<RadioButton> clothes;
     @InjectViews({R.id.result_0, R.id.result_1, R.id.result_2, R.id.result_3, R.id.result_4, R.id.result_5})
-    List<RadioButton> results;
+    List<CheckedTextView> results;
 
     private int checkBodyNum;
     private int checkClothesNum;
-    private int[] checkResultNums;
 
 
     @Override
@@ -75,23 +69,27 @@ public class U13PersonalizeActivity extends BaseActivity {
 
     @OnClick({R.id.body_a, R.id.body_h, R.id.body_v, R.id.body_x})
     public void onBodyStyleClick(RadioButton radio) {
-        checkBodyNum = initSingleChecked(bodys, radio);
+        checkBodyNum = initBodyTypeSingleChecked(bodys, radio);
     }
 
     @OnClick({R.id.style_j, R.id.style_u})
     public void onClothesStyleClick(RadioButton radio) {
-        checkClothesNum = initSingleChecked(clothes, radio);
+        checkClothesNum = initStyleSingleChecked(clothes, radio);
     }
 
     @OnClick({R.id.result_0, R.id.result_1, R.id.result_2, R.id.result_3, R.id.result_4, R.id.result_5})
-    public void onResultClick(RadioButton radio) {
+    public void onResultClick(CheckedTextView ctv) {
+
         for (int i = 0; i < results.size(); i++) {
-            RadioButton result = results.get(i);
-            if (radio.getId() == result.getId()) {
+            CheckedTextView result = results.get(i);
+            if (ctv.getId() == result.getId()) {
+                result.setChecked(ctv.isChecked());
                 if (result.isChecked()) {
                     result.setChecked(false);
+                    ctv.setTextColor(getResources().getColor(R.color.white));
                 } else {
                     result.setChecked(true);
+                    ctv.setTextColor(getResources().getColor(R.color.s21_pink));
                 }
             }
         }
@@ -100,7 +98,21 @@ public class U13PersonalizeActivity extends BaseActivity {
     @OnClick(R.id.submit)
     public void submitToNet() {
         Map map = new HashMap();
-        UserCommand.update(map,new Callback(){
+        map.put("age", ageText.getText().toString());
+        map.put("height", heightText.getText().toString());
+        map.put("weight", weightText.getText().toString());
+        map.put("bodyType", checkBodyNum);
+        map.put("dressStyle", checkClothesNum);
+        List<Integer> exceptions = new ArrayList<>();
+        int i = 0;
+        for (CheckedTextView ctv : results){
+            if(ctv.isChecked()){
+                exceptions.add(i);
+            }
+            i++;
+        }
+        map.put("expectations", exceptions);
+        UserCommand.update(map, new Callback() {
             @Override
             public void onComplete() {
                 super.onComplete();
@@ -110,12 +122,12 @@ public class U13PersonalizeActivity extends BaseActivity {
             @Override
             public void onError(int errorCode) {
                 super.onError(errorCode);
-                ErrorHandler.handle(U13PersonalizeActivity.this,errorCode);
+                ErrorHandler.handle(U13PersonalizeActivity.this, errorCode);
             }
         });
     }
 
-    private int initSingleChecked(List<RadioButton> radios, View view) {
+    private int initBodyTypeSingleChecked(List<RadioButton> radios, View view) {
         int checkIndex = 0;
         for (int i = 0; i < radios.size(); i++) {
             RadioButton item = radios.get(i);
@@ -124,6 +136,22 @@ public class U13PersonalizeActivity extends BaseActivity {
                 item.setChecked(true);
             } else {
                 item.setChecked(false);
+            }
+        }
+        return checkIndex;
+    }
+
+    private int initStyleSingleChecked(List<RadioButton> radios, View view) {
+        int checkIndex = 0;
+        for (int i = 0; i < radios.size(); i++) {
+            RadioButton item = radios.get(i);
+            if (view.getId() == item.getId()) {
+                checkIndex = i;
+                item.setChecked(true);
+                item.setTextColor(getResources().getColor(R.color.s21_pink));
+            } else {
+                item.setChecked(false);
+                item.setTextColor(getResources().getColor(R.color.white));
             }
         }
         return checkIndex;
