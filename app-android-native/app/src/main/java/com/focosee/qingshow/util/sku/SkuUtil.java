@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2015/3/18.
@@ -48,7 +49,7 @@ public class SkuUtil {
 
 
     public static ArrayList<Prop> filter(MongoItem.TaoBaoInfo.SKU sku) {
-        ArrayList<Prop> props = new ArrayList<Prop>();
+        ArrayList<Prop> props = new ArrayList<>();
         for (int i = 0; i < sku.properties.split(";").length - 1; i++) {
 
             Prop prop = new Prop();
@@ -70,6 +71,21 @@ public class SkuUtil {
             props.add(prop);
         }
         return props;
+    }
+
+    public static String getPropValue(LinkedList<MongoItem.TaoBaoInfo.SKU> skus, String key){
+
+        HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU> skusProp = filter(skus);
+        if(null == skusProp)return null;
+        Set<ArrayList<Prop>> keys = skusProp.keySet();
+        for(ArrayList<Prop> props : keys){
+            for (Prop prop : props){
+                if(prop.propId.equals(key)){
+                    return prop.name;
+                }
+            }
+        }
+        return null;
     }
 
     public static String getSkuId(String url) {

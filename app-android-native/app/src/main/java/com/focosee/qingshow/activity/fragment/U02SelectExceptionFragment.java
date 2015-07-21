@@ -12,10 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.adapter.U02ExceptionListViewAdapter;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
@@ -39,6 +41,7 @@ public class U02SelectExceptionFragment extends Fragment {
 
     private MongoPeople user;
     private U02ExceptionListViewAdapter adapter;
+    List<Integer> expectations = new ArrayList<>();
 
     public U02SelectExceptionFragment() {
         // Required empty public constructor
@@ -70,10 +73,6 @@ public class U02SelectExceptionFragment extends Fragment {
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                U02SettingsFragment settingsFragment = new U02SettingsFragment();
-                // getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
-                        replace(R.id.settingsScrollView, settingsFragment).commit();
                 saveUser();
             }
         });
@@ -83,7 +82,7 @@ public class U02SelectExceptionFragment extends Fragment {
     }
 
     private void saveUser(){
-        List<Integer> expectations = new ArrayList<>();
+
         for (CheckedTextView ctv : adapter.getItemViews()) {
             if(ctv.isChecked()) {
                 expectations.add((Integer)ctv.getTag());
@@ -91,7 +90,24 @@ public class U02SelectExceptionFragment extends Fragment {
         }
         Map params = new HashMap();
         params.put("expectations", expectations);
-        UserCommand.update(params, new Callback());
+        U02Model.INSTANCE.set_class(U02SettingsFragment.class);
+        UserCommand.update(params, new Callback(){
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                U02SettingsFragment settingsFragment = new U02SettingsFragment();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_right_in, 0).
+                        replace(R.id.settingsScrollView, settingsFragment).commit();
+            }
+
+            @Override
+            public void onError() {
+                super.onError();
+                U02SettingsFragment settingsFragment = new U02SettingsFragment();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_right_in, 0).
+                        replace(R.id.settingsScrollView, settingsFragment).commit();
+            }
+        });
     }
 
     public void onResume() {

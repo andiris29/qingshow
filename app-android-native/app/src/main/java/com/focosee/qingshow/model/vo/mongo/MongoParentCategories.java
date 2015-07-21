@@ -11,6 +11,7 @@ public class MongoParentCategories implements Serializable{
     public String icon;
     public String order;
     public MatchInfo matchInfo;
+    public int measureComposition;
     public MongoParentCategories parentRef;
     public boolean activate = true;
 

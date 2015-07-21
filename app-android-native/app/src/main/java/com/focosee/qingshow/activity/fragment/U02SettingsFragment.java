@@ -14,23 +14,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.S01MatchShowsActivity;
-import com.focosee.qingshow.activity.S20MatcherActivity;
-import com.focosee.qingshow.activity.S21CategoryActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U06LoginActivity;
-import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.command.Callback;
@@ -44,21 +38,15 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.U01Model;
+import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.io.File;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -529,6 +517,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
             getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
                     replace(R.id.settingsScrollView, fragment).commit();
+                U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
         }
         }
 
@@ -581,7 +570,8 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             fragment.setArguments(bundle);
             getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
                     replace(R.id.settingsScrollView, fragment).commit();
-        }
+            U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
+            }
         }
 
         );

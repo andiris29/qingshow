@@ -16,8 +16,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -52,7 +54,7 @@ public class U02ChangePasswordFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        context = (Context) getActivity().getApplicationContext();
+        context = getActivity().getApplicationContext();
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
         currentPasswordEditText = (EditText) getActivity().findViewById(R.id.currentPasswordEditText);
@@ -65,8 +67,9 @@ public class U02ChangePasswordFragment extends Fragment {
             public void onClick(View view) {
                 U02SettingsFragment settingsFragment = new U02SettingsFragment();
                // getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0,R.anim.push_left_in, 0).
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0,R.anim.push_right_in, 0).
                         replace(R.id.settingsScrollView, settingsFragment).commit();
+                U02Model.INSTANCE.set_class(U02SettingsFragment.class);
             }
         });
 
@@ -93,6 +96,7 @@ public class U02ChangePasswordFragment extends Fragment {
                                 U02SettingsFragment settingsFragment = new U02SettingsFragment();
                                 getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
                                 Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
+                                U02Model.INSTANCE.set_class(U02SettingsFragment.class);
                             }
                         }
                     }, new Response.ErrorListener() {
