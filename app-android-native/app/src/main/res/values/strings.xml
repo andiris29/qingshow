@@ -125,6 +125,7 @@
     <string name="cancels">取消</string>
     <string name="dismiss">隐藏</string>
     <string name="delete">删除</string>
+    <string name="delete_finish">删除成功</string>
     <string name="edit">编辑</string>
     <string name="title_activity_p04_brand">P04BrandActivity</string>
     <string name="title_activity_p02_model">P02ModelActivity</string>
@@ -179,9 +180,12 @@
     <string name="guide_pager1_title">倾秀</string>
     <string name="guide_pager2_title">潮流的搭配</string>
     <string name="guide_pager3_title">个性化推送</string>
-    <string name="guide_pager1_describe">一个为你独家定制的服装搭配应用平台</string>
-    <string name="guide_pager2_describe">即使没有女神的身材也可以有女神的风范</string>
-    <string name="guide_pager3_describe">每天推送适合你的搭配和最潮流的资讯</string>
+    <string name="guide_pager1_describe">一个为你独家定制的</string>
+    <string name="guide_pager1_describe1">服装搭配应用平台</string>
+    <string name="guide_pager2_describe">即使没有女神的身材</string>
+    <string name="guide_pager2_describe1">也可以有女神的风范</string>
+    <string name="guide_pager3_describe">每天推送适合你的搭配</string>
+    <string name="guide_pager3_describe1">和最潮流的资讯</string>
     <string name="title_activity_u14_collection">U14CollectionActivity</string>
 
     <string name="title_collection">我的收藏</string>

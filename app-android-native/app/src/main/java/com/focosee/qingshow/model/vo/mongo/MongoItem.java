@@ -12,8 +12,6 @@ import static com.focosee.qingshow.util.StringUtil.FormatPrice;
  */
 public class MongoItem implements Serializable {
 
-    public static final String DEBUG_TAG = "MongoItem";
-
     public String _id;
 
     public MongoCategories categoryRef;
@@ -73,10 +71,10 @@ public class MongoItem implements Serializable {
 
         public String getPromoPrice(){
             if(getMinPromoPrice() != null){
-                return FormatPrice(String.valueOf(Double.parseDouble(getMinPromoPrice()) - 0.01));
+                return FormatPrice(String.valueOf(Double.parseDouble(getMinPromoPrice())));
             }
             if(getMinPrice() != null){
-                return FormatPrice(String.valueOf(Double.parseDouble(getMinPrice()) - 0.01));
+                return FormatPrice(String.valueOf(Double.parseDouble(getMinPrice())));
             }
             return "";
         }

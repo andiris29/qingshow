@@ -15,11 +15,10 @@
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/nav_btn_back"
-            app:layout_marginLeftPercent="3%"
-            app:layout_widthPercent="12%" />
+            android:padding="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/nav_btn_back" />
 
     </android.support.percent.PercentFrameLayout>
 

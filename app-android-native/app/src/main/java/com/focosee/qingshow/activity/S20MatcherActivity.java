@@ -4,15 +4,17 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
@@ -59,6 +61,7 @@ public class S20MatcherActivity extends MenuActivity {
 
     public static final String S20_ITEMREFS = "S20_ITEMREFS";
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
+
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -109,6 +112,10 @@ public class S20MatcherActivity extends MenuActivity {
         itemView.setLayoutParams(layoutParams);
         itemView.setX(x);
         itemView.setY(y);
+        Rect frame = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int barHeight = frame.top;
+        itemView.setBarHeight(barHeight);
         ImageLoader.getInstance().displayImage(url, itemView.getImageView(), new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -356,11 +363,11 @@ public class S20MatcherActivity extends MenuActivity {
         if (view.getY() * view.getLastScaleFactor() + intrinsicHeight > canvas.getHeight()) {
             nextY = canvas.getHeight() - intrinsicHeight;
         }
-        if (view.getX() < view.getX() *(1 - view.getLastScaleFactor())) {
-            nextX = view.getX() *(1 - view.getLastScaleFactor());
+        if (view.getX() < view.getX() * (1 - view.getLastScaleFactor())) {
+            nextX = view.getX() * (1 - view.getLastScaleFactor());
         }
-        if (view.getY() < view.getY() *(1 - view.getLastScaleFactor())) {
-            nextY = view.getY() *(1 - view.getLastScaleFactor());
+        if (view.getY() < view.getY() * (1 - view.getLastScaleFactor())) {
+            nextY = view.getY() * (1 - view.getLastScaleFactor());
         }
 
         ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", view.getY() * view.getLastScaleFactor(), nextY);
@@ -397,12 +404,17 @@ public class S20MatcherActivity extends MenuActivity {
         }
     }
 
+    @OnClick(R.id.menu)
+    public void menuOpen() {
+        menuSwitch();
+    }
+
     @OnClick(R.id.selectBtn)
     public void select() {
         Intent intent = new Intent(S20MatcherActivity.this, S21CategoryActivity.class);
         lastCategoryRefs.clear();
         lastCategoryRefs.addAll(categoryRefs);
-        intent.putStringArrayListExtra(S20_SELECT_CATEGORYREFS,lastCategoryRefs);
+        intent.putStringArrayListExtra(S20_SELECT_CATEGORYREFS, lastCategoryRefs);
         startActivity(intent);
     }
 
@@ -428,7 +440,7 @@ public class S20MatcherActivity extends MenuActivity {
         for (String s : allSelect.keySet()) {
             itemRefs.add(allSelect.get(s).item._id);
         }
-        intent.putStringArrayListExtra(S20_ITEMREFS,itemRefs);
+        intent.putStringArrayListExtra(S20_ITEMREFS, itemRefs);
         startActivity(intent);
     }
 

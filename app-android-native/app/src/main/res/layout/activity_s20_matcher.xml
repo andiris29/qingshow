@@ -7,6 +7,10 @@
     android:orientation="horizontal"
     android:scrollbarStyle="outsideOverlay">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/context"
             android:layout_width="match_parent"
@@ -63,6 +67,13 @@
                     app:layout_widthPercent="45%" />
             </android.support.percent.PercentRelativeLayout>
         </LinearLayout>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/nav_btn_menu_n"
+            android:id="@+id/menu"/>
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/blur"
