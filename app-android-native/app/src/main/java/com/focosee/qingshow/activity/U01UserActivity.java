@@ -245,8 +245,11 @@ public class U01UserActivity extends MenuActivity {
         if (null != recyclerView.getChildAt(0)) {
             view = recyclerView.getChildAt(0);
         }
+
+        int span = recyclerView.getLayoutManager() instanceof LinearLayoutManager ? 1 : 2;
+
         boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
-                * (recyclerView.getChildCount() - 1) + userHeadLayout.getBottom() + userHeadLayout.getY();
+                * (recyclerView.getChildCount() - 1) / span + userHeadLayout.getBottom() + userHeadLayout.getY();
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         if(userHeadLayout.getY() != 0){
             if(isShort) {//短列表

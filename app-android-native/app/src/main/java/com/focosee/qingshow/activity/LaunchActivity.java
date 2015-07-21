@@ -70,7 +70,12 @@ public class LaunchActivity extends BaseActivity{
     }
 
     public void jump(){
-        Intent mainIntent = new Intent(LaunchActivity.this, G02WelcomeActivity.class);
+        Class _class;
+        if(QSModel.INSTANCE.loggedin())
+            _class = S01MatchShowsActivity.class;
+        else
+            _class = G02WelcomeActivity.class;
+        Intent mainIntent = new Intent(LaunchActivity.this, _class);
         LaunchActivity.this.startActivity(mainIntent);
         LaunchActivity.this.finish();
     }
