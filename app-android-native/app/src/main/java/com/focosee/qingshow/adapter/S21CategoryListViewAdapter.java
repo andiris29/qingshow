@@ -31,7 +31,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     private ArrayList<ArrayList<MongoCategories>> items;
     private LayoutInflater mInflater;
     private Context context;
-    private Holder holder;
     private TextView[] tempTv;
     private SimpleDraweeView[] tempImg;
     private String[] tempUri;
@@ -39,6 +38,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     private boolean[] tempPage;
     private List<String> selectRefs;
 
+    private int position;
 
     private OnSelectChangeListener onSelectChangeListener;
 
@@ -58,12 +58,9 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         tempUri = new String[lines];
         tempMemory = new int[lines];
         tempPage = new boolean[lines];
+
     }
 
-    private class Holder {
-        TextView titleName;
-        ViewPager viewPager;
-    }
 
     @Override
     public int getCount() {
@@ -81,9 +78,9 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        int pos = position % categories.size();
-
+    public View getView(int pos, View convertView, ViewGroup parent) {
+        Holder holder;
+        position = pos % categories.size();
         if (convertView != null) {
             holder = (Holder) convertView.getTag();
         } else {
@@ -92,22 +89,25 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             holder.titleName = (TextView) convertView.findViewById(R.id.item_s21_name);
             holder.viewPager = (ViewPager) convertView.findViewById(R.id.item_s21_middle);
         }
-        ArrayList<MongoCategories> item = items.get(pos);
+        ArrayList<MongoCategories> item = items.get(position);
 
         initViewPager(holder, item);
+
+        holder.titleName.setText(categories.get(position).name);
 
         convertView.setTag(holder);
 
         return convertView;
     }
 
-    private void initViewPager(Holder holder, ArrayList<MongoCategories> item) {
+    private void initViewPager(Holder holder, List item) {
         ViewPager viewPager = holder.viewPager;
         int pageCount;
+
         if (item.size() % 3 != 0) {
-            pageCount = (new Double(Math.ceil(item.size() / 3))).intValue() + 1;
+            pageCount = (new Double(item.size() / 3)).intValue() + 1;
         } else {
-            pageCount = (new Double(Math.ceil(item.size() / 3))).intValue();
+            pageCount = (new Double(item.size() / 3)).intValue();
         }
 
         List<View> views = new ArrayList<>();
@@ -125,16 +125,14 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
     }
 
-    private void addToPage(PercentRelativeLayout rootView, ArrayList<MongoCategories> item, int i, int count) {
+    private void addToPage(PercentRelativeLayout rootView, List item, int i, int count) {
         for (int j = 0; j < count; j++) {
 
             LinearLayout itemView = (LinearLayout) mInflater.inflate(R.layout.item_s21_page, rootView, false);
             SimpleDraweeView img = (SimpleDraweeView) itemView.findViewById(R.id.img);
             TextView des = (TextView) itemView.findViewById(R.id.des);
 
-            addData(des, img, item, i * 3 + j, i);
-            Rect rect = new Rect();
-            holder.viewPager.getGlobalVisibleRect(rect);
+            addData(des, img, item, i * 3 + j);
             PercentRelativeLayout.LayoutParams params = (PercentRelativeLayout.LayoutParams) itemView.getLayoutParams();
             switch (j) {
                 case 1:
@@ -148,25 +146,27 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
     }
 
-    private void addData(TextView view, SimpleDraweeView img, ArrayList<MongoCategories> item, int index, int position) {
-        MongoCategories category = item.get(index);
-        view.setText(category.getName());
+    private void addData(TextView tv, SimpleDraweeView img, List item, int index) {
+        MongoCategories category = (MongoCategories) item.get(index);
+        tv.setText(category.getName());
         img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.NORMAL));
-        img.setTag(index);
-        img.setOnClickListener(new CategoryListener(position, view, category.getIcon()));
-//        for (String ref : selectRefs) {
-//            if (category._id.equals(ref)){
-//                img.callOnClick();
-//            }
-//        }
+        for (int i = 0; i < selectRefs.size(); i++) {
+            if (category._id.equals(selectRefs.get(i))){
+                tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
+                img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.SELECTED));
+            }
+        }
+        //img.setOnClickListener(new CategoryListener(position, tv, category.getIcon()));
     }
 
-
-    private void memory(TextView tv, SimpleDraweeView img, Uri uri) {
-        tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
-        img.setImageURI(uri);
+    private void memory(TextView tv, SimpleDraweeView img, int index) {
+        tempTv[index] = tv;
+        tempImg[index] = img;
     }
 
+    private void selectItem() {
+
+    }
 
     class CategoryListener implements View.OnClickListener {
         private int position;
@@ -211,6 +211,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 }
             }
 
+
             if (onSelectChangeListener != null) {
                 onSelectChangeListener.onSelectChanged(tempMemory);
             }
@@ -220,7 +221,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         private void reset(TextView tv, SimpleDraweeView img, String uri) {
             tv.setTextColor(context.getResources().getColor(R.color.black));
             img.setImageURI(ImgUtil.changeImgUri(uri, ImgUtil.CategoryImgType.NORMAL));
-
         }
 
     }
@@ -229,5 +229,9 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         this.onSelectChangeListener = onSelectChangeListener;
     }
 
+    public class Holder {
+        public TextView titleName;
+        public ViewPager viewPager;
+    }
 
 }

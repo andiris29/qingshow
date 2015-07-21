@@ -1,8 +1,8 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -119,6 +119,7 @@ public class S21CategoryActivity extends BaseActivity {
                     if (tempMemory[i] == 0) {
                         continue;
                     }
+                    Log.i("tag",items.get(i).get(tempMemory[i] - 1)._id);
                     selectCategories.add(items.get(i).get(tempMemory[i] - 1)._id);
                 }
             }

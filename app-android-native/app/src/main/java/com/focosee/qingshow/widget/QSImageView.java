@@ -88,11 +88,15 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
-        if (isScaling) {
-            doubleFlag = 2;
-            return true;
+
+        if (doubleFlag == 1) {
+            isScaling = false;
         }
 
+        if (isScaling) {
+            doubleFlag = event.getPointerCount();
+            return true;
+        }
 
         switch (event.getAction()) {
 
@@ -111,7 +115,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     return true;
                 }
 
-                if (event.getPointerCount() == 1 && doubleFlag == 1) {
+                if (event.getPointerCount() == 1) {
                     distanceX = lastX - event.getRawX();
                     distanceY = lastY - event.getRawY();
                     float nextY = getY() - distanceY;
@@ -146,7 +150,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     return true;
                 }
 
-                doubleFlag = event.getPointerCount();
         }
         return true;
 
@@ -241,7 +244,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         float scaleX = rect.width() * (1 - scaleFactor) / 2;
         float scaleY = rect.height() * (1 - scaleFactor) / 2;
 
-        Log.i("tag", rect.toString());
         if (!(rect.left > 0) || !(rect.right < containerWidth) || !(rect.top > 0) || !(rect.bottom < containerHeight)) {
             return false;
         }
@@ -274,7 +276,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-        isScaling = false;
         isScalingJustEnd = true;
     }
 
