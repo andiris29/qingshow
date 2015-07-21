@@ -87,5 +87,20 @@
     self.btnGroup.frame = self.btnsContainer.bounds;
 }
 
-
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView* originView = [super hitTest:point withEvent:event];
+    
+    if ([self.btnsContainer pointInside:[self convertPoint:point toView:self.btnsContainer] withEvent:event] || originView == self.followBtn) {
+        return originView;
+    } else {
+        if (self.touchDelegateView) {
+            return self.touchDelegateView;
+        } else {
+            return originView;
+        }
+    }
+}
+- (BOOL)canBecomeFirstResponder {
+    return NO;
+}
 @end
