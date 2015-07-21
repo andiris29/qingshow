@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.nfc.Tag;
@@ -230,6 +231,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void showData() {
+
+        commentTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
+        itemTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
+        likeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
         if (null == showDetailEntity)
             return;
         if (showDetailEntity.__context.likedByCurrentUser) {
@@ -255,8 +260,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
-        if (null != showDetailEntity.__context)
+        if (null != showDetailEntity.__context) {
             itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
+        }
 
         if (null == showDetailEntity.promotionRef) {//优惠信息
             shareMsgTextView.setVisibility(View.VISIBLE);
