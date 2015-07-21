@@ -34,6 +34,7 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
     client.push().setPlatform('ios', 'android')
         .setAudience(JPush.registration_id(sendTargets))
         .setNotification(JPush.ios(message, null, null, false, extras), JPush.android(message, message, null, extras))
+        .setOptions(null, null, null, true, null)
         .send(function(err, res) {
             if (err) {
                 winston.error('show/comment push error', err);
