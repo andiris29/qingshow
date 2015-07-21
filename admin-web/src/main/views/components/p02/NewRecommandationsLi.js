@@ -13,7 +13,7 @@ define([
         $('#anchor', this._dom).text(text).on('click', function() {
             alertify.confirm(text, function(e) {
                 if (e) {
-                    this._ownerView.request('/notify/newRecommandations', 'get', {
+                    this._ownerView.request('/notify/newRecommandations', 'post', {
                         'group' : group
                     }, function(err, metadata, data) {
                         if (err || metadata.error) {

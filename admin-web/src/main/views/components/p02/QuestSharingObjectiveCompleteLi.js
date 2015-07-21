@@ -12,7 +12,7 @@ define([
         $('#anchor', this._dom).text(text).on('click', function() {
             alertify.confirm(text, function(e) {
                 if (e) {
-                    this._ownerView.request('/notify/questSharingObjectiveComplete', 'get', {}, function(err, metadata, data) {
+                    this._ownerView.request('/notify/questSharingObjectiveComplete', 'post', {}, function(err, metadata, data) {
                         if (err || metadata.error) {
                             alertify.success('推送失败');
                         } else {
