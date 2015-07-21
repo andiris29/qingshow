@@ -3,6 +3,7 @@ var async = require('async');
 var uuid = require('node-uuid');
 var path = require('path');
 
+
 var People = require('../../model/peoples');
 
 var RequestHelper = require('../helpers/RequestHelper');
@@ -39,10 +40,14 @@ var _addRegistrationId = function(jPushInfo, registrationId) {
         jPushInfo = {
             registrationIDs : []
         };
-        jPushInfo.registrationIDs.push(registrationId);
-    } else {
-        if (jPushInfo.registrationIDs.indexOf(registrationId) === -1) {
+        if (registrationId && registrationId.length > 0) {
             jPushInfo.registrationIDs.push(registrationId);
+        }
+    } else {
+        if (registrationId && registrationId.length > 0) {
+            if (jPushInfo.registrationIDs.indexOf(registrationId) === -1) {
+                jPushInfo.registrationIDs.push(registrationId);
+            }
         }
     }
 
