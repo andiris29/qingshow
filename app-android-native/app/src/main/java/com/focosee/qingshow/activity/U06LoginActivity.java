@@ -61,14 +61,6 @@ public class U06LoginActivity extends BaseActivity {
 
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
-        ImageView backTextView = (ImageView) findViewById(R.id.backImageView);
-        backTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
