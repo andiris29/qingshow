@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S21CategoryActivity;
@@ -190,8 +189,8 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     }
 
     public boolean onBackPressed() {
-        if(drawer.isScrollbarFadingEnabled() && isMenuOpened()){
-            closeMenu();
+        if(drawer.isScrollbarFadingEnabled()){
+            menuSwitch();
             return true;
         }
         return false;

@@ -70,7 +70,7 @@
     <string name="account_activity_login">账号</string>
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
-    <string name="login_activity_login">登陆账户</string>
+    <string name="login_activity_login">登陆倾秀账号</string>
     <string name="login_successed">登陆成功</string>
 
     <!-- Personal Activity -->

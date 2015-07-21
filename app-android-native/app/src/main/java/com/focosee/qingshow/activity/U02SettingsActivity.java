@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
+import com.focosee.qingshow.model.U02Model;
 import com.umeng.analytics.MobclickAgent;
 
 public class U02SettingsActivity extends BaseActivity {
@@ -41,17 +42,23 @@ public class U02SettingsActivity extends BaseActivity {
         MobclickAgent.onPause(this);
     }
 
-    @Override
-    public void onBackPressed() {
-        if(null == settingsFragment)return;
-        super.onBackPressed();
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            if (settingsFragment.isMenuOpened()) settingsFragment.closeMenu();
-            else settingsFragment.openMenu();
+        if(U02Model.INSTANCE.get_class() == U02SettingsFragment.class) {
+            if (keyCode == KeyEvent.KEYCODE_MENU) {
+                settingsFragment.menuSwitch();
+            }
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                settingsFragment.menuSwitch();
+            }
+        }else{
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                U02Model.INSTANCE.set_class(U02SettingsFragment.class);
+                settingsFragment = new U02SettingsFragment();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0,R.anim.push_right_in, 0).
+                        replace(R.id.settingsScrollView, settingsFragment).commit();
+            }
         }
         return true;
     }
