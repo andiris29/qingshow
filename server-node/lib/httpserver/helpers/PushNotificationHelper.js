@@ -1,5 +1,6 @@
 var JPush = require('jpush-sdk');
 var winston = require('winston');
+var _ = require('underscore');
 
 // APP_KEY,Master_Key 
 var JPushConfig = {
@@ -27,8 +28,11 @@ PushNotificationHelper.CommandNewRecommandations= "newRecommandations";
 PushNotificationHelper.CommandQuestSharingProgress = "questSharingComplete";
 
 PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
+    var sendTargets = _.filter(registrationIDs, function(registrationId) {
+        return (registrationId && (registrationId.length > 0));
+    });
     client.push().setPlatform('ios', 'android')
-        .setAudience(JPush.registration_id(registrationIDs))
+        .setAudience(JPush.registration_id(sendTargets))
         .setNotification(JPush.ios(message, null, null, false, extras), JPush.android(message, message, null, extras))
         .send(function(err, res) {
             if (err) {
