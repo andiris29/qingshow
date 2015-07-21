@@ -1,12 +1,9 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,25 +22,17 @@ import com.focosee.qingshow.activity.S11NewTradeActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuColor;
 import com.focosee.qingshow.util.sku.SkuUtil;
-import com.focosee.qingshow.widget.drawable.RoundBitmapDrawable;
-import com.focosee.qingshow.widget.flow.FlowRadioButton;
-import com.focosee.qingshow.widget.flow.FlowRadioGroup;
-import com.focosee.qingshow.widget.flow.FlowRadioImgeView;
-import com.focosee.qingshow.widget.radio.IRadioViewHelper;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import de.greenrobot.event.EventBus;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 
 /**
@@ -51,11 +40,50 @@ import de.greenrobot.event.EventBus;
  */
 public class S11DetailsFragment extends Fragment implements View.OnClickListener {
 
+    @InjectView(R.id.s11_details_name)
+    TextView s11DetailsName;
+    @InjectView(R.id.s11_details_price)
+    TextView s11DetailsPrice;
+    @InjectView(R.id.s11_details_maxprice)
+    TextView s11DetailsMaxprice;
+    @InjectView(R.id.s11_details_color)
+    LinearLayout s11DetailsColor;
+    @InjectView(R.id.s11_details_color_line)
+    View s11DetailsColorLine;
+    @InjectView(R.id.category_name)
+    TextView categoryName;
+    @InjectView(R.id.box)
+    LinearLayout box;
+    @InjectView(R.id.num_one_layout)
+    LinearLayout numOneLayout;
+    @InjectView(R.id.s11_details_size)
+    FrameLayout s11DetailsSize;
+    @InjectView(R.id.s11_details_size_line)
+    View s11DetailsSizeLine;
+    @InjectView(R.id.S11_cut_num)
+    Button S11CutNum;
+    @InjectView(R.id.S11_num)
+    TextView S11Num;
+    @InjectView(R.id.S11_add_num)
+    Button S11AddNum;
+    @InjectView(R.id.s11_details_color_text)
+    TextView s11DetailsColorText;
+    @InjectView(R.id.shoe)
+    EditText shoe;
+    @InjectView(R.id.cate_4)
+    LinearLayout cate4;
+    @InjectView(R.id.num_one)
+    EditText numOne;
+    @InjectView(R.id.num_tow)
+    EditText numTow;
+    @InjectView(R.id.size_img)
+    ImageView sizeImg;
+    @InjectView(R.id.cate_023)
+    RelativeLayout cate023;
     private View rootView;
     private Button addButton;
     private Button cutButton;
     private TextView numView;
-    private FlowRadioGroup itemGroup;
     private TextView name;
 
     private MongoItem itemEntity;
@@ -64,12 +92,6 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     private MongoOrder order;
 
     private FrameLayout sizeLayout;
-    private LinearLayout cate4;
-    private RelativeLayout cate023;
-    private EditText shoe;
-    private EditText numOne;
-    private EditText numTow;
-    private ImageView sizeImg;
 
     private int num = 1;
 
@@ -78,20 +100,20 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     private String skuId;
 
 
-    private HashSet<Prop> sizes = new HashSet<Prop>();
-    private HashSet<SkuColor> colors = new HashSet<SkuColor>();
+    private HashSet<SkuColor> colors = new HashSet<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_s11_details, container, false);
+        ButterKnife.inject(this, rootView);
         itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S11NewTradeActivity.INPUT_ITEM_ENTITY);
         skus = itemEntity.taobaoInfo.skus;
-        myPropList = new ArrayList<Prop>();
+        System.out.println("repsonse_skus:" + skus);
+        myPropList = new ArrayList<>();
 
         initView();
         filter();
         initSize();
-        initItem();
 
         onSecletChanged();
 
@@ -163,19 +185,12 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
     private void initView() {
         sizeLayout = (FrameLayout) rootView.findViewById(R.id.s11_details_size);
-        cate4 = (LinearLayout) rootView.findViewById(R.id.cate_4);
-        cate023 = (RelativeLayout) rootView.findViewById(R.id.cate_023);
-        shoe = (EditText) rootView.findViewById(R.id.shoe);
-        numOne = (EditText) rootView.findViewById(R.id.num_one);
-        numTow = (EditText) rootView.findViewById(R.id.num_tow);
-        sizeImg = (ImageView) rootView.findViewById(R.id.size_img);
 
         name = (TextView) rootView.findViewById(R.id.s11_details_name);
         addButton = (Button) rootView.findViewById(R.id.S11_add_num);
         cutButton = (Button) rootView.findViewById(R.id.S11_cut_num);
         numView = (TextView) rootView.findViewById(R.id.S11_num);
 //        sizeGroup = (FlowRadioGroup) rootView.findViewById(R.id.s11_size_group);
-        itemGroup = (FlowRadioGroup) rootView.findViewById(R.id.s11_item_group);
 //        reference = (ImageView) rootView.findViewById(R.id.s11_reference);
 //        showReference = (TextView) rootView.findViewById(R.id.s11_show_reference);
         ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -194,33 +209,30 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     }
 
     private void initSize() {
-//        sizeLayout.setVisibility(View.VISIBLE);
-//        switch (itemEntity.categoryRef) {
-//            case 0:
-//            case 2:
-//            case 3:
-//                cate023.setVisibility(View.VISIBLE);
-//                cate4.setVisibility(View.GONE);
-//                numOne.setHint("胸围：70cm");
-//                numTow.setHint("肩宽：30cm");
-//                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_shangyi));
-//                break;
-//            case 1:
-//                cate023.setVisibility(View.VISIBLE);
-//                cate4.setVisibility(View.GONE);
-//                numOne.setHint("腰围：70cm");
-//                numTow.setHint("臀围：30cm");
-//                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_pants));
-//                break;
-//            case 4:
-//                cate023.setVisibility(View.GONE);
-//                cate4.setVisibility(View.VISIBLE);
-//                break;
-//            case 5:
-//            case 6:
-//                sizeLayout.setVisibility(View.GONE);
-//                break;
-//        }
+        sizeLayout.setVisibility(View.VISIBLE);
+        int measureComposition = 0;
+        if (null == itemEntity.categoryRef)
+            measureComposition = itemEntity.categoryRef.parentRef.measureComposition;
+        else
+            measureComposition = itemEntity.categoryRef.measureComposition;
+        //TODO 显示颜色
+        if(null != SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id))
+            s11DetailsColorText.setText(SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id));
+        switch (measureComposition) {
+            case 0:
+                cate023.setVisibility(View.GONE);
+                break;
+            case 2:
+                sizeImg.setImageResource(R.drawable.category_pants);
+                break;
+            case 3:
+                cate023.setVisibility(View.GONE);
+                cate4.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                sizeImg.setImageResource(R.drawable.category_shangyi);
+                break;
+        }
 
         EditText.OnEditorActionListener listener = new TextView.OnEditorActionListener() {
             @Override
@@ -240,107 +252,19 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     private MongoPeople.MeasureInfo getNums(int category) {
         MongoPeople.MeasureInfo measureInfo = new MongoPeople().new MeasureInfo();
         switch (category) {
-            case 0:
-            case 2:
-            case 3:
+            case 1:
                 measureInfo.shoulder = Integer.parseInt(numOne.getText().toString());
                 measureInfo.bust = Integer.parseInt(numTow.getText().toString());
                 break;
-            case 1:
+            case 2:
                 measureInfo.waist = Integer.parseInt(numOne.getText().toString());
                 measureInfo.hips = Integer.parseInt(numTow.getText().toString());
                 break;
-            case 4:
+            case 3:
                 shoe.getText().toString();
                 break;
         }
         return measureInfo;
-    }
-
-    private void initItem() {
-
-        if (null == skus) {
-            return;
-        }
-        if (colors.isEmpty()) {
-            rootView.findViewById(R.id.s11_details_color_line).setVisibility(View.GONE);
-            rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
-            return;
-        }
-
-        int i = 0;
-
-        final ArrayList<Prop> colorList = new ArrayList<Prop>();
-
-        for (SkuColor color : colors) {
-            int imgWidth = (int) AppUtil.transformToDip(35, getActivity());
-            int imgHeight = (int) AppUtil.transformToDip(35, getActivity());
-            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(imgWidth, imgHeight);
-            itemParams.setMargins(10, 10, 10, 10);
-            final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
-
-            if (!TextUtils.isEmpty(color.getUrl())) {
-                ImageLoader.getInstance().loadImage(color.getUrl(), new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                        super.onLoadingStarted(imageUri, view);
-                        colorItem.setBackgroundResource(0);
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        colorItem.setBackgroundDrawable(new RoundBitmapDrawable(loadedImage, AppUtil.transformToDip(5, getActivity()), AppUtil.transformToDip(5, getActivity())));
-                    }
-                });
-
-                itemGroup.addView(colorItem, itemParams);
-                colorList.add(color.prop);
-                i++;
-            } else {
-                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                        ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                params.setMargins(10, 10, 10, 10);
-                FlowRadioButton item = new FlowRadioButton(getActivity());
-                item.setBackgroundResource(R.drawable.s11_size_item_bg);
-                item.setTextColor(getResources().getColor(R.color.black));
-                item.setTextSize(13);
-                item.setGravity(Gravity.CENTER);
-                if (!TextUtils.isEmpty(color.prop.getName())) {
-                    item.setText(color.prop.getName());
-                } else {
-                    item.setText(color.prop.getPropValue() != null ?
-                            color.prop.getPropValue() : "");
-                }
-                itemGroup.addView(item, params);
-                colorList.add(color.prop);
-                i++;
-            }
-
-            if (i == 1) {
-                ((IRadioViewHelper) itemGroup.getChildAt(0)).setChecked(true);
-                myPropList.add(color.prop);
-                onSecletChanged();
-            }
-        }
-
-        itemGroup.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
-            int selectNum = 0;
-
-            @Override
-            public void checkedChanged(int i) {
-                int index = myPropList.indexOf(colorList.get(selectNum));
-                myPropList.remove(index);
-                myPropList.add(index, colorList.get(i));
-                onSecletChanged();
-                selectNum = i;
-            }
-        });
-
-        if (0 == itemGroup.getChildCount()) {
-            rootView.findViewById(R.id.s11_details_color_line).setVisibility(View.GONE);
-            rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
-            return;
-        }
     }
 
 
@@ -349,17 +273,26 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         if (v == addButton) {
             if (num == 9) return;
             num++;
-            numView.setText(num + "");
+            numView.setText(String.valueOf(num));
+            if(!itemEntity.getPrice().equals(""))
+                s11DetailsPrice.setText(String.valueOf(Integer.parseInt(itemEntity.getPrice().substring(1, itemEntity.getPrice().length())) * num));
         }
         if (v == cutButton) {
             if (1 == num) {
                 return;
             }
             num--;
-            numView.setText(num + "");
+            numView.setText(String.valueOf(num));
+            if(!itemEntity.getPrice().equals(""))
+                s11DetailsPrice.setText(String.valueOf(Integer.parseInt(itemEntity.getPrice().substring(1, itemEntity.getPrice().length())) * num));
         }
 
         onSecletChanged();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 }
