@@ -19,12 +19,12 @@ var PushNotificationHelper = module.exports;
 PushNotificationHelper.MessageQuestSharingObjectiveComplete = "恭喜您！完成倾秀夏日季搭配活动任务！点击此处领奖吧～";
 PushNotificationHelper.MessageNewShowComment = "您的搭配有新评论！";
 PushNotificationHelper.MessageNewRecommandations = "倾秀精选搭配上新，看看吧";
-PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！"
+PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！";
 
-PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingComplete";
+PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
 PushNotificationHelper.CommandNewShowComments = "newShowComments";
 PushNotificationHelper.CommandNewRecommandations= "newRecommandations";
-PushNotificationHelper.CommandQuestSharingProgress = "questSharingComplete";
+PushNotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
 
 PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
     client.push().setPlatform('ios', 'android')
