@@ -113,8 +113,10 @@ public class U01UserActivity extends MenuActivity {
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
         user = U01Model.INSTANCE.getUser();
+        System.out.println("QSModel：" + QSModel.INSTANCE.getUser()._id);
+        System.out.println("QSModel_uer:" + user._id);
         initUserInfo();
-        if(user._id == QSModel.INSTANCE.getUser()._id) {//进入自己的页面时不显示关注按钮
+        if(user._id.equals(QSModel.INSTANCE.getUser()._id)) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
