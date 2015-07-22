@@ -63,7 +63,7 @@
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
    //NSLog(@"dic = %@",dict);
     [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
-    [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]];
+    [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameTypeOrigin]];
     [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
     NSString *createDate = dict[@"create"];
     //NSLog(@"%@",createDate);

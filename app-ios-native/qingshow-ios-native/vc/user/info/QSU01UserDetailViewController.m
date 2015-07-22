@@ -121,6 +121,7 @@
     
     //Favor
     self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
+    self.favorProvider.type = 1;
     //Following
     self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
     //Follower
@@ -380,4 +381,22 @@
     vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
     [self.navigationController pushViewController:vc animated:YES];
 }
+- (void)didSelectedCellInCollectionView:(id)sender
+{
+    
+    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:sender];
+    // vc.menuProvider = self.menuProvider;
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    vc.navigationItem.leftBarButtonItem = backItem;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)didClickHeaderImgView:(id)sender
+{
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
+    vc.menuProvider = self.menuProvider;
+    vc.navigationController.navigationBar.hidden = NO;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
 @end
