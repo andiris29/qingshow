@@ -1,12 +1,8 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
-import android.graphics.Rect;
-import android.net.Uri;
-import android.support.percent.PercentLayoutHelper;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,19 +27,17 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     private ArrayList<ArrayList<MongoCategories>> items;
     private LayoutInflater mInflater;
     private Context context;
-    private TextView[] tempTv;
-    private SimpleDraweeView[] tempImg;
-    private String[] tempUri;
-    private int[] tempMemory;
-    private boolean[] tempPage;
+
     private List<String> selectRefs;
+    private List<SelectInfo> selectInfos;
+    private List<List<ItemViewHolder>> itemViewHolders;
 
     private int position;
 
     private OnSelectChangeListener onSelectChangeListener;
 
     public interface OnSelectChangeListener {
-        void onSelectChanged(int[] tempMemory);
+        void onSelectChanged(List<String> selectRefs);
     }
 
     public S21CategoryListViewAdapter(Context context, ArrayList<MongoCategories> categories, ArrayList<ArrayList<MongoCategories>> items, List<String> selcetRefs) {
@@ -52,15 +46,12 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         this.context = context;
         this.selectRefs = selcetRefs;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        int lines = categories.size();
-        tempTv = new TextView[lines];
-        tempImg = new SimpleDraweeView[lines];
-        tempUri = new String[lines];
-        tempMemory = new int[lines];
-        tempPage = new boolean[lines];
-
+        selectInfos = new ArrayList<>();
+        itemViewHolders = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            itemViewHolders.add(new ArrayList<ItemViewHolder>());
+        }
     }
-
 
     @Override
     public int getCount() {
@@ -104,6 +95,10 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         ViewPager viewPager = holder.viewPager;
         int pageCount;
 
+        if (selectInfos.size() <= position || selectInfos.get(position) == null) {
+            selectInfos.add(position, new SelectInfo());
+        }
+
         if (item.size() % 3 != 0) {
             pageCount = (new Double(item.size() / 3)).intValue() + 1;
         } else {
@@ -121,11 +116,13 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             }
             views.add(rootView);
         }
-
+        int pageNo = selectInfos.get(position).pageNo == -1 ? 0 : selectInfos.get(position).pageNo;
         viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
+        viewPager.setCurrentItem(pageNo);
     }
 
     private void addToPage(PercentRelativeLayout rootView, List item, int i, int count) {
+        List<ItemViewHolder> itemViewHolder = this.itemViewHolders.get(this.position);
         for (int j = 0; j < count; j++) {
 
             LinearLayout itemView = (LinearLayout) mInflater.inflate(R.layout.item_s21_page, rootView, false);
@@ -142,91 +139,46 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                     params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
                     break;
             }
+            itemViewHolder.add(i * 3 + j, new ItemViewHolder(des, img));
             rootView.addView(itemView, params);
         }
     }
 
-    private void addData(TextView tv, SimpleDraweeView img, List item, int index) {
+    private void addData(final TextView tv, SimpleDraweeView img, final List item, final int index) {
         MongoCategories category = (MongoCategories) item.get(index);
         tv.setText(category.getName());
+        final SelectInfo selectInfo = selectInfos.get(position);
         img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.NORMAL));
         for (int i = 0; i < selectRefs.size(); i++) {
-            if (category._id.equals(selectRefs.get(i))){
-                tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
-                img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.SELECTED));
+            if (category._id.equals(selectRefs.get(i))) {
+                selectInfo.index = index;
+                selectInfo.pageNo = index / 3;
+                selectInfo.id = category._id;
+                checkItem(tv, img, category.icon);
             }
         }
-        //img.setOnClickListener(new CategoryListener(position, tv, category.getIcon()));
+        img.setTag(selectInfo);
+        img.setOnClickListener(new ItemOnClick(tv, position, category, index));
     }
 
-    private void memory(TextView tv, SimpleDraweeView img, int index) {
-        tempTv[index] = tv;
-        tempImg[index] = img;
+    private void checkItem(TextView tv, SimpleDraweeView img, String url) {
+        tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
+        img.setImageURI(ImgUtil.changeImgUri(url, ImgUtil.CategoryImgType.SELECTED));
     }
 
-    private void selectItem() {
-
-    }
-
-    class CategoryListener implements View.OnClickListener {
-        private int position;
-        private TextView tv;
-        private String uri;
-
-        public CategoryListener(int position, TextView tv, String uri) {
-            this.position = position;
-            this.tv = tv;
-            this.uri = uri;
-        }
-
-        @Override
-        public void onClick(View v) {
-            SimpleDraweeView img = (SimpleDraweeView) v;
-            int index = (Integer) img.getTag();
-            tempMemory[position] = index;
-            if (index > 3) {
-                tempPage[position] = true;
-            } else {
-                tempPage[position] = false;
-            }
-            tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
-            img.setImageURI(ImgUtil.changeImgUri(uri, ImgUtil.CategoryImgType.SELECTED));
-            if (tempTv[position] == null) {
-                tempTv[position] = tv;
-                tempImg[position] = img;
-                tempUri[position] = uri;
-
-            } else {
-
-                reset(tempTv[position], tempImg[position], tempUri[position]);
-                if (uri != tempUri[position]) {
-                    tempTv[position] = tv;
-                    tempImg[position] = img;
-                    tempUri[position] = uri;
-                } else {
-                    tempMemory[position] = 0;
-                    tempTv[position] = null;
-                    tempImg[position] = null;
-                    tempUri[position] = null;
-                }
-            }
-
-
-            if (onSelectChangeListener != null) {
-                onSelectChangeListener.onSelectChanged(tempMemory);
-            }
-
-        }
-
-        private void reset(TextView tv, SimpleDraweeView img, String uri) {
-            tv.setTextColor(context.getResources().getColor(R.color.black));
-            img.setImageURI(ImgUtil.changeImgUri(uri, ImgUtil.CategoryImgType.NORMAL));
-        }
-
+    private void disCheckItem(TextView tv, SimpleDraweeView img, String url) {
+        tv.setTextColor(context.getResources().getColor(R.color.black));
+        img.setImageURI(ImgUtil.changeImgUri(url, ImgUtil.CategoryImgType.NORMAL));
     }
 
     public void setOnSelectChangeListener(OnSelectChangeListener onSelectChangeListener) {
         this.onSelectChangeListener = onSelectChangeListener;
+    }
+
+    private class SelectInfo {
+        public int index = -1;
+        public int pageNo = -1;
+        public String id = "";
     }
 
     public class Holder {
@@ -234,4 +186,64 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         public ViewPager viewPager;
     }
 
+    public class ItemViewHolder {
+        public TextView tv;
+        public SimpleDraweeView img;
+
+        public ItemViewHolder(TextView tv, SimpleDraweeView img) {
+            this.tv = tv;
+            this.img = img;
+        }
+    }
+
+    private class ItemOnClick implements View.OnClickListener {
+
+        private final MongoCategories category;
+        private int position;
+        private int index;
+        private TextView tv;
+
+        private ItemOnClick(TextView tv, int position, MongoCategories category, int index) {
+            this.position = position;
+            this.category = category;
+            this.tv = tv;
+            this.index = index;
+        }
+
+        @Override
+        public void onClick(View v) {
+            SelectInfo info = (SelectInfo) v.getTag();
+            if (category._id.equals(info.id)) {
+                disCheckItem(tv, (SimpleDraweeView) v, category.icon);
+                selectInfos.get(position).pageNo = -1;
+                selectInfos.get(position).index = -1;
+                selectInfos.get(position).id = "";
+                selectRefs.remove(category._id);
+            } else {
+                if (info.id.isEmpty()) {
+                    checkItem(tv, (SimpleDraweeView) v, category.icon);
+                    selectRefs.add(category._id);
+                    selectInfos.get(position).id = category._id;
+                    selectInfos.get(position).index = index;
+                    selectInfos.get(position).pageNo = index / 3;
+                } else {
+                    selectRefs.remove(selectInfos.get(position).id);
+                    int oldIndex = 0;
+                    for (int i = 0; i < items.get(position).size(); i++) {
+                        if (items.get(position).get(i)._id.equals(selectInfos.get(position).id)) {
+                            oldIndex = i;
+                        }
+                    }
+                    disCheckItem(itemViewHolders.get(position).get(oldIndex).tv, itemViewHolders.get(position).get(oldIndex).img, category.icon);
+                    checkItem(tv, (SimpleDraweeView) v, category.icon);
+                    selectRefs.add(category._id);
+                    selectInfos.get(position).id = category._id;
+                    selectInfos.get(position).index = index;
+                    selectInfos.get(position).pageNo = index / 3;
+                }
+
+            }
+            onSelectChangeListener.onSelectChanged(selectRefs);
+        }
+    }
 }

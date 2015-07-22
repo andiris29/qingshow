@@ -135,7 +135,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     else if (nextX > (containerWidth - getWidth() * lastScaleFactor) - (getWidth() - getWidth() * lastScaleFactor) / 2)
                         nextX = (containerWidth - getWidth() * lastScaleFactor) - (getWidth() - getWidth() * lastScaleFactor) / 2;
 
-//                    Log.i("tag", "move " + " nextX: " + nextX + " nextY: " + nextY + " x: " + getX() + " y: " + getY() + " scale: " + lastScaleFactor);
                     ObjectAnimator y = ObjectAnimator.ofFloat(this, "y", getY(), nextY);
                     ObjectAnimator x = ObjectAnimator.ofFloat(this, "x", getX(), nextX);
 
@@ -144,12 +143,10 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     animatorSet.setDuration(0);
                     animatorSet.start();
 
-//                    Log.i("tag","x: " + getX() + "y: " + getY());
                     lastX = event.getRawX();
                     lastY = event.getRawY();
                     return true;
                 }
-
         }
         return true;
 

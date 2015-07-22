@@ -113,15 +113,9 @@ public class S21CategoryActivity extends BaseActivity {
                 getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS));
         adapter.setOnSelectChangeListener(new S21CategoryListViewAdapter.OnSelectChangeListener() {
             @Override
-            public void onSelectChanged(int[] tempMemory) {
+            public void onSelectChanged(List<String> selectRefs) {
                 selectCategories.clear();
-                for (int i = 0; i < tempMemory.length; i++) {
-                    if (tempMemory[i] == 0) {
-                        continue;
-                    }
-                    Log.i("tag",items.get(i).get(tempMemory[i] - 1)._id);
-                    selectCategories.add(items.get(i).get(tempMemory[i] - 1)._id);
-                }
+                selectCategories.addAll(selectRefs);
             }
         });
         s21_listview.setAdapter(adapter);

@@ -62,7 +62,6 @@ public class S20MatcherActivity extends MenuActivity {
     public static final String S20_ITEMREFS = "S20_ITEMREFS";
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
 
-
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
     private List<MongoCategories> categories;
