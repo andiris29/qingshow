@@ -340,7 +340,7 @@ public class S20MatcherActivity extends MenuActivity {
 
                 for (MongoCategories category : categories) {
                     if (category.matchInfo != null) {
-                        if (category.matchInfo.enabled) {
+                        if (category.matchInfo.defaultOnCanvas) {
                             getDataFromNet(category._id, category.matchInfo.row, category.matchInfo.column);
                         }
                     }

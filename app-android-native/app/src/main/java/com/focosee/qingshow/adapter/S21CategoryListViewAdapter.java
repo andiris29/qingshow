@@ -23,6 +23,8 @@ import java.util.List;
  * Created by Administrator on 2015/6/17.
  */
 public class S21CategoryListViewAdapter extends BaseAdapter {
+    private static final String ACC = "5593b3df38dadbed5a998b69";
+
     private ArrayList<MongoCategories> categories;
     private ArrayList<ArrayList<MongoCategories>> items;
     private LayoutInflater mInflater;
@@ -33,6 +35,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     private List<List<ItemViewHolder>> itemViewHolders;
 
     private int position;
+    private int multiSelectPostion;
 
     private OnSelectChangeListener onSelectChangeListener;
 
@@ -81,10 +84,12 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             holder.viewPager = (ViewPager) convertView.findViewById(R.id.item_s21_middle);
         }
         ArrayList<MongoCategories> item = items.get(position);
-
+        holder.titleName.setText(categories.get(position).name);
+        if (categories.get(position)._id.equals(ACC)){
+            multiSelectPostion = position;
+        }
         initViewPager(holder, item);
 
-        holder.titleName.setText(categories.get(position).name);
 
         convertView.setTag(holder);
 
@@ -213,7 +218,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             SelectInfo info = (SelectInfo) v.getTag();
-            if (category._id.equals(info.id)) {
+            if (selectRefs.contains(category._id)) {
                 disCheckItem(tv, (SimpleDraweeView) v, category.icon);
                 selectInfos.get(position).pageNo = -1;
                 selectInfos.get(position).index = -1;
@@ -227,6 +232,13 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                     selectInfos.get(position).index = index;
                     selectInfos.get(position).pageNo = index / 3;
                 } else {
+                    if (position == multiSelectPostion){
+                        if (!selectRefs.contains(category._id)){
+                            selectRefs.add(category._id);
+                            checkItem(tv,(SimpleDraweeView)v,category.icon);
+                        }
+                        return;
+                    }
                     selectRefs.remove(selectInfos.get(position).id);
                     int oldIndex = 0;
                     for (int i = 0; i < items.get(position).size(); i++) {

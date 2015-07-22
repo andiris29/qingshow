@@ -86,20 +86,33 @@ public class S21CategoryActivity extends BaseActivity {
                         categories.add(ca);
                     }
                 }
+                List<Integer> disable = new ArrayList<>();
                 for (int i = 0; i < categories.size(); i++) {
                     String id = categories.get(i).get_id();
                     ArrayList<MongoCategories> item = new ArrayList<>();
                     for (MongoCategories cas : arrayList) {
                         MongoParentCategories parentRef = cas.parentRef;
-                        boolean activate = cas.isActivate();
-
+                        boolean activate;
+                        if (cas.matchInfo == null) {
+                            activate = true;
+                        } else {
+                            activate = cas.matchInfo.enabled;
+                        }
                         if (parentRef != null) {
                             if (activate && (id.equals(parentRef._id))) {
                                 item.add(cas);
                             }
                         }
                     }
-                    items.add(item);
+                    if (item.size() > 0) {
+                        items.add(item);
+                    } else {
+                        disable.add(i);
+                    }
+                }
+
+                for (Integer index : disable) {
+                    categories.remove(index.intValue());
                 }
                 show();
 

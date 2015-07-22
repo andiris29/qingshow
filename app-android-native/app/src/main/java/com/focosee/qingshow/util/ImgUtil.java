@@ -11,13 +11,13 @@ public class ImgUtil {
         return str;
     }
 
-    public static String getImgSrc(String url, int scale){
+    public static String getImgSrc(String url, int scale) {
         return getImgSrc(url, scale, null);
     }
 
     public static String getImgSrc(String url, int scale, String type) {
         String result = "";
-        if(null == type || "".equals(type))
+        if (null == type || "".equals(type))
             type = "jpg";
         switch (scale) {
             case 1:
@@ -35,13 +35,13 @@ public class ImgUtil {
                 break;
         }
 
-        return url + result + "." +type;
+        return url + result + "." + type;
     }
 
 
-    public static String getImgSrc_portrait(String url, int scale){
+    public static String getImgSrc_portrait(String url, int scale) {
 
-        if(scale == 0)return url;
+        if (scale == 0) return url;
         url = url.substring(0, url.lastIndexOf("."));
         System.out.println("url:" + url);
         return url + "_" + scale + ".png";
@@ -52,10 +52,10 @@ public class ImgUtil {
         String[] array = uri.split("\\.");
         String type = "." + array[array.length - 1];
         String result = "";
-        switch (t){
+        switch (t) {
             case NORMAL:
                 result = uri.replace(type, "_normal" + type);
-            break;
+                break;
             case SELECTED:
                 result = uri.replace(type, "_selected" + type);
                 break;
@@ -66,7 +66,7 @@ public class ImgUtil {
         return Uri.parse(result);
     }
 
-    public enum CategoryImgType{
+    public enum CategoryImgType {
         NORMAL,
         SELECTED,
         DISABLED

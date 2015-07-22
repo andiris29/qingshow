@@ -18,7 +18,7 @@ public class MongoCategories implements Serializable{
 
     public class MatchInfo implements Serializable{
         public boolean enabled;
-        public boolean defaultOnCavase;
+        public boolean defaultOnCanvas;
         public int row;
         public int column;
     }
