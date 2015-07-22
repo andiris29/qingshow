@@ -13,6 +13,7 @@ import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import java.util.Collections;
 import java.util.List;
@@ -67,8 +68,8 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
     }
 
     private void bindCreateBy(AbsViewHolder holder, final MongoShow show){
-        holder.setImgeByUrl(R.id.item_u01_collection_img, show.cover, 0.72f);
-        holder.setImgeByUrl(R.id.item_u01_collection_preground, show.coverForeground, 0.56f);
+        holder.setImgeByUrl(R.id.item_u01_collection_img, show.cover, ValueUtil.match_img_AspectRatio);
+        holder.setImgeByUrl(R.id.item_u01_collection_preground, show.coverForeground, ValueUtil.pre_img_AspectRatio);
         MongoPeople people = show.__context.createdBy;
         holder.getView(R.id.item_u01_collection_top_layout).setOnClickListener(new View.OnClickListener() {
             @Override

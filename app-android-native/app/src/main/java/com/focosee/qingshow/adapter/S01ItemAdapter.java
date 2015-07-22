@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.TimeUtil;
@@ -51,8 +51,8 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
                 context.startActivity(new Intent(context, U01UserActivity.class));
             }
         });
-        holder.setImgeByUrl(R.id.item_s01_preground, show.coverForeground, 0.5f);
-        holder.setImgeByUrl(R.id.item_s01_img, show.cover, 0.72f);
+        holder.setImgeByUrl(R.id.item_s01_preground, show.coverForeground, ValueUtil.pre_img_AspectRatio);
+        holder.setImgeByUrl(R.id.item_s01_img, show.cover, ValueUtil.match_img_AspectRatio);
         MongoPeople user = new MongoPeople();
         if(null != show.__context){
             if(null != show.__context.createdBy){

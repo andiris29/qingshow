@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,11 +36,11 @@ import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.BitMapUtil;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.widget.SharePopupWindow;
@@ -248,11 +247,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
         s03ImagePreground.setImageURI(Uri.parse(showDetailEntity.coverForeground));
-        s03ImagePreground.setAspectRatio(0.56f);
+        s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover){
             image.setImageURI(Uri.parse(showDetailEntity.cover));
-            image.setAspectRatio(0.72f);
+            image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
 
         if (null != showDetailEntity.__context)
