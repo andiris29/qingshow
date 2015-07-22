@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, QSBadgeButtonType) {
 @property (assign, nonatomic) QSBadgeButtonType type;
 
 @property (assign, nonatomic) BOOL hover;
+@property (assign, nonatomic) BOOL hasDot;
 
 + (instancetype)generateBtnWithType:(QSBadgeButtonType)type;
 

@@ -22,7 +22,8 @@
 
 @interface QSRootContainerViewController ()
 
-@property (strong, nonatomic) UINavigationController* contentVc;
+@property (strong, nonatomic) UINavigationController* contentNavVc;
+@property (strong, nonatomic) UIViewController* contentVc;
 
 @end
 
@@ -67,7 +68,7 @@
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.contentVc.view.frame = self.view.bounds;
+    self.contentNavVc.view.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -123,8 +124,8 @@
             [self showRegisterVc];
         }
     } else {
-        if ([self.contentVc isKindOfClass:[UINavigationController class]]) {
-            [((UINavigationController*)self.contentVc) popToRootViewControllerAnimated:NO];
+        if ([self.contentNavVc isKindOfClass:[UINavigationController class]]) {
+            [((UINavigationController*)self.contentNavVc) popToRootViewControllerAnimated:NO];
         }
     }
     
@@ -138,17 +139,18 @@
     
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
+    self.contentVc = vc;
     vc = nav;
-    [self.contentVc.view removeFromSuperview];
-    [self.contentVc willMoveToParentViewController:nil];
-    [self.contentVc removeFromParentViewController];
+    [self.contentNavVc.view removeFromSuperview];
+    [self.contentNavVc willMoveToParentViewController:nil];
+    [self.contentNavVc removeFromParentViewController];
 
     [self.view addSubview:vc.view];
     [self addChildViewController:vc];
     
 
     [vc didMoveToParentViewController:self];    //Call after transition
-    self.contentVc = nav;
+    self.contentNavVc = nav;
 }
 - (void)showRegisterVc {
     if (![QSUserManager shareUserManager].userInfo) {
@@ -167,18 +169,22 @@
 }
 - (void)pnsDidReceiveNewShowComment:(NSNotification*)noti {
 
-    if (self.contentVc) {
+    if (self.contentNavVc) {
         NSDictionary* userInfo = noti.userInfo;
         NSString* showId = [QSCommonUtil getStringValue:userInfo key:@"showId"];
-        [self.contentVc popToRootViewControllerAnimated:NO];
-        [self.contentVc pushViewController:[[QSS03ShowDetailViewController alloc] initWithShowId:showId] animated:NO];
-        [self.contentVc pushViewController:[[QSS04CommentListViewController alloc] initWithShowId:showId] animated:NO];
+        [self.contentNavVc popToRootViewControllerAnimated:NO];
+        [self.contentNavVc pushViewController:[[QSS03ShowDetailViewController alloc] initWithShowId:showId] animated:NO];
+        [self.contentNavVc pushViewController:[[QSS04CommentListViewController alloc] initWithShowId:showId] animated:NO];
     }
 }
 
 - (void)pnsDidNewRecommandation:(NSNotification*)noti {
     if ([QSUserManager shareUserManager].userInfo) {
         [self.menuView triggerItemTypePressed:QSRootMenuItemMy];
+        if ([self.contentVc isKindOfClass:[QSU01UserDetailViewController class]]) {
+            QSU01UserDetailViewController* myVc = (QSU01UserDetailViewController*)self.contentVc;
+            [myVc.badgeView.btnGroup addDotWithType:QSBadgeButtonTypeRecommend];
+        }
     }
 }
 
