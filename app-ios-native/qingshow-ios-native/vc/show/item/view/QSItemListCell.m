@@ -28,7 +28,8 @@
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
 
-    NSString *str = itemDic[@"categoryRef"];
+    NSString *str = [QSItemUtil getCategoryStr:itemDic];
+
    QSCategoryManager *manager = [QSCategoryManager getInstance];
     NSDictionary *dic =  [manager findCategoryOfId:str];
     //NSLog(@"dic = %@",dic);

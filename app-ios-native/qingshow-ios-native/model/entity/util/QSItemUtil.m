@@ -398,6 +398,11 @@
 
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict {
     //用来处理没有populate的情况
-    return [QSCommonUtil getStringValue:itemDict key:@"categoryRef"];
+    NSString* str = [QSCommonUtil getStringValue:itemDict key:@"categoryRef"];
+    if (!str) {
+        NSDictionary* dict = [self getCategoryRef:itemDict];
+        str = [QSCommonUtil getIdOrEmptyStr:dict];
+    }
+    return str;
 }
 @end
