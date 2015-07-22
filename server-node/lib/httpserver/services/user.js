@@ -3,7 +3,7 @@ var async = require('async');
 var uuid = require('node-uuid');
 var path = require('path');
 
-
+var jPushToPeople = require('../../model/jPushToPeople');
 var People = require('../../model/peoples');
 
 var RequestHelper = require('../helpers/RequestHelper');
@@ -35,38 +35,34 @@ var _decrypt = function(string) {
     return dec;
 };
 
-var _addRegistrationId = function(jPushInfo, registrationId) {
-    if (jPushInfo === null || jPushInfo.registrationIDs === null) {
-        jPushInfo = {
-            registrationIDs : []
-        };
-        if (registrationId && registrationId.length > 0) {
-            jPushInfo.registrationIDs.push(registrationId);
-        }
-    } else {
-        if (registrationId && registrationId.length > 0) {
-            if (jPushInfo.registrationIDs.indexOf(registrationId) === -1) {
-                jPushInfo.registrationIDs.push(registrationId);
-            }
-        }
+var _addRegistrationId = function(peopleId, registrationId) {
+    if (!registrationId || registrationId.length == 0) {
+        return;
     }
 
-    return jPushInfo;
+    jPushToPeople.remove({
+        'registrationId' : registrationId
+    }, function(err) {
+        if (err) {
+            return;
+        }
+
+        var info = new jPushToPeople({
+            'peopleRef' : peopleId,
+            'registrationId' : registrationId
+        });
+        info.save();
+    });
 };
 
-var _removeRegistrationId = function(jPushInfo, registrationId) {
-    if (jPushInfo === null || jPushInfo.registrationIDs === null) {
-        jPushInfo = {
-            registrationIDs : []
-        };
-        return jPushInfo;
+var _removeRegistrationId = function(peopleId, registrationId) {
+    if (!registrationId || registrationId.length == 0) {
+        return;
     }
-    var idx = jPushInfo.registrationIDs.indexOf(registrationId);
-
-    if (idx > -1) {
-        jPushInfo.registrationIDs.splice(idx, 1);
-    }
-    return jPushInfo;
+    jPushToPeople.remove({
+        'peopleRef' : peopleId,
+        'registrationId' : registrationId
+    });
 };
 
 var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo;
@@ -169,15 +165,7 @@ _login = function(req, res) {
 
 _logout = function(req, res) {
     var id = req.qsCurrentUserId;
-    People.findOne({
-        '_id' : id
-    }).exec(function(err, people) {
-        if (err) {
-            return;
-        }
-        people.jPushInfo = _removeRegistrationId(people.jPushInfo, req.body.registrationId);
-        people.save();
-    });
+    _removeRegistrationId(people._id, req.body.registrationId);
     delete req.session.userId;
     delete req.session.loginDate;
     delete req.qsCurrentUserId;
@@ -218,9 +206,6 @@ _register = function(req, res) {
             userInfo : {
                 id : id,
                 encryptedPassword : _encrypt(password)
-            },
-            jPushInfo : {
-                registrationIDs : []
             }
         });
         people.save(function(err, people) {
@@ -233,6 +218,8 @@ _register = function(req, res) {
             } else {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
+
+                _addRegistrationId(people._id, req.body.registrationId);
 
                 var retData = {
                     metadata : {
@@ -525,10 +512,7 @@ _loginViaWeixin = function(req, res) {
                 callback(err);
                 return;
             } else if (people !== null) {
-                people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
-                people.save(function(err, people) {
-                    callback(err, people);
-                });
+                callback(null, people);
                 return;
             }
             require('../../runtime/qsmail').debug('New user[weixin]: ' + user.openid, user.openid, function(err, info) {
@@ -548,9 +532,6 @@ _loginViaWeixin = function(req, res) {
                         headimgurl : user.headimgurl,
                         unionid : user.unionid
                     }
-                },
-                jPushInfo : {
-                    registrationIDs : [param.registrationId]
                 }
             });
 
@@ -567,6 +548,7 @@ _loginViaWeixin = function(req, res) {
     }, function(people, callback) {
         req.session.userId = people._id;
         req.session.loginDate = new Date();
+        _addRegistrationId(people._id, param.registrationId);
         callback(null, people);
     }], function(error, people) {
         ResponseHelper.response(res, error, {
@@ -609,10 +591,7 @@ _loginViaWeibo = function(req, res) {
                 callback(err);
                 return;
             } else if (people !== null) {
-                people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
-                people.save(function(err, people) {
-                    callback(err, people);
-                });
+                callback(null, people);
                 return;
             }
             require('../../runtime/qsmail').debug('New user[weibo]: ' + user.id, user.id, function(err, info) {
@@ -630,9 +609,6 @@ _loginViaWeibo = function(req, res) {
                         gender : user.gender,
                         avatar_large : user.avatar_large 
                     }
-                },
-                jPushInfo : {
-                    registrationIDs : [param.registrationId]
                 }
             });
 
@@ -649,6 +625,7 @@ _loginViaWeibo = function(req, res) {
     }, function(people, callback) {
         req.session.userId = people._id;
         req.session.loginDate = new Date();
+        _addRegistrationId(people._id, registrationId);
         callback(null, people);
     }], function(error, people) {
         ResponseHelper.response(res, error, {
