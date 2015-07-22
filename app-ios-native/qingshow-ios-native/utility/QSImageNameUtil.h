@@ -16,7 +16,8 @@ typedef NS_ENUM(NSInteger, QSImageNameType) {
     QSImageNameTypeXXXS,
     QSImageNameType30,
     QSImageNameType50,
-    QSImageNameType100
+    QSImageNameType100,
+    QSImageNameType200
     
 };
 

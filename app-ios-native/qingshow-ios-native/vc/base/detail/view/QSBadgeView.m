@@ -76,7 +76,7 @@
    
     if([QSPeopleUtil getHeadIconUrl:peopleDict])
     {
-    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
+    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType200] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
     }
     self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];

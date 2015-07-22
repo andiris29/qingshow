@@ -217,7 +217,7 @@
             self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
         } else {
             self.headIconImageView.hidden = NO;
-            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
+            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
             self.modelNameLabel.hidden = NO;
             self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
         }

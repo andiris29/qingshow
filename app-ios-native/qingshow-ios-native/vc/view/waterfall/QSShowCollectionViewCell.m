@@ -59,7 +59,7 @@
         self.nameLabel.hidden = NO;
         self.headIconImageView.hidden = NO;
         self.nameLabel.text = [QSPeopleUtil getNickname:modelDict];
-        [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
+        [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict type:QSImageNameType100]];
     } else {
         self.nameLabel.hidden = YES;
         self.headIconImageView.hidden = YES;

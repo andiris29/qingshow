@@ -81,7 +81,7 @@
     
     self.clickIndex = -1;
     
-    [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo]];
+    [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo type:QSImageNameType100]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
