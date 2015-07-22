@@ -256,6 +256,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             public void onResponse(JSONObject response) {
                 if (!MetadataParser.hasError(response)) {
                     sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value", 1).putExtra("position", position));
+
                 }
                 doRefreshTask();
                 s04Input.setText("");

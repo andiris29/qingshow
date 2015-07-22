@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focosee.qingshow">
+    package="com.focosee.qingshow" >
 
+    <!-- Required 自定义用来收发消息的相关权限 -->
+    <permission
+        android:name="com.focosee.qingshow.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <!-- Required  一些系统要求的权限，如访问网络等 -->
+    <uses-permission android:name="com.focosee.qingshow.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -15,6 +27,13 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- Optional for location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -27,13 +46,92 @@
         android:configChanges="orientation|keyboardHidden"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
+
+        <!-- Required SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.focosee.qingshow" />
+            </intent-filter>
+        </activity>
+
+        <!-- Required  SDK核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+
+        <!-- Required SDK 核心功能 -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+
+        <!-- Required SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true" >
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
+                <category android:name="com.focosee.qingshow" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required SDK核心功能 -->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- User defined.    用户自定义的广播接收器 -->
+        <receiver
+            android:name="com.focosee.qingshow.receiver.QSReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.focosee.qingshow" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required  . Enable it you can get statistics data with channel -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="dad14285add5a5ade0fbfd81" /> <!-- </>值来自开发者平台取得的AppKey -->
 
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name" />
-
         <activity
             android:name=".activity.S18ShowByDateActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -50,60 +148,60 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.S10ItemDetailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.S11NewTradeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="true"
             android:label="@string/title_activity_register"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U06LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U09TradeListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_name_activity_trade"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U10AddressListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_addresslist"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U11EditAddressActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_address"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U12ReturnActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"></activity>
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".activity.U13PersonalizeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_u13_person"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"></activity>
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="true"
             android:label="@string/title_activity_s03_show"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
@@ -114,24 +212,24 @@
             android:name=".activity.S04CommentActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s04_comment"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.S07CollectActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s07_collect"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Transparent"></activity>
+            android:theme="@style/Transparent" />
         <activity
             android:name=".activity.S05ItemActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s05_item"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LaunchActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_launch"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -142,18 +240,18 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -166,21 +264,21 @@
             android:name=".activity.S14FashionMsgActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s14_fashion_msg"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.G02WelcomeActivity"
-            android:label="@string/title_activity_g02_welcome"></activity>
+            android:label="@string/title_activity_g02_welcome" />
         <activity
             android:name=".activity.MenuActivity"
-            android:label="@string/title_activity_menu"></activity>
-        <activity android:name=".activity.S21CategoryActivity"></activity>
+            android:label="@string/title_activity_menu" />
+        <activity android:name=".activity.S21CategoryActivity" />
         <activity
             android:name=".activity.S20MatcherActivity"
-            android:screenOrientation="behind"></activity>
-        <activity android:name=".activity.S20MatchPreviewActivity"></activity>
+            android:screenOrientation="behind" />
+        <activity android:name=".activity.S20MatchPreviewActivity" />
         <activity
             android:name=".activity.S01MatchShowsActivity"
-            android:label="@string/title_activity_s01_match_shows"></activity>
+            android:label="@string/title_activity_s01_match_shows" />
     </application>
 
 </manifest>

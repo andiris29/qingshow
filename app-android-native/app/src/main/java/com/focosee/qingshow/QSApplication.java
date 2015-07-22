@@ -23,6 +23,8 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.io.File;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class QSApplication extends Application {
     private static QSApplication _instance;
     private IWXAPI wxApi;
@@ -39,6 +41,8 @@ public class QSApplication extends Application {
         wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.APP_ID, true);
         wxApi.registerApp(ShareConfig.APP_ID);
         Fresco.initialize(getApplicationContext());
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
         configImageLoader();
     }
 
