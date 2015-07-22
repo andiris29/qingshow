@@ -111,8 +111,8 @@
     
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
-    if (showDict && [self.delegate respondsToSelector:@selector(didClickShow:provider:)]) {
-        [self.delegate didClickShow:showDict provider:self];
+    if (showDict && [self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:provider:)]) {
+        [self.delegate didSelectedCellInCollectionView:showDict provider:self];
     }
 }
 
@@ -171,8 +171,8 @@
 }
 - (void)matchImgViewPressed:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)]) {
-        [self.delegate  didSelectedCellInCollectionView:sender];
+    if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:provider:)]) {
+        [self.delegate  didSelectedCellInCollectionView:sender provider:self];
     }
 }
 
