@@ -25,7 +25,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LaunchActivity extends BaseActivity{
+import cn.jpush.android.api.InstrumentedActivity;
+
+public class LaunchActivity extends InstrumentedActivity {
 
 
     @Override
@@ -96,8 +98,4 @@ public class LaunchActivity extends BaseActivity{
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    @Override
-    public void reconn() {
-
-    }
 }

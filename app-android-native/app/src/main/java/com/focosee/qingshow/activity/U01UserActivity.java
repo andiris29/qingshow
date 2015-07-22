@@ -37,7 +37,6 @@ import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
@@ -114,7 +113,7 @@ public class U01UserActivity extends MenuActivity {
         ButterKnife.inject(this);
         user = U01Model.INSTANCE.getUser();
         initUserInfo();
-        if(user._id == QSModel.INSTANCE.getUser()._id) {//进入自己的页面时不显示关注按钮
+        if(user._id.equals(QSModel.INSTANCE.getUser()._id)) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,10 +124,10 @@ public class U01UserActivity extends MenuActivity {
             btnListener = new BackBtnListener() {
                 @Override
                 public boolean onKeyDown(int keyCode, KeyEvent event) {
-                    if(keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK){
-                       menuSwitch();
-                    }
-                    return true;
+                if(keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK){
+                   menuSwitch();
+                }
+                return true;
                 }
             };
         }else{
@@ -142,48 +141,48 @@ public class U01UserActivity extends MenuActivity {
             btnListener = new BackBtnListener() {
                 @Override
                 public boolean onKeyDown(int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_MENU) {
-                        menuSwitch();
-                    }
-                    if(keyCode == KeyEvent.KEYCODE_BACK){
-                        finish();
-                    }
-                    return true;
+                if (keyCode == KeyEvent.KEYCODE_MENU) {
+                    menuSwitch();
+                }
+                if(keyCode == KeyEvent.KEYCODE_BACK){
+                    finish();
+                }
+                return true;
                 }
             };
             userFollowBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    userFollowBtn.setEnabled(false);
-                    String url = user.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleUnfollowApi() : QSAppWebAPI.getPeopleFollowApi();
-                    UserCommand.likeOrFollow(url, user._id, new Callback() {
-                        @Override
-                        public void onComplete(JSONObject response) {
-                            super.onComplete();
-                            String msg = "";
-                            if (user.__context.followedByCurrentUser) {
-                                msg = "取消关注";
-                                userFollowBtn.setImageResource(R.drawable.follow_btn);
-                            } else {
-                                msg = "添加关注";
-                                userFollowBtn.setImageResource(R.drawable.unfollow_btn);
-                            }
-                            fragments[POS_FANS].refresh();
-                            UserCommand.refresh();
-                            user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
-                            Toast.makeText(U01UserActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            userFollowBtn.setEnabled(true);
-                            EventModel eventModel = new EventModel(U01UserActivity.class, null);
-                            eventModel.setFrom(U01UserActivity.class);
-                            EventBus.getDefault().post(eventModel);
+                userFollowBtn.setEnabled(false);
+                String url = user.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleUnfollowApi() : QSAppWebAPI.getPeopleFollowApi();
+                UserCommand.likeOrFollow(url, user._id, new Callback() {
+                    @Override
+                    public void onComplete(JSONObject response) {
+                        super.onComplete();
+                        String msg = "";
+                        if (user.__context.followedByCurrentUser) {
+                            msg = "取消关注";
+                            userFollowBtn.setImageResource(R.drawable.follow_btn);
+                        } else {
+                            msg = "添加关注";
+                            userFollowBtn.setImageResource(R.drawable.unfollow_btn);
                         }
+                        fragments[POS_FANS].refresh();
+                        UserCommand.refresh();
+                        user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
+                        Toast.makeText(U01UserActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        userFollowBtn.setEnabled(true);
+                        EventModel eventModel = new EventModel(U01UserActivity.class, null);
+                        eventModel.setFrom(U01UserActivity.class);
+                        EventBus.getDefault().post(eventModel);
+                    }
 
-                        @Override
-                        public void onError(int errorCode) {
-                            ErrorHandler.handle(U01UserActivity.this, errorCode);
-                            userFollowBtn.setEnabled(true);
-                        }
-                    });
+                    @Override
+                    public void onError(int errorCode) {
+                        ErrorHandler.handle(U01UserActivity.this, errorCode);
+                        userFollowBtn.setEnabled(true);
+                    }
+                });
                 }
             });
         }
@@ -208,20 +207,20 @@ public class U01UserActivity extends MenuActivity {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(user._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response:" + response);
-                if(MetadataParser.hasError(response)){
-                    ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
-                    return;
-                }
-                LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
-                user = users.get(0);
-                userName.setText(user.nickname);
-                userHw.setText(user.height + "cm," + user.weight + "kg");
-                if (user.portrait != null)
-                    userHead.setImageURI(Uri.parse(user.portrait));
-                ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
-                if(user.__context.followedByCurrentUser)
-                    userFollowBtn.setImageResource(R.drawable.unfollow_btn);
+            Log.d(TAG, "response:" + response);
+            if(MetadataParser.hasError(response)){
+                ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
+                return;
+            }
+            LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
+            user = users.get(0);
+            userName.setText(user.nickname);
+            userHw.setText(user.height + "cm," + user.weight + "kg");
+            if (user.portrait != null)
+                userHead.setImageURI(Uri.parse(user.portrait));
+            ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
+            if(user.__context.followedByCurrentUser)
+                userFollowBtn.setImageResource(R.drawable.unfollow_btn);
             }
         });
 
@@ -265,10 +264,10 @@ public class U01UserActivity extends MenuActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (view == recyclerView.getChildAt(0))
-                    userHeadLayout.setY(view.getBottom() - view.getHeight());
-                else
-                    userHeadLayout.setY(-userHeadLayout.getHeight());
+            if (view == recyclerView.getChildAt(0))
+                userHeadLayout.setY(view.getBottom() - view.getHeight());
+            else
+                userHeadLayout.setY(-userHeadLayout.getHeight());
             }
         });
 
