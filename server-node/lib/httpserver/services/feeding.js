@@ -291,10 +291,34 @@ feeding.matchCreatedBy = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var qsParam = RequestHelper.parsePageInfo(req.queryString);
-        ServiceHelper.queryCreatedShows(req, res, RPeopleCreateShow, {
-            'query' : 'initiatorRef',
-            'result' : 'targetRef'
+        _feed(req, res, function(qsParam, callback) {
+            var criteria = {
+                '$and' : [{
+                    'initiatorRef' : RequestHelper.parseId(qsParam._id)
+                }, {
+                    '$or' : [{
+                        'hideAgainstCreator' : false 
+                    } , {
+                        'hideAgainstCreator' : {
+                            '$exists' : false
+                        }
+                    }]
+                }]
+            };
+            
+            MongoHelper.queryPaging(RPeopleCreateShow.find(criteria).sort({
+                'create' : -1
+            }).populate('targetRef'), RPeopleCreateShow.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
+                var models = [];
+                if (!err) {
+                    relationships.forEach(function(relationship) {
+                        if (relationship.targetRef) {
+                            models.push(relationship.targetRef);
+                        }
+                    });
+                }
+                callback(err, models, count);
+            });
         });
     }
 };

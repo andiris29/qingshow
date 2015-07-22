@@ -102,30 +102,6 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     });
 };
 
-ServiceHelper.queryCreatedShows = function(req, res, RModel, fields) {
-    _queryRelated(req, res, RModel, fields, function(shows) {
-        return {
-            'shows' : shows
-        };
-    }, {
-        'beforeGenerateQuery' : function(criteria) {
-            return {
-                '$and' : [{
-                    'initiatorRef' : criteria.initiatorRef
-                }, {
-                    '$or' : [{
-                        'hideAgainstCreator' : false 
-                    } , {
-                        'hideAgainstCreator' : {
-                            '$exists' : false
-                        }
-                    }]
-                }]
-            };
-        }
-    });
-};
-
 var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
     aspectInceptions = aspectInceptions || {};
     
@@ -133,22 +109,18 @@ var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspe
         var criteria = {};
         criteria[fields.query] = qsParam._id;
         
-        if (aspectInceptions.beforeGenerateQuery) {
-            criteria = aspectInceptions.beforeGenerateQuery(criteria);
-        }
-        
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1
         }).populate(fields.result), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
-            var peoples = [];
+            var models = [];
             if (!err) {
                 relationships.forEach(function(relationship) {
                     if (relationship[fields.result]) {
-                        peoples.push(relationship[fields.result]);
+                        models.push(relationship[fields.result]);
                     }
                 });
             }
-            callback(err, peoples, count);
+            callback(err, models, count);
         });
     }, responseDataBuilder, _.extend(aspectInceptions, {
         'afterParseRequest' : function(raw) {
