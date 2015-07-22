@@ -14,6 +14,7 @@ public class QSAppWebAPI {
     private static final String USER_SAVE_RECEIVER_API = HOST_NAME + "/user/saveReceiver";
     private static final String USER_REMOVE_RECEIVER_API = HOST_NAME + "/user/removeReceiver";
     private static final String USER_LOGIN_WX_API = HOST_NAME + "/user/loginViaWeixin";
+    public static final String USER_LOGOUT = HOST_NAME + "/user/logout";
 
     private static final String USER_LOGIN_WB_API = HOST_NAME + "/user/loginViaWeibo";
     private static final String FEEDING_LIKE = HOST_NAME + "/feeding/like";

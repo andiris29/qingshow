@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
@@ -30,6 +31,7 @@ import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -156,6 +158,20 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             public void onClick(View view) {
                 CookieSerializer.INSTANCE.saveCookie("");
                 QSModel.INSTANCE.removeUser();
+
+                Map map = new HashMap();
+                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
+                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.USER_LOGOUT, new JSONObject(map), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if(MetadataParser.hasError(response)){
+                            ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                            return;
+                        }
+
+                    }
+                });
+                RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
                 Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);

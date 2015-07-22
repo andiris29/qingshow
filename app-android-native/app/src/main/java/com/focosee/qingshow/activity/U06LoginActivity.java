@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -72,9 +73,7 @@ public class U06LoginActivity extends BaseActivity {
                 Map<String, String> map = new HashMap<>();
                 map.put("idOrNickName", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
-                System.out.println("id:" + accountEditText.getText().toString());
-                System.out.println("password:" + passwordEditText.getText().toString());
-                JSONObject jsonObject = new JSONObject(map);
+                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
 
                 QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
                         QSAppWebAPI.LOGIN_SERVICE_URL,

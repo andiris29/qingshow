@@ -107,7 +107,7 @@
 
         <!-- User defined.    用户自定义的广播接收器 -->
         <receiver
-            android:name="com.focosee.qingshow.receiver.QSReceiver"
+            android:name=".receiver.QSPushReceiver"
             android:enabled="true" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
@@ -127,7 +127,8 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="dad14285add5a5ade0fbfd81" /> <!-- </>值来自开发者平台取得的AppKey -->
-
+        <activity
+            android:name=".activity.QSPushActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

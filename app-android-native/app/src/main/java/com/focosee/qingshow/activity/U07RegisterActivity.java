@@ -253,6 +253,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 Map<String, String> map = new HashMap<>();
                 map.put("access_toke", mAccessToken.getToken());
                 map.put("uid", mAccessToken.getUid());
+                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
                 QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWbApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
