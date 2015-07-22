@@ -325,6 +325,7 @@ _update = function(req, res) {
 _updatePortrait = function(req, res) {
     _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait',
         [
+            {'suffix' : '_200', 'width' : 200, 'height' : 200},
             {'suffix' : '_100', 'width' : 100, 'height' : 100},
             {'suffix' : '_50', 'width' : 50, 'height' : 50},
             {'suffix' : '_30', 'width' : 30, 'height' : 30}
