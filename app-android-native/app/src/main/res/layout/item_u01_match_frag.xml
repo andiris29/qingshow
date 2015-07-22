@@ -22,8 +22,7 @@
                 android:layout_height="match_parent"
                 app:layout_marginTopPercent="20%"
                 app:layout_marginBottomPercent="4%"
-                app:layout_marginLeftPercent="8%"
-                app:layout_marginRightPercent="8%"
+                android:layout_centerHorizontal="true"
                 fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_u01_match_preImg"
