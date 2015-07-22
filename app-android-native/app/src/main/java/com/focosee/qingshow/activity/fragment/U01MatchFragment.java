@@ -105,7 +105,7 @@ public class U01MatchFragment extends U01BaseFragment {
                 }
 
                 if (pageNo == 1) {
-                    adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                    adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
                     currentPageN0 = pageNo;
                 }else{
