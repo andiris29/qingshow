@@ -37,6 +37,10 @@ public class QSPushActivity extends Activity {
             intent.putExtra(S04CommentActivity.INPUT_SHOW_ID,id);
         }
 
+        if (command.equals(QSPushAPI.NEW_RECOMMANDATIONS)){
+            intent = new Intent(QSPushActivity.this,U01UserActivity.class);
+            intent.putExtra(U01UserActivity.NEW_RECOMMANDATIONS,true);
+        }
 
         if (intent != null)
             startActivity(intent);

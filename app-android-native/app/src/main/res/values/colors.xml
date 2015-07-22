@@ -12,6 +12,7 @@
     <color name="darker_gray">#424242</color>
     <color name="red_text_color">#a91a4e</color>
     <color name="hint_text_color">#C7C7CD</color>
+    <color name="red">#FF0000</color>
     <color name="pink">#a91a4e</color>
     <!-- personal -->
     <color name="indicator_bg_default_activity_personal">#88000000</color>

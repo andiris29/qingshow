@@ -116,6 +116,13 @@
                 android:layout_alignRight="@+id/user_recomm"
                 android:layout_marginTop="5dp"
                 android:text="推荐"/>
+            <View
+                android:id="@+id/circle_tip"
+                android:layout_alignRight="@id/user_recomm"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_tip"
+                android:visibility="gone" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/user_collection_layout"
