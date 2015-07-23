@@ -6,7 +6,6 @@ var Item = require('../../model/items');
 var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 var People = require('../../model/peoples');
 
 //util
@@ -180,20 +179,14 @@ show.comment = {
             });
         }, 
         function(callback) {
-            RPeopleCreateShow.findOne({
-                'targetRef' : targetRef
-            }).exec(function(err, relationship) {
-                if (relationship) {
-                    People.findOne({
-                        '_id' : relationship.initiatorRef
-                    }).exec(function(err, people) {
-                        if (people) {
-                            PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageNewShowComment, {
-                                'id' : param._id,
-                                'command' : PushNotificationHelper.CommandNewShowComments
-                            }, null);
-                        }
-                    });
+            Show.findOne({
+                '_id' : targetRef
+            }).populate('ownerRef').exec(function(err, show) {
+                if (show && show.ownerRef) {
+                    PushNotificationHelper.push(show.ownerRef.jPushInfo.registrationIDs, PushNotificationHelper.MessageNewShowComment, {
+                        'id' : param._id,
+                        'command' : PushNotificationHelper.CommandNewShowComments
+                    }, null);
                 }
             }); 
             callback();

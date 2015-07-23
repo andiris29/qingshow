@@ -5,7 +5,6 @@ var _ = require('underscore');
 var Trade = require('../../model/trades');
 var People = require('../../model/peoples');
 var Item = require('../../model/items');
-var rPeopleCreateTrade = require('../../model/rPeopleCreateTrade');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -32,6 +31,7 @@ trade.create = {
         function(people, callback) {
             // Save trade
             var trade = new Trade();
+            trade.ownerRef = req.qsCurrentUserId;
             trade.orders = [];
             req.body.orders.forEach(function(element) {
                 trade.orders.push({
@@ -43,7 +43,7 @@ trade.create = {
                     'selectedPeopleReceiverUuid' : element.selectedPeopleReceiverUuid
                 });
             });
-            trade.totalFee = req.body.totalFee.toFixed(2);
+            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
             if (req.body['pay'] && req.body['pay']['weixin']) {
                 trade.pay = req.body.pay;
             }
@@ -52,20 +52,12 @@ trade.create = {
             });
         },
         function(trade, callback) {
-            // Make relationship
-            var initiatorRef = req.qsCurrentUserId;
-            var targetRef = trade._id;
-            RelationshipHelper.create(rPeopleCreateTrade, initiatorRef, targetRef, function(err, relationship) {
-                callback(err, trade, relationship);
-            });
-        },
-        function(trade, relationship, callback) {
             // Update trade status
             TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
-                callback(err, trade, relationship);
+                callback(err, trade);
             });
         },
-        function(trade, relationship, callback) {
+        function(trade, callback) {
             if (req.body.pay && req.body.pay['weixin']) {
                 // Communicate to payment to get prepayid for weixin
                 var orderName = '';
@@ -75,27 +67,25 @@ trade.create = {
                 if (orderName.length > 0) {
                     orderName = orderName.substring(0, orderName.length - 1);
                 }
-
                 var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
                     var jsonObject = JSON.parse(body);
                     if (jsonObject.metadata) {
-                        callback(jsonObject.metadata, trade, relationship);
+                        callback(jsonObject.metadata, trade);
                     } else {
                         trade.pay.weixin['prepayid'] = jsonObject.data.prepay_id;
                         trade.save(function(err) {
-                            callback(err, trade, relationship);
+                            callback(err, trade);
                         });
                     }
                 });
             } else {
-                callback(null, trade, relationship);
+                callback(null, trade);
             }
-        }], function(error, trade, relationship) {
+        }], function(error, trade) {
             // Send response
             ResponseHelper.response(res, error, {
-                'trade' : trade,
-                'rPeopleCreateTrade' : relationship
+                'trade' : trade
             });
             // Send notification mail
             TradeHelper.notify(trade);
@@ -204,10 +194,16 @@ trade.queryCreatedBy = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        ServiceHelper.queryRelatedTrades(req, res, rPeopleCreateTrade, {
-            'query' : 'initiatorRef',
-            'result' : 'targetRef'
-        });
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var criteria = {
+                'ownerRef' : req.qsCurrentUserId
+            };
+            MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(trades) {
+            return {
+                'trades' : trades 
+            };
+        }, {});
     }
 };
 

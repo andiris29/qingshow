@@ -1,5 +1,4 @@
 var async = require('async'), _ = require('underscore');
-var ImageUtils = require('../../model/utils/ImageUtils');
 var ServerError = require('../server-error');
 var RequestHelper = require('./RequestHelper');
 

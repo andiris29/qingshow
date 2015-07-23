@@ -7,7 +7,6 @@ var _ = require('underscore');
 var Category = require('../../model/categories');
 var Item = require('../../model/items');
 var Show = require('../../model/shows');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 
 // util
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -67,6 +66,7 @@ matcher.save = {
             var show = new Show({
                 'itemRefs' : itemRefs, 
                 'ugc' : true,
+                'ownerRef' : req.qsCurrentUserId,
                 'coverForeground' : coverUrl
             });
 
@@ -76,19 +76,8 @@ matcher.save = {
                 } else if (!show) {
                     ResponseHelper.response(res, ServerError.ServerError);
                 } else {
-                    var initiatorRef = req.qsCurrentUserId;
-                    var targetRef = show._id;
-                    // Add PeopleCreateShow Relationship
-                    RelationshipHelper.create(RPeopleCreateShow, initiatorRef, targetRef, function(err, relationship) {
-                        if (err) {
-                            ResponseHelper.response(res, err);
-                        } else if (!relationship) {
-                            ResponseHelper.response(res, ServerError.ServerError);
-                        } else {
-                            ResponseHelper.response(res, null, {
-                                'show' : show
-                            });
-                        }
+                    ResponseHelper.response(res, null, {
+                        'show' : show
                     });
                 }
             });
@@ -161,25 +150,25 @@ matcher.hide = {
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
-            RPeopleCreateShow.findOne({
-                'initiatorRef' : req.qsCurrentUserId,
-                'targetRef' : RequestHelper.parseId(req.body._id)
-            }, function(err, relationship) {
-                callback(err, relationship);
+            Show.findOne({
+                '_id' : RequestHelper.parseId(req.body._id),
+                'ownerRef' : req.qsCurrentUserId
+            }, function(err, show) {
+                callback(err, show);
             });
         },
-        function(relationship, callback) {
-            if (relationship == null) {
+        function(show, callback) {
+            if (show == null) {
                 callback(ServerError.ShowNotExist);
                 return;
             }
-            relationship.hideAgainstCreator = true;
-            relationship.save(function(err, relationship) {
-                callback(err, relationship);
+            show.hideAgainstOwner = true;
+            show.save(function(err, show) {
+                callback(err, show);
             });
         }],
-        function(err, relationship) {
-            if (!relationship) {
+        function(err, results) {
+            if (!results) {
                 ResponseHelper.response(res, ServerError.ShowNotExist);
             } else {
                 ResponseHelper.response(res, err);
