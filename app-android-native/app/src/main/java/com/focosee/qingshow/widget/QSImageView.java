@@ -88,13 +88,17 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
-
-        if (doubleFlag == 1) {
-            isScaling = false;
+        int pointerCount = event.getPointerCount();
+        if (pointerCount == 2) {
+            isScaling = true;
         }
-
         if (isScaling) {
-            doubleFlag = event.getPointerCount();
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    isScaling = false;
+                    break;
+            }
             return true;
         }
 
