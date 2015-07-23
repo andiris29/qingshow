@@ -29,9 +29,9 @@ public class QSPushReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
         if (JPushInterface.getRegistrationID(context) != null) {
+            Log.d(TAG,"Registration Id : "  + JPushInterface.getRegistrationID(context));
             SharedPreferences.Editor edit = QSApplication.instance().getPreferences().edit();
             edit.putString("registrationId", JPushInterface.getRegistrationID(context));
-            Log.d(TAG, JPushInterface.getRegistrationID(context));
             edit.commit();
         }
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
@@ -50,7 +50,6 @@ public class QSPushReceiver extends BroadcastReceiver {
             //打开自定义的Activity
             Intent i = new Intent(context, QSPushActivity.class);
             i.putExtras(bundle);
-            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
 
@@ -85,26 +84,4 @@ public class QSPushReceiver extends BroadcastReceiver {
         }
         return sb.toString();
     }
-
-    //send msg to MainActivity
-//    private void processCustomMessage(Context context, Bundle bundle) {
-//        if (S01.isForeground) {
-//            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-//            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//            Intent msgIntent = new Intent(PushMessageActivity.MESSAGE_RECEIVED_ACTION);
-//            msgIntent.putExtra(PushMessageActivity.KEY_MESSAGE, message);
-//            if (!JPushUtil.isEmpty(extras)) {
-//                try {
-//                    JSONObject extraJson = new JSONObject(extras);
-//                    if (null != extraJson && extraJson.length() > 0) {
-//                        msgIntent.putExtra(PushMessageActivity.KEY_EXTRAS, extras);
-//                    }
-//                } catch (JSONException e) {
-//
-//                }
-//
-//            }
-//            context.sendBroadcast(msgIntent);
-//        }
-//    }
 }
