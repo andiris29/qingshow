@@ -73,6 +73,7 @@ public class U06LoginActivity extends BaseActivity {
                 Map<String, String> map = new HashMap<>();
                 map.put("idOrNickName", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
+                Log.i("JPush_QS", "login" + QSApplication.instance().getPreferences().getString("registrationId", ""));
                 map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
 
                 QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,

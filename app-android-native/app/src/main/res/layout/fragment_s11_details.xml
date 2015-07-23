@@ -89,7 +89,7 @@
                 android:id="@+id/s11_details_color_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginLeft="10dp"
                 android:textSize="@dimen/text_size" />
         </LinearLayout>
 
