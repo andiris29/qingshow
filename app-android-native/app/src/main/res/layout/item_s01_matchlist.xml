@@ -1,68 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.S01MatchShowsActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-        <android.support.percent.PercentRelativeLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/item_s01_matchlist_layout"
             android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="300dp">
+            android:layout_height="310dp"
+            android:background="@color/white">
+
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_s01_img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_marginTopPercent="18%"
-                app:layout_marginBottomPercent="2%"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_centerHorizontal="true"
-                fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
+                app:layout_marginBottomPercent="8%"
+                app:layout_marginTopPercent="20%"
+                app:layout_heightPercent="72%"
+                app:layout_widthPercent="90%"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_s01_preground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                fresco:actualImageScaleType="fitXY"/>
         </android.support.percent.PercentRelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray_background"/>
+            android:background="@color/gray_background" />
+
         <LinearLayout
             android:id="@+id/item_s01_bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
             android:orientation="horizontal">
+
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_s01_head_img"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
-                fresco:roundAsCircle="true"
-                fresco:placeholderImage="@drawable/root_user_background"/>
+                android:layout_marginLeft="10dp"
+                fresco:placeholderImage="@drawable/root_user_background"
+                fresco:roundAsCircle="true" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp">
+
                 <TextView
                     android:id="@+id/item_s01_nikename"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/darker_gray"
                     android:layout_marginTop="5dp"
-                    android:text=""/>
+                    android:text=""
+                    android:textColor="@color/darker_gray"
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/item_s01_clock"
@@ -70,37 +81,40 @@
                     android:layout_height="15dp"
                     android:layout_below="@+id/item_s01_nikename"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/gray_clock"/>
+                    android:src="@drawable/gray_clock" />
+
                 <TextView
                     android:id="@+id/item_s01_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/item_s01_clock"
-                    android:layout_toRightOf="@+id/item_s01_clock"
                     android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/item_s01_clock"
+                    android:text=""
                     android:textColor="@color/darker_gray"
-                    android:textSize="12sp"
-                    android:text=""/>
+                    android:textSize="12sp" />
+
                 <ImageView
                     android:id="@+id/item_s01_favor_image"
                     android:layout_width="35dp"
                     android:layout_height="15dp"
-                    android:layout_marginTop="5dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/s03_favor_btn"/>
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/s03_favor_btn" />
+
                 <TextView
                     android:id="@+id/item_s01_likeNum"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/item_s01_favor_image"
                     android:layout_alignLeft="@+id/item_s01_favor_image"
                     android:layout_alignRight="@+id/item_s01_favor_image"
-                    android:textColor="@color/darker_gray"
+                    android:layout_below="@+id/item_s01_favor_image"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center"
-                    android:textSize="10sp"
                     android:layout_marginTop="3dp"
-                    android:text="0"/>
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="10sp" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
