@@ -3,6 +3,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var People = require('../../model/peoples');
+var jPushToPeople = require('../../model/jPushToPeople');
 
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
@@ -45,7 +46,7 @@ notify.newRecommandations = {
         function(ids, callback) {
             jPushToPeople.find({
                 peopleRef : {
-                    '$in' : targets
+                    '$in' : ids 
                 }
             }).exec(function(err, infos) {
                 callback(err, infos);
@@ -72,7 +73,7 @@ notify.questSharingObjectiveComplete = {
         async.waterfall([
         function(callback) {
             People.find({
-                'querySharing.status' : 1
+                'questSharing.status' : 1
             }).exec(function(err, peoples) {
                 callback(err, peoples);
             });
@@ -87,7 +88,7 @@ notify.questSharingObjectiveComplete = {
         function(ids, callback) {
             jPushToPeople.find({
                 peopleRef : {
-                    '$in' : targets
+                    '$in' : ids
                 }
             }).exec(function(err, infos) {
                 callback(err, infos);

@@ -137,7 +137,7 @@ _login = function(req, res) {
             req.session.userId = people._id;
             req.session.loginDate = new Date();
 
-            people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
+            people.jPushInfo = _addRegistrationId(people._id, param.registrationId);
 
             people.save(function(err, people) {
                 if (err) {
@@ -165,7 +165,7 @@ _login = function(req, res) {
 
 _logout = function(req, res) {
     var id = req.qsCurrentUserId;
-    _removeRegistrationId(people._id, req.body.registrationId);
+    _removeRegistrationId(id, req.body.registrationId);
     delete req.session.userId;
     delete req.session.loginDate;
     delete req.qsCurrentUserId;

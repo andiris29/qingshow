@@ -185,8 +185,8 @@ show.comment = {
                 'targetRef' : targetRef
             }).exec(function(err, relationship) {
                 if (relationship) {
-                    jPushToPeople.findOne({
-                        '_id' : relationship.initiatorRef
+                    jPushToPeople.find({
+                        'peopleRef' : relationship.initiatorRef
                     }).exec(function(err, infos) {
                         if (infos.length > 0) {
                             var targets = [];

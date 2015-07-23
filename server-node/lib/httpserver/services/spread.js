@@ -70,7 +70,7 @@ spread.firstLaunch = {
                                     'command' : PushNotificationHelper.CommandQuestSharingProgress
                                 };
                             }
-                            jPushInfo.findOne({
+                            jPushToPeople.find({
                                 'peopleRef' : people._id
                             }).exec(function(err, registrationIDs) {
                                 if (err) {
@@ -83,7 +83,7 @@ spread.firstLaunch = {
                                 PushNotificationHelper.push(targets, message, extras, null);
                             });
                             people.save();
-                        } else if(!people.questSharing) {
+                        } else if(people.questSharing == null || people.questSharing.status == null) {
                             people.questSharing = {
                                 status : 0,
                                 progress : 1, 
@@ -92,7 +92,7 @@ spread.firstLaunch = {
                             var alertMessage = PushNotificationHelper.MessageQuestSharingProgress;
                             var target = MAX_PROGRESS - people.questSharing.progress;
                             alertMessage = alertMessage.replace("{0}", target);
-                            jPushInfo.findOne({
+                            jPushToPeople.find({
                                 'peopleRef' : people._id
                             }).exec(function(err, registrationIDs) {
                                 if (err) {

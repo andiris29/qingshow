@@ -6,7 +6,11 @@ var jPushToPeopleSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'peoples'
     },
-    registrationId : String
+    registrationId : String,
+    create : {
+        type : Date,
+        'default' : Date.now
+    }
 });
 
 var jPushToPeople = mongoose.model('jPushToPeople', jPushToPeopleSchema);
