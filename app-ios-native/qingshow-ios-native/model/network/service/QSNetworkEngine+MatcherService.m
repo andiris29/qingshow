@@ -107,7 +107,7 @@
                                paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:matcherDict]}
                                 fileKey:@"cover"
                                fileName:@"cover.jpeg"
-                                  image:UIImageJPEGRepresentation(cover, 1.0)
+                                  image:UIImageJPEGRepresentation(cover, 0.7)
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 NSDictionary* responseDict = completedOperation.responseJSON;

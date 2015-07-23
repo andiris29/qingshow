@@ -93,23 +93,36 @@ RequestHelper.parseFile = function(req, uploadPath, resizeOptions, callback) {
         });
 
         if (resizeOptions) {
-
-
             resizeOptions.forEach(function (option) {
                 var lastDotIndex = oldPath.lastIndexOf('.');
                 var newPath = oldPath.substr(0, lastDotIndex) + option.suffix + oldPath.substr(lastDotIndex);
-
-                imageMagick(oldPath)
-                    .resize(option.width, option.height, '!')
-                    .autoOrient()
-                    .write(newPath, function (err) {
-                        if (!err) {
-                            var savedName = path.basename(newPath);
-                            var fullPath = path.join(uploadPath, savedName);
-                            qsftp.upload(newPath, fullPath, function (err) {
-                            });
-                        }
-                    });
+                if (option.rate) {
+                    imageMagick(oldPath)
+                        .size(function (err, size) {
+                            this.resize(size.width * option.rate, size.height * option.rate, '!')
+                                .autoOrient()
+                                .write(newPath, function (err) {
+                                    if (!err) {
+                                        var savedName = path.basename(newPath);
+                                        var fullPath = path.join(uploadPath, savedName);
+                                        qsftp.upload(newPath, fullPath, function (err) {
+                                        });
+                                    }
+                                });
+                        });
+                } else {
+                    imageMagick(oldPath)
+                        .resize(option.width, option.height, '!')
+                        .autoOrient()
+                        .write(newPath, function (err) {
+                            if (!err) {
+                                var savedName = path.basename(newPath);
+                                var fullPath = path.join(uploadPath, savedName);
+                                qsftp.upload(newPath, fullPath, function (err) {
+                                });
+                            }
+                        });
+                }
             });
         }
     });

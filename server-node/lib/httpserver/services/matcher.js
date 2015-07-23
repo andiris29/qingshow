@@ -126,7 +126,10 @@ matcher.updateCover = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.ftpPath, null, function(err, fields, file) {
+        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.ftpPath, [
+            {'suffix' : '_s', 'rate' : 0.5},
+            {'suffix' : '_xs', 'rate' : 0.25}
+        ], function (err, fields, file) {
             if (err) {
                 ResponseHelper.response(res, err);
                 return;
