@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -45,10 +47,13 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
+
 import org.json.JSONObject;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -160,11 +165,12 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 QSModel.INSTANCE.removeUser();
 
                 Map map = new HashMap();
-                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
+                Log.i("JPush_QS", "logout" + QSApplication.instance().getPreferences().getString("registrationId", ""));
+                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId", ""));
                 QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.USER_LOGOUT, new JSONObject(map), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if(MetadataParser.hasError(response)){
+                        if (MetadataParser.hasError(response)) {
                             ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                             return;
                         }
@@ -292,11 +298,11 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             }
             if (null != people.nickname)
                 nameEditText.setText(people.nickname);
-            if(0 != people.age)
+            if (0 != people.age)
                 ageEditText.setText(String.valueOf(people.age));
-            if(0 != people.height)
+            if (0 != people.height)
                 heightEditText.setText(String.valueOf(people.height));
-            if(0 != people.height)
+            if (0 != people.height)
                 weightEditText.setText(String.valueOf(people.weight));
             sexTextView.setText(sexArgs[people.gender]);
             sexTextView.setTag(people.gender);
@@ -306,10 +312,10 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             dressStyleEditText.setText(dressStyles[people.dressStyle]);
             dressStyleEditText.setTag(people.dressStyle);
             String effectStr = "";
-            for(int index : people.expectations){
+            for (int index : people.expectations) {
                 effectStr += expectations[index] + "|";
             }
-            if(effectStr.length() > 0) effectStr = effectStr.substring(0, effectStr.length() - 1);
+            if (effectStr.length() > 0) effectStr = effectStr.substring(0, effectStr.length() - 1);
             effectEditText.setText(effectStr);
             effectEditText.setTag(people.expectations);
         }
@@ -464,131 +470,131 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
         backTextView.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View view){
-            commitForm();
-            menuSwitch();
-        }
-        }
+                                        {
+                                            @Override
+                                            public void onClick(View view) {
+                                                commitForm();
+                                                menuSwitch();
+                                            }
+                                        }
 
         );
 
         personalRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View view){
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
-        }
-        }
+                                                  {
+                                                      @Override
+                                                      public void onClick(View view) {
+                                                          Intent intent = new Intent();
+                                                          intent.setType("image/*");
+                                                          intent.setAction(Intent.ACTION_GET_CONTENT);
+                                                          startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
+                                                      }
+                                                  }
 
         );
         backgroundRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View view){
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "请选择背景"), TYPE_BACKGROUD);
-        }
-        }
+                                                    {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            Intent intent = new Intent();
+                                                            intent.setType("image/*");
+                                                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                                                            startActivityForResult(Intent.createChooser(intent, "请选择背景"), TYPE_BACKGROUD);
+                                                        }
+                                                    }
 
         );
 
         sexRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View view){
-            getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-            showActionSheet(TAG_SEX);
-        }
-        }
+                                             {
+                                                 @Override
+                                                 public void onClick(View view) {
+                                                     getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                                                     showActionSheet(TAG_SEX);
+                                                 }
+                                             }
 
         );
 
         bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View view){
-            getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-            showActionSheet(TAG_BODYTYPE);
-        }
-        }
+                                                  {
+                                                      @Override
+                                                      public void onClick(View view) {
+                                                          getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                                                          showActionSheet(TAG_BODYTYPE);
+                                                      }
+                                                  }
 
         );
 
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View view){
-            U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-            getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
-                    replace(R.id.settingsScrollView, fragment).commit();
-                U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
-        }
-        }
+                                                        {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
+                                                                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                                                                        replace(R.id.settingsScrollView, fragment).commit();
+                                                                U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
+                                                            }
+                                                        }
 
         );
 
         tradeRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View v){
-            Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
-            startActivity(intent);
-        }
-        }
+                                               {
+                                                   @Override
+                                                   public void onClick(View v) {
+                                                       Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
+                                                       startActivity(intent);
+                                                   }
+                                               }
 
         );
 
         addresslistRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View v){
-            Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
-            startActivity(intent);
-        }
-        }
+                                                     {
+                                                         @Override
+                                                         public void onClick(View v) {
+                                                             Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
+                                                             startActivity(intent);
+                                                         }
+                                                     }
 
         );
 
         dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View v){
-            getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-            showActionSheet(TAG_DRESSSTYLE);
-        }
-        }
+                                                    {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                                                            showActionSheet(TAG_DRESSSTYLE);
+                                                        }
+                                                    }
 
         );
 
         effectRelativeLayout.setOnClickListener(new View.OnClickListener()
 
-        {
-            @Override
-            public void onClick (View v){
-            U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("user", people);
-            fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
-                    replace(R.id.settingsScrollView, fragment).commit();
-            U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
-            }
-        }
+                                                {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putSerializable("user", people);
+                                                        fragment.setArguments(bundle);
+                                                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                                                                replace(R.id.settingsScrollView, fragment).commit();
+                                                        U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
+                                                    }
+                                                }
 
         );
     }

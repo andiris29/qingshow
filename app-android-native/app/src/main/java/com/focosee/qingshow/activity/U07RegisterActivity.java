@@ -130,11 +130,12 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
             }) {
                 @Override
                 protected Map<String, String> getParams() {
-                    Map<String, String> map = new HashMap<String, String>();
+                    Map<String, String> map = new HashMap<>();
 
                     map.put("id", phoneEditText.getText().toString());
                     map.put("nickname", accountEditText.getText().toString());
                     map.put("password", passwordEditText.getText().toString());
+                    map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId", ""));
 
                     return map;
                 }
