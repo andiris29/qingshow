@@ -29,15 +29,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
+
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/s11_details_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="秋冬新款韩版圆点宽松衬衫秋冬新款韩版圆点宽松衬衫"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/text_size_small" />
 
@@ -90,9 +89,8 @@
                 android:id="@+id/s11_details_color_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textSize="@dimen/text_size"
-                android:text="红色"/>
+
+                android:textSize="@dimen/text_size" />
         </LinearLayout>
 
         <View

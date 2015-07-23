@@ -214,6 +214,12 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                 jsonObject.put("weixin", weixin);
                 params.put("pay",jsonObject);
             }
+            if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.alipay))){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("alipay", "");
+                params.put("pay",jsonObject);
+            }
+
             JSONArray array = new JSONArray(QSGsonFactory.create().toJson(orders));
             params.put("orders", array);
         } catch (JSONException e) {

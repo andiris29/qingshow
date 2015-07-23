@@ -11,8 +11,21 @@ android {
         versionCode 8
         versionName "2.0.0-snapshot-3"
     }
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile file("../keystore.jks")
+            storePassword "6426BFcom"
+            keyAlias "Pinju"
+            keyPassword "6426BFcom"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -21,7 +34,6 @@ android {
         jniLibs.srcDir 'src/main/jniLibs' // <-- Set your folder here!
     }
 }
-
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
