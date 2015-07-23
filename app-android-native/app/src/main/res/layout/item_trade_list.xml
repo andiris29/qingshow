@@ -236,6 +236,7 @@
                 android:id="@+id/item_tradelist_finish_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -258,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
-                        android:text=""
+                        android:text="2015-3-1"
                         android:textColor="@color/p01_text_color_model_height" />
                 </LinearLayout>
 
@@ -268,7 +269,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -229,7 +229,8 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Toast.makeText(context, "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
+            //e.printStackTrace();
+            Toast.makeText(context, "未知错误，请重试！", Toast.LENGTH_LONG)
                     .show();
         }
     }
@@ -310,16 +311,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             bodyTypeTextView.setTag(people.bodyType);
             dressStyleEditText.setText(dressStyles[people.dressStyle]);
             dressStyleEditText.setTag(people.dressStyle);
-            if(null != people.expectations && people.expectations.length != 0) {
-                String effectStr = "";
-                for (int index : people.expectations) {
-                    effectStr += expectations[index] + "|";
-                }
-                if (effectStr.length() > 0)
-                    effectStr = effectStr.substring(0, effectStr.length() - 1);
-                effectEditText.setText(effectStr);
-                effectEditText.setTag(people.expectations);
+            String effectStr = "";
+            for (int index : people.expectations) {
+                effectStr += expectations[index] + "|";
             }
+            if (effectStr.length() > 0) effectStr = effectStr.substring(0, effectStr.length() - 1);
+            effectEditText.setText(effectStr);
+            effectEditText.setTag(people.expectations);
         }
     }
 

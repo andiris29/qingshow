@@ -13,7 +13,7 @@ public class MongoCategories implements Serializable{
     public String order;
     public MatchInfo matchInfo;
     public MongoParentCategories parentRef;
-    public int measureComposition;
+    public String measureComposition;
     public boolean activate = true;
 
     public class MatchInfo implements Serializable{

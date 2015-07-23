@@ -106,10 +106,6 @@ public class TimeUtil {
         return _mDateFormat.format(new Date(time));
     }
 
-    public static String formatDateTime(GregorianCalendar time){
-        return formatDateTime(time.getTime().getTime());
-    }
-
     public static String formatDateTime_CN_Pre(GregorianCalendar time){
         if(null == time){
             return null;

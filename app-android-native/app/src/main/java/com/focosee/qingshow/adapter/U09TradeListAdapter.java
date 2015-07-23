@@ -78,21 +78,45 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         Button payBtn = holder.getView(R.id.item_tradelist_payBtn);
 
         holder.setText(R.id.item_tradeno_text, null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
-        holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create));
 
         if(!(trade.status > 18 || trade.status < 0)){//设置交易状态
             holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
         }
 
-        LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
+        try {
+            LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
+            MongoItem.TaoBaoInfo.SKU mSku = null;
+            for (MongoItem.TaoBaoInfo.SKU sku : skus) {
+                if(trade.orders.get(0).selectedItemSkuId.equals(sku.sku_id)){
+                    mSku = sku;
+                }
+            }
 
+            ArrayList<Prop> props = SkuUtil.filter(mSku);
+            String color = "";
+            String measurement = "";
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 5, 0);
+            for (Prop prop : props) {
+                if(SkuUtil.KEY.COLOR.id.equals(prop.getPropId())){
+                    color = prop.getName();
+                    continue;
+                }
+                if(SkuUtil.KEY.SIZE_1.id.equals(prop.getPropId()) || SkuUtil.KEY.SIZE_2.id.equals(prop.getPropId()) || SkuUtil.KEY.SIZE_3.id.equals(prop.getPropId())){
+                    measurement = prop.getName();
+                    continue;
+                }
+            }
 
-        holder.setText(R.id.item_tradelist_color, SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id));
-        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
-        holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
-        holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
-        holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
-        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+            holder.setText(R.id.item_tradelist_color, color);
+            holder.setText(R.id.item_tradelist_measurement, measurement);
+            holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
+            holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
+            holder.setImgeByUrl(R.id.item_tradelist_image, ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.images.get(0).url, -1));
+            holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         //等待买家付款
         if(trade.status == 0){
             payBtn.setVisibility(View.VISIBLE);

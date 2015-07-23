@@ -36,7 +36,6 @@ import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
-import com.focosee.qingshow.util.CommUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -137,11 +136,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
-        try {
-            showDetailEntity = (MongoShow) CommUtil.deepCopy(S03Model.INSTANCE.getShow());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         EventBus.getDefault().register(this);
         if (null == S03Model.INSTANCE.getShow()) {
             Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
@@ -163,13 +157,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("showDetailEntity", showDetailEntity);
-        getIntent().putExtras(outState);
-    }
-
 
     @Override
     public void reconn() {
@@ -178,7 +165,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     private void getShowDetailFromNet() {
 
-        final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showDetailEntity._id), null, new Response.Listener<JSONObject>() {
+        final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(S03Model.INSTANCE.getShow()._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
@@ -535,7 +522,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void hideShow(){
-        Toast.makeText(S03SHowActivity.this, "fdsafdsa", Toast.LENGTH_SHORT).show();
+
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(showDetailEntity._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -575,9 +562,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     public void onResume() {
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
-        if(null != getIntent().getExtras()){
-            showDetailEntity = (MongoShow)getIntent().getExtras().get("showDetailEntity");
-        }
         super.onResume();
     }
 

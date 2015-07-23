@@ -18,7 +18,7 @@ public class ImgUtil {
     public static String getImgSrc(String url, int scale, String type) {
         String result = "";
         if (null == type || "".equals(type))
-            type = "jpg";
+            type = "png";
         switch (scale) {
             case 1:
                 break;

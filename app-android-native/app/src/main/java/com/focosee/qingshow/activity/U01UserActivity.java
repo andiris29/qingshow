@@ -38,16 +38,11 @@ import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.CommUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -124,11 +119,7 @@ public class U01UserActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
-        try {
-            user = (MongoPeople)CommUtil.deepCopy(U01Model.INSTANCE.getUser());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        user = U01Model.INSTANCE.getUser();
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUser()._id)) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
@@ -344,20 +335,9 @@ public class U01UserActivity extends MenuActivity {
         eventBus.unregister(this);
     }
 
-    // 将数据保存到outState对象中, 该对象会在重建activity时传递给onCreate方法
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("user", user);
-        getIntent().putExtras(outState);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if(null != getIntent().getExtras()){
-            user = (MongoPeople)getIntent().getExtras().get("user");
-        }
         boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);
         if (hasNew) {
             circleTip.setVisibility(View.VISIBLE);

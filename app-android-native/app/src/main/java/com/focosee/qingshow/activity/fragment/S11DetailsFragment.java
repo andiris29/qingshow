@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S11NewTradeActivity;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -27,9 +38,12 @@ import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuColor;
 import com.focosee.qingshow.util.sku.SkuUtil;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -99,6 +113,8 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     private ArrayList<Prop> myPropList;
     private String skuId;
 
+    private int measureComposition;
+
 
     private HashSet<SkuColor> colors = new HashSet<>();
 
@@ -113,11 +129,30 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
         initView();
         filter();
-        initSize();
+        getDataFormMet(itemEntity.categoryRef.parentRef._id);
 
         onSecletChanged();
 
         return rootView;
+    }
+
+    private void getDataFormMet(final String id) {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                }
+                List<MongoCategories> categories = CategoryParser.parseQuery(response);
+                for (MongoCategories category : categories) {
+                    if (id.equals(category._id)) {
+                        measureComposition = Integer.parseInt(category.measureComposition);
+                    }
+                }
+                initSize();
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
 
@@ -210,13 +245,16 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
     private void initSize() {
         sizeLayout.setVisibility(View.VISIBLE);
-        int measureComposition = 0;
-        if (null == itemEntity.categoryRef)
-            measureComposition = itemEntity.categoryRef.parentRef.measureComposition;
-        else
-            measureComposition = itemEntity.categoryRef.measureComposition;
+        int measureComposition;
+        if (itemEntity.categoryRef.measureComposition == null || itemEntity.categoryRef.measureComposition.isEmpty()) {
+            measureComposition = this.measureComposition;
+        } else {
+            measureComposition = Integer.parseInt(itemEntity.categoryRef.measureComposition);
+        }
         //TODO 显示颜色
-        if(null != SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id))
+        Log.i("tag", measureComposition + "");
+
+        if (null != SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id))
             s11DetailsColorText.setText(SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id));
         switch (measureComposition) {
             case 0:
@@ -274,7 +312,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             if (num == 9) return;
             num++;
             numView.setText(String.valueOf(num));
-            if(!itemEntity.getPrice().equals(""))
+            if (!itemEntity.getPrice().equals(""))
                 s11DetailsPrice.setText(String.valueOf(Integer.parseInt(itemEntity.getPrice().substring(1, itemEntity.getPrice().length())) * num));
         }
         if (v == cutButton) {
@@ -283,7 +321,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             }
             num--;
             numView.setText(String.valueOf(num));
-            if(!itemEntity.getPrice().equals(""))
+            if (!itemEntity.getPrice().equals(""))
                 s11DetailsPrice.setText(String.valueOf(Integer.parseInt(itemEntity.getPrice().substring(1, itemEntity.getPrice().length())) * num));
         }
 
