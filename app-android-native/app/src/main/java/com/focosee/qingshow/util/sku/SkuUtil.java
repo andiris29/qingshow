@@ -73,15 +73,18 @@ public class SkuUtil {
         return props;
     }
 
-    public static String getPropValue(LinkedList<MongoItem.TaoBaoInfo.SKU> skus, String key){
+    public static String getPropValue(LinkedList<MongoItem.TaoBaoInfo.SKU> skus, String... key){
 
+        String[] keyArgs = key;
         HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU> skusProp = filter(skus);
         if(null == skusProp)return null;
         Set<ArrayList<Prop>> keys = skusProp.keySet();
         for(ArrayList<Prop> props : keys){
             for (Prop prop : props){
-                if(prop.propId.equals(key)){
-                    return prop.name;
+                for (int i = 0; i < keyArgs.length; i++) {
+                    if(prop.propId.equals(keyArgs[i])){
+                        return prop.name;
+                    }
                 }
             }
         }

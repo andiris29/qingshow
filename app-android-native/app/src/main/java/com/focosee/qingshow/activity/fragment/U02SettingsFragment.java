@@ -229,8 +229,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            //e.printStackTrace();
-            Toast.makeText(context, "未知错误，请重试！", Toast.LENGTH_LONG)
+            Toast.makeText(context, "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
                     .show();
         }
     }
