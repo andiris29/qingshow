@@ -79,7 +79,7 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
         cityPicker.setOnSelectingListener(onSelectingListener);
         ViewGroup.LayoutParams params = cityPicker.getLayoutParams();
         params.width = size.x;
-        params.height = size.y/3;
+        params.height = size.y/2;
         cityPicker.setLayoutParams(params);
 
         mView = createView();

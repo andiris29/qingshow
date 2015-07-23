@@ -1,6 +1,6 @@
 package com.focosee.qingshow.model;
 
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.activity.U01UserActivity;
 
 /**
  * Created by Administrator on 2015/7/7.
@@ -11,7 +11,7 @@ public enum GoToWhereAfterLoginModel {
     private Class _class;
 
     public Class get_class() {
-        return _class;
+        return null == _class ? U01UserActivity.class : _class;
     }
 
     public void set_class(Class _class) {

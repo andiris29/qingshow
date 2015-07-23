@@ -247,20 +247,11 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 API, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("u02_response:" + response);
                 MongoPeople user = UserParser._parsePeople(response);
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
                     getUser();
-                }
-                if (type == TYPE_PORTRAIT) {
-                    portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.portrait, "s")));
-                    portraitImageView.setAlpha(1f);
-                }
-                if (type == TYPE_BACKGROUD) {
-                    backgroundImageView.setImageURI(Uri.parse(user.background));
-                    backgroundImageView.setAlpha(1f);
                 }
             }
         }, new Response.ErrorListener() {
@@ -287,7 +278,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void setData() {
         if (null != people) {
             if (null != people.portrait) {
-                portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(people.portrait, ImgUtil.Large)));
+                portraitImageView.setImageURI(Uri.parse(people.portrait));
                 portraitImageView.setAlpha(1f);
             }
             if (null != people.background) {
@@ -309,7 +300,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             bodyTypeTextView.setTag(people.bodyType);
             dressStyleEditText.setText(dressStyles[people.dressStyle]);
             dressStyleEditText.setTag(people.dressStyle);
-            if(null != people.expectations && people.expectations.length != 0) {
+            if (null != people.expectations && people.expectations.length != 0) {
                 String effectStr = "";
                 for (int index : people.expectations) {
                     effectStr += expectations[index] + "|";
@@ -469,135 +460,95 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         heightEditText.setOnFocusChangeListener(this);
         weightEditText.setOnFocusChangeListener(this);
 
-        backTextView.setOnClickListener(new View.OnClickListener()
+        backTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                commitForm();
+                menuSwitch();
+            }
+        });
 
-                                        {
-                                            @Override
-                                            public void onClick(View view) {
-                                                commitForm();
-                                                menuSwitch();
-                                            }
-                                        }
+        personalRelativeLayout.setOnClickListener(new View.OnClickListener(){
+              @Override
+              public void onClick(View view) {
+                  Intent intent = new Intent();
+                  intent.setType("image/*");
+                  intent.setAction(Intent.ACTION_GET_CONTENT);
+                  startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
+              }
+        });
+        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "请选择背景"), TYPE_BACKGROUD);
+            }
+        });
 
-        );
+        sexRelativeLayout.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View view) {
+                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                 showActionSheet(TAG_SEX);
+             }
+        });
 
-        personalRelativeLayout.setOnClickListener(new View.OnClickListener()
+        bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener(){
+              @Override
+              public void onClick(View view) {
+                  getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                  showActionSheet(TAG_BODYTYPE);
+              }
+        });
 
-                                                  {
-                                                      @Override
-                                                      public void onClick(View view) {
-                                                          Intent intent = new Intent();
-                                                          intent.setType("image/*");
-                                                          intent.setAction(Intent.ACTION_GET_CONTENT);
-                                                          startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
-                                                      }
-                                                  }
+        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                        replace(R.id.settingsScrollView, fragment).commit();
+                U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
+            }
+        });
 
-        );
-        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener()
+        tradeRelativeLayout.setOnClickListener(new View.OnClickListener(){
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
+               startActivity(intent);
+           }
+       });
 
-                                                    {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                            Intent intent = new Intent();
-                                                            intent.setType("image/*");
-                                                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                                                            startActivityForResult(Intent.createChooser(intent, "请选择背景"), TYPE_BACKGROUD);
-                                                        }
-                                                    }
+        addresslistRelativeLayout.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View v) {
+                 Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
+                 startActivity(intent);
+             }
+         });
 
-        );
+        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_DRESSSTYLE);
+            }
+        });
 
-        sexRelativeLayout.setOnClickListener(new View.OnClickListener()
-
-                                             {
-                                                 @Override
-                                                 public void onClick(View view) {
-                                                     getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                                                     showActionSheet(TAG_SEX);
-                                                 }
-                                             }
-
-        );
-
-        bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener()
-
-                                                  {
-                                                      @Override
-                                                      public void onClick(View view) {
-                                                          getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                                                          showActionSheet(TAG_BODYTYPE);
-                                                      }
-                                                  }
-
-        );
-
-        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener()
-
-                                                        {
-                                                            @Override
-                                                            public void onClick(View view) {
-                                                                U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                                                                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
-                                                                        replace(R.id.settingsScrollView, fragment).commit();
-                                                                U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
-                                                            }
-                                                        }
-
-        );
-
-        tradeRelativeLayout.setOnClickListener(new View.OnClickListener()
-
-                                               {
-                                                   @Override
-                                                   public void onClick(View v) {
-                                                       Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
-                                                       startActivity(intent);
-                                                   }
-                                               }
-
-        );
-
-        addresslistRelativeLayout.setOnClickListener(new View.OnClickListener()
-
-                                                     {
-                                                         @Override
-                                                         public void onClick(View v) {
-                                                             Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
-                                                             startActivity(intent);
-                                                         }
-                                                     }
-
-        );
-
-        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener()
-
-                                                    {
-                                                        @Override
-                                                        public void onClick(View v) {
-                                                            getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                                                            showActionSheet(TAG_DRESSSTYLE);
-                                                        }
-                                                    }
-
-        );
-
-        effectRelativeLayout.setOnClickListener(new View.OnClickListener()
-
-                                                {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
-                                                        Bundle bundle = new Bundle();
-                                                        bundle.putSerializable("user", people);
-                                                        fragment.setArguments(bundle);
-                                                        getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
-                                                                replace(R.id.settingsScrollView, fragment).commit();
-                                                        U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
-                                                    }
-                                                }
-
-        );
+        effectRelativeLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", people);
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                        replace(R.id.settingsScrollView, fragment).commit();
+                U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
+            }
+        });
     }
 
     @Override

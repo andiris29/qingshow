@@ -237,6 +237,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
+        order.price = 0.01;
         params = new HashMap();
         params.put("totalFee", 0.01);
         order.selectedPeopleReceiverUuid = selectedPeopleReceiverUuid;

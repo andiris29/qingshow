@@ -2,24 +2,17 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
-import com.focosee.qingshow.command.PayCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -28,16 +21,11 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import org.json.JSONObject;
-
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,8 +38,6 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener{
 
     private OnViewHolderListener onViewHolderListener;
-
-    public LinkedList<MongoTrade> datas = null;
 
     /**
      * viewType的顺序的layoutId的顺序一致
@@ -76,6 +62,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         Button applyChange = holder.getView(R.id.item_tradelist_applychange);
         Button applyReturn = holder.getView(R.id.item_tradelist_applyreturn);
         Button payBtn = holder.getView(R.id.item_tradelist_payBtn);
+        payBtn.setVisibility(View.GONE);
 
         holder.setText(R.id.item_tradeno_text, null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
         holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create));
@@ -86,13 +73,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
         LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
 
-
         holder.setText(R.id.item_tradelist_color, SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id));
         holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
         holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
         holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
         holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+        holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create.getTimeInMillis()));
         //等待买家付款
         if(trade.status == 0){
             payBtn.setVisibility(View.VISIBLE);
@@ -174,9 +161,8 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             });
             return;
         }
+//        holder.getView(R.id.item_trade_finishTime_layout).setVisibility(View.VISIBLE);
 
-        holder.getView(R.id.item_trade_finishTime_layout).setVisibility(View.VISIBLE);
-        holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create.getTimeInMillis()));
     }
 
     @Override
@@ -272,16 +258,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 });
                 view.findViewById(R.id.tradedialog_comfirm_btn).setVisibility(View.GONE);
                 dialog.show();
-
         }
-    }
-
-    public void resetDatas(LinkedList<MongoTrade> datas){
-        this.datas = datas;
-    }
-
-    public void addDatas(LinkedList<MongoTrade> datas){
-        this.datas.addAll(datas);
     }
 
     @Override
