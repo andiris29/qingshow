@@ -2,31 +2,33 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var async = require('async');
 var qsftp = require('../../runtime/qsftp');
-var path = require('path');
-var gm = require('gm');
-imageMagick = gm.subClass({ imageMagick : true });
+
+
 
 var RequestHelper = module.exports;
 
-RequestHelper.getIp = function(req) {
+RequestHelper.getIp = function (req) {
     return req.header('X-Real-IP') || req.connection.remoteAddress;
 };
 
-RequestHelper.parse = function(raw, specifiedParsers) {
+RequestHelper.parse = function (raw, specifiedParsers) {
     var qsParam = {};
     specifiedParsers = specifiedParsers || {};
-    for (var key in raw) {
-        var parser = specifiedParsers[key];
-        if (parser) {
-            qsParam[key] = parser(raw[key]);
-        } else {
-            qsParam[key] = raw[key];
+    var key = null;
+    for (key in raw) {
+        if (raw.hasOwnProperty(key)) {
+            var parser = specifiedParsers[key];
+            if (parser) {
+                qsParam[key] = parser(raw[key]);
+            } else {
+                qsParam[key] = raw[key];
+            }
         }
     }
     return qsParam;
 };
 
-RequestHelper.parsePageInfo = function(raw) {
+RequestHelper.parsePageInfo = function (raw) {
     var qsParam = RequestHelper.parse(raw, {
         'pageNo' : RequestHelper.parseNumber,
         'pageSize' : RequestHelper.parseNumber
@@ -36,40 +38,40 @@ RequestHelper.parsePageInfo = function(raw) {
     return qsParam;
 };
 
-RequestHelper.parseNumber = function(string) {
+RequestHelper.parseNumber = function (string) {
     return string === undefined ? undefined : parseFloat(string);
 };
 
-RequestHelper.parseDate = function(string) {
+RequestHelper.parseDate = function (string) {
     if (string !== undefined) {
         var date = new Date(string);
         return date;
     }
 };
 
-RequestHelper.parseId = function(string) {
+RequestHelper.parseId = function (string) {
     return string === undefined ? undefined : new mongoose.Types.ObjectId(string);
 };
 
-RequestHelper.parseArray = function(raw) {
+RequestHelper.parseArray = function (raw) {
     if (raw === undefined) {
         return undefined;
-    } else if (_.isString(raw)){
+    } else if (_.isString(raw)) {
         return raw.split(',');
-    } else if (_.isArray(raw)){
+    } else if (_.isArray(raw)) {
         return raw;
     } else {
         return undefined;
     }
 };
 
-RequestHelper.parseIds = function(string) {
+RequestHelper.parseIds = function (string) {
     return RequestHelper.parseArray(string).map(function(element) {
         return RequestHelper.parseId(element);
     });
 };
 
-RequestHelper.parseFile = function(req, uploadPath, resizeOptions, callback) {
+RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
     var formidable = require('formidable');
 
     var form = new formidable.IncomingForm();
@@ -84,47 +86,12 @@ RequestHelper.parseFile = function(req, uploadPath, resizeOptions, callback) {
         }
 
         var savedName = path.basename(file.path);
-        var oldPath = file.path;
         var fullPath = path.join(uploadPath, savedName);
 
-        qsftp.upload(file.path, fullPath, function (err) {
+        qsftp.uploadWithResize(file.path, savedName, uploadPath, resizeOptions, function (err) {
             file.path = fullPath;
             callback(err, fields, file);
         });
-
-        if (resizeOptions) {
-            resizeOptions.forEach(function (option) {
-                var lastDotIndex = oldPath.lastIndexOf('.');
-                var newPath = oldPath.substr(0, lastDotIndex) + option.suffix + oldPath.substr(lastDotIndex);
-                if (option.rate) {
-                    imageMagick(oldPath)
-                        .size(function (err, size) {
-                            this.resize(size.width * option.rate, size.height * option.rate, '!')
-                                .autoOrient()
-                                .write(newPath, function (err) {
-                                    if (!err) {
-                                        var savedName = path.basename(newPath);
-                                        var fullPath = path.join(uploadPath, savedName);
-                                        qsftp.upload(newPath, fullPath, function (err) {
-                                        });
-                                    }
-                                });
-                        });
-                } else {
-                    imageMagick(oldPath)
-                        .resize(option.width, option.height, '!')
-                        .autoOrient()
-                        .write(newPath, function (err) {
-                            if (!err) {
-                                var savedName = path.basename(newPath);
-                                var fullPath = path.join(uploadPath, savedName);
-                                qsftp.upload(newPath, fullPath, function (err) {
-                                });
-                            }
-                        });
-                }
-            });
-        }
     });
 };
 

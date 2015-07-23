@@ -2,6 +2,9 @@
 var FtpClient = require('ftp');
 var winston = require('winston');
 
+var gm = require('gm');
+var imageMagick = gm.subClass({ imageMagick : true });
+var path = require('path');
 
 var ftpConnection;
 
@@ -62,9 +65,49 @@ var upload = function (input, dest, callback) {
     ftpConnection.put(input, dest, callback);
 };
 
+var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, callback) {
+    upload(input, path.join(uploadPath, savedName), callback);
+
+    if (resizeOptions) {
+        resizeOptions.forEach(function (option) {
+            var lastDotIndex = input.lastIndexOf('.');
+            var newPath = input.substr(0, lastDotIndex) + option.suffix + input.substr(lastDotIndex);
+            if (option.rate) {
+                imageMagick(input)
+                    .size(function (err, size) {
+                        this.resize(size.width * option.rate, size.height * option.rate, '!')
+                            .autoOrient()
+                            .write(newPath, function (err) {
+                                if (!err) {
+                                    var savedName = path.basename(newPath);
+                                    var fullPath = path.join(uploadPath, savedName);
+                                    upload(newPath, fullPath, function (err) {});
+                                }
+                            });
+                    });
+            } else {
+                imageMagick(input)
+                    .resize(option.width, option.height, '!')
+                    .autoOrient()
+                    .write(newPath, function (err) {
+                        if (!err) {
+                            var savedName = path.basename(newPath);
+                            var fullPath = path.join(uploadPath, savedName);
+                            upload(newPath, fullPath, function (err) {});
+                        }
+                    });
+            }
+        });
+    }
+
+};
+
+
 module.exports = {
     'connect' : connect,
     'getConnection' : getConnection,
-    'upload' : upload
+    'upload' : upload,
+    'uploadWithResize' : uploadWithResize
+
 
 };

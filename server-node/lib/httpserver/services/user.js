@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 var async = require('async');
 var uuid = require('node-uuid');
 var path = require('path');
-
 var jPushAudiences = require('../../model/jPushAudiences');
+var fs = require('fs');
+
 var People = require('../../model/peoples');
 
 var RequestHelper = require('../helpers/RequestHelper');
@@ -463,6 +464,20 @@ _removeReceiver = function(req, res) {
     });
 };
 
+
+var _downloadHeadIcon = function (path, callback) {
+    var tempName = path.replace(/[\.\/:]/g, '_');
+    var tempPath = "/tmp/" + tempName;
+
+    request(path).pipe(fs.createWriteStream(tempPath))
+        .on('close', function () {
+            callback(null, tempPath);
+        })
+        .on('error', function (err) {
+            callback(err);
+        });
+};
+
 _loginViaWeixin = function(req, res) {
     var param = req.body;
     var code = param.code;
@@ -504,6 +519,13 @@ _loginViaWeixin = function(req, res) {
                 'privilege' : data.privilege,
                 'unionid' : data.unionid
             });
+        });
+    }, function (user, callback) {
+        var url = user.headimgurl;
+        _downloadHeadIcon(url, function (err, tempPath) {
+            var oldPath = tempPath;
+            path.basename()
+            callback(user);
         });
     }, function(user, callback) {
         People.findOne({
