@@ -4,6 +4,7 @@ package com.focosee.qingshow.constants.config;
  * Created by jackyu on 11/22/14.
  */
 public class QSAppWebAPI {
+    public static final String IMAGE_HOST_ADDRESS = "trial01.focosee.com";//识别头像是否是用倾秀上传
     private static final String HOST_ADDRESS = "http://121.41.161.239:80";
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
 

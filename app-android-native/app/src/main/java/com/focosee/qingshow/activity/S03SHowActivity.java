@@ -37,6 +37,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.util.CommUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -259,11 +260,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         if (null != videoUriString && !"".equals(videoUriString))
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
-        s03ImagePreground.setImageURI(Uri.parse(showDetailEntity.coverForeground));
+        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.Large)));
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover){
-            image.setImageURI(Uri.parse(showDetailEntity.cover));
+            image.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.cover, ImgUtil.Large)));
             image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
 
@@ -307,7 +308,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         if(null != showDetailEntity.__context)
             if(null != showDetailEntity.__context.createdBy)
                 if(null != showDetailEntity.__context.createdBy.portrait)
-                    s03Portrait.setImageURI(Uri.parse(showDetailEntity.__context.createdBy.portrait));
+                    s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.__context.createdBy.portrait, ImgUtil.Large)));
         s03Nickname.setVisibility(View.VISIBLE);
         s03Nickname.setText(showDetailEntity.__context.createdBy.nickname);
     }

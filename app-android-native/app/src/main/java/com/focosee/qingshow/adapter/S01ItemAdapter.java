@@ -10,6 +10,7 @@ import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -51,7 +52,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
                 context.startActivity(new Intent(context, U01UserActivity.class));
             }
         });
-        holder.setImgeByUrl(R.id.item_s01_preground, show.coverForeground, ValueUtil.pre_img_AspectRatio);
+        holder.setImgeByUrl(R.id.item_s01_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.Large), ValueUtil.pre_img_AspectRatio);
         holder.setImgeByUrl(R.id.item_s01_img, show.cover, ValueUtil.match_img_AspectRatio);
         MongoPeople user = new MongoPeople();
         if(null != show.__context){
@@ -61,7 +62,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
         }
 
         if(null != user.portrait || "".equals(user.portrait))
-            holder.setImgeByUrl(R.id.item_s01_head_img, user.portrait, 1f);
+            holder.setImgeByUrl(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.Meduim), 1f);
 
         holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" :TimeUtil.formatDateTime_CN_Pre(show.create) + "前");
         holder.setText(R.id.item_s01_nikename, user.nickname);

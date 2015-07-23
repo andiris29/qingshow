@@ -6,6 +6,7 @@ import android.view.View;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
@@ -27,7 +28,7 @@ public class S04CommentListAdapter extends AbsAdapter<MongoComment> {
     public void onBindViewHolder(AbsViewHolder holder, final int position) {
 
         MongoComment comment = getItemData(position);
-        holder.setImgeByUrl(R.id.item_comment_user_image, comment.getAuthorImage());
+        holder.setImgeByUrl(R.id.item_comment_user_image, ImgUtil.getImgSrc(comment.getAuthorImage(), ImgUtil.Large));
         holder.setText(R.id.item_comment_user_name, comment.getAuthorName());
         holder.setText(R.id.item_comment_content, comment.getCommentContent());
 
