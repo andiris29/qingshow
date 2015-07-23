@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -56,14 +57,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
-        System.out.println("baseResp");
-        if(baseResp instanceof SendAuth.Resp){
-            SendAuth.Resp resp = (SendAuth.Resp)baseResp;
+        Log.d("WX", "weixin callback: " + baseResp.getType());
+        if (baseResp instanceof SendAuth.Resp) {
+            SendAuth.Resp resp = (SendAuth.Resp) baseResp;
             loginWX(resp.code);
             return;
         }
-        if(baseResp instanceof SendMessageToWX.Resp){
-            SendMessageToWX.Resp resp = (SendMessageToWX.Resp)baseResp;
+        if (baseResp instanceof SendMessageToWX.Resp) {
+            SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
             EventModel<Integer> eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
             EventBus.getDefault().post(eventModel);
             finish();
@@ -71,18 +72,18 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
     }
 
-    private void loginWX(String code){
+    private void loginWX(String code) {
 
-        Map<String, String > map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("code", code);
-        map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
+        map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId", ""));
         JSONObject jsonObject = new JSONObject(map);
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)) {
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(WXEntryActivity.this, MetadataParser.getError(response));
                     finish();
                     return;
