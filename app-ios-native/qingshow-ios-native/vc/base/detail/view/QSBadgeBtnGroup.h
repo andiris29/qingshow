@@ -21,6 +21,7 @@
 
 - (instancetype)initWithTypes:(NSArray*)array;
 - (void)triggerSelectType:(QSBadgeButtonType)type;
+- (void)addDotWithType:(QSBadgeButtonType)type;
 
 @property (weak, nonatomic) NSObject<QSBadgeBtnGroupDelegate>* delegate;
 @end

@@ -273,9 +273,14 @@
 - (MKNetworkOperation *)registerByNickname:(NSString *)nickName
                                   Password:(NSString *)passwd Id:(NSString *)pid onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock
 {
+    NSMutableDictionary* paramDict = [@{@"nickname" : nickName, @"password": passwd, @"id":pid} mutableCopy];
+    if ([QSUserManager shareUserManager].JPushRegistrationID) {
+        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
+    }
+    
     return [self startOperationWithPath:PATH_USER_REGISTER
                                  method:@"POST"
-                               paramers:@{@"nickname" : nickName, @"password": passwd, @"id":pid}
+                               paramers:paramDict
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;

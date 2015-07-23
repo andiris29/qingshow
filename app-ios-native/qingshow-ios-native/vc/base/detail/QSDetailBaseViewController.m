@@ -115,6 +115,7 @@
     
     self.currentSection = section;
     currentView = self.viewArray[self.currentSection];
+    self.badgeView.touchDelegateView = currentView;
     [currentView.layer addAnimation:transition2 forKey:@"transition"];
     
     if ([UIScreen mainScreen].bounds.size.height > currentView.contentSize.height) {

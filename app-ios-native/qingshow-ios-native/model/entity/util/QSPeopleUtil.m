@@ -9,6 +9,8 @@
 #import "QSCommonUtil.h"
 #import "QSPeopleUtil.h"
 #import "NSNumber+QSExtension.h"
+
+
 @implementation QSPeopleUtil
 
 + (NSString*)buildModelStatusString:(NSDictionary*)modelDict
@@ -67,20 +69,25 @@
     }
     return name;
 }
-+ (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict
-{
+
++ (NSURL*)getHeadIconUrl:(NSDictionary *)peopleDict type:(QSImageNameType)type {
     if ([QSCommonUtil checkIsNil:peopleDict]) {
         return nil;
     }
     
     NSString* path = peopleDict[@"portrait"];
     if (![QSCommonUtil checkIsNil:path]) {
-        return [NSURL URLWithString:path];
+        return [NSURL URLWithString:[QSImageNameUtil appendImageName:path type:type]];
     } else {
         return [[NSBundle mainBundle] URLForResource:@"user_head_default" withExtension:@"png"];
     }
     
     return nil;
+}
+
++ (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict
+{
+    return [self getHeadIconUrl:peopleDict type:QSImageNameTypeOrigin];
 }
 
 + (NSURL*)getBackgroundUrl:(NSDictionary*)peopleDict

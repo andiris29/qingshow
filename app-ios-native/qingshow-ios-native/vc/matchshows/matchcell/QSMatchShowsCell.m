@@ -11,6 +11,7 @@
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSDateUtil.h"
+#import "QSImageNameUtil.h"
 @implementation QSMatchShowsCell
 {
     NSDictionary *_showDic;
@@ -60,10 +61,19 @@
 
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
-   //NSLog(@"dic = %@",dict);
+#warning TODO change to  getFormatterCoverUrl
     [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
-    [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic]];
-    [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
+    int headNum = arc4random() % 6 + 1;
+    NSString *headStr = [NSString stringWithFormat:@"http://trial01.focosee.com/img/user/portrait/%d@2x.png",headNum];
+    if ([QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]) {
+        [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]];
+    }
+    else
+    {
+        [self.headerImgView setImageFromURL:[NSURL URLWithString:headStr]];
+    }
+    
+    [self.bgImgView setImageFromURL:[QSShowUtil getFormatterCoVerForegroundUrl:dict]];
     NSString *createDate = dict[@"create"];
     //NSLog(@"%@",createDate);
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];

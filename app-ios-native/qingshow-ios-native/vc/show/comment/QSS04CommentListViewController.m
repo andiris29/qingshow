@@ -81,7 +81,7 @@
     
     self.clickIndex = -1;
     
-    [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo]];
+    [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo type:QSImageNameType100]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -123,8 +123,15 @@
     }
     [self.textField resignFirstResponder];
     self.clickIndex = index;
+    if ([QSUserManager shareUserManager].userInfo == nil) {
+         UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"请先登录" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复", @"查看个人主页",*/ nil];
+        [sheet showInView:self.view];
+    }
+    else
+    {
     UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复", @"查看个人主页",*/ nil];
     [sheet showInView:self.view];
+    }
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {

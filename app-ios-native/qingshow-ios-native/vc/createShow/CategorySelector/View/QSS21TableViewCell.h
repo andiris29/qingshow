@@ -26,5 +26,5 @@
 
 //设置cell的子控件
 - (void)setSubViewsWith:(NSDictionary *)cellDic andSelectedDic:(NSDictionary *)selectedDic;
-
+- (void)setLastCellWith:(NSDictionary *)cellDic andSelectedArray:(NSArray *)selectedArray;
 @end

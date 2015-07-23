@@ -50,7 +50,7 @@
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString* currentDateStr = [dateFormatter stringFromDate:date];
-        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         return currentDateStr;
     }
     else
@@ -64,7 +64,7 @@
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM.dd"];
         NSString* currentDateStr = [dateFormatter stringFromDate:date];
-        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         return currentDateStr;
     }
     else
@@ -79,7 +79,7 @@
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString* currentDateStr = [dateFormatter stringFromDate:date];
-        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         return currentDateStr;
     }
     else
@@ -93,9 +93,11 @@
     if (!date) {
         return nil;
     }
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
-    return [NSString stringWithFormat:@"%d:%d",(int)c.hour, (int)c.minute];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    return [dateFormatter stringFromDate:date];
 }
 
 + (NSString *)gettimeSinceDate:(NSString *)date
@@ -142,10 +144,11 @@
     if (!date) {
         return nil;
     }
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth| NSCalendarUnitYear) fromDate:date];
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd"];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    return [dateFormatter stringFromDate:date];
     
-    return [NSString stringWithFormat:@"%d/%d", (int)c.month, (int)c.day];
 }
 + (NSString*)getWeek:(NSDate*)date
 {

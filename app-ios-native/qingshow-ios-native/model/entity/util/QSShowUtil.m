@@ -50,7 +50,44 @@
         return nil;
     }
     return [NSURL URLWithString:cover];
+    
 }
+
++ (NSURL *)getFormatterCoverUrl:(NSDictionary *)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* cover = dict[@"cover"];
+   
+    NSRange range = [cover rangeOfString:@"cover/"];
+    NSString *rangeStr = [cover substringFromIndex:range.location];
+    NSString *formatterStr = [NSString stringWithFormat:@"http://trial01.focosee.com/img/show/%@_s.jpeg",rangeStr];
+    if (cover) {
+        return [NSURL URLWithString:formatterStr];
+    }
+    else {
+        return nil;
+    }
+}
++ (NSURL *)getFormatterCoVerForegroundUrl:(NSDictionary *)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* coverFore = dict[@"coverForeground"];
+    NSRange range = [coverFore rangeOfString:@".png"];
+    NSString *rangeStr = [coverFore substringToIndex:range.location];
+    NSString *formatterStr = [NSString stringWithFormat:@"%@_s.png",rangeStr];
+    if (coverFore) {
+        return [NSURL URLWithString:formatterStr];
+    }
+    else {
+        return nil;
+    }
+ 
+}
+
 
 + (NSURL*)getCoverBackgroundUrl:(NSDictionary*)dict {
     if ([QSCommonUtil checkIsNil:dict]) {

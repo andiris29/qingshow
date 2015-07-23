@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "badge_btn_recommend_dot.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "backToTop.png"
+      "filename" : "badge_btn_recommend_dot@2x.png"
     },
     {
       "idiom" : "universal",
