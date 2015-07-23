@@ -3,6 +3,7 @@ var async = require('async');
 
 var Trace = require('../../model/traces');
 var People = require('../../model/peoples');
+var jPushToPeople = require('../../model/jPushToPeople');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
@@ -53,27 +54,60 @@ spread.firstLaunch = {
                     if (people) {
                         if (people.questSharing && people.questSharing.status == 0) {
                             people.questSharing.progress = people.questSharing.progress + 1;
+                            var message = "";
+                            var extras = {};
                             if (people.questSharing.progress >= MAX_PROGRESS) {
                                 people.questSharing.status = 1;
-                                PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, {
+                                message = PushNotificationHelper.MessageQuestSharingObjectiveComplete;
+                                extras = {
                                     'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete
-                                }, null);
+                                };
                             } else {
-                                var message = PushNotificationHelper.MessageQuestSharingProgress;
+                                message = PushNotificationHelper.MessageQuestSharingProgress;
                                 var objective = MAX_PROGRESS - people.questSharing.progress;
                                 message = message.replace("{0}", objective);
-                                PushNotificationHelper.push(people.jPushInfo.registrationIDs, message, {
+                                extras = {
                                     'command' : PushNotificationHelper.CommandQuestSharingProgress
-                                }, null);
+                                };
                             }
-                        } else {
+                            jPushToPeople.find({
+                                'peopleRef' : people._id
+                            }).exec(function(err, registrationIDs) {
+                                if (err) {
+                                    return;
+                                }
+                                var targets = [];
+                                registrationIDs.forEach(function(id) {
+                                    targets.push(id.registrationId);
+                                });
+                                PushNotificationHelper.push(targets, message, extras, null);
+                            });
+                            people.save();
+                        } else if(people.questSharing == null || people.questSharing.status == null) {
                             people.questSharing = {
                                 status : 0,
                                 progress : 1, 
                                 reward : {}
                             };
+                            var alertMessage = PushNotificationHelper.MessageQuestSharingProgress;
+                            var target = MAX_PROGRESS - people.questSharing.progress;
+                            alertMessage = alertMessage.replace("{0}", target);
+                            jPushToPeople.find({
+                                'peopleRef' : people._id
+                            }).exec(function(err, registrationIDs) {
+                                if (err) {
+                                    return;
+                                }
+                                var targets = [];
+                                registrationIDs.forEach(function(id) {
+                                    targets.push(id.registrationId);
+                                });
+                                PushNotificationHelper.push(targets, alertMessage, {
+                                    'command' : PushNotificationHelper.CommandQuestSharingProgress
+                                }, null);
+                            });
+                            people.save();
                         }
-                        people.save();
                     }
                 });
             }

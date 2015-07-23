@@ -3,6 +3,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var People = require('../../model/peoples');
+var jPushToPeople = require('../../model/jPushToPeople');
 
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
@@ -35,11 +36,26 @@ notify.newRecommandations = {
 
                 return type == group;
             });
-            var registrationIDs = [];
-            targets.forEach(function(people, index) {
-                if(people.jPushInfo.registrationIDs && people.jPushInfo.registrationIDs.length > 0) {
-                    registrationIDs = registrationIDs.concat(people.jPushInfo.registrationIDs);
+
+            var ids = [];
+            targets.forEach(function(target) {
+                ids.push(target._id);
+            });
+            callback(null, ids);
+        },
+        function(ids, callback) {
+            jPushToPeople.find({
+                peopleRef : {
+                    '$in' : ids 
                 }
+            }).exec(function(err, infos) {
+                callback(err, infos);
+            });
+        },
+        function(targets, callback) {
+            var registrationIDs = [];
+            targets.forEach(function(target) {
+                registrationIDs.push(target.registrationId);
             });
             PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageNewRecommandations, {
                 'command' : PushNotificationHelper.CommandNewRecommandations
@@ -57,15 +73,31 @@ notify.questSharingObjectiveComplete = {
         async.waterfall([
         function(callback) {
             People.find({
-                'querySharing.status' : 1
-            }).exec(callback);
+                'questSharing.status' : 1
+            }).exec(function(err, peoples) {
+                callback(err, peoples);
+            });
+        },
+        function(peoples, callback) {
+            var ids = [];
+            peoples.forEach(function(people) {
+                ids.push(people._id);
+            });
+            callback(null, ids);
+        },
+        function(ids, callback) {
+            jPushToPeople.find({
+                peopleRef : {
+                    '$in' : ids
+                }
+            }).exec(function(err, infos) {
+                callback(err, infos);
+            });
         },
         function(peoples, callback) {
             var registrationIDs = [];
-            peoples.forEach(function(people, index) {
-                if(people.jPushInfo.registrationIDs && people.jPushInfo.registrationIDs.length > 0) {
-                    registrationIDs = registrationIDs.concat(people.jPushInfo.registrationIDs);
-                }
+            peoples.forEach(function(target) {
+                registrationIDs.push(target.registrationId);
             });
             PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, {
                 'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete

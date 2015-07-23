@@ -28,6 +28,11 @@ showSchema = Schema({
         type : Date,
         'default' : Date.now
     },
+    ownerRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
+    hideAgainstOwner : Boolean,
     recommend : {
         group: String,
         date : Date,

@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 var async = require('async'), _ = require('underscore');
 //model
 var Show = require('../../model/shows');
+var Trade = require('../../model/trades');
 var Peoples = require('../../model/peoples');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var Promotion = require('../../model/promotions');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
@@ -36,14 +36,21 @@ var _feed = function (req, res, querier, aspectInceptions) {
                     // Populate itemRefs
                     Show.populate(currentPageModels, {
                         'path' : 'itemRefs',
-                        'model' : "items"
+                        'model' : 'items'
                     }, callback);
                 },
                 function(callback) {
                     // Populate promotionRef
                     Show.populate(currentPageModels, {
                         'path' : 'promotionRef',
-                        'model' : "promotions"
+                        'model' : 'promotions'
+                    }, callback);
+                },
+                function(callback) {
+                    // Populate ownerRef
+                    Show.populate(currentPageModels, {
+                        'path' : 'ownerRef',
+                        'model' : 'peoples'
                     }, callback);
                 },
                 function (callback) {
@@ -294,30 +301,22 @@ feeding.matchCreatedBy = {
         _feed(req, res, function(qsParam, callback) {
             var criteria = {
                 '$and' : [{
-                    'initiatorRef' : RequestHelper.parseId(qsParam._id)
+                    'ownerRef' : RequestHelper.parseId(qsParam._id)
                 }, {
                     '$or' : [{
-                        'hideAgainstCreator' : false 
+                        'hideAgainstOwner' : false 
                     } , {
-                        'hideAgainstCreator' : {
+                        'hideAgainstOwner' : {
                             '$exists' : false
                         }
                     }]
                 }]
             };
             
-            MongoHelper.queryPaging(RPeopleCreateShow.find(criteria).sort({
+            MongoHelper.queryPaging(Trade.find(criteria).sort({
                 'create' : -1
-            }).populate('targetRef'), RPeopleCreateShow.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
-                var models = [];
-                if (!err) {
-                    relationships.forEach(function(relationship) {
-                        if (relationship.targetRef) {
-                            models.push(relationship.targetRef);
-                        }
-                    });
-                }
-                callback(err, models, count);
+            }), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, shows, count) {
+                callback(err, shows, count);
             });
         });
     }
