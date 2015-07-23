@@ -94,7 +94,7 @@ public class U09TradeListActivity extends BaseActivity{
     }
 
     public void onEventMainThread(LinkedList<MongoTrade> event) {
-        mAdapter.resetDatas(event);
+        mAdapter.addDataAtTop(event);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -127,9 +127,9 @@ public class U09TradeListActivity extends BaseActivity{
                 }
                 LinkedList<MongoTrade> tradeList = TradeParser.parseQuery(response);
                 if(currentPageNo == 1){
-                    mAdapter.resetDatas(tradeList);
+                    mAdapter.addDataAtTop(tradeList);
                 } else {
-                    mAdapter.addDatas(tradeList);
+                    mAdapter.addData(tradeList);
                 }
                 currentPageNo++;
                 mAdapter.notifyDataSetChanged();

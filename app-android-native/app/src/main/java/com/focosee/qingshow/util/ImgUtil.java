@@ -2,7 +2,14 @@ package com.focosee.qingshow.util;
 
 import android.net.Uri;
 
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+
 public class ImgUtil {
+
+    public static String Large = "s";
+    public static String Meduim = "xs";
+    public static String Normal = "xxs";
+    public static String Small = "xxxs";
 
     public static String imgTo2x(String url) {
         String str = "";
@@ -39,12 +46,14 @@ public class ImgUtil {
     }
 
 
-    public static String getImgSrc_portrait(String url, int scale) {
+    public static String getImgSrc(String url, String scale) {
 
-        if (scale == 0) return url;
+        if(null == url || "".equals(url))return "";
+        if (scale == null || "".equals(scale)) return url;
+        if(url.indexOf(QSAppWebAPI.IMAGE_HOST_ADDRESS) <= -1)return url;
+        String type = url.substring(url.lastIndexOf(".") + 1, url.length());
         url = url.substring(0, url.lastIndexOf("."));
-        System.out.println("url:" + url);
-        return url + "_" + scale + ".png";
+        return url + "_" + scale + "." + type;
     }
 
     public static Uri changeImgUri(String uri, CategoryImgType t) {

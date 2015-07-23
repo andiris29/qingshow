@@ -26,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
@@ -256,7 +255,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     getUser();
                 }
                 if (type == TYPE_PORTRAIT) {
-                    portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc_portrait(user.portrait, 50)));
+                    portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.portrait, "s")));
                     portraitImageView.setAlpha(1f);
                 }
                 if (type == TYPE_BACKGROUD) {
@@ -288,7 +287,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void setData() {
         if (null != people) {
             if (null != people.portrait) {
-                portraitImageView.setImageURI(Uri.parse(people.portrait));
+                portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(people.portrait, ImgUtil.Large)));
                 portraitImageView.setAlpha(1f);
             }
             if (null != people.background) {

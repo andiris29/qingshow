@@ -14,6 +14,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 
 import org.json.JSONObject;
@@ -43,7 +44,7 @@ public class U01FollowerFragAdapter extends U01BaseAdapter<MongoPeople>{
         if(0 == position) return;
         final MongoPeople people = getItemData(position);
         if(null != people.portrait && !"".equals(people.portrait))
-            holder.setImgeByUrl(R.id.item_u01_fans_image, people.portrait);
+            holder.setImgeByUrl(R.id.item_u01_fans_image, ImgUtil.getImgSrc(people.portrait, ImgUtil.Large));
         holder.setText(R.id.item_u01_fans_name, people.nickname);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
