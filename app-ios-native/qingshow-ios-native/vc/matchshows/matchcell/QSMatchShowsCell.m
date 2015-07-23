@@ -61,9 +61,17 @@
 
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
-   //NSLog(@"dic = %@",dict);
     [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
-    [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]];
+    int headNum = arc4random() % 6 + 1;
+    NSString *headStr = [NSString stringWithFormat:@"http://trial01.focosee.com/img/user/portrait/%d@2x.png",headNum];
+    if ([QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]) {
+        [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]];
+    }
+    else
+    {
+        [self.headerImgView setImageFromURL:[NSURL URLWithString:headStr]];
+    }
+    
     [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
     NSString *createDate = dict[@"create"];
     //NSLog(@"%@",createDate);
