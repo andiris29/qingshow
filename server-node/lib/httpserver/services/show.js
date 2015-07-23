@@ -6,7 +6,6 @@ var Item = require('../../model/items');
 var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 var People = require('../../model/peoples');
 var jPushToPeople = require('../../model/jPushToPeople');
 
@@ -181,12 +180,12 @@ show.comment = {
             });
         }, 
         function(callback) {
-            RPeopleCreateShow.findOne({
-                'targetRef' : targetRef
-            }).exec(function(err, relationship) {
-                if (relationship) {
+            Show.findOne({
+                '_id' : targetRef
+            }).populate('ownerRef').exec(function(err, show) {
+                if (show && show.ownerRef) {
                     jPushToPeople.find({
-                        'peopleRef' : relationship.initiatorRef
+                        'peopleRef' : show.ownerRef
                     }).exec(function(err, infos) {
                         if (infos.length > 0) {
                             var targets = [];

@@ -5,7 +5,6 @@ var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 var People = require('../../model/peoples');
 
 /**
@@ -57,13 +56,8 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         _generatePromoInfo(qsCurrentUserId, shows, 'promotionRef', callback);
     };
 
-    // __context.createBy
-    var generateCreateBy = function(callback) {
-        _initiator(RPeopleCreateShow, People, shows, 'createdBy', callback);
-    };
-
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo, generateCreateBy], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo], function (err) {
         callback(null, shows);
     });
 };

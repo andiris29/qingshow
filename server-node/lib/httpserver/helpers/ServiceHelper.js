@@ -78,14 +78,6 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
     });
 };
 
-ServiceHelper.queryRelatedTrades = function(req, res, RModel, fields) {
-    _queryRelated(req, res, RModel, fields, function(trades) {
-        return {
-            'trades' : trades
-        };
-    });
-};
-
 ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     _queryRelated(req, res, RModel, fields, function(peoples) {
         return {
