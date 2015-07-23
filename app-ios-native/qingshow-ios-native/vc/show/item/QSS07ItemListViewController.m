@@ -159,7 +159,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary* itemDict = self.itemArray[indexPath.row];
+    NSDictionary* itemDict = self.orderdArray[indexPath.row];
     if (itemDict) {
         [self showItemDetailViewController:itemDict];
     }
