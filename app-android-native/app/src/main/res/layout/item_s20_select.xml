@@ -8,8 +8,7 @@
     <com.focosee.qingshow.widget.radio.RadioLayout
         android:id="@+id/item_bg"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="65dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp">
 
@@ -18,14 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="1dp"
-            fresco:actualImageScaleType="fitCenter" />
+            fresco:actualImageScaleType="fitXY" />
     </com.focosee.qingshow.widget.radio.RadioLayout>
 
     <TextView
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
+        android:gravity="center"
         android:id="@+id/price"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

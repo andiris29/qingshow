@@ -46,10 +46,9 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     private float lastScaleFactor = 1.0f;
     private boolean isScaling = false;
     boolean isScalingJustEnd = false;
-    private int doubleFlag = 2;
 
     private boolean moveable = false;
-    private boolean hasScaled = false;
+
 
     private OnClickListener onDelClickListener;
     private int barHeight;
@@ -205,10 +204,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
         getArea();
 
-        if (lastScaleFactor != 1.0f) hasScaled = true;
-        else hasScaled = false;
-
-
         return true;
     }
 
@@ -300,8 +295,8 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     public void showDelBtn() {
         delBtn = new ImageView(getContext());
         delBtn.setBackgroundResource(R.drawable.canvas_del);
-        LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50, getContext()),
-                (int) AppUtil.transformToDip(50, getContext()));
+        LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()),
+                (int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()));
         btnParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         delBtn.setLayoutParams(btnParams);
         delBtn.setOnClickListener(onDelClickListener);

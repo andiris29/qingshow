@@ -85,7 +85,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
         ArrayList<MongoCategories> item = items.get(position);
         holder.titleName.setText(categories.get(position).name);
-        if (categories.get(position)._id.equals(ACC)){
+        if (categories.get(position)._id.equals(ACC)) {
             multiSelectPostion = position;
         }
         initViewPager(holder, item);
@@ -232,11 +232,10 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                     selectInfos.get(position).index = index;
                     selectInfos.get(position).pageNo = index / 3;
                 } else {
-                    if (position == multiSelectPostion){
-                        if (!selectRefs.contains(category._id)){
-                            selectRefs.add(category._id);
-                            checkItem(tv,(SimpleDraweeView)v,category.icon);
-                        }
+                    if (position == multiSelectPostion) {
+                        selectRefs.add(category._id);
+                        checkItem(tv, (SimpleDraweeView) v, category.icon);
+                        onSelectChangeListener.onSelectChanged(selectRefs);
                         return;
                     }
                     selectRefs.remove(selectInfos.get(position).id);
