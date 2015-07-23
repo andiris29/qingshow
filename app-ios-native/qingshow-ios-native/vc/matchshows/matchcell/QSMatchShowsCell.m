@@ -61,6 +61,7 @@
 
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
+#warning TODO change to  getFormatterCoverUrl
     [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
     int headNum = arc4random() % 6 + 1;
     NSString *headStr = [NSString stringWithFormat:@"http://trial01.focosee.com/img/user/portrait/%d@2x.png",headNum];
@@ -72,7 +73,7 @@
         [self.headerImgView setImageFromURL:[NSURL URLWithString:headStr]];
     }
     
-    [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
+    [self.bgImgView setImageFromURL:[QSShowUtil getFormatterCoVerForegroundUrl:dict]];
     NSString *createDate = dict[@"create"];
     //NSLog(@"%@",createDate);
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];

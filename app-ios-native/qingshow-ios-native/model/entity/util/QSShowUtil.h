@@ -12,6 +12,10 @@
 + (NSURL*)getCoverUrl:(NSDictionary*)dict;
 + (NSURL*)getCoverBackgroundUrl:(NSDictionary*)dict;
 + (NSURL*)getCoverForegroundUrl:(NSDictionary*)dict;
+
++ (NSURL*)getFormatterCoverUrl:(NSDictionary *)dict;
++ (NSURL*)getFormatterCoVerForegroundUrl:(NSDictionary*)dict;
+
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict;
 
 + (NSString *)getNameStr:(NSDictionary *)dict;
