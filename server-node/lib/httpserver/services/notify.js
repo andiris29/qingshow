@@ -14,8 +14,7 @@ notify.newRecommandations = {
     'method' : 'post',
     'func' : function(req, res) {
         var group = req.body.group;
-        
-       
+
         async.waterfall([
         function(callback) {
             People.find({}).exec(callback);
@@ -24,7 +23,7 @@ notify.newRecommandations = {
             var targets = _.filter(peoples, function(people) {
                 var rate = people.weight / people.height;
                 var type = null;
-                 if (rate < 0.275) {
+                if (rate < 0.275) {
                     type = 'A1';
                 } else if (rate < 0.315) {
                     type = 'A2';
@@ -46,7 +45,7 @@ notify.newRecommandations = {
         function(ids, callback) {
             jPushAudiences.find({
                 peopleRef : {
-                    '$in' : ids 
+                    '$in' : ids
                 }
             }).exec(function(err, infos) {
                 callback(err, infos);
@@ -60,8 +59,7 @@ notify.newRecommandations = {
             PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageNewRecommandations, {
                 'command' : PushNotificationHelper.CommandNewRecommandations
             }, callback);
-        }], 
-        function(err) {
+        }], function(err) {
             ResponseHelper.response(res, err, null);
         });
     }
@@ -103,8 +101,7 @@ notify.questSharingObjectiveComplete = {
                 'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete
             }, null);
             callback();
-        }], 
-        function(err) {
+        }], function(err) {
             ResponseHelper.response(res, err, null);
         });
     }
