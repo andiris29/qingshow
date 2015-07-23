@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-var jPushToPeopleSchema = Schema({
+var jPushAudiencesSchema = Schema({
     peopleRef : {
         type : Schema.Types.ObjectId,
         ref : 'peoples'
@@ -13,5 +13,5 @@ var jPushToPeopleSchema = Schema({
     }
 });
 
-var jPushToPeople = mongoose.model('jPushToPeople', jPushToPeopleSchema);
-module.exports = jPushToPeople;
+var jPushAudiences = mongoose.model('jPushAudiences', jPushAudiencesSchema);
+module.exports = jPushAudiences;

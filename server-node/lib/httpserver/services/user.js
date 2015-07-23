@@ -3,7 +3,7 @@ var async = require('async');
 var uuid = require('node-uuid');
 var path = require('path');
 
-var jPushToPeople = require('../../model/jPushToPeople');
+var jPushAudiences = require('../../model/jPushAudiences');
 var People = require('../../model/peoples');
 
 var RequestHelper = require('../helpers/RequestHelper');
@@ -40,14 +40,14 @@ var _addRegistrationId = function(peopleId, registrationId) {
         return;
     }
 
-    jPushToPeople.remove({
+    jPushAudiences.remove({
         'registrationId' : registrationId
     }, function(err) {
         if (err) {
             return;
         }
 
-        var info = new jPushToPeople({
+        var info = new jPushAudiences({
             'peopleRef' : peopleId,
             'registrationId' : registrationId
         });
@@ -59,7 +59,7 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     if (!registrationId || registrationId.length == 0) {
         return;
     }
-    jPushToPeople.remove({
+    jPushAudiences.remove({
         'peopleRef' : peopleId,
         'registrationId' : registrationId
     });

@@ -3,7 +3,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var People = require('../../model/peoples');
-var jPushToPeople = require('../../model/jPushToPeople');
+var jPushAudiences = require('../../model/jPushAudiences');
 
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
@@ -44,7 +44,7 @@ notify.newRecommandations = {
             callback(null, ids);
         },
         function(ids, callback) {
-            jPushToPeople.find({
+            jPushAudiences.find({
                 peopleRef : {
                     '$in' : ids 
                 }
@@ -86,7 +86,7 @@ notify.questSharingObjectiveComplete = {
             callback(null, ids);
         },
         function(ids, callback) {
-            jPushToPeople.find({
+            jPushAudiences.find({
                 peopleRef : {
                     '$in' : ids
                 }

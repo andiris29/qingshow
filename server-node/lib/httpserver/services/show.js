@@ -7,7 +7,7 @@ var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 var People = require('../../model/peoples');
-var jPushToPeople = require('../../model/jPushToPeople');
+var jPushAudiences = require('../../model/jPushAudiences');
 
 //util
 var MongoHelper = require('../helpers/MongoHelper');
@@ -184,7 +184,7 @@ show.comment = {
                 '_id' : targetRef
             }).populate('ownerRef').exec(function(err, show) {
                 if (show && show.ownerRef) {
-                    jPushToPeople.find({
+                    jPushAudiences.find({
                         'peopleRef' : show.ownerRef
                     }).exec(function(err, infos) {
                         if (infos.length > 0) {
