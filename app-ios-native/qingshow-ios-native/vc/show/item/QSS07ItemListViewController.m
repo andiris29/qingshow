@@ -39,7 +39,7 @@
     if (self) {
         self.showDict = showDict;
         self.itemArray = [QSShowUtil getItems:showDict];
-        
+         self.orderdArray  = [self refreshItemArray:self.itemArray];
     }
     return self;
 }
@@ -70,13 +70,14 @@
     {
         self.tableView.tableHeaderView.transform = CGAffineTransformMakeScale(1.2, 1.2);
     }
-    self.orderdArray  = [self refreshItemArray:self.itemArray];
+   
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:PAGE_ID];
+    
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -116,33 +117,43 @@
 #pragma mark - 数组排序
 - (NSMutableArray *)refreshItemArray:(NSArray *)itemArray
 {
-    NSMutableArray *array = [NSMutableArray arrayWithArray:itemArray];
-
-    for (int i = 0; i < array.count; i ++) {
-
-       for (int j = i+1; j < array.count; j ++) {
-            int orderI = [self getOrderFromDic:array[i]];
-            int orderJ = [self getOrderFromDic:array[j]];
-            if (orderI > orderJ) {
-                id dic = array[j];
-                array[j] = array[i];
-                array[i] = dic;
-                dic = nil;
+        NSMutableArray *array = [NSMutableArray arrayWithArray:itemArray];
+    
+        
+        for (int i = 0; i < array.count; i ++) {
+            
+            for (int j = i+1; j < array.count; j ++) {
+                int orderI = [self getOrderFromDic:array[i]];
+                int orderJ = [self getOrderFromDic:array[j]];
+                if (orderI > orderJ) {
+                    id dic = array[j];
+                    array[j] = array[i];
+                    array[i] = dic;
+                    dic = nil;
+                }
             }
         }
-    }
-//    for (int i = 0; i < array.count; i++) {
-//        NSLog(@"%d",[self getOrderFromDic:array[i]]);
-//    }
         return array;
+
+
 }
 - (int)getOrderFromDic:(NSDictionary *)dic
 {
-    NSString *str = dic[@"categoryRef"];
-    QSCategoryManager *manager = [QSCategoryManager getInstance];
-    NSDictionary *dict =  [manager findCategoryOfId:str];
-    int order = [dict[@"order"] intValue];
-    return order;
+    id str = dic[@"categoryRef"];
+    if ([str isKindOfClass:[NSString class]]) {
+        QSCategoryManager *manager = [QSCategoryManager getInstance];
+        NSDictionary *dict =  [manager findCategoryOfId:str];
+        int order = [dict[@"order"] intValue];
+        return order;
+    }
+    else if([str isKindOfClass:[NSDictionary class]])
+    {
+        NSDictionary *dic = str;
+        int order = [[dic valueForKey:@"order"] intValue];
+        return order;
+    }
+    return 0;
+   
 }
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
