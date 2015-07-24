@@ -217,7 +217,8 @@
             android:name=".activity.S04CommentActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s04_comment"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activity.S07CollectActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -284,6 +285,9 @@
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:label="@string/title_activity_s01_match_shows" />
+
+        <activity android:name=".activity.PushWebActivity"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>

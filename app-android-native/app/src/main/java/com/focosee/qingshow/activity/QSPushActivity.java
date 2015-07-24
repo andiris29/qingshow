@@ -43,7 +43,7 @@ public class QSPushActivity extends Activity {
         }
 
         if (command.equals(QSPushAPI.QUEST_SHARING_PROGRESS) || command.equals(QSPushAPI.QUEST_SHARING_OBJECTIVE_COMPLETE)){
-
+            intent = new Intent(QSPushActivity.this,PushWebActivity.class);
         }
 
         if (intent != null)
