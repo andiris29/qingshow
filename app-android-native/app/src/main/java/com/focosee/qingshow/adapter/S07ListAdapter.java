@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Toast;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S07CollectActivity;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
@@ -58,7 +60,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
                     return;
                 }
                 if(null == item.images || 0 == item.images.size()){
-                    QSComponent.showDialag(context, context.getResources().getString(R.string.image_not_exist));
+                    QSComponent.showToast(context, context.getResources().getString(R.string.image_not_exist), Toast.LENGTH_SHORT);
                     return;
                 }
                 Intent intent = new Intent(context, S10ItemDetailActivity.class);
