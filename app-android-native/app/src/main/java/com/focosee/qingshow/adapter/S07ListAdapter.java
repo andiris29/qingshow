@@ -6,11 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S07CollectActivity;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
+import com.focosee.qingshow.activity.S11NewTradeActivity;
+import com.focosee.qingshow.activity.U09TradeListActivity;
+import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.QSComponent;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 
 import java.util.List;
@@ -49,7 +54,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
             @Override
             public void onClick(View v) {
                 if(null == item){
-                    QSComponent.showDialag(context, context.getResources().getString(R.string.item_not_exist));
+                    showMsg(context.getResources().getString(R.string.item_not_exist));
                     return;
                 }
                 if(null == item.images || 0 == item.images.size()){
@@ -63,5 +68,12 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
                 context.startActivity(intent);
             }
         });
+    }
+
+    public void showMsg(String title){
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setTitle(title);
+        dialog.setCancel("", null);
+        dialog.show(((S07CollectActivity) context).getSupportFragmentManager());
     }
 }
