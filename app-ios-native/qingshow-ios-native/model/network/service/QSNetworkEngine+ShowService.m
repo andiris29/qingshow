@@ -28,6 +28,7 @@
 #define PATH_SHOW_SHARE @"show/share"
 
 
+
 @implementation QSNetworkEngine(ShowService)
 #pragma mark - Query
 - (MKNetworkOperation*)getTestShowsOnSucceed:(ArraySuccessBlock)succeedBlock
@@ -45,6 +46,9 @@
         }
     }];
 }
+
+
+
 - (MKNetworkOperation*)queryShowIdDetail:(NSString*)showId
                                onSucceed:(DicBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock {

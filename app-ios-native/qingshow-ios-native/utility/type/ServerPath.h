@@ -17,5 +17,5 @@
 #define HOST_NAME [NSString stringWithFormat:@"%@%@",HOST_ADDRESS, @"services"]
 #define kImageUrlBase [NSString stringWithFormat:@"http://%@%@",HOST_ADDRESS, @"images"]
 #define kVideoUrlBase [NSString stringWithFormat:@"http://%@%@",HOST_ADDRESS, @"videos"]
-
+#define kDefaultHeaderImgBase @"http://trial01.focosee.com/img//user/"
 #endif

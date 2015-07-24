@@ -41,6 +41,7 @@
 #pragma mark - Binding
 - (void)bindWithPeople:(NSDictionary*)modelDict
 {
+    NSLog(@"modeldic = === %@",modelDict);
     self.nameLabel.text = [QSPeopleUtil getNickname:modelDict];
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
     [self.headPhotoImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict type:QSImageNameType100]];

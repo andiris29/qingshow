@@ -49,6 +49,7 @@ NSURL* imgRowTypeToImgUrl(U02SectionImageRow type, NSDictionary* peopleDict) {
 
 - (void)bindWithUser:(NSDictionary *)peopleDic
 {
+    
     self.titleLabel.text = imgRowTypeToTitle(self.rowType);
     [self.headImgView setImageFromURL:imgRowTypeToImgUrl(self.rowType, peopleDic) placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"]];
 }

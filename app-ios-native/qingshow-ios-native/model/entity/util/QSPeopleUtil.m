@@ -194,7 +194,7 @@
     
     NSDictionary* context = peopleDict[@"__context"];
     if (context) {
-        NSNumber* f = context[@"numFollowBrands"];
+        NSNumber* f = context[@"numLikeToCreateShows"];
         if (f) {
             return f.kmbtStringValue;
         }
@@ -210,7 +210,7 @@
     
     NSDictionary* context = peopleDict[@"__context"];
     if (context) {
-        NSNumber* f = context[@"numFollowPeoples"];
+        NSNumber* f = context[@"numCreateShows"];
         if (f) {
             return f.kmbtStringValue;
         }
