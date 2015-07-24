@@ -53,7 +53,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
             }
         });
         holder.setImgeByUrl(R.id.item_s01_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.Large), ValueUtil.pre_img_AspectRatio);
-        holder.setImgeByUrl(R.id.item_s01_img, show.cover, ValueUtil.match_img_AspectRatio);
+        holder.setImgeByUrl(R.id.item_s01_img, ImgUtil.getImgSrc(show.cover, ImgUtil.Large), ValueUtil.match_img_AspectRatio);
         MongoPeople user = new MongoPeople();
         if(null != show.ownerRef){
             user = show.ownerRef;

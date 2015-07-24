@@ -265,7 +265,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover){
-            image.setImageURI(Uri.parse(showDetailEntity.cover));
+            image.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.cover, ImgUtil.Large)));
             image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
 

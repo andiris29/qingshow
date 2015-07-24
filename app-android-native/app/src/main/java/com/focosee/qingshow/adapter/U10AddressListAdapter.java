@@ -34,7 +34,6 @@ import de.greenrobot.event.EventBus;
  */
 public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
 
-    private Context context;
     private int default_posion = 0;
     private MongoPeople people;
 
@@ -70,6 +69,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 holder.getView(R.id.item_addresslist_content).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Toast.makeText(context, "cntefdsa", Toast.LENGTH_SHORT).show();
                         EventBus.getDefault().post(datas.get(i));
                         ((U10AddressListActivity) context).finish();
                     }
@@ -106,6 +106,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 dialog.show(((U10AddressListActivity) context).getSupportFragmentManager());
             }
         });
+
 
         holder.getView(R.id.item_addresslist_choose_btn).setOnClickListener(new View.OnClickListener() {
             @Override
