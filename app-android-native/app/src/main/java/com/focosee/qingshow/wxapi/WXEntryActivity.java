@@ -23,6 +23,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -76,7 +77,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         Map<String, String> map = new HashMap<>();
         map.put("code", code);
-        map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId", ""));
+        map.put("registrationId", PushModel.INSTANCE.getRegId());
         JSONObject jsonObject = new JSONObject(map);
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {

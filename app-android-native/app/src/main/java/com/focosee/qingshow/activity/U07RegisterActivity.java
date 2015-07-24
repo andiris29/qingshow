@@ -23,6 +23,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -135,7 +136,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                     map.put("id", phoneEditText.getText().toString());
                     map.put("nickname", accountEditText.getText().toString());
                     map.put("password", passwordEditText.getText().toString());
-                    map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId", ""));
+                    map.put("registrationId", PushModel.INSTANCE.getRegId());
 
                     return map;
                 }
@@ -254,7 +255,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 Map<String, String> map = new HashMap<>();
                 map.put("access_toke", mAccessToken.getToken());
                 map.put("uid", mAccessToken.getUid());
-                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
+                map.put("registrationId", PushModel.INSTANCE.getRegId());
                 QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWbApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

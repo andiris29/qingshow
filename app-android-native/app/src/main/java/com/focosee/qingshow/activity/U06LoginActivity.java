@@ -24,6 +24,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
@@ -31,6 +32,8 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.util.PushUtil;
+import com.lurencun.android.system.PhoneUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -73,8 +76,8 @@ public class U06LoginActivity extends BaseActivity {
                 Map<String, String> map = new HashMap<>();
                 map.put("idOrNickName", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
-                Log.i("JPush_QS", "login" + QSApplication.instance().getPreferences().getString("registrationId", ""));
-                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId",""));
+                Log.i("JPush_QS", "login" + PushModel.INSTANCE.getRegId());
+                map.put("registrationId",  PushModel.INSTANCE.getRegId());
 
                 QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
                         QSAppWebAPI.LOGIN_SERVICE_URL,

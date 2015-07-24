@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.QSPushActivity;
+import com.focosee.qingshow.model.PushModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,19 +30,15 @@ public class QSPushReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
         Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
-        if (JPushInterface.getRegistrationID(context) != null && !JPushInterface.getRegistrationID(context).isEmpty()) {
-            Log.d(TAG, "Registration Id : " + JPushInterface.getRegistrationID(context));
-            SharedPreferences.Editor edit = QSApplication.instance().getPreferences().edit();
-            edit.putString("registrationId", JPushInterface.getRegistrationID(context));
-            edit.commit();
+        String registrationId = JPushInterface.getRegistrationID(context);
+        if (!TextUtils.isEmpty(registrationId)) {
+            PushModel.INSTANCE.setRegId(registrationId);
         }
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
             if (!regId.isEmpty()) {
-                SharedPreferences.Editor edit = QSApplication.instance().getPreferences().edit();
-                edit.putString("registrationId", regId);
-                edit.commit();
+                PushModel.INSTANCE.setRegId(registrationId);
             }
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");

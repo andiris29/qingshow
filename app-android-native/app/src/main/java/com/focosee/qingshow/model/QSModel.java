@@ -38,7 +38,7 @@ public enum QSModel {
 
     public void removeUser(){
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-        editor.clear();
+        editor.remove("id");
         editor.commit();
         this.user = null;
     }

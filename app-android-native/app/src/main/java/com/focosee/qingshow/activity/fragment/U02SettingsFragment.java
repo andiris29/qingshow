@@ -40,6 +40,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -160,12 +161,12 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CookieSerializer.INSTANCE.saveCookie("");
+
                 QSModel.INSTANCE.removeUser();
 
                 Map map = new HashMap();
-                Log.i("JPush_QS", "logout" + QSApplication.instance().getPreferences().getString("registrationId", ""));
-                map.put("registrationId", QSApplication.instance().getPreferences().getString("registrationId", ""));
+                Log.i("JPush_QS", "logout" + PushModel.INSTANCE.getRegId());
+                map.put("registrationId", PushModel.INSTANCE.getRegId());
                 QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.USER_LOGOUT, new JSONObject(map), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -173,7 +174,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                             ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                             return;
                         }
-
+                        CookieSerializer.INSTANCE.saveCookie("");
                     }
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
