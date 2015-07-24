@@ -185,7 +185,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         float scaleFactor = detector.getScaleFactor();
         float temp = lastScaleFactor;
         lastScaleFactor *= scaleFactor;
-
         if (scaleFactor > 1) {
             if (checkBorder(scaleFactor)) {
                 setScaleX(lastScaleFactor);
@@ -198,6 +197,8 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
             setScaleX(lastScaleFactor);
             setScaleY(lastScaleFactor);
         }
+
+
 
         getArea();
 
@@ -346,7 +347,12 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         return lastScaleFactor;
     }
 
+
     public void setBarHeight(int barHeight) {
         this.barHeight = barHeight;
+    }
+
+    public void setLastScaleFactor(float lastScaleFactor) {
+        this.lastScaleFactor = lastScaleFactor;
     }
 }
