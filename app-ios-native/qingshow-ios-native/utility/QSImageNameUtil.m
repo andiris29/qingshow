@@ -7,7 +7,7 @@
 //
 
 #import "QSImageNameUtil.h"
-
+#import "ServerPath.h"
 NSString* imageNameTypeToSuf(QSImageNameType type) {
     switch (type) {
         case QSImageNameTypeS:
@@ -60,6 +60,14 @@ NSString* imageNameTypeToSuf(QSImageNameType type) {
         
     }
     return nil;
+}
+
++ (NSURL *)appendingDefaultImageUrl
+{
+    NSString *path =kDefaultHeaderImgBase;
+    int headNum = arc4random() % 6 + 1;
+    NSString *headerStr = [NSString stringWithFormat:@"%@portrait/%d@2x.png",path,headNum];
+    return [NSURL URLWithString:headerStr];
 }
 
 + (NSArray*)appendImageNames:(NSArray*)strs type:(QSImageNameType)type{

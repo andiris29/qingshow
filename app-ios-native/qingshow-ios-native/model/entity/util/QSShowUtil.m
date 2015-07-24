@@ -114,12 +114,12 @@
 
 + (NSString *)getNameStr:(NSDictionary *)dict
 {
-    NSDictionary *nameDic = [dict valueForKey:@"__context"];
-    NSDictionary *createDic = nameDic[@"createdBy"];
-    if (!createDic) {
-        return nil;
+    NSDictionary *nameDic = [dict valueForKey:@"ownerRef"];
+    if (nameDic[@"nickname"]) {
+        return nameDic[@"nickname"];
     }
-    return createDic[@"nickname"];
+    return nil;
+    
 }
 + (NSString *)getUserId:(NSDictionary *)dict
 {
