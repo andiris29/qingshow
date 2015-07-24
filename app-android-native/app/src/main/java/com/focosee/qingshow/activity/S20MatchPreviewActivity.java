@@ -20,7 +20,6 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
-import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -138,9 +137,9 @@ public class S20MatchPreviewActivity extends BaseActivity {
                     return;
                 }
                 show = ShowParser.parsePeopleAndItemString(response);
-                S03Model.INSTANCE.setShow(show);
                 allowClick();
                 Intent intent = new Intent(S20MatchPreviewActivity.this, S03SHowActivity.class);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID,show._id);
                 S20MatchPreviewActivity.this.startActivity(intent);
                 S20MatchPreviewActivity.this.finish();
             }

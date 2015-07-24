@@ -8,13 +8,13 @@ import android.view.View;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -70,8 +70,9 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
         holder.getView(R.id.item_u01_collection_top_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                S03Model.INSTANCE.setShow(show);
-                context.startActivity(new Intent(context, S03SHowActivity.class));
+                Intent intent = new Intent(context, S03SHowActivity.class);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
+                context.startActivity(intent);
             }
         });
         holder.getView(R.id.item_u01_collection_bottom_layout).setOnClickListener(new View.OnClickListener() {

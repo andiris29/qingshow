@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -35,17 +37,15 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
-import com.focosee.qingshow.util.CommUtil;
-import com.focosee.qingshow.util.ImgUtil;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.WebpageObject;
@@ -69,7 +69,9 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -102,7 +104,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @InjectView(R.id.s03_del_btn)
     ImageView s03DelBtn;
 
-    private String showId;
     private MongoShow showDetailEntity;
     private MongoItem[] itemsData;
     private String videoUriString;
@@ -128,6 +129,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     private IWeiboShareAPI mWeiboShareAPI;
 
+    private String showId;
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -143,13 +146,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
-        try {
-            showDetailEntity = (MongoShow) CommUtil.deepCopy(S03Model.INSTANCE.getShow());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         EventBus.getDefault().register(this);
-        if (null == S03Model.INSTANCE.getShow()) {
+
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
+            showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
+        }else showId = "";
+
+        if (TextUtils.isEmpty(showId)) {
             Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -184,7 +187,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     private void getShowDetailFromNet() {
 
-        final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showDetailEntity._id), null, new Response.Listener<JSONObject>() {
+        final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
@@ -268,7 +271,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.Large)));
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
-        if (null != showDetailEntity.cover){
+        if (null != showDetailEntity.cover) {
             image.setImageURI(Uri.parse(showDetailEntity.cover));
             image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
@@ -291,11 +294,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 }
             }, shareMsgShowTime);
         }
-        if(!QSModel.INSTANCE.loggedin()) {
+        if (!QSModel.INSTANCE.loggedin()) {
             showData_other();
-        }else if(showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
+        } else if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
             showData_self();
-        }else{
+        } else {
             showData_other();
         }
 
@@ -310,13 +313,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     private void showData_other() {
         s03Portrait.setVisibility(View.VISIBLE);
-        if(null != showDetailEntity.ownerRef)
-            UserCommand.getPeople(new Callback(){
+        if (null != showDetailEntity.ownerRef)
+            UserCommand.getPeople(new Callback() {
                 @Override
                 public void onComplete(JSONObject response) {
                     System.out.println("getPeople:  response:" + response);
                     showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
-                    if(null != showDetailEntity.ownerRef.portrait)
+                    if (null != showDetailEntity.ownerRef.portrait)
                         s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.Large)));
                     s03Nickname.setVisibility(View.VISIBLE);
                     s03Nickname.setText(showDetailEntity.ownerRef.nickname);
@@ -352,8 +355,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     public void onEventMainThread(EventModel<Integer> event) {
-        if(event.tag == S03SHowActivity.class){
-            if(!showDetailEntity.__context.likedByCurrentUser) {
+        if (event.tag == S03SHowActivity.class) {
+            if (!showDetailEntity.__context.likedByCurrentUser) {
                 clickLikeShowButton();
             }
         }
@@ -558,14 +561,14 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         }
     }
 
-    private void hideShow(){
+    private void hideShow() {
         Map<String, String> params = new HashMap<>();
         params.put("_id", showDetailEntity._id);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "repsonse_del:" + response);
-                if(MetadataParser.hasError(response)){
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
                 }
@@ -601,8 +604,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     public void onResume() {
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
-        if(null != getIntent().getExtras()){
-            showDetailEntity = (MongoShow)getIntent().getExtras().get("showDetailEntity");
+        if (null != getIntent().getExtras()) {
+            showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
         }
         super.onResume();
     }
