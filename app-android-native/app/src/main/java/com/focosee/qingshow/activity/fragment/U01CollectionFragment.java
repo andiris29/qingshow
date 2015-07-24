@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.adapter.U01CollectionFragAdapter;
-import com.focosee.qingshow.adapter.U01MatchFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -22,13 +20,10 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
-import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import org.json.JSONObject;
 import java.util.LinkedList;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -92,7 +87,7 @@ public class U01CollectionFragment extends U01BaseFragment {
 
     public void getDatasFromNet(final int pageNo, int pageSize){
 
-        if(U01Model.INSTANCE.getUser() == null) return;
+        if(user == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
@@ -130,6 +125,15 @@ public class U01CollectionFragment extends U01BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(currentPageN0 <= 2)
+            getDatasFromNet(1, 10);
+        else
+            getDatasFromNet(1, 10 * currentPageN0 * 10);
     }
 
     /**

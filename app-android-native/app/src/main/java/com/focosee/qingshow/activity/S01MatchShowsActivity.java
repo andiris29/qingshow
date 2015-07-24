@@ -22,6 +22,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.ShowUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
@@ -29,6 +30,7 @@ import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -132,11 +134,12 @@ public class S01MatchShowsActivity extends MenuActivity {
                     return;
                 }
 
+                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery_categoryString(response));
                 if (pageNo == 1) {
-                    adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
+                    adapter.addDataAtTop(datas);
                     currentPageNo = pageNo;
                 } else {
-                    adapter.addData(ShowParser.parseQuery_categoryString(response));
+                    adapter.addData(datas);
                 }
 
                 setLastUpdateTime();
@@ -164,7 +167,7 @@ public class S01MatchShowsActivity extends MenuActivity {
 
     public void onEventMainThread(String event) {
         if(event.equals("refresh")){
-            doRefresh(currentType);
+            recyclerPullToRefreshView.doPullRefreshing(true, 0);
         }
     }
 

@@ -37,7 +37,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
@@ -555,8 +554,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 }).show(getSupportFragmentManager());
                 break;
             case R.id.s03_portrait:
-                U01Model.INSTANCE.setUser(showDetailEntity.ownerRef);
-                startActivity(new Intent(S03SHowActivity.this, U01UserActivity.class));
+                if(null == showDetailEntity.ownerRef)return;
+                intent = new Intent(S03SHowActivity.this, U01UserActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable("user", showDetailEntity.ownerRef);
+                intent.putExtras(bundle1);
+                startActivity(intent);
                 break;
         }
     }

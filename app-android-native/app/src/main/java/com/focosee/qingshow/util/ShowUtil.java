@@ -37,4 +37,14 @@ public class ShowUtil {
         }
         return result;
     }
+
+    public static List<MongoShow> cleanHidedShow(List<MongoShow> data){
+        List<MongoShow> result = new ArrayList<>();
+        for (MongoShow show : data) {
+            if(!show.hideAgainstOwner){
+                result.add(show);
+            }
+        }
+        return result;
+    }
 }

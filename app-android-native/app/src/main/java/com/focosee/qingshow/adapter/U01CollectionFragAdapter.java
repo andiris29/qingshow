@@ -2,19 +2,17 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -78,8 +76,12 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
         holder.getView(R.id.item_u01_collection_bottom_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                U01Model.INSTANCE.setUser(show.ownerRef);
-                context.startActivity(new Intent(context, U01UserActivity.class));
+                if(null == show.ownerRef)return;
+                Intent intent = new Intent(context, U01UserActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", show.ownerRef);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
         if(null != people.portrait)

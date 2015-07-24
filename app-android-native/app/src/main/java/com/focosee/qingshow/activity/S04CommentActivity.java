@@ -31,9 +31,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
@@ -340,8 +338,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         switch (index) {
             case 0:
-                U01Model.INSTANCE.setUser(adapter.getItemData(clickCommentIndex).getAuthorRef());
-                startActivity(new Intent(S04CommentActivity.this, U01UserActivity.class));
+                if(null == adapter.getItemData(clickCommentIndex).getAuthorRef())return;
+                Intent intent = new Intent(S04CommentActivity.this, U01UserActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable("user", adapter.getItemData(clickCommentIndex).getAuthorRef());
+                intent.putExtras(bundle1);
+                startActivity(intent);
                 break;
             case 1:
                 createDeleteDialog();

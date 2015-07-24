@@ -26,7 +26,6 @@ import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.util.BitMapUtil;
 
 import butterknife.InjectView;
@@ -169,7 +168,6 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 _class = S21CategoryActivity.class;
                 break;
             case R.id.u01_people:
-                U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());
                 _class = U01UserActivity.class;
                 break;
             case R.id.s17_settting:
@@ -184,7 +182,15 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             return;
         }
 
-        startActivity(new Intent(getActivity(), _class));
+        Intent intent = new Intent(getActivity(), _class);
+
+        if(_class == U01UserActivity.class){
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", QSModel.INSTANCE.getUser());
+            intent.putExtras(bundle);
+        }
+
+        startActivity(intent);
         if(!(getActivity() instanceof U02SettingsActivity)) getActivity().finish();
     }
 

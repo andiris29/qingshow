@@ -25,7 +25,6 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -267,7 +266,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                         Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                         MongoPeople user = UserParser._parsePeople(response);
                         QSModel.INSTANCE.setUser(user);
-                        U01Model.INSTANCE.setUser(user);
                         startActivity(new Intent(U07RegisterActivity.this, U01UserActivity.class));
                         finish();
                         return;

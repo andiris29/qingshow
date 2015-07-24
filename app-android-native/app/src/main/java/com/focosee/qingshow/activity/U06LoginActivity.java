@@ -18,26 +18,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.util.PushUtil;
-import com.lurencun.android.system.PhoneUtil;
 import com.umeng.analytics.MobclickAgent;
-
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,9 +88,11 @@ public class U06LoginActivity extends BaseActivity {
                                     }
                                 } else {
                                     QSModel.INSTANCE.setUser(user);
-                                    U01Model.INSTANCE.setUser(user);
                                     if(null != GoToWhereAfterLoginModel.INSTANCE.get_class()){
                                         Intent intent = new Intent(U06LoginActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable("user", user);
+                                        intent.putExtras(bundle);
                                         startActivity(intent);
                                     }
                                     sendBroadcast(new Intent(LOGIN_SUCCESS));

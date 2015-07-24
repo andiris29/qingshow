@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.util.BitMapUtil;
 import butterknife.InjectView;
 
@@ -166,7 +165,6 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
                 _class = S20MatcherActivity.class;
                 break;
             case R.id.u01_people:
-                U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());
                 _class = U01UserActivity.class;
                 break;
             case R.id.s17_settting:
@@ -181,7 +179,15 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
             return;
         }
 
-        startActivity(new Intent(MenuActivity.this, _class));
+        Intent intent = new Intent(MenuActivity.this, _class);
+
+        if(_class == U01UserActivity.class){
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", QSModel.INSTANCE.getUser());
+            intent.putExtras(bundle);
+        }
+
+        startActivity(intent);
         finish();
     }
 }

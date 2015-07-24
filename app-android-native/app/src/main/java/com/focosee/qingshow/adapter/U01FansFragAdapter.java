@@ -2,11 +2,11 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
@@ -39,8 +39,12 @@ public class U01FansFragAdapter extends U01BaseAdapter<MongoPeople>{
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                U01Model.INSTANCE.setUser(people);
-                context.startActivity(new Intent(context, U01UserActivity.class));
+                if(null == people)return;
+                Intent intent = new Intent(context, U01UserActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", people);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
     }

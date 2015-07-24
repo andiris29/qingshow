@@ -20,7 +20,6 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
-import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -85,7 +84,7 @@ public class U01FollowerFragment extends U01BaseFragment {
 
     public void getDatasFromNet(int pageNo, int pageSize){
 
-        if(U01Model.INSTANCE.getUser() == null) return;
+        if(user == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryFollowPeoplesApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
