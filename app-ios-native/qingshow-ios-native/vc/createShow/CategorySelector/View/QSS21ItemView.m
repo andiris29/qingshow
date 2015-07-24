@@ -24,7 +24,6 @@
     NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_selected.png",rangeStr];
     NSString *imgUnSelectedUrl = [NSString stringWithFormat:@"%@_normal.png",rangeStr];
     NSString *imgDisableUrl = [NSString stringWithFormat:@"%@_disabled.png",rangeStr];
-   // NSLog(@"enabeld = %d",enable);
     if (self.itemDic == selectedDic) {
         [self.imgView setImageFromURL:[NSURL URLWithString:imgSelectedUrl] placeHolderImage:[UIImage imageNamed:@"selectedHoderImg"]];
     }else if(enable == 96)
@@ -53,8 +52,6 @@
     NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_selected.png",rangeStr];
     NSString *imgUnSelectedUrl = [NSString stringWithFormat:@"%@_normal.png",rangeStr];
     NSString *imgDisableUrl = [NSString stringWithFormat:@"%@_disabled.png",rangeStr];
-    // NSLog(@"enabeld = %d",enable);
-
 
     if ([array containsObject:self.itemDic]) {
         [self.imgView setImageFromURL:[NSURL URLWithString:imgSelectedUrl] placeHolderImage:[UIImage imageNamed:@"selectedHoderImg"]];

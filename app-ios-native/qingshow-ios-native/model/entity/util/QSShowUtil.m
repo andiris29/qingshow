@@ -134,8 +134,7 @@
     NSDictionary *dic = [dict valueForKey:@"__context"];
     NSDictionary *createDic = dic[@"createdBy"];
     NSString *groupStr = [createDic[@"bodyType"] stringValue];
-    
-    //NSLog(@"group = %@",groupStr);
+
     if ([QSCommonUtil checkIsNil:groupStr]) {
         return nil;
     }
@@ -368,7 +367,6 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
-   // NSLog(@"show Dic Key %@",[showDict allKeys]);
     if ([[showDict allKeys] containsObject:@"video"] ) {
         NSString* videoPath = [showDict valueForKey:@"video"];
         if ([QSCommonUtil checkIsNil:videoPath] || !videoPath.length) {

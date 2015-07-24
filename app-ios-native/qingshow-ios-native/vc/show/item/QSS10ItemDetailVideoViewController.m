@@ -92,7 +92,6 @@
 - (IBAction)shopBtnPressed:(id)sender
 {
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    NSLog(@"dic = %@",peopleDic);
     if (!peopleDic) {
         UIViewController *vc = [[QSU07RegisterViewController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];

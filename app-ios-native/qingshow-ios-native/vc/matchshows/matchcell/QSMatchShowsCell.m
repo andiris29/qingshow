@@ -60,8 +60,10 @@
 
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
-    if (![QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]) {
-        [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100]];
+    NSURL *headerIconUrl = [QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100];
+    if (headerIconUrl) {
+        [self.headerImgView setImageFromURL:headerIconUrl];
+        
     }else{
         NSURL *defaultHeader = [QSImageNameUtil appendingDefaultImageUrl];
         [self.headerImgView setImageFromURL:defaultHeader];
