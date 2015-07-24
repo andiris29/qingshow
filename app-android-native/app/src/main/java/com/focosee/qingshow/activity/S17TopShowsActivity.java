@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -110,7 +111,7 @@ public class S17TopShowsActivity extends MenuActivity implements OnClickListener
                     e.printStackTrace();
                 }
                 if (count == 5)
-                    QSComponent.showDialag(S17TopShowsActivity.this, "当前版本是：" + version);
+                    Toast.makeText(S17TopShowsActivity.this, "当前版本是：" + version, Toast.LENGTH_SHORT).show();
             }
         });
     }

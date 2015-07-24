@@ -59,7 +59,7 @@ public class PushWebActivity extends BaseActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                progressDialog.setMessage("º”‘ÿ÷–...");
+                progressDialog.setMessage("Âä†ËΩΩ‰∏≠...");
                 progressDialog.show();
             }
         });

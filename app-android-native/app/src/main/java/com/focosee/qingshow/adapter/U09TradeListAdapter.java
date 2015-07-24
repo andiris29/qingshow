@@ -25,12 +25,13 @@ import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.SkuUtil;
+import com.focosee.qingshow.widget.ConfirmDialog;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -107,18 +108,14 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             applyReceive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final MaterialDialog dialog = new MaterialDialog(context);
-                    LayoutInflater layoutInflater = LayoutInflater.from(context);
-                    View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
-                    dialog.setContentView(view);
-                    ((TextView) view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("确认收货");
-                    view.findViewById(R.id.tradedialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
+                    final ConfirmDialog dialog = new ConfirmDialog();
+                    dialog.setTitle("确认收货");
+                    dialog.setCancel(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            dialog.dismiss();
                         }
                     });
-                    view.findViewById(R.id.tradedialog_comfirm_btn).setOnClickListener(new View.OnClickListener() {
+                    dialog.setConfirm(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             statusTo(trade, 1);
@@ -128,35 +125,31 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                             dialog.dismiss();
                         }
                     });
-                    dialog.show();
+                    dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
                 }
             });
             applyChange.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     statusTo(trade, 0);
-                    final MaterialDialog dialog = new MaterialDialog(context);
-                    LayoutInflater layoutInflater = LayoutInflater.from(context);
-                    View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
-                    dialog.setContentView(view);
-                    ((TextView) view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("确认收货");
-                    view.findViewById(R.id.tradedialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
+                    final ConfirmDialog dialog = new ConfirmDialog();
+                    dialog.setTitle("确认收货");
+                    dialog.setCancel(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            dialog.dismiss();
                         }
                     });
-                    view.findViewById(R.id.tradedialog_comfirm_btn).setOnClickListener(new View.OnClickListener() {
+                    dialog.setConfirm(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             statusTo(trade, 1);
-                            if(context instanceof U09TradeListActivity){
-                                ((U09TradeListActivity)context).doRefresh();
+                            if (context instanceof U09TradeListActivity) {
+                                ((U09TradeListActivity) context).doRefresh();
                             }
                             dialog.dismiss();
                         }
                     });
-                    dialog.show();
+                    dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
                 }
             });
             return;
@@ -245,19 +238,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     private void responseToStatusToSuccessed(int type){
         switch (type){
             case 0://申请换货
-                final MaterialDialog dialog = new MaterialDialog(context);
-                LayoutInflater layoutInflater = LayoutInflater.from(context);
-                View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
-                dialog.setContentView(view);
-                ((TextView) view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("您的换货申请已经受理我们的客服会尽快与您联系");
-                view.findViewById(R.id.tradedialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                view.findViewById(R.id.tradedialog_comfirm_btn).setVisibility(View.GONE);
-                dialog.show();
+
+                final ConfirmDialog dialog = new ConfirmDialog();
+                dialog.setTitle("您的换货申请已经受理我们的客服会尽快与您联系");
+                dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
         }
     }
 
