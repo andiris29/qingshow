@@ -11,7 +11,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         fresco:roundAsCircle="true"
-        fresco:placeholderImage="@drawable/root_cell_placehold_head"
+        fresco:placeholderImage="@drawable/user_head_default"
         android:layout_centerVertical="true" />
 
     <LinearLayout

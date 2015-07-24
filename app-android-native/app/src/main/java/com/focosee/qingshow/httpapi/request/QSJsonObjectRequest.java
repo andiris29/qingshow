@@ -2,11 +2,17 @@ package com.focosee.qingshow.httpapi.request;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+
 import org.json.JSONObject;
 import java.util.Map;
+import java.util.Objects;
 
 public class QSJsonObjectRequest extends JsonObjectRequest {
 
@@ -36,6 +42,18 @@ public class QSJsonObjectRequest extends JsonObjectRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         return RequestHelper.beforeGetHeaders(super.getHeaders());
+    }
+
+    public class MyResponseListener implements Response.Listener<JSONObject>{
+
+        public MongoPeople people;
+
+        @Override
+        public void onResponse(JSONObject response) {
+            if(!MetadataParser.hasError(response)){
+                people = UserParser._parsePeoples(response).get(0);
+            }
+        }
     }
 
 }

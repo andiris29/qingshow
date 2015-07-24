@@ -3,10 +3,12 @@ package com.focosee.qingshow.httpapi.gson;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoCategoryIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoItemIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoParentCategoryIdDeserializer;
+import com.focosee.qingshow.httpapi.gson.deserializer.MongoPeopleDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.UTCDeserializer;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,6 +44,13 @@ public class QSGsonFactory {
     public static GsonBuilder parentCateGoryBuilder(){
         GsonBuilder builder = createBuilder();
         builder.registerTypeAdapter(MongoParentCategories.class, new MongoParentCategoryIdDeserializer());
+        builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer());
+        return builder;
+    }
+
+    public static GsonBuilder peopleBuilder(){
+        GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer());
         return builder;
     }
 }

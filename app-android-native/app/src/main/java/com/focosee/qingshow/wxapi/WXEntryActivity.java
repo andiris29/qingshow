@@ -47,7 +47,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wxentry);
         QSApplication.instance().getWxApi().handleIntent(getIntent(), this);
     }
 

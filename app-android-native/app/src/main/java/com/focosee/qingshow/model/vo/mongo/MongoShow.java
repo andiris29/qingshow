@@ -10,7 +10,6 @@ public class MongoShow implements Serializable {
 
     public String cover;
     public boolean ugc;
-    public int __v;
     public String video;
     public String[] posters;
     public String description;
@@ -21,6 +20,8 @@ public class MongoShow implements Serializable {
 
     public GregorianCalendar create;
     public int numLike;
+    public MongoPeople ownerRef;
+    public boolean hideAgainstOwner;
 
     public Recommend recommend;
     public class Recommend implements Serializable {

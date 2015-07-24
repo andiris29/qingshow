@@ -42,11 +42,7 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
             return 0;
         }
 
-        if(null == datas.get(position - 1).__context){
-            return 2;
-        }
-
-        if(null == datas.get(position - 1).__context.createdBy){
+        if(null == datas.get(position - 1).ownerRef){
             return 2;
         }
         return 1;
@@ -70,7 +66,7 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
     private void bindCreateBy(AbsViewHolder holder, final MongoShow show){
         holder.setImgeByUrl(R.id.item_u01_collection_img, show.cover, ValueUtil.match_img_AspectRatio);
         holder.setImgeByUrl(R.id.item_u01_collection_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.Large), ValueUtil.pre_img_AspectRatio);
-        MongoPeople people = show.__context.createdBy;
+        MongoPeople people = show.ownerRef;
         holder.getView(R.id.item_u01_collection_top_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +77,7 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
         holder.getView(R.id.item_u01_collection_bottom_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                U01Model.INSTANCE.setUser(show.__context.createdBy);
+                U01Model.INSTANCE.setUser(show.ownerRef);
                 context.startActivity(new Intent(context, U01UserActivity.class));
             }
         });

@@ -113,7 +113,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
                     allowClick();
                     return;
                 }
-                show = ShowParser.parse(response);
+                show = ShowParser.parse_peopleString(response);
                 uploadImage();
             }
         }, new QSResponseErrorListener() {
