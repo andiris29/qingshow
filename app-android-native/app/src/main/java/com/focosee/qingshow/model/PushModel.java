@@ -1,6 +1,7 @@
 package com.focosee.qingshow.model;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.focosee.qingshow.QSApplication;
 
@@ -9,14 +10,18 @@ import com.focosee.qingshow.QSApplication;
  */
 public enum PushModel {
     INSTANCE;
+    public static final String KEYWORD = "reg_id";
 
     public String getRegId() {
+        if (TextUtils.isEmpty(regId)) {
+            return QSApplication.instance().getPreferences().getString(KEYWORD, "");
+        }
         return regId;
     }
 
     public void setRegId(String regId) {
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-        editor.putString("regId", regId);
+        editor.putString(KEYWORD, regId);
         editor.commit();
         this.regId = regId;
     }

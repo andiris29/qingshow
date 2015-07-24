@@ -24,7 +24,7 @@ public class QSMultipartEntity implements HttpEntity {
      * 换行符
      */
     private final String NEW_LINE_STR = "\r\n";
-    private final String CONTENT_TYPE = "Content-Type: ";
+    private final String CONTENT_TYPE = "Content-Type: image/jpeg";
     private final String CONTENT_DISPOSITION = "Content-Disposition: ";
     /**
      * 文本参数和字符集
@@ -119,7 +119,7 @@ public class QSMultipartEntity implements HttpEntity {
      * @param rawData
      */
     public void addBinaryPart(String paramName, final byte[] rawData) {
-        writeToOutputStream(paramName, rawData, TYPE_OCTET_STREAM, BINARY_ENCODING, "no-file");
+        writeToOutputStream(paramName, rawData, TYPE_OCTET_STREAM, BINARY_ENCODING, "match.jpeg");
     }
 
     /**
