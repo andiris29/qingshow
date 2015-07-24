@@ -113,7 +113,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
                     allowClick();
                     return;
                 }
-                show = ShowParser.parse_peopleString(response);
+                show = ShowParser.parsePeopleAndItemString(response);
                 uploadImage();
             }
         }, new QSResponseErrorListener() {
@@ -137,11 +137,11 @@ public class S20MatchPreviewActivity extends BaseActivity {
                     allowClick();
                     return;
                 }
-                show = ShowParser.parse(response);
+                show = ShowParser.parsePeopleAndItemString(response);
                 S03Model.INSTANCE.setShow(show);
                 allowClick();
                 Intent intent = new Intent(S20MatchPreviewActivity.this, S03SHowActivity.class);
-                startActivity(intent);
+                S20MatchPreviewActivity.this.startActivity(intent);
                 S20MatchPreviewActivity.this.finish();
             }
         }, new QSResponseErrorListener() {

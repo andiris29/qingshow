@@ -23,34 +23,41 @@ public class QSGsonFactory {
     public static Gson create() {
         return createBuilder().create();
     }
+
     public static GsonBuilder createBuilder() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(GregorianCalendar.class, new UTCDeserializer());
         return builder;
     }
 
-    public static GsonBuilder itemBuilder(){
+    public static GsonBuilder itemBuilder() {
         GsonBuilder builder = createBuilder();
         builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
         return builder;
     }
 
-    public static GsonBuilder cateGoryBuilder(){
+    public static GsonBuilder cateGoryBuilder() {
         GsonBuilder builder = createBuilder();
         builder.registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer());
         return builder;
     }
 
-    public static GsonBuilder parentCateGoryBuilder(){
+    public static GsonBuilder parentCateGoryBuilder() {
         GsonBuilder builder = createBuilder();
         builder.registerTypeAdapter(MongoParentCategories.class, new MongoParentCategoryIdDeserializer());
         builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer());
         return builder;
     }
 
-    public static GsonBuilder peopleBuilder(){
+    public static GsonBuilder peopleBuilder() {
         GsonBuilder builder = createBuilder();
         builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer());
+        return builder;
+    }
+
+    public static GsonBuilder peopleAndItemBuilder() {
+        GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer()).registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
         return builder;
     }
 }
