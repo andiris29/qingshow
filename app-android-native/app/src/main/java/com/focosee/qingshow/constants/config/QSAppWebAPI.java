@@ -60,8 +60,8 @@ public class QSAppWebAPI {
     private static final String UPDATE_COVER = HOST_NAME + "/matcher/updateCover";
     private static final String MATCH_HIDE_API = HOST_NAME + "/matcher/hide";
 
-    public static String getMatchHideApi(String _id) {
-        return MATCH_HIDE_API + "?_id=" + _id;
+    public static String getMatchHideApi() {
+        return MATCH_HIDE_API;
     }
 
     private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
