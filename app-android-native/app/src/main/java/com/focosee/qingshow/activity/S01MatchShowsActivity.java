@@ -20,7 +20,6 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ShowUtil;
 import com.focosee.qingshow.util.TimeUtil;
@@ -195,14 +194,14 @@ public class S01MatchShowsActivity extends MenuActivity {
             s01TabHot.setBackground(getResources().getDrawable(R.drawable.s01_tab_btn1));
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
             s01TabNew.setBackground(getResources().getDrawable(R.drawable.s01_tab_border1));
-            s01TabNew.setTextColor(getResources().getColor(R.color.s21_pink));
+            s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
             return;
         }
         if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
             recyclerPullToRefreshView.doPullRefreshing(true, 500);
             s01TabHot.setBackground(getResources().getDrawable(R.drawable.s01_tab_border2));
-            s01TabHot.setTextColor(getResources().getColor(R.color.s21_pink));
+            s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
             s01TabNew.setBackground(getResources().getDrawable(R.drawable.s01_tab_btn2));
             s01TabNew.setTextColor(getResources().getColor(R.color.white));
             return;

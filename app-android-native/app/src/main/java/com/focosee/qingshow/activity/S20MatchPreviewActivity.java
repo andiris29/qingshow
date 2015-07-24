@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
 
 /**
  * Created by Administrator on 2015/7/9.
@@ -52,6 +54,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
     private List<String> itemRefs;
 
     private MongoShow show;
+    private SpotsDialog dialog;
 
     @Override
     public void reconn() {
@@ -63,6 +66,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
+        dialog = new SpotsDialog(this,getResources().getString(R.string.s20_loading));
         itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         initImage();
     }
@@ -87,9 +91,11 @@ public class S20MatchPreviewActivity extends BaseActivity {
     private void allowClick() {
         submitBtn.setClickable(true);
         back.setClickable(true);
+        dialog.dismiss();
     }
 
     private void forbidClick() {
+        dialog.show();
         submitBtn.setClickable(false);
         back.setClickable(false);
     }

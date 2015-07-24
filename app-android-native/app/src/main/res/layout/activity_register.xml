@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/s21_pink">
+    android:background="@color/master_pink">
 
 <RelativeLayout
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@color/s21_pink">
+android:background="@color/master_pink">
 
 <ImageView
     android:layout_width="match_parent"
@@ -217,7 +217,7 @@ android:background="@color/s21_pink">
             app:layout_marginRightPercent="13%"
             android:background="@drawable/white"
             android:text="@string/login_activity_login"
-            android:textColor="@color/s21_pink"
+            android:textColor="@color/master_pink"
             android:onClick="onClick"
             android:textSize="@dimen/text_size" />
     </android.support.percent.PercentRelativeLayout>
@@ -274,7 +274,7 @@ android:background="@color/s21_pink">
             android:layout_height="45dp"
             android:layout_margin="10dp"
             android:text="@string/weixin_login_activity_register"
-            android:textColor="@color/s21_pink"
+            android:textColor="@color/master_pink"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
@@ -300,7 +300,7 @@ android:background="@color/s21_pink">
             android:layout_height="45dp"
             android:layout_margin="10dp"
             android:text="@string/weibologin_activity_register"
-            android:textColor="@color/s21_pink"
+            android:textColor="@color/master_pink"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
 </LinearLayout>

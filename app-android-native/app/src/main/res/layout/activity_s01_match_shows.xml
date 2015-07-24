@@ -61,7 +61,7 @@
                         android:layout_toRightOf="@+id/s01_tab_hot"
                         android:layout_alignTop="@+id/s01_menu_btn"
                         android:layout_alignBottom="@+id/s01_menu_btn"
-                        android:textColor="@color/s21_pink"
+                        android:textColor="@color/master_pink"
                         android:layout_marginLeft="-10dp"
                         android:onClick="onClick"
                         android:background="@drawable/s01_tab_border1"/>

@@ -33,6 +33,8 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.HashMap;
 import java.util.Map;
 
+import dmax.dialog.SpotsDialog;
+
 
 public class U06LoginActivity extends BaseActivity {
 
@@ -61,8 +63,7 @@ public class U06LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                final ProgressDialog pDialog = new ProgressDialog(U06LoginActivity.this);
-                pDialog.setMessage("加载中...");
+                final SpotsDialog  pDialog = new SpotsDialog(U06LoginActivity.this,getResources().getString(R.string.s06_loading));
                 pDialog.show();
 
                 Map<String, String> map = new HashMap<>();

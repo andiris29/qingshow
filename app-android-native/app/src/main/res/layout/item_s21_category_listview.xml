@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:background="@color/s21_pink" />
+            android:background="@color/master_pink" />
 
         <TextView
             android:id="@+id/item_s21_name"

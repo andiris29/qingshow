@@ -197,4 +197,7 @@
 
     <string name="s20_dialog">确定删除？</string>
     <string name="s20_notify_more">图片被遮挡太多,请调整</string>
+
+    <string name="s20_loading">上传中...</string>
+    <string name="s06_loading">登陆中...</string>
 </resources>

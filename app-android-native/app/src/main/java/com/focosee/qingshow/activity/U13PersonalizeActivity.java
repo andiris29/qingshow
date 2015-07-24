@@ -6,7 +6,6 @@ import android.widget.CheckedTextView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
@@ -89,7 +88,7 @@ public class U13PersonalizeActivity extends BaseActivity {
                     ctv.setTextColor(getResources().getColor(R.color.white));
                 } else {
                     result.setChecked(true);
-                    ctv.setTextColor(getResources().getColor(R.color.s21_pink));
+                    ctv.setTextColor(getResources().getColor(R.color.master_pink));
                 }
             }
         }
@@ -148,7 +147,7 @@ public class U13PersonalizeActivity extends BaseActivity {
             if (view.getId() == item.getId()) {
                 checkIndex = i;
                 item.setChecked(true);
-                item.setTextColor(getResources().getColor(R.color.s21_pink));
+                item.setTextColor(getResources().getColor(R.color.master_pink));
             } else {
                 item.setChecked(false);
                 item.setTextColor(getResources().getColor(R.color.white));

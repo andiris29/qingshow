@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -51,7 +52,6 @@ import butterknife.InjectView;
 public class S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
-    public static final String INPUT_PREVIEW_ID = "S04CommentActivity preview id";
     public static final String COMMENT_NUM_CHANGE = "comment_num_changed";
     public static boolean isOpened = false;
     @InjectView(R.id.left_btn)
@@ -105,12 +105,9 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         }
         Intent intent = getIntent();
 
-        if (!"".equals(intent.getStringExtra(INPUT_SHOW_ID)) && null != intent.getStringExtra(INPUT_SHOW_ID)) {
+        if (!TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
             id = intent.getStringExtra(INPUT_SHOW_ID);
             API_TYPE = 0;
-        } else {
-            id = intent.getStringExtra(INPUT_PREVIEW_ID);
-            API_TYPE = 1;
         }
         position = intent.getIntExtra("s08_position", 0);
         
@@ -178,6 +175,15 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     protected void onDestroy() {
         super.onDestroy();
         isOpened = false;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (!TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
+            id = intent.getStringExtra(INPUT_SHOW_ID);
+            API_TYPE = 0;
+        }
     }
 
     @Override

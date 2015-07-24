@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <color name="spots_dialog_color">@color/master_pink</color>
 
     <style name="ActionSheetStyleIOS7">
         <item name="actionSheetBackground">@android:color/transparent</item>
@@ -68,6 +69,7 @@
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
+
     <style name="navigation_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

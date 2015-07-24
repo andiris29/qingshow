@@ -39,9 +39,12 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -128,10 +131,10 @@ public class U01UserActivity extends MenuActivity {
             btnListener = new BackBtnListener() {
                 @Override
                 public boolean onKeyDown(int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
-                    menuSwitch();
-                }
-                return true;
+                    if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
+                        menuSwitch();
+                    }
+                    return true;
                 }
             };
         } else {
@@ -145,48 +148,48 @@ public class U01UserActivity extends MenuActivity {
             btnListener = new BackBtnListener() {
                 @Override
                 public boolean onKeyDown(int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_MENU) {
-                    menuSwitch();
-                }
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    finish();
-                }
-                return true;
+                    if (keyCode == KeyEvent.KEYCODE_MENU) {
+                        menuSwitch();
+                    }
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        finish();
+                    }
+                    return true;
                 }
             };
             userFollowBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                userFollowBtn.setEnabled(false);
-                String url = user.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleUnfollowApi() : QSAppWebAPI.getPeopleFollowApi();
-                UserCommand.likeOrFollow(url, user._id, new Callback() {
-                    @Override
-                    public void onComplete(JSONObject response) {
-                        super.onComplete();
-                        String msg = "";
-                        if (user.__context.followedByCurrentUser) {
-                            msg = "取消关注";
-                            userFollowBtn.setImageResource(R.drawable.follow_btn);
-                        } else {
-                            msg = "添加关注";
-                            userFollowBtn.setImageResource(R.drawable.unfollow_btn);
+                    userFollowBtn.setEnabled(false);
+                    String url = user.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleUnfollowApi() : QSAppWebAPI.getPeopleFollowApi();
+                    UserCommand.likeOrFollow(url, user._id, new Callback() {
+                        @Override
+                        public void onComplete(JSONObject response) {
+                            super.onComplete();
+                            String msg = "";
+                            if (user.__context.followedByCurrentUser) {
+                                msg = "取消关注";
+                                userFollowBtn.setImageResource(R.drawable.follow_btn);
+                            } else {
+                                msg = "添加关注";
+                                userFollowBtn.setImageResource(R.drawable.unfollow_btn);
+                            }
+                            fragments[POS_FANS].refresh();
+                            UserCommand.refresh();
+                            user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
+                            Toast.makeText(U01UserActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            userFollowBtn.setEnabled(true);
+                            EventModel eventModel = new EventModel(U01UserActivity.class, null);
+                            eventModel.setFrom(U01UserActivity.class);
+                            EventBus.getDefault().post(eventModel);
                         }
-                        fragments[POS_FANS].refresh();
-                        UserCommand.refresh();
-                        user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
-                        Toast.makeText(U01UserActivity.this, msg, Toast.LENGTH_SHORT).show();
-                        userFollowBtn.setEnabled(true);
-                        EventModel eventModel = new EventModel(U01UserActivity.class, null);
-                        eventModel.setFrom(U01UserActivity.class);
-                        EventBus.getDefault().post(eventModel);
-                    }
 
-                    @Override
-                    public void onError(int errorCode) {
-                        ErrorHandler.handle(U01UserActivity.this, errorCode);
-                        userFollowBtn.setEnabled(true);
-                    }
-                });
+                        @Override
+                        public void onError(int errorCode) {
+                            ErrorHandler.handle(U01UserActivity.this, errorCode);
+                            userFollowBtn.setEnabled(true);
+                        }
+                    });
                 }
             });
         }
@@ -343,8 +346,8 @@ public class U01UserActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(null != getIntent().getExtras()){
-            user = (MongoPeople)getIntent().getExtras().get("user");
+        if (null != getIntent().getExtras()) {
+            user = (MongoPeople) getIntent().getExtras().get("user");
         }
         boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);
         if (hasNew) {
@@ -412,20 +415,20 @@ public class U01UserActivity extends MenuActivity {
 
         if (pos == 0) {
             userMatch.setImageResource(R.drawable.match_pink);
-            userMatchText.setTextColor(getResources().getColor(R.color.s21_pink));
+            userMatchText.setTextColor(getResources().getColor(R.color.master_pink));
         } else if (pos == 1) {
             circleTip.setVisibility(View.GONE);
             userRecomm.setImageResource(R.drawable.recommend_pink);
-            userRecommText.setTextColor(getResources().getColor(R.color.s21_pink));
+            userRecommText.setTextColor(getResources().getColor(R.color.master_pink));
         } else if (pos == 2) {
             userCollection.setImageResource(R.drawable.collection_pink);
-            userCollectionText.setTextColor(getResources().getColor(R.color.s21_pink));
+            userCollectionText.setTextColor(getResources().getColor(R.color.master_pink));
         } else if (pos == 3) {
             userFollow.setImageResource(R.drawable.follow_pink);
-            userFollowText.setTextColor(getResources().getColor(R.color.s21_pink));
+            userFollowText.setTextColor(getResources().getColor(R.color.master_pink));
         } else if (pos == 4) {
             userFans.setImageResource(R.drawable.fans_pink);
-            userFansText.setTextColor(getResources().getColor(R.color.s21_pink));
+            userFansText.setTextColor(getResources().getColor(R.color.master_pink));
         }
     }
 

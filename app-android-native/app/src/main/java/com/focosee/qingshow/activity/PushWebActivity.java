@@ -67,4 +67,9 @@ public class PushWebActivity extends BaseActivity {
         mWebView.loadUrl(url);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        String url = intent.getStringExtra(URL);
+        loadWebView(url);
+    }
 }
