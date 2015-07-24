@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var async = require('async'), _ = require('underscore');
 //model
 var Show = require('../../model/shows');
-var Trade = require('../../model/trades');
 var Peoples = require('../../model/peoples');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var Promotion = require('../../model/promotions');
@@ -313,9 +312,9 @@ feeding.matchCreatedBy = {
                 }]
             };
             
-            MongoHelper.queryPaging(Trade.find(criteria).sort({
+            MongoHelper.queryPaging(Show.find(criteria).sort({
                 'create' : -1
-            }), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, shows, count) {
+            }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, shows, count) {
                 callback(err, shows, count);
             });
         });
