@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
+var Shows = require('../../model/shows');
 var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
@@ -30,8 +31,41 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
     var numFollowers = function(callback) {
         _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
+    // __context.numCreateShows, __context.numLikeToCreateShows
+    var numCreateShows = function(callback) {
+        var peopleMap = {};
+        Shows.aggregate([{
+            '$match' : {
+                '$or' : peoples.map(function(people) {
+                    peopleMap[people._id.toString()] = people;
+                    return {
+                        'ownerRef' : people._id
+                    };
+                })
+            }
+        }, {
+            '$group' : {
+                '_id' : '$ownerRef',
+                'numCreateShows' : {
+                    '$sum' : 1
+                },
+                'numLikeToCreateShows' : {
+                    '$sum' : '$numLike'
+                }
+            }
+        }], function(err, results) {
+            if (!err) {
+                results.forEach(function(result) {
+                    var people = peopleMap[result._id];
+                    people.__context.numCreateShows = result.numCreateShows;
+                    people.__context.numLikeToCreateShows = result.numLikeToCreateShows;
+                });
+            }
+            callback(null, peoples);
+        });
+    };
 
-    async.parallel([followedByCurrentUser, numFollowPeoples, numFollowers], function(err) {
+    async.parallel([followedByCurrentUser, numFollowPeoples, numFollowers, numCreateShows], function(err) {
         callback(null, peoples);
     });
 };
@@ -57,7 +91,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     };
 
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo], function(err) {
         callback(null, shows);
     });
 };
@@ -134,7 +168,7 @@ var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback
     });
 };
 
-var _generatePromoInfo =  function(peopleId, models, contextField, callback) {
+var _generatePromoInfo = function(peopleId, models, contextField, callback) {
     var tasks = models.map(function(model) {
         return function(callback) {
             model.__context[contextField] = {};
@@ -169,7 +203,7 @@ var _initiator = function(RModel, InitiatorModel, models, contextField, callback
     var tasks = models.map(function(model) {
         return function(callback) {
             model.__context[contextField] = {};
-            
+
             RModel.findOne({
                 'targetRef' : model._id
             }, function(err, relationship) {
