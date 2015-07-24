@@ -40,6 +40,7 @@ public class ShowParser {
         return parseQuery(response, gson);
     }
 
+    //people and category is String
     public static LinkedList<MongoShow> parseQuery_categoryString(JSONObject respnose) {
         Gson gson = QSGsonFactory.cateGoryBuilder().create();
         return parseQuery(respnose, gson);
@@ -50,15 +51,30 @@ public class ShowParser {
         return parseQuery(respnose, gson);
     }
 
-    public static MongoShow parse(JSONObject response) {
+    public static LinkedList<MongoShow> parseQuery_peopleString(JSONObject respnose) {
+        Gson gson = QSGsonFactory.peopleBuilder().create();
+        return parseQuery(respnose, gson);
+    }
+
+    public static MongoShow parse(JSONObject response, Gson gson) {
         try {
             String show = response.getJSONObject("data").getJSONObject("show").toString();
-            Gson gson = QSGsonFactory.itemBuilder().create();
+
             return gson.fromJson(show, new TypeToken<MongoShow>() {
             }.getType());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static MongoShow parse(JSONObject response){
+        Gson gson = QSGsonFactory.itemBuilder().create();
+        return parse(response, gson);
+    }
+
+    public static MongoShow parse_peopleString(JSONObject response){
+        Gson gson = QSGsonFactory.peopleBuilder().create();
+        return parse(response, gson);
     }
 }

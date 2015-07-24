@@ -52,6 +52,10 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
                     QSComponent.showDialag(context, context.getResources().getString(R.string.item_not_exist));
                     return;
                 }
+                if(null == item.images || 0 == item.images.size()){
+                    QSComponent.showDialag(context, context.getResources().getString(R.string.image_not_exist));
+                    return;
+                }
                 Intent intent = new Intent(context, S10ItemDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);

@@ -30,6 +30,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
@@ -264,7 +265,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover){
-            image.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.cover, ImgUtil.Large)));
+            image.setImageURI(Uri.parse(showDetailEntity.cover));
             image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
 
@@ -288,7 +289,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         }
         if(!QSModel.INSTANCE.loggedin()) {
             showData_other();
-        }else if(showDetailEntity.__context.createdBy._id.equals(QSModel.INSTANCE.getUser()._id)) {
+        }else if(showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
             showData_self();
         }else{
             showData_other();
@@ -305,12 +306,17 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     private void showData_other() {
         s03Portrait.setVisibility(View.VISIBLE);
-        if(null != showDetailEntity.__context)
-            if(null != showDetailEntity.__context.createdBy)
-                if(null != showDetailEntity.__context.createdBy.portrait)
-                    s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.__context.createdBy.portrait, ImgUtil.Large)));
-        s03Nickname.setVisibility(View.VISIBLE);
-        s03Nickname.setText(showDetailEntity.__context.createdBy.nickname);
+        if(null != showDetailEntity.ownerRef)
+            UserCommand.getPeople(new Callback(){
+                @Override
+                public void onComplete(JSONObject response) {
+                    showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
+                    if(null != showDetailEntity.ownerRef.portrait)
+                        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.Large)));
+                    s03Nickname.setVisibility(View.VISIBLE);
+                    s03Nickname.setText(showDetailEntity.ownerRef.nickname);
+                }
+            }, S03SHowActivity.this, showDetailEntity.ownerRef._id);
     }
 
     public void pauseVideo() {
@@ -529,7 +535,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 hideShow();
                 break;
             case R.id.s03_portrait:
-                U01Model.INSTANCE.setUser(showDetailEntity.__context.createdBy);
+                U01Model.INSTANCE.setUser(showDetailEntity.ownerRef);
                 startActivity(new Intent(S03SHowActivity.this, U01UserActivity.class));
                 break;
         }

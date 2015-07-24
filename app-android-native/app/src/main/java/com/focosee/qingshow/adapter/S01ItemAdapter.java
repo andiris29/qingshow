@@ -48,17 +48,15 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
         holder.getView(R.id.item_s01_bottom_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                U01Model.INSTANCE.setUser(show.__context.createdBy);
+                U01Model.INSTANCE.setUser(show.ownerRef);
                 context.startActivity(new Intent(context, U01UserActivity.class));
             }
         });
         holder.setImgeByUrl(R.id.item_s01_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.Large), ValueUtil.pre_img_AspectRatio);
         holder.setImgeByUrl(R.id.item_s01_img, show.cover, ValueUtil.match_img_AspectRatio);
         MongoPeople user = new MongoPeople();
-        if(null != show.__context){
-            if(null != show.__context.createdBy){
-                user = show.__context.createdBy;
-            }
+        if(null != show.ownerRef){
+            user = show.ownerRef;
         }
 
         if(null != user.portrait || "".equals(user.portrait))

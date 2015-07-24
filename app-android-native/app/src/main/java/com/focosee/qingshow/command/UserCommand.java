@@ -1,7 +1,10 @@
 package com.focosee.qingshow.command;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Message;
+import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,6 +25,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.logging.Handler;
 
 /**
  * Created by i068020 on 2/24/15.
@@ -88,5 +93,22 @@ public class UserCommand {
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    public static void getPeople(final Callback callback, final Context context, String _id){
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(_id), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (!MetadataParser.hasError(response)) {
+                    callback.onComplete(response);
+                } else {
+                    ErrorHandler.handle(context, MetadataParser.getError(response));
+                }
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
     }
 }
