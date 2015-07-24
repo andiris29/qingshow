@@ -1,6 +1,8 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
+import com.focosee.qingshow.httpapi.gson.deserializer.MongoItemIdDeserializer;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,7 +76,7 @@ public class ShowParser {
     }
 
     public static MongoShow parse_peopleString(JSONObject response){
-        Gson gson = QSGsonFactory.peopleBuilder().create();
+        Gson gson = QSGsonFactory.peopleBuilder().registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer()).create();
         return parse(response, gson);
     }
 }

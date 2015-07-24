@@ -56,11 +56,11 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
             @Override
             public void onClick(View v) {
                 if(null == item){
-                    showMsg(context.getResources().getString(R.string.item_not_exist));
+                    Toast.makeText(context, R.string.item_not_exist, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(null == item.images || 0 == item.images.size()){
-                    QSComponent.showToast(context, context.getResources().getString(R.string.image_not_exist), Toast.LENGTH_SHORT);
+                    Toast.makeText(context, R.string.image_not_exist, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(context, S10ItemDetailActivity.class);
@@ -70,12 +70,5 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
                 context.startActivity(intent);
             }
         });
-    }
-
-    public void showMsg(String title){
-        ConfirmDialog dialog = new ConfirmDialog();
-        dialog.setTitle(title);
-        dialog.setCancel("", null);
-        dialog.show(((S07CollectActivity) context).getSupportFragmentManager());
     }
 }

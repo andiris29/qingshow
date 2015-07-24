@@ -51,4 +51,8 @@ public class QSComponent {
         toast.setView(layout);
         toast.show();
     }
+
+    public static void showToast(Context context, int msg, int duration) {
+        showToast(context, context.getResources().getString(msg), duration);
+    }
 }

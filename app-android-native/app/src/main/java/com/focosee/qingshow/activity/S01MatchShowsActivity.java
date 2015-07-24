@@ -20,6 +20,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -31,6 +32,7 @@ import java.util.LinkedList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 public class S01MatchShowsActivity extends MenuActivity {
 
@@ -61,7 +63,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s01_match_shows);
         ButterKnife.inject(this);
-
+        EventBus.getDefault().register(this);
         initDrawer();
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +162,12 @@ public class S01MatchShowsActivity extends MenuActivity {
         return true;
     }
 
+    public void onEventMainThread(String event) {
+        if(event.equals("refresh")){
+            doRefresh(currentType);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -197,5 +205,11 @@ public class S01MatchShowsActivity extends MenuActivity {
             return;
         }
         super.onClick(v);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

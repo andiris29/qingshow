@@ -46,6 +46,7 @@ import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -71,6 +72,9 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -265,7 +269,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover){
-            image.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.cover, ImgUtil.Large)));
+            image.setImageURI(Uri.parse(showDetailEntity.cover));
             image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
 
@@ -310,6 +314,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             UserCommand.getPeople(new Callback(){
                 @Override
                 public void onComplete(JSONObject response) {
+                    System.out.println("getPeople:  response:" + response);
                     showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
                     if(null != showDetailEntity.ownerRef.portrait)
                         s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.Large)));
@@ -532,7 +537,19 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 }
                 break;
             case R.id.s03_del_btn:
-                hideShow();
+                final ConfirmDialog dialog = new ConfirmDialog();
+                dialog.setTitle(getResources().getString(R.string.s20_dialog)).setConfirm(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hideShow();
+                        dialog.dismiss();
+                    }
+                }).setCancel(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                }).show(getSupportFragmentManager());
                 break;
             case R.id.s03_portrait:
                 U01Model.INSTANCE.setUser(showDetailEntity.ownerRef);
@@ -542,8 +559,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void hideShow(){
-        Toast.makeText(S03SHowActivity.this, "fdsafdsa", Toast.LENGTH_SHORT).show();
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(showDetailEntity._id), null, new Response.Listener<JSONObject>() {
+        Map<String, String> params = new HashMap<>();
+        params.put("_id", showDetailEntity._id);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "repsonse_del:" + response);
@@ -553,6 +571,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 }
 
                 Toast.makeText(S03SHowActivity.this, R.string.delete_finish, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post("refresh");
                 finish();
             }
         });
