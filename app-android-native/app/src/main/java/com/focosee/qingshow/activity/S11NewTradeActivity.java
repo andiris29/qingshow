@@ -253,6 +253,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             }
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.alipay))) {
                 JSONObject jsonObject = new JSONObject();
+                jsonObject.put("alipay", new JSONObject());
                 params.put("pay", jsonObject);
             }
 

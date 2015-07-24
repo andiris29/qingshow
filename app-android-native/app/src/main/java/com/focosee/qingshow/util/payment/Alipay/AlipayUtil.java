@@ -1,6 +1,7 @@
 package com.focosee.qingshow.util.payment.Alipay;
 
 import com.focosee.qingshow.constants.config.PaymentConfig;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 
 /**
  * Created by Administrator on 2015/3/24.
@@ -27,7 +28,7 @@ public class AlipayUtil {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + "http://chingshow.com/payment/alipay/callback"
+        orderInfo += "&notify_url=" + "\"" + QSAppWebAPI.HOST_ADDRESS +"/payment/alipay/callback"
                 + "\"";
 
         // 服务接口名称， 固定值
