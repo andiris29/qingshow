@@ -4,7 +4,9 @@ var async = require('async');
 var qsftp = require('../../runtime/qsftp');
 var path = require('path');
 var gm = require('gm');
-imageMagick = gm.subClass({ imageMagick : true });
+imageMagick = gm.subClass({
+    imageMagick : true
+});
 
 var RequestHelper = module.exports;
 
@@ -54,9 +56,9 @@ RequestHelper.parseId = function(string) {
 RequestHelper.parseArray = function(raw) {
     if (raw === undefined) {
         return undefined;
-    } else if (_.isString(raw)){
+    } else if (_.isString(raw)) {
         return raw.split(',');
-    } else if (_.isArray(raw)){
+    } else if (_.isArray(raw)) {
         return raw;
     } else {
         return undefined;
@@ -87,44 +89,47 @@ RequestHelper.parseFile = function(req, uploadPath, resizeOptions, callback) {
         var oldPath = file.path;
         var fullPath = path.join(uploadPath, savedName);
 
-        qsftp.upload(file.path, fullPath, function (err) {
+        qsftp.upload(file.path, fullPath, function(err) {
             file.path = fullPath;
             callback(err, fields, file);
         });
+        // Resize
+        (resizeOptions || []).forEach(function(option) {
+            var lastDotIndex = oldPath.lastIndexOf('.');
+            var newPath = oldPath.substr(0, lastDotIndex) + option.suffix + oldPath.substr(lastDotIndex);
 
-        if (resizeOptions) {
-            resizeOptions.forEach(function (option) {
-                var lastDotIndex = oldPath.lastIndexOf('.');
-                var newPath = oldPath.substr(0, lastDotIndex) + option.suffix + oldPath.substr(lastDotIndex);
+            async.waterfall([
+            function(callback) {
                 if (option.rate) {
-                    imageMagick(oldPath)
-                        .size(function (err, size) {
-                            this.resize(size.width * option.rate, size.height * option.rate, '!')
-                                .autoOrient()
-                                .write(newPath, function (err) {
-                                    if (!err) {
-                                        var savedName = path.basename(newPath);
-                                        var fullPath = path.join(uploadPath, savedName);
-                                        qsftp.upload(newPath, fullPath, function (err) {
-                                        });
-                                    }
-                                });
-                        });
+                    imageMagick(oldPath).size(function(err, size) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            callback(null, size.width * option.rate, size.height * option.rate);
+                        }
+                    });
                 } else {
-                    imageMagick(oldPath)
-                        .resize(option.width, option.height, '!')
-                        .autoOrient()
-                        .write(newPath, function (err) {
-                            if (!err) {
-                                var savedName = path.basename(newPath);
-                                var fullPath = path.join(uploadPath, savedName);
-                                qsftp.upload(newPath, fullPath, function (err) {
-                                });
-                            }
-                        });
+                    callback(null, option.width, option.height);
                 }
+
+            },
+            function(width, height, callback) {
+                // @formatter:off
+                imageMagick(oldPath)
+                    .resize(width, height, '!')
+                    .autoOrient()
+                    .write(newPath, function (err) {
+                        if (!err) {
+                            var savedName = path.basename(newPath);
+                            var fullPath = path.join(uploadPath, savedName);
+                            qsftp.upload(newPath, fullPath, function (err) {
+                            });
+                        }
+                    });
+                // @formatter:on
+            }], function(err, result) {
             });
-        }
+        });
     });
 };
 
