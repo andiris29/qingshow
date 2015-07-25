@@ -31,18 +31,22 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
     var sendTargets = _.filter(registrationIDs, function(registrationId) {
         return (registrationId && (registrationId.length > 0));
     });
-    client.push().setPlatform('ios', 'android')
-        .setAudience(JPush.registration_id(sendTargets))
-        .setNotification(JPush.ios(message, 'default', null, false, extras), JPush.android(message, message, null, extras))
-        .setOptions(null, null, null, true, null)
-        .send(function(err, res) {
-            if (err) {
-                winston.error('show/comment push error', err);
-            } else {
-                winston.info('show/comment push success => error:[', err, '], res:[', res, ']');
-            }
-            if (callback) {
-                callback(err, res);
-            }
-        });
+    if (sendTargets.length) {
+        client.push().setPlatform('ios', 'android')
+            .setAudience(JPush.registration_id(sendTargets))
+            .setNotification(JPush.ios(message, 'default', null, false, extras), JPush.android(message, message, null, extras))
+            .setOptions(null, null, null, true, null)
+            .send(function(err, res) {
+                if (err) {
+                    winston.error('show/comment push error', err);
+                } else {
+                    winston.info('show/comment push success => error:[', err, '], res:[', res, ']');
+                }
+                if (callback) {
+                    callback(err, res);
+                }
+            });
+    } else {
+        callback();
+    }
 };

@@ -3,7 +3,7 @@ var async = require('async');
 
 var Trace = require('../../model/traces');
 var People = require('../../model/peoples');
-var jPushToPeople = require('../../model/jPushToPeople');
+var jPushAudiences = require('../../model/jPushAudiences');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
@@ -70,7 +70,7 @@ spread.firstLaunch = {
                                     'command' : PushNotificationHelper.CommandQuestSharingProgress
                                 };
                             }
-                            jPushToPeople.find({
+                            jPushAudiences.find({
                                 'peopleRef' : people._id
                             }).exec(function(err, registrationIDs) {
                                 if (err) {
@@ -92,7 +92,7 @@ spread.firstLaunch = {
                             var alertMessage = PushNotificationHelper.MessageQuestSharingProgress;
                             var target = MAX_PROGRESS - people.questSharing.progress;
                             alertMessage = alertMessage.replace("{0}", target);
-                            jPushToPeople.find({
+                            jPushAudiences.find({
                                 'peopleRef' : people._id
                             }).exec(function(err, registrationIDs) {
                                 if (err) {
