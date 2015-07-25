@@ -626,7 +626,7 @@ _loginViaWeibo = function(req, res) {
     }, function(people, callback) {
         req.session.userId = people._id;
         req.session.loginDate = new Date();
-        _addRegistrationId(people._id, registrationId);
+        _addRegistrationId(people._id, param.registrationId);
         callback(null, people);
     }], function(error, people) {
         ResponseHelper.response(res, error, {
