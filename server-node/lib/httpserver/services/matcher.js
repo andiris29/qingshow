@@ -108,6 +108,7 @@ matcher.updateCover = {
                     'show' : show
                 });
             });
+            delete _matchers[uuid];
         });
     }
 };
