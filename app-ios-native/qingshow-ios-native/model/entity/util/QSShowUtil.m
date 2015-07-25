@@ -114,12 +114,12 @@
 
 + (NSString *)getNameStr:(NSDictionary *)dict
 {
-    NSDictionary *nameDic = [dict valueForKey:@"__context"];
-    NSDictionary *createDic = nameDic[@"createdBy"];
-    if (!createDic) {
-        return nil;
+    NSDictionary *nameDic = [dict valueForKey:@"ownerRef"];
+    if (nameDic[@"nickname"]) {
+        return nameDic[@"nickname"];
     }
-    return createDic[@"nickname"];
+    return nil;
+    
 }
 + (NSString *)getUserId:(NSDictionary *)dict
 {
@@ -134,8 +134,7 @@
     NSDictionary *dic = [dict valueForKey:@"__context"];
     NSDictionary *createDic = dic[@"createdBy"];
     NSString *groupStr = [createDic[@"bodyType"] stringValue];
-    
-    //NSLog(@"group = %@",groupStr);
+
     if ([QSCommonUtil checkIsNil:groupStr]) {
         return nil;
     }
@@ -196,7 +195,7 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
-    NSDictionary* peopleDict = [showDict valueForKeyPath:@"__context.createdBy"];
+    NSDictionary* peopleDict = [showDict valueForKeyPath:@"ownerRef"];
     if ([QSCommonUtil checkIsDict:peopleDict]) {
         return peopleDict;
     } else {
@@ -368,7 +367,6 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
-   // NSLog(@"show Dic Key %@",[showDict allKeys]);
     if ([[showDict allKeys] containsObject:@"video"] ) {
         NSString* videoPath = [showDict valueForKey:@"video"];
         if ([QSCommonUtil checkIsNil:videoPath] || !videoPath.length) {

@@ -2,8 +2,9 @@ var mongoose = require('mongoose');
 var async = require('async');
 var uuid = require('node-uuid');
 var path = require('path');
-
 var jPushAudiences = require('../../model/jPushAudiences');
+var fs = require('fs');
+
 var People = require('../../model/peoples');
 
 var RequestHelper = require('../helpers/RequestHelper');
@@ -21,12 +22,21 @@ var WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
 var WB_APPID = 'wb1213293589';
 var WB_SECRET = '';
 
+var qsftp = require('../../runtime/qsftp');
+
 var _encrypt = function(string) {
     var cipher = crypto.createCipher('aes192', _secret);
     var enc = cipher.update(string, 'utf8', 'hex');
     enc += cipher.final('hex');
     return enc;
 };
+
+var userPortraitResizeOptions = [
+    {'suffix' : '_200', 'width' : 200, 'height' : 200},
+    {'suffix' : '_100', 'width' : 100, 'height' : 100},
+    {'suffix' : '_50', 'width' : 50, 'height' : 50},
+    {'suffix' : '_30', 'width' : 30, 'height' : 30}
+];
 
 var _decrypt = function(string) {
     var decipher = crypto.createDecipher('aes192', _secret);
@@ -309,14 +319,10 @@ _update = function(req, res) {
     });
 };
 
+
+
 _updatePortrait = function(req, res) {
-    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait',
-        [
-            {'suffix' : '_200', 'width' : 200, 'height' : 200},
-            {'suffix' : '_100', 'width' : 100, 'height' : 100},
-            {'suffix' : '_50', 'width' : 50, 'height' : 50},
-            {'suffix' : '_30', 'width' : 30, 'height' : 30}
-        ]);
+    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait', userPortraitResizeOptions);
 };
 
 _updateBackground = function(req, res) {
@@ -463,7 +469,22 @@ _removeReceiver = function(req, res) {
     });
 };
 
+
+var _downloadHeadIcon = function (path, callback) {
+    var tempName = path.replace(/[\.\/:]/g, '_');
+    var tempPath = "/tmp/" + tempName;
+
+    request(path).pipe(fs.createWriteStream(tempPath))
+        .on('close', function () {
+            callback(null, tempPath);
+        })
+        .on('error', function (err) {
+            callback(err);
+        });
+};
+
 _loginViaWeixin = function(req, res) {
+    var config = global.qsConfig;
     var param = req.body;
     var code = param.code;
     if (!code) {
@@ -504,6 +525,18 @@ _loginViaWeixin = function(req, res) {
                 'privilege' : data.privilege,
                 'unionid' : data.unionid
             });
+        });
+    }, function (user, callback) {
+        var url = user.headimgurl;
+        //download headIcon
+        _downloadHeadIcon(url, function (err, tempPath) {
+            //update head icon to ftp
+            var baseName = path.basename(tempPath);
+            qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                user.headimgurl =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                callback(err, user);
+            })
         });
     }, function(user, callback) {
         People.findOne({
