@@ -71,7 +71,13 @@ var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, ca
     if (resizeOptions) {
         resizeOptions.forEach(function (option) {
             var lastDotIndex = input.lastIndexOf('.');
-            var newPath = input.substr(0, lastDotIndex) + option.suffix + input.substr(lastDotIndex);
+            var tempPre = input;
+            var tempPro = "";
+            if (lastDotIndex != -1) {
+                tempPre = input.substr(0, lastDotIndex);
+                tempPro = input.substr(lastDotIndex);
+            }
+            var newPath = tempPre + option.suffix + tempPro;
             if (option.rate) {
                 imageMagick(input)
                     .size(function (err, size) {

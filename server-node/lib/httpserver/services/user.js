@@ -22,12 +22,21 @@ var WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
 var WB_APPID = 'wb1213293589';
 var WB_SECRET = '';
 
+var qsftp = require('../../runtime/qsftp');
+
 var _encrypt = function(string) {
     var cipher = crypto.createCipher('aes192', _secret);
     var enc = cipher.update(string, 'utf8', 'hex');
     enc += cipher.final('hex');
     return enc;
 };
+
+var userPortraitResizeOptions = [
+    {'suffix' : '_200', 'width' : 200, 'height' : 200},
+    {'suffix' : '_100', 'width' : 100, 'height' : 100},
+    {'suffix' : '_50', 'width' : 50, 'height' : 50},
+    {'suffix' : '_30', 'width' : 30, 'height' : 30}
+];
 
 var _decrypt = function(string) {
     var decipher = crypto.createDecipher('aes192', _secret);
@@ -310,14 +319,10 @@ _update = function(req, res) {
     });
 };
 
+
+
 _updatePortrait = function(req, res) {
-    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait',
-        [
-            {'suffix' : '_200', 'width' : 200, 'height' : 200},
-            {'suffix' : '_100', 'width' : 100, 'height' : 100},
-            {'suffix' : '_50', 'width' : 50, 'height' : 50},
-            {'suffix' : '_30', 'width' : 30, 'height' : 30}
-        ]);
+    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait', userPortraitResizeOptions);
 };
 
 _updateBackground = function(req, res) {
@@ -479,6 +484,7 @@ var _downloadHeadIcon = function (path, callback) {
 };
 
 _loginViaWeixin = function(req, res) {
+    var config = global.qsConfig;
     var param = req.body;
     var code = param.code;
     if (!code) {
@@ -522,10 +528,15 @@ _loginViaWeixin = function(req, res) {
         });
     }, function (user, callback) {
         var url = user.headimgurl;
+        //download headIcon
         _downloadHeadIcon(url, function (err, tempPath) {
-            var oldPath = tempPath;
-            path.basename()
-            callback(user);
+            //update head icon to ftp
+            var baseName = path.basename(tempPath);
+            qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                user.headimgurl =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                callback(err, user);
+            })
         });
     }, function(user, callback) {
         People.findOne({
@@ -648,7 +659,7 @@ _loginViaWeibo = function(req, res) {
     }, function(people, callback) {
         req.session.userId = people._id;
         req.session.loginDate = new Date();
-        _addRegistrationId(people._id, registrationId);
+        _addRegistrationId(people._id, param.registrationId);
         callback(null, people);
     }], function(error, people) {
         ResponseHelper.response(res, error, {

@@ -53,7 +53,7 @@ NSString* imageNameTypeToSuf(QSImageNameType type) {
 + (NSString*)appendImageName:(NSString*)imgName type:(QSImageNameType)type
 {
     NSRange range = [imgName rangeOfString:@"." options:NSBackwardsSearch];
-    if (range.location == NSNotFound) {
+    if (range.location == NSNotFound || (imgName.length - range.location) > 5) {
         return [NSString stringWithFormat:@"%@%@",imgName, imageNameTypeToSuf(type)];
     } else {
         return [NSString stringWithFormat:@"%@%@%@",[imgName substringToIndex:range.location], imageNameTypeToSuf(type), [imgName substringFromIndex:range.location]];
