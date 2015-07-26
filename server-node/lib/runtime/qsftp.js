@@ -5,7 +5,7 @@ var winston = require('winston');
 var gm = require('gm');
 var imageMagick = gm.subClass({ imageMagick : true });
 var path = require('path');
-
+var async = require('async');
 var ftpConnection;
 
 
@@ -66,46 +66,60 @@ var upload = function (input, dest, callback) {
 };
 
 var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, callback) {
-    upload(input, path.join(uploadPath, savedName), callback);
+    var taskArray = [];
+    var taskUploadOrigin = function (innerCallback) {
+        upload(input, path.join(uploadPath, savedName), function (err) {
+            innerCallback(err);
+        });
+    };
+    taskArray.push(taskUploadOrigin);
 
     if (resizeOptions) {
         resizeOptions.forEach(function (option) {
-            var lastDotIndex = input.lastIndexOf('.');
-            var tempPre = input;
-            var tempPro = "";
-            if (lastDotIndex != -1) {
-                tempPre = input.substr(0, lastDotIndex);
-                tempPro = input.substr(lastDotIndex);
-            }
-            var newPath = tempPre + option.suffix + tempPro;
-            if (option.rate) {
-                imageMagick(input)
-                    .size(function (err, size) {
-                        this.resize(size.width * option.rate, size.height * option.rate, '!')
-                            .autoOrient()
-                            .write(newPath, function (err) {
-                                if (!err) {
-                                    var savedName = path.basename(newPath);
-                                    var fullPath = path.join(uploadPath, savedName);
-                                    upload(newPath, fullPath, function (err) {});
-                                }
-                            });
-                    });
-            } else {
-                imageMagick(input)
-                    .resize(option.width, option.height, '!')
-                    .autoOrient()
-                    .write(newPath, function (err) {
-                        if (!err) {
-                            var savedName = path.basename(newPath);
-                            var fullPath = path.join(uploadPath, savedName);
-                            upload(newPath, fullPath, function (err) {});
-                        }
-                    });
-            }
+            var task = function (innerCallback) {
+                var lastDotIndex = input.lastIndexOf('.');
+                var tempPre = input;
+                var tempPro = "";
+                if (lastDotIndex !== -1) {
+                    tempPre = input.substr(0, lastDotIndex);
+                    tempPro = input.substr(lastDotIndex);
+                }
+                var newPath = tempPre + option.suffix + tempPro;
+                if (option.rate) {
+                    imageMagick(input)
+                        .size(function (err, size) {
+                            this.resize(size.width * option.rate, size.height * option.rate, '!')
+                                .autoOrient()
+                                .write(newPath, function (err) {
+                                    if (!err) {
+                                        var savedName = path.basename(newPath);
+                                        var fullPath = path.join(uploadPath, savedName);
+                                        upload(newPath, fullPath, innerCallback);
+                                    } else {
+                                        innerCallback(err);
+                                    }
+                                });
+                        });
+                } else {
+                    imageMagick(input)
+                        .resize(option.width, option.height, '!')
+                        .autoOrient()
+                        .write(newPath, function (err) {
+                            if (!err) {
+                                var savedName = path.basename(newPath);
+                                var fullPath = path.join(uploadPath, savedName);
+                                upload(newPath, fullPath, innerCallback);
+                            } else {
+                                innerCallback(err);
+                            }
+                        });
+                }
+            };
+
+            taskArray.push(task);
         });
     }
-
+    async.parallel(taskArray, callback);
 };
 
 

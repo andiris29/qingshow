@@ -48,6 +48,8 @@ matcher.queryItems = {
     }
 };
 
+var _matchers = {};
+
 matcher.save = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
@@ -56,57 +58,22 @@ matcher.save = {
             ResponseHelper.response(res, ServerError.NotEnoughParam);
             return;
         }
-
         var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
 
-        if (!req.body._id || !req.body._id.length) {
-            // Add a new show
-            var coverUrl = global.qsConfig.show.coverForeground.template;
-            coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
-            var show = new Show({
-                'itemRefs' : itemRefs, 
-                'ugc' : true,
-                'ownerRef' : req.qsCurrentUserId,
-                'coverForeground' : coverUrl
-            });
+        var coverUrl = global.qsConfig.show.coverForeground.template;
+        coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
+        var show = new Show({
+            'itemRefs' : itemRefs, 
+            'ugc' : true,
+            'ownerRef' : req.qsCurrentUserId,
+            'coverForeground' : coverUrl
+        });
 
-            show.save(function(err, show) {
-                if (err) {
-                    ResponseHelper.response(res, err);
-                } else if (!show) {
-                    ResponseHelper.response(res, ServerError.ServerError);
-                } else {
-                    ResponseHelper.response(res, null, {
-                        'show' : show
-                    });
-                }
-            });
-            return;
-        } 
-
-        // Update a show
-        var _id = RequestHelper.parseId(req.body._id);
-        Show.findOne({
-            '_id' : _id
-        }, function(err, show) {
-            if (err) {
-                ResponseHelper.response(res, err);
-            } else if (!show) {
-                ResponseHelper.response(res, ServerError.ShowNotExist);
-            } else {
-                show.itemRefs = itemRefs;
-                show.save(function(err, show) {
-                    if (err) {
-                        ResponseHelper.response(res, err);
-                    } else if (!show) {
-                        ResponseHelper.response(res, ServerError.ServerError);
-                    } else {
-                        ResponseHelper.response(res, null, {
-                            'show' : show
-                        });
-                    }
-                });
-            }
+        var uuid = require('node-uuid').v1();
+        _matchers[uuid] = show;
+        
+        ResponseHelper.response(res, null, {
+            'uuid' : uuid
         });
     }
 };
@@ -123,7 +90,7 @@ matcher.updateCover = {
                 ResponseHelper.response(res, err);
                 return;
             }
-            if (!fields['_id'] || !fields['_id'].length) {
+            if (!fields.uuid || !fields.uuid.length) {
                 ResponseHelper.response(res, ServerError.NotEnoughParam);
                 return;
             }
@@ -131,19 +98,18 @@ matcher.updateCover = {
                 ResponseHelper.response(res, ServerError.NotEnoughParam);
                 return;
             }
-            Show.findOne({
-                '_id' : RequestHelper.parseId(fields['_id']),
-                'ugc' : true
-            }, function(err, show) {
-                show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
-                show.save(function(err, show) {
-                    ResponseHelper.response(res, err, {
-                        'show' : show
-                    });
+            var show = _matchers[fields.uuid];
+            if (!show) {
+                ResponseHelper.response(res, ServerError.NotEnoughParam);
+            }
+            show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
+            show.save(function(err, show) {
+                ResponseHelper.response(res, err, {
+                    'show' : show
                 });
             });
+            delete _matchers[uuid];
         });
-        return;
     }
 };
 

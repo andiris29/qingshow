@@ -530,13 +530,23 @@ _loginViaWeixin = function(req, res) {
         var url = user.headimgurl;
         //download headIcon
         _downloadHeadIcon(url, function (err, tempPath) {
-            //update head icon to ftp
-            var baseName = path.basename(tempPath);
-            qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                user.headimgurl =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                callback(err, user);
-            })
+            if (err) {
+                callback(err);
+            } else {
+                //update head icon to ftp
+                var baseName = path.basename(tempPath);
+                qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                        user.headimgurl =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                        callback(err);
+                    }
+                })
+            }
+
+
         });
     }, function(user, callback) {
         People.findOne({
