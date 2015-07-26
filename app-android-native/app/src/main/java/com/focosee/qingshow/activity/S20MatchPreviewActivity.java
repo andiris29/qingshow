@@ -54,6 +54,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
     private List<String> itemRefs;
 
     private MongoShow show;
+    private String uuid;
     private SpotsDialog dialog;
 
     @Override
@@ -118,7 +119,11 @@ public class S20MatchPreviewActivity extends BaseActivity {
                     allowClick();
                     return;
                 }
-                show = ShowParser.parsePeopleAndItemString(response);
+                try {
+                    uuid = response.getJSONObject("data").getString("uuid");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 uploadImage();
             }
         }, new QSResponseErrorListener() {
@@ -158,7 +163,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
         });
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addBinaryPart("cover", BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.JPEG));
-        multipartEntity.addStringPart("_id", show._id);
+        multipartEntity.addStringPart("uuid", uuid);
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 
