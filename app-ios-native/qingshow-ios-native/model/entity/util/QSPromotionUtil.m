@@ -7,39 +7,39 @@
 //
 
 #import "QSPromotionUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 @implementation QSPromotionUtil
 
 
 + (NSString*)getHint:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"hint"];
 }
 + (NSString*)getDescription:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"description"];
 }
 + (NSNumber*)getCriteria:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"criteria"];
 }
 + (BOOL)getIsEnabled:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return NO;
     }
     NSNumber* n = dict[@"enabled"];
-    if ([QSCommonUtil checkIsNil:n]) {
+    if ([QSEntityUtil checkIsNil:n]) {
         return NO;
     } else {
         return n.boolValue;

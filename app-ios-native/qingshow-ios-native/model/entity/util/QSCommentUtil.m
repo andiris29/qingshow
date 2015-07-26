@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSCommentUtil.h"
 #import "QSDateUtil.h"
 #import "NSDate+QSExtension.h"
@@ -14,14 +14,14 @@
 @implementation QSCommentUtil
 + (NSString*)getContent:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     return commentDict[@"comment"];
 }
 + (NSDictionary*)getPeople:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     id a = commentDict[@"authorRef"];
@@ -32,7 +32,7 @@
 }
 + (NSDictionary*)getShow:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     return commentDict[@"showRef"];
@@ -40,7 +40,7 @@
 
 + (NSString*)getFormatedDateString:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     NSString* dateStr = commentDict[@"create"];

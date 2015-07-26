@@ -9,7 +9,7 @@
 #import "QSNetworkEngine+SpreadService.h"
 #import "NSArray+QSExtension.h"
 #import "QSNetworkEngine+Protect.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 #import "QSUserManager.h"
 
@@ -31,7 +31,7 @@
                 NSDictionary *retDict = completeOperation.responseJSON;
                 NSString* n = [retDict valueForKeyPath:@"data.trace.behaviorInfo.firstLaunch.channel"];
                 BOOL f = NO;
-                if (![QSCommonUtil checkIsNil:n] && n && n.length) {
+                if (![QSEntityUtil checkIsNil:n] && n && n.length) {
                     f = YES;
                     NSDate* d = [NSDate dateWithTimeIntervalSinceNow:60 * 30];
                     [QSUserManager shareUserManager].globalFirstLaunchShowDueDate = d;

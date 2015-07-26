@@ -12,7 +12,7 @@
 #import "QSOrderUtil.h"
 #import "QSItemUtil.h"
 #import "QSTaobaoInfoUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
 #import "QSTradeStatus.h"

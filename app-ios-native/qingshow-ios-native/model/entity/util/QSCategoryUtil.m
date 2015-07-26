@@ -8,21 +8,21 @@
 
 
 #import "QSCategoryUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 @implementation QSCategoryUtil
 + (NSArray*)getChildren:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getArrayValue:categoryDict key:@"children"];
+    return [QSEntityUtil getArrayValue:categoryDict keyPath:@"children"];
 }
 
 
 
 + (NSString*)getParentId:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getStringValue:categoryDict key:@"parentRef"];
+    return [QSEntityUtil getStringValue:categoryDict keyPath:@"parentRef"];
 }
 
 + (BOOL)getMatchEnabled:(NSDictionary*)categoryDict {
-    NSNumber* n = [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.enabled"];
+    NSNumber* n = [QSEntityUtil getNumberValue:categoryDict keyPath:@"matchInfo.enabled"];
     if (!n) {
         return YES;
     } else {
@@ -32,17 +32,17 @@
 }
 
 + (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict {
-    NSNumber* n = [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.defaultOnCanvas"];
+    NSNumber* n = [QSEntityUtil getNumberValue:categoryDict keyPath:@"matchInfo.defaultOnCanvas"];
     return n.boolValue;
 }
 + (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.row"];
+    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"matchInfo.row"];
 }
 + (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.column"];
+    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"matchInfo.column"];
 }
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict{
-    NSString* path = [QSCommonUtil getStringValue:categoryDict key:@"icon"];
+    NSString* path = [QSEntityUtil getStringValue:categoryDict keyPath:@"icon"];
     if (path) {
         return [NSURL URLWithString:path];
     } else {
@@ -50,9 +50,9 @@
     }
 }
 + (NSNumber*)getOrder:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getNumberValue:categoryDict key:@"order"];
+    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"order"];
 }
 + (NSNumber*)getMeasureComposition:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getNumberValue:categoryDict key:@"measureComposition"];
+    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"measureComposition"];
 }
 @end

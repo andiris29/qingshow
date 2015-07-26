@@ -16,7 +16,7 @@
 #import "NSString+MKNetworkKitAdditions.h"
 #import "QSTradeUtil.h"
 #import "QSOrderUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSItemUtil.h"
 #import "QSPaymentConst.h"
 
@@ -67,7 +67,7 @@
     NSString* prepayId = [QSTradeUtil getWechatPrepayId:tradeDict];
     
     
-    NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+    NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
     NSArray* orderArray = [QSTradeUtil getOrderArray:tradeDict];
     NSMutableString* names = [@"" mutableCopy];
     for (NSDictionary* orderDict in orderArray) {
@@ -88,7 +88,7 @@
 - (void)payWithAliPayTrade:(NSDictionary*)tradeDict
                productName:(NSString*)productName;
 {
-    NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+    NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
     AlipayOrder* order = [[AlipayOrder alloc] init];
     order.partner = ALIPAY_PARTNER;
     order.seller = ALIPAY_SELLER;

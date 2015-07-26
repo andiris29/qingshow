@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
-@implementation QSCommonUtil
+@implementation QSEntityUtil
 + (BOOL)checkIsNil:(id)obj
 {
     return !obj || [obj isKindOfClass:[NSNull class]];
@@ -50,7 +50,7 @@
     return commentsStr;
 }
 
-+ (id)getValue:(NSDictionary*)dict key:(NSString*)key class:(Class)c {
++ (id)getValue:(NSDictionary*)dict keyPath:(NSString*)key class:(Class)c {
     if ([self checkIsNil:dict]) {
         return nil;
     }
@@ -62,18 +62,18 @@
     }
 }
 
-+ (NSString*)getStringValue:(NSDictionary*)dict key:(NSString*)key {
-    return [self getValue:dict key:key class:[NSString class]];
++ (NSString*)getStringValue:(NSDictionary*)dict keyPath:(NSString*)key {
+    return [self getValue:dict keyPath:key class:[NSString class]];
 }
 
-+ (NSNumber*)getNumberValue:(NSDictionary*)dict key:(NSString*)key {
-    return [self getValue:dict key:key class:[NSNumber class]];
++ (NSNumber*)getNumberValue:(NSDictionary*)dict keyPath:(NSString*)key {
+    return [self getValue:dict keyPath:key class:[NSNumber class]];
 }
 
-+ (NSArray*)getArrayValue:(NSDictionary*)dict key:(NSString*)key {
-    return [self getValue:dict key:key class:[NSArray class]];
++ (NSArray*)getArrayValue:(NSDictionary*)dict keyPath:(NSString*)key {
+    return [self getValue:dict keyPath:key class:[NSArray class]];
 }
-+ (NSDictionary*)getDictValue:(NSDictionary*)dict key:(NSString*)key {
-    return [self getValue:dict key:key class:[NSDictionary class]];
++ (NSDictionary*)getDictValue:(NSDictionary*)dict keyPath:(NSString*)key {
+    return [self getValue:dict keyPath:key class:[NSDictionary class]];
 }
 @end

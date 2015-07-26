@@ -16,7 +16,7 @@
 #import "QSS20MatcherViewController.h"
 #import "QSS01MatchShowsViewController.h"
 #import "QSPnsNotificationName.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSS04CommentListViewController.h"
 
@@ -171,7 +171,7 @@
 
     if (self.contentNavVc) {
         NSDictionary* userInfo = noti.userInfo;
-        NSString* showId = [QSCommonUtil getStringValue:userInfo key:@"showId"];
+        NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"showId"];
         [self.contentNavVc popToRootViewControllerAnimated:NO];
         [self.contentNavVc pushViewController:[[QSS03ShowDetailViewController alloc] initWithShowId:showId] animated:NO];
         [self.contentNavVc pushViewController:[[QSS04CommentListViewController alloc] initWithShowId:showId] animated:NO];

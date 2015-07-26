@@ -7,21 +7,21 @@
 //
 
 #import "QSTradeUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 #import "QSTradeStatus.h"
 
 @implementation QSTradeUtil
 + (NSArray*)getOrderArray:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"orders"];
 }
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     NSString* resDateStr = dict[@"create"];
@@ -30,7 +30,7 @@
 }
 + (NSNumber*)getStatus:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"status"];
@@ -43,14 +43,14 @@
 
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"pay"][@"weixin"][@"prepayid"];
 }
 
 + (NSString*)getTotalFeeDesc:(NSDictionary*)dict {
-    NSNumber* num = [QSCommonUtil getNumberValue:dict key:@"totalFee"];;
+    NSNumber* num = [QSEntityUtil getNumberValue:dict keyPath:@"totalFee"];;
     if (num) {
         return num.stringValue;
     } else {

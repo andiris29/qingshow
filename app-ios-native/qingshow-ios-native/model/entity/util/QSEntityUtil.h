@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface QSCommonUtil : NSObject
+@interface QSEntityUtil : NSObject
 
 + (BOOL)checkIsNil:(id)obj;
 + (BOOL)checkIsDict:(id)obj;
@@ -17,8 +17,8 @@
 + (NSString *)getCommentsStr:(NSDictionary *)dict;
 
 
-+ (NSString*)getStringValue:(NSDictionary*)dict key:(NSString*)key;
-+ (NSArray*)getArrayValue:(NSDictionary*)dict key:(NSString*)key;
-+ (NSDictionary*)getDictValue:(NSDictionary*)dict key:(NSString*)key;
-+ (NSNumber*)getNumberValue:(NSDictionary*)dict key:(NSString*)key;
++ (NSString*)getStringValue:(NSDictionary*)dict keyPath:(NSString*)key;
++ (NSArray*)getArrayValue:(NSDictionary*)dict keyPath:(NSString*)key;
++ (NSDictionary*)getDictValue:(NSDictionary*)dict keyPath:(NSString*)key;
++ (NSNumber*)getNumberValue:(NSDictionary*)dict keyPath:(NSString*)key;
 @end
