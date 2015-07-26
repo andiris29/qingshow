@@ -208,8 +208,6 @@ _register = function(req, res) {
             ResponseHelper.response(res, ServerError.EmailAlreadyExist);
             return;
         }
-        require('../../runtime/qsmail').debug('New user: ' + id, [id, password].join(','), function(err, info) {
-        });
 
         var people = new People({
             nickname: nickname,
@@ -557,8 +555,6 @@ _loginViaWeixin = function(req, res) {
                 callback(null, people);
                 return;
             }
-            require('../../runtime/qsmail').debug('New user[weixin]: ' + user.openid, user.openid, function(err, info) {
-            });
 
             people = new People({
                 nickname : user.nickname,
@@ -657,8 +653,6 @@ _loginViaWeibo = function(req, res) {
                 callback(null, people);
                 return;
             }
-            require('../../runtime/qsmail').debug('New user[weibo]: ' + user.id, user.id, function(err, info) {
-            });
 
             people = new People({
                 nickname : user.screen_name,
