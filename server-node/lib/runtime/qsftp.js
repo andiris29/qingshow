@@ -7,7 +7,7 @@ var imageMagick = gm.subClass({
     imageMagick : true
 });
 var path = require('path');
-
+var async = require('async');
 var ftpConnection;
 
 var _connectToFtp = function(ftpConfig, reconnect, callback) {
@@ -124,7 +124,6 @@ var uploadWithResize = function(input, savedName, uploadPath, resizeOptions, cal
             });
         });
     });
-
     async.waterfall(tasks, callback);
 };
 
