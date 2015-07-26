@@ -78,7 +78,7 @@
     }];
 }
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
-                         onSucceed:(DicBlock)succeedBlock
+                         onSucceed:(StringBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
     NSMutableArray* idArray = [@[] mutableCopy];
     for (NSDictionary* itemDict in itemArray) {
@@ -88,8 +88,9 @@
     
     return [self startOperationWithPath:PATH_MATCHER_SAVE method:@"POST" paramers:@{@"itemRefs" : idArray} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
+        
         if (succeedBlock) {
-            succeedBlock([((NSDictionary*)[responseDict valueForKeyPath:@"data.show"]) deepMutableCopy]);
+            succeedBlock([responseDict stringValueForKeyPath:@"data.uuid"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -98,13 +99,16 @@
     }];
 }
 
-- (MKNetworkOperation*)matcher:(NSDictionary*)matcherDict
-                   updateCover:(UIImage*)cover
-                     onSucceed:(DicBlock)succeedBlock
-                       onError:(ErrorBlock)errorBlock {
+- (MKNetworkOperation*)matcherUuid:(NSString*)uuid
+                       updateCover:(UIImage*)cover
+                         onSucceed:(DicBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock {
+    if (!uuid) {
+        uuid = @"";
+    }
     return [self startOperationWithPath:PATH_MATCHER_UPDATE_COVER
                                  method:@"POST"
-                               paramers:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:matcherDict]}
+                               paramers:@{@"uuid" : uuid}
                                 fileKey:@"cover"
                                fileName:@"cover.jpeg"
                                   image:UIImageJPEGRepresentation(cover, 0.7)
