@@ -127,6 +127,7 @@
     }
     
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
+#warning TODO Refactor
         if (metadata[@"error"] == nil && people != nil) {
             self.fRemoveLoginAndRegisterVc = YES;
             [self showSuccessHudWithText:@"登陆成功"];
@@ -137,6 +138,7 @@
     };
     
     ErrorBlock error = ^(NSError *error) {
+#warning TODO Refactor
         if (error.userInfo[@"error"] != nil) {
             NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
             if (errorCode.longValue == 1001) {

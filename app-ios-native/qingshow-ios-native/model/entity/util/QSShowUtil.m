@@ -112,15 +112,6 @@
     return [NSURL URLWithString:cover];
 }
 
-+ (NSString *)getNameStr:(NSDictionary *)dict
-{
-    NSDictionary *nameDic = [dict valueForKey:@"ownerRef"];
-    if (nameDic[@"nickname"]) {
-        return nameDic[@"nickname"];
-    }
-    return nil;
-    
-}
 + (NSString *)getUserId:(NSDictionary *)dict
 {
     NSString  *userId  = dict[@"id"];

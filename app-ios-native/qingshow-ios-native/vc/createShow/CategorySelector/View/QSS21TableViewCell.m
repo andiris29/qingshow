@@ -10,6 +10,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSS21ItemView.h"
 #import "QSS21TableViewProvider.h"
+#import "QSCategoryUtil.h"
 
 #define seletedColor [UIColor colorWithRed:234/255.0 green:128/255.0 blue:146/255.0 alpha:1.0] 
 #define kItemWith 94.0
@@ -55,19 +56,18 @@
     //设置title圆角
     [self setTitleButtonCornerRadius];
     
-    NSString *titleStr = cellDic[@"name"];
+    NSString *titleStr = [QSCategoryUtil getName:cellDic];
     [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
-    
-    NSArray *array = cellDic[@"children"];
+    NSArray *array = [QSCategoryUtil getChildren:cellDic];
     [self setItemsWith:array select:selectedDic];
 }
 - (void)setLastCellWith:(NSDictionary *)cellDic andSelectedArray:(NSArray *)selectedArray
 {
     [self setTitleButtonCornerRadius];
-    NSString *titleStr = cellDic[@"name"];
+    NSString *titleStr = [QSCategoryUtil getName:cellDic];
     [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
     
-    NSArray *array = cellDic[@"children"];
+    NSArray *array = [QSCategoryUtil getChildren:cellDic];
     [self setItemForLastCell:array selectedArray:selectedArray];
 }
 #pragma mark -- 设置scrollView item

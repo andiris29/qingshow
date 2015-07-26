@@ -121,6 +121,7 @@
 
 - (void)weiboSendMessageNotiHandler:(NSNotification*)notification
 {
+#warning TODO Refactor
     if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
         [MobClick event:@"shareShow" attributes:@{@"snsName": @"weibo"} counter:1];
         if ([self.delegate respondsToSelector:@selector(didShareWeiboSuccess)]) {

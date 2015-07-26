@@ -9,8 +9,12 @@
 
 #import "QSCategoryUtil.h"
 #import "QSEntityUtil.h"
+#import "NSDictionary+QSExtension.h"
 
 @implementation QSCategoryUtil
++ (NSString*)getName:(NSDictionary*)dict {
+    return [dict stringValueForKeyPath:@"name"];
+}
 + (NSArray*)getChildren:(NSDictionary*)categoryDict {
     return [QSEntityUtil getArrayValue:categoryDict keyPath:@"children"];
 }

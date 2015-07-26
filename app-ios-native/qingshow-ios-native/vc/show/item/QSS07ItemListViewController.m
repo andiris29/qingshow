@@ -11,6 +11,7 @@
 #import "QSItemListTableViewCell.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
+#import "QSCategoryUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+QSExtension.h"
@@ -137,24 +138,20 @@
 
 
 }
-- (int)getOrderFromDic:(NSDictionary *)dic
+- (int)getOrderFromDic:(NSDictionary *)itemDict
 {
-    id str = dic[@"categoryRef"];
-    if ([str isKindOfClass:[NSString class]]) {
+    NSDictionary* categoryDict = [QSItemUtil getCategoryRef:itemDict];
+    if (categoryDict) {
+        return [QSCategoryUtil getOrder:categoryDict].intValue;
+    } else {
+        NSString* categoryId = [QSItemUtil getCategoryStr:itemDict];
         QSCategoryManager *manager = [QSCategoryManager getInstance];
-        NSDictionary *dict =  [manager findCategoryOfId:str];
-        int order = [dict[@"order"] intValue];
-        return order;
-    }
-    else if([str isKindOfClass:[NSDictionary class]])
-    {
-        NSDictionary *dic = str;
-        int order = [[dic valueForKey:@"order"] intValue];
-        return order;
+        NSDictionary *dict =  [manager findCategoryOfId:categoryId];
+        return [QSCategoryUtil getOrder:dict].intValue;
     }
     return 0;
-   
 }
+
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -166,13 +163,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    return 75.f;
     return [UIScreen mainScreen].bounds.size.width/32*5;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return [UIScreen mainScreen].bounds.size.width/5;
-//}
 
 @end

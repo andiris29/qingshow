@@ -7,6 +7,7 @@
 //
 
 #import "QSLocationPickerProvider.h"
+#import "NSDictionary+QSExtension.h"
 #import <CoreText/CoreText.h>
 @interface QSLocationPickerProvider ()
 
@@ -36,11 +37,12 @@
         NSError* err = nil;
         NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:locationData options:0 error:&err];
         
-        self.provinceDict = dict[@"area0"];
         
-        self.cityDict = dict[@"area1"];
+        self.provinceDict = [dict dictValueForKeyPath:@"area0"];;
         
-        self.districtDict = dict[@"area2"];
+        self.cityDict = [dict dictValueForKeyPath:@"area1"];;
+        
+        self.districtDict = [dict dictValueForKeyPath:@"area2"];;
         
         self.provinceCodeArray = [self.provinceDict.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString* obj1, NSString* obj2) {
             return obj1.integerValue - obj2.integerValue;

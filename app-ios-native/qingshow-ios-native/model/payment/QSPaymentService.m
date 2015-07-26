@@ -65,9 +65,6 @@
     self.errorBlock = errorBlock;
     
     NSString* prepayId = [QSTradeUtil getWechatPrepayId:tradeDict];
-    
-    
-    NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
     NSArray* orderArray = [QSTradeUtil getOrderArray:tradeDict];
     NSMutableString* names = [@"" mutableCopy];
     for (NSDictionary* orderDict in orderArray) {
