@@ -191,8 +191,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 }
 
                 responseToStatusToSuccessed(type);
-                //改变订单状态成功
-//                Toast.makeText(context, "确认收货成功！", Toast.LENGTH_SHORT).show();
             }
         });
 

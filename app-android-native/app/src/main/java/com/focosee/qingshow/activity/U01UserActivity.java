@@ -221,6 +221,7 @@ public class U01UserActivity extends MenuActivity {
                     return;
                 }
                 LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
+                Log.i("tag",response.toString());
                 user = users.get(0);
                 userName.setText(user.nickname);
                 userHw.setText(user.height + "cm," + user.weight + "kg");

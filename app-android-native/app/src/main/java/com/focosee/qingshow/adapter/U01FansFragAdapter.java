@@ -22,13 +22,6 @@ public class U01FansFragAdapter extends U01BaseAdapter<MongoPeople>{
         super(datas, context, layoutId);
     }
 
-    /**
-     * 0:R.layout.item_u01_push
-     * 1:R.layout.item_u01_fan_and_followers
-     * @param position
-     * @return
-     */
-
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
@@ -36,6 +29,8 @@ public class U01FansFragAdapter extends U01BaseAdapter<MongoPeople>{
         final MongoPeople people = getItemData(position);
         holder.setImgeByUrl(R.id.item_u01_fans_image, ImgUtil.getImgSrc(people.portrait, ImgUtil.Large));
         holder.setText(R.id.item_u01_fans_name, people.nickname);
+        holder.setText(R.id.item_u01_fans_cloth_number,String.valueOf(people.__context.numCreateShows));
+        holder.setText(R.id.item_u01_fans_like_number,String.valueOf(people.__context.numLikeToCreateShows));
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
