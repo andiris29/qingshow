@@ -11,7 +11,7 @@
 #import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
@@ -54,7 +54,7 @@
 }
 - (instancetype)initWithShow:(NSDictionary*)showDict
 {
-    self = [self initWithShowId:[QSCommonUtil getIdOrEmptyStr:showDict]];
+    self = [self initWithShowId:[QSEntityUtil getIdOrEmptyStr:showDict]];
     if (self) {
         self.showDict = showDict;
     }
@@ -347,11 +347,11 @@
 #pragma mark - Share
 - (void)showSharePanel
 {
-    NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
+    NSString* showId = [QSEntityUtil getIdOrEmptyStr:self.showDict];
     
     //获取userID
     QSUserManager *um = [QSUserManager shareUserManager];
-    NSString* peopleID = [QSCommonUtil getIdOrEmptyStr:um.userInfo];
+    NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
     
     NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
     [self.shareVc showSharePanelWithUrl:urlStr];
@@ -410,7 +410,7 @@
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
-    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSCommonUtil getIdOrEmptyStr:self.showDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSEntityUtil getIdOrEmptyStr:self.showDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 
 #pragma mark - Discount

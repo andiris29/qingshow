@@ -13,7 +13,7 @@
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -60,7 +60,7 @@
 {
     self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
-        self.isCurrentUser = [[QSCommonUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSCommonUtil getIdOrEmptyStr:peopleDict]];
+        self.isCurrentUser = [[QSEntityUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSEntityUtil getIdOrEmptyStr:peopleDict]];
         [self providerInit];
         self.userInfo = peopleDict;
     }
@@ -154,7 +154,7 @@
     self.navigationController.navigationBarHidden = YES;
     [self updateViewWithList];
     [MobClick beginLogPageView:PAGE_ID];
-    [SHARE_NW_ENGINE queryPeopleDetail:[QSCommonUtil getIdOrEmptyStr:self.userInfo] onSucceed:^(NSDictionary * p) {
+    [SHARE_NW_ENGINE queryPeopleDetail:[QSEntityUtil getIdOrEmptyStr:self.userInfo] onSucceed:^(NSDictionary * p) {
         if (p) {
             self.userInfo = p;
             [self.badgeView bindWithPeopleDict:self.userInfo];

@@ -14,7 +14,7 @@
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSTradeUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSOrderUtil.h"
 
 #import "QSNetworkKit.h"

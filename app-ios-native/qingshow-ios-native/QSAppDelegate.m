@@ -20,7 +20,7 @@
 #import "QSNetworkKit.h"
 #import "APService.h"
 #import "QSPnsHelper.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -65,7 +65,7 @@
         [self hideLaunchImageAfterDelay:0.f];
         [vc showDefaultVc];
         //Romote Notification
-        if (![QSCommonUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+        if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
             NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
             [QSPnsHelper handlePnsData:pnsUserInfo];
         }
@@ -75,7 +75,7 @@
         [self hideLaunchImageAfterDelay:0.f];
         [vc showDefaultVc];
         //Romote Notification
-        if (![QSCommonUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+        if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
             NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
             [QSPnsHelper handlePnsData:pnsUserInfo];
         }

@@ -7,7 +7,7 @@
 //
 
 #import "QSHotUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "NSNumber+QSExtension.h"
 #import "QSDateUtil.h"
 
@@ -15,11 +15,11 @@
 
 + (NSURL *)getHotCoverUrl:(NSDictionary *)topShows
 {
-    if ([QSCommonUtil checkIsNil:topShows]) {
+    if ([QSEntityUtil checkIsNil:topShows]) {
         return nil;
     }
     NSString *cover = topShows[@"cover"];
-    if ([QSCommonUtil checkIsNil:cover]) {
+    if ([QSEntityUtil checkIsNil:cover]) {
         return [self getHotCoverUrl:topShows];
     } else {
         return [NSURL URLWithString:cover];
@@ -27,14 +27,14 @@
 }
 + (NSString *)getHotNumLike:(NSDictionary *)topShows
 {
-    if ([QSCommonUtil checkIsNil:topShows]) {
+    if ([QSEntityUtil checkIsNil:topShows]) {
         return nil;
     }
     return ((NSNumber *)topShows[@"numLike"]).kmbtStringValue;
 }
 + (NSDate *)getHotCreateDate:(NSDictionary *)topShows
 {
-    if (![QSCommonUtil checkIsDict:topShows]) {
+    if (![QSEntityUtil checkIsDict:topShows]) {
         return nil;
     }
     NSString *dateStr = topShows[@"create"];
@@ -42,7 +42,7 @@
   }
 + (NSDate *)getHotUpDate:(NSDictionary *)topShows
 {
-    if (![QSCommonUtil checkIsNil:topShows]) {
+    if (![QSEntityUtil checkIsNil:topShows]) {
         return nil;
     }
     NSString *upDateStr = topShows[@"update"];

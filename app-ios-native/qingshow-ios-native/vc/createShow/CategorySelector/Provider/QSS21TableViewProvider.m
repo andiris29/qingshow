@@ -79,6 +79,7 @@
 - (NSDictionary *)getSelectedDicCompareWithCellDic:(NSDictionary *)cellDic
 {
     for (NSDictionary *dic in self.selectedArray) {
+#warning TODO Refactor
         if ([dic[@"parentRef"] isEqualToString:cellDic[@"_id"]]) {
             return dic;
         }

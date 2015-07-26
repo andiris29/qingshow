@@ -15,6 +15,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSUserManager.h"
 #import "QSU07RegisterViewController.h"
+#import "QSEntityUtil.h"
 #define PAGE_ID @"S10 - 商品详细"
 
 @interface QSS10ItemDetailVideoViewController ()
@@ -169,6 +170,6 @@
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
-    [MobClick event:@"playVideo" attributes:@{@"showId" : self.itemDict[@"_id"], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSEntityUtil getIdOrEmptyStr:self.itemDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 @end

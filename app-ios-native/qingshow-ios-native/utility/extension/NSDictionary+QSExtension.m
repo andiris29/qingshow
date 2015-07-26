@@ -8,6 +8,7 @@
 
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
+#import "QSEntityUtil.h"
 @implementation NSDictionary(QSExtension)
 
 - (NSMutableDictionary*)deepMutableCopy;
@@ -24,5 +25,19 @@
     }
     
     return dict;
+}
+
+
+- (NSString*)stringValueForKeyPath:(NSString*)keypath {
+    return [QSEntityUtil getStringValue:self keyPath:keypath];
+}
+- (NSDictionary*)dictValueForKeyPath:(NSString*)keypath {
+    return [QSEntityUtil getDictValue:self keyPath:keypath];
+}
+- (NSNumber*)numberValueForKeyPath:(NSString*)keypath {
+    return [QSEntityUtil getNumberValue:self keyPath:keypath];
+}
+- (NSArray*)arrayValueForKeyPath:(NSString*)keypath {
+    return [QSEntityUtil getArrayValue:self keyPath:keypath];
 }
 @end

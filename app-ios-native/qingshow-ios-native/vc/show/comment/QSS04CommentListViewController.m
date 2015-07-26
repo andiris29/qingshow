@@ -12,7 +12,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSShowUtil.h"
 #import "QSCommentUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
@@ -53,7 +53,7 @@
 }
 - (instancetype)initWithShow:(NSDictionary*)showDict
 {
-    self = [self initWithShowId:[QSCommonUtil getIdOrEmptyStr:showDict]];
+    self = [self initWithShowId:[QSEntityUtil getIdOrEmptyStr:showDict]];
     if (self) {
         self.showDict = showDict;
     }
@@ -151,7 +151,7 @@
                 [self handleError:error];
             }];
         } else {
-            [SHARE_NW_ENGINE deleteCommentId:[QSCommonUtil getIdOrEmptyStr:comment] onSucceed:^{
+            [SHARE_NW_ENGINE deleteCommentId:[QSEntityUtil getIdOrEmptyStr:comment] onSucceed:^{
                 [self.delegateObj.resultArray removeObjectAtIndex:index];
                 [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             } onError:^(NSError *error) {

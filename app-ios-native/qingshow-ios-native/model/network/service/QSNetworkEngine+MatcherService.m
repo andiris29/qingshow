@@ -8,7 +8,7 @@
 
 #import "QSNetworkEngine+Protect.h"
 #import "QSNetworkEngine+MatcherService.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "NSArray+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSCategoryUtil.h"
@@ -43,7 +43,7 @@
             for (NSDictionary* dict in resArray) {
                 if ([QSCategoryUtil getParentId:dict].length != 0){
                     for (NSDictionary* parantDict in retArray) {
-                        if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCommonUtil getIdOrEmptyStr:parantDict]]) {
+                        if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSEntityUtil getIdOrEmptyStr:parantDict]]) {
                             NSMutableArray* mArray = (NSMutableArray*)[QSCategoryUtil getChildren:parantDict];
                             [mArray addObject:dict];
                         }
@@ -66,7 +66,7 @@
                                             page:(int)page
                                        onSucceed:(ArraySuccessBlock)succeedBlock
                                          onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : [QSCommonUtil getIdOrEmptyStr:categoryDict], @"pageNo" : @(page), @"pageSize" : @20} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : [QSEntityUtil getIdOrEmptyStr:categoryDict], @"pageNo" : @(page), @"pageSize" : @20} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock([((NSArray*)[responseDict valueForKeyPath:@"data.items"]) deepMutableCopy], responseDict[@"metadata"]);
@@ -78,18 +78,19 @@
     }];
 }
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
-                         onSucceed:(DicBlock)succeedBlock
+                         onSucceed:(StringBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
     NSMutableArray* idArray = [@[] mutableCopy];
     for (NSDictionary* itemDict in itemArray) {
-        [idArray addObject:[QSCommonUtil getIdOrEmptyStr:itemDict]];
+        [idArray addObject:[QSEntityUtil getIdOrEmptyStr:itemDict]];
     }
     
     
     return [self startOperationWithPath:PATH_MATCHER_SAVE method:@"POST" paramers:@{@"itemRefs" : idArray} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
+        
         if (succeedBlock) {
-            succeedBlock([((NSDictionary*)[responseDict valueForKeyPath:@"data.show"]) deepMutableCopy]);
+            succeedBlock([responseDict stringValueForKeyPath:@"data.uuid"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -98,13 +99,16 @@
     }];
 }
 
-- (MKNetworkOperation*)matcher:(NSDictionary*)matcherDict
-                   updateCover:(UIImage*)cover
-                     onSucceed:(DicBlock)succeedBlock
-                       onError:(ErrorBlock)errorBlock {
+- (MKNetworkOperation*)matcherUuid:(NSString*)uuid
+                       updateCover:(UIImage*)cover
+                         onSucceed:(DicBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock {
+    if (!uuid) {
+        uuid = @"";
+    }
     return [self startOperationWithPath:PATH_MATCHER_UPDATE_COVER
                                  method:@"POST"
-                               paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:matcherDict]}
+                               paramers:@{@"uuid" : uuid}
                                 fileKey:@"cover"
                                fileName:@"cover.jpeg"
                                   image:UIImageJPEGRepresentation(cover, 0.7)
@@ -126,7 +130,7 @@
 - (MKNetworkOperation*)matcherHide:(NSDictionary*)matcherDict
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_MATCHER_HIDE method:@"POST" paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:matcherDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_MATCHER_HIDE method:@"POST" paramers:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:matcherDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }

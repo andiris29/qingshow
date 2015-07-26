@@ -12,6 +12,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSDateUtil.h"
 #import "QSImageNameUtil.h"
+#import "NSDictionary+QSExtension.h"
 @implementation QSMatchShowsCell
 {
     NSDictionary *_showDic;
@@ -71,10 +72,12 @@
     NSURL *url = [QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:dict] type:QSImageNameTypeS];
     [self.matchShowImgview setImageFromURL:url];
     [self.bgImgView setImageFromURL:[QSShowUtil getFormatterCoVerForegroundUrl:dict]];
-    NSString *createDate = dict[@"create"];
+#warning TODO Refactor
+    NSString *createDate = [dict stringValueForKeyPath:@"create"];
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
-    self.userNameLabel.text = [QSShowUtil getNameStr:dict];
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:dict];
+    self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
 }
 
 - (void)headerImgViewPressed:(id )sender

@@ -11,7 +11,7 @@
 
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSCategoryUtil.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
@@ -164,7 +164,7 @@
         
     }];
     items = [items filteredArrayUsingBlock:^BOOL(NSDictionary* itemDict) {
-        return ![QSCommonUtil checkIsNil:itemDict];
+        return ![QSEntityUtil checkIsNil:itemDict];
     }];
     
     UIImage* snapshot = [self.canvasView submitView];
@@ -192,11 +192,11 @@
 
 #pragma mark canvas
 - (void)canvasView:(QSMatcherCanvasView*)view didTapCategory:(NSDictionary*)categoryDict {
-    self.selectedCateId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
+    self.selectedCateId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
     
 }
 - (void)canvasView:(QSMatcherCanvasView *)view didRemoveCategory:(NSDictionary *)categoryDict {
-    NSString* categoryID = [QSCommonUtil getIdOrEmptyStr:categoryDict];
+    NSString* categoryID = [QSEntityUtil getIdOrEmptyStr:categoryDict];
     [self.cateIdToProvider removeObjectForKey:categoryID];
     if ([self.selectedCateId isEqualToString:categoryID]) {
         self.selectedCateId = nil;
@@ -213,7 +213,7 @@
     [self.canvasView bindWithCategory:array];
     
     NSArray* newCategoryIds = [array mapUsingBlock:^id(NSDictionary* dict) {
-        return [QSCommonUtil getIdOrEmptyStr:dict];
+        return [QSEntityUtil getIdOrEmptyStr:dict];
     }];
     NSArray* oldCategoryIds = [self.cateIdToProvider allKeys];
     //Remove Old Provider
@@ -225,7 +225,7 @@
     
     //Add New Provider
     for (NSDictionary* categoryDict in array) {
-        __block NSString* cateId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
+        __block NSString* cateId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         if ([oldCategoryIds indexOfObject:cateId] == NSNotFound) {
             QSMatcherItemsProvider* provider = [[QSMatcherItemsProvider alloc] initWithCategory:categoryDict];
             provider.delegate = self;
@@ -246,7 +246,7 @@
     provider.fIsFirst = NO;
 }
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider didFinishNetworkLoading:(NSDictionary*)categoryDict {
-    if ([[QSCommonUtil getIdOrEmptyStr:categoryDict] isEqualToString:self.selectedCateId]) {
+    if ([[QSEntityUtil getIdOrEmptyStr:categoryDict] isEqualToString:self.selectedCateId]) {
         [self.itemSelectionView reloadData];
     }
 }

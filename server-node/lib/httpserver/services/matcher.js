@@ -108,7 +108,7 @@ matcher.updateCover = {
                     'show' : show
                 });
             });
-            delete _matchers[uuid];
+            delete _matchers[fields.uuid];
         });
     }
 };

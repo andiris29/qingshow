@@ -7,12 +7,12 @@
 //
 
 #import "QSDateUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 @implementation QSDateUtil
 
 + (NSDate*)buildDateFromResponseString:(NSString*)str
 {
-    if ([QSCommonUtil checkIsNil:str]) {
+    if ([QSEntityUtil checkIsNil:str]) {
         return nil;
     }
     NSMutableString* dateStr = [str mutableCopy];
@@ -34,7 +34,7 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         date = [dateFormatter dateFromString:dateStr];
-        if ([QSCommonUtil checkIsNil:str]) {
+        if ([QSEntityUtil checkIsNil:str]) {
             return nil;
         } else {
             return date;
@@ -225,7 +225,7 @@
 }
 + (int)getWeekdayIndex:(NSDate*)date
 {
-    if ([QSCommonUtil checkIsNil:date]) {
+    if ([QSEntityUtil checkIsNil:date]) {
         return 0;
     } else {
         NSCalendar *calendar = [NSCalendar currentCalendar];

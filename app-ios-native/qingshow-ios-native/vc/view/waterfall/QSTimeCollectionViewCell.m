@@ -30,6 +30,7 @@
         return;
     }
     
+#warning TODO Refactor
     NSString* timeStr = metaData[@"refreshTime"];
     if (!timeStr || ![timeStr isKindOfClass:[NSString class]] || !timeStr.length) {
         return;

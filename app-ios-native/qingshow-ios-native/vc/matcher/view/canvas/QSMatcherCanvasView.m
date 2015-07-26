@@ -11,7 +11,7 @@
 #import "NSArray+QSExtension.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSCategoryUtil.h"
 #import "QSCanvasImageView.h"
 #import "QSRandomUtil.h"
@@ -50,7 +50,7 @@
 
 - (void)bindWithCategory:(NSArray*)categoryArray {
     NSArray* newIdArray = [categoryArray mapUsingBlock:^id(NSDictionary* dict) {
-        return [QSCommonUtil getIdOrEmptyStr:dict];
+        return [QSEntityUtil getIdOrEmptyStr:dict];
     }];
     for (NSDictionary* oldId in [self.categoryIdToView allKeys]) {
         if ([newIdArray indexOfObject:oldId] == NSNotFound) {
@@ -63,7 +63,7 @@
     
     NSArray* oldIdArray = [self.categoryIdToView allKeys];
     NSArray* newCategoryArray = [categoryArray filteredArrayUsingBlock:^BOOL(NSDictionary* dict) {
-        NSString* idStr = [QSCommonUtil getIdOrEmptyStr:dict];
+        NSString* idStr = [QSEntityUtil getIdOrEmptyStr:dict];
         return [oldIdArray indexOfObject:idStr] == NSNotFound;
     }];
     
@@ -110,7 +110,7 @@
         ges.minimumPressDuration = 0.f;
         [imgView addGestureRecognizer:ges];
         
-        NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
+        NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         self.categoryIdToEntity[categoryId] = categoryDict;
         self.categoryIdToView[categoryId] = imgView;
         imgView.categoryId = categoryId;
@@ -121,7 +121,7 @@
 
 
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst {
-    NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:category];
+    NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:category];
     [self setItem:itemDict forCategoryId:categoryId isFirst:fFirst];
 }
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId isFirst:(BOOL)fFirst {

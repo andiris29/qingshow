@@ -8,6 +8,7 @@
 
 #import "QSProvinceSelectionTableViewController.h"
 #import "UIViewController+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 
 @interface QSProvinceSelectionTableViewController ()
 
@@ -88,7 +89,7 @@
     cell.textLabel.font = NEWFONT;
     if ([value isKindOfClass:[NSDictionary class]]) {
         NSDictionary* valueDict = value;
-        cell.textLabel.text = valueDict[@"name"];
+        cell.textLabel.text = [valueDict stringValueForKeyPath:@"name"];
     } else {
         NSString* valueStr = value;
         cell.textLabel.text = valueStr;
@@ -112,8 +113,8 @@
         
     } else {
         NSDictionary* valueDict = value;
-        NSString* name = valueDict[@"name"];
-        NSDictionary* city = valueDict[@"cities"];
+        NSString* name = [valueDict stringValueForKeyPath:@"name"];
+        NSDictionary* city = [valueDict dictValueForKeyPath:@"cities"];
         QSProvinceSelectionTableViewController* vc = [[QSProvinceSelectionTableViewController alloc] initWithProvinceName:name cityListDict:city];
         vc.delegate = self.delegate;
         [self.navigationController pushViewController:vc animated:YES];

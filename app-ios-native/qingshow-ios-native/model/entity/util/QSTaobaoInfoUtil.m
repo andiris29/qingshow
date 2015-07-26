@@ -7,7 +7,7 @@
 //
 
 #import "QSTaobaoInfoUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 #define COLOR_PRE @"1627207"
 
@@ -40,12 +40,12 @@
 
 + (NSArray*)getSkusArray:(NSDictionary*)taobaoInfo
 {
-    if (![QSCommonUtil checkIsDict:taobaoInfo]) {
+    if (![QSEntityUtil checkIsDict:taobaoInfo]) {
         return nil;
     }
     
     NSArray* skus = taobaoInfo[@"skus"];
-    if (![QSCommonUtil checkIsArray:skus]) {
+    if (![QSEntityUtil checkIsArray:skus]) {
         return nil;
     } else {
         return skus;
@@ -60,7 +60,7 @@
         return nil;
     }
     NSDictionary* sku = skus[0];
-    if ([QSCommonUtil checkIsDict:sku]) {
+    if ([QSEntityUtil checkIsDict:sku]) {
         return sku;
     } else {
         return nil;
@@ -96,7 +96,7 @@
         NSString* properties = sku[@"properties"];
         if ([properties rangeOfString:property].location != NSNotFound) {
             NSString* propName = sku[@"properties_name"];
-            if (![QSCommonUtil checkIsNil:propName] && propName.length) {
+            if (![QSEntityUtil checkIsNil:propName] && propName.length) {
                 NSArray* pArray = [properties componentsSeparatedByString:@";"];
                 NSMutableArray* filterPropArray = [@[] mutableCopy];
                 [pArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -137,7 +137,7 @@
 }
 
 + (NSString*)getColorPropertyId:(NSDictionary*)taobaoInfoDict sku:(NSString*)skuId {
-    if (![QSCommonUtil checkIsDict:taobaoInfoDict]) {
+    if (![QSEntityUtil checkIsDict:taobaoInfoDict]) {
         return nil;
     }
     NSDictionary* skuDict = [self findSkusWithSkuId:skuId taobaoInfo:taobaoInfoDict];

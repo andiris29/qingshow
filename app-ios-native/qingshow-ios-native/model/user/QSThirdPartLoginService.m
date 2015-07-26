@@ -62,6 +62,7 @@
 - (void)didReceiveWechatAuthroizeSuccess:(NSNotification*)noti
 {
     NSDictionary* userInfo = noti.userInfo;
+#warning TODO Refactor
     NSString* code = userInfo[@"code"];
     [SHARE_NW_ENGINE loginViaWechatCode:code onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
         [self invokeSuccessCallback];
@@ -90,6 +91,7 @@
 - (void)didReceiveWeiboAuthroizeResult:(NSNotification*)noti
 {
     NSDictionary* userInfo = noti.userInfo;
+#warning TODO Refactor
     NSNumber* statusCode = userInfo[@"statusCode"];
     if (statusCode.intValue == WeiboSDKResponseStatusCodeSuccess) {
         NSString* accessToken = userInfo[@"accessToken"];

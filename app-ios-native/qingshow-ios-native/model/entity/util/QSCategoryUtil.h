@@ -10,6 +10,7 @@
 
 @interface QSCategoryUtil : NSObject
 
++ (NSString*)getName:(NSDictionary*)dict;
 + (NSArray*)getChildren:(NSDictionary*)categoryDict;
 + (NSString*)getParentId:(NSDictionary*)categoryDict;
 

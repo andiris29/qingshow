@@ -8,6 +8,7 @@
 
 #import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
+#import "QSEntityUtil.h"
 
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
@@ -48,7 +49,8 @@
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    [MobClick event:@"viewItemSource" attributes:@{@"itemId": self.itemDict[@"_id"]} counter:1];
+    
+    [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,

@@ -17,8 +17,6 @@
 + (NSURL*)getFormatterCoVerForegroundUrl:(NSDictionary*)dict;
 
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict;
-
-+ (NSString *)getNameStr:(NSDictionary *)dict;
 + (NSString *)getRecommendGroup:(NSDictionary *)dict;
 + (NSString *)getUserId:(NSDictionary *)dict;
 + (NSString*)getShowDesc:(NSDictionary*)showDict;

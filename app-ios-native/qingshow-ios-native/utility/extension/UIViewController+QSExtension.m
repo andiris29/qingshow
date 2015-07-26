@@ -87,6 +87,7 @@ static char alertDelegateObjKey;
 }
 
 - (void)presentPreviewDetailVc:(NSDictionary*)dict {
+#warning TODO Remove?
     UIViewController* vc = dict[@"vc"];
     UIImageView* imageView = dict[@"imageView"];
     [self presentViewController:vc animated:NO completion:^{

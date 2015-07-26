@@ -11,7 +11,7 @@
 #import "QSShowUtil.h"
 #import "NSMutableDictionary+QSExtension.h"
 #import "QSError.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
 
@@ -80,7 +80,7 @@
                                onError:(ErrorBlock)errorBlock
 {
 
-    return [self queryShowIdDetail:[QSCommonUtil getIdOrEmptyStr:showDict] onSucceed:^(NSDictionary *d) {
+    return [self queryShowIdDetail:[QSEntityUtil getIdOrEmptyStr:showDict] onSucceed:^(NSDictionary *d) {
         if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
             NSMutableDictionary* mD = (NSMutableDictionary*)showDict;
             [mD updateWithDict:d];
@@ -125,7 +125,7 @@
                                onSucceed:(ArraySuccessBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock
 {
-    return [self getCommentsOfShowId:[QSCommonUtil getIdOrEmptyStr:showDict] page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getCommentsOfShowId:[QSEntityUtil getIdOrEmptyStr:showDict] page:page onSucceed:succeedBlock onError:errorBlock];
 
 }
 
@@ -156,7 +156,7 @@
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock
 {
-    return [self addComment:comment onShowId:[QSCommonUtil getIdOrEmptyStr:showDict] reply:peopleDict onSucceed:^{
+    return [self addComment:comment onShowId:[QSEntityUtil getIdOrEmptyStr:showDict] reply:peopleDict onSucceed:^{
         [QSShowUtil addNumberComment:1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
@@ -183,7 +183,7 @@
                            onSucceed:(VoidBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock
 {
-    return [self deleteCommentId:[QSCommonUtil getIdOrEmptyStr:commentDict] onSucceed:^{
+    return [self deleteCommentId:[QSEntityUtil getIdOrEmptyStr:commentDict] onSucceed:^{
         if (showDict) {
             [QSShowUtil addNumberComment:-1ll forShow:showDict];
         }
