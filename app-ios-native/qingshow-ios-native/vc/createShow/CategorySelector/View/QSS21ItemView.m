@@ -43,8 +43,6 @@
 {
     NSString *itemName = self.itemDic[@"name"];
     self.titleLabel.text = itemName;
-    
-    NSDictionary *dic = [self.itemDic valueForKey:@"matchInfo"];
     BOOL enable = [QSCategoryUtil getMatchEnabled:self.itemDic];
     NSString *imgUrl = self.itemDic[@"icon"];
     NSRange range = [imgUrl rangeOfString:@".png"];
