@@ -3,5 +3,6 @@ before_install:
   - sudo apt-get install imagemagick graphicsmagick
 language: node_js
 node_js:
-  - "0.8"
   - "0.10"
+  - "0.12"
+  - "iojs-v2"

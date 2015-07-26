@@ -1,17 +1,18 @@
-
 var FtpClient = require('ftp');
 var winston = require('winston');
+var async = require('async');
 
 var gm = require('gm');
-var imageMagick = gm.subClass({ imageMagick : true });
+var imageMagick = gm.subClass({
+    imageMagick : true
+});
 var path = require('path');
 
 var ftpConnection;
 
-
-var _connectToFtp = function (ftpConfig, reconnect, callback) {
+var _connectToFtp = function(ftpConfig, reconnect, callback) {
     ftpConnection = new FtpClient();
-    ftpConnection.on('ready', function () {
+    ftpConnection.on('ready', function() {
         winston.info('FTP connection ready');
         if (callback) {
             callback();
@@ -19,7 +20,7 @@ var _connectToFtp = function (ftpConfig, reconnect, callback) {
         }
 
     });
-    ftpConnection.on('end', function () {
+    ftpConnection.on('end', function() {
         winston.info('FTP connection end');
         ftpConnection = null;
         if (reconnect) {
@@ -27,7 +28,7 @@ var _connectToFtp = function (ftpConfig, reconnect, callback) {
         }
     });
 
-    ftpConnection.on('close', function () {
+    ftpConnection.on('close', function() {
         winston.info('FTP connection close');
         ftpConnection = null;
         if (reconnect) {
@@ -35,13 +36,12 @@ var _connectToFtp = function (ftpConfig, reconnect, callback) {
         }
     });
 
-    ftpConnection.on('error', function (err) {
+    ftpConnection.on('error', function(err) {
         if (callback) {
             callback(err);
             callback = null;
         }
     });
-
 
     var host = ftpConfig.internalAddress || ftpConfig.externalAddress;
     var username = ftpConfig.userName;
@@ -54,66 +54,84 @@ var _connectToFtp = function (ftpConfig, reconnect, callback) {
 
 };
 
-var connect = function (ftpConfig, callback) {
+var connect = function(ftpConfig, callback) {
     _connectToFtp(ftpConfig, true, callback);
 };
 
-var getConnection = function () {
+var getConnection = function() {
     return ftpConnection;
 };
-var upload = function (input, dest, callback) {
-    ftpConnection.put(input, dest, callback);
+var upload = function(input, dest, callback) {
+    winston.info('ftp saving: ' + dest);
+    ftpConnection.put(input, dest, function(err) {
+        if (err) {
+            winston.error('ftp save failed: ' + dest);
+        } else {
+            winston.info('ftp save success: ' + dest);
+        }
+        callback(err);
+    });
 };
 
-var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, callback) {
-    upload(input, path.join(uploadPath, savedName), callback);
+var uploadWithResize = function(input, savedName, uploadPath, resizeOptions, callback) {
+    var tasks = [];
 
-    if (resizeOptions) {
-        resizeOptions.forEach(function (option) {
-            var lastDotIndex = input.lastIndexOf('.');
-            var tempPre = input;
-            var tempPro = "";
-            if (lastDotIndex != -1) {
-                tempPre = input.substr(0, lastDotIndex);
-                tempPro = input.substr(lastDotIndex);
-            }
-            var newPath = tempPre + option.suffix + tempPro;
-            if (option.rate) {
-                imageMagick(input)
-                    .size(function (err, size) {
-                        this.resize(size.width * option.rate, size.height * option.rate, '!')
-                            .autoOrient()
-                            .write(newPath, function (err) {
-                                if (!err) {
-                                    var savedName = path.basename(newPath);
-                                    var fullPath = path.join(uploadPath, savedName);
-                                    upload(newPath, fullPath, function (err) {});
-                                }
-                            });
-                    });
-            } else {
-                imageMagick(input)
-                    .resize(option.width, option.height, '!')
-                    .autoOrient()
-                    .write(newPath, function (err) {
-                        if (!err) {
-                            var savedName = path.basename(newPath);
-                            var fullPath = path.join(uploadPath, savedName);
-                            upload(newPath, fullPath, function (err) {});
-                        }
-                    });
-            }
+    // Upload
+    tasks.push(function(callback) {
+        upload(input, path.join(uploadPath, savedName), callback);
+    });
+    // Resize
+    (resizeOptions || []).forEach(function(option) {
+        var lastDotIndex = input.lastIndexOf('.');
+        var tempPre = input;
+        var tempPro = "";
+        if (lastDotIndex !== -1) {
+            tempPre = input.substr(0, lastDotIndex);
+            tempPro = input.substr(lastDotIndex);
+        }
+        var newPath = tempPre + option.suffix + tempPro;
+        // Get target size
+        if (option.rate) {
+            tasks.push(function(callback) {
+                winston.info('imageMagick size: ' + input);
+                imageMagick(input).size(function(err, size) {
+                    if (err) {
+                        winston.error('imageMagick size err: ' + err);
+                        callback(err);
+                    } else {
+                        winston.info('imageMagick size result: ' + size);
+                        callback(null, size.width * option.rate, size.height * option.rate);
+                    }
+                });
+            });
+        } else {
+            tasks.push(function(callback) {
+                callback(null, option.width, option.height);
+            });
+        }
+        // Do resize
+        tasks.push(function(width, height, callback) {
+            winston.info('imageMagick resize: ' + input);
+            imageMagick(input).resize(width, height, '!').autoOrient().write(newPath, function(err) {
+                if (err) {
+                    winston.error('imageMagick resize err: ' + err);
+                } else {
+                    winston.info('imageMagick resize result: ' + input);
+                    var savedName = path.basename(newPath);
+                    var fullPath = path.join(uploadPath, savedName);
+                    upload(newPath, fullPath, callback);
+                }
+            });
         });
-    }
+    });
 
+    async.waterfall(tasks, callback);
 };
-
 
 module.exports = {
     'connect' : connect,
     'getConnection' : getConnection,
     'upload' : upload,
     'uploadWithResize' : uploadWithResize
-
 
 };
