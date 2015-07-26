@@ -1,6 +1,7 @@
 package com.focosee.qingshow.model;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -14,7 +15,12 @@ public enum QSModel {
     private MongoPeople user;
 
     public boolean loggedin() {
-        return user != null;
+        if (user == null) {
+            String id = QSApplication.instance().getPreferences().getString("id", "");
+            if (TextUtils.isEmpty(id))
+                return false;
+        }
+        return true;
     }
 
     public MongoPeople getUser() {
