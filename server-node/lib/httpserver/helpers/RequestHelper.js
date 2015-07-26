@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var async = require('async');
 var qsftp = require('../../runtime/qsftp');
+var path = require('path');
 
 
 
