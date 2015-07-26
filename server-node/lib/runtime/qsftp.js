@@ -73,15 +73,16 @@ var upload = function(input, dest, callback) {
     });
 };
 
-var uploadWithResize = function(input, savedName, uploadPath, resizeOptions, callback) {
+var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, callback) {
     var tasks = [];
 
     // Upload
-    tasks.push(function(callback) {
-        upload(input, path.join(uploadPath, savedName), callback);
+    tasks.push(function (innerCallback) {
+        upload(input, path.join(uploadPath, savedName), innerCallback);
     });
+
     // Resize
-    (resizeOptions || []).forEach(function(option) {
+    (resizeOptions || []).forEach(function (option) {
         var lastDotIndex = input.lastIndexOf('.');
         var tempPre = input;
         var tempPro = "";
@@ -92,34 +93,35 @@ var uploadWithResize = function(input, savedName, uploadPath, resizeOptions, cal
         var newPath = tempPre + option.suffix + tempPro;
         // Get target size
         if (option.rate) {
-            tasks.push(function(callback) {
+            tasks.push(function (innerCallback) {
                 winston.info('imageMagick size: ' + input);
-                imageMagick(input).size(function(err, size) {
+                imageMagick(input).size(function (err, size) {
                     if (err) {
                         winston.error('imageMagick size err: ' + err);
-                        callback(err);
+                        innerCallback(err);
                     } else {
                         winston.info('imageMagick size result: ' + size);
-                        callback(null, size.width * option.rate, size.height * option.rate);
+                        innerCallback(null, size.width * option.rate, size.height * option.rate);
                     }
                 });
             });
         } else {
-            tasks.push(function(callback) {
-                callback(null, option.width, option.height);
+            tasks.push(function (innerCallback) {
+                innerCallback(null, option.width, option.height);
             });
         }
+
         // Do resize
-        tasks.push(function(width, height, callback) {
+        tasks.push(function (width, height, innerCallback) {
             winston.info('imageMagick resize: ' + input);
-            imageMagick(input).resize(width, height, '!').autoOrient().write(newPath, function(err) {
+            imageMagick(input).resize(width, height, '!').autoOrient().write(newPath, function (err) {
                 if (err) {
                     winston.error('imageMagick resize err: ' + err);
                 } else {
                     winston.info('imageMagick resize result: ' + input);
                     var savedName = path.basename(newPath);
                     var fullPath = path.join(uploadPath, savedName);
-                    upload(newPath, fullPath, callback);
+                    upload(newPath, fullPath, innerCallback);
                 }
             });
         });
