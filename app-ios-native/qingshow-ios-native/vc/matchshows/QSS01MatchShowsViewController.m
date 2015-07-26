@@ -117,8 +117,10 @@
 
 - (void)reloadCollectionViewData
 {
-    [self showNetworkWaitingHud];
-    [self.matchCollectionViewProvider reloadData];
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
+    [self.matchCollectionViewProvider reloadDataOnCompletion:^{
+        [hud hide:YES];
+    }];
 }
 
 - (void)didClickHeaderImgView:(id)sender
