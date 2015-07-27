@@ -99,6 +99,14 @@ public class S20MatcherActivity extends MenuActivity {
         initCategoryRef();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (canvas.views.size() != 0){
+            canvas.reselectView();
+        }
+    }
+
     private void initCategoryRef() {
         getCategoryFromNet();
     }

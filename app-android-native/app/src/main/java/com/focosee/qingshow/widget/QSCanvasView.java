@@ -26,8 +26,8 @@ import java.util.List;
 public class QSCanvasView extends FrameLayout {
 
     public List<QSImageView> views;
-    private int lastCheckedIndex;
-    private int checkedIndex;
+    private int lastCheckedIndex = 0;
+    private int checkedIndex = 0;
 
     private QSImageView checkedView;
 
@@ -153,6 +153,10 @@ public class QSCanvasView extends FrameLayout {
         }
     }
 
+    public void reselectView(){
+        views.get(checkedIndex).setChecked(true);
+    }
+
     public float calcUnOverlapArea(View view) {
         float area = 0f;
         int index = indexOfChild(view);
@@ -188,9 +192,9 @@ public class QSCanvasView extends FrameLayout {
          for (Rect rect : rects) {
             area += RectUtil.getRectArea(rect);
         }
-        Log.i("tag","unOverLap: " + area + "area: " + RectUtil.getRectArea(targetRect));
         return area;
     }
+
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;

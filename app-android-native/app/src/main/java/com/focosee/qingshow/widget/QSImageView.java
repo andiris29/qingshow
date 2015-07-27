@@ -72,8 +72,8 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                 LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         imageView.setLayoutParams(params);
-        imageView.setPadding((int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1, getContext())
-                , (int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1, getContext()));
+        imageView.setPadding((int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1 / lastScaleFactor, getContext())
+                , (int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1 / lastScaleFactor, getContext()));
         addView(imageView);
 
         scaleGestureDetector = new ScaleGestureDetector(getContext(), this);
@@ -197,7 +197,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
             setScaleX(lastScaleFactor);
             setScaleY(lastScaleFactor);
         }
-
 
 
         getArea();
