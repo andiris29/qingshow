@@ -16,24 +16,20 @@ import android.widget.LinearLayout;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.WelComeFragment;
 
-public class G02WelcomeActivity extends FragmentActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
+public class G02WelcomeActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
 
     private final int indicatorCount = 3;
     private ViewPager mViewPager;
     private View view;
     private LinearLayout indicatorLayout;
     private boolean isLastPagerSelected = false;
+    private boolean misScrolled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_g02_welcome);
-
-        findViewById(R.id.g02_go).setOnClickListener(this);
-
-        findViewById(R.id.g02_dump).setOnClickListener(this);
-
 
         mViewPager = (ViewPager) findViewById(R.id.g02_viewpager);
 
@@ -86,10 +82,10 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if(isLastPagerSelected){
-            startActivity(new Intent(G02WelcomeActivity.this, S01MatchShowsActivity.class));
-            finish();
-        }
+//        if(isLastPagerSelected){
+//            startActivity(new Intent(G02WelcomeActivity.this, S01MatchShowsActivity.class));
+//            finish();
+//        }
         for (int i = 0; i < indicatorLayout.getChildCount(); i++) {
             if (i == position)
                 ((ImageView) indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_white);
@@ -100,28 +96,32 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
     @Override
     public void onPageSelected(int position) {
-        if(position == indicatorCount)
-            isLastPagerSelected = true;
+//        if(position == indicatorCount)
+//            isLastPagerSelected = true;
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        startActivity(new Intent(G02WelcomeActivity.this, S01MatchShowsActivity.class));
-        finish();
+        switch (state) {
+            case ViewPager.SCROLL_STATE_DRAGGING:
+                misScrolled = false;
+                break;
+            case ViewPager.SCROLL_STATE_SETTLING:
+                misScrolled = true;
+                break;
+            case ViewPager.SCROLL_STATE_IDLE:
+                if (mViewPager.getCurrentItem() == indicatorCount - 1 && !misScrolled) {
+                    startActivity(new Intent(this, S01MatchShowsActivity.class));
+                    G02WelcomeActivity.this.finish();
+                }
+                misScrolled = true;
+                break;
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final int count = 3;
-
-        private final int[] titleArgs = {R.string.guide_pager1_title, R.string.guide_pager2_title, R.string.guide_pager3_title};
-        private final int[] describeArgs = {R.string.guide_pager1_describe, R.string.guide_pager2_describe, R.string.guide_pager3_describe};
-        private final int[] describeArgs1 = {R.string.guide_pager1_describe1, R.string.guide_pager2_describe1, R.string.guide_pager3_describe1};
         private final int[] backgroundArgs = {R.drawable.guide_page1_bg, R.drawable.guide_page2_bg, R.drawable.guide_page3_bg};
         private View[] views;
 
@@ -133,13 +133,13 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
         @Override
         public int getCount() {
-            return count + 1;
+            return count;
         }
 
         @Override
         public Fragment getItem(int position) {
 
-            WelComeFragment fragment = WelComeFragment.newInstance(titleArgs[position % indicatorCount], describeArgs[position % indicatorCount], describeArgs1[position % indicatorCount], backgroundArgs[position % indicatorCount]);
+            WelComeFragment fragment = WelComeFragment.newInstance(backgroundArgs[position]);
 
             return fragment;
         }

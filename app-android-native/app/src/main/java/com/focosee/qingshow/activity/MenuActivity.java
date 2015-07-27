@@ -35,8 +35,6 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
     ImageView blur;
     @InjectView(R.id.context)
     ViewGroup right;
-    @InjectView(R.id.s17_settting)
-    ImageView settingBtn;
 
     private boolean haveDrow= false;
 
