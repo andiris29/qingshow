@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.animation.ObjectAnimator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -265,8 +266,25 @@ public class U01UserActivity extends MenuActivity {
             }
         });
 
+        int span = recyclerView.getLayoutManager() instanceof LinearLayoutManager ? 1 : 2;
+
+        boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
+                * (recyclerView.getChildCount() - 1) / span + userHeadLayout.getBottom();
+
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        layoutManager.scrollToPositionWithOffset(0, (int) userHeadLayout.getY());
+
+        if(userHeadLayout.getY() != 0){
+            if(isShort){
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(userHeadLayout, View.TRANSLATION_Y, 0);
+                objectAnimator.setDuration(200);
+                objectAnimator.start();
+                recyclerView.scrollToPosition(0);
+            } else {
+                layoutManager.scrollToPositionWithOffset(0, (int) userHeadLayout.getY());
+            }
+        } else {
+            recyclerView.scrollToPosition(0);
+        }
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
