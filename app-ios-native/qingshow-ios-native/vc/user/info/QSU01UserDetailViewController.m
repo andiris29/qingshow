@@ -121,7 +121,7 @@
     
     //Favor
     self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
-    self.favorProvider.type = 1;
+    self.favorProvider.type = 0;
     //Following
     self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
     //Follower
