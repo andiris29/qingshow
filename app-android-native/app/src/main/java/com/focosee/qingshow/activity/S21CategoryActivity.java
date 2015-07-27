@@ -86,6 +86,7 @@ public class S21CategoryActivity extends BaseActivity {
                         categories.add(ca);
                     }
                 }
+                categoriesSort();
                 List<Integer> disable = new ArrayList<>();
                 for (int i = 0; i < categories.size(); i++) {
                     String id = categories.get(i).get_id();
@@ -111,11 +112,12 @@ public class S21CategoryActivity extends BaseActivity {
                     }
                 }
 
+                itemSort();
+
                 for (Integer index : disable) {
                     categories.remove(index.intValue());
                 }
                 show();
-
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -132,5 +134,34 @@ public class S21CategoryActivity extends BaseActivity {
             }
         });
         s21_listview.setAdapter(adapter);
+    }
+
+    private void categoriesSort(){
+        MongoCategories temp;
+        for (int i = 0; i < categories.size() - 1; i++) {
+            for (int j = 0; j < categories.size() - i - 1; j++) {
+                if(Integer.parseInt(categories.get(j).order) > Integer.parseInt(categories.get(j + 1).order)){
+                    System.out.println("j:" + j);
+                    temp = categories.get(j);
+                    categories.set(j, categories.get(j + 1));
+                    categories.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    private void itemSort(){
+        MongoCategories temp;
+        for (int k = 0; k < items.size(); k++) {
+            for (int i = 0; i < items.get(k).size(); i++) {
+                for (int j = 0; j < items.get(k).size() - i - 1; j++) {
+                    if (Integer.parseInt(items.get(k).get(j).order) > Integer.parseInt(items.get(k).get(j + 1).order)) {
+                        temp = items.get(k).get(j);
+                        items.get(k).set(j, items.get(k).get(j + 1));
+                        items.get(k).set(j + 1, temp);
+                    }
+                }
+            }
+        }
     }
 }

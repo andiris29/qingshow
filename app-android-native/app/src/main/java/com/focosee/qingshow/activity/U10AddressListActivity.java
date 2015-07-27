@@ -101,6 +101,6 @@ public class U10AddressListActivity extends BaseActivity {
 
     @Override
     public void reconn() {
-
+        refresh();
     }
 }

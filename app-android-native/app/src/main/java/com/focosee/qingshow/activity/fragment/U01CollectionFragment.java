@@ -71,7 +71,7 @@ public class U01CollectionFragment extends U01BaseFragment {
                 EventBus.getDefault().post(eventModel);
             }
         });
-        recyclerPullToRefreshView.doPullRefreshing(true, 0);
+        refresh();
         return view;
     }
 

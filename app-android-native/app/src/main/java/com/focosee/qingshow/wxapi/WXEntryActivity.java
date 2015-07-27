@@ -44,6 +44,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wxentry);
         QSApplication.instance().getWxApi().handleIntent(getIntent(), this);
     }
 
@@ -88,7 +89,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 Toast.makeText(WXEntryActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                 MongoPeople user = UserParser._parsePeople(response);
                 QSModel.INSTANCE.setUser(user);
-                startActivity(new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class()));
+                Intent intent = new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 EventBus.getDefault().post(U07RegisterActivity.FINISH_CODE);
                 finish();
             }

@@ -143,6 +143,6 @@ public class U09TradeListActivity extends BaseActivity{
 
     @Override
     public void reconn() {
-
+        doRefresh();
     }
 }

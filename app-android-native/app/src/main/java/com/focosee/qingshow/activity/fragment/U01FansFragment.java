@@ -67,7 +67,7 @@ public class U01FansFragment extends U01BaseFragment {
                 EventBus.getDefault().post(eventModel);
             }
         });
-        getDatasFromNet(1, 20);
+        refresh();
         return view;
     }
 

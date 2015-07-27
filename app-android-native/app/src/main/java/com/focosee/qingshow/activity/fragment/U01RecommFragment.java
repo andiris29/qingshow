@@ -73,7 +73,7 @@ public class U01RecommFragment extends U01BaseFragment {
                 EventBus.getDefault().post(eventModel);
             }
         });
-        getDatasFromNet();
+        refresh();
         return view;
     }
 

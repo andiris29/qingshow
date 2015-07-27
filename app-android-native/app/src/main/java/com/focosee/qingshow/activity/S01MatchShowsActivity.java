@@ -5,12 +5,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
@@ -25,12 +22,9 @@ import com.focosee.qingshow.util.ShowUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -109,6 +103,11 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerPullToRefreshView.doPullRefreshing(true, 0);
     }
 
+    @Override
+    public void reconn() {
+        doRefresh(currentType);
+    }
+
     public void doRefresh(int type) {
         getDatasFromNet(type, 1);
     }
@@ -157,32 +156,10 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerPullToRefreshView.setLastUpdatedLabel(text);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_s01_match_shows, menu);
-        return true;
-    }
-
     public void onEventMainThread(String event) {
         if(event.equals("refresh")){
             recyclerPullToRefreshView.doPullRefreshing(true, 0);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -191,9 +168,9 @@ public class S01MatchShowsActivity extends MenuActivity {
         if (v.getId() == R.id.s01_tab_hot) {
             currentType = TYPE_HOT;
             recyclerPullToRefreshView.doPullRefreshing(true, 500);
-            s01TabHot.setBackground(getResources().getDrawable(R.drawable.s01_tab_btn1));
+            s01TabHot.setBackgroundResource(R.drawable.s01_tab_btn1);
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
-            s01TabNew.setBackground(getResources().getDrawable(R.drawable.s01_tab_border1));
+            s01TabNew.setBackgroundResource(R.drawable.s01_tab_border1);
             s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
             return;
         }
