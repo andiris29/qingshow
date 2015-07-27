@@ -17,13 +17,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
+
 import butterknife.InjectView;
 
-public class MenuActivity extends BaseActivity implements View.OnClickListener{
+public class MenuActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.drawer)
     DrawerLayout drawer;
@@ -36,7 +38,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.s17_settting)
     ImageView settingBtn;
 
-    private boolean isFirstFocus = true;
+    private boolean haveDrow= false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +66,10 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
         drawer.setDrawerListener(drawerToggle);
     }
 
-    public void menuSwitch(){
-        if(isMenuOpened()){
+    public void menuSwitch() {
+        if (isMenuOpened()) {
             closeMenu();
-        }else{
+        } else {
             openMenu();
         }
     }
@@ -83,12 +85,10 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
 
     public void openMenu() {
 
-        if (isFirstFocus) {
-            applyBlur();
-            if (Build.VERSION.SDK_INT > 16)
-                isFirstFocus = true;
-        }
-        blur.setVisibility(View.VISIBLE);
+        applyBlur();
+        if (Build.VERSION.SDK_INT > 16)
+
+            blur.setVisibility(View.VISIBLE);
 
         navigation.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -124,10 +124,14 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
         Thread thread = new Thread() {
             @Override
             public void run() {
+                if (haveDrow){
+                    right.destroyDrawingCache();
+                }
+
                 right.setDrawingCacheEnabled(true);
                 right.buildDrawingCache();
                 Bitmap bitmap = right.getDrawingCache();
-
+                haveDrow = true;
                 blur(bitmap);
             }
         };
@@ -154,7 +158,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
 
         closeMenu();
-        if(v.getId() == R.id.navigation_btn_match){
+        if (v.getId() == R.id.navigation_btn_match) {
             startActivity(new Intent(MenuActivity.this, S01MatchShowsActivity.class));
             return;
         }
@@ -172,7 +176,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
 
-        if(!QSModel.INSTANCE.loggedin()){
+        if (!QSModel.INSTANCE.loggedin()) {
             Toast.makeText(this, R.string.need_login, Toast.LENGTH_SHORT).show();
             GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
             startActivity(new Intent(MenuActivity.this, U07RegisterActivity.class));
@@ -181,7 +185,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
 
         Intent intent = new Intent(MenuActivity.this, _class);
 
-        if(_class == U01UserActivity.class){
+        if (_class == U01UserActivity.class) {
             Bundle bundle = new Bundle();
             bundle.putSerializable("user", QSModel.INSTANCE.getUser());
             intent.putExtras(bundle);
