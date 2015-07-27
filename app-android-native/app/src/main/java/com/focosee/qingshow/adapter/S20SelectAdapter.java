@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.widget.radio.RadioLayout;
+import com.sina.weibo.sdk.utils.ImageUtils;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-        holder.setImgeByUrl(R.id.select_view, datas.get(position).thumbnail);
+        holder.setImgeByUrl(R.id.select_view, ImgUtil.getImgSrc( datas.get(position).thumbnail,ImgUtil.Large));
         RadioLayout bgView = holder.getView(R.id.item_bg);
         holder.setText(R.id.price,datas.get(position).getPrice());
         bgView.setTag(new Integer(position));
