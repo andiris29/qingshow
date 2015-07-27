@@ -72,8 +72,8 @@
     NSURL *url = [QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:dict] type:QSImageNameTypeS];
     [self.matchShowImgview setImageFromURL:url];
     [self.bgImgView setImageFromURL:[QSShowUtil getFormatterCoVerForegroundUrl:dict]];
-#warning TODO Refactor
-    NSString *createDate = [dict stringValueForKeyPath:@"create"];
+
+    NSDate *createDate = [QSShowUtil getCreatedDate:dict];
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:dict];

@@ -15,7 +15,7 @@
 }
 - (void)bindWithDic:(NSDictionary *)dict
 {
-#warning OVER RIDE
+
 }
 
 @end

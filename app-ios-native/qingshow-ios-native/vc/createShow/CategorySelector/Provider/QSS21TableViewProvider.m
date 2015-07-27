@@ -9,7 +9,7 @@
 #import "QSS21TableViewProvider.h"
 #import "QSCategoryUtil.h"
 #import "NSArray+QSExtension.h"
-
+#import "QSEntityUtil.h"
 #define selectorCellID @"QSS21SelectorCell"
 
 @interface QSS21TableViewProvider ()
@@ -79,8 +79,7 @@
 - (NSDictionary *)getSelectedDicCompareWithCellDic:(NSDictionary *)cellDic
 {
     for (NSDictionary *dic in self.selectedArray) {
-#warning TODO Refactor
-        if ([dic[@"parentRef"] isEqualToString:cellDic[@"_id"]]) {
+        if ([[QSEntityUtil getStringValue:dic keyPath:@"parentRef"] isEqualToString:cellDic[@"_id"]]) {
             return dic;
         }
     }

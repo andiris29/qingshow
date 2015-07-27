@@ -15,7 +15,7 @@
 
 + (NSString*)buildModelStatusString:(NSDictionary*)modelDict
 {
-#warning TODO Remove?
+#warning TODO Remove?  Don't Remove @wxy
     if ([QSEntityUtil checkIsNil:modelDict]) {
         return nil;
     }
@@ -103,14 +103,13 @@
 
 + (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict
 {
-#warning TODO refactor
     if ([QSEntityUtil checkIsNil:peopleDict] && ![peopleDict isKindOfClass:[NSMutableDictionary class]]) {
         return;
     }
     NSMutableDictionary* p = (NSMutableDictionary*)peopleDict;
     NSMutableDictionary* context = [peopleDict[@"__context"] mutableCopy];
     if (context) {
-        NSNumber* f = context[@"numFollowers"];
+        NSNumber* f = [context numberValueForKeyPath:@"numFollowers"];
         context[@"numFollowers"] = @(f.longLongValue + num);
         p[@"__context"] = context;
     }
@@ -126,16 +125,15 @@
     return @"0";
 }
 
-+ (NSString*)getNumberFollowBrands:(NSDictionary*)peopleDict
++ (NSString*)getNumberLiketoCreateShows:(NSDictionary*)peopleDict
 {
-#warning TODO @mhy ???
     if ([QSEntityUtil checkIsNil:peopleDict]) {
         return nil;
     }
     
-    NSDictionary* context = peopleDict[@"__context"];
+    NSDictionary* context = [peopleDict dictValueForKeyPath:@"__context"];
     if (context) {
-        NSNumber* f = context[@"numLikeToCreateShows"];
+        NSNumber* f = [context numberValueForKeyPath:@"numLikeToCreateShows"];
         if (f) {
             return f.kmbtStringValue;
         }
@@ -143,16 +141,15 @@
     return @"0";
 }
 
-+ (NSString*)getNumberFollowPeoples:(NSDictionary*)peopleDict
++ (NSString*)getNumberCreateShows:(NSDictionary*)peopleDict
 {
-#warning TODO @mhy ???
     if ([QSEntityUtil checkIsNil:peopleDict]) {
         return nil;
     }
     
-    NSDictionary* context = peopleDict[@"__context"];
+    NSDictionary* context =  [peopleDict dictValueForKeyPath:@"__context"];
     if (context) {
-        NSNumber* f = context[@"numCreateShows"];
+        NSNumber* f = [context numberValueForKeyPath:@"numCreateShows"];
         if (f) {
             return f.kmbtStringValue;
         }
