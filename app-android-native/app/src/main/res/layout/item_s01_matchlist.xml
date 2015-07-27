@@ -58,7 +58,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                fresco:placeholderImage="@drawable/user_head_default"
+                fresco:placeholderImage="@drawable/root_cell_placehold_head"
                 fresco:roundAsCircle="true" />
 
             <RelativeLayout

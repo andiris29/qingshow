@@ -77,7 +77,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_alignParentBottom="true"
                         android:onClick="onClick"
-                        fresco:placeholderImage="@drawable/user_head_default" />
+                        fresco:placeholderImage="@drawable/root_cell_placehold_head" />
 
                     <TextView
                         android:id="@+id/s03_nickname"

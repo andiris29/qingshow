@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:layout_weight="8"
             freso:roundAsCircle="true"
-            freso:placeholderImage="@drawable/user_head_default" />
+            freso:placeholderImage="@drawable/root_cell_placehold_head" />
         
         <EditText
             android:id="@+id/S04_input"

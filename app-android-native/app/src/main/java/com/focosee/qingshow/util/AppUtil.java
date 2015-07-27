@@ -52,31 +52,6 @@ public class AppUtil {
         return showDisplayOptions;
     }
 
-    public static DisplayImageOptions getPortraitDisplayOptions() {
-        if (null == portraitDisplayOptions) {
-            portraitDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.user_head_default)
-                    .showImageOnFail(R.drawable.user_head_default)
-                    .cacheInMemory(true)
-                    .cacheOnDisk(true)
-                    .build();
-        }
-        return portraitDisplayOptions;
-    }
-
-    public static DisplayImageOptions getSimapleDisplayOptions(){
-        if (null == simapleDisplayOptions){
-            simapleDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(0)
-                    .showImageForEmptyUri(0)
-                    .showImageOnFail(0)
-                    .cacheInMemory(true)
-                    .cacheOnDisk(true)
-                    .build();
-        }
-        return simapleDisplayOptions;
-    }
-
     public static DisplayImageOptions getModelBackgroundDisplayOptions() {
         if (null == modelBackgroundDisplayOptions) {
             modelBackgroundDisplayOptions = new DisplayImageOptions.Builder()
