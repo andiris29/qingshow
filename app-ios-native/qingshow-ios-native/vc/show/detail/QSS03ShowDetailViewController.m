@@ -202,8 +202,8 @@
     
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     if (!peopleDict) {
-        self.headIconImageView.hidden = YES;
-        self.modelNameLabel.hidden = YES;
+        self.headIconImageView.hidden = NO;
+        self.modelNameLabel.hidden = NO;
     } else {
         if (self.showDeletedBtn) {
             //当前用户
