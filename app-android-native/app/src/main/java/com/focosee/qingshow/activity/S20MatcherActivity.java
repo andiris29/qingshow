@@ -29,6 +29,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
@@ -177,8 +178,7 @@ public class S20MatcherActivity extends MenuActivity {
         float halfCanvasWidth = canvas.getWidth() / 2.0f;
         float avgCanvasHeight = canvas.getHeight() / (rows[column] + 1);
 
-        float ratio = Math.abs(avgCanvasHeight / height) < Math.abs(halfCanvasWidth / width)
-                ? Math.abs(avgCanvasHeight / height) : Math.abs(halfCanvasWidth / width);
+        float ratio = 1.0f;
 
         switch (column) {
             case 0:
@@ -189,31 +189,28 @@ public class S20MatcherActivity extends MenuActivity {
                 break;
         }
 
-        if (row > rows[column]) {
-            rows[column] = row;
-        }
         if (rows[column] != 0) {
             top = avgCanvasHeight * row;
         }
 
-
-        if (width > halfCanvasWidth) {
+        if (width > halfCanvasWidth || height > avgCanvasHeight) {
+            ratio = Math.abs(avgCanvasHeight / height) < Math.abs(halfCanvasWidth / width)
+                    ? Math.abs(avgCanvasHeight / height) : Math.abs(halfCanvasWidth / width);
             view.setScaleX(ratio);
             view.setScaleY(ratio);
             view.setLastScaleFactor(ratio);
-            if (column == 0) {
-                left = -Math.abs(width * (1.0f - ratio) / 2.0f);
-            }
-            if (column == 1) {
-                left = (halfCanvasWidth - Math.abs(width * (1.0f - ratio) / 2.0f));
-            }
-            if (row == 0) {
-                top = -Math.abs(height * (1.0f - ratio) / 2.0f);
-            }
-            if (row == rows[column]) {
-                top -= Math.abs(height * (1.0f - ratio) / 1.7f);
-            }
         }
+
+        if (column == 0) {
+            left = -Math.abs(width * (1.0f - ratio) / 2.0f);
+        }
+        if (column == 1) {
+            left = (halfCanvasWidth - Math.abs(width * (1.0f - ratio) / 2.0f));
+        }
+
+        top -= Math.abs(height * (1.0f - ratio) / 2.0f);
+
+
         moveView(view, 0, 0, left, top);
     }
 
