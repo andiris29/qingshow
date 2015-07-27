@@ -1,23 +1,35 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:scrollbarStyle="outsideOverlay">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/context"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <LinearLayout
         android:id="@+id/titleBarRelativeLayout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#ffffff"
-        android:layout_weight="12">
+        android:layout_height="50dp"
+        android:background="#ffffff">
 
         <ImageView
             android:id="@+id/backTextView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:gravity="center"
             android:layout_weight="5"
-            android:padding="10dp"
-            android:src="@drawable/btn_back_default" />
+            android:src="@drawable/nav_btn_menu_n"
+            android:padding="10dp"/>
 
         <TextView
             android:layout_width="fill_parent"
@@ -36,15 +48,12 @@
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_height="fill_parent">
     <LinearLayout
         android:id="@+id/settingsLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,13 +83,14 @@
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
 
-            <com.focosee.qingshow.widget.MRoundImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/portraitImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                fresco:roundAsCircle="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:src="@drawable/user_head_default" />
+                fresco:placeholderImage="@drawable/root_cell_placehold_head" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -105,14 +115,15 @@
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
 
-            <com.focosee.qingshow.widget.MRoundImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/backgroundImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                fresco:roundAsCircle="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:src="@drawable/user_bg_default" />
+                fresco:placeholderImage="@drawable/user_bg_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,6 +152,7 @@
                 android:text="@string/manage_activity_settings"
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/tradelistRelativeLayout"
             android:layout_width="match_parent"
@@ -215,346 +227,7 @@
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/nameRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
-
-            <TextView
-                android:id="@+id/nameTextView"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/name_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/nameEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/nameTextView"
-                android:background="@null"
-                android:hint="请填写姓名"
-                android:singleLine="true"
-                android:textColorHint="@color/hint_text_color" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/sexRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/sexLabel"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/sex_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:id="@+id/sexTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/sexLabel"
-                android:background="@null"
-                android:textSize="20dp" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/birthRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/birthDayTextView"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/age_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/birthDayEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/birthDayTextView"
-                android:background="@null"
-                android:hint="请选择出生日期"
-                android:focusable="false"
-                android:enabled="false"
-                android:clickable="false"
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColorHint="@color/hint_text_color" />
-
-        </RelativeLayout>
-        <!--<DatePicker-->
-            <!--android:id="@+id/datePicker"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="visible"></DatePicker>-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/heightRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/heightTextView"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/height_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/heightEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/heightTextView"
-                android:background="@null"
-                android:hint="请填写身高"
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColorHint="@color/hint_text_color" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings"
-            android:visibility="gone" />
-
-        <RelativeLayout
-            android:id="@+id/weightRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/weightTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/weight_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/weightEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/weightTextView"
-                android:background="@null"
-                android:hint="请填写体重"
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/hairRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/hairLabel"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/hair_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/hairTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:editable="false"
-                android:enabled="false"
-                android:focusable="false"
-                android:background="@null"
-                android:hint=""
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColorHint="#C7C7CD"
-                android:layout_toRightOf="@id/hairLabel"/>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/shoesSizeRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/shoesSizeTextView"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/shoes_size_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/shoesSizeEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:editable="false"
-                android:enabled="false"
-                android:focusable="false"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/shoesSizeTextView"
-                android:background="@null"
-                android:hint=""
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/clothesSizeRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/clothesSizeTextView"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/clothes_size_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/clothesSizeEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:editable="false"
-                android:enabled="false"
-                android:focusable="false"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/clothesSizeTextView"
-                android:background="@null"
-                android:hint=""
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/brandRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/brandLabel"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/brand_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <EditText
-                android:id="@+id/brandTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/brandLabel"
-                android:background="@null"
-                android:hint="请填写喜欢的品牌"
-                android:singleLine="true"
-                android:textColorHint="@color/hint_text_color" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
+        <include layout="@layout/fragment_u02_settings_basemsg"/>
 
         <RelativeLayout
             android:id="@+id/othersRelativeLayout"
@@ -564,7 +237,6 @@
             android:gravity="center_vertical">
 
             <TextView
-
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -573,10 +245,13 @@
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>
 
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/line_activity_settings" />
+
+
 
         <RelativeLayout
             android:id="@+id/changePasswordRelativeLayout"
@@ -607,168 +282,20 @@
             android:layout_height="1dp"
             android:background="@color/line_activity_settings" />
 
-
-
-        <RelativeLayout
-            android:id="@+id/changeEmailRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/change_email_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings"
-            android:visibility="gone" />
-
-        <RelativeLayout
-            android:id="@+id/informRelativeLayout"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/inform_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:visibility="gone"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/rulesRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:visibility="gone"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/rules_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:visibility="gone"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/helpRelativeLayout"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/help_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/aboutVIPRelativeLayout"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/about_vip_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
         <RelativeLayout
             android:id="@+id/quitRelativeLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:background="@color/bg_activity_settings"
-            android:gravity="center_vertical">
+            android:gravity="center">
 
             <Button
                 android:id="@+id/quitButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_login"
-                android:text="退出"
+                android:layout_margin="20dp"
+                android:background="@drawable/gray_btn"
+                android:text="退出登陆"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>
@@ -776,4 +303,13 @@
 
     </LinearLayout>
     </ScrollView>
-</LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+    <include layout="@layout/menu"/>
+</android.support.v4.widget.DrawerLayout>

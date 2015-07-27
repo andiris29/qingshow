@@ -24,6 +24,7 @@
     <!-- personal -->
     <dimen name="indicator_height_activity_personal">40dp</dimen>
     <dimen name="indicator_height_activity_itembar">40dp</dimen>
+    <dimen name="space_between_head_and_list">2dp</dimen>
 
 
     <!-- register -->
@@ -42,5 +43,11 @@
     <dimen name="right_btn_list_marginBottom">6dp</dimen>
 
     <!-- return -->
-    <dimen name="item_height_activity_return">40dp</dimen>"
+    <dimen name="item_height_activity_return">40dp</dimen>
+
+
+    <!-- guide page -->
+    <dimen name="guide_page_textSize">40sp</dimen>
+    <dimen name="guide_page_textSize_small">20sp</dimen>
+
 </resources>

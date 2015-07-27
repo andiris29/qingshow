@@ -1,9 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
-
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,89 +23,112 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.U01PersonalActivity;
+import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
-import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
-import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
-import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
     private static final String[] sexArgs = {"男", "女"};
-    private static final String[] hairArgs = {"所有", "长发", "超长发", "中长发", "短发"};
-    private static final String[] shoesSize = {"34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44"};
-    private static final String[] clothesSize = {"XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL"};
+    private static final String[] bodyTypeArgs = {"A型", "H型", "V型", "X型"};
+    private static final String[] dressStyles = {"日韩系", "欧美系"};
+    private static final String[] expectations = {"显瘦", "显高", "显身材", "遮臀部", "遮肚腩", "遮手臂"};
+    private static final String TAG_BODYTYPE = "bodyType";
     private static final String TAG_SEX = "sex";
-    private static final String TAG_HAIR = "hair";
-    private static final String TAG_SHOESIZE = "shoeSize";
-    private static final String TAG_CLOTHESSIZE = "clothSize";
+    private static final String TAG_DRESSSTYLE = "dressStyle";
+    private static final String TAG_EXPECTATIONS = "expectations";
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
+    @InjectView(R.id.backTextView)
+    ImageView backTextView;
+    @InjectView(R.id.ageEditText)
+    EditText ageEditText;
+    @InjectView(R.id.quitButton)
+    Button quitButton;
+    @InjectView(R.id.navigation_btn_match)
+    ImageButton navigationBtnMatch;
+    @InjectView(R.id.navigation_btn_good_match)
+    ImageButton navigationBtnGoodMatch;
+    @InjectView(R.id.u01_people)
+    ImageButton u01People;
 
     private Context context;
     private RequestQueue requestQueue;
 
-    private ImageView backTextView;
-    private RelativeLayout personalRelativeLayout;
-    private RelativeLayout backgroundRelativeLayout;
-    private RelativeLayout birthRelativeLayout;
-    private RelativeLayout sexRelativeLayout;
-    private RelativeLayout hairRelativeLayout;
-    private RelativeLayout changePasswordRelativeLayout;
-    private RelativeLayout changeEmailRelativeLayout;
-    private RelativeLayout informRelativeLayout;
-    private RelativeLayout rulesRelativeLayout;
-    private RelativeLayout helpRelativeLayout;
-    private RelativeLayout aboutVIPRelativeLayout;
-    private RelativeLayout tradeRelativeLayout;
-    private RelativeLayout addresslistRelativeLayout;
-
-    private ImageView portraitImageView;
-    private ImageView backgroundImageView;
-
-    private EditText nameEditText;
-    private TextView sexTextView;
-    private EditText birthEditText;
-    private EditText heightEditText;
-    private EditText weightEditText;
-    private EditText hairTextView;
-    private EditText shoesSizeEditText;
-    private EditText clothesSizeEditText;
-    private TextView favoriteBrandText;
-    private TextView changePwText;
+    @InjectView(R.id.personalRelativeLayout)
+    RelativeLayout personalRelativeLayout;
+    @InjectView(R.id.backgroundRelativeLayout)
+    RelativeLayout backgroundRelativeLayout;
+    @InjectView(R.id.sexRelativeLayout)
+    RelativeLayout sexRelativeLayout;
+    @InjectView(R.id.bodyTypeRelativeLayout)
+    RelativeLayout bodyTypeRelativeLayout;
+    @InjectView(R.id.changePasswordRelativeLayout)
+    RelativeLayout changePasswordRelativeLayout;
+    @InjectView(R.id.tradelistRelativeLayout)
+    RelativeLayout tradeRelativeLayout;
+    @InjectView(R.id.addresslist_RelativeLayout)
+    RelativeLayout addresslistRelativeLayout;
+    @InjectView(R.id.dressStyleEelativeLayout)
+    RelativeLayout dressStyleRelativeLayout;
+    @InjectView(R.id.effectEelativeLayout)
+    RelativeLayout effectRelativeLayout;
+    @InjectView(R.id.portraitImageView)
+    ImageView portraitImageView;
+    @InjectView(R.id.backgroundImageView)
+    ImageView backgroundImageView;
+    @InjectView(R.id.nameEditText)
+    EditText nameEditText;
+    @InjectView(R.id.sexTextView)
+    TextView sexTextView;
+    @InjectView(R.id.heightEditText)
+    EditText heightEditText;
+    @InjectView(R.id.weightEditText)
+    EditText weightEditText;
+    @InjectView(R.id.bodyTypeTextView)
+    TextView bodyTypeTextView;
+    @InjectView(R.id.dressStyleEditText)
+    TextView dressStyleEditText;
+    @InjectView(R.id.effectEditText)
+    TextView effectEditText;
+    @InjectView(R.id.u02_change_pw_text)
+    TextView changePwText;
     public static U02SettingsFragment instance;
-    private float textWidth;
 
     private MongoPeople people;
 
     public static U02SettingsFragment newIntance() {
-        if (null == instance) {
-            instance = new U02SettingsFragment();
-        }
-        return instance;
+        return new U02SettingsFragment();
     }
 
     public U02SettingsFragment() {
@@ -130,37 +150,39 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
+        ButterKnife.inject(this, view);
         context = getActivity().getApplicationContext();
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
-        matchUI(view);
         getUser();
-        setJumpListener(view);
+        setJumpListener();
+        initDrawer();
 
-        Button quitButton = (Button) view.findViewById(R.id.quitButton);
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CookieSerializer.INSTANCE.saveCookie("");
+
+                QSModel.INSTANCE.removeUser();
+
+                Map map = new HashMap();
+                Log.i("JPush_QS", "logout" + PushModel.INSTANCE.getRegId());
+                map.put("registrationId", PushModel.INSTANCE.getRegId());
+                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.USER_LOGOUT, new JSONObject(map), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if (MetadataParser.hasError(response)) {
+                            ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                            return;
+                        }
+                        CookieSerializer.INSTANCE.saveCookie("");
+                    }
+                });
+                RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
                 Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
-                getActivity().sendBroadcast(new Intent(U01PersonalActivity.LOGOUT_ACTOIN));
+                GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
                 getActivity().finish();
-                QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.LOGOUT_SERVICE_URL,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                QSModel.INSTANCE.setUser(null);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                    }
-                }) {
-                };
-                requestQueue.add(stringRequest);
             }
         });
         return view;
@@ -169,43 +191,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    private void matchUI(View view) {
-
-        tradeRelativeLayout = (RelativeLayout) view.findViewById(R.id.tradelistRelativeLayout);
-        addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
-
-        portraitImageView = (ImageView) view.findViewById(R.id.portraitImageView);
-        backgroundImageView = (ImageView) view.findViewById(R.id.backgroundImageView);
-
-        shoesSizeEditText = (EditText) view.findViewById(R.id.shoesSizeEditText);
-        shoesSizeEditText.setOnFocusChangeListener(this);
-        clothesSizeEditText = (EditText) view.findViewById(R.id.clothesSizeEditText);
-        clothesSizeEditText.setOnFocusChangeListener(this);
-
-        nameEditText = (EditText) view.findViewById(R.id.nameEditText);
-        nameEditText.setOnFocusChangeListener(this);
-
-        sexTextView = (TextView) view.findViewById(R.id.sexTextView);
-
-        birthEditText = (EditText) view.findViewById(R.id.birthDayEditText);
-        birthEditText.setOnFocusChangeListener(this);
-
-        heightEditText = (EditText) view.findViewById(R.id.heightEditText);
-        heightEditText.setOnFocusChangeListener(this);
-
-        weightEditText = (EditText) view.findViewById(R.id.weightEditText);
-        weightEditText.setOnFocusChangeListener(this);
-
-        hairTextView = (EditText) view.findViewById(R.id.hairTextView);
-
-        favoriteBrandText = (TextView) view.findViewById(R.id.brandTextView);
-
-        changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
-
-        textWidth = changePwText.getPaint().measureText(changePwText.getText().toString());
-
     }
 
     @Override
@@ -244,8 +229,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            //e.printStackTrace();
-            Toast.makeText(context, "未知错误，请重试！", Toast.LENGTH_LONG)
+            Toast.makeText(context, "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
                     .show();
         }
     }
@@ -261,21 +245,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         }
         String API = api;
         QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
-                API, new Response.Listener<String>() {
+                API, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                MongoPeople user = UserParser.parseUpdate(response);
+            public void onResponse(JSONObject response) {
+                MongoPeople user = UserParser._parsePeople(response);
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
                     getUser();
-                    context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
-                }
-                if (type == TYPE_PORTRAIT) {
-                    ImageLoader.getInstance().displayImage(user.getPortrait(), portraitImageView, AppUtil.getPortraitDisplayOptions());
-                }
-                if (type == TYPE_BACKGROUD) {
-                    ImageLoader.getInstance().displayImage(user.getPortrait(), portraitImageView, AppUtil.getModelBackgroundDisplayOptions());
                 }
             }
         }, new Response.ErrorListener() {
@@ -293,7 +270,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         multipartEntity.addFilePart("image", file);
         multipartEntity.addStringPart("filename", file.getName());
 
-
 // 构建请求队列
 // 将请求添加到队列中
         requestQueue.add(multipartRequest);
@@ -302,26 +278,39 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
-
-            ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
-            ImageLoader.getInstance().displayImage(people.background, backgroundImageView, AppUtil.getModelBackgroundDisplayOptions());
-
-
-            nameEditText.setText(people.name);
-            if (null != people.birthday) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                birthEditText.setText(simpleDateFormat.format(people.birthday.getTime()));
+            if (null != people.portrait) {
+                portraitImageView.setImageURI(Uri.parse(people.portrait));
+                portraitImageView.setAlpha(1f);
             }
-            heightEditText.setText(people.height);
-            weightEditText.setText(people.weight);
+            if (null != people.background) {
+                backgroundImageView.setImageURI(Uri.parse(people.background));
+                backgroundImageView.setAlpha(1f);
+            }
+            if (null != people.nickname)
+                nameEditText.setText(people.nickname);
+            if (0 != people.age)
+                ageEditText.setText(String.valueOf(people.age));
+            if (0 != people.height)
+                heightEditText.setText(String.valueOf(people.height));
+            if (0 != people.height)
+                weightEditText.setText(String.valueOf(people.weight));
             sexTextView.setText(sexArgs[people.gender]);
             sexTextView.setTag(people.gender);
-            hairTextView.setText(hairArgs[people.hairType]);
-            hairTextView.setTag(people.hairType);
-            shoesSizeEditText.setText(people.shoeSize + "");
-            clothesSizeEditText.setTag(people.clothingSize);
-            clothesSizeEditText.setText(clothesSize[people.clothingSize]);
-            favoriteBrandText.setText(people.favoriteBrand);
+
+            bodyTypeTextView.setText(bodyTypeArgs[people.bodyType]);
+            bodyTypeTextView.setTag(people.bodyType);
+            dressStyleEditText.setText(dressStyles[people.dressStyle]);
+            dressStyleEditText.setTag(people.dressStyle);
+            if (null != people.expectations && people.expectations.length != 0) {
+                String effectStr = "";
+                for (int index : people.expectations) {
+                    effectStr += expectations[index] + "|";
+                }
+                if (effectStr.length() > 0)
+                    effectStr = effectStr.substring(0, effectStr.length() - 1);
+                effectEditText.setText(effectStr);
+                effectEditText.setTag(people.expectations);
+            }
         }
     }
 
@@ -335,19 +324,17 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         commitForm();
-        getUser();
         UserCommand.refresh();
     }
 
     //获得用户信息
     private void getUser() {
 
-        people = QSModel.INSTANCE.getUser();
-        if (people != null) setData();
-        else UserCommand.refresh(new Callback() {
+        UserCommand.refresh(new Callback() {
             @Override
             public void onComplete() {
                 super.onComplete();
+                people = QSModel.INSTANCE.getUser();
                 setData();
             }
 
@@ -371,29 +358,30 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
 
-        if (TAG_HAIR.equals(type)) {
+        if (TAG_BODYTYPE.equals(type)) {
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
-                    .setTag(TAG_HAIR)
+                    .setTag(TAG_BODYTYPE)
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles(hairArgs)
+                    .setOtherButtonTitles(bodyTypeArgs)
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
 
-        if (TAG_SHOESIZE.equals(type)) {
+        if (TAG_DRESSSTYLE.equals(type)) {
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
-                    .setTag(TAG_SHOESIZE)
+                    .setTag(TAG_DRESSSTYLE)
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles(shoesSize)
+                    .setOtherButtonTitles(dressStyles)
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
 
-        if (TAG_CLOTHESSIZE.equals(type)) {
+        if (TAG_EXPECTATIONS.equals(type)) {
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
-                    .setTag(TAG_CLOTHESSIZE)
+                    .setTag(TAG_EXPECTATIONS)
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles(clothesSize)
+                    .setOtherButtonTitles(expectations)
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
+
     }
 
     @Override
@@ -409,52 +397,44 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             sexTextView.setTag(index);
         }
 
-        if (TAG_HAIR.equals(String.valueOf(actionSheet.getTag()))) {
-            hairTextView.setText(hairArgs[index]);
-            hairTextView.setTag(index);
+        if (TAG_BODYTYPE.equals(String.valueOf(actionSheet.getTag()))) {
+            bodyTypeTextView.setText(bodyTypeArgs[index]);
+            bodyTypeTextView.setTag(index);
         }
 
-        if (TAG_SHOESIZE.equals(String.valueOf(actionSheet.getTag()))) {
-            shoesSizeEditText.setText(shoesSize[index]);
+        if (TAG_DRESSSTYLE.equals(String.valueOf(actionSheet.getTag()))) {
+            dressStyleEditText.setText(dressStyles[index]);
+            dressStyleEditText.setTag(index);
         }
 
-        if (TAG_CLOTHESSIZE.equals(String.valueOf(actionSheet.getTag()))) {
-            clothesSizeEditText.setText(clothesSize[index]);
-            clothesSizeEditText.setTag(index);
+        if (TAG_EXPECTATIONS.equals(String.valueOf(actionSheet.getTag()))) {
+            effectEditText.setText(expectations[index]);
+            effectEditText.setTag(index);
         }
+
         commitForm();
     }
 
     private void commitForm() {
-        Map<String, String> params = new HashMap<String, String>();
-        if (nameEditText != null && !nameEditText.getText().toString().equals(""))
+        Map params = new HashMap();
+        if (!nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
-        if (birthEditText != null && !birthEditText.getText().toString().equals(""))
-            params.put("birthday", birthEditText.getText().toString());
-        if (heightEditText != null && !heightEditText.getText().toString().equals(""))
+        if (!ageEditText.getText().toString().equals(""))
+            params.put("age", ageEditText.getText().toString());
+        if (!heightEditText.getText().toString().equals(""))
             params.put("height", heightEditText.getText().toString());
-        if (weightEditText != null && !weightEditText.getText().toString().equals(""))
+        if (!weightEditText.getText().toString().equals(""))
             params.put("weight", weightEditText.getText().toString());
-        if (shoesSizeEditText != null && !shoesSizeEditText.getText().toString().equals(""))
-            params.put("shoeSize", shoesSizeEditText.getText().toString());
-        if (null != sexTextView.getTag()) {
+        if (null != sexTextView.getTag())
             params.put("gender", sexTextView.getTag().toString());
-        }
-        if (null != hairTextView.getTag()) {
-            params.put("hairType", hairTextView.getTag().toString());
-        }
-        if (null != clothesSizeEditText.getTag()) {
-            params.put("clothingSize", clothesSizeEditText.getTag().toString());
-        }
-        if (!"".equals(favoriteBrandText.getText())) {
-            params.put("favoriteBrand", favoriteBrandText.getText().toString());
-        }
-
+        if (null != bodyTypeTextView.getTag())
+            params.put("bodyType", bodyTypeTextView.getTag().toString());
+        if (null != dressStyleEditText.getTag())
+            params.put("dressStyle", dressStyleEditText.getTag().toString());
         UserCommand.update(params, new Callback() {
             @Override
             public void onComplete() {
                 super.onComplete();
-                context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
             }
 
             @Override
@@ -471,28 +451,34 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         });
     }
 
-    private void setJumpListener(View view) {
-        backTextView = (ImageView) view.findViewById(R.id.backTextView);
-        backTextView.setOnClickListener(new View.OnClickListener() {
+    private void setJumpListener() {
+        navigationBtnMatch.setOnClickListener(this);
+        navigationBtnGoodMatch.setOnClickListener(this);
+        u01People.setOnClickListener(this);
+        settingBtn.setOnClickListener(this);
+
+        ageEditText.setOnFocusChangeListener(this);
+        heightEditText.setOnFocusChangeListener(this);
+        weightEditText.setOnFocusChangeListener(this);
+
+        backTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 commitForm();
-                getActivity().finish();
+                menuSwitch();
             }
         });
 
-        personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
-        personalRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
-            }
+        personalRelativeLayout.setOnClickListener(new View.OnClickListener(){
+              @Override
+              public void onClick(View view) {
+                  Intent intent = new Intent();
+                  intent.setType("image/*");
+                  intent.setAction(Intent.ACTION_GET_CONTENT);
+                  startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
+              }
         });
-        backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
-        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
@@ -502,108 +488,73 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-        sexRelativeLayout = (RelativeLayout) view.findViewById(R.id.sexRelativeLayout);
-        sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet(TAG_SEX);
-            }
-        });
-        hairRelativeLayout = (RelativeLayout) view.findViewById(R.id.hairRelativeLayout);
-        hairRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet(TAG_HAIR);
-            }
-        });
-        birthRelativeLayout = (RelativeLayout) view.findViewById(R.id.birthRelativeLayout);
-        birthRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
-                        birthEditText.setText(i + "/" + (i2 + 1) + "/" + i3);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(i, i2, i3);
-                        birthEditText.setTag(calendar.getTime());
-                        commitForm();
-                    }
-                }, people.birthday != null ? people.birthday.get(GregorianCalendar.YEAR) : 1990,
-                        people.birthday != null ? people.birthday.get(GregorianCalendar.MONTH) : 0,
-                        people.birthday != null ? people.birthday.get(GregorianCalendar.DATE) : 1);
-
-                datePickerDialog.show();
-            }
+        sexRelativeLayout.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View view) {
+                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                 showActionSheet(TAG_SEX);
+             }
         });
 
+        bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener(){
+              @Override
+              public void onClick(View view) {
+                  getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                  showActionSheet(TAG_BODYTYPE);
+              }
+        });
 
-        changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
-        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
                 getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        changeEmailRelativeLayout = (RelativeLayout) view.findViewById(R.id.changeEmailRelativeLayout);
-        changeEmailRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02ChangeIdFragment fragment = new U02ChangeIdFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        informRelativeLayout = (RelativeLayout) view.findViewById(R.id.informRelativeLayout);
-        informRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02NoticeFragment fragment = new U02NoticeFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        rulesRelativeLayout = (RelativeLayout) view.findViewById(R.id.rulesRelativeLayout);
-        rulesRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02TermsFragment hairFragment = new U02TermsFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, hairFragment).commit();
-            }
-        });
-        helpRelativeLayout = (RelativeLayout) view.findViewById(R.id.helpRelativeLayout);
-        helpRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02HelpFragment fragment = new U02HelpFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        aboutVIPRelativeLayout = (RelativeLayout) view.findViewById(R.id.aboutVIPRelativeLayout);
-        aboutVIPRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02AboutVIPFragment fragment = new U02AboutVIPFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+                U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
             }
         });
 
-        tradeRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        tradeRelativeLayout.setOnClickListener(new View.OnClickListener(){
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
+               startActivity(intent);
+           }
+       });
+
+        addresslistRelativeLayout.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View v) {
+                 Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
+                 startActivity(intent);
+             }
+         });
+
+        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
-                startActivity(intent);
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_DRESSSTYLE);
             }
         });
 
-        addresslistRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        effectRelativeLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
-                startActivity(intent);
+                U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", people);
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                        replace(R.id.settingsScrollView, fragment).commit();
+                U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }

@@ -115,26 +115,46 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
         super.onDestroyView();
     }
 
-    public void setTitle(String title){
+    public ConfirmDialog setTitle(String title){
         this.titleStr = title;
         if(null != this.title) this.title.setText(title);
+        return this;
     }
 
-    public void setConfirm(String confirm, View.OnClickListener onClickListener){
+    public ConfirmDialog setConfirm(View.OnClickListener onClickListener){
+        this.confirmOnClickListener = onClickListener;
+        if(null != this.confirm) {
+            this.confirm.setText(confirmStr);
+            this.confirm.setOnClickListener(onClickListener);
+        }
+        return this;
+    }
+
+    public ConfirmDialog setConfirm(String confirm, View.OnClickListener onClickListener){
         this.confirmStr = confirm;
         this.confirmOnClickListener = onClickListener;
         if(null != this.confirm) {
             this.confirm.setText(confirm);
             this.confirm.setOnClickListener(onClickListener);
         }
+        return this;
     }
 
-    public void setCancel(String cancel, View.OnClickListener onClickListener){
+    public ConfirmDialog setCancel(View.OnClickListener onClickListener){
+        if(null != this.cancel) {
+            this.cancel.setText(cancelStr);
+            this.confirm.setOnClickListener(onClickListener);
+        }
+        return this;
+    }
+
+    public ConfirmDialog setCancel(String cancel, View.OnClickListener onClickListener){
         this.cancelStr = cancel;
         if(null != this.cancel) {
             this.cancel.setText(cancel);
             this.confirm.setOnClickListener(onClickListener);
         }
+        return this;
     }
 
     public void dismiss(){

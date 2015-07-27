@@ -1,155 +1,170 @@
 package com.focosee.qingshow.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.ShareConfig;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.google.gson.Gson;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.umeng.analytics.MobclickAgent;
-
+import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
-public class U07RegisterActivity extends BaseActivity {
+public class U07RegisterActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String DEBUG_TAG = "注册页";
+    public static final String FINISH_CODE = "u07finish";
+    @InjectView(R.id.accountEditText)
+    EditText accountEditText;
+    @InjectView(R.id.passwordEditText)
+    EditText passwordEditText;
+    @InjectView(R.id.reConfirmEditText)
+    EditText reConfirmEditText;
+    @InjectView(R.id.phoneEditText)
+    EditText phoneEditText;
     private int shoeSizes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     private RequestQueue requestQueue;
-
-    private Button submitButton;
-    private EditText accountEditText;
-    private EditText passwordEditText;
-    private EditText confirmEditText;
-    private RadioGroup sexRadioGroup;
-    private RadioGroup clothesSizeRadioGroup;
-    private RadioGroup shoesSizeRadioGroup;
+    private IWXAPI wxApi;
 
     private Context context;
 
-    private Gson gson;
-
-    String rawCookie = "";
-
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(U06LoginActivity.LOGIN_SUCCESS.equals(intent.getAction())){
-                finish();
-            }
-        }
-    };
+    private AuthInfo mAuthInfo;
+    /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+    private SsoHandler mSsoHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.inject(this);
+        EventBus.getDefault().register(this);
 
         context = getApplicationContext();
 
-        submitButton = (Button) findViewById(R.id.submitButton);
-        accountEditText = (EditText) findViewById(R.id.accountEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        confirmEditText = (EditText) findViewById(R.id.confirmEditText);
-        sexRadioGroup = (RadioGroup) findViewById(R.id.sexRadioGroup);
-        clothesSizeRadioGroup = (RadioGroup) findViewById(R.id.clothesSizeRadioGroup);
-        shoesSizeRadioGroup = (RadioGroup) findViewById(R.id.shoesSizeRadioGroup);
+        wxApi = QSApplication.instance().getWxApi();
 
-        ImageView backImageView = (ImageView) findViewById(R.id.backImageView);
-        backImageView.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.register_login_btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                Toast.makeText(U07RegisterActivity.this, "login", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
                 finish();
             }
         });
 
-        ((TextView) findViewById(R.id.register_login_btn)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-            }
-        });
-
+        // 创建微博实例
+        //mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+        // 快速授权时，请不要传入 SCOPE，否则可能会授权不成功
+        mAuthInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
+        mSsoHandler = new SsoHandler(U07RegisterActivity.this, mAuthInfo);
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
+    }
 
-        clothesSizeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                setClothesSizeRadioGroupListener();
-            }
-        });
-
-        shoesSizeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                setShoesSizeRadioGroupListener();
-            }
-        });
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!passwordEditText.getText().toString().equals(confirmEditText.getText().toString())) {
-                    Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
-                } else {
-                    QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            MongoPeople user = UserParser.parseRegister(response);
-                            if (user == null) {
-                                ErrorHandler.handle(context, MetadataParser.getError(response));
-                            } else {
-                                QSModel.INSTANCE.setUser(user);
-                                updateSettings();
-                                Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(U07RegisterActivity.this, U01PersonalActivity.class));
-                                finish();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("id", accountEditText.getText().toString());
-                            map.put("password", passwordEditText.getText().toString());
-
-                            return map;
-                        }
-                    };
-                    requestQueue.add(stringRequest);
+    public void submit(){
+        if (null == accountEditText.getText().toString() || "".equals(accountEditText.getText().toString())) {
+            Toast.makeText(context, "昵称不能为空", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (null == passwordEditText.getText().toString() || "".equals(passwordEditText.getText().toString())) {
+            Toast.makeText(context, "密码不能为空", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (null == phoneEditText.getText().toString() || "".equals(phoneEditText.getText().toString())) {
+            Toast.makeText(context, "手机或邮箱不能为空", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!passwordEditText.getText().toString().equals(reConfirmEditText.getText().toString())) {
+            Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    MongoPeople user = UserParser.parseRegister(response);
+                    if (user == null) {
+                        ErrorHandler.handle(context, MetadataParser.getError(response));
+                    } else {
+                        QSModel.INSTANCE.setUser(user);
+                        updateSettings();
+                        Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(U07RegisterActivity.this, U13PersonalizeActivity.class));
+                        finish();
+                    }
                 }
-            }
-        });
-        registerReceiver(receiver, new IntentFilter(U06LoginActivity.LOGIN_SUCCESS));
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<>();
+
+                    map.put("id", phoneEditText.getText().toString());
+                    map.put("nickname", accountEditText.getText().toString());
+                    map.put("password", passwordEditText.getText().toString());
+                    map.put("registrationId", PushModel.INSTANCE.getRegId());
+
+                    return map;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
+    }
+
+    public void weiChatLogin() {
+        // send oauth request
+        if (!wxApi.isWXAppInstalled()) {
+            //提醒用户没有按照微信
+            Toast.makeText(this, "您还没有安装微信，请先安装微信", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "qingshow_wxlogin";
+        wxApi.sendReq(req);
+    }
+
+    public void weiBoLogin() {
+        mSsoHandler.authorize(new AuthListener());
+    }
+
+    public void onEventMainThread(String finish) {
+        if (FINISH_CODE.equals(finish))
+            finish();
     }
 
     @Override
@@ -159,140 +174,27 @@ public class U07RegisterActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
-    private int getSexRadioButtonVal() {
-        int whichChecked = sexRadioGroup.getCheckedRadioButtonId();
-        int result = -1;
-        switch (whichChecked) {
-            case R.id.femaleRadioButton:
-                result = 0;
-                break;
-            case R.id.maleButton:
-                result = 1;
-                break;
-            default:
-                break;
-        }
-        return result;
-    }
-
-    private int getClothesSizeRadioButtonVal() {
-        int whichChecked = clothesSizeRadioGroup.getCheckedRadioButtonId();
-        int result = -1;
-        switch (whichChecked) {
-            case R.id.xxsSizeRadioButton:
-                result = 0;
-                break;
-            case R.id.xsSizeRadioButton:
-                result = 1;
-                break;
-            case R.id.sSizeRadioButton:
-                result = 2;
-                break;
-            case R.id.mSizeRadioButton:
-                result = 3;
-                break;
-            case R.id.lSizeRadioButton:
-                result = 4;
-                break;
-            case R.id.xlSizeRadioButton:
-                result = 5;
-                break;
-            case R.id.xxlSizeRadioButton:
-                result = 6;
-                break;
-            case R.id.xxxlSizeRadioButton:
-                result = 7;
-                break;
-            default:
-                break;
-        }
-        return result;
-    }
-
-    private int getShoesSizeRadioButtonVal() {
-        int whichChecked = shoesSizeRadioGroup.getCheckedRadioButtonId();
-        int result = -1;
-        switch (whichChecked) {
-            case R.id.size34RadioButton:
-                result = 0;
-                break;
-            case R.id.size35RadioButton:
-                result = 1;
-                break;
-            case R.id.size36RadioButton:
-                result = 2;
-                break;
-            case R.id.size37RadioButton:
-                result = 3;
-                break;
-            case R.id.size38RadioButton:
-                result = 4;
-                break;
-            case R.id.size39RadioButton:
-                result = 5;
-                break;
-            case R.id.size40RadioButton:
-                result = 6;
-                break;
-            case R.id.size41RadioButton:
-                result = 7;
-                break;
-            case R.id.size42RadioButton:
-                result = 8;
-                break;
-            case R.id.size43RadioButton:
-                result = 9;
-                break;
-            case R.id.size44RadioButton:
-                result = 10;
-                break;
-            default:
-                break;
-        }
-        return result;
-    }
-
-    private void setClothesSizeRadioGroupListener() {
-        for (int i = 0; i < clothesSizeRadioGroup.getChildCount(); i++) {
-            ((RadioButton) clothesSizeRadioGroup.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
-        }
-        ((RadioButton) clothesSizeRadioGroup.getChildAt(getClothesSizeRadioButtonVal())).setTextColor(getResources().getColor(R.color.white));
-    }
-
-    private void setShoesSizeRadioGroupListener() {
-        for (int i = 0; i < shoesSizeRadioGroup.getChildCount(); i++) {
-            ((RadioButton) shoesSizeRadioGroup.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
-            getShoesSizeRadioButtonVal();
-        }
-        ((RadioButton) shoesSizeRadioGroup.getChildAt(getShoesSizeRadioButtonVal())).setTextColor(getResources().getColor(R.color.white));
-    }
-
     private void updateSettings() {
-        int gender = getSexRadioButtonVal();
-        int clothesSize = getClothesSizeRadioButtonVal();
-        int shoesSize = shoeSizes[getShoesSizeRadioButtonVal()];
-
         Map<String, String> params = new HashMap<String, String>();
-        if (gender >= 0)
-            params.put("gender", gender + "");
-        if (clothesSize >= 0)
-            params.put("clothingSize", clothesSize + "");
-        if (shoesSize >= 0)
-            params.put("shoeSize", shoesSize + "");
 
-
-        UserCommand.update(params,new Callback(){
+        UserCommand.update(params, new Callback() {
 
             @Override
             public void onError(int errorCode) {
                 super.onError(errorCode);
-                ErrorHandler.handle(U07RegisterActivity.this,errorCode);
+                ErrorHandler.handle(U07RegisterActivity.this, errorCode);
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     @Override
@@ -309,4 +211,88 @@ public class U07RegisterActivity extends BaseActivity {
         MobclickAgent.onPause(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.backImageView:
+                finish();
+                break;
+            case R.id.register_login_btn:
+                Toast.makeText(U07RegisterActivity.this, "login", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
+                finish();
+                break;
+            case R.id.submitButton:
+                submit();
+                break;
+            case R.id.weixinLoginButton:
+                weiChatLogin();
+                break;
+            case R.id.weiboLoginButton:
+                weiBoLogin();
+                break;
+        }
+    }
+
+    /**
+     * 微博认证授权回调类。
+     * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
+     *    该回调才会被执行。
+     * 2. 非 SSO 授权时，当授权结束后，该回调就会被执行。
+     * 当授权成功后，请保存该 access_token、expires_in、uid 等信息到 SharedPreferences 中。
+     */
+
+    /** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能  */
+    private Oauth2AccessToken mAccessToken;
+    class AuthListener implements WeiboAuthListener {
+
+        @Override
+        public void onComplete(Bundle values) {
+            // 从 Bundle 中解析 Token
+            mAccessToken = Oauth2AccessToken.parseAccessToken(values);
+            if (mAccessToken.isSessionValid()) {
+                Map<String, String> map = new HashMap<>();
+                map.put("access_toke", mAccessToken.getToken());
+                map.put("uid", mAccessToken.getUid());
+                map.put("registrationId", PushModel.INSTANCE.getRegId());
+                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWbApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if(MetadataParser.hasError(response)){
+                            ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
+                            return;
+                        }
+
+                        Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
+                        MongoPeople user = UserParser._parsePeople(response);
+                        QSModel.INSTANCE.setUser(user);
+                        startActivity(new Intent(U07RegisterActivity.this, U01UserActivity.class));
+                        finish();
+                        return;
+                    }
+                });
+
+                RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+            } else {
+                // 以下几种情况，您会收到 Code：
+                // 1. 当您未在平台上注册的应用程序的包名与签名时；
+                // 2. 当您注册的应用程序包名与签名不正确时；
+                // 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
+                String code = values.getString("code");
+                String message = "微博登录出错";
+                if (!TextUtils.isEmpty(code)) {
+                    message = message + "\nObtained the code: " + code;
+                }
+                Toast.makeText(U07RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+        }
+    }
 }

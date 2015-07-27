@@ -35,10 +35,9 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
+import com.focosee.qingshow.wxapi.WXPayEvent;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
-import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +53,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S11NewTradeActivity extends BaseActivity implements View.OnClickListener, IWXAPIEventHandler {
+public class S11NewTradeActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
 
@@ -70,6 +69,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     private Map params;
     private MongoOrder order;
     private MongoTrade trade;
+    private MongoPeople.MeasureInfo measureInfo;
 
     private String selectedPeopleReceiverUuid;
 
@@ -104,8 +104,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
         submit.setOnClickListener(this);
-
-        QSApplication.instance().getWxApi().handleIntent(getIntent(), this);
     }
 
     @Override
@@ -129,7 +127,29 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void onEventMainThread(S11DetailsEvent event) {
+        measureInfo = event.getMeasureInfo();
         setAllow(event.isExists(), event.getOrder());
+    }
+
+    public void onEventMainThread(WXPayEvent event) {
+        BaseResp baseResp = event.baseResp;
+        submit.setEnabled(true);
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            if (null != trade) {
+                TradeRefreshCommand.refresh(trade._id, new Callback() {
+                    @Override
+                    public void onComplete(int result) {
+                        showPayStatus(result);
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        ErrorHandler.handle(S11NewTradeActivity.this, errorCode);
+                    }
+                });
+            }
+        }
+
     }
 
     private void setAllow(boolean allow, MongoOrder order) {
@@ -152,14 +172,47 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void submitTrade() {
-        submit.setEnabled(false);
         receiver = receiptFragment.getReceiver();
-
-        Map<String, String> params = new HashMap<String, String>();
+        boolean hasEmptyAds = false;
+        Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(receiver.name)) params.put("name", receiver.name);
+        else hasEmptyAds = true;
+
         if (!TextUtils.isEmpty(receiver.phone)) params.put("phone", receiver.phone);
+        else hasEmptyAds = true;
+
         if (!TextUtils.isEmpty(receiver.province)) params.put("province", receiver.province);
+        else hasEmptyAds = true;
+
         if (!TextUtils.isEmpty(receiver.address)) params.put("address", receiver.address);
+        else hasEmptyAds = true;
+
+        if (hasEmptyAds) {
+            Toast.makeText(getApplicationContext(), "请将联系方式填写完整", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(paymentFragment.getPaymentMode())) {
+            Toast.makeText(getApplicationContext(), "请选择支付方式", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        submit.setEnabled(false);
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(QSGsonFactory.create().toJson(measureInfo));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
         UserReceiverCommand.saveReceiver(params, new Callback() {
             @Override
             public void onComplete(JSONObject response) {
@@ -184,19 +237,26 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
+        order.price = 0.01;
         params = new HashMap();
-        params.put("totalFee", order.price);
+        params.put("totalFee", 0.01);
         order.selectedPeopleReceiverUuid = selectedPeopleReceiverUuid;
-        List<MongoOrder> orders = new ArrayList<MongoOrder>();
+        List<MongoOrder> orders = new ArrayList<>();
         orders.add(order);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject weixin = new JSONObject();
-                weixin.put("partnerId","");
+                weixin.put("partnerId", "");
                 jsonObject.put("weixin", weixin);
-                params.put("pay",jsonObject);
+                params.put("pay", jsonObject);
             }
+            if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.alipay))) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("alipay", new JSONObject());
+                params.put("pay", jsonObject);
+            }
+
             JSONArray array = new JSONArray(QSGsonFactory.create().toJson(orders));
             params.put("orders", array);
         } catch (JSONException e) {
@@ -207,7 +267,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    Log.i("tag",MetadataParser.getError(response) + "");
+                    Log.i("tag", MetadataParser.getError(response) + "");
                     ErrorHandler.handle(S11NewTradeActivity.this, MetadataParser.getError(response));
                     return;
                 }
@@ -236,13 +296,14 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                         @Override
                         public void onError(int errorCode) {
                             Log.i("tag", errorCode + "");
-                            ErrorHandler.handle(S11NewTradeActivity.this,errorCode);
+                            ErrorHandler.handle(S11NewTradeActivity.this, errorCode);
                         }
                     });
                 }
 
                 @Override
                 public void onError() {
+
                 }
             });
         }
@@ -253,19 +314,15 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    private void showPayStatus(int status){
+    private void showPayStatus(int status) {
         ConfirmDialog dialog = new ConfirmDialog();
         dialog.setTitle(StatusCode.statusArrays[status]);
         dialog.setCancel("继续逛逛", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S11NewTradeActivity.this, S02ShowClassify.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
-                startActivity(intent);
-                finish();
             }
         });
-        dialog.setConfirm("查看订单",new View.OnClickListener() {
+        dialog.setConfirm("查看订单", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(S11NewTradeActivity.this, U09TradeListActivity.class));
@@ -277,37 +334,4 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        setIntent(intent);
-        QSApplication.instance().getWxApi().handleIntent(intent, this);
-    }
-
-    @Override
-    public void onReq(BaseReq baseReq) {
-
-    }
-
-
-    @Override
-    public void onResp(BaseResp resp) {
-        Log.i("tag",resp.toString());
-        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            if (null != trade) {
-                TradeRefreshCommand.refresh(trade._id, new Callback() {
-                    @Override
-                    public void onComplete(int result) {
-                        showPayStatus(result);
-                    }
-
-                    @Override
-                    public void onError(int errorCode) {
-                        ErrorHandler.handle(S11NewTradeActivity.this, errorCode);
-                    }
-                });
-            }
-        }
-    }
 }

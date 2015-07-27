@@ -1,5 +1,6 @@
 package com.focosee.qingshow.httpapi.gson.deserializer;
 
+import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

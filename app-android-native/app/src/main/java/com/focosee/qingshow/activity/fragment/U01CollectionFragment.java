@@ -1,242 +1,163 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.S03SHowActivity;
-import com.focosee.qingshow.activity.U01PersonalActivity;
-import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter_HasHeadRelativeLayout;
-import com.focosee.qingshow.adapter.HeadScrollAdapter;
+import com.focosee.qingshow.activity.U01UserActivity;
+import com.focosee.qingshow.adapter.U01CollectionFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.widget.ILoadingLayout;
-import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
-import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.huewu.pla.lib.MultiColumnListView;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import org.json.JSONObject;
 import java.util.LinkedList;
-
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
- * Created by zenan on 12/27/14.
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link OnFragmentInteractionListener} interface
+ * to handle interaction events.
  */
-public class U01CollectionFragment extends Fragment{
+public class U01CollectionFragment extends U01BaseFragment {
 
-    public static String ACTION_MESSAGE = "U01CollectionFragment_actionMessage";
-    private int currentPageIndex = 1;
+    private static final String TAG = "U01CollectionFragment";
 
-    public MPullRefreshMultiColumnListView latestPullRefreshListView;
-    public MultiColumnListView latestListView;
-    private ClassifyWaterfallAdapter_HasHeadRelativeLayout itemListAdapter;
-    private MongoPeople people;
-    private static U01CollectionFragment instance;
-    private boolean noMoreData = false;
-    private HeadScrollAdapter headScrollAdapter;
-    private QSJsonObjectRequest jsonObjectRequest;
-    private TextView numTotal;
+    private OnFragmentInteractionListener mListener;
+    private U01CollectionFragAdapter adapter;
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if(ACTION_MESSAGE.equals(intent.getAction())){
-                doShowsRefreshDataTask();
-
-            }
-            if(U01PersonalActivity.BACKTHEPOSIONONE.equals(intent.getAction())){
-                latestListView.smoothScrollToPosition(0);
-                headScrollAdapter.setHeadY(0);
-            }
-        }
-    };
-
-    public static U01CollectionFragment newInstance() {
-
-//            if (instance == null) {
-                instance = new U01CollectionFragment();
-//            }
-
-            return instance;
+    public static U01CollectionFragment newInstance(){
+        return new U01CollectionFragment();
     }
-
-    public U01CollectionFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onResume() {
-        doShowsRefreshDataTask();
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        getActivity().unregisterReceiver(receiver);
-        super.onDestroy();
-    }
+    public U01CollectionFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            people = (MongoPeople) savedInstanceState.get("people");
-        } else {
-            if(getActivity() instanceof U01PersonalActivity){
-                people = ((U01PersonalActivity)getActivity()).getMongoPeople();
-            }
-        }
-        getActivity().registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
-        getActivity().registerReceiver(receiver, new IntentFilter(U01PersonalActivity.BACKTHEPOSIONONE));
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_personal_pager_collection, container, false);
-        headScrollAdapter = new HeadScrollAdapter(((U01PersonalActivity) getActivity()).headRelativeLayout, getActivity());
-        latestPullRefreshListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.pager_P02_item_list);
-        latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
-        latestListView = latestPullRefreshListView.getRefreshableView();
-        latestListView.setOnTouchListener(headScrollAdapter);
-
-        itemListAdapter = new ClassifyWaterfallAdapter_HasHeadRelativeLayout(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
-        latestListView.setAdapter(itemListAdapter);
-        latestPullRefreshListView.setScrollLoadEnabled(true);
-        latestPullRefreshListView.setPullRefreshEnabled(false);
-        latestPullRefreshListView.setPullLoadEnabled(true);
-        latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_collection_createby, R.layout.item_u01_collection_qingshow);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doShowsLoadMoreTask(currentPageIndex+1, 10);
+            public int getSpanSize(int position) {
+                return 0 == position ? 2 : 1;
             }
         });
-
-        latestListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.post(new Runnable() {
             @Override
-            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), S03SHowActivity.class);
-                S03SHowActivity.ACTION_MESSAGE = ACTION_MESSAGE;
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((MongoShow)itemListAdapter.getItem(position))._id);
-                startActivity(intent);
+            public void run() {
+                recyclerView.setTag(U01UserActivity.POS_COLL);
+                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventBus.getDefault().post(eventModel);
             }
         });
-
-        doShowsRefreshDataTask();
-
-        numTotal =(TextView)getActivity().findViewById(R.id.likeCountTextView);
-
+        refresh();
         return view;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void refresh() {
+        getDatasFromNet(1, 10);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("people", people);
+    public void loadMore() {
+        getDatasFromNet(currentPageN0, 10);
     }
 
-    private void doShowsRefreshDataTask() {
-         jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getFeedingLikeApi(people.get_id(), 1, 10), null, new Response.Listener<JSONObject>() {
+    public void getDatasFromNet(final int pageNo, int pageSize){
+
+        if(user == null) return;
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                numTotal.setText(MetadataParser.getNumTotal(response));
-                if (MetadataParser.hasError(response)) {
-                    noMoreData = true;
-                    latestPullRefreshListView.onPullUpRefreshComplete();
-                    if(latestPullRefreshListView.getFooterLoadingLayout() != null) {
-                        latestPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                Log.d(TAG, "response:" + response);
+                if(MetadataParser.hasError(response)){
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                        recyclerPullToRefreshView.setHasMoreData(false);
+                    else {
+                        ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                        recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     return;
                 }
 
-                currentPageIndex = 1;
-
-                LinkedList<MongoShow> modelShowEntities = FeedingParser.parse(response);
-
-                itemListAdapter.addItemTop(modelShowEntities);
-                itemListAdapter.notifyDataSetChanged();
-                latestPullRefreshListView.onPullUpRefreshComplete();
-                latestPullRefreshListView.setHasMoreData(true);
-            }
-        });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
-    private void doShowsLoadMoreTask(int pageNo, int pageSize) {
-        jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getFeedingLikeApi(people.get_id(), pageNo, pageSize), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (MetadataParser.hasError(response)) {
-                    if(noMoreData){
-                        return;
-                    }
-                    Toast.makeText(getActivity(), "没有更多数据了！", Toast.LENGTH_SHORT).show();
-                    latestPullRefreshListView.onPullUpRefreshComplete();
-                    latestPullRefreshListView.setHasMoreData(false);
-                    return;
+                if(pageNo == 1) {
+                     adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    currentPageN0 = pageNo;
+                }else{
+                    adapter.addData(ShowParser.parseQuery_categoryString(response));
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
                 }
-
-                currentPageIndex++;
-
-                LinkedList<MongoShow> modelShowEntities = FeedingParser.parse(response);
-
-                itemListAdapter.addItemLast(modelShowEntities);
-                itemListAdapter.notifyDataSetChanged();
-                latestPullRefreshListView.onPullUpRefreshComplete();
-                latestPullRefreshListView.setHasMoreData(true);
+                currentPageN0++;
+                adapter.notifyDataSetChanged();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     @Override
-    public void onPause() {
-        if(null != jsonObjectRequest)
-            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
-        super.onPause();
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Override
     public void onDestroyView() {
-        if(null != jsonObjectRequest)
-            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
         super.onDestroyView();
+        ButterKnife.reset(this);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(currentPageN0 <= 2)
+            getDatasFromNet(1, 10);
+        else
+            getDatasFromNet(1, 10 * currentPageN0 * 10);
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
+
+    public RecyclerView getRecyclerView(){
+        return recyclerView;
+    }
+
 }

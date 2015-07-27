@@ -5,37 +5,39 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
-import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
-import com.focosee.qingshow.constants.code.RolesCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
 import com.focosee.qingshow.widget.ActionSheet;
-import com.focosee.qingshow.widget.MCircularImageView;
-import com.focosee.qingshow.widget.MNavigationView;
-import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
+import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import com.google.gson.reflect.TypeToken;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,20 +45,30 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
-    public static final String INPUT_PREVIEW_ID = "S04CommentActivity preview id";
     public static final String COMMENT_NUM_CHANGE = "comment_num_changed";
     public static boolean isOpened = false;
-
-    private MCircularImageView userImage;
-    private EditText inputText;
-    private Button sendButton;
-    private MPullRefreshListView pullRefreshListView;
-    private ListView listView;
+    @InjectView(R.id.left_btn)
+    ImageView leftBtn;
+    @InjectView(R.id.title)
+    TextView title;
+    @InjectView(R.id.right_btn)
+    ImageView rightBtn;
+    @InjectView(R.id.S04_recyclerViewPull)
+    RecyclerPullToRefreshView recyclerPullToRefreshView;
+    @InjectView(R.id.S04_user_image)
+    SimpleDraweeView S04UserImage;
+    @InjectView(R.id.S04_input)
+    EditText s04Input;
+    @InjectView(R.id.S04_send_button)
+    Button s04SendButton;
 
     private S04CommentListAdapter adapter;
 
@@ -65,42 +77,44 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     private String id;
     private String replyUserId = null;
 
-    private Intent viewMainPageIntent= null;
-    private int clickCommentIndex= -1;
+    private int clickCommentIndex = -1;
 
     private int position;
 
     private int API_TYPE = 0;//0是show, 1是preview
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s04_comment);
+        ButterKnife.inject(this);
 
-        Intent intent = getIntent();
-
-        if(!"".equals(intent.getStringExtra(INPUT_SHOW_ID)) && null != intent.getStringExtra(INPUT_SHOW_ID)){
-            id = intent.getStringExtra(INPUT_SHOW_ID);
-            API_TYPE = 0;
-        }else{
-            id = intent.getStringExtra(INPUT_PREVIEW_ID);
-            API_TYPE = 1;
-        }
-        position = intent.getIntExtra("s08_position", 0);
-        ((MNavigationView)findViewById(R.id.S04_navigation_bar)).getBtn_left().setOnClickListener(new View.OnClickListener() {
+        leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                S04CommentActivity.this.finish();
+                finish();
             }
         });
-        ((MNavigationView)findViewById(R.id.S04_navigation_bar)).getBtn_right().setVisibility(View.INVISIBLE);
 
-        userImage = (MCircularImageView)findViewById(R.id.S04_user_image);
-        inputText = (EditText) findViewById(R.id.S04_input);
-        sendButton = (Button) findViewById(R.id.S04_send_button);
-        pullRefreshListView = (MPullRefreshListView) findViewById(R.id.S04_container_list);
+        title.setText("评论");
+        rightBtn.setVisibility(View.INVISIBLE);
+        if (!QSModel.INSTANCE.loggedin()) {
+            startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
+            finish();
+            return;
+        }
+        Intent intent = getIntent();
 
-        inputText.addTextChangedListener(new TextWatcher() {
+        if (!TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
+            id = intent.getStringExtra(INPUT_SHOW_ID);
+            API_TYPE = 0;
+        }
+        position = intent.getIntExtra("s08_position", 0);
+        
+        recyclerView = recyclerPullToRefreshView.getRefreshableView();
+
+        s04Input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
@@ -108,12 +122,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                if(i3 > 0) {
-                    sendButton.setBackgroundColor(Color.RED);
-                    sendButton.setTextColor(Color.WHITE);
-                }else if(i3 == 0){
-                    sendButton.setBackgroundResource(R.drawable.s04_send_background);
-                    sendButton.setTextColor(Color.BLACK);
+                if (i3 > 0) {
+                    s04SendButton.setBackgroundColor(Color.RED);
+                    s04SendButton.setTextColor(Color.WHITE);
+                } else if (i3 == 0) {
+                    s04SendButton.setBackgroundResource(R.drawable.s04_send_background);
+                    s04SendButton.setTextColor(Color.BLACK);
                 }
             }
 
@@ -123,43 +137,39 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             }
         });
 
-        if(QSModel.INSTANCE.loggedin()){
-            ImageLoader.getInstance().displayImage(QSModel.INSTANCE.getUser().portrait, userImage);
+        if (QSModel.INSTANCE.loggedin()) {
+            if(null != QSModel.INSTANCE.getUser().portrait && !"".equals(QSModel.INSTANCE.getUser().portrait)) {
+                S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+                S04UserImage.setAspectRatio(1f);
+            }
         }
-        pullRefreshListView.setPullRefreshEnabled(true);
-        pullRefreshListView.setScrollLoadEnabled(true);
-        listView = pullRefreshListView.getRefreshableView();
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        s04SendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 postComment();
             }
         });
 
-        adapter = new S04CommentListAdapter(this, null, ImageLoader.getInstance());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet(position);
-            }
-        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(S04CommentActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new S04CommentListAdapter(new LinkedList<MongoComment>(), S04CommentActivity.this, R.layout.comment_item_list);
+        recyclerView.setAdapter(adapter);
 
-        pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
                 doRefreshTask();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
                 doLoadMoreTask();
             }
         });
 
-        pullRefreshListView.doPullRefreshing(true, 0);
+        recyclerPullToRefreshView.doPullRefreshing(true, 0);
     }
 
     @Override
@@ -169,30 +179,41 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (!TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
+            id = intent.getStringExtra(INPUT_SHOW_ID);
+            API_TYPE = 0;
+        }
+    }
+
+    @Override
     public void reconn() {
         doRefreshTask();
     }
 
     private void doLoadMoreTask() {
         String api;
-        if(API_TYPE == 0)
-            api = QSAppWebAPI.getShowCommentsListApi(id, currentPage+1, numbersPerPage);
+        if (API_TYPE == 0)
+            api = QSAppWebAPI.getShowCommentsListApi(id, currentPage + 1, numbersPerPage);
         else
-            api = QSAppWebAPI.getPreviewQuerycommentsApi(id, currentPage+1, numbersPerPage);
+            api = QSAppWebAPI.getPreviewQuerycommentsApi(id, currentPage + 1, numbersPerPage);
         QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
-                    pullRefreshListView.onPullUpRefreshComplete();
-                    pullRefreshListView.setHasMoreData(false);
-                    Toast.makeText(S04CommentActivity.this, R.string.no_more_data, Toast.LENGTH_SHORT).show();
+                if (MetadataParser.hasError(response)) {
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                        recyclerPullToRefreshView.setHasMoreData(false);
+                    else {
+                        ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
+                        recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    }
                     return;
                 }
                 currentPage++;
-                adapter.addDataInTail(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
+                adapter.addData(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
                 adapter.notifyDataSetChanged();
-                pullRefreshListView.onPullUpRefreshComplete();
-                pullRefreshListView.setHasMoreData(true);
+                recyclerPullToRefreshView.onPullUpRefreshComplete();
                 setLastUpdateTime();
             }
         });
@@ -201,18 +222,22 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
     private void doRefreshTask() {
         String api;
-        if(API_TYPE == 0)
+        if (API_TYPE == 0)
             api = QSAppWebAPI.getShowCommentsListApi(id, 0, numbersPerPage);
         else
             api = QSAppWebAPI.getPreviewQuerycommentsApi(id, 0, numbersPerPage);
         QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response)){
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
+                    return;
+                }
                 currentPage = 1;
-                adapter.resetData(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
+                adapter.addDataAtTop(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
                 adapter.notifyDataSetChanged();
-                pullRefreshListView.onPullDownRefreshComplete();
-                pullRefreshListView.setHasMoreData(true);
+                recyclerPullToRefreshView.onPullDownRefreshComplete();
                 setLastUpdateTime();
             }
         });
@@ -221,13 +246,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
     private void postComment() {
 
-        if (! QSModel.INSTANCE.loggedin()) {
+        if (!QSModel.INSTANCE.loggedin()) {
             Toast.makeText(S04CommentActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
             return;
         }
 
-        String comment = inputText.getText().toString().trim();
-        if (comment.length() <= 0 ) {
+        String comment = s04Input.getText().toString().trim();
+        if (comment.length() <= 0) {
             Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -236,30 +262,31 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         map.put("_atId", replyUserId);
         map.put("comment", comment);
         JSONObject jsonObject = new JSONObject(map);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(API_TYPE),jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(!MetadataParser.hasError(response)){
-                    sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value",1).putExtra("position" ,position));
+                if (!MetadataParser.hasError(response)) {
+                    sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value", 1).putExtra("position", position));
+
                 }
                 doRefreshTask();
-                inputText.setText("");
+                s04Input.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0); //强制隐藏键盘
+                imm.hideSoftInputFromWindow(s04Input.getWindowToken(), 0); //强制隐藏键盘
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void deleteComment() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("_id", adapter.getCommentAtIndex(clickCommentIndex).getId());
+        Map<String, String> map = new HashMap<>();
+        map.put("_id", adapter.getItemData(clickCommentIndex).getId());
         JSONObject jsonObject = new JSONObject(map);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(!MetadataParser.hasError(response)){
-                    sendBroadcast(new Intent( COMMENT_NUM_CHANGE).putExtra("value",-1).putExtra("position" ,position));
+                if (!MetadataParser.hasError(response)) {
+                    sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value", -1).putExtra("position", position));
                     doRefreshTask();
                 }
             }
@@ -270,7 +297,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
     private void setLastUpdateTime() {
         String text = formatDateTime(System.currentTimeMillis());
-        pullRefreshListView.setLastUpdatedLabel(text);
+        recyclerPullToRefreshView.setLastUpdatedLabel(text);
     }
 
     private String formatDateTime(long time) {
@@ -284,7 +311,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     private static ArrayList<MongoComment> getCommentsFromJsonObject(JSONObject response, int API_TYPE) {
         String jsonString = "";
         String arrayName = "showComments";
-        if(API_TYPE == 1) arrayName = "previewComments";
+        if (API_TYPE == 1) arrayName = "previewComments";
         try {
             jsonString = response.getJSONObject("data").getJSONArray(arrayName).toString();
         } catch (JSONException e) {
@@ -295,21 +322,17 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     public void showActionSheet(int commentIndex) {
-        String userId = (null == QSModel.INSTANCE.getUser()) ? "":QSModel.INSTANCE.getUser()._id;
-        String commentUserId = adapter.getCommentAtIndex(commentIndex).getUserId();
+        String userId = (null == QSModel.INSTANCE.getUser()) ? "" : QSModel.INSTANCE.getUser()._id;
+        String commentUserId = adapter.getItemData(commentIndex).getUserId();
 
         clickCommentIndex = commentIndex;
-        viewMainPageIntent = new Intent();
-        viewMainPageIntent.putExtra(P02ModelActivity.INPUT_MODEL, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
-        viewMainPageIntent.putExtra(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
 
         if (null != userId && userId.equals(commentUserId)) {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles("查看个人主页", "删除")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
-        }
-        else {
+        } else {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles("查看个人主页")
@@ -326,20 +349,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         switch (index) {
             case 0:
-                if(null != adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef()){
-                    int[] roles = adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef().getRoles();
-
-                    for(int role : roles){
-                        if(role == RolesCode.MODEL.getIndex()){
-                            viewMainPageIntent.setClass(S04CommentActivity.this, P02ModelActivity.class);
-                            startActivity(viewMainPageIntent);
-                            return;
-                        }
-                    }
-                }
-                viewMainPageIntent.setClass(S04CommentActivity.this, U01PersonalActivity.class);
-                U01PersonalActivity.peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndex();
-                startActivity(viewMainPageIntent);
+                if(null == adapter.getItemData(clickCommentIndex).getAuthorRef())return;
+                Intent intent = new Intent(S04CommentActivity.this, U01UserActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable("user", adapter.getItemData(clickCommentIndex).getAuthorRef());
+                intent.putExtras(bundle1);
+                startActivity(intent);
                 break;
             case 1:
                 createDeleteDialog();

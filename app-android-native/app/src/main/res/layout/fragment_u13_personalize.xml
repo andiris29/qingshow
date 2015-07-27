@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/master_pink">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/titleBarRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bar_height">
+
+            <ImageView
+                android:id="@+id/backImageView"
+                android:layout_width="@dimen/title_bar_height"
+                android:layout_height="@dimen/title_bar_height"
+                android:layout_alignParentLeft="true"
+                android:padding="12dp"
+                android:src="@drawable/title_back_btn" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="填写个人信息"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_activity_settings" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="请仔细选择各项内容哦！"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="我们会根据您的信息提供定制化服务"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/s03_line"
+            android:drawableRight="@drawable/s03_line"
+            android:gravity="center"
+            android:text="拖动小圆点选择"
+            android:textColor="@color/white" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="你的年龄"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/age_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="20"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/age"
+            style="@style/seeckbar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="你的身高"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/height_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="166cm"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/height"
+            style="@style/seeckbar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="你的体重"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/weight_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="50KG"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/weight"
+            style="@style/seeckbar" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/s03_line"
+            android:drawableRight="@drawable/s03_line"
+            android:gravity="center"
+            android:text="体型"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/body_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <RadioButton
+                    android:id="@+id/body_a"
+                    style="@style/body_style"
+                    android:background="@drawable/selector_stature_a" />
+
+                <RadioButton
+                    android:id="@+id/body_h"
+                    style="@style/body_style"
+                    android:layout_toRightOf="@id/body_a"
+                    android:background="@drawable/selector_stature_h" />
+
+                <RadioButton
+                    android:id="@+id/body_v"
+                    style="@style/body_style"
+                    android:layout_below="@id/body_a"
+                    android:background="@drawable/selector_stature_v" />
+
+                <RadioButton
+                    android:id="@+id/body_x"
+                    style="@style/body_style"
+                    android:layout_below="@id/body_h"
+                    android:layout_toRightOf="@+id/body_v"
+                    android:background="@drawable/selector_stature_x" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/s03_line"
+            android:drawableRight="@drawable/s03_line"
+            android:gravity="center"
+            android:text="喜欢的穿衣风格"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/style_j"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/selector_clothes_style"
+                android:button="@null"
+                android:gravity="center"
+                android:text="日韩系"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/style_u"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:background="@drawable/selector_clothes_style"
+                android:button="@null"
+                android:gravity="center"
+                android:text="欧美系"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/s03_line"
+            android:drawableRight="@drawable/s03_line"
+            android:gravity="center"
+            android:text="搭配期望达到的效果"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="-10dp"
+            android:gravity="center"
+            android:text="（可多选）"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <CheckedTextView
+                    android:id="@+id/result_0"
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/selector_clothes_style"
+                    android:gravity="center"
+                    android:text="显瘦"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <CheckedTextView
+                    android:id="@+id/result_1"
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/result_0"
+                    android:background="@drawable/selector_clothes_style"
+                    android:gravity="center"
+                    android:text="显高"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <CheckedTextView
+                    android:id="@+id/result_2"
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+                    android:layout_toRightOf="@id/result_1"
+                    android:background="@drawable/selector_clothes_style"
+                    android:gravity="center"
+                    android:text="显身材"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <CheckedTextView
+                    android:id="@+id/result_3"
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/result_0"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/selector_clothes_style"
+                    android:gravity="center"
+                    android:text="遮臀部"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <CheckedTextView
+                    android:id="@+id/result_4"
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/result_1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/result_3"
+                    android:background="@drawable/selector_clothes_style"
+                    android:gravity="center"
+                    android:text="遮肚腩"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <CheckedTextView
+                    android:id="@+id/result_5"
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/result_2"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/result_4"
+                    android:background="@drawable/selector_clothes_style"
+                    android:gravity="center"
+                    android:text="遮手臂"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="OK"
+            android:textColor="@color/master_pink"
+            android:background="@drawable/white"/>
+    </LinearLayout>
+</ScrollView>

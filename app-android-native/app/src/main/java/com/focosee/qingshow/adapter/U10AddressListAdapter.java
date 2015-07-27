@@ -2,16 +2,9 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -26,67 +19,57 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.adapter.*;
+import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.google.gson.Gson;
-import com.orhanobut.dialogplus.DialogPlus;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-
 import de.greenrobot.event.EventBus;
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by Administrator on 2015/3/16.
  */
-public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAdapter.ViewHolder> {
+public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
 
-    private Context context;
     private int default_posion = 0;
     private MongoPeople people;
-    public LinkedList<MongoPeople.Receiver> datas = null;
 
-    public U10AddressListAdapter(Context context) {
-        this.context = context;
+    public U10AddressListAdapter(@NonNull List<MongoPeople.Receiver> datas, Context context, int... layoutId) {
+        super(datas, context, layoutId);
         people = QSModel.INSTANCE.getUser();
     }
 
-    //创建新View，被LayoutManager所调用
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_addreslist, viewGroup, false);
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+    public int getItemViewType(int position) {
+        return 0;
     }
 
     @Override
-    public void onBindViewHolder(U10AddressListAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(AbsViewHolder holder, final int i) {
 
-        viewHolder.nameTV.setText(null == datas.get(i).name ? "" : datas.get(i).name);
-        viewHolder.phoneTV.setText(null == datas.get(i).phone ? "" : datas.get(i).phone);
-        viewHolder.addressTV.setText((null == datas.get(i).province ? "" : datas.get(i).province)
+
+//        final int position = (datas.size() - i - 1) < 0 ? 0 : datas.size() - i - 1;
+
+        holder.setText(R.id.item_addresslist_name, null == datas.get(i).name ? "" : datas.get(i).name);
+        holder.setText(R.id.item_addresslist_phone, null == datas.get(i).phone ? "" : datas.get(i).phone);
+        holder.setText(R.id.item_addresslist_province, (null == datas.get(i).province ? "" : datas.get(i).province)
                 + (null == datas.get(i).address ? "" : datas.get(i).address));
-        final int position = (datas.size() - i - 1) < 0 ? 0 : datas.size() - i - 1;
-
-        viewHolder.nameTV.setText(null == datas.get(position).name ? "" : datas.get(position).name);
-        viewHolder.phoneTV.setText(null == datas.get(position).phone ? "" : datas.get(position).phone);
-        viewHolder.provinceTV.setText(null == datas.get(position).province ? "" : datas.get(position).province);
-        viewHolder.addressTV.setText(null == datas.get(position).address ? "" : datas.get(position).address);
-        if (datas.get(position).isDefault) {
-            viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment_hover);
-            default_posion = position;
+        holder.setText(R.id.item_addresslist_address, null == datas.get(i).address ? "" : datas.get(i).address);
+        if (datas.get(i).isDefault) {
+            holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment_hover);
+            default_posion = i;
         } else {
-            viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment);
+            holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment);
         }
         if (context instanceof U10AddressListActivity) {
             if (S11ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
-                viewHolder.contentLayout.setOnClickListener(new View.OnClickListener() {
+                holder.getView(R.id.item_addresslist_content).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(datas.get(position));
+                        EventBus.getDefault().post(datas.get(i));
                         ((U10AddressListActivity) context).finish();
                     }
                 });
@@ -95,16 +78,16 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         }
 
 
-        viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
+        holder.getView(R.id.item_addresslist_edit_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, U11EditAddressActivity.class);
-                intent.putExtra("receiver", datas.get(position));
+                intent.putExtra("receiver", datas.get(i));
                 context.startActivity(intent);
             }
         });
 
-        viewHolder.delLayout.setOnClickListener(new View.OnClickListener() {
+        holder.getView(R.id.item_addresslist_del_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -114,45 +97,46 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                 dialog.setConfirm("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        delReceiver(datas.get(position).uuid);
+                        delReceiver(datas.get(i).uuid);
                         dialog.dismiss();
                     }
                 });
 
-                dialog.show(((U10AddressListActivity)context).getSupportFragmentManager());
+                dialog.show(((U10AddressListActivity) context).getSupportFragmentManager());
             }
         });
 
-        viewHolder.chooseBtn.setOnClickListener(new View.OnClickListener() {
+
+        holder.getView(R.id.item_addresslist_choose_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (position == default_posion) return;
+                if (i == default_posion) return;
 
                 if (default_posion != Integer.MAX_VALUE) {
                     datas.get(default_posion).isDefault = false;
                 }
 
-                datas.get(position).isDefault = true;
+                datas.get(i).isDefault = true;
 
                 Gson gson = new Gson();
-                gson.toJson(datas.get(position));
+                gson.toJson(datas.get(i));
 
                 JSONObject jsonObject = null;
 
                 try {
-                    jsonObject = new JSONObject(new Gson().toJson(datas.get(position)));
+                    jsonObject = new JSONObject(new Gson().toJson(datas.get(i)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 Map params1 = new HashMap();
-                params1.put("uuid", datas.get(position).uuid);
-                params1.put("name", datas.get(position).name);
-                params1.put("phone", datas.get(position).phone);
-                params1.put("province", datas.get(position).province);
-                params1.put("address", datas.get(position).address);
-                params1.put("isDefault", datas.get(position).isDefault);
+                params1.put("uuid", datas.get(i).uuid);
+                params1.put("name", datas.get(i).name);
+                params1.put("phone", datas.get(i).phone);
+                params1.put("province", datas.get(i).province);
+                params1.put("address", datas.get(i).address);
+                params1.put("isDefault", datas.get(i).isDefault);
 
                 QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
 
@@ -181,7 +165,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                             ErrorHandler.handle(context, MetadataParser.getError(response));
                             return;
                         }
-                        default_posion = position;
+                        default_posion = i;
                         notifyDataSetChanged();
                     }
                 });
@@ -193,19 +177,9 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         });
     }
 
-    //获取数据的数量
-    @Override
-    public int getItemCount() {
-        return null == datas ? 0 : datas.size();
-    }
-
-    public void resetData(LinkedList<MongoPeople.Receiver> datas) {
-        this.datas = datas;
-    }
-
     public void delReceiver(String uuid) {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("uuid", uuid);
 
         QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getUserRemoveReceiverApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
@@ -225,62 +199,6 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(jor);
-    }
-
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    public SpacesItemDecoration getItemDecoration(int space, int headSpace) {
-        return new SpacesItemDecoration(space, headSpace);
-    }
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-        private int headSpace;
-
-        public SpacesItemDecoration(int space, int headSpace) {
-
-            this.space = space;
-            this.headSpace = headSpace;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//            outRect.left = space;
-//            outRect.right = space;
-            outRect.bottom = space;
-
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildPosition(view) == 0)
-                outRect.top = headSpace;
-        }
-    }
-
-    //自定义的ViewHolder，持有每个Item的的所有界面元素
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView chooseBtn;
-        public LinearLayout contentLayout;
-        public LinearLayout delLayout;
-        public LinearLayout editLayout;
-        public TextView nameTV;
-        public TextView phoneTV;
-        public TextView provinceTV;
-        public TextView addressTV;
-
-        public ViewHolder(View view) {
-            super(view);
-            chooseBtn = (ImageView) view.findViewById(R.id.item_addresslist_choose_btn);
-            contentLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_content);
-            delLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_del_layout);
-            editLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_edit_layout);
-            nameTV = (TextView) view.findViewById(R.id.item_addresslist_name);
-            phoneTV = (TextView) view.findViewById(R.id.item_addresslist_phone);
-            provinceTV = (TextView) view.findViewById(R.id.item_addresslist_province);
-            addressTV = (TextView) view.findViewById(R.id.item_addresslist_address);
-        }
     }
 }
 

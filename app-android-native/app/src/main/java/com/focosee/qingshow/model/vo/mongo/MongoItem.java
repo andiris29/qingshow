@@ -1,46 +1,32 @@
 package com.focosee.qingshow.model.vo.mongo;
 
-import android.util.Log;
-
-import com.focosee.qingshow.model.vo.metadata.ImageMetadata;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
-
 import static com.focosee.qingshow.util.StringUtil.FormatPrice;
 
 /**
  * Created by i068020 on 2/8/15.
  */
 public class MongoItem implements Serializable {
-    public static final String DEBUG_TAG = "MongoItem";
 
     public String _id;
 
-    public int category;
+    public MongoCategories categoryRef;
     public String name;
     public LinkedList<Image> images;
-    public ImageMetadata imageMetadata;
     public String source;
-    public String price;
-    public String video;
-    public String sizeExplanation;
-
-    public MongoBrand brandRef;
-    public BrandDiscountInfo brandDiscountInfo;
+    public String thumbnail;
+    public boolean deactive;
+    public int numLike;
     public TaoBaoInfo taobaoInfo;
+    public GregorianCalendar create;
 
     public class Image implements Serializable {
         public String url;
         public String description;
-    }
-
-    public class BrandDiscountInfo implements Serializable {
-        public int order;
-        public Number price;
     }
 
     public class TaoBaoInfo implements Serializable{
@@ -85,10 +71,10 @@ public class MongoItem implements Serializable {
 
         public String getPromoPrice(){
             if(getMinPromoPrice() != null){
-                return FormatPrice(String.valueOf(Double.parseDouble(getMinPromoPrice()) - 0.01));
+                return FormatPrice(String.valueOf(Double.parseDouble(getMinPromoPrice())));
             }
             if(getMinPrice() != null){
-                return FormatPrice(String.valueOf(Double.parseDouble(getMinPrice()) - 0.01));
+                return FormatPrice(String.valueOf(Double.parseDouble(getMinPrice())));
             }
             return "";
         }
@@ -152,38 +138,30 @@ public class MongoItem implements Serializable {
         return name;
     }
 
-    public String getItemCategory() {
-        String categoryName;
-        switch (category) {
-            case 0:
-                categoryName = "上装";
-                break;
-            case 1:
-                categoryName = "下装";
-                break;
-            case 2:
-                categoryName = "鞋子";
-                break;
-            case 3:
-                categoryName = "配饰";
-                break;
-            default:
-                categoryName = "未定义";
-                break;
-        }
-        return categoryName;
-    }
-
-    public String getBrandPortrait() {
-        return (null != imageMetadata) ? imageMetadata.url : null;
-    }
+//    public String getItemCategory() {
+//        String categoryName;
+//        switch (categoryRef) {
+//            case :
+//                categoryName = "上装";
+//                break;
+//            case 1:
+//                categoryName = "下装";
+//                break;
+//            case 2:
+//                categoryName = "鞋子";
+//                break;
+//            case 3:
+//                categoryName = "配饰";
+//                break;
+//            default:
+//                categoryName = "未定义";
+//                break;
+//        }
+//        return categoryName;
+//    }
 
     public String getSource() {
         return source;
-    }
-
-    public String getOriginPrice() {
-        return price;
     }
 
     public String getPrice() {
@@ -196,15 +174,6 @@ public class MongoItem implements Serializable {
         } else {
             return "";
         }
-    }
-
-    public MongoBrand getBrandRef() {
-        return brandRef;
-    }
-
-    public String getBrandId() {
-        if (null == brandRef) return "";
-        return String.valueOf(brandRef.get_id());
     }
 
     public String getSourcePrice() {

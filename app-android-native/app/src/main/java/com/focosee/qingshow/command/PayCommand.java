@@ -2,7 +2,6 @@ package com.focosee.qingshow.command;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -71,7 +70,7 @@ public class PayCommand {
     public static void weixin(final MongoTrade trade){
         String nonceStr = genOutTradNo();
         PayReq request = new PayReq();
-        request.appId = ShareConfig.WX_APP_KEY;
+        request.appId = ShareConfig.APP_ID;
         request.partnerId = PaymentConfig.WEIXIN_PARTNER;
         request.prepayId = trade.pay.weixin.prepayid;
         request.nonceStr = nonceStr;

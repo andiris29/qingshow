@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
-import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11ReceiptFragment;
 import com.focosee.qingshow.activity.fragment.U11AddressEditFragment;
 import com.focosee.qingshow.adapter.U10AddressListAdapter;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+
+import java.util.LinkedList;
 
 import de.greenrobot.event.EventBus;
 
@@ -28,7 +28,6 @@ public class U10AddressListActivity extends BaseActivity {
     private U10AddressListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private MongoPeople people;
-    private int current_pageNo;
     public String fromWhere = "";
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -74,10 +73,9 @@ public class U10AddressListActivity extends BaseActivity {
 //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         addresslist.setHasFixedSize(true);
 //创建并设置Adapter
-        mAdapter = new U10AddressListAdapter(this);
-        mAdapter.resetData(people.receivers);
+        mAdapter = new U10AddressListAdapter(new LinkedList<MongoPeople.Receiver>(), U10AddressListActivity.this, R.layout.item_addreslist);
+        mAdapter.addDataAtTop(people.receivers);
         addresslist.setAdapter(mAdapter);
-        addresslist.addItemDecoration(mAdapter.getItemDecoration(10, 1));
 
         registerReceiver(receiver, new IntentFilter(U11AddressEditFragment.ASK_REFRESH));
 
@@ -85,7 +83,7 @@ public class U10AddressListActivity extends BaseActivity {
 
     public void refresh(){
         people = QSModel.INSTANCE.getUser();
-        mAdapter.resetData(people.receivers);
+        mAdapter.addDataAtTop(people.receivers);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -103,6 +101,6 @@ public class U10AddressListActivity extends BaseActivity {
 
     @Override
     public void reconn() {
-
+        refresh();
     }
 }

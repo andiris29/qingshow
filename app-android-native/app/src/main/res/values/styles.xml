@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <color name="spots_dialog_color">@color/master_pink</color>
 
     <style name="ActionSheetStyleIOS7">
         <item name="actionSheetBackground">@android:color/transparent</item>
@@ -44,6 +45,37 @@
     <style name="popwin_anim_style">
         <item name="android:windowEnterAnimation">@anim/share_anim_show</item>
         <item name="android:windowExitAnimation">@anim/share_anim_dismiss</item>
+    </style>
+
+    <style name="seeckbar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:progressDrawable">@drawable/seekbar_style</item>
+        <item name="android:thumb">@drawable/seekbar_thumb</item>
+    </style>
+
+    <style name="body_style">
+        <item name="android:layout_height">150dp</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="navigation_btn">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="navigation_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ffffffff</item>
     </style>
 
 </resources>

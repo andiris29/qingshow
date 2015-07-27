@@ -1,4 +1,4 @@
-package com.focosee.qingshow.widget.flow;
+package com.focosee.qingshow.widget.Flow;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.widget.radio.IRadioViewHelper;
 
 
 /**

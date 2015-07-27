@@ -2,9 +2,10 @@ package com.focosee.qingshow;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.preference.PreferenceManager;
 import android.view.Display;
-
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.activity.BaseActivity;
@@ -22,6 +23,8 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.io.File;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class QSApplication extends Application {
     private static QSApplication _instance;
     private IWXAPI wxApi;
@@ -35,9 +38,11 @@ public class QSApplication extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
-        wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.WX_APP_KEY);
-        wxApi.registerApp(ShareConfig.WX_APP_KEY);
+        wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.APP_ID, true);
+        wxApi.registerApp(ShareConfig.APP_ID);
         Fresco.initialize(getApplicationContext());
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
         configImageLoader();
     }
 
@@ -74,6 +79,10 @@ public class QSApplication extends Application {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+
+    public SharedPreferences getPreferences(){
+        return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 }
 

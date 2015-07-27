@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.LinkedList;
 
 /**
  * Created by i068020 on 2/8/15.
@@ -47,12 +48,27 @@ public class UserParser {
         return null;
     }
 
-    private static MongoPeople _parsePeople(JSONObject response) {
+    public static MongoPeople _parsePeople(JSONObject response) {
         try {
             Gson gson = QSGsonFactory.create();
 
             String people = response.getJSONObject("data").getJSONObject("people").toString();
             Type type = new TypeToken<MongoPeople>() {
+            }.getType();
+
+            return gson.fromJson(people, type);
+
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    public static LinkedList<MongoPeople> _parsePeoples(JSONObject response) {
+        try {
+            Gson gson = QSGsonFactory.create();
+
+            String people = response.getJSONObject("data").getJSONArray("peoples").toString();
+            Type type = new TypeToken<LinkedList<MongoPeople>>() {
             }.getType();
 
             return gson.fromJson(people, type);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_u01_fans_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        fresco:roundAsCircle="true"
+        fresco:placeholderImage="@drawable/root_cell_placehold_head"
+        android:layout_centerVertical="true" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@+id/item_u01_fans_image"
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:id="@+id/item_u01_fans_name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="anna"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/model_cell_icon01_cloth" />
+
+            <TextView
+                android:id="@+id/item_u01_fans_cloth_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="104"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/p01_text_color_model_height" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/model_cell_icon02_noticeno"
+                android:layout_marginLeft="20dp" />
+
+            <TextView
+                android:id="@+id/item_u01_fans_like_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1025"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/p01_text_color_model_height" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

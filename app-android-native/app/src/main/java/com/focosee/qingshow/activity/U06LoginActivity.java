@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -28,11 +30,10 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
 import com.umeng.analytics.MobclickAgent;
-
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import dmax.dialog.SpotsDialog;
 
 
 public class U06LoginActivity extends BaseActivity {
@@ -43,8 +44,6 @@ public class U06LoginActivity extends BaseActivity {
     private Context context;
     private RequestQueue requestQueue;
 
-    String rawCookie = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +51,6 @@ public class U06LoginActivity extends BaseActivity {
 
         context = getApplicationContext();
 
-        TextView registerTextView;
         Button submitButton;
 
         submitButton = (Button) findViewById(R.id.submitButton);
@@ -61,31 +59,25 @@ public class U06LoginActivity extends BaseActivity {
 
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
-        ImageView backTextView = (ImageView) findViewById(R.id.backImageView);
-        backTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("id", accountEditText.getText().toString());
-                params.put("password", passwordEditText.getText().toString());
-                JSONObject jsonObject = new JSONObject(params);
 
-                final ProgressDialog pDialog = new ProgressDialog(U06LoginActivity.this);
-                pDialog.setMessage("加载中...");
+                final SpotsDialog  pDialog = new SpotsDialog(U06LoginActivity.this,getResources().getString(R.string.s06_loading));
                 pDialog.show();
 
-                QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST,
+                Map<String, String> map = new HashMap<>();
+                map.put("idOrNickName", accountEditText.getText().toString());
+                map.put("password", passwordEditText.getText().toString());
+                Log.i("JPush_QS", "login" + PushModel.INSTANCE.getRegId());
+                map.put("registrationId",  PushModel.INSTANCE.getRegId());
+
+                QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
                         QSAppWebAPI.LOGIN_SERVICE_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                System.out.println("response:" + response);
                                 pDialog.dismiss();
 
                                 MongoPeople user = UserParser.parseLogin(response);
@@ -97,8 +89,13 @@ public class U06LoginActivity extends BaseActivity {
                                     }
                                 } else {
                                     QSModel.INSTANCE.setUser(user);
-                                    Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
-                                    startActivity(intent);
+                                    if(null != GoToWhereAfterLoginModel.INSTANCE.get_class()){
+                                        Intent intent = new Intent(U06LoginActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable("user", user);
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                    }
                                     sendBroadcast(new Intent(LOGIN_SUCCESS));
                                     finish();
                                 }
@@ -108,16 +105,7 @@ public class U06LoginActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.e("TAG", error.getMessage(), error);
                     }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("id", accountEditText.getText().toString());
-                        map.put("password", passwordEditText.getText().toString());
-                        return map;
-                    }
-
-                };
+                });
                 requestQueue.add(stringRequest);
             }
         });

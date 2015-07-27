@@ -1,50 +1,52 @@
 package com.focosee.qingshow.activity;
 
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
-import com.focosee.qingshow.widget.MFullScreenVideoView;
-import com.focosee.qingshow.widget.MRoundImageView;
+import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.SharePopupWindow;
-import com.focosee.qingshow.widget.indicator.ImageIndicatorView;
-import com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
@@ -64,75 +66,67 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler, IWeiboHandler.Response {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+
+import static com.focosee.qingshow.R.id.s03_nickname;
+
+public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler, IWeiboHandler.Response, View.OnClickListener {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
-    public static final String INPUT_SHOW_LIST_ENTITY = "S03SHowActivity_input_show_list_entity";
-    public static String ACTION_MESSAGE = "";//动态变化的
     public final String TAG = "S03SHowActivity";
-    private int position;
+    private static final int shareMsgShowTime = 2000;//分享优惠显示时间
+    @InjectView(R.id.S03_image_preground)
+    SimpleDraweeView s03ImagePreground;
+    @InjectView(R.id.S03_describe)
+    TextView s03Describe;
+    @InjectView(R.id.S03_back_btn)
+    ImageButton S03BackBtn;
+    @InjectView(R.id.S03_video_start_btn_real)
+    ImageView s03VideoStartBtnReal;
+    @InjectView(R.id.s03_portrait)
+    SimpleDraweeView s03Portrait;
+    @InjectView(s03_nickname)
+    TextView s03Nickname;
+    @InjectView(R.id.s03_del_btn)
+    ImageView s03DelBtn;
 
-    private String showId;
-    private MongoShow showListEntity;
-    private MongoShow showDetailEntity;// TODO remove the duplicated one
-    private ArrayList<MongoItem> itemsData;
+    private MongoShow showDetailEntity;
+    private MongoItem[] itemsData;
     private String videoUriString;
     private int playTime = 0;
 
-    // Component declaration
-    private RelativeLayout mRelativeLayout;
-    private NetworkImageIndicatorView imageIndicatorView;
-    private VideoView videoView;
-
-
-    private MRoundImageView modelImage;
-    private TextView modelInformation;
-    private TextView modelAgeHeight;
-    private TextView modelSignature;
-    private TextView commentTextView;
-    private TextView likeTextView;
-    private TextView itemTextView;
+    @InjectView(R.id.S03_video_pause)
+    ImageView pauseImage;
+    @InjectView(R.id.S03_video_view)
+    VideoView videoView;
+    @InjectView(R.id.S03_image)
+    SimpleDraweeView image;
+    @InjectView(R.id.S03_comment_text_view)
+    TextView commentTextView;
+    @InjectView(R.id.S03_like_btn)
+    ImageView likeBtn;
+    @InjectView(R.id.S03_like_text_view)
+    TextView likeTextView;
+    @InjectView(R.id.S03_item_text_view)
+    TextView itemTextView;
     private SharePopupWindow sharePopupWindow;
-
 
     private IWeiboShareAPI mWeiboShareAPI;
 
-
-    // like image button
-    private ImageView likedImageButton;
-    private ImageView playImageButton;
-
-    private LinearLayout buttomLayout;
-    private RelativeLayout beforeLayout;
-    private Boolean isPlayed = false;
-    private State mState = State.RESET;
-
-    public enum State {
-
-        RESET,
-
-        AFTER_PLAY,
-
-        START_PLAY
-
-    }
+    private String showId;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -144,101 +138,42 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         }
     };
 
-    public void setState(State state) {
-        this.mState = state;
-        onStateChanged(state);
-    }
-
-    public void onStateChanged(State state) {
-        switch (state) {
-            case RESET:
-                onReset();
-                break;
-            case AFTER_PLAY:
-                onAfterPlay();
-                break;
-            case START_PLAY:
-                onStartPlay();
-                break;
-        }
-    }
-
-    private void onStartPlay() {
-        if (isFirstStart) {
-            configVideo();
-            imageIndicatorView.addViewAtFirst(videoView, false);
-            isFirstStart = false;
-            imageIndicatorView.getViewPager().setCurrentItem(0, false);
-            imageIndicatorView.show();
-        }
-        imageIndicatorView.getIndicateLayout().setVisibility(View.INVISIBLE);
-        showOneView(beforeLayout, playImageButton.getId());
-        findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
-        imageIndicatorView.getViewPager().setScrollEnabled(false);
-        isPlayed = true;
-        videoView.start();
-    }
-
-    private void onAfterPlay() {
-        videoView.pause();
-
-        imageIndicatorView.getIndicateLayout().setVisibility(View.VISIBLE);
-        playImageButton.setImageResource(R.drawable.s03_play_btn);
-        findViewById(R.id.S03_back_btn).setVisibility(View.VISIBLE);
-        imageIndicatorView.getViewPager().setScrollEnabled(true);
-        showAllView(beforeLayout);
-
-    }
-
-    private void onReset() {
-        if (isPlayed) {
-            imageIndicatorView.removeViewItemAtIndex(0);
-            imageIndicatorView.show();
-            findViewById(R.id.S03_before_video_without_back).setVisibility(View.VISIBLE);
-            isPlayed = false;
-            isFirstStart = true;
-        }
-
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
+        ButterKnife.inject(this);
+        EventBus.getDefault().register(this);
 
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
+            showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
+        }else showId = "";
 
-        likedImageButton = (ImageView) findViewById(R.id.S03_like_btn);
-        playImageButton = (ImageView) findViewById(R.id.S03_video_start_btn);
-        beforeLayout = (RelativeLayout) findViewById(R.id.S03_before_video_without_back);
-
-
-        // mSsoHandler = new SsoHandler(this, mAuthInfo);
+        if (TextUtils.isEmpty(showId)) {
+            Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        findViewById(R.id.S03_back_btn).setOnClickListener(new View.OnClickListener() {
+        S03BackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 S03SHowActivity.this.finish();
             }
         });
 
-        Intent intent = getIntent();
-        if (null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY)) {
-            showListEntity = (MongoShow) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY);
-            position = intent.getIntExtra("position", 0);
-        }
-        if (null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID)) {
-            showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
-            position = intent.getIntExtra("position", 0);
-        }
         getShowDetailFromNet();
-
-        matchUI();
 
         registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("showDetailEntity", showDetailEntity);
+        getIntent().putExtras(outState);
     }
 
     @Override
@@ -247,10 +182,16 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void getShowDetailFromNet() {
+
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                showDetailEntity = ShowParser.parseQuery(response).get(0);
+                Log.d(TAG, "response:" + response);
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+                showDetailEntity = ShowParser.parseQuery_parentCategoryString(response).get(0);
                 showData();
             }
         });
@@ -258,210 +199,153 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void clickLikeShowButton() {
-        likedImageButton.setClickable(false);
-        Map<String, String> likeData = new HashMap<String, String>();
-        likeData.put("_id", showDetailEntity.get_id());
-        JSONObject jsonObject = new JSONObject(likeData);
+        if (!QSModel.INSTANCE.loggedin()) {
+            Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
+            GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+            startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
+        }
+        if (null == showDetailEntity.__context) return;
+        likeBtn.setClickable(false);
 
-        String requestApi = (showDetailEntity.likedByCurrentUser()) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
+        final int change = (showDetailEntity.__context.likedByCurrentUser) ? -1 : 1;
+        String requestApi = (showDetailEntity.__context.likedByCurrentUser) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
+        UserCommand.likeOrFollow(requestApi, showDetailEntity._id, new Callback() {
             @Override
-            public void onResponse(JSONObject response) {
-                if (!MetadataParser.hasError(response)) {
-                    showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
-                    showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
-                    Intent intent = new Intent(ACTION_MESSAGE);
-                    intent.putExtra("position", position);
-                    sendBroadcast(intent);
-                    setLikedImageButtonBackgroundImage();
-                    likedImageButton.setClickable(true);
-                    UserCommand.refresh();
-                } else {
-                    handleResponseError(response);
-                }
+            public void onComplete(JSONObject response) {
+                showDetailEntity.__context.likedByCurrentUser = !showDetailEntity.__context.likedByCurrentUser;
+                showMessage(S03SHowActivity.this, showDetailEntity.__context.likedByCurrentUser ? "添加收藏" : "取消收藏");
+                setLikedImageButtonBackgroundImage();
+                likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
+                likeBtn.setClickable(true);
+                EventModel eventModel = new EventModel(U01UserActivity.class, null);
+                eventModel.setFrom(S03SHowActivity.class);
+                EventBus.getDefault().post(eventModel);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                ErrorHandler.handle(S03SHowActivity.this, errorCode);
             }
         });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void setLikedImageButtonBackgroundImage() {
         if (null == showDetailEntity) {
             return;
         }
-        if (showDetailEntity.likedByCurrentUser()) {
-            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+        if (null == showDetailEntity.__context) return;
+        if (showDetailEntity.__context.likedByCurrentUser) {
+            likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
         } else {
-            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+            likeBtn.setImageResource(R.drawable.s03_like_btn);
         }
-        likeTextView.setText(showDetailEntity.getShowLikeNumber());
     }
 
-    private void handleResponseError(JSONObject response) {
-        int errorCode = MetadataParser.getError(response);
-        String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
-        switch (errorCode) {
-            case 1012:
-                errorMessage = "请先登录！";
-                break;
-            case 1000:
-                errorMessage = "服务器错误，请稍后重试！";
-                break;
-            default:
-                errorMessage = String.valueOf(errorCode) + response.toString();
-                break;
-        }
-        showMessage(S03SHowActivity.this, errorMessage);
-    }
 
     private void showMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         Log.i(context.getPackageName(), message);
     }
 
-    private void matchUI() {
-        this.mRelativeLayout = (RelativeLayout) findViewById(R.id.S03_relative_layout);
-        this.imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.S03_image_indicator);
-        this.videoView = new MFullScreenVideoView(this);
-        videoView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        modelImage = (MRoundImageView) findViewById(R.id.S03_model_portrait);
-        modelInformation = (TextView) findViewById(R.id.S03_model_name);
-        modelAgeHeight = (TextView) findViewById(R.id.S03_model_age_height);
-
-        commentTextView = (TextView) findViewById(R.id.S03_comment_text_view);
-        likeTextView = (TextView) findViewById(R.id.S03_like_text_view);
-        itemTextView = (TextView) findViewById(R.id.S03_item_text_view);
-
-        buttomLayout = (LinearLayout) findViewById(R.id.S03_model_LinearLayout);
-    }
-
     private void showData() {
+
+        commentTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
+        itemTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
+        likeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
         if (null == showDetailEntity)
             return;
+        if (showDetailEntity.__context.likedByCurrentUser) {
+            likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
+        }
+        itemsData = showDetailEntity.itemRefs;
 
-        itemsData = showDetailEntity.getItemsList();
+        videoUriString = showDetailEntity.video;
 
-        videoUriString = showDetailEntity.getShowVideo();
+        if (null != videoUriString && !"".equals(videoUriString))
+            s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
-        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
+        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.PORTRAIT_LARGE)));
+        s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
-        modelInformation.setText(showDetailEntity.getModelName());
+        if (null != showDetailEntity.cover) {
+            image.setImageURI(Uri.parse(showDetailEntity.cover));
+            image.setAspectRatio(ValueUtil.match_img_AspectRatio);
+        }
 
-        modelAgeHeight.setText(showDetailEntity.getModelWeightHeight());
+        if (null != showDetailEntity.__context)
+            commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
 
-        commentTextView.setText(showDetailEntity.getShowCommentNumber());
+        likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
-        likeTextView.setText(showDetailEntity.getShowLikeNumber());
+        if (null != showDetailEntity.itemRefs) {
+            itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
+        }
 
-        itemTextView.setText(showDetailEntity.getItemsCount());
-
-        this.initPosterView(showDetailEntity.getPosters());
-
-        modelImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
-                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity.modelRef);
-                S03SHowActivity.this.startActivity(intent);
-
-            }
-        });
-
-        findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (S07CollectActivity.isOpened) return;
-                if(null == showDetailEntity.getItemsList() || null == showDetailEntity.getCover())return;
-                S07CollectActivity.isOpened = true;
-                Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
-                intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, ImgUtil.imgTo2x(showDetailEntity.getCover()));
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-
-        findViewById(R.id.S03_comment_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != showDetailEntity && null != showDetailEntity._id) {
-                    if (S04CommentActivity.isOpened) return;
-                    S04CommentActivity.isOpened = true;
-                    Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
-                    intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        likedImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickLikeShowButton();
-            }
-        });
-
-        findViewById(R.id.S03_share_btn).setOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onClick(View v) {
-
-                sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener());
-                sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
-                sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-
-            }
-        });
-
-        playImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playImageButton.setImageResource(R.drawable.s03_pause_btn);
-                if (videoView.isPlaying()) pauseVideo();
-                else startVideo();
-
-            }
-        });
-
-        this.buttomLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-
-        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
-            @Override
-            public void onPosition(int position, int totalCount) {
-                Log.i("tag", "playing");
-                if (!videoView.isShown()) return;
-                findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
-                if (position % totalCount == 0)
-                    findViewById(R.id.S03_before_video_without_back).setVisibility(View.VISIBLE);
-                else
-                    findViewById(R.id.S03_before_video_without_back).setVisibility(View.GONE);
-            }
-        });
+        if (!QSModel.INSTANCE.loggedin()) {
+            showData_other();
+        } else if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
+            showData_self();
+        } else {
+            showData_other();
+        }
 
         setLikedImageButtonBackgroundImage();
     }
 
-    private String arrayToString(String[] input) {
-        String result = "";
-        for (String str : input)
-            result += str + " ";
-        return result;
+    private void showData_self() {
+        s03DelBtn.setVisibility(View.VISIBLE);
+        s03Describe.setVisibility(View.VISIBLE);
+        s03Describe.setText("发布日期：" + TimeUtil.parseDateString(showDetailEntity.create));
     }
 
-    private void initPosterView(String[] urlList) {
-        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance());
-        this.imageIndicatorView.show();
-        this.imageIndicatorView.getViewPager().setCurrentItem(0, false);
+    private void showData_other() {
+        s03Portrait.setVisibility(View.VISIBLE);
+        if (null != showDetailEntity.ownerRef)
+            UserCommand.getPeople(new Callback() {
+                @Override
+                public void onComplete(JSONObject response) {
+                    showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
+                    if (null != showDetailEntity.ownerRef.portrait)
+                        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
+                    s03Nickname.setVisibility(View.VISIBLE);
+                    s03Nickname.setText(showDetailEntity.ownerRef.nickname);
+                }
+            }, S03SHowActivity.this, showDetailEntity.ownerRef._id);
+    }
+
+    public void pauseVideo() {
+        pauseImage.setVisibility(View.VISIBLE);
+        videoView.buildDrawingCache();
+        pauseImage.setImageBitmap(videoView.getDrawingCache());
+        s03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
+        videoView.pause();
+    }
+
+    public void startVideo() {
+        pauseImage.setVisibility(View.GONE);
+        videoView.setDrawingCacheEnabled(true);
+        if (videoView.getVisibility() == View.VISIBLE) {
+            videoView.start();
+        } else {
+            videoView.setVisibility(View.VISIBLE);
+            videoView.setVideoURI(Uri.parse(showDetailEntity.video));
+            videoView.start();
+        }
+        s03VideoStartBtnReal.setImageResource(R.drawable.s03_pause_btn);
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                s03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
+            }
+        });
+    }
+
+    public void onEventMainThread(EventModel<Integer> event) {
+        if (event.tag == S03SHowActivity.class) {
+            if (!showDetailEntity.__context.likedByCurrentUser) {
+                clickLikeShowButton();
+            }
+        }
     }
 
     private void configVideo() {
@@ -469,58 +353,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         videoView.setVideoPath(videoUriString);
         videoView.requestFocus();
     }
-
-    private boolean isFirstStart = true;
-
-    private void startVideo() {
-        setState(State.START_PLAY);
-    }
-
-    private void showOneView(ViewGroup viewGroup, int id) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            if (viewGroup.getChildAt(i).getId() != id)
-                viewGroup.getChildAt(i).setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private void showAllView(ViewGroup viewGroup) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            viewGroup.getChildAt(i).setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void pauseVideo() {
-        setState(State.AFTER_PLAY);
-    }
-
-    // 保存到sdcard
-    private void savePic(Bitmap b, String strFileName) {
-        File f = new File("/sdcard/Note/" + strFileName + ".jpg");
-        FileOutputStream fOut = null;
-        try {
-            fOut = new FileOutputStream(f);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("test", e.toString());
-        }
-        b.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-        try {
-            fOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("test", e.toString());
-        }
-        try {
-            fOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("test", e.toString());
-        }
-    }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -538,7 +370,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         mediaObject.title = ShareConfig.SHARE_TITLE;
         mediaObject.description = ShareConfig.SHARE_DESCRIPTION;
         mediaObject.setThumbImage(BitmapFactory.decodeResource(getResources(), ShareConfig.IMG));
-        mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity.get_id();
+        mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
         mediaObject.defaultText = ShareConfig.SHARE_DESCRIPTION;
 
         weiboMessage.mediaObject = mediaObject;
@@ -560,7 +392,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
             @Override
             public void onComplete(Bundle bundle) {
-                // TODO Auto-generated method stub
                 Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
                 SinaAccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
             }
@@ -593,18 +424,17 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
-        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity.get_id();
+        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
 
         msg = new WXMediaMessage();
         msg.mediaObject = webpage;
         Bitmap thumb = BitmapFactory.decodeResource(getResources(), ShareConfig.IMG);
-        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false);
+        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
         msg.setThumbImage(thumb);
         msg.title = ShareConfig.SHARE_TITLE;
         msg.description = ShareConfig.SHARE_DESCRIPTION;
 
-
-        final SendMessageToWX.Req req = new SendMessageToWX.Req();
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis());
         req.message = msg;
         req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
@@ -630,7 +460,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @Override
     public void onResp(BaseResp resp) {
 
-
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 Log.i("tag", "ERR_OK");
@@ -648,14 +477,100 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (mSsoHandler != null) {
-//            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-//        }
-//    }
+    @Override
+    public void onClick(View v) {
 
+        Intent intent;
+
+        switch (v.getId()) {
+            case R.id.S03_item_btn://搭配清单
+                if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
+                intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
+                Bundle bundle = new Bundle();
+                ArrayList<MongoItem> itemList = new ArrayList<>();
+                Collections.addAll(itemList, showDetailEntity.itemRefs);
+                bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            case R.id.S03_comment_btn://评论
+                if (null != showDetailEntity && null != showDetailEntity._id) {
+                    if (S04CommentActivity.isOpened) return;
+                    S04CommentActivity.isOpened = true;
+                    intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
+                    intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.S03_like_btn://收藏
+                clickLikeShowButton();
+                break;
+            case R.id.S03_share_btn://分享
+                if (!QSModel.INSTANCE.loggedin()) {
+                    Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
+                    GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+                    startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
+                }
+                sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener());
+                sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
+                sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                break;
+            case R.id.S03_video_start_btn_real://视频播放
+                if (videoView.isPlaying()) {
+                    pauseVideo();
+                } else {
+                    startVideo();
+                }
+                break;
+            case R.id.s03_del_btn:
+                final ConfirmDialog dialog = new ConfirmDialog();
+                dialog.setTitle(getResources().getString(R.string.s20_dialog)).setConfirm(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hideShow();
+                        dialog.dismiss();
+                    }
+                }).setCancel(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                }).show(getSupportFragmentManager());
+                break;
+            case R.id.s03_portrait:
+                if(null == showDetailEntity.ownerRef)return;
+                intent = new Intent(S03SHowActivity.this, U01UserActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable("user", showDetailEntity.ownerRef);
+                intent.putExtras(bundle1);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    private void hideShow() {
+        Map<String, String> params = new HashMap<>();
+        params.put("_id", showDetailEntity._id);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, "repsonse_del:" + response);
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+
+                Toast.makeText(S03SHowActivity.this, R.string.delete_finish, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post("refresh");
+                finish();
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
 
     class ShareClickListener implements View.OnClickListener {
 
@@ -677,9 +592,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     @Override
     public void onResume() {
-        setState(State.RESET);
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
+        if (null != getIntent().getExtras()) {
+            if(null != getIntent().getExtras().get("showDetailEntity"))
+                showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
+        }
         super.onResume();
     }
 
@@ -697,6 +615,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }

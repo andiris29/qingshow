@@ -65,9 +65,9 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     /**下拉刷新是否可用*/
     private boolean mPullRefreshEnabled = true;
     /**上拉加载是否可用*/
-    private boolean mPullLoadEnabled = false;
+    private boolean mPullLoadEnabled = true;
     /**判断滑动到底部加载是否可用*/
-    private boolean mScrollLoadEnabled = false;
+    private boolean mScrollLoadEnabled = true;
     /**是否截断touch事件*/
     private boolean mInterceptEventEnable = true;
     /**表示是否消费了touch事件，如果是，则不调用父类的onTouchEvent方法*/

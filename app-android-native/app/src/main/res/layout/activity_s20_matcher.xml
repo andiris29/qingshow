@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:scrollbarStyle="outsideOverlay">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/context"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.focosee.qingshow.widget.QSCanvasView
+                android:id="@+id/canvas"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="11"
+                android:background="@color/white" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/selectRV"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.2"
+                android:background="@color/white" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="#A0A0A0">
+
+                <Button
+                    android:id="@+id/selectBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/nomal_btn"
+                    android:text="选择分类"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_marginBottomPercent="15%"
+                    app:layout_marginLeftPercent="3%"
+                    app:layout_marginTopPercent="15%"
+                    app:layout_widthPercent="45%" />
+
+                <Button
+                    android:id="@+id/submitBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/bg_submit_match"
+                    android:text="预览搭配"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_marginBottomPercent="15%"
+                    app:layout_marginRightPercent="3%"
+                    app:layout_marginTopPercent="15%"
+                    app:layout_widthPercent="45%" />
+            </android.support.percent.PercentRelativeLayout>
+        </LinearLayout>
+        <ImageView
+            android:layout_margin="6dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/nav_btn_menu_n"
+            android:id="@+id/menu"/>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <include layout="@layout/menu" />
+</android.support.v4.widget.DrawerLayout>

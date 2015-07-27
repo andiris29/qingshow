@@ -2,13 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minHeight="200dp"
     tools:context="com.focosee.qingshow.activity.S07CollectActivity">
-
-    <!--<ImageView-->
-        <!--android:id="@+id/S07_background_image"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:scaleType="centerCrop" />-->
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -16,7 +11,7 @@
         android:background="#99000000">
 
         <ImageButton
-            android:id="@+id/S07_back_icon"
+            android:id="@+id/s07_back_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:adjustViewBounds="true"
@@ -28,7 +23,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
-            android:id="@+id/S07_tv"
+            android:id="@+id/s07_tv"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -38,8 +33,8 @@
             android:layout_marginTop="30dp"/>
 
         <TextView
-            android:id="@+id/S07_brand_tv"
-            android:layout_below="@+id/S07_tv"
+            android:id="@+id/s07_brand_tv"
+            android:layout_below="@+id/s07_tv"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -50,8 +45,8 @@
             android:visibility="gone"/>
 
         <View
-            android:id="@+id/S07_top_line"
-            android:layout_below="@+id/S07_brand_tv"
+            android:id="@+id/s07_top_line"
+            android:layout_below="@+id/s07_brand_tv"
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:layout_marginTop="40dp"
@@ -59,18 +54,16 @@
             android:layout_marginRight="20dp"
             android:background="#ffffff" />
 
-        <ListView
-            android:id="@+id/S07_item_list"
-            android:layout_width="fill_parent"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/s07_item_list"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/S07_top_line"
+            android:layout_below="@+id/s07_top_line"
             android:layout_marginLeft="20dp"
-            android:divider="#ffffff"
-            android:dividerHeight="2dp"
-            android:layout_marginRight="20dp" ></ListView>
+            android:layout_marginRight="20dp" ></android.support.v7.widget.RecyclerView>
 
         <View
-            android:layout_below="@+id/S07_item_list"
+            android:layout_below="@+id/s07_item_list"
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:layout_marginTop="0dp"

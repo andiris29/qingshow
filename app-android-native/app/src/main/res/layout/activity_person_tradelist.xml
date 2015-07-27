@@ -44,8 +44,8 @@
         android:layout_weight="13"
         android:gravity="center"
         >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/person_activity_tradelist_recycleview"
+        <com.focosee.qingshow.widget.RecyclerPullToRefreshView
+            android:id="@+id/person_activity_tradelist_recyclerPullToRefreshView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />

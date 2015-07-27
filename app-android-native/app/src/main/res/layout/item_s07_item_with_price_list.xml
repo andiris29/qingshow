@@ -9,8 +9,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:orientation="vertical"
         android:id="@+id/item_s07_brand"
@@ -26,19 +25,17 @@
             android:id="@+id/item_S07_with_price_brandlogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/user_head_default"/>
+            android:src="@drawable/root_cell_placehold_head"/>
 
     </LinearLayout>
     
     <LinearLayout
+        android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/item_s07_brand"
-        android:layout_marginTop="25dp"
         android:orientation="vertical"
-        android:layout_centerVertical="true"
+        android:gravity="center"
         >
 
     <TextView
@@ -75,9 +72,8 @@
     </LinearLayout>
 
     <Button
+        android:gravity="center"
         android:id="@+id/item_S07_with_price_detail_btn"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/icon_arrow"

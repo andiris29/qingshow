@@ -1,17 +1,33 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.WindowManager;
 
+import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.AppUtil;
 import com.umeng.analytics.MobclickAgent;
 
-public class LaunchActivity extends BaseActivity{
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.jpush.android.api.InstrumentedActivity;
+
+public class LaunchActivity extends InstrumentedActivity {
 
 
     @Override
@@ -25,6 +41,17 @@ public class LaunchActivity extends BaseActivity{
         MobclickAgent.updateOnlineConfig(this);
         MobclickAgent.openActivityDurationTrack(false);
 
+        String  deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
+        if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())){
+            userFollow();
+        }
+
+        String id = QSApplication.instance().getPreferences().getString("id", "");
+        if(!"".equals(id)){
+            MongoPeople _user = new MongoPeople();
+            _user._id = id;
+            QSModel.INSTANCE.setUser(_user);
+        }
 
         setContentView(R.layout.activity_launch);
 
@@ -33,24 +60,42 @@ public class LaunchActivity extends BaseActivity{
             public void onComplete() {
                 super.onComplete();
                 // Bootstrap
-                Intent mainIntent = new Intent(LaunchActivity.this, S12TopicListActivity.class);
-                LaunchActivity.this.startActivity(mainIntent);
-                LaunchActivity.this.finish();
+                jump();
             }
 
             @Override
             public void onError() {
                 super.onError();
-                Intent mainIntent = new Intent(LaunchActivity.this, S12TopicListActivity.class);
-                LaunchActivity.this.startActivity(mainIntent);
-                LaunchActivity.this.finish();
+                jump();
             }
         });
-
     }
 
-    @Override
-    public void reconn() {
-
+    public void jump(){
+        Class _class;
+        if(QSModel.INSTANCE.loggedin())
+            _class = S01MatchShowsActivity.class;
+        else
+            _class = G02WelcomeActivity.class;
+        Intent mainIntent = new Intent(LaunchActivity.this, _class);
+        LaunchActivity.this.startActivity(mainIntent);
+        LaunchActivity.this.finish();
     }
+
+    private void userFollow(){
+        Map params = new HashMap();
+        params.put("version", AppUtil.getVersion());
+        params.put("deviceUid", ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId());
+        params.put("osType", 1);
+        params.put("osVersion", android.os.Build.VERSION.RELEASE);
+        JSONObject jsonObject = new JSONObject(params);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getSpreadFirstlanuchApi(), jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println("response:" + response);
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
 }
