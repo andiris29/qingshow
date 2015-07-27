@@ -141,7 +141,6 @@ public class S21CategoryActivity extends BaseActivity {
         for (int i = 0; i < categories.size() - 1; i++) {
             for (int j = 0; j < categories.size() - i - 1; j++) {
                 if(Integer.parseInt(categories.get(j).order) > Integer.parseInt(categories.get(j + 1).order)){
-                    System.out.println("j:" + j);
                     temp = categories.get(j);
                     categories.set(j, categories.get(j + 1));
                     categories.set(j + 1, temp);

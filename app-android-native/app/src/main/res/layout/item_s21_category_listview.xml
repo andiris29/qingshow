@@ -34,34 +34,43 @@
     </FrameLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_below="@id/item_s21_head">
-        <ImageView
-            android:layout_marginLeft="20dp"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/matcher_item_selection_pre_hover" />
+        android:layout_below="@id/item_s21_head"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/last"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/matcher_item_selection_pre_hover" />
+        </RelativeLayout>
+
 
         <android.support.v4.view.ViewPager
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:id="@+id/item_s21_middle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="80dp"
-            />
+            android:layout_weight="7" />
 
-    <ImageView
-        android:layout_marginRight="20dp"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/matcher_item_selection_next" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/matcher_item_selection_next" />
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

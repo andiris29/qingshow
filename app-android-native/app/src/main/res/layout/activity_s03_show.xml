@@ -57,11 +57,11 @@
                     <TextView
                         android:id="@+id/S03_describe"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentBottom="true"
                         android:text="发布日期：2015.7.6"
                         android:textColor="@color/white"
-                        android:textSize="25sp"
+                        android:textSize="16sp"
                         android:gravity="center"
                         android:visibility="invisible"
                         android:layout_marginBottom="35dp"

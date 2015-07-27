@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -73,7 +74,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
-        Holder holder;
+        final Holder holder;
         position = pos % categories.size();
         if (convertView != null) {
             holder = (Holder) convertView.getTag();
@@ -82,6 +83,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             holder = new Holder();
             holder.titleName = (TextView) convertView.findViewById(R.id.item_s21_name);
             holder.viewPager = (ViewPager) convertView.findViewById(R.id.item_s21_middle);
+            holder.last = (RelativeLayout) convertView.findViewById(R.id.last);
+            holder.next = (RelativeLayout) convertView.findViewById(R.id.next);
         }
         ArrayList<MongoCategories> item = items.get(position);
         holder.titleName.setText(categories.get(position).name);
@@ -90,15 +93,14 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
         initViewPager(holder, item);
 
-
         convertView.setTag(holder);
 
         return convertView;
     }
 
     private void initViewPager(Holder holder, List item) {
-        ViewPager viewPager = holder.viewPager;
-        int pageCount;
+        final ViewPager viewPager = holder.viewPager;
+        final int pageCount;
 
         if (selectInfos.size() <= position || selectInfos.get(position) == null) {
             selectInfos.add(position, new SelectInfo());
@@ -124,6 +126,24 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         int pageNo = selectInfos.get(position).pageNo == -1 ? 0 : selectInfos.get(position).pageNo;
         viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
         viewPager.setCurrentItem(pageNo);
+
+        holder.last.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewPager.getCurrentItem() > 0) {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                }
+            }
+        });
+
+        holder.next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewPager.getCurrentItem() < pageCount - 1){
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                }
+            }
+        });
     }
 
     private void addToPage(PercentRelativeLayout rootView, List item, int i, int count) {
@@ -189,6 +209,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     public class Holder {
         public TextView titleName;
         public ViewPager viewPager;
+        public RelativeLayout last;
+        public RelativeLayout next;
     }
 
     public class ItemViewHolder {

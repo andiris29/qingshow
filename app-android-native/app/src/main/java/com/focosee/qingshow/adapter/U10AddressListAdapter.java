@@ -69,7 +69,6 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 holder.getView(R.id.item_addresslist_content).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "cntefdsa", Toast.LENGTH_SHORT).show();
                         EventBus.getDefault().post(datas.get(i));
                         ((U10AddressListActivity) context).finish();
                     }
