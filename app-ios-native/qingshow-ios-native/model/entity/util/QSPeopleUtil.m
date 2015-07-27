@@ -15,7 +15,7 @@
 
 + (NSString*)buildModelStatusString:(NSDictionary*)modelDict
 {
-#warning TODO Remove?  Don't Remove @wxy
+#warning TODO Remove?
     if ([QSEntityUtil checkIsNil:modelDict]) {
         return nil;
     }
@@ -168,7 +168,6 @@
 
 + (void)setPeople:(NSDictionary*)dict isFollowed:(BOOL)isFollowed
 {
-#warning TODO refactor
     if ([QSEntityUtil checkIsNil:dict]) {
         return;
     }
@@ -177,7 +176,7 @@
         return;
     }
     NSMutableDictionary* mutableDict = (NSMutableDictionary*)dict;
-    NSMutableDictionary* context = [mutableDict[@"__context"] mutableCopy];
+    NSMutableDictionary* context = [[QSEntityUtil getDictValue:mutableDict keyPath:@"__context"]  mutableCopy];
     if (!context) {
         context = [@{} mutableCopy];
     }

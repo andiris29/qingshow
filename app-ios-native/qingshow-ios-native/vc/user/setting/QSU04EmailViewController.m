@@ -36,7 +36,8 @@
     
     // Initialize Current Email Label
 #warning TODO Refactor
-    self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
+    //self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
+    self.nowEmailLabel.text = [QSEntityUtil getStringValue:[QSUserManager shareUserManager].userInfo keyPath:@"userInfo.email"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,

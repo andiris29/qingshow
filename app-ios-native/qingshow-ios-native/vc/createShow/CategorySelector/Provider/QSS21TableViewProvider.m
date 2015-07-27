@@ -79,7 +79,7 @@
 - (NSDictionary *)getSelectedDicCompareWithCellDic:(NSDictionary *)cellDic
 {
     for (NSDictionary *dic in self.selectedArray) {
-        if ([[QSEntityUtil getStringValue:dic keyPath:@"parentRef"] isEqualToString:cellDic[@"_id"]]) {
+        if ([[QSEntityUtil getStringValue:dic keyPath:@"parentRef"] isEqualToString:[QSEntityUtil getStringValue:cellDic keyPath:@"_id"]]) {
             return dic;
         }
     }

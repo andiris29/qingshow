@@ -43,7 +43,7 @@
     if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
-    NSString* dateStr = commentDict[@"create"];
+    NSString* dateStr =  [QSEntityUtil getStringValue:commentDict keyPath:@"create"];
     NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
     
     if ([date isToday]) {
