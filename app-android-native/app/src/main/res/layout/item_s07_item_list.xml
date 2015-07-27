@@ -29,9 +29,9 @@
 
     <Button
         android:id="@+id/item_s07_detail_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/matcher_item_selection_pre_hover"
+        android:layout_width="10dp"
+        android:layout_height="15dp"
+        android:background="@drawable/matcher_item_selection_next_hover"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"

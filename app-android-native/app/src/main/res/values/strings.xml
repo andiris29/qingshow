@@ -200,4 +200,5 @@
 
     <string name="s20_loading">上传中...</string>
     <string name="s06_loading">登陆中...</string>
+    <string name="web_view">加载中...</string>
 </resources>
