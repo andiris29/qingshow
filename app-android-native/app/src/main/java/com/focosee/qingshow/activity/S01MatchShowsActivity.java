@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
@@ -16,15 +17,19 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ShowUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -97,7 +102,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         s01BackTopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.scrollToPosition(0);
+                recyclerView.smoothScrollToPosition(0);
             }
         });
         recyclerPullToRefreshView.doPullRefreshing(true, 0);
@@ -126,9 +131,13 @@ public class S01MatchShowsActivity extends MenuActivity {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response: " + response);
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                        recyclerPullToRefreshView.setHasMoreData(false);
+                    else {
+                        ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
+                        recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    }
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
                     return;
                 }
 
@@ -157,7 +166,7 @@ public class S01MatchShowsActivity extends MenuActivity {
     }
 
     public void onEventMainThread(String event) {
-        if(event.equals("refresh")){
+        if (event.equals("refresh")) {
             recyclerPullToRefreshView.doPullRefreshing(true, 0);
         }
     }
@@ -177,9 +186,9 @@ public class S01MatchShowsActivity extends MenuActivity {
         if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
             recyclerPullToRefreshView.doPullRefreshing(true, 500);
-            s01TabHot.setBackground(getResources().getDrawable(R.drawable.s01_tab_border2));
+            s01TabHot.setBackgroundResource(R.drawable.s01_tab_border2);
             s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
-            s01TabNew.setBackground(getResources().getDrawable(R.drawable.s01_tab_btn2));
+            s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);
             s01TabNew.setTextColor(getResources().getColor(R.color.white));
             return;
         }

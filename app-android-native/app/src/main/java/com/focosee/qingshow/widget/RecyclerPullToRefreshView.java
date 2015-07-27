@@ -1,19 +1,11 @@
 package com.focosee.qingshow.widget;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.Adapter;
-
-import com.focosee.qingshow.QSApplication;
 
 /**
  * Created by Administrator on 2015/4/24.
@@ -22,9 +14,7 @@ public class RecyclerPullToRefreshView extends PullToRefreshBase<RecyclerView>{
 
     private RecyclerView recyclerView;
 
-    /**用于滑到底部自动加载的Footer*/
     private FooterLoadingLayout mLoadMoreFooterLayout;
-    /**滚动的监听器*/
     private AbsListView.OnScrollListener mScrollListener;
 
     public RecyclerPullToRefreshView(Context context) {
@@ -41,7 +31,6 @@ public class RecyclerPullToRefreshView extends PullToRefreshBase<RecyclerView>{
     }
 
     private void init() {
-
     }
 
     @Override
@@ -98,18 +87,35 @@ public class RecyclerPullToRefreshView extends PullToRefreshBase<RecyclerView>{
     }
 
     /**
-     * 判断最后一个child是否完全显示出来
+     * 设置是否有更多数据的标志
      *
-     * @return true完全显示出来，否则false
+     * @param hasMoreData true表示还有更多的数据，false表示没有更多数据了
      */
+    public void setHasMoreData(boolean hasMoreData) {
+        if (!hasMoreData) {
+            getFooterLoadingLayout().setState(ILoadingLayout.State.NO_MORE_DATA);
+            getFooterLoadingLayout().show(true);
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onPullUpRefreshComplete();
+                }
+            }, 500);
+        }else{
+            if(recyclerView == getFooterLoadingLayout().getParent()){
+                getFooterLoadingLayout().show(false);
+            }
+        }
+    }
+
     private boolean isLastItemVisible() {
         return false;
     }
 
 //    /**
-//     * 设置是否有更多数据的标志
+//     * 璁剧疆鏄惁鏈夋洿澶氭暟鎹殑鏍囧織
 //     *
-//     * @param hasMoreData true表示还有更多的数据，false表示没有更多数据了
+//     * @param hasMoreData true琛ㄧず杩樻湁鏇村鐨勬暟鎹紝false琛ㄧず娌℃湁鏇村鏁版嵁浜�
 //     */
 //    public void setHasMoreData(boolean hasMoreData) {
 //        Log.i("tag", "getParent" + mListView.getFooterViewsCount());

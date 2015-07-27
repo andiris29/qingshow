@@ -6,10 +6,12 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 
 public class ImgUtil {
 
-    public static String Large = "s";
+    public static String LARGE = "s";
     public static String Meduim = "xs";
     public static String Normal = "xxs";
     public static String Small = "xxxs";
+
+    public static String PORTRAIT_LARGE = "100";
 
     public static String imgTo2x(String url) {
         String str = "";
@@ -53,6 +55,7 @@ public class ImgUtil {
         if(url.indexOf(QSAppWebAPI.IMAGE_HOST_ADDRESS) <= -1)return url;
         String type = url.substring(url.lastIndexOf(".") + 1, url.length());
         url = url.substring(0, url.lastIndexOf("."));
+        System.out.println("url:" + url + "_" + scale + "." + type);
         return url + "_" + scale + "." + type;
     }
 
