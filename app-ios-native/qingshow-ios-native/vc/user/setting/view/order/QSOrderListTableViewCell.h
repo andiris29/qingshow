@@ -11,24 +11,23 @@
 #define QSOrderListTableViewCellIdentifier @"QSOrderListTableViewCellIdentifier"
 #define QSOrderListTableViewCellHeight 172
 
-
 @class QSOrderListTableViewCell;
 
 @protocol QSOrderListTableViewCellDelegate <NSObject>
 
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
 //- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
-- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
-@end
 
-//typedef NS_ENUM(NSUInteger, QSOrderListTableViewCellType) {
-//    QSOrderListTableViewCellTypeComplete,
-//    QSOrderListTableViewCellTypeWaiting
-//};
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
+
+- (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell;
+
+- (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
+
+@end
 
 @interface QSOrderListTableViewCell : UITableViewCell
 
-//@property (weak, nonatomic) IBOutlet UILabel* orderIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel* stateLabel;
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView* itemImgView;
@@ -47,13 +46,14 @@
 @property (weak, nonatomic) IBOutlet UILabel* dateEndTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* dateEndLabel;
 
-//@property (weak, nonatomic) IBOutlet UIButton* refundButton;
 @property (weak, nonatomic) IBOutlet UIButton* submitButton;
+@property (weak, nonatomic) IBOutlet UIButton *exchangeButton;
+@property (weak, nonatomic) IBOutlet UIButton *returnButton;
 
-//@property (assign, nonatomic) QSOrderListTableViewCellType type;
 
-//- (IBAction)refundBtnPressed:(id)sender;
 - (IBAction)submitBtnPressed:(id)sender;
+- (IBAction)returnBtnPressed:(id)sender;
+- (IBAction)exchangeBtnPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 

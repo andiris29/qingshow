@@ -26,42 +26,16 @@
     [self updateWithItemPrice:dict];
 }
 
-- (void)updateWithSize:(NSString*)sizeSku color:(NSString*)colorSku item:(NSDictionary*)itemDict
-{
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
-    NSString* price = [QSTaobaoInfoUtil getPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    NSString* prom_price = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    
-    if (!prom_price) {
-        [self updateWithItemPrice:itemDict];
-        return;
-    }
-    self.priceAfterDiscountLabel.text = prom_price ;
-    if ([price isEqualToString:prom_price]) {
-        self.priceLabel.hidden = YES;
-        self.priceTextLabel.hidden = YES;
-    } else {
-        self.priceLabel.hidden = NO;
-        self.priceTextLabel.hidden = NO;
-        self.priceLabel.text =  price;
-    }
-}
 - (void)updateWithItemPrice:(NSDictionary*)itemDict {
-    if ([QSItemUtil hasDiscountInfo:itemDict]) {
-        self.priceTextLabel.hidden = NO;
-        self.priceLabel.hidden = NO;
-        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
-        self.priceLabel.text = [QSItemUtil getPrice:itemDict];
-        [self.priceAfterDiscountLabel sizeToFit];
-        [self.priceLabel sizeToFit];
-    } else {
-        self.priceTextLabel.hidden = YES;
-        self.priceLabel.hidden = YES;
-        self.priceLabel.text = @"";
-        self.priceAfterDiscountLabel.text = [QSItemUtil getPrice:itemDict];
-        [self.priceLabel sizeToFit];
-        [self.priceAfterDiscountLabel sizeToFit];
-        
-    }
+    self.priceTextLabel.hidden = YES;
+    self.priceLabel.hidden = YES;
+    self.priceLabel.text = @"";
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
+    NSString* sku = [QSItemUtil getSelectedSku:itemDict];
+    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
+    
+    self.priceAfterDiscountLabel.text = [NSString stringWithFormat:@"%.2f", totalPrice.doubleValue];
+    [self.priceLabel sizeToFit];
+    [self.priceAfterDiscountLabel sizeToFit];
 }
 @end

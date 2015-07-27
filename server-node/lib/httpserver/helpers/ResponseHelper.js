@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var winston = require('winston');
 
 var ServerError = require('../server-error');
 
@@ -29,8 +30,8 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
     if (res.qsPerformance) {
         var performance = Date.now() - res.qsPerformance.start;
         if (performance > 100) {
-            console.log(new Date().toString() + ': qsPerformance');
-            console.log(res.qsPerformance.fullpath + ': ' + performance);
+            winston.warn(new Date().toString() + ': qsPerformance');
+            winston.warn(res.qsPerformance.fullpath + ': ' + performance);
         }
     }
     res.json(json);

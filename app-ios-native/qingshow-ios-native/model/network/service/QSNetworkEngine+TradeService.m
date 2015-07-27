@@ -11,7 +11,7 @@
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
 #import "QSUserManager.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 
 #define PATH_TRADE_CREATE @"trade/create"
@@ -89,7 +89,7 @@
                                   onError:(ErrorBlock)errorBlock
 {
     NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
-    NSString* userId = [QSCommonUtil getIdOrEmptyStr:userInfo];
+    NSString* userId = [QSEntityUtil getIdOrEmptyStr:userInfo];
     return [self queryTradeCreatedBy:userId page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
@@ -123,7 +123,7 @@
                                        onSucceed:(DicBlock)succeedBlock
                                          onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_TRADE_REFRESH_PAYMENT_STATUS method:@"POST" paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_TRADE_REFRESH_PAYMENT_STATUS method:@"POST" paramers:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:tradeDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
             succeedBlock(retDict[@"data"][@"trade"]);
@@ -137,14 +137,23 @@
 
 - (MKNetworkOperation*)changeTrade:(NSDictionary*)tradeDict
                             status:(int)status
+                              info:(NSDictionary*)dict
                          onSucceed:(VoidBlock)succeedBlock
-                           onError:(ErrorBlock)errorBlock
+                           onError:(ErrorBlock)errorBlock;
 {
+    NSMutableDictionary* paramDict = nil;
+    if (dict) {
+        paramDict = [dict mutableCopy];
+    } else {
+        paramDict = [@{} mutableCopy];
+    }
+    
+    paramDict[@"_id"] = [QSEntityUtil getIdOrEmptyStr:tradeDict];
+    paramDict[@"status"] = @(status);
+    
     return [self startOperationWithPath:PAHT_TRADE_STATUS_TO
                                  method:@"POST"
-                               paramers:@{
-                                          @"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict],
-                                          @"status" : @(status)}
+                               paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {

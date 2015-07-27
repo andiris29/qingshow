@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS03ShowDetailViewController">
             <connections>
                 <outlet property="backBtn" destination="hMW-Uu-LLo" id="4Fp-DE-nfj"/>
                 <outlet property="buttnPanel" destination="AUY-C1-rFf" id="ER7-pm-buG"/>
                 <outlet property="commentBtn" destination="DNE-pM-rCt" id="h59-dV-lrp"/>
-                <outlet property="contentLabel" destination="ZEr-7p-gCN" id="Sly-Xw-TLy"/>
-                <outlet property="detailLabel" destination="mhc-YA-WRx" id="RBD-GL-2bc"/>
+                <outlet property="coverBackgroundImageView" destination="ryk-7h-CH6" id="aBL-QR-aPe"/>
+                <outlet property="coverContainer" destination="75p-Ch-Kwg" id="Mgp-x4-OGR"/>
+                <outlet property="coverForegroundImageView" destination="LcX-cI-hxW" id="Xqv-iM-URe"/>
+                <outlet property="coverImageView" destination="uDl-XZ-Mvo" id="OHw-hB-RNt"/>
+                <outlet property="discountContainer" destination="U6j-61-PMr" id="Vfb-TO-cd8"/>
                 <outlet property="favorBtn" destination="iFb-nD-1im" id="Qr1-Eb-uSI"/>
-                <outlet property="headIconImageView" destination="XHO-if-252" id="mun-HV-iva"/>
+                <outlet property="headIconImageView" destination="lOu-5a-lHY" id="yRc-lX-G9V"/>
                 <outlet property="itemBtn" destination="Kom-JN-rRb" id="Pf0-eD-xFv"/>
+                <outlet property="menuBtn" destination="Wqt-lf-SU4" id="i0z-Br-6bt"/>
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
-                <outlet property="nameLabel" destination="5ZK-Pn-HBq" id="v3R-sU-4yo"/>
+                <outlet property="modelNameLabel" destination="ZEr-7p-gCN" id="ZTs-fd-ik4"/>
                 <outlet property="pauseBtn" destination="DXm-AO-FLL" id="PLW-Vz-DQv"/>
                 <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
+                <outlet property="releaseDateLabel" destination="BA9-v6-Qeh" id="UoE-IW-tkj"/>
                 <outlet property="scrollViewContainer" destination="Rzs-4O-hfv" id="pTH-la-QN4"/>
                 <outlet property="shareBtn" destination="1sR-pr-gUL" id="Z3n-9V-5n1"/>
+                <outlet property="trashBtn" destination="FTF-zf-f41" id="LWm-6O-hBY"/>
                 <outlet property="videoContainerView" destination="5Fn-9j-ahl" id="xg0-iQ-TbL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -35,6 +50,27 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="75p-Ch-Kwg">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ryk-7h-CH6">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="uDl-XZ-Mvo">
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="LcX-cI-hxW">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" id="5Fn-9j-ahl">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,44 +84,29 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="XHO-if-252">
-                            <rect key="frame" x="15" y="29" width="38" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="adfsasdasd" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZEr-7p-gCN">
+                            <rect key="frame" x="78" y="19" width="182" height="41"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="lOu-5a-lHY">
+                            <rect key="frame" x="25" y="17" width="45" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SandyGirl" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5ZK-Pn-HBq">
-                            <rect key="frame" x="63" y="33" width="60" height="14"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="13"/>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="发布日期" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BA9-v6-Qeh">
+                            <rect key="frame" x="25" y="19" width="235" height="41"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服装设计师  163cm/54kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mhc-YA-WRx">
-                            <rect key="frame" x="130" y="33" width="135" height="14"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="每天都需要睡眠12个小时，才能有..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZEr-7p-gCN">
-                            <rect key="frame" x="63" y="53" width="198" height="14"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" id="RRl-22-Xqh">
-                            <rect key="frame" x="8" y="43" width="253" height="49"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outletCollection property="gestureRecognizers" destination="ijS-NJ-Ux7" appends="YES" id="lKM-Ds-Pf9"/>
-                            </connections>
-                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4rz-ET-nsL">
-                    <rect key="frame" x="270" y="505" width="38" height="38"/>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4rz-ET-nsL">
+                    <rect key="frame" x="270" y="490" width="38" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <state key="normal" image="s03_play_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -95,10 +116,12 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hMW-Uu-LLo">
-                    <rect key="frame" x="20" y="30" width="36" height="36"/>
+                    <rect key="frame" x="20" y="30" width="28" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="s03_back_btn">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" backgroundImage="nav_btn_back">
+                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="273-Rx-Vd4"/>
@@ -108,23 +131,13 @@
                     <rect key="frame" x="258" y="250" width="63" height="228"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
-                            <rect key="frame" x="12" y="72" width="40" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
-                            <state key="normal" title="0" backgroundImage="s03_comment_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="commentBtnPressed:" destination="-1" eventType="touchUpInside" id="Faf-xe-YGg"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kom-JN-rRb">
                             <rect key="frame" x="12" y="8" width="36" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
                             <state key="normal" title="0" backgroundImage="s03_item_btn">
+                                <color key="titleColor" red="0.3308278093" green="0.3308278093" blue="0.3308278093" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -134,8 +147,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iFb-nD-1im">
                             <rect key="frame" x="12" y="132" width="40" height="36"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
-                            <state key="normal" title="0" backgroundImage="s03_like_btn">
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                            <state key="normal" title="0" backgroundImage="s03_like_btnIcon">
+                                <color key="titleColor" red="0.3308278093" green="0.3308278093" blue="0.3308278093" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -165,11 +179,41 @@
                                 <action selector="shareBtnPressed:" destination="-1" eventType="touchUpInside" id="ooa-sT-iX4"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
+                            <rect key="frame" x="12" y="72" width="40" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                            <state key="normal" title="0" backgroundImage="s03_comment_btn">
+                                <color key="titleColor" red="0.3308278093" green="0.3308278093" blue="0.3308278093" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="commentBtnPressed:" destination="-1" eventType="touchUpInside" id="Faf-xe-YGg"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" id="U6j-61-PMr">
+                    <rect key="frame" x="155" y="438" width="112" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discount_label_right" id="VH9-vy-lIN">
+                            <rect key="frame" x="0.0" y="0.0" width="112" height="22"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享获8折优惠" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d0o-2w-MRt">
+                            <rect key="frame" x="18" y="0.0" width="77" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DXm-AO-FLL">
-                    <rect key="frame" x="270" y="505" width="38" height="38"/>
+                    <rect key="frame" x="270" y="489" width="38" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <state key="normal" image="s03_pause_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -178,27 +222,47 @@
                         <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="Upi-BR-alS"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Wqt-lf-SU4">
+                    <rect key="frame" x="20" y="30" width="28" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" backgroundImage="nav_btn_menu">
+                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="menuBtnPressed:" destination="-1" eventType="touchUpInside" id="vaj-Ws-jqn"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FTF-zf-f41">
+                    <rect key="frame" x="270" y="490" width="38" height="38"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <state key="normal" image="s20_canvas_remove">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="trashBtnPressed:" destination="-1" eventType="touchUpInside" id="hdF-4d-xii"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedTopBarMetrics"/>
             <point key="canvasLocation" x="375" y="243"/>
         </view>
-        <tapGestureRecognizer id="ijS-NJ-Ux7">
-            <connections>
-                <action selector="didTapModel:" destination="-1" id="Avy-nV-9qJ"/>
-            </connections>
-        </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="s03_back_btn" width="36" height="36"/>
+        <image name="discount_label_right" width="112" height="22"/>
+        <image name="nav_btn_back" width="28" height="28"/>
+        <image name="nav_btn_menu" width="28" height="28"/>
         <image name="s03_comment_btn" width="40" height="38"/>
         <image name="s03_item_btn" width="36" height="42"/>
-        <image name="s03_like_btn" width="40" height="36"/>
-        <image name="s03_line" width="36" height="6"/>
+        <image name="s03_like_btnIcon" width="80" height="72"/>
+        <image name="s03_line" width="38" height="6"/>
         <image name="s03_model_shadow" width="320" height="92"/>
         <image name="s03_pause_btn" width="38" height="38"/>
         <image name="s03_play_btn" width="38" height="38"/>
         <image name="s03_share_btn" width="38" height="28"/>
+        <image name="s20_canvas_remove" width="36" height="36"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -63,9 +63,6 @@ define([
                             "refreshTime" : "2015-03-16T17:01:49.595Z"
                         },
                         "create" : "2015-03-17T10:27:47.447Z",
-                        "brandNewInfo" : {
-                            "order" : 14
-                        },
                         "imageMetadata" : {
                             "url" : "http://trial01.focosee.com/demo2/a2031401.jpg",
                             "width" : 640,

@@ -48,8 +48,7 @@
 {
     QSSingleImageScrollView* imageView = (QSSingleImageScrollView*)view;
     if (self.itemsArray) {
-#warning 需要改成多个url
-        imageView.imageUrlArray = @[[QSItemUtil getCoverUrl:self.itemsArray[imageIndex]]];
+        imageView.imageUrlArray = [QSItemUtil getImagesUrl:self.itemsArray[imageIndex]];
     }
 }
 

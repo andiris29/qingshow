@@ -29,7 +29,7 @@ ServiceHelper = module.exports;
  });
  */
 ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, aspectInceptions) {
-    // afterQuery, afterParseRequest, preSendResponse
+    // afterQuery, afterParseRequest, beforeEndResponse
     aspectInceptions = aspectInceptions || {};
     var qsParam;
     async.waterfall([
@@ -78,18 +78,6 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
     });
 };
 
-ServiceHelper.queryRelatedBrands = function(req, res, RModel, fields) {
-    _queryRelated(req, res, RModel, fields, function(peoples) {
-        return {
-            'brands' : peoples
-        };
-    }, {
-        'afterQuery' : function(qsParam, brands, numTotal, callback) {
-            ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
-        }
-    });
-};
-
 ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     _queryRelated(req, res, RModel, fields, function(peoples) {
         return {
@@ -97,37 +85,36 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
         };
     }, {
         'afterQuery' : function(qsParam, peoples, numTotal, callback) {
-            ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
+            if (qsParam._id) {
+                ContextHelper.appendPeopleContext(qsParam._id, peoples, callback);
+            } else {
+                ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
+            }
         }
     });
 };
 
-ServiceHelper.queryRelatedTrades = function(req, res, RModel, fields) {
-    _queryRelated(req, res, RModel, fields, function(trades) {
-        return {
-            'trades' : trades
-        };
-    });
-};
-
 var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
+    aspectInceptions = aspectInceptions || {};
+    
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
         criteria[fields.query] = qsParam._id;
+        
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1
         }).populate(fields.result), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
-            var peoples = [];
+            var models = [];
             if (!err) {
                 relationships.forEach(function(relationship) {
                     if (relationship[fields.result]) {
-                        peoples.push(relationship[fields.result]);
+                        models.push(relationship[fields.result]);
                     }
                 });
             }
-            callback(err, peoples, count);
+            callback(err, models, count);
         });
-    }, responseDataBuilder, _.extend(aspectInceptions || {}, {
+    }, responseDataBuilder, _.extend(aspectInceptions, {
         'afterParseRequest' : function(raw) {
             return {
                 '_id' : RequestHelper.parseId(req.queryString._id)

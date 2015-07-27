@@ -6,21 +6,22 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSCommentUtil.h"
 #import "QSDateUtil.h"
+#import "NSDate+QSExtension.h"
 
 @implementation QSCommentUtil
 + (NSString*)getContent:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     return commentDict[@"comment"];
 }
 + (NSDictionary*)getPeople:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     id a = commentDict[@"authorRef"];
@@ -31,7 +32,7 @@
 }
 + (NSDictionary*)getShow:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     return commentDict[@"showRef"];
@@ -39,12 +40,21 @@
 
 + (NSString*)getFormatedDateString:(NSDictionary*)commentDict
 {
-    if ([QSCommonUtil checkIsNil:commentDict]) {
+    if ([QSEntityUtil checkIsNil:commentDict]) {
         return nil;
     }
     NSString* dateStr = commentDict[@"create"];
     NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
-    NSString* currentDateStr = [QSDateUtil buildStringFromDate:date];
-    return currentDateStr;
+    
+    if ([date isToday]) {
+        return [QSDateUtil getTime:date];
+    }else if ([date isYesterday]){
+        NSString *timeStr = [NSString stringWithFormat:@"昨天 %@",[QSDateUtil getTime:date]];
+        return timeStr;
+    }else {
+        NSString *currentDateStr = [QSDateUtil getMonthAndDate:date];
+        return currentDateStr;
+    }
 }
+
 @end

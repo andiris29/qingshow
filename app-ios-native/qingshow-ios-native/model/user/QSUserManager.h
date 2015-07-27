@@ -17,4 +17,12 @@
 
 @property (strong, nonatomic) NSString* weiboAccessToken;
 @property (strong, nonatomic) NSString* weiboUserId;
+
+@property (strong, nonatomic) NSDate* lastClickMenuDate;
+
+@property (strong, nonatomic) NSDate* globalFirstLaunchShowDueDate;
+@property (strong, nonatomic) NSString* globalFirstLaunchTitle;
+
+@property (strong, nonatomic) NSString* JPushRegistrationID;
+
 @end

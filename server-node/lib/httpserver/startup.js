@@ -8,10 +8,10 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var _ = require('underscore');
 var winston = require('winston');
-
+var qsftp = require('../runtime/qsftp');
 
 //Services Name
-var servicesNames = ['feeding', 'itemFeeding', 'user', 'potential', 'people', 'brand', 'show', 'preview', 'admin', 'trade', 'topic'];
+var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people', 'matcher', 'notify'];
 var services = servicesNames.map(function (path) {
     return {
         'path' : path,
@@ -41,27 +41,28 @@ var wrapCallback = function (fullpath, callback) {
     };
 };
 
-
-module.exports = function (appServerPort, folderUploads, pathUploads, qsdb) {
-    var app = express();
-    app.listen(appServerPort);
-
-// Upload
-    if (!fs.existsSync(folderUploads)) {
-        fs.mkdirSync(folderUploads);
-    }
-    var files = fs.readdirSync(folderUploads);
-    files.forEach(function (file) {
-        if (file.indexOf('.lock') !== -1) {
-            process.exit();
+var mkdirUploads = function (config) {
+    for (var key in config) {
+        var value = config[key];
+        if (_.isObject(value)) {
+            mkdirUploads(value);
+        } else {
+            if (value.indexOf('http://') !== 0) {
+                qsftp.getConnection().mkdir(value, true, function (err){});
+            }
         }
-    });
+    }
+};
 
-    global.__qingshow_uploads = {
-        'folder' : folderUploads,
-        'path' : pathUploads,
-    };
-//cross domain
+module.exports = function (config, qsdb) {
+    var app = express();
+    global.qsConfig = config;
+    app.listen(config.server.port);
+
+    // Upload
+    mkdirUploads(config.uploads);
+
+    // Cross domain
     app.use(function (req, res, next) {
         // Set header for cross domain
         res.header('Access-Control-Allow-Credentials', true);
@@ -98,7 +99,6 @@ module.exports = function (appServerPort, folderUploads, pathUploads, qsdb) {
     app.use(require('./middleware/sessionParser'));
     app.use(require('./middleware/permissionValidator')(services));
     app.use(require('./middleware/errorHandler'));
-
 // Regist http services
     services.forEach(function(service) {
         var module = service.module, path = service.path;

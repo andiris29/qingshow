@@ -25,6 +25,7 @@
     btn.layer.masksToBounds = YES;
     btn.layer.borderColor = color.CGColor;
     btn.layer.borderWidth = 1.f;
+    
 }
 
 

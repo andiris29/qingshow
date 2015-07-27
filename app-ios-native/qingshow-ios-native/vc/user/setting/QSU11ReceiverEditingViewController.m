@@ -48,6 +48,11 @@
     self.pickerProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.provincePicker];
     self.pickerProvider.delegate = self;
     [self bindWithDict:self.locationDict];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -162,6 +167,7 @@
     self.phoneTextField.text = [QSReceiverUtil getPhone:dict];
     self.localLabel.text = [QSReceiverUtil getProvince:dict];
     [self.pickerProvider bindWithValue:self.localLabel.text];
+    self.selectionLocation = self.localLabel.text;
     self.detailLocationTextField.text = [QSReceiverUtil getAddress:dict];
 }
 

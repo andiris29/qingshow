@@ -12,6 +12,7 @@
 - (void)awakeFromNib
 {
     _isSelect = NO;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 - (void)setIsSelect:(BOOL)isSelect
 {

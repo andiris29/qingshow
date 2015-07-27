@@ -3,6 +3,6 @@
  * Module dependencies.
  */
 
-var Binary = require('mongodb').BSONPure.Binary;
+var Binary = require('bson').Binary;
 
 module.exports = exports = Binary;

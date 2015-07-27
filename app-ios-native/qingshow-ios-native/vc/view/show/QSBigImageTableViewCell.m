@@ -6,55 +6,55 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
+#define TEXT_COLOR_NORMAL [UIColor whiteColor]
+#define TEXT_COLOR_SELECTED [UIColor redColor]
+
 #import "QSBigImageTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
-#import "QSPreviewUtil.h"
-#import "QSBrandUtil.h"
 #import "QSImageNameUtil.h"
+#import "QSBigImageDateView.h"
+#import "QSItemUtil.h"
 
 
 @interface QSBigImageTableViewCell ()
 
-@property (strong, nonatomic) QSSingleImageScrollView* singleImageScrollView;
 @property (weak, nonatomic) NSDictionary* dataDict;
+
+@property (strong, nonatomic) QSBigImageDateView* dateView;
 @end
 
 @implementation QSBigImageTableViewCell
 - (void)setType:(QSBigImageTableViewCellType)type
 {
+    
     _type = type;
     switch (_type) {
         case QSBigImageTableViewCellTypeModelEmpty: {
             self.label1.hidden = YES;
-            self.label2.hidden = YES;
             self.iconImgView.hidden = YES;
             break;
         }
         default: {
             self.label1.hidden = NO;
-            self.label2.hidden = NO;
             self.iconImgView.hidden = NO;
             break;
         }
     }
-    if (_type == QSBigImageTableViewCellTypeBrand) {
-        self.iconImgView.layer.cornerRadius = 0.f;
-        self.iconImgView.layer.masksToBounds = YES;
-        self.iconImgView.layer.borderColor = [UIColor clearColor].CGColor;
-        self.iconImgView.layer.borderWidth = 0.f;
-    } else {
-        self.iconImgView.layer.cornerRadius = self.iconImgView.bounds.size.height / 2;
-        self.iconImgView.layer.masksToBounds = YES;
-        self.iconImgView.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.iconImgView.layer.borderWidth = 1.f;
-    }
+
+    self.iconImgView.layer.cornerRadius = self.iconImgView.bounds.size.height / 2;
+    self.iconImgView.layer.masksToBounds = YES;
+    self.iconImgView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.iconImgView.layer.borderWidth = 1.f;
+
 }
+
 #pragma mark - Life Cycle
 - (void)awakeFromNib {
-
+    self.dateView = [QSBigImageDateView makeView];
+    [self.dateContainer addSubview:self.dateView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -63,99 +63,36 @@
     // Configure the view for the selected state
 }
 #pragma mark - Static
-+ (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict
-{
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = [QSPreviewUtil getCoverMetadata:previewDict];
-    
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = 92;
-    float width = iniWidth;
-    //212 158
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
-}
-
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict
 {
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = showDict[@"horizontalCoverMetadata"];
-    if (!coverMetadata || [coverMetadata isKindOfClass:[NSNull class]]) {
-        coverMetadata = showDict[@"coverMetadata"];
-    }
+    return 285.f;
+}
 
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = 92;
-    float width = iniWidth;
-    //212 158
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
-}
-+ (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict
++ (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
-    NSDictionary* coverMetadata = brandDict[@"coverMetadata"];
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = iniWidth;
-    float width = iniWidth;
-    //1:1
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
-    
-//    return [UIScreen mainScreen].bounds.size.width;
+    return 285.f;
 }
+
 
 #pragma mark - Bind
 - (void)bindWithDict:(NSDictionary*)dict
 {
     self.dataDict = dict;
-    if (self.type == QSBigImageTableViewCellTypeBrand) {
-        [self bindWithBrand:dict];
-    } else if (self.type == QSBigImageTableViewCellTypeFashion) {
-        [self bindWithPreview:dict];
-    } else {
-        [self bindWithShow:dict];
-    }
+
+    [self bindWithShow:dict];
+    
 }
 
-- (void)resizeWithHeight:(float)height
+
+#pragma mark - UI
+- (void)setLikeBtnHover:(BOOL)fHover
 {
-    //Resize
-    CGRect rect = self.imgView.frame;
-    rect.size.height = height;
-    self.imgView.frame = rect;
-    if (self.singleImageScrollView) {
-        self.singleImageScrollView.frame = rect;
-    }
-    
-    rect = self.modelContainer.frame;
-    rect.origin.y = height - rect.size.height;
-    self.modelContainer.frame = rect;
-    
-    if (self.btnsContainer) {
-        CGRect btnsRect = self.btnsContainer.frame;
-        btnsRect.origin.y = height - rect.size.height - btnsRect.size.height - 20;
-        self.btnsContainer.frame = btnsRect;
+    if (fHover) {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_hover"] forState:UIControlStateNormal];
+        [self.likeButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    } else {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
+        [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }
 }
 
@@ -165,79 +102,49 @@
     [self resizeWithHeight:height];
 
     //Data Binding
-    NSDictionary* modelDict = [QSShowUtil getPeopleFromShow:showDict];
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    
-    self.label1.text = [QSPeopleUtil getName:modelDict];
-    self.label2.text = [QSPeopleUtil getDetailDesc:modelDict];
-    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
-
+    self.label1.text = [QSShowUtil getShowDesc:showDict];
+    [self.likeButton setTitle:[QSShowUtil getNumberLikeDescription:showDict] forState:UIControlStateNormal];
+    [self setLikeBtnHover:[QSShowUtil getIsLike:showDict]];
 }
-- (void)bindWithBrand:(NSDictionary*)brandDict
+- (void)bindWithItem:(NSDictionary*)itemDict
 {
-    float height = [QSBigImageTableViewCell getHeightWithBrand:brandDict];
+    float height = [QSBigImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
-    
-    self.label1.text = [QSBrandUtil getBrandName:brandDict];
-    self.label2.text = [QSBrandUtil getBrandShopAddress:brandDict];
-    [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSBrandUtil getBrandCoverUrl:brandDict]]];
+    [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+    self.label1.text = [QSItemUtil getItemName:itemDict];
+//    NSURL* brandLogo = [QSItemUtil getBrandLogoUrl:itemDict];
+//    [self updateBrandLogo:brandLogo];
+    [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
+    [self setLikeBtnHover:[QSItemUtil getIsLike:itemDict]];
 }
 
-- (void)bindWithPreview:(NSDictionary*)previewDict
+
+#pragma mark Binding Helper
+- (void)updateBrandLogo:(NSURL*)brandLogo
 {
-    if (!self.singleImageScrollView) {
-        self.singleImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imgView.frame];
-        self.singleImageScrollView.pageControlOffsetY = 20.f;
-        self.singleImageScrollView.delegate = self;
-        self.singleImageScrollView.enableLazyLoad = YES;
-        self.imgView.hidden = YES;
-        [self.contentView insertSubview:self.singleImageScrollView belowSubview:self.modelContainer];
+    if (brandLogo) {
+        self.iconImgView.hidden = NO;
+        [self.iconImgView setImageFromURL:brandLogo];
+    } else {
+        self.iconImgView.hidden = YES;
+
     }
-    float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
-    [self resizeWithHeight:height];
-    
-//    self.label1.text = [QSPreviewUtil getImagesBrandDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-    self.label1.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-//    self.label3.text = [QSPreviewUtil getImagesPriceDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-//    self.label2.text = [QSPreviewUtil getNameDesc:previewDict];
-//    self.label3.text = [QSPreviewUtil getPriceDesc:previewDict];
-    
-    [self.likeBtn setTitle:[QSPreviewUtil getNumLikeDesc:previewDict] forState:UIControlStateNormal];
-    [self.commentBtn setTitle:[QSPreviewUtil getNumCommentDesc:previewDict] forState:UIControlStateNormal];
-//    [self.imgView setImageFromURL:[QSPreviewUtil getCoverUrl:previewDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    
-    self.singleImageScrollView.imageUrlArray = [QSImageNameUtil generate2xImageNameUrlArray:[QSPreviewUtil getImagesUrl:previewDict]];
-    
-    [self.likeBtn setHighlighted:[QSPreviewUtil getIsLike:previewDict]];
 }
+
+- (void)resizeWithHeight:(float)height
+{
+    //Resize
+    CGRect rect = self.imgView.frame;
+    rect.size.height = height;
+    self.imgView.frame = rect;
+    
+    rect = self.modelContainer.frame;
+    rect.origin.y = height - rect.size.height;
+    self.modelContainer.frame = rect;
+}
+
 #pragma mark - IBAction
-- (IBAction)commentBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(clickCommentBtn:)]) {
-        [self.delegate clickCommentBtn:self];
-    }
-}
-- (IBAction)likeBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(clickLikeBtn:)]) {
-        [self.delegate clickLikeBtn:self];
-    }
-}
-- (IBAction)shareBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(clickShareBtn:)]) {
-        [self.delegate clickShareBtn:self];
-    }
-}
-- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
-{
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-//        self.label1.text = [QSPreviewUtil getImagesBrandDesc:self.dataDict atIndex:page];
-        self.label1.text = [QSPreviewUtil getImagesDesc:self.dataDict atIndex:page];
-//        self.label3.text = [QSPreviewUtil getImagesPriceDesc:self.dataDict atIndex:page];
-    }
-}
 
 - (IBAction)detailBtnPressed:(id)sender
 {
@@ -245,9 +152,10 @@
         [self.delegate clickDetailBtn:self];
     }
 }
-
-- (void)loadAllImages
+- (IBAction)likeBtnPressed:(id)sender
 {
-    [self.singleImageScrollView loadAllImages];
+    if ([self.delegate respondsToSelector:@selector(clickLikeBtn:)]) {
+        [self.delegate clickLikeBtn:self];
+    }
 }
 @end

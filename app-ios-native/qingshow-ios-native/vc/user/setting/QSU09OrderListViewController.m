@@ -40,6 +40,11 @@
     // Do any additional setup after loading the view from its nib.
     [self configProvider];
     [self configView];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    self.navigationItem.leftBarButtonItem = backItem;
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -56,6 +61,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)willPresentAlertView:(UIAlertView *)alertView
+{
+    for (UIView *view in alertView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            if ([label.text isEqualToString:alertView.message]) {
+                label.font = NEWFONT;
+            }
+        }
+    }
 }
 
 - (void)configView {
@@ -84,7 +100,8 @@
 #pragma mark - QSOrderListTableViewProviderDelegate
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict
 {
-    UIViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
+    QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
+    vc.type = 1;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -99,4 +116,20 @@
                                    [weakSelf showErrorHudWithText:@"支付失败"];
                                }];
 }
+- (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
+{
+    QSU12RefundViewController *vc = [[QSU12RefundViewController alloc]initWithDict:orderDic];
+    vc.type = 2;
+    [self.navigationController pushViewController:vc
+                                         animated:YES];
+}
+- (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic
+{
+    __weak QSU09OrderListViewController *weakSelf = self;
+    [SHARE_NW_ENGINE changeTrade:orderDic status:5 info:nil onSucceed:^{
+        [weakSelf showTextHud:@"收货成功！"];
+    } onError:nil];
+}
+
+
 @end

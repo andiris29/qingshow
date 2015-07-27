@@ -1,6 +1,6 @@
 var async = require('async'), _ = require('underscore');
-var ImageUtils = require('../../model/utils/ImageUtils');
 var ServerError = require('../server-error');
+var RequestHelper = require('./RequestHelper');
 
 var MongoHelper = module.exports;
 
@@ -39,6 +39,35 @@ MongoHelper.queryPaging = function(query, queryCount, pageNo, pageSize, callback
         });
     }], callback);
 };
+
+MongoHelper.aggregatePaging =  function(aggregate, pageNo, pageSize, callback) {
+    async.waterfall([
+        function(callback) {
+            // Count 
+            aggregate.exec(function(err, data) {
+                if (err) {
+                    callback(ServerError.fromDescription(err));
+                } else {
+                    if ((pageNo - 1) * pageSize >= data.length) {
+                        callback(ServerError.fromCode(ServerError.PagingNotExist));
+                    } else {
+                        callback(null, data.length);
+                    }
+                }
+            });
+        },
+        function(count, callback) {
+            // Query
+            aggregate.skip((pageNo - 1) * pageSize).limit(pageSize).exec(function(err, models) {
+                if (err) {
+                    callback(ServerError.fromDescription(err));
+                } else {
+                    callback(err, models, count);
+                }
+            });
+        }], callback);
+};
+
 /**
  *
  * @param {Object} query
@@ -58,7 +87,7 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
         });
     },
     function(count, callback) {
-        var tasks = [], skipped = [], models = [];
+        var tasks = [], skipped = [];
         size = Math.min(size, count);
         for (var i = 0; i < size; i++) {
             tasks.push(function(callback) {
@@ -77,31 +106,46 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
                 });
             });
         }
-        async.parallel(tasks, callback);
+        async.series(tasks, callback);
     }], callback);
 };
 
-MongoHelper.updateCoverMetaData = function(models, callback) {
-    // Parse cover
-    var tasks = [];
-    models.forEach(function(model) {
-        tasks.push(function(callback) {
-            // Update each model
-            async.parallel([
-            function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, model.cover, 'coverMetadata', callback);
-            },
-            function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, (model.images && model.images[0]) ? model.images[0].url : undefined, 'imageMetadata', callback);
-            },
-            function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, model.horizontalCover, 'horizontalCoverMetadata', callback);
-            }], function(err, results) {
-                // Ignore error
-                callback();
-            });
-        });
-    });
-    async.parallel(tasks, callback);
-};
+MongoHelper.querySchema = function(Model, qsParam) {
+    var criteria = {};
+    for (var key in qsParam) {
+        var value = qsParam[key];
+        if (!qsParam[key] || qsParam[key].length == 0) {
+            continue;
+        }
+        if (key === '__context' || key === '__v' || key === 'pageNo' || key === 'pageSize') {
+            continue;
+        }
+        if (!value || value.length == 0) {
+            continue;
+        }
+        var column = Model.schema.paths[key];
+        if (column == null) {
+            continue;
+        }
+        var type = column.instance;
 
+        var rawValue = value;
+        if (type == 'String') {
+            rawValue = value;
+        } else if (type == 'Number') {
+            rawValue = RequestHelper.parseNumber(value);
+        } else if (type == 'Date') {
+            rawValue = RequestHelper.parseDate(value);
+        } else if (type == 'ObjectId') {
+            rawValue = RequestHelper.parseId(value);
+        } else if (type == 'Mixed') {
+            continue;
+        } else if (type == 'Array') {
+            continue;
+        }
+
+        criteria[key] = rawValue;
+    }
+
+    return criteria;
+};

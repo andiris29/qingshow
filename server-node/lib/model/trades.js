@@ -8,9 +8,8 @@ var tradeSchema = Schema({
         quantity : Number,
         price : Number,
         itemSnapshot : Object,
-        selectedItemSkuId : String,
         peopleSnapshot : Object,
-        selectedPeopleReceiverUuid: String
+        selectedPeopleReceiverUuid : String
     }],
     pay : {
         weixin : {
@@ -70,8 +69,13 @@ var tradeSchema = Schema({
         type : Date,
         'default' : Date.now
     },
+    ownerRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
     statusLogs : [{
         status : Number,
+        comment : String,
         update : {
             type : Date,
             'default' : Date.now

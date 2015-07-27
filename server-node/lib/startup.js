@@ -3,8 +3,7 @@ var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
-
-var qsdb = require('./runtime/qsdb');
+var properties = require ("properties");
 
 // Log
 var folderLogs = path.join(__dirname, 'logs');
@@ -16,20 +15,41 @@ winston.add(winston.transports.DailyRotateFile, {
     'filename' : path.join(folderLogs, 'winston.log')
 });
 
-//Database Connection
-qsdb.connect();
+// Load the config file(config.properties)
+var configPath = path.join(__dirname, 'config.properties');
+properties.parse(configPath, {
+    path : true,
+    namespaces : true,
+    variables : true
+}, function(error, config) {
+    if (error) {
+        console.error (error);
+        return;
+    }
+    // Load handle
+    winston.info(config);
 
-// Startup http server
-var uploadsCfg = argv['uploads'].split(',');
-var folderUploads = uploadsCfg[0], pathUploads = uploadsCfg[1];
-require('./httpserver/startup')(argv['app-server-port'], folderUploads, pathUploads, qsdb);
+    //Database Connection
+    var qsdb = require('./runtime/qsdb');
+    qsdb.connect(config.mongodb);
 
-// Startup scheduled
-require('./scheduled/startup')();
+
+
+    var qsftp = require('./runtime/qsftp');
+    qsftp.connect(config.ftp, function () {
+        // Startup http server
+        require('./httpserver/startup')(config, qsdb);
+
+        // Startup scheduled
+        require('./scheduled/startup')();
+    });
+
+
+});
 
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
-    console.log(new Date().toString() + ': uncaughtException');
-    console.log(err);
-    console.log('\t' + err.stack);
+    winston.error(new Date().toString() + ': uncaughtException');
+    winston.error(err);
+    winston.error('\t' + err.stack);
 });

@@ -1,4 +1,4 @@
-
+var winston = require('winston');
 var async = require('async');
 var Iconv = require('iconv-lite');
 var request = require('request');
@@ -75,10 +75,10 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                     if (key !== 'sku') {
                         return;
                     }
-                    console.log(obj);
+                    winston.info(obj);
                 };
             } catch (e) {
-                console.log(e);
+                winston.info(e);
             }
 
             try {
@@ -105,7 +105,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                 }
 
             } catch (e) {
-                console.log(e);
+                winston.info(e);
                 callback(e);
             }
         }
@@ -230,7 +230,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                             };
                             webSkus.push(skuObj);
                         } catch (e) {
-                            console.log('Parse item :' + tbItemId + '  key: ' + key + ' error.');
+                            winston.info('Parse item :' + tbItemId + '  key: ' + key + ' error.');
                         }
                     }
                     callback(null, webSkus);
@@ -238,7 +238,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                 eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
 
                 if (!isSetMdskipInvoke) {
-                    console.log('Parse item :' + tbItemId + ' Error' );
+                    winston.info('Parse item :' + tbItemId + ' Error' );
                     //TODO handle error
                     callback(null, null);
                 }
@@ -285,7 +285,7 @@ var _parseTmallPropertyMap = function ($) {
             var aTag = this$.find('a');
             var aStyle = aTag.attr('style');
             if (aStyle && aStyle.length) {
-                var bgRegex = /background:url\((.*)\)/
+                var bgRegex = /background:url\((.*)\)/;
                 var matchResult = aStyle.match(bgRegex);
                 if (matchResult.length > 1) {
                     propertyMap[dataValue].properties_thumbnail = matchResult[1];
@@ -294,7 +294,7 @@ var _parseTmallPropertyMap = function ($) {
         }
     });
     return propertyMap;
-}
+};
 
 
 var _generateSkus = function (webSkus, skuMap, propertyMap) {
@@ -320,7 +320,7 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
             price : parseFloat(targetValue.price),
             promo_price : webSku.promo_price,
             stock : targetValue.stock
-        }
+        };
         retSku.properties_name = _parsePropertiesName(retSku.properties, propertyMap);
         var thumbnail = _parsePropertiesThumbnail(retSku.properties, propertyMap);
         if (thumbnail) {
@@ -328,7 +328,7 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
         }
         return retSku;
     });
-    var skus = skus.filter(function (s) { return s !== null; })
+    var skus = skus.filter(function (s) { return s !== null; });
     return skus;
 };
 
@@ -356,7 +356,7 @@ var _parsePropertiesThumbnail = function (propertiesStr, propertyMap) {
         }
     });
     return propThumbnail;
-}
+};
 
 
 var _getTaobaoItemWebSkus = function (tbItemId, callback) {
@@ -401,7 +401,7 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                         };
                         webSkus.push(sku);
                     } catch (e) {
-                        console.log('Parse itemId: ' + tbItemId + ' sku: ' + key + ' Error');
+                        winston.info('Parse itemId: ' + tbItemId + ' sku: ' + key + ' Error');
                     }
                 }
                 callback(null, webSkus);

@@ -10,4 +10,9 @@
 
 @interface NSDictionary(QSExtension)
 - (NSMutableDictionary*)deepMutableCopy;
+
+- (NSString*)stringValueForKeyPath:(NSString*)keypath;
+- (NSDictionary*)dictValueForKeyPath:(NSString*)keypath;
+- (NSNumber*)numberValueForKeyPath:(NSString*)keypath;
+- (NSArray*)arrayValueForKeyPath:(NSString*)keypath;
 @end

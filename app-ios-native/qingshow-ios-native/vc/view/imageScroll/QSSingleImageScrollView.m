@@ -14,6 +14,24 @@
     int imageCount = self.imageArray ? self.imageArray.count : self.imageUrlArray.count;
     return imageCount;
 }
+
+//- (instancetype)init
+//{
+//    if (self = [super init]) {
+//        [self layoutSubviews];
+//       
+//    }
+//    return self;
+//}
+//- (void)layoutSubviews
+//{
+//    [super layoutSubviews];
+//    if ([self.class  isSubclassOfClass: [QSSingleImageScrollView class]]) {
+//          self.pageControl.center = CGPointMake(50, 120);
+//    }
+//  
+//}
+
 - (UIView*)getViewForPage:(int)imageIndex
 {
     UIImageView* imageView = [[UIImageView alloc] init];
@@ -23,6 +41,7 @@
 }
 - (void)updateView:(UIView*)view forPage:(int)imageIndex
 {
+   
     UIImageView* imageView = (UIImageView*)view;
     if (self.imageArray && self.imageArray.count) {
         UIImage* image = self.imageArray[imageIndex];
