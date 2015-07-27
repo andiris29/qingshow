@@ -246,6 +246,7 @@ public class U01UserActivity extends MenuActivity {
             recyclerViews[Integer.parseInt(String.valueOf(recyclerView.getTag()))] = recyclerView;
     }
 
+
     private void initRectcler(RecyclerView recyclerView) {
 
         if (null == recyclerView || preRecyclerView == recyclerView) return;
@@ -254,28 +255,15 @@ public class U01UserActivity extends MenuActivity {
             view = recyclerView.getChildAt(0);
         }
 
-        int span = recyclerView.getLayoutManager() instanceof LinearLayoutManager ? 1 : 2;
-
-        boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
-                * (recyclerView.getChildCount() - 1) / span + userHeadLayout.getBottom() + userHeadLayout.getY();
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        if (userHeadLayout.getY() != 0) {
-            if (isShort) {//短列表
-                userHeadLayout.setY(0);
-                recyclerView.scrollToPosition(0);
-            } else {
-                layoutManager.scrollToPositionWithOffset(0, (int) userHeadLayout.getY());
-            }
-        } else {
-            recyclerView.scrollToPosition(0);
-        }
+        layoutManager.scrollToPositionWithOffset(0, (int) userHeadLayout.getY());
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (view == recyclerView.getChildAt(0))
+                if (view == recyclerView.getChildAt(0)) {
                     userHeadLayout.setY(view.getBottom() - view.getHeight());
-                else
+                }else
                     userHeadLayout.setY(-userHeadLayout.getHeight());
             }
         });
@@ -324,7 +312,7 @@ public class U01UserActivity extends MenuActivity {
     private void tabOnclick(int pos) {
 
         userViewPager.setCurrentItem(pos);
-        fragments[pos].getRecyclerPullToRefreshView().doPullRefreshing(true, 0);
+        fragments[pos].refresh();
         this.pos = pos;
         setIndicatorBackground(pos);
         initRectcler(recyclerViews[pos]);

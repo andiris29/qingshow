@@ -68,7 +68,7 @@ public class U01FollowerFragment extends U01BaseFragment {
                 EventBus.getDefault().post(eventModel);
             }
         });
-        getDatasFromNet(1, 20);
+        refresh();
         return view;
     }
 

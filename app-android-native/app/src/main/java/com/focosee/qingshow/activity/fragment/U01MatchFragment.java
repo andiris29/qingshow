@@ -66,7 +66,7 @@ public class U01MatchFragment extends U01BaseFragment {
             }
         });
 
-        recyclerPullToRefreshView.doPullRefreshing(true, 0);
+        refresh();
         return view;
     }
 
