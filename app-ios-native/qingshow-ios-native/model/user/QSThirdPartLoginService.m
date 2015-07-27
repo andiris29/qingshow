@@ -11,6 +11,7 @@
 #import "WeiboSDK.h"
 #import "WXApi.h"
 #import "QSNetworkKit.h"
+#import "QSEntityUtil.h"
 
 @interface QSThirdPartLoginService ()
 //Weibo
@@ -62,8 +63,7 @@
 - (void)didReceiveWechatAuthroizeSuccess:(NSNotification*)noti
 {
     NSDictionary* userInfo = noti.userInfo;
-#warning TODO Refactor
-    NSString* code = userInfo[@"code"];
+    NSString* code = [QSEntityUtil getStringValue:userInfo keyPath:@"code"];
     [SHARE_NW_ENGINE loginViaWechatCode:code onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
         [self invokeSuccessCallback];
     } onError:^(NSError *error) {
@@ -91,11 +91,10 @@
 - (void)didReceiveWeiboAuthroizeResult:(NSNotification*)noti
 {
     NSDictionary* userInfo = noti.userInfo;
-#warning TODO Refactor
-    NSNumber* statusCode = userInfo[@"statusCode"];
+    NSNumber* statusCode = [QSEntityUtil getNumberValue:userInfo keyPath:@"statusCode"] ;
     if (statusCode.intValue == WeiboSDKResponseStatusCodeSuccess) {
-        NSString* accessToken = userInfo[@"accessToken"];
-        NSString* uid = userInfo[@"userId"];
+        NSString* accessToken =  [QSEntityUtil getStringValue:userInfo keyPath:@"accessToken"];
+        NSString* uid = [QSEntityUtil getStringValue:userInfo keyPath:@"userId"];
         [SHARE_NW_ENGINE loginViaWeiboAccessToken:accessToken uid:uid onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
             [self invokeSuccessCallback];
         } onError:^(NSError *error) {

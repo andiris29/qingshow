@@ -14,13 +14,15 @@
 
 - (void)setSubViewsValueWith:(NSDictionary *)selectedDic
 {
-#warning TODO Refactor
-    NSString *itemName = self.itemDic[@"name"];
+    NSString *itemName =[QSCategoryUtil getName:self.itemDic];
     self.titleLabel.text = itemName;
     
     BOOL enable = [QSCategoryUtil getMatchEnabled:self.itemDic];
-    NSString *imgUrl = self.itemDic[@"icon"];
-    NSRange range = [imgUrl rangeOfString:@".png"];
+    NSString *imgUrl = [[QSCategoryUtil getIconUrl:self.itemDic] absoluteString];
+    NSRange range = NSMakeRange(0, imgUrl.length-1);
+    if ([imgUrl hasSuffix:@".png"]) {
+        range = [imgUrl rangeOfString:@".png"];
+    }
     NSString *rangeStr = [imgUrl substringToIndex:range.location];
     NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_selected.png",rangeStr];
     NSString *imgUnSelectedUrl = [NSString stringWithFormat:@"%@_normal.png",rangeStr];
@@ -42,11 +44,14 @@
 }
 - (void)setLastCellItem:(NSArray *)array
 {
-    NSString *itemName = self.itemDic[@"name"];
+    NSString *itemName = [QSCategoryUtil getName:self.itemDic];
     self.titleLabel.text = itemName;
     BOOL enable = [QSCategoryUtil getMatchEnabled:self.itemDic];
-    NSString *imgUrl = self.itemDic[@"icon"];
-    NSRange range = [imgUrl rangeOfString:@".png"];
+    NSString *imgUrl = [[QSCategoryUtil getIconUrl:self.itemDic] absoluteString];
+    NSRange range = NSMakeRange(0, imgUrl.length-1);
+    if ([imgUrl hasSuffix:@".png"]) {
+        range = [imgUrl rangeOfString:@".png"];
+    }
     NSString *rangeStr = [imgUrl substringToIndex:range.location];
     NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_selected.png",rangeStr];
     NSString *imgUnSelectedUrl = [NSString stringWithFormat:@"%@_normal.png",rangeStr];

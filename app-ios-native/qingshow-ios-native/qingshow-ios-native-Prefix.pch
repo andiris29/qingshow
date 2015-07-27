@@ -17,4 +17,5 @@
     #import <Foundation/Foundation.h>
     #import "MobClick.h"
     #import"QSBackBarItem.h"
+    #import "QSEntityUtil.h"
 #endif

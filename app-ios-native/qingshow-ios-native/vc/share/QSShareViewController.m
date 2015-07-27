@@ -13,6 +13,7 @@
 #import "WXApi.h"
 #import "QSSharePlatformConst.h"
 #import "UIViewController+ShowHud.h"
+#import "QSEntityUtil.h"
 
 #define kShareTitle @"时尚宠儿的归属地"
 #define kShareDesc @"美丽乐分享，潮流资讯早知道"

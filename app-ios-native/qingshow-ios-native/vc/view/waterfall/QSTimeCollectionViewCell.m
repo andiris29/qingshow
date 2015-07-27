@@ -9,6 +9,7 @@
 #import "QSTimeCollectionViewCell.h"
 #import "QSDateUtil.h"
 #import <QuartzCore/QuartzCore.h>
+#import "QSEntityUtil.h"
 @implementation QSTimeCollectionViewCell
 
 - (id)initWithFrame:(CGRect)frame
@@ -29,9 +30,8 @@
     if (!metaData) {
         return;
     }
-    
-#warning TODO Refactor
-    NSString* timeStr = metaData[@"refreshTime"];
+
+    NSString* timeStr = [QSEntityUtil getStringValue:metaData keyPath:@"refreshTime"];
     if (!timeStr || ![timeStr isKindOfClass:[NSString class]] || !timeStr.length) {
         return;
     }

@@ -124,7 +124,7 @@
         if ([url.host isEqualToString:@"safepay"]) {
             
             [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-                NSNumber* resultStatus = resultDic[@"resultStatus"];
+                NSNumber* resultStatus = [QSEntityUtil getNumberValue:resultDic keyPath:@"resultStatus"];
                 if (resultStatus.intValue == kAlipayPaymentSuccessCode) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
                 } else {

@@ -13,7 +13,8 @@
 
 @implementation QSCategoryUtil
 + (NSString*)getName:(NSDictionary*)dict {
-    return [dict stringValueForKeyPath:@"name"];
+//    return [dict stringValueForKeyPath:@"name"];
+    return [ QSEntityUtil getStringValue:dict keyPath:@"name"];
 }
 + (NSArray*)getChildren:(NSDictionary*)categoryDict {
     return [QSEntityUtil getArrayValue:categoryDict keyPath:@"children"];

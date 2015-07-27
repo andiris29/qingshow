@@ -100,7 +100,7 @@
     return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)gettimeSinceDate:(NSString *)date
++ (NSString *)gettimeSinceDate:(NSDate *)date
 {
     if (!date) {
         return nil;
@@ -108,8 +108,7 @@
     NSDate *nowDate = [NSDate date];
 //    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
 //    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSDate *date01 = [self buildDateFromResponseString:date];
-    NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date01];
+    NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date];
     if (seconds >= 24*60*60) {
         return [NSString stringWithFormat:@"%d天之前",(int)seconds/(24*60*60)];
     }

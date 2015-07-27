@@ -22,11 +22,13 @@
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
 + (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict;
+
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
++ (NSString*)getNumberCreateShows:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberFollowBrands:(NSDictionary*)peopleDict;
 + (NSString*)getNumberFollowPeoples:(NSDictionary*)peopleDict;
-
++ (NSString*)getNumberLiketoCreateShows:(NSDictionary*)peopleDict;
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;
 + (void)setPeople:(NSDictionary*)peopleDict isFollowed:(BOOL)isFollowed;

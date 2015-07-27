@@ -14,7 +14,7 @@
 #import "QSNetworkKit.h"
 #import "QSU13PersonalizeViewController.h"
 #import "QSThirdPartLoginService.h"
-
+#import "QSEntityUtil.h"
 #define PAGE_ID @"U07 - 注册"
 #define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSU07RegisterViewController ()
@@ -202,9 +202,8 @@
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {
-#warning TODO Refactor
         NSDictionary *userInfo = error.userInfo;
-        NSNumber *errorCode = userInfo[@"error"];
+        NSNumber *errorCode = [QSEntityUtil getNumberValue:userInfo keyPath:@"error"];
         if (errorCode == nil) {
             [self showErrorHudWithText:@"网络连接失败"];
             return;
