@@ -70,6 +70,8 @@
     [self.canvasContainer addSubview:self.canvasView];
     
     self.fShouldReload = YES;
+    
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
 
 }
 
