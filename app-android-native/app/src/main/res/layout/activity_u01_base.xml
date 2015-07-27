@@ -47,6 +47,15 @@
             </RelativeLayout>
 
         </RelativeLayout>
+        <ImageView
+            android:id="@+id/u01_backTop_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:background="@drawable/back_top"/>
     </FrameLayout>
 
     <ImageView

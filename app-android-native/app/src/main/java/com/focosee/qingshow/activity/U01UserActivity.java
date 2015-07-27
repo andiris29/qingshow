@@ -101,6 +101,8 @@ public class U01UserActivity extends MenuActivity {
     ImageView userNavBtn;
     @InjectView(R.id.circle_tip)
     View circleTip;
+    @InjectView(R.id.u01_backTop_btn)
+    ImageView u01BackTopBtn;
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -221,7 +223,7 @@ public class U01UserActivity extends MenuActivity {
                     return;
                 }
                 LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
-                Log.i("tag",response.toString());
+                Log.i("tag", response.toString());
                 user = users.get(0);
                 userName.setText(user.nickname);
                 userHw.setText(user.height + "cm," + user.weight + "kg");
@@ -247,7 +249,7 @@ public class U01UserActivity extends MenuActivity {
     }
 
 
-    private void initRectcler(RecyclerView recyclerView) {
+    private void initRectcler(final RecyclerView recyclerView) {
 
         if (null == recyclerView || preRecyclerView == recyclerView) return;
         view = null;
@@ -255,15 +257,27 @@ public class U01UserActivity extends MenuActivity {
             view = recyclerView.getChildAt(0);
         }
 
+        u01BackTopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.scrollToPosition(0);
+            }
+        });
+
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         layoutManager.scrollToPositionWithOffset(0, (int) userHeadLayout.getY());
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy < 0 && userHeadLayout.getY() <= -userHeadLayout.getHeight()) {
+                    u01BackTopBtn.setVisibility(View.VISIBLE);
+                } else {
+                    u01BackTopBtn.setVisibility(View.GONE);
+                }
                 if (view == recyclerView.getChildAt(0)) {
                     userHeadLayout.setY(view.getBottom() - view.getHeight());
-                }else
+                } else
                     userHeadLayout.setY(-userHeadLayout.getHeight());
             }
         });

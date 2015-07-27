@@ -7,15 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.alipay.sdk.widget.Loading;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.widget.LoadingLayout;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -39,7 +34,7 @@ public abstract class U01BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = (MongoPeople)getArguments().getSerializable("user");
+        user = (MongoPeople) getArguments().getSerializable("user");
     }
 
     @Override
@@ -63,7 +58,7 @@ public abstract class U01BaseFragment extends Fragment {
         return view;
     }
 
-    public RecyclerPullToRefreshView getRecyclerPullToRefreshView(){
+    public RecyclerPullToRefreshView getRecyclerPullToRefreshView() {
         return this.recyclerPullToRefreshView;
     }
 
@@ -72,4 +67,9 @@ public abstract class U01BaseFragment extends Fragment {
     public abstract void loadMore();
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
 }
