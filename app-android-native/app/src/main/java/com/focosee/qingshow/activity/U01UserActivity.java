@@ -122,6 +122,7 @@ public class U01UserActivity extends MenuActivity {
         ButterKnife.inject(this);
         user = (MongoPeople) getIntent().getExtras().get("user");
         initUserInfo();
+        if(null == user) return;
         if (user._id.equals(QSModel.INSTANCE.getUser()._id)) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +261,7 @@ public class U01UserActivity extends MenuActivity {
         u01BackTopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.scrollToPosition(0);
+                recyclerView.smoothScrollToPosition(0);
             }
         });
 
@@ -350,13 +351,13 @@ public class U01UserActivity extends MenuActivity {
     protected void onResume() {
         super.onResume();
         if (null != getIntent().getExtras()) {
-            user = (MongoPeople) getIntent().getExtras().get("user");
+            if(null != getIntent().getExtras().get("user"))
+                user = (MongoPeople) getIntent().getExtras().get("user");
         }
         boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);
         if (hasNew) {
             circleTip.setVisibility(View.VISIBLE);
         }
-        System.out.println("onResume");
     }
 
     public class UserPagerAdapter extends FragmentPagerAdapter {

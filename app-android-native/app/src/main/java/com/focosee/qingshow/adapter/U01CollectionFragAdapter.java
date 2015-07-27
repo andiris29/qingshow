@@ -62,8 +62,8 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
     }
 
     private void bindCreateBy(AbsViewHolder holder, final MongoShow show){
-        holder.setImgeByUrl(R.id.item_u01_collection_img, ImgUtil.getImgSrc(show.cover, ImgUtil.Large), ValueUtil.match_img_AspectRatio);
-        holder.setImgeByUrl(R.id.item_u01_collection_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.Large), ValueUtil.pre_img_AspectRatio);
+        holder.setImgeByUrl(R.id.item_u01_collection_img, ImgUtil.getImgSrc(show.cover, ImgUtil.LARGE), ValueUtil.match_img_AspectRatio);
+        holder.setImgeByUrl(R.id.item_u01_collection_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.LARGE), ValueUtil.pre_img_AspectRatio);
         MongoPeople people = show.ownerRef;
         holder.getView(R.id.item_u01_collection_top_layout).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +85,7 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
             }
         });
         if(null != people.portrait)
-            holder.setImgeByUrl(R.id.item_u01_collection_head_img, ImgUtil.getImgSrc(people.portrait, ImgUtil.Large));
+            holder.setImgeByUrl(R.id.item_u01_collection_head_img, ImgUtil.getImgSrc(people.portrait, ImgUtil.LARGE));
         holder.setText(R.id.item_u01_collection_nikename, people.nickname);
         holder.setText(R.id.item_u01_collection_likeNum, String.valueOf(show.numLike));
     }

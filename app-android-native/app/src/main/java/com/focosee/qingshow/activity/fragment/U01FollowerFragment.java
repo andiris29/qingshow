@@ -18,6 +18,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -82,7 +83,7 @@ public class U01FollowerFragment extends U01BaseFragment {
         getDatasFromNet(currentPageN0, 10);
     }
 
-    public void getDatasFromNet(int pageNo, int pageSize){
+    public void getDatasFromNet(final int pageNo, int pageSize){
 
         if(user == null) return;
 
@@ -91,17 +92,27 @@ public class U01FollowerFragment extends U01BaseFragment {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
-                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                        recyclerPullToRefreshView.setHasMoreData(false);
+                    else {
+                        ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                        recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    }
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
                     return;
                 }
-                recyclerPullToRefreshView.onPullUpRefreshComplete();
-                recyclerPullToRefreshView.onPullDownRefreshComplete();
-                ArrayList<MongoPeople> peoples = PeopleParser.parseQueryFollowers(response);
 
-                adapter.addDataAtTop(peoples);
+                ArrayList<MongoPeople> peoples = PeopleParser.parseQueryFollowers(response);
+                if(pageNo == 1) {
+                    adapter.addDataAtTop(peoples);
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    currentPageN0 = pageNo;
+                }else{
+                    adapter.addData(peoples);
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                }
                 adapter.notifyDataSetChanged();
+                currentPageN0++;
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
