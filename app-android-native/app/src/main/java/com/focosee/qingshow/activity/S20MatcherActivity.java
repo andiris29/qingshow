@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -72,6 +73,7 @@ public class S20MatcherActivity extends MenuActivity {
 
     private String categoryRef = "";
     private int pagaSize = 10;
+    private int rows[] = new int[]{1, 2};
 
     private boolean hasDraw = false;
 
@@ -102,7 +104,7 @@ public class S20MatcherActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (canvas.views.size() != 0){
+        if (canvas.views.size() != 0) {
             canvas.reselectView();
         }
     }
@@ -111,14 +113,12 @@ public class S20MatcherActivity extends MenuActivity {
         getCategoryFromNet();
     }
 
-    private void addItemsToCanvas(final String categoryRef, String url, int x, int y) {
+    private void addItemsToCanvas(final String categoryRef, String url, final int row, final int column) {
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
         final QSImageView itemView = new QSImageView(this);
         itemView.setLayoutParams(layoutParams);
-        itemView.setX(x);
-        itemView.setY(y);
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int barHeight = frame.top;
@@ -127,13 +127,7 @@ public class S20MatcherActivity extends MenuActivity {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
-                itemView.setContainerHeight(itemView.getImageView().getDrawable().getIntrinsicHeight());
-                itemView.setContainerWidth(itemView.getImageView().getDrawable().getIntrinsicWidth());
-                if (allSelect.containsKey(categoryRef)) {
-                    checkBorder(itemView);
-                } else {
-                    return;
-                }
+                formatPlace(itemView, row, column);
             }
         });
 
@@ -171,6 +165,56 @@ public class S20MatcherActivity extends MenuActivity {
         if (!categoryRefs.contains(categoryRef)) {
             categoryRefs.add(categoryRef);
         }
+    }
+
+    private void formatPlace(QSImageView view, int row, int column) {
+
+        float left = 0;
+        float top = 0;
+
+        int width = view.getImageView().getDrawable().getIntrinsicWidth();
+        int height = view.getImageView().getDrawable().getIntrinsicHeight();
+        float halfCanvasWidth = canvas.getWidth() / 2.0f;
+        float avgCanvasHeight = canvas.getHeight() / (rows[column] + 1);
+
+        float ratio = Math.abs(avgCanvasHeight / height) < Math.abs(halfCanvasWidth / width)
+                ? Math.abs(avgCanvasHeight / height) : Math.abs(halfCanvasWidth / width);
+
+        switch (column) {
+            case 0:
+                left = 0;
+                break;
+            case 1:
+                left = canvas.getWidth() / 2;
+                break;
+        }
+
+        if (row > rows[column]) {
+            rows[column] = row;
+        }
+        if (rows[column] != 0) {
+            top = avgCanvasHeight * row;
+        }
+
+
+        if (width > halfCanvasWidth) {
+            view.setScaleX(ratio);
+            view.setScaleY(ratio);
+            view.setLastScaleFactor(ratio);
+            if (column == 0) {
+                left = -Math.abs(width * (1.0f - ratio) / 2.0f);
+            }
+            if (column == 1) {
+                left = (halfCanvasWidth - Math.abs(width * (1.0f - ratio) / 2.0f));
+            }
+            if (row == 0) {
+                top = -Math.abs(height * (1.0f - ratio) / 2.0f);
+            }
+            if (row == rows[column]) {
+                top -= Math.abs(height * (1.0f - ratio) / 1.7f);
+            }
+        }
+        moveView(view, 0, 0, left, top);
     }
 
     private void initCanvas() {
@@ -212,8 +256,6 @@ public class S20MatcherActivity extends MenuActivity {
                         } else {
                             return;
                         }
-                        allSelect.get(categoryRef).view.setContainerHeight(allSelect.get(categoryRef).view.getImageView().getDrawable().getIntrinsicHeight());
-                        allSelect.get(categoryRef).view.setContainerWidth(allSelect.get(categoryRef).view.getImageView().getDrawable().getIntrinsicWidth());
                     }
                 });
                 allSelect.put(categoryRef, allSelect.get(categoryRef).setLastChecked(view).setSelectPos(position).setItem(datas));
@@ -290,22 +332,7 @@ public class S20MatcherActivity extends MenuActivity {
                     allSelect.put(categoryRef, new Select().setData(datas).setItem(datas.get(0)));
                 }
 
-                int left = 0;
-                int top = 0;
-                switch (column) {
-                    case 0:
-                        left = 0;
-                        break;
-                    case 1:
-                        left = canvas.getWidth() / 2;
-                        break;
-                }
-
-                if (row != 0) {
-                    top = (canvas.getHeight() / (row + 1)) * row;
-                }
-
-                addItemsToCanvas(categoryRef, datas.get(0).thumbnail, left, top);
+                addItemsToCanvas(categoryRef, datas.get(0).thumbnail, row, column);
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -349,6 +376,16 @@ public class S20MatcherActivity extends MenuActivity {
                 for (MongoCategories category : categories) {
                     if (category.matchInfo != null) {
                         if (category.matchInfo.defaultOnCanvas) {
+                            if (category.matchInfo.row > rows[category.matchInfo.column]) {
+                                rows[category.matchInfo.column] = category.matchInfo.row;
+                            }
+                        }
+                    }
+                }
+
+                for (MongoCategories category : categories) {
+                    if (category.matchInfo != null) {
+                        if (category.matchInfo.defaultOnCanvas) {
                             getDataFromNet(category._id, category.matchInfo.row, category.matchInfo.column);
                         }
                     }
@@ -359,9 +396,6 @@ public class S20MatcherActivity extends MenuActivity {
     }
 
     public void checkBorder(QSImageView view) {
-        view.setLastScaleFactor(1.0f);
-        view.setScaleX(1.0f);
-        view.setScaleY(1.0f);
         float nextX = view.getX() * view.getLastScaleFactor();
         float nextY = view.getY() * view.getLastScaleFactor();
         float intrinsicWidth = view.getImageView().getDrawable().getIntrinsicWidth() * view.getLastScaleFactor();
@@ -380,9 +414,12 @@ public class S20MatcherActivity extends MenuActivity {
             nextY = view.getY() * (1 - view.getLastScaleFactor());
         }
 
-        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", view.getY() * view.getLastScaleFactor(), nextY);
-        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", view.getX() * view.getLastScaleFactor(), nextX);
+        moveView(view, view.getY() * view.getX() * view.getLastScaleFactor(), view.getY() * view.getLastScaleFactor(), nextX, nextY);
+    }
 
+    private void moveView(View view, float startX, float startY, float nextX, float nextY) {
+        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", startX, nextX);
+        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", startY, nextY);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(x, y);
         animatorSet.setDuration(0);
@@ -400,7 +437,7 @@ public class S20MatcherActivity extends MenuActivity {
         for (String ref : categoryRefs) {
             if (!lastCategoryRefs.contains(ref)) {
                 Random random = new Random();
-                getDataFromNet(ref, random.nextInt(3) + 1, random.nextInt(2));
+                getDataFromNet(ref, random.nextInt(3), random.nextInt(2));
             }
         }
 

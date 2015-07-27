@@ -153,8 +153,9 @@ public class QSCanvasView extends FrameLayout {
         }
     }
 
-    public void reselectView(){
-        views.get(checkedIndex).setChecked(true);
+    public void reselectView() {
+        if (checkedIndex < views.size())
+            views.get(checkedIndex).setChecked(true);
     }
 
     public float calcUnOverlapArea(View view) {
@@ -164,32 +165,32 @@ public class QSCanvasView extends FrameLayout {
         view.getGlobalVisibleRect(targetRect);
         List<Rect> rects = null;
 
-        if (index == getChildCount() - 1){
+        if (index == getChildCount() - 1) {
             return RectUtil.getRectArea(targetRect);
         }
 
         for (int i = index + 1; i < getChildCount(); i++) {
             Rect rect = new Rect();
             getChildAt(i).getGlobalVisibleRect(rect);
-            if (RectUtil.clipRect(targetRect, rect) == null){
+            if (RectUtil.clipRect(targetRect, rect) == null) {
                 return 0f;
             }
 
-            if (rects == null){
+            if (rects == null) {
                 rects = RectUtil.clipRect(targetRect, rect);
                 continue;
             }
 
             List<Rect> newRects = new ArrayList<>();
             for (Rect rectChlid : rects) {
-                if (RectUtil.clipRect(rectChlid, rect) != null){
+                if (RectUtil.clipRect(rectChlid, rect) != null) {
                     newRects.addAll(RectUtil.clipRect(rectChlid, rect));
                 }
             }
             rects = newRects;
         }
 
-         for (Rect rect : rects) {
+        for (Rect rect : rects) {
             area += RectUtil.getRectArea(rect);
         }
         return area;

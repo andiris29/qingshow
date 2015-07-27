@@ -320,14 +320,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
             this.removeView(delBtn);
     }
 
-    public void setContainerHeight(int containerHeight) {
-        this.containerHeight = containerHeight;
-    }
-
-    public void setContainerWidth(int containerWidth) {
-        this.containerWidth = containerWidth;
-    }
-
     public boolean isMoveable() {
         return moveable;
     }
