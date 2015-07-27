@@ -101,6 +101,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
+                showDelBtn();
                 setChecked(true);
                 lastX = event.getRawX();
                 lastY = event.getRawY();
@@ -109,7 +110,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                 if (!isMoveable()) {
                     return false;
                 }
-//                goneDelBtn();
+
                 if (isScalingJustEnd) {
                     isScalingJustEnd = false;
                     return true;
@@ -147,6 +148,10 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     lastY = event.getRawY();
                     return true;
                 }
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                goneDelBtn(1000);
+                break;
         }
         return true;
 
@@ -182,6 +187,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
+        goneDelBtn();
         float scaleFactor = detector.getScaleFactor();
         float temp = lastScaleFactor;
         lastScaleFactor *= scaleFactor;
@@ -200,8 +206,19 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
 
         getArea();
-
         return true;
+    }
+
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        isScaling = true;
+        return true;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+        isScalingJustEnd = true;
     }
 
     private void scaleToBorder() {
@@ -260,18 +277,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         return true;
     }
 
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-        isScaling = true;
-        goneDelBtn();
-        return true;
-    }
-
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {
-        isScalingJustEnd = true;
-    }
-
     public ImageView getImageView() {
         return imageView;
     }
@@ -290,6 +295,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     }
 
     public void showDelBtn() {
+        goneDelBtn();
         delBtn = new ImageView(getContext());
         delBtn.setBackgroundResource(R.drawable.canvas_del);
         LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()),
@@ -298,26 +304,31 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         delBtn.setLayoutParams(btnParams);
         delBtn.setOnClickListener(onDelClickListener);
         this.addView(delBtn);
+
+    }
+
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (null != delBtn)
+                QSImageView.this.removeView(delBtn);
+            return false;
+        }
+    });
+
+    public void goneDelBtn(int dalay) {
         Timer timer = new Timer("delBtn");
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 handler.sendEmptyMessage(1);
             }
-        }, 1000);
+        }, dalay);
     }
 
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            goneDelBtn();
-            return false;
-        }
-    });
-
-    public void goneDelBtn() {
+    public void goneDelBtn(){
         if (null != delBtn)
-            this.removeView(delBtn);
+            QSImageView.this.removeView(delBtn);
     }
 
     public boolean isMoveable() {

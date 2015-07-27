@@ -396,6 +396,10 @@ public class S20MatcherActivity extends MenuActivity {
     }
 
     public void checkBorder(QSImageView view) {
+        view.setScaleY(1.0f);
+        view.setScaleX(1.0f);
+        view.setLastScaleFactor(1.0f);
+
         float nextX = view.getX() * view.getLastScaleFactor();
         float nextY = view.getY() * view.getLastScaleFactor();
         float intrinsicWidth = view.getImageView().getDrawable().getIntrinsicWidth() * view.getLastScaleFactor();
