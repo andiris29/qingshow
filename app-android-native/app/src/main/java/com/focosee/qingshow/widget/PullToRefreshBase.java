@@ -49,7 +49,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     /**回滚的时间*/
     private int scrollDurtion = 200;
     /**阻尼系数*/
-    private static final float OFFSET_RADIO = 1.5f;
+    private static final float OFFSET_RADIO = 2.5f;
     /**上一次移动的点 */
     private float mLastMotionY = -1;
     /**下拉刷新和加载更多的监听器 */

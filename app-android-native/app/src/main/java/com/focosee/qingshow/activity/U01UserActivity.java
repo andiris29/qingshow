@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.animation.ObjectAnimator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -122,6 +123,7 @@ public class U01UserActivity extends MenuActivity {
         ButterKnife.inject(this);
         user = (MongoPeople) getIntent().getExtras().get("user");
         initUserInfo();
+        if(null == user) return;
         if (user._id.equals(QSModel.INSTANCE.getUser()._id)) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
@@ -260,12 +262,29 @@ public class U01UserActivity extends MenuActivity {
         u01BackTopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.scrollToPosition(0);
+                recyclerView.smoothScrollToPosition(0);
             }
         });
 
+        int span = recyclerView.getLayoutManager() instanceof LinearLayoutManager ? 1 : 2;
+
+        boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
+                * (recyclerView.getChildCount() - 1) / span + userHeadLayout.getBottom();
+
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        layoutManager.scrollToPositionWithOffset(0, (int) userHeadLayout.getY());
+
+        if(userHeadLayout.getY() != 0){
+            if(isShort){
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(userHeadLayout, View.TRANSLATION_Y, 0);
+                objectAnimator.setDuration(200);
+                objectAnimator.start();
+                recyclerView.scrollToPosition(0);
+            } else {
+                layoutManager.scrollToPositionWithOffset(0, (int) userHeadLayout.getY());
+            }
+        } else {
+            recyclerView.scrollToPosition(0);
+        }
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -350,13 +369,13 @@ public class U01UserActivity extends MenuActivity {
     protected void onResume() {
         super.onResume();
         if (null != getIntent().getExtras()) {
-            user = (MongoPeople) getIntent().getExtras().get("user");
+            if(null != getIntent().getExtras().get("user"))
+                user = (MongoPeople) getIntent().getExtras().get("user");
         }
         boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);
         if (hasNew) {
             circleTip.setVisibility(View.VISIBLE);
         }
-        System.out.println("onResume");
     }
 
     public class UserPagerAdapter extends FragmentPagerAdapter {

@@ -1,13 +1,14 @@
 package com.focosee.qingshow.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
 import com.focosee.qingshow.R;
@@ -17,23 +18,32 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.widget.PullToRefreshBase;
+import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class U09TradeListActivity extends BaseActivity{
+public class U09TradeListActivity extends BaseActivity {
 
-    private final String TAG = "U09TradeListActivity";
+    @InjectView(R.id.person_activity_back_image_button)
+    ImageView backBtn;
+    @InjectView(R.id.person_activity_tradelist_recyclerPullToRefreshView)
+    RecyclerPullToRefreshView recyclerPullToRefreshView;
     private RecyclerView tradelist;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -46,20 +56,21 @@ public class U09TradeListActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_person_tradelist);
+        ButterKnife.inject(this);
 
         people = QSModel.INSTANCE.getUser();
-        if(null == people){
+        if (null == people) {
             finish();
         }
 
-        findViewById(R.id.person_activity_back_image_button).setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        tradelist = (RecyclerView) findViewById(R.id.person_activity_tradelist_recycleview);
+        tradelist = recyclerPullToRefreshView.getRefreshableView();
 
         mAdapter = new U09TradeListAdapter(new LinkedList<MongoTrade>(), U09TradeListActivity.this, R.layout.head_trade_list, R.layout.item_trade_list);
 
@@ -78,9 +89,14 @@ public class U09TradeListActivity extends BaseActivity{
         tradelist.setAdapter(mAdapter);
         tradelist.addItemDecoration(new SpacesItemDecoration(10));
 
-        tradelist.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
+        recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
             @Override
-            public void onLoadMore(int current_page) {
+            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                doRefresh();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
                 doLoadMore();
             }
         });
@@ -104,36 +120,36 @@ public class U09TradeListActivity extends BaseActivity{
         eventBus.unregister(this);
     }
 
-    public void doRefresh(){
+    public void doRefresh() {
         getTradeFromNet(1, 10);
     }
 
-    public void doLoadMore(){
+    public void doLoadMore() {
         getTradeFromNet(currentPageNo, 10);
     }
 
-    private void getTradeFromNet(int pageNo, int pageSize){
+    private void getTradeFromNet(int pageNo, int pageSize) {
 
-        final ProgressDialog progressDialog = new ProgressDialog(U09TradeListActivity.this);
-        progressDialog.show();
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response:" + response);
-                if(MetadataParser.hasError(response)){
-                    ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
-                    progressDialog.dismiss();
+                if (MetadataParser.hasError(response)) {
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                        recyclerPullToRefreshView.setHasMoreData(false);
+                    else {
+                        ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
+                        recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    }
                     return;
                 }
                 LinkedList<MongoTrade> tradeList = TradeParser.parseQuery(response);
-                if(currentPageNo == 1){
+                if (currentPageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
                 } else {
                     mAdapter.addData(tradeList);
                 }
                 currentPageNo++;
                 mAdapter.notifyDataSetChanged();
-                progressDialog.dismiss();
             }
         });
 

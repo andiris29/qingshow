@@ -30,6 +30,7 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
@@ -201,8 +202,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
-                    Toast.makeText(S04CommentActivity.this, R.string.no_more_data, Toast.LENGTH_SHORT).show();
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                        recyclerPullToRefreshView.setHasMoreData(false);
+                    else {
+                        ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
+                        recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    }
                     return;
                 }
                 currentPage++;

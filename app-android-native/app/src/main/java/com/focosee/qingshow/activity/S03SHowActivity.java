@@ -122,8 +122,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     TextView likeTextView;
     @InjectView(R.id.S03_item_text_view)
     TextView itemTextView;
-    @InjectView(R.id.S03_share_msg)
-    TextView shareMsgTextView;
     private SharePopupWindow sharePopupWindow;
 
     private IWeiboShareAPI mWeiboShareAPI;
@@ -177,7 +175,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         outState.putSerializable("showDetailEntity", showDetailEntity);
         getIntent().putExtras(outState);
     }
-
 
     @Override
     public void reconn() {
@@ -267,7 +264,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         if (null != videoUriString && !"".equals(videoUriString))
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
-        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.Large)));
+        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.PORTRAIT_LARGE)));
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover) {
@@ -280,19 +277,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
-        if (null != showDetailEntity.__context) {
+        if (null != showDetailEntity.itemRefs) {
             itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
         }
 
-        if (null == showDetailEntity.promotionRef) {//优惠信息
-            shareMsgTextView.setVisibility(View.VISIBLE);
-            shareMsgTextView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    shareMsgTextView.setVisibility(View.GONE);
-                }
-            }, shareMsgShowTime);
-        }
         if (!QSModel.INSTANCE.loggedin()) {
             showData_other();
         } else if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
@@ -316,10 +304,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             UserCommand.getPeople(new Callback() {
                 @Override
                 public void onComplete(JSONObject response) {
-                    System.out.println("getPeople:  response:" + response);
                     showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
                     if (null != showDetailEntity.ownerRef.portrait)
-                        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.Large)));
+                        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
                     s03Nickname.setVisibility(View.VISIBLE);
                     s03Nickname.setText(showDetailEntity.ownerRef.nickname);
                 }
@@ -608,7 +595,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
         if (null != getIntent().getExtras()) {
-            showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
+            if(null != getIntent().getExtras().get("showDetailEntity"))
+                showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
         }
         super.onResume();
     }

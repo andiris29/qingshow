@@ -35,7 +35,7 @@ public class U01FollowerFragAdapter extends U01BaseAdapter<MongoPeople>{
         if(0 == position) return;
         final MongoPeople people = getItemData(position);
         if(null != people.portrait && !"".equals(people.portrait))
-            holder.setImgeByUrl(R.id.item_u01_fans_image, ImgUtil.getImgSrc(people.portrait, ImgUtil.Large));
+            holder.setImgeByUrl(R.id.item_u01_fans_image, ImgUtil.getImgSrc(people.portrait, ImgUtil.LARGE));
         holder.setText(R.id.item_u01_fans_name, people.nickname);
         holder.setText(R.id.item_u01_fans_cloth_number,String.valueOf(people.__context.numCreateShows));
         holder.setText(R.id.item_u01_fans_like_number,String.valueOf(people.__context.numLikeToCreateShows));

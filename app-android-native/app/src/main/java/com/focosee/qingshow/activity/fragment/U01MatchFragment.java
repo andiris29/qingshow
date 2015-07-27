@@ -15,9 +15,12 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+
 import org.json.JSONObject;
 import java.util.LinkedList;
 import butterknife.ButterKnife;
@@ -89,9 +92,13 @@ public class U01MatchFragment extends U01BaseFragment {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
-                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                        recyclerPullToRefreshView.setHasMoreData(false);
+                    else {
+                        ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                        recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    }
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
                     return;
                 }
 

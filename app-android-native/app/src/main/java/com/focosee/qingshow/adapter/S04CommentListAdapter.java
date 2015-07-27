@@ -28,7 +28,7 @@ public class S04CommentListAdapter extends AbsAdapter<MongoComment> {
     public void onBindViewHolder(AbsViewHolder holder, final int position) {
 
         MongoComment comment = getItemData(position);
-        holder.setImgeByUrl(R.id.item_comment_user_image, ImgUtil.getImgSrc(comment.getAuthorImage(), ImgUtil.Large));
+        holder.setImgeByUrl(R.id.item_comment_user_image, ImgUtil.getImgSrc(comment.getAuthorImage(), ImgUtil.PORTRAIT_LARGE));
         holder.setText(R.id.item_comment_user_name, comment.getAuthorName());
         holder.setText(R.id.item_comment_content, comment.getCommentContent());
 

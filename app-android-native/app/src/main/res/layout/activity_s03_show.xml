@@ -213,21 +213,6 @@
                         android:text="0"
                         android:textColor="@color/black" />
 
-                    <TextView
-                        android:id="@+id/S03_share_msg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_alignTop="@+id/S03_share_btn"
-                        android:layout_alignBottom="@+id/S03_share_btn"
-                        android:layout_toLeftOf="@+id/S03_share_btn"
-                        android:gravity="center"
-                        android:visibility="gone"
-                        android:textColor="@color/white"
-                        android:text="分享即获8折优惠"
-                        android:background="@drawable/share_msg_bg_9"/>
-
-
-
                     <ImageButton
                         android:id="@+id/S03_back_btn"
                         android:layout_width="50dp"
