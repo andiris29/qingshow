@@ -264,7 +264,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         if (null != videoUriString && !"".equals(videoUriString))
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
-        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.PORTRAIT_LARGE)));
+        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.LARGE)));
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover) {
@@ -281,15 +281,17 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
         }
 
-        if (!QSModel.INSTANCE.loggedin()) {
-            showData_other();
-        } else if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
-            showData_self();
-        } else {
-            showData_other();
-        }
-
         setLikedImageButtonBackgroundImage();
+
+        if (QSModel.INSTANCE.loggedin()) {
+            if (null != showDetailEntity.ownerRef) {
+                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
+                    showData_self();
+                    return;
+                }
+            }
+        }
+        showData_other();
     }
 
     private void showData_self() {
