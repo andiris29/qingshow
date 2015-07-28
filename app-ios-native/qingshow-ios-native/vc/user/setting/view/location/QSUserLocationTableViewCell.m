@@ -16,6 +16,8 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     _isSelectedReceiver = NO;
     self.selectedIndicator.highlighted = _isSelectedReceiver;
+    self.editBtn.highlighted = _isSelectedReceiver;
+    self.deleteBtn.highlighted = _isSelectedReceiver;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -28,6 +30,8 @@
 {
     _isSelectedReceiver = isSelectedReceiver;
     self.selectedIndicator.highlighted = _isSelectedReceiver;
+    self.editBtn.highlighted = _isSelectedReceiver;
+    self.deleteBtn.highlighted = _isSelectedReceiver;
 }
 
 - (void)bindWithDict:(NSDictionary*)dict

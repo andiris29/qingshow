@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -82,7 +82,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <state key="normal" image="location_cell_unselect_icon">
-                            <color key="titleColor" red="0.66274509803921566" green="0.10196078431372549" blue="0.30588235294117649" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.91764705882352937" green="0.50196078431372548" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" image="location_cell_select_icon"/>
@@ -95,9 +95,12 @@
                         <rect key="frame" x="207" y="25" width="45" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
-                        <state key="normal" title="编辑" image="location_cell_edit_icon">
-                            <color key="titleColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <state key="normal" title="编辑" image="location_cell_edit_icon_gray">
+                            <color key="titleColor" red="0.55681818179999998" green="0.55681818179999998" blue="0.55681818179999998" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted" title="编辑" image="location_cell_edit_icon">
+                            <color key="titleColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="editBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zFV-Tx-wkm"/>
@@ -107,9 +110,12 @@
                         <rect key="frame" x="260" y="25" width="48" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
-                        <state key="normal" title="删除" image="location_cell_remove_icon">
-                            <color key="titleColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <state key="normal" title="删除" image="location_cell_remove_icon_gray">
+                            <color key="titleColor" red="0.55681818179999998" green="0.55681818179999998" blue="0.55681818179999998" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted" title="删除" image="location_cell_remove_icon">
+                            <color key="titleColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="deleteBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="qiG-NI-On0"/>
@@ -119,6 +125,8 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="addressLabel" destination="xNT-n8-2CD" id="Qjs-b1-bLO"/>
+                <outlet property="deleteBtn" destination="5nD-Z3-29v" id="7Jk-D9-j5k"/>
+                <outlet property="editBtn" destination="hvA-Lg-mdl" id="FKw-6k-ppW"/>
                 <outlet property="nameLabel" destination="qUc-xM-hwG" id="tK9-Fj-QLl"/>
                 <outlet property="phoneLabel" destination="R2T-DX-miz" id="Pc6-bx-sSG"/>
                 <outlet property="selectedIndicator" destination="s2I-nw-amr" id="dC2-K0-lHF"/>
@@ -128,7 +136,9 @@
     </objects>
     <resources>
         <image name="location_cell_edit_icon" width="16" height="20"/>
+        <image name="location_cell_edit_icon_gray" width="16" height="20"/>
         <image name="location_cell_remove_icon" width="16" height="20"/>
+        <image name="location_cell_remove_icon_gray" width="16" height="20"/>
         <image name="location_cell_select_icon" width="20" height="20"/>
         <image name="location_cell_unselect_icon" width="20" height="20"/>
     </resources>
