@@ -49,4 +49,8 @@ public enum QSModel {
         this.user = null;
     }
 
+    public String getUserId(){
+        return QSApplication.instance().getPreferences().getString("id", "");
+    }
+
 }
