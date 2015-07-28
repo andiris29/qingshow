@@ -18,7 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_toRightOf="@+id/item_u01_fans_image"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_marginLeft="5dp">
 
         <TextView
@@ -27,14 +27,16 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="anna"
+            android:text="倾秀用户"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1">
@@ -48,7 +50,7 @@
                 android:id="@+id/item_u01_fans_cloth_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="104"
+                android:text="0"
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/gary" />
 
@@ -62,7 +64,7 @@
                 android:id="@+id/item_u01_fans_like_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1025"
+                android:text="0"
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/gary" />
         </LinearLayout>

@@ -56,6 +56,7 @@ public class AppUtil {
         if (null == modelBackgroundDisplayOptions) {
             modelBackgroundDisplayOptions = new DisplayImageOptions.Builder()
                     .showImageForEmptyUri(R.drawable.user_bg_default)
+                    .showImageOnLoading(R.drawable.user_bg_default)
                     .showImageOnFail(R.drawable.user_bg_default)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)

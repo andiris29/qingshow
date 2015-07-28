@@ -27,11 +27,12 @@
         android:layout_centerInParent="true"
         android:text="紫色呢绒大衣"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/item_s07_detail_btn"
-        android:layout_width="10dp"
-        android:layout_height="15dp"
-        android:background="@drawable/matcher_item_selection_next_hover"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/matcher_item_selection_next_hover"
+        android:background="@null"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"

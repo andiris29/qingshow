@@ -1,7 +1,7 @@
 package com.focosee.qingshow.activity;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.KeyEvent;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
@@ -10,14 +10,12 @@ import com.umeng.analytics.MobclickAgent;
 
 public class U02SettingsActivity extends BaseActivity {
 
-    private Context context;
     private U02SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        context = getApplicationContext();
 
         settingsFragment = U02SettingsFragment.newIntance();
         getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, "settingsFragment").commit();
@@ -25,6 +23,11 @@ public class U02SettingsActivity extends BaseActivity {
 
     @Override
     public void reconn() {
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
 
     }
 

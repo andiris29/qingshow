@@ -153,6 +153,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.S10ItemDetailActivity"

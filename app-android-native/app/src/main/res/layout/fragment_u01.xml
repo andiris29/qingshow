@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/gray_background"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.focosee.qingshow.widget.RecyclerPullToRefreshView
         android:id="@+id/fragment_u01_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-
-
 </LinearLayout>

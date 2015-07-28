@@ -48,20 +48,30 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
         holder.getView(R.id.item_s07_detail_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null == item){
-                    Toast.makeText(context, R.string.item_not_exist, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(null == item.images || 0 == item.images.size()){
-                    Toast.makeText(context, R.string.image_not_exist, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent = new Intent(context, S10ItemDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                jump(item);
             }
         });
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jump(item);
+            }
+        });
+    }
+
+    public void jump(MongoItem item){
+        if (null == item) {
+            Toast.makeText(context, R.string.item_not_exist, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (null == item.images || 0 == item.images.size()) {
+            Toast.makeText(context, R.string.image_not_exist, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(context, S10ItemDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }
