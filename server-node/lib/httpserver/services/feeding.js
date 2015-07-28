@@ -4,7 +4,6 @@ var async = require('async'), _ = require('underscore');
 var Show = require('../../model/shows');
 var Peoples = require('../../model/peoples');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
-var Promotion = require('../../model/promotions');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
@@ -36,13 +35,6 @@ var _feed = function (req, res, querier, aspectInceptions) {
                     Show.populate(currentPageModels, {
                         'path' : 'itemRefs',
                         'model' : 'items'
-                    }, callback);
-                },
-                function(callback) {
-                    // Populate promotionRef
-                    Show.populate(currentPageModels, {
-                        'path' : 'promotionRef',
-                        'model' : 'promotions'
                     }, callback);
                 },
                 function(callback) {

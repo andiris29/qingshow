@@ -86,9 +86,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     };
 
     // __context.promotionRef
-    var generatePromoInfo = function(callback) {
-        _generatePromoInfo(qsCurrentUserId, shows, 'promotionRef', callback);
-    };
+    // TBD
 
     // modedRef.__context.followedByCurrentUser
     async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo], function(err) {
@@ -163,37 +161,6 @@ var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback
             }
         };
     });
-    async.parallel(tasks, function(err) {
-        callback(null, models);
-    });
-};
-
-var _generatePromoInfo = function(peopleId, models, contextField, callback) {
-    var tasks = models.map(function(model) {
-        return function(callback) {
-            model.__context[contextField] = {};
-            if (model.promotionRef === null || model.promotionRef === undefined) {
-                model.__context[contextField].enabled = false;
-                callback();
-                return;
-            }
-            if (model.promotionRef.criteria === 0) {
-                // 分享后可获得优惠
-                RPeopleShareShow.findOne({
-                    'initiatorRef' : peopleId,
-                    'targetRef' : model._id
-                }, function(err, relationship) {
-                    model.__context[contextField].enabled = Boolean(!err && relationship);
-                    callback();
-                });
-            } else {
-                // 其他策略
-                model.__context[contextField].enabled = false;
-                callback();
-            }
-        };
-    });
-
     async.parallel(tasks, function(err) {
         callback(null, models);
     });
