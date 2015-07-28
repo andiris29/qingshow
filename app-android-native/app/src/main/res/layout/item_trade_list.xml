@@ -13,56 +13,14 @@
         android:layout_weight="1"
         android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/item_tradeno_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_weight="3"
-            android:singleLine="true"
-            android:text="@string/trade_num_text"
-            android:textColor="@color/pink"
-            android:visibility="invisible"
-            android:textSize="@dimen/text_size" />
-
-        <TextView
-            android:id="@+id/item_tradelist_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/item_tradeno_text"
-            android:layout_weight="4"
-            android:singleLine="true"
-            android:text="12345678"
-            android:textColor="@color/pink"
-            android:visibility="invisible"
-            android:textSize="@dimen/text_size" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/item_tradelist_status"
-            android:layout_weight="4"
-            android:singleLine="true"
-            android:text="@string/trade_type_text"
-            android:textColor="@color/pink"
-            android:textSize="@dimen/text_size" />
 
         <TextView
             android:id="@+id/item_tradelist_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_weight="4"
             android:singleLine="true"
-            android:text=""
-            android:textColor="@color/pink"
+            android:text="fdsafda"
+            android:textColor="@color/master_pink"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
 

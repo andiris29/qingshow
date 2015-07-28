@@ -75,6 +75,12 @@ public class U01FansFragment extends U01BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        refresh();
+        super.onResume();
+    }
+
+    @Override
     public void refresh() {
         getDatasFromNet(1, 10);
     }

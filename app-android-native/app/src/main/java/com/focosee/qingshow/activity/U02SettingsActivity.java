@@ -50,10 +50,10 @@ public class U02SettingsActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(U02Model.INSTANCE.get_class() == U02SettingsFragment.class) {
             if (keyCode == KeyEvent.KEYCODE_MENU) {
-                settingsFragment.menuSwitch();
+//                settingsFragment.menuSwitch();
             }
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                settingsFragment.menuSwitch();
+//                settingsFragment.menuSwitch();
             }
         }else{
             if (keyCode == KeyEvent.KEYCODE_BACK) {

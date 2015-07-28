@@ -30,8 +30,7 @@
                 android:id="@+id/user_bg"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:scaleType="fitXY"
-                android:background="@color/white"/>
+                android:scaleType="fitXY"/>
 
 
             <include layout="@layout/item_u01_header"/>
