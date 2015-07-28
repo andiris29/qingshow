@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -45,7 +46,7 @@ import butterknife.InjectView;
 public class S11DetailsFragment extends Fragment {
 
     @InjectView(R.id.itemName)
-    QSTextView itemName;
+    TextView itemName;
     @InjectView(R.id.s11_item_group)
     FlowRadioGroup colorGroup;
     @InjectView(R.id.s11_size_group)

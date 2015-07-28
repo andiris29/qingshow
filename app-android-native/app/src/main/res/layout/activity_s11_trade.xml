@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
+        app:cardCornerRadius="dp"
         app:cardElevation="15dp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="7dp">
+        app:cardUseCompatPadding="true">
 
         <android.support.percent.PercentRelativeLayout
             android:layout_width="match_parent"
@@ -21,14 +21,14 @@
             android:layout_marginRight="15dp"
             android:orientation="vertical">
 
-            <com.focosee.qingshow.widget.QSTextView
+            <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
                 android:text="折扣订单"
+                android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_heightPercent="5%"
                 app:layout_marginBottomPercent="1%"
                 app:layout_marginTopPercent="3%" />
@@ -58,17 +58,18 @@
                     app:actualImageScaleType="fitCenter" />
 
                 <LinearLayout
-                    android:layout_marginLeft="15dp"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.focosee.qingshow.widget.QSTextView
+                    <TextView
                         android:id="@+id/itemName"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black" />
 
                     <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="match_parent"
@@ -97,8 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="颜色分类"
-                    android:textSize="@dimen/text_size"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size" />
 
                 <com.focosee.qingshow.widget.flow.FlowRadioGroup
                     android:id="@+id/s11_item_group"
@@ -128,6 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="尺码"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size"
                     android:textStyle="bold" />
 
@@ -159,6 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="购买数量"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size"
                     android:textStyle="bold" />
 

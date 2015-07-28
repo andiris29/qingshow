@@ -29,6 +29,7 @@
         android:onClick="onClick"
         app:backgroundTint="@color/master_pink"
         app:borderWidth="0dp"
+        app:layout_marginBottomPercent="11%"
         app:rippleColor="@color/pink_100" />
 
     <FrameLayout
