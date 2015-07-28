@@ -89,7 +89,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -117,7 +117,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -145,14 +145,14 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/matters_activity_return"
-                    android:textColor="@color/p01_text_color_model_height" />
+                    android:textColor="@color/gary" />
 
                 <TextView
                     android:id="@+id/matters_return_activity"
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="我们支持七日无理由退货，如果亲们发现宝贝不合适，请七日内用快递将商品完好地退回"
-                    android:textColor="@color/p01_text_color_model_height" />
+                    android:textColor="@color/gary" />
 
 
             </LinearLayout>
@@ -185,7 +185,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -215,7 +215,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -245,7 +245,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <!--<LinearLayout-->
                     <!--android:id="@+id/returnDate_layout_return_activity"-->

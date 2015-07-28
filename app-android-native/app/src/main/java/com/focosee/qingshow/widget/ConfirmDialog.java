@@ -166,7 +166,7 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
         ft.commit();
-    }
+}
 
 
     @Override

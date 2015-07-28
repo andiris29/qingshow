@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="171cm"
-                android:textColor="@color/p01_text_color_model_height" />
+                android:textColor="@color/gary" />
 
             <TextView
                 android:id="@+id/item_model_weight"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:text="104"
                 android:layout_marginLeft="3dp"
-                android:textColor="@color/p01_text_color_model_height" />
+                android:textColor="@color/gary" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:text="1025"
                 android:layout_marginLeft="3dp"
-                android:textColor="@color/p01_text_color_model_height" />
+                android:textColor="@color/gary" />
         </LinearLayout>
     </LinearLayout>
 

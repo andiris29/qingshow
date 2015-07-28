@@ -1,4 +1,4 @@
-package com.focosee.qingshow.widget.Flow;
+package com.focosee.qingshow.widget.flow;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -43,11 +43,11 @@ public class FlowRadioButton extends Button implements IRadioViewHelper {
 
     private void onCheckedChanged(boolean isCheck) {
         if(isCheck){
-            setBackgroundResource(R.drawable.s11_size_item_check_bg);
+            setBackgroundResource(R.drawable.pink_btn_fall);
             setTextColor(Color.WHITE);
         }else {
             setBackgroundResource(R.drawable.s11_size_item_bg);
-            setTextColor(Color.BLACK);
+            setTextColor(Color.GRAY);
         }
     }
 

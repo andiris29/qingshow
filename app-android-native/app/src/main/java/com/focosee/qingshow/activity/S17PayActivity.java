@@ -12,12 +12,11 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11DetailsEvent;
-import com.focosee.qingshow.activity.fragment.S11DetailsFragment;
-import com.focosee.qingshow.activity.fragment.S11PaymentFragment;
-import com.focosee.qingshow.activity.fragment.S11ReceiptFragment;
+import com.focosee.qingshow.activity.fragment.S17DetailsEvent;
+import com.focosee.qingshow.activity.fragment.S17DetailsFragment;
+import com.focosee.qingshow.activity.fragment.S17PaymentFragment;
+import com.focosee.qingshow.activity.fragment.S17ReceiptFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.PayCommand;
 import com.focosee.qingshow.command.TradeRefreshCommand;
@@ -53,15 +52,15 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S11NewTradeActivity extends BaseActivity implements View.OnClickListener {
+public class S17PayActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
 
     private Button submit;
     private TextView priceTV;
-    private S11DetailsFragment detailsFragment;
-    private S11PaymentFragment paymentFragment;
-    private S11ReceiptFragment receiptFragment;
+    private S17DetailsFragment detailsFragment;
+    private S17PaymentFragment paymentFragment;
+    private S17ReceiptFragment receiptFragment;
     private View dialog;
 
     private MongoPeople.Receiver receiver;
@@ -83,7 +82,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_s11_trade);
+        setContentView(R.layout.activity_s17_trade);
         EventBus.getDefault().register(this);
 
         init();
@@ -97,9 +96,9 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         submit = (Button) findViewById(R.id.s11_submit_button);
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_trade_success, null);
 
-        detailsFragment = (S11DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.s11_details);
-        receiptFragment = (S11ReceiptFragment) getSupportFragmentManager().findFragmentById(R.id.s11_receipt);
-        paymentFragment = (S11PaymentFragment) getSupportFragmentManager().findFragmentById(R.id.s11_payment);
+        detailsFragment = (S17DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.s11_details);
+        receiptFragment = (S17ReceiptFragment) getSupportFragmentManager().findFragmentById(R.id.s11_receipt);
+        paymentFragment = (S17PaymentFragment) getSupportFragmentManager().findFragmentById(R.id.s11_payment);
 
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
@@ -126,7 +125,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                 detailsFragment.getOrder());
     }
 
-    public void onEventMainThread(S11DetailsEvent event) {
+    public void onEventMainThread(S17DetailsEvent event) {
         measureInfo = event.getMeasureInfo();
         setAllow(event.isExists(), event.getOrder());
     }
@@ -144,7 +143,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onError(int errorCode) {
-                        ErrorHandler.handle(S11NewTradeActivity.this, errorCode);
+                        ErrorHandler.handle(S17PayActivity.this, errorCode);
                     }
                 });
             }
@@ -227,7 +226,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onError(int errorCode) {
-                ErrorHandler.handle(S11NewTradeActivity.this, errorCode);
+                ErrorHandler.handle(S17PayActivity.this, errorCode);
             }
         });
     }
@@ -268,7 +267,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
                     Log.i("tag", MetadataParser.getError(response) + "");
-                    ErrorHandler.handle(S11NewTradeActivity.this, MetadataParser.getError(response));
+                    ErrorHandler.handle(S17PayActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 trade = TradeParser.parse(response);
@@ -284,7 +283,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         String paymentMode = paymentFragment.getPaymentMode();
 
         if (paymentMode.equals(getResources().getString(R.string.alipay))) {
-            PayCommand.alipay(trade, S11NewTradeActivity.this, new Callback() {
+            PayCommand.alipay(trade, S17PayActivity.this, new Callback() {
                 @Override
                 public void onComplete() {
                     TradeRefreshCommand.refresh(trade._id, new Callback() {
@@ -296,7 +295,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                         @Override
                         public void onError(int errorCode) {
                             Log.i("tag", errorCode + "");
-                            ErrorHandler.handle(S11NewTradeActivity.this, errorCode);
+                            ErrorHandler.handle(S17PayActivity.this, errorCode);
                         }
                     });
                 }
@@ -325,7 +324,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         dialog.setConfirm("查看订单", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(S11NewTradeActivity.this, U09TradeListActivity.class));
+                startActivity(new Intent(S17PayActivity.this, U09TradeListActivity.class));
                 finish();
             }
         });

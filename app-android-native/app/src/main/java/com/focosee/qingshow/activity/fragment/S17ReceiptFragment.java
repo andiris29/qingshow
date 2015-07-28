@@ -1,7 +1,5 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,7 +21,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S11ReceiptFragment extends Fragment implements View.OnClickListener{
+public class S17ReceiptFragment extends Fragment implements View.OnClickListener{
 
     private View rootView;
     private EditText nameView;
@@ -39,7 +36,7 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        rootView = inflater.inflate(R.layout.fragment_s11_receipt,container,false);
+        rootView = inflater.inflate(R.layout.fragment_s17_receipt,container,false);
         init();
         return rootView;
     }

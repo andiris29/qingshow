@@ -8,17 +8,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.S07CollectActivity;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
-import com.focosee.qingshow.activity.S11NewTradeActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
-import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.util.QSComponent;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-import com.focosee.qingshow.widget.ConfirmDialog;
-import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 
 import java.util.List;
 

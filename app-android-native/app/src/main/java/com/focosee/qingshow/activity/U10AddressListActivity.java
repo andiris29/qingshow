@@ -9,15 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11ReceiptFragment;
+import com.focosee.qingshow.activity.fragment.S17ReceiptFragment;
 import com.focosee.qingshow.activity.fragment.U11AddressEditFragment;
 import com.focosee.qingshow.adapter.U10AddressListAdapter;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 import java.util.LinkedList;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -45,7 +43,7 @@ public class U10AddressListActivity extends BaseActivity {
 
         Intent intent = getIntent();
 
-        fromWhere = intent.getStringExtra(S11ReceiptFragment.TO_U10);
+        fromWhere = intent.getStringExtra(S17ReceiptFragment.TO_U10);
 
         people = QSModel.INSTANCE.getUser();
         if(null == people){

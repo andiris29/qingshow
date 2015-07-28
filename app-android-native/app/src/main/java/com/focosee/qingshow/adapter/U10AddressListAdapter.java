@@ -10,7 +10,7 @@ import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
-import com.focosee.qingshow.activity.fragment.S11ReceiptFragment;
+import com.focosee.qingshow.activity.fragment.S17ReceiptFragment;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -65,7 +65,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
             holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment);
         }
         if (context instanceof U10AddressListActivity) {
-            if (S11ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
+            if (S17ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
                 holder.getView(R.id.item_addresslist_content).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

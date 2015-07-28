@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -18,32 +17,33 @@
             android:padding="10dp">
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:padding="10dp"
                 android:text="产品详情"
+                android:layout_gravity="center"
                 android:textSize="@dimen/text_size" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/s11_details_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:textSize="@dimen/text_size_small" />
+                    android:layout_height="wrap_content"
+                    android:text="秋冬新款韩版圆点宽松衬衫秋冬新款韩版圆点宽松衬衫"
+                    android:textSize="@dimen/text_size_small"
+                    />
 
                 <LinearLayout
+                    android:paddingTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/s11_details_price"
@@ -73,22 +73,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:padding="10dp">
 
             <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:padding="10dp"
-                android:text="颜色"
-                android:textSize="@dimen/text_size" />
 
-            <TextView
-                android:id="@+id/s11_details_color_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="选择颜色"
                 android:textSize="@dimen/text_size" />
+            <com.focosee.qingshow.widget.flow.FlowRadioGroup
+                android:id="@+id/s11_item_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
         <View
@@ -97,154 +97,57 @@
             android:layout_height="1dp"
             android:background="@color/line_activity_settings" />
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/s11_details_size"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
-                android:id="@+id/cate_4"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:gravity="center_vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:text="鞋码"
-                    android:textSize="@dimen/text_size" />
-
-                <EditText
-                    android:id="@+id/shoe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:hint="请输入鞋码"
-                    android:background="@null"
-                    android:inputType="number"
-                    android:textSize="@dimen/text_size" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/cate_023"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/box"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="选择尺码"
+                    android:textSize="@dimen/text_size" />
 
-                    <TextView
-                        android:id="@+id/category_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="上身数值"
-                        android:textSize="16sp" />
+                <com.focosee.qingshow.widget.flow.FlowRadioGroup
+                    android:id="@+id/s11_size_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="(请正确填写以下数值，我们会为您选择合适的尺码)"
-                        android:textSize="13sp" />
-                </LinearLayout>
+            </LinearLayout>
 
-                <android.support.percent.PercentRelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="110dp"
-                    android:layout_below="@id/box">
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/home_gray_background"/>
-                    <LinearLayout
-                        android:id="@+id/num_one_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/num_one"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="@dimen/text_size"
-                            android:textColor="@color/text_color"
-                            android:text="胸围："/>
+                <TextView
+                    android:id="@+id/s11_show_reference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="尺码对照表 >"
+                    android:textSize="@dimen/text_size" />
 
-                        <EditText
-                            android:id="@+id/num_one"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint="请填写胸围"
-                            android:inputType="number"
-                            android:background="@null"
-                            android:textSize="16sp"
-                            android:textColorHint="@color/text_color"
-                            android:layout_alignParentTop="true"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size"
-                            android:textColor="@color/text_color"
-                            android:layout_marginLeft="5dp"
-                            android:text="cm"/>
-                    </LinearLayout>
-                    <View
-                        android:layout_below="@+id/num_one_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/home_gray_background"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:gravity="center_vertical"
-                        android:layout_below="@id/num_one_layout">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/num_one"
-                            android:textSize="@dimen/text_size"
-                            android:textColor="@color/text_color"
-                            android:layout_marginLeft="10dp"
-                            android:text="肩宽："/>
-                        <EditText
-                            android:id="@+id/num_tow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textColorHint="@color/text_color"
-                            android:background="@null"
-                            android:hint="请填写肩宽"
-                            android:textSize="@dimen/text_size" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size"
-                            android:textColor="@color/text_color"
-                            android:layout_marginLeft="5dp"
-                            android:text="cm"/>
-                    </LinearLayout>
-                    <ImageView
-                        android:id="@+id/size_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="100dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@color/white"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/category_shangyi" />
-                </android.support.percent.PercentRelativeLayout>
-            </RelativeLayout>
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/s11_reference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <View
             android:id="@+id/s11_details_size_line"
@@ -259,42 +162,43 @@
             android:padding="10dp">
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="选择数量"
                 android:textSize="@dimen/text_size" />
 
             <Button
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:id="@+id/S11_cut_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center"
-                android:background="@drawable/s11_cut_button" />
+                android:background="@drawable/s11_cut_button"
+                 />
 
             <TextView
                 android:id="@+id/S11_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/kuang"
+                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="1"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <Button
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:id="@+id/S11_add_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:background="@drawable/s11_add_button" />
+                android:background="@drawable/s11_add_button"
+                />
 
         </LinearLayout>
 

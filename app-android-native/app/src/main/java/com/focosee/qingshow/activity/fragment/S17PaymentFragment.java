@@ -13,7 +13,7 @@ import com.focosee.qingshow.widget.PaymentRadio;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S11PaymentFragment extends Fragment {
+public class S17PaymentFragment extends Fragment {
 
     private View rootView;
     private PaymentGroup paymentGroup;
@@ -21,7 +21,7 @@ public class S11PaymentFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_s11_payment, container, false);
+        rootView = inflater.inflate(R.layout.fragment_s17_payment, container, false);
         initView();
         return rootView;
     }

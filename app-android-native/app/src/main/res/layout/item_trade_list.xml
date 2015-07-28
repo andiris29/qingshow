@@ -69,7 +69,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/p01_text_color_model_height" />
+        android:background="@color/gary" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -126,7 +126,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignTop="@+id/item_tradelist_measurement"
                             android:text="@string/trade_measurement"
-                            android:textColor="@color/p01_text_color_model_height" />
+                            android:textColor="@color/gary" />
 
                         <TextView
                             android:id="@+id/item_tradelist_measurement"
@@ -136,7 +136,7 @@
                             android:layout_alignLeft="@+id/item_tradelist_quantity"
                             android:layout_marginLeft="5dp"
                             android:text=""
-                            android:textColor="@color/p01_text_color_model_height" />
+                            android:textColor="@color/gary" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -150,7 +150,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="@string/trade_color"
-                            android:textColor="@color/p01_text_color_model_height" />
+                            android:textColor="@color/gary" />
 
                         <TextView
                             android:id="@+id/item_tradelist_color"
@@ -160,7 +160,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@+id/item_tradelist_color_left"
                             android:text=""
-                            android:textColor="@color/p01_text_color_model_height" />
+                            android:textColor="@color/gary" />
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/item_tradelist_sku"
@@ -183,7 +183,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentLeft="true"
                                 android:text="@string/trade_count"
-                                android:textColor="@color/p01_text_color_model_height" />
+                                android:textColor="@color/gary" />
 
                             <TextView
                                 android:id="@+id/item_tradelist_quantity"
@@ -193,7 +193,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_marginLeft="5dp"
                                 android:text=""
-                                android:textColor="@color/p01_text_color_model_height" />
+                                android:textColor="@color/gary" />
                         </LinearLayout>
 
                     <LinearLayout
@@ -208,7 +208,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_toRightOf="@+id/item_tradelist_color"
                             android:text="@string/trade_price"
-                            android:textColor="@color/p01_text_color_model_height" />
+                            android:textColor="@color/gary" />
 
                         <TextView
                             android:id="@+id/item_tradelist_price"
@@ -218,7 +218,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@+id/item_tradelist_price_text"
                             android:text=""
-                            android:textColor="@color/p01_text_color_model_height" />
+                            android:textColor="@color/gary" />
                     </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -250,7 +250,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:text="@string/trade_create_date"
-                        android:textColor="@color/p01_text_color_model_height" />
+                        android:textColor="@color/gary" />
 
                     <TextView
                         android:id="@+id/item_tradelist_createTime"
@@ -259,7 +259,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:text=""
-                        android:textColor="@color/p01_text_color_model_height" />
+                        android:textColor="@color/gary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -274,7 +274,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/trade_finish_date"
-                        android:textColor="@color/p01_text_color_model_height" />
+                        android:textColor="@color/gary" />
 
                     <TextView
                         android:id="@+id/item_tradelist_finishTime"
@@ -282,7 +282,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="2015-3-1"
-                        android:textColor="@color/p01_text_color_model_height" />
+                        android:textColor="@color/gary" />
                 </LinearLayout>
 
             </LinearLayout>

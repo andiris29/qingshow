@@ -1,8 +1,6 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +28,7 @@ public class S11ItemImgAdapter extends RecyclerView.Adapter<S11ItemImgAdapter.Vi
     @Override
     public S11ItemImgAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         this.context = viewGroup.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_s11_details_img, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_s17_details_img, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
