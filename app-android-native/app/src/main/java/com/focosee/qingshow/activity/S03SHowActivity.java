@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -285,7 +284,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         if (QSModel.INSTANCE.loggedin()) {
             if (null != showDetailEntity.ownerRef) {
-                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
+                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId())) {
                     showData_self();
                     return;
                 }
@@ -596,11 +595,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     public void onResume() {
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
-        if (null != getIntent().getExtras()) {
-            if(null != getIntent().getExtras().get("showDetailEntity"))
-                showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
-        }
         super.onResume();
+        if (null != getIntent().getExtras()) {
+            if(null != getIntent().getExtras().get("showDetailEntity")) {
+                showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
+                System.out.println("showDetailEntity:" + showDetailEntity.ownerRef._id);
+            }
+        }
     }
 
     @Override

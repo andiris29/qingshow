@@ -166,7 +166,6 @@
         <activity
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:exported="true"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait" />
         <activity
@@ -204,7 +203,6 @@
         <activity
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:exported="true"
             android:label="@string/title_activity_s03_show"
             android:screenOrientation="portrait" >
             <intent-filter>
