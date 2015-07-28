@@ -19,6 +19,7 @@
 #import "QSEntityUtil.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSS04CommentListViewController.h"
+#import "QSU09OrderListViewController.h"
 
 @interface QSRootContainerViewController ()
 
@@ -115,6 +116,15 @@
                 QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
                 matcherVc.menuProvider = self;
                 vc = matcherVc;
+                break;
+            }
+            case QSRootMenuItemDiscount: {
+                QSU09OrderListViewController* orderListVc = [[QSU09OrderListViewController alloc] init];
+                orderListVc.menuProvider = self;
+                vc = orderListVc;
+                break;
+            }
+            default:{
                 break;
             }
         }

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #define QSRootMenuItemWidth 65.f
-#define QSRootMenuItemHeight 120.f
+#define QSRootMenuItemHeight 100.f
 
 typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
     
@@ -16,7 +16,8 @@ typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
     QSRootMenuItemMeida = 1,
 //    QSRootMenuItemMyFavor = 2,
     QSRootMenuItemSetting = 3,
-    QSRootMenuItemMatcher = 4
+    QSRootMenuItemMatcher = 4,
+    QSRootMenuItemDiscount = 5
 };
 
 

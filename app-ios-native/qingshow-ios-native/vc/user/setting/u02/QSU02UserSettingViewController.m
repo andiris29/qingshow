@@ -109,8 +109,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                @(U02SectionImageRowBackground)
                                ],
                            @[
-                               @(U02SectionManagerRowAddress),
-                               @(U02SectionManagerRowOrder)
+                               @(U02SectionManagerRowAddress)
                                ],
                            @[
                                @(U02SectionInfoRowName),
@@ -236,10 +235,6 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 }
 
 #pragma mark - Action
-
-- (void)showOrderList{
-    [self.navigationController pushViewController:[[QSU09OrderListViewController alloc] init] animated:YES];
-}
 - (void)showAddressList {
     [self.navigationController pushViewController:[[QSU10ReceiverListViewController alloc] init] animated:YES];
 }
