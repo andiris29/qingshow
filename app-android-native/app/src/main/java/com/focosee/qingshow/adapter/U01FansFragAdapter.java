@@ -27,7 +27,7 @@ public class U01FansFragAdapter extends U01BaseAdapter<MongoPeople>{
         super.onBindViewHolder(holder, position);
         if(0 == position) return;
         final MongoPeople people = getItemData(position);
-        holder.setImgeByUrl(R.id.item_u01_fans_image, ImgUtil.getImgSrc(people.portrait, ImgUtil.LARGE));
+        holder.setImgeByUrl(R.id.item_u01_fans_image, ImgUtil.getImgSrc(people.portrait, ImgUtil.PORTRAIT_LARGE));
         holder.setText(R.id.item_u01_fans_name, people.nickname);
         holder.setText(R.id.item_u01_fans_cloth_number,String.valueOf(people.__context.numCreateShows));
         holder.setText(R.id.item_u01_fans_like_number,String.valueOf(people.__context.numLikeToCreateShows));
