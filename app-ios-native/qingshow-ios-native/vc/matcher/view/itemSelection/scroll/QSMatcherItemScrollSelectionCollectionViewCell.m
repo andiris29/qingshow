@@ -9,7 +9,7 @@
 #import "QSMatcherItemScrollSelectionCollectionViewCell.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#import "QSImageNameUtil.h"
 #define COLOR_GRAY [UIColor colorWithRed:149.f/255.f green:149.f/255.f blue:149.f/255.f alpha:1.f]
 #define COLOR_PINK [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f]
 
@@ -21,7 +21,8 @@
 }
 
 - (void)bindWithDict:(NSDictionary*)dict {
-    [self.imgView setImageFromURL:[QSItemUtil getThumbnail:dict]];
+    NSURL *url = [QSImageNameUtil appendImageNameUrl:[QSItemUtil getThumbnail:dict] type:QSImageNameTypeS];
+    [self.imgView setImageFromURL:url];
     self.label.text = [QSItemUtil getPrice:dict];
 }
 
