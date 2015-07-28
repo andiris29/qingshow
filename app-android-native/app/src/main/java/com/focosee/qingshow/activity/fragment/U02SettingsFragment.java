@@ -18,12 +18,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U06LoginActivity;
@@ -47,17 +44,17 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
-
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import dmax.dialog.SpotsDialog;
 
 public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
+
+    private static final String TAG = U02SettingsFragment.class.getSimpleName();
 
     private static final String[] sexArgs = {"男", "女"};
     private static final String[] bodyTypeArgs = {"A型", "H型", "V型", "X型"};
@@ -81,9 +78,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     ImageButton navigationBtnGoodMatch;
     @InjectView(R.id.u01_people)
     ImageButton u01People;
-
-    private Context context;
-    private RequestQueue requestQueue;
 
     @InjectView(R.id.personalRelativeLayout)
     RelativeLayout personalRelativeLayout;
@@ -139,7 +133,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d(TAG, "onCreate");
         if (null != savedInstanceState) {
             people = (MongoPeople) savedInstanceState.getSerializable("people");
         }
@@ -149,12 +143,19 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
         ButterKnife.inject(this, view);
-        context = getActivity().getApplicationContext();
-        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
-        getUser();
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated");
+        initUser();
         setJumpListener();
         initDrawer();
 
@@ -178,23 +179,18 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     }
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-                Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "已退出登录", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
                 GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
                 getActivity().finish();
             }
         });
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
         try {
             // When an Image is picked
@@ -225,11 +221,11 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 }
 
             } else {
-                Toast.makeText(context, "您未选择图片！",
+                Toast.makeText(getActivity(), "您未选择图片！",
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Toast.makeText(context, "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
+            Toast.makeText(getActivity(), "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
                     .show();
         }
     }
@@ -237,22 +233,33 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void uploadImage(final String imgUri, final int type) {
 
         String api = "";
-
+        File file = new File(imgUri);
         if (type == TYPE_PORTRAIT) {
             api = QSAppWebAPI.getUserUpdateportrait();
         } else {
             api = QSAppWebAPI.getUserUpdatebackground();
         }
         String API = api;
+        final SpotsDialog pDialog = new SpotsDialog(getActivity(),getResources().getString(R.string.s20_loading));
+        pDialog.show();
         QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
                 API, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(TAG, "response:" + response);
+                pDialog.dismiss();
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    return;
+                }
                 MongoPeople user = UserParser._parsePeople(response);
-                if (user == null) {
-                    ErrorHandler.handle(context, MetadataParser.getError(response));
-                } else {
-                    getUser();
+                if (user != null) {
+                    if(TYPE_PORTRAIT == type){
+                        portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE)));
+                    }else{
+                        backgroundImageView.setImageURI(Uri.parse(user.background));
+                    }
+                    UserCommand.refresh();
                 }
             }
         }, new Response.ErrorListener() {
@@ -266,20 +273,21 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addStringPart("content", "hello");
 // 文件参数
-        File file = new File(imgUri);
+
         multipartEntity.addFilePart("image", file);
         multipartEntity.addStringPart("filename", file.getName());
 
 // 构建请求队列
 // 将请求添加到队列中
-        requestQueue.add(multipartRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
             if (null != people.portrait) {
-                portraitImageView.setImageURI(Uri.parse(people.portrait));
+                System.out.println("portraitImageView:" + portraitImageView);
+                portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(people.portrait, ImgUtil.PORTRAIT_LARGE)));
                 portraitImageView.setAlpha(1f);
             }
             if (null != people.background) {
@@ -317,7 +325,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getUser();
         outState.putSerializable("people", people);
     }
 
@@ -328,7 +335,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     }
 
     //获得用户信息
-    private void getUser() {
+    private void initUser() {
 
         UserCommand.refresh(new Callback() {
             @Override
@@ -418,7 +425,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void commitForm() {
         Map params = new HashMap();
         if (!nameEditText.getText().toString().equals(""))
-            params.put("name", nameEditText.getText().toString());
+            params.put("nickname", nameEditText.getText().toString());
         if (!ageEditText.getText().toString().equals(""))
             params.put("age", ageEditText.getText().toString());
         if (!heightEditText.getText().toString().equals(""))
@@ -440,13 +447,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onError(int errorCode) {
                 super.onError(errorCode);
-                ErrorHandler.handle(context, errorCode);
+                ErrorHandler.handle(getActivity(), errorCode);
             }
 
             @Override
             public void onError() {
                 super.onError();
-                Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "请检查网络", Toast.LENGTH_LONG).show();
             }
         });
     }
