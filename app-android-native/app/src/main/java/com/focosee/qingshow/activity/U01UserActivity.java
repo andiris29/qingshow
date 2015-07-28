@@ -268,8 +268,10 @@ public class U01UserActivity extends MenuActivity {
 
         int span = recyclerView.getLayoutManager() instanceof LinearLayoutManager ? 1 : 2;
 
+        System.out.println("getChildCount:" + recyclerView.getLayoutManager().getChildCount());
+
         boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
-                * (recyclerView.getChildCount() - 1) / span + userHeadLayout.getBottom();
+                * (recyclerView.getChildCount() - 1) / span + userHeadLayout.getY() + userHeadLayout.getHeight();
 
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
@@ -307,11 +309,6 @@ public class U01UserActivity extends MenuActivity {
     public void onEventMainThread(EventModel eventModel) {
         //TODO recyclerviews
         if (eventModel.tag != U01UserActivity.class) return;
-        if (eventModel.from == S03SHowActivity.class)
-            fragments[POS_COLL].refresh();
-        if (eventModel.from == U01UserActivity.class) {
-            fragments[POS_FOLLOW].refresh();
-        }
         if (null == recyclerViews[POS_MATCH])
             initRectcler((RecyclerView) eventModel.msg);
         initRecyclerViews((RecyclerView) eventModel.msg);

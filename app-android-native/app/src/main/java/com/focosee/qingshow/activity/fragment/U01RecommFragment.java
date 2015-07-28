@@ -79,6 +79,12 @@ public class U01RecommFragment extends U01BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        refresh();
+        super.onResume();
+    }
+
+    @Override
     public void refresh() {
         getDatasFromNet();
     }

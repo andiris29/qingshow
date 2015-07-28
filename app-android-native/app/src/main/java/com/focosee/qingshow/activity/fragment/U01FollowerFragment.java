@@ -1,10 +1,8 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,14 +29,12 @@ import de.greenrobot.event.EventBus;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
 public class U01FollowerFragment extends U01BaseFragment {
 
     private static final String TAG = "U01FollowerFragment";
 
-    private OnFragmentInteractionListener mListener;
     private U01FollowerFragAdapter adapter;
 
     public static U01FollowerFragment newInstance(){
@@ -71,6 +67,12 @@ public class U01FollowerFragment extends U01BaseFragment {
         });
         refresh();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        refresh();
+        super.onResume();
     }
 
     @Override
@@ -121,32 +123,12 @@ public class U01FollowerFragment extends U01BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
-    public RecyclerView getRecyclerView(){
-        return recyclerView;
     }
 
 }

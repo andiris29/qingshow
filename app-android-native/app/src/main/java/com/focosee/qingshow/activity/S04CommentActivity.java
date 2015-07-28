@@ -138,9 +138,11 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         });
 
         if (QSModel.INSTANCE.loggedin()) {
-            if(null != QSModel.INSTANCE.getUser().portrait && !"".equals(QSModel.INSTANCE.getUser().portrait)) {
-                S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
-                S04UserImage.setAspectRatio(1f);
+            if(null == QSModel.INSTANCE.getUser()) {
+                if (null != QSModel.INSTANCE.getUser().portrait && !"".equals(QSModel.INSTANCE.getUser().portrait)) {
+                    S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+                    S04UserImage.setAspectRatio(1f);
+                }
             }
         }
 

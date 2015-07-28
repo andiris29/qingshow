@@ -65,7 +65,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         Button payBtn = holder.getView(R.id.item_tradelist_payBtn);
         payBtn.setVisibility(View.GONE);
 
-        holder.setText(R.id.item_tradeno_text, null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
         holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create));
 
         if(!(trade.status > 18 || trade.status < 0)){//设置交易状态

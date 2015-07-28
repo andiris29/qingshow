@@ -37,7 +37,6 @@ import butterknife.InjectView;
  */
 public class MenuFragment extends Fragment implements View.OnClickListener{
 
-    @InjectView(R.id.drawer)
     DrawerLayout drawer;
     @InjectView(R.id.navigation)
     LinearLayout navigation;

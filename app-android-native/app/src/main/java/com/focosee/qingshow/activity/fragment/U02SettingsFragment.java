@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U02Model;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
@@ -48,7 +51,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import butterknife.ButterKnife;
+
 import butterknife.InjectView;
 import dmax.dialog.SpotsDialog;
 
@@ -66,56 +69,30 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private static final String TAG_EXPECTATIONS = "expectations";
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
-    @InjectView(R.id.backTextView)
     ImageView backTextView;
-    @InjectView(R.id.ageEditText)
     EditText ageEditText;
-    @InjectView(R.id.quitButton)
     Button quitButton;
-    @InjectView(R.id.navigation_btn_match)
     ImageButton navigationBtnMatch;
-    @InjectView(R.id.navigation_btn_good_match)
     ImageButton navigationBtnGoodMatch;
-    @InjectView(R.id.u01_people)
     ImageButton u01People;
-
-    @InjectView(R.id.personalRelativeLayout)
     RelativeLayout personalRelativeLayout;
-    @InjectView(R.id.backgroundRelativeLayout)
     RelativeLayout backgroundRelativeLayout;
-    @InjectView(R.id.sexRelativeLayout)
     RelativeLayout sexRelativeLayout;
-    @InjectView(R.id.bodyTypeRelativeLayout)
     RelativeLayout bodyTypeRelativeLayout;
-    @InjectView(R.id.changePasswordRelativeLayout)
     RelativeLayout changePasswordRelativeLayout;
-    @InjectView(R.id.tradelistRelativeLayout)
     RelativeLayout tradeRelativeLayout;
-    @InjectView(R.id.addresslist_RelativeLayout)
     RelativeLayout addresslistRelativeLayout;
-    @InjectView(R.id.dressStyleEelativeLayout)
     RelativeLayout dressStyleRelativeLayout;
-    @InjectView(R.id.effectEelativeLayout)
     RelativeLayout effectRelativeLayout;
-    @InjectView(R.id.portraitImageView)
     ImageView portraitImageView;
-    @InjectView(R.id.backgroundImageView)
     ImageView backgroundImageView;
-    @InjectView(R.id.nameEditText)
     EditText nameEditText;
-    @InjectView(R.id.sexTextView)
     TextView sexTextView;
-    @InjectView(R.id.heightEditText)
     EditText heightEditText;
-    @InjectView(R.id.weightEditText)
     EditText weightEditText;
-    @InjectView(R.id.bodyTypeTextView)
     TextView bodyTypeTextView;
-    @InjectView(R.id.dressStyleEditText)
     TextView dressStyleEditText;
-    @InjectView(R.id.effectEditText)
     TextView effectEditText;
-    @InjectView(R.id.u02_change_pw_text)
     TextView changePwText;
     public static U02SettingsFragment instance;
 
@@ -145,9 +122,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         // Inflate the layout for this fragment
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
-        ButterKnife.inject(this, view);
-
-
+        matchUI(view);
         return view;
     }
 
@@ -280,6 +255,40 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 // 构建请求队列
 // 将请求添加到队列中
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
+    }
+
+    private void matchUI(View view){
+        backTextView = (ImageView) view.findViewById(R.id.backTextView);
+        ageEditText = (EditText) view.findViewById(R.id.ageEditText);
+        quitButton = (Button) view.findViewById(R.id.quitButton);
+        navigationBtnMatch = (ImageButton) view.findViewById(R.id.navigation_btn_match);
+        navigationBtnGoodMatch = (ImageButton) view.findViewById(R.id.navigation_btn_good_match);
+        u01People = (ImageButton) view.findViewById(R.id.u01_people);
+        personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
+        backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
+        sexRelativeLayout = (RelativeLayout) view.findViewById(R.id.sexRelativeLayout);
+        bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
+        changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
+        tradeRelativeLayout = (RelativeLayout) view.findViewById(R.id.tradelistRelativeLayout);
+        addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
+        dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
+        effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
+        portraitImageView = (ImageView) view.findViewById(R.id.portraitImageView);
+        backgroundImageView = (ImageView) view.findViewById(R.id.backgroundImageView);
+        nameEditText = (EditText) view.findViewById(R.id.nameEditText);
+        sexTextView = (TextView) view.findViewById(R.id.sexTextView);
+        heightEditText = (EditText) view.findViewById(R.id.heightEditText);
+        weightEditText = (EditText) view.findViewById(R.id.weightEditText);
+        bodyTypeTextView = (TextView) view.findViewById(R.id.bodyTypeTextView);
+        dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
+        effectEditText = (TextView) view.findViewById(R.id.effectEditText);
+        changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
+
+        drawer = (DrawerLayout) view.findViewById(R.id.drawer);
+        navigation = (LinearLayout) view.findViewById(R.id.navigation);
+        blur = (ImageView) view.findViewById(R.id.blur);
+        right = (LinearLayout) view.findViewById(R.id.context);
+        settingBtn = (ImageView) view.findViewById(R.id.s17_settting);
     }
 
     //进入页面时，给字段赋值
@@ -545,7 +554,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             }
         });
 
-        effectRelativeLayout.setOnClickListener(new View.OnClickListener(){
+        effectRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
@@ -562,6 +571,5 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
     }
 }
