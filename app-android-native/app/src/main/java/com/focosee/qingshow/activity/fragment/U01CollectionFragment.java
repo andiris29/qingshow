@@ -54,7 +54,7 @@ public class U01CollectionFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_collection_createby, R.layout.item_u01_collection_qingshow);
+        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_s01_matchlist, R.layout.item_u01_collection_qingshow);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -134,11 +134,8 @@ public class U01CollectionFragment extends U01BaseFragment {
 
     @Override
     public void onResume() {
+        refresh();
         super.onResume();
-        if(currentPageN0 <= 2)
-            getDatasFromNet(1, 10);
-        else
-            getDatasFromNet(1, 10 * currentPageN0 * 10);
     }
 
     /**

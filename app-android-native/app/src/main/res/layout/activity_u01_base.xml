@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:background="@color/white"
     android:scrollbarStyle="outsideOverlay">
 
     <FrameLayout
@@ -32,21 +33,21 @@
                 android:scaleType="fitXY"
                 android:background="@color/white"/>
 
-            <ImageView
-                android:id="@+id/user_nav_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/nav_btn_menu_n_white"/>
 
             <include layout="@layout/item_u01_header"/>
             </RelativeLayout>
 
         </RelativeLayout>
+        <ImageView
+            android:id="@+id/user_nav_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/nav_btn_menu_n_white"/>
         <ImageView
             android:id="@+id/u01_backTop_btn"
             android:layout_width="45dp"

@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ public class U01MatchFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_match_frag);
+        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_s01_matchlist);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -71,6 +72,23 @@ public class U01MatchFragment extends U01BaseFragment {
 
         refresh();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        System.out.println("count:" + adapter.getItemCount());
+        getDatasFromNet(1, adapter.getItemCount() == 1 ? 10 : adapter.getItemCount());
+//        if (null != getArguments()) {
+//            recyclerView.scrollToPosition(getArguments().getInt("position", 0));
+//
+//        }
+        super.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+//        getArguments().putInt("position", ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
