@@ -116,10 +116,8 @@
 }
 - (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
 {
-    QSU12RefundViewController *vc = [[QSU12RefundViewController alloc]initWithDict:orderDic];
-    vc.type = 2;
-    [self.navigationController pushViewController:vc
-                                         animated:YES];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"物流信息" message:@".............." delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alert show];
 }
 - (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic
 {
