@@ -23,12 +23,6 @@ trade.create = {
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
-            // Find login people
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }, callback);
-        },
-        function(people, callback) {
             // Save trade
             var trade = new Trade();
             trade.ownerRef = req.qsCurrentUserId;
@@ -38,7 +32,6 @@ trade.create = {
                     'quantity' : element.quantity,
                     'price' : element.price,
                     'itemSnapshot' : element.itemSnapshot,
-                    'peopleSnapshot' : people,
                     //'selectedItemSkuId' : element.selectedItemSkuId,
                     'selectedPeopleReceiverUuid' : element.selectedPeopleReceiverUuid
                 });

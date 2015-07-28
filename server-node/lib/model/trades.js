@@ -8,7 +8,6 @@ var tradeSchema = Schema({
         quantity : Number,
         price : Number,
         itemSnapshot : Object,
-        peopleSnapshot : Object,
         selectedPeopleReceiverUuid : String
     }],
     pay : {
