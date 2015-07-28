@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -15,6 +16,7 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
@@ -29,6 +31,7 @@ import cn.jpush.android.api.InstrumentedActivity;
 
 public class LaunchActivity extends InstrumentedActivity {
 
+    private Class _class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class LaunchActivity extends InstrumentedActivity {
         String  deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
         if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())){
             userFollow();
+            _class = G02WelcomeActivity.class;
+        } else {
+            _class = S01MatchShowsActivity.class;
         }
 
         String id = QSApplication.instance().getPreferences().getString("id", "");
@@ -72,11 +78,6 @@ public class LaunchActivity extends InstrumentedActivity {
     }
 
     public void jump(){
-        Class _class;
-        if(QSModel.INSTANCE.loggedin())
-            _class = S01MatchShowsActivity.class;
-        else
-            _class = G02WelcomeActivity.class;
         Intent mainIntent = new Intent(LaunchActivity.this, _class);
         LaunchActivity.this.startActivity(mainIntent);
         LaunchActivity.this.finish();
@@ -92,6 +93,13 @@ public class LaunchActivity extends InstrumentedActivity {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getSpreadFirstlanuchApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(!MetadataParser.hasError(response)){
+                    SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                    editor.putString("deviceUid",
+                            ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId());
+                    editor.commit();
+                }
+
                 System.out.println("response:" + response);
             }
         });
