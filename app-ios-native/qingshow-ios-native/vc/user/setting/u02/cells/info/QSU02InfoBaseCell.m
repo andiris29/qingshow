@@ -15,6 +15,10 @@ NSString* u02InfoTypeToTitle(U02SectionInfoRow row) {
              @"年龄",
              @"身高",
              @"体重",
+             @"胸围",
+             @"肩宽",
+             @"腰围",
+             @"臀围",
              @"体型",
              @"穿衣风格",
              @"搭配效果"
@@ -28,7 +32,11 @@ NSString* u02InfoTypeToTitle(U02SectionInfoRow row) {
         case U02SectionInfoRowName:
         case U02SectionInfoRowAge:
         case U02SectionInfoRowHeight:
-        case U02SectionInfoRowWeight: {
+        case U02SectionInfoRowWeight:
+        case U02SectionInfoRowBust:
+        case U02SectionInfoRowShouler:
+        case U02SectionInfoRowWaist:
+        case U02SectionInfoRowHips:{
             return [UINib generateViewWithNibName:@"QSU02InfoTextCell"];
             break;
         }

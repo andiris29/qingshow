@@ -62,6 +62,37 @@
             }
             break;
         }
+        case U02SectionInfoRowBust:{
+            self.infoTextField.placeholder = @"请输入胸围";
+            if ([QSPeopleUtil getBust:peopleDict]) {
+                self.infoTextField.text = [NSString stringWithFormat:@"%@",[QSPeopleUtil getBust:peopleDict]];
+            }
+            break;
+        }
+        case U02SectionInfoRowShouler:{
+            self.infoTextField.placeholder = @"请输入肩宽";
+            if ([QSPeopleUtil getShoulder:peopleDict]) {
+                self.infoTextField.text = [NSString stringWithFormat:@"%@",[QSPeopleUtil getShoulder:peopleDict]];
+            }
+            break;
+        }
+        case U02SectionInfoRowWaist:{
+            self.infoTextField.placeholder = @"请输入腰围";
+            if ([QSPeopleUtil getWaist:peopleDict]) {
+                self.infoTextField.text = [NSString stringWithFormat:@"%@",[QSPeopleUtil getWaist:peopleDict]];
+            }
+            break;
+        }
+        case U02SectionInfoRowHips:{
+            self.infoTextField.placeholder = @"请输入臀围";
+            if ([QSPeopleUtil getHips:peopleDict]) {
+                self.infoTextField.text = [NSString stringWithFormat:@"%@",[QSPeopleUtil getHips:peopleDict]];
+            }
+            break;
+        }
+
+
+
         default:{
             break;
         }
@@ -87,6 +118,22 @@
         }
         case U02SectionInfoRowWeight: {
             key = @"weight";
+            break;
+        }
+        case U02SectionInfoRowBust: {
+            key = @"measureInfo.bust";
+            break;
+        }
+        case U02SectionInfoRowShouler: {
+            key = @"measureInfo.shoulder";
+            break;
+        }
+        case U02SectionInfoRowWaist: {
+            key = @"measureInfo.waist";
+            break;
+        }
+        case U02SectionInfoRowHips: {
+            key = @"measureInfo.hips";
             break;
         }
         default:{
