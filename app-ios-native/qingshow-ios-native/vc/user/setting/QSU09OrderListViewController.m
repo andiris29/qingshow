@@ -42,7 +42,7 @@
     [self configView];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
+       NSForegroundColorAttributeName:[UIColor blackColor]}]; 
 }
 - (void)viewWillAppear:(BOOL)animated
 {

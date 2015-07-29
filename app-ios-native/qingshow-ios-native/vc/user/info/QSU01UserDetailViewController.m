@@ -241,7 +241,7 @@
     //Favor
     self.favorProvider.hasRefreshControl = NO;
     self.favorProvider.networkBlock =^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             succeedBlock(array, metadata);
         } onError:^(NSError *error) {
             errorBlock(error);

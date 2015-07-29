@@ -8,6 +8,7 @@
 
 #import "QSS10ItemDetailVideoViewController.h"
 #import "QSS11CreateTradeViewController.h"
+#import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
 #import "QSImageNameUtil.h"
 #import "UILabelStrikeThrough.h"
@@ -99,7 +100,8 @@
     }
     else
     {
-        UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
+        UIViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:self.itemDict];
+//        UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
         QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
         vc.navigationItem.leftBarButtonItem = backItem;
         [self.navigationController pushViewController:vc animated:YES];

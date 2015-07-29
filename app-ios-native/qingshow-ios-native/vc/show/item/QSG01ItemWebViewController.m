@@ -32,7 +32,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -61,6 +61,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)backBtnPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)discountBtnPressed:(id)sender {
+    
 }
 
 /*
