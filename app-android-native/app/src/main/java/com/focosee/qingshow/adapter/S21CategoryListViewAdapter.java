@@ -267,7 +267,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                             oldIndex = i;
                         }
                     }
-                    disCheckItem(itemViewHolders.get(position).get(oldIndex).tv, itemViewHolders.get(position).get(oldIndex).img, category.icon);
+                    disCheckItem(itemViewHolders.get(position).get(oldIndex).tv, itemViewHolders.get(position).get(oldIndex).img, items.get(position).get(selectInfos.get(position).index).icon);
                     checkItem(tv, (SimpleDraweeView) v, category.icon);
                     selectRefs.add(category._id);
                     selectInfos.get(position).id = category._id;
