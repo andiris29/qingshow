@@ -57,4 +57,26 @@
         return @"";
     }
 }
++ (NSString*)getTradeLogisticCompany:(NSDictionary*)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSString *str = dict[@"logistic"][@"company"];
+    if ([QSEntityUtil checkIsNil:str]) {
+        return nil;
+    }
+    return str;
+}
++ (NSString*)getTradeLogisticId:(NSDictionary*)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSString *str = dict[@"logistic"][@"trackingId"];
+    if ([QSEntityUtil checkIsNil:str]) {
+        return nil;
+    }
+    return str;
+}
 @end

@@ -33,7 +33,7 @@
     [self configBtn:self.returnButton];
     [self configBtn:self.exchangeButton];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
+//    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
 }
 - (void)configBtn:(UIButton*)btn
 {
@@ -71,13 +71,13 @@
     self.quantityLabel.text = [QSOrderUtil getQuantityDesc:orderDict];
 
 
-    float height = self.skuLabelBaseY;
-
-    
-    for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
-        [self updateView:view y:height];
-    }
-    
+//    float height = self.skuLabelBaseY;
+//
+//    
+//    for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
+//        [self updateView:view y:height];
+//    }
+//    
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     
     QSTradeStatus s = status.integerValue;
@@ -107,12 +107,12 @@
         }
     }
 }
-- (void)updateView:(UIView*)view y:(float)y
-{
-    CGRect rect = view.frame;
-    rect.origin.y = y;
-    view.frame = rect;
-}
+//- (void)updateView:(UIView*)view y:(float)y
+//{
+//    CGRect rect = view.frame;
+//    rect.origin.y = y;
+//    view.frame = rect;
+//}
 
 #pragma mark - IBAction
 - (IBAction)refundBtnPressed:(id)sender

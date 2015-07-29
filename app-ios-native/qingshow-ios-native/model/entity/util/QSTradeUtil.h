@@ -15,4 +15,8 @@
 + (NSString*)getStatusDesc:(NSDictionary*)dict;
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict;
 + (NSString*)getTotalFeeDesc:(NSDictionary*)dict;
+
++ (NSString*)getTradeLogisticCompany:(NSDictionary*)dict;
++ (NSString*)getTradeLogisticId:(NSDictionary*)dict;
+
 @end

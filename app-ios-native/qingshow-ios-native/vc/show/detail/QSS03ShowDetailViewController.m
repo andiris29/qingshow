@@ -84,6 +84,8 @@
     self.headIconImageView.layer.masksToBounds = YES;
     self.headIconImageView.userInteractionEnabled = YES;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -261,6 +263,7 @@
 
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
+    
     NSDictionary* showDict = self.showDict;
     [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
         if (f) {

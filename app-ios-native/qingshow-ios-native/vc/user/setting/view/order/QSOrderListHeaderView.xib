@@ -47,6 +47,9 @@
                         <segment title="进行中"/>
                     </segments>
                     <color key="tintColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="changeSegmentValue:" destination="iN0-l3-epB" eventType="valueChanged" id="Oes-4K-LSl"/>
+                    </connections>
                 </segmentedControl>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
