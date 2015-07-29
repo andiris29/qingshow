@@ -59,8 +59,14 @@
 {
     NSDictionary* peopleDict = [QSCommentUtil getPeople:commentDict];
     self.nameLabel.text = [QSPeopleUtil getNickname:peopleDict];
-    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100] placeHolderImage:[UIImage imageNamed:@"nav_btn_account"] animation:YES];
-
+    if ([QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]) {
+        [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
+    }
+    else
+    {
+        NSURL *defaultHeader = [QSImageNameUtil appendingDefaultImageUrl];
+        [self.iconImageView setImageFromURL:defaultHeader];
+    }
     self.dateLabel.text = [QSCommentUtil getFormatedDateString:commentDict];
     NSString* content = [QSCommentUtil getContent:commentDict];
     CGSize contentLabelSize = [QSCommentTableViewCell getCommentSize:content];
