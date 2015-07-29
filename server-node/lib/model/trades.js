@@ -10,6 +10,8 @@ var tradeSchema = Schema({
         itemSnapshot : Object,
         selectedPeopleReceiverUuid : String
     }],
+    peopleSnapshot : Object,
+    expectedDiscount : Number,
     pay : {
         weixin : {
             prepayid : String,

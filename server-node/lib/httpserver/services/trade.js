@@ -23,10 +23,17 @@ trade.create = {
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
+            // Find login people
+            People.findOne({
+                '_id' : req.qsCurrentUserId
+            }, callback);
+        },
+        function(people, callback) {
             // Save trade
             var trade = new Trade();
             trade.ownerRef = req.qsCurrentUserId;
             trade.orders = [];
+            trade.peopleSnapshot = people;
             req.body.orders.forEach(function(element) {
                 trade.orders.push({
                     'quantity' : element.quantity,
@@ -37,9 +44,6 @@ trade.create = {
                 });
             });
             trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
-            if (req.body['pay'] && req.body['pay']['weixin']) {
-                trade.pay = req.body.pay;
-            }
             trade.save(function(err) {
                 callback(err, trade);
             });
@@ -49,9 +53,38 @@ trade.create = {
             TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
                 callback(err, trade);
             });
+        }], function(error, trade) {
+            // Send response
+            ResponseHelper.response(res, error, {
+                'trade' : trade
+            });
+            // Send notification mail
+            TradeHelper.notify(trade);
+        });
+    }
+};
+
+trade.prepay = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            Trade.findOne({
+                '_id' : RequestHelper.parseId(req.body._id)
+            }, function(err, trade) {
+                if (err) {
+                    callback(err);
+                } else if (!trade) {
+                    callback(ServerError.TradeNotExist);
+                } else {
+                    callback(null, trade);
+                }
+            });
         },
         function(trade, callback) {
             if (req.body.pay && req.body.pay['weixin']) {
+                trade.pay = req.body.pay;
                 // Communicate to payment to get prepayid for weixin
                 var orderName = '';
                 trade.orders.forEach(function(element) {
@@ -75,13 +108,11 @@ trade.create = {
             } else {
                 callback(null, trade);
             }
-        }], function(error, trade) {
+        ], function(err, trade) {
             // Send response
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            // Send notification mail
-            TradeHelper.notify(trade);
         });
     }
 };
