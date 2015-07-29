@@ -85,16 +85,18 @@
 
 #pragma mark - Query
 - (MKNetworkOperation*)queryOrderListPage:(int)page
+                               inProgress:(BOOL)inProgress
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
 {
     NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
     NSString* userId = [QSEntityUtil getIdOrEmptyStr:userInfo];
-    return [self queryTradeCreatedBy:userId page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self queryTradeCreatedBy:userId page:page inProgress:inProgress onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId
                                       page:(int)page
+                                inProgress:(BOOL)inProgress
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
@@ -102,6 +104,7 @@
                                  method:@"GET"
                                paramers:@{@"_id" : peopleId,
                                           @"pageNo" : @(page),
+                                          @"inProgress":@(inProgress),
                                           @"pageSize" : @10 }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {

@@ -12,6 +12,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSCategoryUtil.h"
 #import "QSCategoryManager.h"
+#import "QSImageNameUtil.h"
 @implementation QSItemListCell
 
 - (void)awakeFromNib {
@@ -28,8 +29,10 @@
 
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
-    self.priceLabel.text = [NSString stringWithFormat:@"价格:%@",[QSItemUtil getPrice:itemDic]];;
-    [self.itemIcomImageView setImageFromURL:[QSItemUtil getThumbnail:itemDic]];
+    self.priceLabel.text = [NSString stringWithFormat:@"价格:%@",[QSItemUtil getPrice:itemDic]];
+    NSURL *url = [QSItemUtil getThumbnail:itemDic];
+    NSURL *reNamedUrl = [QSImageNameUtil appendImageNameUrl:url type:QSImageNameTypeS];
+    [self.itemIcomImageView setImageFromURL:reNamedUrl];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDic];
 }
 @end

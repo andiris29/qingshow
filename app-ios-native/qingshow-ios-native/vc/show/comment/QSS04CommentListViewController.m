@@ -17,7 +17,7 @@
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#import "QSImageNameUtil.h"
 #define PAGE_ID @"S04 - 评论"
 
 
@@ -80,8 +80,15 @@
     self.sendBtn.layer.masksToBounds = YES;
     
     self.clickIndex = -1;
+    if ([QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo type:QSImageNameType100]) {
+        [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo type:QSImageNameType100]];
+    }
+    else
+    {
+        NSURL *url = [QSImageNameUtil appendingDefaultImageUrl];
+        [self.headIcon setImageFromURL:url];
+    }
     
-    [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo type:QSImageNameType100]];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

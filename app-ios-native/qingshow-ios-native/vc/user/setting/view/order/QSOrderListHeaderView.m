@@ -9,11 +9,17 @@
 #import "QSOrderListHeaderView.h"
 
 @implementation QSOrderListHeaderView
+- (IBAction)changeSegmentValue:(id)sender {
+    UISegmentedControl *seg = sender;
+    [self.delegate changeValueOfSegment:seg.selectedSegmentIndex];
+}
+
 + (instancetype)makeView
 {
     UINib* nib = [UINib nibWithNibName:@"QSOrderListHeaderView" bundle:nil];
     return [nib instantiateWithOwner:self options:nil][0];
 }
+
 - (void)awakeFromNib
 {
 //    //Resize header for different screen size

@@ -84,6 +84,8 @@
     self.headIconImageView.layer.masksToBounds = YES;
     self.headIconImageView.userInteractionEnabled = YES;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,16 +100,17 @@
             [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
                 weakSelf.showDict = dict;
                 [weakSelf bindWithDict:dict];
-                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
-                if (!promotionDict) {
-                    self.discountContainer.hidden = YES;
-                } else {
-                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
-                        [self showDiscountContainer];
-                    } else {
-                        self.discountContainer.hidden = YES;
-                    }
-                }
+//                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+//                if (!promotionDict) {
+//                    self.discountContainer.hidden = YES;
+//                } else {
+//                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+//                        [self showDiscountContainer];
+//                    } else {
+//                        self.discountContainer.hidden = YES;
+//                    }
+//                }
+                self.discountContainer.hidden = YES;
             } onError:^(NSError *error) {
                 [self showErrorHudWithError:error];
             }];
@@ -260,6 +263,7 @@
 
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
+    
     NSDictionary* showDict = self.showDict;
     [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
         if (f) {
