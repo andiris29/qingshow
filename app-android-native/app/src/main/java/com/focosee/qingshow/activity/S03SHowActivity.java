@@ -85,6 +85,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
+    public static final String CLASS_NAME = "class_name";
     public final String TAG = "S03SHowActivity";
     private static final int shareMsgShowTime = 2000;//分享优惠显示时间
     @InjectView(R.id.S03_image_preground)
@@ -126,6 +127,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     private IWeiboShareAPI mWeiboShareAPI;
 
     private String showId;
+    private String className;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -146,7 +148,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
+
+
         }else showId = "";
+        className = getIntent().getStringExtra(CLASS_NAME);
 
         if (TextUtils.isEmpty(showId)) {
             Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
@@ -284,7 +289,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         if (QSModel.INSTANCE.loggedin()) {
             if (null != showDetailEntity.ownerRef) {
-                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId())) {
+                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId()) && className.equals(U01UserActivity.class.getSimpleName())) {
                     showData_self();
                     return;
                 }

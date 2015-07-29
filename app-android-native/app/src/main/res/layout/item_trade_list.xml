@@ -7,10 +7,11 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:orientation="horizontal"
         android:gravity="center_vertical">
 
 
@@ -19,10 +20,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="fdsafda"
+            android:text="折扣申请成功"
             android:textColor="@color/master_pink"
             android:textSize="@dimen/text_size" />
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:text="物流信息"
+                android:textColor="@color/master_pink"
+                android:background="@drawable/tradelist_btn"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:text="申请退货"
+                android:textColor="@color/master_pink"
+                android:background="@drawable/tradelist_btn"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:text="确认收货"
+                android:textColor="@color/master_pink"
+                android:background="@drawable/tradelist_btn"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="fill_parent"
@@ -46,12 +79,8 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_tradelist_image"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="0dp"
-                android:scaleType="fitStart"
-                android:layout_weight="1"
-                fresco:viewAspectRatio="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 fresco:placeholderImage="@drawable/user_bg_default" />
 
             <LinearLayout
@@ -99,7 +128,8 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
 
                         <TextView
                             android:id="@+id/item_tradelist_color_left"
@@ -120,19 +150,11 @@
                             android:text=""
                             android:textColor="@color/gary" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/item_tradelist_sku"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"></LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
 
                             <TextView
                                 android:id="@+id/textView"
@@ -153,11 +175,10 @@
                                 android:text=""
                                 android:textColor="@color/gary" />
                         </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp">
+                        android:layout_marginTop="10dp">
 
                         <TextView
                             android:id="@+id/item_tradelist_price_text"
@@ -178,128 +199,8 @@
                             android:text=""
                             android:textColor="@color/gary" />
                     </LinearLayout>
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/item_tradelist_finish_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/item_trade_time_layout"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/trade_create_date"
-                        android:textColor="@color/gary" />
-
-                    <TextView
-                        android:id="@+id/item_tradelist_createTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:text=""
-                        android:textColor="@color/gary" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/item_trade_finishTime_layout"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/trade_finish_date"
-                        android:textColor="@color/gary" />
-
-                    <TextView
-                        android:id="@+id/item_tradelist_finishTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="2015-3-1"
-                        android:textColor="@color/gary" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/item_tradelist_trading"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:gravity="center_vertical">
-
-                <Button
-                    android:id="@+id/item_tradelist_applychange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toLeftOf="@+id/item_tradelist_applyreturn"
-                    android:background="@drawable/tradelist_btn"
-                    android:text="@string/apply_change_activity_trade"
-                    android:textColor="@color/master"/>
-
-                <Button
-                    android:id="@+id/item_tradelist_applyreturn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toLeftOf="@+id/item_tradelist_applyreceive"
-                    android:background="@drawable/tradelist_btn"
-                    android:text="@string/apply_return_activity_trade"
-                    android:textColor="@color/master"/>
-
-                <Button
-                    android:id="@+id/item_tradelist_applyreceive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/tradelist_btn"
-                    android:text="@string/comfirm_receive_activity_trade"
-                    android:textColor="@color/master"/>
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/item_tradelist_payBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
-                android:visibility="gone"
-                android:background="@drawable/tradelist_btn"
-                android:text="@string/pay_activity_trade"
-                android:textColor="@color/master"/>
-        </RelativeLayout>
-
-
     </LinearLayout>
-
 </LinearLayout>
