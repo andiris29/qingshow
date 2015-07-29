@@ -36,13 +36,11 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class U09TradeListActivity extends BaseActivity implements View.OnClickListener{
+public class U09TradeListActivity extends BaseActivity implements View.OnClickListener {
 
     private final int TYPE_ALL = 0;
     private final int TYPE_RUNNING = 1;
 
-    @InjectView(R.id.person_activity_back_image_button)
-    ImageView backBtn;
     @InjectView(R.id.person_activity_tradelist_recyclerPullToRefreshView)
     RecyclerPullToRefreshView recyclerPullToRefreshView;
     @InjectView(R.id.U09_head_layout)
@@ -51,6 +49,8 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
     Button u09TabAll;
     @InjectView(R.id.u09_tab_running)
     Button u09TabRunning;
+    @InjectView(R.id.backTop_btn)
+    ImageView backTopBtn;
     private RecyclerView tradelist;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -59,7 +59,8 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
     private EventBus eventBus;
 
     private View firstItem;
-    private int currentType = 0;
+    private int currentType = 1;
+    private boolean isLoad = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,15 +73,6 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
         if (null == people) {
             finish();
         }
-
-        u09TabAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentType = 0;
-            }
-        });
-
-
 
         tradelist = recyclerPullToRefreshView.getRefreshableView();
 
@@ -116,8 +108,12 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
         tradelist.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(firstItem == null){
+                if (dy < 0) {
+                    backTopBtn.setVisibility(View.VISIBLE);
+                } else {
+                    backTopBtn.setVisibility(View.GONE);
+                }
+                if (firstItem == null) {
                     firstItem = recyclerView.getChildAt(0);
                 }
                 if (firstItem == recyclerView.getChildAt(0)) {
@@ -131,7 +127,6 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
 
         eventBus = new EventBus();
         eventBus.register(this);
-
     }
 
     public void onEventMainThread(LinkedList<MongoTrade> event) {
@@ -155,28 +150,41 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
 
     private void getTradeFromNet(int type, int pageNo, int pageSize) {
 
-        boolean inProgress  = false;
+        boolean inProgress = false;
 
-        if(type == 1){
+        if (type == TYPE_RUNNING) {
             inProgress = true;
         }
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    if (MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
                         recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
+                        if(isLoad){
+                            doRefresh(TYPE_ALL);
+                            currentType = TYPE_ALL;
+                            isLoad = false;
+                        }
+                    }else {
                         ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
                         recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
                     return;
                 }
+                if (isLoad){
+                    clickTabRunning();
+                    currentType = TYPE_ALL;
+                    isLoad = false;
+                }
                 LinkedList<MongoTrade> tradeList = TradeParser.parseQuery(response);
                 if (currentPageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                 } else {
                     mAdapter.addData(tradeList);
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
                 }
                 currentPageNo++;
                 mAdapter.notifyDataSetChanged();
@@ -194,18 +202,37 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.person_activity_back_image_button:
                 finish();
                 break;
             case R.id.u09_tab_all:
-                doRefresh(0);
-                currentType = 0;
+                currentType = TYPE_ALL;
+                clickTabAll();
+                doRefresh(TYPE_ALL);
                 break;
             case R.id.u09_tab_running:
-                doRefresh(1);
-                currentType = 1;
+                currentType = TYPE_RUNNING;
+                clickTabRunning();
+                doRefresh(TYPE_RUNNING);
+                break;
+            case R.id.backTop_btn:
+                tradelist.smoothScrollToPosition(0);
                 break;
         }
+    }
+
+    private void clickTabAll(){
+        u09TabAll.setBackgroundResource(R.drawable.s01_tab_btn1);
+        u09TabAll.setTextColor(getResources().getColor(R.color.white));
+        u09TabRunning.setBackgroundResource(R.drawable.s01_tab_border1);
+        u09TabRunning.setTextColor(getResources().getColor(R.color.master_pink));
+    }
+
+    private void clickTabRunning(){
+        u09TabAll.setBackgroundResource(R.drawable.s01_tab_border2);
+        u09TabAll.setTextColor(getResources().getColor(R.color.master_pink));
+        u09TabRunning.setBackgroundResource(R.drawable.s01_tab_btn2);
+        u09TabRunning.setTextColor(getResources().getColor(R.color.white));
     }
 }

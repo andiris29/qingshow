@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
     android:orientation="vertical">
-    <com.focosee.qingshow.widget.RecyclerPullToRefreshView
-        android:id="@+id/person_activity_tradelist_recyclerPullToRefreshView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"/>
+
     <LinearLayout
         android:id="@+id/U09_title_relative_layout"
         android:layout_width="match_parent"
@@ -41,9 +38,29 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <include
-        android:layout_below="@+id/U09_title_relative_layout"
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        layout="@layout/head_trade_list"/>
-</android.support.percent.PercentRelativeLayout>
+        android:layout_height="match_parent">
+        <com.focosee.qingshow.widget.RecyclerPullToRefreshView
+            android:id="@+id/person_activity_tradelist_recyclerPullToRefreshView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"/>
+        <include
+            android:layout_below="@+id/U09_title_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            layout="@layout/head_trade_list"/>
+        <ImageView
+            android:id="@+id/backTop_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:onClick="onClick"
+            android:background="@drawable/back_top"/>
+    </android.support.percent.PercentRelativeLayout>
+</LinearLayout>
