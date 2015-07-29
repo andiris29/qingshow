@@ -6,6 +6,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSG01ItemWebViewController">
             <connections>
+                <outlet property="discountBackgroundView" destination="FBc-jJ-Yhd" id="reF-oX-7DC"/>
+                <outlet property="discountLayerContainer" destination="fpW-sL-e4O" id="kFE-km-tXv"/>
+                <outlet property="discountTableViewContainer" destination="Z7p-5m-kO4" id="gHZ-mK-oQ2"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="webView" destination="Hhc-Be-55j" id="VO0-z6-zcf"/>
             </connections>
@@ -58,11 +61,56 @@
                 <constraint firstAttribute="bottom" secondItem="Hhc-Be-55j" secondAttribute="bottom" id="u3c-hW-AHx"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
-            <point key="canvasLocation" x="515" y="357"/>
+            <point key="canvasLocation" x="46" y="270"/>
+        </view>
+        <view contentMode="scaleToFill" id="fpW-sL-e4O">
+            <rect key="frame" x="0.0" y="-4" width="320" height="550"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FBc-jJ-Yhd">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="550"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z7p-5m-kO4">
+                    <rect key="frame" x="8" y="8" width="304" height="534"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ER-vK-FkF">
+                    <rect key="frame" x="271" y="8" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="TQ9-Ht-PvB"/>
+                        <constraint firstAttribute="width" constant="40" id="fgk-zq-ZR6"/>
+                    </constraints>
+                    <state key="normal" image="discount_close_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="closeBtnPressed:" destination="-1" eventType="touchUpInside" id="etr-OS-YyK"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="0ER-vK-FkF" firstAttribute="top" secondItem="fpW-sL-e4O" secondAttribute="top" constant="8" id="8bN-is-XDR"/>
+                <constraint firstItem="Z7p-5m-kO4" firstAttribute="leading" secondItem="fpW-sL-e4O" secondAttribute="leading" constant="8" id="8m7-T8-Dex"/>
+                <constraint firstAttribute="bottom" secondItem="FBc-jJ-Yhd" secondAttribute="bottom" id="CUL-xQ-cBO"/>
+                <constraint firstItem="FBc-jJ-Yhd" firstAttribute="top" secondItem="fpW-sL-e4O" secondAttribute="top" id="I4b-ps-ncW"/>
+                <constraint firstAttribute="trailing" secondItem="0ER-vK-FkF" secondAttribute="trailing" constant="9" id="Mm9-1g-Yq1"/>
+                <constraint firstItem="Z7p-5m-kO4" firstAttribute="top" secondItem="fpW-sL-e4O" secondAttribute="top" constant="8" id="S6u-W7-LAJ"/>
+                <constraint firstAttribute="trailing" secondItem="FBc-jJ-Yhd" secondAttribute="trailing" id="TdC-99-NcC"/>
+                <constraint firstAttribute="bottom" secondItem="Z7p-5m-kO4" secondAttribute="bottom" constant="8" id="aan-6Y-smn"/>
+                <constraint firstItem="FBc-jJ-Yhd" firstAttribute="leading" secondItem="fpW-sL-e4O" secondAttribute="leading" id="rmm-X8-mhd"/>
+                <constraint firstAttribute="trailing" secondItem="Z7p-5m-kO4" secondAttribute="trailing" constant="8" id="uBH-ZF-bcj"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="469" y="274"/>
         </view>
     </objects>
     <resources>
         <image name="discount_circle_btn" width="106" height="106"/>
+        <image name="discount_close_btn" width="40" height="40"/>
         <image name="model_detail_back_btn" width="20" height="20"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

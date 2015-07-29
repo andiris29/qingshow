@@ -23,6 +23,9 @@
 @property (nonatomic,strong) UISegmentedControl *segmentControl;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
 
+
+
+
 @end
 
 @implementation QSS01MatchShowsViewController

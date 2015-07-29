@@ -15,6 +15,14 @@
 @interface QSG01ItemWebViewController ()
 
 @property (strong, nonatomic) NSDictionary* itemDict;
+
+
+
+@property (strong, nonatomic) IBOutlet UIView *discountLayerContainer;
+@property (weak, nonatomic) IBOutlet UIImageView *discountBackgroundView;
+@property (weak, nonatomic) IBOutlet UIView *discountTableViewContainer;
+
+
 @end
 
 @implementation QSG01ItemWebViewController
@@ -56,6 +64,14 @@
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    [self.view addSubview:self.discountLayerContainer];
+    self.discountLayerContainer.frame = CGRectMake(10, 20, self.discountLayerContainer.bounds.size.width - 20, self.discountLayerContainer.bounds.size.height - 40);
+    self.discountLayerContainer.hidden = YES;
+    UIImage* img = [UIImage imageNamed:@"discount_container_bg"];
+    img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
+    self.discountBackgroundView.image = img;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,11 +79,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)discountBtnPressed:(id)sender {
-    
+    self.discountLayerContainer.hidden = NO;
+}
+- (IBAction)closeBtnPressed:(id)sender {
+    self.discountLayerContainer.hidden = YES;
 }
 
 /*
