@@ -108,7 +108,7 @@ trade.prepay = {
             } else {
                 callback(null, trade);
             }
-        ], function(err, trade) {
+        }], function(err, trade) {
             // Send response
             ResponseHelper.response(res, error, {
                 'trade' : trade
@@ -122,16 +122,13 @@ var _statusValidationMap = {
     1 : [0],
     2 : [1],
     3 : [2],
-    5 : [3, 14],
-    15 : [3, 14],
+    5 : [3],
     7 : [3],
     9 : [7],
     10 : [7],
-    11 : [3],
-    13 : [11, 16],
-    14 : [11, 16],
-    16 : [14],
-    17 : [1, 2]
+    15 : [3],
+    17 : [0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 10, 15],
+    18 : [0, 1, 2]
 };
 
 var _validateStatus = function(trade, newStatus, callback) {
