@@ -134,6 +134,7 @@ public class S20MatcherActivity extends MenuActivity {
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);
                 animator.start();
+                canvas.notifyCheckedChange();
             }
         });
 
@@ -180,7 +181,6 @@ public class S20MatcherActivity extends MenuActivity {
         float top = 0;
 
         int minus;
-        float lastScaleFactor = view.getLastScaleFactor();
 
         int width = view.getImageView().getDrawable().getIntrinsicWidth();
         int height = view.getImageView().getDrawable().getIntrinsicHeight();
@@ -435,34 +435,6 @@ public class S20MatcherActivity extends MenuActivity {
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
-    public void checkBorder(QSImageView view) {
-
-        float scaleFactor = view.getLastScaleFactor();
-        float nextX = view.getX();
-        float nextY = view.getY();
-
-        float intrinsicWidth = view.getImageView().getDrawable().getIntrinsicWidth();
-        float intrinsicHeight = view.getImageView().getDrawable().getIntrinsicHeight();
-
-        float dx = Math.abs(intrinsicWidth * (1 - scaleFactor) / 2);
-        float dy = Math.abs(intrinsicHeight * (1 - scaleFactor) / 2);
-
-        if (view.getX() + intrinsicWidth + dx > canvas.getWidth()) {
-            nextX = canvas.getWidth() - intrinsicWidth * scaleFactor;
-        }
-        if (view.getY() + intrinsicHeight + dy > canvas.getHeight()) {
-            nextY = canvas.getHeight() - intrinsicHeight * scaleFactor;
-        }
-        if (view.getX() - dx < 0) {
-            nextX = dx;
-        }
-        if (view.getY() - dy < 0) {
-            nextY = dy;
-        }
-
-        moveView(view, 0, 0, nextX, nextY);
     }
 
     private void moveView(View view, float startX, float startY, float nextX, float nextY) {

@@ -135,6 +135,12 @@ public class QSCanvasView extends FrameLayout {
             }
             lastCheckedIndex = checkedIndex;
         }
+
+        if (checkedIndex == 0 && views.size() > 0) {
+            views.get(0).setChecked(true);
+            onCheckedChangeListener.checkedChanged(views.get(0));
+        }
+
     }
 
     public void notifyChildrenMoveable(QSImageView view) {
