@@ -493,7 +493,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                break;
+                return;
             case R.id.S03_comment_btn://评论
                 if (null != showDetailEntity && null != showDetailEntity._id) {
                     if (S04CommentActivity.isOpened) return;
@@ -505,7 +505,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 } else {
                     Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
                 }
-                break;
+                return;
             case R.id.S03_like_btn://收藏
                 clickLikeShowButton();
                 break;
@@ -518,14 +518,14 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener());
                 sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
                 sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                break;
+                return;
             case R.id.S03_video_start_btn_real://视频播放
                 if (videoView.isPlaying()) {
                     pauseVideo();
                 } else {
                     startVideo();
                 }
-                break;
+                return;
             case R.id.s03_del_btn:
                 final ConfirmDialog dialog = new ConfirmDialog();
                 dialog.setTitle(getResources().getString(R.string.s20_dialog)).setConfirm(new View.OnClickListener() {
@@ -548,7 +548,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 bundle1.putSerializable("user", showDetailEntity.ownerRef);
                 intent.putExtras(bundle1);
                 startActivity(intent);
-                break;
+                return;
         }
         super.onClick(v);
     }
