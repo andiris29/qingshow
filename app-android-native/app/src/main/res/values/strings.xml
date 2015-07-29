@@ -202,5 +202,6 @@
     <string name="s06_loading">登陆中...</string>
     <string name="web_view">加载中...</string>
 
+    <string name="s11_discount">折</string>
     <string name="s11_price">原价：</string>
 </resources>

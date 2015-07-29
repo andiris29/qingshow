@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     private MongoShow show;
     private String uuid;
-    private SpotsDialog dialog;
+    private ProgressDialog dialog;
 
     @Override
     public void reconn() {
@@ -66,7 +67,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
-        dialog = new SpotsDialog(this);
+        dialog = new ProgressDialog(this);
         itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         initImage();
     }

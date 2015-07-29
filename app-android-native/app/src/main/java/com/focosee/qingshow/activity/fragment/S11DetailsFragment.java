@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -40,6 +43,7 @@ import java.util.LinkedList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 
 /**
@@ -59,6 +63,22 @@ public class S11DetailsFragment extends Fragment {
     QSTextView price;
     @InjectView(R.id.s11_details_maxprice)
     QSTextView maxPrice;
+    @InjectView(R.id.num)
+    QSTextView numText;
+    @InjectView(R.id.discount)
+    TextView discountText;
+    @InjectView(R.id.total)
+    TextView total;
+    @InjectView(R.id.submitBtn)
+    Button submitBtn;
+    @InjectView(R.id.cut_num)
+    ImageView cutNum;
+    @InjectView(R.id.plus_num)
+    ImageView plusNum;
+    @InjectView(R.id.cut_discount)
+    ImageView cutDiscount;
+    @InjectView(R.id.plus_discount)
+    ImageView plusDiscount;
 
     private View rootView;
 
@@ -73,6 +93,14 @@ public class S11DetailsFragment extends Fragment {
     private HashSet<SkuColor> colors = new HashSet<>();
 
     private float radioBtnWdith = 40;
+
+    private int num = 1;
+    private int numOffline = 1;
+    private int numOnline = 9;
+
+    private int discountNum = 10;
+    private int discountOffline = 1;
+    private int discountOnline = 10;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +124,9 @@ public class S11DetailsFragment extends Fragment {
         initSize();
         initItem();
         initDes();
+
+        checkDiscount();
+        checkNum();
 
         return rootView;
     }
@@ -291,7 +322,6 @@ public class S11DetailsFragment extends Fragment {
             order = new MongoOrder();
 
             order.itemSnapshot = itemEntity;
-//            order.price = Double.parseDouble(sku.promo_price);
             order.price = 0.01;
             order.selectedItemSkuId = sku.sku_id;
 
@@ -305,6 +335,76 @@ public class S11DetailsFragment extends Fragment {
             return false;
         }
     }
+
+    @OnClick({R.id.cut_num, R.id.plus_num})
+    public void clickNum(ImageView v) {
+        switch (v.getId()) {
+            case R.id.cut_num:
+                num--;
+                checkNum();
+                break;
+            case R.id.plus_num:
+                num++;
+                checkNum();
+                break;
+        }
+    }
+
+    private void checkNum() {
+        numText.setText(String.valueOf(num));
+        if (num <= numOffline) {
+            cutNum.setClickable(false);
+            cutNum.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
+        } else if (num >= numOnline) {
+            plusNum.setClickable(false);
+            plusNum.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
+        } else {
+            cutNum.setClickable(true);
+            cutNum.setImageDrawable(getResources().getDrawable(R.drawable.cut));
+            plusNum.setClickable(true);
+            plusNum.setImageDrawable(getResources().getDrawable(R.drawable.plus));
+        }
+    }
+
+    @OnClick({R.id.cut_discount, R.id.plus_discount})
+    public void clickDiscount(ImageView v) {
+        switch (v.getId()) {
+            case R.id.cut_discount:
+                discountNum--;
+                checkDiscount();
+                break;
+            case R.id.plus_discount:
+                discountNum++;
+                checkDiscount();
+                break;
+        }
+    }
+
+    private void checkDiscount() {
+        discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
+        total.setText(String.valueOf(discountNum ));
+        if (discountNum <= discountOffline) {
+            cutDiscount.setClickable(false);
+            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
+        } else if (discountNum >= discountOnline) {
+            plusDiscount.setClickable(false);
+            plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
+        } else {
+            cutDiscount.setClickable(true);
+            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut));
+            plusDiscount.setClickable(true);
+            plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus));
+        }
+    }
+
+    @OnClick({R.id.close,R.id.cancel})
+    public void close(){
+        getFragmentManager().popBackStack();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.remove(this);
+        ft.commit();
+    }
+
 
     @Override
     public void onDestroyView() {
