@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,6 +40,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
@@ -249,9 +251,9 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
 
     private void showData() {
 
-        commentTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
-        itemTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
-        likeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
+//        commentTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
+//        itemTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
+//        likeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
         if (null == showDetailEntity)
             return;
         if (showDetailEntity.__context.likedByCurrentUser) {
@@ -365,46 +367,6 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
         mWeiboShareAPI.handleWeiboResponse(intent, this);
     }
 
-    private void shareToSina() {
-        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-        WebpageObject mediaObject = new WebpageObject();
-        mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = ShareConfig.SHARE_TITLE;
-        mediaObject.description = ShareConfig.SHARE_DESCRIPTION;
-        mediaObject.setThumbImage(BitmapFactory.decodeResource(getResources(), ShareConfig.IMG));
-        mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
-        mediaObject.defaultText = ShareConfig.SHARE_DESCRIPTION;
-
-        weiboMessage.mediaObject = mediaObject;
-
-        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.multiMessage = weiboMessage;
-        AuthInfo authInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
-        Oauth2AccessToken accessToken = SinaAccessTokenKeeper.readAccessToken(getApplicationContext());
-        String token = "";
-        if (accessToken != null) {
-            token = accessToken.getToken();
-        }
-        mWeiboShareAPI.sendRequest(this, request, authInfo, token, new WeiboAuthListener() {
-
-            @Override
-            public void onWeiboException(WeiboException arg0) {
-            }
-
-            @Override
-            public void onComplete(Bundle bundle) {
-                Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
-                SinaAccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
-            }
-
-            @Override
-            public void onCancel() {
-            }
-        });
-
-    }
-
     @Override
     public void onResponse(BaseResponse baseResponse) {
         switch (baseResponse.errCode) {
@@ -420,30 +382,6 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 break;
         }
     }
-
-
-    private void shareToWX(boolean isTimelineCb) {
-
-        WXWebpageObject webpage = new WXWebpageObject();
-        WXMediaMessage msg;
-        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
-
-        msg = new WXMediaMessage();
-        msg.mediaObject = webpage;
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), ShareConfig.IMG);
-        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
-        msg.setThumbImage(thumb);
-        msg.title = ShareConfig.SHARE_TITLE;
-        msg.description = ShareConfig.SHARE_DESCRIPTION;
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());
-        req.message = msg;
-        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-        UmengCountUtil.countShareShow(this, "weixin");
-        QSApplication.instance().getWxApi().sendReq(req);
-    }
-
 
     @Override
     public void onReq(BaseReq req) {
@@ -508,14 +446,14 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 return;
             case R.id.S03_like_btn://收藏
                 clickLikeShowButton();
-                break;
+                return;
             case R.id.S03_share_btn://分享
                 if (!QSModel.INSTANCE.loggedin()) {
                     Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
                     GoToWhereAfterLoginModel.INSTANCE.set_class(null);
                     startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
                 }
-                sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener());
+                sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener(S03SHowActivity.this));
                 sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
                 sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 return;
@@ -540,7 +478,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                         dialog.dismiss();
                     }
                 }).show(getSupportFragmentManager());
-                break;
+                return;
             case R.id.s03_portrait:
                 if(null == showDetailEntity.ownerRef)return;
                 intent = new Intent(S03SHowActivity.this, U01UserActivity.class);
@@ -576,17 +514,21 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
 
     class ShareClickListener implements View.OnClickListener {
 
+        public Context context;
+        public ShareClickListener(Context context){
+            this.context = context;
+        }
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.share_wechat:
-                    shareToWX(false);
+                    ShareUtil.shareWX(showDetailEntity._id, context, false);
                     break;
                 case R.id.share_wx_timeline:
-                    shareToWX(true);
+                    ShareUtil.shareWX(showDetailEntity._id, context, true);
                     break;
                 case R.id.share_sina:
-                    shareToSina();
+                    ShareUtil.shareToSina(showDetailEntity._id, context, mWeiboShareAPI);
                     break;
             }
         }
@@ -620,5 +562,19 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(className.equals(S20MatchPreviewActivity.class.getSimpleName())) {
+            if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
+                menuSwitch();
+            }
+        }else{
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                finish();
+            }
+        }
+        return true;
     }
 }
