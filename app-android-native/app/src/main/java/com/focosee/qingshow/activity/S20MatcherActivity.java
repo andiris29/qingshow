@@ -90,7 +90,7 @@ public class S20MatcherActivity extends MenuActivity {
         EventBus.getDefault().register(this);
 
         initDrawer();
-        navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
+        navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_match_gray);
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
