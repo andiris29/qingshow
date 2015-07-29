@@ -79,7 +79,7 @@ import de.greenrobot.event.EventBus;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
 
-public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler, IWeiboHandler.Response, View.OnClickListener {
+public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler, IWeiboHandler.Response {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
@@ -149,7 +149,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
         mWeiboShareAPI.registerApp();
 
         if(className.equals(S20MatchPreviewActivity.class.getSimpleName())){
-            s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
+            s03BackBtn.setBackgroundResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -481,7 +481,6 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
 
     @Override
     public void onClick(View v) {
-
         Intent intent;
 
         switch (v.getId()) {
@@ -551,6 +550,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 startActivity(intent);
                 break;
         }
+        super.onClick(v);
     }
 
     private void hideShow() {
