@@ -150,7 +150,8 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 show = ShowParser.parsePeopleAndItemString(response);
                 allowClick();
                 Intent intent = new Intent(S20MatchPreviewActivity.this, S03SHowActivity.class);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID,show._id);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
+                intent.putExtra(S03SHowActivity.CLASS_NAME, S20MatchPreviewActivity.class.getSimpleName());
                 S20MatchPreviewActivity.this.startActivity(intent);
                 S20MatchPreviewActivity.this.finish();
             }

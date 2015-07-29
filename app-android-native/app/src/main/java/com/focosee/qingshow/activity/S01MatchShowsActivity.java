@@ -129,7 +129,6 @@ public class S01MatchShowsActivity extends MenuActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response: " + response);
                 if (MetadataParser.hasError(response)) {
                     if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
                         recyclerPullToRefreshView.setHasMoreData(false);
@@ -141,7 +140,7 @@ public class S01MatchShowsActivity extends MenuActivity {
                     return;
                 }
 
-                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery_categoryString(response));
+                List<MongoShow> datas = ShowParser.parseQuery_categoryString(response);
                 if (pageNo == 1) {
                     adapter.addDataAtTop(datas);
                     currentPageNo = pageNo;
@@ -193,6 +192,12 @@ public class S01MatchShowsActivity extends MenuActivity {
             return;
         }
         super.onClick(v);
+    }
+
+    @Override
+    protected void onResume() {
+        doRefresh(currentType);
+        super.onResume();
     }
 
     @Override

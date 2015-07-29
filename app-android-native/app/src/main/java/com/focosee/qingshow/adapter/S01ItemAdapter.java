@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -41,7 +42,8 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, S03SHowActivity.class);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID,show._id);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
+                intent.putExtra(S03SHowActivity.CLASS_NAME, S01MatchShowsActivity.class.getSimpleName());
                 context.startActivity(intent);
             }
         });

@@ -68,7 +68,8 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, S03SHowActivity.class);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID,show._id);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
+                intent.putExtra(S03SHowActivity.CLASS_NAME, U01UserActivity.class.getSimpleName());
                 context.startActivity(intent);
             }
         });
