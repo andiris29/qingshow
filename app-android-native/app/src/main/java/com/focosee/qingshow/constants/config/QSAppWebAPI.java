@@ -152,8 +152,8 @@ public class QSAppWebAPI {
         return TRADE_STATUSTO_API;
     }
 
-    public static String getTradeQueryApi(String _id, int pageNo, int pageSize) {
-        return TRADE_QUERY_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public static String getTradeQueryApi(String _id, int pageNo, int pageSize, boolean inProgress) {
+        return TRADE_QUERY_API + "?_id=" + _id + "&inProgress=" + inProgress + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getUserApi() {

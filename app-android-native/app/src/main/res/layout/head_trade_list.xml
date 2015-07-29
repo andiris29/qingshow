@@ -49,7 +49,7 @@
             android:layout_centerHorizontal="true">
 
             <Button
-                android:id="@+id/s01_tab_hot"
+                android:id="@+id/u09_tab_all"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:text="全部"
@@ -60,7 +60,7 @@
                 android:background="@drawable/s01_tab_btn1"/>
 
             <Button
-                android:id="@+id/s01_tab_new"
+                android:id="@+id/u09_tab_running"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:text="进行中"
