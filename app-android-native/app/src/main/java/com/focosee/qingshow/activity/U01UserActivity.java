@@ -123,8 +123,7 @@ public class U01UserActivity extends MenuActivity {
         ButterKnife.inject(this);
         user = (MongoPeople) getIntent().getExtras().get("user");
         initUserInfo();
-        if(null == user) return;
-        if (user._id.equals(QSModel.INSTANCE.getUser()._id)) {//进入自己的页面时不显示关注按钮
+        if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

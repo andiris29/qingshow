@@ -324,7 +324,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     public void showActionSheet(int commentIndex) {
-        String userId = (null == QSModel.INSTANCE.getUser()) ? "" : QSModel.INSTANCE.getUser()._id;
+        String userId = QSModel.INSTANCE.getUserId();
         String commentUserId = adapter.getItemData(commentIndex).getUserId();
 
         clickCommentIndex = commentIndex;
