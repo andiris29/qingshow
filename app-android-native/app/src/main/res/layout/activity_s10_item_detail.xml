@@ -20,17 +20,19 @@
         android:background="@drawable/s03_back_btn"
         android:onClick="onClick" />
 
-    <android.support.design.widget.FloatingActionButton
+    <ImageView
         android:id="@+id/s10_bay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="onClick"
-        app:backgroundTint="@color/master_pink"
-        app:borderWidth="0dp"
-        app:layout_marginBottomPercent="11%"
-        app:rippleColor="@color/pink_100" />
+        android:src="@drawable/sale"
+        app:layout_marginBottomPercent="10%"
+        app:layout_marginRightPercent="3%"
+        app:layout_widthPercent="40%"
+        android:adjustViewBounds="true"
+        />
 
     <FrameLayout
         android:id="@+id/container"

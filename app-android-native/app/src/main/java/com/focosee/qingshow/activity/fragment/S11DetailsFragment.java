@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuColor;
 import com.focosee.qingshow.util.sku.SkuUtil;
@@ -47,12 +49,16 @@ public class S11DetailsFragment extends Fragment {
 
     @InjectView(R.id.itemName)
     TextView itemName;
-    @InjectView(R.id.s11_item_group)
+    @InjectView(R.id.color_group)
     FlowRadioGroup colorGroup;
-    @InjectView(R.id.s11_size_group)
+    @InjectView(R.id.size_group)
     FlowRadioGroup sizeGroup;
     @InjectView(R.id.desImg)
     SimpleDraweeView desImg;
+    @InjectView(R.id.s11_details_price)
+    QSTextView price;
+    @InjectView(R.id.s11_details_maxprice)
+    QSTextView maxPrice;
 
     private View rootView;
 
@@ -165,7 +171,7 @@ public class S11DetailsFragment extends Fragment {
             if (i == 1) {
                 sizeItem.setChecked(true);
                 myPropList.add(size);
-                //onSecletChanged();
+                onSecletChanged();
             }
         }
 
@@ -183,7 +189,7 @@ public class S11DetailsFragment extends Fragment {
                 int index = myPropList.indexOf(sizeList.get(selectNum));
                 myPropList.remove(index);
                 myPropList.add(index, sizeList.get(i));
-//                onSecletChanged();
+                onSecletChanged();
                 selectNum = i;
             }
         });
@@ -252,7 +258,7 @@ public class S11DetailsFragment extends Fragment {
             if (i == 1) {
                 ((IRadioViewHelper) colorGroup.getChildAt(0)).setChecked(true);
                 myPropList.add(color.prop);
-//                onSecletChanged();
+                onSecletChanged();
             }
         }
 
@@ -264,7 +270,7 @@ public class S11DetailsFragment extends Fragment {
                 int index = myPropList.indexOf(colorList.get(selectNum));
                 myPropList.remove(index);
                 myPropList.add(index, colorList.get(i));
-//                onSecletChanged();
+                onSecletChanged();
                 selectNum = i;
             }
         });
@@ -274,5 +280,35 @@ public class S11DetailsFragment extends Fragment {
 //            rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
             return;
         }
+    }
+
+    private boolean onSecletChanged() {
+
+        if (skusProp.containsKey(myPropList)) {
+
+            MongoItem.TaoBaoInfo.SKU sku = skusProp.get(myPropList);
+
+            order = new MongoOrder();
+
+            order.itemSnapshot = itemEntity;
+//            order.price = Double.parseDouble(sku.promo_price);
+            order.price = 0.01;
+            order.selectedItemSkuId = sku.sku_id;
+
+            price.setText(StringUtil.FormatPrice(sku.promo_price));
+            maxPrice.setText(getResources().getString(R.string.s11_price) + StringUtil.FormatPrice(sku.price));
+            maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            return true;
+        } else {
+            price.setText("");
+            maxPrice.setText("");
+            return false;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }

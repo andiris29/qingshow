@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11DetailsFragment;
@@ -33,7 +34,7 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
     @InjectView(R.id.s10_back_btn)
     ImageButton back;
     @InjectView(R.id.s10_bay)
-    FloatingActionButton bay;
+    ImageView bay;
     @InjectView(R.id.container)
     FrameLayout container;
 
