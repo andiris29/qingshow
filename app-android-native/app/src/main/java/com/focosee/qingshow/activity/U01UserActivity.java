@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -104,6 +105,8 @@ public class U01UserActivity extends MenuActivity {
     View circleTip;
     @InjectView(R.id.u01_backTop_btn)
     ImageView u01BackTopBtn;
+    @InjectView(R.id.u01_people)
+    ImageButton u01People;
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -121,6 +124,7 @@ public class U01UserActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
+        u01People.setImageResource(R.drawable.root_menu_flash_gray);
         user = (MongoPeople) getIntent().getExtras().get("user");
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
@@ -141,7 +145,7 @@ public class U01UserActivity extends MenuActivity {
                 }
             };
         } else {
-            userNavBtn.setImageResource(R.drawable.s03_back_btn);
+            userNavBtn.setImageResource(R.drawable.nav_btn_back);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -274,8 +278,8 @@ public class U01UserActivity extends MenuActivity {
 
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-        if(userHeadLayout.getY() != 0){
-            if(isShort){
+        if (userHeadLayout.getY() != 0) {
+            if (isShort) {
                 ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(userHeadLayout, View.TRANSLATION_Y, 0);
                 objectAnimator.setDuration(200);
                 objectAnimator.start();
@@ -365,7 +369,7 @@ public class U01UserActivity extends MenuActivity {
     protected void onResume() {
         super.onResume();
         if (null != getIntent().getExtras()) {
-            if(null != getIntent().getExtras().get("user"))
+            if (null != getIntent().getExtras().get("user"))
                 user = (MongoPeople) getIntent().getExtras().get("user");
         }
         boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);

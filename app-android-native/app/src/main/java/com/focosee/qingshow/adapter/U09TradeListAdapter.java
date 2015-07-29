@@ -58,18 +58,11 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         final MongoTrade trade = getItemData(position);
         if(null == trade)return;
 
-        View tradingLayout = holder.getView(R.id.item_trade_time_layout);
-        Button applyReceive = holder.getView(R.id.item_tradelist_applyreceive);
-        Button applyChange = holder.getView(R.id.item_tradelist_applychange);
-        Button applyReturn = holder.getView(R.id.item_tradelist_applyreturn);
-        Button payBtn = holder.getView(R.id.item_tradelist_payBtn);
-        payBtn.setVisibility(View.GONE);
+        Button btn1 = holder.getView(R.id.item_tradelist_btn1);
+        Button btn2 = holder.getView(R.id.item_tradelist_btn2);
+        Button btn3 = holder.getView(R.id.item_tradelist_btn3);
 
-        holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create));
-
-        if(!(trade.status > 18 || trade.status < 0)){//设置交易状态
-            holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
-        }
+        holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
 
         LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
 
@@ -79,11 +72,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
         holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
         holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
-        holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create.getTimeInMillis()));
-        //等待买家付款
+        //0-折扣申请中
         if(trade.status == 0){
-            payBtn.setVisibility(View.VISIBLE);
-            payBtn.setOnClickListener(new View.OnClickListener() {
+            btn1.setVisibility(View.VISIBLE);
+            btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -91,69 +83,117 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             });
             return;
         }
-        //卖家已发货
-        if(trade.status == 3 || trade.status == 14){
-            tradingLayout.setVisibility(View.VISIBLE);
-            applyReturn.setOnClickListener(new View.OnClickListener() {
+        //1-等待付款
+        if(trade.status == 1){
+            btn1.setVisibility(View.VISIBLE);
+            btn2.setVisibility(View.VISIBLE);
+            btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, U12ReturnActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, datas.get(position));
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
+
                 }
             });
-            applyReceive.setOnClickListener(new View.OnClickListener() {
+            btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final ConfirmDialog dialog = new ConfirmDialog();
-                    dialog.setTitle("确认收货");
-                    dialog.setCancel(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                        }
-                    });
-                    dialog.setConfirm(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            statusTo(trade, 1);
-                            if (context instanceof U09TradeListActivity) {
-                                ((U09TradeListActivity) context).doRefresh();
-                            }
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
+
                 }
             });
-            applyChange.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    statusTo(trade, 0);
-                    final ConfirmDialog dialog = new ConfirmDialog();
-                    dialog.setTitle("确认收货");
-                    dialog.setCancel(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                        }
-                    });
-                    dialog.setConfirm(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            statusTo(trade, 1);
-                            if (context instanceof U09TradeListActivity) {
-                                ((U09TradeListActivity) context).doRefresh();
-                            }
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
-                }
-            });
-            return;
+//            tradingLayout.setVisibility(View.VISIBLE);
+//            applyReturn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(context, U12ReturnActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, datas.get(position));
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
+//                }
+//            });
+//            applyReceive.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    final ConfirmDialog dialog = new ConfirmDialog();
+//                    dialog.setTitle("确认收货");
+//                    dialog.setCancel(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                        }
+//                    });
+//                    dialog.setConfirm(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            statusTo(trade, 1);
+//                            if (context instanceof U09TradeListActivity) {
+//                                ((U09TradeListActivity) context).doRefresh();
+//                            }
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
+//                }
+//            });
+//            applyChange.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    statusTo(trade, 0);
+//                    final ConfirmDialog dialog = new ConfirmDialog();
+//                    dialog.setTitle("确认收货");
+//                    dialog.setCancel(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                        }
+//                    });
+//                    dialog.setConfirm(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            statusTo(trade, 1);
+//                            if (context instanceof U09TradeListActivity) {
+//                                ((U09TradeListActivity) context).doRefresh();
+//                            }
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
+//                }
+//            });
+//            return;
         }
 //        holder.getView(R.id.item_trade_finishTime_layout).setVisibility(View.VISIBLE);
+        //2-已付款
+        if(trade.status == 2){
+            btn1.setVisibility(View.VISIBLE);
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+        //3-已发货
+        if(trade.status == 3){
+            btn1.setVisibility(View.VISIBLE);
+            btn2.setVisibility(View.VISIBLE);
+            btn3.setVisibility(View.VISIBLE);
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            btn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            btn3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
 
     }
 

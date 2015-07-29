@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.android.volley.Response;
@@ -20,7 +20,6 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.ShowUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
@@ -39,6 +38,8 @@ public class S01MatchShowsActivity extends MenuActivity {
     private static final String TAG = "S01MatchShowsActivity";
     @InjectView(R.id.s01_backTop_btn)
     ImageView s01BackTopBtn;
+    @InjectView(R.id.navigation_btn_match)
+    ImageButton navigationBtnMatch;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -65,6 +66,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
         initDrawer();
+        navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +132,7 @@ public class S01MatchShowsActivity extends MenuActivity {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                    if (MetadataParser.getError(response) == ErrorCode.PagingNotExist)
                         recyclerPullToRefreshView.setHasMoreData(false);
                     else {
                         ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));

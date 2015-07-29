@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
+import com.focosee.qingshow.activity.S20MatcherActivity;
 import com.focosee.qingshow.activity.S21CategoryActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
@@ -164,7 +165,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
-                _class = S21CategoryActivity.class;
+                _class = S20MatcherActivity.class;
                 break;
             case R.id.u01_people:
                 _class = U01UserActivity.class;

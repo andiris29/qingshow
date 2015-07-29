@@ -1,9 +1,7 @@
 package com.focosee.qingshow.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -81,7 +79,7 @@ import de.greenrobot.event.EventBus;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
 
-public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler, IWeiboHandler.Response, View.OnClickListener {
+public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler, IWeiboHandler.Response, View.OnClickListener {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
@@ -93,7 +91,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @InjectView(R.id.S03_describe)
     TextView s03Describe;
     @InjectView(R.id.S03_back_btn)
-    ImageButton S03BackBtn;
+    ImageButton s03BackBtn;
     @InjectView(R.id.S03_video_start_btn_real)
     ImageView s03VideoStartBtnReal;
     @InjectView(R.id.s03_portrait)
@@ -129,23 +127,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     private String showId;
     private String className;
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (S04CommentActivity.COMMENT_NUM_CHANGE.equals(intent.getAction())) {
-                commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString()) + intent.getIntExtra("value", 0)));
-            }
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
-
+        initDrawer();
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
 
@@ -160,16 +148,24 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        S03BackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                S03SHowActivity.this.finish();
-            }
-        });
+        if(className.equals(S20MatchPreviewActivity.class.getSimpleName())){
+            s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
+            s03BackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menuSwitch();
+                }
+            });
+        } else {
+            s03BackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    S03SHowActivity.this.finish();
+                }
+            });
+        }
 
         getShowDetailFromNet();
-
-        registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
 
     }
 
@@ -604,7 +600,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         if (null != getIntent().getExtras()) {
             if(null != getIntent().getExtras().get("showDetailEntity")) {
                 showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
-                System.out.println("showDetailEntity:" + showDetailEntity.ownerRef._id);
+                getShowDetailFromNet();
             }
         }
     }
@@ -622,7 +618,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }

@@ -122,6 +122,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         // Inflate the layout for this fragment
         Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
+        ((ImageView) view.findViewById(R.id.s17_settting)).setImageResource(R.drawable.root_menu_setting_gray);
         matchUI(view);
         return view;
     }

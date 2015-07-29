@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -9,12 +8,9 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,7 +27,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
@@ -65,6 +60,8 @@ public class S20MatcherActivity extends MenuActivity {
 
     public static final String S20_ITEMREFS = "S20_ITEMREFS";
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
+    @InjectView(R.id.navigation_btn_good_match)
+    ImageButton navigationBtnGoodMatch;
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -93,7 +90,7 @@ public class S20MatcherActivity extends MenuActivity {
         EventBus.getDefault().register(this);
 
         initDrawer();
-
+        navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();

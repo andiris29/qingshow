@@ -4,56 +4,67 @@
     android:layout_width="140dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:alpha="80"
-    android:background="#B0000000"
+    android:background="#a0000000"
     android:gravity="center"
     android:orientation="vertical">
 
-        <ImageButton
-            style="@style/navigation_btn"
-            android:id="@+id/navigation_btn_match"
-            android:onClick="onClick"
-            android:background="@null"
-            android:src="@drawable/root_menu_icon_meida" />
+    <ImageButton
+        style="@style/navigation_btn"
+        android:id="@+id/navigation_btn_match"
+        android:onClick="onClick"
+        android:background="@null"
+        android:src="@drawable/root_menu_icon_meida" />
 
-        <TextView
-            style="@style/navigation_text"
-            android:text="美搭榜单" />
+    <TextView
+        style="@style/navigation_text"
+        android:text="美搭榜单" />
 
-        <ImageButton
-            style="@style/navigation_btn"
-            android:layout_marginTop="30dp"
-            android:id="@+id/navigation_btn_good_match"
-            android:onClick="onClick"
-            android:background="@null"
-            android:src="@drawable/root_menu_match" />
+    <ImageButton
+        style="@style/navigation_btn"
+        android:layout_marginTop="30dp"
+        android:id="@+id/navigation_btn_good_match"
+        android:onClick="onClick"
+        android:background="@null"
+        android:src="@drawable/root_menu_match" />
 
-        <TextView
-            style="@style/navigation_text"
-            android:text="百搭秀场" />
+    <TextView
+        style="@style/navigation_text"
+        android:text="百搭秀场" />
 
-        <ImageButton
-            style="@style/navigation_btn"
-            android:layout_marginTop="30dp"
-            android:id="@+id/u01_people"
-            android:onClick="onClick"
-            android:background="@null"
-            android:src="@drawable/root_menu_flash" />
+    <ImageButton
+        style="@style/navigation_btn"
+        android:layout_marginTop="30dp"
+        android:id="@+id/navigation_btn_discount"
+        android:onClick="onClick"
+        android:background="@null"
+        android:src="@drawable/root_menu_discount" />
 
-        <TextView
-            style="@style/navigation_text"
-            android:text="我的主页" />
+    <TextView
+        style="@style/navigation_text"
+        android:text="我要折扣" />
 
-        <ImageButton
-            style="@style/navigation_btn"
-            android:layout_marginTop="30dp"
-            android:id="@+id/s17_settting"
-            android:onClick="onClick"
-            android:background="@null"
-            android:src="@drawable/root_menu_setting" />
+    <ImageButton
+        style="@style/navigation_btn"
+        android:layout_marginTop="30dp"
+        android:id="@+id/u01_people"
+        android:onClick="onClick"
+        android:background="@null"
+        android:src="@drawable/root_menu_flash" />
 
-        <TextView
-            style="@style/navigation_text"
-            android:text="个人设置" />
+    <TextView
+        style="@style/navigation_text"
+        android:text="我的搭配" />
+
+    <ImageButton
+        style="@style/navigation_btn"
+        android:layout_marginTop="30dp"
+        android:id="@+id/s17_settting"
+        android:onClick="onClick"
+        android:background="@null"
+        android:src="@drawable/root_menu_setting" />
+
+    <TextView
+        style="@style/navigation_text"
+        android:text="个人设置" />
 
 </LinearLayout>
