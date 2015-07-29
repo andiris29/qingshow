@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
     android:orientation="vertical">
-
+    <com.focosee.qingshow.widget.RecyclerPullToRefreshView
+        android:id="@+id/person_activity_tradelist_recyclerPullToRefreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"/>
     <LinearLayout
         android:id="@+id/U09_title_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="50dp"
         android:background="@drawable/bg_titlebar"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -21,6 +23,7 @@
             android:layout_weight="1"
             android:background="#00000000"
             android:padding="10dp"
+            android:onClick="onClick"
             android:src="@drawable/btn_back_default" />
         <TextView
             android:layout_width="0dp"
@@ -38,16 +41,9 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="13"
-        android:gravity="center"
-        >
-        <com.focosee.qingshow.widget.RecyclerPullToRefreshView
-            android:id="@+id/person_activity_tradelist_recyclerPullToRefreshView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-    </RelativeLayout>
-</LinearLayout>
+    <include
+        android:layout_below="@+id/U09_title_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        layout="@layout/head_trade_list"/>
+</android.support.percent.PercentRelativeLayout>

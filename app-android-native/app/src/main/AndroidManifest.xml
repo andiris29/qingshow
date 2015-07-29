@@ -138,14 +138,6 @@
             android:exported="true"
             android:label="@string/app_name" />
         <activity
-            android:name=".activity.S18ShowByDateActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.S17TopShowsActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.U01UserActivity"
             android:configChanges="keyboardHidden|orientation" />
         <activity

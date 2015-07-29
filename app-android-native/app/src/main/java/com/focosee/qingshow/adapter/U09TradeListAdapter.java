@@ -33,6 +33,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.crypto.spec.IvParameterSpec;
+
 /**
  * Created by Administrator on 2015/3/16.
  */
@@ -53,7 +55,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, final int position) {
-        if(position == 0)return;
+        if(position == 0){
+            holder.getView(R.id.U09_head_layout).setVisibility(View.INVISIBLE);
+            return;
+        }
         if(null == getItemData(position))return;
         final MongoTrade trade = getItemData(position);
         if(null == trade)return;

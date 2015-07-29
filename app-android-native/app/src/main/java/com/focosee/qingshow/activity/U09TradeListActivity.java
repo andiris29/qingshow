@@ -1,16 +1,14 @@
 package com.focosee.qingshow.activity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.Response;
-import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -38,18 +36,30 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class U09TradeListActivity extends BaseActivity {
+public class U09TradeListActivity extends BaseActivity implements View.OnClickListener{
+
+    private final int TYPE_ALL = 0;
+    private final int TYPE_RUNNING = 1;
 
     @InjectView(R.id.person_activity_back_image_button)
     ImageView backBtn;
     @InjectView(R.id.person_activity_tradelist_recyclerPullToRefreshView)
     RecyclerPullToRefreshView recyclerPullToRefreshView;
+    @InjectView(R.id.U09_head_layout)
+    LinearLayout u09HeadLayout;
+    @InjectView(R.id.u09_tab_all)
+    Button u09TabAll;
+    @InjectView(R.id.u09_tab_running)
+    Button u09TabRunning;
     private RecyclerView tradelist;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private MongoPeople people;
     private int currentPageNo = 1;
     private EventBus eventBus;
+
+    private View firstItem;
+    private int currentType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +73,14 @@ public class U09TradeListActivity extends BaseActivity {
             finish();
         }
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        u09TabAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                currentType = 0;
             }
         });
+
+
 
         tradelist = recyclerPullToRefreshView.getRefreshableView();
 
@@ -82,7 +94,7 @@ public class U09TradeListActivity extends BaseActivity {
         mAdapter.setOnViewHolderListener(new U09TradeListAdapter.OnViewHolderListener() {
             @Override
             public void onRequestedLastItem() {
-                doLoadMore();
+                doLoadMore(currentType);
 
             }
         });
@@ -92,17 +104,30 @@ public class U09TradeListActivity extends BaseActivity {
         recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doRefresh();
+                doRefresh(currentType);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doLoadMore();
+                doLoadMore(currentType);
             }
         });
 
+        tradelist.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(firstItem == null){
+                    firstItem = recyclerView.getChildAt(0);
+                }
+                if (firstItem == recyclerView.getChildAt(0)) {
+                    u09HeadLayout.setY(firstItem.getBottom() - firstItem.getHeight());
+                } else
+                    u09HeadLayout.setY(-u09HeadLayout.getHeight());
+            }
+        });
 
-        doRefresh();
+        doRefresh(currentType);
 
         eventBus = new EventBus();
         eventBus.register(this);
@@ -120,21 +145,26 @@ public class U09TradeListActivity extends BaseActivity {
         eventBus.unregister(this);
     }
 
-    public void doRefresh() {
-        getTradeFromNet(1, 10);
+    public void doRefresh(int type) {
+        getTradeFromNet(type, 1, 10);
     }
 
-    public void doLoadMore() {
-        getTradeFromNet(currentPageNo, 10);
+    public void doLoadMore(int type) {
+        getTradeFromNet(type, currentPageNo, 10);
     }
 
-    private void getTradeFromNet(int pageNo, int pageSize) {
+    private void getTradeFromNet(int type, int pageNo, int pageSize) {
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
+        boolean inProgress  = false;
+
+        if(type == 1){
+            inProgress = true;
+        }
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
+                    if (MetadataParser.getError(response) == ErrorCode.PagingNotExist)
                         recyclerPullToRefreshView.setHasMoreData(false);
                     else {
                         ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
@@ -159,6 +189,23 @@ public class U09TradeListActivity extends BaseActivity {
 
     @Override
     public void reconn() {
-        doRefresh();
+        doRefresh(currentType);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.person_activity_back_image_button:
+                finish();
+                break;
+            case R.id.u09_tab_all:
+                doRefresh(0);
+                currentType = 0;
+                break;
+            case R.id.u09_tab_running:
+                doRefresh(1);
+                currentType = 1;
+                break;
+        }
     }
 }
