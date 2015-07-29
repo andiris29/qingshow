@@ -230,11 +230,7 @@
                     errorBlock(e);
                 }];
     };
-    
-    
-    self.recommendProvider.filterBlock = ^BOOL(id obj){
-        return [QSShowUtil getIsLike:obj];
-    };
+
     self.recommendProvider.delegate = self;
     [self.recommendProvider reloadData];
 
