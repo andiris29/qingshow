@@ -92,24 +92,28 @@
     [self.provider bindWithTableView:self.tableView];
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         
-        return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:NO onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:YES onSucceed:succeedBlock onError:errorBlock];
     };
     self.provider.delegate = self;
-
     [self.provider fetchDataOfPage:1];
+    [self.provider reloadData];
+    if (!self.provider.resultArray.count) {
+        [self changeValueOfSegment:1];
+    }
+   
 }
 
 #pragma mark - QSOrderListHeaderViewDelegate
 - (void)changeValueOfSegment:(NSInteger)value
 {
-    if (value == 0) {
+    if (value == 1) {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:NO onSucceed:succeedBlock onError:errorBlock];
         };
         [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
     }
-    else if(value == 1)
+    else if(value == 0)
     {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:YES onSucceed:succeedBlock onError:errorBlock];

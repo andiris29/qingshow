@@ -32,6 +32,7 @@
     [self configBtn:self.submitButton];
     [self configBtn:self.returnButton];
     [self configBtn:self.exchangeButton];
+    self.saleImgView.hidden = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 //    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
 }
@@ -81,7 +82,7 @@
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     
     QSTradeStatus s = status.integerValue;
-
+    
     switch (s) {
         case QSTradeStatusUnpaid:
         {
