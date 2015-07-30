@@ -44,7 +44,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
         final MongoItem item = getItemData(position);
 
         holder.setImgeByUrl(R.id.item_s07_category, item.thumbnail);
-        holder.setText(R.id.item_s07_name, item.name);
+        holder.setText(R.id.item_s07_name, item.name).setText(R.id.item_s07_price, "价格："+item.getPrice());
         holder.getView(R.id.item_s07_detail_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +59,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
         });
     }
 
-    public void jump(MongoItem item){
+    public void jump(MongoItem item) {
         if (null == item) {
             Toast.makeText(context, R.string.item_not_exist, Toast.LENGTH_SHORT).show();
             return;
