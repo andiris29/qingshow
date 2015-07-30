@@ -43,7 +43,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
 
         final MongoItem item = getItemData(position);
 
-        holder.setImgeByUrl(R.id.item_s07_category, item.categoryRef.icon);
+        holder.setImgeByUrl(R.id.item_s07_category, item.thumbnail);
         holder.setText(R.id.item_s07_name, item.name);
         holder.getView(R.id.item_s07_detail_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +62,6 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
     public void jump(MongoItem item){
         if (null == item) {
             Toast.makeText(context, R.string.item_not_exist, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (null == item.images || 0 == item.images.size()) {
-            Toast.makeText(context, R.string.image_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(context, S10ItemDetailActivity.class);

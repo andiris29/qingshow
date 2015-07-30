@@ -1,13 +1,13 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U06LoginActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -42,7 +41,6 @@ import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U02Model;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
@@ -51,8 +49,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import butterknife.InjectView;
 import dmax.dialog.SpotsDialog;
 
 public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
@@ -74,22 +70,24 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     Button quitButton;
     ImageButton navigationBtnMatch;
     ImageButton navigationBtnGoodMatch;
+    ImageButton navigationBtnDiscount;
     ImageButton u01People;
     RelativeLayout personalRelativeLayout;
     RelativeLayout backgroundRelativeLayout;
-    RelativeLayout sexRelativeLayout;
     RelativeLayout bodyTypeRelativeLayout;
     RelativeLayout changePasswordRelativeLayout;
-    RelativeLayout tradeRelativeLayout;
     RelativeLayout addresslistRelativeLayout;
     RelativeLayout dressStyleRelativeLayout;
     RelativeLayout effectRelativeLayout;
     ImageView portraitImageView;
     ImageView backgroundImageView;
     EditText nameEditText;
-    TextView sexTextView;
     EditText heightEditText;
     EditText weightEditText;
+    EditText bustEditText;
+    EditText shoulderEditText;
+    EditText waistlineEditText;
+    EditText hiplineEditText;
     TextView bodyTypeTextView;
     TextView dressStyleEditText;
     TextView effectEditText;
@@ -110,7 +108,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
         if (null != savedInstanceState) {
             people = (MongoPeople) savedInstanceState.getSerializable("people");
         }
@@ -120,9 +117,9 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
         ((ImageView) view.findViewById(R.id.s17_settting)).setImageResource(R.drawable.root_menu_setting_gray);
+        ((TextView) view.findViewById(R.id.s17_settting_tv)).setTextColor(getResources().getColor(R.color.darker_gray));
         matchUI(view);
         return view;
     }
@@ -130,7 +127,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "onActivityCreated");
         initUser();
         setJumpListener();
         initDrawer();
@@ -166,7 +162,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
         try {
             // When an Image is picked
@@ -264,22 +259,24 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         quitButton = (Button) view.findViewById(R.id.quitButton);
         navigationBtnMatch = (ImageButton) view.findViewById(R.id.navigation_btn_match);
         navigationBtnGoodMatch = (ImageButton) view.findViewById(R.id.navigation_btn_good_match);
+        navigationBtnDiscount = (ImageButton) view.findViewById(R.id.navigation_btn_discount);
         u01People = (ImageButton) view.findViewById(R.id.u01_people);
         personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
-        sexRelativeLayout = (RelativeLayout) view.findViewById(R.id.sexRelativeLayout);
         bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
         changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
-        tradeRelativeLayout = (RelativeLayout) view.findViewById(R.id.tradelistRelativeLayout);
         addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
         dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
         effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
         portraitImageView = (ImageView) view.findViewById(R.id.portraitImageView);
         backgroundImageView = (ImageView) view.findViewById(R.id.backgroundImageView);
         nameEditText = (EditText) view.findViewById(R.id.nameEditText);
-        sexTextView = (TextView) view.findViewById(R.id.sexTextView);
         heightEditText = (EditText) view.findViewById(R.id.heightEditText);
         weightEditText = (EditText) view.findViewById(R.id.weightEditText);
+        bustEditText = (EditText) view.findViewById(R.id.bustEditText);
+        shoulderEditText = (EditText) view.findViewById(R.id.shoulderEditText);
+        waistlineEditText = (EditText) view.findViewById(R.id.waistlineEditText);
+        hiplineEditText = (EditText) view.findViewById(R.id.hiplineEditText);
         bodyTypeTextView = (TextView) view.findViewById(R.id.bodyTypeTextView);
         dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
@@ -296,7 +293,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void setData() {
         if (null != people) {
             if (null != people.portrait) {
-                System.out.println("portraitImageView:" + portraitImageView);
                 portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(people.portrait, ImgUtil.PORTRAIT_LARGE)));
                 portraitImageView.setAlpha(1f);
             }
@@ -310,11 +306,22 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 ageEditText.setText(String.valueOf(people.age));
             if (0 != people.height)
                 heightEditText.setText(String.valueOf(people.height));
-            if (0 != people.height)
+            if (0 != people.weight)
                 weightEditText.setText(String.valueOf(people.weight));
-            sexTextView.setText(sexArgs[people.gender]);
-            sexTextView.setTag(people.gender);
-
+            if(null != people.measureInfo){
+                if(0 != people.measureInfo.bust){
+                    bustEditText.setText(String.valueOf(people.measureInfo.bust));
+                }
+                if(0 != people.measureInfo.shoulder){
+                    shoulderEditText.setText(String.valueOf(people.measureInfo.shoulder));
+                }
+                if(0 != people.measureInfo.waist){
+                    waistlineEditText.setText(String.valueOf(people.measureInfo.waist));
+                }
+                if(0 != people.measureInfo.hips){
+                    hiplineEditText.setText(String.valueOf(people.measureInfo.hips));
+                }
+            }
             bodyTypeTextView.setText(bodyTypeArgs[people.bodyType]);
             bodyTypeTextView.setTag(people.bodyType);
             dressStyleEditText.setText(dressStyles[people.dressStyle]);
@@ -322,7 +329,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             if (null != people.expectations && people.expectations.length != 0) {
                 String effectStr = "";
                 for (int index : people.expectations) {
-                    effectStr += expectations[index] + "|";
+                    effectStr += expectations[index] + "\b";
                 }
                 if (effectStr.length() > 0)
                     effectStr = effectStr.substring(0, effectStr.length() - 1);
@@ -409,11 +416,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
 
-        if (TAG_SEX.equals(String.valueOf(actionSheet.getTag()))) {
-            sexTextView.setText(sexArgs[index]);
-            sexTextView.setTag(index);
-        }
-
         if (TAG_BODYTYPE.equals(String.valueOf(actionSheet.getTag()))) {
             bodyTypeTextView.setText(bodyTypeArgs[index]);
             bodyTypeTextView.setTag(index);
@@ -434,20 +436,29 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
     private void commitForm() {
         Map params = new HashMap();
-        if (!nameEditText.getText().toString().equals(""))
+        Map measureInfo = new HashMap();
+        if (!TextUtils.isEmpty(nameEditText.getText().toString()))
             params.put("nickname", nameEditText.getText().toString());
-        if (!ageEditText.getText().toString().equals(""))
+        if (!TextUtils.isEmpty(ageEditText.getText().toString()))
             params.put("age", ageEditText.getText().toString());
-        if (!heightEditText.getText().toString().equals(""))
+        if (!TextUtils.isEmpty(heightEditText.getText().toString()))
             params.put("height", heightEditText.getText().toString());
-        if (!weightEditText.getText().toString().equals(""))
+        if (!TextUtils.isEmpty(weightEditText.getText().toString()))
             params.put("weight", weightEditText.getText().toString());
-        if (null != sexTextView.getTag())
-            params.put("gender", sexTextView.getTag().toString());
+        if (!TextUtils.isEmpty(bustEditText.getText().toString()))
+            measureInfo.put("bust", bustEditText.getText().toString());
+        if (!TextUtils.isEmpty(shoulderEditText.getText().toString()))
+            measureInfo.put("shoulder", shoulderEditText.getText().toString());
+        if (!TextUtils.isEmpty(waistlineEditText.getText().toString()))
+            measureInfo.put("waist", waistlineEditText.getText().toString());
+        if (!TextUtils.isEmpty(hiplineEditText.getText().toString()))
+            measureInfo.put("hips", hiplineEditText.getText().toString());
         if (null != bodyTypeTextView.getTag())
             params.put("bodyType", bodyTypeTextView.getTag().toString());
         if (null != dressStyleEditText.getTag())
             params.put("dressStyle", dressStyleEditText.getTag().toString());
+
+        params.put("measureInfo", measureInfo);
         UserCommand.update(params, new Callback() {
             @Override
             public void onComplete() {
@@ -471,12 +482,17 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void setJumpListener() {
         navigationBtnMatch.setOnClickListener(this);
         navigationBtnGoodMatch.setOnClickListener(this);
+        navigationBtnDiscount.setOnClickListener(this);
         u01People.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
 
         ageEditText.setOnFocusChangeListener(this);
         heightEditText.setOnFocusChangeListener(this);
         weightEditText.setOnFocusChangeListener(this);
+        bustEditText.setOnFocusChangeListener(this);
+        shoulderEditText.setOnFocusChangeListener(this);
+        waistlineEditText.setOnFocusChangeListener(this);
+        hiplineEditText.setOnFocusChangeListener(this);
 
         backTextView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -505,14 +521,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             }
         });
 
-        sexRelativeLayout.setOnClickListener(new View.OnClickListener(){
-             @Override
-             public void onClick(View view) {
-                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                 showActionSheet(TAG_SEX);
-             }
-        });
-
         bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener(){
               @Override
               public void onClick(View view) {
@@ -530,14 +538,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
             }
         });
-
-        tradeRelativeLayout.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View v) {
-               Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
-               startActivity(intent);
-           }
-       });
 
         addresslistRelativeLayout.setOnClickListener(new View.OnClickListener(){
              @Override

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -40,6 +41,8 @@ public class S01MatchShowsActivity extends MenuActivity {
     ImageView s01BackTopBtn;
     @InjectView(R.id.navigation_btn_match)
     ImageButton navigationBtnMatch;
+    @InjectView(R.id.navigation_btn_match_tv)
+    TextView navigationBtnMatchTv;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -67,6 +70,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         EventBus.getDefault().register(this);
         initDrawer();
         navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
+        navigationBtnMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

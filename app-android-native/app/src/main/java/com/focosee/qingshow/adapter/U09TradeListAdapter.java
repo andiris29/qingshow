@@ -66,6 +66,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         Button btn1 = holder.getView(R.id.item_tradelist_btn1);
         Button btn2 = holder.getView(R.id.item_tradelist_btn2);
         Button btn3 = holder.getView(R.id.item_tradelist_btn3);
+        btn1.setVisibility(View.INVISIBLE);
+        btn2.setVisibility(View.INVISIBLE);
+        btn3.setVisibility(View.INVISIBLE);
+        holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.GONE);
 
         holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
 
@@ -80,6 +84,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         //0-折扣申请中
         if(trade.status == 0){
             btn1.setVisibility(View.VISIBLE);
+            btn1.setText("取消订单");
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -92,6 +97,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         if(trade.status == 1){
             btn1.setVisibility(View.VISIBLE);
             btn2.setVisibility(View.VISIBLE);
+            holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.VISIBLE);
+            btn1.setText("确认付款");
+            btn2.setText("取消订单");
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -168,6 +176,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         //2-已付款
         if(trade.status == 2){
             btn1.setVisibility(View.VISIBLE);
+            btn1.setText("取消订单");
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -180,6 +189,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setVisibility(View.VISIBLE);
             btn2.setVisibility(View.VISIBLE);
             btn3.setVisibility(View.VISIBLE);
+            btn1.setText("确认收货");
+            btn2.setText("申请退货");
+            btn3.setText("物流信息");
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

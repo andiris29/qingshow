@@ -15,294 +15,245 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/titleBarRelativeLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="#ffffff">
 
-        <ImageView
-            android:id="@+id/backTextView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:layout_weight="5"
-            android:src="@drawable/nav_btn_menu_n"
-            android:padding="10dp"/>
+            <LinearLayout
+                android:id="@+id/titleBarRelativeLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="#ffffff">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerInParent="true"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:text="@string/settings_activity_settings"
-            android:textColor="#454545"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="5"/>
+                <ImageView
+                    android:id="@+id/backTextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/nav_btn_menu_n" />
 
-    </LinearLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent">
-    <LinearLayout
-        android:id="@+id/settingsLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/settings_activity_settings"
+                    android:textColor="#454545"
+                    android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="5" />
 
-        <RelativeLayout
-            android:id="@+id/chooseRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="#F2F2F2">
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/choose_picture_activity_settings"
-                android:textSize="@dimen/text_size" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/personalRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/portraitImageView"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                fresco:roundAsCircle="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                fresco:placeholderImage="@drawable/root_cell_placehold_head" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/portraitImageView"
-                android:text="@string/personal_picture_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/backgroundRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff">
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/backgroundImageView"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                fresco:roundAsCircle="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                fresco:placeholderImage="@drawable/user_bg_default" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/backgroundImageView"
-                android:text="@string/background_picture_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/manageRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/category_bg_activity_settings">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/manage_activity_settings"
-                android:textSize="@dimen/text_size" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/tradelistRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/u02_tradelist_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/title_name_activity_trade"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/addresslist_RelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/u02_addresslist_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/title_name_activity_addresslist"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/baseRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/category_bg_activity_settings">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/information_activity_settings"
-                android:textSize="@dimen/text_size" />
-        </RelativeLayout>
-
-        <include layout="@layout/fragment_u02_settings_basemsg"/>
-
-        <RelativeLayout
-            android:id="@+id/othersRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/category_bg_activity_settings"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/others_activity_settings"
-                android:textSize="@dimen/text_size" />
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-
-
-        <RelativeLayout
-            android:id="@+id/changePasswordRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/u02_change_pw_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:text="@string/change_password_activity_settings"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
-
-        <RelativeLayout
-            android:id="@+id/quitRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bg_activity_settings"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/quitButton"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/gray_btn"
-                android:text="退出登陆"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/text_size" />
-        </RelativeLayout>
-        </LinearLayout>
+                android:layout_height="fill_parent">
 
-    </LinearLayout>
-    </ScrollView>
+                <LinearLayout
+                    android:id="@+id/settingsLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/chooseRelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="#F2F2F2">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:text="@string/choose_picture_activity_settings"
+                                android:textSize="@dimen/text_size" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/personalRelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_height_activity_settings"
+                            android:background="#ffffff">
+
+                            <com.facebook.drawee.view.SimpleDraweeView
+                                android:id="@+id/portraitImageView"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                fresco:placeholderImage="@drawable/root_cell_placehold_head"
+                                fresco:roundAsCircle="true" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:layout_toRightOf="@id/portraitImageView"
+                                android:text="@string/personal_picture_activity_settings"
+                                android:textSize="@dimen/text_size" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/line_activity_settings" />
+
+                        <RelativeLayout
+                            android:id="@+id/backgroundRelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_height_activity_settings"
+                            android:background="#ffffff">
+
+                            <com.facebook.drawee.view.SimpleDraweeView
+                                android:id="@+id/backgroundImageView"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                fresco:placeholderImage="@drawable/user_bg_default"
+                                fresco:roundAsCircle="true" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:layout_toRightOf="@id/backgroundImageView"
+                                android:text="@string/background_picture_activity_settings"
+                                android:textSize="@dimen/text_size" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/manageRelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@color/category_bg_activity_settings">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:text="@string/manage_activity_settings"
+                                android:textSize="@dimen/text_size" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/addresslist_RelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_height_activity_settings"
+                            android:background="#ffffff"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/u02_addresslist_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:text="@string/title_name_activity_addresslist"
+                                android:textSize="@dimen/text_size" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:background="@drawable/icon_arrow" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/line_activity_settings" />
+
+                        <RelativeLayout
+                            android:id="@+id/changePasswordRelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/item_height_activity_settings"
+                            android:background="#ffffff"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/u02_change_pw_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:text="@string/change_password_activity_settings"
+                                android:textSize="@dimen/text_size" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:background="@drawable/icon_arrow" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/line_activity_settings" />
+
+                        <RelativeLayout
+                            android:id="@+id/baseRelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@color/category_bg_activity_settings">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                                android:text="@string/information_activity_settings"
+                                android:textSize="@dimen/text_size" />
+                        </RelativeLayout>
+
+                        <include layout="@layout/fragment_u02_settings_basemsg" />
+
+                        <RelativeLayout
+                            android:id="@+id/quitRelativeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/bg_activity_settings"
+                            android:gravity="center">
+
+                            <Button
+                                android:id="@+id/quitButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_margin="20dp"
+                                android:background="@drawable/gray_btn"
+                                android:text="退出登陆"
+                                android:textColor="#ffffff"
+                                android:textSize="@dimen/text_size" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
     </FrameLayout>
 
@@ -311,5 +262,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
-    <include layout="@layout/menu"/>
+
+    <include layout="@layout/menu" />
 </android.support.v4.widget.DrawerLayout>

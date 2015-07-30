@@ -107,6 +107,8 @@ public class U01UserActivity extends MenuActivity {
     ImageView u01BackTopBtn;
     @InjectView(R.id.u01_people)
     ImageButton u01People;
+    @InjectView(R.id.u01_people_tv)
+    TextView u01PeopleTv;
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -125,6 +127,7 @@ public class U01UserActivity extends MenuActivity {
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
         u01People.setImageResource(R.drawable.root_menu_flash_gray);
+        u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
         user = (MongoPeople) getIntent().getExtras().get("user");
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮

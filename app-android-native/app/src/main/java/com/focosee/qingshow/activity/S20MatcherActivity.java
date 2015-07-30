@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -62,6 +63,8 @@ public class S20MatcherActivity extends MenuActivity {
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
     @InjectView(R.id.navigation_btn_good_match)
     ImageButton navigationBtnGoodMatch;
+    @InjectView(R.id.navigation_btn_good_match_tv)
+    TextView navigationBtnGoodMatchTv;
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -90,7 +93,8 @@ public class S20MatcherActivity extends MenuActivity {
         EventBus.getDefault().register(this);
 
         initDrawer();
-        navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
+        navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_match_gray);
+        navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();

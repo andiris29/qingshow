@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="300dp"
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="10dp">
 
     <LinearLayout
+        android:id="@+id/item_tradelist_title"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -64,36 +65,40 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/item_tradelist_line"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/item_tradelist_title"
         android:background="@color/gary" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        app:layout_heightPercent="80%"
+        android:layout_below="@+id/item_tradelist_line"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:paddingBottom="20dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:paddingTop="20dp">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_tradelist_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_widthPercent="30%"
+                android:layout_alignParentLeft="true"
                 fresco:placeholderImage="@drawable/user_bg_default" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="4"
+                android:layout_toRightOf="@+id/item_tradelist_image"
                 android:orientation="vertical">
 
                 <com.focosee.qingshow.widget.QSTextView
@@ -103,8 +108,8 @@
                     android:text="秋冬新款" />
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -207,6 +212,15 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
     </LinearLayout>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/item_tradelist_sale_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="40dp"
+        android:visibility="gone"
+        android:src="@drawable/sale"/>
+</android.support.percent.PercentRelativeLayout>

@@ -72,7 +72,7 @@
                             android:layout_height="match_parent"
                             android:id="@+id/S03_before_video_without_back">
 
-                            <TextView
+                            <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_describe"
                                 android:layout_width="wrap_content"
                                 android:layout_height="25dp"
@@ -97,14 +97,15 @@
                                 android:onClick="onClick"
                                 fresco:placeholderImage="@drawable/root_cell_placehold_head" />
 
-                            <TextView
+                            <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/s03_nickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="25sp"
+                                android:textSize="@dimen/text_size"
                                 android:layout_toRightOf="@+id/s03_portrait"
                                 android:layout_alignTop="@+id/s03_portrait"
                                 android:layout_alignBottom="@+id/s03_portrait"
+                                android:layout_marginLeft="5dp"
                                 android:visibility="gone"
                                 android:gravity="center"
                                 android:onClick="onClick"
@@ -151,7 +152,7 @@
                                 android:src="@drawable/s03_like_btn"
                                  />
 
-                            <TextView
+                            <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_like_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -184,7 +185,7 @@
                                 android:onClick="onClick"
                                 android:src="@drawable/s03_comment_btn" />
 
-                            <TextView
+                            <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_comment_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -217,7 +218,7 @@
                                 android:onClick="onClick"
                                 android:src="@drawable/s03_item_btn" />
 
-                            <TextView
+                            <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_item_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
