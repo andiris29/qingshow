@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -224,20 +225,18 @@ public class U01UserActivity extends MenuActivity {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(user._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
-                Log.d(TAG, "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
-                Log.i("tag", response.toString());
                 user = users.get(0);
                 userName.setText(user.nickname);
                 userHw.setText(user.height + "cm," + user.weight + "kg");
-                if (user.portrait != null)
+                if (!TextUtils.isEmpty(user.portrait))
                     userHead.setImageURI(Uri.parse(user.portrait));
-                userBg.setImageURI(Uri.parse(user.background));
+                if(!TextUtils.isEmpty(user.background))
+                    userBg.setImageURI(Uri.parse(user.background));
                 if (user.__context.followedByCurrentUser)
                     userFollowBtn.setImageResource(R.drawable.unfollow_btn);
             }

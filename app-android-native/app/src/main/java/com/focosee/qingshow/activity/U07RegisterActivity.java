@@ -23,6 +23,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -233,6 +234,12 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     /**
      * 微博认证授权回调类。
      * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
@@ -248,18 +255,16 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void onComplete(Bundle values) {
             // 从 Bundle 中解析 Token
-            Toast.makeText(U07RegisterActivity.this, "back", Toast.LENGTH_SHORT).show();
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
             if (mAccessToken.isSessionValid()) {
                 Map<String, String> map = new HashMap<>();
-                map.put("access_toke", mAccessToken.getToken());
+                map.put("access_token", mAccessToken.getToken());
                 map.put("uid", mAccessToken.getUid());
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
                 QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWbApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         if(MetadataParser.hasError(response)){
-                            System.out.println("response:" + response);
                             ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
                             return;
                         }
@@ -267,7 +272,11 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                         Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                         MongoPeople user = UserParser._parsePeople(response);
                         QSModel.INSTANCE.setUser(user);
-                        startActivity(new Intent(U07RegisterActivity.this, U01UserActivity.class));
+                        Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user", user);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                         finish();
                         return;
                     }
