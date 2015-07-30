@@ -80,27 +80,40 @@
 //    }
 //    
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
-    
     QSTradeStatus s = status.integerValue;
+    BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
     
     switch (s) {
-        case QSTradeStatusUnpaid:
+        case 0:
+        case 2:
         {
             self.submitButton.hidden = NO;
             self.returnButton.hidden = YES;
             self.exchangeButton.hidden = YES;
-            [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
+            [self.submitButton setTitle:@"取消订单" forState:UIControlStateNormal];
             break;
         }
-        case QSTradeStatusFahuo:
-        case QSTradeStatusHuanhuoFachu: {
+        case 1:{
+            self.submitButton.hidden = NO;
+            self.exchangeButton.hidden = YES;
+            self.returnButton.hidden = NO;
+            self.saleImgView.hidden = NO;
+            if (shouldShare) {
+                
+            }
+            else{
+            [self.submitButton setTitle:@"确认付款" forState:UIControlStateNormal];
+            }
+            break;
+        }
+        case 3: {
             self.submitButton.hidden = NO;
             self.exchangeButton.hidden = NO;
             self.returnButton.hidden = NO;
             [self.submitButton setTitle:@"确认付款" forState:UIControlStateNormal];
             break;
         }
-        default: {
+         default: {
             self.submitButton.hidden = YES;
             self.exchangeButton.hidden = YES;
             self.returnButton.hidden = YES;

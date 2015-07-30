@@ -18,5 +18,5 @@
 
 + (NSString*)getTradeLogisticCompany:(NSDictionary*)dict;
 + (NSString*)getTradeLogisticId:(NSDictionary*)dict;
-
++ (BOOL)getTraddSharedByCurrentUser:(NSDictionary*)dict;
 @end

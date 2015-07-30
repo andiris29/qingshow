@@ -145,7 +145,7 @@
 {
     NSString *company = [QSTradeUtil getTradeLogisticCompany:orderDic];
     NSString *trackingId = [QSTradeUtil getTradeLogisticId:orderDic];
-    NSString *str = [NSString stringWithFormat:@"%@ : %@",company,trackingId];
+    NSString *str = [NSString stringWithFormat:@"物流公司：%@\n物流单号：%@",company,trackingId];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"物流信息" message:str delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
 }

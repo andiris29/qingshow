@@ -79,4 +79,15 @@
     }
     return str;
 }
++ (BOOL)getTraddSharedByCurrentUser:(NSDictionary*)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return NO;
+    }
+    NSNumber *n =  [QSEntityUtil getNumberValue:dict keyPath:@"tradeContext.sharedByCurrentUser"];
+    if ([QSEntityUtil checkIsNil:n]) {
+        return NO;
+    }
+    return n.boolValue;
+}
 @end
