@@ -25,6 +25,7 @@ import com.focosee.qingshow.activity.S21CategoryActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -166,6 +167,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
                 _class = S20MatcherActivity.class;
+                break;
+            case R.id.navigation_btn_discount:
+                _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:
                 _class = U01UserActivity.class;

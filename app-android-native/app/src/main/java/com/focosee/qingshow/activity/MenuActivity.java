@@ -166,6 +166,9 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             case R.id.navigation_btn_good_match:
                 _class = S20MatcherActivity.class;
                 break;
+            case R.id.navigation_btn_discount:
+                _class = U09TradeListActivity.class;
+                break;
             case R.id.u01_people:
                 _class = U01UserActivity.class;
                 break;
