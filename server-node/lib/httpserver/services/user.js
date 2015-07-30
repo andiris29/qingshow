@@ -208,8 +208,6 @@ _register = function(req, res) {
             ResponseHelper.response(res, ServerError.EmailAlreadyExist);
             return;
         }
-        require('../../runtime/qsmail').debug('New user: ' + id, [id, password].join(','), function(err, info) {
-        });
 
         var people = new People({
             nickname: nickname,
@@ -541,12 +539,10 @@ _loginViaWeixin = function(req, res) {
                     } else {
                         var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
                         user.headimgurl =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                        callback(err);
+                        callback(err, user);
                     }
                 })
             }
-
-
         });
     }, function(user, callback) {
         People.findOne({
@@ -559,8 +555,6 @@ _loginViaWeixin = function(req, res) {
                 callback(null, people);
                 return;
             }
-            require('../../runtime/qsmail').debug('New user[weixin]: ' + user.openid, user.openid, function(err, info) {
-            });
 
             people = new People({
                 nickname : user.nickname,
@@ -602,6 +596,7 @@ _loginViaWeixin = function(req, res) {
 };
 
 _loginViaWeibo = function(req, res) {
+    var config = global.qsConfig;
     var param = req.body;
     var token = param.access_token;
     var uid = param.uid;
@@ -627,6 +622,26 @@ _loginViaWeibo = function(req, res) {
                 avatar_large : data.avatar_large
             });
         });
+    }, function (user, callback) {
+        var url = user.avatar_large;
+        //download headIcon
+        _downloadHeadIcon(url, function (err, tempPath) {
+            if (err) {
+                callback(err);
+            } else {
+                //update head icon to ftp
+                var baseName = path.basename(tempPath);
+                qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                        user.avatar_large =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                        callback(err, user);
+                    }
+                })
+            }
+        });
     }, function(user, callback) {
         People.findOne({
             'userInfo.weibo.id' : user.id
@@ -638,8 +653,6 @@ _loginViaWeibo = function(req, res) {
                 callback(null, people);
                 return;
             }
-            require('../../runtime/qsmail').debug('New user[weibo]: ' + user.id, user.id, function(err, info) {
-            });
 
             people = new People({
                 nickname : user.screen_name,

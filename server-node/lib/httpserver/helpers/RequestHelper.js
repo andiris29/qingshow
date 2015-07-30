@@ -4,8 +4,6 @@ var async = require('async');
 var qsftp = require('../../runtime/qsftp');
 var path = require('path');
 
-
-
 var RequestHelper = module.exports;
 
 RequestHelper.getIp = function (req) {
