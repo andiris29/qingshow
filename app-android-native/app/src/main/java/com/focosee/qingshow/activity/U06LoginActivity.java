@@ -29,11 +29,10 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.widget.LoadingDialog;
 import com.umeng.analytics.MobclickAgent;
 import java.util.HashMap;
 import java.util.Map;
-
-import dmax.dialog.SpotsDialog;
 
 
 public class U06LoginActivity extends BaseActivity {
@@ -63,8 +62,8 @@ public class U06LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                final SpotsDialog  pDialog = new SpotsDialog(U06LoginActivity.this,getResources().getString(R.string.s06_loading));
-                pDialog.show();
+                final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
+                pDialog.show("login dialog");
 
                 Map<String, String> map = new HashMap<>();
                 map.put("idOrNickName", accountEditText.getText().toString());

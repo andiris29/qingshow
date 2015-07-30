@@ -17,7 +17,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/s03_back_btn"
+        android:background="@drawable/nav_btn_back"
         android:onClick="onClick" />
 
     <ImageView

@@ -45,11 +45,12 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
+import com.focosee.qingshow.widget.LoadingDialog;
+
 import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import dmax.dialog.SpotsDialog;
 
 public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
@@ -211,14 +212,15 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             api = QSAppWebAPI.getUserUpdatebackground();
         }
         String API = api;
-        final SpotsDialog pDialog = new SpotsDialog(getActivity(),getResources().getString(R.string.s20_loading));
-        pDialog.show();
+        final LoadingDialog dialog = new LoadingDialog(getFragmentManager());
+
+        dialog.show("u02 dialog");
         QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
                 API, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
-                pDialog.dismiss();
+                dialog.dismiss();
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;

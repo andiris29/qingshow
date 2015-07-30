@@ -31,11 +31,13 @@
         android:background="@color/white" />
 
     <android.support.percent.PercentRelativeLayout
+        android:id="@+id/prl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:background="@color/white"
         android:padding="10dp">
+
 
         <Button
             android:id="@+id/submitBtn"
@@ -49,6 +51,10 @@
             android:textSize="18sp"
             app:layout_heightPercent="47%"
             app:layout_widthPercent="45%" />
+        <ImageView
+            android:id="@+id/imgview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.percent.PercentRelativeLayout>
 </LinearLayout>
 

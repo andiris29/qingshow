@@ -24,6 +24,7 @@ import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.widget.LoadingDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +37,6 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import dmax.dialog.SpotsDialog;
 
 /**
  * Created by Administrator on 2015/7/9.
@@ -55,7 +55,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     private MongoShow show;
     private String uuid;
-    private ProgressDialog dialog;
+    private LoadingDialog dialog;
 
     @Override
     public void reconn() {
@@ -67,7 +67,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
-        dialog = new ProgressDialog(this);
+        dialog = new LoadingDialog(getSupportFragmentManager());
         itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         initImage();
     }
@@ -81,7 +81,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void sublit() {
-        saveMatch();
+         saveMatch();
     }
 
     @OnClick(R.id.back)
@@ -96,9 +96,9 @@ public class S20MatchPreviewActivity extends BaseActivity {
     }
 
     private void forbidClick() {
-        dialog.show();
         submitBtn.setClickable(false);
         back.setClickable(false);
+        dialog.show("s20 dialog");
     }
 
     private void saveMatch() {

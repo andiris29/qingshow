@@ -10,8 +10,8 @@ import android.webkit.WebViewClient;
 
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.widget.LoadingDialog;
 
-import dmax.dialog.SpotsDialog;
 
 /**
  * Created by Administrator on 2015/7/24.
@@ -45,7 +45,8 @@ public class PushWebActivity extends BaseActivity {
         webSettings.setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient() {
 
-            final SpotsDialog dialog = new SpotsDialog(PushWebActivity.this,getResources().getString(R.string.web_view));
+            final LoadingDialog dialog = new LoadingDialog(getSupportFragmentManager());
+
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
@@ -54,13 +55,13 @@ public class PushWebActivity extends BaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                dialog.hide();
+                dialog.dismiss();
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                dialog.show();
+                dialog.show("push dialog");
             }
         });
 

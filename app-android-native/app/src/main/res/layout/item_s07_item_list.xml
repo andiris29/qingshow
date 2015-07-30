@@ -3,7 +3,7 @@
     xmlns:freso="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_s07_collection"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="70dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_s07_category"
@@ -15,7 +15,7 @@
         freso:roundAsCircle="true" />
 
     <LinearLayout
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_centerInParent="true"
         android:layout_toLeftOf="@+id/item_s07_detail_btn"
         android:layout_toRightOf="@+id/item_s07_category"

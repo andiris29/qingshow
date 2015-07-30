@@ -327,12 +327,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         clickCommentIndex = commentIndex;
 
         if (null != userId && userId.equals(commentUserId)) {
-            ActionSheet.createBuilder(this, getFragmentManager())
+            ActionSheet.createBuilder(this, getSupportFragmentManager())
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles("查看个人主页", "删除")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         } else {
-            ActionSheet.createBuilder(this, getFragmentManager())
+            ActionSheet.createBuilder(this, getSupportFragmentManager())
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles("查看个人主页")
                     .setCancelableOnTouchOutside(true).setListener(this).show();

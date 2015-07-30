@@ -232,9 +232,6 @@ public class S20MatcherActivity extends MenuActivity {
             float y = view.getY();
             float dx = width * (ratio - 1) / 2;
             float dy = height * (ratio - 1) / 2;
-            moveView(view, 0, 0, x + dx, y + dy);
-
-//            Log.d("tag", "width: " + width + " height: " + height + " x: " + x + " y: " + y + " dx: " + dx + " dy: " + dy + " ldx: " + lastdx + " ldy: " + lastdy);
 
             if (x + width + dx > canvas.getWidth()) {
                 nextX = x - ((x + width + dx) - canvas.getWidth());

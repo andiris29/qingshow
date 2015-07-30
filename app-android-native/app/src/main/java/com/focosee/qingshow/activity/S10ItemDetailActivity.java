@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11DetailsFragment;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.widget.LoadingDialog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import dmax.dialog.SpotsDialog;
 
 /**
  * Created by Administrator on 2015/3/13.
@@ -56,7 +56,7 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
         webSettings.setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
 
-            final SpotsDialog dialog = new SpotsDialog(S10ItemDetailActivity.this, getResources().getString(R.string.web_view));
+            final LoadingDialog dialog = new LoadingDialog(getSupportFragmentManager());
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -66,13 +66,13 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                dialog.hide();;
+                dialog.dismiss();
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                dialog.show();
+                dialog.show("s10 web dialog");
             }
         });
         webview.loadUrl(url);

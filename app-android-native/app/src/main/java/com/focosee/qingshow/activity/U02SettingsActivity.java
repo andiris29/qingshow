@@ -18,7 +18,7 @@ public class U02SettingsActivity extends BaseActivity {
         setContentView(R.layout.activity_settings);
 
         settingsFragment = U02SettingsFragment.newIntance();
-        getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, "settingsFragment").commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, "settingsFragment").commit();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class U02SettingsActivity extends BaseActivity {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 U02Model.INSTANCE.set_class(U02SettingsFragment.class);
                 settingsFragment = new U02SettingsFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0,R.anim.push_right_in, 0).
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0,R.anim.push_right_in, 0).
                         replace(R.id.settingsScrollView, settingsFragment).commit();
             }
         }
