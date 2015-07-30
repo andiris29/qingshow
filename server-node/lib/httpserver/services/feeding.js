@@ -212,45 +212,6 @@ feeding.like = {
     }
 };
 
-feeding.byRecommendDate =  {
-    'method' : 'get',
-    'func' : function(req, res) {
-        _feed(req, res, function(qsParam, out_callback) {
-            async.waterfall([
-                function(callback) {
-                    var date = qsParam.date;
-                    if (!date || date.length == 0) {
-                        callback(ServerError.NotEnoughParam);
-                    } else {
-                        callback();
-                    }
-                },
-                function(callback) {
-                    var beginDt = RequestHelper.parseDate(qsParam.date);
-                    var endDt = RequestHelper.parseDate(qsParam.date);
-                    endDt.setDate(endDt.getDate() + 1);
-
-                    var criteria = {
-                        '$and' : [{
-                                'recommend.date' : {
-                                    '$gte' : beginDt,
-                                    '$lt' : endDt
-                                }
-                            }, 
-                            isNotUgc
-                        ]
-                    };
-
-                    MongoHelper.queryPaging(Show.find(criteria).sort({
-                        'numLike' : -1
-                    }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, out_callback);
-
-                }
-            ], out_callback);
-        });
-    }
-};
-
 feeding.matchHot = {
     'method' : 'get',
     'func' : function(req, res) {
