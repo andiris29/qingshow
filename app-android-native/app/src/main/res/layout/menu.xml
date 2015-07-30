@@ -17,6 +17,7 @@
 
     <TextView
         style="@style/navigation_text"
+        android:id="@+id/navigation_btn_match_tv"
         android:text="美搭榜单" />
 
     <ImageButton
@@ -29,6 +30,7 @@
 
     <TextView
         style="@style/navigation_text"
+        android:id="@+id/navigation_btn_good_match_tv"
         android:text="百搭秀场" />
 
     <ImageButton
@@ -41,6 +43,7 @@
 
     <TextView
         style="@style/navigation_text"
+        android:id="@+id/navigation_btn_discount_tv"
         android:text="我要折扣" />
 
     <ImageButton
@@ -53,6 +56,7 @@
 
     <TextView
         style="@style/navigation_text"
+        android:id="@+id/u01_people_tv"
         android:text="我的搭配" />
 
     <ImageButton
@@ -65,6 +69,7 @@
 
     <TextView
         style="@style/navigation_text"
+        android:id="@+id/s17_settting_tv"
         android:text="个人设置" />
 
 </LinearLayout>

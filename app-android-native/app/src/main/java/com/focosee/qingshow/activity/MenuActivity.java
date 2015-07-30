@@ -184,6 +184,8 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
+        if(null == _class)return;
+
         Intent intent = new Intent(MenuActivity.this, _class);
 
         if (_class == U01UserActivity.class) {

@@ -5,8 +5,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -36,7 +38,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class U09TradeListActivity extends BaseActivity implements View.OnClickListener {
+public class U09TradeListActivity extends MenuActivity {
 
     private final int TYPE_ALL = 0;
     private final int TYPE_RUNNING = 1;
@@ -51,6 +53,10 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
     Button u09TabRunning;
     @InjectView(R.id.backTop_btn)
     ImageView backTopBtn;
+    @InjectView(R.id.navigation_btn_discount)
+    ImageButton navigationBtnDiscount;
+    @InjectView(R.id.navigation_btn_discount_tv)
+    TextView navigationBtnDiscountTv;
     private RecyclerView tradelist;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -68,7 +74,9 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
 
         setContentView(R.layout.activity_person_tradelist);
         ButterKnife.inject(this);
-
+        initDrawer();
+        navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
+        navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
         people = QSModel.INSTANCE.getUser();
         if (null == people) {
             finish();
@@ -108,7 +116,7 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
         tradelist.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0) {
+                if (dy < 0 && firstItem != recyclerView.getChildAt(0)) {
                     backTopBtn.setVisibility(View.VISIBLE);
                 } else {
                     backTopBtn.setVisibility(View.GONE);
@@ -162,18 +170,18 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
                         recyclerPullToRefreshView.setHasMoreData(false);
-                        if(isLoad){
+                        if (isLoad) {
                             doRefresh(TYPE_ALL);
                             currentType = TYPE_ALL;
                             isLoad = false;
                         }
-                    }else {
+                    } else {
                         ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
                         recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
                     return;
                 }
-                if (isLoad){
+                if (isLoad) {
                     clickTabRunning();
                     currentType = TYPE_ALL;
                     isLoad = false;
@@ -202,9 +210,10 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.person_activity_back_image_button:
-                finish();
+                menuSwitch();
                 break;
             case R.id.u09_tab_all:
                 currentType = TYPE_ALL;
@@ -222,14 +231,14 @@ public class U09TradeListActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    private void clickTabAll(){
+    private void clickTabAll() {
         u09TabAll.setBackgroundResource(R.drawable.s01_tab_btn1);
         u09TabAll.setTextColor(getResources().getColor(R.color.white));
         u09TabRunning.setBackgroundResource(R.drawable.s01_tab_border1);
         u09TabRunning.setTextColor(getResources().getColor(R.color.master_pink));
     }
 
-    private void clickTabRunning(){
+    private void clickTabRunning() {
         u09TabAll.setBackgroundResource(R.drawable.s01_tab_border2);
         u09TabAll.setTextColor(getResources().getColor(R.color.master_pink));
         u09TabRunning.setBackgroundResource(R.drawable.s01_tab_btn2);
