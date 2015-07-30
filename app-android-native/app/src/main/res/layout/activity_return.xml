@@ -34,7 +34,7 @@
             android:textSize="@dimen/text_size"
             android:textStyle="bold" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/person_addresslist_btn_address"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -68,19 +68,19 @@
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/address_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/address_return_activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="上海市普陀区中山北路2438号13楼B座"
+                        android:text="@string/address_activity_return_value"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -96,19 +96,19 @@
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/receiver_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/receiver_return_activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="上海市品聚网络科技有限公司"
+                        android:text="@string/receiver_activity_return_value"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -124,19 +124,19 @@
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/phone_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/phone_return_activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="021-64269853"
+                        android:text="@string/phone_activity_return_value"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -147,19 +147,19 @@
                     android:layout_height="1px"
                     android:background="@color/gary" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/matters_activity_return"
                     android:textColor="@color/gary" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:id="@+id/matters_return_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="我们支持七日无理由退货，如果亲们发现宝贝不合适，请七日内用快递将商品完好地退回"
+                    android:text="@string/matters_activity_return_value"
                     android:textColor="@color/gary" />
 
 
@@ -173,7 +173,7 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -192,7 +192,7 @@
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/info_expressage_activity_return"
@@ -222,7 +222,7 @@
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/info_expressNO_activity_return"
@@ -247,40 +247,9 @@
                     android:layout_height="1px"
                     android:background="@color/gary" />
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/returnDate_layout_return_activity"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="@dimen/item_height_activity_return"-->
-                    <!--android:gravity="center_vertical">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/info_expressDate_activity_return"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="@dimen/text_size" />-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/returnDate__return_activity"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:hint="请选择日期"-->
-                        <!--android:textColorHint="@color/hint_text_color"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="@dimen/text_size" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<View-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="1px"-->
-                    <!--android:background="@color/p01_text_color_model_height" />-->
-
-
             </LinearLayout>
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/apply_return_btn_return_activity"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/item_height_activity_settings"

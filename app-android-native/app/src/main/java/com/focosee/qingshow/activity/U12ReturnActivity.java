@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -39,10 +40,8 @@ public class U12ReturnActivity extends BaseActivity{
     private ReturnInformationModel returnInformationModel;
     private EditText company;
     private EditText returnNo;
-    private TextView returnDate;
     private LinearLayout returnDateLayout;
     private TextView applyReturnBtn;
-    private CalendarPickerView calendarPickerView;
     private MongoTrade trade;
     private boolean isSuccessed = false;
 
@@ -73,35 +72,6 @@ public class U12ReturnActivity extends BaseActivity{
 
         company = (EditText) findViewById(R.id.company_return_activity);
         returnNo = (EditText) findViewById(R.id.returnNumber__return_activity);
-//        returnDate = (TextView) findViewById(R.id.returnDate__return_activity);
-        calendarPickerView = (CalendarPickerView) findViewById(R.id.calendar_view_return_activity);
-//        findViewById(R.id.returnDate_layout_return_activity).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                calendarPickerView.setVisibility(View.VISIBLE);
-//                Calendar nextYear = Calendar.getInstance();
-//                nextYear.add(Calendar.YEAR, 1);
-//                CalendarPickerView calendar = (CalendarPickerView) findViewById(R.id.calendar_view_return_activity);
-//                Date today = new Date();
-//                Date minDay = new Date();
-//                minDay.setTime(today.getTime() - 4 * weekTime);
-//                calendar.init(minDay, nextYear.getTime())
-//                        .withSelectedDate(today);
-//                calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
-//                    @Override
-//                    public void onDateSelected(Date date) {
-//                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                        returnDate.setText(dateFormat.format(date));
-//                        calendarPickerView.setVisibility(View.GONE);
-//                    }
-//
-//                    @Override
-//                    public void onDateUnselected(Date date) {
-//
-//                    }
-//                });
-//            }
-//        });
 
         applyReturnBtn = (TextView) findViewById(R.id.apply_return_btn_return_activity);
 
@@ -116,12 +86,12 @@ public class U12ReturnActivity extends BaseActivity{
 
     public void commitForm(){
 
-        if(company.getText().length() == 0 || null == company.getText()){
+        if(TextUtils.isEmpty(company.getText().toString())){
             Toast.makeText(U12ReturnActivity.this, "请填写货运公司", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(company.getText().length() == 0 || null == company.getText()){
+        if(TextUtils.isEmpty(returnNo.getText().toString())){
             Toast.makeText(U12ReturnActivity.this, "请填写货运单号", Toast.LENGTH_SHORT).show();
             return;
         }
