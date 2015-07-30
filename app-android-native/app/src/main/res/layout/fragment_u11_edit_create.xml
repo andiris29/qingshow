@@ -43,7 +43,7 @@
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:text="@string/save_btn_activity_address"
-            android:textColor="#a91a4e"
+            android:textColor="@color/master_pink"
             android:textSize="@dimen/text_size" />
     </LinearLayout>
     <LinearLayout
@@ -123,7 +123,7 @@
             android:layout_marginLeft="10dp"
             android:clickable="false"
             android:text="@string/consignee_area"
-            android:textColor="@color/master"/>
+            android:textColor="@color/master_pink"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

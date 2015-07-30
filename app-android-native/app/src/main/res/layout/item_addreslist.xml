@@ -19,11 +19,11 @@
 
             <ImageView
                 android:id="@+id/item_addresslist_choose_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_vertical"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:src="@drawable/s11_payment" />
 
             <LinearLayout
@@ -31,19 +31,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/item_addresslist_del_img"
                     android:src="@drawable/item_addresslist_del" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_addresslist_del_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:text="@string/delete"
-                    android:textColor="@color/pink"
+                    android:textColor="@color/master_pink"
                     android:textSize="@dimen/text_size" />
             </LinearLayout>
 
@@ -55,15 +58,17 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/item_addresslist_edit_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/item_addresslist_edit" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_addresslist_edit_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/edit"
-                    android:textColor="@color/pink"
+                    android:textColor="@color/master_pink"
                     android:textSize="@dimen/text_size" />
             </LinearLayout>
 
@@ -84,13 +89,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name_activity_addresslist"
                 android:textSize="@dimen/text_size" />
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_addresslist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,13 +110,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/phone_activity_addresslist"
                 android:textSize="@dimen/text_size" />
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_addresslist_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -126,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/address_activity_addresslist"
@@ -135,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_addresslist_province"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,7 +148,7 @@
                 android:text="上海市普陀区"
                 android:textSize="@dimen/text_size" />
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_addresslist_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

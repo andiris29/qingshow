@@ -3,7 +3,9 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -34,7 +36,7 @@ import de.greenrobot.event.EventBus;
  */
 public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
 
-    private int default_posion = 0;
+    private int default_posion = Integer.MAX_VALUE;
     private MongoPeople people;
 
     public U10AddressListAdapter(@NonNull List<MongoPeople.Receiver> datas, Context context, int... layoutId) {
@@ -60,9 +62,17 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
         holder.setText(R.id.item_addresslist_address, null == datas.get(i).address ? "" : datas.get(i).address);
         if (datas.get(i).isDefault) {
             holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment_hover);
+            holder.setImgeByRes(R.id.item_addresslist_edit_img, R.drawable.item_addresslist_edit);
+            holder.setImgeByRes(R.id.item_addresslist_del_img, R.drawable.item_addresslist_del);
+            ((TextView)holder.getView(R.id.item_addresslist_edit_tv)).setTextColor(context.getResources().getColor(R.color.master_pink));
+            ((TextView)holder.getView(R.id.item_addresslist_del_tv)).setTextColor(context.getResources().getColor(R.color.master_pink));
             default_posion = i;
         } else {
             holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment);
+            holder.setImgeByRes(R.id.item_addresslist_edit_img, R.drawable.item_addresslist_edit_gray);
+            holder.setImgeByRes(R.id.item_addresslist_del_img, R.drawable.item_addresslist_del_gray);
+            ((TextView)holder.getView(R.id.item_addresslist_edit_tv)).setTextColor(context.getResources().getColor(R.color.darker_gray));
+            ((TextView)holder.getView(R.id.item_addresslist_del_tv)).setTextColor(context.getResources().getColor(R.color.darker_gray));
         }
         if (context instanceof U10AddressListActivity) {
             if (S17ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
@@ -150,6 +160,11 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                     }
                 });
 
+                if(default_posion == Integer.MAX_VALUE){
+                    default_posion = i;
+                    notifyDataSetChanged();
+                    return;
+                }
                 Map params2 = new HashMap();
                 params2.put("uuid", datas.get(default_posion).uuid);
                 params2.put("name", datas.get(default_posion).name);

@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="2"
-            android:textColor="@color/pink"
+            android:textColor="@color/master_pink"
             android:gravity="center"
             android:text="@string/title_name_activity_addaddress"/>
     </LinearLayout>

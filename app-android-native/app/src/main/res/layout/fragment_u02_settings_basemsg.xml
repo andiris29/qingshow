@@ -10,7 +10,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/nameTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/ageTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         android:layout_height="@dimen/item_height_activity_settings"
         android:background="#ffffff">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/heightTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/weightTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/bustTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/shoulderTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/waistlineTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -275,7 +275,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/hiplineTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -313,7 +313,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/bodyTypeLabel"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -323,7 +323,7 @@
             android:text="@string/bodyType_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/bodyTypeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -350,7 +350,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/dressStyleEextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -360,7 +360,7 @@
             android:text="@string/dressStyle_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/dressStyleEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -384,7 +384,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/effectEextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -393,7 +393,7 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:text="@string/effect_activity_settings"
             android:textSize="@dimen/text_size" />
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/effectEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
