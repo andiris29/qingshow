@@ -11,6 +11,8 @@ itemSchema = Schema({
     thumbnail : String,
     name : String,
     price: Number,
+    promoPrice : Number,
+    minExpectedPrice : Number,
     deactive : Boolean,
     images : [{
         url : String,

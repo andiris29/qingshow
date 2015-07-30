@@ -6,12 +6,12 @@ var tradeSchema = Schema({
     totalFee : Number,
     orders : [{
         quantity : Number,
-        price : Number,
-        itemSnapshot : Object,
-        selectedPeopleReceiverUuid : String
+        expectedPrice : Number,
+        actualPrice : Number,
+        itemSnapshot : Object
     }],
     peopleSnapshot : Object,
-    expectedDiscount : Number,
+    selectedPeopleReceiverUuid : String,
     pay : {
         weixin : {
             prepayid : String,

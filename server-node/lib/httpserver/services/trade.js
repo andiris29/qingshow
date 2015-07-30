@@ -15,6 +15,8 @@ var MongoHelper = require('../helpers/MongoHelper');
 var ServerError = require('../server-error');
 var request = require('request');
 
+var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+
 var trade = module.exports;
 
 trade.create = {
@@ -37,13 +39,10 @@ trade.create = {
             req.body.orders.forEach(function(element) {
                 trade.orders.push({
                     'quantity' : element.quantity,
-                    'price' : element.price,
+                    'expectedPrice' : element.expectedPrice,
                     'itemSnapshot' : element.itemSnapshot,
-                    //'selectedItemSkuId' : element.selectedItemSkuId,
-                    'selectedPeopleReceiverUuid' : element.selectedPeopleReceiverUuid
                 });
             });
-            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
             trade.save(function(err) {
                 callback(err, trade);
             });
@@ -77,6 +76,18 @@ trade.prepay = {
                     callback(err);
                 } else if (!trade) {
                     callback(ServerError.TradeNotExist);
+                } else {
+                    callback(null, trade);
+                }
+            });
+        },
+        function(trade, callback) {
+            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
+            trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
+
+            trade.save(function(err, trade) {
+                if (err) {
+                    callback(err);
                 } else {
                     callback(null, trade);
                 }
@@ -177,13 +188,35 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
+                req.body.orders.forEach(function(element, index) {
+                    trade.orders[index].actualPrice = element.actualPrice;
+                });
+                trade.save(function(err, trade) {
+                    callback(err, trade);
+                    // Push Notification
+                    jPushAudiences.find({
+                        'peopleRef' : trade.ownerRef
+                    }).exec(function(err, infos) {
+                        if (infos.length > 0) {
+                            var targets = [];
+                            infos.forEach(function(element) {
+                                if (element.registrationId && element.registrationId.length > 0) {
+                                    targets.push(element.registrationId);
+                                }
+                            });
+
+                            PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
+                                'id' : param._id,
+                                'command' : PushNotificationHelper.CommandTradeInitialized
+                            }, null);
+                        }
+                    });
+                });
+                return;
+            } else if (newStatus == 2) {
                 // Save the parameters from payment server.
                 // handle at callback interface
                 callback(ServerError.TradeStatusChangeError);
-            } else if (newStatus == 2) {
-                trade.agent = trade.agent || {};
-                trade.agent.taobaoUserNick = param.agent.taobaoUserNick;
-                trade.agent.taobaoTradeId = param.agent.taobaoTradeId;
             } else if (newStatus == 3 || newStatus == 14) {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.company = param.logistic.company;

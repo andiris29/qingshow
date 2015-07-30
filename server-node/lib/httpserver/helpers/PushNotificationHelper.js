@@ -21,11 +21,13 @@ PushNotificationHelper.MessageQuestSharingObjectiveComplete = "恭喜您！完�
 PushNotificationHelper.MessageNewShowComment = "您的搭配有新评论！";
 PushNotificationHelper.MessageNewRecommandations = "倾秀精选搭配上新，看看吧";
 PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！";
+PushNotificationHelper.MessageTradeInitialized = "您申请的折扣已经通过，请尽快完成支付!";
 
 PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
 PushNotificationHelper.CommandNewShowComments = "newShowComments";
 PushNotificationHelper.CommandNewRecommandations= "newRecommandations";
 PushNotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
+PushNotificationHelper.CommandTradeInitialized = "tradeInitialized";
 
 PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
     var sendTargets = _.filter(registrationIDs, function(registrationId) {
