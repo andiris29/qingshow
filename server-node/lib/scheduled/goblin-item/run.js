@@ -19,11 +19,11 @@ var _next = function (time) {
             var criteria = {
                 '$and': [{
                     '$or': [{
-                        'taobaoInfo.refreshTime': {
+                        'taobaoInfoRefreshTime': {
                             '$exists': false
                         }
                     }, {
-                        'taobaoInfo.refreshTime': {
+                        'taobaoInfoRefreshTime': {
                             '$lt': time
                         }
                     }, {
@@ -42,6 +42,13 @@ var _next = function (time) {
                 } else if (!items || !items.length) {
                     callback(ServerError.fromCode(ServerError.PagingNotExist));
                 } else {
+                    items = items.filter(function (item) {
+                        if (!item.source) {
+                            return false;
+                        }
+                        return item.source.indexOf('taobao') !== -1 || item.source.indexOf('tmall') !== -1;
+                    });
+
                     winston.info('[Goblin-tbitem] Total count: ' + items.length);
                     callback(null, items);
                 }
@@ -50,6 +57,9 @@ var _next = function (time) {
         function (items, callback) {
             var tasks = [];
             items.forEach(function (item) {
+                if (!item) {
+                    return;
+                }
                 var task = function (callback) {
                     _logItem('item start', item);
                     _crawlItemTaobaoInfo(item, function(err) {
@@ -80,14 +90,12 @@ var _crawlItemTaobaoInfo = function (item, callback) {
             callback(err);
         } else {
             if (!taobaoInfo) {
-                item.taobaoInfo = item.taobaoInfo || {};
-                item.taobaoInfo.refreshTime = new Date();
-                item.deactive = true;
                 _logItem('item failed', item);
             } else {
-                item.taobaoInfo = taobaoInfo;
-                item.taobaoInfo.refreshTime = new Date();
-                item.deactive = false;
+                item.price = taobaoInfo.price;
+                item.promoPrice = taobaoInfo.promo_price;
+                item.skuProperties = taobaoInfo.skuProperties;
+                item.taobaoInfoRefreshTime = new Date();
                 _logItem('item success', item);
             }
             item.save(callback);
