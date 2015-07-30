@@ -220,6 +220,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="-30dp"
+        android:layout_marginTop="40dp"
+        android:visibility="gone"
         android:src="@drawable/sale"/>
 </android.support.percent.PercentRelativeLayout>
