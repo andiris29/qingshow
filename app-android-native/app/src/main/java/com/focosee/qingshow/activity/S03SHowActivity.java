@@ -2,9 +2,6 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,8 +34,6 @@ import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
-import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
@@ -46,25 +41,14 @@ import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.SharePopupWindow;
-import com.sina.weibo.sdk.api.WebpageObject;
-import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.constant.WBConstants;
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.utils.Utility;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.umeng.analytics.MobclickAgent;
 
@@ -528,7 +512,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                     ShareUtil.shareWX(showDetailEntity._id, context, true);
                     break;
                 case R.id.share_sina:
-                    ShareUtil.shareToSina(showDetailEntity._id, context, mWeiboShareAPI);
+                    ShareUtil.shareShowToSina(showDetailEntity._id, context, mWeiboShareAPI);
                     break;
             }
         }

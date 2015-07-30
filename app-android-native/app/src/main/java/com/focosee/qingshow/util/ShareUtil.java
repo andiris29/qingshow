@@ -26,7 +26,7 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
  */
 public class ShareUtil {
 
-    public static void shareWX(String showId, Context context, boolean isTimelineCb){
+    public static void shareShowToWX(String showId, Context context, boolean isTimelineCb){
 
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
@@ -49,7 +49,7 @@ public class ShareUtil {
 
     }
 
-    public static void shareToSina(String showId, final Context context, IWeiboShareAPI weiboShareAPI) {
+    public static void shareShowToSina(String showId, final Context context, IWeiboShareAPI weiboShareAPI) {
 
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         WebpageObject mediaObject = new WebpageObject();

@@ -99,9 +99,13 @@
     <string name="title_activity_return">ReturnActivity</string>
     <string name="title_name_activity_return">退货方式</string>
     <string name="address_activity_return">退货地址:</string>
+    <string name="address_activity_return_value">上海市普陀区中山北路2438号13楼B座</string>
     <string name="receiver_activity_return">退货收件人:</string>
+    <string name="receiver_activity_return_value">上海市品聚网络科技有限公司</string>
     <string name="phone_activity_return">联系电话:</string>
+    <string name="phone_activity_return_value">021-64269853</string>
     <string name="matters_activity_return">*退货注意事项:</string>
+    <string name="matters_activity_return_value">我们支持七日无理由退货，如果亲们发现宝贝不合适，请七日内用快递将商品完好地退回</string>
     <string name="info_title_activity_return">填写退货信息</string>
     <string name="info_expressage_activity_return">货运公司:</string>
     <string name="info_expressNO_activity_return">货运单号:</string>
@@ -204,4 +208,5 @@
 
     <string name="s11_discount">折</string>
     <string name="s11_price">原价：</string>
+
 </resources>

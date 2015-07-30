@@ -15,7 +15,6 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_status"
             android:layout_width="wrap_content"
@@ -91,7 +90,8 @@
                 android:layout_height="match_parent"
                 app:layout_widthPercent="30%"
                 android:layout_alignParentLeft="true"
-                fresco:placeholderImage="@drawable/user_bg_default" />
+                fresco:actualImageScaleType="fitCenter"
+                fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -222,5 +222,5 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="40dp"
         android:visibility="gone"
-        android:src="@drawable/sale"/>
+        android:src="@drawable/u09_sale"/>
 </android.support.percent.PercentRelativeLayout>

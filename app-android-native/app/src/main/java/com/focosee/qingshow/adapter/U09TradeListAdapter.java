@@ -2,12 +2,10 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -21,7 +19,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.util.TimeUtil;
+import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.SkuUtil;
@@ -32,8 +30,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import javax.crypto.spec.IvParameterSpec;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -80,6 +76,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
         holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
         holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
+        System.out.println("thumbnail:" + trade.orders.get(0).itemSnapshot.thumbnail);
         holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         //0-折扣申请中
         if(trade.status == 0){
@@ -98,12 +95,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setVisibility(View.VISIBLE);
             btn2.setVisibility(View.VISIBLE);
             holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.VISIBLE);
-            btn1.setText("确认付款");
+            btn1.setText("先分享后确认付款");
             btn2.setText("取消订单");
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+//                    ShareUtil.shareShowToWX(trade._id);
                 }
             });
             btn2.setOnClickListener(new View.OnClickListener() {
@@ -201,13 +198,15 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    context.startActivity(new Intent(context, U12ReturnActivity.class));
                 }
             });
             btn3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    final ConfirmDialog dialog = new ConfirmDialog();
+                    dialog.setTitle("物流公司：" + trade.logistic.company + "\n物流单号：" + trade.logistic.trackingID);
+                    dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
                 }
             });
         }

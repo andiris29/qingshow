@@ -10,6 +10,7 @@ import java.util.LinkedList;
 public class MongoTrade implements Serializable {
 
     public String _id;
+//    public TradeContext __context;
     public Number totalFee;
     public int status;
     public GregorianCalendar create;
@@ -51,6 +52,10 @@ public class MongoTrade implements Serializable {
         public String peopleRef;
         public int status;
         public String comment;
+    }
+
+    public class TradeContext implements Serializable{
+        public boolean sharedByCurrentUser;
     }
 
 }
