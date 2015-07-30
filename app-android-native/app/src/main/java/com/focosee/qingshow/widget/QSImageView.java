@@ -84,18 +84,31 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     }
 
 
+    boolean doubleFlag = false;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
         int pointerCount = event.getPointerCount();
-
-        if (isScaling || pointerCount == 2) {
+        if (isScaling) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_UP:
                     isScaling = false;
                     break;
             }
             return false;
+        }
+
+        if (pointerCount == 2){
+            doubleFlag = true;
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP){
+            doubleFlag = false;
+        }
+
+        if (doubleFlag){
+            return true;
         }
 
         switch (event.getAction()) {
@@ -143,7 +156,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     animatorSet.playTogether(x, y);
                     animatorSet.setDuration(0);
                     animatorSet.start();
-
                     lastX = event.getRawX();
                     lastY = event.getRawY();
                     return true;
