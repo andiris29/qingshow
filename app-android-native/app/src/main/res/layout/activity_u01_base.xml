@@ -26,11 +26,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="360dp">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/user_bg"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:scaleType="fitXY"/>
+                fresco:placeholderImageScaleType="fitXY"
+                fresco:placeholderImage="@drawable/user_bg_default"/>
 
 
             <include layout="@layout/item_u01_header"/>
@@ -46,7 +47,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/nav_btn_menu_n_white"/>
+            android:src="@drawable/nav_btn_menu_n"/>
         <ImageView
             android:id="@+id/u01_backTop_btn"
             android:layout_width="45dp"

@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -23,14 +22,13 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.TradeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
-
+import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -149,7 +147,7 @@ public class U09TradeListActivity extends MenuActivity {
     }
 
     public void doRefresh(int type) {
-        getTradeFromNet(type, 1, 10);
+        getTradeFromNet(type, 1, 100);
     }
 
     public void doLoadMore(int type) {
@@ -186,7 +184,8 @@ public class U09TradeListActivity extends MenuActivity {
                     currentType = TYPE_ALL;
                     isLoad = false;
                 }
-                LinkedList<MongoTrade> tradeList = TradeParser.parseQuery(response);
+                List<MongoTrade> tradeList = TradeParser.parseQuery(response);
+                tradeList = TradeUtil.tradelistSort(tradeList);
                 if (currentPageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
                     recyclerPullToRefreshView.onPullDownRefreshComplete();

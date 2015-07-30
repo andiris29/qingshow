@@ -19,7 +19,8 @@ package com.focosee.qingshow.constants.config;
 import com.focosee.qingshow.R;
 
 public class ShareConfig {
-    public static final String SINA_APP_KEY = "2665932670";
+//    public static final String SINA_APP_KEY = "2665932670";
+    public static final String SINA_APP_KEY = "1213293589";
 //    public static final String APP_ID = "wxd930ea5d5a258f4f";
     public static final String APP_ID = "wx75cf44d922f47721";
 

@@ -53,7 +53,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
     EditText reConfirmEditText;
     @InjectView(R.id.phoneEditText)
     EditText phoneEditText;
-    private int shoeSizes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     private RequestQueue requestQueue;
     private IWXAPI wxApi;
 
@@ -249,6 +248,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void onComplete(Bundle values) {
             // 从 Bundle 中解析 Token
+            Toast.makeText(U07RegisterActivity.this, "back", Toast.LENGTH_SHORT).show();
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
             if (mAccessToken.isSessionValid()) {
                 Map<String, String> map = new HashMap<>();
@@ -259,6 +259,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onResponse(JSONObject response) {
                         if(MetadataParser.hasError(response)){
+                            System.out.println("response:" + response);
                             ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
                             return;
                         }

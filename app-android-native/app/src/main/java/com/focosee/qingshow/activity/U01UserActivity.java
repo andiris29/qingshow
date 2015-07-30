@@ -65,7 +65,7 @@ public class U01UserActivity extends MenuActivity {
     public static final int PAGER_NUM = 5;
 
     @InjectView(R.id.user_bg)
-    ImageView userBg;
+    SimpleDraweeView userBg;
 
     @InjectView(R.id.user_head_layout)
     RelativeLayout userHeadLayout;
@@ -237,7 +237,7 @@ public class U01UserActivity extends MenuActivity {
                 userHw.setText(user.height + "cm," + user.weight + "kg");
                 if (user.portrait != null)
                     userHead.setImageURI(Uri.parse(user.portrait));
-                ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
+                userBg.setImageURI(Uri.parse(user.background));
                 if (user.__context.followedByCurrentUser)
                     userFollowBtn.setImageResource(R.drawable.unfollow_btn);
             }
