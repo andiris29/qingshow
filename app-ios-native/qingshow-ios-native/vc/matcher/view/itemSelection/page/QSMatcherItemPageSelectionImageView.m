@@ -42,7 +42,7 @@
 
 - (void)bindWithItem:(NSDictionary*)itemDict {
     [self.imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+    self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
 }
 
 - (void)didTap:(UITapGestureRecognizer*)ges {

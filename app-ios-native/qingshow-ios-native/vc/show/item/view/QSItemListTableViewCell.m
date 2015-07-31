@@ -27,7 +27,7 @@
 {
     self.typeLabel.text = [QSItemUtil getItemTypeName:itemDict];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
-    self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+    self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
 }
 
 @end

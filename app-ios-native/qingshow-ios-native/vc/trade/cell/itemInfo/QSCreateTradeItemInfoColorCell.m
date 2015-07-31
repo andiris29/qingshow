@@ -20,6 +20,7 @@
 */
 - (void)bindWithDict:(NSDictionary*)dict
 {
-    self.colorLabel.text = [QSItemUtil getItemColorDesc:dict];
+#warning TODO
+//    self.colorLabel.text = [QSItemUtil getItemColorDesc:dict];
 }
 @end

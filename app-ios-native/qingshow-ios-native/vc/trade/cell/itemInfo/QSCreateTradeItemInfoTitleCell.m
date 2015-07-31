@@ -8,7 +8,6 @@
 
 #import "QSCreateTradeItemInfoTitleCell.h"
 #import "QSItemUtil.h"
-#import "QSTaobaoInfoUtil.h"
 
 @implementation QSCreateTradeItemInfoTitleCell
 
@@ -30,9 +29,8 @@
     self.priceTextLabel.hidden = YES;
     self.priceLabel.hidden = YES;
     self.priceLabel.text = @"";
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
-    NSString* sku = [QSItemUtil getSelectedSku:itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
+
+    NSNumber* totalPrice = [QSItemUtil getPriceAfterDiscount:itemDict];
     
     self.priceAfterDiscountLabel.text = [NSString stringWithFormat:@"%.2f", totalPrice.doubleValue];
     [self.priceLabel sizeToFit];

@@ -39,17 +39,18 @@
         self.itemImageView.image = nil;
     }
     
-    
-    if ([QSItemUtil hasDiscountInfo:itemDict]) {
+#warning TODO
+    //[QSItemUtil hasDiscountInfo:itemDict]
+    if (YES) {
         self.priceLabel.hidden = NO;
-        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
-        self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscountDesc:itemDict];
+        self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
         [self.priceAfterDiscountLabel sizeToFit];
         [self.priceLabel sizeToFit];
     } else {
         self.priceLabel.hidden = YES;
         self.priceLabel.text = @"";
-        self.priceAfterDiscountLabel.text = [QSItemUtil getPrice:itemDict];
+        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceDesc:itemDict];
         [self.priceLabel sizeToFit];
         [self.priceAfterDiscountLabel sizeToFit];
 

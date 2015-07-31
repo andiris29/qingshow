@@ -214,7 +214,6 @@
 		EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */; };
 		EFA0F9051AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA0F9031AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m */; };
 		EFA0F9061AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA0F9041AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib */; };
-		EFA0F90B1AB89C3200E52F0B /* QSTaobaoInfoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA0F90A1AB89C3200E52F0B /* QSTaobaoInfoUtil.m */; };
 		EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F5551A52E88A00010F79 /* QSShareViewController.m */; };
 		EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */; };
 		EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F55F1A53052100010F79 /* QSImageEditingViewController.m */; };
@@ -777,8 +776,6 @@
 		EFA0F9021AB877B700E52F0B /* QSS10ItemDetailVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS10ItemDetailVideoViewController.h; sourceTree = "<group>"; };
 		EFA0F9031AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS10ItemDetailVideoViewController.m; sourceTree = "<group>"; };
 		EFA0F9041AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS10ItemDetailVideoViewController.xib; sourceTree = "<group>"; };
-		EFA0F9091AB89C3200E52F0B /* QSTaobaoInfoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTaobaoInfoUtil.h; sourceTree = "<group>"; };
-		EFA0F90A1AB89C3200E52F0B /* QSTaobaoInfoUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTaobaoInfoUtil.m; sourceTree = "<group>"; };
 		EFA1F5541A52E88A00010F79 /* QSShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareViewController.h; sourceTree = "<group>"; };
 		EFA1F5551A52E88A00010F79 /* QSShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShareViewController.m; sourceTree = "<group>"; };
 		EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSShareViewController.xib; sourceTree = "<group>"; };
@@ -2095,8 +2092,6 @@
 				EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */,
 				EF78E3381AAF47C700665EDD /* QSReceiverUtil.h */,
 				EF78E3391AAF47C700665EDD /* QSReceiverUtil.m */,
-				EFA0F9091AB89C3200E52F0B /* QSTaobaoInfoUtil.h */,
-				EFA0F90A1AB89C3200E52F0B /* QSTaobaoInfoUtil.m */,
 				EFEBAAED1ABF01FE0000FEEE /* QSOrderUtil.h */,
 				EFEBAAEE1ABF01FE0000FEEE /* QSOrderUtil.m */,
 				EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */,
@@ -2887,7 +2882,6 @@
 				EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */,
 				EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */,
 				68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */,
-				EFA0F90B1AB89C3200E52F0B /* QSTaobaoInfoUtil.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF994D9A1B693C7400715B0E /* QSDiscountTaobaoInfoCell.m in Sources */,
 				EF8E69351B17403900678E9A /* QSCreateTradeShoeSizeCell.m in Sources */,

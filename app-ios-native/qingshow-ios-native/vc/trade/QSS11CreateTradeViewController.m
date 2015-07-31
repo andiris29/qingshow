@@ -9,7 +9,6 @@
 #import "QSS11CreateTradeViewController.h"
 #import "QSCreateTradeTableViewCellBase.h"
 #import "QSCreateTradePayInfoSelectCell.h"
-#import "QSTaobaoInfoUtil.h"
 #import "QSItemUtil.h"
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
@@ -432,7 +431,8 @@
     if (self.createTradeOp) {
         return;
     }
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
+    NSDictionary* taobaoInfo = nil;
+//    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
     NSNumber* quantity = [self.itemInfoQuantityCell getInputData];
     
     PaymentType paymentType = 0;
@@ -441,11 +441,11 @@
     } else if (self.payInfoWechatCell.isSelect) {
         paymentType = PaymentTypeWechat;
     }
-    NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
-    NSNumber* price = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
-
     
+    NSNumber* price = [QSItemUtil getPriceAfterDiscount:self.itemDict];
+    NSNumber* totalPrice = @(((NSNumber*)[self.itemInfoQuantityCell getInputData]).doubleValue * price.doubleValue);
+
+
     [self.totalCell updateWithPrice:totalPrice.stringValue];
     
     __weak QSS11CreateTradeViewController* weakSelf = self;
@@ -454,7 +454,7 @@
                                 quantity:quantity.intValue
                                    price:price.doubleValue
                                     item:self.itemDict
-                                     sku:@(sku.longLongValue)
+                                     sku:nil
                             receiverUuid:uuid
                                     type:paymentType
                                onSucceed:^(NSDictionary* tradeDict)
@@ -487,10 +487,10 @@
     
 }
 - (void)updatePriceRelatedCell {
-    
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
-    NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
+    NSDictionary* taobaoInfo = nil;
+
+    NSNumber* price = [QSItemUtil getPriceAfterDiscount:self.itemDict];
+    NSNumber* totalPrice = @(((NSNumber*)[self.itemInfoQuantityCell getInputData]).doubleValue * price.doubleValue);
 
     [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
 }

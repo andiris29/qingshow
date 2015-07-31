@@ -23,7 +23,7 @@
 - (void)bindWithDict:(NSDictionary*)dict {
     NSURL *url = [QSImageNameUtil appendImageNameUrl:[QSItemUtil getThumbnail:dict] type:QSImageNameTypeS];
     [self.imgView setImageFromURL:url];
-    self.label.text = [QSItemUtil getPrice:dict];
+    self.label.text = [QSItemUtil getPriceDesc:dict];
 }
 
 - (void)setHover:(BOOL)hover {

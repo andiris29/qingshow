@@ -115,10 +115,10 @@
     [self updateShowImgScrollView];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
     //Discount
-    if ([QSItemUtil hasDiscountInfo:itemDict]) {
+    if ([QSItemUtil getPriceAfterDiscount:itemDict]) {
         self.priceLabel.hidden = NO;
-        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
-        self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscountDesc:itemDict];
+        self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
         self.priceLabel.isWithStrikeThrough = YES;
         [self.priceAfterDiscountLabel sizeToFit];
         [self.priceLabel sizeToFit];
@@ -127,7 +127,7 @@
         self.priceLabel.isWithStrikeThrough = NO;
         self.priceAfterDiscountLabel.hidden = YES;
         self.priceAfterDiscountLabel.text = @"";
-        self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+        self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
         [self.priceLabel sizeToFit];
         [self.priceAfterDiscountLabel sizeToFit];
     }
@@ -145,8 +145,7 @@
 }
 - (NSString*)generateVideoPath
 {
-    return [QSItemUtil getVideoPath:self.itemDict];
-//    return @"http://trial01.focosee.com/demo6/1211a50300.mp4";
+    return nil;
 }
 
 #pragma mark Btn
