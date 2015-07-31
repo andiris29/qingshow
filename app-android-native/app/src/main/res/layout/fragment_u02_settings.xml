@@ -22,14 +22,16 @@
                 android:layout_height="50dp"
                 android:background="#ffffff">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/backTextView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_weight="5"
                     android:gravity="center"
                     android:padding="10dp"
+                    android:background="@null"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/nav_btn_menu_n" />
 
                 <TextView
@@ -42,16 +44,18 @@
                     android:textColor="#454545"
                     android:textStyle="bold" />
 
-                <TextView
+                <Button
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:background="@null"
                     android:layout_weight="5" />
 
             </LinearLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:id="@+id/settingsLinearLayout"

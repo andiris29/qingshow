@@ -122,8 +122,6 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
         initDrawer();
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
-
-
         }else showId = "";
         className = getIntent().getStringExtra(CLASS_NAME);
 
@@ -134,7 +132,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        if(className.equals(S20MatchPreviewActivity.class.getSimpleName())){
+        if(S20MatchPreviewActivity.class.getSimpleName().equals(className)){
             s03BackBtn.setBackgroundResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -234,20 +232,14 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
     }
 
     private void showData() {
-
-//        commentTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
-//        itemTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
-//        likeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
         if (null == showDetailEntity)
             return;
-        if (showDetailEntity.__context.likedByCurrentUser) {
-            likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
-        }
+
         itemsData = showDetailEntity.itemRefs;
 
         videoUriString = showDetailEntity.video;
 
-        if (null != videoUriString && !"".equals(videoUriString))
+        if (!TextUtils.isEmpty(videoUriString))
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
         s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.LARGE)));
@@ -258,8 +250,12 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
             image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
 
-        if (null != showDetailEntity.__context)
+        if (null != showDetailEntity.__context) {
             commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
+            if (showDetailEntity.__context.likedByCurrentUser) {
+                likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
+            }
+        }
 
         likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
@@ -293,7 +289,7 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
                 @Override
                 public void onComplete(JSONObject response) {
                     showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
-                    if (null != showDetailEntity.ownerRef.portrait)
+                    if (TextUtils.isEmpty(showDetailEntity.ownerRef.portrait))
                         s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
                     s03Nickname.setVisibility(View.VISIBLE);
                     s03Nickname.setText(showDetailEntity.ownerRef.nickname);

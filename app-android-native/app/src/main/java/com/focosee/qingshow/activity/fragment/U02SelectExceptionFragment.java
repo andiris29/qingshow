@@ -75,6 +75,13 @@ public class U02SelectExceptionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 saveUser();
+                U02SettingsFragment settingsFragment;
+                if(null == getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()))
+                    settingsFragment = new U02SettingsFragment();
+                else
+                    settingsFragment = (U02SettingsFragment)getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName());
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, 0, 0).
+                        replace(R.id.settingsScrollView, settingsFragment).commit();
             }
         });
 
@@ -92,23 +99,7 @@ public class U02SelectExceptionFragment extends Fragment {
         Map params = new HashMap();
         params.put("expectations", expectations);
         U02Model.INSTANCE.set_class(U02SettingsFragment.class);
-        UserCommand.update(params, new Callback(){
-            @Override
-            public void onComplete() {
-                super.onComplete();
-                U02SettingsFragment settingsFragment = new U02SettingsFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_right_in, 0).
-                        replace(R.id.settingsScrollView, settingsFragment).commit();
-            }
-
-            @Override
-            public void onError() {
-                super.onError();
-                U02SettingsFragment settingsFragment = new U02SettingsFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_right_in, 0).
-                        replace(R.id.settingsScrollView, settingsFragment).commit();
-            }
-        });
+        UserCommand.update(params, new Callback());
     }
 
     public void onResume() {
@@ -117,6 +108,7 @@ public class U02SelectExceptionFragment extends Fragment {
     }
 
     public void onPause() {
+        saveUser();
         super.onPause();
         MobclickAgent.onPageEnd("U08ChangePassword");
     }

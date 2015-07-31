@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -46,7 +47,6 @@ import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.LoadingDialog;
-
 import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
@@ -534,8 +534,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                U02ChangePasswordFragment fragment;
+                if(null == getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName())) {
+                    fragment = new U02ChangePasswordFragment();
+                }else{
+                    fragment = (U02ChangePasswordFragment)getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName());
+                }
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_left_out, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
                 U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
             }
@@ -560,11 +565,15 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         effectRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
+                U02SelectExceptionFragment fragment;
+                if(null == getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
+                    fragment = new U02SelectExceptionFragment();
+                else
+                    fragment = (U02SelectExceptionFragment)getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", people);
                 fragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, 0, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
                 U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
             }
