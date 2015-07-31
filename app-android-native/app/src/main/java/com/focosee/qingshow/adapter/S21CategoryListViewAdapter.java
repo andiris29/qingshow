@@ -139,7 +139,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         holder.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (viewPager.getCurrentItem() < pageCount - 1){
+                if (viewPager.getCurrentItem() < pageCount - 1) {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                 }
             }
@@ -173,7 +173,21 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         MongoCategories category = (MongoCategories) item.get(index);
         tv.setText(category.getName());
         final SelectInfo selectInfo = selectInfos.get(position);
-        img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.NORMAL));
+        boolean activate;
+        if (category.matchInfo == null) {
+            activate = true;
+        } else {
+            activate = category.matchInfo.enabled;
+        }
+        if (activate == false) {
+            img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.DISABLED));
+            tv.setTextColor(context.getResources().getColor(R.color.gary));
+            img.setClickable(false);
+        } else {
+            img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.NORMAL));
+            img.setOnClickListener(new ItemOnClick(tv, position, category, index));
+        }
+
         for (int i = 0; i < selectRefs.size(); i++) {
             if (category._id.equals(selectRefs.get(i))) {
                 selectInfo.index = index;
@@ -183,7 +197,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             }
         }
         img.setTag(selectInfo);
-        img.setOnClickListener(new ItemOnClick(tv, position, category, index));
     }
 
     private void checkItem(TextView tv, SimpleDraweeView img, String url) {
