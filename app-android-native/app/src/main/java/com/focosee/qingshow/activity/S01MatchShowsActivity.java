@@ -148,16 +148,16 @@ public class S01MatchShowsActivity extends MenuActivity {
 
                 List<MongoShow> datas = ShowParser.parseQuery_categoryString(response);
                 if (pageNo == 1) {
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     adapter.addDataAtTop(datas);
                     currentPageNo = pageNo;
                 } else {
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
                     adapter.addData(datas);
                 }
 
                 setLastUpdateTime();
                 adapter.notifyDataSetChanged();
-                recyclerPullToRefreshView.onPullDownRefreshComplete();
-                recyclerPullToRefreshView.onPullUpRefreshComplete();
                 currentPageNo++;
             }
         });
@@ -181,7 +181,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerView.scrollToPosition(0);
         if (v.getId() == R.id.s01_tab_hot) {
             currentType = TYPE_HOT;
-            recyclerPullToRefreshView.doPullRefreshing(true, 500);
+            recyclerPullToRefreshView.doPullRefreshing(true, 0);
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_btn1);
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_border1);
@@ -190,7 +190,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         }
         if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
-            recyclerPullToRefreshView.doPullRefreshing(true, 500);
+            recyclerPullToRefreshView.doPullRefreshing(true, 0);
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_border2);
             s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);

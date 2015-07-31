@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -44,13 +45,10 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
         final MongoItem item = getItemData(position);
 
         holder.setImgeByUrl(R.id.item_s07_category, item.thumbnail);
-        holder.setText(R.id.item_s07_name, item.name).setText(R.id.item_s07_price, "价格："+item.promoPrice);
-        holder.getView(R.id.item_s07_detail_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jump(item);
-            }
-        });
+        if(TextUtils.isEmpty(item.promoPrice))
+            holder.getView(R.id.item_s07_name).setVisibility(View.INVISIBLE);
+        else
+            holder.setText(R.id.item_s07_name, item.name).setText(R.id.item_s07_price, "价格："+item.promoPrice);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

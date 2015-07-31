@@ -86,7 +86,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    statusTo(trade, 17, 2);
                 }
             });
             return;
@@ -107,7 +107,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    statusTo(trade, 17, 2);
                 }
             });
 //            tradingLayout.setVisibility(View.VISIBLE);
@@ -178,7 +178,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    statusTo(trade, 17, 2);
                 }
             });
         }
@@ -234,13 +234,14 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         this.onViewHolderListener = onViewHolderListener;
     }
 
-    public void statusTo(MongoTrade trade, final int type){
+    public void statusTo(MongoTrade trade, int status, final int type){
 
-        JSONObject jsonObject = getStatusJSONObjcet(trade);
+        JSONObject jsonObject = getStatusJSONObjcet(trade, status);
 
         QSJsonObjectRequest jor = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                System.out.println("response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
@@ -254,31 +255,31 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     }
 
 
-    private JSONObject getStatusJSONObjcet(MongoTrade trade){
+    private JSONObject getStatusJSONObjcet(MongoTrade trade, int status){
 
         Map params = new HashMap();
+        Map orders = new HashMap();
         Map taobaoInfo = new HashMap();
         Map logistic = new HashMap();
         Map returnLogistic = new HashMap();
         params.put("_id", trade._id);
-        params.put("status", trade.status);
+        params.put("status", status);
         params.put("comment", (trade.statusLogs.get(0)).comment);
 
-        switch (trade.status){
-            case 2:
+        switch (status){
+            case 1:
 //                params.put("taobaoInfo.userNick", trade.orders.get(0).itemSnapshot.taobaoInfo.nick);
                 taobaoInfo.put("tradeID", trade.taobaoInfo.tradeID);
                 taobaoInfo.put("userNick", trade.taobaoInfo.userNick);
-                params.put("taobaoInfo", taobaoInfo);
+                orders.put("actualPrice", trade.orders.get(0).price);
+                params.put("orders", orders);
                 break;
             case 3:
-            case 14:
                 logistic.put("company", trade.logistic.company);
                 logistic.put("trackingID", trade.logistic.trackingID);
                 params.put("logistic", logistic);
                 break;
             case 7:
-            case 11:
                 logistic.put("company", trade.returnlogistic.company);
                 logistic.put("trackingID", trade.returnlogistic.trackingID);
                 params.put("returnLogistic", returnLogistic);

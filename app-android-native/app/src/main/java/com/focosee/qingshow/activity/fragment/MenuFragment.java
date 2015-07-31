@@ -173,8 +173,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 _class = U01UserActivity.class;
                 break;
             case R.id.s17_settting:
-                _class = U02SettingsActivity.class;
-                break;
+                return;
         }
 
         if(!QSModel.INSTANCE.loggedin()){
@@ -193,7 +192,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
         startActivity(intent);
-        if(!(getActivity() instanceof U02SettingsActivity)) getActivity().finish();
+        getActivity().finish();
     }
 
     public boolean onBackPressed() {

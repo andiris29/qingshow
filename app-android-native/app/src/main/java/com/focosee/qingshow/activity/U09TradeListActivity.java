@@ -23,6 +23,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.TradeUtil;
+import com.focosee.qingshow.widget.LoadingDialog;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
@@ -58,13 +59,13 @@ public class U09TradeListActivity extends MenuActivity {
     private RecyclerView tradelist;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    private MongoPeople people;
+    private String peopleId;
     private int currentPageNo = 1;
     private EventBus eventBus;
 
     private View firstItem;
     private int currentType = 1;
-    private boolean isLoad = true;
+    private boolean isRunning = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +76,8 @@ public class U09TradeListActivity extends MenuActivity {
         initDrawer();
         navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
         navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
-        people = QSModel.INSTANCE.getUser();
-        if (null == people) {
+        peopleId = QSModel.INSTANCE.getUserId();
+        if (null == peopleId) {
             finish();
         }
 
@@ -147,6 +148,7 @@ public class U09TradeListActivity extends MenuActivity {
     }
 
     public void doRefresh(int type) {
+
         getTradeFromNet(type, 1, 100);
     }
 
@@ -154,24 +156,30 @@ public class U09TradeListActivity extends MenuActivity {
         getTradeFromNet(type, currentPageNo, 10);
     }
 
-    private void getTradeFromNet(int type, int pageNo, int pageSize) {
+    private void getTradeFromNet(int type, final int pageNo, int pageSize) {
 
         boolean inProgress = false;
 
         if (type == TYPE_RUNNING) {
             inProgress = true;
         }
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
+
+        final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
+        if(1 == pageNo)
+            pDialog.show(U09TradeListActivity.class.getSimpleName());
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(peopleId, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(1 == pageNo)
+                    pDialog.dismiss();
                 if (MetadataParser.hasError(response)) {
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
                         recyclerPullToRefreshView.setHasMoreData(false);
-                        if (isLoad) {
+                        if (isRunning) {
                             doRefresh(TYPE_ALL);
                             currentType = TYPE_ALL;
-                            isLoad = false;
+                            isRunning = false;
                         }
                     } else {
                         ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
@@ -179,16 +187,17 @@ public class U09TradeListActivity extends MenuActivity {
                     }
                     return;
                 }
-                if (isLoad) {
+                if (isRunning) {
                     clickTabRunning();
                     currentType = TYPE_ALL;
-                    isLoad = false;
+                    isRunning = false;
                 }
                 List<MongoTrade> tradeList = TradeParser.parseQuery(response);
                 tradeList = TradeUtil.tradelistSort(tradeList);
-                if (currentPageNo == 1) {
+                if (pageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    currentPageNo = 1;
                 } else {
                     mAdapter.addData(tradeList);
                     recyclerPullToRefreshView.onPullUpRefreshComplete();

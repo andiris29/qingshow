@@ -55,7 +55,6 @@ public class ImgUtil {
         if(url.indexOf(QSAppWebAPI.IMAGE_HOST_ADDRESS) <= -1)return url;
         String type = url.substring(url.lastIndexOf(".") + 1, url.length());
         url = url.substring(0, url.lastIndexOf("."));
-        System.out.println("url:" + url + "_" + scale + "." + type);
         return url + "_" + scale + "." + type;
     }
 

@@ -76,7 +76,6 @@ public class U06LoginActivity extends BaseActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                System.out.println("response:" + response);
                                 pDialog.dismiss();
 
                                 MongoPeople user = UserParser.parseLogin(response);

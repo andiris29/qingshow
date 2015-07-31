@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U02ChangePasswordFragment;
+import com.focosee.qingshow.activity.fragment.U02SelectExceptionFragment;
+import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -195,6 +198,12 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
         }
 
         startActivity(intent);
+        if(null != getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()))
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()));
+        if(null != getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()))
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()));
+        if(null != getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()));
         finish();
     }
 }

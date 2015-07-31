@@ -19,7 +19,7 @@ public class U02SettingsActivity extends BaseActivity {
         setContentView(R.layout.activity_settings);
 
         settingsFragment = U02SettingsFragment.newIntance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, U02SettingsFragment.class.getSimpleName()).commit();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, 0, 0).replace(R.id.settingsScrollView, settingsFragment, U02SettingsFragment.class.getSimpleName()).commit();
     }
 
     @Override
