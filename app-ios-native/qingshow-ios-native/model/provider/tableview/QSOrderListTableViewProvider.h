@@ -18,6 +18,7 @@
 
 - (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic;
 - (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic;
+- (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic;
 @end
 
 @interface QSOrderListTableViewProvider : QSTableViewBasicProvider <QSOrderListTableViewCellDelegate>

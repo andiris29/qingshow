@@ -166,6 +166,13 @@
     [alert show];
     
 }
+- (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic
+{
+    __weak QSU09OrderListViewController *weakSelf = self;
+    [SHARE_NW_ENGINE changeTrade:_oderDic status:17 info:nil onSucceed:^{
+        [weakSelf showTextHud:@"已取消订单"];
+         }onError:nil];
+}
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

@@ -24,6 +24,7 @@
 
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
 
+- (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell;
 @end
 
 @interface QSOrderListTableViewCell : UITableViewCell

@@ -112,7 +112,7 @@
 {
 
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShowId:[QSEntityUtil getStringValue:sender keyPath:@"_id"]];
-    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
+//    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
    // vc.menuProvider = self.menuProvider;
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
