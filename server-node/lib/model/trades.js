@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var tradeSchema = Schema({
     status : Number,
+    shareToPay : Boolean,
     totalFee : Number,
     orders : [{
         quantity : Number,

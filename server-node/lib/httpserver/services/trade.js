@@ -5,6 +5,7 @@ var _ = require('underscore');
 var Trade = require('../../model/trades');
 var People = require('../../model/peoples');
 var Item = require('../../model/items');
+var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -433,3 +434,30 @@ trade.refreshPaymentStatus = {
     }
 };
 
+trade.share = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var targetRef, initiatorRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.body;
+                targetRef = RequestHelper.parseId(param._id);
+                initiatorRef = req.qsCurrentUserId;
+            } catch (err) {
+                callback(err);
+            }
+            callback();
+        },
+        function(callback) {
+            // Share
+            RelationshipHelper.create(RPeopleShareTrade, initiatorRef, targetRef, function(err, relationship) {
+                callback(err);
+            });
+        }], function(err) {
+            ResponseHelper.response(res, err);
+        });
+
+    }
+};
