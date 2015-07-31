@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S20MatcherActivity;
-import com.focosee.qingshow.activity.S21CategoryActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
@@ -29,7 +28,6 @@ import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
-
 import butterknife.InjectView;
 
 /**

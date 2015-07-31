@@ -13,6 +13,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public class U02ExceptionListViewAdapter extends BaseAdapter {
         this.context = context;
         this.user = user;
         exceptions = new ArrayList<>();
+        if(null == user.expectations)return;
         for (int i = 0; i < user.expectations.length; i++) {
             exceptions.add(user.expectations[i]);
         }
