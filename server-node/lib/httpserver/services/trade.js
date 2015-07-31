@@ -138,7 +138,7 @@ var _statusValidationMap = {
     9 : [7],
     10 : [7],
     15 : [3],
-    17 : [0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 10, 15],
+    17 : [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 15, 18],
     18 : [0, 1, 2]
 };
 
@@ -217,7 +217,7 @@ trade.statusTo = {
                 // Save the parameters from payment server.
                 // handle at callback interface
                 callback(ServerError.TradeStatusChangeError);
-            } else if (newStatus == 3 || newStatus == 14) {
+            } else if (newStatus == 3 ) {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.company = param.logistic.company;
                 trade.logistic.trackingId = param.logistic.trackingId;
