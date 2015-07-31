@@ -24,7 +24,8 @@ itemSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    taobaoInfo : Object
+    taobaoInfo : Object,
+    skuProperties ; [String]
 });
 
 var Item = mongoose.model('items', itemSchema);

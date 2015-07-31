@@ -9,7 +9,8 @@ var tradeSchema = Schema({
         quantity : Number,
         expectedPrice : Number,
         actualPrice : Number,
-        itemSnapshot : Object
+        itemSnapshot : Object,
+        selectedSkuProperties : [String]
     }],
     peopleSnapshot : Object,
     selectedPeopleReceiverUuid : String,

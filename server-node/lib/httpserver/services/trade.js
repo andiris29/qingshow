@@ -42,6 +42,7 @@ trade.create = {
                     'quantity' : element.quantity,
                     'expectedPrice' : element.expectedPrice,
                     'itemSnapshot' : element.itemSnapshot,
+                    'selectedSkuProperties' : element.selectedSkuProperties
                 });
             });
             trade.save(function(err) {
