@@ -41,7 +41,7 @@ show.query = {
                 '_id' : {
                     '$in' : _ids
                 }
-            }).populate('modelRef').populate('itemRefs').exec(callback);
+            }).populate('ownerRef').populate('itemRefs').exec(callback);
         },
         function(shows, callback) {
             var tasks = shows.map(function(show) {
