@@ -115,76 +115,18 @@
                     app:layout_marginBottomPercent="1%"
                     app:layout_marginTopPercent="1%" />
 
-                <LinearLayout
-                    android:id="@+id/color"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/props"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/line2"
-                    android:orientation="vertical">
+                    android:layout_below="@id/line2"/>
 
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="颜色分类"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size" />
-
-                    <com.focosee.qingshow.widget.flow.FlowRadioGroup
-                        android:id="@+id/color_group"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-2dp"
-                        android:orientation="horizontal" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/line3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/color"
-                    android:background="@color/gary"
-                    app:layout_marginBottomPercent="1%"
-                    app:layout_marginTopPercent="1%" />
-
-                <LinearLayout
-                    android:id="@+id/size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/line3"
-                    android:orientation="vertical">
-
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:text="尺码"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size"
-                        android:textStyle="bold" />
-
-                    <com.focosee.qingshow.widget.flow.FlowRadioGroup
-                        android:id="@+id/size_group"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-2dp"
-                        android:orientation="horizontal" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/line4"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/size"
-                    android:background="@color/gary"
-                    app:layout_marginBottomPercent="1%"
-                    app:layout_marginTopPercent="1%" />
 
                 <android.support.percent.PercentRelativeLayout
                     android:id="@+id/numRl"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_below="@id/line4"
+                    android:layout_below="@id/props"
                     android:orientation="horizontal"
                     app:layout_heightPercent="8%">
 

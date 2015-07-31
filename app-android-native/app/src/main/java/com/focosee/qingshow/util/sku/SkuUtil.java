@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,79 +18,29 @@ import java.util.Set;
  */
 public class SkuUtil {
 
-    public enum KEY {
-
-        COLOR("color", "1627207"),
-        SIZE_1("size", "20509"),
-        SIZE_2("size", "20518"),
-        SIZE_3("size", "20549");
-
-        public String name;
-        public String id;
-
-        KEY(String name, String id) {
-            this.name = name;
-            this.id = id;
+    public static Map<String, List<String>> filter(List<String> skuProp) {
+        Map<String, List<String>> result = new HashMap<>();
+        for (String prop : skuProp) {
+            result.put(getPropName(prop), getValues(prop));
         }
+        return result;
     }
 
-    public static HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU> filter(LinkedList<MongoItem.TaoBaoInfo.SKU> skus) {
-
-        HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU> skusProp;
-        if (null == skus) {
-            return null;
-        }
-        skusProp = new HashMap<>();
-        for (MongoItem.TaoBaoInfo.SKU sku : skus) {
-            skusProp.put(filter(sku), sku);
-        }
-
-        return skusProp;
+    public static String getPropName(String prop) {
+        return TextUtils.split(prop, ":")[0] == null ? "" : TextUtils.split(prop, ":")[0];
     }
 
-
-    public static ArrayList<Prop> filter(MongoItem.TaoBaoInfo.SKU sku) {
-        ArrayList<Prop> props = new ArrayList<>();
-        for (int i = 0; i < sku.properties.split(";").length - 1; i++) {
-
-            Prop prop = new Prop();
-
-            String propStr = sku.properties.split(";")[i + 1];
-            if (!TextUtils.isEmpty(propStr)) {
-                String strs[] = propStr.split(":");
-                String propId = strs[0];
-                String propValue = strs[1];
-                prop.setPropId(propId);
-                prop.setPropValue(propValue);
-            }
-
-            if (!TextUtils.isEmpty(sku.properties_name) && sku.properties_name.split(";").length >= i) {
-                String name = sku.properties_name.split(";")[i];
-                prop.setName(name);
-            }
-
-            props.add(prop);
-        }
-        return props;
-    }
-
-    public static String getPropValue(LinkedList<MongoItem.TaoBaoInfo.SKU> skus, String... key){
-
-        String[] keyArgs = key;
-        HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU> skusProp = filter(skus);
-        if(null == skusProp)return null;
-        Set<ArrayList<Prop>> keys = skusProp.keySet();
-        for(ArrayList<Prop> props : keys){
-            for (Prop prop : props){
-                for (int i = 0; i < keyArgs.length; i++) {
-                    if(prop.propId.equals(keyArgs[i])){
-                        return prop.name;
-                    }
-                }
+    public static List<String> getValues(String prop) {
+        List<String> values = new ArrayList<>();
+        String[] split = TextUtils.split(prop, ":");
+        if (split.length > 1) {
+            for (int i = 1; i < split.length; i++) {
+                values.add(split[i]);
             }
         }
-        return null;
+        return values;
     }
+
 
     public static String getSkuId(String url) {
         Map<String, String> params = getUrlParam(url);

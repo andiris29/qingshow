@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
+import com.focosee.qingshow.adapter.SkuPropsAdpater;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.util.AppUtil;
@@ -40,6 +43,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -53,10 +58,6 @@ public class S11DetailsFragment extends Fragment {
 
     @InjectView(R.id.itemName)
     TextView itemName;
-    @InjectView(R.id.color_group)
-    FlowRadioGroup colorGroup;
-    @InjectView(R.id.size_group)
-    FlowRadioGroup sizeGroup;
     @InjectView(R.id.desImg)
     SimpleDraweeView desImg;
     @InjectView(R.id.s11_details_price)
@@ -79,20 +80,14 @@ public class S11DetailsFragment extends Fragment {
     ImageView cutDiscount;
     @InjectView(R.id.plus_discount)
     ImageView plusDiscount;
-
-    private View rootView;
+    @InjectView(R.id.props)
+    RecyclerView recyclerView;
 
     private MongoItem itemEntity;
-    private LinkedList<MongoItem.TaoBaoInfo.SKU> skus;
     private MongoOrder order;
 
-    private HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU> skusProp;
-    private ArrayList<Prop> myPropList;
-
-    private HashSet<Prop> sizes = new HashSet<>();
-    private HashSet<SkuColor> colors = new HashSet<>();
-
-    private float radioBtnWdith = 40;
+    private SkuPropsAdpater adpater;
+    private View rootView;
 
     private int num = 1;
     private int numOffline = 1;
@@ -110,8 +105,6 @@ public class S11DetailsFragment extends Fragment {
 
         itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY);
         Log.d("s11", itemEntity._id);
-        skus = itemEntity.taobaoInfo.skus;
-        myPropList = new ArrayList<>();
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -119,10 +112,11 @@ public class S11DetailsFragment extends Fragment {
                 return true;
             }
         });
+        if (itemEntity.skuProperties == null) {
+            return rootView;
+        }
 
-        filter();
-        initSize();
-        initItem();
+        initProps();
         initDes();
 
         checkDiscount();
@@ -131,209 +125,17 @@ public class S11DetailsFragment extends Fragment {
         return rootView;
     }
 
+    private void initProps() {
+        adpater = new SkuPropsAdpater(itemEntity.skuProperties, getActivity(), R.layout.item_sku_prop);
+        adpater.notifyDataSetChanged();
+        recyclerView.setAdapter(adpater);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+    }
+
 
     private void initDes() {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
-    }
-
-    private void filter() {
-        if (null == skus) {
-            return;
-        }
-        skusProp = SkuUtil.filter(skus);
-
-
-        for (ArrayList<Prop> props : skusProp.keySet()) {
-            for (Prop prop : props) {
-
-                if (prop.getPropId().equals(SkuUtil.KEY.COLOR.id)) {
-                    SkuColor skuColor = new SkuColor(prop);
-                    skuColor.setUrl(skusProp.get(props).properties_thumbnail != null ?
-                            skusProp.get(props).properties_thumbnail : "");
-                    colors.add(skuColor);
-                }
-
-                for (SkuUtil.KEY sizeKey : SkuUtil.KEY.values()) {
-                    if (sizeKey.name.equals("size")) {
-                        if (prop.getPropId().equals(sizeKey.id)) {
-                            sizes.add(prop);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void initSize() {
-        if (null == skus) {
-            return;
-        }
-        if (sizes.isEmpty()) {
-//            rootView.findViewById(R.id.s11_details_size_line).setVisibility(View.GONE);
-//            rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
-            return;
-        }
-        int i = 0;
-
-        final ArrayList<Prop> sizeList = new ArrayList<>();
-        ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-        itemParams.setMargins(10, 10, 10, 10);
-        for (Prop size : sizes) {
-
-            FlowRadioButton sizeItem = new FlowRadioButton(getActivity());
-            sizeItem.setMinWidth((int) AppUtil.transformToDip(radioBtnWdith, getActivity()));
-            sizeItem.setBackgroundResource(R.drawable.s11_size_item_bg);
-            sizeItem.setTextColor(getResources().getColor(R.color.black));
-            sizeItem.setGravity(Gravity.CENTER);
-            sizeItem.setTextSize(13);
-
-            if (!TextUtils.isEmpty(size.getName())) {
-                sizeItem.setText(size.getName());
-            } else {
-                sizeItem.setText(size.getPropValue() != null ?
-                        size.getPropValue() : "");
-            }
-            sizeGroup.addView(sizeItem, itemParams);
-            sizeList.add(size);
-            i++;
-
-            if (i == 1) {
-                sizeItem.setChecked(true);
-                myPropList.add(size);
-                onSecletChanged();
-            }
-        }
-
-        if (0 == sizeGroup.getChildCount()) {
-//            rootView.findViewById(R.id.s11_details_size_line).setVisibility(View.GONE);
-//            rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
-            return;
-        }
-
-        sizeGroup.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
-            int selectNum = 0;
-
-            @Override
-            public void checkedChanged(int i) {
-                int index = myPropList.indexOf(sizeList.get(selectNum));
-                myPropList.remove(index);
-                myPropList.add(index, sizeList.get(i));
-                onSecletChanged();
-                selectNum = i;
-            }
-        });
-    }
-
-    private void initItem() {
-
-        if (null == skus) {
-            return;
-        }
-        if (colors.isEmpty()) {
-//            rootView.findViewById(R.id.s11_details_color_line).setVisibility(View.GONE);
-//            rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
-            return;
-        }
-
-        int i = 0;
-
-        final ArrayList<Prop> colorList = new ArrayList<>();
-
-        for (SkuColor color : colors) {
-            int imgWidth = (int) AppUtil.transformToDip(35, getActivity());
-            int imgHeight = (int) AppUtil.transformToDip(35, getActivity());
-            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(imgWidth, imgHeight);
-            itemParams.setMargins(10, 10, 10, 10);
-            final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
-
-            if (!TextUtils.isEmpty(color.getUrl())) {
-                ImageLoader.getInstance().loadImage("http:" + color.getUrl(), new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                        super.onLoadingStarted(imageUri, view);
-                        colorItem.setBackgroundResource(0);
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        colorItem.setBackgroundDrawable(new RoundBitmapDrawable(loadedImage, AppUtil.transformToDip(5, getActivity()), AppUtil.transformToDip(5, getActivity())));
-                    }
-                });
-
-                colorGroup.addView(colorItem, itemParams);
-                colorList.add(color.prop);
-                i++;
-            } else {
-                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                params.setMargins(10, 10, 10, 10);
-                FlowRadioButton item = new FlowRadioButton(getActivity());
-                item.setBackgroundResource(R.drawable.s11_size_item_bg);
-                item.setMinWidth((int) AppUtil.transformToDip(radioBtnWdith, getActivity()));
-                item.setTextColor(getResources().getColor(R.color.black));
-                item.setTextSize(13);
-                item.setGravity(Gravity.CENTER);
-                if (!TextUtils.isEmpty(color.prop.getName())) {
-                    item.setText(color.prop.getName());
-                } else {
-                    item.setText(color.prop.getPropValue() != null ?
-                            color.prop.getPropValue() : "");
-                }
-                colorGroup.addView(item, params);
-                colorList.add(color.prop);
-                i++;
-            }
-
-            if (i == 1) {
-                ((IRadioViewHelper) colorGroup.getChildAt(0)).setChecked(true);
-                myPropList.add(color.prop);
-                onSecletChanged();
-            }
-        }
-
-        colorGroup.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
-            int selectNum = 0;
-
-            @Override
-            public void checkedChanged(int i) {
-                int index = myPropList.indexOf(colorList.get(selectNum));
-                myPropList.remove(index);
-                myPropList.add(index, colorList.get(i));
-                onSecletChanged();
-                selectNum = i;
-            }
-        });
-
-        if (0 == colorGroup.getChildCount()) {
-//            rootView.findViewById(R.id.s11_details_color_line).setVisibility(View.GONE);
-//            rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
-            return;
-        }
-    }
-
-    private boolean onSecletChanged() {
-
-        if (skusProp.containsKey(myPropList)) {
-
-            MongoItem.TaoBaoInfo.SKU sku = skusProp.get(myPropList);
-
-            order = new MongoOrder();
-
-            order.itemSnapshot = itemEntity;
-            order.price = 0.01;
-            order.selectedItemSkuId = sku.sku_id;
-
-            price.setText(StringUtil.FormatPrice(sku.promo_price));
-            maxPrice.setText(getResources().getString(R.string.s11_price) + StringUtil.FormatPrice(sku.price));
-            maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            return true;
-        } else {
-            price.setText("");
-            maxPrice.setText("");
-            return false;
-        }
     }
 
     @OnClick({R.id.cut_num, R.id.plus_num})
@@ -382,7 +184,7 @@ public class S11DetailsFragment extends Fragment {
 
     private void checkDiscount() {
         discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
-        total.setText(String.valueOf(discountNum ));
+        total.setText(String.valueOf(discountNum));
         if (discountNum <= discountOffline) {
             cutDiscount.setClickable(false);
             cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
@@ -397,8 +199,8 @@ public class S11DetailsFragment extends Fragment {
         }
     }
 
-    @OnClick({R.id.close,R.id.cancel})
-    public void close(){
+    @OnClick({R.id.close, R.id.cancel})
+    public void close() {
         getFragmentManager().popBackStack();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);

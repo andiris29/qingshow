@@ -69,15 +69,16 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
         holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
 
-        LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
 
-        holder.setText(R.id.item_tradelist_color, SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id));
-        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
+        //TODO change SKU
+//        LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
+//        holder.setText(R.id.item_tradelist_color, SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id));
+//        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
         holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
         holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
         System.out.println("thumbnail:" + trade.orders.get(0).itemSnapshot.thumbnail);
-        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+//        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         //0-折扣申请中
         if(trade.status == 0){
             btn1.setVisibility(View.VISIBLE);

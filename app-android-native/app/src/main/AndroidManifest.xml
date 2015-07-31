@@ -219,11 +219,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Transparent" />
         <activity
-            android:name=".activity.S05ItemActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_s05_item"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.LaunchActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_launch"
