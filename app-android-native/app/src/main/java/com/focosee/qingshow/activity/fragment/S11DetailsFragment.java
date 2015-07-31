@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,9 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,32 +16,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.adapter.SkuPropsAdpater;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
-import com.focosee.qingshow.util.sku.Prop;
-import com.focosee.qingshow.util.sku.SkuColor;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
-import com.focosee.qingshow.widget.drawable.RoundBitmapDrawable;
-import com.focosee.qingshow.widget.flow.FlowRadioButton;
-import com.focosee.qingshow.widget.flow.FlowRadioGroup;
-import com.focosee.qingshow.widget.flow.FlowRadioImgeView;
-import com.focosee.qingshow.widget.radio.IRadioViewHelper;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -70,8 +66,6 @@ public class S11DetailsFragment extends Fragment {
     TextView discountText;
     @InjectView(R.id.total)
     TextView total;
-    @InjectView(R.id.submitBtn)
-    Button submitBtn;
     @InjectView(R.id.cut_num)
     ImageView cutNum;
     @InjectView(R.id.plus_num)
@@ -89,11 +83,14 @@ public class S11DetailsFragment extends Fragment {
     private SkuPropsAdpater adpater;
     private View rootView;
 
+    private Map<String, List<String>> props;
+    private Map<String, List<String>> selectProps;
+
     private int num = 1;
     private int numOffline = 1;
     private int numOnline = 9;
 
-    private int discountNum = 10;
+    private int discountNum;
     private int discountOffline = 1;
     private int discountOnline = 10;
 
@@ -104,6 +101,9 @@ public class S11DetailsFragment extends Fragment {
         ButterKnife.inject(this, rootView);
 
         itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY);
+        order = new MongoOrder();
+        selectProps = new HashMap<>();
+
         Log.d("s11", itemEntity._id);
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
@@ -116,6 +116,9 @@ public class S11DetailsFragment extends Fragment {
             return rootView;
         }
 
+        discountOffline = Integer.parseInt(itemEntity.minExpectedPrice);
+        discountNum = discountOnline = ((Double) (Double.parseDouble(itemEntity.promoPrice) / Double.parseDouble(itemEntity.price) * 10)).intValue();
+
         initProps();
         initDes();
 
@@ -126,16 +129,29 @@ public class S11DetailsFragment extends Fragment {
     }
 
     private void initProps() {
+        props = SkuUtil.filter(itemEntity.skuProperties);
+
         adpater = new SkuPropsAdpater(itemEntity.skuProperties, getActivity(), R.layout.item_sku_prop);
         adpater.notifyDataSetChanged();
+        adpater.setOnCheckedChangeListener(new SkuPropsAdpater.OnCheckedChangeListener() {
+            @Override
+            public void onChanged(String key, int index) {
+                List<String> values = new ArrayList<>();
+                values.add(props.get(key).get(index));
+                selectProps.put(key, values);
+            }
+        });
         recyclerView.setAdapter(adpater);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
     }
 
 
     private void initDes() {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
+        price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
+        maxPrice.setText(StringUtil.FormatPrice(itemEntity.price));
+        maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     @OnClick({R.id.cut_num, R.id.plus_num})
@@ -205,6 +221,36 @@ public class S11DetailsFragment extends Fragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
         ft.commit();
+    }
+
+    @OnClick(R.id.submitBtn)
+    public void submit() {
+        order.selectedSkuProperties = SkuUtil.propParser(selectProps);
+        order.actualPrice = Double.parseDouble(itemEntity.promoPrice);
+        order.expectedPrice = Double.parseDouble(itemEntity.price) * discountNum / 10;
+        order.itemSnapshot = itemEntity;
+        order.quantity = num;
+
+        List<MongoOrder> orders = new ArrayList<>();
+        orders.add(order);
+        submitToNet(orders);
+    }
+
+    private void submitToNet(List<MongoOrder> orders) {
+        Map<String, Object> params = new HashMap<>();
+        try {
+            JSONArray array = new JSONArray(QSGsonFactory.create().toJson(orders));
+            params.put("orders", array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
 

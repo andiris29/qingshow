@@ -41,6 +41,26 @@ public class SkuUtil {
         return values;
     }
 
+    public static List<String> propParser(Map<String, List<String>> props) {
+        List<String> result = new ArrayList<>();
+        for (String key : props.keySet()) {
+            result.add(propParser(key, props.get(key)));
+        }
+        return result;
+    }
+
+    public static String propParser(String key, List<String> values) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(key).append(":");
+        for (int i = 0; i < values.size(); i++) {
+            if (i == values.size())
+                sb.append(values.get(i));
+            else
+                sb.append(values.get(i)).append(":");
+        }
+        return sb.toString();
+    }
+
 
     public static String getSkuId(String url) {
         Map<String, String> params = getUrlParam(url);

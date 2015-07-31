@@ -2,22 +2,19 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.adapter.*;
+import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/7/31.
@@ -25,9 +22,17 @@ import java.util.Map;
 public class SkuPropsAdpater extends AbsAdapter<String> {
 
     private float radioBtnWdith = 40;
+    private int checkIndex[];
+    private OnCheckedChangeListener onCheckedChangeListener;
+
+
+    public interface OnCheckedChangeListener {
+        void onChanged(String key, int index);
+    }
 
     public SkuPropsAdpater(@NonNull List datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
+        checkIndex = new int[datas.size()];
     }
 
     @Override
@@ -36,29 +41,33 @@ public class SkuPropsAdpater extends AbsAdapter<String> {
     }
 
     @Override
-    public void onBindViewHolder(AbsViewHolder holder, int position) {
+    public void onBindViewHolder(AbsViewHolder holder, final int position) {
         String data = datas.get(position);
         List<String> values = SkuUtil.getValues(data);
 
+        final String key = SkuUtil.getPropName(data);
         FlowRadioGroup group = holder.getView(R.id.propGroup);
-        holder.setText(R.id.propText, SkuUtil.getPropName(data));
+        holder.setText(R.id.propText, key);
 
         ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT);
         itemParams.setMargins(10, 10, 10, 10);
         for (int i = 0; i < values.size(); i++) {
             FlowRadioButton propItem = initPropItem(values.get(i));
-            group.addView(propItem,itemParams);
-            if (i == 1) {
+            group.addView(propItem, itemParams);
+            if (i == checkIndex[position]) {
                 propItem.setChecked(true);
-//                onSecletChanged();
+                if (onCheckedChangeListener != null)
+                    onCheckedChangeListener.onChanged(key, i);
             }
         }
 
         group.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
             @Override
             public void checkedChanged(int index) {
-
+                checkIndex[position] = index;
+                if (onCheckedChangeListener != null)
+                    onCheckedChangeListener.onChanged(key, index);
             }
         });
 
@@ -78,4 +87,7 @@ public class SkuPropsAdpater extends AbsAdapter<String> {
         return propItem;
     }
 
+    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
+        this.onCheckedChangeListener = onCheckedChangeListener;
+    }
 }
