@@ -14,7 +14,7 @@ var _next = function(today) {
     function(callback) {
         Trade.find({
             'status' : { 
-                '$in' : [3, 14]
+                '$in' : [3]
             }
         }).exec(callback);
     },

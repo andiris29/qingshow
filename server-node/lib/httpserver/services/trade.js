@@ -5,6 +5,7 @@ var _ = require('underscore');
 var Trade = require('../../model/trades');
 var People = require('../../model/peoples');
 var Item = require('../../model/items');
+var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -14,6 +15,8 @@ var MongoHelper = require('../helpers/MongoHelper');
 
 var ServerError = require('../server-error');
 var request = require('request');
+
+var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var trade = module.exports;
 
@@ -33,20 +36,15 @@ trade.create = {
             var trade = new Trade();
             trade.ownerRef = req.qsCurrentUserId;
             trade.orders = [];
+            trade.peopleSnapshot = people;
             req.body.orders.forEach(function(element) {
                 trade.orders.push({
                     'quantity' : element.quantity,
-                    'price' : element.price,
+                    'expectedPrice' : element.expectedPrice,
                     'itemSnapshot' : element.itemSnapshot,
-                    'peopleSnapshot' : people,
-                    //'selectedItemSkuId' : element.selectedItemSkuId,
-                    'selectedPeopleReceiverUuid' : element.selectedPeopleReceiverUuid
+                    'selectedSkuProperties' : element.selectedSkuProperties
                 });
             });
-            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
-            if (req.body['pay'] && req.body['pay']['weixin']) {
-                trade.pay = req.body.pay;
-            }
             trade.save(function(err) {
                 callback(err, trade);
             });
@@ -56,9 +54,50 @@ trade.create = {
             TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
                 callback(err, trade);
             });
+        }], function(error, trade) {
+            // Send response
+            ResponseHelper.response(res, error, {
+                'trade' : trade
+            });
+            // Send notification mail
+            TradeHelper.notify(trade);
+        });
+    }
+};
+
+trade.prepay = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            Trade.findOne({
+                '_id' : RequestHelper.parseId(req.body._id)
+            }, function(err, trade) {
+                if (err) {
+                    callback(err);
+                } else if (!trade) {
+                    callback(ServerError.TradeNotExist);
+                } else {
+                    callback(null, trade);
+                }
+            });
+        },
+        function(trade, callback) {
+            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
+            trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
+
+            trade.save(function(err, trade) {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, trade);
+                }
+            });
         },
         function(trade, callback) {
             if (req.body.pay && req.body.pay['weixin']) {
+                trade.pay = req.body.pay;
                 // Communicate to payment to get prepayid for weixin
                 var orderName = '';
                 trade.orders.forEach(function(element) {
@@ -82,13 +121,11 @@ trade.create = {
             } else {
                 callback(null, trade);
             }
-        }], function(error, trade) {
+        }], function(err, trade) {
             // Send response
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            // Send notification mail
-            TradeHelper.notify(trade);
         });
     }
 };
@@ -98,16 +135,13 @@ var _statusValidationMap = {
     1 : [0],
     2 : [1],
     3 : [2],
-    5 : [3, 14],
-    15 : [3, 14],
+    5 : [3],
     7 : [3],
     9 : [7],
     10 : [7],
-    11 : [3],
-    13 : [11, 16],
-    14 : [11, 16],
-    16 : [14],
-    17 : [1, 2]
+    15 : [3],
+    17 : [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 15, 18],
+    18 : [0, 1, 2]
 };
 
 var _validateStatus = function(trade, newStatus, callback) {
@@ -156,14 +190,36 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
+                req.body.orders.forEach(function(element, index) {
+                    trade.orders[index].actualPrice = element.actualPrice;
+                });
+                trade.save(function(err, trade) {
+                    callback(err, trade);
+                    // Push Notification
+                    jPushAudiences.find({
+                        'peopleRef' : trade.ownerRef
+                    }).exec(function(err, infos) {
+                        if (infos.length > 0) {
+                            var targets = [];
+                            infos.forEach(function(element) {
+                                if (element.registrationId && element.registrationId.length > 0) {
+                                    targets.push(element.registrationId);
+                                }
+                            });
+
+                            PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
+                                'id' : param._id,
+                                'command' : PushNotificationHelper.CommandTradeInitialized
+                            }, null);
+                        }
+                    });
+                });
+                return;
+            } else if (newStatus == 2) {
                 // Save the parameters from payment server.
                 // handle at callback interface
                 callback(ServerError.TradeStatusChangeError);
-            } else if (newStatus == 2) {
-                trade.agent = trade.agent || {};
-                trade.agent.taobaoUserNick = param.agent.taobaoUserNick;
-                trade.agent.taobaoTradeId = param.agent.taobaoTradeId;
-            } else if (newStatus == 3 || newStatus == 14) {
+            } else if (newStatus == 3 ) {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.company = param.logistic.company;
                 trade.logistic.trackingId = param.logistic.trackingId;
@@ -195,8 +251,17 @@ trade.queryCreatedBy = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var progress = {
+                '$in' : []
+            };
+            if (qsParam.inProgress == null || !qsParam.inProgress) {
+                progress['$in'] = [0, 5, 9, 10, 15, 17];
+            } else {
+                progress['$in'] = [1, 2, 3, 7];
+            }
             var criteria = {
-                'ownerRef' : req.qsCurrentUserId
+                'ownerRef' : req.qsCurrentUserId,
+                'status' : progress
             };
             MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
@@ -370,3 +435,30 @@ trade.refreshPaymentStatus = {
     }
 };
 
+trade.share = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var targetRef, initiatorRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.body;
+                targetRef = RequestHelper.parseId(param._id);
+                initiatorRef = req.qsCurrentUserId;
+            } catch (err) {
+                callback(err);
+            }
+            callback();
+        },
+        function(callback) {
+            // Share
+            RelationshipHelper.create(RPeopleShareTrade, initiatorRef, targetRef, function(err, relationship) {
+                callback(err);
+            });
+        }], function(err) {
+            ResponseHelper.response(res, err);
+        });
+
+    }
+};
