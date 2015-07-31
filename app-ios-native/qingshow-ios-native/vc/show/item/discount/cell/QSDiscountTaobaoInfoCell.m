@@ -7,11 +7,12 @@
 //
 
 #import "QSDiscountTaobaoInfoCell.h"
-
+#import "UINib+QSExtension.h"
 @implementation QSDiscountTaobaoInfoCell
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -20,4 +21,11 @@
     // Configure the view for the selected state
 }
 
++ (instancetype)generateCell {
+    return [UINib generateViewWithNibName:@"QSDiscountTaobaoInfoCell"];
+}
+
+- (CGFloat)getHeight:(NSDictionary*)itemDict {
+    return 76.f;
+}
 @end

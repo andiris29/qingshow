@@ -14,6 +14,13 @@
 }
 - (void)awakeFromNib {
     // Initialization code
+    CGFloat width = [UIScreen mainScreen].bounds.size.width - 50;
+    CGRect frame = self.frame;
+    frame.size.width = width;
+    self.frame = frame;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.backgroundColor = [UIColor clearColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -27,6 +34,10 @@
 }
 - (void)bindWithData:(NSDictionary*)itemDict {
     
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
 }
 
 @end

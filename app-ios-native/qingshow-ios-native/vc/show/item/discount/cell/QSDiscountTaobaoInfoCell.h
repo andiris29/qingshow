@@ -10,4 +10,6 @@
 #import "QSAbstractDiscountTableViewCell.h"
 @interface QSDiscountTaobaoInfoCell : QSAbstractDiscountTableViewCell
 
+@property (assign, nonatomic) int infoIndex;
+
 @end

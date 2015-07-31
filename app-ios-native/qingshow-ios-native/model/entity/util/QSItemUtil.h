@@ -27,14 +27,14 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 + (NSString*)getItemName:(NSDictionary*)item;
 + (NSNumber*)getPrice:(NSDictionary*)itemDict;
 + (NSString*)getPriceDesc:(NSDictionary*)item;
-+ (NSNumber*)getPriceAfterDiscount:(NSDictionary*)itemDict;
-+ (NSString*)getPriceAfterDiscountDesc:(NSDictionary*)itemDict;
++ (NSNumber*)getPromoPrice:(NSDictionary*)itemDict;
++ (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict;
 
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
 + (QSItemCategory)getItemCategory:(NSDictionary*)itemDict;
 
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;
-
++ (NSArray*)getSkuProperties:(NSDictionary*)itemDict;
 
 @end

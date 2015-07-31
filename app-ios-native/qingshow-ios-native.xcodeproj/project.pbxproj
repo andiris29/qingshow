@@ -185,8 +185,8 @@
 		EF994D8C1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D8B1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m */; };
 		EF994D901B693C3B00715B0E /* QSDiscountTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D8E1B693C3B00715B0E /* QSDiscountTitleCell.m */; };
 		EF994D911B693C3B00715B0E /* QSDiscountTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF994D8F1B693C3B00715B0E /* QSDiscountTitleCell.xib */; };
-		EF994D951B693C4F00715B0E /* QSDIscountInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D931B693C4F00715B0E /* QSDIscountInfoCell.m */; };
-		EF994D961B693C4F00715B0E /* QSDIscountInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF994D941B693C4F00715B0E /* QSDIscountInfoCell.xib */; };
+		EF994D951B693C4F00715B0E /* QSDiscountInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D931B693C4F00715B0E /* QSDiscountInfoCell.m */; };
+		EF994D961B693C4F00715B0E /* QSDiscountInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF994D941B693C4F00715B0E /* QSDiscountInfoCell.xib */; };
 		EF994D9A1B693C7400715B0E /* QSDiscountTaobaoInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D981B693C7400715B0E /* QSDiscountTaobaoInfoCell.m */; };
 		EF994D9B1B693C7400715B0E /* QSDiscountTaobaoInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF994D991B693C7400715B0E /* QSDiscountTaobaoInfoCell.xib */; };
 		EF994D9F1B693CB900715B0E /* QSDiscountQuantityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D9D1B693CB900715B0E /* QSDiscountQuantityCell.m */; };
@@ -730,9 +730,9 @@
 		EF994D8D1B693C3B00715B0E /* QSDiscountTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDiscountTitleCell.h; sourceTree = "<group>"; };
 		EF994D8E1B693C3B00715B0E /* QSDiscountTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDiscountTitleCell.m; sourceTree = "<group>"; };
 		EF994D8F1B693C3B00715B0E /* QSDiscountTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDiscountTitleCell.xib; sourceTree = "<group>"; };
-		EF994D921B693C4F00715B0E /* QSDIscountInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDIscountInfoCell.h; sourceTree = "<group>"; };
-		EF994D931B693C4F00715B0E /* QSDIscountInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDIscountInfoCell.m; sourceTree = "<group>"; };
-		EF994D941B693C4F00715B0E /* QSDIscountInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDIscountInfoCell.xib; sourceTree = "<group>"; };
+		EF994D921B693C4F00715B0E /* QSDiscountInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDiscountInfoCell.h; sourceTree = "<group>"; };
+		EF994D931B693C4F00715B0E /* QSDiscountInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDiscountInfoCell.m; sourceTree = "<group>"; };
+		EF994D941B693C4F00715B0E /* QSDiscountInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDiscountInfoCell.xib; sourceTree = "<group>"; };
 		EF994D971B693C7400715B0E /* QSDiscountTaobaoInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDiscountTaobaoInfoCell.h; sourceTree = "<group>"; };
 		EF994D981B693C7400715B0E /* QSDiscountTaobaoInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDiscountTaobaoInfoCell.m; sourceTree = "<group>"; };
 		EF994D991B693C7400715B0E /* QSDiscountTaobaoInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDiscountTaobaoInfoCell.xib; sourceTree = "<group>"; };
@@ -1794,9 +1794,9 @@
 				EF994D8D1B693C3B00715B0E /* QSDiscountTitleCell.h */,
 				EF994D8E1B693C3B00715B0E /* QSDiscountTitleCell.m */,
 				EF994D8F1B693C3B00715B0E /* QSDiscountTitleCell.xib */,
-				EF994D921B693C4F00715B0E /* QSDIscountInfoCell.h */,
-				EF994D931B693C4F00715B0E /* QSDIscountInfoCell.m */,
-				EF994D941B693C4F00715B0E /* QSDIscountInfoCell.xib */,
+				EF994D921B693C4F00715B0E /* QSDiscountInfoCell.h */,
+				EF994D931B693C4F00715B0E /* QSDiscountInfoCell.m */,
+				EF994D941B693C4F00715B0E /* QSDiscountInfoCell.xib */,
 				EF994D971B693C7400715B0E /* QSDiscountTaobaoInfoCell.h */,
 				EF994D981B693C7400715B0E /* QSDiscountTaobaoInfoCell.m */,
 				EF994D991B693C7400715B0E /* QSDiscountTaobaoInfoCell.xib */,
@@ -2737,7 +2737,7 @@
 				EF8080491B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */,
-				EF994D961B693C4F00715B0E /* QSDIscountInfoCell.xib in Resources */,
+				EF994D961B693C4F00715B0E /* QSDiscountInfoCell.xib in Resources */,
 				EF994DA01B693CB900715B0E /* QSDiscountQuantityCell.xib in Resources */,
 				EF3013331AC3174000568D92 /* AlipaySDK.bundle in Resources */,
 				EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */,
@@ -2803,7 +2803,7 @@
 				EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */,
 				EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */,
 				68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */,
-				EF994D951B693C4F00715B0E /* QSDIscountInfoCell.m in Sources */,
+				EF994D951B693C4F00715B0E /* QSDiscountInfoCell.m in Sources */,
 				EF810F4D1AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m in Sources */,
 				EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */,
 				EFA785C01B5AB5BC00CC227C /* QSPnsHelper.m in Sources */,

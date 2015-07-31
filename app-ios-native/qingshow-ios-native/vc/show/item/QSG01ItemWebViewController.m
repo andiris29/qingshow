@@ -9,6 +9,7 @@
 #import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
 #import "QSEntityUtil.h"
+#import "QSDiscountTableViewController.h"
 
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
@@ -21,7 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIView *discountLayerContainer;
 @property (weak, nonatomic) IBOutlet UIImageView *discountBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *discountTableViewContainer;
-
+@property (strong, nonatomic) QSDiscountTableViewController* discountVc;
 
 @end
 
@@ -32,6 +33,7 @@
     self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];
     if (self) {
         self.itemDict = item;
+        self.discountVc = [[QSDiscountTableViewController alloc] initWithItem:item];
     }
     return self;
 }
@@ -72,6 +74,9 @@
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
     self.discountBackgroundView.image = img;
     
+    self.discountVc.view.frame = self.discountTableViewContainer.bounds;
+    [self.discountTableViewContainer addSubview:self.discountVc.view];
+
 }
 
 - (void)didReceiveMemoryWarning {

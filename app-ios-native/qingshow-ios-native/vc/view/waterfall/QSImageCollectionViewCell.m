@@ -33,6 +33,6 @@
 {
     [self.imageView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
     self.label1.text = [QSItemUtil getItemName:itemDict];
-    self.label2.text = [QSItemUtil getPriceAfterDiscountDesc:itemDict];
+    self.label2.text = [QSItemUtil getPromoPriceDesc:itemDict];
 }
 @end

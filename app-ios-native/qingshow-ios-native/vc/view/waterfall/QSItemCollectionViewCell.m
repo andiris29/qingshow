@@ -43,7 +43,7 @@
     //[QSItemUtil hasDiscountInfo:itemDict]
     if (YES) {
         self.priceLabel.hidden = NO;
-        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscountDesc:itemDict];
+        self.priceAfterDiscountLabel.text = [QSItemUtil getPromoPriceDesc:itemDict];
         self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
         [self.priceAfterDiscountLabel sizeToFit];
         [self.priceLabel sizeToFit];

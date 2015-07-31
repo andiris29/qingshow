@@ -30,7 +30,7 @@
     self.priceLabel.hidden = YES;
     self.priceLabel.text = @"";
 
-    NSNumber* totalPrice = [QSItemUtil getPriceAfterDiscount:itemDict];
+    NSNumber* totalPrice = [QSItemUtil getPromoPrice:itemDict];
     
     self.priceAfterDiscountLabel.text = [NSString stringWithFormat:@"%.2f", totalPrice.doubleValue];
     [self.priceLabel sizeToFit];

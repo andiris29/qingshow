@@ -442,7 +442,7 @@
         paymentType = PaymentTypeWechat;
     }
     
-    NSNumber* price = [QSItemUtil getPriceAfterDiscount:self.itemDict];
+    NSNumber* price = [QSItemUtil getPromoPrice:self.itemDict];
     NSNumber* totalPrice = @(((NSNumber*)[self.itemInfoQuantityCell getInputData]).doubleValue * price.doubleValue);
 
 
@@ -489,7 +489,7 @@
 - (void)updatePriceRelatedCell {
     NSDictionary* taobaoInfo = nil;
 
-    NSNumber* price = [QSItemUtil getPriceAfterDiscount:self.itemDict];
+    NSNumber* price = [QSItemUtil getPromoPrice:self.itemDict];
     NSNumber* totalPrice = @(((NSNumber*)[self.itemInfoQuantityCell getInputData]).doubleValue * price.doubleValue);
 
     [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];

@@ -120,7 +120,7 @@
 {
     self.label1.text = [QSItemUtil getItemName:item];
     self.label2.text = [QSItemUtil getPriceDesc:item];
-    self.label3.text = [QSItemUtil getPriceAfterDiscountDesc:item];
+    self.label3.text = [QSItemUtil getPromoPriceDesc:item];
     [self.label2 sizeToFit];
     [self.label3 sizeToFit];
     CGRect rect3 = self.label3.frame;

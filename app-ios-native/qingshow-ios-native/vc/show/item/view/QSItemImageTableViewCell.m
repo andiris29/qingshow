@@ -69,11 +69,11 @@
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
     self.imageScrollView.imageUrlArray = [QSItemUtil getImagesUrl:itemDict];
-    if ([QSItemUtil getPriceAfterDiscount:itemDict]) {
+    if ([QSItemUtil getPromoPrice:itemDict]) {
         self.saleLabel.hidden = NO;
         self.discountLabel.hidden = NO;
         self.originLabel.hidden = NO;
-        self.priceLabel.text = [NSString stringWithFormat:@"%@", [QSItemUtil getPriceAfterDiscountDesc:itemDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"%@", [QSItemUtil getPromoPriceDesc:itemDict]];
         self.originLabel.text = @"";
         self.discountLabel.text = [NSString stringWithFormat:@"%@", [QSItemUtil getPriceDesc:itemDict]];
         [self.discountLabel sizeToFit];

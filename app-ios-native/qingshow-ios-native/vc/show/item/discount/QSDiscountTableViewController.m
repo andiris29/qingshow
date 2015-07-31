@@ -7,21 +7,40 @@
 //
 
 #import "QSDiscountTableViewController.h"
+#import "QSAbstractDiscountTableViewCell.h"
+#import "QSDiscountTitleCell.h"
+#import "QSDiscountInfoCell.h"
+#import "QSDiscountTaobaoInfoCell.h"
+#import "QSDiscountQuantityCell.h"
+#import "QSDiscountResultCell.h"
+#import "QSItemUtil.h"
+
 
 @interface QSDiscountTableViewController ()
 
+@property (strong, nonatomic) NSDictionary* itemDict;
+@property (strong, nonatomic) NSArray* cellArray;
 @end
 
 @implementation QSDiscountTableViewController
+#pragma mark - Init
+- (instancetype)initWithItem:(NSDictionary*)itemDict {
+    self = [super init];
+    if (self) {
+        
+        self.itemDict = itemDict;
+        
+    }
+    return self;
+}
 
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self configCells];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,71 +49,39 @@
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.cellArray.count;
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
+    return [cell getHeight:self.itemDict];
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
+    [cell bindWithData:self.itemDict];
     return cell;
 }
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+#pragma mark - 
+- (void)configCells {
+    NSMutableArray* array = [@[] mutableCopy];
+    [array addObject:[QSDiscountTitleCell generateCell]];
+    [array addObject:[QSDiscountInfoCell generateCell]];
+    NSArray* props = [QSItemUtil getSkuProperties:self.itemDict];
+    for (int i = 0; i < props.count; i++) {
+        QSDiscountTaobaoInfoCell* taobaoInfoCell = [QSDiscountTaobaoInfoCell generateCell];
+        taobaoInfoCell.infoIndex = i;
+        [array addObject:taobaoInfoCell];
+    }
+    [array addObject:[QSDiscountQuantityCell generateCell]];
+    [array addObject:[QSDiscountResultCell generateCell]];
+    self.cellArray = array;
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

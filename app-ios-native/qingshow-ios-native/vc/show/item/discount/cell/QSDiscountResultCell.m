@@ -7,11 +7,13 @@
 //
 
 #import "QSDiscountResultCell.h"
+#import "UINib+QSExtension.h"
 
 @implementation QSDiscountResultCell
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -20,4 +22,18 @@
     // Configure the view for the selected state
 }
 
++ (instancetype)generateCell {
+    return [UINib generateViewWithNibName:@"QSDiscountResultCell"];
+}
+
+- (IBAction)increaseBtnPressed:(id)sender {
+    
+}
+- (IBAction)decreateBtnPressed:(id)sender {
+    
+}
+
+- (CGFloat)getHeight:(NSDictionary*)itemDict {
+    return 114.f;
+}
 @end

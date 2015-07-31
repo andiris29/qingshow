@@ -115,9 +115,9 @@
     [self updateShowImgScrollView];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
     //Discount
-    if ([QSItemUtil getPriceAfterDiscount:itemDict]) {
+    if ([QSItemUtil getPromoPrice:itemDict]) {
         self.priceLabel.hidden = NO;
-        self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscountDesc:itemDict];
+        self.priceAfterDiscountLabel.text = [QSItemUtil getPromoPriceDesc:itemDict];
         self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
         self.priceLabel.isWithStrikeThrough = YES;
         [self.priceAfterDiscountLabel sizeToFit];

@@ -10,4 +10,6 @@
 
 @interface QSDiscountTableViewController : UITableViewController
 
+- (instancetype)initWithItem:(NSDictionary*)itemDict;
+
 @end

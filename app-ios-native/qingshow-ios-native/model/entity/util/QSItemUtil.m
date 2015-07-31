@@ -123,14 +123,14 @@
 }
 + (NSString*)getPriceDesc:(NSDictionary*)itemDict
 {
-    return [[self getPrice:itemDict] stringValue];
+    return [NSString stringWithFormat:@"%.2f", [self getPrice:itemDict].doubleValue];
 }
-+ (NSNumber*)getPriceAfterDiscount:(NSDictionary*)itemDict {
++ (NSNumber*)getPromoPrice:(NSDictionary*)itemDict {
     return [itemDict numberValueForKeyPath:@"promoPrice"];
 }
-+ (NSString*)getPriceAfterDiscountDesc:(NSDictionary*)itemDict
++ (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict
 {
-    return [[self getPriceAfterDiscount:itemDict] stringValue];
+    return [NSString stringWithFormat:@"%.2f", [self getPromoPrice:itemDict].doubleValue];
 }
 
 + (NSURL*)getThumbnail:(NSDictionary *)itemDict {
@@ -154,5 +154,9 @@
         str = [QSEntityUtil getIdOrEmptyStr:dict];
     }
     return str;
+}
+
++ (NSArray*)getSkuProperties:(NSDictionary*)itemDict {
+    return [itemDict arrayValueForKeyPath:@"skuProperties"];
 }
 @end

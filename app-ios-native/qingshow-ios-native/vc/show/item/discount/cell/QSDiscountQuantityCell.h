@@ -10,4 +10,6 @@
 #import "QSAbstractDiscountTableViewCell.h"
 @interface QSDiscountQuantityCell : QSAbstractDiscountTableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
+
 @end
