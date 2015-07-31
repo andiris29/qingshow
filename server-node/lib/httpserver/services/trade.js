@@ -163,7 +163,7 @@ trade.statusTo = {
                 trade.agent = trade.agent || {};
                 trade.agent.taobaoUserNick = param.agent.taobaoUserNick;
                 trade.agent.taobaoTradeId = param.agent.taobaoTradeId;
-            } else if (newStatus == 3 || newStatus == 14) {
+            } else if (newStatus == 3) {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.company = param.logistic.company;
                 trade.logistic.trackingId = param.logistic.trackingId;

@@ -53,10 +53,6 @@ var tradeSchema = Schema({
             }],
         }
     },
-    agent : {
-        taobaoUserNick : String,
-        taobaoTradeId : String
-    },
     logistic : {
         company : String,
         trackingId : String
