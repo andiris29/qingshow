@@ -70,7 +70,7 @@
                 [self.delegate vc:self didCreateNewMatcher:d];
             }
             
-            QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:d];
+            QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc]initWithShowId:[QSEntityUtil getStringValue:d keyPath:@"_id"]];
             vc.showBackBtn = YES;
             vc.menuProvider = self.menuProvider;
             [hud hide:YES];
