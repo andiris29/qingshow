@@ -54,11 +54,10 @@ import de.greenrobot.event.EventBus;
  */
 public class S17PayActivity extends BaseActivity implements View.OnClickListener {
 
-    public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
+    public static final String INPUT_ITEM_ENTITY = "INPUT_ENTITY";
 
     private Button submit;
     private TextView priceTV;
-    private S17DetailsFragment detailsFragment;
     private S17PaymentFragment paymentFragment;
     private S17ReceiptFragment receiptFragment;
     private View dialog;
@@ -66,9 +65,8 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
     private MongoPeople.Receiver receiver;
 
     private Map params;
-    private MongoOrder order;
     private MongoTrade trade;
-    private MongoPeople.MeasureInfo measureInfo;
+    private MongoOrder order;
 
     private String selectedPeopleReceiverUuid;
 
@@ -85,8 +83,9 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_s17_trade);
         EventBus.getDefault().register(this);
 
+        trade = (MongoTrade) getIntent().getSerializableExtra(INPUT_ITEM_ENTITY);
+        order = trade.orders.get(0);
         init();
-        initOrder();
 
     }
 
@@ -96,13 +95,14 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         submit = (Button) findViewById(R.id.s11_submit_button);
         dialog = LayoutInflater.from(this).inflate(R.layout.dialog_trade_success, null);
 
-        detailsFragment = (S17DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.s11_details);
         receiptFragment = (S17ReceiptFragment) getSupportFragmentManager().findFragmentById(R.id.s11_receipt);
         paymentFragment = (S17PaymentFragment) getSupportFragmentManager().findFragmentById(R.id.s11_payment);
 
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
         submit.setOnClickListener(this);
+        priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.actualPrice)));
+
     }
 
     @Override
@@ -118,16 +118,6 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
 
-    }
-
-    private void initOrder() {
-        setAllow(detailsFragment.getOrder() != null,
-                detailsFragment.getOrder());
-    }
-
-    public void onEventMainThread(S17DetailsEvent event) {
-        measureInfo = event.getMeasureInfo();
-        setAllow(event.isExists(), event.getOrder());
     }
 
     public void onEventMainThread(WXPayEvent event) {
@@ -151,18 +141,6 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
     }
 
-    private void setAllow(boolean allow, MongoOrder order) {
-        if (allow) {
-            submit.setBackgroundResource(R.drawable.submit_button);
-            submit.setClickable(true);
-            this.order = order;
-            priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.price * order.quantity)));
-        } else {
-            submit.setBackgroundColor(getResources().getColor(R.color.hint_text_color));
-            submit.setClickable(false);
-            priceTV.setText("商品暂无");
-        }
-    }
 
     @Override
     protected void onDestroy() {
@@ -198,20 +176,6 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
         submit.setEnabled(false);
 
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(QSGsonFactory.create().toJson(measureInfo));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-            }
-        });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-
         UserReceiverCommand.saveReceiver(params, new Callback() {
             @Override
             public void onComplete(JSONObject response) {
@@ -235,13 +199,8 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         if (null == paymentFragment.getPaymentMode()) {
             return;
         }
-
-        order.price = 0.01;
         params = new HashMap();
-        params.put("totalFee", 0.01);
-        order.selectedPeopleReceiverUuid = selectedPeopleReceiverUuid;
-        List<MongoOrder> orders = new ArrayList<>();
-        orders.add(order);
+        params.put("totalFee", order.actualPrice);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
                 JSONObject jsonObject = new JSONObject();
@@ -255,9 +214,8 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                 jsonObject.put("alipay", new JSONObject());
                 params.put("pay", jsonObject);
             }
-
-            JSONArray array = new JSONArray(QSGsonFactory.create().toJson(orders));
-            params.put("orders", array);
+            params.put("selectedPeopleReceiverUuid", selectedPeopleReceiverUuid);
+            params.put("_id",trade._id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -266,7 +224,6 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    Log.i("tag", MetadataParser.getError(response) + "");
                     ErrorHandler.handle(S17PayActivity.this, MetadataParser.getError(response));
                     return;
                 }

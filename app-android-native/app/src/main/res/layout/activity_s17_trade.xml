@@ -113,11 +113,11 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/s11_paytext"
             android:padding="10dp"
-            android:textColor="@color/master"
+            android:textColor="@color/master_pink"
             android:textSize="@dimen/text_title_size" />
 
         <Button
-            android:background="@drawable/submit_button"
+            android:background="@drawable/pink_btn_fall"
             android:id="@+id/s11_submit_button"
             android:layout_width="130dp"
             android:layout_height="260dp"

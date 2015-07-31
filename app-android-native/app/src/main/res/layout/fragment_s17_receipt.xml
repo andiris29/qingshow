@@ -26,15 +26,17 @@
                 android:text="收货信息"
                 android:textSize="@dimen/text_size" />
 
-            <ImageView
-                android:paddingRight="-15dp"
+            <TextView
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/master_pink"
+                android:background="@drawable/pinck_btn_radio"
+                android:gravity="center"
+                android:text="管理地址"
                 android:id="@+id/s11_receipt_manage"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/s11_address"/>
+                android:layout_height="40dp"/>
         </RelativeLayout>
 
         <View
@@ -121,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_small"
                 android:hint="选择地区"
-                android:textColor="@color/master" />
+                android:textColor="@color/master_pink" />
 
         </LinearLayout>
 

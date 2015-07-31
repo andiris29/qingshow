@@ -28,8 +28,6 @@ public class S17PaymentFragment extends Fragment {
 
     private void initView() {
         paymentGroup = (PaymentGroup) rootView.findViewById(R.id.s11_payment);
-
-
         paymentGroup.setOnCheckedChangeListener(new PaymentGroup.OnCheckedChangeListener() {
 
             @Override

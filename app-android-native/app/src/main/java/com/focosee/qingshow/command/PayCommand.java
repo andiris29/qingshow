@@ -39,7 +39,7 @@ public class PayCommand {
         };
 
         String orderInfo = AlipayUtil.getOrderInfo(trade.orders.get(0).itemSnapshot.name,
-                trade.orders.get(0).itemSnapshot.source, trade.totalFee + "", trade._id);
+                trade.orders.get(0).itemSnapshot.source, trade.orders.get(0).actualPrice + "", trade._id);
 
         String sign = SignUtils.sign(orderInfo, PaymentConfig.RSA_PRIVATE);
         try {
@@ -86,9 +86,7 @@ public class PayCommand {
         map.put("package",request.packageValue);
 
         request.sign = getSign(map);
-
-        boolean b= QSApplication.instance().getWxApi().sendReq(request);
-        Log.i("tag",b + "~~~~~~~~");
+        QSApplication.instance().getWxApi().sendReq(request);
     }
 
     public static String getSign(Map<String,Object> map){

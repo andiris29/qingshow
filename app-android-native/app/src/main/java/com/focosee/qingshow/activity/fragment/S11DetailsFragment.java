@@ -226,7 +226,6 @@ public class S11DetailsFragment extends Fragment {
     @OnClick(R.id.submitBtn)
     public void submit() {
         order.selectedSkuProperties = SkuUtil.propParser(selectProps);
-        order.actualPrice = Double.parseDouble(itemEntity.promoPrice);
         order.expectedPrice = Double.parseDouble(itemEntity.price) * discountNum / 10;
         order.itemSnapshot = itemEntity;
         order.quantity = num;
