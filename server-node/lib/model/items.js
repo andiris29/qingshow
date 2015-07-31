@@ -13,7 +13,7 @@ itemSchema = Schema({
     price: Number,
     promoPrice : Number,
     minExpectedPrice : Number,
-    deactive : Boolean,
+    skuProperties : [String],
     images : [{
         url : String,
         description : String
@@ -24,8 +24,7 @@ itemSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    taobaoInfo : Object,
-    skuProperties : [String]
+    goblinUpdate : Date
 });
 
 var Item = mongoose.model('items', itemSchema);

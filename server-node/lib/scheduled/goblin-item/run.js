@@ -19,19 +19,13 @@ var _next = function (time) {
             var criteria = {
                 '$and': [{
                     '$or': [{
-                        'taobaoInfoRefreshTime': {
+                        'goblinUpdate': {
                             '$exists': false
                         }
                     }, {
-                        'taobaoInfoRefreshTime': {
+                        'goblinUpdate': {
                             '$lt': time
                         }
-                    }, {
-                        'deactive': {
-                            '$exists': false
-                        }
-                    }, {
-                        'deactive': true
                     }]
                 }]
             };
@@ -95,7 +89,7 @@ var _crawlItemTaobaoInfo = function (item, callback) {
                 item.price = taobaoInfo.price;
                 item.promoPrice = taobaoInfo.promo_price;
                 item.skuProperties = taobaoInfo.skuProperties;
-                item.taobaoInfoRefreshTime = new Date();
+                item.goblinUpdate = new Date();
                 _logItem('item success', item);
             }
             item.save(callback);
