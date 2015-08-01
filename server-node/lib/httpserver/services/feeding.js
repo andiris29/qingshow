@@ -12,13 +12,6 @@ var ServiceHelper = require('../helpers/ServiceHelper');
 
 var ServerError = require('../server-error');
 
-var isNotUgc = {
-    "$or" : [
-        {"ugc" : false},
-        {"ugc" : {"$exists" : false}}
-    ]
-};
-
 var _feed = function (req, res, querier, aspectInceptions) {
     aspectInceptions = aspectInceptions || {};
     ServiceHelper.queryPaging(req, res, querier, function (models) {
@@ -90,8 +83,7 @@ feeding.recommendation = {
                     }
                     var criteria = {
                         '$and' : [
-                            { 'recommend.group' : type}, 
-                            isNotUgc
+                            { 'recommend.group' : type} 
                         ]
                     };
                     MongoHelper.queryPaging(Show.find(criteria).sort({
@@ -112,8 +104,6 @@ feeding.hot = {
             async.waterfall([
                 function(callback) {
                     var condition = [{
-                            "$match" : isNotUgc
-                        }, {
                             '$group' : {
                                 '_id': {
                                     'year' : {'$year' : '$recommend.date'},
@@ -133,13 +123,10 @@ feeding.hot = {
                             var _id = element._id;
 
                             var criteria = {
-                                '$and' : [{
-                                        'recommend.date' : {
-                                            '$gte' : new Date(_id.year, _id.month - 1, _id.day),
-                                            '$lt' : new Date(_id.year, _id.month - 1, _id.day + 1) 
-                                        }
-                                    } , isNotUgc
-                                ]
+                                'recommend.date' : {
+                                    '$gte' : new Date(_id.year, _id.month - 1, _id.day),
+                                    '$lt' : new Date(_id.year, _id.month - 1, _id.day + 1) 
+                                }
                             };
 
                             Show.find(criteria).sort({'numLike' : -1}).limit(2).exec(function(err, shows) {
@@ -218,9 +205,7 @@ feeding.matchHot = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = {
-                    'ugc' : true
-                };
+                var criteria = {};
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'numLike' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -235,9 +220,6 @@ feeding.matchNew = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = {
-                    'ugc' : true
-                };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);

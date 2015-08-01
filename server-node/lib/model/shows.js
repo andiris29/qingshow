@@ -33,9 +33,7 @@ showSchema = Schema({
         group: String,
         date : Date,
         description : String
-    },
-    ugc : Boolean
-
+    }
 });
 
 var Show = mongoose.model('shows', showSchema);
