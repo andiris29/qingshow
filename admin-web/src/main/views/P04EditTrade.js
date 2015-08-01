@@ -66,7 +66,7 @@ define([
             status$ = $('#status', this._dom),
             newStatus = parseInt(status$.val());
 
-        this.request('/trade/statusTo', 'post', $.extend(true, {
+        this.request('/trade/statusTo', 'post', $.extend({
             '_id' : trade._id,
             'status' : newStatus
         }, details), function(err, metadata, data) {
