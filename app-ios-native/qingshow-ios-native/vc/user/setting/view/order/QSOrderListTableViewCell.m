@@ -79,7 +79,6 @@
     QSTradeStatus s = status.integerValue;
     BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
     shouldShare = YES;
-    NSLog(@"trade ==== ===============%d",s);
     switch (s) {
         case 0:
         case 2:
@@ -146,14 +145,18 @@
             [self.delegate didClickReceiveBtnForCell:self];
         }
     }
+    else if(status == 0)
+    {
+        
+            [self.delegate didClickCancelBtnForCell:self];
+        
+    }
 }
 
 - (IBAction)returnBtnPressed:(id)sender {
     int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
     if (status == 0 || status == 1 || status == 2) {
-        if ([self.delegate respondsToSelector:@selector(didClickCancelBtnForCell:)]) {
             [self.delegate didClickCancelBtnForCell:self];
-        }
     }
     else if(status == 3)
     {

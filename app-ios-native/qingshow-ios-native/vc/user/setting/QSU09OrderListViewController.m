@@ -176,9 +176,8 @@
 }
 - (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic
 {
-    NSLog(@"111");
     __weak QSU09OrderListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE changeTrade:_oderDic status:18 info:nil onSucceed:^{
+    [SHARE_NW_ENGINE changeTrade:orderDic status:18 info:nil onSucceed:^{
         [weakSelf showTextHud:@"已取消订单"];
     }onError:nil];
 }

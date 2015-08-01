@@ -54,9 +54,7 @@
 
 - (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell
 {
-    if ([self.delegate respondsToSelector:@selector(didClickCancelBtnForCell:)]) {
         [self.delegate didClickCancelBtnOfOrder:[self orderForCell:cell]];
-    }
 }
 - (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell
 {
