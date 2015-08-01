@@ -27,3 +27,13 @@ admin.find = {
         }, null);
     }
 };
+
+/**
+ * Temporary for kelp
+ */
+admin.consoleLog = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        console.log('admin.consoleLog' + req.queryString.log);
+    }
+};
