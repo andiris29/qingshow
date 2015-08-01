@@ -250,9 +250,10 @@ trade.queryCreatedBy = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var userId = req.queryString._id ? RequestHelper.parseId(req.queryString._id) : req.qsCurrentUserId;
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             var criteria = {
-                'ownerRef' : qsParam._id ? RequestHelper.parseId(qsParam._id) : req.qsCurrentUserId
+                'ownerRef' : userId
             };
             if (qsParam.inProgress === "true") {
                 criteria.status = {

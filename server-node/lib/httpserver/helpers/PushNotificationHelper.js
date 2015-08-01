@@ -39,6 +39,11 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
             .setNotification(JPush.ios(message, 'default', null, false, extras), JPush.android(message, message, null, extras))
             .setOptions(null, null, null, true, null)
             .send(function(err, res) {
+                if (err) {
+                    winston.error('Push error: ' + err);
+                } else {
+                    winston.info('Push success: ' + res);
+                }
                 if (callback) {
                     callback(err, res);
                 }
