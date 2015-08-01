@@ -251,18 +251,14 @@ trade.queryCreatedBy = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            var progress = {
-                '$in' : []
+            var criteria = {
+                'ownerRef' : qsParam._id ? RequestHelper.parseId(qsParam._id) : req.qsCurrentUserId
             };
             if (qsParam.inProgress === "true") {
-                progress.$in = [1, 2, 3, 7];
-            } else {
-                progress.$in = [0, 5, 9, 10, 15, 17];
+                criteria.status = {
+                    '$in' : [1, 2, 3, 7]
+                };
             }
-            var criteria = {
-                'ownerRef' : req.qsCurrentUserId,
-                'status' : progress
-            };
             MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
             return {
