@@ -83,7 +83,11 @@ var tradeSchema = Schema({
             type : Schema.Types.ObjectId,
             ref : 'peoples'
         }
-    }]
+    }],
+    update : {
+        type: Date,
+        'default' : Date.now
+    }
 });
 
 var Trade = mongoose.model('trades', tradeSchema);

@@ -39,11 +39,6 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
             .setNotification(JPush.ios(message, 'default', null, false, extras), JPush.android(message, message, null, extras))
             .setOptions(null, null, null, true, null)
             .send(function(err, res) {
-                if (err) {
-                    winston.error('show/comment push error', err);
-                } else {
-                    winston.info('show/comment push success => error:[', err, '], res:[', res, ']');
-                }
                 if (callback) {
                     callback(err, res);
                 }
