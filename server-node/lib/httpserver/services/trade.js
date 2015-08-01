@@ -89,6 +89,12 @@ trade.prepay = {
             trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
             trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
 
+            if (req.body.pay && req.body.pay['weixin']) {
+                trade.pay.alipay = {};
+            } else {
+                trade.pay.weixin= {};
+            }
+
             trade.save(function(err, trade) {
                 if (err) {
                     callback(err);
@@ -184,7 +190,15 @@ trade.statusTo = {
             // get trade;
             Trade.findOne({
                 '_id' : RequestHelper.parseId(param._id)
-            }, callback);
+            }, function(err, trade) {
+                if (err) {
+                    callback(err);
+                } else if (!trade) {
+                    callback(ServerError.TradeNotExist);
+                } else {
+                    callback(null, trade);
+                }
+            });
         },
         function(trade, callback) {
             _validateStatus(trade, newStatus, callback);
@@ -192,7 +206,7 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
-	    	trade.orders[0].actualPrice = req.body.actualPrice;
+                trade.orders[0].actualPrice = req.body.actualPrice;
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
@@ -214,7 +228,6 @@ trade.statusTo = {
                         }
                     });
                 });
-                return;
             } else if (newStatus == 2) {
                 // Save the parameters from payment server.
                 // handle at callback interface
@@ -226,12 +239,15 @@ trade.statusTo = {
                 if (trade.pay.weixin.prepayid != null) {
                     _weixinDeliveryNotify(trade);
                 }
+                callback(null, trade);
             } else if (newStatus == 7) {
                 trade.returnLogistic = trade.returnLogistic || {};
                 trade.returnLogistic.company = param.returnLogistic.company;
                 trade.returnLogistic.trackingId = param.returnLogistic.trackingId;
+                callback(null, trade);
+            } else {
+                callback(null, trade);
             }
-            callback(null, trade);
         },
         function(trade, callback) {
             TradeHelper.updateStatus(trade, newStatus, param.comment, req.qsCurrentUserId, function(err, trade) {
