@@ -33,6 +33,10 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lineView" destination="KHB-9n-2aX" id="QMW-Wb-p52"/>
+                <outlet property="titleLabel" destination="r2p-99-MCw" id="48B-CQ-ThN"/>
+            </connections>
             <point key="canvasLocation" x="376" y="382"/>
         </tableViewCell>
     </objects>

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#define DISCOUNT_CELL_CORNER_RADIUS 2.f;
+
+#define DISCOUNT_CELL_CORNER_RADIUS 4.f;
+#define DISCOUNT_CELL_WIDTH ([UIScreen mainScreen].bounds.size.width - 50)
+
 @protocol QSDiscountTableViewCellDelegate <NSObject>
 
 - (void)updateTotalPrice;

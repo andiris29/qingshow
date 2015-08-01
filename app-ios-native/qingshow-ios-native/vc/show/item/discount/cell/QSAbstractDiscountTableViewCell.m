@@ -14,7 +14,8 @@
 }
 - (void)awakeFromNib {
     // Initialization code
-    CGFloat width = [UIScreen mainScreen].bounds.size.width - 50;
+    
+    CGFloat width = DISCOUNT_CELL_WIDTH;
     CGRect frame = self.frame;
     frame.size.width = width;
     self.frame = frame;
