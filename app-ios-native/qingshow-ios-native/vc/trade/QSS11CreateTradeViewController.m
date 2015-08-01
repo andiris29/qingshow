@@ -165,33 +165,8 @@
     NSMutableArray* array = [@[] mutableCopy];
     [array addObject:self.itemInfoTitleCell];
     [array addObject:self.itemInfoColorCell];
-    //023
-    //1
-    //4
-    //56
     
     NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
-    
-    QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
-    if (category == QSItemCategoryClothSize) {
-        [array addObject:self.clothSizeCell];
-        self.shoeSizeCell = nil;
-        self.clothSizeCell.bustCircleOrWaistlineTextField.text = [QSPeopleUtil getBust:peopleDict];
-        self.clothSizeCell.shoulderOrHiplineTextField.text = [QSPeopleUtil getShoulder:peopleDict];
-    } else if (category == QSItemCategoryPant) {
-        [array addObject:self.clothSizeCell];
-        self.shoeSizeCell = nil;
-        self.clothSizeCell.bustCircleOrWaistlineTextField.text = [QSPeopleUtil getWaist:peopleDict];
-        self.clothSizeCell.shoulderOrHiplineTextField.text = [QSPeopleUtil getHips:peopleDict];
-        
-    } else if (category == QSItemCategoryShoe) {
-        [array addObject:self.shoeSizeCell];
-        self.shoeSizeCell.textField.text = [QSPeopleUtil getShoeSize:peopleDict];
-        self.clothSizeCell = nil;
-    } else {
-        self.shoeSizeCell = nil;
-        self.clothSizeCell = nil;
-    }
     
     [array addObject:self.itemInfoQuantityCell];
     self.itemInfoCellArray = array;
@@ -334,34 +309,9 @@
         return;
     }
     
-    NSDictionary* measuerInfo = nil;
-    QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
-    if (category == QSItemCategoryClothSize) {
-        measuerInfo = @{
-                        @"bust" : self.clothSizeCell.bustCircleOrWaistlineTextField.text,
-                        @"shoulder" : self.clothSizeCell.shoulderOrHiplineTextField.text
-                        };
-    } else if (category == QSItemCategoryPant) {
-        measuerInfo = @{
-                        @"waist" : self.clothSizeCell.bustCircleOrWaistlineTextField.text,
-                        @"hips" : self.clothSizeCell.shoulderOrHiplineTextField.text
-                        };
-    } else if (category == QSItemCategoryShoe) {
-        measuerInfo = @{
-                        @"shoeSize": self.shoeSizeCell.textField.text
-                        };
-    }
-    if (measuerInfo) {
-        self.userUpdateOp = [SHARE_NW_ENGINE updatePeople:@{@"measureInfo" : measuerInfo} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
-            self.userUpdateOp = nil;
-            [self saveReceiverAndCreateTrade];
-        } onError:^(NSError *error) {
-            self.userUpdateOp = nil;
-            [self showErrorHudWithError:error];
-        }];
-    } else {
-        [self saveReceiverAndCreateTrade];
-    }
+
+    [self saveReceiverAndCreateTrade];
+    
 }
 
 - (void)saveReceiverAndCreateTrade {
@@ -400,17 +350,6 @@
 }
 - (BOOL)checkFullInfo
 {
-    if (self.clothSizeCell) {
-        if (!self.clothSizeCell.bustCircleOrWaistlineTextField.text.length ||
-            !self.clothSizeCell.shoulderOrHiplineTextField.text.length) {
-            return NO;
-        }
-    }
-    if (self.shoeSizeCell) {
-        if (!self.shoeSizeCell.textField.text.length) {
-            return NO;
-        }
-    }
     
     if (!self.receiverInfoNameCell.getInputData ||
         !self.receiverInfoPhoneCell.getInputData ||

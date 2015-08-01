@@ -97,7 +97,7 @@
 }
 
 + (QSItemCategory)getItemCategory:(NSDictionary*)itemDict {
-
+#warning Remove?
     NSDictionary* categoryDict = [self getCategoryRef:itemDict];
     if (!categoryDict) {
         NSString* categoryId = [self getCategoryStr:itemDict];

@@ -45,6 +45,7 @@
 + (NSArray*)getExpectations:(NSDictionary*)dict;
 + (NSString*)getExpectationsDesc:(NSDictionary*)dict;
 
+#warning TODO remove all measure info?
 + (NSString*)getShoulder:(NSDictionary*)dict;
 + (NSString*)getBust:(NSDictionary*)dict;
 + (NSString*)getWaist:(NSDictionary*)dict;

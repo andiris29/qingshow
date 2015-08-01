@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
@@ -50,7 +41,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS11CreateTradeViewController">
             <connections>
-                <outlet property="clothSizeCell" destination="4KL-hM-DCT" id="pfv-f5-1yz"/>
                 <outlet property="itemInfoColorCell" destination="jfb-He-aaO" id="B0R-HI-hDA"/>
                 <outlet property="itemInfoQuantityCell" destination="0JF-BK-tFN" id="mSs-wW-yZy"/>
                 <outlet property="itemInfoTitleCell" destination="yMR-Hb-tKX" id="Y3Z-dZ-pGJ"/>
@@ -64,7 +54,6 @@
                 <outlet property="receiverInfoNameCell" destination="Px5-tN-uwV" id="Fip-0P-bxl"/>
                 <outlet property="receiverInfoPhoneCell" destination="3ED-XR-GZq" id="WEL-e2-U0E"/>
                 <outlet property="receiverInfoTitleCell" destination="15S-S2-52n" id="Ndz-FU-rOI"/>
-                <outlet property="shoeSizeCell" destination="CoX-8W-YIA" id="M9t-lw-0ty"/>
                 <outlet property="tableView" destination="lwj-Es-0Kt" id="1iN-55-m3p"/>
                 <outlet property="totalCell" destination="yOL-GW-vcb" id="EgT-fA-aE8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -612,136 +601,6 @@
                 <outlet property="submitBtn" destination="Hk3-Fr-aqd" id="7kN-5a-iPs"/>
             </connections>
             <point key="canvasLocation" x="2194.5" y="158.5"/>
-        </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="4KL-hM-DCT" customClass="QSCreateTradeClothSizeCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="184"/>
-            <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4KL-hM-DCT" id="pTc-ug-7Qy">
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="上身数值" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYe-EJ-Iqv">
-                        <rect key="frame" x="8" y="6" width="70" height="36"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="（请正确填写以下数值，我们会为您选择合适尺码）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TLV-nA-ZjX">
-                        <rect key="frame" x="78" y="6" width="234" height="36"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="9.5"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="70" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eLa-We-zdc">
-                        <rect key="frame" x="58" y="62" width="42" height="36"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="30" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hGi-3c-aM0">
-                        <rect key="frame" x="58" y="129" width="42" height="36"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RFm-vU-UBF">
-                        <rect key="frame" x="0.0" y="50" width="320" height="1"/>
-                        <color key="backgroundColor" red="0.82098327020202022" green="0.82098327020202022" blue="0.82098327020202022" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="6K1-m5-Iqg"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="knq-Lo-aQa">
-                        <rect key="frame" x="0.0" y="115" width="320" height="1"/>
-                        <color key="backgroundColor" red="0.82098327019999995" green="0.82098327019999995" blue="0.82098327019999995" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="slM-JO-nBJ"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2dp-ah-SdU">
-                        <rect key="frame" x="180" y="60" width="100" height="110"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="Owa-Ib-bts"/>
-                            <constraint firstAttribute="height" constant="110" id="h7W-uM-ace"/>
-                        </constraints>
-                    </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-Zs-5AM">
-                        <rect key="frame" x="194" y="66" width="72" height="96"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="96" id="1FK-SB-UJh"/>
-                            <constraint firstAttribute="width" constant="72" id="pGE-sj-edX"/>
-                        </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9M-B1-hkk">
-                        <rect key="frame" x="8" y="138" width="49" height="17"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="cm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HV3-X6-oyL">
-                        <rect key="frame" x="112" y="71" width="36" height="17"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="cm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="08R-JU-pqN">
-                        <rect key="frame" x="112" y="138" width="36" height="17"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJu-Wv-SYr">
-                        <rect key="frame" x="8" y="71" width="49" height="17"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                </subviews>
-                <constraints>
-                    <constraint firstItem="RFm-vU-UBF" firstAttribute="leading" secondItem="pTc-ug-7Qy" secondAttribute="leading" id="AOV-9I-nbg"/>
-                    <constraint firstItem="knq-Lo-aQa" firstAttribute="top" secondItem="pTc-ug-7Qy" secondAttribute="top" constant="115" id="EzZ-HK-ff3"/>
-                    <constraint firstAttribute="trailing" secondItem="u6G-Zs-5AM" secondAttribute="trailing" constant="54" id="Ioy-N6-p4Z"/>
-                    <constraint firstItem="2dp-ah-SdU" firstAttribute="top" secondItem="pTc-ug-7Qy" secondAttribute="top" constant="60" id="Ux0-aW-3VB"/>
-                    <constraint firstAttribute="trailing" secondItem="2dp-ah-SdU" secondAttribute="trailing" constant="40" id="edA-ef-Vr7"/>
-                    <constraint firstItem="u6G-Zs-5AM" firstAttribute="top" secondItem="pTc-ug-7Qy" secondAttribute="top" constant="66" id="i7a-RR-lzS"/>
-                    <constraint firstAttribute="trailing" secondItem="RFm-vU-UBF" secondAttribute="trailing" id="p08-Bw-Hgj"/>
-                    <constraint firstItem="knq-Lo-aQa" firstAttribute="leading" secondItem="pTc-ug-7Qy" secondAttribute="leading" id="r7l-Kc-d3E"/>
-                    <constraint firstAttribute="trailing" secondItem="knq-Lo-aQa" secondAttribute="trailing" id="sN6-FT-EDA"/>
-                    <constraint firstItem="RFm-vU-UBF" firstAttribute="top" secondItem="pTc-ug-7Qy" secondAttribute="top" constant="50" id="uTO-2E-apH"/>
-                </constraints>
-            </tableViewCellContentView>
-            <connections>
-                <outlet property="bodyPartImgView" destination="u6G-Zs-5AM" id="xFU-9C-RFd"/>
-                <outlet property="bustCircleOrWaistlineTextField" destination="eLa-We-zdc" id="YzZ-E7-eI1"/>
-                <outlet property="label1" destination="iJu-Wv-SYr" id="yvL-GL-iZS"/>
-                <outlet property="label2" destination="B9M-B1-hkk" id="rhE-h1-mI5"/>
-                <outlet property="shoulderOrHiplineTextField" destination="hGi-3c-aM0" id="MN4-e4-Ne1"/>
-                <outlet property="titleLabel" destination="cYe-EJ-Iqv" id="q6S-Nh-p08"/>
-            </connections>
-            <point key="canvasLocation" x="949" y="727"/>
-        </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="CoX-8W-YIA" customClass="QSCreateTradeShoeSizeCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
-            <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CoX-8W-YIA" id="GeX-Im-flg">
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="鞋码" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mJf-pz-laX">
-                        <rect key="frame" x="8" y="15" width="26" height="16"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tdr-nP-1eS">
-                        <rect key="frame" x="79" y="15" width="233" height="16"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
-                </subviews>
-            </tableViewCellContentView>
-            <connections>
-                <outlet property="textField" destination="tdr-nP-1eS" id="BHX-ml-rUe"/>
-            </connections>
-            <point key="canvasLocation" x="991" y="549"/>
         </tableViewCell>
     </objects>
     <resources>
