@@ -13,6 +13,7 @@ var ResponseHelper = require('../helpers/ResponseHelper');
 var TradeHelper = require('../helpers/TradeHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var MongoHelper = require('../helpers/MongoHelper');
+var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 var request = require('request');
@@ -253,10 +254,10 @@ trade.queryCreatedBy = {
             var progress = {
                 '$in' : []
             };
-            if (qsParam.inProgress == null || !qsParam.inProgress || qsParam.inProgress == "false") {
-                progress['$in'] = [0, 5, 9, 10, 15, 17];
+            if (qsParam.inProgress === "true") {
+                progress.$in = [1, 2, 3, 7];
             } else {
-                progress['$in'] = [1, 2, 3, 7];
+                progress.$in = [0, 5, 9, 10, 15, 17];
             }
             var criteria = {
                 'ownerRef' : req.qsCurrentUserId,
@@ -267,7 +268,12 @@ trade.queryCreatedBy = {
             return {
                 'trades' : trades 
             };
-        }, {});
+        }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                // Append Context
+                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+            }
+        });
     }
 };
 
