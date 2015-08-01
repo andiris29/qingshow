@@ -112,8 +112,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@id/des"
                     android:background="@color/master_pink"
-                    app:layout_marginBottomPercent="1%"
-                    app:layout_marginTopPercent="1%" />
+                    app:layout_marginBottomPercent="1%" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/props"

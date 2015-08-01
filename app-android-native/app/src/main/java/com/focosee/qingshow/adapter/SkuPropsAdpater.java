@@ -22,6 +22,7 @@ import java.util.List;
 public class SkuPropsAdpater extends AbsAdapter<String> {
 
     private float radioBtnWdith = 40;
+    private float radioBtnHeight = 30;
     private int checkIndex[];
     private OnCheckedChangeListener onCheckedChangeListener;
 
@@ -77,8 +78,9 @@ public class SkuPropsAdpater extends AbsAdapter<String> {
     private FlowRadioButton initPropItem(String text) {
         FlowRadioButton propItem = new FlowRadioButton(context);
         propItem.setMinWidth((int) AppUtil.transformToDip(radioBtnWdith, context));
-        propItem.setBackgroundResource(R.drawable.s11_size_item_bg);
-        propItem.setTextColor(context.getResources().getColor(R.color.black));
+        propItem.setMinHeight((int) AppUtil.transformToDip(radioBtnHeight, context));
+        propItem.setBackgroundResource(R.drawable.gay_btn_ring);
+        propItem.setTextColor(context.getResources().getColor(R.color.gary));
         propItem.setGravity(Gravity.CENTER);
         propItem.setTextSize(13);
         if (!TextUtils.isEmpty(text)) {

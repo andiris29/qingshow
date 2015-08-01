@@ -46,7 +46,7 @@ public class FlowRadioButton extends Button implements IRadioViewHelper {
             setBackgroundResource(R.drawable.pink_btn_fall);
             setTextColor(Color.WHITE);
         }else {
-            setBackgroundResource(R.drawable.s11_size_item_bg);
+            setBackgroundResource(R.drawable.gay_btn_ring);
             setTextColor(Color.GRAY);
         }
     }

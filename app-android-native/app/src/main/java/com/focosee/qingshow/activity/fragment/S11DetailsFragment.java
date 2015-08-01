@@ -36,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,7 +117,10 @@ public class S11DetailsFragment extends Fragment {
             return rootView;
         }
 
-        discountOffline = Integer.parseInt(itemEntity.minExpectedPrice);
+        if (itemEntity.minExpectedPrice == null) {
+            discountOffline = 3;
+        } else
+            discountOffline = Integer.parseInt(itemEntity.minExpectedPrice);
         discountNum = discountOnline = ((Double) (Double.parseDouble(itemEntity.promoPrice) / Double.parseDouble(itemEntity.price) * 10)).intValue();
 
         initProps();
@@ -200,11 +204,11 @@ public class S11DetailsFragment extends Fragment {
 
     private void checkDiscount() {
         discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
-        total.setText(String.valueOf(discountNum));
+        total.setText(StringUtil.FormatPrice(String.valueOf(Double.parseDouble(itemEntity.price) / 10f * discountNum)));
         if (discountNum <= discountOffline) {
             cutDiscount.setClickable(false);
             cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
-        } else if (discountNum >= discountOnline) {
+        } else if (discountNum > discountOnline) {
             plusDiscount.setClickable(false);
             plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
         } else {
@@ -226,7 +230,9 @@ public class S11DetailsFragment extends Fragment {
     @OnClick(R.id.submitBtn)
     public void submit() {
         order.selectedSkuProperties = SkuUtil.propParser(selectProps);
-        order.expectedPrice = Double.parseDouble(itemEntity.price) * discountNum / 10;
+        order.expectedPrice = new BigDecimal(Double.parseDouble(itemEntity.price) * discountNum / 10)
+                .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        ;
         order.itemSnapshot = itemEntity;
         order.quantity = num;
 
@@ -247,6 +253,7 @@ public class S11DetailsFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
 
+                Log.i("tag", response.toString());
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

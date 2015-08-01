@@ -45,7 +45,6 @@ public class QSGsonFactory {
     public static GsonBuilder parentCateGoryBuilder() {
         GsonBuilder builder = createBuilder();
         builder.registerTypeAdapter(MongoParentCategories.class, new MongoParentCategoryIdDeserializer());
-        builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer());
         return builder;
     }
 
