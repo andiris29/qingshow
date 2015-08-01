@@ -7,7 +7,8 @@
 //
 
 #import "QSOrderUtil.h"
-#import "QSEntityUtil.h"
+#import "NSDictionary+QSExtension.h"
+
 @implementation QSOrderUtil
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict
 {
@@ -16,36 +17,40 @@
     }
     return dict[@"itemSnapshot"];
 }
-+ (NSString*)getPriceDesc:(NSDictionary*)dict
-{
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    NSNumber* num = dict[@"price"];
-    return [NSString stringWithFormat:@"%.2f", num.doubleValue];
++ (NSArray*)getSkuProperties:(NSDictionary*)dict {
+    return [dict arrayValueForKeyPath:@"skuProperties"];
 }
-+ (NSString*)getQuantityDesc:(NSDictionary*)dict
-{
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    NSNumber* num = dict[@"quantity"];
-    return num.stringValue;
++ (NSString*)getExpectedPriceDesc:(NSDictionary*)dict {
+    NSNumber* price = [self getExpectedPrice:dict];
+    return [NSString stringWithFormat:@"%.2f", price.doubleValue];
 }
-+ (NSString*)getSkuId:(NSDictionary*)dict
-{
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    NSString* num = dict[@"selectedItemSkuId"];
 
-    return num;
++ (NSNumber*)getExpectedPrice:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"expectedPrice"];
 }
+
++ (NSString*)getActualPriceDesc:(NSDictionary*)dict {
+    NSNumber* price = [self getActualPrice:dict];
+    return [NSString stringWithFormat:@"%.2f", price.doubleValue];
+}
+
++ (NSNumber*)getActualPrice:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"actualPrice"];
+}
+
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 {
     if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
-    return dict[@"selectedPeopleReceiverUuid"];
+    return [dict stringValueForKeyPath:@"selectedPeopleReceiverUuid"];
+}
+
++ (NSNumber*)getQuantity:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"quantity"];
+}
++ (NSString*)getQuantityDesc:(NSDictionary*)dict {
+    NSNumber* quantity = [self getQuantity:dict];
+    return quantity.stringValue;
 }
 @end

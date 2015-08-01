@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "QSCreateTradeTableViewCellBase.h"
-#import "QSCreateTradeItemInfoColorCell.h"
-
 #import "QSCreateTradeItemInfoTitleCell.h"
 #import "QSU10ReceiverListViewController.h"
 #import "QSCreateTradeReceiverInfoTextCell.h"
@@ -18,11 +16,10 @@
 #import "QSTotalPriceCell.h"
 #import "QSLocationPickerProvider.h"
 
-@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate, UIAlertViewDelegate>
+@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate, UIAlertViewDelegate>
 
 #pragma mark - Item Info Cells
 @property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoTitleCell *itemInfoTitleCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoColorCell *itemInfoColorCell;
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *itemInfoQuantityCell;
 
 #pragma mark - Receiver Info Cell
@@ -48,7 +45,7 @@
 
 
 #pragma mark - Init
-- (id)initWithDict:(NSDictionary*)dict;
+- (id)initWithDict:(NSDictionary*)tradeDict;
 
 #pragma mark - IBAction
 - (IBAction)submitButtonPressed:(id)sender;

@@ -10,15 +10,21 @@
 #import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 #import "QSTradeStatus.h"
+#import "NSDictionary+QSExtension.h"
 
 @implementation QSTradeUtil
 + (NSArray*)getOrderArray:(NSDictionary*)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    return dict[@"orders"];
+    return [dict arrayValueForKeyPath:@"orders"];
 }
++ (NSDictionary*)getFirstOrder:(NSDictionary*)dict {
+    NSArray* orders = [self getOrderArray:dict];
+    if (orders && orders.count) {
+        return orders[0];
+    }
+    return nil;
+}
+
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict
 {
     if (![QSEntityUtil checkIsDict:dict]) {

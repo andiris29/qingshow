@@ -10,6 +10,8 @@
 
 @interface QSTradeUtil : NSObject
 + (NSArray*)getOrderArray:(NSDictionary*)dict;
++ (NSDictionary*)getFirstOrder:(NSDictionary*)dict;
+
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;
 + (NSNumber*)getStatus:(NSDictionary*)dict;
 + (NSString*)getStatusDesc:(NSDictionary*)dict;

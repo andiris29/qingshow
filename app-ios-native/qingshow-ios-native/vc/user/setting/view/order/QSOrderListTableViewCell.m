@@ -67,17 +67,14 @@
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
     
-    self.priceLabel.text = [QSOrderUtil getPriceDesc:orderDict];
+    
+    if ([QSOrderUtil getActualPrice:orderDict]) {
+        self.priceLabel.text = [QSOrderUtil getActualPriceDesc:orderDict];
+    } else {
+        self.priceLabel.text = [QSOrderUtil getExpectedPriceDesc:orderDict];
+    }
     self.quantityLabel.text = [QSOrderUtil getQuantityDesc:orderDict];
 
-
-//    float height = self.skuLabelBaseY;
-//
-//    
-//    for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
-//        [self updateView:view y:height];
-//    }
-//    
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
     BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];

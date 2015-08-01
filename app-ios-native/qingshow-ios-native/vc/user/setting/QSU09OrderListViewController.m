@@ -8,6 +8,7 @@
 
 #import "QSU09OrderListViewController.h"
 #import "QSU12RefundViewController.h"
+#import "QSS11CreateTradeViewController.h"
 #import "QSNetworkKit.h"
 
 #import "UIViewController+QSExtension.h"
@@ -123,17 +124,18 @@
     }
 }
 #pragma mark - QSOrderListTableViewProviderDelegate
-- (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict
+- (void)didClickRefundBtnOfOrder:(NSDictionary*)tradeDict
 {
+    
     QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
     vc.type = 1;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)didClickPayBtnOfOrder:(NSDictionary *)orderDict
+- (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict
 {
     __weak QSU09OrderListViewController* weakSelf = self;
-    [SHARE_PAYMENT_SERVICE payForTrade:orderDict
+    [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
                              onSuccess:^{
                                  [weakSelf showTextHud:@"支付成功"];
                              }

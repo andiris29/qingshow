@@ -171,12 +171,13 @@
 		EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F781AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m */; };
 		EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */; };
 		EF88D08E1ACEF90C002C4963 /* area.json in Resources */ = {isa = PBXBuildFile; fileRef = EF88D08D1ACEF90C002C4963 /* area.json */; };
-		EF8E69381B17665700678E9A /* QSCreateTradeItemInfoColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8E69371B17665700678E9A /* QSCreateTradeItemInfoColorCell.m */; };
 		EF8F0EF41A657DA900D1DADE /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8F0EF31A657DA900D1DADE /* UIImage+fixOrientation.m */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
 		EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF921FBB1ACBB11100669124 /* libc++.dylib */; };
 		EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */; };
 		EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */; };
+		EF9656A91B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9656A81B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m */; };
+		EF9656AB1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */; };
 		EF9740F81A49BBA3001300B5 /* UIViewController+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */; };
 		EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */; };
 		EF994D881B6936B200715B0E /* QSDiscountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D871B6936B200715B0E /* QSDiscountTableViewController.m */; };
@@ -699,8 +700,6 @@
 		EF810F7A1AB602760079BA76 /* QSTotalPriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTotalPriceCell.h; sourceTree = "<group>"; };
 		EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTotalPriceCell.m; sourceTree = "<group>"; };
 		EF88D08D1ACEF90C002C4963 /* area.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = area.json; sourceTree = "<group>"; };
-		EF8E69361B17665700678E9A /* QSCreateTradeItemInfoColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeItemInfoColorCell.h; sourceTree = "<group>"; };
-		EF8E69371B17665700678E9A /* QSCreateTradeItemInfoColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeItemInfoColorCell.m; sourceTree = "<group>"; };
 		EF8F0EF01A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8F0EF11A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8F0EF21A657DA900D1DADE /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
@@ -713,6 +712,9 @@
 		EF92B7231A3C9F6A00A08F08 /* QSBigImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBigImageTableViewCell.h; sourceTree = "<group>"; };
 		EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBigImageTableViewCell.m; sourceTree = "<group>"; };
 		EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBigImageTableViewCell.xib; sourceTree = "<group>"; };
+		EF9656A71B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeSkuPropertyCell.h; sourceTree = "<group>"; };
+		EF9656A81B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeSkuPropertyCell.m; sourceTree = "<group>"; };
+		EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCreateTradeSkuPropertyCell.xib; sourceTree = "<group>"; };
 		EF9740F61A49BBA3001300B5 /* UIViewController+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+QSExtension.h"; sourceTree = "<group>"; };
 		EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+QSExtension.m"; sourceTree = "<group>"; };
 		EF9740FA1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserLoginAlertDelegateObj.h; sourceTree = "<group>"; };
@@ -1715,8 +1717,9 @@
 				EF810F621AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m */,
 				EF810F651AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.h */,
 				EF810F661AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m */,
-				EF8E69361B17665700678E9A /* QSCreateTradeItemInfoColorCell.h */,
-				EF8E69371B17665700678E9A /* QSCreateTradeItemInfoColorCell.m */,
+				EF9656A71B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.h */,
+				EF9656A81B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m */,
+				EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */,
 			);
 			path = itemInfo;
 			sourceTree = "<group>";
@@ -2747,6 +2750,7 @@
 				8C79DB8B1B1EDED700D5159E /* lantingjianhei_xi.ttf in Resources */,
 				8C5345421B4D61180062D638 /* welcome2_480@2x.png in Resources */,
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
+				EF9656AB1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib in Resources */,
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
@@ -2890,7 +2894,6 @@
 				EFEDA3771B4A01F90036B0EE /* QSRectUtil.m in Sources */,
 				EF0C642F1B21AAC20079B22E /* QSU02ManagerCell.m in Sources */,
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
-				EF8E69381B17665700678E9A /* QSCreateTradeItemInfoColorCell.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
 				8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */,
 				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
@@ -2960,6 +2963,7 @@
 				EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */,
 				EFAB9C611B346FE5008A4EF5 /* QSItemCollectionViewProvider.m in Sources */,
 				EFAB9C691B346FE5008A4EF5 /* QSBigImageTableViewProvider.m in Sources */,
+				EF9656A91B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m in Sources */,
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,
 				EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */,
 				EFAB9C621B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m in Sources */,

@@ -11,9 +11,14 @@
 @interface QSOrderUtil : NSObject
 
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
-+ (NSString*)getPriceDesc:(NSDictionary*)dict;
++ (NSArray*)getSkuProperties:(NSDictionary*)dict;
++ (NSNumber*)getExpectedPrice:(NSDictionary*)dict;
++ (NSString*)getExpectedPriceDesc:(NSDictionary*)dict;
++ (NSNumber*)getActualPrice:(NSDictionary*)dict;
++ (NSString*)getActualPriceDesc:(NSDictionary*)dict;
++ (NSNumber*)getQuantity:(NSDictionary*)dict;
 + (NSString*)getQuantityDesc:(NSDictionary*)dict;
-+ (NSString*)getSkuId:(NSDictionary*)dict;
+
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 
 @end

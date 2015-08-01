@@ -9,6 +9,7 @@
 #import "QSS11CreateTradeViewController.h"
 #import "QSCreateTradeTableViewCellBase.h"
 #import "QSCreateTradePayInfoSelectCell.h"
+#import "QSCreateTradeSkuPropertyCell.h"
 #import "QSItemUtil.h"
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
@@ -27,7 +28,8 @@
 
 @interface QSS11CreateTradeViewController ()
 
-@property (strong, nonatomic) NSDictionary* itemDict;
+@property (strong, nonatomic) NSDictionary* tradeDict;
+
 
 @property (strong, nonatomic) NSArray* cellGroupArray;
 
@@ -56,11 +58,11 @@
 @implementation QSS11CreateTradeViewController
 
 #pragma mark - Init
-- (id)initWithDict:(NSDictionary*)dict
+- (id)initWithDict:(NSDictionary*)tradeDict
 {
     self = [super initWithNibName:@"QSS11CreateTradeViewController" bundle:nil];
     if (self) {
-        self.itemDict = dict;
+        self.tradeDict = tradeDict;
         self.isShowKeyboard = NO;
     }
     return self;
@@ -74,14 +76,10 @@
     [self configCellArray];
     [self configView];
     [self updateAllCell];
-//    [self receiverConfig];
-  
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)receiverConfig
 {
@@ -133,10 +131,9 @@
 {
     [self.cellGroupArray enumerateObjectsUsingBlock:^(NSArray* cellArray, NSUInteger idx, BOOL *stop) {
         [cellArray enumerateObjectsUsingBlock:^(QSCreateTradeTableViewCellBase* cell, NSUInteger idx, BOOL *stop) {
-            [cell bindWithDict:self.itemDict];
+            [cell bindWithDict:self.tradeDict];
         }];
     }];
-    [self updatePriceRelatedCell];  //for total price
 }
 - (void)configView
 {
@@ -164,9 +161,13 @@
 {
     NSMutableArray* array = [@[] mutableCopy];
     [array addObject:self.itemInfoTitleCell];
-    [array addObject:self.itemInfoColorCell];
-    
-    NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
+    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:self.tradeDict];
+    NSArray* propArray = [QSOrderUtil getSkuProperties:orderDict];
+    for (NSString* propStr in propArray) {
+        QSCreateTradeSkuPropertyCell* propCell = [QSCreateTradeSkuPropertyCell generateCell];
+        [propCell bindSkuProperty:propStr];
+        [array addObject:propCell];
+    }
     
     [array addObject:self.itemInfoQuantityCell];
     self.itemInfoCellArray = array;
@@ -233,12 +234,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
-    cell.delegate = self;
-//    if ([self.receiverInfoCellArray indexOfObject:cell] != NSNotFound) {
-//        [cell bindWithDict:self.selectedReceiver];
-//    } else {
-    [cell bindWithDict:self.itemDict];
-//    }
+    [cell bindWithDict:self.tradeDict];
 
     return cell;
 }
@@ -253,7 +249,7 @@
 {
     
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
-    return [cell getHeightWithDict:self.itemDict];
+    return [cell getHeightWithDict:self.tradeDict];
     
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -370,9 +366,6 @@
     if (self.createTradeOp) {
         return;
     }
-    NSDictionary* taobaoInfo = nil;
-//    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
-    NSNumber* quantity = [self.itemInfoQuantityCell getInputData];
     
     PaymentType paymentType = 0;
     if (self.payInfoAlipayCell.isSelect) {
@@ -381,8 +374,11 @@
         paymentType = PaymentTypeWechat;
     }
     
-    NSNumber* price = [QSItemUtil getPromoPrice:self.itemDict];
-    NSNumber* totalPrice = @(((NSNumber*)[self.itemInfoQuantityCell getInputData]).doubleValue * price.doubleValue);
+    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:self.tradeDict];
+    
+    NSNumber* price = [QSOrderUtil getActualPrice:orderDict];
+    NSNumber* quantity = [QSOrderUtil getQuantity:orderDict];
+    NSNumber* totalPrice = @(quantity.doubleValue * price.doubleValue);
 
 
     [self.totalCell updateWithPrice:totalPrice.stringValue];
@@ -417,23 +413,6 @@
 }
 
 
-
-#pragma mark - QSCreateTradeTableViewCellBaseDelegate
-- (void)updateCellTriggerBy:(QSCreateTradeTableViewCellBase*)cell
-{
-    if (cell == self.itemInfoQuantityCell) {
-        [self updatePriceRelatedCell];
-    }
-    
-}
-- (void)updatePriceRelatedCell {
-    NSDictionary* taobaoInfo = nil;
-
-    NSNumber* price = [QSItemUtil getPromoPrice:self.itemDict];
-    NSNumber* totalPrice = @(((NSNumber*)[self.itemInfoQuantityCell getInputData]).doubleValue * price.doubleValue);
-
-    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
-}
 
 #pragma mark - QSU10ReceiverListViewControllerDelegate
 - (IBAction)receiverManageBtnPressed:(id)sender {
@@ -511,9 +490,6 @@
 
 - (void)keyboardWillHide:(NSNotification *)notif {
     self.isShowKeyboard = NO;
-//    [UIView animateWithDuration:0.5f animations:^{
-//        self.tableView.contentInset = UIEdgeInsetsZero;
-//    }];
 }
 - (void)scrollToBottom:(float)keyboardHeight
 {
@@ -532,4 +508,5 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
 @end
