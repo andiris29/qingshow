@@ -191,9 +191,7 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
-                req.body.orders.forEach(function(element, index) {
-                    trade.orders[index].actualPrice = element.actualPrice;
-                });
+	    	trade.orders[0].actualPrice = req.body.actualPrice;
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
