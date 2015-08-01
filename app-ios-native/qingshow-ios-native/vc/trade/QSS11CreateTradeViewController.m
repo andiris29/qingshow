@@ -496,14 +496,15 @@
 #pragma mark - UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
-        //继续逛逛
-        [self.navigationController popViewControllerAnimated:YES];
-    } else if (buttonIndex == 1) {
-        //查看订单
-        UIViewController* vc = [[QSU09OrderListViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
+//    if (buttonIndex == 0) {
+//        //继续逛逛
+//        [self.navigationController popViewControllerAnimated:YES];
+//    } else if (buttonIndex == 1) {
+//        //查看订单
+//        UIViewController* vc = [[QSU09OrderListViewController alloc] init];
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
 }
 
 @end
