@@ -12,12 +12,15 @@
 #import "NSArray+QSExtension.h"
 #import "QSUserManager.h"
 #import "QSEntityUtil.h"
+#import "QSTradeUtil.h"
+#import "QSOrderUtil.h"
 
 
 #define PATH_TRADE_CREATE @"trade/create"
 #define PATH_TRADE_QUERY_CREATED_BY @"trade/queryCreatedBy"
 #define PATH_TRADE_REFRESH_PAYMENT_STATUS @"trade/refreshPaymentStatus"
 #define PAHT_TRADE_STATUS_TO @"trade/statusTo"
+#define PATH_TRADE_PREPAY @"trade/prepay"
 
 @implementation QSNetworkEngine(TradeService)
 
@@ -26,16 +29,6 @@
                               onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 {
-    
-    NSDictionary* payTypeDict = @{};
-    /*
-    if (paymentType == PaymentTypeWechat) {
-        payTypeDict = @{@"weixin" : @{@"prepayId" : [NSNull null]}};
-    } else if (paymentType == PaymentTypeAlipay) {
-        payTypeDict = @{@"alipay" : [NSNull null]};
-    }
-    @"pay": payTypeDict
-     */
     return [self startOperationWithPath:PATH_TRADE_CREATE
                                  method:@"POST"
                                paramers:@{
@@ -177,5 +170,36 @@
                     errorBlock(error);
                 }
             }];
+}
+
+- (MKNetworkOperation*)prepayTrade:(NSDictionary*)tradeDict
+                              type:(PaymentType)paymentType
+                      receiverUuid:(NSString*)uuid
+                         onSucceed:(DicBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock {
+    NSMutableDictionary* paramDict = [@{} mutableCopy];
+    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:tradeDict];
+    
+    paramDict[@"_id"] = [QSEntityUtil getIdOrEmptyStr:tradeDict];
+    paramDict[@"totalFee"] = [QSOrderUtil getTotalFee:orderDict];
+    paramDict[@"selectedPeopleReceiverUuid"] = uuid;
+    NSDictionary* payTypeDict = @{};
+    
+    if (paymentType == PaymentTypeWechat) {
+        payTypeDict = @{@"weixin" : @{@"prepayId" : [NSNull null]}};
+    } else if (paymentType == PaymentTypeAlipay) {
+        payTypeDict = @{@"alipay" : [NSNull null]};
+    }
+    paramDict[@"pay"] = payTypeDict;
+    return [self startOperationWithPath:PATH_TRADE_PREPAY method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            NSDictionary* retDict = completedOperation.responseJSON;
+            succeedBlock(retDict[@"data"][@"trade"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
 }
 @end

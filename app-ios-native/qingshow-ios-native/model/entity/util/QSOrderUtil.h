@@ -18,6 +18,7 @@
 + (NSString*)getActualPriceDesc:(NSDictionary*)dict;
 + (NSNumber*)getQuantity:(NSDictionary*)dict;
 + (NSString*)getQuantityDesc:(NSDictionary*)dict;
++ (NSNumber*)getTotalFee:(NSDictionary*)dict;
 
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 

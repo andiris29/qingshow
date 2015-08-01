@@ -38,4 +38,9 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                               info:(NSDictionary*)dict
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)prepayTrade:(NSDictionary*)tradeDict
+                              type:(PaymentType)paymentType
+                      receiverUuid:(NSString*)uuid
+                         onSucceed:(DicBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock;
 @end

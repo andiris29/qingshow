@@ -53,4 +53,12 @@
     NSNumber* quantity = [self getQuantity:dict];
     return quantity.stringValue;
 }
++ (NSNumber*)getTotalFee:(NSDictionary*)dict {
+    NSNumber* price = [self getActualPrice:dict];
+    if (!price) {
+        price = [self getExpectedPrice:dict];
+    }
+    NSNumber* quantity = [self getQuantity:dict];
+    return @(price.doubleValue * quantity.intValue);
+}
 @end

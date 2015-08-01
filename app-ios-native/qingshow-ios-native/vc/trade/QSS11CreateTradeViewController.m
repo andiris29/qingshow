@@ -46,7 +46,7 @@
 @property (strong, nonatomic) NSDictionary* selectedReceiver;
 
 @property (strong, nonatomic) MKNetworkOperation* userUpdateOp;
-@property (strong, nonatomic) MKNetworkOperation* createTradeOp;
+@property (strong, nonatomic) MKNetworkOperation* prepayOp;
 @property (strong, nonatomic) MKNetworkOperation* saveReceiverOp;
 
 @property (strong, nonatomic) QSLocationPickerProvider* locationProvider;
@@ -374,7 +374,7 @@
 
 - (void)submitOrderWithReceiver:(NSString*)uuid
 {
-    if (self.createTradeOp) {
+    if (self.prepayOp) {
         return;
     }
     
@@ -395,35 +395,21 @@
     [self.totalCell updateWithPrice:totalPrice.stringValue];
     
     __weak QSS11CreateTradeViewController* weakSelf = self;
-#warning TODO
-//    self.createTradeOp =
-//    [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
-//                                quantity:quantity.intValue
-//                                   price:price.doubleValue
-//                                    item:self.itemDict
-//                                     sku:nil
-//                            receiverUuid:uuid
-//                                    type:paymentType
-//                               onSucceed:^(NSDictionary* tradeDict)
-//     {
-//         [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
-//                                  onSuccess:^{
-//                                      UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"支付成功" message:nil delegate:weakSelf cancelButtonTitle:nil otherButtonTitles:@"继续逛逛", @"查看订单", nil];
-//                                      [alertView show];
-//                                  }
-//                                    onError:^(NSError *error) {
-//                                        [weakSelf showErrorHudWithText:@"支付失败"];
-//                                    }];
-//         self.createTradeOp = nil;
-//     }
-//                                 onError:^(NSError *error)
-//     {
-//         [self showErrorHudWithError:error];
-//         self.createTradeOp = nil;
-//     }];
+    self.prepayOp = [SHARE_NW_ENGINE prepayTrade:self.tradeDict type:paymentType receiverUuid:uuid onSucceed:^(NSDictionary *tradeDict) {
+        [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
+                                 onSuccess:^{
+                                     UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"支付成功" message:nil delegate:weakSelf cancelButtonTitle:nil otherButtonTitles:@"继续逛逛", @"查看订单", nil];
+                                     [alertView show];}
+                                 onError:^(NSError *error) {
+                                     [weakSelf showErrorHudWithText:@"支付失败"];
+                                 }];
+                                     self.prepayOp = nil;
+
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+        self.prepayOp = nil;
+    }];
 }
-
-
 
 #pragma mark - QSU10ReceiverListViewControllerDelegate
 - (IBAction)receiverManageBtnPressed:(id)sender {
