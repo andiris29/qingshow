@@ -280,7 +280,7 @@ trade.queryCreatedBy = {
 trade.alipayCallback = {
     'method' : 'post',
     'func' : function(req, res) {
-        var newStatus = 1;
+        var newStatus = 2;
         async.waterfall([
         function(callback) {
             Trade.findOne({
@@ -325,7 +325,7 @@ trade.alipayCallback = {
 trade.wechatCallback = {
     'method' : 'post',
     'func' : function(req, res) {
-        var newStatus = 1;
+        var newStatus = 2;
         async.waterfall([
         function(callback) {
             Trade.findOne({
