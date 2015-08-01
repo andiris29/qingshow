@@ -85,11 +85,8 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
     };
 
-    // __context.promotionRef
-    // TBD
-
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo], function(err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function(err) {
         callback(null, shows);
     });
 };
