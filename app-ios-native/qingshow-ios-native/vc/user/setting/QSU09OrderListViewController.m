@@ -93,14 +93,14 @@
     [self.provider bindWithTableView:self.tableView];
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         
-        return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:YES onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:@"true" onSucceed:succeedBlock onError:errorBlock];
     };
     self.provider.delegate = self;
     [self.provider fetchDataOfPage:1];
     [self.provider reloadData];
-    if (!self.provider.resultArray.count) {
-        [self changeValueOfSegment:1];
-    }
+//    if (!self.provider.resultArray.count) {
+//        [self changeValueOfSegment:0];
+//    }
    
 }
 
@@ -109,7 +109,7 @@
 {
     if (value == 1) {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:NO onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE queryOrderListPage:page onSucceed:succeedBlock onError:errorBlock];
         };
         [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
@@ -117,7 +117,7 @@
     else if(value == 0)
     {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:YES onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:@"true" onSucceed:succeedBlock onError:errorBlock];
         };
         [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
@@ -170,10 +170,11 @@
 }
 - (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic
 {
+    NSLog(@"111");
     __weak QSU09OrderListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE changeTrade:_oderDic status:17 info:nil onSucceed:^{
+    [SHARE_NW_ENGINE changeTrade:_oderDic status:18 info:nil onSucceed:^{
         [weakSelf showTextHud:@"已取消订单"];
-         }onError:nil];
+    }onError:nil];
 }
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -22,7 +22,10 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
 #pragma mark - Query
 
 - (MKNetworkOperation*)queryOrderListPage:(int)page
-                               inProgress:(BOOL)inProgress
+                               inProgress:(NSString *)inProgress
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryOrderListPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
 
