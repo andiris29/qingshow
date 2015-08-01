@@ -6,6 +6,7 @@ var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
 var People = require('../../model/peoples');
 
 /**
@@ -88,6 +89,19 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     // modedRef.__context.followedByCurrentUser
     async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function(err) {
         callback(null, shows);
+    });
+};
+
+ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
+    trades = _prepare(trades);
+
+    // __context.sharedByCurrentUser
+    var sharedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleShareTrade, qsCurrentUserId, trades, 'sharedByCurrentUser', callback);
+    };
+
+    async.parallel([sharedByCurrentUser], function(err) {
+        callback(null, trades);
     });
 };
 
