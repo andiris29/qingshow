@@ -64,7 +64,6 @@ matcher.save = {
         coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
         var show = new Show({
             'itemRefs' : itemRefs, 
-            'ugc' : true,
             'ownerRef' : req.qsCurrentUserId,
             'coverForeground' : coverUrl
         });
