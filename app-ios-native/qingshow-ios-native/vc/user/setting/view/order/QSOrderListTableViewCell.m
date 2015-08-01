@@ -82,6 +82,7 @@
     QSTradeStatus s = status.integerValue;
     BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
     shouldShare = YES;
+    NSLog(@"trade ==== ===============%d",s);
     switch (s) {
         case 0:
         case 2:
@@ -89,6 +90,7 @@
             self.submitButton.hidden = NO;
             self.returnButton.hidden = YES;
             self.exchangeButton.hidden = YES;
+            self.saleImgView.hidden = YES;
             [self.submitButton setTitle:@"取消订单" forState:UIControlStateNormal];
             break;
         }
@@ -110,6 +112,7 @@
             self.submitButton.hidden = NO;
             self.exchangeButton.hidden = NO;
             self.returnButton.hidden = NO;
+            self.saleImgView.hidden = YES;
             [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
             break;
         }
@@ -117,6 +120,7 @@
             self.submitButton.hidden = YES;
             self.exchangeButton.hidden = YES;
             self.returnButton.hidden = YES;
+             self.saleImgView.hidden = YES;
             break;
         }
     }
