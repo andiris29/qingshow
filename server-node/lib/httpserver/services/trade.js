@@ -6,6 +6,7 @@ var Trade = require('../../model/trades');
 var People = require('../../model/peoples');
 var Item = require('../../model/items');
 var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
+var jPushAudiences = require('../../model/jPushAudiences');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -123,7 +124,7 @@ trade.prepay = {
             }
         }], function(err, trade) {
             // Send response
-            ResponseHelper.response(res, error, {
+            ResponseHelper.response(res, err, {
                 'trade' : trade
             });
         });
