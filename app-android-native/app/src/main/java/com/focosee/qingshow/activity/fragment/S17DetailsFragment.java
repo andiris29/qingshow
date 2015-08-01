@@ -83,7 +83,7 @@ public class S17DetailsFragment extends Fragment {
         price.setText(StringUtil.FormatPrice(order.itemSnapshot.promoPrice));
         maxPrice.setText(StringUtil.FormatPrice(order.itemSnapshot.price));
         maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        num.setText(order.quantity);
+        num.setText(String.valueOf(order.quantity));
     }
 
 

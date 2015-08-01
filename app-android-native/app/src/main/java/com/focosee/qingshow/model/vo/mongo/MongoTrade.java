@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class MongoTrade implements Serializable {
 
     public String _id;
-//    public TradeContext __context;
+    //    public TradeContext __context;
     public Number totalFee;
     public int status;
     public GregorianCalendar create;
@@ -21,22 +21,22 @@ public class MongoTrade implements Serializable {
     public Pay pay;
     public LinkedList<StatusLog> statusLogs;
 
-    public class Pay implements Serializable{
+    public class Pay implements Serializable {
 
         public Weixin weixin;
 
-        public class Weixin{
+        public class Weixin implements Serializable {
             public String prepayid;
         }
 
     }
 
-    public class TaobaoInfo implements Serializable{
+    public class TaobaoInfo implements Serializable {
         public String userNick;
         public String tradeID;
     }
 
-    public class Logistic implements Serializable{
+    public class Logistic implements Serializable {
         public String company;
         public String trackingID;
     }
@@ -46,7 +46,7 @@ public class MongoTrade implements Serializable {
         public String trackingID;
     }
 
-    public class StatusLog implements Serializable{
+    public class StatusLog implements Serializable {
         public GregorianCalendar date;
         public String _id;
         public String peopleRef;
@@ -54,7 +54,7 @@ public class MongoTrade implements Serializable {
         public String comment;
     }
 
-    public class TradeContext implements Serializable{
+    public class TradeContext implements Serializable {
         public boolean sharedByCurrentUser;
     }
 
