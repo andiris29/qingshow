@@ -124,10 +124,14 @@
     }
 }
 #pragma mark - QSOrderListTableViewProviderDelegate
+- (void)didClickOrder:(NSDictionary *)orderDict {
+    QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:orderDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)tradeDict
 {
     
-    QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
+    QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:tradeDict];
     vc.type = 1;
     [self.navigationController pushViewController:vc animated:YES];
 }

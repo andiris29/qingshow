@@ -16,6 +16,7 @@
 - (void)awakeFromNib {
     // Initialization code
         [super awakeFromNib];
+    self.priceLabel.isWithStrikeThrough = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -76,6 +76,17 @@
     [self configCellArray];
     [self configView];
     [self updateAllCell];
+
+    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:self.tradeDict];
+    NSNumber* price = nil;
+    if ([QSOrderUtil getActualPrice:orderDict]) {
+        price = [QSOrderUtil getActualPrice:orderDict];
+    } else {
+        price = [QSOrderUtil getExpectedPrice:orderDict];
+    }
+    NSNumber* quantity = [QSOrderUtil getQuantity:orderDict];
+    NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
+    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,

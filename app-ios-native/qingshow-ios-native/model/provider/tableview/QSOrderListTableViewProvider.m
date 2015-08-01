@@ -39,7 +39,11 @@
 {
     return QSOrderListTableViewCellHeight;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(didClickOrder:)]) {
+        [self.delegate didClickOrder:[self orderForIndexPath:indexPath]];
+    }
+}
 #pragma mark - QSOrderListTableViewCellDelegate
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell
 {

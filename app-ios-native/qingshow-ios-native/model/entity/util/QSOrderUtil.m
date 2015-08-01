@@ -18,7 +18,7 @@
     return dict[@"itemSnapshot"];
 }
 + (NSArray*)getSkuProperties:(NSDictionary*)dict {
-    return [dict arrayValueForKeyPath:@"skuProperties"];
+    return [dict arrayValueForKeyPath:@"selectedSkuProperties"];
 }
 + (NSString*)getExpectedPriceDesc:(NSDictionary*)dict {
     NSNumber* price = [self getExpectedPrice:dict];

@@ -12,7 +12,10 @@
 #import "QSOrderUtil.h"
 
 @implementation QSCreateTradeItemInfoTitleCell
-
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.priceLabel.isWithStrikeThrough = YES;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

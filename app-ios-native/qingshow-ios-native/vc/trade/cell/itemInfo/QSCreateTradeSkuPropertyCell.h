@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSCreateTradeTableViewCellBase.h"
+#import "QSCreateTradeHeigh40Cell.h"
 
-@interface QSCreateTradeSkuPropertyCell : QSCreateTradeTableViewCellBase
+@interface QSCreateTradeSkuPropertyCell : QSCreateTradeHeigh40Cell
 
 + (QSCreateTradeSkuPropertyCell*)generateCell;
 
