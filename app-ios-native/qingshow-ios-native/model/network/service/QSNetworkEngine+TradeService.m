@@ -22,50 +22,24 @@
 @implementation QSNetworkEngine(TradeService)
 
 #pragma mark - Create
-- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
-                                  quantity:(int)quantity
-                                     price:(double)price
-                                      item:(NSDictionary*)item
-                                       sku:(NSNumber*)sku
-                              receiverUuid:(NSString*)uuid
-                                      type:(PaymentType)paymentType
-                                 onSucceed:(DicBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock;
-{
-    return [self createTradeTotalFee:totalFee
-                          orderArray:@[
-                                       @{
-                                           @"quantity" : @(quantity),
-                                           @"price" : @(price),
-                                           @"itemSnapshot" : item,
-                                           @"selectedItemSkuId" : sku,
-                                           @"selectedPeopleReceiverUuid" : uuid
-                                           }
-                                       ]
-                                type:paymentType
-                           onSucceed:succeedBlock
-                             onError:errorBlock];
-}
-
-- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
-                                orderArray:(NSArray*)orderArray
-                                      type:(PaymentType)paymentType
-                                 onSucceed:(DicBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)createOrderArray:(NSArray*)orderArray
+                              onSucceed:(DicBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock;
 {
     
     NSDictionary* payTypeDict = @{};
+    /*
     if (paymentType == PaymentTypeWechat) {
         payTypeDict = @{@"weixin" : @{@"prepayId" : [NSNull null]}};
     } else if (paymentType == PaymentTypeAlipay) {
         payTypeDict = @{@"alipay" : [NSNull null]};
     }
-    
+    @"pay": payTypeDict
+     */
     return [self startOperationWithPath:PATH_TRADE_CREATE
                                  method:@"POST"
-                               paramers:@{ @"totalFee" : @(totalFee),
-                                           @"orders" : orderArray,
-                                           @"pay": payTypeDict
+                               paramers:@{
+                                           @"orders" : orderArray
                                            }
             
                             onSucceeded:^(MKNetworkOperation *completedOperation)

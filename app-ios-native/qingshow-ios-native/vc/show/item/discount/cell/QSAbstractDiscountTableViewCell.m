@@ -40,5 +40,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 }
-
+- (BOOL)checkComplete {
+    return YES;
+}
 @end

@@ -10,7 +10,8 @@
 #import "QSItemUtil.h"
 #import "QSEntityUtil.h"
 #import "QSDiscountTableViewController.h"
-
+#import "UIViewController+ShowHud.h"
+#import "QSNetworkKit.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
@@ -23,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *discountBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *discountTableViewContainer;
 @property (strong, nonatomic) QSDiscountTableViewController* discountVc;
-
+@property (strong, nonatomic) MKNetworkOperation* createTradeOp;
 @end
 
 @implementation QSG01ItemWebViewController
@@ -77,6 +78,11 @@
     self.discountVc.view.frame = self.discountTableViewContainer.bounds;
     [self.discountTableViewContainer addSubview:self.discountVc.view];
 
+    
+    self.submitBtn.layer.cornerRadius = 5.f;
+    self.submitBtn.layer.masksToBounds = YES;
+    self.cancelBtn.layer.cornerRadius = 5.f;
+    self.cancelBtn.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,5 +110,23 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (IBAction)submitBtnPressed:(id)sender {
+    if (![self.discountVc checkComplete]) {
+        [self showErrorHudWithText:@"信息不完整"];
+    } else {
+        self.createTradeOp =
+        [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+            [self showSuccessHudAndPop:@"创建成功"];
+            self.createTradeOp = nil;
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+            self.createTradeOp = nil;
+        }];
+    }
+}
+- (IBAction)cancelBtnPressed:(id)sender {
+    [self closeBtnPressed:nil];
+    
+}
 
 @end

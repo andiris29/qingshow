@@ -25,6 +25,7 @@
 
 - (CGFloat)getHeight:(NSDictionary*)itemDict;
 - (void)bindWithData:(NSDictionary*)itemDict;
+- (BOOL)checkComplete;
 
 
 @end

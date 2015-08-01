@@ -12,4 +12,6 @@
 
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
 
+- (BOOL)checkComplete;
+- (NSDictionary*)getResult;
 @end

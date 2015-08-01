@@ -14,4 +14,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UIView* lineView;
+- (NSString*)getResult;
 @end

@@ -18,4 +18,5 @@
 
 @property (assign, nonatomic) int quantity;
 @property (assign, nonatomic) int currentDiscount;
+- (NSNumber*)getSinglePrice;
 @end

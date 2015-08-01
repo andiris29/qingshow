@@ -36,6 +36,25 @@
 @end
 
 @implementation QSDiscountTaobaoInfoCell
+- (BOOL)checkComplete {
+    if (self.currentSelectIndex < 0) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (NSString*)getResult {
+    NSMutableString* str = [@"" mutableCopy];
+    if (self.title && self.title.length) {
+        [str appendString:self.title];
+    }
+    [str appendString:@":"];
+    if (self.currentSelectIndex >= 0 && self.currentSelectIndex < self.compInfos.count) {
+        [str appendString:self.compInfos[self.currentSelectIndex]];
+    }
+    return str;
+}
 
 - (void)awakeFromNib {
     // Initialization code

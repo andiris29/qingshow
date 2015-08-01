@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
+#import "NSArray+QSExtension.h"
 #import "QSDiscountTableViewController.h"
 
 #import "QSDiscountTitleCell.h"
@@ -23,6 +24,7 @@
 
 @property (strong, nonatomic) QSDiscountQuantityCell* quantityCell;
 @property (strong, nonatomic) QSDiscountResultCell* resultCell;
+@property (strong, nonatomic) NSArray* propCellArray;
 
 @end
 
@@ -76,6 +78,7 @@
 #pragma mark - 
 - (void)configCells {
     NSMutableArray* array = [@[] mutableCopy];
+    NSMutableArray* propCells = [@[] mutableCopy];
     QSAbstractDiscountTableViewCell* cell = [QSDiscountTitleCell generateCell];
     cell.delegate = self;
     [array addObject:cell];
@@ -88,6 +91,7 @@
         taobaoInfoCell.infoIndex = i;
         taobaoInfoCell.delegate = self;
         [array addObject:taobaoInfoCell];
+        [propCells addObject:taobaoInfoCell];
     }
     self.quantityCell = [QSDiscountQuantityCell generateCell];
     self.quantityCell.delegate = self;
@@ -96,9 +100,30 @@
     self.resultCell.delegate = self;
     [array addObject:self.resultCell];
     self.cellArray = array;
+    self.propCellArray = propCells;
 }
 
 - (void)updateTotalPrice {
     self.resultCell.quantity = self.quantityCell.quantity;
+}
+
+- (BOOL)checkComplete {
+    for (QSAbstractDiscountTableViewCell* cell in self.cellArray) {
+        if (![cell checkComplete]) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (NSDictionary*)getResult {
+    NSMutableDictionary* retDict = [@{} mutableCopy];
+    retDict[@"itemSnapshot"] = self.itemDict;
+    retDict[@"selectedSkuProperties"] = [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell* cell) {
+        return [cell getResult];
+    }];
+    retDict[@"quantity"] = @(self.quantityCell.quantity);
+    retDict[@"expectedPrice"] = [self.resultCell getSinglePrice];
+    return retDict;
 }
 @end
