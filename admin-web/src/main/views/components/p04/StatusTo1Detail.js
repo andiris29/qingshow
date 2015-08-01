@@ -15,12 +15,12 @@ define([
 
     StatusTo2Detail.prototype.getDetails = function() {
         var actualPrice = $('#actualPrice', this._ownerViewDom).val();
-        if (!actualPrice) {
+        if (!actualPrice || isNaN(actualPrice)) {
             alertify.error('需要输入实际价格');
             return;
         }
         return {
-            'actualPrice' : actualPrice
+            'actualPrice' : parseFloat(actualPrice)
         };
     };
 
