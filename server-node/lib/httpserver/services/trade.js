@@ -255,7 +255,7 @@ trade.queryCreatedBy = {
             var progress = {
                 '$in' : []
             };
-            if (qsParam.inProgress == null || !qsParam.inProgress) {
+            if (qsParam.inProgress == null || !qsParam.inProgress || qsParam.inProgress == "false") {
                 progress['$in'] = [0, 5, 9, 10, 15, 17];
             } else {
                 progress['$in'] = [1, 2, 3, 7];
