@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface QSDiscountTableViewController : UITableViewController
+#import "QSAbstractDiscountTableViewCell.h"
+@interface QSDiscountTableViewController : UITableViewController<QSDiscountTableViewCellDelegate>
 
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
 

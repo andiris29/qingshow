@@ -118,6 +118,10 @@
     return QSItemCategoryUnknown;
 }
 
++ (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict {
+    return [itemDict numberValueForKeyPath:@"minExpectedPrice"];
+}
+
 + (NSNumber*)getPrice:(NSDictionary*)itemDict {
     return [itemDict numberValueForKeyPath:@"price"];
 }

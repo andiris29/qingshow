@@ -36,5 +36,5 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict;
-
++ (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict;
 @end

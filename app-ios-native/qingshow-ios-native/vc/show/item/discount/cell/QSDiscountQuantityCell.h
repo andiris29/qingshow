@@ -11,5 +11,8 @@
 @interface QSDiscountQuantityCell : QSAbstractDiscountTableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
+@property (weak, nonatomic) IBOutlet UIButton* addBtn;
+@property (weak, nonatomic) IBOutlet UIButton* minusBtn;
 
+@property (readonly, nonatomic) int quantity;
 @end

@@ -89,7 +89,9 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="addBtn" destination="OMO-fW-CNK" id="cD0-Ry-Juf"/>
                 <outlet property="discountRateLabel" destination="civ-pg-C50" id="0dh-dK-bqG"/>
+                <outlet property="minusBtn" destination="iYx-Kh-iUb" id="iZU-U4-6wy"/>
                 <outlet property="totalPriceLabel" destination="Hn5-kU-BRs" id="Ae2-BX-DDf"/>
             </connections>
             <point key="canvasLocation" x="376" y="401"/>

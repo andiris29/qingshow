@@ -13,4 +13,9 @@
 @property (weak, nonatomic) IBOutlet UILabel* discountRateLabel;
 @property (weak, nonatomic) IBOutlet UILabel* totalPriceLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton* addBtn;
+@property (weak, nonatomic) IBOutlet UIButton* minusBtn;
+
+@property (assign, nonatomic) int quantity;
+@property (assign, nonatomic) int currentDiscount;
 @end

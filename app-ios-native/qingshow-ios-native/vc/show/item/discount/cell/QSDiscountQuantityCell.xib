@@ -50,7 +50,7 @@
                         <rect key="frame" x="192" y="15" width="42" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YYM-QZ-Tjq">
@@ -68,6 +68,8 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="addBtn" destination="YYM-QZ-Tjq" id="Fdx-VQ-IfR"/>
+                <outlet property="minusBtn" destination="KHy-0i-48l" id="Ha9-VB-z72"/>
                 <outlet property="quantityLabel" destination="0Ka-J9-4Ni" id="ABK-sC-ULE"/>
             </connections>
             <point key="canvasLocation" x="376" y="370"/>

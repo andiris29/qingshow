@@ -7,7 +7,7 @@
 //
 
 #import "QSDiscountTableViewController.h"
-#import "QSAbstractDiscountTableViewCell.h"
+
 #import "QSDiscountTitleCell.h"
 #import "QSDiscountInfoCell.h"
 #import "QSDiscountTaobaoInfoCell.h"
@@ -20,6 +20,10 @@
 
 @property (strong, nonatomic) NSDictionary* itemDict;
 @property (strong, nonatomic) NSArray* cellArray;
+
+@property (strong, nonatomic) QSDiscountQuantityCell* quantityCell;
+@property (strong, nonatomic) QSDiscountResultCell* resultCell;
+
 @end
 
 @implementation QSDiscountTableViewController
@@ -72,16 +76,29 @@
 #pragma mark - 
 - (void)configCells {
     NSMutableArray* array = [@[] mutableCopy];
-    [array addObject:[QSDiscountTitleCell generateCell]];
-    [array addObject:[QSDiscountInfoCell generateCell]];
+    QSAbstractDiscountTableViewCell* cell = [QSDiscountTitleCell generateCell];
+    cell.delegate = self;
+    [array addObject:cell];
+    cell = [QSDiscountInfoCell generateCell];
+    cell.delegate = self;
+    [array addObject:cell];
     NSArray* props = [QSItemUtil getSkuProperties:self.itemDict];
     for (int i = 0; i < props.count; i++) {
         QSDiscountTaobaoInfoCell* taobaoInfoCell = [QSDiscountTaobaoInfoCell generateCell];
         taobaoInfoCell.infoIndex = i;
+        taobaoInfoCell.delegate = self;
         [array addObject:taobaoInfoCell];
     }
-    [array addObject:[QSDiscountQuantityCell generateCell]];
-    [array addObject:[QSDiscountResultCell generateCell]];
+    self.quantityCell = [QSDiscountQuantityCell generateCell];
+    self.quantityCell.delegate = self;
+    [array addObject:self.quantityCell];
+    self.resultCell = [QSDiscountResultCell generateCell];
+    self.resultCell.delegate = self;
+    [array addObject:self.resultCell];
     self.cellArray = array;
+}
+
+- (void)updateTotalPrice {
+    self.resultCell.quantity = self.quantityCell.quantity;
 }
 @end
