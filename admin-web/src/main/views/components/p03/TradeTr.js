@@ -15,7 +15,7 @@ define([
         td$.eq(1).text(trade.orders[0].itemSnapshot.name);
         td$.eq(2).text(trade.orders[0].quantity);
         td$.eq(3).text(trade.totalFee);
-        td$.eq(4).text(trade.orders[0].peopleSnapshot.nickname);
+        td$.eq(4).text(trade.peopleSnapshot ? trade.peopleSnapshot.nickname : 'invalid');
         td$.eq(5).text(codeMongoService.toNameWithCode('trade.status', trade.status));
         $('a', this._dom).on('click', function() {
             this._ownerView.push('main/views/P04EditTrade', initOptions);
