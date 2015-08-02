@@ -220,7 +220,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             e.printStackTrace();
         }
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST,
-                QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+                QSAppWebAPI.getPayApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
