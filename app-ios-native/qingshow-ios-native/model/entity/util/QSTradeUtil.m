@@ -30,16 +30,14 @@
     if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
-    NSString* resDateStr = dict[@"create"];
+
+    NSString* resDateStr = [dict stringValueForKeyPath:@"create"];
     NSDate* date = [QSDateUtil buildDateFromResponseString:resDateStr];
     return [QSDateUtil buildStringFromDate:date];
 }
 + (NSNumber*)getStatus:(NSDictionary*)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    return dict[@"status"];
+    return [dict numberValueForKeyPath:@"status"];
 }
 + (NSString*)getStatusDesc:(NSDictionary*)dict
 {
@@ -49,10 +47,7 @@
 
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    return dict[@"pay"][@"weixin"][@"prepayid"];
+    return [dict stringValueForKeyPath:@"pay.weixin.prepayid"];
 }
 
 + (NSString*)getTotalFeeDesc:(NSDictionary*)dict {
@@ -65,25 +60,11 @@
 }
 + (NSString*)getTradeLogisticCompany:(NSDictionary*)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    NSString *str = dict[@"logistic"][@"company"];
-    if ([QSEntityUtil checkIsNil:str]) {
-        return nil;
-    }
-    return str;
+    return [dict stringValueForKeyPath:@"logistic.company"];
 }
 + (NSString*)getTradeLogisticId:(NSDictionary*)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    NSString *str = dict[@"logistic"][@"trackingId"];
-    if ([QSEntityUtil checkIsNil:str]) {
-        return nil;
-    }
-    return str;
+    return [dict stringValueForKeyPath:@"logistic.trackingId"];
 }
 + (BOOL)getTraddSharedByCurrentUser:(NSDictionary*)dict
 {
