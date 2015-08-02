@@ -272,7 +272,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
     private void showPayStatus(int status) {
         ConfirmDialog dialog = new ConfirmDialog();
-        dialog.setTitle(StatusCode.statusArrays[status]);
+        dialog.setTitle(StatusCode.getStatusText(status));
         dialog.setCancel("继续逛逛", new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -31,7 +31,13 @@ public class ShareConfig {
                     + "follow_app_official_microblog," + "invitation_write";
 
     public static final String SHARE_SHOW_URL = "http://chingshow.com/app-web?action=shareShow&_id=";
+
+    public static final String SHARE_TRADE_URL = "http://chingshow.com/app-web?entry=shareTrade";
+
     public static final String SHARE_TITLE="";
     public static final String SHARE_DESCRIPTION="美丽乐分享，潮流资讯早知道";
     public static final int IMG = R.drawable.wx_share;
+    public static String getShareTradeUrl(String _tradeId, String peopleId) {
+        return SHARE_TRADE_URL + "&_id=" + _tradeId + "&initiatorRef=" + peopleId;
+    }
 }

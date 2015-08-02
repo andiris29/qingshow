@@ -68,6 +68,12 @@ public class QSAppWebAPI {
     private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
     private static final String PEOPLE_QUERY_API = HOST_NAME + "/people/query";
 
+    public static String getTradeShareApi(String _id) {
+        return TRADE_SHARE_API + "?_id=" + _id;
+    }
+
+    private static final String TRADE_SHARE_API = HOST_NAME + "/trade/share";
+
     public static String getPeopleQueryApi(String _ids) {
         return PEOPLE_QUERY_API + "?_ids=" + _ids;
     }

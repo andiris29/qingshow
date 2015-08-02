@@ -14,4 +14,5 @@ public class MongoOrder implements Serializable {
     public MongoItem itemSnapshot;
     public List<String> selectedSkuProperties;
 
+
 }

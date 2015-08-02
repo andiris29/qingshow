@@ -2,13 +2,18 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.constants.code.StatusCode;
@@ -31,12 +36,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Administrator on 2015/3/16.
  */
 public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener{
 
+    public static String transaction = "";
     private OnViewHolderListener onViewHolderListener;
+    private final int CANCEL = 0;
+    private final int COMFIRM_PAY = 1;
+    private final int COMFIRM_RECEIPT = 2;
+    private final int RETURN = 3;
 
     /**
      * viewType的顺序的layoutId的顺序一致
@@ -67,7 +79,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         btn3.setVisibility(View.INVISIBLE);
         holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.GONE);
 
-        holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
+        holder.setText(R.id.item_tradelist_status, StatusCode.getStatusText(trade.status));
 
 
         //TODO change SKU
@@ -86,7 +98,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, 2);
+                    statusTo(trade, 17, CANCEL);
                 }
             });
             return;
@@ -96,79 +108,52 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setVisibility(View.VISIBLE);
             btn2.setVisibility(View.VISIBLE);
             holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.VISIBLE);
-            btn1.setText("先分享后确认付款");
-            btn2.setText("取消订单");
+            btn1.setTag("确认付款");
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    ShareUtil.shareShowToWX(trade._id);
+                    Toast.makeText(context, "确认付款", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, S17PayActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
                 }
             });
+//            if(null != trade.__context) {
+//                if(trade.__context.sharedByCurrentUser) {
+//                    btn1.setTag("确认付款");
+//                    btn1.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Toast.makeText(context, "确认付款", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent();
+//                            Bundle bundle = new Bundle();
+//                            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+//                            intent.putExtras(bundle);
+//                            context.startActivity(intent);
+//                        }
+//                    });
+//                }
+//            }else {
+//                btn1.setText("先分享后确认付款");
+//                btn1.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        transaction = String.valueOf(System.currentTimeMillis());
+//                        ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, transaction, context, true);
+//                        EventBus.getDefault().post(U09TradeListActivity.responseToStatusToSuccessed);
+//                    }
+//                });
+//            }
+            btn2.setText("取消订单");
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, 2);
+                    statusTo(trade, 17, CANCEL);
                 }
             });
-//            tradingLayout.setVisibility(View.VISIBLE);
-//            applyReturn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(context, U12ReturnActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, datas.get(position));
-//                    intent.putExtras(bundle);
-//                    context.startActivity(intent);
-//                }
-//            });
-//            applyReceive.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    final ConfirmDialog dialog = new ConfirmDialog();
-//                    dialog.setTitle("确认收货");
-//                    dialog.setCancel(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                        }
-//                    });
-//                    dialog.setConfirm(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            statusTo(trade, 1);
-//                            if (context instanceof U09TradeListActivity) {
-//                                ((U09TradeListActivity) context).doRefresh();
-//                            }
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
-//                }
-//            });
-//            applyChange.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    statusTo(trade, 0);
-//                    final ConfirmDialog dialog = new ConfirmDialog();
-//                    dialog.setTitle("确认收货");
-//                    dialog.setCancel(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                        }
-//                    });
-//                    dialog.setConfirm(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            statusTo(trade, 1);
-//                            if (context instanceof U09TradeListActivity) {
-//                                ((U09TradeListActivity) context).doRefresh();
-//                            }
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
-//                }
-//            });
-//            return;
+//
         }
 //        holder.getView(R.id.item_trade_finishTime_layout).setVisibility(View.VISIBLE);
         //2-已付款
@@ -178,7 +163,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, 2);
+                    statusTo(trade, 17, CANCEL);
                 }
             });
         }
@@ -193,7 +178,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    statusTo(trade, 5, COMFIRM_RECEIPT);
                 }
             });
             btn2.setOnClickListener(new View.OnClickListener() {
@@ -205,8 +190,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String msg = "暂无物流信息";
+                    if(null != trade.logistic) {
+                        msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + trade.logistic.trackingID;
+                    }
                     final ConfirmDialog dialog = new ConfirmDialog();
-                    dialog.setTitle("物流公司：" + trade.logistic.company + "\n物流单号：" + trade.logistic.trackingID);
+                    dialog.setTitle(msg);
                     dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
                 }
             });
@@ -246,7 +235,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
                 }
-
                 responseToStatusToSuccessed(type);
             }
         });
@@ -291,13 +279,17 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     }
 
     private void responseToStatusToSuccessed(int type){
+        EventBus.getDefault().post(U09TradeListActivity.responseToStatusToSuccessed);
+        final ConfirmDialog dialog = new ConfirmDialog();
         switch (type){
-            case 0://申请换货
-
-                final ConfirmDialog dialog = new ConfirmDialog();
-                dialog.setTitle("您的换货申请已经受理我们的客服会尽快与您联系");
-                dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
+            case CANCEL://取消订单
+                dialog.setTitle("订单取消成功");
+                break;
+            case COMFIRM_RECEIPT:
+                dialog.setTitle("已确认收货");
+                break;
         }
+        dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
     }
 
     @Override

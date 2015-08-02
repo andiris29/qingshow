@@ -502,10 +502,10 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.share_wechat:
-                    ShareUtil.shareShowToWX(showDetailEntity._id, context, false);
+                    ShareUtil.shareShowToWX(showDetailEntity._id, String.valueOf(System.currentTimeMillis()), context, false);
                     break;
                 case R.id.share_wx_timeline:
-                    ShareUtil.shareShowToWX(showDetailEntity._id, context, true);
+                    ShareUtil.shareShowToWX(showDetailEntity._id, String.valueOf(System.currentTimeMillis()), context, true);
                     break;
                 case R.id.share_sina:
                     ShareUtil.shareShowToSina(showDetailEntity._id, context, mWeiboShareAPI);

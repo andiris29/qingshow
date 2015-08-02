@@ -12,6 +12,8 @@ import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U09TradeListActivity;
+import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -62,7 +64,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
-            EventModel<Integer> eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
+            EventModel<Integer> eventModel;
+            if(resp.transaction.equals(U09TradeListAdapter.transaction)){
+                eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
+            }else{
+                eventModel = new EventModel<>(U09TradeListActivity.class, resp.errCode);
+            }
             EventBus.getDefault().post(eventModel);
             finish();
             return;

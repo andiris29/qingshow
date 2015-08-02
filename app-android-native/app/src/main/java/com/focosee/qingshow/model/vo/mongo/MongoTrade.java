@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class MongoTrade implements Serializable {
 
     public String _id;
-    //    public TradeContext __context;
+    public TradeContext __context;
     public Number totalFee;
     public int status;
     public GregorianCalendar create;
@@ -20,6 +20,8 @@ public class MongoTrade implements Serializable {
     public Returnlogistic returnlogistic;
     public Pay pay;
     public LinkedList<StatusLog> statusLogs;
+    public MongoPeople peopleSnapshot;
+    public String selectedPeopleReceiverUuid;
 
     public class Pay implements Serializable {
 

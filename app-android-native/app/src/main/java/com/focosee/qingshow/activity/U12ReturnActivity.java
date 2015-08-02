@@ -95,32 +95,19 @@ public class U12ReturnActivity extends BaseActivity{
             Toast.makeText(U12ReturnActivity.this, "请填写货运单号", Toast.LENGTH_SHORT).show();
             return;
         }
+        Map params = new HashMap();
+        Map returnLogistic = new HashMap();
 
-        Map params1 = new HashMap();
+        params.put("_id", trade._id);
+        params.put("status", 7);
 
-        params1.put("_id", trade._id);
-        params1.put("status", 6);
 
-        QSJsonObjectRequest jor1 = new QSJsonObjectRequest(QSAppWebAPI.getTradeStatustoApi(), new JSONObject(params1), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
-                    ErrorHandler.handle(U12ReturnActivity.this, MetadataParser.getError(response));
-                    isSuccessed = false;
-                    return;
-                }
-                isSuccessed = true;
-            }
-        });
 
-        Map params2 = new HashMap();
+        returnLogistic.put("company", company.getText().toString());
+        returnLogistic.put("trackingID", returnNo.getText().toString());
+        params.put("returnLogistic", returnLogistic);
 
-        params2.put("_id", trade._id);
-        params2.put("status", 7);
-        params2.put("returnLogistic.company", company.getText().toString());
-        params2.put("returnLogistic.trackingID", returnNo.getText().toString());
-
-        QSJsonObjectRequest jor2 = new QSJsonObjectRequest(QSAppWebAPI.getTradeStatustoApi(), new JSONObject(params2), new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor2 = new QSJsonObjectRequest(QSAppWebAPI.getTradeStatustoApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){
@@ -137,9 +124,7 @@ public class U12ReturnActivity extends BaseActivity{
             }
         });
 
-        RequestQueueManager.INSTANCE.getQueue().add(jor1);
         RequestQueueManager.INSTANCE.getQueue().add(jor2);
-
     }
 
     @Override

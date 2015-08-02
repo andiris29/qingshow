@@ -26,11 +26,18 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
  */
 public class ShareUtil {
 
-    public static void shareShowToWX(String showId, Context context, boolean isTimelineCb){
+    public static void shareShowToWX(String showId, String transaction, Context context, boolean isTimelineCb){
+        shareToWX(ShareConfig.SHARE_SHOW_URL + showId, transaction, context, isTimelineCb);
+    }
 
+    public static void shareTradeToWX(String showId, String peopleId, String transaction, Context context, boolean isTimelineCb){
+        shareToWX(ShareConfig.getShareTradeUrl(showId, peopleId), transaction, context, isTimelineCb);
+    }
+
+    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb){
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
-        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL + showId;
+        webpage.webpageUrl = url;
 
         msg = new WXMediaMessage();
         msg.mediaObject = webpage;
@@ -41,12 +48,11 @@ public class ShareUtil {
         msg.description = ShareConfig.SHARE_DESCRIPTION;
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());
+        req.transaction = transaction;
         req.message = msg;
         req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
         UmengCountUtil.countShareShow(context, "weixin");
         QSApplication.instance().getWxApi().sendReq(req);
-
     }
 
     public static void shareShowToSina(String showId, final Context context, IWeiboShareAPI weiboShareAPI) {

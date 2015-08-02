@@ -19,6 +19,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
@@ -39,6 +40,7 @@ import de.greenrobot.event.EventBus;
  */
 public class U09TradeListActivity extends MenuActivity {
 
+    public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     private final int TYPE_ALL = 0;
     private final int TYPE_RUNNING = 1;
 
@@ -141,6 +143,16 @@ public class U09TradeListActivity extends MenuActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void onEventMainThread(String event) {
+        if(responseToStatusToSuccessed.equals(event))doRefresh(currentType);
+    }
+
+    public void onEventMainThread(EventModel<Integer> event) {
+        if(event.tag == U09TradeListActivity.class){
+            doRefresh(currentType);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -164,14 +176,13 @@ public class U09TradeListActivity extends MenuActivity {
             inProgress = true;
         }
 
-        final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
-        if(1 == pageNo)
-            pDialog.show(U09TradeListActivity.class.getSimpleName());
+//        final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
+//        pDialog.show(U09TradeListActivity.class.getSimpleName());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(peopleId, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(1 == pageNo)
-                    pDialog.dismiss();
+                System.out.println("response:" + response);
+//                pDialog.dismiss();
                 if (MetadataParser.hasError(response)) {
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
