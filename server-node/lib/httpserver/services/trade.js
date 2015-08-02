@@ -89,11 +89,8 @@ trade.prepay = {
             trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
             trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
 
-            if (req.body.pay && req.body.pay['weixin']) {
-                trade.pay.alipay = {};
-            } else {
-                trade.pay.weixin= {};
-            }
+            trade.pay.alipay = {};
+            trade.pay.weixin= {};
 
             trade.save(function(err, trade) {
                 if (err) {
