@@ -16,43 +16,6 @@
 #import "QSCategoryManager.h"
 #import "NSDictionary+QSExtension.h"
 @implementation QSItemUtil
-+ (NSArray*)getImagesUrl:(NSDictionary*)itemDict
-{
-    NSArray* array = itemDict[@"images"];
-    if ([QSEntityUtil checkIsNil:array]) {
-        return nil;
-    }
-    NSMutableArray* m = [@[] mutableCopy];
-    for (NSDictionary* d in array) {
-        NSString* s = d[@"url"];
-        NSURL* url = [NSURL URLWithString:s];
-        if (url && ![[NSNull null] isEqual:url]) {
-            [m addObject:url];
-        }
-    }
-    
-    return m;
-}
-
-+ (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict
-{
-    NSArray* imageUrls = [self getImagesUrl:itemDict];
-    if (imageUrls && imageUrls.count ) {
-        return imageUrls[0];
-    } else {
-        return nil;
-    }
-}
-
-+ (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index
-{
-    NSArray* array = itemDict[@"images"];
-    if (index < array.count) {
-        NSDictionary* d = array[index];
-        return d[@"description"];
-    }
-    return @"";
-}
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {

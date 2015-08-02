@@ -11,13 +11,12 @@
 #import "QSU06LoginViewController.h"
 #import "QSError.h"
 #import "QSUserLoginAlertDelegateObj.h"
-//#import "QSU01UserDetailViewController.h"
+#import "QSG01ItemWebViewController.h"
 #import "QSPeopleUtil.h"
 
 #import <objc/runtime.h>
 
 #import "QSS03ShowDetailViewController.h"
-#import "QSS10ItemDetailVideoViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSBlock.h"
 #import "UIView+ScreenShot.h"
@@ -82,18 +81,8 @@ static char alertDelegateObjKey;
 
 - (void)showItemDetailViewController:(NSDictionary*)itemDict
 {
-    UIViewController* vc = [[QSS10ItemDetailVideoViewController alloc] initWithItem:itemDict];
+    UIViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)presentPreviewDetailVc:(NSDictionary*)dict {
-#warning TODO Remove?
-    UIViewController* vc = dict[@"vc"];
-    UIImageView* imageView = dict[@"imageView"];
-    [self presentViewController:vc animated:NO completion:^{
-        
-        [imageView removeFromSuperview];
-    }];
-
-}
 @end

@@ -65,7 +65,7 @@
     
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
-    [self.itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+    [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     
     
     if ([QSOrderUtil getActualPrice:orderDict]) {

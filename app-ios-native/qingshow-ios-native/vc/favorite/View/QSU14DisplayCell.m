@@ -53,7 +53,7 @@
             itemBtn.enabled = YES;
             itemImgView.hidden = NO;
             NSDictionary* itemDict = itemArray[i];
-            [itemImgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSItemUtil getFirstImagesUrl:itemDict] type:QSImageNameTypeXS]];
+            [itemImgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSItemUtil getThumbnail:itemDict] type:QSImageNameTypeXS]];
             [itemBtn setTitle:[QSItemUtil getPriceDesc:itemDict] forState:UIControlStateNormal];
             shadowImageView.image = [UIImage imageNamed:@"s03_model_shadow"];
         } else {

@@ -18,9 +18,7 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 
 @interface QSItemUtil : NSObject
 
-+ (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
 + (NSURL*)getThumbnail:(NSDictionary*)itemDict;
-+ (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict;
 + (NSString*)getItemTypeName:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
 
@@ -30,7 +28,6 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 + (NSNumber*)getPromoPrice:(NSDictionary*)itemDict;
 + (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict;
 
-+ (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
 + (QSItemCategory)getItemCategory:(NSDictionary*)itemDict;
 
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;

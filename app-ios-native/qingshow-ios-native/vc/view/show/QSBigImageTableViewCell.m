@@ -111,7 +111,7 @@
 {
     float height = [QSBigImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
-    [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+    [self.imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.label1.text = [QSItemUtil getItemName:itemDict];
 }
 

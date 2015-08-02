@@ -31,7 +31,7 @@
 #pragma mark - Binding
 - (void)bindWithItem:(NSDictionary*)itemDict
 {
-    NSArray* urlArray = [QSItemUtil getImagesUrl:itemDict];
+    NSArray* urlArray = [QSItemUtil getThumbnail:itemDict];
     if (urlArray.count) {
         NSURL* url = urlArray[0];
         [self.itemImageView setImageFromURL:url placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
