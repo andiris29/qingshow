@@ -310,8 +310,6 @@
 		EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9091A3F2F640048E634 /* QSS07ItemListViewController.xib */; };
 		EFF5B90F1A3F2F890048E634 /* QSItemListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF5B90E1A3F2F890048E634 /* QSItemListHeaderView.m */; };
 		EFF5B9111A3F2F950048E634 /* QSItemListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9101A3F2F950048E634 /* QSItemListHeaderView.xib */; };
-		EFF5B9151A3F2FB50048E634 /* QSItemListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF5B9131A3F2FB50048E634 /* QSItemListTableViewCell.m */; };
-		EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9141A3F2FB50048E634 /* QSItemListTableViewCell.xib */; };
 		EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */; };
 		EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD6A1B0C9CD800298BD1 /* QSRootContentViewController.m */; };
 		EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */; };
@@ -934,9 +932,6 @@
 		EFF5B90D1A3F2F890048E634 /* QSItemListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListHeaderView.h; sourceTree = "<group>"; };
 		EFF5B90E1A3F2F890048E634 /* QSItemListHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemListHeaderView.m; sourceTree = "<group>"; };
 		EFF5B9101A3F2F950048E634 /* QSItemListHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemListHeaderView.xib; sourceTree = "<group>"; };
-		EFF5B9121A3F2FB50048E634 /* QSItemListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListTableViewCell.h; sourceTree = "<group>"; };
-		EFF5B9131A3F2FB50048E634 /* QSItemListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemListTableViewCell.m; sourceTree = "<group>"; };
-		EFF5B9141A3F2FB50048E634 /* QSItemListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemListTableViewCell.xib; sourceTree = "<group>"; };
 		EFFABD661B0C80F900298BD1 /* QSRootContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootContainerViewController.h; sourceTree = "<group>"; };
 		EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootContainerViewController.m; sourceTree = "<group>"; };
 		EFFABD691B0C9CD700298BD1 /* QSRootContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootContentViewController.h; sourceTree = "<group>"; };
@@ -2493,9 +2488,6 @@
 				EFF5B90D1A3F2F890048E634 /* QSItemListHeaderView.h */,
 				EFF5B90E1A3F2F890048E634 /* QSItemListHeaderView.m */,
 				EFF5B9101A3F2F950048E634 /* QSItemListHeaderView.xib */,
-				EFF5B9121A3F2FB50048E634 /* QSItemListTableViewCell.h */,
-				EFF5B9131A3F2FB50048E634 /* QSItemListTableViewCell.m */,
-				EFF5B9141A3F2FB50048E634 /* QSItemListTableViewCell.xib */,
 				68D8249C1B17018300BC9FC6 /* QSItemListCell.h */,
 				68D8249D1B17018300BC9FC6 /* QSItemListCell.m */,
 				68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */,
@@ -2621,7 +2613,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF0C64361B21AAC20079B22E /* QSU02UserSettingViewController.xib in Resources */,
-				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
 				8C5345491B4D61180062D638 /* welcome3_667@2x.png in Resources */,
 				8C53454C1B4D61180062D638 /* welcome3_736@3x.png in Resources */,
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
@@ -2884,7 +2875,6 @@
 				EFEBAAEF1ABF01FE0000FEEE /* QSOrderUtil.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
 				EF810F6B1AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m in Sources */,
-				EFF5B9151A3F2FB50048E634 /* QSItemListTableViewCell.m in Sources */,
 				EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */,
 				EF0C64351B21AAC20079B22E /* QSU02UserSettingViewController.m in Sources */,
 				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
@@ -2980,7 +2970,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2999,7 +2989,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "58f030c1-a342-4178-880f-c7131be0b839";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -3021,7 +3011,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3033,7 +3023,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PROVISIONING_PROFILE = "58f030c1-a342-4178-880f-c7131be0b839";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s";
@@ -3045,7 +3035,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3072,7 +3062,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "a6498166-16b5-45a8-9435-d78afd4f4d07";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -3084,7 +3074,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3111,7 +3101,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "a6498166-16b5-45a8-9435-d78afd4f4d07";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;

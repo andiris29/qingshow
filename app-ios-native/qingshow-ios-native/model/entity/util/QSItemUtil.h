@@ -8,18 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, QSItemCategory) {
-    QSItemCategoryUnknown = -1,
-    QSItemCategoryNone = 0,
-    QSItemCategoryClothSize = 1,
-    QSItemCategoryPant = 2,
-    QSItemCategoryShoe = 3
-};
-
 @interface QSItemUtil : NSObject
 
 + (NSURL*)getThumbnail:(NSDictionary*)itemDict;
-+ (NSString*)getItemTypeName:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
 
 + (NSString*)getItemName:(NSDictionary*)item;
@@ -27,8 +18,6 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 + (NSString*)getPriceDesc:(NSDictionary*)item;
 + (NSNumber*)getPromoPrice:(NSDictionary*)itemDict;
 + (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict;
-
-+ (QSItemCategory)getItemCategory:(NSDictionary*)itemDict;
 
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;

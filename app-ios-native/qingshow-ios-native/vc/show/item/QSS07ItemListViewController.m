@@ -8,7 +8,6 @@
 
 #import "QSS07ItemListViewController.h"
 #import "QSItemListHeaderView.h"
-#import "QSItemListTableViewCell.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
 #import "QSCategoryUtil.h"
