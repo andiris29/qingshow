@@ -92,7 +92,7 @@
 - (void)updateUi {
     self.discountRateLabel.text = [NSString stringWithFormat:@"%d折", self.currentDiscount];
     NSNumber* finalPrice = [self getFinalPrice];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"%.2f", [self getFinalPrice].doubleValue];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"%.2f", finalPrice.doubleValue];
     
 }
 

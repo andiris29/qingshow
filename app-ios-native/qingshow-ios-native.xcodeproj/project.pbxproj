@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		681148FD1B0F0E9D00E024B1 /* ImgforCell@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 681148FB1B0F0E9D00E024B1 /* ImgforCell@3x.png */; };
 		686B73ED1B1D987000E229B9 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 686B73EC1B1D987000E229B9 /* 2.jpg */; };
-		68824D941B0EBB57006E3151 /* QSU14DisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68824D901B0EBB57006E3151 /* QSU14DisplayCell.m */; };
-		68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68824D911B0EBB57006E3151 /* QSU14DisplayCell.xib */; };
 		68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68C919791B15ACE800A5D405 /* shadowImage.png */; };
 		68D16CB91B32DDA500A4646C /* QSS21CategorySelectorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB31B32DDA500A4646C /* QSS21CategorySelectorVC.m */; };
 		68D16CBA1B32DDA500A4646C /* QSS21CategorySelectorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB41B32DDA500A4646C /* QSS21CategorySelectorVC.xib */; };
@@ -115,8 +113,6 @@
 		EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646251A2B229300172618 /* NSNumber+QSExtension.m */; };
 		EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */; };
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
-		EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */; };
-		EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */; };
 		EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */; };
 		EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */; };
 		EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */; };
@@ -235,7 +231,6 @@
 		EFAB9C2F1B34300D008A4EF5 /* QSBadgeBtnGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C2E1B34300D008A4EF5 /* QSBadgeBtnGroup.m */; };
 		EFAB9C5F1B346FE5008A4EF5 /* QSImageCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C3B1B346FE5008A4EF5 /* QSImageCollectionModel.m */; };
 		EFAB9C601B346FE5008A4EF5 /* QSImageCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C3D1B346FE5008A4EF5 /* QSImageCollectionViewProvider.m */; };
-		EFAB9C611B346FE5008A4EF5 /* QSItemCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C3F1B346FE5008A4EF5 /* QSItemCollectionViewProvider.m */; };
 		EFAB9C621B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C411B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m */; };
 		EFAB9C641B346FE5008A4EF5 /* QSShowCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C451B346FE5008A4EF5 /* QSShowCollectionViewProvider.m */; };
 		EFAB9C651B346FE5008A4EF5 /* QSWaterfallBasicProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C471B346FE5008A4EF5 /* QSWaterfallBasicProvider.m */; };
@@ -347,9 +342,6 @@
 		681148FB1B0F0E9D00E024B1 /* ImgforCell@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ImgforCell@3x.png"; sourceTree = "<group>"; };
 		686B73EC1B1D987000E229B9 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		68824D8D1B0EBB57006E3151 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		68824D8F1B0EBB57006E3151 /* QSU14DisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14DisplayCell.h; sourceTree = "<group>"; };
-		68824D901B0EBB57006E3151 /* QSU14DisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14DisplayCell.m; sourceTree = "<group>"; };
-		68824D911B0EBB57006E3151 /* QSU14DisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU14DisplayCell.xib; sourceTree = "<group>"; };
 		68C919791B15ACE800A5D405 /* shadowImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadowImage.png; sourceTree = "<group>"; };
 		68D16CB21B32DDA500A4646C /* QSS21CategorySelectorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21CategorySelectorVC.h; sourceTree = "<group>"; };
 		68D16CB31B32DDA500A4646C /* QSS21CategorySelectorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21CategorySelectorVC.m; sourceTree = "<group>"; };
@@ -596,9 +588,6 @@
 		EF4646271A2B2FA500172618 /* NSArray+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+QSExtension.h"; sourceTree = "<group>"; };
 		EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+QSExtension.m"; sourceTree = "<group>"; };
 		EF46462A1A2B5DBC00172618 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		EF4903691A7E788200A848B4 /* QSItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemCollectionViewCell.h; sourceTree = "<group>"; };
-		EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemCollectionViewCell.m; sourceTree = "<group>"; };
-		EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemCollectionViewCell.xib; sourceTree = "<group>"; };
 		EF4985961AC875F900F70811 /* QSAbstractRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractRootViewController.h; sourceTree = "<group>"; };
 		EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractRootViewController.m; sourceTree = "<group>"; };
 		EF4EFD0B1B121D28002C6430 /* QSTopShowOneDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTopShowOneDayCell.h; sourceTree = "<group>"; };
@@ -805,8 +794,6 @@
 		EFAB9C3B1B346FE5008A4EF5 /* QSImageCollectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSImageCollectionModel.m; sourceTree = "<group>"; };
 		EFAB9C3C1B346FE5008A4EF5 /* QSImageCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSImageCollectionViewProvider.h; sourceTree = "<group>"; };
 		EFAB9C3D1B346FE5008A4EF5 /* QSImageCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSImageCollectionViewProvider.m; sourceTree = "<group>"; };
-		EFAB9C3E1B346FE5008A4EF5 /* QSItemCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemCollectionViewProvider.h; sourceTree = "<group>"; };
-		EFAB9C3F1B346FE5008A4EF5 /* QSItemCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemCollectionViewProvider.m; sourceTree = "<group>"; };
 		EFAB9C401B346FE5008A4EF5 /* QSMatchCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatchCollectionViewProvider.h; sourceTree = "<group>"; };
 		EFAB9C411B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatchCollectionViewProvider.m; sourceTree = "<group>"; };
 		EFAB9C441B346FE5008A4EF5 /* QSShowCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowCollectionViewProvider.h; sourceTree = "<group>"; };
@@ -1046,9 +1033,6 @@
 		68824D8E1B0EBB57006E3151 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				68824D8F1B0EBB57006E3151 /* QSU14DisplayCell.h */,
-				68824D901B0EBB57006E3151 /* QSU14DisplayCell.m */,
-				68824D911B0EBB57006E3151 /* QSU14DisplayCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1349,9 +1333,6 @@
 				EF1A59221A06761800001AE0 /* QSShowCollectionViewCell.xib */,
 				EF1A59231A06761800001AE0 /* QSWaterFallCollectionViewLayout.h */,
 				EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */,
-				EF4903691A7E788200A848B4 /* QSItemCollectionViewCell.h */,
-				EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */,
-				EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */,
 				EFAA5A371AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.h */,
 				EFAA5A381AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m */,
 				EFAA5A391AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib */,
@@ -2100,8 +2081,6 @@
 				EFAB9C3B1B346FE5008A4EF5 /* QSImageCollectionModel.m */,
 				EFAB9C3C1B346FE5008A4EF5 /* QSImageCollectionViewProvider.h */,
 				EFAB9C3D1B346FE5008A4EF5 /* QSImageCollectionViewProvider.m */,
-				EFAB9C3E1B346FE5008A4EF5 /* QSItemCollectionViewProvider.h */,
-				EFAB9C3F1B346FE5008A4EF5 /* QSItemCollectionViewProvider.m */,
 				EFAB9C401B346FE5008A4EF5 /* QSMatchCollectionViewProvider.h */,
 				EFAB9C411B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m */,
 				EFAB9C441B346FE5008A4EF5 /* QSShowCollectionViewProvider.h */,
@@ -2645,7 +2624,6 @@
 				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
 				8C5345491B4D61180062D638 /* welcome3_667@2x.png in Resources */,
 				8C53454C1B4D61180062D638 /* welcome3_736@3x.png in Resources */,
-				EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */,
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
 				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
 				EF994D911B693C3B00715B0E /* QSDiscountTitleCell.xib in Resources */,
@@ -2677,7 +2655,6 @@
 				A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */,
 				68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
-				68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */,
 				8C5345481B4D61180062D638 /* welcome2_667@2x.png in Resources */,
 				EF610EFD1AF937F700B7DFB3 /* QSBigImageDateView.xib in Resources */,
 				EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */,
@@ -2776,7 +2753,6 @@
 				EFAD757C1B3AFD4C00565DED /* QSCanvasImageView.m in Sources */,
 				8C8658E51B33F2E7004DF14F /* QSU01MatchCollectionViewCell.m in Sources */,
 				EFAB9C661B346FE5008A4EF5 /* QSLocationPickerProvider.m in Sources */,
-				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,
 				EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
@@ -2790,7 +2766,6 @@
 				EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */,
 				EFAB9C6D1B346FE5008A4EF5 /* QSOrderListTableViewProvider.m in Sources */,
 				EF6753BF1A6416C90045E96C /* QSG01ItemWebViewController.m in Sources */,
-				68824D941B0EBB57006E3151 /* QSU14DisplayCell.m in Sources */,
 				EFCC1B8E1B0203FB00E13279 /* QSThirdPartLoginService.m in Sources */,
 				EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
@@ -2919,7 +2894,6 @@
 				EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */,
 				EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */,
 				EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */,
-				EFAB9C611B346FE5008A4EF5 /* QSItemCollectionViewProvider.m in Sources */,
 				EFAB9C691B346FE5008A4EF5 /* QSBigImageTableViewProvider.m in Sources */,
 				EF9656A91B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m in Sources */,
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,

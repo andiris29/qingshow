@@ -406,7 +406,7 @@
                                      self.prepayOp = nil;
 
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
         self.prepayOp = nil;
     }];
 }

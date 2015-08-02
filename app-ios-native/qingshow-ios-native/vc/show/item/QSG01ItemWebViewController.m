@@ -12,6 +12,7 @@
 #import "QSDiscountTableViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()

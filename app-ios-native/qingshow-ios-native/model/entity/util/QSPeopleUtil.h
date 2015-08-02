@@ -26,8 +26,7 @@
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
 + (NSString*)getNumberCreateShows:(NSDictionary*)peopleDict;
 
-+ (NSString*)getNumberFollowBrands:(NSDictionary*)peopleDict;
-+ (NSString*)getNumberFollowPeoples:(NSDictionary*)peopleDict;
+
 + (NSString*)getNumberLiketoCreateShows:(NSDictionary*)peopleDict;
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;
@@ -45,7 +44,6 @@
 + (NSArray*)getExpectations:(NSDictionary*)dict;
 + (NSString*)getExpectationsDesc:(NSDictionary*)dict;
 
-#warning TODO remove all measure info?
 + (NSString*)getShoulder:(NSDictionary*)dict;
 + (NSString*)getBust:(NSDictionary*)dict;
 + (NSString*)getWaist:(NSDictionary*)dict;

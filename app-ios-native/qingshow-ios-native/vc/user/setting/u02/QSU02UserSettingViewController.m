@@ -361,14 +361,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     // Success Handle
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
         [hud hide:YES];
-#warning TODO Refactor
-        if (metadata[@"error"] == nil && people != nil) {
-            [self showSuccessHudWithText:@"上传成功"];
-            // refresh local login user's data
-            [self refreshData];
-        } else {
-            [self showErrorHudWithText:@"上传失败"];
-        }
+        [self showSuccessHudWithText:@"上传成功"];
     };
     
     // Error Handle
