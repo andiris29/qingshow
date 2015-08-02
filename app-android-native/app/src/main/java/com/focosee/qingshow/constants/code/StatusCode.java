@@ -1,6 +1,5 @@
 package com.focosee.qingshow.constants.code;
 
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/3/17.

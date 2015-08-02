@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S17DetailsEvent;
 import com.focosee.qingshow.activity.fragment.S17DetailsFragment;
@@ -36,7 +37,9 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.wxapi.WXPayEvent;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
+import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +55,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S17PayActivity extends BaseActivity implements View.OnClickListener {
+public class S17PayActivity extends BaseActivity implements View.OnClickListener, IWXAPIEventHandler{
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ENTITY";
 
@@ -103,6 +106,14 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         submit.setOnClickListener(this);
         priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.actualPrice)));
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+        QSApplication.instance().getWxApi().handleIntent(intent, this);
     }
 
     @Override
@@ -290,4 +301,13 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
     }
 
+    @Override
+    public void onReq(BaseReq baseReq) {
+
+    }
+
+    @Override
+    public void onResp(BaseResp baseResp) {
+
+    }
 }

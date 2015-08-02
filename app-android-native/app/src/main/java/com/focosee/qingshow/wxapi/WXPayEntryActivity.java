@@ -1,6 +1,7 @@
 package com.focosee.qingshow.wxapi;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
@@ -31,6 +32,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     public void onResp(BaseResp baseResp) {
+        Toast.makeText(WXPayEntryActivity.this, "fdsafdsafdsa", Toast.LENGTH_SHORT).show();
         EventBus.getDefault().post(new WXPayEvent(baseResp));
         finish();
     }

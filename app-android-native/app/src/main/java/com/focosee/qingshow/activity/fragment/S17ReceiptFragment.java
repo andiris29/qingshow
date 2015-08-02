@@ -88,7 +88,7 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s11_receipt_manage:
-                if(null == QSModel.INSTANCE.getUser()){
+                if(!QSModel.INSTANCE.loggedin()){
                     return;
                 }
                 Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
