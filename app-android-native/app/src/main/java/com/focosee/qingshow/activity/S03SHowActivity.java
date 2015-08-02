@@ -65,7 +65,7 @@ import de.greenrobot.event.EventBus;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
 
-public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler, IWeiboHandler.Response {
+public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
@@ -343,7 +343,6 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
         super.onNewIntent(intent);
 
         setIntent(intent);
-        QSApplication.instance().getWxApi().handleIntent(intent, this);
         mWeiboShareAPI.handleWeiboResponse(intent, this);
     }
 
@@ -363,39 +362,6 @@ public class S03SHowActivity extends MenuActivity implements IWXAPIEventHandler,
         }
     }
 
-    @Override
-    public void onReq(BaseReq req) {
-        switch (req.getType()) {
-            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
-                Log.i("tag", "COMMAND_GETMESSAGE_FROM_WX");
-                break;
-            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
-                Log.i("tag", "COMMAND_SHOWMESSAGE_FROM_WX");
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onResp(BaseResp resp) {
-
-        switch (resp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                Log.i("tag", "ERR_OK");
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                Log.i("tag", "ERR_USER_CANCEL");
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                Log.i("tag", "ERR_AUTH_DENIED");
-                break;
-            default:
-                Log.i("tag", "ERR_OK");
-                break;
-        }
-
-    }
 
     @Override
     public void onClick(View v) {
