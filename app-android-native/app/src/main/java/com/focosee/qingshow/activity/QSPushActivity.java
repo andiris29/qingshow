@@ -46,6 +46,11 @@ public class QSPushActivity extends Activity {
             intent = new Intent(QSPushActivity.this,PushWebActivity.class);
         }
 
+
+        if (command.equals(QSPushAPI.TRADE_INITIALIZED)){
+            intent = new Intent(QSPushActivity.this,U09TradeListActivity.class);
+        }
+
         if (intent != null)
             startActivity(intent);
         else startActivity(new Intent(QSPushActivity.this, S01MatchShowsActivity.class));
