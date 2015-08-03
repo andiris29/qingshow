@@ -18,6 +18,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.ReturnInformationModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.FileUtil;
+import com.focosee.qingshow.widget.LoadingDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.timessquare.CalendarPickerView;
@@ -95,6 +96,9 @@ public class U12ReturnActivity extends BaseActivity{
             Toast.makeText(U12ReturnActivity.this, "请填写货运单号", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        final LoadingDialog loadingDialog = new LoadingDialog(getSupportFragmentManager());
+        loadingDialog.show(U12ReturnActivity.class.getSimpleName());
         Map params = new HashMap();
         Map returnLogistic = new HashMap();
 
@@ -110,8 +114,9 @@ public class U12ReturnActivity extends BaseActivity{
         QSJsonObjectRequest jor2 = new QSJsonObjectRequest(QSAppWebAPI.getTradeStatustoApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                System.out.println("response:" + response);
+                loadingDialog.dismiss();
                 if(MetadataParser.hasError(response)){
-                    System.out.println(response);
                     ErrorHandler.handle(U12ReturnActivity.this, MetadataParser.getError(response));
                     isSuccessed = false;
                     return;

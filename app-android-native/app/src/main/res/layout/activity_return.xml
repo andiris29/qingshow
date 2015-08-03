@@ -236,6 +236,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@null"
                         android:hint="请填写货运单号"
+                        android:inputType="number"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />

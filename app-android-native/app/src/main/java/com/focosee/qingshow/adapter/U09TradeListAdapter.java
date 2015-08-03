@@ -2,8 +2,6 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -12,6 +10,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
@@ -21,8 +20,10 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.model.EventModel;
+import com.focosee.qingshow.model.TradeModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.adapter.*;
@@ -32,7 +33,6 @@ import com.focosee.qingshow.widget.ConfirmDialog;
 
 import org.json.JSONObject;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +44,6 @@ import de.greenrobot.event.EventBus;
 public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener{
 
     public static String transaction = "";
-    private OnViewHolderListener onViewHolderListener;
     private final int CANCEL = 0;
     private final int COMFIRM_PAY = 1;
     private final int COMFIRM_RECEIPT = 2;
@@ -71,7 +70,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         final MongoTrade trade = getItemData(position);
         if(null == trade)return;
 
-        Button btn1 = holder.getView(R.id.item_tradelist_btn1);
+        final Button btn1 = holder.getView(R.id.item_tradelist_btn1);
         Button btn2 = holder.getView(R.id.item_tradelist_btn2);
         Button btn3 = holder.getView(R.id.item_tradelist_btn3);
         btn1.setVisibility(View.INVISIBLE);
@@ -84,13 +83,18 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
         //TODO change SKU
 //        LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
-//        holder.setText(R.id.item_tradelist_color, SkuUtil.getPropValue(skus, SkuUtil.KEY.COLOR.id));
+        StringBuffer skuProperties = new StringBuffer();
+        for (String p : trade.orders.get(0).selectedSkuProperties){
+            skuProperties.append(p);
+            skuProperties.append("\n");
+        }
+        holder.setText(R.id.item_tradelist_skuProperties, skuProperties.toString().substring(0, skuProperties.toString().length() - "\n".length()));
 //        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
-        //holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
+        holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).actualPrice));
         holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
-        System.out.println("thumbnail:" + trade.orders.get(0).itemSnapshot.thumbnail);
-//        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.name);
+
         //0-折扣申请中
         if(trade.status == 0){
             btn1.setVisibility(View.VISIBLE);
@@ -98,7 +102,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, CANCEL);
+                    statusTo(trade, 17, CANCEL, position);
                 }
             });
             return;
@@ -108,16 +112,24 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setVisibility(View.VISIBLE);
             btn2.setVisibility(View.VISIBLE);
             holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.VISIBLE);
-            btn1.setTag("确认付款");
+            btn1.setText("分享后付款");
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "确认付款", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, S17PayActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
+//                    Toast.makeText(context, "确认付款", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(context, S17PayActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+//                    intent.putExtras(bundle);
+//                    context.startActivity(intent);
+                    transaction = String.valueOf(System.currentTimeMillis());
+                    if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
+                        ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, transaction, context, true);
+                        TradeModel.INSTANCE.setTrade(trade);
+//                        EventBus.getDefault().post(new EventModel<Integer>(U09TradeListActivity.class, position-1));
+                    }else
+                        Toast.makeText(context, "请先安装微信，然后才能分享", Toast.LENGTH_SHORT).show();
+
                 }
             });
 //            if(null != trade.__context) {
@@ -150,7 +162,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, CANCEL);
+                    statusTo(trade, 17, CANCEL, position);
                 }
             });
 //
@@ -163,7 +175,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, CANCEL);
+                    statusTo(trade, 17, CANCEL, position);
                 }
             });
         }
@@ -178,13 +190,17 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 5, COMFIRM_RECEIPT);
+                    statusTo(trade, 5, COMFIRM_RECEIPT, position);
                 }
             });
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, U12ReturnActivity.class));
+                    Intent intent = new Intent(context, U12ReturnActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
                 }
             });
             btn3.setOnClickListener(new View.OnClickListener() {
@@ -219,11 +235,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         return null == datas ? 1 : datas.size() + 1;
     }
 
-    public void setOnViewHolderListener(OnViewHolderListener onViewHolderListener){
-        this.onViewHolderListener = onViewHolderListener;
-    }
-
-    public void statusTo(MongoTrade trade, int status, final int type){
+    public void statusTo(MongoTrade trade, int status, final int type, final int position){
 
         JSONObject jsonObject = getStatusJSONObjcet(trade, status);
 
@@ -235,7 +247,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
                 }
-                responseToStatusToSuccessed(type);
+                responseToStatusToSuccessed(type, position, TradeParser.parse(response));
             }
         });
 
@@ -278,18 +290,18 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
     }
 
-    private void responseToStatusToSuccessed(int type){
+    private void responseToStatusToSuccessed(int type, int position, MongoTrade parse){
         EventBus.getDefault().post(U09TradeListActivity.responseToStatusToSuccessed);
-        final ConfirmDialog dialog = new ConfirmDialog();
+        datas.set(position - 1, parse);
+        notifyDataSetChanged();
         switch (type){
             case CANCEL://取消订单
-                dialog.setTitle("订单取消成功");
+                Toast.makeText(context, "已取消订单", Toast.LENGTH_SHORT).show();
                 break;
             case COMFIRM_RECEIPT:
-                dialog.setTitle("已确认收货");
+                Toast.makeText(context, "已确认收货", Toast.LENGTH_SHORT).show();
                 break;
         }
-        dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
     }
 
     @Override

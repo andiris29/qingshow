@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -21,6 +24,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.TradeModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.TradeUtil;
@@ -28,6 +32,10 @@ import com.focosee.qingshow.widget.LoadingDialog;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
+import com.focosee.qingshow.wxapi.WXEntryActivity;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,11 +71,11 @@ public class U09TradeListActivity extends MenuActivity {
     private LinearLayoutManager mLayoutManager;
     private String peopleId;
     private int currentPageNo = 1;
-    private EventBus eventBus;
 
     private View firstItem;
     private int currentType = 1;
     private boolean isRunning = true;
+    private int sharePosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +100,7 @@ public class U09TradeListActivity extends MenuActivity {
 
 //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         tradelist.setHasFixedSize(true);
-        mAdapter.setOnViewHolderListener(new U09TradeListAdapter.OnViewHolderListener() {
-            @Override
-            public void onRequestedLastItem() {
-                doLoadMore(currentType);
 
-            }
-        });
         tradelist.setAdapter(mAdapter);
         tradelist.addItemDecoration(new SpacesItemDecoration(10));
 
@@ -134,8 +136,7 @@ public class U09TradeListActivity extends MenuActivity {
 
         doRefresh(currentType);
 
-        eventBus = new EventBus();
-        eventBus.register(this);
+        EventBus.getDefault().register(this);
     }
 
     public void onEventMainThread(LinkedList<MongoTrade> event) {
@@ -149,14 +150,23 @@ public class U09TradeListActivity extends MenuActivity {
 
     public void onEventMainThread(EventModel<Integer> event) {
         if(event.tag == U09TradeListActivity.class){
-            doRefresh(currentType);
+//            mAdapter.getItemData(sharePosition).__context.sharedByCurrentUser = true;
+            if(event.msg != SendMessageToWX.Resp.ErrCode.ERR_OK){
+                Toast.makeText(U09TradeListActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, TradeModel.INSTANCE.getTrade());
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        eventBus.unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
     public void doRefresh(int type) {
@@ -176,21 +186,23 @@ public class U09TradeListActivity extends MenuActivity {
             inProgress = true;
         }
 
-//        final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
-//        pDialog.show(U09TradeListActivity.class.getSimpleName());
+        final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
+        if(currentPageNo == 1)
+            pDialog.show(U09TradeListActivity.class.getSimpleName());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(peopleId, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println("response:" + response);
-//                pDialog.dismiss();
+                if(currentPageNo == 1)
+                    pDialog.dismiss();
                 if (MetadataParser.hasError(response)) {
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
                         recyclerPullToRefreshView.setHasMoreData(false);
-                        if (isRunning) {
+                        if (isRunning) {//进入u09时的第一次请求
+                            clickTabRunning();
                             doRefresh(TYPE_ALL);
                             currentType = TYPE_ALL;
-                            isRunning = false;
                         }
                     } else {
                         ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
@@ -198,11 +210,11 @@ public class U09TradeListActivity extends MenuActivity {
                     }
                     return;
                 }
-                if (isRunning) {
+                if (isRunning) {//进入u09时的第一次请求
                     clickTabRunning();
-                    currentType = TYPE_ALL;
-                    isRunning = false;
+                    currentType = TYPE_RUNNING;
                 }
+
                 List<MongoTrade> tradeList = TradeParser.parseQuery(response);
                 tradeList = TradeUtil.tradelistSort(tradeList);
                 if (pageNo == 1) {
@@ -215,6 +227,7 @@ public class U09TradeListActivity extends MenuActivity {
                 }
                 currentPageNo++;
                 mAdapter.notifyDataSetChanged();
+                isRunning = false;
             }
         });
 
@@ -235,11 +248,13 @@ public class U09TradeListActivity extends MenuActivity {
                 menuSwitch();
                 break;
             case R.id.u09_tab_all:
+                currentPageNo=1;
                 currentType = TYPE_ALL;
                 clickTabAll();
                 doRefresh(TYPE_ALL);
                 break;
             case R.id.u09_tab_running:
+                currentPageNo=1;
                 currentType = TYPE_RUNNING;
                 clickTabRunning();
                 doRefresh(TYPE_RUNNING);
