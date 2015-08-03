@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface QSTradeUtil : NSObject
++ (NSString *)getOrderId:(NSDictionary *)dict;
 + (NSArray*)getOrderArray:(NSDictionary*)dict;
++ (NSDictionary *)getPeopleDic:(NSDictionary *)dict;
 + (NSDictionary*)getFirstOrder:(NSDictionary*)dict;
 
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;

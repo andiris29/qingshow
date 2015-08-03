@@ -11,6 +11,7 @@
 
 @interface QSPeopleUtil : NSObject
 
++ (NSString *)getPeopleId:(NSDictionary *)peopleDict;
 + (NSString*)getNickname:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary *)peopleDict type:(QSImageNameType)type;

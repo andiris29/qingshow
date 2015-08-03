@@ -61,6 +61,7 @@
             <connections>
                 <outlet property="label1" destination="noy-jL-iPj" id="SBN-pY-hPx"/>
                 <outlet property="label2" destination="fAe-yQ-Ge4" id="iYI-PV-Xt2"/>
+                <outlet property="segmentControl" destination="W26-Pc-VRm" id="SZP-WH-lQ2"/>
             </connections>
             <point key="canvasLocation" x="455" y="596"/>
         </view>

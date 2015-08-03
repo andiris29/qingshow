@@ -78,7 +78,6 @@
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
     BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
-    shouldShare = YES;
     switch (s) {
         case 0:
         case 2:
@@ -96,11 +95,11 @@
             self.returnButton.hidden = NO;
             self.saleImgView.hidden = NO;
             [self.returnButton setTitle:@"取消订单" forState:UIControlStateNormal];
-            if (shouldShare) {
-                [self.submitButton setTitle:@"分享后付款" forState:UIControlStateNormal];
+            if (!shouldShare) {
+                [self.submitButton setTitle:@"立即付款" forState:UIControlStateNormal];
             }
             else{
-            [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
+            [self.submitButton setTitle:@"分享并付款" forState:UIControlStateNormal];
             }
             break;
         }
@@ -139,13 +138,16 @@
 {
     int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
     if (status == 1) {
-        [self payBtnPressed];
+        
+        BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:self.tradeDict];
+        [self payBtnPressed:shouldShare];
+        
     } else if (status  == 3) {
         if ([self.delegate respondsToSelector:@selector(didClickReceiveBtnForCell:)]) {
             [self.delegate didClickReceiveBtnForCell:self];
         }
     }
-    else if(status == 0)
+    else if(status == 2 || status == 0)
     {
         
             [self.delegate didClickCancelBtnForCell:self];
@@ -155,7 +157,7 @@
 
 - (IBAction)returnBtnPressed:(id)sender {
     int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
-    if (status == 0 || status == 1 || status == 2) {
+    if ( status == 1 ) {
             [self.delegate didClickCancelBtnForCell:self];
     }
     else if(status == 3)
@@ -172,10 +174,10 @@
     }
 }
 
-- (void)payBtnPressed
+- (void)payBtnPressed:(BOOL)shoudShare
 {
-    if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {
-        [self.delegate didClickPayBtnForCell:self];
+    if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell: ShouldShare:)]) {
+        [self.delegate didClickPayBtnForCell:self ShouldShare:shoudShare];
     }
 }
 

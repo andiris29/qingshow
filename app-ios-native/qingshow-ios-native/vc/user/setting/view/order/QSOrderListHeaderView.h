@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView* headerImageView;
 @property (weak, nonatomic) IBOutlet UILabel* label1;
 @property (weak, nonatomic) IBOutlet UILabel* label2;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (assign,nonatomic) NSObject<QSOrderListHeaderViewDelegate>* delegate;
 
 - (IBAction)changeSegmentValue:(id)sender;

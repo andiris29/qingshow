@@ -56,10 +56,10 @@
 {
         [self.delegate didClickCancelBtnOfOrder:[self orderForCell:cell]];
 }
-- (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell ShouldShare:(BOOL)shouldShare
 {
-    if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
-        [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
+    if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder: shouldShare:)]) {
+        [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell] shouldShare:shouldShare];
     }
 }
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell
