@@ -3,17 +3,17 @@ define([
 ], function(
 ) {
 // @formatter:on
-    var StatusTo2Detail = function(ownerView) {
+    var StatusTo1Detail = function(ownerView) {
         this._ownerView = ownerView;
         this._ownerViewDom = this._ownerView.dom();
     };
 
-    StatusTo2Detail.prototype.render = function() {
+    StatusTo1Detail.prototype.render = function() {
         $('.detail', this._ownerViewDom).hide();
         $('.actual', this._ownerViewDom).show();
     };
 
-    StatusTo2Detail.prototype.getDetails = function() {
+    StatusTo1Detail.prototype.getDetails = function() {
         var actualPrice = $('#actualPrice', this._ownerViewDom).val();
         if (!actualPrice || isNaN(actualPrice)) {
             alertify.error('需要输入实际价格');
@@ -24,5 +24,5 @@ define([
         };
     };
 
-    return StatusTo2Detail;
+    return StatusTo1Detail;
 });
