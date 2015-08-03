@@ -30,6 +30,13 @@
     return statusString;
 }
 
++ (NSString *)getPeopleId:(NSDictionary *)peopleDict
+{
+    if(![QSEntityUtil checkIsDict:peopleDict]){
+        return nil;
+    }
+    return peopleDict[@"_id"];
+}
 + (NSString*)getNickname:(NSDictionary*)peopleDict
 {
     NSString* name = [peopleDict stringValueForKeyPath:@"nickname"];

@@ -13,6 +13,14 @@
 #import "NSDictionary+QSExtension.h"
 
 @implementation QSTradeUtil
+
++ (NSString *)getOrderId:(NSDictionary *)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return nil;
+    }
+    return dict[@"_id"];
+}
 + (NSArray*)getOrderArray:(NSDictionary*)dict
 {
     return [dict arrayValueForKeyPath:@"orders"];
@@ -23,6 +31,13 @@
         return orders[0];
     }
     return nil;
+}
++ (NSDictionary *)getPeopleDic:(NSDictionary *)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return nil;
+    }
+    return dict[@"peopleSnapshot"];
 }
 
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict
@@ -71,7 +86,7 @@
     if (![QSEntityUtil checkIsDict:dict]) {
         return NO;
     }
-    NSNumber *n =  [QSEntityUtil getNumberValue:dict keyPath:@"tradeContext.sharedByCurrentUser"];
+    NSNumber *n =  [QSEntityUtil getNumberValue:dict keyPath:@"__context.sharedByCurrentUser"];
     if ([QSEntityUtil checkIsNil:n]) {
         return NO;
     }

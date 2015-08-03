@@ -88,9 +88,9 @@
     _segIndex = _segmentControl.selectedSegmentIndex;
     if(_segIndex ==  1)
     {
+        
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
-           
         };
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];

@@ -10,6 +10,7 @@
 #import "QSU12RefundViewController.h"
 #import "QSS11CreateTradeViewController.h"
 #import "QSNetworkKit.h"
+#import "WXApi.h"
 
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
@@ -18,12 +19,15 @@
 #import "QSItemUtil.h"
 #import "QSDateUtil.h"
 #import "QSTradeUtil.h"
+#import "QSPeopleUtil.h"
 #define PAGE_ID @"U09 - 交易一览"
-
+#define kShareTitle @"时尚宠儿的归属地"
+#define kShareDesc @"美丽乐分享，潮流资讯早知道"
 @interface QSU09OrderListViewController ()
 
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
 @property (strong,nonatomic) NSDictionary *oderDic;
+@property (strong,nonatomic) QSOrderListHeaderView *headerView;
 @end
 
 @implementation QSU09OrderListViewController
@@ -46,7 +50,8 @@
     [self configView];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
-       NSForegroundColorAttributeName:[UIColor blackColor]}]; 
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -79,11 +84,12 @@
 - (void)configView {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"我的订单";
-    QSOrderListHeaderView* headerView = [QSOrderListHeaderView makeView];
-    headerView.delegate = self;
-    self.tableView.tableHeaderView = headerView;
+    _headerView = [QSOrderListHeaderView makeView];
+    _headerView.delegate = self;
+//    headerView.segmentControl.selectedSegmentIndex = 1;
+//    [self changeValueOfSegment:1];
+    self.tableView.tableHeaderView = _headerView;
     self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
-    [self.tableView reloadData];
     
     [self hideNaviBackBtnTitle];
 }
@@ -91,17 +97,19 @@
 {
     self.provider = [[QSOrderListTableViewProvider alloc] init];
     [self.provider bindWithTableView:self.tableView];
+    __weak QSU09OrderListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        
-        return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:@"true" onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:@"true" onSucceed:succeedBlock onError:^(NSError *error){
+            if (error.code == 1009) {
+                weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
+                [weakSelf changeValueOfSegment:1];
+            }else(errorBlock(error));
+            
+        }];
     };
     self.provider.delegate = self;
     [self.provider fetchDataOfPage:1];
     [self.provider reloadData];
-//    if (!self.provider.resultArray.count) {
-//        [self changeValueOfSegment:0];
-//    }
-   
 }
 
 #pragma mark - QSOrderListHeaderViewDelegate
@@ -136,8 +144,33 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict
+- (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict shouldShare:(BOOL)shouldShare
 {
+    
+    if (shouldShare) {
+        NSDictionary *peopleDic = [QSTradeUtil getPeopleDic:tradeDict];
+        NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
+        NSString *orderId = [QSTradeUtil getOrderId:tradeDict];
+        [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
+        WXMediaMessage *message = [WXMediaMessage message];
+        
+        message.title = [NSString stringWithFormat:@"【%@】%@", kShareTitle, kShareDesc];
+        //    message.description = kShareDesc;
+        [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
+        WXWebpageObject *ext = [WXWebpageObject object];
+
+        ext.webpageUrl = [NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id={%@}&initiatorRef={%@}",orderId,peopleId];
+        
+        message.mediaObject = ext;
+        
+        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+        req.bText = NO;
+        req.message = message;
+        req.scene = WXSceneTimeline;
+        
+        [WXApi sendReq:req];
+
+    }
     QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
     [self.navigationController pushViewController:vc animated:YES];
 //    __weak QSU09OrderListViewController* weakSelf = self;
@@ -179,6 +212,7 @@
     __weak QSU09OrderListViewController *weakSelf = self;
     [SHARE_NW_ENGINE changeTrade:orderDic status:18 info:nil onSucceed:^{
         [weakSelf showTextHud:@"已取消订单"];
+        [weakSelf.provider reloadData];
     }onError:nil];
 }
 #pragma mark - UIAlertViewDelegate
