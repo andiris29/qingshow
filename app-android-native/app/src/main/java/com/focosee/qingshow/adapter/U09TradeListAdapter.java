@@ -26,6 +26,7 @@ import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.TradeModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.SkuUtil;
@@ -91,7 +92,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         holder.setText(R.id.item_tradelist_skuProperties, skuProperties.toString().substring(0, skuProperties.toString().length() - "\n".length()));
 //        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
-        holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).actualPrice));
+        holder.setText(R.id.item_tradelist_price, StringUtil.FormatPrice(String.valueOf(trade.orders.get(0).actualPrice)));
         holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
         holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.name);
 
@@ -102,7 +103,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, CANCEL, position);
+                    onClickCancelTrade(trade, 17, CANCEL, position);
                 }
             });
             return;
@@ -145,7 +146,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, CANCEL, position);
+                    onClickCancelTrade(trade, 17, CANCEL, position);
                 }
             });
 //
@@ -157,7 +158,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    statusTo(trade, 17, CANCEL, position);
+                    onClickCancelTrade(trade, 17, CANCEL, position);
                 }
             });
         }
@@ -199,6 +200,19 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             });
         }
 
+    }
+
+    private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position){
+        final ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setTitle("确定要取消订单？");
+        dialog.setConfirm(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statusTo(trade, status, type, position);
+                dialog.dismiss();
+            }
+        });
+        dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
     }
 
     @Override
