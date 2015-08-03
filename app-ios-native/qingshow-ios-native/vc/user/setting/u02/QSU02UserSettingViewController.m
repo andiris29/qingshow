@@ -362,6 +362,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
         [hud hide:YES];
         [self showSuccessHudWithText:@"上传成功"];
+        [self.tableView reloadData];
     };
     
     // Error Handle
