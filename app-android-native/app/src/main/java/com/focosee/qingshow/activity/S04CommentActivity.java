@@ -90,6 +90,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         setContentView(R.layout.activity_s04_comment);
         ButterKnife.inject(this);
 
+        leftBtn.setImageResource(R.drawable.btn_back_default);
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
