@@ -34,6 +34,7 @@ admin.find = {
 admin.kelpLog = {
     'method' : 'get',
     'func' : function(req, res) {
-        require('winston').info('kelpLog' + req.queryString.log);
+        require('winston').info('[kelpLog] ' + req.queryString.log);
+        res.end('kelpLog success');
     }
 };
