@@ -39,9 +39,9 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
     private int default_posion = Integer.MAX_VALUE;
     private MongoPeople people;
 
-    public U10AddressListAdapter(@NonNull List<MongoPeople.Receiver> datas, Context context, int... layoutId) {
+    public U10AddressListAdapter(MongoPeople people, @NonNull List<MongoPeople.Receiver> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
-        people = QSModel.INSTANCE.getUser();
+        this.people = people;
     }
 
     @Override
@@ -60,6 +60,11 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
         holder.setText(R.id.item_addresslist_province, (null == datas.get(i).province ? "" : datas.get(i).province)
                 + (null == datas.get(i).address ? "" : datas.get(i).address));
         holder.setText(R.id.item_addresslist_address, null == datas.get(i).address ? "" : datas.get(i).address);
+        holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment);
+        holder.setImgeByRes(R.id.item_addresslist_edit_img, R.drawable.item_addresslist_edit_gray);
+        holder.setImgeByRes(R.id.item_addresslist_del_img, R.drawable.item_addresslist_del_gray);
+        ((TextView)holder.getView(R.id.item_addresslist_edit_tv)).setTextColor(context.getResources().getColor(R.color.darker_gray));
+        ((TextView)holder.getView(R.id.item_addresslist_del_tv)).setTextColor(context.getResources().getColor(R.color.darker_gray));
         if (datas.get(i).isDefault) {
             holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment_hover);
             holder.setImgeByRes(R.id.item_addresslist_edit_img, R.drawable.item_addresslist_edit);
@@ -67,12 +72,6 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
             ((TextView)holder.getView(R.id.item_addresslist_edit_tv)).setTextColor(context.getResources().getColor(R.color.master_pink));
             ((TextView)holder.getView(R.id.item_addresslist_del_tv)).setTextColor(context.getResources().getColor(R.color.master_pink));
             default_posion = i;
-        } else {
-            holder.setImgeByRes(R.id.item_addresslist_choose_btn, R.drawable.s11_payment);
-            holder.setImgeByRes(R.id.item_addresslist_edit_img, R.drawable.item_addresslist_edit_gray);
-            holder.setImgeByRes(R.id.item_addresslist_del_img, R.drawable.item_addresslist_del_gray);
-            ((TextView)holder.getView(R.id.item_addresslist_edit_tv)).setTextColor(context.getResources().getColor(R.color.darker_gray));
-            ((TextView)holder.getView(R.id.item_addresslist_del_tv)).setTextColor(context.getResources().getColor(R.color.darker_gray));
         }
         if (context instanceof U10AddressListActivity) {
             if (S17ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
@@ -107,7 +106,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 dialog.setConfirm("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        delReceiver(datas.get(i).uuid);
+                        delReceiver(i);
                         dialog.dismiss();
                     }
                 });
@@ -192,10 +191,10 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
         });
     }
 
-    public void delReceiver(String uuid) {
+    public void delReceiver(final int position) {
 
         Map<String, String> params = new HashMap<>();
-        params.put("uuid", uuid);
+        params.put("uuid", datas.get(position).uuid);
 
         QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getUserRemoveReceiverApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
 
@@ -209,6 +208,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 people = QSModel.INSTANCE.getUser();
                 datas = people.receivers;
                 notifyDataSetChanged();
+                if(position == default_posion)default_posion = Integer.MAX_VALUE;
                 Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
             }
         });

@@ -112,52 +112,35 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn1.setVisibility(View.VISIBLE);
             btn2.setVisibility(View.VISIBLE);
             holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.VISIBLE);
-            btn1.setText("分享后付款");
-            btn1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Toast.makeText(context, "确认付款", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(context, S17PayActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-//                    intent.putExtras(bundle);
-//                    context.startActivity(intent);
-                    transaction = String.valueOf(System.currentTimeMillis());
-                    if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
-                        ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, transaction, context, true);
-                        TradeModel.INSTANCE.setTrade(trade);
-//                        EventBus.getDefault().post(new EventModel<Integer>(U09TradeListActivity.class, position-1));
-                    }else
-                        Toast.makeText(context, "请先安装微信，然后才能分享", Toast.LENGTH_SHORT).show();
-
+            if(null != trade.__context) {
+                if(trade.__context.sharedByCurrentUser) {
+                    btn1.setTag("确认付款");
+                    btn1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "确认付款", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        }
+                    });
+                }else {
+                    btn1.setText("分享后付款");
+                    btn1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            transaction = String.valueOf(System.currentTimeMillis());
+                            if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
+                                TradeModel.INSTANCE.setTrade(trade);
+                                ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, transaction, context, true);
+                            }else
+                                Toast.makeText(context, "请先安装微信，然后才能分享", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-            });
-//            if(null != trade.__context) {
-//                if(trade.__context.sharedByCurrentUser) {
-//                    btn1.setTag("确认付款");
-//                    btn1.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(context, "确认付款", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-//                            intent.putExtras(bundle);
-//                            context.startActivity(intent);
-//                        }
-//                    });
-//                }
-//            }else {
-//                btn1.setText("先分享后确认付款");
-//                btn1.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        transaction = String.valueOf(System.currentTimeMillis());
-//                        ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, transaction, context, true);
-//                        EventBus.getDefault().post(U09TradeListActivity.responseToStatusToSuccessed);
-//                    }
-//                });
-//            }
+            }
             btn2.setText("取消订单");
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,7 +150,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             });
 //
         }
-//        holder.getView(R.id.item_trade_finishTime_layout).setVisibility(View.VISIBLE);
         //2-已付款
         if(trade.status == 2){
             btn1.setVisibility(View.VISIBLE);
@@ -208,7 +190,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 public void onClick(View v) {
                     String msg = "暂无物流信息";
                     if(null != trade.logistic) {
-                        msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + trade.logistic.trackingID;
+                        msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + trade.logistic.trackingID == null ? "" : trade.logistic.trackingID;
                     }
                     final ConfirmDialog dialog = new ConfirmDialog();
                     dialog.setTitle(msg);
@@ -268,10 +250,8 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
         switch (status){
             case 1:
-//                params.put("taobaoInfo.userNick", trade.orders.get(0).itemSnapshot.taobaoInfo.nick);
                 taobaoInfo.put("tradeID", trade.taobaoInfo.tradeID);
                 taobaoInfo.put("userNick", trade.taobaoInfo.userNick);
-                //orders.put("actualPrice", trade.orders.get(0).price);
                 params.put("orders", orders);
                 break;
             case 3:

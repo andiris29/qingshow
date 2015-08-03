@@ -219,7 +219,8 @@ public class U01UserActivity extends MenuActivity {
     private void initUserInfo() {
 
         if (null == user) {
-            return;
+            user = new MongoPeople();
+            user._id = QSModel.INSTANCE.getUserId();
         }
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(user._id), null, new Response.Listener<JSONObject>() {

@@ -39,14 +39,7 @@ public class U10AddressListActivity extends BaseActivity {
     private LinearLayoutManager mLayoutManager;
     private MongoPeople people;
     public String fromWhere = "";
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(U11AddressEditFragment.ASK_REFRESH.equals(intent.getAction())){
-                refresh();
-            }
-        }
-    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,23 +74,20 @@ public class U10AddressListActivity extends BaseActivity {
 
 //创建默认的线性LayoutManager
         mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         addresslist.setLayoutManager(mLayoutManager);
 //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         addresslist.setHasFixedSize(true);
 //创建并设置Adapter
-        mAdapter = new U10AddressListAdapter(new LinkedList<MongoPeople.Receiver>(), U10AddressListActivity.this, R.layout.item_addreslist);
+        mAdapter = new U10AddressListAdapter(people, new LinkedList<MongoPeople.Receiver>(), U10AddressListActivity.this, R.layout.item_addreslist);
         if(null != people.receivers)
             mAdapter.addDataAtTop(people.receivers);
         addresslist.setAdapter(mAdapter);
 
-        registerReceiver(receiver, new IntentFilter(U11AddressEditFragment.ASK_REFRESH));
-
     }
 
     public void refresh(){
-        people = QSModel.INSTANCE.getUser();
-        mAdapter.addDataAtTop(people.receivers);
-        mAdapter.notifyDataSetChanged();
+        getPeopleFromNet();
     }
 
     public void getPeopleFromNet(){
@@ -110,6 +100,8 @@ public class U10AddressListActivity extends BaseActivity {
                 }
                 LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
                 people = users.get(0);
+                mAdapter.addDataAtTop(people.receivers);
+                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -120,13 +112,12 @@ public class U10AddressListActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiver);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        people = QSModel.INSTANCE.getUser();
+        refresh();
     }
 
     @Override

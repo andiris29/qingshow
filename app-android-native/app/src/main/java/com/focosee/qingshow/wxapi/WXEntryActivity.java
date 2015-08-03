@@ -70,7 +70,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
             EventModel<Integer> eventModel;
             if(resp.transaction.equals(U09TradeListAdapter.transaction)){
-                Toast.makeText(WXEntryActivity.this, "·ÖÏí³É¹¦£¬Äú¿ÉÒÔ¸¶¿îÁË¡£", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WXEntryActivity.this, "åˆ†äº«æˆåŠŸï¼Œæ‚¨å¯ä»¥ä»˜æ¬¾äº†ã€‚", Toast.LENGTH_SHORT).show();
                 eventModel = new EventModel<>(U09TradeListActivity.class, resp.errCode);
             }else{
                 eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
