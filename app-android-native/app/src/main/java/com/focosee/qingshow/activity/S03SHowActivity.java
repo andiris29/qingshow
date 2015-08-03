@@ -284,17 +284,11 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
     private void showData_other() {
         s03Portrait.setVisibility(View.VISIBLE);
-        if (null != showDetailEntity.ownerRef)
-            UserCommand.getPeople(new Callback() {
-                @Override
-                public void onComplete(JSONObject response) {
-                    showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
-                    if (TextUtils.isEmpty(showDetailEntity.ownerRef.portrait))
-                        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
-                    s03Nickname.setVisibility(View.VISIBLE);
-                    s03Nickname.setText(showDetailEntity.ownerRef.nickname);
-                }
-            }, S03SHowActivity.this, showDetailEntity.ownerRef._id);
+        s03Nickname.setVisibility(View.VISIBLE);
+        if (null == showDetailEntity.ownerRef)return;
+        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
+        s03Nickname.setText(showDetailEntity.ownerRef.nickname);
+
     }
 
     public void pauseVideo() {
