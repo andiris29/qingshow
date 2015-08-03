@@ -6,8 +6,8 @@ var Item = require('../../model/items');
 var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 var People = require('../../model/peoples');
+var jPushAudiences = require('../../model/jPushAudiences');
 
 //util
 var MongoHelper = require('../helpers/MongoHelper');
@@ -41,7 +41,7 @@ show.query = {
                 '_id' : {
                     '$in' : _ids
                 }
-            }).populate('modelRef').populate('itemRefs').exec(callback);
+            }).populate('ownerRef').populate('itemRefs').exec(callback);
         },
         function(shows, callback) {
             var tasks = shows.map(function(show) {
@@ -180,15 +180,22 @@ show.comment = {
             });
         }, 
         function(callback) {
-            RPeopleCreateShow.findOne({
-                'targetRef' : targetRef
-            }).exec(function(err, relationship) {
-                if (relationship) {
-                    People.findOne({
-                        '_id' : relationship.initiatorRef
-                    }).exec(function(err, people) {
-                        if (people) {
-                            PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageNewShowComment, {
+            Show.findOne({
+                '_id' : targetRef
+            }).populate('ownerRef').exec(function(err, show) {
+                if (show && show.ownerRef) {
+                    jPushAudiences.find({
+                        'peopleRef' : show.ownerRef
+                    }).exec(function(err, infos) {
+                        if (infos.length > 0) {
+                            var targets = [];
+                            infos.forEach(function(element) {
+                                if (element.registrationId && element.registrationId.length > 0) {
+                                    targets.push(element.registrationId);
+                                }
+                            });
+
+                            PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewShowComment, {
                                 'id' : param._id,
                                 'command' : PushNotificationHelper.CommandNewShowComments
                             }, null);

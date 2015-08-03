@@ -23,6 +23,9 @@
 @property (nonatomic,strong) UISegmentedControl *segmentControl;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
 
+
+
+
 @end
 
 @implementation QSS01MatchShowsViewController
@@ -83,15 +86,12 @@
 - (void)changeEvents
 {
     _segIndex = _segmentControl.selectedSegmentIndex;
-    //NSLog(@"_seg = %d",_segIndex);
     if(_segIndex ==  1)
     {
-        //[self.matchCollectionViewProvider.resultArray removeAllObjects];
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
            
         };
-        //NSLog(@"self.newresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
         
@@ -102,7 +102,6 @@
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
-       // NSLog(@"self.hotresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
        
@@ -113,7 +112,7 @@
 {
 
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:sender];
-    vc.menuProvider = self.menuProvider;
+   // vc.menuProvider = self.menuProvider;
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
@@ -121,8 +120,10 @@
 
 - (void)reloadCollectionViewData
 {
-    [self showNetworkWaitingHud];
-    [self.matchCollectionViewProvider reloadData];
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
+    [self.matchCollectionViewProvider reloadDataOnCompletion:^{
+        [hud hide:YES];
+    }];
 }
 
 - (void)didClickHeaderImgView:(id)sender

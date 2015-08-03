@@ -19,6 +19,7 @@
 
 - (IBAction)sendBtnPressed:(id)sender;
 
-- (id)initWithShow:(NSDictionary*)showDict;
+- (instancetype)initWithShowId:(NSString*)showId;
+- (instancetype)initWithShow:(NSDictionary*)showDict;
 
 @end

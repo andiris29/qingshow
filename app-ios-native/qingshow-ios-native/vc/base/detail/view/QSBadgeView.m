@@ -76,7 +76,7 @@
    
     if([QSPeopleUtil getHeadIconUrl:peopleDict])
     {
-    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
+    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType200] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
     }
     self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];
@@ -87,5 +87,20 @@
     self.btnGroup.frame = self.btnsContainer.bounds;
 }
 
-
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView* originView = [super hitTest:point withEvent:event];
+    
+    if ([self.btnsContainer pointInside:[self convertPoint:point toView:self.btnsContainer] withEvent:event] || originView == self.followBtn) {
+        return originView;
+    } else {
+        if (self.touchDelegateView) {
+            return self.touchDelegateView;
+        } else {
+            return originView;
+        }
+    }
+}
+- (BOOL)canBecomeFirstResponder {
+    return NO;
+}
 @end

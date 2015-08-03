@@ -56,11 +56,14 @@
         //防止重复发请求
         return;
     }
+    
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
+    
     self.createMatcherOp =
-    [SHARE_NW_ENGINE matcherSave:self.itemArray onSucceed:^(NSDictionary *dict) {
+    [SHARE_NW_ENGINE matcherSave:self.itemArray onSucceed:^(NSString *uuid) {
         self.createMatcherOp = nil;
         self.updateCoverOp =
-        [SHARE_NW_ENGINE matcher:dict updateCover:self.coverImage  onSucceed:^(NSDictionary *d) {
+        [SHARE_NW_ENGINE matcherUuid:uuid updateCover:self.coverImage  onSucceed:^(NSDictionary *d) {
             self.updateCoverOp = nil;
             
             if ([self.delegate respondsToSelector:@selector(vc:didCreateNewMatcher:)]) {
@@ -70,13 +73,16 @@
             QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:d];
             vc.showBackBtn = YES;
             vc.menuProvider = self.menuProvider;
+            [hud hide:YES];
             [self.navigationController pushViewController:vc animated:YES];
             //            [self showShowDetailViewController:d];
         } onError:^(NSError *error) {
+            [hud hide:YES];
             self.updateCoverOp = nil;
             [self showErrorHudWithError:error];
         }];
     } onError:^(NSError *error) {
+        [hud hide:YES];
         self.createMatcherOp = nil;
         [self showErrorHudWithError:error];
     }];

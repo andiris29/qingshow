@@ -7,18 +7,18 @@
 //
 
 #import "QSOrderUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 @implementation QSOrderUtil
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"itemSnapshot"];
 }
 + (NSString*)getPriceDesc:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     NSNumber* num = dict[@"price"];
@@ -26,7 +26,7 @@
 }
 + (NSString*)getQuantityDesc:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     NSNumber* num = dict[@"quantity"];
@@ -34,7 +34,7 @@
 }
 + (NSString*)getSkuId:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     NSString* num = dict[@"selectedItemSkuId"];
@@ -43,7 +43,7 @@
 }
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
     return dict[@"selectedPeopleReceiverUuid"];

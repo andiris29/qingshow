@@ -6,7 +6,7 @@ define([
     return {
         'login' : function() {
             HTTPService.post('/user/login', {
-                'id' : 'wangzheng',
+                'idOrNickName' : 'wangzheng',
                 'password' : 'wangzheng'
             });
         },

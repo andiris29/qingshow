@@ -11,10 +11,12 @@
 #import "QSItemListTableViewCell.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
+#import "QSCategoryUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+QSExtension.h"
 #import "QSItemListCell.h"
+#import "QSCategoryManager.h"
 
 #define QSItemListCellID @"QSItemListCellID"
 
@@ -25,6 +27,7 @@
 
 @interface QSS07ItemListViewController ()
 @property (strong, nonatomic) NSArray* itemArray;
+@property (strong, nonatomic) NSMutableArray *orderdArray;
 
 @end
 
@@ -37,6 +40,7 @@
     if (self) {
         self.showDict = showDict;
         self.itemArray = [QSShowUtil getItems:showDict];
+         self.orderdArray  = [self refreshItemArray:self.itemArray];
     }
     return self;
 }
@@ -48,12 +52,9 @@
     UIView* headerView = [QSItemListHeaderView generateView];
     
     self.tableView.tableHeaderView = headerView;
-//    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListTableViewCell" bundle:nil] forCellReuseIdentifier:QSItemListTableViewCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListCell" bundle:nil] forCellReuseIdentifier:QSItemListCellID];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    [self.bgImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:YES];
-    
+
     [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
         self.showDict = dict;
         [self.tableView reloadData];
@@ -70,12 +71,14 @@
     {
         self.tableView.tableHeaderView.transform = CGAffineTransformMakeScale(1.2, 1.2);
     }
+   
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:PAGE_ID];
+    
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -90,8 +93,7 @@
 
 #pragma mark - IBAction
 - (IBAction)closeBtnPressed:(id)sender {
-//    [self.navigationController popViewControllerAnimated:YES];
-  
+
     if ([self.delegate respondsToSelector:@selector(didClickItemListCloseBtn:)]) {
         [self.delegate didClickItemListCloseBtn:self.showBackBtn];
     }
@@ -100,40 +102,68 @@
 #pragma mark - UITableView Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.itemArray.count;
+    return self.orderdArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-//    QSItemListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSItemListTableViewCellIdentifier forIndexPath:indexPath];
-//    [cell bindWithItem:self.itemArray[indexPath.row]];
-    
     QSItemListCell *cell = [tableView dequeueReusableCellWithIdentifier:QSItemListCellID forIndexPath:indexPath];
-    [cell bindWithDic:self.itemArray[indexPath.row]];
-   // NSLog(@"itemArray = %@",self.itemArray[indexPath.row]);
+    [cell bindWithDic:self.orderdArray[indexPath.row]];
+
     if ([UIScreen mainScreen].bounds.size.width == 414) {
         cell.contentView.transform = CGAffineTransformMakeScale(1.2, 1.2);
     }
     return cell;
 }
+#pragma mark - 数组排序
+- (NSMutableArray *)refreshItemArray:(NSArray *)itemArray
+{
+        NSMutableArray *array = [NSMutableArray arrayWithArray:itemArray];
+    
+        
+        for (int i = 0; i < array.count; i ++) {
+            
+            for (int j = i+1; j < array.count; j ++) {
+                int orderI = [self getOrderFromDic:array[i]];
+                int orderJ = [self getOrderFromDic:array[j]];
+                if (orderI > orderJ) {
+                    id dic = array[j];
+                    array[j] = array[i];
+                    array[i] = dic;
+                    dic = nil;
+                }
+            }
+        }
+        return array;
+
+
+}
+- (int)getOrderFromDic:(NSDictionary *)itemDict
+{
+    NSDictionary* categoryDict = [QSItemUtil getCategoryRef:itemDict];
+    if (categoryDict) {
+        return [QSCategoryUtil getOrder:categoryDict].intValue;
+    } else {
+        NSString* categoryId = [QSItemUtil getCategoryStr:itemDict];
+        QSCategoryManager *manager = [QSCategoryManager getInstance];
+        NSDictionary *dict =  [manager findCategoryOfId:categoryId];
+        return [QSCategoryUtil getOrder:dict].intValue;
+    }
+    return 0;
+}
+
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary* itemDict = self.itemArray[indexPath.row];
+    NSDictionary* itemDict = self.orderdArray[indexPath.row];
     if (itemDict) {
         [self showItemDetailViewController:itemDict];
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    return 75.f;
-    return [UIScreen mainScreen].bounds.size.width/32*5;
+    return [UIScreen mainScreen].bounds.size.width/32*5+5;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return [UIScreen mainScreen].bounds.size.width/5;
-//}
 
 @end

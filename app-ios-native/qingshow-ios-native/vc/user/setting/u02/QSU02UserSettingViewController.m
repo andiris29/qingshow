@@ -109,14 +109,17 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                @(U02SectionImageRowBackground)
                                ],
                            @[
-                               @(U02SectionManagerRowAddress),
-                               @(U02SectionManagerRowOrder)
+                               @(U02SectionManagerRowAddress)
                                ],
                            @[
                                @(U02SectionInfoRowName),
                                @(U02SectionInfoRowAge),
                                @(U02SectionInfoRowHeight),
                                @(U02SectionInfoRowWeight),
+                               @(U02SectionInfoRowBust),
+                               @(U02SectionInfoRowShouler),
+                               @(U02SectionInfoRowWaist),
+                               @(U02SectionInfoRowHips),
                                @(U02SectionInfoRowBodyType),
                                @(U02SectionInfoRowDressStyle),
                                @(U02SectionInfoRowExpectation)
@@ -236,10 +239,6 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 }
 
 #pragma mark - Action
-
-- (void)showOrderList{
-    [self.navigationController pushViewController:[[QSU09OrderListViewController alloc] init] animated:YES];
-}
 - (void)showAddressList {
     [self.navigationController pushViewController:[[QSU10ReceiverListViewController alloc] init] animated:YES];
 }
@@ -362,6 +361,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     // Success Handle
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
         [hud hide:YES];
+#warning TODO Refactor
         if (metadata[@"error"] == nil && people != nil) {
             [self showSuccessHudWithText:@"上传成功"];
             // refresh local login user's data

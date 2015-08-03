@@ -3,6 +3,11 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS07ItemListViewController">
             <connections>
@@ -32,22 +37,34 @@
                             </connections>
                         </button>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gIE-lF-fFE">
-                            <rect key="frame" x="0.0" y="63" width="320" height="505"/>
+                            <rect key="frame" x="0.0" y="63" width="320" height="400"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="ATg-xw-dzf"/>
                                 <outlet property="delegate" destination="-1" id="RMs-ug-byv"/>
                             </connections>
                         </tableView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  您可直接连接到天猫购买该产品      也可点击我要折扣按钮，申请折扣" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uC4-ox-47w">
+                            <rect key="frame" x="25" y="443" width="282" height="62"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="62" id="LBc-NO-eFr"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="17"/>
+                            <color key="textColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="gIE-lF-fFE" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" id="2mD-kb-SKD"/>
                         <constraint firstItem="gIE-lF-fFE" firstAttribute="top" secondItem="LPe-vy-IT6" secondAttribute="bottom" constant="8" id="YDt-18-2Yl"/>
                         <constraint firstAttribute="trailing" secondItem="gIE-lF-fFE" secondAttribute="trailing" id="dPL-uq-4r9"/>
+                        <constraint firstAttribute="trailing" secondItem="uC4-ox-47w" secondAttribute="trailing" constant="13" id="fP3-Bn-zuN"/>
                         <constraint firstAttribute="trailing" secondItem="LPe-vy-IT6" secondAttribute="trailing" constant="15" id="hU5-5H-H5o"/>
                         <constraint firstItem="LPe-vy-IT6" firstAttribute="top" secondItem="VLC-N6-f3S" secondAttribute="top" constant="30" id="i12-1m-THl"/>
-                        <constraint firstAttribute="bottom" secondItem="gIE-lF-fFE" secondAttribute="bottom" id="oXe-QP-gwX"/>
+                        <constraint firstAttribute="bottom" secondItem="uC4-ox-47w" secondAttribute="bottom" constant="63" id="lme-pq-A7G"/>
+                        <constraint firstAttribute="bottom" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="105" id="oXe-QP-gwX"/>
+                        <constraint firstItem="uC4-ox-47w" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" constant="25" id="zZH-ao-FgR"/>
                     </constraints>
                 </view>
             </subviews>

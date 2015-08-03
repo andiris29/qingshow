@@ -9,7 +9,7 @@
 #import "QSNetworkEngine+FeedingService.h"
 #import "NSArray+QSExtension.h"
 #import "QSNetworkEngine+Protect.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 
 //Path
@@ -27,6 +27,7 @@
 #define PATH_FEEDING_MATCH_CREATE_BY @"feeding/matchCreatedBy"
 #define PATH_FEEDING_MATCH_HOT @"feeding/matchHot"
 #define PATH_FEEDING_MATCH_NEW @"feeding/matchNew"
+#define PATH_FEEDING_OWNERREF @"feeding/"
 
 
 @interface QSNetworkEngine (Private)
@@ -96,7 +97,7 @@
     
     NSMutableDictionary* paramDict = [@{} mutableCopy];
     if (userDict) {
-        paramDict[@"_id"] = [QSCommonUtil getIdOrEmptyStr:userDict];
+        paramDict[@"_id"] = [QSEntityUtil getIdOrEmptyStr:userDict];
     }
     return [self getFeedingPath:PATH_FEEDING_LIKE otherParam:paramDict page:page onSucceed:succeedBlock onError:errorBlock];
 }
@@ -138,7 +139,7 @@
                               onError:(ErrorBlock)errorBlock
 {
     
-    return [self getFeedingPath:PATH_FEEDING_BY_BRAND otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_BY_BRAND otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation*)feedingByBrandDiscount:(NSDictionary*)brandDict
@@ -146,7 +147,7 @@
                                     onSucceed:(ArraySuccessBlock)succeedBlock
                                       onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation*)feedingByTopic:(NSDictionary*)topicDic
@@ -154,7 +155,7 @@
                             onSucceed:(ArraySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_BY_TOPIC otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:topicDic]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_BY_TOPIC otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:topicDic]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation *)getHotFeedingPage:(int)page
@@ -167,14 +168,14 @@
                                        page:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock {
-    return [self getFeedingPath:PATH_FEEDING_MATCH_CREATE_BY otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_MATCH_CREATE_BY otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 - (MKNetworkOperation *)getfeedingMatchHot:(NSDictionary *)peopleDict
                                       page:(int)page
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_MATCH_HOT otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_MATCH_HOT otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation *)getfeedingMatchNew:(NSDictionary *)peopleDict
@@ -182,6 +183,6 @@
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_MATCH_NEW otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_MATCH_NEW otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 @end

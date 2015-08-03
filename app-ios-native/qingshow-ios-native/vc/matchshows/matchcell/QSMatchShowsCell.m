@@ -11,6 +11,8 @@
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSDateUtil.h"
+#import "QSImageNameUtil.h"
+#import "NSDictionary+QSExtension.h"
 @implementation QSMatchShowsCell
 {
     NSDictionary *_showDic;
@@ -36,8 +38,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
-//     self.matchShowImgview.translatesAutoresizingMaskIntoConstraints = YES;
-//    self.matchShowImgview.layer.masksToBounds = NO;
+
     self.headerImgView.layer.masksToBounds = YES;
     self.headerImgView.layer.cornerRadius = 16.0;
     self.headerImgView.userInteractionEnabled = YES;
@@ -60,33 +61,23 @@
 
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
-   //NSLog(@"dic = %@",dict);
-    [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
-    [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic]];
-    [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
-    NSString *createDate = dict[@"create"];
-    //NSLog(@"%@",createDate);
+    NSURL *headerIconUrl = [QSPeopleUtil getHeadIconUrl:_peopleDic type:QSImageNameType100];
+    if (headerIconUrl) {
+        [self.headerImgView setImageFromURL:headerIconUrl];
+        
+    }else{
+        NSURL *defaultHeader = [QSImageNameUtil appendingDefaultImageUrl];
+        [self.headerImgView setImageFromURL:defaultHeader];
+    }
+    NSURL *url = [QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:dict] type:QSImageNameTypeS];
+    [self.matchShowImgview setImageFromURL:url];
+    [self.bgImgView setImageFromURL:[QSShowUtil getFormatterCoVerForegroundUrl:dict]];
+
+    NSDate *createDate = [QSShowUtil getCreatedDate:dict];
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
-    self.userNameLabel.text = [QSShowUtil getNameStr:dict];
-    NSString *groupStr = [QSShowUtil getRecommendGroup:dict];
-    if (groupStr) {
-        if ([groupStr isEqualToString:@"1"]) {
-            self.bodyTypeImgView.image = [UIImage imageNamed:@"body_thin"];
-        }
-        else if([groupStr isEqualToString:@"2"]){
-            self.bodyTypeImgView.image = [UIImage imageNamed:@"body_nomal"];
-        }
-        else if ([groupStr isEqualToString:@"3"])
-        {
-            self.bodyTypeImgView.image = [UIImage imageNamed:@"body_heavy"];
-        }
-        else
-        {
-            self.bodyTypeImgView.image = [UIImage imageNamed:@"body_fat"];
-        }
-    }
-    
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:dict];
+    self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
 }
 
 - (void)headerImgViewPressed:(id )sender

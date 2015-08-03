@@ -12,7 +12,7 @@
 #import "QSOrderUtil.h"
 #import "QSItemUtil.h"
 #import "QSTaobaoInfoUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
 #import "QSTradeStatus.h"
@@ -32,8 +32,9 @@
     [self configBtn:self.submitButton];
     [self configBtn:self.returnButton];
     [self configBtn:self.exchangeButton];
+    self.saleImgView.hidden = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
+//    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
 }
 - (void)configBtn:(UIButton*)btn
 {
@@ -71,35 +72,48 @@
     self.quantityLabel.text = [QSOrderUtil getQuantityDesc:orderDict];
 
 
-    float height = self.skuLabelBaseY;
-
-    
-    for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
-        [self updateView:view y:height];
-    }
-    
+//    float height = self.skuLabelBaseY;
+//
+//    
+//    for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
+//        [self updateView:view y:height];
+//    }
+//    
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
-    
     QSTradeStatus s = status.integerValue;
-
+    BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
+    
     switch (s) {
-        case QSTradeStatusUnpaid:
+        case 0:
+        case 2:
         {
             self.submitButton.hidden = NO;
             self.returnButton.hidden = YES;
             self.exchangeButton.hidden = YES;
-            [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
+            [self.submitButton setTitle:@"取消订单" forState:UIControlStateNormal];
             break;
         }
-        case QSTradeStatusFahuo:
-        case QSTradeStatusHuanhuoFachu: {
+        case 1:{
+            self.submitButton.hidden = NO;
+            self.exchangeButton.hidden = YES;
+            self.returnButton.hidden = NO;
+            self.saleImgView.hidden = NO;
+            if (shouldShare) {
+                
+            }
+            else{
+            [self.submitButton setTitle:@"确认付款" forState:UIControlStateNormal];
+            }
+            break;
+        }
+        case 3: {
             self.submitButton.hidden = NO;
             self.exchangeButton.hidden = NO;
             self.returnButton.hidden = NO;
             [self.submitButton setTitle:@"确认付款" forState:UIControlStateNormal];
             break;
         }
-        default: {
+         default: {
             self.submitButton.hidden = YES;
             self.exchangeButton.hidden = YES;
             self.returnButton.hidden = YES;
@@ -107,12 +121,12 @@
         }
     }
 }
-- (void)updateView:(UIView*)view y:(float)y
-{
-    CGRect rect = view.frame;
-    rect.origin.y = y;
-    view.frame = rect;
-}
+//- (void)updateView:(UIView*)view y:(float)y
+//{
+//    CGRect rect = view.frame;
+//    rect.origin.y = y;
+//    view.frame = rect;
+//}
 
 #pragma mark - IBAction
 - (IBAction)refundBtnPressed:(id)sender

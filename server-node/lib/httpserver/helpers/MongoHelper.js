@@ -1,5 +1,4 @@
 var async = require('async'), _ = require('underscore');
-var ImageUtils = require('../../model/utils/ImageUtils');
 var ServerError = require('../server-error');
 var RequestHelper = require('./RequestHelper');
 
@@ -109,33 +108,6 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
         }
         async.series(tasks, callback);
     }], callback);
-};
-
-MongoHelper.updateCoverMetaData = function(models, callback) {
-    // Parse cover
-    var tasks = [];
-    models.forEach(function(model) {
-        tasks.push(function(callback) {
-            // Update each model
-            async.parallel([
-            function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, model.cover, 'coverMetadata', callback);
-            },
-            function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, (model.images && model.images[0]) ? model.images[0].url : undefined, 'imageMetadata', callback);
-            },
-            function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, model.horizontalCover, 'horizontalCoverMetadata', callback);
-            },
-            function (callback) {
-                ImageUtils.createOrUpdateMetadata(model, model.poster, 'posterMetadata', callback);
-            }], function(err, results) {
-                // Ignore error
-                callback();
-            });
-        });
-    });
-    async.parallel(tasks, callback);
 };
 
 MongoHelper.querySchema = function(Model, qsParam) {

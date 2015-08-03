@@ -7,7 +7,7 @@
 //
 
 #import "QSPnsHelper.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSPnsNotificationName.h"
 
 #define kPnsCommandNewShowComments @"newShowComments"
@@ -20,9 +20,9 @@
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
 
     
-    NSString* command = [QSCommonUtil getStringValue:userInfo key:@"command"];
+    NSString* command = [QSEntityUtil getStringValue:userInfo keyPath:@"command"];
     if ([command isEqualToString:kPnsCommandNewShowComments]) {
-        NSString* showId = [QSCommonUtil getStringValue:userInfo key:@"id"];
+        NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"id"];
         NSDictionary* notiInfoDict = nil;
         if (showId) {
             notiInfoDict = @{@"showId" : showId};

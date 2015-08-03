@@ -32,6 +32,19 @@ NSString* badgeBtnTypeToHoverIcon(QSBadgeButtonType type) {
       ];
     return array[type];
 }
+
+NSString* badgeBtnTypeToDotIcon(QSBadgeButtonType type) {
+    NSArray* array =
+    @[
+      @"badge_btn_matcher",
+      @"badge_btn_recommend_dot",
+      @"badge_btn_favor",
+      @"badge_btn_following",
+      @"badge_btn_follower"
+      ];
+    return array[type];
+}
+
 NSString* badgeBtnTypeToTitle(QSBadgeButtonType type) {
     NSArray* array =
     @[
@@ -50,7 +63,7 @@ NSString* badgeBtnTypeToTitle(QSBadgeButtonType type) {
 
 @property (strong, nonatomic) UIImage* normalIcon;
 @property (strong, nonatomic) UIImage* hoverIcon;
-
+@property (strong, nonatomic) UIImage* dotIcon;
 
 @end
 
@@ -60,6 +73,7 @@ NSString* badgeBtnTypeToTitle(QSBadgeButtonType type) {
     QSBadgeButton* btn = [UINib generateViewWithNibName:@"QSBadgeButton"];
     btn.normalIcon = [UIImage imageNamed:badgeBtnTypeToIcon(type)];
     btn.hoverIcon = [UIImage imageNamed:badgeBtnTypeToHoverIcon(type)];
+    btn.dotIcon = [UIImage imageNamed:badgeBtnTypeToDotIcon(type)];
     btn.imgView.image = btn.normalIcon;
     btn.label.text = badgeBtnTypeToTitle(type);
     btn.hover = NO;
@@ -74,6 +88,14 @@ NSString* badgeBtnTypeToTitle(QSBadgeButtonType type) {
 
 - (void)setHover:(BOOL)hover {
     _hover = hover;
+    if (_hover) {
+        //点击后取消红点
+        _hasDot = NO;
+    }
+    [self updateColor];
+}
+- (void)setHasDot:(BOOL)hasDot {
+    _hasDot = hasDot;
     [self updateColor];
 }
 
@@ -82,7 +104,11 @@ NSString* badgeBtnTypeToTitle(QSBadgeButtonType type) {
         self.imgView.image = self.hoverIcon;
         self.label.textColor = [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f];
     } else {
-        self.imgView.image = self.normalIcon;
+        if (_hasDot) {
+            self.imgView.image = self.dotIcon;
+        } else {
+            self.imgView.image = self.normalIcon;
+        }
         self.label.textColor = [UIColor colorWithRed:112.f/255.f green:112.f/255.f blue:112.f/255.f alpha:1.f];
     }
 }

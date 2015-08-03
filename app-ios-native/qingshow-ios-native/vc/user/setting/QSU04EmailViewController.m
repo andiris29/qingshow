@@ -35,7 +35,9 @@
     [[self navigationItem] setRightBarButtonItem:btnSave];
     
     // Initialize Current Email Label
-    self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
+#warning TODO Refactor
+    //self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
+    self.nowEmailLabel.text = [QSEntityUtil getStringValue:[QSUserManager shareUserManager].userInfo keyPath:@"userInfo.email"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,

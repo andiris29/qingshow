@@ -13,6 +13,10 @@ typedef NS_ENUM(NSInteger, U02SectionInfoRow) {
     U02SectionInfoRowAge,
     U02SectionInfoRowHeight,
     U02SectionInfoRowWeight,
+    U02SectionInfoRowBust,
+    U02SectionInfoRowShouler,
+    U02SectionInfoRowWaist,
+    U02SectionInfoRowHips,
     U02SectionInfoRowBodyType,
     U02SectionInfoRowDressStyle,
     U02SectionInfoRowExpectation

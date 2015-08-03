@@ -4,8 +4,6 @@ var async = require('async'), _ = require('underscore');
 var Show = require('../../model/shows');
 var Peoples = require('../../model/peoples');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
-var Promotion = require('../../model/promotions');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
@@ -13,13 +11,6 @@ var ContextHelper = require('../helpers/ContextHelper');
 var ServiceHelper = require('../helpers/ServiceHelper');
 
 var ServerError = require('../server-error');
-
-var isNotUgc = {
-    "$or" : [
-        {"ugc" : false},
-        {"ugc" : {"$exists" : false}}
-    ]
-};
 
 var _feed = function (req, res, querier, aspectInceptions) {
     aspectInceptions = aspectInceptions || {};
@@ -36,14 +27,14 @@ var _feed = function (req, res, querier, aspectInceptions) {
                     // Populate itemRefs
                     Show.populate(currentPageModels, {
                         'path' : 'itemRefs',
-                        'model' : "items"
+                        'model' : 'items'
                     }, callback);
                 },
                 function(callback) {
-                    // Populate promotionRef
+                    // Populate ownerRef
                     Show.populate(currentPageModels, {
-                        'path' : 'promotionRef',
-                        'model' : "promotions"
+                        'path' : 'ownerRef',
+                        'model' : 'peoples'
                     }, callback);
                 },
                 function (callback) {
@@ -92,8 +83,7 @@ feeding.recommendation = {
                     }
                     var criteria = {
                         '$and' : [
-                            { 'recommend.group' : type}, 
-                            isNotUgc
+                            { 'recommend.group' : type} 
                         ]
                     };
                     MongoHelper.queryPaging(Show.find(criteria).sort({
@@ -101,85 +91,6 @@ feeding.recommendation = {
                     }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
                 }
             ], outCallback);
-        });
-    }
-};
-
-feeding.hot = {
-    'method' : 'get',
-    'func' : function (req, res) {
-        _feed(req, res, function (qsParam, out_callback) {
-            var dateNum = Math.ceil(qsParam.pageSize / 2);
-            var showId = [];
-            async.waterfall([
-                function(callback) {
-                    var condition = [{
-                            "$match" : isNotUgc
-                        }, {
-                            '$group' : {
-                                '_id': {
-                                    'year' : {'$year' : '$recommend.date'},
-                                    'month' : {'$month' : '$recommend.date'},
-                                    'day' : {'$dayOfMonth' : '$recommend.date'}
-                                }
-                            }
-                        }, {
-                            $sort : { _id : -1 }
-                        }
-                    ];
-                    MongoHelper.aggregatePaging(Show.aggregate(condition), qsParam.pageNo, dateNum, callback);
-                },
-                function(result, count, callback) {
-                    var task = result.map(function(element) {
-                        return function(in_callback) {
-                            var _id = element._id;
-
-                            var criteria = {
-                                '$and' : [{
-                                        'recommend.date' : {
-                                            '$gte' : new Date(_id.year, _id.month - 1, _id.day),
-                                            '$lt' : new Date(_id.year, _id.month - 1, _id.day + 1) 
-                                        }
-                                    } , isNotUgc
-                                ]
-                            };
-
-                            Show.find(criteria).sort({'numLike' : -1}).limit(2).exec(function(err, shows) {
-                                if(!err) {
-                                    shows.forEach(function(show) {
-                                        showId.push(show._id);
-                                    });
-                                    in_callback();
-                                } else {
-                                    in_callback(err);
-                                }
-                            });
-                        };
-                    });
-                    async.parallel(task, function(err) {
-                        callback();
-                    });
-                },
-                function(callback) {
-                    var criteria = {
-                        '_id' : { '$in' : showId}
-                    };
-                    //MongoHelper.queryPaging(Show.find(criteria).sort({
-                    //    'recommend.date' : -1,
-                    //    'numLike' : -1
-                    //}), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, out_callback);
-                    Show.find(criteria).sort({
-                        'recommend.date' : - 1,
-                        'numLike' : -1
-                    }).exec(function(err, shows) {
-                        if (err) {
-                            out_callback(ServerError.fromDescription(err));
-                        } else {
-                            out_callback(null, shows, shows.length);
-                        }
-                    });
-                }], out_callback
-            );
         });
     }
 };
@@ -214,54 +125,13 @@ feeding.like = {
     }
 };
 
-feeding.byRecommendDate =  {
-    'method' : 'get',
-    'func' : function(req, res) {
-        _feed(req, res, function(qsParam, out_callback) {
-            async.waterfall([
-                function(callback) {
-                    var date = qsParam.date;
-                    if (!date || date.length == 0) {
-                        callback(ServerError.NotEnoughParam);
-                    } else {
-                        callback();
-                    }
-                },
-                function(callback) {
-                    var beginDt = RequestHelper.parseDate(qsParam.date);
-                    var endDt = RequestHelper.parseDate(qsParam.date);
-                    endDt.setDate(endDt.getDate() + 1);
-
-                    var criteria = {
-                        '$and' : [{
-                                'recommend.date' : {
-                                    '$gte' : beginDt,
-                                    '$lt' : endDt
-                                }
-                            }, 
-                            isNotUgc
-                        ]
-                    };
-
-                    MongoHelper.queryPaging(Show.find(criteria).sort({
-                        'numLike' : -1
-                    }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, out_callback);
-
-                }
-            ], out_callback);
-        });
-    }
-};
-
 feeding.matchHot = {
     'method' : 'get',
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = {
-                    'ugc' : true
-                };
+                var criteria = {};
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'numLike' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -276,9 +146,7 @@ feeding.matchNew = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = {
-                    'ugc' : true
-                };
+                var criteria = {};
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -291,10 +159,26 @@ feeding.matchCreatedBy = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var qsParam = RequestHelper.parsePageInfo(req.queryString);
-        ServiceHelper.queryCreatedShows(req, res, RPeopleCreateShow, {
-            'query' : 'initiatorRef',
-            'result' : 'targetRef'
+        _feed(req, res, function(qsParam, callback) {
+            var criteria = {
+                '$and' : [{
+                    'ownerRef' : RequestHelper.parseId(qsParam._id)
+                }, {
+                    '$or' : [{
+                        'hideAgainstOwner' : false 
+                    } , {
+                        'hideAgainstOwner' : {
+                            '$exists' : false
+                        }
+                    }]
+                }]
+            };
+            
+            MongoHelper.queryPaging(Show.find(criteria).sort({
+                'create' : -1
+            }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, shows, count) {
+                callback(err, shows, count);
+            });
         });
     }
 };

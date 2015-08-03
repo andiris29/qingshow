@@ -19,7 +19,6 @@ NSString* u02SectionToTitle(U02Section sec);
 @protocol QSU02AbstractTableViewCellDelegate <NSObject>
 
 - (void)prompToChangeImage:(NSInteger)type;
-- (void)showOrderList;
 - (void)showAddressList;
 - (void)showExpectationVc;
 - (void)showChangePasswordVc;

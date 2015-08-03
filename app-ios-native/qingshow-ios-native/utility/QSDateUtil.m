@@ -7,12 +7,12 @@
 //
 
 #import "QSDateUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 @implementation QSDateUtil
 
 + (NSDate*)buildDateFromResponseString:(NSString*)str
 {
-    if ([QSCommonUtil checkIsNil:str]) {
+    if ([QSEntityUtil checkIsNil:str]) {
         return nil;
     }
     NSMutableString* dateStr = [str mutableCopy];
@@ -34,7 +34,7 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         date = [dateFormatter dateFromString:dateStr];
-        if ([QSCommonUtil checkIsNil:str]) {
+        if ([QSEntityUtil checkIsNil:str]) {
             return nil;
         } else {
             return date;
@@ -50,7 +50,7 @@
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString* currentDateStr = [dateFormatter stringFromDate:date];
-        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         return currentDateStr;
     }
     else
@@ -64,7 +64,7 @@
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM.dd"];
         NSString* currentDateStr = [dateFormatter stringFromDate:date];
-        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         return currentDateStr;
     }
     else
@@ -79,7 +79,7 @@
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString* currentDateStr = [dateFormatter stringFromDate:date];
-        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         return currentDateStr;
     }
     else
@@ -93,12 +93,14 @@
     if (!date) {
         return nil;
     }
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
-    return [NSString stringWithFormat:@"%d:%d",(int)c.hour, (int)c.minute];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    return [dateFormatter stringFromDate:date];
 }
 
-+ (NSString *)gettimeSinceDate:(NSString *)date
++ (NSString *)gettimeSinceDate:(NSDate *)date
 {
     if (!date) {
         return nil;
@@ -106,8 +108,7 @@
     NSDate *nowDate = [NSDate date];
 //    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
 //    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSDate *date01 = [self buildDateFromResponseString:date];
-    NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date01];
+    NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date];
     if (seconds >= 24*60*60) {
         return [NSString stringWithFormat:@"%d天之前",(int)seconds/(24*60*60)];
     }
@@ -142,10 +143,11 @@
     if (!date) {
         return nil;
     }
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth| NSCalendarUnitYear) fromDate:date];
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd"];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    return [dateFormatter stringFromDate:date];
     
-    return [NSString stringWithFormat:@"%d/%d", (int)c.month, (int)c.day];
 }
 + (NSString*)getWeek:(NSDate*)date
 {
@@ -222,7 +224,7 @@
 }
 + (int)getWeekdayIndex:(NSDate*)date
 {
-    if ([QSCommonUtil checkIsNil:date]) {
+    if ([QSEntityUtil checkIsNil:date]) {
         return 0;
     } else {
         NSCalendar *calendar = [NSCalendar currentCalendar];

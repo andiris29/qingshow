@@ -14,7 +14,7 @@
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSTradeUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSOrderUtil.h"
 
 #import "QSNetworkKit.h"
@@ -137,6 +137,7 @@
             [cell bindWithDict:self.itemDict];
         }];
     }];
+    [self updatePriceRelatedCell];  //for total price
 }
 - (void)configView
 {
@@ -441,8 +442,8 @@
         paymentType = PaymentTypeWechat;
     }
     NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
-    NSNumber* price = [QSTaobaoInfoUtil getPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
+    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
+    NSNumber* price = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
 
     
     [self.totalCell updateWithPrice:totalPrice.stringValue];
@@ -489,9 +490,9 @@
     
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
     NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
+    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
 
-    [self.totalCell updateWithPrice:totalPrice.stringValue];
+    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
 }
 
 #pragma mark - QSU10ReceiverListViewControllerDelegate

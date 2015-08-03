@@ -8,7 +8,7 @@
 
 #import "QSMatcherItemsProvider.h"
 #import "QSNetworkKit.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 
 @interface QSMatcherItemsProvider ()

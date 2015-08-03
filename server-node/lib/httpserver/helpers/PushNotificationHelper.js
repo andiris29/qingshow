@@ -1,5 +1,6 @@
 var JPush = require('jpush-sdk');
 var winston = require('winston');
+var _ = require('underscore');
 
 // APP_KEY,Master_Key 
 var JPushConfig = {
@@ -19,25 +20,35 @@ var PushNotificationHelper = module.exports;
 PushNotificationHelper.MessageQuestSharingObjectiveComplete = "恭喜您！完成倾秀夏日季搭配活动任务！点击此处领奖吧～";
 PushNotificationHelper.MessageNewShowComment = "您的搭配有新评论！";
 PushNotificationHelper.MessageNewRecommandations = "倾秀精选搭配上新，看看吧";
-PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！"
+PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！";
+PushNotificationHelper.MessageTradeInitialized = "您申请的折扣已经通过，请尽快完成支付!";
 
-PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingComplete";
+PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
 PushNotificationHelper.CommandNewShowComments = "newShowComments";
 PushNotificationHelper.CommandNewRecommandations= "newRecommandations";
-PushNotificationHelper.CommandQuestSharingProgress = "questSharingComplete";
+PushNotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
+PushNotificationHelper.CommandTradeInitialized = "tradeInitialized";
 
 PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
-    client.push().setPlatform('ios', 'android')
-        .setAudience(JPush.registration_id(registrationIDs))
-        .setNotification(JPush.ios(message, null, null, false, extras), JPush.android(message, message, null, extras))
-        .send(function(err, res) {
-            if (err) {
-                winston.error('show/comment push error', err);
-            } else {
-                winston.info('show/comment push success => error:[', err, '], res:[', res, ']');
-            }
-            if (callback) {
-                callback(err, res);
-            }
-        });
+    var sendTargets = _.filter(registrationIDs, function(registrationId) {
+        return (registrationId && (registrationId.length > 0));
+    });
+    if (sendTargets.length) {
+        client.push().setPlatform('ios', 'android')
+            .setAudience(JPush.registration_id(sendTargets))
+            .setNotification(JPush.ios(message, 'default', null, false, extras), JPush.android(message, message, null, extras))
+            .setOptions(null, null, null, true, null)
+            .send(function(err, res) {
+                if (err) {
+                    winston.error('Push error: ' + err);
+                } else {
+                    winston.info('Push success: ' + res);
+                }
+                if (callback) {
+                    callback(err, res);
+                }
+            });
+    } else {
+        callback();
+    }
 };

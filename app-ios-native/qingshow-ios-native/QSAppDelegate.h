@@ -12,5 +12,5 @@
 @interface QSAppDelegate : UIResponder <UIApplicationDelegate, WeiboSDKDelegate, WXApiDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (strong, nonatomic) UIViewController* rootVc;
 @end

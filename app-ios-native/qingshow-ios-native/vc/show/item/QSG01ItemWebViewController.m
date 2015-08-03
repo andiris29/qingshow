@@ -8,12 +8,21 @@
 
 #import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
+#import "QSEntityUtil.h"
 
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
 
 @property (strong, nonatomic) NSDictionary* itemDict;
+
+
+
+@property (strong, nonatomic) IBOutlet UIView *discountLayerContainer;
+@property (weak, nonatomic) IBOutlet UIImageView *discountBackgroundView;
+@property (weak, nonatomic) IBOutlet UIView *discountTableViewContainer;
+
+
 @end
 
 @implementation QSG01ItemWebViewController
@@ -31,7 +40,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -48,17 +57,37 @@
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    [MobClick event:@"viewItemSource" attributes:@{@"itemId": self.itemDict[@"_id"]} counter:1];
+    
+    [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    [self.view addSubview:self.discountLayerContainer];
+    self.discountLayerContainer.frame = CGRectMake(10, 20, self.discountLayerContainer.bounds.size.width - 20, self.discountLayerContainer.bounds.size.height - 40);
+    self.discountLayerContainer.hidden = YES;
+    UIImage* img = [UIImage imageNamed:@"discount_container_bg"];
+    img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
+    self.discountBackgroundView.image = img;
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+- (IBAction)backBtnPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)discountBtnPressed:(id)sender {
+    self.discountLayerContainer.hidden = NO;
+}
+- (IBAction)closeBtnPressed:(id)sender {
+    self.discountLayerContainer.hidden = YES;
 }
 
 /*

@@ -13,7 +13,7 @@
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -60,7 +60,7 @@
 {
     self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
-        self.isCurrentUser = [[QSCommonUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSCommonUtil getIdOrEmptyStr:peopleDict]];
+        self.isCurrentUser = [[QSEntityUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSEntityUtil getIdOrEmptyStr:peopleDict]];
         [self providerInit];
         self.userInfo = peopleDict;
     }
@@ -121,6 +121,7 @@
     
     //Favor
     self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
+    self.favorProvider.type = 0;
     //Following
     self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
     //Follower
@@ -153,7 +154,7 @@
     self.navigationController.navigationBarHidden = YES;
     [self updateViewWithList];
     [MobClick beginLogPageView:PAGE_ID];
-    [SHARE_NW_ENGINE queryPeopleDetail:[QSCommonUtil getIdOrEmptyStr:self.userInfo] onSucceed:^(NSDictionary * p) {
+    [SHARE_NW_ENGINE queryPeopleDetail:[QSEntityUtil getIdOrEmptyStr:self.userInfo] onSucceed:^(NSDictionary * p) {
         if (p) {
             self.userInfo = p;
             [self.badgeView bindWithPeopleDict:self.userInfo];
@@ -229,18 +230,14 @@
                     errorBlock(e);
                 }];
     };
-    
-    
-    self.recommendProvider.filterBlock = ^BOOL(id obj){
-        return [QSShowUtil getIsLike:obj];
-    };
+
     self.recommendProvider.delegate = self;
     [self.recommendProvider reloadData];
 
     //Favor
     self.favorProvider.hasRefreshControl = NO;
     self.favorProvider.networkBlock =^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             succeedBlock(array, metadata);
         } onError:^(NSError *error) {
             errorBlock(error);
@@ -357,7 +354,6 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [super scrollViewDidScroll:scrollView];
-    //NSLog(@"scrollView.con = %f",scrollView.contentOffset.y);
     if (scrollView.contentOffset.y != -360) {
         _backToTopBtn.hidden = NO;
     }
@@ -379,5 +375,22 @@
     QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
     vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
     [self.navigationController pushViewController:vc animated:YES];
+    
 }
+- (void)didSelectedCellInCollectionView:(NSDictionary *)showDict provider:(QSAbstractListViewProvider *)provider
+{
+    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
+    [self.navigationController pushViewController:vc animated:YES];
+   
+}
+- (void)didClickHeaderImgView:(id)sender
+{
+//    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
+//    vc.menuProvider = self.menuProvider;
+//    vc.navigationController.navigationBar.hidden = NO;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
 @end

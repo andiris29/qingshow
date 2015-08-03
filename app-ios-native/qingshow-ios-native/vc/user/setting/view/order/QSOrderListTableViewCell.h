@@ -49,6 +49,7 @@
 @property (weak, nonatomic) IBOutlet UIButton* submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *exchangeButton;
 @property (weak, nonatomic) IBOutlet UIButton *returnButton;
+@property (weak, nonatomic) IBOutlet UIImageView *saleImgView;
 
 
 - (IBAction)submitBtnPressed:(id)sender;

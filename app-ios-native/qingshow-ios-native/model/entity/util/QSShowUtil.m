@@ -9,7 +9,7 @@
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
 #import "NSNumber+QSExtension.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "NSArray+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
@@ -17,11 +17,11 @@
 @implementation QSShowUtil
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     }
     NSString* cover = dict[@"horizontalCover"];
-    if ([QSCommonUtil checkIsNil:cover]) {
+    if ([QSEntityUtil checkIsNil:cover]) {
         return [self getCoverUrl:dict];
     } else {
         return [NSURL URLWithString:cover];
@@ -30,10 +30,10 @@
 //新增获取高度的实现代码
 + (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic
 {
-    if ([QSCommonUtil checkIsNil:dic]) {
+    if ([QSEntityUtil checkIsNil:dic]) {
         return 180;
     }
-    if ([QSCommonUtil checkIsNil:dic[@"coverMetaData.height"]]) {
+    if ([QSEntityUtil checkIsNil:dic[@"coverMetaData.height"]]) {
         return 180;
     }
     else{
@@ -42,52 +42,80 @@
 }
 + (NSURL*)getCoverUrl:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     }
     NSString* cover = dict[@"cover"];
-    if ([QSCommonUtil checkIsNil:cover]) {
+    if ([QSEntityUtil checkIsNil:cover]) {
         return nil;
     }
     return [NSURL URLWithString:cover];
+    
 }
 
++ (NSURL *)getFormatterCoverUrl:(NSDictionary *)dict
+{
+    if ([QSEntityUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* cover = dict[@"cover"];
+   
+    NSRange range = [cover rangeOfString:@"cover/"];
+    NSString *rangeStr = [cover substringFromIndex:range.location];
+    NSString *formatterStr = [NSString stringWithFormat:@"http://trial01.focosee.com/img/show/%@_s.jpeg",rangeStr];
+    if (cover) {
+        return [NSURL URLWithString:formatterStr];
+    }
+    else {
+        return nil;
+    }
+}
++ (NSURL *)getFormatterCoVerForegroundUrl:(NSDictionary *)dict
+{
+    if ([QSEntityUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* coverFore = dict[@"coverForeground"];
+    NSRange range = [coverFore rangeOfString:@".png"];
+    NSString *rangeStr = [coverFore substringToIndex:range.location];
+    NSString *formatterStr = [NSString stringWithFormat:@"%@_s.png",rangeStr];
+    if (coverFore) {
+        return [NSURL URLWithString:formatterStr];
+    }
+    else {
+        return nil;
+    }
+ 
+}
+
+
 + (NSURL*)getCoverBackgroundUrl:(NSDictionary*)dict {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     }
     NSString* cover = [dict valueForKeyPath:@"coverInfo.background"];
-    if ([QSCommonUtil checkIsNil:cover]) {
+    if ([QSEntityUtil checkIsNil:cover]) {
         return nil;
     }
     return [NSURL URLWithString:cover];
 }
 
 + (NSURL*)getCoverForegroundUrl:(NSDictionary*)dict {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     }
     NSString* cover = [dict valueForKey:@"coverForeground"];
     
-    if ([QSCommonUtil checkIsNil:cover]) {
+    if ([QSEntityUtil checkIsNil:cover]) {
         return nil;
     }
     return [NSURL URLWithString:cover];
 }
 
-+ (NSString *)getNameStr:(NSDictionary *)dict
-{
-    NSDictionary *nameDic = [dict valueForKey:@"__context"];
-    NSDictionary *createDic = nameDic[@"createdBy"];
-    if (!createDic) {
-        return nil;
-    }
-    return createDic[@"nickname"];
-}
 + (NSString *)getUserId:(NSDictionary *)dict
 {
     NSString  *userId  = dict[@"id"];
-    if ([QSCommonUtil checkIsNil:userId]) {
+    if ([QSEntityUtil checkIsNil:userId]) {
         return nil;
     }
     return userId;
@@ -97,9 +125,8 @@
     NSDictionary *dic = [dict valueForKey:@"__context"];
     NSDictionary *createDic = dic[@"createdBy"];
     NSString *groupStr = [createDic[@"bodyType"] stringValue];
-    
-    //NSLog(@"group = %@",groupStr);
-    if ([QSCommonUtil checkIsNil:groupStr]) {
+
+    if ([QSEntityUtil checkIsNil:groupStr]) {
         return nil;
     }
     return groupStr;
@@ -107,7 +134,7 @@
 
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     }
     NSArray* posters = dict[@"posters"];
@@ -125,13 +152,13 @@
 
 + (NSArray*)getItems:(NSDictionary *)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return nil;
     }
     NSArray* itemArray = showDict[@"itemRefs"];
     NSMutableArray* array = [@[] mutableCopy];
     for (id item in itemArray) {
-        if ([QSCommonUtil checkIsDict:item]) {
+        if ([QSEntityUtil checkIsDict:item]) {
             [array addObject:item];
         }
     }
@@ -140,7 +167,7 @@
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return nil;
     }
     if (![showDict isKindOfClass:[NSDictionary class]]) {
@@ -156,11 +183,11 @@
 
 + (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return nil;
     }
-    NSDictionary* peopleDict = [showDict valueForKeyPath:@"__context.createdBy"];
-    if ([QSCommonUtil checkIsDict:peopleDict]) {
+    NSDictionary* peopleDict = [showDict valueForKeyPath:@"ownerRef"];
+    if ([QSEntityUtil checkIsDict:peopleDict]) {
         return peopleDict;
     } else {
         return nil;
@@ -170,7 +197,7 @@
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return nil;
     }
     NSDictionary* context = showDict[@"__context"];
@@ -181,13 +208,13 @@
 }
 + (void)addNumberComment:(long long)num forShow:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict] || ![showDict isKindOfClass:[NSMutableDictionary class]]) {
+    if ([QSEntityUtil checkIsNil:showDict] || ![showDict isKindOfClass:[NSMutableDictionary class]]) {
         return;
     }
     NSMutableDictionary* m = (NSMutableDictionary*)showDict;
     NSMutableDictionary* context = [showDict[@"__context"] mutableCopy];
     if (context) {
-        if ([QSCommonUtil checkIsNil:context[@"numComments"]]) {
+        if ([QSEntityUtil checkIsNil:context[@"numComments"]]) {
             return;
         }
         context[@"numComments"] = @(((NSNumber*)context[@"numComments"]).longLongValue + num);
@@ -197,7 +224,7 @@
 
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return nil;
     }
     return ((NSNumber*)showDict[@"numLike"]).kmbtStringValue;
@@ -205,7 +232,7 @@
 
 + (NSString*)getNumberItemDescription:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return nil;
     }
     return @([self getItems:showDict].count).kmbtStringValue;
@@ -213,7 +240,7 @@
 
 + (BOOL)getIsLike:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return NO;
     }
     NSDictionary* context = showDict[@"__context"];
@@ -225,7 +252,7 @@
 
 + (void)setIsLike:(BOOL)isLike show:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return;
     }
     if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
@@ -245,7 +272,7 @@
 
 + (void)addNumberLike:(long long)num forShow:(NSDictionary*)showDict
 {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return;
     }
     if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
@@ -257,16 +284,16 @@
 
 + (NSDate*)getRecommendDate:(NSDictionary*)showDict
 {
-    if (![QSCommonUtil checkIsDict:showDict]) {
+    if (![QSEntityUtil checkIsDict:showDict]) {
         return nil;
     }
     NSDictionary* rec = showDict[@"recommend"];
-    if (![QSCommonUtil checkIsDict:rec]) {
+    if (![QSEntityUtil checkIsDict:rec]) {
         return nil;
     }
     id date = rec[@"date"];
     
-    if ([QSCommonUtil checkIsNil:date]) {
+    if ([QSEntityUtil checkIsNil:date]) {
         return nil;
     } else {
         if ([date isKindOfClass:[NSDate class]]) {
@@ -280,11 +307,11 @@
 
 + (NSString*)getRecommentDesc:(NSDictionary*)showDict
 {
-    if (![QSCommonUtil checkIsDict:showDict]) {
+    if (![QSEntityUtil checkIsDict:showDict]) {
         return nil;
     }
     NSDictionary* rec = showDict[@"recommend"];
-    if (![QSCommonUtil checkIsDict:rec]) {
+    if (![QSEntityUtil checkIsDict:rec]) {
         return nil;
     }
     return rec[@"description"];
@@ -293,11 +320,11 @@
 
 + (NSString*)getShowDesc:(NSDictionary*)showDict
 {
-    if (![QSCommonUtil checkIsDict:showDict]) {
+    if (![QSEntityUtil checkIsDict:showDict]) {
         return nil;
     }
     NSString* rec = showDict[@"description"];
-    if ([QSCommonUtil checkIsNil:rec]) {
+    if ([QSEntityUtil checkIsNil:rec]) {
         return nil;
     }
     return rec;
@@ -321,20 +348,19 @@
 + (NSDictionary*)getPromotionRef:(NSDictionary*)showDict
 {
     NSDictionary* dict = [showDict valueForKey:@"__context.promotionRef"];
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     } else {
         return dict;
     }
 }
 + (NSString*)getVideoPath:(NSDictionary*)showDict {
-    if ([QSCommonUtil checkIsNil:showDict]) {
+    if ([QSEntityUtil checkIsNil:showDict]) {
         return nil;
     }
-   // NSLog(@"show Dic Key %@",[showDict allKeys]);
     if ([[showDict allKeys] containsObject:@"video"] ) {
         NSString* videoPath = [showDict valueForKey:@"video"];
-        if ([QSCommonUtil checkIsNil:videoPath] || !videoPath.length) {
+        if ([QSEntityUtil checkIsNil:videoPath] || !videoPath.length) {
             return nil;
         }
         return videoPath;

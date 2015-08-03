@@ -9,7 +9,7 @@
 #import "QSCategoryManager.h"
 #import "QSNetworkKit.h"
 #import "QSCategoryUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 @interface QSCategoryManager ()
 
@@ -53,7 +53,7 @@
 
 + (NSDictionary*)_findCategoryId:(NSString*)categoryId fromArray:(NSArray*)array; {
     for (NSDictionary* dict in array) {
-        if ([[QSCommonUtil getIdOrEmptyStr:dict] isEqualToString:categoryId]) {
+        if ([[QSEntityUtil getIdOrEmptyStr:dict] isEqualToString:categoryId]) {
             return dict;
         }
         

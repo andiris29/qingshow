@@ -38,11 +38,6 @@ NSString* managerCellTypeToTitle(U02SectionManagerRow type)
             [self.delegate showAddressList];
             break;
         }
-            
-        case U02SectionManagerRowOrder: {
-            [self.delegate showOrderList];
-            break;
-        }
     }
 }
 @end

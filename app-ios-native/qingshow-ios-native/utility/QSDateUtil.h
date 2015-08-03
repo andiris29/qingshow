@@ -15,7 +15,7 @@
 + (NSString*)getTime:(NSDate*)date;
 + (NSString*)getMYD:(NSDate*)date;
 + (NSString*)getWeek:(NSDate*)date;
-+ (NSString*)gettimeSinceDate:(NSString *)date;
++ (NSString*)gettimeSinceDate:(NSDate *)date;
 
 + (NSString*)buildDateStringFromDate:(NSDate*)date;
 + (NSString*)buildDayStringFromDate:(NSDate*)date;

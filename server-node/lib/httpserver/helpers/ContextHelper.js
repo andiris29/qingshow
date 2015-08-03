@@ -1,11 +1,12 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
+var Shows = require('../../model/shows');
 var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
-var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
+var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
 var People = require('../../model/peoples');
 
 /**
@@ -31,8 +32,41 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
     var numFollowers = function(callback) {
         _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
+    // __context.numCreateShows, __context.numLikeToCreateShows
+    var numCreateShows = function(callback) {
+        var peopleMap = {};
+        Shows.aggregate([{
+            '$match' : {
+                '$or' : peoples.map(function(people) {
+                    peopleMap[people._id.toString()] = people;
+                    return {
+                        'ownerRef' : people._id
+                    };
+                })
+            }
+        }, {
+            '$group' : {
+                '_id' : '$ownerRef',
+                'numCreateShows' : {
+                    '$sum' : 1
+                },
+                'numLikeToCreateShows' : {
+                    '$sum' : '$numLike'
+                }
+            }
+        }], function(err, results) {
+            if (!err) {
+                results.forEach(function(result) {
+                    var people = peopleMap[result._id];
+                    people.__context.numCreateShows = result.numCreateShows;
+                    people.__context.numLikeToCreateShows = result.numLikeToCreateShows;
+                });
+            }
+            callback(null, peoples);
+        });
+    };
 
-    async.parallel([followedByCurrentUser, numFollowPeoples, numFollowers], function(err) {
+    async.parallel([followedByCurrentUser, numFollowPeoples, numFollowers, numCreateShows], function(err) {
         callback(null, peoples);
     });
 };
@@ -52,19 +86,22 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
     };
 
-    // __context.promotionRef
-    var generatePromoInfo = function(callback) {
-        _generatePromoInfo(qsCurrentUserId, shows, 'promotionRef', callback);
-    };
-
-    // __context.createBy
-    var generateCreateBy = function(callback) {
-        _initiator(RPeopleCreateShow, People, shows, 'createdBy', callback);
-    };
-
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo, generateCreateBy], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function(err) {
         callback(null, shows);
+    });
+};
+
+ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
+    trades = _prepare(trades);
+
+    // __context.sharedByCurrentUser
+    var sharedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleShareTrade, qsCurrentUserId, trades, 'sharedByCurrentUser', callback);
+    };
+
+    async.parallel([sharedByCurrentUser], function(err) {
+        callback(null, trades);
     });
 };
 
@@ -140,42 +177,11 @@ var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback
     });
 };
 
-var _generatePromoInfo =  function(peopleId, models, contextField, callback) {
-    var tasks = models.map(function(model) {
-        return function(callback) {
-            model.__context[contextField] = {};
-            if (model.promotionRef === null || model.promotionRef === undefined) {
-                model.__context[contextField].enabled = false;
-                callback();
-                return;
-            }
-            if (model.promotionRef.criteria === 0) {
-                // 分享后可获得优惠
-                RPeopleShareShow.findOne({
-                    'initiatorRef' : peopleId,
-                    'targetRef' : model._id
-                }, function(err, relationship) {
-                    model.__context[contextField].enabled = Boolean(!err && relationship);
-                    callback();
-                });
-            } else {
-                // 其他策略
-                model.__context[contextField].enabled = false;
-                callback();
-            }
-        };
-    });
-
-    async.parallel(tasks, function(err) {
-        callback(null, models);
-    });
-};
-
 var _initiator = function(RModel, InitiatorModel, models, contextField, callback) {
     var tasks = models.map(function(model) {
         return function(callback) {
             model.__context[contextField] = {};
-            
+
             RModel.findOne({
                 'targetRef' : model._id
             }, function(err, relationship) {

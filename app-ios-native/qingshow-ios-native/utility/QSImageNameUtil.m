@@ -7,7 +7,7 @@
 //
 
 #import "QSImageNameUtil.h"
-
+#import "ServerPath.h"
 NSString* imageNameTypeToSuf(QSImageNameType type) {
     switch (type) {
         case QSImageNameTypeS:
@@ -19,8 +19,16 @@ NSString* imageNameTypeToSuf(QSImageNameType type) {
             return @"_xxs";
         case QSImageNameTypeXXXS:
             return @"_xxxs";
+        case QSImageNameType30:
+            return @"_30";
+        case QSImageNameType50:
+            return @"_50";
+        case QSImageNameType100:
+            return @"_100";
+        case QSImageNameType200:
+            return @"_200";
         default:
-            return nil;
+            return @"";
             break;
     }
 }
@@ -45,13 +53,21 @@ NSString* imageNameTypeToSuf(QSImageNameType type) {
 + (NSString*)appendImageName:(NSString*)imgName type:(QSImageNameType)type
 {
     NSRange range = [imgName rangeOfString:@"." options:NSBackwardsSearch];
-    if (range.location == NSNotFound) {
+    if (range.location == NSNotFound || (imgName.length - range.location) > 5) {
         return [NSString stringWithFormat:@"%@%@",imgName, imageNameTypeToSuf(type)];
     } else {
         return [NSString stringWithFormat:@"%@%@%@",[imgName substringToIndex:range.location], imageNameTypeToSuf(type), [imgName substringFromIndex:range.location]];
         
     }
     return nil;
+}
+
++ (NSURL *)appendingDefaultImageUrl
+{
+    NSString *path =kDefaultHeaderImgBase;
+    int headNum = arc4random() % 6 + 1;
+    NSString *headerStr = [NSString stringWithFormat:@"%@portrait/%d@2x.png",path,headNum];
+    return [NSURL URLWithString:headerStr];
 }
 
 + (NSArray*)appendImageNames:(NSArray*)strs type:(QSImageNameType)type{

@@ -10,8 +10,7 @@
 #import "QSU02AbstractTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, U02SectionManagerRow) {
-    U02SectionManagerRowAddress = 0,
-    U02SectionManagerRowOrder,
+    U02SectionManagerRowAddress = 0
 };
 
 @interface QSU02ManagerCell : QSU02AbstractTableViewCell

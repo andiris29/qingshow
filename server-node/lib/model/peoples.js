@@ -71,9 +71,6 @@ peopleSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    jPushInfo : {
-        registrationIDs : [String]
-    },
     questSharing : {
         status : Number,
         progress : Number,

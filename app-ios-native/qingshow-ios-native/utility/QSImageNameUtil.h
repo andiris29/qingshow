@@ -9,10 +9,15 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, QSImageNameType) {
+    QSImageNameTypeOrigin,
     QSImageNameTypeS,
     QSImageNameTypeXS,
     QSImageNameTypeXXS,
     QSImageNameTypeXXXS,
+    QSImageNameType30,
+    QSImageNameType50,
+    QSImageNameType100,
+    QSImageNameType200
     
 };
 
@@ -22,5 +27,5 @@ typedef NS_ENUM(NSInteger, QSImageNameType) {
 + (NSArray*)appendImageNameUrls:(NSArray*)urls type:(QSImageNameType)type;
 + (NSString*)appendImageName:(NSString*)imgUrl type:(QSImageNameType)type;
 + (NSArray*)appendImageNames:(NSArray*)urls type:(QSImageNameType)type;
-
++ (NSURL *)appendingDefaultImageUrl;
 @end

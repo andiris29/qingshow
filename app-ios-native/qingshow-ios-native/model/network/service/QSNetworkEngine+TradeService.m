@@ -11,7 +11,7 @@
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
 #import "QSUserManager.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 
 
 #define PATH_TRADE_CREATE @"trade/create"
@@ -85,16 +85,18 @@
 
 #pragma mark - Query
 - (MKNetworkOperation*)queryOrderListPage:(int)page
+                               inProgress:(BOOL)inProgress
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
 {
     NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
-    NSString* userId = [QSCommonUtil getIdOrEmptyStr:userInfo];
-    return [self queryTradeCreatedBy:userId page:page onSucceed:succeedBlock onError:errorBlock];
+    NSString* userId = [QSEntityUtil getIdOrEmptyStr:userInfo];
+    return [self queryTradeCreatedBy:userId page:page inProgress:inProgress onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId
                                       page:(int)page
+                                inProgress:(BOOL)inProgress
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
@@ -102,6 +104,7 @@
                                  method:@"GET"
                                paramers:@{@"_id" : peopleId,
                                           @"pageNo" : @(page),
+                                          @"inProgress":@(inProgress),
                                           @"pageSize" : @10 }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
@@ -123,7 +126,7 @@
                                        onSucceed:(DicBlock)succeedBlock
                                          onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_TRADE_REFRESH_PAYMENT_STATUS method:@"POST" paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_TRADE_REFRESH_PAYMENT_STATUS method:@"POST" paramers:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:tradeDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
             succeedBlock(retDict[@"data"][@"trade"]);
@@ -148,7 +151,7 @@
         paramDict = [@{} mutableCopy];
     }
     
-    paramDict[@"_id"] = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+    paramDict[@"_id"] = [QSEntityUtil getIdOrEmptyStr:tradeDict];
     paramDict[@"status"] = @(status);
     
     return [self startOperationWithPath:PAHT_TRADE_STATUS_TO

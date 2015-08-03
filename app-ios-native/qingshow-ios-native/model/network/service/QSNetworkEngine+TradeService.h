@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                                    onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)queryOrderListPage:(int)page
+                               inProgress:(BOOL)inProgress
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
 

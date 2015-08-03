@@ -67,8 +67,12 @@
 
 - (void)reloadData
 {
-    [self fetchDataOfPage:1];
+    [self reloadDataOnCompletion:nil];
 }
+- (void)reloadDataOnCompletion:(VoidBlock)block {
+    [self fetchDataOfPage:1 completion:block];
+}
+
 - (void)refreshData:(NSDictionary*)dict
 {}
 - (MKNetworkOperation*)fetchDataOfPage:(int)page

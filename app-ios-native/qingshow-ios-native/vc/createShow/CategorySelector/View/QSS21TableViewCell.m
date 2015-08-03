@@ -10,6 +10,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSS21ItemView.h"
 #import "QSS21TableViewProvider.h"
+#import "QSCategoryUtil.h"
 
 #define seletedColor [UIColor colorWithRed:234/255.0 green:128/255.0 blue:146/255.0 alpha:1.0] 
 #define kItemWith 94.0
@@ -55,14 +56,53 @@
     //设置title圆角
     [self setTitleButtonCornerRadius];
     
-    NSString *titleStr = cellDic[@"name"];
+    NSString *titleStr = [QSCategoryUtil getName:cellDic];
     [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
-    
-    NSArray *array = cellDic[@"children"];
+    NSArray *array = [QSCategoryUtil getChildren:cellDic];
     [self setItemsWith:array select:selectedDic];
 }
-
+- (void)setLastCellWith:(NSDictionary *)cellDic andSelectedArray:(NSArray *)selectedArray
+{
+    [self setTitleButtonCornerRadius];
+    NSString *titleStr = [QSCategoryUtil getName:cellDic];
+    [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
+    
+    NSArray *array = [QSCategoryUtil getChildren:cellDic];
+    [self setItemForLastCell:array selectedArray:selectedArray];
+}
 #pragma mark -- 设置scrollView item
+
+- (void)setItemForLastCell:(NSArray *)array selectedArray:(NSArray *)selectedArray
+{
+    self.scrollView.contentSize = CGSizeMake(array.count*kItemWith, kItemHeight);
+    for (QSS21ItemView *item in self.scrollView.subviews) {
+        [item removeFromSuperview];
+    }
+    for (int i = 0; i < array.count; i ++) {
+        
+        //初始化resultArray
+        //从nib记载自定义button
+        NSArray *nibViews = [[NSBundle mainBundle] loadNibNamed:@"QSS21ItemView" owner:self options:nil];
+        
+        QSS21ItemView *item = [nibViews lastObject];
+        item.frame = CGRectMake(i *kItemWith, 0, 64, kItemHeight);
+        
+        //添加点击手势
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeitemState:)];
+        singleTap.numberOfTapsRequired = 1;
+        [item addGestureRecognizer:singleTap];
+        
+        //设置图片和title
+        NSDictionary *itemDic = array[i];
+        item.itemDic = itemDic;
+        
+        [item setLastCellItem:selectedArray];
+        
+        [self.scrollView addSubview:item];
+        
+    }
+
+}
 - (void)setItemsWith:(NSArray *)array select:(NSDictionary*)dict
 {
     self.scrollView.contentSize = CGSizeMake(array.count*kItemWith, kItemHeight);

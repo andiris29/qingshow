@@ -7,7 +7,7 @@
 //
 
 #import "QSItemUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "NSNumber+QSExtension.h"
 #import <CoreText/CoreText.h>
 #import <CoreFoundation/CoreFoundation.h>
@@ -19,7 +19,7 @@
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict
 {
     NSArray* array = itemDict[@"images"];
-    if ([QSCommonUtil checkIsNil:array]) {
+    if ([QSEntityUtil checkIsNil:array]) {
         return nil;
     }
     NSMutableArray* m = [@[] mutableCopy];
@@ -56,7 +56,7 @@
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
-    if (![QSCommonUtil checkIsDict:itemDict]) {
+    if (![QSEntityUtil checkIsDict:itemDict]) {
         return nil;
     }
     NSString* path = itemDict[@"source"];
@@ -68,11 +68,11 @@
 }
 
 + (NSString*)getSource:(NSDictionary*)itemDict{
-    if (![QSCommonUtil checkIsDict:itemDict]) {
+    if (![QSEntityUtil checkIsDict:itemDict]) {
         return nil;
     }
     NSString* path = itemDict[@"source"];
-    if (![QSCommonUtil checkIsNil:path]) {
+    if (![QSEntityUtil checkIsNil:path]) {
         return path;
     }
     return nil;
@@ -80,14 +80,14 @@
 
 + (NSString*)getItemName:(NSDictionary*)itemDict
 {
-    if (![QSCommonUtil checkIsDict:itemDict]) {
+    if (![QSEntityUtil checkIsDict:itemDict]) {
         return nil;
     }
     return itemDict[@"name"];
 }
 + (NSString*)getItemTypeName:(NSDictionary*)itemDict
 {
-    if (![QSCommonUtil checkIsDict:itemDict]) {
+    if (![QSEntityUtil checkIsDict:itemDict]) {
         return nil;
     }
     NSArray* array = @[@"上衣", @"下装", @"连衣裙", @"内搭", @"鞋子", @"包", @"配饰"];
@@ -123,16 +123,16 @@
 
 + (NSArray*)getSkusArray:(NSDictionary*)itemDict
 {
-    if (![QSCommonUtil checkIsDict:itemDict]) {
+    if (![QSEntityUtil checkIsDict:itemDict]) {
         return nil;
     }
     NSDictionary* taobaoInfoDict = [self getTaobaoInfo:itemDict];
-    if (![QSCommonUtil checkIsDict:taobaoInfoDict]) {
+    if (![QSEntityUtil checkIsDict:taobaoInfoDict]) {
         return nil;
     }
     
     NSArray* skus = taobaoInfoDict[@"skus"];
-    if (![QSCommonUtil checkIsArray:skus]) {
+    if (![QSEntityUtil checkIsArray:skus]) {
         return nil;
     }
     return skus;
@@ -149,7 +149,7 @@
     //Check at least one dict
     BOOL f = YES;
     for (NSDictionary* sku in skus) {
-        if ([QSCommonUtil checkIsDict:sku]) {
+        if ([QSEntityUtil checkIsDict:sku]) {
             f = NO;
             break;
         }
@@ -161,9 +161,9 @@
     //Check at least one promo_price
     f = YES;
     for (NSDictionary* sku in skus) {
-        if ([QSCommonUtil checkIsDict:sku]) {
+        if ([QSEntityUtil checkIsDict:sku]) {
             id promoPrice = sku[@"promo_price"];
-            if (![QSCommonUtil checkIsNil:promoPrice]) {
+            if (![QSEntityUtil checkIsNil:promoPrice]) {
                 f = NO;
                 break;
             }
@@ -175,7 +175,7 @@
     
     f = NO;
     for (NSDictionary* sku in skus) {
-        if ([QSCommonUtil checkIsDict:sku]) {
+        if ([QSEntityUtil checkIsDict:sku]) {
             NSNumber* promoPrice = sku[@"promo_price"];
             NSNumber* price = sku[@"price"];
             if (ABS(price.doubleValue - promoPrice.doubleValue) > 0.01) {
@@ -206,13 +206,13 @@
     NSNumber* maxPrice = maxSku[@"price"];
     if ([self hasDiscountInfo:itemDict]) {
         if (sortedSkus.count == 1 || (ABS(maxPrice.doubleValue - minPrice.doubleValue)) < 0.01) {
-            return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+            return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue)];
         } else {
             return [NSString stringWithFormat:@"￥%.2f-%.2f", minPrice.doubleValue, maxPrice.doubleValue];
         }
     } else {
         //min(skus[i].price) - 0.01
-        return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+        return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue)];
     }
     /*
     if (![QSCommonUtil checkIsDict:itemDict]) {
@@ -245,7 +245,7 @@
     }];
     NSDictionary* minSku = [sortedSkus firstObject];
     NSNumber* minPrice = minSku[@"promo_price"];
-    return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+    return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue)];
     /*
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
@@ -267,7 +267,7 @@
 
 + (NSDictionary*)getTaobaoInfo:(NSDictionary*)itemDict
 {
-    if (![QSCommonUtil checkIsDict:itemDict]) {
+    if (![QSEntityUtil checkIsDict:itemDict]) {
         return nil;
     }
     return itemDict[@"taobaoInfo"];
@@ -276,11 +276,11 @@
 
 + (NSString*)getVideoPath:(NSDictionary*)item
 {
-    if (![QSCommonUtil checkIsDict:item]) {
+    if (![QSEntityUtil checkIsDict:item]) {
         return nil;
     }
     NSString* path = item[@"video"];
-    if ([QSCommonUtil checkIsNil:path]) {
+    if ([QSEntityUtil checkIsNil:path]) {
         return nil;
     } else {
         return path;
@@ -290,7 +290,7 @@
 
 + (BOOL)getIsLike:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if ([QSEntityUtil checkIsNil:itemDict]) {
         return NO;
     }
     NSDictionary* context = itemDict[@"__context"];
@@ -302,7 +302,7 @@
 
 + (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if ([QSEntityUtil checkIsNil:itemDict]) {
         return;
     }
     if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
@@ -322,7 +322,7 @@
 
 + (void)addNumberLike:(long long)num forItem:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if ([QSEntityUtil checkIsNil:itemDict]) {
         return;
     }
     if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
@@ -334,7 +334,7 @@
 
 + (NSString*)getNumberLikeDescription:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if ([QSEntityUtil checkIsNil:itemDict]) {
         return nil;
     }
     return ((NSNumber*)itemDict[@"numLike"]).kmbtStringValue;
@@ -353,7 +353,7 @@
 + (NSString*)getSelectedSku:(NSDictionary*)item
 {
     NSString* source = [self getSource:item];
-    if ([QSCommonUtil checkIsNil:source]) {
+    if ([QSEntityUtil checkIsNil:source]) {
         return nil;
     }
     NSArray* comps = [source componentsSeparatedByString:@"&"];
@@ -384,7 +384,7 @@
     
 }
 + (NSURL*)getThumbnail:(NSDictionary *)itemDict {
-    NSString* s = [QSCommonUtil getStringValue:itemDict key:@"thumbnail"];
+    NSString* s = [QSEntityUtil getStringValue:itemDict keyPath:@"thumbnail"];
     if (s) {
         return [NSURL URLWithString:s];
     } else {
@@ -393,11 +393,16 @@
 }
 
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict {
-    return [QSCommonUtil getDictValue:itemDict key:@"categoryRef"];
+    return [QSEntityUtil getDictValue:itemDict keyPath:@"categoryRef"];
 }
 
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict {
     //用来处理没有populate的情况
-    return [QSCommonUtil getStringValue:itemDict key:@"categoryRef"];
+    NSString* str = [QSEntityUtil getStringValue:itemDict keyPath:@"categoryRef"];
+    if (!str) {
+        NSDictionary* dict = [self getCategoryRef:itemDict];
+        str = [QSEntityUtil getIdOrEmptyStr:dict];
+    }
+    return str;
 }
 @end

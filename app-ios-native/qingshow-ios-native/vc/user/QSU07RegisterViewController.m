@@ -14,7 +14,7 @@
 #import "QSNetworkKit.h"
 #import "QSU13PersonalizeViewController.h"
 #import "QSThirdPartLoginService.h"
-
+#import "QSEntityUtil.h"
 #define PAGE_ID @"U07 - 注册"
 #define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSU07RegisterViewController ()
@@ -203,7 +203,7 @@
     
     ErrorBlock errorBlock = ^(NSError *error) {
         NSDictionary *userInfo = error.userInfo;
-        NSNumber *errorCode = userInfo[@"error"];
+        NSNumber *errorCode = [QSEntityUtil getNumberValue:userInfo keyPath:@"error"];
         if (errorCode == nil) {
             [self showErrorHudWithText:@"网络连接失败"];
             return;
@@ -219,34 +219,6 @@
 }
 
 
-
-//// Update Peoples
-//- (void) updatePeopleEntityByEntity:(NSDictionary *)entity
-//{
-//    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
-//        if (metadata[@"error"] == nil && people != nil) {
-//            //[vc showSuccessHudWithText:@"更新成功"];
-//            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-////            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
-//            [self.navigationController popViewControllerAnimated:YES];
-//        } else {
-//            [self showErrorHudWithText:@"更新失败"];
-//        }
-//    };
-//    
-//    ErrorBlock error = ^(NSError *error) {
-//        if (error.userInfo[@"error"] != nil) {
-//            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
-//            if (errorCode != nil) {
-//            //    [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
-//            }
-//        } else {
-//            [self showErrorHudWithText:@"网络连接失败"];
-//        }
-//    };
-//    
-//    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
-//}
 
 
 

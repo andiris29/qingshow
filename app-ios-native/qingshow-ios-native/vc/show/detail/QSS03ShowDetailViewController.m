@@ -11,7 +11,7 @@
 #import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
@@ -33,7 +33,7 @@
 @interface QSS03ShowDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
-
+@property (strong, nonatomic) NSString* showId;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
@@ -44,13 +44,19 @@
     self.backBtn.hidden = _menuProvider != nil;
 }
 #pragma mark - Init Method
-- (id)initWithShow:(NSDictionary*)showDict
-{
+- (instancetype)initWithShowId:(NSString*)showId {
     self = [self initWithNibName:@"QSS03ShowDetailViewController" bundle:nil];
     if (self) {
-        self.showDict = showDict;
+        self.showId = showId;
         self.showDeletedBtn = NO;
-        
+    }
+    return self;
+}
+- (instancetype)initWithShow:(NSDictionary*)showDict
+{
+    self = [self initWithShowId:[QSEntityUtil getIdOrEmptyStr:showDict]];
+    if (self) {
+        self.showDict = showDict;
     }
     return self;
 }
@@ -64,7 +70,10 @@
     self.shareVc.delegate = self;
     [self.view addSubview:self.shareVc.view];
     self.shareVc.view.frame = self.view.bounds;
-    [self bindWithDict:self.showDict];
+    if (self.showDict) {
+        [self bindWithDict:self.showDict];
+    }
+
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
@@ -75,6 +84,8 @@
     self.headIconImageView.layer.masksToBounds = YES;
     self.headIconImageView.userInteractionEnabled = YES;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -85,24 +96,43 @@
         if (self.showDict) {
             [weakSelf bindExceptImageWithDict:self.showDict];
         }
-        [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-            weakSelf.showDict = dict;
-            [weakSelf bindExceptImageWithDict:dict];
-            NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
-            if (!promotionDict) {
+        if (!self.showDict) {
+            [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
+                weakSelf.showDict = dict;
+                [weakSelf bindWithDict:dict];
+//                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+//                if (!promotionDict) {
+//                    self.discountContainer.hidden = YES;
+//                } else {
+//                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+//                        [self showDiscountContainer];
+//                    } else {
+//                        self.discountContainer.hidden = YES;
+//                    }
+//                }
                 self.discountContainer.hidden = YES;
-            } else {
-                if (![QSPromotionUtil getIsEnabled:promotionDict]) {
-                    [self showDiscountContainer];
-                } else {
+            } onError:^(NSError *error) {
+                [self showErrorHudWithError:error];
+            }];
+        } else {
+            [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+                weakSelf.showDict = dict;
+                [weakSelf bindExceptImageWithDict:dict];
+                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+                if (!promotionDict) {
                     self.discountContainer.hidden = YES;
+                } else {
+                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+                        [self showDiscountContainer];
+                    } else {
+                        self.discountContainer.hidden = YES;
+                    }
                 }
-            }
-        } onError:^(NSError *error) {
-            
-        }];
+            } onError:^(NSError *error) {
+                
+            }];
+        }
     }
-
     [MobClick beginLogPageView:PAGE_ID];
 }
 
@@ -175,8 +205,8 @@
     
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     if (!peopleDict) {
-        self.headIconImageView.hidden = YES;
-        self.modelNameLabel.hidden = YES;
+        self.headIconImageView.hidden = NO;
+        self.modelNameLabel.hidden = NO;
     } else {
         if (self.showDeletedBtn) {
             //当前用户
@@ -190,7 +220,7 @@
             self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
         } else {
             self.headIconImageView.hidden = NO;
-            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
+            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
             self.modelNameLabel.hidden = NO;
             self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
         }
@@ -233,6 +263,7 @@
 
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
+    
     NSDictionary* showDict = self.showDict;
     [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
         if (f) {
@@ -320,11 +351,11 @@
 #pragma mark - Share
 - (void)showSharePanel
 {
-    NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
+    NSString* showId = [QSEntityUtil getIdOrEmptyStr:self.showDict];
     
     //获取userID
     QSUserManager *um = [QSUserManager shareUserManager];
-    NSString* peopleID = [QSCommonUtil getIdOrEmptyStr:um.userInfo];
+    NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
     
     NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
     [self.shareVc showSharePanelWithUrl:urlStr];
@@ -383,7 +414,7 @@
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
-    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSCommonUtil getIdOrEmptyStr:self.showDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSEntityUtil getIdOrEmptyStr:self.showDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 
 #pragma mark - Discount

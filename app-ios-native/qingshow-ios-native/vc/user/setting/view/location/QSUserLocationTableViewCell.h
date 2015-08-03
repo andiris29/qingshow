@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UILabel* phoneLabel;
 @property (weak, nonatomic) IBOutlet UILabel* addressLabel;
 @property (weak, nonatomic) IBOutlet UIButton* selectedIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *editBtn;
+@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 
 @property (weak, nonatomic) NSObject<QSUserLocationTableViewCellDelegate>* delegate;
 

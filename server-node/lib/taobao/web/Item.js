@@ -6,6 +6,10 @@ var cheerio = require('cheerio');
 
 var URLParser = require('./URLParser');
 
+var sizePrefix = "20509";
+var colorPrefix = "1627207";
+
+
 var TaobaoWebItem = module.exports;
 TaobaoWebItem.getSkus = function (source, callback) {
     async.waterfall([
@@ -80,6 +84,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
             } catch (e) {
                 winston.info(e);
             }
+            var g_config = {};
 
             try {
 
@@ -91,15 +96,8 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                     callback(null, {});
                 } else {
                     var skus = _generateSkus(webSkus, skuMap, propertyMap);
+                    var taobaoInfo = generateTaobaoInfoFromSkus(skus);
 
-                    var top_title = $('.tb-main-title').attr('data-title');
-                    var nick = $('.tb-seller-name').attr('title');
-
-                    var taobaoInfo = {};
-                    taobaoInfo.skus = skus;
-                    taobaoInfo.top_num_iid = URLParser.getIidFromSource(source);
-                    taobaoInfo.top_title = top_title;
-                    taobaoInfo.nick = nick;
 
                     callback(null, taobaoInfo);
                 }
@@ -111,7 +109,47 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
         }
     });
 };
+var generateTaobaoInfoFromSkus = function (skus){
+    var taobaoInfo = {};
 
+
+    if (skus.length) {
+        var sku = skus[0];
+        taobaoInfo.promo_price = sku.promo_price;
+        taobaoInfo.price = sku.price;
+    }
+    var skuNames = skus.map(function (sku) {
+        return sku.properties_name.split(';');
+    });
+
+    if (skuNames.length && skus.length) {
+        var sku = skus[0];
+        var skuIds = sku.properties.split(';').filter(function (s) {
+            return s.length;
+        });
+
+        var skuProperties = [];
+        for (var i = 0; i < skuNames[0].length; i++) {
+            var skuId = skuIds[i];
+            var retStr = "";
+            if (skuId.indexOf(colorPrefix) == 0) {
+                retStr = "颜色";
+            } else if (skuId.indexOf(sizePrefix) == 0) {
+                retStr = "尺码"
+            }
+            var names = [];
+            skuNames.forEach(function (n) {
+                if (names.indexOf(n[i]) === -1) {
+                    names.push(n[i]);
+                    retStr = retStr + ':' + n[i];
+                }
+            })
+            skuProperties.push(retStr);
+        }
+        taobaoInfo.skuProperties = skuProperties;
+    }
+    return taobaoInfo;
+}
 
 // Tmall
 var _parseTmallWebPage = function (source, webSkus, callback) {
@@ -162,12 +200,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                         }
                     });
 
-                    var nick = $('.slogo-shopname').text();
-                    var taobaoInfo = {};
-                    taobaoInfo.skus = skus;
-                    taobaoInfo.top_title = title;
-                    taobaoInfo.top_nick = nick;
-                    taobaoInfo.top_num_iid = URLParser.getIidFromSource(source);
+                    var taobaoInfo = generateTaobaoInfoFromSkus(skus);
                     callback(null, taobaoInfo);
                 }
             };

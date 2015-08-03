@@ -20,21 +20,20 @@ showSchema = Schema({
         }]
         //        select: false
     },
-    promotionRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'promotions'
-    },
     create : {
         type : Date,
         'default' : Date.now
     },
+    ownerRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
+    hideAgainstOwner : Boolean,
     recommend : {
         group: String,
         date : Date,
         description : String
-    },
-    ugc : Boolean
-
+    }
 });
 
 var Show = mongoose.model('shows', showSchema);

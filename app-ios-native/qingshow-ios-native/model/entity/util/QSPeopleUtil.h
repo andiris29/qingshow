@@ -7,26 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QSImageNameUtil.h"
 
 @interface QSPeopleUtil : NSObject
 
 + (NSString*)buildModelStatusString:(NSDictionary*)peopleDict;
-+ (NSString*)getGenderDesc:(NSDictionary*)modelDict;
 + (NSString*)getNickname:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
++ (NSURL*)getHeadIconUrl:(NSDictionary *)peopleDict type:(QSImageNameType)type;
 + (NSURL*)getBackgroundUrl:(NSDictionary*)peopleDict;
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict;
-+ (NSString*)getProvinceDesc:(NSDictionary*)peopleDict;
 + (NSString*)getHeight:(NSDictionary*)peopleDict;
 + (NSString*)getWeight:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
 + (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict;
+
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
++ (NSString*)getNumberCreateShows:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberFollowBrands:(NSDictionary*)peopleDict;
 + (NSString*)getNumberFollowPeoples:(NSDictionary*)peopleDict;
-
++ (NSString*)getNumberLiketoCreateShows:(NSDictionary*)peopleDict;
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;
 + (void)setPeople:(NSDictionary*)peopleDict isFollowed:(BOOL)isFollowed;

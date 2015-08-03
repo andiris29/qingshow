@@ -8,6 +8,7 @@
 
 #import "QSS10ItemDetailVideoViewController.h"
 #import "QSS11CreateTradeViewController.h"
+#import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
 #import "QSImageNameUtil.h"
 #import "UILabelStrikeThrough.h"
@@ -15,6 +16,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSUserManager.h"
 #import "QSU07RegisterViewController.h"
+#import "QSEntityUtil.h"
 #define PAGE_ID @"S10 - 商品详细"
 
 @interface QSS10ItemDetailVideoViewController ()
@@ -92,14 +94,14 @@
 - (IBAction)shopBtnPressed:(id)sender
 {
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    NSLog(@"dic = %@",peopleDic);
     if (!peopleDic) {
         UIViewController *vc = [[QSU07RegisterViewController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }
     else
     {
-        UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
+        UIViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:self.itemDict];
+//        UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
         QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
         vc.navigationItem.leftBarButtonItem = backItem;
         [self.navigationController pushViewController:vc animated:YES];
@@ -170,6 +172,6 @@
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
-    [MobClick event:@"playVideo" attributes:@{@"showId" : self.itemDict[@"_id"], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSEntityUtil getIdOrEmptyStr:self.itemDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 @end

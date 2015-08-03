@@ -12,7 +12,7 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
-
+#import "QSEntityUtil.h"
 #define PAGE_ID @"U06 - 登录"
 
 @interface QSU06LoginViewController ()
@@ -127,7 +127,8 @@
     }
     
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
-        if (metadata[@"error"] == nil && people != nil) {
+#warning TODO Refactor
+        if ( metadata[@"error"] == nil && people != nil) {
             self.fRemoveLoginAndRegisterVc = YES;
             [self showSuccessHudWithText:@"登陆成功"];
             [self popToPreviousVc];
@@ -137,6 +138,7 @@
     };
     
     ErrorBlock error = ^(NSError *error) {
+#warning TODO Refactor
         if (error.userInfo[@"error"] != nil) {
             NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
             if (errorCode.longValue == 1001) {
