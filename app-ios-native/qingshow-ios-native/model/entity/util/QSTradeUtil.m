@@ -86,7 +86,7 @@
     if (![QSEntityUtil checkIsDict:dict]) {
         return NO;
     }
-    NSNumber *n =  [QSEntityUtil getNumberValue:dict keyPath:@"tradeContext.sharedByCurrentUser"];
+    NSNumber *n =  [QSEntityUtil getNumberValue:dict keyPath:@"__context.sharedByCurrentUser"];
     if ([QSEntityUtil checkIsNil:n]) {
         return NO;
     }

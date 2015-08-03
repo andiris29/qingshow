@@ -54,7 +54,6 @@
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
-
     self.tradeDict = tradeDict;
     NSArray* orderList = [QSTradeUtil getOrderArray:tradeDict];
     NSDictionary* orderDict = nil;
