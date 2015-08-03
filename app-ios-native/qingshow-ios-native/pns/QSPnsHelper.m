@@ -14,6 +14,7 @@
 #define kPnsCommandNewRecommandations @"newRecommandations"
 #define kPnsCommandQuestSharingProgress @"questSharingProgress"
 #define kPnsCommandQuestSharingComplete @"questSharingComplete"
+#define kPnsCommandTradeInitialized @"tradeInitialized"
 
 @implementation QSPnsHelper
 + (void)handlePnsData:(NSDictionary*)userInfo {
@@ -42,6 +43,9 @@
     } else if ([command isEqualToString:kPnsCommandQuestSharingComplete]) {
         //搭配活动完成
         [center postNotificationName:kPnsQuestSharingCompleteNotification object:nil userInfo:nil];
+    } else if ([command isEqualToString:kPnsCommandTradeInitialized]) {
+        //折扣申请成功
+        [center postNotificationName:kPnsTradeInitialNotification object:nil userInfo:nil];
     }
 }
 @end

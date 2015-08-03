@@ -176,6 +176,7 @@
     [center addObserver:self selector:@selector(pnsDidNewRecommandation:) name:kPnsNewRecommandationNotification object:nil];
     [center addObserver:self selector:@selector(pnsQuestSharingProgress:) name:kPnsQuestSharingProgressNotification object:nil];
     [center addObserver:self selector:@selector(pnsQuestSharingCompleted:) name:kPnsQuestSharingCompleteNotification object:nil];
+    [center addObserver:self selector:@selector(pnsTradeInitial:) name:kPnsTradeInitialNotification object:nil];
 }
 - (void)pnsDidReceiveNewShowComment:(NSNotification*)noti {
 
@@ -205,5 +206,7 @@
 - (void)pnsQuestSharingCompleted:(NSNotification*)noti {
     
 }
-
+- (void)pnsTradeInitial:(NSNotification*)noti {
+    [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
+}
 @end
