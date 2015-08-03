@@ -14,10 +14,6 @@ itemSchema = Schema({
     promoPrice : Number,
     minExpectedPrice : Number,
     skuProperties : [String],
-    images : [{
-        url : String,
-        description : String
-    }],
     source : String,
     numLike : Number,
     create : {
