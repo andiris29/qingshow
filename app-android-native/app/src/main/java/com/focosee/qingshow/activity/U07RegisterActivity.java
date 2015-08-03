@@ -23,10 +23,12 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.widget.LoadingDialog;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -77,7 +79,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.register_login_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(U07RegisterActivity.this, "login", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
                 finish();
             }
@@ -162,9 +163,44 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         mSsoHandler.authorize(new AuthListener());
     }
 
-    public void onEventMainThread(String finish) {
-        if (FINISH_CODE.equals(finish))
-            finish();
+    private void loginWX(String code) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("code", code);
+        map.put("registrationId", PushModel.INSTANCE.getRegId());
+        JSONObject jsonObject = new JSONObject(map);
+        final LoadingDialog dialog = new LoadingDialog(getSupportFragmentManager());
+        dialog.show(U07RegisterActivity.class.getSimpleName());
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                dialog.dismiss();
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
+                    finish();
+                    return;
+                }
+
+                Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
+                MongoPeople user = UserParser._parsePeople(response);
+                QSModel.INSTANCE.setUser(user);
+                Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    public void onEventMainThread(EventModel<String> eventModel) {
+        if(eventModel.tag == U07RegisterActivity.class){
+            loginWX(eventModel.msg);
+        }
     }
 
     @Override

@@ -59,53 +59,28 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         Log.d("WX", "weixin callback: " + baseResp.getType());
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp resp = (SendAuth.Resp) baseResp;
-            loginWX(resp.code);
+            EventModel<String> eventModel = new EventModel<>();
+            eventModel.msg = resp.code;
+            eventModel.tag = U07RegisterActivity.class;
+            EventBus.getDefault().post(eventModel);
+            finish();
             return;
         }
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
             EventModel<Integer> eventModel;
             if(resp.transaction.equals(U09TradeListAdapter.transaction)){
-                eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
-            }else{
+                Toast.makeText(WXEntryActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
                 eventModel = new EventModel<>(U09TradeListActivity.class, resp.errCode);
+            }else{
+                eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
             }
+            eventModel.from = WXEntryActivity.class;
             EventBus.getDefault().post(eventModel);
             finish();
             return;
         }
     }
 
-    private void loginWX(String code) {
 
-        Map<String, String> map = new HashMap<>();
-        map.put("code", code);
-        map.put("registrationId", PushModel.INSTANCE.getRegId());
-        JSONObject jsonObject = new JSONObject(map);
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(WXEntryActivity.this, MetadataParser.getError(response));
-                    finish();
-                    return;
-                }
-
-                Toast.makeText(WXEntryActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
-                MongoPeople user = UserParser._parsePeople(response);
-                QSModel.INSTANCE.setUser(user);
-                Intent intent = new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", user);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                EventBus.getDefault().post(U07RegisterActivity.FINISH_CODE);
-                finish();
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
 }
