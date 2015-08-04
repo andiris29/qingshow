@@ -98,8 +98,8 @@ public abstract class AbsDialog extends Fragment implements View.OnClickListener
             return;
         }
         isDismissed = true;
-        getFragmentManager().popBackStack();
-        getFragmentManager().beginTransaction().remove(this).commit();
+        fragmentManager.popBackStack();
+        fragmentManager.beginTransaction().remove(this).commit();
     }
 
     @Override

@@ -760,12 +760,12 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         
         if (null != mRefreshListener) {
             // 因为滚动回原始位置的时间是200，我们需要等回滚完后才执行加载回调
-//            postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
                     mRefreshListener.onPullUpToRefresh(PullToRefreshBase.this);
-//                }
-//            }, getSmoothScrollDuration());
+                }
+            }, getSmoothScrollDuration());
         }
     }
     
