@@ -46,8 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self configProvider];
-    [self configView];
+
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
@@ -57,6 +56,8 @@
 {
     [super viewWillAppear:animated];
     [self.provider refreshClickedData];
+    [self configProvider];
+    [self configView];
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewDidDisappear:(BOOL)animated
