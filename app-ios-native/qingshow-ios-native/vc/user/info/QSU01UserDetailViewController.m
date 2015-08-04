@@ -36,6 +36,8 @@
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
 @property (assign, nonatomic) BOOL isCurrentUser;
+@property (assign, nonatomic) BOOL showMenuIcon;
+
 #pragma mark Provider
 @property (strong,nonatomic) QSShowCollectionViewProvider *matchProvider;
 @property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
@@ -53,6 +55,7 @@
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
         self.isCurrentUser = YES;
+        self.showMenuIcon = YES;
     }
     return self;
 }
@@ -61,6 +64,7 @@
     self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
         self.isCurrentUser = [[QSEntityUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSEntityUtil getIdOrEmptyStr:peopleDict]];
+        self.showMenuIcon = NO;
         [self providerInit];
         self.userInfo = peopleDict;
     }
@@ -137,8 +141,8 @@
     [self configView];
     [self bindProvider];
     self.backToTopBtn.hidden = YES;
-    self.backBtn.hidden = self.isCurrentUser;
-    self.menuBtn.hidden = !self.isCurrentUser;
+    self.backBtn.hidden = self.showMenuIcon;
+    self.menuBtn.hidden = !self.showMenuIcon;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
