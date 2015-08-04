@@ -25,6 +25,10 @@
     NSString* path = itemDict[@"source"];
     if (path) {
         NSURL* url = [NSURL URLWithString:path];
+        if (!url) {
+            NSString* newPath = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            url = [NSURL URLWithString:newPath];
+        }
         return url;
     }
     return nil;

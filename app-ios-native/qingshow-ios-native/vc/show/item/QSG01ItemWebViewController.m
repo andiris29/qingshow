@@ -61,7 +61,6 @@
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    
     [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
