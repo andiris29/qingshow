@@ -56,13 +56,14 @@ trade.create = {
             TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
                 callback(err, trade);
             });
-        }], function(error, trade) {
+        }], function(err, trade) {
             // Send response
-            ResponseHelper.response(res, error, {
+            ResponseHelper.response(res, err, {
                 'trade' : trade
             });
-            // Send notification mail
-            TradeHelper.notify(trade);
+            if (!err) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -201,7 +202,9 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
-                trade.orders[0].actualPrice = req.body.actualPrice;
+                req.body.orders.forEach(function(order, index) {
+                    trade.orders[index].actualPrice = order.actualPrice;
+                });
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
@@ -248,11 +251,13 @@ trade.statusTo = {
             TradeHelper.updateStatus(trade, newStatus, param.comment, req.qsCurrentUserId, function(err, trade) {
                 callback(err, trade);
             });
-        }], function(error, trade) {
-            ResponseHelper.response(res, error, {
+        }], function(err, trade) {
+            ResponseHelper.response(res, err, {
                 'trade' : trade
             });
-            TradeHelper.notify(trade);
+            if (!err) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -321,11 +326,13 @@ trade.alipayCallback = {
         },
         function(trade, callback) {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
-        }], function(error, trade) {
-            ResponseHelper.response(res, error, {
+        }], function(err, trade) {
+            ResponseHelper.response(res, err, {
                 'trade' : trade
             });
-            TradeHelper.notify(trade);
+            if (!err) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -377,14 +384,16 @@ trade.wechatCallback = {
         },
         function(trade, callback) {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
-        }], function(error, trade) {
-            if (error === 'pass') {
-                error = null;
+        }], function(err, trade) {
+            if (err === 'pass') {
+                err = null;
             }
-            ResponseHelper.response(res, error, {
+            ResponseHelper.response(res, err, {
                 'trade' : trade
             });
-            TradeHelper.notify(trade);
+            if (!err) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
