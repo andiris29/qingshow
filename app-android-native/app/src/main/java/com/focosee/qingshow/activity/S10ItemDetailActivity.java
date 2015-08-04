@@ -45,10 +45,21 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s10_item_detail);
         ButterKnife.inject(this);
+        DeployWebView(webview);
+
         itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
         if (itemEntity != null) {
             loadWebView(itemEntity.source);
         }
+    }
+
+    private void DeployWebView(WebView webView) {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLoadWithOverviewMode(true);
     }
 
     private void loadWebView(String url) {
