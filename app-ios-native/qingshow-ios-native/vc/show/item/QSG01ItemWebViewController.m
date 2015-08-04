@@ -45,6 +45,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -53,6 +54,18 @@
     [MobClick endLogPageView:PAGE_ID];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if ([UIScreen mainScreen].bounds.size.width == 320 && [UIScreen mainScreen].bounds.size.height == 480) {
+        CGRect submitFrame = self.submitBtn.frame;
+        submitFrame.origin.y -= 20;
+        CGRect cancelFrame = self.cancelBtn.frame;
+        cancelFrame.origin.y -= 20;
+        self.submitBtn.frame = submitFrame;
+        self.cancelBtn.frame = cancelFrame;
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -61,6 +74,7 @@
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [self.webView setScalesPageToFit:YES];
     [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
