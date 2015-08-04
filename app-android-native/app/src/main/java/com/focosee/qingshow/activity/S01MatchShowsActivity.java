@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
@@ -24,12 +23,9 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
