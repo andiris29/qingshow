@@ -4,119 +4,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@null"
+    android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.S01MatchShowsActivity">
 
 
-        <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/item_s01_matchlist_layout"
+    <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/item_s01_matchlist_layout"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:background="@null">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_s01_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            app:layout_heightPercent="69%"
+            app:layout_marginBottomPercent="20%"
+            app:layout_marginTopPercent="15%"
+            app:layout_widthPercent="93%"
+            fresco:actualImageScaleType="fitXY"
+            fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_s01_preground"
             android:layout_width="match_parent"
-            android:layout_height="360dp">
+            android:layout_height="match_parent"
+            app:layout_marginBottomPercent="13%"
+            fresco:actualImageScaleType="fitXY" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/item_s01_bottom_layout"
+            android:background="@color/gray_background" />
+
+        <LinearLayout
+            android:id="@+id/item_s01_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            app:layout_heightPercent="13%">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/item_s01_img"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_centerHorizontal="true"
-                app:layout_marginBottomPercent="20%"
-                app:layout_marginTopPercent="15%"
-                app:layout_heightPercent="69%"
-                app:layout_widthPercent="93%"
-                fresco:actualImageScaleType="fitXY"
-                fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+                android:id="@+id/item_s01_head_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                fresco:placeholderImage="@drawable/root_cell_placehold_head"
+                fresco:roundAsCircle="true" />
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/item_s01_preground"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:layout_marginBottomPercent="13%"
-                fresco:actualImageScaleType="fitXY"/>
+                android:layout_marginLeft="5dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@+id/item_s01_bottom_layout"
-                android:background="@color/gray_background" />
-
-            <LinearLayout
-                android:id="@+id/item_s01_bottom_layout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_heightPercent="13%"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/item_s01_head_img"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    fresco:placeholderImage="@drawable/root_cell_placehold_head"
-                    fresco:roundAsCircle="true" />
-
-                <RelativeLayout
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_s01_nikename"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp">
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/item_s01_clock"
+                    android:layout_marginTop="5dp"
+                    android:layout_toLeftOf="@+id/item_s01_likeNum"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="12sp" />
 
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/item_s01_nikename"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_alignLeft="@+id/item_s01_clock"
-                        android:layout_toLeftOf="@+id/item_s01_likeNum"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:textColor="@color/darker_gray"
-                        android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/item_s01_clock"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/item_s01_nikename"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/gray_clock" />
 
-                    <ImageView
-                        android:id="@+id/item_s01_clock"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_below="@+id/item_s01_nikename"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/gray_clock" />
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_s01_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/item_s01_clock"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/item_s01_clock"
+                    android:text=""
+                    android:textColor="@color/darker_gray"
+                    android:textSize="12sp" />
 
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/item_s01_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/item_s01_clock"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/item_s01_clock"
-                        android:text=""
-                        android:textColor="@color/darker_gray"
-                        android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/item_s01_favor_image"
+                    android:layout_width="35dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/s03_favor_btn" />
 
-                    <ImageView
-                        android:id="@+id/item_s01_favor_image"
-                        android:layout_width="35dp"
-                        android:layout_height="15dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/s03_favor_btn" />
-
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/item_s01_likeNum"
-                        android:layout_width="35dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/item_s01_favor_image"
-                        android:layout_below="@+id/item_s01_favor_image"
-                        android:layout_marginTop="3dp"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/darker_gray"
-                        android:textSize="10sp" />
-                </RelativeLayout>
-            </LinearLayout>
-        </android.support.percent.PercentRelativeLayout>
-
-
-
-
-
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_s01_likeNum"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/item_s01_favor_image"
+                    android:layout_below="@+id/item_s01_favor_image"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
 </android.support.v7.widget.CardView>

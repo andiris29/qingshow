@@ -104,7 +104,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         s01BackTopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.smoothScrollToPosition(0);
+                recyclerView.scrollToPosition(0);
             }
         });
         recyclerPullToRefreshView.doPullRefreshing(true, 0);

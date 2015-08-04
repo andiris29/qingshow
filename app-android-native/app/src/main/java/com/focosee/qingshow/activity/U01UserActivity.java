@@ -348,7 +348,6 @@ public class U01UserActivity extends MenuActivity {
     private void tabOnclick(int pos) {
 
         userViewPager.setCurrentItem(pos);
-        fragments[pos].refresh();
         this.pos = pos;
         setIndicatorBackground(pos);
         initRectcler(recyclerViews[pos]);
