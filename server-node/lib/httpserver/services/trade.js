@@ -61,8 +61,9 @@ trade.create = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            // Send notification mail
-            TradeHelper.notify(trade);
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -201,7 +202,9 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
-                trade.orders[0].actualPrice = req.body.actualPrice;
+                req.body.orders.forEach(function(order, index) {
+                    trade.orders[index].actualPrice = order.actualPrice;
+                });
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
@@ -252,7 +255,9 @@ trade.statusTo = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            TradeHelper.notify(trade);
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -325,7 +330,9 @@ trade.alipayCallback = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            TradeHelper.notify(trade);
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -384,7 +391,9 @@ trade.wechatCallback = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            TradeHelper.notify(trade);
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
