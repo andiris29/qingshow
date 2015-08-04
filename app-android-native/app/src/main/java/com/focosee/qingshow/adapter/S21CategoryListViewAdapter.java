@@ -54,6 +54,9 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         itemViewHolders = new ArrayList<>();
         for (int i = 0; i < categories.size(); i++) {
             itemViewHolders.add(new ArrayList<ItemViewHolder>());
+            if (categories.get(i)._id.equals(ACC)) {
+                multiSelectPostion = i;
+            }
         }
     }
 
@@ -88,9 +91,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
         ArrayList<MongoCategories> item = items.get(position);
         holder.titleName.setText(categories.get(position).name);
-        if (categories.get(position)._id.equals(ACC)) {
-            multiSelectPostion = position;
-        }
         initViewPager(holder, item);
 
         convertView.setTag(holder);

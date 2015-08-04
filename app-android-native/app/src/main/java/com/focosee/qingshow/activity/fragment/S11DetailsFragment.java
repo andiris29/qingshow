@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,14 +19,18 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
+import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.adapter.SkuPropsAdpater;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.util.StringUtil;
@@ -77,6 +82,8 @@ public class S11DetailsFragment extends Fragment {
     ImageView plusDiscount;
     @InjectView(R.id.props)
     RecyclerView recyclerView;
+    @InjectView(R.id.submitBtn)
+    Button submit;
 
     private MongoItem itemEntity;
     private MongoOrder order;
@@ -229,6 +236,7 @@ public class S11DetailsFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
+        submit.setClickable(false);
         order.selectedSkuProperties = SkuUtil.propParser(selectProps);
         order.expectedPrice = new BigDecimal(Double.parseDouble(itemEntity.price) * discountNum / 10)
                 .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -252,8 +260,17 @@ public class S11DetailsFragment extends Fragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
-                Log.i("tag", response.toString());
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    submit.setClickable(true);
+                    return;
+                }
+                startActivity(new Intent(getActivity(), U09TradeListActivity.class));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                submit.setClickable(true);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
