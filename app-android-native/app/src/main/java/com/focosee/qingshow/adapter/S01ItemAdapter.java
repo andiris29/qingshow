@@ -67,9 +67,9 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
         });
 
         if(!TextUtils.isEmpty(show.coverForeground))
-            holder.setImgeByUrl(R.id.item_s01_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.LARGE), ValueUtil.pre_img_AspectRatio);
+            holder.setImgeByController(R.id.item_s01_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.LARGE), ValueUtil.pre_img_AspectRatio);
         if(!TextUtils.isEmpty(show.cover))
-            holder.setImgeByUrl(R.id.item_s01_img, ImgUtil.getImgSrc(show.cover, ImgUtil.LARGE), ValueUtil.match_img_AspectRatio);
+            holder.setImgeByController(R.id.item_s01_img, ImgUtil.getImgSrc(show.cover, ImgUtil.LARGE), ValueUtil.match_img_AspectRatio);
         holder.setText(R.id.item_s01_likeNum, String.valueOf(show.numLike));
         holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" :TimeUtil.formatDateTime_CN_Pre(show.create) + "前");
         if(null == show.ownerRef)return;
@@ -77,7 +77,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
         MongoPeople user = show.ownerRef;
 
         if(null != user.portrait || "".equals(user.portrait)) {
-            holder.setImgeByUrl(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
+            holder.setImgeByController(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
         }
 
         holder.setText(R.id.item_s01_nikename, user.nickname);
