@@ -20,7 +20,9 @@ define([
             return;
         }
         return {
-            'actualPrice' : parseFloat(actualPrice)
+            orders : [{
+                'actualPrice' : parseFloat(actualPrice)
+            }]
         };
     };
 

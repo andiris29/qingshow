@@ -14,9 +14,11 @@ define([
         data = data || {};
         data.version = window.appConfig.VERSION;
         // Transform data to requestable
-        for (var key in data) {
-            if (data[key] instanceof Array) {
-                data[key] = data[key].join(',');
+        if (method === 'get') {
+            for (var key in data) {
+                if (data[key] instanceof Array) {
+                    data[key] = data[key].join(',');
+                }
             }
         }
         // Build settings
