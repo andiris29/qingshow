@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 
@@ -36,19 +37,27 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
 
     @Override
     public int getItemViewType(int position) {
+        if (position == getItemCount() - 1) return 1;
         return 0;
     }
 
     @Override
+    public int getItemCount() {
+        return super.getItemCount() + 1;
+    }
+
+    @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
+        if (position == getItemCount() - 1)
+            return;
 
         final MongoItem item = getItemData(position);
 
         holder.setImgeByUrl(R.id.item_s07_category, item.thumbnail);
-        if(TextUtils.isEmpty(item.promoPrice))
+        if (TextUtils.isEmpty(item.promoPrice))
             holder.getView(R.id.item_s07_name).setVisibility(View.INVISIBLE);
         else
-            holder.setText(R.id.item_s07_name, item.name).setText(R.id.item_s07_price, "价格："+item.promoPrice);
+            holder.setText(R.id.item_s07_name, item.name).setText(R.id.item_s07_price, "价格：" + StringUtil.FormatPrice(item.promoPrice));
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

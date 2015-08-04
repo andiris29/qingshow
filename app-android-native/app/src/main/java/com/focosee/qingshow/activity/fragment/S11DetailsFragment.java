@@ -181,17 +181,17 @@ public class S11DetailsFragment extends Fragment {
 
     private void checkNum() {
         numText.setText(String.valueOf(num));
+
+        cutNum.setClickable(true);
+        cutNum.setImageDrawable(getResources().getDrawable(R.drawable.cut));
+        plusNum.setClickable(true);
+        plusNum.setImageDrawable(getResources().getDrawable(R.drawable.plus));
         if (num <= numOffline) {
             cutNum.setClickable(false);
             cutNum.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
         } else if (num >= numOnline) {
             plusNum.setClickable(false);
             plusNum.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
-        } else {
-            cutNum.setClickable(true);
-            cutNum.setImageDrawable(getResources().getDrawable(R.drawable.cut));
-            plusNum.setClickable(true);
-            plusNum.setImageDrawable(getResources().getDrawable(R.drawable.plus));
         }
     }
 
@@ -211,18 +211,18 @@ public class S11DetailsFragment extends Fragment {
 
     private void checkDiscount() {
         discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
+
+        cutDiscount.setClickable(true);
+        cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut));
+        plusDiscount.setClickable(true);
+        plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus));
         total.setText(StringUtil.FormatPrice(String.valueOf(Double.parseDouble(itemEntity.price) / 10f * discountNum)));
         if (discountNum <= discountOffline) {
             cutDiscount.setClickable(false);
             cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
-        } else if (discountNum > discountOnline) {
+        } else if (discountNum >= discountOnline) {
             plusDiscount.setClickable(false);
             plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
-        } else {
-            cutDiscount.setClickable(true);
-            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut));
-            plusDiscount.setClickable(true);
-            plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus));
         }
     }
 

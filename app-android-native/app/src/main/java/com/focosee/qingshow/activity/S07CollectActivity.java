@@ -11,9 +11,14 @@ import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.util.ComparatorFactory;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.umeng.analytics.MobclickAgent;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -46,11 +51,12 @@ public class S07CollectActivity extends BaseActivity {
         Intent intent = getIntent();
         final Bundle bundle = intent.getExtras();
         items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
+        Collections.sort(items, ComparatorFactory.itemComparator());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(S07CollectActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new S07ListAdapter(items, S07CollectActivity.this, R.layout.item_s07_item_list);
+        adapter = new S07ListAdapter(items, S07CollectActivity.this, R.layout.item_s07_item_list,R.layout.item_s07_text);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpacesItemDecoration(5));
     }

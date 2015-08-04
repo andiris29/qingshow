@@ -21,6 +21,7 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
 
     /**
      * viewType的顺序的layoutId的顺序一致
+     *
      * @param datas
      * @param context
      * @param layoutId
@@ -35,7 +36,7 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
     @Override
     public AbsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         for (int i = 0; i < layoutId.length; i++) {
-            viewHolders[i] =  new AbsViewHolder(LayoutInflater.from(context).inflate(layoutId[i],parent,false));
+            viewHolders[i] = new AbsViewHolder(LayoutInflater.from(context).inflate(layoutId[i], parent, false));
         }
         return viewHolders[viewType];
     }
@@ -45,16 +46,16 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
         return null == datas ? 0 : datas.size();
     }
 
-    public void addData(List<T> datas){
+    public void addData(List<T> datas) {
         this.datas.addAll(datas);
     }
 
-    public void addDataAtTop(List<T> datas){
+    public void addDataAtTop(List<T> datas) {
         this.datas.clear();
         this.datas.addAll(datas);
     }
 
-    public void addDataAtLast(List<T> datas){
+    public void addDataAtLast(List<T> datas) {
         this.datas.addAll(datas);
     }
 
@@ -63,11 +64,13 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
         return position;
     }
 
-    public T getItemData(int position){
-        return datas.get(position);
+    public T getItemData(int position) {
+        if (position < datas.size())
+            return datas.get(position);
+        return null;
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return context;
     }
 
