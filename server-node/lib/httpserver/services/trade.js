@@ -56,12 +56,12 @@ trade.create = {
             TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
                 callback(err, trade);
             });
-        }], function(err, trade) {
+        }], function(error, trade) {
             // Send response
-            ResponseHelper.response(res, err, {
+            ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!err) {
+            if (!error) {
                 TradeHelper.notify(trade);
             }
         });
@@ -251,11 +251,11 @@ trade.statusTo = {
             TradeHelper.updateStatus(trade, newStatus, param.comment, req.qsCurrentUserId, function(err, trade) {
                 callback(err, trade);
             });
-        }], function(err, trade) {
-            ResponseHelper.response(res, err, {
+        }], function(error, trade) {
+            ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!err) {
+            if (!error) {
                 TradeHelper.notify(trade);
             }
         });
@@ -326,11 +326,11 @@ trade.alipayCallback = {
         },
         function(trade, callback) {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
-        }], function(err, trade) {
-            ResponseHelper.response(res, err, {
+        }], function(error, trade) {
+            ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!err) {
+            if (!error) {
                 TradeHelper.notify(trade);
             }
         });
@@ -384,14 +384,14 @@ trade.wechatCallback = {
         },
         function(trade, callback) {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
-        }], function(err, trade) {
-            if (err === 'pass') {
-                err = null;
+        }], function(error, trade) {
+            if (error === 'pass') {
+                error = null;
             }
-            ResponseHelper.response(res, err, {
+            ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!err) {
+            if (!error) {
                 TradeHelper.notify(trade);
             }
         });
