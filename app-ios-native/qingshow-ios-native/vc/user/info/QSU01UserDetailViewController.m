@@ -70,7 +70,7 @@
 
 - (void)providerInit
 {
-    __weak QSU01UserDetailViewController* weakSelf = self;
+//    __weak QSU01UserDetailViewController* weakSelf = self;
     
     
     //Matcher
