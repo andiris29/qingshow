@@ -93,6 +93,9 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s10_bay:
+                if (itemEntity.skuProperties == null || itemEntity.skuProperties.size() == 0) {
+                    break;
+                }
                 container.setVisibility(View.VISIBLE);
                 FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11DetailsFragment(), "details");
                 details.addToBackStack(null);

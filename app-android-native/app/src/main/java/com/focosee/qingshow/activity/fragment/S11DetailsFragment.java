@@ -112,17 +112,12 @@ public class S11DetailsFragment extends Fragment {
         order = new MongoOrder();
         selectProps = new HashMap<>();
 
-        Log.d("s11", itemEntity._id);
-
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
-        if (itemEntity.skuProperties == null) {
-            return rootView;
-        }
 
         if (itemEntity.minExpectedPrice == null) {
             discountOffline = 3;
@@ -211,18 +206,21 @@ public class S11DetailsFragment extends Fragment {
 
     private void checkDiscount() {
         discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
-
-        cutDiscount.setClickable(true);
-        cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut));
-        plusDiscount.setClickable(true);
-        plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus));
         total.setText(StringUtil.FormatPrice(String.valueOf(Double.parseDouble(itemEntity.price) / 10f * discountNum)));
-        if (discountNum <= discountOffline) {
-            cutDiscount.setClickable(false);
-            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
-        } else if (discountNum >= discountOnline) {
+        if (discountNum >= discountOnline){
             plusDiscount.setClickable(false);
             plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
+        }else {
+            plusDiscount.setClickable(true);
+            plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus));
+        }
+
+        if (discountNum <= discountOffline){
+            cutDiscount.setClickable(false);
+            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
+        }else {
+            cutDiscount.setClickable(true);
+            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut));
         }
     }
 
