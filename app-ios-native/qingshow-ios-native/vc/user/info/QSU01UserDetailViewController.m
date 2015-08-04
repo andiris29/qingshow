@@ -91,7 +91,6 @@
             if (resultArray.count > 1) {
                 nextModel = resultArray[i + 1];
             }
-
             
             if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
