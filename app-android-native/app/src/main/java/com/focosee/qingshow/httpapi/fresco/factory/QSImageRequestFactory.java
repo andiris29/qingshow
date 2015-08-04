@@ -12,9 +12,14 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
  */
 public class QSImageRequestFactory {
 
-    public static ImageRequest create(String uri, View view){
-        return createBuilder(uri,view).build();
+    public static ImageRequestBuilder createBuilder(String uri) {
+        ImageRequestBuilder builder =
+                ImageRequestBuilder.newBuilderWithSource(Uri.parse(uri))
+                .setLocalThumbnailPreviewsEnabled(true)
+                .setProgressiveRenderingEnabled(true);
+        return builder;
     }
+
 
     public static ImageRequestBuilder createBuilder(String uri, View view) {
         ImageRequestBuilder builder =

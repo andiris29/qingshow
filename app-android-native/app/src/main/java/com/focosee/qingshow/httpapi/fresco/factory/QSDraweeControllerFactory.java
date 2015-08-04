@@ -12,13 +12,14 @@ import com.facebook.drawee.view.SimpleDraweeView;
  */
 public class QSDraweeControllerFactory {
 
-    public static DraweeController craete(String uri, SimpleDraweeView simpleDraweeView){
-        return createBuilder(uri,simpleDraweeView).build();
+    public static DraweeController craete(String uri, SimpleDraweeView simpleDraweeView) {
+        return createBuilder(uri, simpleDraweeView).build();
     }
 
     public static PipelineDraweeControllerBuilder createBuilder(String uri, SimpleDraweeView simpleDraweeView) {
         PipelineDraweeControllerBuilder builder = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(uri))
+                .setImageRequest(QSImageRequestFactory.createBuilder(uri).build())
                 .setAutoPlayAnimations(true)
                 .setTapToRetryEnabled(true)
                 .setOldController(simpleDraweeView.getController());
