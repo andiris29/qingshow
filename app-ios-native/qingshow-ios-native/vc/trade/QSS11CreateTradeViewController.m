@@ -297,11 +297,9 @@
     }
     if (cell == self.receiverInfoLocationCell) {
         [self showPicker];
+    } else {
+        [self hidekeyboardAndPicker];
     }
-
-    [self hidekeyboardAndPicker];
-
-    
 }
 
 #pragma mark - UIScrollView Delegate
@@ -445,6 +443,7 @@
 #pragma mark - Location Picker
 - (void)showPicker
 {
+    [self hideKeyboard];
     if (!self.locationPicker.hidden) {
         return;
     }
@@ -454,7 +453,7 @@
     [self.locationPicker.layer addAnimation:tran forKey:@"show"];
     self.locationPicker.hidden = NO;
     [self configContentInset:100];
-    [self hideKeyboard];
+
 }
 - (void)hidePicker
 {
