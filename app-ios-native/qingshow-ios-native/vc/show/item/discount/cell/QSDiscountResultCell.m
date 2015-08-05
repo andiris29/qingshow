@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSDictionary* itemDict;
 
 @property (assign, nonatomic) int minDiscount;
+@property (assign, nonatomic) int maxDisCount;
 
 
 @end
@@ -58,8 +59,12 @@
 }
 - (void)adjustDiscount:(int)delta {
     self.currentDiscount += delta;
-    if (self.currentDiscount < self.minDiscount) {
-        self.currentDiscount = self.minDiscount;
+    if (self.currentDiscount < 3) {
+        self.currentDiscount = 3;
+    }
+    if(self.currentDiscount > self.maxDisCount )
+    {
+        self.currentDiscount = self.maxDisCount;
     }
     if (self.currentDiscount > 9) {
         self.currentDiscount = 9;
@@ -81,11 +86,15 @@
     if (minExpectionPrice) {
         self.minDiscount = (int) ([QSItemUtil getMinExpectionPrice:self.itemDict].doubleValue * 10 / [QSItemUtil getPromoPrice:self.itemDict].doubleValue);
     } else {
-#warning 写死3折
-        self.minDiscount = 3;
+#warning 写死3折   现在已修改为先显示最高的折扣
+        float promoPrice = [QSItemUtil getPromoPrice:self.itemDict].floatValue;
+        float price = [QSItemUtil getPrice:self.itemDict].floatValue;
+        
+        self.minDiscount = (promoPrice/price)*10;
     }
 
     self.currentDiscount = self.minDiscount;
+    self.maxDisCount = self.minDiscount;
     [self updateUi];
 }
 
@@ -104,6 +113,6 @@
     return @([QSItemUtil getPromoPrice:self.itemDict].doubleValue * self.currentDiscount / 10);
 }
 - (NSNumber*)getFinalPrice {
-    return @([QSItemUtil getPromoPrice:self.itemDict].doubleValue * self.quantity * self.currentDiscount / 10);
+    return @([QSItemUtil getPrice:self.itemDict].doubleValue * self.quantity * self.currentDiscount / 10);
 }
 @end
