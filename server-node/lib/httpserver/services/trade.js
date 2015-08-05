@@ -276,7 +276,7 @@ trade.queryCreatedBy = {
                     '$in' : [1, 2, 3, 7]
                 };
             }
-            MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryPaging(Trade.find(criteria).sort({'create' : -1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
             return {
                 'trades' : trades 
