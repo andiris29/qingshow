@@ -496,9 +496,7 @@
 #pragma mark - UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    QSU09OrderListViewController *vc = [[QSU09OrderListViewController alloc]init];
-    [vc.tableView reloadData];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
     
     //[self.navigationController popViewControllerAnimated:YES];
 //    if (buttonIndex == 0) {
