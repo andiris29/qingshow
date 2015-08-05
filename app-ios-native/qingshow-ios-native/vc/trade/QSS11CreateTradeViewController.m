@@ -26,6 +26,8 @@
 #import "QSU09OrderListViewController.h"
 #define PAGE_ID @"S11 - 交易生成"
 
+#import "QSAbstractRootViewController.h"
+
 @interface QSS11CreateTradeViewController ()
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
@@ -52,6 +54,7 @@
 @property (strong, nonatomic) QSLocationPickerProvider* locationProvider;
 
 @property (assign, nonatomic) BOOL isShowKeyboard;
+
 
 @end
 
@@ -496,17 +499,18 @@
 #pragma mark - UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+
     
-    //[self.navigationController popViewControllerAnimated:YES];
-//    if (buttonIndex == 0) {
-//        //继续逛逛
-//        [self.navigationController popViewControllerAnimated:YES];
-//    } else if (buttonIndex == 1) {
-//        //查看订单
+    if (buttonIndex == 0) {
+        //继续逛逛
+        [self.navigationController popViewControllerAnimated:NO];
+        [self.menuProvider showDefaultVc];
+    } else if (buttonIndex == 1) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        //查看订单
 //        UIViewController* vc = [[QSU09OrderListViewController alloc] init];
 //        [self.navigationController pushViewController:vc animated:YES];
-//    }
+    }
 }
 
 @end

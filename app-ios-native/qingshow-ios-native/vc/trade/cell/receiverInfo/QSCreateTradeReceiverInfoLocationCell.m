@@ -16,6 +16,10 @@
 }
 - (id)getInputData
 {
-    return self.label.text;
+    if (self.label.text.length) {
+        return self.label.text;
+    } else {
+        return nil;
+    }
 }
 @end
