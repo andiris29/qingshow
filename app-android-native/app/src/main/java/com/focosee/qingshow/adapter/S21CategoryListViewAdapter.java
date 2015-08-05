@@ -289,7 +289,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 }
 
             }
-            onSelectChangeListener.onSelectChanged(selectRefs);
+            if (null != onSelectChangeListener)
+                onSelectChangeListener.onSelectChanged(selectRefs);
         }
     }
 }

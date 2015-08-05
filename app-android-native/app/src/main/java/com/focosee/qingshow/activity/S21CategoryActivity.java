@@ -45,7 +45,7 @@ public class S21CategoryActivity extends BaseActivity {
         ButterKnife.inject(this);
 
         s21_listview = (ListView) findViewById(R.id.s21_listview);
-        selectCategories = new ArrayList<>();
+        selectCategories = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS);
     }
 
     @Override
@@ -112,12 +112,11 @@ public class S21CategoryActivity extends BaseActivity {
 
     private void show() {
         S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(S21CategoryActivity.this, categories, items,
-                getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS));
+                selectCategories);
         adapter.setOnSelectChangeListener(new S21CategoryListViewAdapter.OnSelectChangeListener() {
             @Override
             public void onSelectChanged(List<String> selectRefs) {
-                selectCategories.clear();
-                selectCategories.addAll(selectRefs);
+                selectCategories = selectRefs;
             }
         });
         s21_listview.setAdapter(adapter);

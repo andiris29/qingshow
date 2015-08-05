@@ -171,9 +171,6 @@ public class S20MatcherActivity extends MenuActivity {
             Select select = new Select().setView(itemView).setPageNo(1);
             allSelect.put(categoryRef, select);
         }
-        if (!categoryRefs.contains(categoryRef)) {
-            categoryRefs.add(categoryRef);
-        }
     }
 
     private void formatPlace(QSImageView view, int row, int column, boolean moveToFrame) {
@@ -371,7 +368,9 @@ public class S20MatcherActivity extends MenuActivity {
                 } else {
                     allSelect.put(categoryRef, new Select().setData(datas).setItem(datas.get(0)).setRow(row).setColumn(column));
                 }
-
+                if (!categoryRefs.contains(categoryRef)) {
+                    categoryRefs.add(categoryRef);
+                }
                 addItemsToCanvas(categoryRef, datas.get(0).thumbnail, row, column);
             }
         }, null);
@@ -426,6 +425,9 @@ public class S20MatcherActivity extends MenuActivity {
                 for (MongoCategories category : categories) {
                     if (category.matchInfo != null) {
                         if (category.matchInfo.defaultOnCanvas) {
+                            if (!categoryRefs.contains(category._id)) {
+                                categoryRefs.add(category._id);
+                            }
                             getDataFromNet(category._id, category.matchInfo.row, category.matchInfo.column);
                         }
                     }
