@@ -11,11 +11,16 @@ public class TradeUtil {
 
     public static List<MongoTrade> tradelistSort(List<MongoTrade> trades){
 
-        for (int i = 0; i < trades.size(); i++) {
-            MongoTrade trade = trades.get(i);
-            if(trade.status == 1){
-                trades.remove(i);
-                trades.add(0, trade);
+        MongoTrade temp = null;
+        for (int i = 0; i < trades.size() - 1; i++) {
+//            MongoTrade trade = trades.get(i);
+            for (int j = i;j<trades.size() - i - 1;j++)
+            if(trades.get(i).update.compareTo(trades.get(i + 1).update) == 1){
+//                trades.remove(i);
+//                trades.add(0, trade);
+                temp = trades.get(i);
+                trades.set(i, trades.get(i + 1));
+                trades.set(i + 1, temp);
             }
         }
         return trades;
