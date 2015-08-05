@@ -175,6 +175,7 @@
 
     }
     QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
+    vc.menuProvider = self.menuProvider;
     [self.navigationController pushViewController:vc animated:YES];
 //    __weak QSU09OrderListViewController* weakSelf = self;
 //    [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
