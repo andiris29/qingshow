@@ -103,7 +103,7 @@
     __weak QSU09OrderListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:@"true" onSucceed:succeedBlock onError:^(NSError *error){
-            if (error.code == 1009) {
+            if (error.code == 1009 && page == 1) {
                 weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
                 [weakSelf changeValueOfSegment:1];
             }else(errorBlock(error));
