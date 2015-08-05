@@ -91,19 +91,16 @@ public class U01RecommFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
+                    if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endLoadingMore();
+                    mRefreshLayout.endRefreshing();
                     return;
                 }
-                recyclerPullToRefreshView.onPullUpRefreshComplete();
-                recyclerPullToRefreshView.onPullDownRefreshComplete();
+                mRefreshLayout.endLoadingMore();
+                mRefreshLayout.endRefreshing();
                 adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
                 adapter.notifyDataSetChanged();
             }

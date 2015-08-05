@@ -11,19 +11,25 @@
         android:layout_height="50dp"/>
 
 
-    <com.focosee.qingshow.widget.RecyclerPullToRefreshView
-        android:id="@+id/S04_recyclerViewPull"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/s04_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
-        android:layout_below="@+id/s04_title"
-        android:background="@color/white"/>
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/s04_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
     
     <LinearLayout
         android:id="@+id/S04_bottom"
         android:layout_alignParentBottom="true"
-        android:layout_alignBottom="@+id/S04_recyclerViewPull"
+        android:layout_alignBottom="@+id/s04_refresh"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"

@@ -35,8 +35,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
 import com.focosee.qingshow.widget.ActionSheet;
-import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
@@ -49,8 +47,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
-public class S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
+public class S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
     public static final String COMMENT_NUM_CHANGE = "comment_num_changed";
@@ -61,14 +61,16 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     TextView title;
     @InjectView(R.id.right_btn)
     ImageView rightBtn;
-    @InjectView(R.id.S04_recyclerViewPull)
-    RecyclerPullToRefreshView recyclerPullToRefreshView;
     @InjectView(R.id.S04_user_image)
     SimpleDraweeView S04UserImage;
     @InjectView(R.id.S04_input)
     EditText s04Input;
     @InjectView(R.id.S04_send_button)
     Button s04SendButton;
+    @InjectView(R.id.s04_recyclerview)
+    RecyclerView recyclerView;
+    @InjectView(R.id.s04_refresh)
+    BGARefreshLayout mRefreshLayout;
 
     private S04CommentListAdapter adapter;
 
@@ -82,7 +84,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     private int position;
 
     private int API_TYPE = 0;//0是show, 1是preview
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         setContentView(R.layout.activity_s04_comment);
         ButterKnife.inject(this);
 
-        leftBtn.setImageResource(R.drawable.btn_back_default);
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,8 +112,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             API_TYPE = 0;
         }
         position = intent.getIntExtra("s08_position", 0);
-        
-        recyclerView = recyclerPullToRefreshView.getRefreshableView();
 
         s04Input.addTextChangedListener(new TextWatcher() {
             @Override
@@ -139,7 +137,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         });
 
         if (QSModel.INSTANCE.loggedin()) {
-            if(null != QSModel.INSTANCE.getUser()) {
+            if (null != QSModel.INSTANCE.getUser()) {
                 if (null != QSModel.INSTANCE.getUser().portrait && !"".equals(QSModel.INSTANCE.getUser().portrait)) {
                     S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
                     S04UserImage.setAspectRatio(1f);
@@ -159,20 +157,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S04CommentListAdapter(new LinkedList<MongoComment>(), S04CommentActivity.this, R.layout.comment_item_list);
         recyclerView.setAdapter(adapter);
+        initRefreshLayout();
+        mRefreshLayout.beginRefreshing();
+    }
 
-        recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doRefreshTask();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doLoadMoreTask();
-            }
-        });
-
-        recyclerPullToRefreshView.doPullRefreshing(true, 0);
+    private void initRefreshLayout() {
+        mRefreshLayout.setDelegate(this);
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(this, true);
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
     }
 
     @Override
@@ -205,19 +197,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
-                        ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
-                    }
+                    ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
+                    mRefreshLayout.endLoadingMore();
                     return;
                 }
                 currentPage++;
                 adapter.addData(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
                 adapter.notifyDataSetChanged();
-                recyclerPullToRefreshView.onPullUpRefreshComplete();
-                setLastUpdateTime();
+                mRefreshLayout.endLoadingMore();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonArrayRequest);
@@ -232,16 +219,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 currentPage = 1;
                 adapter.addDataAtTop(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
                 adapter.notifyDataSetChanged();
-                recyclerPullToRefreshView.onPullDownRefreshComplete();
-                setLastUpdateTime();
+                mRefreshLayout.endRefreshing();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonArrayRequest);
@@ -295,11 +280,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void setLastUpdateTime() {
-        String text = formatDateTime(System.currentTimeMillis());
-        recyclerPullToRefreshView.setLastUpdatedLabel(text);
-    }
-
     private String formatDateTime(long time) {
         if (0 == time) {
             return "";
@@ -349,7 +329,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         switch (index) {
             case 0:
-                if(null == adapter.getItemData(clickCommentIndex).getAuthorRef())return;
+                if (null == adapter.getItemData(clickCommentIndex).getAuthorRef()) return;
                 Intent intent = new Intent(S04CommentActivity.this, U01UserActivity.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putSerializable("user", adapter.getItemData(clickCommentIndex).getAuthorRef());
@@ -396,5 +376,16 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         super.onPause();
         MobclickAgent.onPageEnd("S04CommentList"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
+        doRefreshTask();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
+        doLoadMoreTask();
+        return true;
     }
 }

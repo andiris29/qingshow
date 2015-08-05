@@ -9,22 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class U01BaseFragment extends Fragment {
+public abstract class U01BaseFragment extends Fragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
 
-    @InjectView(R.id.fragment_u01_recyclerview)
-    RecyclerPullToRefreshView recyclerPullToRefreshView;
-    RecyclerView recyclerView;
     MongoPeople user;
 
     int currentPageN0 = 1;
+    @InjectView(R.id.u01_recyclerview)
+    RecyclerView recyclerView;
+    @InjectView(R.id.u01_refresh)
+    BGARefreshLayout mRefreshLayout;
 
     public U01BaseFragment() {
         // Required empty public constructor
@@ -42,30 +43,30 @@ public abstract class U01BaseFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_u01, container, false);
         ButterKnife.inject(this, view);
-        recyclerView = recyclerPullToRefreshView.getRefreshableView();
-
-        recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                refresh();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                loadMore();
-            }
-        });
+        initRefreshLayout();
         return view;
-    }
-
-    public RecyclerPullToRefreshView getRecyclerPullToRefreshView() {
-        return this.recyclerPullToRefreshView;
     }
 
     public abstract void refresh();
 
     public abstract void loadMore();
 
+    private void initRefreshLayout() {
+        mRefreshLayout.setDelegate(this);
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(getActivity(), true);
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
+        refresh();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
+        loadMore();
+        return true;
+    }
 
     @Override
     public void onDestroyView() {

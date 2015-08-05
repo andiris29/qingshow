@@ -77,7 +77,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     @InjectView(R.id.S03_describe)
     TextView s03Describe;
     @InjectView(R.id.S03_back_btn)
-    ImageButton s03BackBtn;
+    ImageView s03BackBtn;
     @InjectView(R.id.S03_video_start_btn_real)
     ImageView s03VideoStartBtnReal;
     @InjectView(R.id.s03_portrait)

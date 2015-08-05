@@ -7,11 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -25,35 +23,30 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.TradeModel;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.TradeUtil;
 import com.focosee.qingshow.widget.LoadingDialog;
-import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
-import com.focosee.qingshow.wxapi.WXEntryActivity;
-import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class U09TradeListActivity extends MenuActivity {
+public class U09TradeListActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     private final int TYPE_ALL = 0;
     private final int TYPE_RUNNING = 1;
 
-    @InjectView(R.id.person_activity_tradelist_recyclerPullToRefreshView)
-    RecyclerPullToRefreshView recyclerPullToRefreshView;
     @InjectView(R.id.U09_head_layout)
     LinearLayout u09HeadLayout;
     @InjectView(R.id.u09_tab_all)
@@ -61,12 +54,15 @@ public class U09TradeListActivity extends MenuActivity {
     @InjectView(R.id.u09_tab_running)
     Button u09TabRunning;
     @InjectView(R.id.backTop_btn)
-    ImageView backTopBtn;
+    ImageButton backTopBtn;
     @InjectView(R.id.navigation_btn_discount)
     ImageButton navigationBtnDiscount;
     @InjectView(R.id.navigation_btn_discount_tv)
     TextView navigationBtnDiscountTv;
-    private RecyclerView tradelist;
+    @InjectView(R.id.u09_recyclerview)
+    RecyclerView recyclerView;
+    @InjectView(R.id.u09_refresh)
+    BGARefreshLayout mRefreshLayout;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private String peopleId;
@@ -75,7 +71,6 @@ public class U09TradeListActivity extends MenuActivity {
     private View firstItem;
     private int currentType = 1;
     private boolean isRunning = true;
-    private int sharePosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,39 +86,20 @@ public class U09TradeListActivity extends MenuActivity {
             finish();
         }
 
-        tradelist = recyclerPullToRefreshView.getRefreshableView();
-
         mAdapter = new U09TradeListAdapter(new LinkedList<MongoTrade>(), U09TradeListActivity.this, R.layout.head_trade_list, R.layout.item_trade_list);
 
         mLayoutManager = new LinearLayoutManager(this);
-        tradelist.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(mLayoutManager);
 
 //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        tradelist.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
 
-        tradelist.setAdapter(mAdapter);
-        tradelist.addItemDecoration(new SpacesItemDecoration(10));
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new SpacesItemDecoration(10));
 
-        recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doRefresh(currentType);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doLoadMore(currentType);
-            }
-        });
-
-        tradelist.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0 && firstItem != recyclerView.getChildAt(0)) {
-                    backTopBtn.setVisibility(View.VISIBLE);
-                } else {
-                    backTopBtn.setVisibility(View.GONE);
-                }
                 if (firstItem == null) {
                     firstItem = recyclerView.getChildAt(0);
                 }
@@ -134,9 +110,17 @@ public class U09TradeListActivity extends MenuActivity {
             }
         });
 
-        doRefresh(currentType);
+        RecyclerViewUtil.setBackTop(recyclerView, backTopBtn, mLayoutManager);
+        initRefreshLayout();
+        mRefreshLayout.beginRefreshing();
 
         EventBus.getDefault().register(this);
+    }
+
+    private void initRefreshLayout() {
+        mRefreshLayout.setDelegate(this);
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(this, true);
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
     }
 
     public void onEventMainThread(LinkedList<MongoTrade> event) {
@@ -145,13 +129,13 @@ public class U09TradeListActivity extends MenuActivity {
     }
 
     public void onEventMainThread(String event) {
-        if(responseToStatusToSuccessed.equals(event))doRefresh(currentType);
+        if (responseToStatusToSuccessed.equals(event)) doRefresh(currentType);
     }
 
     public void onEventMainThread(EventModel<Integer> event) {
-        if(event.tag == U09TradeListActivity.class){
+        if (event.tag == U09TradeListActivity.class) {
 //            mAdapter.getItemData(sharePosition).__context.sharedByCurrentUser = true;
-            if(event.msg != SendMessageToWX.Resp.ErrCode.ERR_OK){
+            if (event.msg != SendMessageToWX.Resp.ErrCode.ERR_OK) {
                 Toast.makeText(U09TradeListActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -170,8 +154,7 @@ public class U09TradeListActivity extends MenuActivity {
     }
 
     public void doRefresh(int type) {
-
-        getTradeFromNet(type, 1, 100);
+        getTradeFromNet(type, 1, 10);
     }
 
     public void doLoadMore(int type) {
@@ -187,27 +170,27 @@ public class U09TradeListActivity extends MenuActivity {
         }
 
         final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
-        if(currentPageNo == 1)
+        if (currentPageNo == 1)
             pDialog.show(U09TradeListActivity.class.getSimpleName());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(peopleId, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println("response:" + response);
-                if(currentPageNo == 1)
+                if (currentPageNo == 1)
                     pDialog.dismiss();
                 if (MetadataParser.hasError(response)) {
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
-                        recyclerPullToRefreshView.setHasMoreData(false);
                         if (isRunning) {//进入u09时的第一次请求
                             clickTabRunning();
                             doRefresh(TYPE_ALL);
                             currentType = TYPE_ALL;
+                            isRunning = false;
                         }
                     } else {
                         ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
+                    mRefreshLayout.endRefreshing();
+                    mRefreshLayout.endLoadingMore();
                     return;
                 }
                 if (isRunning) {//进入u09时的第一次请求
@@ -219,11 +202,11 @@ public class U09TradeListActivity extends MenuActivity {
                 tradeList = TradeUtil.tradelistSort(tradeList);
                 if (pageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endRefreshing();
                     currentPageNo = 1;
                 } else {
                     mAdapter.addData(tradeList);
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    mRefreshLayout.endLoadingMore();
                 }
                 currentPageNo++;
                 mAdapter.notifyDataSetChanged();
@@ -248,19 +231,19 @@ public class U09TradeListActivity extends MenuActivity {
                 menuSwitch();
                 break;
             case R.id.u09_tab_all:
-                currentPageNo=1;
+                currentPageNo = 1;
                 currentType = TYPE_ALL;
                 clickTabAll();
                 doRefresh(TYPE_ALL);
                 break;
             case R.id.u09_tab_running:
-                currentPageNo=1;
+                currentPageNo = 1;
                 currentType = TYPE_RUNNING;
                 clickTabRunning();
                 doRefresh(TYPE_RUNNING);
                 break;
             case R.id.backTop_btn:
-                tradelist.smoothScrollToPosition(0);
+                recyclerView.scrollToPosition(0);
                 break;
         }
     }
@@ -277,5 +260,16 @@ public class U09TradeListActivity extends MenuActivity {
         u09TabAll.setTextColor(getResources().getColor(R.color.master_pink));
         u09TabRunning.setBackgroundResource(R.drawable.s01_tab_btn2);
         u09TabRunning.setTextColor(getResources().getColor(R.color.white));
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
+        doRefresh(currentType);
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
+        doLoadMore(currentType);
+        return false;
     }
 }

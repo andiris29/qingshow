@@ -105,7 +105,7 @@ public class U01UserActivity extends MenuActivity {
     @InjectView(R.id.circle_tip)
     View circleTip;
     @InjectView(R.id.u01_backTop_btn)
-    ImageView u01BackTopBtn;
+    ImageButton u01BackTopBtn;
     @InjectView(R.id.u01_people)
     ImageButton u01People;
     @InjectView(R.id.u01_people_tv)
@@ -268,13 +268,11 @@ public class U01UserActivity extends MenuActivity {
         u01BackTopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.smoothScrollToPosition(0);
+                recyclerView.scrollToPosition(0);
             }
         });
 
         int span = recyclerView.getLayoutManager() instanceof LinearLayoutManager ? 1 : 2;
-
-        System.out.println("getChildCount:" + recyclerView.getLayoutManager().getChildCount());
 
         boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
                 * (recyclerView.getChildCount() - 1) / span + userHeadLayout.getY() + userHeadLayout.getHeight();
@@ -297,7 +295,7 @@ public class U01UserActivity extends MenuActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0 && userHeadLayout.getY() <= -userHeadLayout.getHeight()) {
+                if (((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() != 0) {
                     u01BackTopBtn.setVisibility(View.VISIBLE);
                 } else {
                     u01BackTopBtn.setVisibility(View.GONE);

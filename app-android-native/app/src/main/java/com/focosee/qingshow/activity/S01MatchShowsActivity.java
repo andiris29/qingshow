@@ -20,25 +20,30 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.TimeUtil;
-import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import de.greenrobot.event.EventBus;
 
-public class S01MatchShowsActivity extends MenuActivity {
+public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static final String TAG = "S01MatchShowsActivity";
     @InjectView(R.id.s01_backTop_btn)
-    ImageView s01BackTopBtn;
+    ImageButton s01BackTopBtn;
     @InjectView(R.id.navigation_btn_match)
     ImageButton navigationBtnMatch;
     @InjectView(R.id.navigation_btn_match_tv)
     TextView navigationBtnMatchTv;
+    @InjectView(R.id.s01_refresh)
+    BGARefreshLayout mRefreshLayout;
+    @InjectView(R.id.s01_recyclerview)
+    RecyclerView recyclerView;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -48,13 +53,10 @@ public class S01MatchShowsActivity extends MenuActivity {
     ImageView s01MenuBtn;
     @InjectView(R.id.s01_tab_hot)
     Button s01TabHot;
-    @InjectView(R.id.s01_recyclerView)
-    RecyclerPullToRefreshView recyclerPullToRefreshView;
     @InjectView(R.id.s01_tab_new)
     Button s01TabNew;
 
     private S01ItemAdapter adapter;
-    private RecyclerView recyclerView;
     private int currentPageNo = 1;
     private int currentType = TYPE_HOT;
 
@@ -65,6 +67,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
         initDrawer();
+        initRefreshLayout();
         navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
         navigationBtnMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
@@ -73,41 +76,14 @@ public class S01MatchShowsActivity extends MenuActivity {
                 menuSwitch();
             }
         });
-        recyclerView = recyclerPullToRefreshView.getRefreshableView();
-        recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doRefresh(currentType);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doLoadMore(currentType);
-            }
-        });
-        LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        final LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy < 0) {
-                    s01BackTopBtn.setVisibility(View.VISIBLE);
-                } else {
-                    s01BackTopBtn.setVisibility(View.GONE);
-                }
-            }
-        });
-        s01BackTopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerView.scrollToPosition(0);
-            }
-        });
-        recyclerPullToRefreshView.doPullRefreshing(true, 0);
+
+        RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
+        mRefreshLayout.beginRefreshing();
     }
 
     @Override
@@ -125,6 +101,7 @@ public class S01MatchShowsActivity extends MenuActivity {
 
     public void getDatasFromNet(int type, final int pageNo) {
 
+
         String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, PAGESIZE) : QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
@@ -132,27 +109,22 @@ public class S01MatchShowsActivity extends MenuActivity {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    if (MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
-                        ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
-                    }
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
+                    mRefreshLayout.endLoadingMore();
+                    mRefreshLayout.endRefreshing();
                     return;
                 }
 
                 List<MongoShow> datas = ShowParser.parseQuery_categoryString(response);
                 if (pageNo == 1) {
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endRefreshing();
                     adapter.addDataAtTop(datas);
                     currentPageNo = pageNo;
                 } else {
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    mRefreshLayout.endLoadingMore();
                     adapter.addData(datas);
                 }
 
-                setLastUpdateTime();
                 adapter.notifyDataSetChanged();
                 currentPageNo++;
             }
@@ -161,15 +133,16 @@ public class S01MatchShowsActivity extends MenuActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void setLastUpdateTime() {
-        String text = TimeUtil.formatDateTime(System.currentTimeMillis());
-        recyclerPullToRefreshView.setLastUpdatedLabel(text);
-    }
-
     public void onEventMainThread(String event) {
         if (event.equals("refresh")) {
-            recyclerPullToRefreshView.doPullRefreshing(true, 0);
+            mRefreshLayout.beginRefreshing();
         }
+    }
+
+    private void initRefreshLayout() {
+        mRefreshLayout.setDelegate(this);
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(this, true);
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
     }
 
     @Override
@@ -177,7 +150,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerView.scrollToPosition(0);
         if (v.getId() == R.id.s01_tab_hot) {
             currentType = TYPE_HOT;
-            recyclerPullToRefreshView.doPullRefreshing(true, 0);
+//            recyclerPullToRefreshView.doPullRefreshing(true, 0);
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_btn1);
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_border1);
@@ -186,7 +159,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         }
         if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
-            recyclerPullToRefreshView.doPullRefreshing(true, 0);
+//            recyclerPullToRefreshView.doPullRefreshing(true, 0);
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_border2);
             s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);
@@ -206,5 +179,16 @@ public class S01MatchShowsActivity extends MenuActivity {
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
+        doRefresh(currentType);
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
+        doLoadMore(currentType);
+        return true;
     }
 }

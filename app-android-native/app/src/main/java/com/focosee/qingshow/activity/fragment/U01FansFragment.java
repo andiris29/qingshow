@@ -99,24 +99,22 @@ public class U01FansFragment extends U01BaseFragment {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
+                    if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endLoadingMore();
+                    mRefreshLayout.endRefreshing();
                     return;
                 }
 
                 ArrayList<MongoPeople> peoples = PeopleParser.parseQueryFollowers(response);
                 if(pageNo == 1) {
                     adapter.addDataAtTop(peoples);
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endRefreshing();
                     currentPageN0 = pageNo;
                 }else{
                     adapter.addData(peoples);
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    mRefreshLayout.endLoadingMore();
                 }
                 adapter.notifyDataSetChanged();
                 currentPageN0++;

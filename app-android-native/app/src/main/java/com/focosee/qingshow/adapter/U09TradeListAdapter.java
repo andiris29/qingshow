@@ -27,6 +27,7 @@ import com.focosee.qingshow.model.TradeModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.SkuUtil;
@@ -89,7 +90,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             skuProperties.append(p);
             skuProperties.append("\n");
         }
-        holder.setText(R.id.item_tradelist_skuProperties, skuProperties.toString().substring(0, skuProperties.toString().length() - "\n".length()));
+        holder.setText(R.id.item_tradelist_skuProperties, skuProperties.toString().substring(0, skuProperties.toString().length() - "\n".length()) + "date:" + TimeUtil.formatDateTime(trade.update));
 //        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
         holder.setText(R.id.item_tradelist_price, StringUtil.FormatPrice(String.valueOf(trade.orders.get(0).actualPrice)));

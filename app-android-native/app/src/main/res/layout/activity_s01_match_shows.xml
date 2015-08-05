@@ -67,23 +67,25 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <com.focosee.qingshow.widget.RecyclerPullToRefreshView
-                android:id="@+id/s01_recyclerView"
+            <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/s01_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:background="@null"
-                android:layout_below="@+id/s01_title_layout">
+                android:layout_height="match_parent">
 
-            </com.focosee.qingshow.widget.RecyclerPullToRefreshView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/s01_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
         </LinearLayout>
-        <ImageView
+        <ImageButton
             android:id="@+id/s01_backTop_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="40dp"
             android:visibility="gone"
             android:background="@drawable/back_top"/>
     </FrameLayout>

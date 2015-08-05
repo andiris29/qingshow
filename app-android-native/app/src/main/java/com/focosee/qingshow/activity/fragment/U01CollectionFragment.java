@@ -97,15 +97,12 @@ public class U01CollectionFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
+                    if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endRefreshing();
+                    mRefreshLayout.endLoadingMore();
                     return;
                 }
 
@@ -113,11 +110,11 @@ public class U01CollectionFragment extends U01BaseFragment {
 
                 if(pageNo == 1) {
                      adapter.addDataAtTop(datas);
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endRefreshing();
                     currentPageN0 = pageNo;
                 }else{
                     adapter.addData(datas);
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    mRefreshLayout.endLoadingMore();
                 }
                 currentPageN0++;
                 adapter.notifyDataSetChanged();

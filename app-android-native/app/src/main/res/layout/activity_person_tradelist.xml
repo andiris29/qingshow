@@ -60,12 +60,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <com.focosee.qingshow.widget.RecyclerPullToRefreshView
-                        android:id="@+id/person_activity_tradelist_recyclerPullToRefreshView"
+                    <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/u09_refresh"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/gray_background"
-                        android:scrollbars="none" />
+                        android:layout_height="match_parent">
+
+                        <!-- 内容控件 -->
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/u09_recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+                    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
                     <include
                         layout="@layout/head_trade_list"
@@ -73,7 +79,7 @@
                         android:layout_height="150dp"
                         android:layout_below="@+id/U09_title_relative_layout" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/backTop_btn"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
@@ -87,16 +93,6 @@
                 </android.support.percent.PercentRelativeLayout>
             </LinearLayout>
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/s01_backTop_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/back_top"
-            android:visibility="gone" />
     </FrameLayout>
 
     <ImageView

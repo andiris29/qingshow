@@ -169,13 +169,10 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         map.put("code", code);
         map.put("registrationId", PushModel.INSTANCE.getRegId());
         JSONObject jsonObject = new JSONObject(map);
-        final LoadingDialog dialog = new LoadingDialog(getSupportFragmentManager());
-        dialog.show(U07RegisterActivity.class.getSimpleName());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                dialog.dismiss();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
                     finish();

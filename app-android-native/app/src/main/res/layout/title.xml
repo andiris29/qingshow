@@ -2,35 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/title_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:background="@drawable/bg_titlebar">
     <ImageView
         android:id="@+id/left_btn"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:padding="10dp"
         android:layout_weight="5"
         android:background="#00000000"
-        android:src="@drawable/left_btn_select" />
+        android:src="@drawable/btn_back_default" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_weight="2"
         android:gravity="center"
         android:text="潮流时尚"
+        android:textSize="@dimen/text_size"
         android:textColor="#454545"
         android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/right_btn"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="5"
         android:padding="10dp"
         android:src="@drawable/person"
