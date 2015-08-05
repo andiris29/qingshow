@@ -136,7 +136,7 @@
             [self showSuccessHudAndPop:@"创建成功"];
             self.createTradeOp = nil;
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
             self.createTradeOp = nil;
         }];
     }
