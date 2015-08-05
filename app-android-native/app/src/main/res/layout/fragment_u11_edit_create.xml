@@ -22,28 +22,33 @@
             android:background="#00000000"
             android:padding="10dp"
             android:src="@drawable/btn_back_default" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/U11_title_tv"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
-            android:layout_weight="5"
+            android:layout_weight="6"
             android:gravity="center"
             android:text="@string/title_name_activity_addaddress"
             android:textColor="#454545"
             android:textSize="@dimen/text_size"
             android:textStyle="bold" />
 
-        <TextView
+        <Button
             android:id="@+id/U11ec_save_btn"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:text="@string/save_btn_activity_address"
             android:textColor="@color/master_pink"
+            android:background="@null"
             android:textSize="@dimen/text_size" />
     </LinearLayout>
 

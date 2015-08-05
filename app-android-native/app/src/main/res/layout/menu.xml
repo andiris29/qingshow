@@ -4,7 +4,7 @@
     android:layout_width="140dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:background="#a0000000"
+    android:background="#30000000"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -15,7 +15,7 @@
         android:background="@null"
         android:src="@drawable/root_menu_icon_meida" />
 
-    <TextView
+    <com.focosee.qingshow.widget.QSTextView
         style="@style/navigation_text"
         android:id="@+id/navigation_btn_match_tv"
         android:text="美搭榜单" />
@@ -28,7 +28,7 @@
         android:background="@null"
         android:src="@drawable/root_menu_match" />
 
-    <TextView
+    <com.focosee.qingshow.widget.QSTextView
         style="@style/navigation_text"
         android:id="@+id/navigation_btn_good_match_tv"
         android:text="百搭秀场" />
@@ -41,7 +41,7 @@
         android:background="@null"
         android:src="@drawable/root_menu_discount" />
 
-    <TextView
+    <com.focosee.qingshow.widget.QSTextView
         style="@style/navigation_text"
         android:id="@+id/navigation_btn_discount_tv"
         android:text="我要折扣" />
@@ -54,7 +54,7 @@
         android:background="@null"
         android:src="@drawable/root_menu_flash" />
 
-    <TextView
+    <com.focosee.qingshow.widget.QSTextView
         style="@style/navigation_text"
         android:id="@+id/u01_people_tv"
         android:text="我的搭配" />
@@ -67,7 +67,7 @@
         android:background="@null"
         android:src="@drawable/root_menu_setting" />
 
-    <TextView
+    <com.focosee.qingshow.widget.QSTextView
         style="@style/navigation_text"
         android:id="@+id/s17_settting_tv"
         android:text="个人设置" />

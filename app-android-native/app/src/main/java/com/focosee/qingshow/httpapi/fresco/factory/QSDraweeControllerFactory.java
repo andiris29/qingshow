@@ -12,7 +12,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
  */
 public class QSDraweeControllerFactory {
 
-    public static DraweeController craete(String uri, SimpleDraweeView simpleDraweeView) {
+    public static DraweeController create(String uri, SimpleDraweeView simpleDraweeView) {
         return createBuilder(uri, simpleDraweeView).build();
     }
 

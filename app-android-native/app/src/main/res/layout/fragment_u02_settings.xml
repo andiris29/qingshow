@@ -34,7 +34,7 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/nav_btn_menu_n" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_centerInParent="true"
@@ -178,8 +178,8 @@
                                 android:textSize="@dimen/text_size" />
 
                             <com.focosee.qingshow.widget.QSTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/margin_right_activity_settings"
                                 android:background="@drawable/icon_arrow" />
@@ -207,8 +207,8 @@
                                 android:textSize="@dimen/text_size" />
 
                             <com.focosee.qingshow.widget.QSTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="@dimen/margin_right_activity_settings"
                                 android:background="@drawable/icon_arrow" />

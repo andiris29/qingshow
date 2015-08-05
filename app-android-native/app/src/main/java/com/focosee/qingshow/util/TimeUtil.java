@@ -23,7 +23,7 @@ public class TimeUtil {
 
     public static String parseDateString(GregorianCalendar calendar) {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy- MM- dd");
         return dateFormat.format(calendar.getTime());
     }
 

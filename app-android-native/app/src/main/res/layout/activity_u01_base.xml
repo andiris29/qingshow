@@ -29,7 +29,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/user_bg"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="170dp"
                 fresco:placeholderImageScaleType="fitXY"
                 fresco:placeholderImage="@drawable/user_bg_default"/>
 

@@ -11,6 +11,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         fresco:roundAsCircle="true"
+        android:layout_marginLeft="10dp"
         fresco:placeholderImage="@drawable/root_cell_placehold_head"
         android:layout_centerVertical="true" />
 
@@ -21,7 +22,7 @@
         android:orientation="horizontal"
         android:layout_marginLeft="5dp">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_u01_fans_name"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -46,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/model_cell_icon01_cloth" />
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_u01_fans_cloth_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +61,7 @@
                 android:background="@drawable/model_cell_icon02_noticeno"
                 android:layout_marginLeft="20dp" />
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_u01_fans_like_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,4 +70,9 @@
                 android:textColor="@color/gary" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/line_activity_settings"/>
 </RelativeLayout>

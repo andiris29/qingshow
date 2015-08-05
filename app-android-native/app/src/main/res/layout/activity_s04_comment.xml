@@ -15,6 +15,7 @@
         android:id="@+id/s04_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp">
 
@@ -31,7 +32,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignBottom="@+id/s04_refresh"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:orientation="horizontal"
         android:padding="5dp"
         android:background="#558a8a8a">
@@ -55,16 +56,16 @@
             android:layout_marginRight="5dp"
             android:paddingLeft="5dp"
             android:hint="输入新评论"/>
-
+        <!-- TODO 换字体-->
         <Button
             android:id="@+id/S04_send_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="7"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:textSize="18sp"
+            android:gravity="center"
             android:background="@drawable/s04_send_background"
             android:text="发送"/>
     </LinearLayout>

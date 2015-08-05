@@ -14,9 +14,9 @@
         android:padding="10dp"
         android:layout_weight="5"
         android:background="#00000000"
-        android:src="@drawable/btn_back_default" />
+        android:src="@drawable/nav_btn_back" />
 
-    <TextView
+    <com.focosee.qingshow.widget.QSTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

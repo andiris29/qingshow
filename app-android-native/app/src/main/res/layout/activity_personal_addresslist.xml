@@ -18,13 +18,13 @@
             android:layout_height="fill_parent"
             android:padding="10dp"
             android:layout_weight="1"
-            android:src="@drawable/btn_back_default" />
-        <TextView
+            android:src="@drawable/nav_btn_back" />
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"/>
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
@@ -35,7 +35,7 @@
             android:layout_weight="5"
             android:textStyle="bold" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/person_addresslist_btn_address"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -47,6 +47,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/person_addresslist_recycleview"
         android:scrollbars="none"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"/>
 

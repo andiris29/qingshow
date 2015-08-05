@@ -150,7 +150,7 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
         recyclerView.scrollToPosition(0);
         if (v.getId() == R.id.s01_tab_hot) {
             currentType = TYPE_HOT;
-//            recyclerPullToRefreshView.doPullRefreshing(true, 0);
+            mRefreshLayout.beginRefreshing();
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_btn1);
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_border1);
@@ -159,7 +159,7 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
         }
         if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
-//            recyclerPullToRefreshView.doPullRefreshing(true, 0);
+            mRefreshLayout.beginRefreshing();
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_border2);
             s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);

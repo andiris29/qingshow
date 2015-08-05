@@ -22,7 +22,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"/>
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s07_tv"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:textSize="40px"
             android:layout_marginTop="30dp"/>
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s07_brand_tv"
             android:layout_below="@+id/s07_tv"
             android:layout_width="fill_parent"

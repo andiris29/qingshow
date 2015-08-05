@@ -3,23 +3,30 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.focosee.qingshow.widget.QSTextView
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:textColor="@color/master_pink"
-        android:text="您可直接连接到天猫购买该产品"/>
-    <TextView
+        android:textSize="@dimen/text_size"
+        android:text="心动宝贝，立即申请，折扣你说了算！"/>
+    <com.focosee.qingshow.widget.QSTextView
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/master_pink"
-        android:text="也可点击我要折扣按钮，申请折扣"/>
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:text="进入以上单品链接，点击‘我要折扣’按钮"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:text="选择你所期望的折扣，其它我们来搞定"/>
 
 </LinearLayout>

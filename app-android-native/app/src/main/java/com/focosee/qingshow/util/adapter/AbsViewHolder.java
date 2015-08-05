@@ -83,7 +83,7 @@ public class AbsViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView draweeView;
         if (null != (view = getView(id))) {
             draweeView = (SimpleDraweeView) view;
-            draweeView.setController(QSDraweeControllerFactory.craete(url, draweeView));
+            draweeView.setController(QSDraweeControllerFactory.create(url, draweeView));
             if (ratdio != 0) {
                 draweeView.setAspectRatio(ratdio);
             }

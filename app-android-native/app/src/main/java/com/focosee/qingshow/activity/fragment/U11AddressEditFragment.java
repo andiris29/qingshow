@@ -75,8 +75,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         receiver = (MongoPeople.Receiver) getActivity().getIntent().getSerializableExtra("receiver");
 
-//        preferences = getActivity().getSharedPreferences(MPREFERENCES,Context.MODE_PRIVATE);
-
         if(null != getArguments()){
             id = getArguments().getString("id");
         }

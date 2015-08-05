@@ -133,7 +133,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         mWeiboShareAPI.registerApp();
 
         if(S20MatchPreviewActivity.class.getSimpleName().equals(className)){
-            s03BackBtn.setBackgroundResource(R.drawable.nav_btn_menu_n);
+            s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

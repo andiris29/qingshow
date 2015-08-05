@@ -47,12 +47,14 @@
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             app:layout_heightPercent="13%">
-
+            <!--TODO 头像与字齐平-->
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_s01_head_img"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 fresco:placeholderImage="@drawable/root_cell_placehold_head"
                 fresco:roundAsCircle="true" />
@@ -71,6 +73,7 @@
                     android:layout_toLeftOf="@+id/item_s01_likeNum"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:text="fdsafdsa"
                     android:textColor="@color/darker_gray"
                     android:textSize="12sp" />
 
@@ -79,6 +82,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_below="@+id/item_s01_nikename"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/gray_clock" />
 
@@ -89,14 +93,14 @@
                     android:layout_alignTop="@+id/item_s01_clock"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/item_s01_clock"
-                    android:text=""
+                    android:text="fdsafdsafdsa"
                     android:textColor="@color/darker_gray"
                     android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/item_s01_favor_image"
                     android:layout_width="35dp"
-                    android:layout_height="15dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/s03_favor_btn" />
@@ -107,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/item_s01_favor_image"
                     android:layout_below="@+id/item_s01_favor_image"
-                    android:layout_marginTop="3dp"
+                    android:layout_alignBottom="@+id/item_s01_time"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="@color/darker_gray"

@@ -137,8 +137,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_above="@+id/S03_share_btn"
                                 android:layout_alignRight="@+id/S03_share_btn"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:paddingLeft="2dp"
+                                android:paddingRight="2dp"
                                 android:src="@drawable/s03_line" />
 
                             <ImageView
@@ -161,8 +163,8 @@
                                 android:layout_alignBottom="@+id/S03_like_btn"
                                 android:layout_alignRight="@+id/S03_like_btn"
                                 android:gravity="center"
-                                android:paddingBottom="2dp"
                                 android:text="0"
+                                android:textSize="@dimen/text_size_mini"
                                 android:textColor="@color/black" />
 
                             <ImageView
@@ -171,8 +173,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_above="@+id/S03_like_btn"
                                 android:layout_alignRight="@+id/S03_like_btn"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:paddingLeft="2dp"
+                                android:paddingRight="2dp"
                                 android:background="@drawable/s03_line" />
 
                             <ImageView
@@ -194,7 +198,7 @@
                                 android:layout_alignBottom="@+id/S03_comment_btn"
                                 android:layout_alignRight="@+id/S03_comment_btn"
                                 android:gravity="center"
-                                android:paddingBottom="2dp"
+                                android:textSize="@dimen/text_size_mini"
                                 android:text="0"
                                 android:textColor="@color/black" />
 
@@ -204,8 +208,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_above="@+id/S03_comment_btn"
                                 android:layout_alignRight="@+id/S03_comment_btn"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:paddingLeft="2dp"
+                                android:paddingRight="2dp"
                                 android:src="@drawable/s03_line" />
 
                             <ImageView
@@ -227,9 +233,10 @@
                                 android:layout_alignBottom="@+id/S03_item_btn"
                                 android:layout_alignRight="@+id/S03_item_btn"
                                 android:gravity="center"
-                                android:paddingTop="15dp"
+                                android:paddingTop="13dp"
                                 android:layout_centerInParent="true"
                                 android:text="0"
+                                android:textSize="@dimen/text_size_mini"
                                 android:textColor="@color/black" />
 
                             <ImageView

@@ -25,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
@@ -117,7 +118,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
         ((ImageView) view.findViewById(R.id.s17_settting)).setImageResource(R.drawable.root_menu_setting_gray);
         ((TextView) view.findViewById(R.id.s17_settting_tv)).setTextColor(getResources().getColor(R.color.darker_gray));
@@ -153,7 +153,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
                 Toast.makeText(getActivity(), "已退出登录", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), U06LoginActivity.class);
+                Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
                 startActivity(intent);
                 GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
                 getActivity().finish();

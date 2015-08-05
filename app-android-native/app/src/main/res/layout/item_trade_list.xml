@@ -31,7 +31,7 @@
             <Button
                 android:id="@+id/item_tradelist_btn3"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
                 android:text="物流信息"
@@ -41,7 +41,7 @@
             <Button
                 android:id="@+id/item_tradelist_btn2"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
                 android:text="申请退货"
@@ -51,7 +51,7 @@
             <Button
                 android:id="@+id/item_tradelist_btn1"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
                 android:text="确认收货"
