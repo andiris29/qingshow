@@ -27,10 +27,14 @@
         return nil;
     }
     NSString *str = [array firstObject];
+    if ([str hasSuffix:@":"]) {
+        str = [str substringToIndex:str.length-1];
+    }
     if ([str containsString:@"尺码"]) {
         return str;
+    }else{
+        return [NSString stringWithFormat:@"尺码%@",str];
     }
-    return [NSString stringWithFormat:@"尺码%@",str];
 }
 + (NSString *)getColorText:(NSDictionary *)dict
 {
@@ -39,10 +43,14 @@
         return nil;
     }
     NSString *str = [array lastObject];
+    if ([str hasSuffix:@":"]) {
+        str = [str substringToIndex:str.length-1];
+    }
     if ([str containsString:@"颜色"]) {
         return str;
+    }else{
+        return [NSString stringWithFormat:@"颜色%@",str];
     }
-    return [NSString stringWithFormat:@"颜色：%@",str];
 
 }
 

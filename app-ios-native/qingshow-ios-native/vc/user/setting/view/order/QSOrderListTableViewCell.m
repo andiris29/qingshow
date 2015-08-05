@@ -136,7 +136,6 @@
         }
     }
     [self layoutIfNeeded];
-    
     [self layoutLabel];
     
 }
