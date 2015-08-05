@@ -50,7 +50,9 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
-    
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
+    }
 }
 - (void)viewWillAppear:(BOOL)animated
 {

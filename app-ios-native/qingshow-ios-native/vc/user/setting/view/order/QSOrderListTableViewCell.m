@@ -50,7 +50,26 @@
     // Configure the view for the selected state
 }
 
+- (void)layoutLabel
+{
 
+    if (!self.sizeLabel.text) {
+        self.colorLabel.frame = [self getNewFrame:self.colorLabel];
+        if (!self.colorLabel.text) {
+            self.quantityLabel.frame = [self getNewFrame:self.quantityLabel];
+            self.priceLabel.frame = [self getNewFrame:self.priceLabel];
+        }
+        self.quantityLabel.frame = [self getNewFrame:self.quantityLabel];
+        self.priceLabel.frame = [self getNewFrame:self.priceLabel];
+    }
+}
+
+- (CGRect)getNewFrame:(UIView *)view
+{
+    CGRect frame = view.frame;
+    frame.origin.y -= 22;
+    return frame;
+}
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
@@ -61,18 +80,16 @@
         orderDict = orderList[0];
     }
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
-    
-    self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    
-    
+    self.sizeLabel.text = [QSOrderUtil getSizeText:orderDict];
+    self.colorLabel.text = [QSOrderUtil getColorText:orderDict];
     if ([QSOrderUtil getActualPrice:orderDict]) {
-        self.priceLabel.text = [QSOrderUtil getActualPriceDesc:orderDict];
+        self.priceLabel.text = [NSString stringWithFormat:@"折后价格：￥%@",[QSOrderUtil getActualPriceDesc:orderDict]];
     } else {
-        self.priceLabel.text = [QSOrderUtil getExpectedPriceDesc:orderDict];
+        self.priceLabel.text = [NSString stringWithFormat:@"折后价格：￥%@",[QSOrderUtil getExpectedPriceDesc:orderDict]];
     }
-    self.quantityLabel.text = [QSOrderUtil getQuantityDesc:orderDict];
+    self.quantityLabel.text = [NSString stringWithFormat:@"数量：%@",[QSOrderUtil getQuantityDesc:orderDict]];
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
@@ -118,6 +135,10 @@
             break;
         }
     }
+    [self layoutIfNeeded];
+    
+    [self layoutLabel];
+    
 }
 //- (void)updateView:(UIView*)view y:(float)y
 //{

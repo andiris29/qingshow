@@ -82,6 +82,7 @@ static char alertDelegateObjKey;
 - (void)showItemDetailViewController:(NSDictionary*)itemDict
 {
     UIViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
+
     [self.navigationController pushViewController:vc animated:YES];
 }
 

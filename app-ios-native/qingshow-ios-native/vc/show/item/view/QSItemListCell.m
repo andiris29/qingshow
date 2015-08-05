@@ -18,7 +18,7 @@
 - (void)awakeFromNib {
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.bgImageView.layer.cornerRadius = 45/2.f;
+    self.bgImageView.layer.cornerRadius = 43/2.f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

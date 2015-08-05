@@ -20,6 +20,32 @@
 + (NSArray*)getSkuProperties:(NSDictionary*)dict {
     return [dict arrayValueForKeyPath:@"selectedSkuProperties"];
 }
++ (NSString *)getSizeText:(NSDictionary *)dict
+{
+    NSArray *array = [self getSkuProperties:dict];
+    if (!array.count) {
+        return nil;
+    }
+    NSString *str = [array firstObject];
+    if ([str containsString:@"尺码"]) {
+        return str;
+    }
+    return [NSString stringWithFormat:@"尺码%@",str];
+}
++ (NSString *)getColorText:(NSDictionary *)dict
+{
+    NSArray *array = [self getSkuProperties:dict];
+    if (!array.count) {
+        return nil;
+    }
+    NSString *str = [array lastObject];
+    if ([str containsString:@"颜色"]) {
+        return str;
+    }
+    return [NSString stringWithFormat:@"颜色：%@",str];
+
+}
+
 + (NSString*)getExpectedPriceDesc:(NSDictionary*)dict {
     NSNumber* price = [self getExpectedPrice:dict];
     return [NSString stringWithFormat:@"%.2f", price.doubleValue];

@@ -7,6 +7,7 @@
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
             <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -45,27 +46,37 @@
                                 <outlet property="delegate" destination="-1" id="RMs-ug-byv"/>
                             </connections>
                         </tableView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  您可直接连接到天猫购买该产品      也可点击我要折扣按钮，申请折扣" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uC4-ox-47w">
-                            <rect key="frame" x="25" y="443" width="282" height="62"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="心动宝贝，立即申请，折扣你说了算  " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uC4-ox-47w">
+                            <rect key="frame" x="8" y="443" width="304" height="34"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="62" id="LBc-NO-eFr"/>
+                                <constraint firstAttribute="height" constant="34" id="LBc-NO-eFr"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="17"/>
                             <color key="textColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="进入以上单品链接，点击“我要折扣按钮” 选择你所期望的折扣，其他我们搞定" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vd1-l4-Sef">
+                            <rect key="frame" x="22" y="476" width="278" height="43"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="gIE-lF-fFE" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" id="2mD-kb-SKD"/>
+                        <constraint firstItem="vd1-l4-Sef" firstAttribute="trailing" secondItem="LPe-vy-IT6" secondAttribute="trailing" constant="-5" id="FMb-ek-bq3"/>
+                        <constraint firstItem="vd1-l4-Sef" firstAttribute="top" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="13" id="MNX-yc-dJy"/>
+                        <constraint firstItem="vd1-l4-Sef" firstAttribute="leading" secondItem="uC4-ox-47w" secondAttribute="leading" constant="14" id="RIU-kq-ciE"/>
+                        <constraint firstAttribute="bottom" secondItem="vd1-l4-Sef" secondAttribute="bottom" constant="49" id="Y83-TW-Lr5"/>
                         <constraint firstItem="gIE-lF-fFE" firstAttribute="top" secondItem="LPe-vy-IT6" secondAttribute="bottom" constant="8" id="YDt-18-2Yl"/>
                         <constraint firstAttribute="trailing" secondItem="gIE-lF-fFE" secondAttribute="trailing" id="dPL-uq-4r9"/>
-                        <constraint firstAttribute="trailing" secondItem="uC4-ox-47w" secondAttribute="trailing" constant="13" id="fP3-Bn-zuN"/>
+                        <constraint firstAttribute="trailing" secondItem="uC4-ox-47w" secondAttribute="trailing" constant="8" id="fP3-Bn-zuN"/>
                         <constraint firstAttribute="trailing" secondItem="LPe-vy-IT6" secondAttribute="trailing" constant="15" id="hU5-5H-H5o"/>
                         <constraint firstItem="LPe-vy-IT6" firstAttribute="top" secondItem="VLC-N6-f3S" secondAttribute="top" constant="30" id="i12-1m-THl"/>
-                        <constraint firstAttribute="bottom" secondItem="uC4-ox-47w" secondAttribute="bottom" constant="63" id="lme-pq-A7G"/>
+                        <constraint firstAttribute="bottom" secondItem="uC4-ox-47w" secondAttribute="bottom" constant="91" id="lme-pq-A7G"/>
                         <constraint firstAttribute="bottom" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="105" id="oXe-QP-gwX"/>
-                        <constraint firstItem="uC4-ox-47w" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" constant="25" id="zZH-ao-FgR"/>
+                        <constraint firstItem="uC4-ox-47w" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" constant="8" id="zZH-ao-FgR"/>
                     </constraints>
                 </view>
             </subviews>

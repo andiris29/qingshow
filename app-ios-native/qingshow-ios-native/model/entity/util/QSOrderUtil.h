@@ -12,6 +12,8 @@
 
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
 + (NSArray*)getSkuProperties:(NSDictionary*)dict;
++ (NSString *)getSizeText:(NSDictionary *)dict;
++ (NSString *)getColorText:(NSDictionary *)dict;
 + (NSNumber*)getExpectedPrice:(NSDictionary*)dict;
 + (NSString*)getExpectedPriceDesc:(NSDictionary*)dict;
 + (NSNumber*)getActualPrice:(NSDictionary*)dict;
