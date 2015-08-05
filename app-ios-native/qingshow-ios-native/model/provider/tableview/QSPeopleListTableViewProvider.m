@@ -9,6 +9,7 @@
 #import "QSPeopleListTableViewProvider.h"
 #import "MKNetworkOperation.h"
 
+#define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSPeopleListTableViewProvider ()
 
 
@@ -31,6 +32,7 @@
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithPeople:dict];
 //    cell.followBtn.hidden = self.type == QSModelListTableViewDelegateObjTypeHideFollow;
+    cell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);
     return cell;
 }
 - (void)refreshData:(NSDictionary*)dict
@@ -43,7 +45,7 @@
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 62.f;
+    return w/320*62.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
