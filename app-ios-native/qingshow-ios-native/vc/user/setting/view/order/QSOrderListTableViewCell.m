@@ -80,6 +80,7 @@
         orderDict = orderList[0];
     }
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
+    self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.sizeLabel.text = [QSOrderUtil getSizeText:orderDict];
@@ -93,6 +94,7 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
+    NSLog(@"-------------%d",s);
     BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
     switch (s) {
         case 0:
