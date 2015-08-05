@@ -65,6 +65,9 @@
         self.submitBtn.frame = submitFrame;
         self.cancelBtn.frame = cancelFrame;
     }
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        self.view.transform = CGAffineTransformMakeScale(1.35, 1.35);
+    }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
