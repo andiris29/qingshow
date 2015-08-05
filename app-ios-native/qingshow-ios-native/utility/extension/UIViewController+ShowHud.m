@@ -21,6 +21,18 @@
     [hud show:YES];
     [hud hide:YES afterDelay:TEXT_HUD_DELAY];
 }
+- (void)showTextHud:(NSString*)text afterCustomDelay:(float)delay
+{
+    MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:hud];
+    hud.mode = MBProgressHUDModeText;
+    hud.removeFromSuperViewOnHide = YES;
+    hud.labelFont = NEWFONT;
+    hud.detailsLabel.text = text;
+    hud.detailsLabel.numberOfLines = 0;
+    [hud show:YES];
+    [hud hide:YES afterDelay:delay];
+}
 
 - (void)showErrorHudWithText:(NSString*)text
 {

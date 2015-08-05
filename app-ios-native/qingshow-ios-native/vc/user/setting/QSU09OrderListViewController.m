@@ -215,7 +215,12 @@
 {
     __weak QSU09OrderListViewController *weakSelf = self;
     [SHARE_NW_ENGINE changeTrade:orderDic status:18 info:nil onSucceed:^{
-        [weakSelf showTextHud:@"已取消订单"];
+        if ([QSTradeUtil getStatus:orderDic].intValue == 0) {
+            [weakSelf showTextHud:@"已取消订单"];
+        }else{
+            [weakSelf showTextHud:@"感谢您的惠顾,我们会在48小时内返还此款项" afterCustomDelay:2.f];
+        }
+        
         [weakSelf.provider reloadData];
     }onError:nil];
 }
