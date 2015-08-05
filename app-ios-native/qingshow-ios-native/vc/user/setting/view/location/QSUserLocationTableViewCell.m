@@ -69,6 +69,7 @@
 + (float)getHeightWithDict:(NSDictionary*)dict {
     float width = [UIScreen mainScreen].bounds.size.width - 60.f;
     float height = [QSLayoutUtil sizeForString:[NSString stringWithFormat:@"%@ %@", [QSReceiverUtil getProvince:dict], [QSReceiverUtil getAddress:dict]] withMaxWidth:width height:INFINITY font:NEWFONT].height;
-    return 163.f + height - 15.f;
+    return (163.f + height - 15.f)*[UIScreen mainScreen].bounds.size.width/320.f;
+
 }
 @end

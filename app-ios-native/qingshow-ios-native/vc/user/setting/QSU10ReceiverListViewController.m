@@ -15,7 +15,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSReceiverUtil.h"
 #define PAGE_ID @"U10 - 收获地址一览"
-
+#define w ([UIScreen mainScreen].bounds.size.width)
 
 @interface QSU10ReceiverListViewController ()
 
@@ -98,6 +98,7 @@
     NSDictionary* dict = [self receiverDictForIndexPath:indexPath];
     [cell bindWithDict:dict];
     cell.isSelectedReceiver = self.selectedRecevier == dict;
+    cell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);
     return cell;
 }
 
