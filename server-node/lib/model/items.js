@@ -20,7 +20,8 @@ itemSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    goblinUpdate : Date
+    goblinUpdate : Date,
+    delist : Date
 });
 
 var Item = mongoose.model('items', itemSchema);

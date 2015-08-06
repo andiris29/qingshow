@@ -84,9 +84,11 @@ var _crawlItemTaobaoInfo = function (item, callback) {
             _logItem('item error', item);
             callback(err);
         } else {
-            if (!taobaoInfo) {
+            if (!taobaoInfo || !Object.keys(taobaoInfo).length) {
+                item.delist = new Date();
                 _logItem('item failed', item);
             } else {
+                delete item.delist;
                 item.price = taobaoInfo.price;
                 item.promoPrice = taobaoInfo.promo_price;
                 item.skuProperties = taobaoInfo.skuProperties;
