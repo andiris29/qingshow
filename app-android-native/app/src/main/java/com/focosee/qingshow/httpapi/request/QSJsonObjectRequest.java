@@ -16,7 +16,8 @@ public class QSJsonObjectRequest extends JsonObjectRequest {
     private Map<String, String> _params;
 
     public QSJsonObjectRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        super(method, url, jsonRequest, listener, errorListener);
+
+        super(method, url, jsonRequest, listener, new QSResponseErrorListener(errorListener));
     }
 
     public QSJsonObjectRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener) {
