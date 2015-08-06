@@ -128,6 +128,10 @@
     {
         destructiveTitle = @"删除";
     }
+    else
+    {
+        return;
+    }
     [self.textField resignFirstResponder];
     self.clickIndex = index;
     if ([QSUserManager shareUserManager].userInfo == nil) {

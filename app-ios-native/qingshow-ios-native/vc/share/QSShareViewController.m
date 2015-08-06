@@ -14,6 +14,7 @@
 #import "QSSharePlatformConst.h"
 #import "UIViewController+ShowHud.h"
 #import "QSEntityUtil.h"
+#import "NSDictionary+QSExtension.h"
 
 #define kShareTitle @"时尚宠儿的归属地"
 #define kShareDesc @"美丽乐分享，潮流资讯早知道"
@@ -122,8 +123,7 @@
 
 - (void)weiboSendMessageNotiHandler:(NSNotification*)notification
 {
-#warning TODO Refactor
-    if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
+    if (WeiboSDKResponseStatusCodeSuccess == [notification.userInfo numberValueForKeyPath:@"statusCode"].integerValue) {
         [MobClick event:@"shareShow" attributes:@{@"snsName": @"weibo"} counter:1];
         if ([self.delegate respondsToSelector:@selector(didShareWeiboSuccess)]) {
             [self.delegate didShareWeiboSuccess];

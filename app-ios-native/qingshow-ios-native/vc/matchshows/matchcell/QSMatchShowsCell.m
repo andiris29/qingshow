@@ -40,7 +40,7 @@
     // Initialization code
 
     self.headerImgView.layer.masksToBounds = YES;
-    self.headerImgView.layer.cornerRadius = 16.0;
+    self.headerImgView.layer.cornerRadius = 15.0;
     self.headerImgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *u01Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerImgViewPressed:)];
     u01Tap.numberOfTapsRequired = 1;

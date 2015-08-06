@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSAbstractDiscountTableViewCell.h"
+@interface QSDiscountTableViewController : UITableViewController<QSDiscountTableViewCellDelegate>
 
-@interface QSDiscountTableViewController : UITableViewController
+- (instancetype)initWithItem:(NSDictionary*)itemDict;
 
+- (BOOL)checkComplete;
+- (NSDictionary*)getResult;
 @end

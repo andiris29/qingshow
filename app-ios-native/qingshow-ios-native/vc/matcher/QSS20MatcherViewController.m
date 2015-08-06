@@ -52,8 +52,6 @@
     
     self.submitButton.layer.cornerRadius = 4.f;
     self.submitButton.layer.masksToBounds = YES;
-    self.categorySelectionButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.categorySelectionButton.layer.borderWidth = 1.f;
     self.categorySelectionButton.layer.cornerRadius = 4.f;
     self.categorySelectionButton.layer.masksToBounds = YES;
     // Do any additional setup after loading the view from its nib.

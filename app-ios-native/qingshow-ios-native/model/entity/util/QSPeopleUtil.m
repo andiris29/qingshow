@@ -15,20 +15,9 @@
 
 + (NSString*)buildModelStatusString:(NSDictionary*)modelDict
 {
-#warning TODO Remove?
-    if ([QSEntityUtil checkIsNil:modelDict]) {
-        return nil;
-    }
-    
-    NSNumber* height = modelDict[@"height"];
-    if (modelDict[@"height"] == [NSNull null]) {
-        height = nil;
-    }
-    NSNumber* weight = modelDict[@"weight"];
-    if (modelDict[@"weight"] == [NSNull null]) {
-        weight = nil;
-    }
     NSMutableString* statusString = [@"" mutableCopy];
+    NSNumber* height = [modelDict numberValueForKeyPath:@"height"];
+    NSNumber* weight = [modelDict numberValueForKeyPath:@"weight"];
     if (height) {
         [statusString appendFormat:@"%@cm", height];
     }
@@ -41,6 +30,13 @@
     return statusString;
 }
 
++ (NSString *)getPeopleId:(NSDictionary *)peopleDict
+{
+    if(![QSEntityUtil checkIsDict:peopleDict]){
+        return nil;
+    }
+    return peopleDict[@"_id"];
+}
 + (NSString*)getNickname:(NSDictionary*)peopleDict
 {
     NSString* name = [peopleDict stringValueForKeyPath:@"nickname"];
@@ -197,8 +193,9 @@
     if (l == r) {
         return YES;
     }
-    NSString* lId = l[@"_id"];
-    NSString* rId = r[@"_id"];
+    
+    NSString* lId = [QSEntityUtil getIdOrEmptyStr:l];
+    NSString* rId = [QSEntityUtil getIdOrEmptyStr:r];
     return [lId isEqualToString:rId];
 }
 

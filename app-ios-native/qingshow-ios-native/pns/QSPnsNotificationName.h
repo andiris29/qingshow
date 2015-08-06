@@ -13,5 +13,6 @@
 #define kPnsNewRecommandationNotification @"kPnsNewRecommandationNotification"
 #define kPnsQuestSharingProgressNotification @"kPnsQuestSharingProgressNotification"
 #define kPnsQuestSharingCompleteNotification @"kPnsQuestSharingCompleteNotification"
+#define kPnsTradeInitialNotification @"kPnsTradeInitialNotification"
 
 #endif

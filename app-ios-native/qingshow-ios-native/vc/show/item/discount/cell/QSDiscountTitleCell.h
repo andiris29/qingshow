@@ -11,7 +11,4 @@
 
 @interface QSDiscountTitleCell : QSAbstractDiscountTableViewCell
 
-+ (instancetype)generateCell;
-
-
 @end

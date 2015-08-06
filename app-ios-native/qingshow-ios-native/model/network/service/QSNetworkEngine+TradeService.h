@@ -16,29 +16,16 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
 @interface QSNetworkEngine(TradeService)
 
 #pragma mark - Create
-- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
-                                  quantity:(int)quantity
-                                     price:(double)price
-                                      item:(NSDictionary*)item
-                                       sku:(NSNumber*)sku
-                              receiverUuid:(NSString*)uuid
-                                      type:(PaymentType)paymentType
-                                 onSucceed:(DicBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
-                                orderArray:(NSArray*)orderArray
-                                      type:(PaymentType)paymentType
-                                 onSucceed:(DicBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)createOrderArray:(NSArray*)orderArray
+                              onSucceed:(DicBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock;
 #pragma mark - Query
-- (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId
-                                      page:(int)page
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)queryOrderListPage:(int)page
-                               inProgress:(BOOL)inProgress
+                               inProgress:(NSString *)inProgress
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryOrderListPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
 
@@ -50,5 +37,10 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                             status:(int)status
                               info:(NSDictionary*)dict
                          onSucceed:(VoidBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)prepayTrade:(NSDictionary*)tradeDict
+                              type:(PaymentType)paymentType
+                      receiverUuid:(NSString*)uuid
+                         onSucceed:(DicBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
 @end

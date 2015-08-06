@@ -18,12 +18,13 @@
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
 //- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
 
-- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell ShouldShare:(BOOL)shouldShare;
 
 - (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell;
 
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
 
+- (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell;
 @end
 
 @interface QSOrderListTableViewCell : UITableViewCell
@@ -59,4 +60,5 @@
 - (void)bindWithDict:(NSDictionary*)dict;
 
 @property (weak, nonatomic) NSObject<QSOrderListTableViewCellDelegate>* delegate;
+@property (assign,nonatomic) NSInteger type;
 @end

@@ -88,9 +88,9 @@
     _segIndex = _segmentControl.selectedSegmentIndex;
     if(_segIndex ==  1)
     {
+        
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
-           
         };
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
@@ -111,7 +111,8 @@
 - (void)didSelectedCellInCollectionView:(id)sender
 {
 
-    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:sender];
+    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShowId:[QSEntityUtil getStringValue:sender keyPath:@"_id"]];
+//    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
    // vc.menuProvider = self.menuProvider;
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;

@@ -7,7 +7,8 @@
 //
 
 #import "QSOrderListTableViewProvider.h"
-
+#import "QSTradeUtil.h"
+#import "QSOrderUtil.h"
 
 @implementation QSOrderListTableViewProvider
 @dynamic delegate;
@@ -23,6 +24,7 @@
 {
     QSOrderListTableViewCell* cell = (QSOrderListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSOrderListTableViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
+    cell.type = [self getCellTypeWithIndexPath:indexPath];
     [cell bindWithDict:[self orderForIndexPath:indexPath]];
     return cell;
 }
@@ -39,7 +41,11 @@
 {
     return QSOrderListTableViewCellHeight;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(didClickOrder:)]) {
+        [self.delegate didClickOrder:[self orderForIndexPath:indexPath]];
+    }
+}
 #pragma mark - QSOrderListTableViewCellDelegate
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell
 {
@@ -48,11 +54,14 @@
     }
 }
 
-
-- (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell
 {
-    if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
-        [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
+        [self.delegate didClickCancelBtnOfOrder:[self orderForCell:cell]];
+}
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell ShouldShare:(BOOL)shouldShare
+{
+    if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder: shouldShare:)]) {
+        [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell] shouldShare:shouldShare];
     }
 }
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell
@@ -82,5 +91,14 @@
     } else {
         return nil;
     }
+}
+- (NSInteger)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dic = [self orderForIndexPath:indexPath];
+    NSDictionary *order = [QSTradeUtil getFirstOrder:dic];
+    if (![QSOrderUtil getSizeText:order] && ![QSOrderUtil getColorText:order]) {
+        return 0;
+    }
+    return 1;
 }
 @end

@@ -9,7 +9,10 @@
 #import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
 #import "QSEntityUtil.h"
-
+#import "QSDiscountTableViewController.h"
+#import "UIViewController+ShowHud.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
@@ -21,8 +24,8 @@
 @property (strong, nonatomic) IBOutlet UIView *discountLayerContainer;
 @property (weak, nonatomic) IBOutlet UIImageView *discountBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *discountTableViewContainer;
-
-
+@property (strong, nonatomic) QSDiscountTableViewController* discountVc;
+@property (strong, nonatomic) MKNetworkOperation* createTradeOp;
 @end
 
 @implementation QSG01ItemWebViewController
@@ -32,6 +35,7 @@
     self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];
     if (self) {
         self.itemDict = item;
+        self.discountVc = [[QSDiscountTableViewController alloc] initWithItem:item];
     }
     return self;
 }
@@ -41,6 +45,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -49,6 +54,21 @@
     [MobClick endLogPageView:PAGE_ID];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if ([UIScreen mainScreen].bounds.size.width == 320 && [UIScreen mainScreen].bounds.size.height == 480) {
+        CGRect submitFrame = self.submitBtn.frame;
+        submitFrame.origin.y -= 20;
+        CGRect cancelFrame = self.cancelBtn.frame;
+        cancelFrame.origin.y -= 20;
+        self.submitBtn.frame = submitFrame;
+        self.cancelBtn.frame = cancelFrame;
+    }
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        self.view.transform = CGAffineTransformMakeScale(1.35, 1.35);
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -57,7 +77,7 @@
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    
+    [self.webView setScalesPageToFit:YES];
     [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
@@ -72,6 +92,14 @@
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
     self.discountBackgroundView.image = img;
     
+    self.discountVc.view.frame = self.discountTableViewContainer.bounds;
+    [self.discountTableViewContainer addSubview:self.discountVc.view];
+
+    
+    self.submitBtn.layer.cornerRadius = 5.f;
+    self.submitBtn.layer.masksToBounds = YES;
+    self.cancelBtn.layer.cornerRadius = 5.f;
+    self.cancelBtn.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,5 +127,23 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (IBAction)submitBtnPressed:(id)sender {
+    if (![self.discountVc checkComplete]) {
+        [self showErrorHudWithText:@"信息不完整"];
+    } else {
+        self.createTradeOp =
+        [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+            [self showSuccessHudAndPop:@"创建成功"];
+            self.createTradeOp = nil;
+        } onError:^(NSError *error) {
+            [self handleError:error];
+            self.createTradeOp = nil;
+        }];
+    }
+}
+- (IBAction)cancelBtnPressed:(id)sender {
+    [self closeBtnPressed:nil];
+    
+}
 
 @end

@@ -14,6 +14,14 @@
 }
 - (void)awakeFromNib {
     // Initialization code
+    
+    CGFloat width = DISCOUNT_CELL_WIDTH;
+    CGRect frame = self.frame;
+    frame.size.width = width;
+    self.frame = frame;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.backgroundColor = [UIColor clearColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -29,4 +37,10 @@
     
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
+- (BOOL)checkComplete {
+    return YES;
+}
 @end

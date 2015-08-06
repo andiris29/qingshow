@@ -18,7 +18,7 @@
 - (void)awakeFromNib {
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.bgImageView.layer.cornerRadius = 45/2.f;
+    self.bgImageView.layer.cornerRadius = 43/2.f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -29,7 +29,7 @@
 
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
-    self.priceLabel.text = [NSString stringWithFormat:@"价格:%@",[QSItemUtil getPrice:itemDic]];
+    self.priceLabel.text = [NSString stringWithFormat:@"价格:%@",[QSItemUtil getPriceDesc:itemDic]];
     NSURL *url = [QSItemUtil getThumbnail:itemDic];
     NSURL *reNamedUrl = [QSImageNameUtil appendImageNameUrl:url type:QSImageNameTypeS];
     [self.itemIcomImageView setImageFromURL:reNamedUrl];

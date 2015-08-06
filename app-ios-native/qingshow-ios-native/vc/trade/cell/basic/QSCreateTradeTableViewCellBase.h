@@ -7,19 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@class QSCreateTradeTableViewCellBase;
-@protocol QSCreateTradeTableViewCellBaseDelegate <NSObject>
-
-- (void)updateCellTriggerBy:(QSCreateTradeTableViewCellBase*)cell;
-
-@end
 
 @interface QSCreateTradeTableViewCellBase : UITableViewCell
-
-@property (weak, nonatomic) NSObject<QSCreateTradeTableViewCellBaseDelegate>* delegate;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict;
 - (id)getInputData;
 - (void)hideKeyboard;
+
 @end

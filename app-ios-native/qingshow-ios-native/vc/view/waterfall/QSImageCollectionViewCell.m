@@ -31,8 +31,8 @@
 
 - (void)bindWithItem:(NSDictionary*)itemDict
 {
-    [self.imageView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+    [self.imageView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.label1.text = [QSItemUtil getItemName:itemDict];
-    self.label2.text = [QSItemUtil getPriceAfterDiscount:itemDict];
+    self.label2.text = [QSItemUtil getPromoPriceDesc:itemDict];
 }
 @end

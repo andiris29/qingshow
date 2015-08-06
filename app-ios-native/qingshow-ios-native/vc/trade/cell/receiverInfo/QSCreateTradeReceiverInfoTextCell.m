@@ -23,6 +23,10 @@
 }
 - (id)getInputData
 {
-    return self.textField.text;
+    if (self.textField.text.length) {
+        return self.textField.text;
+    } else {
+        return nil;
+    }
 }
 @end

@@ -10,4 +10,9 @@
 #import "QSAbstractDiscountTableViewCell.h"
 @interface QSDiscountTaobaoInfoCell : QSAbstractDiscountTableViewCell
 
+@property (assign, nonatomic) int infoIndex;
+
+@property (weak, nonatomic) IBOutlet UILabel* titleLabel;
+@property (weak, nonatomic) IBOutlet UIView* lineView;
+- (NSString*)getResult;
 @end

@@ -127,26 +127,13 @@
     }
     
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
-#warning TODO Refactor
-        if ( metadata[@"error"] == nil && people != nil) {
-            self.fRemoveLoginAndRegisterVc = YES;
-            [self showSuccessHudWithText:@"登陆成功"];
-            [self popToPreviousVc];
-        } else {
-            [self showErrorHudWithText:@"登陆失败"];
-        }
+        self.fRemoveLoginAndRegisterVc = YES;
+        [self showSuccessHudWithText:@"登陆成功"];
+        [self popToPreviousVc];
     };
     
     ErrorBlock error = ^(NSError *error) {
-#warning TODO Refactor
-        if (error.userInfo[@"error"] != nil) {
-            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
-            if (errorCode.longValue == 1001) {
-                [self showErrorHudWithText:@"账号或者密码错误。"];
-            }
-        } else {
-            [self showErrorHudWithText:@"网络连接失败"];
-        }
+        [self showErrorHudWithError:error];
     };
     
     [SHARE_NW_ENGINE loginWithName:user

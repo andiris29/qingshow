@@ -11,7 +11,7 @@
 
 @interface QSPeopleUtil : NSObject
 
-+ (NSString*)buildModelStatusString:(NSDictionary*)peopleDict;
++ (NSString *)getPeopleId:(NSDictionary *)peopleDict;
 + (NSString*)getNickname:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary *)peopleDict type:(QSImageNameType)type;
@@ -26,8 +26,7 @@
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
 + (NSString*)getNumberCreateShows:(NSDictionary*)peopleDict;
 
-+ (NSString*)getNumberFollowBrands:(NSDictionary*)peopleDict;
-+ (NSString*)getNumberFollowPeoples:(NSDictionary*)peopleDict;
+
 + (NSString*)getNumberLiketoCreateShows:(NSDictionary*)peopleDict;
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;

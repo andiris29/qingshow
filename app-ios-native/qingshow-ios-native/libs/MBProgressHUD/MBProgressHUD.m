@@ -60,7 +60,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	id targetForExecution;
 	id objectForExecution;
 	UILabel *label;
-	UILabel *detailsLabel;
 	BOOL isFinished;
 	CGAffineTransform rotationTransform;
 }
@@ -107,6 +106,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize progress;
 @synthesize size;
 @synthesize activityIndicatorColor;
+@synthesize detailsLabel;
 #if NS_BLOCKS_AVAILABLE
 @synthesize completionBlock;
 #endif

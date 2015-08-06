@@ -8,10 +8,14 @@
 
 #import "QSCreateTradeItemInfoTitleCell.h"
 #import "QSItemUtil.h"
-#import "QSTaobaoInfoUtil.h"
+#import "QSTradeUtil.h"
+#import "QSOrderUtil.h"
 
 @implementation QSCreateTradeItemInfoTitleCell
-
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.priceLabel.isWithStrikeThrough = YES;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -22,20 +26,19 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
-    self.titleLabel.text = [QSItemUtil getItemName:dict];
-    [self updateWithItemPrice:dict];
-}
-
-- (void)updateWithItemPrice:(NSDictionary*)itemDict {
-    self.priceTextLabel.hidden = YES;
-    self.priceLabel.hidden = YES;
-    self.priceLabel.text = @"";
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
-    NSString* sku = [QSItemUtil getSelectedSku:itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
+    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:dict];
+    NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
+    self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     
-    self.priceAfterDiscountLabel.text = [NSString stringWithFormat:@"%.2f", totalPrice.doubleValue];
+    if ([QSOrderUtil getActualPrice:orderDict]) {
+        self.priceAfterDiscountLabel.text = [QSOrderUtil getActualPriceDesc:orderDict];
+    } else {
+        self.priceAfterDiscountLabel.text = [QSOrderUtil getExpectedPriceDesc:orderDict];
+    }
+    
+    self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
     [self.priceLabel sizeToFit];
     [self.priceAfterDiscountLabel sizeToFit];
 }
+
 @end

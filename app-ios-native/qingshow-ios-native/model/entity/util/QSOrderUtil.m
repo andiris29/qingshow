@@ -7,7 +7,8 @@
 //
 
 #import "QSOrderUtil.h"
-#import "QSEntityUtil.h"
+#import "NSDictionary+QSExtension.h"
+
 @implementation QSOrderUtil
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict
 {
@@ -16,36 +17,82 @@
     }
     return dict[@"itemSnapshot"];
 }
-+ (NSString*)getPriceDesc:(NSDictionary*)dict
-{
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return nil;
-    }
-    NSNumber* num = dict[@"price"];
-    return [NSString stringWithFormat:@"%.2f", num.doubleValue];
++ (NSArray*)getSkuProperties:(NSDictionary*)dict {
+    return [dict arrayValueForKeyPath:@"selectedSkuProperties"];
 }
-+ (NSString*)getQuantityDesc:(NSDictionary*)dict
++ (NSString *)getSizeText:(NSDictionary *)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
+    NSArray *array = [self getSkuProperties:dict];
+    if (!array.count) {
         return nil;
     }
-    NSNumber* num = dict[@"quantity"];
-    return num.stringValue;
+    NSString *str = [array firstObject];
+    if ([str hasSuffix:@":"]) {
+        str = [str substringToIndex:str.length-1];
+    }
+    if ([str containsString:@"尺码"]) {
+        return str;
+    }else{
+        return [NSString stringWithFormat:@"尺码%@",str];
+    }
 }
-+ (NSString*)getSkuId:(NSDictionary*)dict
++ (NSString *)getColorText:(NSDictionary *)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
+    NSArray *array = [self getSkuProperties:dict];
+    if (!array.count) {
         return nil;
     }
-    NSString* num = dict[@"selectedItemSkuId"];
+    NSString *str = [array lastObject];
+    if ([str hasSuffix:@":"]) {
+        str = [str substringToIndex:str.length-1];
+    }
+    if ([str containsString:@"颜色"]) {
+        return str;
+    }else{
+        return [NSString stringWithFormat:@"颜色%@",str];
+    }
 
-    return num;
 }
+
++ (NSString*)getExpectedPriceDesc:(NSDictionary*)dict {
+    NSNumber* price = [self getExpectedPrice:dict];
+    return [NSString stringWithFormat:@"%.2f", price.doubleValue];
+}
+
++ (NSNumber*)getExpectedPrice:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"expectedPrice"];
+}
+
++ (NSString*)getActualPriceDesc:(NSDictionary*)dict {
+    NSNumber* price = [self getActualPrice:dict];
+    return [NSString stringWithFormat:@"%.2f", price.doubleValue];
+}
+
++ (NSNumber*)getActualPrice:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"actualPrice"];
+}
+
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 {
     if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
-    return dict[@"selectedPeopleReceiverUuid"];
+    return [dict stringValueForKeyPath:@"selectedPeopleReceiverUuid"];
+}
+
++ (NSNumber*)getQuantity:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"quantity"];
+}
++ (NSString*)getQuantityDesc:(NSDictionary*)dict {
+    NSNumber* quantity = [self getQuantity:dict];
+    return quantity.stringValue;
+}
++ (NSNumber*)getTotalFee:(NSDictionary*)dict {
+    NSNumber* price = [self getActualPrice:dict];
+    if (!price) {
+        price = [self getExpectedPrice:dict];
+    }
+    NSNumber* quantity = [self getQuantity:dict];
+    return @(price.doubleValue * quantity.intValue);
 }
 @end

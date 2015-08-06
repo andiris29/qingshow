@@ -102,15 +102,14 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
     self.sectionModelArray = @[@(U02SectionImage),
                                @(U02SectionManager),
-                               @(U02SectionInfo),
-                               @(U02SectionOther)];
+                               @(U02SectionOther),
+                               @(U02SectionInfo)];
     self.rowModelArray = @[@[
                                @(U02SectionImageRowHead),
                                @(U02SectionImageRowBackground)
                                ],
-                           @[
-                               @(U02SectionManagerRowAddress)
-                               ],
+                           @[@(U02SectionManagerRowAddress)],
+                           @[@(U02SectionOtherRowPasswd)],
                            @[
                                @(U02SectionInfoRowName),
                                @(U02SectionInfoRowAge),
@@ -124,9 +123,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                @(U02SectionInfoRowDressStyle),
                                @(U02SectionInfoRowExpectation)
                                ],
-                           @[
-                               @(U02SectionOtherRowPasswd)
-                               ]];
+                           ];
     [self configSections];
     [self configCells];
     self.tableView.tableFooterView = self.footerView;
@@ -220,6 +217,9 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 2) {
+        return 0.f;
+    }
     return 55.f;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -361,14 +361,8 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     // Success Handle
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
         [hud hide:YES];
-#warning TODO Refactor
-        if (metadata[@"error"] == nil && people != nil) {
-            [self showSuccessHudWithText:@"上传成功"];
-            // refresh local login user's data
-            [self refreshData];
-        } else {
-            [self showErrorHudWithText:@"上传失败"];
-        }
+        [self showSuccessHudWithText:@"上传成功"];
+        [self.tableView reloadData];
     };
     
     // Error Handle
