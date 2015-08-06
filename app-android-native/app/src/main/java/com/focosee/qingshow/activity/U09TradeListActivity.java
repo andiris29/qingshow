@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -20,15 +19,12 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.TradeModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.TradeUtil;
 import com.focosee.qingshow.widget.LoadingDialog;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
@@ -91,7 +87,6 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
 
-//如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setAdapter(mAdapter);
@@ -100,13 +95,13 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (firstItem == null) {
-                    firstItem = recyclerView.getChildAt(0);
-                }
-                if (firstItem == recyclerView.getChildAt(0)) {
-                    u09HeadLayout.setY(firstItem.getBottom() - firstItem.getHeight());
-                } else
-                    u09HeadLayout.setY(-u09HeadLayout.getHeight());
+            if (firstItem == null) {
+                firstItem = recyclerView.getChildAt(0);
+            }
+            if (firstItem == recyclerView.getChildAt(0)) {
+                u09HeadLayout.setY(firstItem.getBottom() - firstItem.getHeight());
+            } else
+                u09HeadLayout.setY(-u09HeadLayout.getHeight());
             }
         });
 
@@ -132,19 +127,12 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         if (responseToStatusToSuccessed.equals(event)) doRefresh(currentType);
     }
 
-    public void onEventMainThread(EventModel<Integer> event) {
-        if (event.tag == U09TradeListActivity.class) {
-//            mAdapter.getItemData(sharePosition).__context.sharedByCurrentUser = true;
-            if (event.msg != SendMessageToWX.Resp.ErrCode.ERR_OK) {
-                Toast.makeText(U09TradeListActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, TradeModel.INSTANCE.getTrade());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
+    public void onEventMainThread(MongoTrade trade) {
+        Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

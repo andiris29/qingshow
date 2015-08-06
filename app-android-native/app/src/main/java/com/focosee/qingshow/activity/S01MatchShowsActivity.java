@@ -184,6 +184,6 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
         doLoadMore(currentType);
-        return false;
+        return true;
     }
 }

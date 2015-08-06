@@ -100,7 +100,6 @@ public class LaunchActivity extends InstrumentedActivity {
                     editor.commit();
                 }
 
-                System.out.println("response:" + response);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

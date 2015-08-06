@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
@@ -16,7 +15,6 @@ import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-
 import java.util.List;
 
 /**
@@ -62,7 +60,7 @@ public class U01MatchFragAdapter extends U01BaseAdapter<MongoShow>{
             user = show.ownerRef;
         }
 
-        if(null != user.portrait || "".equals(user.portrait))
+        if(TextUtils.isEmpty(user.portrait))
             holder.setImgeByUrl(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
 
         holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" : TimeUtil.formatDateTime_CN_Pre(show.create) + "前");
