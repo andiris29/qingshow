@@ -48,6 +48,11 @@
     current += delta;
     if (current <= 1) {
         current = 1;
+        self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
+    }
+    else
+    {
+        self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
     }
     self.quantityLabel.text = [NSString stringWithFormat:@"%d", current];
     if ([self.delegate respondsToSelector:@selector(updateTotalPrice)]) {

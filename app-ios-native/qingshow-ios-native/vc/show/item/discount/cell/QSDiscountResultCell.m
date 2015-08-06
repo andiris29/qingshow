@@ -59,16 +59,22 @@
 }
 - (void)adjustDiscount:(int)delta {
     self.currentDiscount += delta;
-    if (self.currentDiscount < 3) {
+    if (self.currentDiscount-1 < 3) {
         self.currentDiscount = 3;
+        self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
     }
-    if(self.currentDiscount > self.maxDisCount )
+    else{
+        self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
+    }
+    if(self.currentDiscount+1 > self.maxDisCount )
     {
         self.currentDiscount = self.maxDisCount;
+        self.addBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
     }
-    if (self.currentDiscount > 9) {
-        self.currentDiscount = 9;
+    else{
+         self.addBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
     }
+    
     [self updateUi];
 }
 
@@ -89,11 +95,17 @@
 #warning 写死3折   现在已修改为先显示最高的折扣
         float promoPrice = [QSItemUtil getPromoPrice:self.itemDict].floatValue;
         float price = [QSItemUtil getPrice:self.itemDict].floatValue;
-        
         self.minDiscount = (promoPrice/price)*10;
+        self.addBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
     }
-
     self.currentDiscount = self.minDiscount;
+    if (self.currentDiscount-1 < 3) {
+        self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
+    }
+    else
+    {
+        self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
+    }
     self.maxDisCount = self.minDiscount;
     [self updateUi];
 }

@@ -19,7 +19,6 @@
 @interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
-
 @property (assign, nonatomic) float skuLabelBaseY;
 @end
 
@@ -52,23 +51,31 @@
 
 - (void)layoutLabel
 {
-
     if (!self.sizeLabel.text) {
-        self.colorLabel.frame = [self getNewFrame:self.colorLabel];
-        if (!self.colorLabel.text) {
-            self.quantityLabel.frame = [self getNewFrame:self.quantityLabel];
-            self.priceLabel.frame = [self getNewFrame:self.priceLabel];
+        if(self.colorLabel.frame.origin.y > 76){
+            [self getNewFrame:self.colorLabel];
         }
-        self.quantityLabel.frame = [self getNewFrame:self.quantityLabel];
-        self.priceLabel.frame = [self getNewFrame:self.priceLabel];
-    }
+        if (!self.colorLabel.text) {
+            if (self.quantityLabel.frame.origin.y > 76) {
+                [self getNewFrame:self.quantityLabel];
+            }
+            if (self.priceLabel.frame.origin.y > 98) {
+                [self getNewFrame:self.priceLabel];
+            }
+        }
+        if (self.quantityLabel.frame.origin.y > 76) {
+            [self getNewFrame:self.quantityLabel];
+        }
+        if (self.priceLabel.frame.origin.y > 98) {
+            [self getNewFrame:self.priceLabel];
+        }    }
 }
 
-- (CGRect)getNewFrame:(UIView *)view
+- (void)getNewFrame:(UILabel *)label
 {
-    CGRect frame = view.frame;
+    CGRect frame = label.frame;
     frame.origin.y -= 22;
-    return frame;
+    label.frame = frame;
 }
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
@@ -79,6 +86,7 @@
     if (orderList.count) {
         orderDict = orderList[0];
     }
+    
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
@@ -94,7 +102,6 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
-    NSLog(@"-------------%d",s);
     BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
     switch (s) {
         case 0:
@@ -137,8 +144,8 @@
             break;
         }
     }
-    [self layoutIfNeeded];
-    [self layoutLabel];
+//    [self layoutIfNeeded];
+//    [self layoutLabel];
     
 }
 //- (void)updateView:(UIView*)view y:(float)y
