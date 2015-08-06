@@ -15,11 +15,11 @@ URLParser.getIidFromSource = function (source) {
 };
 
 URLParser.isFromTmall = function (source) {
-    var tmallRegex = /(http)|(https):\/\/\w*\.tmall\.com/;
+    var tmallRegex = /(http|https):\/\/\w*\.tmall\.com/;
     return source.match(tmallRegex);
 };
 
 URLParser.isFromTaobao = function (source) {
-    var taobaoRegex = /(http)|(https):\/\/\w*\.taobao\.com/;
+    var taobaoRegex = /(http|https):\/\/\w*\.taobao\.com/;
     return source.match(taobaoRegex);
 };

@@ -6,10 +6,10 @@ var winston = require('winston');
 var _ = require('underscore');
 
 var TaobaoWebItem = require('../../taobao/web/Item');
+var URLParser = require('../../taobao/web/URLParser');
 
 var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
-var MongoHelper = require('../../httpserver/helpers/MongoHelper');
 var ServerError = require('../../httpserver/server-error');
 var mongoose = require('mongoose');
 
@@ -30,7 +30,7 @@ var _next = function (time) {
                 }]
             };
 
-            var query = Item.find(criteria, function (err, items) {
+            Item.find(criteria, function (err, items) {
                 if (err) {
                     callback(err);
                 } else if (!items || !items.length) {
@@ -40,7 +40,8 @@ var _next = function (time) {
                         if (!item.source) {
                             return false;
                         }
-                        return item.source.indexOf('taobao') !== -1 || item.source.indexOf('tmall') !== -1;
+
+                        return URLParser.isFromTaobao(item.source) || URLParser.isFromTmall(item.source);
                     });
 
                     winston.info('[Goblin-tbitem] Total count: ' + items.length);
@@ -56,8 +57,8 @@ var _next = function (time) {
                 }
                 var task = function (callback) {
                     _logItem('item start', item);
-                    _crawlItemTaobaoInfo(item, function(err) {
-                        setTimeout(function() {
+                    _crawlItemTaobaoInfo(item, function (err) {
+                        setTimeout(function () {
                             callback(err);
                         }, _.random(5000, 10000));
                     });
@@ -97,11 +98,11 @@ var _crawlItemTaobaoInfo = function (item, callback) {
     });
 };
 
-var _logItem = function(content, item) {
+var _logItem = function (content, item) {
     winston.info('[Goblin-tbitem] ' + content + ': ' + item._id);
 };
 
-var _run = function() {
+var _run = function () {
     var startDate = new Date();
     startDate.setDate(startDate.getDate() - 3);
     winston.info('Goblin-tbitem run at: ' + startDate);
