@@ -1,6 +1,5 @@
 package com.focosee.qingshow.model;
 
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 /**
  * Created by i068020 on 2/21/15.

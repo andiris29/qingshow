@@ -9,6 +9,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class U01FansFragAdapter extends U01BaseAdapter<MongoPeople>{
         final MongoPeople people = getItemData(position);
         holder.setImgeByUrl(R.id.item_u01_fans_image, ImgUtil.getImgSrc(people.portrait, ImgUtil.PORTRAIT_LARGE));
         holder.setText(R.id.item_u01_fans_name, people.nickname);
+        holder.setText(R.id.item_u01_fans_hw, StringUtil.formatHeightAndWeight(people.height, people.weight));
         holder.setText(R.id.item_u01_fans_cloth_number,String.valueOf(people.__context.numCreateShows));
         holder.setText(R.id.item_u01_fans_like_number,String.valueOf(people.__context.numLikeToCreateShows));
         holder.setOnClickListener(new View.OnClickListener() {

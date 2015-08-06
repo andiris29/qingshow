@@ -22,6 +22,8 @@ import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 
+import org.w3c.dom.Text;
+
 import java.util.LinkedList;
 
 /**
@@ -52,7 +54,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, S03SHowActivity.class);
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
-                intent.putExtra(S03SHowActivity.CLASS_NAME, S01MatchShowsActivity.class.getSimpleName());
+                intent.putExtra(S03SHowActivity.CLASS_NAME, "S01MatchShowsActivity");
                 context.startActivity(intent);
             }
         });
@@ -78,7 +80,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
 
         MongoPeople user = show.ownerRef;
 
-        if(null != user.portrait || "".equals(user.portrait)) {
+        if(!TextUtils.isEmpty(user.portrait)) {
             holder.setImgeByController(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
         }
 

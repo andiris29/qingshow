@@ -2,7 +2,6 @@ package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +16,9 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.RecyclerViewUtil;
-import com.focosee.qingshow.util.TimeUtil;
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +30,6 @@ import de.greenrobot.event.EventBus;
 
 public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
-    private static final String TAG = "S01MatchShowsActivity";
     @InjectView(R.id.s01_backTop_btn)
     ImageButton s01BackTopBtn;
     @InjectView(R.id.navigation_btn_match)
@@ -47,7 +43,7 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
-    private final int PAGESIZE = 20;
+    private final int PAGESIZE = 30;
 
     @InjectView(R.id.s01_menu_btn)
     ImageView s01MenuBtn;
@@ -76,7 +72,7 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
                 menuSwitch();
             }
         });
-        final LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
@@ -171,7 +167,6 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
 
     @Override
     protected void onResume() {
-        doRefresh(currentType);
         super.onResume();
     }
 
@@ -189,6 +184,6 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
         doLoadMore(currentType);
-        return true;
+        return false;
     }
 }

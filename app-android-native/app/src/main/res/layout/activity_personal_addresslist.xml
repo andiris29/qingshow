@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.percent.PercentRelativeLayout
         android:id="@+id/S08_title_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -14,36 +14,31 @@
 
         <ImageView
             android:id="@+id/person_addresslist_back_image_button"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="10dp"
-            android:layout_weight="1"
             android:src="@drawable/nav_btn_back" />
-        <com.focosee.qingshow.widget.QSTextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"/>
 
         <com.focosee.qingshow.widget.QSTextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_name_activity_addresslist"
             android:textColor="#454545"
             android:textSize="@dimen/text_size"
-            android:layout_weight="5"
             android:textStyle="bold" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/person_addresslist_btn_address"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/master_pink"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
             android:gravity="center"
             android:text="@string/title_name_activity_addaddress"/>
-    </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/person_addresslist_recycleview"
         android:scrollbars="none"

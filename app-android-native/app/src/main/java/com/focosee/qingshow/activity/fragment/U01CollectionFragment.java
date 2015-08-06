@@ -34,14 +34,12 @@ import de.greenrobot.event.EventBus;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
 public class U01CollectionFragment extends U01BaseFragment {
 
     private static final String TAG = "U01CollectionFragment";
 
-    private OnFragmentInteractionListener mListener;
     private U01CollectionFragAdapter adapter;
 
     public static U01CollectionFragment newInstance(){
@@ -72,7 +70,7 @@ public class U01CollectionFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_COLL);
-                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), recyclerView);
                 EventBus.getDefault().post(eventModel);
             }
         });
@@ -126,7 +124,6 @@ public class U01CollectionFragment extends U01BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -137,27 +134,8 @@ public class U01CollectionFragment extends U01BaseFragment {
 
     @Override
     public void onResume() {
-        refresh();
         super.onResume();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
-    public RecyclerView getRecyclerView(){
-        return recyclerView;
-    }
 
 }

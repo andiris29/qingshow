@@ -119,7 +119,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
-        initDrawer();
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
         }else showId = "";
@@ -140,6 +139,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                     menuSwitch();
                 }
             });
+            initDrawer();
         } else {
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,15 +148,12 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 }
             });
         }
-
-        getShowDetailFromNet();
-
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("showDetailEntity", showDetailEntity);
+        outState.putSerializable(INPUT_SHOW_ENTITY_ID, showId);
         getIntent().putExtras(outState);
     }
 
@@ -166,7 +163,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     }
 
     private void getShowDetailFromNet() {
-
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -201,8 +197,8 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 setLikedImageButtonBackgroundImage();
                 likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
                 likeBtn.setClickable(true);
-                EventModel eventModel = new EventModel(U01UserActivity.class, null);
-                eventModel.setFrom(S03SHowActivity.class);
+                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), null);
+                eventModel.setFrom(S03SHowActivity.class.getSimpleName());
                 EventBus.getDefault().post(eventModel);
             }
 
@@ -319,7 +315,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     }
 
     public void onEventMainThread(EventModel<Integer> event) {
-        if (event.tag == S03SHowActivity.class) {
+        if (event.tag == S03SHowActivity.class.getSimpleName()) {
             if (!showDetailEntity.__context.likedByCurrentUser) {
                 clickLikeShowButton();
             }
@@ -478,13 +474,12 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     public void onResume() {
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
+        getShowDetailFromNet();
         super.onResume();
-        if (null != getIntent().getExtras()) {
-            if(null != getIntent().getExtras().get("showDetailEntity")) {
-                showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
-                getShowDetailFromNet();
-            }
-        }
+//        if(TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
+//            showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
+//            getShowDetailFromNet();
+//        }
     }
 
     @Override

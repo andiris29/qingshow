@@ -47,6 +47,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
     }
 
     protected void initDrawer() {
+        drawer.setScrimColor(getResources().getColor(R.color.transparent));
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer,
                 R.string.menu_open, R.string.menu_close) {
             @Override
@@ -115,7 +116,6 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
                 right.destroyDrawingCache();
             }
         };
-        String str;
         Bitmap overlay = BitMapUtil.convertToBlur(bkg, this);
         Message msg = mHandler.obtainMessage(1, 1, 1, overlay);
         mHandler.sendMessage(msg);

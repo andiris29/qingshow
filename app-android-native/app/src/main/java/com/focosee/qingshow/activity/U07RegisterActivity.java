@@ -195,7 +195,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void onEventMainThread(EventModel<String> eventModel) {
-        if(eventModel.tag == U07RegisterActivity.class){
+        if(eventModel.tag.equals(U07RegisterActivity.class.getSimpleName())){
             loginWX(eventModel.msg);
         }
     }

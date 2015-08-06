@@ -33,8 +33,6 @@ import de.greenrobot.event.EventBus;
  */
 public class U01FollowerFragment extends U01BaseFragment {
 
-    private static final String TAG = "U01FollowerFragment";
-
     private U01FollowerFragAdapter adapter;
 
     public static U01FollowerFragment newInstance(){
@@ -61,7 +59,7 @@ public class U01FollowerFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_FOLLOW);
-                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), recyclerView);
                 EventBus.getDefault().post(eventModel);
             }
         });
@@ -71,7 +69,6 @@ public class U01FollowerFragment extends U01BaseFragment {
 
     @Override
     public void onResume() {
-        refresh();
         super.onResume();
     }
 

@@ -2,7 +2,6 @@ package com.focosee.qingshow.activity.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 public class U01RecommFragment extends U01BaseFragment {
-    private static final String TAG = "U01RecommFragment";
 
     private U01MatchFragAdapter adapter;
 
@@ -60,7 +58,7 @@ public class U01RecommFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_RECOMM);
-                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), recyclerView);
                 EventBus.getDefault().post(eventModel);
             }
         });
@@ -70,7 +68,6 @@ public class U01RecommFragment extends U01BaseFragment {
 
     @Override
     public void onResume() {
-        refresh();
         super.onResume();
     }
 

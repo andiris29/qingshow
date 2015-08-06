@@ -84,7 +84,7 @@
                 android:id="@+id/user_match"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/match_pink"/>
+                android:src="@drawable/u01_tab_match"/>
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_match_text"
                 android:layout_width="wrap_content"
@@ -109,12 +109,12 @@
                 android:id="@+id/user_recomm"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/recommend"/>
+                android:src="@drawable/u01_tab_recomm"/>
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_recomm_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_recomm"
                 android:layout_alignLeft="@+id/user_recomm"
                 android:layout_alignRight="@+id/user_recomm"
@@ -141,12 +141,12 @@
                 android:id="@+id/user_collection"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/collection"/>
+                android:src="@drawable/u01_tab_coll"/>
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_collection_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_collection"
                 android:layout_alignLeft="@+id/user_collection"
                 android:layout_alignRight="@+id/user_collection"
@@ -166,12 +166,12 @@
                 android:id="@+id/user_follow"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/follow"/>
+                android:src="@drawable/u01_tab_follower"/>
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_follow_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_follow"
                 android:layout_alignLeft="@+id/user_follow"
                 android:layout_alignRight="@+id/user_follow"
@@ -191,12 +191,12 @@
                 android:id="@+id/user_fans"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/fans"/>
+                android:src="@drawable/u01_tab_fans"/>
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_fans_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_fans"
                 android:layout_alignLeft="@+id/user_fans"
                 android:layout_alignRight="@+id/user_fans"

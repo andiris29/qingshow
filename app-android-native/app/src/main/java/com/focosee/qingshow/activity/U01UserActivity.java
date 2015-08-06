@@ -40,6 +40,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -129,6 +130,8 @@ public class U01UserActivity extends MenuActivity {
         ButterKnife.inject(this);
         u01People.setImageResource(R.drawable.root_menu_flash_gray);
         u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
+        userMatchText.setActivated(true);
+        userMatch.setActivated(true);
         user = (MongoPeople) getIntent().getExtras().get("user");
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
@@ -148,6 +151,7 @@ public class U01UserActivity extends MenuActivity {
                     return true;
                 }
             };
+            initDrawer();
         } else {
             userNavBtn.setImageResource(R.drawable.nav_btn_back);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
@@ -190,8 +194,8 @@ public class U01UserActivity extends MenuActivity {
                             user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
                             Toast.makeText(U01UserActivity.this, msg, Toast.LENGTH_SHORT).show();
                             userFollowBtn.setEnabled(true);
-                            EventModel eventModel = new EventModel(U01UserActivity.class, null);
-                            eventModel.setFrom(U01UserActivity.class);
+                            EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), null);
+                            eventModel.setFrom(U01UserActivity.class.getSimpleName());
                             EventBus.getDefault().post(eventModel);
                         }
 
@@ -212,8 +216,6 @@ public class U01UserActivity extends MenuActivity {
         userViewPager.setOffscreenPageLimit(5);
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
-
-        initDrawer();
     }
 
     private void initUserInfo() {
@@ -221,9 +223,14 @@ public class U01UserActivity extends MenuActivity {
         if (null == user) {
             user = new MongoPeople();
             user._id = QSModel.INSTANCE.getUserId();
+            getUserFromNet(user._id);
+        }else{
+            setUserBaseMInfo();
         }
+    }
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(user._id), null, new Response.Listener<JSONObject>() {
+    private void getUserFromNet(String uId){
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(uId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
@@ -232,18 +239,24 @@ public class U01UserActivity extends MenuActivity {
                 }
                 LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
                 user = users.get(0);
-                userName.setText(user.nickname);
-                userHw.setText(user.height + "cm," + user.weight + "kg");
-                if (!TextUtils.isEmpty(user.portrait))
-                    userHead.setImageURI(Uri.parse(user.portrait));
-                if(!TextUtils.isEmpty(user.background))
-                    userBg.setImageURI(Uri.parse(user.background));
-                if (user.__context.followedByCurrentUser)
-                    userFollowBtn.setImageResource(R.drawable.unfollow_btn);
+                setUserBaseMInfo();
             }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void setUserBaseMInfo(){
+
+        userName.setText(user.nickname);
+        userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
+        if (!TextUtils.isEmpty(user.portrait))
+            userHead.setImageURI(Uri.parse(user.portrait));
+        if(!TextUtils.isEmpty(user.background))
+            userBg.setImageURI(Uri.parse(user.background));
+        if(null != user.__context)
+            if (user.__context.followedByCurrentUser)
+                userFollowBtn.setImageResource(R.drawable.unfollow_btn);
     }
 
     private View view;
@@ -312,7 +325,7 @@ public class U01UserActivity extends MenuActivity {
 
     public void onEventMainThread(EventModel eventModel) {
         //TODO recyclerviews
-        if (eventModel.tag != U01UserActivity.class) return;
+        if (!eventModel.tag.equals(U01UserActivity.class.getSimpleName())) return;
         if (null == recyclerViews[POS_MATCH])
             initRectcler((RecyclerView) eventModel.msg);
         initRecyclerViews((RecyclerView) eventModel.msg);
@@ -423,34 +436,37 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private void setIndicatorBackground(int pos) {
-        userMatch.setImageResource(R.drawable.match);
-        userRecomm.setImageResource(R.drawable.recommend);
-        userCollection.setImageResource(R.drawable.collection);
-        userFollow.setImageResource(R.drawable.follow);
-        userFans.setImageResource(R.drawable.fans);
-
-        userMatchText.setTextColor(getResources().getColor(R.color.darker_gray));
-        userRecommText.setTextColor(getResources().getColor(R.color.darker_gray));
-        userCollectionText.setTextColor(getResources().getColor(R.color.darker_gray));
-        userFollowText.setTextColor(getResources().getColor(R.color.darker_gray));
-        userFansText.setTextColor(getResources().getColor(R.color.darker_gray));
-
-        if (pos == 0) {
-            userMatch.setImageResource(R.drawable.match_pink);
-            userMatchText.setTextColor(getResources().getColor(R.color.master_pink));
-        } else if (pos == 1) {
-            circleTip.setVisibility(View.GONE);
-            userRecomm.setImageResource(R.drawable.recommend_pink);
-            userRecommText.setTextColor(getResources().getColor(R.color.master_pink));
-        } else if (pos == 2) {
-            userCollection.setImageResource(R.drawable.collection_pink);
-            userCollectionText.setTextColor(getResources().getColor(R.color.master_pink));
-        } else if (pos == 3) {
-            userFollow.setImageResource(R.drawable.follow_pink);
-            userFollowText.setTextColor(getResources().getColor(R.color.master_pink));
-        } else if (pos == 4) {
-            userFans.setImageResource(R.drawable.fans_pink);
-            userFansText.setTextColor(getResources().getColor(R.color.master_pink));
+        userMatch.setActivated(false);
+        userMatchText.setActivated(false);
+        userRecomm.setActivated(false);
+        userRecommText.setActivated(false);
+        userCollection.setActivated(false);
+        userCollectionText.setActivated(false);
+        userFollow.setActivated(false);
+        userFollowText.setActivated(false);
+        userFans.setActivated(false);
+        userFansText.setActivated(false);
+        switch (pos){
+            case POS_MATCH:
+                userMatch.setActivated(true);
+                userMatchText.setActivated(true);
+                return;
+            case POS_RECOMM:
+                userRecomm.setActivated(true);
+                userRecommText.setActivated(true);
+                return;
+            case POS_COLL:
+                userCollection.setActivated(true);
+                userCollectionText.setActivated(true);
+                return;
+            case POS_FOLLOW:
+                userFollow.setActivated(true);
+                userFollowText.setActivated(true);
+                return;
+            case POS_FANS:
+                userFans.setActivated(true);
+                userFansText.setActivated(true);
+                return;
         }
     }
 

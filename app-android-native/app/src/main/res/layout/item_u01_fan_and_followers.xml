@@ -1,46 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/item_u01_fans_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        fresco:roundAsCircle="true"
-        android:layout_marginLeft="10dp"
-        fresco:placeholderImage="@drawable/root_cell_placehold_head"
-        android:layout_centerVertical="true" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/item_u01_fans_image"
-        android:orientation="horizontal"
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:layout_marginLeft="5dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_u01_fans_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            fresco:roundAsCircle="true"
+            android:layout_marginLeft="10dp"
+            fresco:placeholderImage="@drawable/root_cell_placehold_head"
+            android:layout_centerVertical="true" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_u01_fans_name"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="50%"
+            android:layout_toRightOf="@+id/item_u01_fans_image"
+            android:layout_alignTop="@+id/item_u01_fans_image"
             android:text="倾秀用户"
             android:ellipsize="end"
             android:singleLine="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp" />
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/item_u01_fans_hw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="50%"
+            android:text=""
+            android:gravity="bottom"
+            android:layout_below="@+id/item_u01_fans_name"
+            android:layout_alignBottom="@+id/item_u01_fans_image"
+            android:layout_toRightOf="@+id/item_u01_fans_image"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:layout_marginLeft="5dp" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="50%"
             android:gravity="center"
+            android:layout_toRightOf="@+id/item_u01_fans_hw"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1">
+            android:layout_marginLeft="5dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -69,7 +85,7 @@
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/gary" />
         </LinearLayout>
-    </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

@@ -65,7 +65,7 @@ public class U01MatchFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_MATCH);
-                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), recyclerView);
                 EventBus.getDefault().post(eventModel);
             }
         });
@@ -76,8 +76,8 @@ public class U01MatchFragment extends U01BaseFragment {
 
     @Override
     public void onResume() {
-        System.out.println("count:" + adapter.getItemCount());
-        getDatasFromNet(1, adapter.getItemCount() == 1 ? 10 : adapter.getItemCount());
+//        System.out.println("count:" + adapter.getItemCount());
+//        getDatasFromNet(1, adapter.getItemCount() == 1 ? 10 : adapter.getItemCount());
 //        if (null != getArguments()) {
 //            recyclerView.scrollToPosition(getArguments().getInt("position", 0));
 //
