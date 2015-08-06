@@ -156,6 +156,23 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     }
 
+    public void resetPadding() {
+        imageView.setPadding((int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext())
+                , (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()));
+    }
+
+    @Override
+    public void setScaleX(float scaleX) {
+        super.setScaleX(scaleX);
+        resetPadding();
+    }
+
+    @Override
+    public void setScaleY(float scaleY) {
+        super.setScaleY(scaleY);
+        resetPadding();
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
@@ -182,6 +199,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
             goneDelBtn();
             this.setBackgroundResource(0);
         }
+        resetPadding();
     }
 
     @Override
@@ -232,7 +250,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         }
 
         if (index == 0 || index == 2) {
-            lastScaleFactor *= result * 2 / rect.width() + 1;
+            lastScaleFactor *= (result * 2 / rect.width() + 1);
         }
         if (index == 1 || index == 3) {
             lastScaleFactor *= (result * 2 / rect.height() + 1);

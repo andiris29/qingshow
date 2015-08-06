@@ -79,7 +79,7 @@ public class QSCanvasView extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         notifyCheckedChange();
-        return gestureDetector.onTouchEvent(ev);
+        return false;
     }
 
     /**
