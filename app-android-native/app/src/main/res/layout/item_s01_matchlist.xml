@@ -62,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp">
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:id="@+id/item_s01_nikename"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/gray_clock" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:id="@+id/item_s01_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/s03_favor_btn" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:id="@+id/item_s01_likeNum"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
