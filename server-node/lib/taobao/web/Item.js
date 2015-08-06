@@ -6,8 +6,8 @@ var cheerio = require('cheerio');
 
 var URLParser = require('./URLParser');
 
-var sizePrefix = "20509";
-var colorPrefix = "1627207";
+var sizePrefixs = ["20509", "20518"];
+var colorPrefixs = ["1627207"];
 
 
 var TaobaoWebItem = module.exports;
@@ -132,10 +132,10 @@ var generateTaobaoInfoFromSkus = function (skus){
         for (var i = 0; i < skuNames[0].length; i++) {
             var skuId = skuIds[i];
             var retStr = "";
-            if (skuId.indexOf(colorPrefix) == 0) {
+            if (colorPrefixs.some(function (p) {return skuId.indexOf(p) === 0;})) {
                 retStr = "颜色";
-            } else if (skuId.indexOf(sizePrefix) == 0) {
-                retStr = "尺码"
+            } else if (sizePrefixs.some(function (p) {return skuId.indexOf(p) === 0;})) {
+                retStr = "尺码";
             }
             var names = [];
             skuNames.forEach(function (n) {
