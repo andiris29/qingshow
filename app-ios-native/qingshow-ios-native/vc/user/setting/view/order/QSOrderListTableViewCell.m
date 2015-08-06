@@ -49,34 +49,18 @@
     // Configure the view for the selected state
 }
 
-- (void)layoutLabel
+- (void)layoutSubviews
 {
-    if (!self.sizeLabel.text) {
-        if(self.colorLabel.frame.origin.y > 76){
-            [self getNewFrame:self.colorLabel];
-        }
-        if (!self.colorLabel.text) {
-            if (self.quantityLabel.frame.origin.y > 76) {
-                [self getNewFrame:self.quantityLabel];
-            }
-            if (self.priceLabel.frame.origin.y > 98) {
-                [self getNewFrame:self.priceLabel];
-            }
-        }
-        if (self.quantityLabel.frame.origin.y > 76) {
-            [self getNewFrame:self.quantityLabel];
-        }
-        if (self.priceLabel.frame.origin.y > 98) {
-            [self getNewFrame:self.priceLabel];
-        }    }
+    [super layoutSubviews];
+    if (self.type == 0) {
+        self.quantityLabel.frame = CGRectMake(112, 76, 190, 14);;
+        self.priceLabel.frame = CGRectMake(112, 98, 190, 14);
+    }else{
+        self.quantityLabel.frame = CGRectMake(112, 120, 190, 14);
+        self.priceLabel.frame = CGRectMake(112, 142, 190, 14);
+    }
 }
 
-- (void)getNewFrame:(UILabel *)label
-{
-    CGRect frame = label.frame;
-    frame.origin.y -= 22;
-    label.frame = frame;
-}
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
@@ -86,7 +70,6 @@
     if (orderList.count) {
         orderDict = orderList[0];
     }
-    
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
@@ -144,16 +127,7 @@
             break;
         }
     }
-//    [self layoutIfNeeded];
-//    [self layoutLabel];
-    
 }
-//- (void)updateView:(UIView*)view y:(float)y
-//{
-//    CGRect rect = view.frame;
-//    rect.origin.y = y;
-//    view.frame = rect;
-//}
 
 #pragma mark - IBAction
 - (IBAction)refundBtnPressed:(id)sender
@@ -177,9 +151,7 @@
     }
     else if(status == 2 || status == 0)
     {
-        
-            [self.delegate didClickCancelBtnForCell:self];
-        
+        [self.delegate didClickCancelBtnForCell:self];
     }
 }
 
@@ -192,7 +164,6 @@
     {
         [self refundBtnPressed:sender];
     }
-
 }
 
 - (IBAction)exchangeBtnPressed:(id)sender {

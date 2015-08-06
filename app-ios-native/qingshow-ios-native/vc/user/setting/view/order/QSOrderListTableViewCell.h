@@ -60,4 +60,5 @@
 - (void)bindWithDict:(NSDictionary*)dict;
 
 @property (weak, nonatomic) NSObject<QSOrderListTableViewCellDelegate>* delegate;
+@property (assign,nonatomic) NSInteger type;
 @end
