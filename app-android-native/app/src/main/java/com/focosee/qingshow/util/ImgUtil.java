@@ -50,12 +50,15 @@ public class ImgUtil {
 
     public static String getImgSrc(String url, String scale) {
 
-        if(null == url || "".equals(url))return "";
+        if(null == url || "".equals(url))return getUserDefaultPortrait();
         if (scale == null || "".equals(scale)) return url;
-        if(url.indexOf(QSAppWebAPI.IMAGE_HOST_ADDRESS) <= -1)return url;
         String type = url.substring(url.lastIndexOf(".") + 1, url.length());
         url = url.substring(0, url.lastIndexOf("."));
         return url + "_" + scale + "." + type;
+    }
+
+    public static String getUserDefaultPortrait(){
+        return QSAppWebAPI.USER_DEFAULT_PORTRAIT;
     }
 
     public static Uri changeImgUri(String uri, CategoryImgType t) {

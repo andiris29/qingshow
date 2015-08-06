@@ -116,7 +116,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/props"
-                    app:layout_heightPercent="31%"
+                    app:layout_heightPercent="30%"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_below="@id/line2"/>
@@ -218,12 +218,43 @@
                         android:text="如果折扣申请成功，系统将会通知您购买此款产品，请耐心等待。"
                         android:textColor="@color/gary" />
                 </RelativeLayout>
+                <android.support.percent.PercentRelativeLayout
+                    android:id="@+id/priceRl"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/des_textRl"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="9%">
+
+                    <com.focosee.qingshow.widget.QSTextView
+                        android:id="@+id/price_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="left"
+                        android:text="预计价格"
+                        android:textColor="@color/master_pink"
+                        android:textSize="22sp"/>
+
+                    <TextView
+                        android:id="@+id/total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/price_text"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/master_pink"
+                        android:textSize="33sp"
+                        android:textStyle="bold"
+                        app:layout_marginLeftPercent="5%" />
+
+                </android.support.percent.PercentRelativeLayout>
 
                 <android.support.percent.PercentRelativeLayout
                     android:id="@+id/discountRl"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_below="@id/des_textRl"
+                    android:layout_below="@id/priceRl"
                     android:orientation="horizontal"
                     app:layout_heightPercent="10%"
                     app:layout_marginTopPercent="1%">
@@ -275,37 +306,7 @@
                         app:layout_heightPercent="70%" />
                 </android.support.percent.PercentRelativeLayout>
 
-                <android.support.percent.PercentRelativeLayout
-                    android:id="@+id/priceRl"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_below="@id/discountRl"
-                    android:orientation="horizontal"
-                    app:layout_heightPercent="9%">
 
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/price_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="left"
-                        android:text="预计价格"
-                        android:textColor="@color/master_pink"
-                        android:textSize="22sp"/>
-
-                    <TextView
-                        android:id="@+id/total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/price_text"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/master_pink"
-                        android:textSize="33sp"
-                        android:textStyle="bold"
-                        app:layout_marginLeftPercent="5%" />
-
-                </android.support.percent.PercentRelativeLayout>
 
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"

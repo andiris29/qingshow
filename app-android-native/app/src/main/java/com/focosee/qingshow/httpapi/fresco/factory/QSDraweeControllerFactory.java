@@ -20,8 +20,8 @@ public class QSDraweeControllerFactory {
         PipelineDraweeControllerBuilder builder = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(uri))
                 .setImageRequest(QSImageRequestFactory.createBuilder(uri).build())
-                .setAutoPlayAnimations(true)
-                .setTapToRetryEnabled(true)
+                .setAutoPlayAnimations(false)
+                .setTapToRetryEnabled(false)
                 .setOldController(simpleDraweeView.getController());
         return builder;
     }
