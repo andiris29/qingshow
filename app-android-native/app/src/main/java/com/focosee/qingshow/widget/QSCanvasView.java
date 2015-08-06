@@ -137,8 +137,12 @@ public class QSCanvasView extends FrameLayout {
         }
 
         if (checkedIndex == 0 && views.size() > 0) {
-            views.get(0).setChecked(true);
-            onCheckedChangeListener.checkedChanged(views.get(0));
+            QSImageView view = views.get(0);
+            if (!view.isChecked()){
+                view.setChecked(true);
+                view.goneDelBtn();
+            }
+            onCheckedChangeListener.checkedChanged(view);
         }
 
     }
