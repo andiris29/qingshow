@@ -24,7 +24,7 @@ public class QSTextView extends TextView {
     }
 
     private void init() {
-        setFont("fonts/black_fangzheng_simple.TTF");
+        //setFont("fonts/black_fangzheng_simple.TTF");
     }
 
     public void setFont(String path){

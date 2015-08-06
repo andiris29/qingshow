@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
@@ -39,6 +40,7 @@ public class QSApplication extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+        LeakCanary.install(this);
         wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.APP_ID, true);
         wxApi.registerApp(ShareConfig.APP_ID);
         Fresco.initialize(getApplicationContext(), QSImagePipelineConfigFactory.getInstance(getApplicationContext()).getImagePipelineConfig());

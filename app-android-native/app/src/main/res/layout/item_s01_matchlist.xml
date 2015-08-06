@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@null"
-    android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.S01MatchShowsActivity">
 
 
@@ -31,7 +30,7 @@
             android:id="@+id/item_s01_preground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_marginBottomPercent="13%"
+            android:layout_marginBottom="47dp"
             fresco:actualImageScaleType="fitXY" />
 
         <View
@@ -43,10 +42,9 @@
         <LinearLayout
             android:id="@+id/item_s01_bottom_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="47dp"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            app:layout_heightPercent="13%">
+            android:orientation="horizontal">
             <!--TODO 头像与字齐平-->
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_s01_head_img"
@@ -64,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp">
 
-                <com.focosee.qingshow.widget.QSTextView
+                <TextView
                     android:id="@+id/item_s01_nikename"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +84,7 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/gray_clock" />
 
-                <com.focosee.qingshow.widget.QSTextView
+                <TextView
                     android:id="@+id/item_s01_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,7 +103,7 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/s03_favor_btn" />
 
-                <com.focosee.qingshow.widget.QSTextView
+                <TextView
                     android:id="@+id/item_s01_likeNum"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
