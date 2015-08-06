@@ -160,8 +160,11 @@ public class QSCanvasView extends FrameLayout {
     }
 
     public void reselectView() {
-        if (checkedIndex < views.size())
-            views.get(checkedIndex).setChecked(true);
+        if (checkedIndex < views.size()){
+            QSImageView view = views.get(checkedIndex);
+            view.setChecked(true);
+            view.goneDelBtn();
+        }
     }
 
     public float calcUnOverlapArea(View view) {

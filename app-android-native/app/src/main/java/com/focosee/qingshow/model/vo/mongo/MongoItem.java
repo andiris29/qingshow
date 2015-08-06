@@ -25,6 +25,7 @@ public class MongoItem implements Serializable {
     public String minExpectedPrice;
     public List<String> skuProperties;
     public GregorianCalendar create;
+    public String delist;
 
     public class Image implements Serializable {
         public String url;

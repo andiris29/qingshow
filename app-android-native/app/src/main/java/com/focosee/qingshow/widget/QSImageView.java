@@ -53,6 +53,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     private OnClickListener onDelClickListener;
     private int barHeight;
+    private int padding = 2;
 
     public QSImageView(Context context) {
         this(context, null);
@@ -73,8 +74,8 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                 LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         imageView.setLayoutParams(params);
-        imageView.setPadding((int) AppUtil.transformToDip(1 / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(1 / lastScaleFactor, getContext())
-                , (int) AppUtil.transformToDip(1 / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(1 / lastScaleFactor, getContext()));
+        imageView.setPadding((int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext())
+                , (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()));
         addView(imageView);
 
         scaleGestureDetector = new ScaleGestureDetector(getContext(), this);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="65dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.focosee.qingshow.widget.radio.RadioLayout
         android:id="@+id/item_bg"
@@ -20,9 +20,10 @@
             fresco:actualImageScaleType="fitCenter" />
     </com.focosee.qingshow.widget.radio.RadioLayout>
 
-    <TextView
-        android:gravity="center"
+    <com.focosee.qingshow.widget.QSTextView
         android:id="@+id/price"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="12sp" />
 </LinearLayout>
