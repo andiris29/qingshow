@@ -3,6 +3,7 @@ package com.focosee.qingshow.model.vo.mongo;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/3/13.
@@ -15,7 +16,6 @@ public class MongoTrade implements Serializable {
     public int status;
     public GregorianCalendar create;
     public GregorianCalendar update;
-    public LinkedList<MongoOrder> orders;
     public TaobaoInfo taobaoInfo;
     public Logistic logistic;
     public Returnlogistic returnlogistic;
@@ -23,6 +23,13 @@ public class MongoTrade implements Serializable {
     public LinkedList<StatusLog> statusLogs;
     public MongoPeople peopleSnapshot;
     public String selectedPeopleReceiverUuid;
+
+    public int quantity;
+    public double actualPrice;
+    public double expectedPrice;
+    public MongoItem itemSnapshot;
+    public List<String> selectedSkuProperties;
+    public MongoItem itemRef;
 
     public class Pay implements Serializable {
 

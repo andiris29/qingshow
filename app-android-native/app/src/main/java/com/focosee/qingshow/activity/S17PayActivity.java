@@ -14,8 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S17DetailsEvent;
-import com.focosee.qingshow.activity.fragment.S17DetailsFragment;
 import com.focosee.qingshow.activity.fragment.S17PaymentFragment;
 import com.focosee.qingshow.activity.fragment.S17ReceiptFragment;
 import com.focosee.qingshow.command.Callback;
@@ -24,13 +22,11 @@ import com.focosee.qingshow.command.TradeRefreshCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
@@ -41,13 +37,10 @@ import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.greenrobot.event.EventBus;
@@ -69,7 +62,6 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
     private Map params;
     private MongoTrade trade;
-    private MongoOrder order;
 
     private String selectedPeopleReceiverUuid;
 
@@ -87,7 +79,6 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         EventBus.getDefault().register(this);
 
         trade = (MongoTrade) getIntent().getSerializableExtra(INPUT_ITEM_ENTITY);
-        order = trade.orders.get(0);
         init();
 
     }
@@ -104,7 +95,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
         submit.setOnClickListener(this);
-        priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.actualPrice)));
+        priceTV.setText(StringUtil.FormatPrice(String.valueOf(trade.actualPrice)));
 
     }
 
@@ -211,7 +202,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         params = new HashMap();
-        params.put("totalFee", order.actualPrice);
+        params.put("totalFee", trade.actualPrice);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
                 JSONObject jsonObject = new JSONObject();

@@ -1,10 +1,8 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +11,12 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S17PayActivity;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
 
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -46,7 +41,6 @@ public class S17DetailsFragment extends Fragment {
     private View rootView;
 
     private MongoTrade trade;
-    private MongoOrder order;
 
 
     @Override
@@ -54,7 +48,6 @@ public class S17DetailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_s17_details, container, false);
         ButterKnife.inject(this, rootView);
         trade = (MongoTrade) getActivity().getIntent().getExtras().getSerializable(S17PayActivity.INPUT_ITEM_ENTITY);
-        order = trade.orders.get(0);
         initDes();
         initProp();
 
@@ -62,7 +55,7 @@ public class S17DetailsFragment extends Fragment {
     }
 
     private void initProp() {
-        Map<String, List<String>> map = SkuUtil.filter(order.selectedSkuProperties);
+        Map<String, List<String>> map = SkuUtil.filter(trade.selectedSkuProperties);
         for (String key : map.keySet()) {
             List<String> list = map.get(key);
             addProp(group,key,list.get(0));
@@ -79,11 +72,11 @@ public class S17DetailsFragment extends Fragment {
     }
 
     private void initDes() {
-        itemName.setText(order.itemSnapshot.name);
-        price.setText(StringUtil.FormatPrice(order.itemSnapshot.promoPrice));
-        maxPrice.setText(StringUtil.FormatPrice(order.itemSnapshot.price));
+        itemName.setText(trade.itemSnapshot.name);
+        price.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+        maxPrice.setText(StringUtil.FormatPrice(trade.itemSnapshot.price));
         maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        num.setText(String.valueOf(order.quantity));
+        num.setText(String.valueOf(trade.quantity));
     }
 
 

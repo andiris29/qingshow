@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,19 +25,16 @@ import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.adapter.SkuPropsAdpater;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.model.vo.mongo.MongoOrder;
+import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
@@ -46,7 +42,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -86,7 +81,7 @@ public class S11DetailsFragment extends Fragment {
     Button submit;
 
     private MongoItem itemEntity;
-    private MongoOrder order;
+    private MongoTrade trade;
 
     private SkuPropsAdpater adpater;
     private View rootView;
@@ -109,7 +104,7 @@ public class S11DetailsFragment extends Fragment {
         ButterKnife.inject(this, rootView);
 
         itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY);
-        order = new MongoOrder();
+        trade = new MongoTrade();
         selectProps = new HashMap<>();
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
@@ -207,18 +202,18 @@ public class S11DetailsFragment extends Fragment {
     private void checkDiscount() {
         discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
         total.setText(StringUtil.FormatPrice(String.valueOf(Double.parseDouble(itemEntity.price) / 10f * discountNum)));
-        if (discountNum >= discountOnline){
+        if (discountNum >= discountOnline) {
             plusDiscount.setClickable(false);
             plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
-        }else {
+        } else {
             plusDiscount.setClickable(true);
             plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus));
         }
 
-        if (discountNum <= discountOffline){
+        if (discountNum <= discountOffline) {
             cutDiscount.setClickable(false);
             cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
-        }else {
+        } else {
             cutDiscount.setClickable(true);
             cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut));
         }
@@ -235,26 +230,21 @@ public class S11DetailsFragment extends Fragment {
     @OnClick(R.id.submitBtn)
     public void submit() {
         submit.setClickable(false);
-        order.selectedSkuProperties = SkuUtil.propParser(selectProps);
-        order.expectedPrice = new BigDecimal(Double.parseDouble(itemEntity.price) * discountNum / 10)
+        trade.selectedSkuProperties = SkuUtil.propParser(selectProps);
+        trade.expectedPrice = new BigDecimal(Double.parseDouble(itemEntity.price) * discountNum / 10)
                 .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         ;
-        order.itemSnapshot = itemEntity;
-        order.quantity = num;
-
-        List<MongoOrder> orders = new ArrayList<>();
-        orders.add(order);
-        submitToNet(orders);
+        trade.itemSnapshot = itemEntity;
+        trade.quantity = num;
+        submitToNet(trade);
     }
 
-    private void submitToNet(List<MongoOrder> orders) {
+    private void submitToNet(MongoTrade trade) {
         Map<String, Object> params = new HashMap<>();
-        try {
-            JSONArray array = new JSONArray(QSGsonFactory.create().toJson(orders));
-            params.put("orders", array);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        params.put("selectedSkuProperties", trade.selectedSkuProperties);
+        params.put("expectedPrice", trade.expectedPrice);
+        params.put("itemSnapshot", trade.itemSnapshot);
+        params.put("quantity", trade.quantity);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
