@@ -226,6 +226,23 @@ trade.statusTo = {
                 if (trade.pay.weixin.prepayid != null) {
                     _weixinDeliveryNotify(trade);
                 }
+                // Push Notification
+                jPushAudiences.find({
+                    'peopleRef' : trade.ownerRef
+                }).exec(function(err, infos) {
+                    if (infos.length > 0) {
+                        var targets = [];
+                        infos.forEach(function(element) {
+                            if (element.registrationId && element.registrationId.length > 0) {
+                                targets.push(element.registrationId);
+                            }
+                        });
+                        PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeShipped, {
+                            'id' : param._id,
+                            'command' : PushNotificationHelper.CommandTradeShipped
+                        }, null);
+                    }
+                });
                 callback(null, trade);
             } else if (newStatus == 7) {
                 trade.returnLogistic = trade.returnLogistic || {};
