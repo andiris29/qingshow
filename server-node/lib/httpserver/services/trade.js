@@ -499,7 +499,7 @@ trade.query = {
             var criteria = {};
             if (qsParam._ids || qsParam._ids.length > 0) {
                 criteria._id = {
-                    '$in' : RequestHelper.parseIds(qsParam._ids);
+                    '$in' : RequestHelper.parseIds(qsParam._ids)
                 }
             }
             MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
@@ -533,7 +533,7 @@ trade.queryByPhase = {
             var criteria = {};
             if (qsParam.phases|| qsParam.phases.length > 0) {
                 criteria.phases = {
-                    '$in' : RequestHelper.parseNumbers(qsParam.phases);
+                    '$in' : RequestHelper.parseNumbers(qsParam.phases)
                 }
             }
             MongoHelper.queryPaging(Trade.find(criteria).sort({'phase' : 1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
