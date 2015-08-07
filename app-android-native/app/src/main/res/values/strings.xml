@@ -169,7 +169,7 @@
     <string name="trade_num_text">订单号:</string>
     <string name="trade_type_text">订单状态:</string>
     <string name="trade_measurement">尺码:</string>
-    <string name="trade_count">数量：</string>
+    <string name="trade_count">数量:</string>
     <string name="trade_color">颜色:</string>
     <string name="trade_price">折后价格:</string>
     <string name="trade_create_date">订单生成日期:</string>
@@ -208,5 +208,6 @@
 
     <string name="s11_discount">折</string>
     <string name="s11_price">原价：</string>
+    <string name="s11_jian">件</string>
 
 </resources>

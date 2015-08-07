@@ -21,9 +21,6 @@ import java.sql.Array;
  */
 public class QSTextView extends TextView {
 
-    private float clickAlpha;
-    private float unClickAlpha;
-    private boolean clickble = false;//can click
     private boolean delLine = false;
     private CharSequence preText="";
 
@@ -44,12 +41,8 @@ public class QSTextView extends TextView {
         if (null != attrs){
             TypedArray array = context.obtainStyledAttributes(attrs,
                     R.styleable.QSTextView);
-//            clickAlpha = array.getColor(0, 0);
-//            unClickAlpha = getAlpha();
             delLine = array.getBoolean(R.styleable.QSTextView_del_line, false);
             preText = array.getString(R.styleable.QSTextView_preText);
-            System.out.println("QSTextView_delLine:"+delLine);
-            System.out.println("QSTextView_preText:"+preText);
             array.recycle();
         }
         setFont("fonts/black_fangzheng_simple.TTF");
@@ -61,12 +54,6 @@ public class QSTextView extends TextView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        if(isClickable()) {
-//            if (event.getAction() == )
-//                setAlpha(0.5f);
-//            else
-//                setAlpha(unClickAlpha);
-//        }
         return super.onTouchEvent(event);
     }
 
