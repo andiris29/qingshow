@@ -6,13 +6,11 @@ var tradeSchema = Schema({
     status : Number,
     shareToPay : Boolean,
     totalFee : Number,
-    orders : [{
-        quantity : Number,
-        expectedPrice : Number,
-        actualPrice : Number,
-        itemSnapshot : Object,
-        selectedSkuProperties : [String]
-    }],
+    quantity : Number,
+    expectedPrice : Number,
+    actualPrice : Number,
+    itemSnapshot : Object,
+    selectedSkuProperties : [String],
     peopleSnapshot : Object,
     selectedPeopleReceiverUuid : String,
     pay : {
@@ -89,7 +87,11 @@ var tradeSchema = Schema({
         type: Date,
         'default' : Date.now
     },
-    phase : Number
+    phase : Number,
+    itemRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'items'
+    }
 });
 
 var Trade = mongoose.model('trades', tradeSchema);

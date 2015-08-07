@@ -37,17 +37,13 @@ trade.create = {
             // Save trade
             var trade = new Trade();
             trade.ownerRef = req.qsCurrentUserId;
-            trade.orders = [];
             trade.peopleSnapshot = people;
             trade.shareToPay = true;
-            req.body.orders.forEach(function(element) {
-                trade.orders.push({
-                    'quantity' : element.quantity,
-                    'expectedPrice' : element.expectedPrice,
-                    'itemSnapshot' : element.itemSnapshot,
-                    'selectedSkuProperties' : element.selectedSkuProperties
-                });
-            });
+            trade.quantity = req.body.quantity;
+            trade.expectedPrice = req.body.expectedPrice;
+            trade.itemSnapshot = req.body.itemSnapshot;
+            trade.selectedSkuProperties = req.body.selectedSkuProperties;
+            trade.itemRef = RequestHelper.parseId(req.body.itemSnapshot._id);
             trade.save(function(err) {
                 callback(err, trade);
             });
@@ -104,13 +100,7 @@ trade.prepay = {
             if (req.body.pay && req.body.pay['weixin']) {
                 trade.pay = req.body.pay;
                 // Communicate to payment to get prepayid for weixin
-                var orderName = '';
-                trade.orders.forEach(function(element) {
-                    orderName += element.itemSnapshot.name + ',';
-                });
-                if (orderName.length > 0) {
-                    orderName = orderName.substring(0, orderName.length - 1);
-                }
+                var orderName = trade.itemSnapshot.name;
                 var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
                     var jsonObject = JSON.parse(body);
@@ -203,9 +193,7 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
-                req.body.orders.forEach(function(order, index) {
-                    trade.orders[index].actualPrice = order.actualPrice;
-                });
+                trade.actualPrice = req.body.actualPrice;
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
