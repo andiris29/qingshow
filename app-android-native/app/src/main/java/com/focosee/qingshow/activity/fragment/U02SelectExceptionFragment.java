@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.RequestQueue;
@@ -32,7 +33,7 @@ import butterknife.InjectView;
 
 public class U02SelectExceptionFragment extends Fragment {
     @InjectView(R.id.backTextView)
-    TextView backTextView;
+    ImageButton backTextView;
     @InjectView(R.id.fragment_u02_select_exception_listview)
     ListView listView;
 

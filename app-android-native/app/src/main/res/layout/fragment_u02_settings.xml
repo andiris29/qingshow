@@ -89,7 +89,7 @@
                             android:id="@+id/personalRelativeLayout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/item_height_activity_settings"
-                            android:background="#ffffff">
+                            android:background="@drawable/u02_relativelayout_background">
 
                             <com.facebook.drawee.view.SimpleDraweeView
                                 android:id="@+id/portraitImageView"
@@ -121,7 +121,7 @@
                             android:id="@+id/backgroundRelativeLayout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/item_height_activity_settings"
-                            android:background="#ffffff">
+                            android:background="@drawable/u02_relativelayout_background">
 
                             <com.facebook.drawee.view.SimpleDraweeView
                                 android:id="@+id/backgroundImageView"
@@ -165,7 +165,7 @@
                             android:id="@+id/addresslist_RelativeLayout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/item_height_activity_settings"
-                            android:background="#ffffff"
+                            android:background="@drawable/u02_relativelayout_background"
                             android:gravity="center_vertical">
 
                             <com.focosee.qingshow.widget.QSTextView
@@ -194,7 +194,7 @@
                             android:id="@+id/changePasswordRelativeLayout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/item_height_activity_settings"
-                            android:background="#ffffff"
+                            android:background="@drawable/u02_relativelayout_background"
                             android:gravity="center_vertical">
 
                             <com.focosee.qingshow.widget.QSTextView
@@ -244,11 +244,12 @@
                             android:background="@color/bg_activity_settings"
                             android:gravity="center">
 
-                            <Button
+                            <com.focosee.qingshow.widget.QSButton
                                 android:id="@+id/quitButton"
                                 android:layout_width="match_parent"
                                 android:layout_height="45dp"
                                 android:layout_margin="20dp"
+                                fresco:clickGround="@drawable/round_btn_background"
                                 android:background="@drawable/gray_btn"
                                 android:text="退出登陆"
                                 android:textColor="#ffffff"

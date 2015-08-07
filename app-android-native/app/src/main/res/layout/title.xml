@@ -6,14 +6,15 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:background="@drawable/bg_titlebar">
-    <ImageView
+    <ImageButton
         android:id="@+id/left_btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:padding="10dp"
         android:layout_weight="5"
-        android:background="#00000000"
+        android:scaleType="fitCenter"
+        android:background="@drawable/button_background"
         android:src="@drawable/nav_btn_back" />
 
     <com.focosee.qingshow.widget.QSTextView

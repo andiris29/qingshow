@@ -93,7 +93,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         Map<String, List<String>> skus = SkuUtil.filter(trade.selectedSkuProperties);
         StringBuilder sb = new StringBuilder();
         for (String key : skus.keySet()) {
-            sb.append(key).append(":").append(skus.get(key)).append("  ");
+            sb.append(key).append("��").append(skus.get(key)).append("  ");
         }
         selectProp.append(sb);
     }
@@ -105,7 +105,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
         promoPrice.append(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
         price.append(StringUtil.FormatPrice(trade.itemSnapshot.price));
-        num.append(trade.quantity + getActivity().getResources().getString(R.string.s11_jian));
+        num.append(trade.quantity + "��");
 
         expectedPrice.append(StringUtil.FormatPrice(trade.expectedPrice + ""));
         expectedDiscount.append(StringUtil.formatDiscount(trade.expectedPrice + "", trade.itemSnapshot.promoPrice));

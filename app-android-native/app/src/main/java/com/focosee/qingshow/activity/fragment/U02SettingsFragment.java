@@ -132,7 +132,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         setJumpListener();
         initDrawer();
 
-        quitButton.setOnClickListener(new View.OnClickListener() {
+        /*quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -158,7 +158,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
                 getActivity().finish();
             }
-        });
+        });*/
     }
 
     @Override

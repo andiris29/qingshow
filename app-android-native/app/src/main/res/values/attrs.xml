@@ -64,6 +64,10 @@
         <attr name="preText" format="string|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="QSButton">
+        <attr name="clickGround" format="color|reference"/>
+    </declare-styleable>
+
 
     <declare-styleable name="NumberPicker">
         <attr name="normalTextColor" format="color" />
