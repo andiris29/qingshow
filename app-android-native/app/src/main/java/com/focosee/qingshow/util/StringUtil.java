@@ -25,10 +25,9 @@ public class StringUtil {
         return "¥" + new DecimalFormat("0.00").format(new BigDecimal(price));
     }
 
-<<<<<<< Updated upstream
     public static String formatHeightAndWeight(int heigth, int weight) {
         return heigth + "cm," + weight + "kg";
-=======
+    }
     public static String formatSKUProperties(List<String> properties){
         if(null == properties)return "尺寸:              颜色:";
         StringBuffer skuProperties = new StringBuffer();
@@ -44,6 +43,5 @@ public class StringUtil {
         }
 
         return "尺码:" + skuProperties.toString().substring(0, skuProperties.toString().length() - "\n\n".length());
->>>>>>> Stashed changes
     }
 }

@@ -27,6 +27,7 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
+import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSTextView;
 
@@ -83,30 +84,20 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         statusTV.setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.GONE);
 
-//        holder.setText(R.id.item_tradelist_status, StatusCode.getStatusText(trade.status));
         holder.setText(R.id.item_tradelist_sourcePrice, "1000");
         holder.setText(R.id.item_tradelist_expectedPrice, "￥1000");
         holder.setText(R.id.item_tradelist_exception, "30%");
 
-<<<<<<< Updated upstream
-
-//        holder.setText(R.id.item_tradelist_skuProperties, StringUtil.formatSKUProperties(trade.orders.get(0).selectedSkuProperties));
-//        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
-//        holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
-//        holder.setText(R.id.item_tradelist_price, StringUtil.FormatPrice(String.valueOf(trade.orders.get(0).actualPrice)));
-//        holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
-//        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.name);
-=======
         if(null != trade.itemSnapshot){
             holder.setText(R.id.item_tradelist_sourcePrice, "原价:" + trade.itemSnapshot.promoPrice);
             holder.setText(R.id.item_tradelist_actualPrice, String.valueOf(trade.actualPrice));
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
         }
+
         holder.setText(R.id.item_tradelist_skuProperties, StringUtil.formatSKUProperties(trade.selectedSkuProperties));
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
         holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(String.valueOf(trade.actualPrice)));
->>>>>>> Stashed changes
 
         //0-折扣申请中
         if(trade.status == 0){
