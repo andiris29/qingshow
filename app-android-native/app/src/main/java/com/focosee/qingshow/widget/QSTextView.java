@@ -3,6 +3,8 @@ package com.focosee.qingshow.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.gesture.GestureUtils;
+import android.graphics.Paint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +24,8 @@ public class QSTextView extends TextView {
     private float clickAlpha;
     private float unClickAlpha;
     private boolean clickble = false;//can click
+    private boolean delLine = false;
+    private CharSequence preText="";
 
     public QSTextView(Context context) {
         this(context, null);
@@ -38,11 +42,14 @@ public class QSTextView extends TextView {
 
     private void init(Context context, AttributeSet attrs) {
         if (null != attrs){
-            final int attrIds[] = new int[]{R.attr.check_color, R.attr.uncheck_color};
             TypedArray array = context.obtainStyledAttributes(attrs,
-                    attrIds);
-            clickAlpha = array.getColor(0,0);
-            unClickAlpha = getAlpha();
+                    R.styleable.QSTextView);
+//            clickAlpha = array.getColor(0, 0);
+//            unClickAlpha = getAlpha();
+            delLine = array.getBoolean(R.styleable.QSTextView_del_line, false);
+            preText = array.getString(R.styleable.QSTextView_preText);
+            System.out.println("QSTextView_delLine:"+delLine);
+            System.out.println("QSTextView_preText:"+preText);
             array.recycle();
         }
         setFont("fonts/black_fangzheng_simple.TTF");
@@ -66,5 +73,16 @@ public class QSTextView extends TextView {
     @Override
     public boolean callOnClick() {
         return super.callOnClick();
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        if(delLine){
+            getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        if(TextUtils.isEmpty(preText))
+            super.setText(text, type);
+        else
+            super.setText(preText.toString() + text, type);
     }
 }

@@ -52,7 +52,7 @@
                 android:id="@+id/u09_tab_all"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:text="申请中"
+                android:text="申请"
                 android:layout_centerHorizontal="true"
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/white"

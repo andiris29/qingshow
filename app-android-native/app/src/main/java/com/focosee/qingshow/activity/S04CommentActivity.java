@@ -219,6 +219,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                mRefreshLayout.endRefreshing();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     return;
@@ -226,7 +227,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
                 currentPage = 1;
                 adapter.addDataAtTop(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
                 adapter.notifyDataSetChanged();
-                mRefreshLayout.endRefreshing();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonArrayRequest);

@@ -223,10 +223,8 @@ public class U01UserActivity extends MenuActivity {
         if (null == user) {
             user = new MongoPeople();
             user._id = QSModel.INSTANCE.getUserId();
-            getUserFromNet(user._id);
-        }else{
-            setUserBaseMInfo();
         }
+        getUserFromNet(user._id);
     }
 
     private void getUserFromNet(String uId){

@@ -58,8 +58,10 @@
     </declare-styleable>
 
     <declare-styleable name="QSTextView">
-        <attr name="clickAlpha" format="float"/>
-        <attr name="unClickAlpha" format="float"/>
+        <attr name="clickAlpha" format="float|reference"/>
+        <attr name="unClickAlpha" format="float|reference"/>
+        <attr name="del_line" format="boolean|reference"/>
+        <attr name="preText" format="string|reference"/>
     </declare-styleable>
 
 

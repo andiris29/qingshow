@@ -68,21 +68,27 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         if(null == getItemData(position))return;
         final MongoTrade trade = getItemData(position);
         if(null == trade)return;
-        String dateStr = "付款日期：" + TimeUtil.formatDateTime(trade.update);
+        String dateStr = "付款日期：" + TimeUtil.parseDateString(trade.update);
         if(trade.status == 0 || trade.status == 1){
-            dateStr = "申请日期：" + TimeUtil.formatDateTime(trade.update);
+            dateStr = "申请日期：" + TimeUtil.parseDateString(trade.update);
         }
         holder.setText(R.id.item_tradelist_payTime, dateStr);
         final QSTextView btn1 = holder.getView(R.id.item_tradelist_btn1);
         QSTextView btn2 = holder.getView(R.id.item_tradelist_btn2);
+        QSTextView btn3 = holder.getView(R.id.item_tradelist_btn3);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
+        btn3.setVisibility(View.GONE);
         statusTV.setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.GONE);
 
 //        holder.setText(R.id.item_tradelist_status, StatusCode.getStatusText(trade.status));
+        holder.setText(R.id.item_tradelist_sourcePrice, "1000");
+        holder.setText(R.id.item_tradelist_expectedPrice, "￥1000");
+        holder.setText(R.id.item_tradelist_exception, "30%");
 
+<<<<<<< Updated upstream
 
 //        holder.setText(R.id.item_tradelist_skuProperties, StringUtil.formatSKUProperties(trade.orders.get(0).selectedSkuProperties));
 //        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
@@ -90,6 +96,17 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 //        holder.setText(R.id.item_tradelist_price, StringUtil.FormatPrice(String.valueOf(trade.orders.get(0).actualPrice)));
 //        holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
 //        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.name);
+=======
+        if(null != trade.itemSnapshot){
+            holder.setText(R.id.item_tradelist_sourcePrice, "原价:" + trade.itemSnapshot.promoPrice);
+            holder.setText(R.id.item_tradelist_actualPrice, String.valueOf(trade.actualPrice));
+            holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
+            holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
+        }
+        holder.setText(R.id.item_tradelist_skuProperties, StringUtil.formatSKUProperties(trade.selectedSkuProperties));
+        holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
+        holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(String.valueOf(trade.actualPrice)));
+>>>>>>> Stashed changes
 
         //0-折扣申请中
         if(trade.status == 0){
@@ -130,6 +147,14 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     });
                 }
             }
+            btn2.setVisibility(View.VISIBLE);
+            btn2.setText("取消订单");
+            btn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickCancelTrade(trade, 17, CANCEL, position);
+                }
+            });
         }
         //2-已付款
         if(trade.status == 2){
@@ -151,13 +176,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                String msg = "暂无物流信息";
-                if(null != trade.logistic) {
-                    msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + trade.logistic.trackingID == null ? "" : trade.logistic.trackingID;
-                }
-                final ConfirmDialog dialog = new ConfirmDialog();
-                dialog.setTitle(msg);
-                dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
+                    String msg = "暂无物流信息";
+                    if (null != trade.logistic) {
+                        msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + trade.logistic.trackingID == null ? "" : trade.logistic.trackingID;
+                    }
+                    final ConfirmDialog dialog = new ConfirmDialog();
+                    dialog.setTitle(msg);
+                    dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
                 }
             });
             btn1.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +193,14 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                }
+            });
+            btn3.setVisibility(View.VISIBLE);
+            btn3.setText("取消订单");
+            btn3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickCancelTrade(trade, 17, CANCEL, position);
                 }
             });
         }
