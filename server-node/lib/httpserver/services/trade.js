@@ -485,3 +485,71 @@ trade.share = {
 
     }
 };
+
+trade.query = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var criteria = {};
+            if (qsParam._ids || qsParam._ids.length > 0) {
+                criteria._id = {
+                    '$in' : RequestHelper.parseIds(qsParam._ids);
+                }
+            }
+            MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(trades) {
+            return {
+                'trades' : trades 
+            };
+        }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                        'model' : 'items'
+                    }, callback);
+                },
+                function(callback) {
+                    // Append Context
+                    ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
+        });
+    }
+};
+
+trade.queryByPhase = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var criteria = {};
+            if (qsParam.phases|| qsParam.phases.length > 0) {
+                criteria.phases = {
+                    '$in' : RequestHelper.parseNumbers(qsParam.phases);
+                }
+            }
+            MongoHelper.queryPaging(Trade.find(criteria).sort({'phase' : 1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(trades) {
+            return {
+                'trades' : trades 
+            };
+        }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                        'model' : 'items'
+                    }, callback);
+                },
+                function(callback) {
+                    // Append Context
+                    ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
+        });
+    }
+};

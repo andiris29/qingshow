@@ -88,7 +88,8 @@ var tradeSchema = Schema({
     update : {
         type: Date,
         'default' : Date.now
-    }
+    },
+    phase : Number
 });
 
 var Trade = mongoose.model('trades', tradeSchema);

@@ -70,6 +70,12 @@ RequestHelper.parseIds = function (string) {
     });
 };
 
+RequestHelper.parseNumbers =  function (string) {
+    return RequestHelper.parseArray(string).map(function(element) {
+        return RequestHelper.parseNumber(element);
+    });
+};
+
 RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
     var formidable = require('formidable');
 
