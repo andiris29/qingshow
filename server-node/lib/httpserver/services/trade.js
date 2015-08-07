@@ -39,6 +39,7 @@ trade.create = {
             trade.ownerRef = req.qsCurrentUserId;
             trade.orders = [];
             trade.peopleSnapshot = people;
+            trade.shareToPay = true;
             req.body.orders.forEach(function(element) {
                 trade.orders.push({
                     'quantity' : element.quantity,
