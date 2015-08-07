@@ -3,6 +3,7 @@ package com.focosee.qingshow.wxapi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
+
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
@@ -54,14 +55,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
-            if(resp.transaction.equals(U09TradeListAdapter.transaction)){
-                if(resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
+            if (resp.transaction.equals(U09TradeListAdapter.transaction)) {
+                if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
                     Toast.makeText(WXEntryActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
+
                     EventBus.getDefault().post(trade);
-                }else{
+                } else {
                     Toast.makeText(WXEntryActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();
                 }
-            }else{
+            } else {
                 EventModel<Integer> eventModel;
                 eventModel = new EventModel<>(S03SHowActivity.class.getSimpleName(), resp.errCode);
                 eventModel.from = WXEntryActivity.class.getSimpleName();
@@ -77,8 +79,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        trade = null;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        trade = null;
     }
 }

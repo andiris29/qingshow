@@ -2,11 +2,9 @@ package com.focosee.qingshow.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11DetailsFragment;
+import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.widget.LoadingDialog;
 
@@ -97,7 +95,7 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
                     break;
                 }
                 container.setVisibility(View.VISIBLE);
-                FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11DetailsFragment(), "details");
+                FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details");
                 details.addToBackStack(null);
                 details.commit();
                 break;

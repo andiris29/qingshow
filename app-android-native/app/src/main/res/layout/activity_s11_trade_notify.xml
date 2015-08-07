@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="15dp"
+        app:cardUseCompatPadding="true">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_margin="2dp"
+            android:src="@drawable/close" />
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="折扣推荐信息"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_heightPercent="6%"
+                    app:layout_marginBottomPercent="3%"
+                    app:layout_marginTopPercent="3%" />
+
+                <LinearLayout
+                    android:id="@+id/des"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/title"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="40%">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/img"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/item_name"
+                            style="@style/s11_notify_des_text"
+                            android:ellipsize="end"
+                            android:singleLine="true" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/price"
+                            style="@style/s11_notify_des_text"
+                            android:text="原价："
+                            android:textColor="@color/gary" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/promoPrice"
+                            style="@style/s11_notify_des_text"
+                            android:text="现价：" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/selectProp"
+                            style="@style/s11_notify_des_text"
+                            android:textColor="@color/gary" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/num"
+                            style="@style/s11_notify_des_text"
+                            android:text="数量："
+                            android:textColor="@color/gary" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/expectedDiscount"
+                            style="@style/s11_notify_des_text"
+                            android:text="期望折扣：" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/expectedPrice"
+                            style="@style/s11_notify_des_text"
+                            android:text="期望价格：" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/nowDes"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/des"
+                    android:background="@color/master_pink"
+                    android:orientation="vertical"
+                    app:layout_heightPercent="30%">
+
+                    <com.focosee.qingshow.widget.QSTextView
+                        android:id="@+id/des1"
+                        style="@style/s11_notify_des_text"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="这是我们目前争取到的折扣"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <com.focosee.qingshow.widget.QSTextView
+                        android:id="@+id/des2"
+                        style="@style/s11_notify_des_text"
+                        android:layout_below="@id/des1"
+                        android:gravity="center"
+                        android:text="如果感兴趣,请分享后购买"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:id="@+id/dis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/disPrice"
+                        android:layout_below="@id/des2"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="目前折扣："
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/nowDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/disPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/dis"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="目前价格："
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/sign"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/nowPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:gravity="center"
+                    android:id="@+id/submitBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/nowDes"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_submit_match"
+                    android:text="分享后购买"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_heightPercent="10%"
+                    app:layout_marginTopPercent="4%"
+                    app:layout_widthPercent="45%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

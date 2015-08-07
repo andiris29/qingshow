@@ -78,5 +78,13 @@
         <item name="android:textColor">#ffffffff</item>
         <item name="android:textSize">14sp</item>
     </style>
+    
+    <style name="s11_notify_des_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+    </style>
 
 </resources>

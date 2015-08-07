@@ -1,6 +1,8 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,8 +10,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
+import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -19,9 +24,12 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.RecyclerViewUtil;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -29,6 +37,9 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import de.greenrobot.event.EventBus;
 
 public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
+
+    public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
+    public static final String S1_IMPUT_TRADE_ID = "S1_IMPUT_TRADE";
 
     @InjectView(R.id.s01_backTop_btn)
     ImageButton s01BackTopBtn;
@@ -186,4 +197,21 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
         doLoadMore(currentType);
         return true;
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        showNewTradeNotify(intent);
+    }
+
+    private void showNewTradeNotify(Intent intent) {
+        boolean showable = intent.getBooleanExtra(S1_INPUT_SHOWABLE, false);
+        if (showable) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "newTradeNotify" + System.currentTimeMillis());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
 }

@@ -38,8 +38,8 @@ public class PayCommand {
             }
         };
 
-        String orderInfo = AlipayUtil.getOrderInfo(trade.orders.get(0).itemSnapshot.name,
-                trade.orders.get(0).itemSnapshot.source, trade.orders.get(0).actualPrice + "", trade._id);
+        String orderInfo = AlipayUtil.getOrderInfo(trade.itemSnapshot.name,
+                trade.itemSnapshot.source, trade.actualPrice + "", trade._id);
 
         String sign = SignUtils.sign(orderInfo, PaymentConfig.RSA_PRIVATE);
         try {

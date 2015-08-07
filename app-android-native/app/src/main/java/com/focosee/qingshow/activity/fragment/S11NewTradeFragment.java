@@ -38,6 +38,7 @@ import com.focosee.qingshow.widget.QSTextView;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +52,7 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S11DetailsFragment extends Fragment {
+public class S11NewTradeFragment extends Fragment {
 
     @InjectView(R.id.itemName)
     TextView itemName;
@@ -95,7 +96,7 @@ public class S11DetailsFragment extends Fragment {
 
     private int discountNum;
     private int discountOffline = 1;
-    private int discountOnline = 10;
+    private int discountOnline = 9;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,6 +120,9 @@ public class S11DetailsFragment extends Fragment {
         } else
             discountOffline = Integer.parseInt(itemEntity.minExpectedPrice);
         discountNum = discountOnline = ((Double) (Double.parseDouble(itemEntity.promoPrice) / Double.parseDouble(itemEntity.price) * 10)).intValue();
+        if (discountNum == 10)
+            discountNum = discountOnline = 9;
+
 
         initProps();
         initDes();
@@ -231,9 +235,10 @@ public class S11DetailsFragment extends Fragment {
     public void submit() {
         submit.setClickable(false);
         trade.selectedSkuProperties = SkuUtil.propParser(selectProps);
-        trade.expectedPrice = new BigDecimal(Double.parseDouble(itemEntity.price) * discountNum / 10)
-                .setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        ;
+
+        NumberFormat fmt = NumberFormat.getPercentInstance();
+        fmt.setMaximumFractionDigits(2);
+        trade.expectedPrice = Double.parseDouble(fmt.format(Double.parseDouble(itemEntity.price) * discountNum / 10));
         trade.itemSnapshot = itemEntity;
         trade.quantity = num;
         submitToNet(trade);

@@ -84,12 +84,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 //        holder.setText(R.id.item_tradelist_status, StatusCode.getStatusText(trade.status));
 
 
-        holder.setText(R.id.item_tradelist_skuProperties, StringUtil.formatSKUProperties(trade.orders.get(0).selectedSkuProperties));
+//        holder.setText(R.id.item_tradelist_skuProperties, StringUtil.formatSKUProperties(trade.orders.get(0).selectedSkuProperties));
 //        holder.setText(R.id.item_tradelist_measurement, SkuUtil.getPropValue(skus, SkuUtil.KEY.SIZE_1.id, SkuUtil.KEY.SIZE_2.id, SkuUtil.KEY.SIZE_3.id));
-        holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
-        holder.setText(R.id.item_tradelist_price, StringUtil.FormatPrice(String.valueOf(trade.orders.get(0).actualPrice)));
-        holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
-        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.name);
+//        holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
+//        holder.setText(R.id.item_tradelist_price, StringUtil.FormatPrice(String.valueOf(trade.orders.get(0).actualPrice)));
+//        holder.setImgeByUrl(R.id.item_tradelist_image, trade.orders.get(0).itemSnapshot.thumbnail);
+//        holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.name);
 
         //0-折扣申请中
         if(trade.status == 0){
