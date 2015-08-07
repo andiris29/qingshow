@@ -3,6 +3,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var People = require('../../model/peoples');
+var Trade = require('../../model/trades');
 var jPushAudiences = require('../../model/jPushAudiences');
 
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -65,3 +66,47 @@ notify.newRecommandations = {
     }
 };
 
+notify.itemPriceChanged = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            Trade.find({
+                'itemRef' : RequestHelper.parseId(req.body._id),
+                'status' : 0
+            }).exec(callback);
+        },
+        function(trades, callback) {
+            var tasks = trades.map(function(trade) {
+                return function(cb) {
+                    async.waterfall([
+                    function(cb2) {
+                        jPushAudiences.find({
+                            peopleRef : trade.ownerRef
+                        }).exec(function(err, infos) {
+                            cb2(err, infos);
+                        });
+                    },
+                    function(infos, cb2) {
+                        var registrationIDs = [];
+                        targets.forEach(function(target) {
+                            registrationIDs.push(target.registrationId);
+                        });
+                        PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
+                            'command' : PushNotificationHelper.CommandItemPriceChanged,
+                            '_id' : req.body._id,
+                            '_tradeId' : trade._id.toString(),
+                            'actualPrice' : req.body.actualPrice
+                        }, cb2);
+                    }], cb);
+                };
+            });
+            async.parallel(tasks, function(err) {
+                callback();
+            });
+        }], function(err) {
+            ResponseHelper.response(res, err, null);
+        });
+    }
+};
