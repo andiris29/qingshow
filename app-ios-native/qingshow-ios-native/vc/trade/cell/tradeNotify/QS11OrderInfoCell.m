@@ -10,6 +10,7 @@
 #import "UINib+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
 @implementation QS11OrderInfoCell
 + (instancetype)generateView {
     return [UINib generateViewWithNibName:@"QS11OrderInfoCell"];
@@ -27,6 +28,7 @@
 
 - (void)bindWithDict:(NSDictionary*)tradeDict {
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
+    [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDict];
     self.priceLabel.text = [NSString stringWithFormat:@"原价：%@", [QSItemUtil getPriceDesc:itemDict]];
     self.prompPriceLabel.text = [NSString stringWithFormat:@"现价：%@",[QSItemUtil getPromoPriceDesc:itemDict]];
@@ -39,7 +41,7 @@
         self.propNameLabel1.text = @"";
     }
     if (prop.count > 1) {
-        NSString* p = prop[2];
+        NSString* p = prop[1];
         self.propNameLabel2.text = p;
     }else {
         self.propNameLabel2.text = @"";

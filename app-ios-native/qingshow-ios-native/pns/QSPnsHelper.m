@@ -19,46 +19,46 @@
 #define kPnsCommandItemPriceChanged @"itemPriceChanged"
 
 @implementation QSPnsHelper
-+ (void)handlePnsData:(NSDictionary*)userInfo {
++ (void)handlePnsData:(NSDictionary*)userInfo fromBackground:(BOOL)fFromBackground {
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
-
-    
     NSString* command = [QSEntityUtil getStringValue:userInfo keyPath:@"command"];
+    
+    NSMutableDictionary* userInfoDict = [@{} mutableCopy];
+    userInfoDict[@"fromBackground"] = @(fFromBackground);
+    
     if ([command isEqualToString:kPnsCommandNewShowComments]) {
         NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"id"];
-        NSDictionary* notiInfoDict = nil;
         if (showId) {
-            notiInfoDict = @{@"showId" : showId};
+            userInfoDict[@"showId"] = showId;
         }
         
         //新评论
-        [center postNotificationName:kPnsNewShowCommentsNotification object:nil userInfo:notiInfoDict];
+        [center postNotificationName:kPnsNewShowCommentsNotification object:nil userInfo:userInfoDict];
         
     } else if ([command isEqualToString:kPnsCommandNewRecommandations]) {
         //新推荐
-        [center postNotificationName:kPnsNewRecommandationNotification object:nil userInfo:nil];
+        [center postNotificationName:kPnsNewRecommandationNotification object:nil userInfo:userInfoDict];
         
     } else if ([command isEqualToString:kPnsCommandQuestSharingProgress]) {
         //搭配活动进行中
-        [center postNotificationName:kPnsQuestSharingProgressNotification object:nil userInfo:nil];
+        [center postNotificationName:kPnsQuestSharingProgressNotification object:nil userInfo:userInfoDict];
         
     } else if ([command isEqualToString:kPnsCommandQuestSharingComplete]) {
         //搭配活动完成
-        [center postNotificationName:kPnsQuestSharingCompleteNotification object:nil userInfo:nil];
+        [center postNotificationName:kPnsQuestSharingCompleteNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandTradeInitialized]) {
         //折扣申请成功
-        [center postNotificationName:kPnsTradeInitialNotification object:nil userInfo:nil];
+        [center postNotificationName:kPnsTradeInitialNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandTradeShipped]) {
         //订单发货
-        [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:nil];
+        [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandItemPriceChanged]) {
         //折扣有新信息
         NSString* tradeId = [QSEntityUtil getStringValue:userInfo keyPath:@"_tradeId"];
-        NSDictionary* notiInfoDict = nil;
         if (tradeId) {
-            notiInfoDict = @{@"tradeId" : tradeId};
+            userInfoDict[@"tradeId"] = tradeId;
         }
-        [center postNotificationName:kPnsItemPriceChangedNotification object:nil userInfo:notiInfoDict];
+        [center postNotificationName:kPnsItemPriceChangedNotification object:nil userInfo:userInfoDict];
     }
 }
 @end

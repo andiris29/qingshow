@@ -49,7 +49,7 @@
     _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
-//    [self showTradeNotiViewOfTradeId:@""];
+//    [self showTradeNotiViewOfTradeId:@"55c60829e92f835707e83fc7"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -171,13 +171,12 @@
 - (void)showTradeNotiViewOfTradeId:(NSString*)tradeId {
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
         self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWIthDict:dict];
+        self.s11NotiVc.delelgate = self;
         self.s11NotiVc.view.frame = self.view.bounds;
         [self.navigationController.view addSubview:self.s11NotiVc.view];
     } onError:^(NSError *error) {
         
     }];
-
- 
 }
 - (void)didClickClose:(QSS11NewTradeNotifyViewController *)vc
 {

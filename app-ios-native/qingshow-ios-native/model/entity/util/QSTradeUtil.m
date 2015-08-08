@@ -73,16 +73,31 @@
 {
     return [dict stringValueForKeyPath:@"logistic.trackingId"];
 }
-+ (BOOL)getTraddSharedByCurrentUser:(NSDictionary*)dict
+
++ (BOOL)getShouldShare:(NSDictionary*)dict {
+    BOOL shareToPay = [self getShareToPay:dict];
+    if (shareToPay) {
+        BOOL hasShared = [self getTradeSharedByCurrentUser:dict];
+        return !hasShared;
+    }
+    return NO;
+}
+
++ (BOOL)getShareToPay:(NSDictionary*)dict {
+    NSNumber* n = [dict numberValueForKeyPath:@"shareToPay"];
+    if (n) {
+        return n.boolValue;
+    }
+    return NO;
+}
+
++ (BOOL)getTradeSharedByCurrentUser:(NSDictionary*)dict
 {
-    if (![QSEntityUtil checkIsDict:dict]) {
-        return NO;
+    NSNumber* n = [dict numberValueForKeyPath:@"__context.sharedByCurrentUser"];
+    if (n) {
+        return n.boolValue;
     }
-    NSNumber *n =  [QSEntityUtil getNumberValue:dict keyPath:@"__context.sharedByCurrentUser"];
-    if ([QSEntityUtil checkIsNil:n]) {
-        return NO;
-    }
-    return n.boolValue;
+    return NO;
 }
 
 #pragma mark - Order

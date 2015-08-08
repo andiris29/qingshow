@@ -81,8 +81,7 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
-    BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
-    //shouldShare = YES;
+    BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     switch (s) {
         case 0:
         {
@@ -146,7 +145,7 @@
     int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
     if (status == 1) {
         
-        BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:self.tradeDict];
+        BOOL shouldShare = [QSTradeUtil getShouldShare:self.tradeDict];
         [self payBtnPressed:shouldShare];
         
     } else if (status  == 3) {

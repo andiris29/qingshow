@@ -179,14 +179,6 @@
     QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
     vc.menuProvider = self.menuProvider;
     [self.navigationController pushViewController:vc animated:YES];
-//    __weak QSU09OrderListViewController* weakSelf = self;
-//    [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
-//                             onSuccess:^{
-//                                 [weakSelf showTextHud:@"支付成功"];
-//                             }
-//                               onError:^(NSError *error) {
-//                                   [weakSelf showErrorHudWithText:@"支付失败"];
-//                               }];
 }
 - (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
 {
