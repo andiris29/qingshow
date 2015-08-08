@@ -10,11 +10,13 @@
 
 @interface QSTradeUtil : NSObject
 + (NSString *)getOrderId:(NSDictionary *)dict;
+
 + (NSArray*)getOrderArray:(NSDictionary*)dict;
 + (NSDictionary *)getPeopleDic:(NSDictionary *)dict;
 + (NSDictionary*)getFirstOrder:(NSDictionary*)dict;
 
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;
++ (NSString *)getDayDesc:(NSDictionary *)dict;
 + (NSNumber*)getStatus:(NSDictionary*)dict;
 + (NSString*)getStatusDesc:(NSDictionary*)dict;
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict;

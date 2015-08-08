@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, QSTradeStatus) {
     QSTradeStatusTuihuoSuccess = 9,
     QSTradeStatusTuihuoFail = 10,
     QSTradeStatusAutoQueren = 15,
-    QSTradeStatusTuikuanSuccess = 18
+    QSTradeStatusTradeEnd = 17
 };
 
 

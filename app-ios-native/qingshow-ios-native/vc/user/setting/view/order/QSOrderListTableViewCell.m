@@ -28,7 +28,6 @@
 - (void)awakeFromNib {
     // Initialization code
     [self configBtn:self.submitButton];
-    [self configBtn:self.returnButton];
     [self configBtn:self.exchangeButton];
     self.saleImgView.hidden = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -53,11 +52,13 @@
 {
     [super layoutSubviews];
     if (self.type == 0) {
-        self.quantityLabel.frame = CGRectMake(112, 76, 190, 14);;
-        self.priceLabel.frame = CGRectMake(112, 98, 190, 14);
-    }else{
         self.quantityLabel.frame = CGRectMake(112, 120, 190, 14);
-        self.priceLabel.frame = CGRectMake(112, 142, 190, 14);
+        self.exDiscountLabel.frame = CGRectMake(112, 142, 190, 14);
+        self.priceLabel.frame = CGRectMake(112, 164, 190, 14);
+    }else{
+        self.quantityLabel.frame = CGRectMake(112, 142, 190, 14);
+        self.priceLabel.frame = CGRectMake(112, 186, 190, 14);
+        self.exDiscountLabel.frame = CGRectMake(112, 164, 190, 14);
     }
 }
 
@@ -65,11 +66,13 @@
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
     self.tradeDict = tradeDict;
+    //NSLog(@"trade = %@",tradeDict);
     NSArray* orderList = [QSTradeUtil getOrderArray:tradeDict];
     NSDictionary* orderDict = nil;
     if (orderList.count) {
         orderDict = orderList[0];
     }
+    self.dateLabel.text = [NSString stringWithFormat:@"下单日期:%@",[QSTradeUtil getDayDesc:tradeDict]];
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
@@ -77,53 +80,62 @@
     self.sizeLabel.text = [QSOrderUtil getSizeText:orderDict];
     self.colorLabel.text = [QSOrderUtil getColorText:orderDict];
     if ([QSOrderUtil getActualPrice:orderDict]) {
-        self.priceLabel.text = [NSString stringWithFormat:@"折后价格：￥%@",[QSOrderUtil getActualPriceDesc:orderDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSOrderUtil getActualPriceDesc:orderDict]];
     } else {
-        self.priceLabel.text = [NSString stringWithFormat:@"折后价格：￥%@",[QSOrderUtil getExpectedPriceDesc:orderDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSOrderUtil getExpectedPriceDesc:orderDict]];
     }
     self.quantityLabel.text = [NSString stringWithFormat:@"数量：%@",[QSOrderUtil getQuantityDesc:orderDict]];
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
     BOOL shouldShare = [QSTradeUtil getTraddSharedByCurrentUser:tradeDict];
+    //shouldShare = YES;
     switch (s) {
         case 0:
-        case 2:
         {
             self.submitButton.hidden = NO;
-            self.returnButton.hidden = YES;
+            self.stateLabel.hidden = YES;
             self.exchangeButton.hidden = YES;
             self.saleImgView.hidden = YES;
-            [self.submitButton setTitle:@"取消订单" forState:UIControlStateNormal];
+            
+        }
+        case 2:
+        {
+            self.submitButton.hidden = YES;
+            self.exchangeButton.hidden = YES;
+            self.saleImgView.hidden = YES;
+            self.stateLabel.hidden = NO;
+            //[self.submitButton setTitle:@"取消订单" forState:UIControlStateNormal];
             break;
         }
         case 1:{
             self.submitButton.hidden = NO;
             self.exchangeButton.hidden = YES;
-            self.returnButton.hidden = NO;
+            self.stateLabel.hidden = YES;
             self.saleImgView.hidden = NO;
-            [self.returnButton setTitle:@"取消订单" forState:UIControlStateNormal];
             if (!shouldShare) {
                 [self.submitButton setTitle:@"立即付款" forState:UIControlStateNormal];
             }
             else{
-            [self.submitButton setTitle:@"分享并付款" forState:UIControlStateNormal];
+                //[self.submitButton setTitle:@"分享并付款" forState:UIControlStateNormal];
+                self.submitButton.layer.borderWidth = 0.f;
+                [self.submitButton setImage:[UIImage imageNamed:@"order_list_share_pay.png"] forState:UIControlStateNormal]; 
             }
             break;
         }
         case 3: {
             self.submitButton.hidden = NO;
             self.exchangeButton.hidden = NO;
-            self.returnButton.hidden = NO;
             self.saleImgView.hidden = YES;
-            [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
+            self.stateLabel.hidden = YES;
+            [self.submitButton setTitle:@"申请退货" forState:UIControlStateNormal];
             break;
         }
          default: {
             self.submitButton.hidden = YES;
             self.exchangeButton.hidden = YES;
-            self.returnButton.hidden = YES;
              self.saleImgView.hidden = YES;
+             self.stateLabel.hidden = NO;
             break;
         }
     }
@@ -145,13 +157,9 @@
         [self payBtnPressed:shouldShare];
         
     } else if (status  == 3) {
-        if ([self.delegate respondsToSelector:@selector(didClickReceiveBtnForCell:)]) {
-            [self.delegate didClickReceiveBtnForCell:self];
+        if ([self.delegate respondsToSelector:@selector(didClickRefundBtnForCell:)]) {
+            [self.delegate didClickRefundBtnForCell:self];
         }
-    }
-    else if(status == 2 || status == 0)
-    {
-        [self.delegate didClickCancelBtnForCell:self];
     }
 }
 

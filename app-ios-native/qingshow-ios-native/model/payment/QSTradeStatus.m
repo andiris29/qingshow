@@ -78,11 +78,9 @@ NSString* QSTradeStatusToDesc(QSTradeStatus s) {
         case QSTradeStatusAutoQueren : {
             return @"交易成功";
         }
-        case QSTradeStatusTuihuoSuccess :{
-            return @"退款成功";
-        }
+        case QSTradeStatusTuihuoSuccess :
         case QSTradeStatusTuihuoFail :
-        case QSTradeStatusTuikuanSuccess : {
+        case QSTradeStatusTradeEnd : {
             return @"交易关闭";
         }
         default:

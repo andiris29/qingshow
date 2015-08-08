@@ -50,6 +50,15 @@
     NSDate* date = [QSDateUtil buildDateFromResponseString:resDateStr];
     return [QSDateUtil buildStringFromDate:date];
 }
++ (NSString *)getDayDesc:(NSDictionary *)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSString *resDateStr = [dict stringValueForKeyPath:@"create"];
+    NSDate *date  = [QSDateUtil buildDateFromResponseString:resDateStr];
+    return [QSDateUtil buildDayStringFromDate:date];
+}
 + (NSNumber*)getStatus:(NSDictionary*)dict
 {
     return [dict numberValueForKeyPath:@"status"];
