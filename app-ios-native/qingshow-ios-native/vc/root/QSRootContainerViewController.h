@@ -8,7 +8,7 @@
 
 #import "QSAbstractRootViewController.h"
 
-@interface QSRootContainerViewController : QSAbstractRootViewController
+@interface QSRootContainerViewController : QSAbstractRootViewController <UIAlertViewDelegate>
 
 - (void)showDefaultVc;
 

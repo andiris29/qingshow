@@ -9,6 +9,7 @@
 #import "QSPnsHelper.h"
 #import "QSEntityUtil.h"
 #import "QSPnsNotificationName.h"
+#import "NSDictionary+QSExtension.h"
 
 #define kPnsCommandNewShowComments @"newShowComments"
 #define kPnsCommandNewRecommandations @"newRecommandations"
@@ -19,6 +20,11 @@
 #define kPnsCommandItemPriceChanged @"itemPriceChanged"
 
 @implementation QSPnsHelper
++ (BOOL)isFromBackground:(NSDictionary*)userInfo {
+    NSNumber* bg = [userInfo numberValueForKeyPath:@"fromBackground"];
+    return bg.boolValue;
+}
+
 + (void)handlePnsData:(NSDictionary*)userInfo fromBackground:(BOOL)fFromBackground {
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
     NSString* command = [QSEntityUtil getStringValue:userInfo keyPath:@"command"];
