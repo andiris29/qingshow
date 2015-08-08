@@ -8,7 +8,6 @@
 
 #import "QSOrderListTableViewProvider.h"
 #import "QSTradeUtil.h"
-#import "QSOrderUtil.h"
 
 @implementation QSOrderListTableViewProvider
 @dynamic delegate;
@@ -95,8 +94,7 @@
 - (NSInteger)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dic = [self orderForIndexPath:indexPath];
-    NSDictionary *order = [QSTradeUtil getFirstOrder:dic];
-    if (![QSOrderUtil getSizeText:order] && ![QSOrderUtil getColorText:order]) {
+    if (![QSTradeUtil getSizeText:dic] && ![QSTradeUtil getColorText:dic]) {
         return 0;
     }
     return 1;

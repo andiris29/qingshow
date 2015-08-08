@@ -9,12 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface QSTradeUtil : NSObject
-+ (NSString *)getOrderId:(NSDictionary *)dict;
-
-+ (NSArray*)getOrderArray:(NSDictionary*)dict;
 + (NSDictionary *)getPeopleDic:(NSDictionary *)dict;
-+ (NSDictionary*)getFirstOrder:(NSDictionary*)dict;
-
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;
 + (NSString *)getDayDesc:(NSDictionary *)dict;
 + (NSNumber*)getStatus:(NSDictionary*)dict;
@@ -25,4 +20,20 @@
 + (NSString*)getTradeLogisticCompany:(NSDictionary*)dict;
 + (NSString*)getTradeLogisticId:(NSDictionary*)dict;
 + (BOOL)getTraddSharedByCurrentUser:(NSDictionary*)dict;
+
+
+#pragma mark - Order
+
++ (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
++ (NSArray*)getSkuProperties:(NSDictionary*)dict;
++ (NSString *)getSizeText:(NSDictionary *)dict;
++ (NSString *)getColorText:(NSDictionary *)dict;
++ (NSNumber*)getExpectedPrice:(NSDictionary*)dict;
++ (NSString*)getExpectedPriceDesc:(NSDictionary*)dict;
++ (NSNumber*)getActualPrice:(NSDictionary*)dict;
++ (NSString*)getActualPriceDesc:(NSDictionary*)dict;
++ (NSNumber*)getQuantity:(NSDictionary*)dict;
++ (NSString*)getQuantityDesc:(NSDictionary*)dict;
++ (NSNumber*)getTotalFee:(NSDictionary*)dict;
++ (NSString*)getReceiverUuid:(NSDictionary*)dict;
 @end

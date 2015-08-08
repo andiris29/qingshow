@@ -15,6 +15,8 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSU01UserDetailViewController.h"
 
+
+
 #define PAGE_ID @"新美搭榜单"
 
 @interface QSS01MatchShowsViewController ()<UICollectionViewDelegate,QSMatchCollectionViewProviderDelegate>
@@ -23,7 +25,7 @@
 @property (nonatomic,strong) UISegmentedControl *segmentControl;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
 
-
+@property (strong, nonatomic) QSS11NewTradeNotifyViewController* s11NotiVc;
 
 
 @end
@@ -47,7 +49,7 @@
     _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
-
+//    [self showTradeNotiViewOfTradeId:@""];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -164,5 +166,22 @@
     p.y = 0;
     [self.collectionView setContentOffset:p animated:YES];
     _backToTopbtn.hidden = YES;
+}
+
+- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId {
+    [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
+        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWIthDict:dict];
+        self.s11NotiVc.view.frame = self.view.bounds;
+        [self.navigationController.view addSubview:self.s11NotiVc.view];
+    } onError:^(NSError *error) {
+        
+    }];
+
+ 
+}
+- (void)didClickClose:(QSS11NewTradeNotifyViewController *)vc
+{
+    [self.s11NotiVc.view removeFromSuperview];
+    self.s11NotiVc = nil;
 }
 @end

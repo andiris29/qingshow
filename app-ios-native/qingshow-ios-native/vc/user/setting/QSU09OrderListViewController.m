@@ -15,7 +15,6 @@
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
 #import "UIViewController+ShowHud.h"
-#import "QSOrderUtil.h"
 #import "QSItemUtil.h"
 #import "QSDateUtil.h"
 #import "QSTradeUtil.h"
@@ -102,7 +101,7 @@
     [self.provider bindWithTableView:self.tableView];
     __weak QSU09OrderListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:@"true" onSucceed:succeedBlock onError:^(NSError *error){
+        return [SHARE_NW_ENGINE queryTradeListPage:page inProgress:@"true" onSucceed:succeedBlock onError:^(NSError *error){
             if (error.code == 1009 && page == 1) {
                 weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
                 [weakSelf changeValueOfSegment:1];
@@ -120,7 +119,7 @@
 {
     if (value == 1) {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryOrderListPage:page onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE queryTradeListPage:page onSucceed:succeedBlock onError:errorBlock];
         };
         [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
@@ -128,7 +127,7 @@
     else if(value == 0)
     {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryOrderListPage:page inProgress:@"true" onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE queryTradeListPage:page inProgress:@"true" onSucceed:succeedBlock onError:errorBlock];
         };
         [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
@@ -155,7 +154,8 @@
     if (shouldShare) {
         NSDictionary *peopleDic = [QSTradeUtil getPeopleDic:tradeDict];
         NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
-        NSString *orderId = [QSTradeUtil getOrderId:tradeDict];
+        NSString *tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
+        
         [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
         WXMediaMessage *message = [WXMediaMessage message];
         
@@ -164,7 +164,7 @@
         [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
         WXWebpageObject *ext = [WXWebpageObject object];
 
-        ext.webpageUrl = [NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id={%@}&initiatorRef={%@}",orderId,peopleId];
+        ext.webpageUrl = [NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id={%@}&initiatorRef={%@}",tradeId,peopleId];
         
         message.mediaObject = ext;
         
@@ -196,15 +196,12 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"物流信息" message:str delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
 }
-- (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic
+- (void)didClickReceiveBtnOfOrder:(NSDictionary *)tradeDict
 {
-    _oderDic = orderDic;
-    NSArray *order = [QSTradeUtil getOrderArray:orderDic];
-    NSDictionary *dic = nil;
-    if (order.count) {
-        dic = [order firstObject];
-    }
-    NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:dic];
+    _oderDic = tradeDict;
+    NSDictionary *dic = tradeDict;
+
+    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:dic];
     NSString *title = [QSItemUtil getItemName:itemDict];
     NSDate *date = [NSDate date];
     NSString *dateStr = [NSString stringWithFormat:@"收货时间  %@",[QSDateUtil buildStringFromDate:date]];

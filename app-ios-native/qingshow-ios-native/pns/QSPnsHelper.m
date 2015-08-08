@@ -53,7 +53,12 @@
         [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:nil];
     } else if ([command isEqualToString:kPnsCommandItemPriceChanged]) {
         //折扣有新信息
-        [center postNotificationName:kPnsItemPriceChangedNotification object:nil userInfo:nil];
+        NSString* tradeId = [QSEntityUtil getStringValue:userInfo keyPath:@"_tradeId"];
+        NSDictionary* notiInfoDict = nil;
+        if (tradeId) {
+            notiInfoDict = @{@"tradeId" : tradeId};
+        }
+        [center postNotificationName:kPnsItemPriceChangedNotification object:nil userInfo:notiInfoDict];
     }
 }
 @end

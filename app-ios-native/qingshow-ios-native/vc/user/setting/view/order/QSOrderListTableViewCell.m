@@ -9,7 +9,6 @@
 #import "QSOrderListTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSTradeUtil.h"
-#import "QSOrderUtil.h"
 #import "QSItemUtil.h"
 #import "QSEntityUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
@@ -66,25 +65,19 @@
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
     self.tradeDict = tradeDict;
-    //NSLog(@"trade = %@",tradeDict);
-    NSArray* orderList = [QSTradeUtil getOrderArray:tradeDict];
-    NSDictionary* orderDict = nil;
-    if (orderList.count) {
-        orderDict = orderList[0];
-    }
     self.dateLabel.text = [NSString stringWithFormat:@"下单日期:%@",[QSTradeUtil getDayDesc:tradeDict]];
-    NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
+    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    self.sizeLabel.text = [QSOrderUtil getSizeText:orderDict];
-    self.colorLabel.text = [QSOrderUtil getColorText:orderDict];
-    if ([QSOrderUtil getActualPrice:orderDict]) {
-        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSOrderUtil getActualPriceDesc:orderDict]];
+    self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
+    self.colorLabel.text = [QSTradeUtil getColorText:tradeDict];
+    if ([QSTradeUtil getActualPrice:tradeDict]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSTradeUtil getActualPriceDesc:tradeDict]];
     } else {
-        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSOrderUtil getExpectedPriceDesc:orderDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
     }
-    self.quantityLabel.text = [NSString stringWithFormat:@"数量：%@",[QSOrderUtil getQuantityDesc:orderDict]];
+    self.quantityLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:tradeDict]];
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;

@@ -15,7 +15,6 @@
 #import "QSSharePlatformConst.h"
 #import "NSString+MKNetworkKitAdditions.h"
 #import "QSTradeUtil.h"
-#import "QSOrderUtil.h"
 #import "QSEntityUtil.h"
 #import "QSItemUtil.h"
 #import "QSPaymentConst.h"
@@ -65,12 +64,10 @@
     self.errorBlock = errorBlock;
     
     NSString* prepayId = [QSTradeUtil getWechatPrepayId:tradeDict];
-    NSArray* orderArray = [QSTradeUtil getOrderArray:tradeDict];
+    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     NSMutableString* names = [@"" mutableCopy];
-    for (NSDictionary* orderDict in orderArray) {
-        NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
-        [names appendString:[QSItemUtil getItemName:itemDict]];
-    }
+    [names appendString:[QSItemUtil getItemName:itemDict]];
+
     
     if (prepayId && prepayId.length) {
         //Pay with Wechat

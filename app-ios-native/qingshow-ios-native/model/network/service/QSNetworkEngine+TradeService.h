@@ -20,12 +20,14 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                               onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 #pragma mark - Query
-
-- (MKNetworkOperation*)queryOrderListPage:(int)page
+- (MKNetworkOperation*)queryTradeDetail:(NSString*)tradeId
+                              onSucceed:(DicBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryTradeListPage:(int)page
                                inProgress:(NSString *)inProgress
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)queryOrderListPage:(int)page
+- (MKNetworkOperation*)queryTradeListPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
 

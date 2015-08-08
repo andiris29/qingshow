@@ -20,6 +20,7 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSS04CommentListViewController.h"
 #import "QSU09OrderListViewController.h"
+#import "NSDictionary+QSExtension.h"
 
 @interface QSRootContainerViewController ()
 
@@ -217,7 +218,9 @@
     [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
 }
 - (void)pnsItemPriceChanged:(NSNotification*)noti {
-#warning TODO
-//    [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
+    if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
+        QSS01MatchShowsViewController* matchVc = (QSS01MatchShowsViewController*)self.contentVc;
+        [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"]];
+    }
 }
 @end

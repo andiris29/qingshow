@@ -13,9 +13,9 @@
 #import "QSUserManager.h"
 #import "QSEntityUtil.h"
 #import "QSTradeUtil.h"
-#import "QSOrderUtil.h"
 
 
+#define PATH_TRADE_QUERY @"trade/query"
 #define PATH_TRADE_CREATE @"trade/create"
 #define PATH_TRADE_QUERY_CREATED_BY @"trade/queryCreatedBy"
 #define PATH_TRADE_REFRESH_PAYMENT_STATUS @"trade/refreshPaymentStatus"
@@ -29,11 +29,14 @@
                               onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 {
+    if (!orderArray.count) {
+#warning TODO
+        errorBlock(nil);
+    }
+    NSDictionary* order = orderArray[0];
     return [self startOperationWithPath:PATH_TRADE_CREATE
                                  method:@"POST"
-                               paramers:@{
-                                           @"orders" : orderArray
-                                           }
+                               paramers:order
             
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
@@ -51,7 +54,28 @@
 }
 
 #pragma mark - Query
-- (MKNetworkOperation*)queryOrderListPage:(int)page
+- (MKNetworkOperation*)queryTradeDetail:(NSString*)tradeId
+                              onSucceed:(DicBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_TRADE_QUERY method:@"GET" paramers:@{@"_ids" : tradeId} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            NSDictionary* retDict = completedOperation.responseJSON;
+            NSArray* trades = [retDict arrayValueForKeyPath:@"data.trades"];
+            if (trades && trades.count) {
+                NSDictionary* t = trades[0];
+                succeedBlock(t);
+            } else {
+                succeedBlock(nil);
+            }
+        }
+
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+- (MKNetworkOperation*)queryTradeListPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
 {
@@ -60,7 +84,7 @@
     return [self queryTradeCreatedBy:userId page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
-- (MKNetworkOperation*)queryOrderListPage:(int)page
+- (MKNetworkOperation*)queryTradeListPage:(int)page
                                inProgress:(NSString *)inProgress
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
@@ -178,10 +202,9 @@
                          onSucceed:(DicBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
     NSMutableDictionary* paramDict = [@{} mutableCopy];
-    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:tradeDict];
     
     paramDict[@"_id"] = [QSEntityUtil getIdOrEmptyStr:tradeDict];
-    paramDict[@"totalFee"] = [QSOrderUtil getTotalFee:orderDict];
+    paramDict[@"totalFee"] = [QSTradeUtil getTotalFee:tradeDict];
     paramDict[@"selectedPeopleReceiverUuid"] = uuid;
     NSDictionary* payTypeDict = @{};
     

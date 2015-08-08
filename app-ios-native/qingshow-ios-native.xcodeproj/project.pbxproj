@@ -282,7 +282,6 @@
 		EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */; };
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */; };
-		EFEBAAEF1ABF01FE0000FEEE /* QSOrderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAEE1ABF01FE0000FEEE /* QSOrderUtil.m */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
 		EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */; };
 		EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */; };
@@ -887,8 +886,6 @@
 		EFEBAAE31ABEB0000000FEEE /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
 		EFEBAAE61ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSProvinceSelectionTableViewController.h; sourceTree = "<group>"; };
 		EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSProvinceSelectionTableViewController.m; sourceTree = "<group>"; };
-		EFEBAAED1ABF01FE0000FEEE /* QSOrderUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSOrderUtil.h; sourceTree = "<group>"; };
-		EFEBAAEE1ABF01FE0000FEEE /* QSOrderUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSOrderUtil.m; sourceTree = "<group>"; };
 		EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeUtil.h; sourceTree = "<group>"; };
 		EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeUtil.m; sourceTree = "<group>"; };
 		EFED34831AFC69C000F08A0D /* QSG02WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSG02WelcomeViewController.h; sourceTree = "<group>"; };
@@ -2072,8 +2069,6 @@
 				EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */,
 				EF78E3381AAF47C700665EDD /* QSReceiverUtil.h */,
 				EF78E3391AAF47C700665EDD /* QSReceiverUtil.m */,
-				EFEBAAED1ABF01FE0000FEEE /* QSOrderUtil.h */,
-				EFEBAAEE1ABF01FE0000FEEE /* QSOrderUtil.m */,
 				EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */,
 				EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */,
 				A75DF2051B01A6B400A88E36 /* QSHotUtil.h */,
@@ -2909,7 +2904,6 @@
 				EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */,
 				EF30133F1AC3174000568D92 /* RSADataVerifier.m in Sources */,
 				EF17292A1A1CDCF1001819E3 /* QSU01UserDetailViewController.m in Sources */,
-				EFEBAAEF1ABF01FE0000FEEE /* QSOrderUtil.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
 				EF810F6B1AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m in Sources */,
 				EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */,

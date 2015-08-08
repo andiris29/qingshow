@@ -15,7 +15,7 @@
 #import "QSPeopleUtil.h"
 #import "QSTradeUtil.h"
 #import "QSEntityUtil.h"
-#import "QSOrderUtil.h"
+#import "QSTradeUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -80,14 +80,14 @@
     [self configView];
     [self updateAllCell];
 
-    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:self.tradeDict];
+    NSDictionary* tradeDict = self.tradeDict;
     NSNumber* price = nil;
-    if ([QSOrderUtil getActualPrice:orderDict]) {
-        price = [QSOrderUtil getActualPrice:orderDict];
+    if ([QSTradeUtil getActualPrice:tradeDict]) {
+        price = [QSTradeUtil getActualPrice:tradeDict];
     } else {
-        price = [QSOrderUtil getExpectedPrice:orderDict];
+        price = [QSTradeUtil getExpectedPrice:tradeDict];
     }
-    NSNumber* quantity = [QSOrderUtil getQuantity:orderDict];
+    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
     NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
     [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
     
@@ -175,8 +175,8 @@
 {
     NSMutableArray* array = [@[] mutableCopy];
     [array addObject:self.itemInfoTitleCell];
-    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:self.tradeDict];
-    NSArray* propArray = [QSOrderUtil getSkuProperties:orderDict];
+    NSDictionary* trade = self.tradeDict;
+    NSArray* propArray = [QSTradeUtil getSkuProperties:trade];
     for (NSString* propStr in propArray) {
         QSCreateTradeSkuPropertyCell* propCell = [QSCreateTradeSkuPropertyCell generateCell];
         [propCell bindSkuProperty:propStr];
@@ -386,10 +386,10 @@
         paymentType = PaymentTypeWechat;
     }
     
-    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:self.tradeDict];
+    NSDictionary* tradeDict = self.tradeDict;
     
-    NSNumber* price = [QSOrderUtil getActualPrice:orderDict];
-    NSNumber* quantity = [QSOrderUtil getQuantity:orderDict];
+    NSNumber* price = [QSTradeUtil getActualPrice:tradeDict];
+    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
     NSNumber* totalPrice = @(quantity.doubleValue * price.doubleValue);
 
 

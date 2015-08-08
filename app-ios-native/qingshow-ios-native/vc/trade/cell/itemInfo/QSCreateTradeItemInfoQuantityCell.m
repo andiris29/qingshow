@@ -9,7 +9,6 @@
 #import "QSCreateTradeItemInfoQuantityCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSTradeUtil.h"
-#import "QSOrderUtil.h"
 
 @implementation QSCreateTradeItemInfoQuantityCell
 - (void)awakeFromNib
@@ -26,8 +25,7 @@
     btn.layer.borderWidth = 1.f;
 }
 - (void)bindWithDict:(NSDictionary *)tradeDict {
-    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:tradeDict];
-    self.numberTextField.text = [QSOrderUtil getQuantityDesc:orderDict];
+    self.numberTextField.text = [QSTradeUtil getQuantityDesc:tradeDict];
 }
 
 @end

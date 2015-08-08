@@ -9,7 +9,6 @@
 #import "QSCreateTradeItemInfoTitleCell.h"
 #import "QSItemUtil.h"
 #import "QSTradeUtil.h"
-#import "QSOrderUtil.h"
 
 @implementation QSCreateTradeItemInfoTitleCell
 - (void)awakeFromNib {
@@ -26,14 +25,14 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
-    NSDictionary* orderDict = [QSTradeUtil getFirstOrder:dict];
-    NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
+    NSDictionary* tradeDict = dict;
+    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     
-    if ([QSOrderUtil getActualPrice:orderDict]) {
-        self.priceAfterDiscountLabel.text = [QSOrderUtil getActualPriceDesc:orderDict];
+    if ([QSTradeUtil getActualPrice:tradeDict]) {
+        self.priceAfterDiscountLabel.text = [QSTradeUtil getActualPriceDesc:tradeDict];
     } else {
-        self.priceAfterDiscountLabel.text = [QSOrderUtil getExpectedPriceDesc:orderDict];
+        self.priceAfterDiscountLabel.text = [QSTradeUtil getExpectedPriceDesc:tradeDict];
     }
     
     self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];

@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSS11NewTradeNotifyViewController : UIViewController
+@class QSS11NewTradeNotifyViewController;
+@protocol QSS11NewTradeNotifyViewControllerDelegate <NSObject>
+
+- (void)didClickClose:(QSS11NewTradeNotifyViewController*)vc;
+
+@end
+
+@interface QSS11NewTradeNotifyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImgView;
+@property (weak, nonatomic) NSObject<QSS11NewTradeNotifyViewControllerDelegate>* delelgate;
+
+- (instancetype)initWIthDict:(NSDictionary*)tradeDict;
 
 @end
