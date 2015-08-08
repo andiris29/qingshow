@@ -177,6 +177,8 @@
     [center addObserver:self selector:@selector(pnsQuestSharingProgress:) name:kPnsQuestSharingProgressNotification object:nil];
     [center addObserver:self selector:@selector(pnsQuestSharingCompleted:) name:kPnsQuestSharingCompleteNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeInitial:) name:kPnsTradeInitialNotification object:nil];
+    [center addObserver:self selector:@selector(pnsTradeShipped:) name:kPnsTradeShippedNotification object:nil];
+    [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemPriceChangedNotification object:nil];
 }
 - (void)pnsDidReceiveNewShowComment:(NSNotification*)noti {
 
@@ -206,7 +208,16 @@
 - (void)pnsQuestSharingCompleted:(NSNotification*)noti {
     
 }
+
 - (void)pnsTradeInitial:(NSNotification*)noti {
     [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
+}
+
+- (void)pnsTradeShipped:(NSNotification*)noti {
+    [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
+}
+- (void)pnsItemPriceChanged:(NSNotification*)noti {
+#warning TODO
+//    [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
 }
 @end

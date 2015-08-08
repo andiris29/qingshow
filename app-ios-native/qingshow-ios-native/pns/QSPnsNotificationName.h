@@ -14,5 +14,7 @@
 #define kPnsQuestSharingProgressNotification @"kPnsQuestSharingProgressNotification"
 #define kPnsQuestSharingCompleteNotification @"kPnsQuestSharingCompleteNotification"
 #define kPnsTradeInitialNotification @"kPnsTradeInitialNotification"
+#define kPnsTradeShippedNotification @"kPnsTradeShippedNotification"
+#define kPnsItemPriceChangedNotification @"kPnsItemPriceChangedNotification"
 
 #endif
