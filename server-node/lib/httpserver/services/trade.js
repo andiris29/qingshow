@@ -197,23 +197,25 @@ trade.statusTo = {
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
-                    jPushAudiences.find({
-                        'peopleRef' : trade.ownerRef
-                    }).exec(function(err, infos) {
-                        if (infos.length > 0) {
-                            var targets = [];
-                            infos.forEach(function(element) {
-                                if (element.registrationId && element.registrationId.length > 0) {
-                                    targets.push(element.registrationId);
-                                }
-                            });
+                    if (trade._id.toString() != rq.qsCurrentUserId) {
+                        jPushAudiences.find({
+                            'peopleRef' : trade.ownerRef
+                        }).exec(function(err, infos) {
+                            if (infos.length > 0) {
+                                var targets = [];
+                                infos.forEach(function(element) {
+                                    if (element.registrationId && element.registrationId.length > 0) {
+                                        targets.push(element.registrationId);
+                                    }
+                                });
 
-                            PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
-                                'id' : param._id,
-                                'command' : PushNotificationHelper.CommandTradeInitialized
-                            }, null);
-                        }
-                    });
+                                PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
+                                    'id' : param._id,
+                                    'command' : PushNotificationHelper.CommandTradeInitialized
+                                }, null);
+                            }
+                        });
+                    }
                 });
             } else if (newStatus == 2) {
                 // Save the parameters from payment server.
@@ -532,7 +534,7 @@ trade.queryByPhase = {
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             var criteria = {};
             if (qsParam.phases|| qsParam.phases.length > 0) {
-                criteria.phases = {
+                criteria.phase = {
                     '$in' : RequestHelper.parseNumbers(qsParam.phases)
                 }
             }
