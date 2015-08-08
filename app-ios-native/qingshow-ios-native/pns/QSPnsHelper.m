@@ -15,6 +15,8 @@
 #define kPnsCommandQuestSharingProgress @"questSharingProgress"
 #define kPnsCommandQuestSharingComplete @"questSharingComplete"
 #define kPnsCommandTradeInitialized @"tradeInitialized"
+#define kPnsCommandTradeShipped @"tradeShipped"
+#define kPnsCommandItemPriceChanged @"itemPriceChanged"
 
 @implementation QSPnsHelper
 + (void)handlePnsData:(NSDictionary*)userInfo {
@@ -46,6 +48,12 @@
     } else if ([command isEqualToString:kPnsCommandTradeInitialized]) {
         //折扣申请成功
         [center postNotificationName:kPnsTradeInitialNotification object:nil userInfo:nil];
+    } else if ([command isEqualToString:kPnsCommandTradeShipped]) {
+        //订单发货
+        [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:nil];
+    } else if ([command isEqualToString:kPnsCommandItemPriceChanged]) {
+        //折扣有新信息
+        [center postNotificationName:kPnsItemPriceChangedNotification object:nil userInfo:nil];
     }
 }
 @end
