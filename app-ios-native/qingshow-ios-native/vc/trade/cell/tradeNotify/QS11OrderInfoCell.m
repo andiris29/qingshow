@@ -7,8 +7,11 @@
 //
 
 #import "QS11OrderInfoCell.h"
-
+#import "UINib+QSExtension.h"
 @implementation QS11OrderInfoCell
++ (instancetype)generateView {
+    return [UINib generateViewWithNibName:@"QS11OrderInfoCell"];
+}
 
 - (void)awakeFromNib {
     // Initialization code
@@ -20,4 +23,7 @@
     // Configure the view for the selected state
 }
 
+- (void)bindWithDict:(NSDictionary*)tradeDict {
+    
+}
 @end
