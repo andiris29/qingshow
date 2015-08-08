@@ -15,6 +15,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSEntityUtil.h"
 #import "NSDictionary+QSExtension.h"
+#import "QSShareService.h"
 
 #define kShareTitle @"时尚宠儿的归属地"
 #define kShareDesc @"美丽乐分享，潮流资讯早知道"
@@ -31,9 +32,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+#warning Refactor Share Weibo
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboAuthorizeNotiHander:) name:kWeiboAuthorizeResultNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboSendMessageNotiHandler:) name:kWeiboSendMessageResultNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShareWechatSuccess:) name:kShareWechatSuccessNotification object:nil];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
@@ -138,65 +140,47 @@
 }
 
 //朋友圈
-- (IBAction)shareWechatPressed:(id)sender {
+- (IBAction)shareWechatMomentPressed:(id)sender {
     [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
-    WXMediaMessage *message = [WXMediaMessage message];
-    
-    message.title = [NSString stringWithFormat:@"【%@】%@", kShareTitle, kShareDesc];
-//    message.description = kShareDesc;
-    [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
-    WXWebpageObject *ext = [WXWebpageObject object];
-    
-    if (self.shareUrl) {
-        ext.webpageUrl = self.shareUrl;
-    } else {
-        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
-    }
 
-    message.mediaObject = ext;
+    NSString* sharedUrl = nil;
+    if (self.shareUrl) {
+        sharedUrl = self.shareUrl;
+    } else {
+        sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
+    }
+    [SHARE_SHARE_SERVICE shareWithWechatMoment:[NSString stringWithFormat:@"【%@】%@", kShareTitle, kShareDesc] desc:nil image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+        if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
+            [self.delegate didShareWechatSuccess];
+        }
+    } onError:^(NSError *error) {
+        
+    }];
     
-    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-    req.bText = NO;
-    req.message = message;
-    req.scene = WXSceneTimeline;
-    
-    [WXApi sendReq:req];
     [self hideSharePanel];
 }
 
 //微信好友
 - (IBAction)shareWechatFriendPressed:(id)sender {
     [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
-    WXMediaMessage *message = [WXMediaMessage message];
-    message.title = kShareTitle;
-    message.description = kShareDesc;
-    [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
     
-    WXWebpageObject *ext = [WXWebpageObject object];
-    
+    NSString* sharedUrl = nil;
     if (self.shareUrl) {
-
-        ext.webpageUrl = self.shareUrl;
+        sharedUrl = self.shareUrl;
     } else {
-        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
+        sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
-
-    message.mediaObject = ext;
     
-    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-    req.bText = NO;
-    req.message = message;
-    req.scene = WXSceneSession;
-    
-    [WXApi sendReq:req];
+    [SHARE_SHARE_SERVICE shareWithWechatFriend:kShareTitle desc:kShareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+        if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
+            [self.delegate didShareWechatSuccess];
+        }
+    } onError:^(NSError *error) {
+        
+    }];
     [self hideSharePanel];
 }
 
-- (void)didReceiveShareWechatSuccess:(NSNotification*)noti {
-    if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
-        [self.delegate didShareWechatSuccess];
-    }
-}
 
 - (IBAction)shareCancelPressed:(id)sender {
     [self hideSharePanel];

@@ -120,6 +120,8 @@
 		EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */; };
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
 		EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */; };
+		EF4CEC451B765011002865DE /* QSBlockAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4CEC441B765011002865DE /* QSBlockAlertView.m */; };
+		EF4CEC491B76558E002865DE /* QSShareService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4CEC481B76558E002865DE /* QSShareService.m */; };
 		EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */; };
 		EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */; };
 		EF4EFD121B1232CC002C6430 /* QSPromotionUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD111B1232CC002C6430 /* QSPromotionUtil.m */; };
@@ -602,6 +604,10 @@
 		EF46462A1A2B5DBC00172618 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		EF4985961AC875F900F70811 /* QSAbstractRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractRootViewController.h; sourceTree = "<group>"; };
 		EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractRootViewController.m; sourceTree = "<group>"; };
+		EF4CEC431B765011002865DE /* QSBlockAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBlockAlertView.h; sourceTree = "<group>"; };
+		EF4CEC441B765011002865DE /* QSBlockAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBlockAlertView.m; sourceTree = "<group>"; };
+		EF4CEC471B76558E002865DE /* QSShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareService.h; sourceTree = "<group>"; };
+		EF4CEC481B76558E002865DE /* QSShareService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShareService.m; sourceTree = "<group>"; };
 		EF4EFD0B1B121D28002C6430 /* QSTopShowOneDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTopShowOneDayCell.h; sourceTree = "<group>"; };
 		EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTopShowOneDayCell.m; sourceTree = "<group>"; };
 		EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTopShowOneDayCell.xib; sourceTree = "<group>"; };
@@ -1329,6 +1335,7 @@
 		EF1A591B1A06761800001AE0 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				EF4CEC421B764FE4002865DE /* common */,
 				EF8080311B4F3C52005198B6 /* layout */,
 				EFAB9C701B347027008A4EF5 /* people */,
 				EF42BBCF1A4C5B0200218693 /* label */,
@@ -1528,6 +1535,24 @@
 				EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */,
 			);
 			path = label;
+			sourceTree = "<group>";
+		};
+		EF4CEC421B764FE4002865DE /* common */ = {
+			isa = PBXGroup;
+			children = (
+				EF4CEC431B765011002865DE /* QSBlockAlertView.h */,
+				EF4CEC441B765011002865DE /* QSBlockAlertView.m */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		EF4CEC461B765529002865DE /* share */ = {
+			isa = PBXGroup;
+			children = (
+				EF4CEC471B76558E002865DE /* QSShareService.h */,
+				EF4CEC481B76558E002865DE /* QSShareService.m */,
+			);
+			path = share;
 			sourceTree = "<group>";
 		};
 		EF4D50A61A177B31001E179B /* list */ = {
@@ -1883,6 +1908,7 @@
 		EF9A74461A02A87900095F07 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				EF4CEC461B765529002865DE /* share */,
 				EF6B4CA21B57F91C0060054F /* category */,
 				EFAB9C381B346FE5008A4EF5 /* provider */,
 				EF3013421AC31AE500568D92 /* payment */,
@@ -2772,6 +2798,7 @@
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
 				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
 				EFAD757C1B3AFD4C00565DED /* QSCanvasImageView.m in Sources */,
+				EF4CEC491B76558E002865DE /* QSShareService.m in Sources */,
 				8C8658E51B33F2E7004DF14F /* QSU01MatchCollectionViewCell.m in Sources */,
 				EFAB9C661B346FE5008A4EF5 /* QSLocationPickerProvider.m in Sources */,
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,
@@ -2875,6 +2902,7 @@
 				82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */,
 				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,
 				EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */,
+				EF4CEC451B765011002865DE /* QSBlockAlertView.m in Sources */,
 				EF30133E1AC3174000568D92 /* RSADataSigner.m in Sources */,
 				EF78E3471AAF4C7600665EDD /* QSUserLocationTableViewCell.m in Sources */,
 				EF994DA41B693CF400715B0E /* QSDiscountResultCell.m in Sources */,
@@ -3067,7 +3095,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3094,7 +3122,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "cb5a9f5d-940d-4a02-8fa5-13087f0aedd3";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -3106,7 +3134,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3133,7 +3161,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "cb5a9f5d-940d-4a02-8fa5-13087f0aedd3";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
