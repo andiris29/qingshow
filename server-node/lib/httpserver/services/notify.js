@@ -7,6 +7,7 @@ var Trade = require('../../model/trades');
 var jPushAudiences = require('../../model/jPushAudiences');
 
 var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../helpers/RequestHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var notify = module.exports;
@@ -90,7 +91,7 @@ notify.itemPriceChanged = {
                     },
                     function(infos, cb2) {
                         var registrationIDs = [];
-                        targets.forEach(function(target) {
+                        infos.forEach(function(target) {
                             registrationIDs.push(target.registrationId);
                         });
                         PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
