@@ -47,14 +47,12 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)closeNotifyViewController:(id)sender {
-//    QSS01MatchShowsViewController *vc = [[QSS01MatchShowsViewController alloc]init];
-//    [self.navigationController pushViewController:vc animated:YES];
-    
-}
-- (IBAction)shareAndBuyBtnPressed:(id)sender {
     if ([self.delelgate respondsToSelector:@selector(didClickClose:)]) {
         [self.delelgate didClickClose:self];
     }
+}
+- (IBAction)shareAndBuyBtnPressed:(id)sender {
+
 }
 
 #pragma mark - Table View
