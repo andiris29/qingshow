@@ -26,6 +26,22 @@
     [self enqueueOperation:op];
     return op;
 }
+- (MKNetworkOperation*)startOperationWithPathNoVersion:(NSString*)path
+                                       method:(NSString*)method
+                                     paramers:(NSDictionary*)paramDict
+                                  onSucceeded:(OperationSucceedBlock)succeedBlock
+                                      onError:(OperationErrorBlock)errorBlock
+{
+    MKNetworkOperation* op = nil;
+    NSMutableDictionary* p = [paramDict mutableCopy];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    p[@"version"] = version;
+    op = [self operationWithPath:path params:p httpMethod:method ];
+    [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
+    op.postDataEncoding = MKNKPostDataEncodingTypeJSON;
+    [self enqueueOperation:op];
+    return op;
+}
 
 - (MKNetworkOperation *)startOperationWithPath:(NSString *)path
                                         method:(NSString *)method

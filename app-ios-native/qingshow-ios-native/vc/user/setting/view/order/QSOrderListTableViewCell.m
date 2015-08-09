@@ -90,6 +90,7 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
+    NSLog(@"-----------%d",s);
     if (s == 0 || s == 1) {
          self.dateLabel.text = [NSString stringWithFormat:@"申请日期:%@",[QSTradeUtil getDayDesc:tradeDict]];
     }else
@@ -131,7 +132,6 @@
                 self.submitButton.layer.borderWidth = 0.f;
                 [self.submitButton setImage:[UIImage imageNamed:@"order_list_share_pay.png"] forState:UIControlStateNormal]; 
             }
-
             break;
         }
         case 3: {
@@ -139,6 +139,8 @@
             self.exchangeButton.hidden = NO;
             self.saleImgView.hidden = YES;
             self.stateLabel.hidden = YES;
+            [self.submitButton setImage:nil forState:UIControlStateNormal];
+            [self setSubmitButton:self.submitButton];
             [self.submitButton setTitle:@"申请退货" forState:UIControlStateNormal];
             break;
         }

@@ -22,7 +22,7 @@
 #define PAHT_TRADE_STATUS_TO @"trade/statusTo"
 #define PATH_TRADE_PREPAY @"trade/prepay"
 #define PATH_TRADE_SHARE @"trade/share"
-#define PATH_TRADE_QUERY_PHASES @"trade/queryByPhases"
+#define PATH_TRADE_QUERY_PHASES @"trade/queryByPhase"
 
 @implementation QSNetworkEngine(TradeService)
 
@@ -165,12 +165,11 @@
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_TRADE_QUERY_CREATED_BY
+    return [self startOperationWithPathNoVersion:PATH_TRADE_QUERY_PHASES
                                  method:@"GET"
-                               paramers:@{@"_id" : peopleId,
-                                          @"pageNo" : @(page),
-                                          @"inProgress":phases,
-                                          @"pageSize" : @10 }
+                               paramers:@{@"pageNo" : @(page),
+                                          @"phases":phases,
+                                           @"pageSize" : @10}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {

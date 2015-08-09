@@ -16,6 +16,11 @@
                                      paramers:(NSDictionary*)paramDict
                                   onSucceeded:(OperationSucceedBlock)succeedBlock
                                       onError:(OperationErrorBlock)errorBlock;
+- (MKNetworkOperation*)startOperationWithPathNoVersion:(NSString*)path
+                                       method:(NSString*)method
+                                     paramers:(NSDictionary*)paramDict
+                                  onSucceeded:(OperationSucceedBlock)succeedBlock
+                                      onError:(OperationErrorBlock)errorBlock;
 - (MKNetworkOperation *)startOperationWithPath:(NSString *)path
                                         method:(NSString *)method
                                       paramers:(NSDictionary *)paramDict
