@@ -75,6 +75,8 @@
     UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
     self.navigationItem.titleView = titleImageView;
     
+    self.discountBtn.hidden = [QSItemUtil getReadOnly:self.itemDict];
+    
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [self.webView setScalesPageToFit:YES];
@@ -100,6 +102,8 @@
     self.submitBtn.layer.masksToBounds = YES;
     self.cancelBtn.layer.cornerRadius = 5.f;
     self.cancelBtn.layer.masksToBounds = YES;
+    
+
 }
 
 - (void)didReceiveMemoryWarning {

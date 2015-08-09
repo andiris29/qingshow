@@ -95,4 +95,13 @@
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict {
     return [itemDict arrayValueForKeyPath:@"skuProperties"];
 }
+
++ (BOOL)getReadOnly:(NSDictionary *)itemDict {
+    NSNumber* n = [itemDict numberValueForKeyPath:@"readOnly"];
+    if (n) {
+        return n.boolValue;
+    } else {
+        return NO;
+    }
+}
 @end

@@ -23,4 +23,5 @@
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict;
 + (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict;
++ (BOOL)getReadOnly:(NSDictionary*)itemDict;
 @end

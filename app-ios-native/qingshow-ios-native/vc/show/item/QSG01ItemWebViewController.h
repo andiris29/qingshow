@@ -13,6 +13,7 @@
 - (id)initWithItem:(NSDictionary*)item;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
+@property (weak, nonatomic) IBOutlet UIButton *discountBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;

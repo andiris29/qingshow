@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="cancelBtn" destination="t2B-OK-sY8" id="zHs-DK-dXa"/>
                 <outlet property="discountBackgroundView" destination="FBc-jJ-Yhd" id="reF-oX-7DC"/>
+                <outlet property="discountBtn" destination="ghD-7j-uNu" id="rVX-zU-wmH"/>
                 <outlet property="discountLayerContainer" destination="fpW-sL-e4O" id="kFE-km-tXv"/>
                 <outlet property="discountTableViewContainer" destination="Z7p-5m-kO4" id="gHZ-mK-oQ2"/>
                 <outlet property="submitBtn" destination="0og-9P-04K" id="3fz-Ai-BuO"/>
