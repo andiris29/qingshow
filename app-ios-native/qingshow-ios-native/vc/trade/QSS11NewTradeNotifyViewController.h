@@ -12,13 +12,15 @@
 @protocol QSS11NewTradeNotifyViewControllerDelegate <NSObject>
 
 - (void)didClickClose:(QSS11NewTradeNotifyViewController*)vc;
-
+- (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc;
 @end
 
 @interface QSS11NewTradeNotifyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImgView;
 @property (weak, nonatomic) NSObject<QSS11NewTradeNotifyViewControllerDelegate>* delelgate;
+@property (strong, nonatomic) NSDictionary* tradeDict;
 
-- (instancetype)initWIthDict:(NSDictionary*)tradeDict;
+@property (weak, nonatomic) IBOutlet UIButton *payBtn;
+- (instancetype)initWithDict:(NSDictionary*)tradeDict;
 
 @end

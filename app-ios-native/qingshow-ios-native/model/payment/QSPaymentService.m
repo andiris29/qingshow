@@ -8,6 +8,7 @@
 
 
 #import "QSPaymentService.h"
+#import "QSTradeUtil.h"
 #import "QSShareService.h"
 #import "AlipayOrder.h"
 #import "APAuthV2Info.h"
@@ -20,6 +21,7 @@
 #import "QSEntityUtil.h"
 #import "QSItemUtil.h"
 #import "QSPaymentConst.h"
+#import "QSNetworkKit.h"
 
 
 #define ALIPAY_PARTNER @"2088301244798510"
@@ -67,10 +69,19 @@
 }
 
 #pragma mark - Payment Api
-- (void)handlePayOrSharedForTrade:(NSDictionary*)tradeDict
-                        onSucceed:(VoidBlock)succeedBlock
-                          onError:(ErrorBlock)errorBlock {
-#warning TODO
+- (void)sharedForTrade:(NSDictionary*)tradeDict
+             onSucceed:(VoidBlock)succeedBlock
+               onError:(ErrorBlock)errorBlock {
+    if ([QSTradeUtil getShouldShare:tradeDict]) {
+        //分享
+        NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
+        NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
+        [[QSShareService shareService] shareWithWechatMoment:@"【时尚宠儿的归属地】 美丽乐分享，潮流资讯早知道" desc:nil image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id={%@}&initiatorRef={%@}",tradeId,peopleId] onSucceed:^{
+            [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:succeedBlock onError:errorBlock];
+        } onError:errorBlock];
+    } else {
+        succeedBlock();
+    }
 }
 
 - (void)payForTrade:(NSDictionary*)tradeDict

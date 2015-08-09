@@ -14,7 +14,9 @@
 #import "QSShareViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU01UserDetailViewController.h"
-
+#import "QSPaymentService.h"
+#import "UIViewController+QSExtension.h"
+#import "QSS11CreateTradeViewController.h"
 
 
 #define PAGE_ID @"新美搭榜单"
@@ -170,9 +172,9 @@
 
 - (void)showTradeNotiViewOfTradeId:(NSString*)tradeId {
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWIthDict:dict];
+        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict];
         self.s11NotiVc.delelgate = self;
-        self.s11NotiVc.view.frame = self.view.bounds;
+        self.s11NotiVc.view.frame = self.navigationController.view.bounds;
         [self.navigationController.view addSubview:self.s11NotiVc.view];
     } onError:^(NSError *error) {
         
@@ -182,5 +184,17 @@
 {
     [self.s11NotiVc.view removeFromSuperview];
     self.s11NotiVc = nil;
+}
+
+- (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
+    
+    [SHARE_PAYMENT_SERVICE sharedForTrade:vc.tradeDict onSucceed:^{
+        [self didClickClose:vc];
+        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:vc.tradeDict];
+        v.menuProvider = self.menuProvider;
+        [self.navigationController pushViewController:v animated:YES];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
 }
 @end

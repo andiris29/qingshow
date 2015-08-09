@@ -21,6 +21,7 @@
 #define PATH_TRADE_REFRESH_PAYMENT_STATUS @"trade/refreshPaymentStatus"
 #define PAHT_TRADE_STATUS_TO @"trade/statusTo"
 #define PATH_TRADE_PREPAY @"trade/prepay"
+#define PATH_TRADE_SHARE @"trade/share"
 
 @implementation QSNetworkEngine(TradeService)
 
@@ -218,6 +219,20 @@
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
             succeedBlock(retDict[@"data"][@"trade"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)tradeShare:(NSDictionary*)tradeDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_TRADE_SHARE method:@"POST" paramers:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:tradeDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

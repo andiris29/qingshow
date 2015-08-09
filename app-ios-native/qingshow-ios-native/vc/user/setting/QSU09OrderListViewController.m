@@ -11,7 +11,6 @@
 #import "QSS11CreateTradeViewController.h"
 #import "QSNetworkKit.h"
 #import "WXApi.h"
-
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
 #import "UIViewController+ShowHud.h"
@@ -20,8 +19,6 @@
 #import "QSTradeUtil.h"
 #import "QSPeopleUtil.h"
 #define PAGE_ID @"U09 - 交易一览"
-#define kShareTitle @"时尚宠儿的归属地"
-#define kShareDesc @"美丽乐分享，潮流资讯早知道"
 @interface QSU09OrderListViewController ()
 
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
@@ -150,35 +147,13 @@
 
 - (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict shouldShare:(BOOL)shouldShare
 {
-    
-    if (shouldShare) {
-        NSDictionary *peopleDic = [QSTradeUtil getPeopleDic:tradeDict];
-        NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
-        NSString *tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
-        
-        [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
-        WXMediaMessage *message = [WXMediaMessage message];
-        
-        message.title = [NSString stringWithFormat:@"【%@】%@", kShareTitle, kShareDesc];
-        //    message.description = kShareDesc;
-        [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
-        WXWebpageObject *ext = [WXWebpageObject object];
-
-        ext.webpageUrl = [NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id={%@}&initiatorRef={%@}",tradeId,peopleId];
-        
-        message.mediaObject = ext;
-        
-        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-        req.bText = NO;
-        req.message = message;
-        req.scene = WXSceneTimeline;
-        
-        [WXApi sendReq:req];
-
-    }
-    QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
-    vc.menuProvider = self.menuProvider;
-    [self.navigationController pushViewController:vc animated:YES];
+    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+        QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
+        vc.menuProvider = self.menuProvider;
+        [self.navigationController pushViewController:vc animated:YES];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
 }
 - (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
 {
