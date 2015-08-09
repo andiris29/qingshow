@@ -144,10 +144,7 @@
 {
     int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
     if (status == 1) {
-        
-        BOOL shouldShare = [QSTradeUtil getShouldShare:self.tradeDict];
-        [self payBtnPressed:shouldShare];
-        
+        [self payBtnPressed];
     } else if (status  == 3) {
         if ([self.delegate respondsToSelector:@selector(didClickRefundBtnForCell:)]) {
             [self.delegate didClickRefundBtnForCell:self];
@@ -173,10 +170,10 @@
     }
 }
 
-- (void)payBtnPressed:(BOOL)shoudShare
+- (void)payBtnPressed
 {
-    if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell: ShouldShare:)]) {
-        [self.delegate didClickPayBtnForCell:self ShouldShare:shoudShare];
+    if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {
+        [self.delegate didClickPayBtnForCell:self];
     }
 }
 

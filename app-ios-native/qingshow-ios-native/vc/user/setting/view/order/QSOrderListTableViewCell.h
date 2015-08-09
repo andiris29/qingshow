@@ -18,7 +18,7 @@
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
 //- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
 
-- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell ShouldShare:(BOOL)shouldShare;
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
 
 - (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell;
 

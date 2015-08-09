@@ -145,7 +145,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict shouldShare:(BOOL)shouldShare
+- (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict
 {
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
         QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
