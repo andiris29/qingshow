@@ -103,11 +103,11 @@
     switch (s) {
         case 0:
         {
-            self.submitButton.hidden = NO;
+            self.submitButton.hidden = YES;
             self.stateLabel.hidden = YES;
             self.exchangeButton.hidden = YES;
             self.saleImgView.hidden = YES;
-            
+            break;
         }
         case 2:
         {
@@ -122,7 +122,7 @@
             self.submitButton.hidden = NO;
             self.exchangeButton.hidden = YES;
             self.stateLabel.hidden = YES;
-            self.saleImgView.hidden = NO;
+            self.saleImgView.hidden = YES;
             if (!shouldShare) {
                 [self.submitButton setTitle:@"立即付款" forState:UIControlStateNormal];
             }
