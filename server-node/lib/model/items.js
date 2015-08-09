@@ -21,7 +21,8 @@ itemSchema = Schema({
         'default' : Date.now
     },
     goblinUpdate : Date,
-    delist : Date
+    delist : Date,
+    readOnly : Boolean
 });
 
 var Item = mongoose.model('items', itemSchema);
