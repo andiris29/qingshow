@@ -100,16 +100,6 @@
             [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
                 weakSelf.showDict = dict;
                 [weakSelf bindWithDict:dict];
-//                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
-//                if (!promotionDict) {
-//                    self.discountContainer.hidden = YES;
-//                } else {
-//                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
-//                        [self showDiscountContainer];
-//                    } else {
-//                        self.discountContainer.hidden = YES;
-//                    }
-//                }
                 self.discountContainer.hidden = YES;
             } onError:^(NSError *error) {
                 [self showErrorHudWithError:error];
@@ -224,6 +214,12 @@
             self.modelNameLabel.hidden = NO;
             self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
         }
+    }
+    
+    //Item List
+    if (self.itemListVc) {
+        self.itemListVc.showDict = dict;
+        [self.itemListVc refreshData];
     }
 }
 

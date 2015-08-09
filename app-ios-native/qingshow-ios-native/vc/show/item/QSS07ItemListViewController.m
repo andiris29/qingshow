@@ -11,7 +11,6 @@
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
 #import "QSCategoryUtil.h"
-#import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+QSExtension.h"
 #import "QSItemListCell.h"
@@ -38,10 +37,14 @@
     self = [super initWithNibName:@"QSS07ItemListViewController" bundle:nil];
     if (self) {
         self.showDict = showDict;
-        self.itemArray = [QSShowUtil getItems:showDict];
-         self.orderdArray  = [self refreshItemArray:self.itemArray];
+
     }
     return self;
+}
+- (void)refreshData {
+    self.itemArray = [QSShowUtil getItems:self.showDict];
+    self.orderdArray  = [self refreshItemArray:self.itemArray];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Life Cycle
@@ -53,13 +56,7 @@
     self.tableView.tableHeaderView = headerView;
     [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListCell" bundle:nil] forCellReuseIdentifier:QSItemListCellID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-        self.showDict = dict;
-        [self.tableView reloadData];
-    } onError:^(NSError *error) {
-        
-    }];
+    
     self.view.alpha = 0.9f;
     [self.navigationController.navigationBar setTitleTextAttributes:
      
@@ -70,7 +67,7 @@
     {
         self.tableView.tableHeaderView.transform = CGAffineTransformMakeScale(1.2, 1.2);
     }
-   
+    [self refreshData];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -115,7 +115,7 @@
 - (void)didSelectedCellInCollectionView:(id)sender
 {
 
-    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShowId:[QSEntityUtil getStringValue:sender keyPath:@"_id"]];
+    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:sender];
 //    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
    // vc.menuProvider = self.menuProvider;
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
