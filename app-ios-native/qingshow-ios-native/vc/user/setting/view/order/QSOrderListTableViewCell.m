@@ -65,11 +65,13 @@
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
     self.tradeDict = tradeDict;
-    self.dateLabel.text = [NSString stringWithFormat:@"下单日期:%@",[QSTradeUtil getDayDesc:tradeDict]];
+    
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
+    self.originPriceLabel.text = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    self.nowPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
     self.colorLabel.text = [QSTradeUtil getColorText:tradeDict];
     if ([QSTradeUtil getActualPrice:tradeDict]) {
@@ -81,6 +83,15 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
+    if (s == 0 || s == 1) {
+         self.dateLabel.text = [NSString stringWithFormat:@"申请日期:%@",[QSTradeUtil getDayDesc:tradeDict]];
+    }else
+    {
+        self.dateLabel.text = [NSString stringWithFormat:@"付款日期：%@",[QSTradeUtil getDayDesc:tradeDict]];
+    }
+    NSNumber* actualPrice = [QSTradeUtil getExpectedPrice:tradeDict];
+    NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
+    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d%%", (int)(actualPrice.doubleValue * 100 / price.doubleValue)];
     BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     switch (s) {
         case 0:
@@ -113,6 +124,7 @@
                 self.submitButton.layer.borderWidth = 0.f;
                 [self.submitButton setImage:[UIImage imageNamed:@"order_list_share_pay.png"] forState:UIControlStateNormal]; 
             }
+
             break;
         }
         case 3: {

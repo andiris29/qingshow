@@ -44,8 +44,8 @@
                     <rect key="frame" x="90" y="74" width="123" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <segments>
-                        <segment title="进行中"/>
-                        <segment title="全部"/>
+                        <segment title="申请中"/>
+                        <segment title="成功"/>
                     </segments>
                     <color key="tintColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
