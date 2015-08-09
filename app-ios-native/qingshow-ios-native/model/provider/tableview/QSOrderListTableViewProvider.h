@@ -14,7 +14,7 @@
 @optional
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict;
 - (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict;
-- (void)didClickPayBtnOfOrder:(NSDictionary*)orderDict shouldShare:(BOOL)shouldShare;
+- (void)didClickPayBtnOfOrder:(NSDictionary*)orderDict;
 
 - (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic;
 - (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic;
