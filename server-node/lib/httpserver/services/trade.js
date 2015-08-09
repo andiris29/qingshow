@@ -538,6 +538,7 @@ trade.queryByPhase = {
                     '$in' : RequestHelper.parseNumbers(qsParam.phases)
                 }
             }
+            criteria.ownerRef = req.qsCurrentUserId;
             MongoHelper.queryPaging(Trade.find(criteria).sort({'phase' : 1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
             return {

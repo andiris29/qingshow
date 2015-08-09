@@ -23,3 +23,15 @@ URLParser.isFromTaobao = function (source) {
     var taobaoRegex = /(http|https):\/\/\w*\.taobao\.com/;
     return source.match(taobaoRegex);
 };
+
+URLParser.isFromHm = function (source) {
+    var hmRegex = /(http|https):\/\/\w*2\.hm\.com/;
+    return source.match(hmRegex);
+};
+
+
+URLParser.isFromJamy = function (source) {
+    var jamyRegex = /(http|https):\/\/\w*\.thejamy\.com/;
+    return source.match(jamyRegex);
+};
+

@@ -5,8 +5,9 @@ var async = require('async');
 var winston = require('winston');
 var _ = require('underscore');
 
-var TaobaoWebItem = require('../../taobao/web/Item');
-var URLParser = require('../../taobao/web/URLParser');
+var TaobaoWebItem = require('./taobao/Item');
+var HmWebItem = require('./hm/Item');
+var URLParser = require('./URLParser');
 
 var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
@@ -41,7 +42,8 @@ var _next = function (time) {
                             return false;
                         }
 
-                        return URLParser.isFromTaobao(item.source) || URLParser.isFromTmall(item.source);
+                        return URLParser.isFromTaobao(item.source) || URLParser.isFromTmall(item.source) || 
+                                URLParser.isFromHm(item.source) || URLParser.isFromJamy(item.source);
                     });
 
                     winston.info('[Goblin-tbitem] Total count: ' + items.length);
@@ -57,11 +59,26 @@ var _next = function (time) {
                 }
                 var task = function (callback) {
                     _logItem('item start', item);
-                    _crawlItemTaobaoInfo(item, function (err) {
-                        setTimeout(function () {
-                            callback(err);
-                        }, _.random(5000, 10000));
-                    });
+                    if (URLParser.isFromTaobao(item.source) || URLParser.isFromTmall(item.source)) {
+                        _crawlItemTaobaoInfo(item, function (err) {
+                            setTimeout(function () {
+                                callback(err);
+                            }, _.random(5000, 10000));
+                        });
+                    } else if (URLParser.isFromHm(item.source)) {
+                        _crawlItemHmInfo(item, function(err) {
+                            setTimeout(function() {
+                                callback(err);
+                            }, _.random(5000, 10000));
+                        });
+                    } else if (URLParser.isFromJamy(item.source)) {
+                        callback(null);
+                        //_crawlItemJamyInfo(item, function(err) {
+                        //    setTimeout(function() {
+                        //        callback(err);
+                        //    }, _.random(5000, 10000));
+                        //});
+                    }
                 };
                 tasks.push(task);
             });
@@ -100,6 +117,38 @@ var _crawlItemTaobaoInfo = function (item, callback) {
     });
 };
 
+var _crawlItemHmInfo = function(item, callback) {
+    async.waterfall([function(callback) {
+        HmWebItem.getSkus(item.source, function(err, hmInfo) {
+            callback(err, hmInfo);
+        });
+    }], function(err, hmInfo) {
+        if (err) {
+            _logItem('item error', item);
+            callback(err);
+        } else {
+            if (!hmInfo || !Object.keys(hmInfo).length) {
+                item.delist = new Date();
+                _logItem('item failed', item);
+            } else {
+                delete item.delist;
+                item.price = hmInfo.price;
+                item.promoPrice = hmInfo.promo_price;
+                item.skuProperties = hmInfo.skuProperties;
+                item.goblinUpdate = new Date();
+                _logItem('item success', item);
+            }
+            item.save(callback);
+        }
+    });
+};
+
+var _crawlItemJamyInfo = function(item, callback) {
+    async.waterfall([function(callback) {
+    }], function(err, callback) {
+    });
+};
+
 var _logItem = function (content, item) {
     winston.info('[Goblin-tbitem] ' + content + ': ' + item._id);
 };
@@ -121,3 +170,4 @@ module.exports = function () {
     });
     _run();
 };
+
