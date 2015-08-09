@@ -98,7 +98,7 @@
     [self.provider bindWithTableView:self.tableView];
     __weak QSU09OrderListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE queryTradeListPage:page inProgress:@"true" onSucceed:succeedBlock onError:^(NSError *error){
+        return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:^(NSError *error){
             if (error.code == 1009 && page == 1) {
                 weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
                 [weakSelf changeValueOfSegment:1];
@@ -116,7 +116,7 @@
 {
     if (value == 1) {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryTradeListPage:page onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:errorBlock];
         };
         [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
@@ -124,7 +124,7 @@
     else if(value == 0)
     {
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryTradeListPage:page inProgress:@"true" onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE queryPhase:page phases:@"1" onSucceed:succeedBlock onError:errorBlock];
         };
         [self.provider fetchDataOfPage:1];
         [self.provider reloadData];

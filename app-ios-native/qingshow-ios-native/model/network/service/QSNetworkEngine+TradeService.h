@@ -27,6 +27,12 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                                inProgress:(NSString *)inProgress
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)queryPhase:(int)page
+                               phases:(NSString *)phases
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)queryTradeListPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
