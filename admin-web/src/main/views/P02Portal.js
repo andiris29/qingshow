@@ -7,7 +7,8 @@ define([
     violet.ui.factory.registerDependencies('main/views/P02Portal', [
         'main/views/components/p02/TradeStatusLi', 
         'main/views/components/p02/ItemCategoryLi', 
-        'main/views/components/p02/NewRecommandationsLi']);
+        'main/views/components/p02/NewRecommandationsLi', 
+        'main/views/components/p02/ItemPriceChangedLi']);
 // @formatter:on
     var P02Portal = function(dom, initOptions) {
         P02Portal.superclass.constructor.apply(this, arguments);
@@ -55,6 +56,9 @@ define([
                 'group' : group
             }, ul$, this);
         }.bind(this));
+
+        violet.ui.factory.createUi('main/views/components/p02/ItemPriceChangedLi', {
+        }, ul$, this);
     };
 
     violet.oo.extend(P02Portal, View);
