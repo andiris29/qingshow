@@ -70,7 +70,14 @@
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    self.originPriceLabel.text = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    
+    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.737 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
+    [self.originPriceLabel setAttributedText:attri];
+    
+    
     self.nowPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
     self.colorLabel.text = [QSTradeUtil getColorText:tradeDict];
