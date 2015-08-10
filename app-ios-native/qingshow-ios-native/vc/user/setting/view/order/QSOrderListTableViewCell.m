@@ -65,6 +65,10 @@
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
+    [self configBtn:self.submitButton];
+    [self.submitButton setImage:nil forState:UIControlStateNormal];
+    [self.submitButton setTitle:nil forState:UIControlStateNormal];
+    
     self.tradeDict = tradeDict;
     
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
@@ -133,7 +137,7 @@
                 [self.submitButton setTitle:@"立即付款" forState:UIControlStateNormal];
             }
             else{
-                //[self.submitButton setTitle:@"分享并付款" forState:UIControlStateNormal];
+                [self.submitButton setTitle:nil forState:UIControlStateNormal];
                 self.submitButton.layer.borderWidth = 0.f;
                 [self.submitButton setImage:[UIImage imageNamed:@"order_list_share_pay.png"] forState:UIControlStateNormal]; 
             }
