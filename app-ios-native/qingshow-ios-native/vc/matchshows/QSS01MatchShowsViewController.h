@@ -17,5 +17,5 @@
 
 - (IBAction)backToTopBtnPressed:(id)sender;
 
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId;
+- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId actualPrice:(NSNumber*)actualPrice;
 @end

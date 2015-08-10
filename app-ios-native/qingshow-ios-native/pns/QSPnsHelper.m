@@ -64,6 +64,11 @@
         if (tradeId) {
             userInfoDict[@"tradeId"] = tradeId;
         }
+        NSNumber* actualPrice = [userInfo numberValueForKeyPath:@"actualPrice"];
+        if (actualPrice) {
+            userInfoDict[@"actualPrice"] = actualPrice;
+        }
+        
         [center postNotificationName:kPnsItemPriceChangedNotification object:nil userInfo:userInfoDict];
     }
 }

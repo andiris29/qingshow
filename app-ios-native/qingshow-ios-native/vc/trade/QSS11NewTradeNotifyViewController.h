@@ -19,8 +19,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImgView;
 @property (weak, nonatomic) NSObject<QSS11NewTradeNotifyViewControllerDelegate>* delelgate;
 @property (strong, nonatomic) NSDictionary* tradeDict;
-
+@property (strong, nonatomic) NSNumber* actualPrice;
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
-- (instancetype)initWithDict:(NSDictionary*)tradeDict;
+
+- (instancetype)initWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber*)actualPrice;
 
 @end

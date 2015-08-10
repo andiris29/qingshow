@@ -20,15 +20,17 @@
 @property (strong, nonatomic) QS11OrderInfoCell* orderInfoCell;
 @property (strong, nonatomic) QS11TextCell* textCell;
 
+
 @end
 
 @implementation QSS11NewTradeNotifyViewController
 
 #pragma mark - Init
-- (instancetype)initWithDict:(NSDictionary*)tradeDict {
+- (instancetype)initWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber*)actualPrice {
     self = [super initWithNibName:@"QSS11NewTradeNotifyViewController" bundle:nil];
     if (self) {
         self.tradeDict = tradeDict;
+        self.actualPrice = actualPrice;
     }
     return self;
 }
@@ -42,6 +44,7 @@
     self.backgroundImgView.image = img;
     self.orderInfoCell = [QS11OrderInfoCell generateView];
     self.textCell = [QS11TextCell generateView];
+    
     if ([QSTradeUtil getShouldShare:self.tradeDict]) {
         [self.payBtn setTitle:@"分享后购买" forState:UIControlStateNormal];
     } else {
@@ -78,7 +81,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        [self.orderInfoCell bindWithDict:self.tradeDict];
+        [self.orderInfoCell bindWithDict:self.tradeDict actualPrice:self.actualPrice];
         self.orderInfoCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return self.orderInfoCell;
     } else {

@@ -51,7 +51,7 @@
     _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
-   // [self showTradeNotiViewOfTradeId:@"55c60829e92f835707e83fc7"];
+//    [self showTradeNotiViewOfTradeId:@"55c60829e92f835707e83fc7" actualPrice:@0.01];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -170,9 +170,9 @@
     _backToTopbtn.hidden = YES;
 }
 
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId {
+- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId actualPrice:(NSNumber*)actualPrice {
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict];
+        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict actualPrice:actualPrice];
         self.s11NotiVc.delelgate = self;
         self.s11NotiVc.view.frame = self.navigationController.view.bounds;
         [self.navigationController.view addSubview:self.s11NotiVc.view];
@@ -187,14 +187,23 @@
 }
 
 - (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
-    
-    [SHARE_PAYMENT_SERVICE sharedForTrade:vc.tradeDict onSucceed:^{
-        [self didClickClose:vc];
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:vc.tradeDict];
-        v.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:v animated:YES];
+    NSDictionary* tradeDict = vc.tradeDict;
+    NSNumber* actualPrice = vc.actualPrice;
+    NSDictionary* paramDict = nil;
+    if (actualPrice) {
+        paramDict = @{@"actualPrice" : vc.actualPrice};
+    }
+    [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:paramDict onSucceed:^{
+        [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+            [self didClickClose:vc];
+            QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:vc.tradeDict];
+            v.menuProvider = self.menuProvider;
+            [self.navigationController pushViewController:v animated:YES];
+        } onError:^(NSError *error) {
+            [vc handleError:error];
+        }];
     } onError:^(NSError *error) {
-        [self handleError:error];
+        [vc handleError:error];
     }];
 }
 @end
