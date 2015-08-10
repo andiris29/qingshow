@@ -23,7 +23,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.TradeUtil;
-import com.focosee.qingshow.widget.LoadingDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -157,9 +157,9 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
             inProgress = true;
         }
 
-        final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
+        final LoadingDialogs pDialog = new LoadingDialogs(this,R.style.dialog);
         if (currentPageNo == 1)
-            pDialog.show(U09TradeListActivity.class.getSimpleName());
+            pDialog.show();
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(peopleId, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

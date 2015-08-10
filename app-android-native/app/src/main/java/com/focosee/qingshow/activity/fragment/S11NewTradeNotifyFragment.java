@@ -152,6 +152,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
                 public void onResponse(JSONObject response) {
                     if (MetadataParser.hasError(response)) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                        return;
                     }
                     Intent intent = new Intent(getActivity(), S17PayActivity.class);
                     intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);

@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="确定删除？"
-        android:textSize="20dp"/>
+        android:textSize="16dp"/>
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"

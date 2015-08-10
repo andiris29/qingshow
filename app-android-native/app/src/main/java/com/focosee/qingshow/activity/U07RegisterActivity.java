@@ -28,7 +28,6 @@ import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.widget.LoadingDialog;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;

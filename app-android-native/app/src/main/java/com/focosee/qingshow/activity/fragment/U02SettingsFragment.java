@@ -1,7 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -27,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -47,7 +45,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
-import com.focosee.qingshow.widget.LoadingDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
+
 import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
@@ -97,6 +96,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     public static U02SettingsFragment instance;
 
     private MongoPeople people;
+    private LoadingDialogs dialog;
 
     public static U02SettingsFragment newIntance() {
         return new U02SettingsFragment();
@@ -110,6 +110,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dialog = new LoadingDialogs(getActivity(),R.style.dialog);
         if (null != savedInstanceState) {
             people = (MongoPeople) savedInstanceState.getSerializable("people");
         }
@@ -212,9 +213,8 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             api = QSAppWebAPI.getUserUpdatebackground();
         }
         String API = api;
-        final LoadingDialog dialog = new LoadingDialog(getFragmentManager());
 
-        dialog.show("u02 dialog");
+        dialog.show();
         QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
                 API, null, new Response.Listener<JSONObject>() {
             @Override
@@ -583,5 +583,10 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

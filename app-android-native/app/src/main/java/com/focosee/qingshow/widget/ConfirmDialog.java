@@ -52,7 +52,6 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(this, "dialog");
-        ft.addToBackStack(null);
         ft.commitAllowingStateLoss();
 
     }
@@ -162,7 +161,6 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
             return;
         }
         isDismissed = true;
-        getFragmentManager().popBackStack();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
         ft.commitAllowingStateLoss();

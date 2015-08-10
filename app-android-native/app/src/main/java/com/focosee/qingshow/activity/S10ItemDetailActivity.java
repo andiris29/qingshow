@@ -3,7 +3,6 @@ package com.focosee.qingshow.activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,7 +14,7 @@ import android.widget.ImageView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.widget.LoadingDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,6 +36,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     FrameLayout container;
 
     private MongoItem itemEntity;
+    private LoadingDialogs dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_s10_item_detail);
         ButterKnife.inject(this);
         DeployWebView(webview);
+        dialog = new LoadingDialogs(this,R.style.dialog);
 
         itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
         if (itemEntity != null) {
@@ -70,7 +71,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         webSettings.setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
 
-            final LoadingDialog dialog = new LoadingDialog(getSupportFragmentManager());
+
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -86,7 +87,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                dialog.show("s10 web dialog");
+                dialog.show();
             }
         });
         webview.loadUrl(url);
@@ -109,6 +110,11 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
 

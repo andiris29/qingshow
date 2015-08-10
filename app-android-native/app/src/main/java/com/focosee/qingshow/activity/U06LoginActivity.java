@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,8 +26,9 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.widget.LoadingDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +40,7 @@ public class U06LoginActivity extends BaseActivity {
     private EditText passwordEditText;
     private Context context;
     private RequestQueue requestQueue;
+    private LoadingDialogs pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +50,7 @@ public class U06LoginActivity extends BaseActivity {
         context = getApplicationContext();
 
         Button submitButton;
+        pDialog = new LoadingDialogs(this, R.style.dialog);
 
         submitButton = (Button) findViewById(R.id.submitButton);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
@@ -62,14 +62,13 @@ public class U06LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                final LoadingDialog pDialog = new LoadingDialog(getSupportFragmentManager());
-                pDialog.show("login dialog");
+                pDialog.show();
 
                 Map<String, String> map = new HashMap<>();
                 map.put("idOrNickName", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
                 Log.i("JPush_QS", "login" + PushModel.INSTANCE.getRegId());
-                map.put("registrationId",  PushModel.INSTANCE.getRegId());
+                map.put("registrationId", PushModel.INSTANCE.getRegId());
 
                 QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
                         QSAppWebAPI.LOGIN_SERVICE_URL,
@@ -87,7 +86,7 @@ public class U06LoginActivity extends BaseActivity {
                                     }
                                 } else {
                                     QSModel.INSTANCE.setUser(user);
-                                    if(null != GoToWhereAfterLoginModel.INSTANCE.get_class()){
+                                    if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
                                         Intent intent = new Intent(U06LoginActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
                                         Bundle bundle = new Bundle();
                                         bundle.putSerializable("user", user);
@@ -149,5 +148,10 @@ public class U06LoginActivity extends BaseActivity {
         super.onPause();
         MobclickAgent.onPageEnd("U06Login"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -18,14 +18,12 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.ReturnInformationModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.FileUtil;
-import com.focosee.qingshow.widget.LoadingDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.timessquare.CalendarPickerView;
+
 import org.json.JSONObject;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import de.greenrobot.event.EventBus;
@@ -45,6 +43,7 @@ public class U12ReturnActivity extends BaseActivity{
     private TextView applyReturnBtn;
     private MongoTrade trade;
     private boolean isSuccessed = false;
+    private LoadingDialogs loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class U12ReturnActivity extends BaseActivity{
                 finish();
             }
         });
-
+        loadingDialog = new LoadingDialogs(this,R.style.dialog);
         trade = (MongoTrade) getIntent().getSerializableExtra(TRADE_ENTITY);
 
         String returnInformation = FileUtil.readAssets(this, "returnInformation.json");
@@ -97,8 +96,7 @@ public class U12ReturnActivity extends BaseActivity{
             return;
         }
 
-        final LoadingDialog loadingDialog = new LoadingDialog(getSupportFragmentManager());
-        loadingDialog.show(U12ReturnActivity.class.getSimpleName());
+        loadingDialog.show();
         Map params = new HashMap();
         Map returnLogistic = new HashMap();
 
@@ -135,5 +133,10 @@ public class U12ReturnActivity extends BaseActivity{
     @Override
     public void reconn() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

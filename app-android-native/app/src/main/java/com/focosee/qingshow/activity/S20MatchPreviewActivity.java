@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -24,7 +23,7 @@ import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
-import com.focosee.qingshow.widget.LoadingDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +54,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     private MongoShow show;
     private String uuid;
-    private LoadingDialog dialog;
+    private LoadingDialogs dialog;
 
     @Override
     public void reconn() {
@@ -67,7 +66,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
-        dialog = new LoadingDialog(getSupportFragmentManager());
+        dialog = new LoadingDialogs(this,R.style.dialog);
         itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         initImage();
     }
@@ -98,7 +97,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
     private void forbidClick() {
         submitBtn.setClickable(false);
         back.setClickable(false);
-        dialog.show("s20 dialog");
+        dialog.show();
     }
 
     private void saveMatch() {
@@ -170,9 +169,9 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (!bitmap.isRecycled()) {
             bitmap.recycle();
         }
+        super.onDestroy();
     }
 }
