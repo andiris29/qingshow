@@ -34,6 +34,9 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
+import com.focosee.qingshow.wxapi.PushEvent;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 
 import org.json.JSONObject;
 
@@ -87,6 +90,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_s11_trade_notify, container, false);
         ButterKnife.inject(this, rootView);
+        EventBus.getDefault().register(this);
         Bundle bundle = getActivity().getIntent().getExtras();
         _id = PushUtil.getExtra(bundle, "_tradeId");
         actualPrice = PushUtil.getExtra(bundle, "actualPrice");
@@ -139,29 +143,33 @@ public class S11NewTradeNotifyFragment extends Fragment {
         ft.commit();
     }
 
-    public void onEventMainThread(final MongoTrade trade) {
-        if (trade != null) {
-            Map<String, Object> prarms = new TreeMap<>();
-            LinkedList<MongoTrade.StatusLog> statusLogs = trade.statusLogs;
-            prarms.put("_id", trade._id);
-            prarms.put("status", 1);
-            prarms.put("comment", statusLogs.get(statusLogs.size() - 1));
-            prarms.put("actualPrice", actualPrice);
-            QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), new JSONObject(prarms), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    if (MetadataParser.hasError(response)) {
-                        ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                        return;
-                    }
-                    Intent intent = new Intent(getActivity(), S17PayActivity.class);
-                    intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-                    startActivity(intent);
-                }
-            });
-            RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-
+    public void onEventMainThread(PushEvent event) {
+        final BaseResp resp = event.baseResp;
+        if (resp.errCode != SendMessageToWX.Resp.ErrCode.ERR_OK) {
+            return;
         }
+
+        Map<String, Object> prarms = new TreeMap<>();
+        LinkedList<MongoTrade.StatusLog> statusLogs = trade.statusLogs;
+        prarms.put("_id", trade._id);
+        prarms.put("status", 1);
+        prarms.put("comment", statusLogs.get(statusLogs.size() - 1));
+        prarms.put("actualPrice", actualPrice);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), new JSONObject(prarms), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("tag", response.toString());
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    return;
+                }
+                Intent intent = new Intent(getActivity(), S17PayActivity.class);
+                intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                getActivity().startActivity(intent);
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
     }
 
 
@@ -196,5 +204,11 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

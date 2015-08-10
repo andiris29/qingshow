@@ -2,6 +2,7 @@ package com.focosee.qingshow.wxapi;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.focosee.qingshow.QSApplication;
@@ -55,10 +56,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
+            EventBus.getDefault().post(new PushEvent(resp));
             if (resp.transaction.equals(U09TradeListAdapter.transaction)) {
                 if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
                     Toast.makeText(WXEntryActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
-
                     EventBus.getDefault().post(trade);
                 } else {
                     Toast.makeText(WXEntryActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();

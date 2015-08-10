@@ -90,6 +90,7 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
 
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
+        showNewTradeNotify(getIntent());
     }
 
 
@@ -179,7 +180,6 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
     @Override
     protected void onResume() {
         super.onResume();
-        showNewTradeNotify(getIntent());
     }
 
     @Override

@@ -117,7 +117,10 @@ public class S11NewTradeFragment extends Fragment {
         });
 
         basePrice = Double.parseDouble(itemEntity.promoPrice);
-        discountOffline = Math.min(5, ((Double) (Double.parseDouble(itemEntity.minExpectedPrice) / basePrice)).intValue());
+        if (itemEntity.minExpectedPrice == null) {
+            discountOffline = 5;
+        } else
+            discountOffline = Math.min(5, ((Double) (Double.parseDouble(itemEntity.minExpectedPrice) / basePrice)).intValue());
         discountNum = discountOnline = 9;
         if (discountNum == 10)
             discountNum = discountOnline = 9;

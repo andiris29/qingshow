@@ -57,7 +57,6 @@ public class QSPushActivity extends BaseActivity {
         }
 
         if (command.equals(QSPushAPI.ITEM_PRICE_CHANGED)) {
-            Log.i("tag", "item change");
             intent = new Intent(QSPushActivity.this, S01MatchShowsActivity.class);
             intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
             intent.putExtras(bundle);
