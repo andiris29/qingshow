@@ -297,6 +297,7 @@
 		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
 		EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */; };
 		EFEFD92A1B5A55A2009D691D /* QSTradeStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */; };
+		EFF049931B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFF049921B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf */; };
 		EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */; };
 		EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114931A0D2EEC009B7361 /* NSData+MKBase64.m */; };
 		EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114951A0D2EEC009B7361 /* NSDate+RFC1123.m */; };
@@ -914,6 +915,7 @@
 		EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		EFEFD9281B5A55A2009D691D /* QSTradeStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeStatus.h; sourceTree = "<group>"; };
 		EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeStatus.m; sourceTree = "<group>"; };
+		EFF049921B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "HelveticaInserat-Roman-SemiBold.ttf"; path = "libs/HelveticaInserat-Roman-SemiBold.ttf"; sourceTree = "<group>"; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		EFF114921A0D2EEC009B7361 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -1876,6 +1878,7 @@
 		EF9A74181A02A82600095F07 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EFF049921B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf */,
 				EF9A74191A02A82600095F07 /* qingshow-ios-native-Info.plist */,
 				EF9A741A1A02A82600095F07 /* InfoPlist.strings */,
 				EF9A741D1A02A82600095F07 /* main.m */,
@@ -2691,6 +2694,7 @@
 				68DE6A9A1B40EB3B001B829C /* QSS21ItemView.xib in Resources */,
 				8C5345431B4D61180062D638 /* welcome3_480@2x.png in Resources */,
 				8C5345471B4D61180062D638 /* welcome1_667@2x.png in Resources */,
+				EFF049931B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf in Resources */,
 				8C5345451B4D61180062D638 /* welcome2_568@2x.png in Resources */,
 				8C53454B1B4D61180062D638 /* welcome2_736@3x.png in Resources */,
 				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
@@ -3122,7 +3126,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "cb5a9f5d-940d-4a02-8fa5-13087f0aedd3";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -3161,7 +3165,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "cb5a9f5d-940d-4a02-8fa5-13087f0aedd3";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;

@@ -15,8 +15,8 @@
 @property (strong, nonatomic) NSDictionary* itemDict;
 
 @property (assign, nonatomic) int minDiscount;
-@property (assign, nonatomic) int maxDisCount;
-
+@property (assign, nonatomic) int maxDiscount;
+@property (assign, nonatomic) int currentDiscount;
 
 @end
 
@@ -35,10 +35,11 @@
     self.discountRateLabel.layer.borderColor = [UIColor colorWithRed:155.f/255.f green:155.f/255.f blue:155.f/255.f alpha:1.f].CGColor;
     self.discountRateLabel.layer.masksToBounds = YES;
     self.discountRateLabel.layer.cornerRadius = DISCOUNT_CELL_CORNER_RADIUS;
-    
-    self.minDiscount = 3;
-    self.currentDiscount = 3;
+
     self.quantity = 1;
+    
+    self.dotView.layer.cornerRadius = self.dotView.bounds.size.width / 2;
+    self.dotView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -59,27 +60,19 @@
 }
 - (void)adjustDiscount:(int)delta {
     self.currentDiscount += delta;
-    if (self.currentDiscount-1 < 3) {
-        self.currentDiscount = 3;
-        self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
+    
+    if (self.currentDiscount > self.maxDiscount) {
+        self.currentDiscount = self.maxDiscount;
     }
-    else{
-        self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
-    }
-    if(self.currentDiscount+1 > self.maxDisCount )
-    {
-        self.currentDiscount = self.maxDisCount;
-        self.addBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
-    }
-    else{
-         self.addBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
+    if (self.currentDiscount < self.minDiscount) {
+        self.currentDiscount = self.minDiscount;
     }
     
     [self updateUi];
 }
 
 - (CGFloat)getHeight:(NSDictionary*)itemDict {
-    return 114.f;
+    return 103.f;
 }
 
 - (void)bindWithData:(NSDictionary *)itemDict {
@@ -88,36 +81,36 @@
     }
     
     self.itemDict = itemDict;
-//    NSNumber* minExpectionPrice = [QSItemUtil getMinExpectionPrice:self.itemDict];
-//    if (minExpectionPrice) {
-//        self.minDiscount = (int) ([QSItemUtil getMinExpectionPrice:self.itemDict].doubleValue * 10 / [QSItemUtil getPromoPrice:self.itemDict].doubleValue);
-//    } else {
-#warning 写死3折   现在已修改为先显示最高的折扣
-        float promoPrice = [QSItemUtil getPromoPrice:self.itemDict].floatValue;
-        float price = [QSItemUtil getPrice:self.itemDict].floatValue;
-        self.minDiscount = (promoPrice/price)*10;
-        if (self.minDiscount == 10) {
-            self.minDiscount = 9;
-        }
-        self.addBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
-//    }
-    self.currentDiscount = self.minDiscount;
-    if (self.currentDiscount-1 < 3) {
-        self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
+    
+    self.maxDiscount = 9;
+    self.currentDiscount = self.maxDiscount;
+    NSNumber* promoPrice = [QSItemUtil getPromoPrice:self.itemDict];
+    NSNumber* minExpectionPrice = [QSItemUtil getMinExpectionPrice:self.itemDict];
+    if (minExpectionPrice) {
+        self.minDiscount = (int) (minExpectionPrice.doubleValue * 10 / promoPrice.doubleValue);
+        self.minDiscount = self.minDiscount < 5 ? self.minDiscount : 5;
+    } else {
+        self.minDiscount = 5;
     }
-    else
-    {
-        self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
-    }
-    self.maxDisCount = self.currentDiscount;
+    
     [self updateUi];
 }
 
 - (void)updateUi {
-    self.discountRateLabel.text = [NSString stringWithFormat:@"%d%%", self.currentDiscount*10];
+    self.discountRateLabel.text = [NSString stringWithFormat:@"%d折", self.currentDiscount];
     NSNumber* finalPrice = [self getFinalPrice];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"%.2f", finalPrice.doubleValue];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"￥%.2f", finalPrice.doubleValue];
     
+    if (self.currentDiscount <= self.minDiscount) {
+        self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
+    } else {
+        self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
+    }
+    if(self.currentDiscount >= self.maxDiscount ) {
+        self.addBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
+    } else {
+        self.addBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
+    }
 }
 
 - (void)setQuantity:(int)quantity {

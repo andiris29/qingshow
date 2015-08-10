@@ -60,6 +60,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>lantingjianhei_xi.ttf</string>
+		<string>HelveticaInserat-Roman-SemiBold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -15,8 +15,9 @@
 
 @property (weak, nonatomic) IBOutlet UIButton* addBtn;
 @property (weak, nonatomic) IBOutlet UIButton* minusBtn;
+@property (weak, nonatomic) IBOutlet UIView* dotView;
 
 @property (assign, nonatomic) int quantity;
-@property (assign, nonatomic) int currentDiscount;
+
 - (NSNumber*)getSinglePrice;
 @end
