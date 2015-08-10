@@ -29,7 +29,6 @@ public class MongoTrade implements Serializable {
     public double expectedPrice;
     public MongoItem itemSnapshot;
     public List<String> selectedSkuProperties;
-    public MongoItem itemRef;
 
     public class Pay implements Serializable {
 

@@ -42,6 +42,7 @@ public class QSAppWebAPI {
 
     private static final String TRADE_CREATE_API = HOST_NAME + "/trade/create";
     private static final String TRADE_QUERY_API = HOST_NAME + "/trade/queryCreatedBy";
+    private static final String TRADE_QUERY = HOST_NAME + "/trade/query";
     private static final String TRADE_STATUSTO_API = HOST_NAME + "/trade/statusTo";
     private static final String TRADE_REFRESH = HOST_NAME + "/trade/refreshPaymentStatus";
     private static final String TOP_API = HOST_NAME + "/feeding/hot";
@@ -174,7 +175,7 @@ public class QSAppWebAPI {
     }
 
     public static String getTradeApi(String _id){
-        return TRADE_QUERY_API + "?_id=" + _id;
+        return TRADE_QUERY + "?_ids=" + _id;
     }
 
     public static String getUserApi() {

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,8 +39,6 @@ import com.focosee.qingshow.widget.QSTextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,8 +95,9 @@ public class S11NewTradeFragment extends Fragment {
     private int numOnline = 9;
 
     private int discountNum;
-    private int discountOffline = 1;
-    private int discountOnline = 9;
+    private int discountOffline;
+    private int discountOnline;
+    double basePrice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,11 +116,9 @@ public class S11NewTradeFragment extends Fragment {
             }
         });
 
-        if (itemEntity.minExpectedPrice == null) {
-            discountOffline = 3;
-        } else
-            discountOffline = Integer.parseInt(itemEntity.minExpectedPrice);
-        discountNum = discountOnline = ((Double) (Double.parseDouble(itemEntity.promoPrice) / Double.parseDouble(itemEntity.price) * 10)).intValue();
+        basePrice = Double.parseDouble(itemEntity.promoPrice);
+        discountOffline = Math.min(5, ((Double) (Double.parseDouble(itemEntity.minExpectedPrice) / basePrice)).intValue());
+        discountNum = discountOnline = 9;
         if (discountNum == 10)
             discountNum = discountOnline = 9;
 
@@ -208,7 +204,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private void checkDiscount() {
         discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
-        total.setText(StringUtil.FormatPrice(String.valueOf(Double.parseDouble(itemEntity.price) / 10f * discountNum)));
+        total.setText(StringUtil.FormatPrice(String.valueOf(basePrice / 10f * discountNum)));
         if (discountNum >= discountOnline) {
             plusDiscount.setClickable(false);
             plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
@@ -239,7 +235,7 @@ public class S11NewTradeFragment extends Fragment {
         submit.setClickable(false);
         trade.selectedSkuProperties = SkuUtil.propParser(selectProps);
 
-        trade.expectedPrice = Double.parseDouble(itemEntity.price) * discountNum / 10;
+        trade.expectedPrice = basePrice * discountNum / 10;
         trade.itemSnapshot = itemEntity;
         trade.quantity = num;
         submitToNet(trade);

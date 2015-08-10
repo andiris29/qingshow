@@ -7,26 +7,29 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.PushUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
@@ -37,6 +40,7 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -74,6 +78,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     private MongoTrade trade;
     String _id;
+    String actualPrice;
 
     private View rootView;
 
@@ -82,10 +87,17 @@ public class S11NewTradeNotifyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_s11_trade_notify, container, false);
         ButterKnife.inject(this, rootView);
-        _id = getActivity().getIntent().getStringExtra(S01MatchShowsActivity.S1_IMPUT_TRADE_ID);
+        Bundle bundle = getActivity().getIntent().getExtras();
+        _id = PushUtil.getExtra(bundle, "_tradeId");
+        actualPrice = PushUtil.getExtra(bundle, "actualPrice");
         if (!TextUtils.isEmpty(_id))
             getDataFromNet(_id);
-
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         return rootView;
     }
 
@@ -93,7 +105,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         Map<String, List<String>> skus = SkuUtil.filter(trade.selectedSkuProperties);
         StringBuilder sb = new StringBuilder();
         for (String key : skus.keySet()) {
-            sb.append(key).append("��").append(skus.get(key)).append("  ");
+            sb.append(key).append(": ").append(skus.get(key).get(0)).append("   ");
         }
         selectProp.append(sb);
     }
@@ -105,13 +117,13 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
         promoPrice.append(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
         price.append(StringUtil.FormatPrice(trade.itemSnapshot.price));
-        num.append(trade.quantity + "��");
+        num.append(trade.quantity + "");
 
         expectedPrice.append(StringUtil.FormatPrice(trade.expectedPrice + ""));
         expectedDiscount.append(StringUtil.formatDiscount(trade.expectedPrice + "", trade.itemSnapshot.promoPrice));
 
-        nowPrice.append(StringUtil.FormatPrice(trade.actualPrice + "").substring(1));
-        nowDiscount.append(StringUtil.formatDiscount(trade.actualPrice + "", trade.itemSnapshot.promoPrice));
+        nowPrice.append(StringUtil.FormatPrice(actualPrice + "").substring(1));
+        nowDiscount.append(StringUtil.formatDiscount(actualPrice + "", trade.itemSnapshot.promoPrice));
 
         promoPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         nowPrice.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -127,11 +139,27 @@ public class S11NewTradeNotifyFragment extends Fragment {
         ft.commit();
     }
 
-    public void onEvent(MongoTrade trade) {
+    public void onEventMainThread(final MongoTrade trade) {
         if (trade != null) {
-            Intent intent = new Intent(getActivity(), S17PayActivity.class);
-            intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-            startActivity(intent);
+            Map<String, Object> prarms = new TreeMap<>();
+            LinkedList<MongoTrade.StatusLog> statusLogs = trade.statusLogs;
+            prarms.put("_id", trade._id);
+            prarms.put("status", 1);
+            prarms.put("comment", statusLogs.get(statusLogs.size() - 1));
+            prarms.put("actualPrice", actualPrice);
+            QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), new JSONObject(prarms), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (MetadataParser.hasError(response)) {
+                        ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    }
+                    Intent intent = new Intent(getActivity(), S17PayActivity.class);
+                    intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                    startActivity(intent);
+                }
+            });
+            RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
         }
     }
 
@@ -150,16 +178,17 @@ public class S11NewTradeNotifyFragment extends Fragment {
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;
                 }
-                LinkedList<MongoTrade> trades = TradeParser.parseQuery(response);
+                LinkedList<MongoTrade> trades = TradeParser.parseQuery(QSGsonFactory.cateGoryBuilder().create(), response);
                 trade = trades.get(0);
+                if (null != trade) {
+                    initProps();
+                    initDes();
+                }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
 
-        if (null != trade) {
-            initProps();
-            initDes();
-        }
+
     }
 
     @Override

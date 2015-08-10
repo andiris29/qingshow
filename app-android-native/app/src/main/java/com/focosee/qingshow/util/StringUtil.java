@@ -11,11 +11,11 @@ import java.util.List;
 public class StringUtil {
     public static String formatDiscount(String current, String original) {
         String str;
-        double dis = Double.parseDouble(current) / Double.parseDouble(original) * 100;
+        double dis = Double.parseDouble(current) / Double.parseDouble(original);
         NumberFormat fmt = NumberFormat.getPercentInstance();
         fmt.setMaximumFractionDigits(2);
         str = fmt.format(dis);
-        return str + "%";
+        return str;
     }
 
     public static String FormatPrice(String price) {

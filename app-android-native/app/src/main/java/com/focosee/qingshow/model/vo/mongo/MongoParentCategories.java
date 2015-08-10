@@ -12,7 +12,6 @@ public class MongoParentCategories implements Serializable{
     public String order;
     public MatchInfo matchInfo;
     public int measureComposition;
-    public MongoParentCategories parentRef;
     public boolean activate = true;
 
     public class MatchInfo implements Serializable{
@@ -41,13 +40,6 @@ public class MongoParentCategories implements Serializable{
         this.name = name;
     }
 
-    public MongoParentCategories getParentRef() {
-        return parentRef;
-    }
-
-    public void setParentRef(MongoParentCategories parentRef) {
-        this.parentRef = parentRef;
-    }
 
     public String getIcon() {
         return icon;

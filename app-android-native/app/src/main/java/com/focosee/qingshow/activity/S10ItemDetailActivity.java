@@ -23,7 +23,7 @@ import butterknife.InjectView;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class S10ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class S10ItemDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
 
@@ -49,6 +49,11 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
         if (itemEntity != null) {
             loadWebView(itemEntity.source);
         }
+    }
+
+    @Override
+    public void reconn() {
+
     }
 
     private void DeployWebView(WebView webView) {

@@ -1,14 +1,11 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.util.PushUtil;
-import com.focosee.qingshow.widget.ConfirmDialog;
 
 
 /**
@@ -63,7 +60,8 @@ public class QSPushActivity extends BaseActivity {
             Log.i("tag", "item change");
             intent = new Intent(QSPushActivity.this, S01MatchShowsActivity.class);
             intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
-            intent.putExtra(S01MatchShowsActivity.S1_IMPUT_TRADE_ID, PushUtil.getExtra(bundle, "_tradeId"));
+            intent.putExtras(bundle);
+
         }
 
         if (intent != null)

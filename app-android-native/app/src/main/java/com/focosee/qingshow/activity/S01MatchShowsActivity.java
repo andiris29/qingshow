@@ -39,7 +39,6 @@ import de.greenrobot.event.EventBus;
 public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
-    public static final String S1_IMPUT_TRADE_ID = "S1_IMPUT_TRADE";
 
     @InjectView(R.id.s01_backTop_btn)
     ImageButton s01BackTopBtn;
@@ -91,8 +90,8 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
 
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
-        showNewTradeNotify(getIntent());
     }
+
 
     @Override
     public void reconn() {
@@ -180,6 +179,7 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
     @Override
     protected void onResume() {
         super.onResume();
+        showNewTradeNotify(getIntent());
     }
 
     @Override
@@ -206,7 +206,7 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "newTradeNotify" + System.currentTimeMillis());
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         }
     }
 

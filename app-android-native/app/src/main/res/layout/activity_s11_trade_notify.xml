@@ -57,9 +57,10 @@
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/img"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
                         android:layout_marginRight="6dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:actualImageScaleType="fitCenter" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -194,13 +195,13 @@
 
 
                 <com.focosee.qingshow.widget.QSTextView
-                    android:gravity="center"
                     android:id="@+id/submitBtn"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_below="@id/nowDes"
                     android:layout_centerInParent="true"
                     android:background="@drawable/bg_submit_match"
+                    android:gravity="center"
                     android:text="分享后购买"
                     android:textColor="@color/white"
                     android:textSize="18sp"
