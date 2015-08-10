@@ -8,8 +8,10 @@ var _ = require('underscore');
 var TradeHelper = require('../../httpserver/helpers/TradeHelper');
 var Trade = require('../../model/trades');
 
+var limit = global.qsConfig.schedule.auto.receiving;
+
 var _next = function(today) {
-    var halfMonthBefor = today.setDate(today.getDate() - 14);
+    var halfMonthBefor = today.setDate(today.getDate() - limit);
     async.waterfall([
     function(callback) {
         Trade.find({
