@@ -52,7 +52,7 @@ public class QSPushActivity extends BaseActivity {
         }
 
 
-        if (command.equals(QSPushAPI.TRADE_INITIALIZED)) {
+        if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)) {
             intent = new Intent(QSPushActivity.this, U09TradeListActivity.class);
         }
 
