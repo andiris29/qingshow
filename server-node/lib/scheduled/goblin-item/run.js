@@ -14,8 +14,10 @@ var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
 var ServerError = require('../../httpserver/server-error');
 var mongoose = require('mongoose');
+var qsmail = require('../../runtime/qsmail');
 
 var _next = function (time) {
+    var report = "";
     async.waterfall([
         function (callback) {
             var criteria = {
@@ -54,30 +56,38 @@ var _next = function (time) {
         },
         function (items, callback) {
             var tasks = [];
+
+
             items.forEach(function (item) {
                 if (!item) {
                     return;
                 }
                 var task = function (callback) {
-                    _logItem('item start', item);
-                    if (URLParser.isFromTaobao(item.source) || URLParser.isFromTmall(item.source)) {
-                        _crawlItemTaobaoInfo(item, function (err) {
+                    var crawlCallback = function (err) {
+                        if (err) {
+                            var reportRow = item._id + ',' + err + ',' + item.source + '\n';
+                            report += reportRow;
+
+                            item.delist = new Date();
+                            item.save(function (err) {
+                                setTimeout(function () {
+                                    callback(err);
+                                }, _.random(5000, 10000));
+                            });
+                        } else {
                             setTimeout(function () {
                                 callback(err);
                             }, _.random(5000, 10000));
-                        });
+                        }
+                    };
+
+                    _logItem('item start', item);
+                    if (URLParser.isFromTaobao(item.source) || URLParser.isFromTmall(item.source)) {
+                        _crawlItemTaobaoInfo(item, crawlCallback);
                     } else if (URLParser.isFromHm(item.source)) {
-                        _crawlItemHmInfo(item, function(err) {
-                            setTimeout(function() {
-                                callback(err);
-                            }, _.random(5000, 10000));
-                        });
+                        _crawlItemHmInfo(item, crawlCallback);
                     } else if (URLParser.isFromJamy(item.source)) {
-                        _crawlItemJamyInfo(item, function(err) {
-                            setTimeout(function() {
-                                callback(err);
-                            }, _.random(5000, 10000));
-                        });
+                        _crawlItemJamyInfo(item, crawlCallback);
                     }
                 };
                 tasks.push(task);
@@ -86,6 +96,7 @@ var _next = function (time) {
         }
     ], function (err) {
         winston.info('[Goblin-tbitem] Complete.');
+        qsmail.send('商品爬虫总结' + new Date(), report);
     });
 };
 
@@ -93,7 +104,11 @@ var _crawlItemTaobaoInfo = function (item, callback) {
     async.waterfall([
         function (callback) {
             TaobaoWebItem.getSkus(item.source, function (err, taobaoInfo) {
-                callback(err, taobaoInfo);
+                if (!taobaoInfo) {
+                    callback('invalidSource');
+                } else {
+                    callback(err, taobaoInfo);
+                }
             });
         }
     ], function (err, taobaoInfo) {
@@ -101,8 +116,9 @@ var _crawlItemTaobaoInfo = function (item, callback) {
             _logItem('item error', item);
             callback(err);
         } else {
+            var delist = false;
             if (!taobaoInfo || !Object.keys(taobaoInfo).length) {
-                item.delist = new Date();
+                callback('delist');
                 _logItem('item failed', item);
             } else {
                 delete item.delist;
@@ -111,8 +127,9 @@ var _crawlItemTaobaoInfo = function (item, callback) {
                 item.skuProperties = taobaoInfo.skuProperties;
                 item.goblinUpdate = new Date();
                 _logItem('item success', item);
+                item.save(callback);
             }
-            item.save(callback);
+
         }
     });
 };
@@ -128,8 +145,7 @@ var _crawlItemHmInfo = function(item, callback) {
             callback(err);
         } else {
             if (!hmInfo || !Object.keys(hmInfo).length) {
-                item.delist = new Date();
-                _logItem('item failed', item);
+                callback('delist');
             } else {
                 delete item.delist;
                 item.price = hmInfo.price;
@@ -137,8 +153,9 @@ var _crawlItemHmInfo = function(item, callback) {
                 item.skuProperties = hmInfo.skuProperties;
                 item.goblinUpdate = new Date();
                 _logItem('item success', item);
+                item.save(callback);
             }
-            item.save(callback);
+
         }
     });
 };
@@ -154,8 +171,8 @@ var _crawlItemJamyInfo = function(item, callback) {
             callback(err);
         } else {
             if (!jamyInfo || !Object.keys(jamyInfo).length) {
-                item.delist = new Date();
                 _logItem('item failed', item);
+                callback('delist');
             } else {
                 delete item.delist;
                 item.price = jamyInfo.price;
@@ -163,8 +180,8 @@ var _crawlItemJamyInfo = function(item, callback) {
                 item.skuProperties = jamyInfo.skuProperties;
                 item.goblinUpdate = new Date();
                 _logItem('item success', item);
+                item.save(callback);
             }
-            item.save(callback);
         }
     });
 };
