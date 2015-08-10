@@ -55,6 +55,7 @@ public abstract class BaseActivity extends FragmentActivity {
                     Intent i = new Intent(context, QSPushActivity.class);
                     i.putExtras(bundle);
                     context.startActivity(i);
+                    dialog.dismiss();
                 }
             }).setCancel(new View.OnClickListener() {
                 @Override

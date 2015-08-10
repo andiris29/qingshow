@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focosee.qingshow" >
+    package="com.focosee.qingshow">
 
     <!-- Required 自定义用来收发消息的相关权限 -->
     <permission
@@ -33,8 +33,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.CHANGE_NETWOsRK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -46,13 +46,13 @@
         android:configChanges="orientation|keyboardHidden"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@android:style/Theme.Light.NoTitleBar">
 
         <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
@@ -65,14 +65,13 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <!-- Required SDK 核心功能 -->
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -84,9 +83,10 @@
         <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
-            <intent-filter android:priority="1000" >
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
+            android:enabled="true">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!-- Required  显示通知栏 -->
                 <category android:name="com.focosee.qingshow" />
             </intent-filter>
             <intent-filter>
@@ -108,14 +108,19 @@
         <!-- User defined.    用户自定义的广播接收器 -->
         <receiver
             android:name=".receiver.QSPushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!-- Required  用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.focosee.qingshow" />
             </intent-filter>
         </receiver>
@@ -126,9 +131,12 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="dad14285add5a5ade0fbfd81" /> <!-- </>值来自开发者平台取得的AppKey -->
-        <activity
-            android:name=".activity.QSPushActivity" />
+            android:value="dad14285add5a5ade0fbfd81" />
+        <!-- </>值来自开发者平台取得的AppKey -->
+        <activity android:name=".activity.QSPushActivity"
+            android:theme="@style/Theme.Transparent"
+            android:noHistory="true"
+            android:excludeFromRecents="true"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -144,14 +152,14 @@
             android:name=".activity.U02SettingsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.S10ItemDetailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.S17PayActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -198,7 +206,7 @@
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s03_show"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
@@ -209,8 +217,8 @@
             android:name=".activity.S04CommentActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s04_comment"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.S07CollectActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -222,7 +230,7 @@
             android:name=".activity.LaunchActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_launch"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -273,8 +281,9 @@
             android:name=".activity.S01MatchShowsActivity"
             android:label="@string/title_activity_s01_match_shows" />
 
-        <activity android:name=".activity.PushWebActivity"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activity.PushWebActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

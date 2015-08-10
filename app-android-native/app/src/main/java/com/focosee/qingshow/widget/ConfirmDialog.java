@@ -165,7 +165,7 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
         getFragmentManager().popBackStack();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
-        ft.commit();
+        ft.commitAllowingStateLoss();
 }
 
 

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.adapter.SkuPropsAdpater;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -246,7 +248,7 @@ public class S11NewTradeFragment extends Fragment {
         Map<String, Object> params = new HashMap<>();
         params.put("selectedSkuProperties", trade.selectedSkuProperties);
         params.put("expectedPrice", trade.expectedPrice);
-        params.put("itemSnapshot", trade.itemSnapshot);
+        params.put("itemSnapshot", QSGsonFactory.create().toJson(trade.itemSnapshot));
         params.put("quantity", trade.quantity);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
@@ -257,6 +259,11 @@ public class S11NewTradeFragment extends Fragment {
                     return;
                 }
                 startActivity(new Intent(getActivity(), U09TradeListActivity.class));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                submit.setClickable(true);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
