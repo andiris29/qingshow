@@ -25,4 +25,20 @@ public class StringUtil {
     public static String formatHeightAndWeight(int heigth, int weight) {
         return heigth + "cm," + weight + "kg";
     }
+
+    public static String formatSKUProperties(List<String> properties){
+        if(null == properties)return "尺码:        颜色:";
+        StringBuffer buffer = new StringBuffer();
+        for(String p : properties){
+            if(p.indexOf(":") == 0){
+                p = p.substring(1);
+            }
+            if(p.lastIndexOf(":") == p.length() - 1){
+                p = p.substring(0, p.length() - 1);
+            }
+            buffer.append(p);
+            buffer.append("\n\n");
+        }
+        return "尺码:" + buffer.toString().substring(0, buffer.length() - "\n\n".length());
+    }
 }
