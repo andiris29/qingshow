@@ -95,7 +95,7 @@ public class S10ItemDetailActivity extends AppCompatActivity implements View.OnC
                     break;
                 }
                 container.setVisibility(View.VISIBLE);
-                FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details");
+                FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details" + System.currentTimeMillis());
                 details.addToBackStack(null);
                 details.commit();
                 break;

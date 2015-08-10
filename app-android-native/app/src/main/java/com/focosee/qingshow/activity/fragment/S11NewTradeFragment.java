@@ -37,6 +37,7 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
@@ -248,7 +249,11 @@ public class S11NewTradeFragment extends Fragment {
         Map<String, Object> params = new HashMap<>();
         params.put("selectedSkuProperties", trade.selectedSkuProperties);
         params.put("expectedPrice", trade.expectedPrice);
-        params.put("itemSnapshot", QSGsonFactory.create().toJson(trade.itemSnapshot));
+        try {
+            params.put("itemSnapshot", new JSONObject(QSGsonFactory.create().toJson(trade.itemSnapshot)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         params.put("quantity", trade.quantity);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
