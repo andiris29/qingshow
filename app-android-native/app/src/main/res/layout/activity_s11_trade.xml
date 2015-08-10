@@ -94,14 +94,6 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_size_small" />
-
-                            <com.focosee.qingshow.widget.QSTextView
-                                android:id="@+id/s11_details_maxprice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:textColor="@color/gary"
-                                android:textSize="@dimen/text_size_small" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -116,7 +108,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/props"
-                    app:layout_heightPercent="29%"
+                    app:layout_heightPercent="23%"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_below="@id/line2"/>
@@ -128,7 +120,7 @@
                     android:layout_height="0dp"
                     android:layout_below="@id/props"
                     android:orientation="horizontal"
-                    app:layout_heightPercent="8%">
+                    app:layout_heightPercent="12%">
 
                     <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
@@ -141,7 +133,6 @@
                         android:textStyle="bold" />
 
                     <android.support.percent.PercentRelativeLayout
-                        android:layout_marginRight="-7dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true">
@@ -153,27 +144,31 @@
                             android:layout_centerVertical="true"
                             android:adjustViewBounds="true"
                             android:src="@drawable/cut"
-                            app:layout_heightPercent="70%" />
+                            app:layout_heightPercent="70%"
+                            android:layout_toLeftOf="@+id/num"/>
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/num"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/cut_num"
+                            android:layout_toLeftOf="@+id/plus_num"
                             android:background="@drawable/gay_btn_ring"
                             android:gravity="center"
                             android:minWidth="40dp"
                             android:text="1"
                             android:textColor="@color/gary"
-                            app:layout_heightPercent="60%" />
+                            app:layout_heightPercent="70%"
+                            app:layout_widthPercent="25%"
+                            app:layout_marginRightPercent="2.5%"
+                            app:layout_marginLeftPercent="2.5%"/>
 
                         <ImageView
+                            android:layout_alignParentRight="true"
                             android:id="@+id/plus_num"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/num"
                             android:adjustViewBounds="true"
                             android:src="@drawable/plus"
                             app:layout_heightPercent="70%" />
@@ -189,40 +184,11 @@
                     app:layout_marginBottomPercent="1%"
                     app:layout_marginTopPercent="1%" />
 
-                <RelativeLayout
-                    android:id="@+id/des_textRl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/line5">
-
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/dot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="*"
-                        android:textColor="@color/gary" />
-
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/des_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/dot"
-                        android:text="选择你期望的折扣，我们将竭力为您申请"
-                        android:textColor="@color/gary" />
-
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/des_text"
-                        android:layout_toRightOf="@id/dot"
-                        android:text="如果折扣申请成功，系统将会通知您购买此款产品，请耐心等待。"
-                        android:textColor="@color/gary" />
-                </RelativeLayout>
                 <android.support.percent.PercentRelativeLayout
                     android:id="@+id/priceRl"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_below="@id/des_textRl"
+                    android:layout_below="@id/line5"
                     android:orientation="horizontal"
                     app:layout_heightPercent="9%">
 
@@ -256,8 +222,7 @@
                     android:layout_height="0dp"
                     android:layout_below="@id/priceRl"
                     android:orientation="horizontal"
-                    app:layout_heightPercent="10%"
-                    app:layout_marginTopPercent="1%">
+                    app:layout_heightPercent="12%">
 
                     <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/dis_text"
@@ -274,7 +239,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/dis_text"
+                        android:layout_toLeftOf="@+id/discount"
                         android:adjustViewBounds="true"
                         android:src="@drawable/cut"
                         app:layout_heightPercent="70%"
@@ -282,37 +247,46 @@
 
                     <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/discount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/cut_discount"
                         android:background="@drawable/gay_btn_ring"
+                        android:layout_toLeftOf="@+id/plus_discount"
                         android:gravity="center"
                         android:minWidth="50dp"
-                        android:textColor="@color/master_pink"
+                        android:textColor="@color/gary"
                         android:textSize="18sp"
                         android:text="2折"
                         android:textStyle="bold"
-                        app:layout_heightPercent="60%" />
+                        app:layout_heightPercent="70%"
+                        app:layout_widthPercent="25%"
+                        app:layout_marginRightPercent="2.5%"
+                        app:layout_marginLeftPercent="2.5%"/>
 
                     <ImageView
+                        android:layout_alignParentRight="true"
                         android:id="@+id/plus_discount"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/discount"
                         android:adjustViewBounds="true"
                         android:src="@drawable/plus"
                         app:layout_heightPercent="70%" />
                 </android.support.percent.PercentRelativeLayout>
 
-
+                <com.focosee.qingshow.widget.QSTextView
+                    android:layout_below="@id/discountRl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gary"
+                    android:textSize="16sp"
+                    android:text="•该商品折扣成功系统将会通知您购买。"/>
 
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_alignParentBottom="true"
-                    app:layout_heightPercent="10%">
+                    app:layout_heightPercent="10.5%">
 
                     <Button
                         android:id="@+id/cancel"
@@ -324,9 +298,9 @@
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_marginBottomPercent="20%"
-                        app:layout_marginLeftPercent="10%"
-                        app:layout_marginTopPercent="10%"
-                        app:layout_widthPercent="35%" />
+                        app:layout_marginLeftPercent="5%"
+                        app:layout_marginTopPercent="5%"
+                        app:layout_widthPercent="40%" />
 
                     <Button
                         android:id="@+id/submitBtn"
@@ -339,9 +313,9 @@
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_marginBottomPercent="20%"
-                        app:layout_marginRightPercent="10%"
-                        app:layout_marginTopPercent="10%"
-                        app:layout_widthPercent="35%" />
+                        app:layout_marginRightPercent="5%"
+                        app:layout_marginTopPercent="5%"
+                        app:layout_widthPercent="40%" />
                 </android.support.percent.PercentRelativeLayout>
 
 

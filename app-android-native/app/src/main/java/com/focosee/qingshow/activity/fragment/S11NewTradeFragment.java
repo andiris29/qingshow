@@ -60,8 +60,6 @@ public class S11NewTradeFragment extends Fragment {
     SimpleDraweeView desImg;
     @InjectView(R.id.s11_details_price)
     QSTextView price;
-    @InjectView(R.id.s11_details_maxprice)
-    QSTextView maxPrice;
     @InjectView(R.id.num)
     QSTextView numText;
     @InjectView(R.id.discount)
@@ -157,8 +155,6 @@ public class S11NewTradeFragment extends Fragment {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
         price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
-        maxPrice.setText(StringUtil.FormatPrice(itemEntity.price));
-        maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     @OnClick({R.id.cut_num, R.id.plus_num})

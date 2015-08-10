@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class SkuPropsAdpater extends AbsAdapter<String> {
 
-    private float radioBtnWdith = 40;
-    private float radioBtnHeight = 30;
+    private float radioBtnWdith = 35;
+    private float radioBtnHeight = 28;
     private int checkIndex[];
     private OnCheckedChangeListener onCheckedChangeListener;
 
