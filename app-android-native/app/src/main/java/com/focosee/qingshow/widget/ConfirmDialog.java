@@ -53,7 +53,7 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(this, "dialog");
         ft.addToBackStack(null);
-        ft.commit();
+        ft.commitAllowingStateLoss();
 
     }
 

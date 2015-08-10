@@ -1,6 +1,8 @@
 package com.focosee.qingshow.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Display;
 
@@ -15,6 +18,8 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.QSApplication;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
+import java.util.List;
 
 public class AppUtil {
 
@@ -73,14 +78,24 @@ public class AppUtil {
         return flag;
     }
 
-    public static Point getScreenSize(Activity activity){
+    public static Point getScreenSize(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         return size;
     }
-    
-    public static float transformToDip(float i,Context context){
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,i,context.getResources().getDisplayMetrics());
+
+    public static float transformToDip(float i, Context context) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i, context.getResources().getDisplayMetrics());
+    }
+
+    public static boolean isRunningForeground(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        if (!TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(context.getPackageName())) {
+            return true;
+        }
+        return false;
     }
 }

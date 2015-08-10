@@ -80,7 +80,7 @@ public abstract class AbsDialog extends Fragment implements View.OnClickListener
         if (fragmentManager.findFragmentByTag(tag) == null) {
             fragmentManager.beginTransaction().add(this, tag).addToBackStack(null).commit();
         } else {
-            fragmentManager.beginTransaction().show(this).commit();
+            fragmentManager.beginTransaction().show(this).commitAllowingStateLoss();
         }
     }
 
@@ -99,7 +99,7 @@ public abstract class AbsDialog extends Fragment implements View.OnClickListener
         }
         isDismissed = true;
         fragmentManager.popBackStack();
-        fragmentManager.beginTransaction().remove(this).commit();
+        fragmentManager.beginTransaction().remove(this).commitAllowingStateLoss();
     }
 
     @Override

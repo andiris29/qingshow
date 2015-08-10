@@ -236,9 +236,7 @@ public class S11NewTradeFragment extends Fragment {
         submit.setClickable(false);
         trade.selectedSkuProperties = SkuUtil.propParser(selectProps);
 
-        NumberFormat fmt = NumberFormat.getPercentInstance();
-        fmt.setMaximumFractionDigits(2);
-        trade.expectedPrice = Double.parseDouble(fmt.format(Double.parseDouble(itemEntity.price) * discountNum / 10));
+        trade.expectedPrice = Double.parseDouble(itemEntity.price) * discountNum / 10;
         trade.itemSnapshot = itemEntity;
         trade.quantity = num;
         submitToNet(trade);
@@ -259,11 +257,6 @@ public class S11NewTradeFragment extends Fragment {
                     return;
                 }
                 startActivity(new Intent(getActivity(), U09TradeListActivity.class));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                submit.setClickable(true);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
