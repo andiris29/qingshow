@@ -7,6 +7,7 @@ var _ = require('underscore');
 
 var TaobaoWebItem = require('./taobao/Item');
 var HmWebItem = require('./hm/Item');
+var JamyWebItem = require('./jamy/Item');
 var URLParser = require('./URLParser');
 
 var Item = require('../../model/items');
@@ -72,12 +73,11 @@ var _next = function (time) {
                             }, _.random(5000, 10000));
                         });
                     } else if (URLParser.isFromJamy(item.source)) {
-                        callback(null);
-                        //_crawlItemJamyInfo(item, function(err) {
-                        //    setTimeout(function() {
-                        //        callback(err);
-                        //    }, _.random(5000, 10000));
-                        //});
+                        _crawlItemJamyInfo(item, function(err) {
+                            setTimeout(function() {
+                                callback(err);
+                            }, _.random(5000, 10000));
+                        });
                     }
                 };
                 tasks.push(task);
@@ -145,7 +145,27 @@ var _crawlItemHmInfo = function(item, callback) {
 
 var _crawlItemJamyInfo = function(item, callback) {
     async.waterfall([function(callback) {
-    }], function(err, callback) {
+        JamyWebItem.getSkus(item.source, function(err, jamyInfo) {
+            callback(err, jamyInfo);
+        });
+    }], function(err, jamyInfo) {
+        if (err) {
+            _logItem('item error', item);
+            callback(err);
+        } else {
+            if (!jamyInfo || !Object.keys(jamyInfo).length) {
+                item.delist = new Date();
+                _logItem('item failed', item);
+            } else {
+                delete item.delist;
+                item.price = jamyInfo.price;
+                item.promoPrice = jamyInfo.promo_price;
+                item.skuProperties = jamyInfo.skuProperties;
+                item.goblinUpdate = new Date();
+                _logItem('item success', item);
+            }
+            item.save(callback);
+        }
     });
 };
 
