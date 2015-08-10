@@ -263,7 +263,7 @@
     [self handlePnsWithHandler:^{
         if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
             QSS01MatchShowsViewController* matchVc = (QSS01MatchShowsViewController*)self.contentVc;
-            [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"]];
+            [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"] actualPrice:[noti.userInfo numberValueForKeyPath:@"actualPrice"]];
         }
     } title:@"您申请的折扣有最新信息，不要错过哦！" userInfo:noti.userInfo];
 }

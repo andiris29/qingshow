@@ -26,7 +26,7 @@
     // Configure the view for the selected state
 }
 
-- (void)bindWithDict:(NSDictionary*)tradeDict {
+- (void)bindWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber*)actualPrice {
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDict];
@@ -47,7 +47,6 @@
         self.propNameLabel2.text = @"";
     }
 
-    NSNumber* actualPrice = [QSTradeUtil getExpectedPrice:tradeDict];
     NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     self.expectDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d%%", (int)(actualPrice.doubleValue * 100 / price.doubleValue)];
     self.expectedPriceLabel.text = [NSString stringWithFormat:@"期望价格 :%@", [QSTradeUtil getExpectedPriceDesc:tradeDict]];
