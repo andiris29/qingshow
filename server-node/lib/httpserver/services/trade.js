@@ -512,12 +512,6 @@ trade.query = {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 async.series([
                 function(callback) {
-                    Item.populate(currentPageModels, {
-                        'path' : 'itemRef',
-                        'model' : 'items'
-                    }, callback);
-                },
-                function(callback) {
                     // Append Context
                     ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
                 }], callback);
@@ -538,7 +532,10 @@ trade.queryByPhase = {
                 }
             }
             criteria.ownerRef = req.qsCurrentUserId;
-            MongoHelper.queryPaging(Trade.find(criteria).sort({'phase' : 1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryPaging(Trade.find(criteria).sort({
+                'phase' : 1, 
+                'create' : -1
+            }), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
             return {
                 'trades' : trades 
@@ -546,12 +543,6 @@ trade.queryByPhase = {
         }, {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 async.series([
-                function(callback) {
-                    Item.populate(currentPageModels, {
-                        'path' : 'itemRef',
-                        'model' : 'items'
-                    }, callback);
-                },
                 function(callback) {
                     // Append Context
                     ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
