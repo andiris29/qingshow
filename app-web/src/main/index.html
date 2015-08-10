@@ -58,6 +58,25 @@
                 $(function() {
                     require(['main/core/bootstrap']);
                 });
+                // //touch click helper
+// (function ($) {
+    // $.fn.tclick = function (onclick) {
+        // this.bind("touchstart", function (e) { 
+// // https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+// // This calls event.preventDefault() to keep the browser from continuing to process the touch event (this also prevents a mouse event from also being delivered).
+        // onclick.call(this, e); e.stopPropagation(); e.preventDefault(); });
+        // this.bind("click", function (e) { onclick.call(this, e); });   //substitute mousedown event for exact same result as touchstart         
+        // return this;
+    // };
+// })(jQuery);
+// 
+// 
+// 
+            // if (window.WeixinJSBridge || UADetector.isAndroid()) {
+                // window.open('http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow');
+            // } else {
+                // window.open('https://itunes.apple.com/us/app/qing-xiu/id946116105?ls=1&mt=8');
+            // }
             })();
         </script>
     </head>
