@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="" lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+        Remove this if you use the .htaccess -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <title>Admin</title>
+        <meta name="description" content="">
+        <meta name="author" content="Wang, Andrea">
+
+        <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+        <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+        <script src="./bower_components/jquery/dist/jquery.js"></script>
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.css" />
+        <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="./bower_components/async/dist/async.min.js"></script>
+        <script src="./bower_components/less/dist/less.js"></script>
+        <script src="./bower_components/moment/moment.js"></script>
+        <script src="./bower_components/underscore/underscore.js"></script>
+        <link rel="stylesheet" href="./bower_components/alertify.js/themes/alertify.core.css" />
+        <link rel="stylesheet" href="./bower_components/alertify.js/themes/alertify.bootstrap.css" />
+        <script src="./bower_components/alertify.js/lib/alertify.js"></script>
+        <script src="./libs/requirejs-2.1.18/comments/require.js"></script>
+        <script src="./libs-andrea/violet/violet.js"></script>
+
+        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/json-highlight.css" />
+        <script>
+            (function() {
+                requirejs.config({
+                    'baseUrl' : '',
+                    'paths' : {
+                        'main' : '.'
+                    }
+                });
+
+                violet.ui.factory.config({
+                    'moduleToControllerClass' : function(module) {
+                        return module;
+                    },
+                    'moduleToTemplatePath' : function(module) {
+                        return module.replace('main/', './') + '.html';
+                    }
+                });
+                window.appConfig = {
+                    'VERSION' : '2.1.0',
+                    'appServiceRoot' : 'http://121.41.161.239/services'
+                    // 'appServiceRoot' : 'http://127.0.0.1:30001/services'
+                };
+                $(function() {
+                    require(['main/core/bootstrap']);
+                });
+            })();
+        </script>
+    </head>
+
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
