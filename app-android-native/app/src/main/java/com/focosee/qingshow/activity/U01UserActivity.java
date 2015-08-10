@@ -339,6 +339,7 @@ public class U01UserActivity extends MenuActivity {
                 return;
             case R.id.user_recomm_layout:
                 tabOnclick(POS_RECOMM);
+                circleTip.setVisibility(View.GONE);
                 return;
             case R.id.user_collection_layout:
                 tabOnclick(POS_COLL);

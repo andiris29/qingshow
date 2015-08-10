@@ -59,8 +59,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     ImageView leftBtn;
     @InjectView(R.id.title)
     TextView title;
-    @InjectView(R.id.right_btn)
-    ImageView rightBtn;
     @InjectView(R.id.S04_user_image)
     SimpleDraweeView S04UserImage;
     @InjectView(R.id.S04_input)
@@ -99,7 +97,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         });
 
         title.setText("评论");
-        rightBtn.setVisibility(View.INVISIBLE);
         if (!QSModel.INSTANCE.loggedin()) {
             startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
             finish();

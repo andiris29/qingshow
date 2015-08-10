@@ -60,14 +60,24 @@ public class QSAppWebAPI {
     private static final String UPDATE_COVER = HOST_NAME + "/matcher/updateCover";
     private static final String MATCH_HIDE_API = HOST_NAME + "/matcher/hide";
 
-    public static String getMatchHideApi() {
-        return MATCH_HIDE_API;
-    }
-
     private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
+
     private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
     private static final String PEOPLE_QUERY_API = HOST_NAME + "/people/query";
     private static final String PAY_API = HOST_NAME + "/trade/prepay";
+    private static final String TRADE_SHARE_API = HOST_NAME + "/trade/share";
+
+    private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
+
+    private static final String TRADE_QUERYBY_PHASE_API = HOST_NAME + "/trade/queryByPhase";
+
+    public static String getTradeQuerybyPhaseApi(String phases, int pageNo, int pageSize) {
+        return TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
+
+    public static String getMatchHideApi() {
+        return MATCH_HIDE_API;
+    }
 
     public static String getPayApi() {
         return PAY_API;
@@ -76,8 +86,6 @@ public class QSAppWebAPI {
     public static String getTradeShareApi(String _id) {
         return TRADE_SHARE_API + "?_id=" + _id;
     }
-
-    private static final String TRADE_SHARE_API = HOST_NAME + "/trade/share";
 
     public static String getPeopleQueryApi(String _ids) {
         return PEOPLE_QUERY_API + "?_ids=" + _ids;
@@ -123,6 +131,7 @@ public class QSAppWebAPI {
         return QUERY_CATEGORIES;
     }
 
+
     public static String getSpreadFirstlanuchApi() {
         return SPREAD_FIRSTLANUCH_API;
     }
@@ -132,12 +141,9 @@ public class QSAppWebAPI {
         return BYDATE_API + "?date=" + date;
     }
 
-
     public static String getTopApi() {
         return TOP_API;
     }
-
-    private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
 
     public static String getFeedingRecommendationApi() {
         return FEEDING_RECOMMENDATION_API;

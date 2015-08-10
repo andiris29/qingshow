@@ -12,11 +12,13 @@
         android:background="@drawable/bg_titlebar"
         android:gravity="center_vertical">
 
-        <ImageView
+        <com.focosee.qingshow.widget.QSImageButton
             android:id="@+id/person_addresslist_back_image_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:src="@drawable/nav_btn_back" />
 
         <com.focosee.qingshow.widget.QSTextView
@@ -29,12 +31,13 @@
             android:textSize="@dimen/text_size"
             android:textStyle="bold" />
 
-        <com.focosee.qingshow.widget.QSTextView
+        <com.focosee.qingshow.widget.QSButton
             android:id="@+id/person_addresslist_btn_address"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/master_pink"
             android:layout_alignParentRight="true"
+            android:background="@null"
             android:padding="10dp"
             android:gravity="center"
             android:text="@string/title_name_activity_addaddress"/>

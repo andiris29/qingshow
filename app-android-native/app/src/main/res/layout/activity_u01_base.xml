@@ -38,15 +38,17 @@
             </RelativeLayout>
 
         </RelativeLayout>
-        <ImageView
+        <ImageButton
             android:id="@+id/user_nav_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:src="@drawable/nav_btn_menu_n"/>
         <ImageButton
             android:id="@+id/u01_backTop_btn"
@@ -55,8 +57,10 @@
             android:layout_gravity="bottom|right"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="40dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
             android:visibility="gone"
-            android:background="@drawable/back_top"/>
+            android:src="@drawable/back_top"/>
     </FrameLayout>
 
     <ImageView

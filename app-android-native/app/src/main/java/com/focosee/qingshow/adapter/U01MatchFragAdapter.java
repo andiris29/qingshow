@@ -60,7 +60,7 @@ public class U01MatchFragAdapter extends U01BaseAdapter<MongoShow>{
             user = show.ownerRef;
         }
 
-        if(TextUtils.isEmpty(user.portrait))
+        if(!TextUtils.isEmpty(user.portrait))
             holder.setImgeByUrl(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
 
         holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" : TimeUtil.formatDateTime_CN_Pre(show.create) + "前");

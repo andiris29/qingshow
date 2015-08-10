@@ -15,14 +15,16 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/item_addresslist_choose_btn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
+                android:background="@null"
                 android:padding="5dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/s11_payment" />
 
             <LinearLayout
@@ -31,6 +33,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="25dp"
+                android:background="@drawable/u02_relativelayout_background"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -54,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_toLeftOf="@+id/item_addresslist_del_layout"
+                android:background="@drawable/u02_relativelayout_background"
                 android:gravity="center_vertical">
 
                 <ImageView

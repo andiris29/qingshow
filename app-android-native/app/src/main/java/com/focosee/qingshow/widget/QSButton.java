@@ -15,7 +15,7 @@ import com.focosee.qingshow.util.FontsUtil;
  */
 public class QSButton extends Button{
 
-    private int clickGround;
+    private int clickGround = R.color.btn_background;
 
     public QSButton(Context context) {
         this(context, null);
@@ -23,23 +23,22 @@ public class QSButton extends Button{
 
     public QSButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
     public QSButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void init(Context context, AttributeSet attrs){
         if (null != attrs){
             TypedArray array = context.obtainStyledAttributes(attrs,
                     R.styleable.QSButton);
             clickGround = array.getResourceId(R.styleable.QSButton_clickGround, R.color.gray_background);
             array.recycle();
         }
-        init(context);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void init(Context context){
-        System.out.println("clickGround:" + clickGround);
         setFont("fonts/black_fangzheng_simple.TTF");
         StateListDrawable drawable = new StateListDrawable();
         drawable.addState(new int[]{-android.R.attr.state_pressed},

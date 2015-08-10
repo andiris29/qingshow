@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:layout_marginLeft="5dp">
+        android:background="@drawable/u02_relativelayout_background">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_u01_fans_image"

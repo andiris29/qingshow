@@ -22,7 +22,7 @@
                 android:layout_height="50dp"
                 android:background="#ffffff">
 
-                <ImageButton
+                <com.focosee.qingshow.widget.QSImageButton
                     android:id="@+id/backTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
