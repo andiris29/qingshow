@@ -1,3 +1,10 @@
+/**
+ * Violet is a collection of fundamental functionalities. 
+ * Include
+ *  OO implementation
+ *  View/ViewController async loading
+ *  String utilities
+ */
 (function() {
     var violet = window.violet = {};
     // ------------------
@@ -46,6 +53,29 @@
     // ------------------
     // violet.ui
     // ------------------
+    /**
+     * 
+     * violet.ui.factory.load
+     *      Load a module before create ui instance.
+     *      Module: A View & ViewController combination which with same file name.
+     *          A View should be a html template file. E.g. Login.html
+     *          A ViewController should be a js file. E.g. Login.js
+     * 
+     * violet.ui.factory.createUi
+     *      Create a view instance by module.
+     * 
+     * violet.ui.factory.createUiAsync
+     *      Create a view instance by module asynchronous.
+     * 
+     * violet.ui.factory.registerDependencies
+     *      Declare dependencies.
+     *      E.g. violet.ui.factory.registerDependencies('main/views/Login', ['main/views/components/Header']);
+     * 
+     * [attributes in view] violet-module, violet-iniOptions
+     *      Declare dependencies in View.
+     *      E.g. <div violet-module="main/views/components/common/Header as header" violet-initOptions="{back : false, logout : false}"></div>
+     * 
+     */
     var factory = (function() {
         var uiFactory = {};
 
