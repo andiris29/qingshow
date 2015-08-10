@@ -174,34 +174,52 @@
     NSString *dateStr = [NSString stringWithFormat:@"收货时间  %@",[QSDateUtil buildStringFromDate:date]];
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:dateStr delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alert.delegate = self;
+    alert.tag = 101;
     [alert show];
     
 }
 - (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic
 {
-    __weak QSU09OrderListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE changeTrade:orderDic status:18 info:nil onSucceed:^{
-        if ([QSTradeUtil getStatus:orderDic].intValue == 0) {
-            [weakSelf showTextHud:@"已取消订单"];
-        }else{
-            [weakSelf showTextHud:@"感谢您的惠顾,我们会在48小时内返还此款项" afterCustomDelay:2.f];
-        }
-        
-        [weakSelf.provider reloadData];
-    }onError:nil];
+    _oderDic = orderDic;
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确认取消订单？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    alert.delegate = self;
+    alert.tag = 102;
+    [alert show];
 }
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) {
-        __weak QSU09OrderListViewController *weakSelf = self;
-        [SHARE_NW_ENGINE changeTrade:_oderDic status:5 info:nil onSucceed:^{
-            [weakSelf showTextHud:@"收货成功！"];
-        } onError:nil];
+    if (alertView.tag == 101) {
+        if (buttonIndex == 1) {
+            __weak QSU09OrderListViewController *weakSelf = self;
+            [SHARE_NW_ENGINE changeTrade:_oderDic status:5 info:nil onSucceed:^{
+                [weakSelf showTextHud:@"收货成功！"];
+            } onError:nil];
+        }
+        else
+        {
+            [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        }
+
     }
-    else
-    {
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+    else if(alertView.tag == 102){
+        if (buttonIndex == 1) {
+            __weak QSU09OrderListViewController *weakSelf = self;
+            [SHARE_NW_ENGINE changeTrade:_oderDic status:18 info:nil onSucceed:^{
+                if ([QSTradeUtil getStatus:_oderDic].intValue == 0) {
+                    [weakSelf showTextHud:@"已取消订单"];
+                }else{
+                    [weakSelf showTextHud:@"感谢您的惠顾,我们会在48小时内返还此款项" afterCustomDelay:2.f];
+                }
+                
+                [weakSelf.provider reloadData];
+            }onError:nil];
+
+        }
+        else
+        {
+            [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        }
     }
 }
 

@@ -19,6 +19,7 @@
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
 @property (assign, nonatomic) float skuLabelBaseY;
+@property (assign, nonatomic) float actualPrice;
 @end
 
 @implementation QSOrderListTableViewCell
@@ -83,8 +84,10 @@
     self.colorLabel.text = [QSTradeUtil getColorText:tradeDict];
     if ([QSTradeUtil getActualPrice:tradeDict]) {
         self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSTradeUtil getActualPriceDesc:tradeDict]];
+         _actualPrice = [QSTradeUtil getActualPriceDesc:tradeDict].floatValue;
     } else {
         self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
+        _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
     }
     self.quantityLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:tradeDict]];
 
@@ -99,17 +102,17 @@
     {
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期：%@",[QSTradeUtil getDayDesc:tradeDict]];
     }
-    NSNumber* actualPrice = [QSTradeUtil getExpectedPrice:tradeDict];
     NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
-    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d%%", (int)(actualPrice.doubleValue * 100 / price.doubleValue)];
+    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d%%", (int)(_actualPrice * 100 / price.doubleValue)];
     BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     switch (s) {
         case 0:
         {
-            self.submitButton.hidden = YES;
+            self.submitButton.hidden = NO;
             self.stateLabel.hidden = YES;
             self.exchangeButton.hidden = YES;
             self.saleImgView.hidden = YES;
+            [self.submitButton setTitle:@"取消订单" forState:UIControlStateNormal];
             break;
         }
         case 2:
@@ -171,6 +174,12 @@
     } else if (status  == 3) {
         if ([self.delegate respondsToSelector:@selector(didClickRefundBtnForCell:)]) {
             [self.delegate didClickRefundBtnForCell:self];
+        }
+    }
+    else if(status == 0)
+    {
+        if ([self.delegate respondsToSelector:@selector(didClickCancelBtnForCell:)]) {
+            [self.delegate didClickCancelBtnForCell:self];
         }
     }
 }
