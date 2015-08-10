@@ -125,9 +125,9 @@
     [self updateUi];
 }
 - (NSNumber*)getSinglePrice {
-    return @([QSItemUtil getPrice:self.itemDict].doubleValue * self.currentDiscount / 10);
+    return @([QSItemUtil getPromoPrice:self.itemDict].doubleValue * self.currentDiscount / 10);
 }
 - (NSNumber*)getFinalPrice {
-    return @([QSItemUtil getPrice:self.itemDict].doubleValue * self.quantity * self.currentDiscount / 10);
+    return @([QSItemUtil getPromoPrice:self.itemDict].doubleValue * self.quantity * self.currentDiscount / 10);
 }
 @end

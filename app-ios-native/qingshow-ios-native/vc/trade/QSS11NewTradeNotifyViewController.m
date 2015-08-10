@@ -14,14 +14,16 @@
 #import "QSTradeUtil.h"
 
 #define PAGE_ID @"推荐折扣"
-
+#define w ([UIScreen mainScreen].bounds.size.width-50)
+#define h ([UIScreen mainScreen].bounds.size.height)
 @interface QSS11NewTradeNotifyViewController ()
 
 @property (strong, nonatomic) QS11OrderInfoCell* orderInfoCell;
 @property (strong, nonatomic) QS11TextCell* textCell;
-
+@property (strong, nonatomic) NSNumber *actualPrice;
 
 @end
+
 
 @implementation QSS11NewTradeNotifyViewController
 
@@ -51,6 +53,19 @@
         [self.payBtn setTitle:@"购买" forState:UIControlStateNormal];
     }
 }
+
+- (void)viewDidLayoutSubviews
+{
+    if (h > 480 ) {
+        CGRect frame = self.payBtn.frame;
+        frame.origin.y -= 20;
+        self.payBtn.frame = frame;
+    }
+    CGRect frame = self.titleLabel.frame;
+    frame.origin.x = [UIScreen mainScreen].bounds.size.width/2-40;
+    self.titleLabel.frame = frame;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -78,24 +93,30 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 2;
 }
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         [self.orderInfoCell bindWithDict:self.tradeDict actualPrice:self.actualPrice];
         self.orderInfoCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.orderInfoCell.transform = CGAffineTransformMakeScale(w/270, w/270);
         return self.orderInfoCell;
     } else {
         [self.textCell bindWithDict:self.tradeDict];
         self.textCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.textCell.transform = CGAffineTransformMakeScale(w/270, w/270);
         return self.textCell;
     }
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return 213;
+        return 213*(w/270);
     } else {
-        return 152;
+        return 152*(w/270);
     }
 }
 @end

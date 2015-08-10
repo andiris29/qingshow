@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -14,6 +15,7 @@
             <connections>
                 <outlet property="backgroundImgView" destination="96U-uZ-35n" id="XS5-EX-Vv0"/>
                 <outlet property="payBtn" destination="JeW-gy-VS1" id="6LW-h6-FDG"/>
+                <outlet property="titleLabel" destination="7g8-Fr-vx6" id="BJ8-v4-xpB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -51,6 +53,7 @@
                     <color key="backgroundColor" red="0.94117647059999998" green="0.58431372550000005" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="F9r-TT-gkf"/>
+                        <constraint firstAttribute="width" secondItem="JeW-gy-VS1" secondAttribute="height" multiplier="9:4" id="T8g-r0-95T"/>
                     </constraints>
                     <state key="normal" title="分享后购买">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,7 +63,7 @@
                         <action selector="shareAndBuyBtnPressed:" destination="-1" eventType="touchUpInside" id="bF8-ov-tUM"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="推荐价格" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7g8-Fr-vx6">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐价格" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7g8-Fr-vx6">
                     <rect key="frame" x="126" y="33" width="68" height="20"/>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,11 +72,14 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="7g8-Fr-vx6" secondAttribute="trailing" constant="126" id="3oB-kh-f5N"/>
                 <constraint firstItem="YG4-I0-crI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="31" id="8ka-Wa-SEv"/>
+                <constraint firstItem="7g8-Fr-vx6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="126" id="9xx-ga-ubM"/>
                 <constraint firstItem="96U-uZ-35n" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Dwg-lz-L93"/>
                 <constraint firstItem="JeW-gy-VS1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="115" id="FDB-P1-JKw"/>
                 <constraint firstAttribute="bottom" secondItem="JeW-gy-VS1" secondAttribute="bottom" constant="21" id="IR7-U1-Bvh"/>
                 <constraint firstAttribute="trailing" secondItem="4eU-WF-9Mc" secondAttribute="trailing" constant="25" id="PSm-iO-zYv"/>
+                <constraint firstItem="7g8-Fr-vx6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="33" id="QMq-HW-Zkh"/>
                 <constraint firstItem="JeW-gy-VS1" firstAttribute="top" secondItem="4eU-WF-9Mc" secondAttribute="bottom" constant="8" id="S7F-qe-4Cv"/>
                 <constraint firstItem="96U-uZ-35n" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="18" id="S90-Y7-pCN"/>
                 <constraint firstAttribute="trailing" secondItem="96U-uZ-35n" secondAttribute="trailing" constant="8" id="fb9-Mr-Ynq"/>
