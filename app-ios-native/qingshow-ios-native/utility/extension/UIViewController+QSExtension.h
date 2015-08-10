@@ -11,8 +11,10 @@
 @interface UIViewController(Network)
 
 - (void)handleError:(NSError*)error;
-- (void)showPeopleDetailViewControl:(NSDictionary*)peopleDict;
-- (UIViewController*)generateDetailViewControlOfPeople:(NSDictionary*)peopleDict;
+- (void)showShowDetailViewController:(NSDictionary*)showDict;
+- (void)showItemDetailViewController:(NSDictionary*)itemDict;
 - (void)hideNaviBackBtnTitle;
 - (void)disableAutoAdjustScrollViewInset;
+
+
 @end

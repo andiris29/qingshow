@@ -4,27 +4,14 @@ var Schema = mongoose.Schema;
 var showSchema;
 showSchema = Schema({
     __context : Object,
+    icon : String,
     cover : String,
-    coverMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
-    horizontalCover : String,
-    horizontalCoverMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
+    coverForeground : String,
     video : String,
     posters : [String],
     numLike : {
         type : Number,
         'default' : 0
-    },
-    modelRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'peoples'
     },
     itemRefs : {
         type : [{
@@ -33,13 +20,19 @@ showSchema = Schema({
         }]
         //        select: false
     },
-    brandRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'brands'
-    },
     create : {
         type : Date,
         'default' : Date.now
+    },
+    ownerRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
+    hideAgainstOwner : Boolean,
+    recommend : {
+        group: String,
+        date : Date,
+        description : String
     }
 });
 

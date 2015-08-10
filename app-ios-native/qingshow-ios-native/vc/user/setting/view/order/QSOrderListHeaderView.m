@@ -9,36 +9,42 @@
 #import "QSOrderListHeaderView.h"
 
 @implementation QSOrderListHeaderView
+- (IBAction)changeSegmentValue:(id)sender {
+    UISegmentedControl *seg = sender;
+    [self.delegate changeValueOfSegment:seg.selectedSegmentIndex];
+}
+
 + (instancetype)makeView
 {
     UINib* nib = [UINib nibWithNibName:@"QSOrderListHeaderView" bundle:nil];
     return [nib instantiateWithOwner:self options:nil][0];
 }
+
 - (void)awakeFromNib
 {
-    //Resize header for different screen size
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGRect frame = self.headerImageView.frame;
-    CGSize headerSize = frame.size;
-    CGFloat headerHeight = screenWidth * headerSize.height / headerSize.width;
-    CGFloat deltaHeight = headerHeight - headerSize.height;
-    headerSize.height = headerHeight;
-    headerSize.width = screenWidth;
-    frame.size = headerSize;
-    self.headerImageView.frame = frame;
-    
-    
-    frame = self.frame;
-    frame.size = CGSizeMake(screenWidth, frame.size.height + deltaHeight);
-    self.frame = frame;
-    
-    frame = self.label1.frame;
-    frame.size = CGSizeMake(screenWidth, frame.size.height + deltaHeight * 2);
-    self.label1.frame = frame;
-    
-    frame = self.label2.frame;
-    frame.size = CGSizeMake(screenWidth, frame.size.height + deltaHeight * 2);
-    self.label2.frame = frame;
+//    //Resize header for different screen size
+//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+//    CGRect frame = self.headerImageView.frame;
+//    CGSize headerSize = frame.size;
+//    CGFloat headerHeight = screenWidth * headerSize.height / headerSize.width;
+//    CGFloat deltaHeight = headerHeight - headerSize.height;
+//    headerSize.height = headerHeight;
+//    headerSize.width = screenWidth;
+//    frame.size = headerSize;
+//    self.headerImageView.frame = frame;
+//    
+//    
+//    frame = self.frame;
+//    frame.size = CGSizeMake(screenWidth, frame.size.height + deltaHeight);
+//    self.frame = frame;
+//    
+//    frame = self.label1.frame;
+//    frame.size = CGSizeMake(screenWidth, frame.size.height + deltaHeight * 2);
+//    self.label1.frame = frame;
+//    
+//    frame = self.label2.frame;
+//    frame.size = CGSizeMake(screenWidth, frame.size.height + deltaHeight * 2);
+//    self.label2.frame = frame;
 }
 
 /*

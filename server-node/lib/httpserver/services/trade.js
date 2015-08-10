@@ -1,18 +1,24 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var _ = require('underscore');
 
 var Trade = require('../../model/trades');
 var People = require('../../model/peoples');
 var Item = require('../../model/items');
-var rPeopleCreateTrade = require('../../model/rPeopleCreateTrade');
+var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
+var jPushAudiences = require('../../model/jPushAudiences');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var TradeHelper = require('../helpers/TradeHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
+var MongoHelper = require('../helpers/MongoHelper');
+var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 var request = require('request');
+
+var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var trade = module.exports;
 
@@ -30,204 +36,236 @@ trade.create = {
         function(people, callback) {
             // Save trade
             var trade = new Trade();
-            trade.orders = [];
-            req.body.orders.forEach(function(element) {
-                trade.orders.push({
-                    'quantity' : element.quantity,
-                    'price' : element.price,
-                    'itemSnapshot' : element.itemSnapshot,
-                    'peopleSnapshot' : people,
-                    'selectedItemSkuId' : element.selectedItemSkuId,
-                    'selectedPeopleReceiverUuid' : element.selectedPeopleReceiverUuid
-                });
-            });
-            trade.totalFee = req.body.totalFee.toFixed(2);
-            if (req.body['pay'] && req.body['pay']['weixin']) {
-                trade.pay = req.body.pay;
-            }
+            trade.ownerRef = req.qsCurrentUserId;
+            trade.peopleSnapshot = people;
+            trade.shareToPay = true;
+            trade.quantity = req.body.quantity;
+            trade.expectedPrice = req.body.expectedPrice;
+            trade.itemSnapshot = req.body.itemSnapshot;
+            trade.selectedSkuProperties = req.body.selectedSkuProperties;
+            trade.itemRef = RequestHelper.parseId(req.body.itemSnapshot._id);
             trade.save(function(err) {
                 callback(err, trade);
             });
         },
         function(trade, callback) {
-            // Make relationship
-            var initiatorRef = req.qsCurrentUserId;
-            var targetRef = trade._id;
-            RelationshipHelper.create(rPeopleCreateTrade, initiatorRef, targetRef, function(err, relationship) {
-                callback(err, trade, relationship);
-            });
-        },
-        function(trade, relationship, callback) {
             // Update trade status
-            TradeHelper.updateStatus(trade, 0, req.qsCurrentUserId, function(err) {
-                callback(err, trade, relationship);
+            TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
+                callback(err, trade);
             });
-        },
-        function(trade, relationship, callback) {
-            if (req.body.pay && req.body.pay['weixin']) {
-                // Communicate to payment to get prepayid for weixin
-                var orderName = '';
-                trade.orders.forEach(function(element) {
-                    orderName += element.itemSnapshot.name + ',';
-                });
-                if (orderName.length > 0) {
-                    orderName = orderName.substring(0, orderName.length - 1);
-                }
-
-                var ip = req.header('X-Real-IP') || req.connection.remoteAddres;
-                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + orderName + '&clientIp=' + ip;
-                request.get(url, function(error, response, body) {
-                    var jsonObject = JSON.parse(body);
-                    if (jsonObject.metadata) {
-                        callback(jsonObject.metadata, trade, relationship);
-                    } else {
-                        trade.pay.weixin['prepayid'] = jsonObject.data.prepay_id;
-                        trade.save(function(err) {
-                            callback(err, trade, relationship);
-                        });
-                    }
-                });
-            } else {
-                callback(null, trade, relationship);
-            }
-        }], function(error, trade, relationship) {
+        }], function(error, trade) {
             // Send response
             ResponseHelper.response(res, error, {
-                'trade' : trade,
-                'rPeopleCreateTrade' : relationship
+                'trade' : trade
             });
-            // Send notification mail
-            TradeHelper.notify(trade);
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
 
-// Validate new status
-var _statusValidationMap = {
-    1 : [0], // 等待买家付款
-    2 : [1], // 等待倾秀代购
-    3 : [2], // 等待卖家发货
-    4 : [3], // 买家已签收
-    5 : [3, 4], // 交易成功
-    6 : [1, 2, 3, 4], // 申请退货中
-    7 : [6], // 退货中
-    8 : [7], // 退款中
-    9 : [8], // 退款成功
-    10 : [8],// 退款失败
-};
-trade.statusTo = {
+trade.prepay = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var param;
-        param = req.body;
         async.waterfall([
         function(callback) {
-            // get trade;
             Trade.findOne({
-                '_id' : RequestHelper.parseId(param._id)
-            }).exec(function(error, trade) {
-                if (!error && !trade) {
+                '_id' : RequestHelper.parseId(req.body._id)
+            }, function(err, trade) {
+                if (err) {
+                    callback(err);
+                } else if (!trade) {
                     callback(ServerError.TradeNotExist);
-                }
-                if (error) {
-                    callback(error);
                 } else {
                     callback(null, trade);
                 }
             });
         },
         function(trade, callback) {
-            // Validate status
-            var valid = _statusValidationMap[param.status];
-            if (valid && valid.indexOf(trade.status) !== -1) {
-                callback(null, trade);
-            } else {
-                callback(ServerError.TradeStatusChangeError);
-            }
+            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
+            trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
+            trade.pay = {};
 
+            trade.save(function(err, trade) {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, trade);
+                }
+            });
+        },
+        function(trade, callback) {
+            if (req.body.pay && req.body.pay['weixin']) {
+                trade.pay = req.body.pay;
+                // Communicate to payment to get prepayid for weixin
+                var orderName = trade.itemSnapshot.name;
+                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
+                request.get(url, function(error, response, body) {
+                    var jsonObject = JSON.parse(body);
+                    if (jsonObject.metadata) {
+                        callback(jsonObject.metadata, trade);
+                    } else {
+                        trade.pay.weixin['prepayid'] = jsonObject.data.prepay_id;
+                        trade.save(function(err) {
+                            callback(err, trade);
+                        });
+                    }
+                });
+            } else {
+                callback(null, trade);
+            }
+        }], function(err, trade) {
+            // Send response
+            ResponseHelper.response(res, err, {
+                'trade' : trade
+            });
+        });
+    }
+};
+
+// Validate new status
+var _statusValidationMap = {
+    1 : [0],
+    2 : [1],
+    3 : [2],
+    5 : [3],
+    7 : [3],
+    9 : [7],
+    10 : [7],
+    15 : [3],
+    17 : [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 15, 18],
+    18 : [0, 1, 2]
+};
+
+var _validateStatus = function(trade, newStatus, callback) {
+    // Validate status
+    var valid = _statusValidationMap[newStatus];
+    if (valid && valid.indexOf(trade.status) !== -1) {
+        callback(null, trade);
+    } else {
+        callback(ServerError.TradeStatusChangeError);
+    }
+};
+
+var _weixinDeliveryNotify = function(trade) {
+    var payInfo = trade.pay.weixin;
+    var url = 'http://localhost:8080/payment/wechat/deliverNotify?openid=' + payInfo.OpenId + '&transid=' + payInfo.transaction_id + '&out_trade_no=' + trade._id + '&deliver_status=1&deliver_msg=OK';
+    request.get(url, function(error, response, body) {
+        var jsonObject = JSON.parse(body);
+        if (jsonObject.metadata) {
+            callback(jsonObject.metadata, trade);
+        } else {
+            if (jsonObject.data.errcode != '0') {
+                callback(jsonObject.data.errmsg, trade);
+            } else {
+                callback(null, trade);
+            }
+        }
+    });
+};
+
+trade.statusTo = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var param = req.body,
+            newStatus = param.status;
+        async.waterfall([
+        function(callback) {
+            // get trade;
+            Trade.findOne({
+                '_id' : RequestHelper.parseId(param._id)
+            }, function(err, trade) {
+                if (err) {
+                    callback(err);
+                } else if (!trade) {
+                    callback(ServerError.TradeNotExist);
+                } else {
+                    callback(null, trade);
+                }
+            });
+        },
+        function(trade, callback) {
+            _validateStatus(trade, newStatus, callback);
         },
         function(trade, callback) {
             // update trade
-            var newStatus = param.status;
             if (newStatus == 1) {
+                trade.actualPrice = req.body.actualPrice;
+                trade.save(function(err, trade) {
+                    callback(err, trade);
+                    // Push Notification
+                    if (trade._id.toString() != rq.qsCurrentUserId) {
+                        jPushAudiences.find({
+                            'peopleRef' : trade.ownerRef
+                        }).exec(function(err, infos) {
+                            if (infos.length > 0) {
+                                var targets = [];
+                                infos.forEach(function(element) {
+                                    if (element.registrationId && element.registrationId.length > 0) {
+                                        targets.push(element.registrationId);
+                                    }
+                                });
+
+                                PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
+                                    'id' : param._id,
+                                    'command' : PushNotificationHelper.CommandTradeInitialized
+                                }, null);
+                            }
+                        });
+                    }
+                });
+            } else if (newStatus == 2) {
                 // Save the parameters from payment server.
                 // handle at callback interface
                 callback(ServerError.TradeStatusChangeError);
-            } else if (newStatus == 2) {
-                trade.agent = trade.agent || {};
-                trade.agent.taobaoUserNick = param['agent']['taobaoUserNick'];
-                trade.agent.taobaoTradeId = param['agent']['taobaoTradeId'];
-            } else if (newStatus == 3) {
+            } else if (newStatus == 3 ) {
                 trade.logistic = trade.logistic || {};
-                trade.logistic.company = param['logistic']['company'];
-                trade.logistic.trackingId = param['logistic']['trackingId'];
-                // when use wechat pay, send deliver notify to wechat pay server
-                if (trade.pay.weixin.prepayid  != null) {
-                    var payInfo = trade.pay.weixin;
-                    var url = 'http://localhost:8080/payment/wechat/deliverNotify?openid=' + payInfo.OpenId + '&transid=' + payInfo.transaction_id + '&out_trade_no=' + trade._id + '&deliver_status=1&deliver_msg=OK';
-                    request.get(url, function(error, response, body) {
-                        var jsonObject = JSON.parse(body);
-                        if (jsonObject.metadata) {
-                            callback(jsonObject.metadata, trade);
-                            return;
-                        } else {
-                            if (jsonObject.data.errcode != '0') {
-                                callback(jsonObject.data.errmsg, trade);
-                                return;
-                            } 
-                        }
-                    });
+                trade.logistic.company = param.logistic.company;
+                trade.logistic.trackingId = param.logistic.trackingId;
+                if (trade.pay.weixin.prepayid != null) {
+                    _weixinDeliveryNotify(trade);
                 }
-            } else if (newStatus == 4) {
-                trade.logistic = trade.logistic || {};
-                trade.logistic.receiptDate = param['logistic']['receiptDate'];
-            } else if (newStatus == 5) {
-                // handle at callback interface
-                callback(ServerError.TradeStatusChangeError);
+                // Push Notification
+                jPushAudiences.find({
+                    'peopleRef' : trade.ownerRef
+                }).exec(function(err, infos) {
+                    if (infos.length > 0) {
+                        var targets = [];
+                        infos.forEach(function(element) {
+                            if (element.registrationId && element.registrationId.length > 0) {
+                                targets.push(element.registrationId);
+                            }
+                        });
+                        PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeShipped, {
+                            'id' : param._id,
+                            'command' : PushNotificationHelper.CommandTradeShipped
+                        }, null);
+                    }
+                });
+                callback(null, trade);
             } else if (newStatus == 7) {
                 trade.returnLogistic = trade.returnLogistic || {};
-                trade.returnLogistic.company = param['returnLogistic']['company'];
-                trade.returnLogistic.trackingId = param['returnLogistic']['trackingId'];
-            } else if (newStatus == 8) {
-                // TODO Communicate with payment server to request refund. [weixin]
-            } else if (newStatus == 9) {
-                // Save the parameters from payment server.
-                // handle at callback interface
-                callback(ServerError.TradeStatusChangeError);
-            } else if (newStatus == 10) {
-                // TODO Save the parameters from payment server.
+                trade.returnLogistic.company = param.returnLogistic.company;
+                trade.returnLogistic.trackingId = param.returnLogistic.trackingId;
+                callback(null, trade);
+            } else {
+                callback(null, trade);
             }
-            //trade.status = newStatus;
-            trade.save(function(error, trade) {
-                callback(error, trade);
-            });
         },
         function(trade, callback) {
-            // update status
-            var newStatus = param.status;
-            TradeHelper.updateStatus(trade, newStatus, req.qsCurrentUserId, function(err, trade) {
+            TradeHelper.updateStatus(trade, newStatus, param.comment, req.qsCurrentUserId, function(err, trade) {
                 callback(err, trade);
             });
-        },
-        function(trade, callback) {
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }).exec(function(error, people) {
-                callback(error, trade, people);
-            });
-        },
-        function(trade, people, callback) {
-            // Send notification mail
-            TradeHelper.notify(trade, function(err, info) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
         }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -236,9 +274,26 @@ trade.queryCreatedBy = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        ServiceHelper.queryRelatedTrades(req, res, rPeopleCreateTrade, {
-            'query' : 'initiatorRef',
-            'result' : 'targetRef'
+        var userId = req.queryString._id ? RequestHelper.parseId(req.queryString._id) : req.qsCurrentUserId;
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var criteria = {
+                'ownerRef' : userId
+            };
+            if (qsParam.inProgress === "true") {
+                criteria.status = {
+                    '$in' : [1, 2, 3, 7]
+                };
+            }
+            MongoHelper.queryPaging(Trade.find(criteria).sort({'create' : -1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(trades) {
+            return {
+                'trades' : trades 
+            };
+        }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                // Append Context
+                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+            }
         });
     }
 };
@@ -246,35 +301,17 @@ trade.queryCreatedBy = {
 trade.alipayCallback = {
     'method' : 'post',
     'func' : function(req, res) {
+        var newStatus = 2;
         async.waterfall([
         function(callback) {
-            // get trade
             Trade.findOne({
                 '_id' : RequestHelper.parseId(req.body.out_trade_no)
-            }).exec(function(error, trade) {
-                if (!error && !trade) {
-                    callback(ServerError.TradeNotExist);
-                } else if (error) {
-                    callback(error);
-                } else {
-                    callback(null, trade);
-                }
-            });
+            }, callback);
         },
         function(trade, callback) {
-            // Validate status
-            var valid = _statusValidationMap[req.body.status];
-            if (valid && valid.indexOf(trade.status) !== -1) {
-                callback(null, trade);
-            } else {
-                callback(ServerError.TradeStatusChangeError);
-            }
+            _validateStatus(trade, newStatus, callback);
         },
-        function(trade, callback){
-            var newStatus = req.body.status;
-            if (newStatus != 1 && newStatus != 5 && newStatus !=9 ) {
-                callback(ServerError.TradeStatusChangeError);
-            }
+        function(trade, callback) {
             trade.pay.alipay['trade_no'] = req.body['trade_no'];
             trade.pay.alipay['trade_status'] = req.body['trade_status'];
             trade.pay.alipay['total_fee'] = req.body['total_fee'];
@@ -293,27 +330,17 @@ trade.alipayCallback = {
                 'refund_status' : req.body['refund_status'],
                 //'date' : Date.now
             });
-            trade.save(function(error, trade) {
-                callback(error, trade)
-            });
+            callback(null, trade);
         },
         function(trade, callback) {
-            // update status
-            var newStatus = req.body.status;
-            TradeHelper.updateStatus(trade, newStatus, null, function(err, trade) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
-            // Send notification mail
-            TradeHelper.notify(trade, function(err, info) {
-                callback(err, trade);
-            });
-        }],
-        function(error, trade) {
+            TradeHelper.updateStatus(trade, newStatus, null, null, callback);
+        }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -321,6 +348,7 @@ trade.alipayCallback = {
 trade.wechatCallback = {
     'method' : 'post',
     'func' : function(req, res) {
+        var newStatus = 2;
         async.waterfall([
         function(callback) {
             Trade.findOne({
@@ -336,21 +364,9 @@ trade.wechatCallback = {
             });
         },
         function(trade, callback) {
-            // Validate status
-            var newStatus = 1;
-            var valid = _statusValidationMap[newStatus];
-            if (valid && valid.indexOf(trade.status) !== -1) {
-                callback(null, trade, newStatus);
-            } else {
-                // handled trade
-                callback("pass", trade);
-            }
+            _validateStatus(trade, newStatus, callback);
         },
-        function(trade, newStatus, callback) {
-            if (newStatus != 1) {
-                callback(ServerError.TradeStatusChangeError);
-                return;
-            }
+        function(trade, callback) {
             trade.pay.weixin['trade_mode'] = req.body['trade_type'];
             trade.pay.weixin['partner'] = req.body['mch_id'];
             trade.pay.weixin['total_fee'] = req.body['total_fee'] / 100;
@@ -372,30 +388,20 @@ trade.wechatCallback = {
                 //'trade_state' : req.body['trade_state'],
                 //'date' : Date.now
             });
-            trade.save(function(error, trade) {
-                callback(error, trade);
-            });
+            callback(null, trade);
         },
         function(trade, callback) {
-            // update status
-            var newStatus = req.body.status;
-            TradeHelper.updateStatus(trade, newStatus, null, function(err, trade) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
-            // Send notification mail
-            TradeHelper.notify(trade, function(err, info) {
-                callback(err, trade);
-            });
-        }],
-        function(error, trade) {
-            if (error == "pass") {
+            TradeHelper.updateStatus(trade, newStatus, null, null, callback);
+        }], function(error, trade) {
+            if (error === 'pass') {
                 error = null;
             }
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
+            if (!error) {
+                TradeHelper.notify(trade);
+            }
         });
     }
 };
@@ -420,7 +426,7 @@ trade.refreshPaymentStatus = {
             });
         },
         function(trade, callback) {
-            if(!trade.pay.alipay.trade_no) {
+            if (!trade.pay.alipay.trade_no) {
                 callback(null, trade);
             } else {
                 // pay with wechat
@@ -439,7 +445,7 @@ trade.refreshPaymentStatus = {
                         trade.pay.weixin['time_end'] = orderInfo['time_end'];
                         //trade.pay.weixin['AppId'] = orderInfo['appid'];
                         trade.pay.weixin['OpenId'] = orderInfo['openId'];
-                        
+
                         trade.pay.weixin.notifyLogs = trade.pay.weixin.notifyLogs || [];
                         if (trade.pay.weixin.notifyLogs.length > 0) {
                             trade.pay.weixin.notifyLogs[trade.pay.weixin.notifyLogs.length - 1].trade_state = orderInfo['trade_state'];
@@ -451,11 +457,106 @@ trade.refreshPaymentStatus = {
                     }
                 });
             }
-        }],
-        function(error, trade) {
+        }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
         });
     }
-}
+};
+
+trade.share = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var targetRef, initiatorRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.body;
+                targetRef = RequestHelper.parseId(param._id);
+                initiatorRef = req.qsCurrentUserId;
+            } catch (err) {
+                callback(err);
+            }
+            callback();
+        },
+        function(callback) {
+            // Share
+            RelationshipHelper.create(RPeopleShareTrade, initiatorRef, targetRef, function(err, relationship) {
+                callback(err);
+            });
+        }], function(err) {
+            ResponseHelper.response(res, err);
+        });
+
+    }
+};
+
+trade.query = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var criteria = {};
+            if (qsParam._ids || qsParam._ids.length > 0) {
+                criteria._id = {
+                    '$in' : RequestHelper.parseIds(qsParam._ids)
+                };
+            }
+            MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(trades) {
+            return {
+                'trades' : trades 
+            };
+        }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                        'model' : 'items'
+                    }, callback);
+                },
+                function(callback) {
+                    // Append Context
+                    ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
+        });
+    }
+};
+
+trade.queryByPhase = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var criteria = {};
+            if (qsParam.phases|| qsParam.phases.length > 0) {
+                criteria.phase = {
+                    '$in' : RequestHelper.parseNumbers(qsParam.phases)
+                }
+            }
+            criteria.ownerRef = req.qsCurrentUserId;
+            MongoHelper.queryPaging(Trade.find(criteria).sort({'phase' : 1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(trades) {
+            return {
+                'trades' : trades 
+            };
+        }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                        'model' : 'items'
+                    }, callback);
+                },
+                function(callback) {
+                    // Append Context
+                    ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
+        });
+    }
+};

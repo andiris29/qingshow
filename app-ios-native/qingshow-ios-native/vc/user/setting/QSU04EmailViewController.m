@@ -9,7 +9,9 @@
 #import "QSU04EmailViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 #import "QSUserManager.h"
+#import "QSNetworkKit.h"
 
 #define PAGE_ID @"U04 - 邮箱设置"
 
@@ -31,11 +33,15 @@
                                                                style:UIBarButtonItemStylePlain
                                                               target:self
                                                               action:@selector(actionSave)];
-    
     [[self navigationItem] setRightBarButtonItem:btnSave];
     
     // Initialize Current Email Label
-    self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
+    self.nowEmailLabel.text = [[QSUserManager shareUserManager].userInfo stringValueForKeyPath:@"userInfo.email"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -69,6 +75,11 @@
         return;
     }
     
-    [self.delegate emailViewController:self didSavingEmail:email];
+    [SHARE_NW_ENGINE updatePeople:@{@"email": email} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+        [self showSuccessHudAndPop:@"修改成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
+
 @end

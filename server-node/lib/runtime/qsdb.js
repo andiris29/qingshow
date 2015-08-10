@@ -1,24 +1,20 @@
 var mongoose = require('mongoose');
 
-var argv = require('minimist')(process.argv.slice(2));
-var connectCfg = argv['mongodb-connect'].split(',');
-var authCfg = argv['mongodb-auth'].split(',');
-
 var _db;
-var connect = function() {
+var connect = function(mongodbConfig) {
     var opts = {
         server : {
             socketOptions : {
                 keepAlive : 1
             }
         },
-        user : authCfg[0],
-        pass : authCfg[1]
+        user : mongodbConfig.user,
+        pass : mongodbConfig.password
     };
-    connectStr = 'mongodb://' + connectCfg[0] + ':' + connectCfg[1] + '/' + connectCfg[2];
+    connectStr = 'mongodb://' + mongodbConfig.url + ':' + mongodbConfig.port + '/' + mongodbConfig.schema;
     mongoose.connect(connectStr, opts);
 
-    require('./qsmail').debug('Startup', JSON.stringify(argv, null, 4), function(err, info) {
+    require('./qsmail').debug('Startup', JSON.stringify(mongodbConfig, null, 4), function(err, info) {
     });
 };
 var getConnection = function() {
@@ -28,3 +24,4 @@ module.exports = {
     'connect' : connect,
     'getConnection' : getConnection
 };
+

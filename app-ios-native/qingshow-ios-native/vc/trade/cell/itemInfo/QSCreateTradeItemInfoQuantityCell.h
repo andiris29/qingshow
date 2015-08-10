@@ -10,11 +10,6 @@
 
 @interface QSCreateTradeItemInfoQuantityCell : QSCreateTradeHeigh60Cell
 
-@property (strong, nonatomic) IBOutlet UIButton* minusBtn;
-@property (strong, nonatomic) IBOutlet UIButton* plusBtn;
 @property (strong, nonatomic) IBOutlet UITextField* numberTextField;
-
-- (IBAction)plusBtnPressed:(id)sender;
-- (IBAction)minusBtnPressed:(id)sender;
 
 @end

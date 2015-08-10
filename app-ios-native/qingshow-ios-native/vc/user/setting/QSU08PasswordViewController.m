@@ -10,6 +10,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
+#import "QSNetworkKit.h"
 #define PAGE_ID @"U08 - 更改密码"
 
 @interface QSU08PasswordViewController ()
@@ -33,7 +34,13 @@
     [[self navigationItem] setRightBarButtonItem:btnSave];
     
     // Initialize View
-    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    self.navigationItem.leftBarButtonItem = backItem;
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -72,7 +79,12 @@
         return;
     }
     
-    [self.delegate passwordViewController:self didSavingPassword:newPasswd needCurrentPassword:nowPasswd];
+    
+    [SHARE_NW_ENGINE updatePeople:@{@"password":newPasswd, @"currentPassword": nowPasswd} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+        [self showSuccessHudAndPop:@"修改成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 
 @end

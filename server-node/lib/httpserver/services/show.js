@@ -2,14 +2,20 @@ var mongoose = require('mongoose');
 var async = require('async');
 //model
 var Show = require('../../model/shows');
+var Item = require('../../model/items');
 var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
+var RPeopleShareShow = require('../../model/rPeopleShareShow');
+var People = require('../../model/peoples');
+var jPushAudiences = require('../../model/jPushAudiences');
+
 //util
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
+var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var ServerError = require('../server-error');
 
@@ -35,27 +41,20 @@ show.query = {
                 '_id' : {
                     '$in' : _ids
                 }
-            }).populate('modelRef').populate('itemRefs').exec(callback);
+            }).populate('ownerRef').populate('itemRefs').exec(callback);
         },
         function(shows, callback) {
-            var tasks = [];
-            shows.forEach(function(show) {
-                tasks.push(function(callback) {
-                    MongoHelper.updateCoverMetaData(show.itemRefs, function(err) {
-                        callback();
-                    });
-                });
+            var tasks = shows.map(function(show) {
+                return function(callback) {
+                    Item.populate(show.itemRefs, {
+                        'path' : 'categoryRef',
+                        'model' : "categories"
+                    }, callback);
+                };
             });
-            async.parallel(tasks, function(err) {
+            async.parallel(tasks, function() {
                 callback(null, shows);
             });
-        },
-        function(shows, callback) {
-            // Populate nested references
-            Show.populate(shows, {
-                'path' : 'itemRefs.brandRef',
-                'model' : 'brands'
-            }, callback);
         },
         function(shows, callback) {
             // Append followed by current user
@@ -114,8 +113,8 @@ show.unlike = {
     'func' : function(req, res) {
         try {
             var param = req.body;
-            var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-            var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
+            var targetRef = RequestHelper.parseId(param._id);
+            var initiatorRef = req.qsCurrentUserId;
         } catch (e) {
             ResponseHelper.response(res, ServerError.RequestValidationFail);
             return;
@@ -147,7 +146,7 @@ show.queryComments = {
         }, {
             'afterParseRequest' : function(raw) {
                 return {
-                    '_id' : mongoose.mongo.BSONPure.ObjectID(raw._id)
+                    '_id' : mongoose.Types.ObjectId(raw._id)
                 };
             }
         });
@@ -161,8 +160,8 @@ show.comment = {
     'func' : function(req, res) {
         try {
             var param = req.body;
-            var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-            var atRef = mongoose.mongo.BSONPure.ObjectID(param._atId);
+            var targetRef = mongoose.Types.ObjectId(param._id);
+            var atRef = mongoose.Types.ObjectId(param._atId);
             var comment = param.comment;
         } catch (err) {
             ResponseHelper.response(res, err);
@@ -179,6 +178,32 @@ show.comment = {
             showComment.save(function(err) {
                 callback();
             });
+        }, 
+        function(callback) {
+            Show.findOne({
+                '_id' : targetRef
+            }).populate('ownerRef').exec(function(err, show) {
+                if (show && show.ownerRef) {
+                    jPushAudiences.find({
+                        'peopleRef' : show.ownerRef
+                    }).exec(function(err, infos) {
+                        if (infos.length > 0) {
+                            var targets = [];
+                            infos.forEach(function(element) {
+                                if (element.registrationId && element.registrationId.length > 0) {
+                                    targets.push(element.registrationId);
+                                }
+                            });
+
+                            PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewShowComment, {
+                                'id' : param._id,
+                                'command' : PushNotificationHelper.CommandNewShowComments
+                            }, null);
+                        }
+                    });
+                }
+            }); 
+            callback();
         }], function(err) {
             ResponseHelper.response(res, err);
         });
@@ -191,7 +216,7 @@ show.deleteComment = {
     'func' : function(req, res) {
         try {
             var param = req.body;
-            var _id = mongoose.mongo.BSONPure.ObjectID(param._id);
+            var _id = mongoose.Types.ObjectId(param._id);
         } catch (err) {
             ResponseHelper.response(res, err);
             return;
@@ -216,5 +241,33 @@ show.deleteComment = {
         }], function(err) {
             ResponseHelper.response(res, err);
         });
+    }
+};
+
+show.share= {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var targetRef, initiatorRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.body;
+                targetRef = RequestHelper.parseId(param._id);
+                initiatorRef = req.qsCurrentUserId;
+            } catch (err) {
+                callback(err);
+            }
+            callback();
+        },
+        function(callback) {
+            // Like
+            RelationshipHelper.create(RPeopleShareShow, initiatorRef, targetRef, function(err, relationship) {
+                callback(err);
+            });
+        }], function(err) {
+            ResponseHelper.response(res, err);
+        });
+
     }
 };

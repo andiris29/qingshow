@@ -48,6 +48,11 @@
     self.pickerProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.provincePicker];
     self.pickerProvider.delegate = self;
     [self bindWithDict:self.locationDict];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -132,7 +137,7 @@
 - (void)configBarBtn
 {
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didSelectSaveBtn)];
-    item.tintColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f];
+    item.tintColor = [UIColor colorWithRed:240.0f/255.f green:149.0f/255.f blue:164.0f/255.f alpha:1.f];
     self.navigationItem.rightBarButtonItem = item;
     [self hideNaviBackBtnTitle];
     
@@ -162,6 +167,7 @@
     self.phoneTextField.text = [QSReceiverUtil getPhone:dict];
     self.localLabel.text = [QSReceiverUtil getProvince:dict];
     [self.pickerProvider bindWithValue:self.localLabel.text];
+    self.selectionLocation = self.localLabel.text;
     self.detailLocationTextField.text = [QSReceiverUtil getAddress:dict];
 }
 

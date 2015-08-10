@@ -7,56 +7,89 @@
 //
 
 #import "QSTradeUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
 #import "QSDateUtil.h"
+#import "QSTradeStatus.h"
+#import "NSDictionary+QSExtension.h"
 
 @implementation QSTradeUtil
+
++ (NSString *)getOrderId:(NSDictionary *)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return nil;
+    }
+    return dict[@"_id"];
+}
 + (NSArray*)getOrderArray:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    return [dict arrayValueForKeyPath:@"orders"];
+}
++ (NSDictionary*)getFirstOrder:(NSDictionary*)dict {
+    NSArray* orders = [self getOrderArray:dict];
+    if (orders && orders.count) {
+        return orders[0];
+    }
+    return nil;
+}
++ (NSDictionary *)getPeopleDic:(NSDictionary *)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
-    return dict[@"orders"];
+    return dict[@"peopleSnapshot"];
 }
+
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
+    if (![QSEntityUtil checkIsDict:dict]) {
         return nil;
     }
-    NSString* resDateStr = dict[@"create"];
+
+    NSString* resDateStr = [dict stringValueForKeyPath:@"create"];
     NSDate* date = [QSDateUtil buildDateFromResponseString:resDateStr];
     return [QSDateUtil buildStringFromDate:date];
 }
 + (NSNumber*)getStatus:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
-        return nil;
-    }
-    return dict[@"status"];
+    return [dict numberValueForKeyPath:@"status"];
 }
 + (NSString*)getStatusDesc:(NSDictionary*)dict
 {
     NSNumber* status = [self getStatus:dict];
-    NSArray* statusStrArray = @[
-                                @"未付款",
-                                @"已付款",
-                                @"已付款",
-                                @"已发货",
-                                @"已签收",
-                                @"交易成功",
-                                @"申请退货",
-                                @"退货中",
-                                @"退款中",
-                                @"退款成功",
-                                @"退款失败"
-                               ];
-    return statusStrArray[status.integerValue];
+    return QSTradeStatusToDesc(status.integerValue);
 }
+
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict
 {
-    if (![QSCommonUtil checkIsDict:dict]) {
-        return nil;
+    return [dict stringValueForKeyPath:@"pay.weixin.prepayid"];
+}
+
++ (NSString*)getTotalFeeDesc:(NSDictionary*)dict {
+    NSNumber* num = [QSEntityUtil getNumberValue:dict keyPath:@"totalFee"];;
+    if (num) {
+        return num.stringValue;
+    } else {
+        return @"";
     }
-    return dict[@"pay"][@"weixin"][@"prepayid"];
+}
++ (NSString*)getTradeLogisticCompany:(NSDictionary*)dict
+{
+    return [dict stringValueForKeyPath:@"logistic.company"];
+}
++ (NSString*)getTradeLogisticId:(NSDictionary*)dict
+{
+    return [dict stringValueForKeyPath:@"logistic.trackingId"];
+}
++ (BOOL)getTraddSharedByCurrentUser:(NSDictionary*)dict
+{
+    if (![QSEntityUtil checkIsDict:dict]) {
+        return NO;
+    }
+    NSNumber *n =  [QSEntityUtil getNumberValue:dict keyPath:@"__context.sharedByCurrentUser"];
+    if ([QSEntityUtil checkIsNil:n]) {
+        return NO;
+    }
+    return n.boolValue;
 }
 @end

@@ -9,9 +9,18 @@
 #import <Foundation/Foundation.h>
 
 @interface QSTradeUtil : NSObject
++ (NSString *)getOrderId:(NSDictionary *)dict;
 + (NSArray*)getOrderArray:(NSDictionary*)dict;
++ (NSDictionary *)getPeopleDic:(NSDictionary *)dict;
++ (NSDictionary*)getFirstOrder:(NSDictionary*)dict;
+
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;
 + (NSNumber*)getStatus:(NSDictionary*)dict;
 + (NSString*)getStatusDesc:(NSDictionary*)dict;
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict;
++ (NSString*)getTotalFeeDesc:(NSDictionary*)dict;
+
++ (NSString*)getTradeLogisticCompany:(NSDictionary*)dict;
++ (NSString*)getTradeLogisticId:(NSDictionary*)dict;
++ (BOOL)getTraddSharedByCurrentUser:(NSDictionary*)dict;
 @end

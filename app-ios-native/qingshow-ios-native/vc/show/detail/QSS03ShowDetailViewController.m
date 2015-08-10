@@ -8,35 +8,53 @@
 
 #import "QSS03ShowDetailViewController.h"
 #import "QSSingleImageScrollView.h"
-#import "QSP02ModelDetailViewController.h"
 #import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
-#import "QSCommonUtil.h"
+#import "QSEntityUtil.h"
+#import "QSDateUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
 #import "QSItemUtil.h"
 #import "QSImageNameUtil.h"
+#import "QSPromotionUtil.h"
 
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
 
-#define PAGE_ID @"S03 - 秀"
+#import "QSUserManager.h"
+#import "QSU01UserDetailViewController.h"
 
+#define PAGE_ID @"S03 - 秀"
+#define w ([UIScreen mainScreen].bounds.size.width)
+#define h ([UIScreen mainScreen].bounds.size.height)
 @interface QSS03ShowDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
-
+@property (strong, nonatomic) NSString* showId;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
 @implementation QSS03ShowDetailViewController
+- (void)setMenuProvider:(NSObject<QSMenuProviderDelegate> *)menuProvider {
+    _menuProvider = menuProvider;
+    self.menuBtn.hidden = _menuProvider == nil;
+    self.backBtn.hidden = _menuProvider != nil;
+}
 #pragma mark - Init Method
-- (id)initWithShow:(NSDictionary*)showDict
-{
+- (instancetype)initWithShowId:(NSString*)showId {
     self = [self initWithNibName:@"QSS03ShowDetailViewController" bundle:nil];
+    if (self) {
+        self.showId = showId;
+        self.showDeletedBtn = NO;
+    }
+    return self;
+}
+- (instancetype)initWithShow:(NSDictionary*)showDict
+{
+    self = [self initWithShowId:[QSEntityUtil getIdOrEmptyStr:showDict]];
     if (self) {
         self.showDict = showDict;
     }
@@ -47,43 +65,83 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    
-    self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.width / 2;
-    self.headIconImageView.layer.masksToBounds = YES;
-    self.headIconImageView.layer.borderWidth = 1;
-    self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+    self.menuProvider = self.menuProvider;
     self.shareVc = [[QSShareViewController alloc] init];
     self.shareVc.delegate = self;
     [self.view addSubview:self.shareVc.view];
     self.shareVc.view.frame = self.view.bounds;
+    if (self.showDict) {
+        [self bindWithDict:self.showDict];
+    }
+
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
-    [self bindWithDict:self.showDict];
+    self.headIconImageView.layer.cornerRadius = self.headIconImageView.bounds.size.height / 2;
+    self.headIconImageView.layer.masksToBounds = YES;
+    self.headIconImageView.userInteractionEnabled = YES;
+    [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self bindExceptImageWithDict:self.showDict];
+    if (!self.itemListVc) {
+        __weak QSS03ShowDetailViewController* weakSelf = self;
+        if (self.showDict) {
+            [weakSelf bindExceptImageWithDict:self.showDict];
+        }
+        if (!self.showDict) {
+            [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
+                weakSelf.showDict = dict;
+                [weakSelf bindWithDict:dict];
+//                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+//                if (!promotionDict) {
+//                    self.discountContainer.hidden = YES;
+//                } else {
+//                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+//                        [self showDiscountContainer];
+//                    } else {
+//                        self.discountContainer.hidden = YES;
+//                    }
+//                }
+                self.discountContainer.hidden = YES;
+            } onError:^(NSError *error) {
+                [self showErrorHudWithError:error];
+            }];
+        } else {
+            [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+                weakSelf.showDict = dict;
+                [weakSelf bindExceptImageWithDict:dict];
+                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+                if (!promotionDict) {
+                    self.discountContainer.hidden = YES;
+                } else {
+                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+                        [self showDiscountContainer];
+                    } else {
+                        self.discountContainer.hidden = YES;
+                    }
+                }
+            } onError:^(NSError *error) {
+                
+            }];
+        }
+    }
     [MobClick beginLogPageView:PAGE_ID];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (!self.itemListVc) {
-        __weak QSS03ShowDetailViewController* weakSelf = self;
-        if (self.showDict) {
-            [weakSelf bindExceptImageWithDict:self.showDict];
-        }
-        [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-            weakSelf.showDict = dict;
-            [weakSelf bindExceptImageWithDict:dict];
-        } onError:^(NSError *error) {
-            
-        }];
-    }
+    
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -92,32 +150,81 @@
     [MobClick endLogPageView:PAGE_ID];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    float ratioX = w/150;
+    float ratioY = h/277;
+    float leftMargin = 6*ratioX;
+    float topMargin = 54*ratioY;
+    float weight = 138*ratioX;
+    float height = 191.8*ratioY;
+    
+    self.coverImageView.frame =
+    CGRectMake(
+                leftMargin,
+               topMargin,
+                weight,
+              height);
+    
+}
+
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)dict
 {
     [self bindExceptImageWithDict:dict];
-    [self updateShowImgScrollView];
+    
+    NSArray* array = [self generateImagesData];
+    if (array && array.count) {
+        self.scrollViewContainer.hidden = NO;
+        self.coverContainer.hidden = YES;
+        [self updateShowImgScrollView];
+    } else {
+        self.scrollViewContainer.hidden = YES;
+        self.coverContainer.hidden = NO;
+        [self updateCover];
+    }
+
+}
+- (void)updateCover {
+    [self.coverImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict]];
+    [self.coverForegroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:self.showDict]];
+    [self.coverBackgroundImageView setImageFromURL:[QSShowUtil getCoverBackgroundUrl:self.showDict]];
 }
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
-{
-    //Model
-    NSDictionary* peopleInfo = [QSShowUtil getPeopleFromShow:dict];
-    
-    NSURL* iconUrl = [QSPeopleUtil getHeadIconUrl:peopleInfo];
-    [self.headIconImageView setImageFromURL:iconUrl];
-    
-    self.nameLabel.text = [QSPeopleUtil getName:peopleInfo];
-    self.detailLabel.text = [QSPeopleUtil getDetailDesc:peopleInfo];
-    self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
-    
+{    
+    self.playBtn.hidden = !self.generateVideoPath;
+
     //Like Btn
     [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
     
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
-
+    
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
+    if (!peopleDict) {
+        self.headIconImageView.hidden = NO;
+        self.modelNameLabel.hidden = NO;
+    } else {
+        if (self.showDeletedBtn) {
+            //当前用户
+            self.headIconImageView.hidden = YES;
+            self.modelNameLabel.hidden = YES;
+            self.releaseDateLabel.hidden = NO;
+            self.trashBtn.hidden = NO;
+            self.playBtn.hidden = YES;
+            self.pauseBtn.hidden = YES;
+            NSDate* createDate = [QSShowUtil getCreatedDate:dict];
+            self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
+        } else {
+            self.headIconImageView.hidden = NO;
+            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
+            self.modelNameLabel.hidden = NO;
+            self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -129,9 +236,9 @@
 - (void)setLikeBtnHover:(BOOL)fHover
 {
     if (fHover) {
-        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_hover"] forState:UIControlStateNormal];
+        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_full"] forState:UIControlStateNormal];
     } else {
-        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
+        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btnIcon"] forState:UIControlStateNormal];
     }
 }
 
@@ -145,6 +252,8 @@
 - (IBAction)commentBtnPressed:(id)sender {
     [self hideSharePanel];
     UIViewController* vc =[[QSS04CommentListViewController alloc] initWithShow:self.showDict];
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -152,40 +261,31 @@
     [self showSharePanel];
 }
 
-
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
-    if ([QSShowUtil getIsLike:self.showDict]) {
-        [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
-            [self showSuccessHudWithText:@"取消喜欢成功"];
-            [self bindExceptImageWithDict:self.showDict];
-        } onError:^(NSError *error) {
-            [self bindExceptImageWithDict:self.showDict];
-            [self handleError:error];
-        }];
-    } else {
-        [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
-            [self showSuccessHudWithText:@"喜欢成功"];
-            [self bindExceptImageWithDict:self.showDict];
-        } onError:^(NSError *error) {
-            [self bindExceptImageWithDict:self.showDict];
-            [self handleError:error];
-        }];
-    }
-}
-
-
-#pragma mark - 
-- (IBAction)didTapModel:(id)sender {
-    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
-    QSP02ModelDetailViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    [self.navigationController pushViewController:vc animated:YES];
     
+    NSDictionary* showDict = self.showDict;
+    [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
+        if (f) {
+            [self showSuccessHudWithText:@"添加收藏"];
+            [self.favorBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+        } else {
+            [self showSuccessHudWithText:@"取消收藏"];
+            [self.favorBtn setTitleColor:[UIColor colorWithRed:67 green:67 blue:67 alpha:1.0f] forState:UIControlStateNormal];
+        }
+        [self bindExceptImageWithDict:showDict];
+        
+    } onError:^(NSError *error) {
+        [self handleError:error];
+        [self bindExceptImageWithDict:showDict];
+    }];
 }
 
 #pragma mark -
 - (IBAction)itemButtonPressed:(id)sender {
     QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
+    vc.showBackBtn = self.showBackBtn;
     vc.delegate = self;
     self.itemListVc = vc;
     vc.view.frame = self.view.bounds;
@@ -199,7 +299,34 @@
     
 }
 
-- (void)didClickItemListCloseBtn
+- (IBAction)menuBtnPressed:(id)sender {
+    [self.menuProvider didClickMenuBtn];
+}
+
+- (IBAction)trashBtnPressed:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确定删除？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    [alert show];
+    
+}
+#pragma mark - AlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [SHARE_NW_ENGINE matcherHide:self.showDict onSucceed:^{
+            [self showTextHud:@"删除成功"];
+            [self performSelector:@selector(backBtnPressed:) withObject:nil afterDelay:TEXT_HUD_DELAY];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    }
+    else
+    {
+        [self showTextHud:@"取消删除"];
+    }
+}
+
+
+- (void)didClickItemListCloseBtn:(BOOL)showBackBtn
 {
     [UIView animateWithDuration:.3f animations:^{
         self.itemListVc.view.alpha = 0.f;
@@ -207,6 +334,10 @@
         [self setPlayModeBtnsHidden:NO];
         [self.itemListVc.view removeFromSuperview];
         [self.itemListVc removeFromParentViewController];
+        if (showBackBtn == YES) {
+              self.backBtn.hidden = YES;
+        }
+      
         self.itemListVc = nil;
     }];
 
@@ -220,8 +351,13 @@
 #pragma mark - Share
 - (void)showSharePanel
 {
-    NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
-    NSString* urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@", showId];
+    NSString* showId = [QSEntityUtil getIdOrEmptyStr:self.showDict];
+    
+    //获取userID
+    QSUserManager *um = [QSUserManager shareUserManager];
+    NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
     [self.shareVc showSharePanelWithUrl:urlStr];
 }
 - (void)hideSharePanel
@@ -230,18 +366,30 @@
 }
 - (void)didShareWeiboSuccess
 {
-    [self showSuccessHudWithText:@"分享成功"];
+
+    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
+        [self showSuccessHudWithText:@"分享成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
+}
+- (void)didShareWechatSuccess {
+    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
+        [self showSuccessHudWithText:@"分享成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 
 #pragma mark - Override
 #pragma mark Data
 - (NSArray*)generateImagesData
 {
-    return [QSImageNameUtil generate2xImageNameUrlArray:[QSShowUtil getShowVideoPreviewUrlArray:self.showDict]];;
+    return [QSShowUtil getShowVideoPreviewUrlArray:self.showDict];;
 }
 - (NSString*)generateVideoPath
 {
-    return self.showDict[@"video"];
+    return [QSShowUtil getVideoPath:self.showDict];
 }
 
 #pragma mark Btn
@@ -266,8 +414,32 @@
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
-    [MobClick event:@"playVideo" attributes:@{@"showId" : self.showDict[@"_id"], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSEntityUtil getIdOrEmptyStr:self.showDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+}
+
+#pragma mark - Discount
+- (void)hideDiscountContainer {
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    [UIView animateWithDuration:.5f animations:^{
+        weakSelf.discountContainer.alpha = 0;
+    } completion:^(BOOL finished) {
+        weakSelf.discountContainer.hidden = YES;
+    }];
+
+}
+- (void)didTapHeadIcon:(id)sender {
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
+    if (peopleDict) {
+        QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
+        vc.menuProvider = self.menuProvider;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 
+- (void)showDiscountContainer{
+    self.discountContainer.hidden = NO;
+    self.discountContainer.alpha = 1.f;
+    [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
+}
 @end

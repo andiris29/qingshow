@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UILabel* phoneLabel;
 @property (weak, nonatomic) IBOutlet UILabel* addressLabel;
 @property (weak, nonatomic) IBOutlet UIButton* selectedIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *editBtn;
+@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
 
 @property (weak, nonatomic) NSObject<QSUserLocationTableViewCellDelegate>* delegate;
 
@@ -37,4 +39,5 @@
 - (IBAction)selectedIndicatorPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;
++ (float)getHeightWithDict:(NSDictionary*)dict;
 @end

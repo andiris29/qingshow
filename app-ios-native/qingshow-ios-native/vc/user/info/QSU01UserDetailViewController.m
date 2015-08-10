@@ -7,29 +7,45 @@
 //
 
 #import "QSU01UserDetailViewController.h"
-#import "QSU02UserSettingViewController.h"
-#import "QSP04BrandDetailViewController.h"
+#import "QSRootContainerViewController.h"
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
+#import "QSItemUtil.h"
+#import "QSEntityUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
 
 #import "UIViewController+ShowHud.h"
-#import "QSBrandUtil.h"
+#import "UIViewController+QSExtension.h"
+
+#import "QSImageCollectionModel.h"
+#import "QSRecommendationDateCellModel.h"
+
+#import "QSMatchCollectionViewProvider.h"
+#import "QSS03ShowDetailViewController.h"
+
+
+#import "QSDateUtil.h"
+
 
 #define PAGE_ID @"U01 - 个人"
 
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
-#pragma mark Delegate Obj
-@property (strong, nonatomic) QSShowCollectionViewProvider* likedDelegate;
-@property (strong, nonatomic) QSShowCollectionViewProvider* recommendationDelegate;
-@property (strong, nonatomic) QSModelListTableViewProvider* followingDelegate;
-@property (strong, nonatomic) QSBigImageTableViewProvider* likedBrandDelegate;
-@property (assign, nonatomic) BOOL fShowAccountBtn;
+@property (assign, nonatomic) BOOL isCurrentUser;
+@property (assign, nonatomic) BOOL showMenuIcon;
+
+#pragma mark Provider
+@property (strong,nonatomic) QSShowCollectionViewProvider *matchProvider;
+//@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
+@property (strong,nonatomic) QSShowCollectionViewProvider *recommendProvider;
+@property (strong, nonatomic) QSShowCollectionViewProvider *favorProvider;
+@property (strong, nonatomic) QSPeopleListTableViewProvider* followingProvider;
+@property (strong, nonatomic) QSPeopleListTableViewProvider* followerProvider;
+
 @end
 
 @implementation QSU01UserDetailViewController
@@ -38,7 +54,9 @@
 {
     self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
     if (self) {
-        self.fShowAccountBtn = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
+        self.isCurrentUser = YES;
+        self.showMenuIcon = YES;
     }
     return self;
 }
@@ -46,29 +64,73 @@
 {
     self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
-        [self delegateObjInit];
+        self.isCurrentUser = [[QSEntityUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSEntityUtil getIdOrEmptyStr:peopleDict]];
+        self.showMenuIcon = NO;
+        [self providerInit];
         self.userInfo = peopleDict;
-        self.type = QSSectionButtonGroupTypeU01;
-        self.fShowAccountBtn = NO;
     }
     return self;
 }
 
-- (void)delegateObjInit
+- (void)providerInit
 {
-    self.likedDelegate  = [[QSShowCollectionViewProvider alloc] init];
-    self.likedDelegate.delegate = self;
-    self.likedDelegate.hasRefreshControl = NO;
-    self.recommendationDelegate = [[QSShowCollectionViewProvider alloc] init];
-    self.recommendationDelegate.delegate = self;
-    self.recommendationDelegate.hasRefreshControl = NO;
-    self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
-    self.followingDelegate.delegate = self;
-    self.followingDelegate.hasRefreshControl = NO;
-    self.likedBrandDelegate = [[QSBigImageTableViewProvider alloc] init];
-    self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
-    self.likedBrandDelegate.hasRefreshControl = NO;
-    self.likedBrandDelegate.delegate = self;
+//    __weak QSU01UserDetailViewController* weakSelf = self;
+    
+    
+    //Matcher
+//    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
+
+    self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
+    self.matchProvider.type = 2;
+    //Recommend
+    self.recommendProvider  = [[QSShowCollectionViewProvider alloc] init];
+    self.recommendProvider.type = 2;
+//    self.recommendProvider.networkDataFinalHandlerBlock = ^(){
+//        NSMutableArray* resultArray = weakSelf.recommendProvider.resultArray;
+//        if (resultArray.count == 0) {
+//            return;
+//        }
+//        for (int i = 0; i + 1 < resultArray.count || i == 0; i++) {
+//            QSImageCollectionModel* currentModel = resultArray[i];
+//            QSImageCollectionModel* nextModel = nil;
+//            if (resultArray.count > 1) {
+//                nextModel = resultArray[i + 1];
+//            }
+//            
+//            if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
+//                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+//                m.type = QSImageCollectionModelTypeDate;
+//                QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
+//                dateModel.date = [QSShowUtil getRecommendDate:currentModel.data];
+//                dateModel.desc = [QSShowUtil getRecommentDesc:currentModel.data];
+//                m.data = dateModel;
+//                [resultArray insertObject:m atIndex:0];
+//                continue;
+//            }
+//            if (currentModel.type == QSImageCollectionModelTypeShow && nextModel.type == QSImageCollectionModelTypeShow) {
+//                NSDate* curDate = [QSShowUtil getRecommendDate:currentModel.data];
+//                NSDate* nextDate = [QSShowUtil getRecommendDate:nextModel.data];
+//                if (curDate && nextDate && ![QSDateUtil date:curDate isTheSameDayWith:nextDate]) {
+//                    QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+//                    m.type = QSImageCollectionModelTypeDate;
+//                    QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
+//                    dateModel.date = nextDate;
+//                    dateModel.desc = [QSShowUtil getRecommentDesc:nextModel.data];
+//                    m.data = dateModel;
+//                    [resultArray insertObject:m atIndex:i + 1];
+//                }
+//            }
+//        }
+//    };
+    
+    //Favor
+    self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
+    self.favorProvider.type = 2;
+    //Following
+    self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
+    //Follower
+    self.followerProvider = [[QSPeopleListTableViewProvider alloc] init];
+    
 }
 
 #pragma mark - Life Cycle
@@ -76,34 +138,53 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //[self configNavBar];
     [self configView];
-    [self bindDelegateObj];
-    self.accountBtn.hidden = !self.fShowAccountBtn;
+    [self bindProvider];
+    self.backToTopBtn.hidden = YES;
+    self.backBtn.hidden = self.showMenuIcon;
+    self.menuBtn.hidden = !self.showMenuIcon;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.badgeView.btnGroup triggerSelectType:QSBadgeButtonTypeMatcher];
+    self.badgeView.followBtn.hidden = self.isCurrentUser;
+    [self.badgeView.followBtn addTarget:self action:@selector(followBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (self.fShowAccountBtn) {
+    self.navigationController.navigationBarHidden = YES;
+    [self updateViewWithList];
+    [MobClick beginLogPageView:PAGE_ID];
+    [SHARE_NW_ENGINE queryPeopleDetail:[QSEntityUtil getIdOrEmptyStr:self.userInfo] onSucceed:^(NSDictionary * p) {
+        if (p) {
+            self.userInfo = p;
+            [self.badgeView bindWithPeopleDict:self.userInfo];
+        }
+    } onError:nil];
+}
+
+- (void)updateViewWithList {
+    if (self.isCurrentUser) {
         self.userInfo = [QSUserManager shareUserManager].userInfo;
     }
+
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
-    [self.likedDelegate refreshClickedData];
-    [self.recommendationDelegate refreshClickedData];
-    [self.followingDelegate refreshClickedData];
-    [self.likedBrandDelegate refreshClickedData];
-    [MobClick beginLogPageView:PAGE_ID];
+    [self.matchProvider reloadData];
+    [self.recommendProvider reloadData];
+    [self.favorProvider reloadData];
+    [self.followingProvider reloadData];
+    [self.followerProvider reloadData];
+    
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.likedDelegate fetchDataOfPage:1];
-    [self.recommendationDelegate fetchDataOfPage:1];
-    [self.followingDelegate fetchDataOfPage:1];
-    [self.likedBrandDelegate fetchDataOfPage:1];
+    [self.recommendProvider fetchDataOfPage:1];
     [MobClick endLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -116,164 +197,207 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - View
-- (void)bindDelegateObj
+- (void)bindProvider
 {
     __weak QSU01UserDetailViewController* weakSelf = self;
     
-    //favor collectioin view
-    [self.likedDelegate bindWithCollectionView:self.likedCollectionView];
-    self.likedDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
-            succeedBlock(array, metadata);
-        } onError:^(NSError* e){
-            if (page == 1) {
-                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:0];
-            }
-            errorBlock(e);
-        }];
-
+    //Matcher
+    self.matchProvider.hasRefreshControl = NO;
+    self.matchProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE feedingMatchCreateBy:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+//        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
-    if (self.fShowAccountBtn) {
-        self.likedDelegate.filterBlock = ^BOOL(id obj){
-            return [QSShowUtil getIsLike:obj];
-        };
-    }
-
-    self.likedDelegate.delegate = self;
-    [self.likedDelegate reloadData];
-
-    //recommendation collectioin view
-    [self.recommendationDelegate bindWithCollectionView:self.recommendationCollectionView];
-    self.recommendationDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
-            succeedBlock(array, metadata);
-        } onError:^(NSError* e){
-            if (page == 1) {
-                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:1];
-            }
-            errorBlock(e);
-        }];
-    };
-    self.recommendationDelegate.delegate = self;
-    [self.recommendationDelegate reloadData];
+    [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
+    self.matchProvider.delegate = self;
+    [self.matchProvider reloadData];
     
-    //following table view
-    [self.followingDelegate bindWithTableView:self.followingTableView];
-    self.followingDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
+    //Recommend
+    self.recommendProvider.hasRefreshControl = NO;
+    [self.recommendProvider bindWithCollectionView:self.recommendCollectionView];
+//    self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+//        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
+//                {
+//                    NSMutableArray* mArray = [@[] mutableCopy];
+//                    for (NSDictionary* dict in array) {
+//                        QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+//                        m.type = QSImageCollectionModelTypeShow;
+//                        m.data = dict;
+//                        [mArray addObject:m];
+//                    }
+//                    succeedBlock(mArray, metadata);
+//                } onError:^(NSError* e){
+//                    errorBlock(e);
+//                }];
+//    };
+    self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    
+    self.recommendProvider.delegate = self;
+    [self.recommendProvider reloadData];
+
+    //Favor
+    self.favorProvider.hasRefreshControl = NO;
+    self.favorProvider.networkBlock =^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             succeedBlock(array, metadata);
-        } onError:^(NSError* e){
-            if (page == 1) {
-                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:2];
-            }
-            errorBlock(e);
+        } onError:^(NSError *error) {
+            errorBlock(error);
         }];
     };
-    if (self.fShowAccountBtn) {
-        self.followingDelegate.filterBlock = ^BOOL(id obj){
-            return [QSPeopleUtil  getPeopleIsFollowed:obj];
-        };
-    }
-
-    self.followingDelegate.delegate = self;
-    [self.followingDelegate reloadData];
-    //Like brand tableVIew
-    [self.likedBrandDelegate bindWithTableView:self.likeBrandTableView];
-    self.likedBrandDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE peopleQueryFollowedBrand:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:3];
-            succeedBlock(array, metadata);
-        } onError:^(NSError* e){
-            if (page == 1) {
-                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:3];
-            }
-            errorBlock(e);
-        }];
+    [self.favorProvider bindWithCollectionView:self.favorCollectionView];
+    self.favorProvider.delegate = self;
+    [self.favorProvider reloadData];
+    
+    //Following
+    self.followingProvider.hasRefreshControl = NO;
+    self.followingProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
     };
-    if (self.fShowAccountBtn) {
-        self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
-            return [QSBrandUtil getHasFollowBrand:obj];
-        };
-    }
-
-    [self.likedBrandDelegate reloadData];
+    [self.followingProvider bindWithTableView:self.followingTableView];
+    [self.followingProvider reloadData];
+    self.followingProvider.delegate = self;
+    //Follower
+    self.followerProvider.hasRefreshControl = NO;
+    self.followerProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE peopleQueryFollower:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    [self.followerProvider bindWithTableView:self.followerTableView];
+    [self.followerProvider reloadData];
+    self.followerProvider.delegate = self;
 }
 
 - (void)configView
 {
     //title
-    self.title = self.userInfo[@"name"];
+    self.title = [QSPeopleUtil getNickname:self.userInfo];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:[UIFont systemFontOfSize:18],
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
     [self updateView];
     
     //Show and Hide
-    self.viewArray = @[self.likedCollectionView, self.recommendationCollectionView,self.followingTableView, self.likeBrandTableView];
-    
-    self.likedCollectionView.hidden = NO;
-    self.recommendationCollectionView.hidden = YES;
-    self.followingTableView.hidden = YES;
-    
-    //Section title
-    NSArray* titleArray = @[@"收藏",@"推荐",@"关注", @"店铺"];
-    for (int i = 0; i < titleArray.count; i++) {
-        [self.badgeView.btnGroup setNumber:@(0).stringValue atIndex:i];
-        [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
-    }
+    self.viewArray =
+  @[
+    self.matcherCollectionView,
+    self.recommendCollectionView,
+    self.favorCollectionView,
+    self.followingTableView,
+    self.followerTableView,
+    self.backToTopBtn
+    ];
 }
 
-
-- (void)configNavBar
-{
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
-    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
-    self.navigationItem.titleView = titleImageView;
-    
-    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
-    self.navigationItem.rightBarButtonItem = rightButtonItem;
-}
 
 #pragma mark - IBAction
-- (IBAction)accountButtonPressed
-{
-    UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
-    QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 - (void)updateView
 {
     [self.badgeView bindWithPeopleDict:self.userInfo];
 
 }
 
-- (void)followBtnPressed:(NSDictionary*)model
+#pragma mark - QSImageCollectionViewProviderDelegate
+- (void)didClickModel:(QSImageCollectionModel*)model
+             provider:(QSImageCollectionViewProvider*)provider
 {
-    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
-        if (fFollow) {
-            [self showTextHud:@"关注成功"];
-            [self.followingDelegate refreshData:model];
+
+    switch (model.type) {
+        case QSImageCollectionModelTypeShow:
+        {
+            [self showShowDetailViewController:model.data];
+            break;
         }
-        else {
-            if (self.fShowAccountBtn) {
-                [self.followingDelegate removeData:model withAnimation:YES];
-            } else {
-                [self.followingDelegate refreshData:model];
-            }
-            [self showTextHud:@"取消关注成功"];
-            [self.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:self.followingDelegate.metadataDict] atIndex:2];
+        case QSImageCollectionModelTypeItem:
+        {
+            [self showItemDetailViewController:model.data];
+            break;
         }
-    } onError:^(NSError *error) {
-        [self showErrorHudWithText:@"error"];
-    }];
-}
-- (void)clickDetailOfDict:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
-{
-    if (type == QSBigImageTableViewCellTypeBrand) {
-        UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:dict];
-        [self.navigationController pushViewController:vc animated:YES];
+        default:
+            break;
     }
 }
+- (IBAction)menuBtnPressed:(id)sender {
+    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
+        [self.menuProvider didClickMenuBtn];
+    }
+}
+- (IBAction)backBtnPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)didReceiveCurrentUserInfoUpdate:(NSNotification*)noti{
+    [self updateViewWithList];
+}
+
+- (void)followBtnPressed:(id)sender {
+    [SHARE_NW_ENGINE handleFollowModel:self.userInfo onSucceed:^(BOOL f) {
+        self.badgeView.followBtn.selected = f;
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+        if (error.code == 1019) {
+            self.badgeView.followBtn.selected = YES;
+            [QSPeopleUtil setPeople:self.userInfo isFollowed:YES];
+        } else if (error.code == 1020) {
+            self.badgeView.followBtn.selected = NO;
+            [QSPeopleUtil setPeople:self.userInfo isFollowed:NO];
+        }
+    }];
+}
+
+- (void)clickModel:(NSDictionary*)model {
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:model];
+    vc.menuProvider = self.menuProvider;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [super scrollViewDidScroll:scrollView];
+    if (scrollView.contentOffset.y != -360) {
+        _backToTopBtn.hidden = NO;
+    }
+    else
+    {
+        _backToTopBtn.hidden = YES;
+    }
+}
+- (IBAction)topToTopBtnPressed:(id)sender {
+    UIScrollView *scrollView = self.viewArray[self.currentSection];
+    CGPoint p = [scrollView contentOffset];
+    p.y = -360;
+    [scrollView setContentOffset:p animated:YES];
+    _backToTopBtn.hidden = YES;
+}
+
+- (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
+{
+    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+- (void)didSelectedCellInCollectionView:(NSDictionary *)showDict provider:(QSAbstractListViewProvider *)provider
+{
+    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
+    [self.navigationController pushViewController:vc animated:YES];
+   
+}
+- (void)didClickHeaderImgView:(id)sender
+{
+//    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
+//    vc.menuProvider = self.menuProvider;
+//    vc.navigationController.navigationBar.hidden = NO;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
 @end

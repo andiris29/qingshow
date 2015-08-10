@@ -13,95 +13,94 @@ var RequestHelper = require('../helpers/RequestHelper');
 
 var ServerError = require('../server-error');
 
-var _queryModels = function(req, res) {
-    ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-        // querier
-        var criteria = {
-            'roles' : 1,
-            'modelInfo.order' : {
-                '$ne' : null
-            }
-        };
-        MongoHelper.queryPaging(People.find(criteria).sort({
-            'modelInfo.order' : 1
-        }), People.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
-    }, function(models) {
-        // responseDataBuilder
-        return {
-            'peoples' : models
-        };
-    }, {
-        'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
-            ContextHelper.appendPeopleContext(req.qsCurrentUserId, currentPageModels, callback);
+var people = module.exports;
+
+people.queryFollowers= {
+    method : 'get',
+    func : function(req, res) {
+        ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
+            'query' : 'targetRef',
+            'result' : 'initiatorRef'
+        });
+    }
+};
+
+people.queryFollowingPeoples= {
+    method : 'get',
+    func : function(req, res) {
+        ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
+            'query' : 'initiatorRef',
+            'result' : 'targetRef'
+        });
+    }
+};
+
+people.follow = {
+    method : 'post',
+    permissionValidators : ['loginValidator'],
+    func : function(req, res) {
+        try {
+            var param = req.body;
+            var targetRef = RequestHelper.parseId(param._id);
+            var initiatorRef = RequestHelper.parseId(req.qsCurrentUserId);
+
+            RelationshipHelper.create(RPeopleFollowPeople, initiatorRef, targetRef, function(err) {
+                ResponseHelper.response(res, err);
+            });
+        } catch (e) {
+            ResponseHelper.response(res, ServerError.PeopleNotExist);
+            return;
         }
-    });
-};
-
-var _queryFollowers = function(req, res) {
-    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
-        'query' : 'targetRef',
-        'result' : 'initiatorRef'
-    });
-};
-
-var _queryFollowed = function(req, res) {
-    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
-        'query' : 'initiatorRef',
-        'result' : 'targetRef'
-    });
-};
-
-var _follow = function(req, res) {
-    try {
-        var param = req.body;
-        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
-    } catch (e) {
-        ResponseHelper.response(res, ServerError.PeopleNotExist);
-        return;
     }
-
-    RelationshipHelper.create(RPeopleFollowPeople, initiatorRef, targetRef, function(err) {
-        ResponseHelper.response(res, err);
-    });
 };
 
-var _unfollow = function(req, res) {
-    try {
-        var param = req.body;
-        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
-    } catch (e) {
-        ResponseHelper.response(res, ServerError.PeopleNotExist);
-        return;
+people.unfollow = {
+    method : 'post',
+    permissionValidators : ['loginValidator'],
+    func: function(req, res) {
+        try {
+            var param = req.body;
+            var targetRef = RequestHelper.parseId(param._id);
+            var initiatorRef = RequestHelper.parseId(req.qsCurrentUserId);
+
+            RelationshipHelper.remove(RPeopleFollowPeople, initiatorRef, targetRef, function(err) {
+                ResponseHelper.response(res, err);
+            });
+        } catch (e) {
+            ResponseHelper.response(res, ServerError.PeopleNotExist);
+            return;
+        }
     }
-
-    RelationshipHelper.remove(RPeopleFollowPeople, initiatorRef, targetRef, function(err) {
-        ResponseHelper.response(res, err);
-    });
 };
 
-module.exports = {
-    'queryModels' : {
-        method : 'get',
-        func : _queryModels
-    },
-    'queryFollowers' : {
-        method : 'get',
-        func : _queryFollowers
-    },
-    'queryFollowed' : {
-        method : 'get',
-        func : _queryFollowed
-    },
-    'follow' : {
-        method : 'post',
-        func : _follow,
-        permissionValidators : ['loginValidator']
-    },
-    'unfollow' : {
-        method : 'post',
-        func : _unfollow,
-        permissionValidators : ['loginValidator']
+people.query = {
+    method : 'get',
+    func : function(req, res) {
+        var _ids;
+        async.waterfall([
+        function(callback) {
+            // Parser req
+            try {
+                _ids = RequestHelper.parseIds(req.queryString._ids);
+                callback(null);
+            } catch (err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            // Query & populate
+            People.find({
+                '_id' : {
+                    '$in' : _ids
+                }
+            }).exec(callback);
+        },
+        function(peoples, callback) {
+            ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
+        }], function(err, peoples) {
+            ResponseHelper.response(res, err, {
+                'peoples' : peoples 
+            });
+        });
     }
 };

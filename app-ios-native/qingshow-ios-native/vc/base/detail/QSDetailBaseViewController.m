@@ -12,7 +12,6 @@
 #import "QSBadgeView.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-#import "QSP02ModelDetailViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "UIViewController+QSExtension.h"
 
@@ -25,7 +24,7 @@
 
 
 #pragma mark - Data
-@property (assign, nonatomic) int currentSection;
+
 
 @property (assign, nonatomic) CGPoint touchLocation;
 @property (assign, nonatomic) CGPoint preTouchLocation;
@@ -41,10 +40,10 @@
 - (void)_configView
 {
     //badge view
-    self.badgeView = [QSBadgeView generateViewWithType:self.type];
+    self.badgeView = [QSBadgeView generateView];
     [self.badgeContainer addSubview:self.badgeView];
     self.badgeView.frame = self.badgeContainer.bounds;
-    self.badgeView.delegate = self;
+    self.badgeView.btnGroup.delegate = self;
 
 }
 
@@ -62,10 +61,17 @@
     [self hideNaviBackBtnTitle];
     self.backPreTopCon = self.backBtnTopConstrain.constant;
     self.canScrollBadgeViewUp = YES;
-    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    [self changeToSection:1];
 }
 
 - (void)viewWillLayoutSubviews
@@ -88,8 +94,9 @@
         return;
     }
     UIScrollView* currentView = self.viewArray[self.currentSection];
+    UIView *view = [self.viewArray lastObject];
     [currentView.superview bringSubviewToFront:currentView];
-    
+    [view.superview bringSubviewToFront:view];
     CATransition* transition = [[CATransition alloc] init];
     CATransition* transition2 = [[CATransition alloc] init];
     transition.type = kCATransitionPush;
@@ -110,24 +117,33 @@
     
     self.currentSection = section;
     currentView = self.viewArray[self.currentSection];
+    self.badgeView.touchDelegateView = currentView;
     [currentView.layer addAnimation:transition2 forKey:@"transition"];
-
-
-    float time = ABS(self.topConstrain.constant) / 800;
-    self.topConstrain.constant = 0;
-    self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
-    self.canScrollBadgeViewUp = NO;
-    __weak QSDetailBaseViewController* weakSelf = self;
-    [UIView animateWithDuration:time animations:^{
-        [weakSelf.view layoutIfNeeded];
-        
-        CGPoint p = currentView.contentOffset;
-        p.y = -currentView.contentInset.top;
-        currentView.contentOffset = p;
-    } completion:^(BOOL finished) {
-        weakSelf.currentTouchView = nil;
-        weakSelf.canScrollBadgeViewUp = YES;
-    }];
+    
+    if ([UIScreen mainScreen].bounds.size.height > currentView.contentSize.height) {
+        //currentView无法撑满整个屏幕，需要下移
+        float time = ABS(self.topConstrain.constant) / 800;
+        self.topConstrain.constant = 0;
+        self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+        self.canScrollBadgeViewUp = NO;
+        __weak QSDetailBaseViewController* weakSelf = self;
+        [UIView animateWithDuration:time animations:^{
+            [weakSelf.view layoutIfNeeded];
+            
+            CGPoint p = currentView.contentOffset;
+            p.y = -currentView.contentInset.top;
+            currentView.contentOffset = p;
+        } completion:^(BOOL finished) {
+            weakSelf.currentTouchView = nil;
+            weakSelf.canScrollBadgeViewUp = YES;
+        }];
+    } else {
+        if (currentView.contentOffset.y + currentView.contentInset.top < ABS(self.topConstrain.constant)) {
+            CGPoint p = currentView.contentOffset;
+            p.y = ABS(self.topConstrain.constant) - currentView.contentInset.top;
+            currentView.contentOffset = p;
+        }
+    }
 }
 
 #pragma mark - Scroll View
@@ -135,7 +151,10 @@
 - (void)configContentInset
 {
     float height = self.badgeView.frame.size.height;
-    for (UIScrollView* view in self.viewArray) {
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.viewArray];
+    [array removeLastObject];
+    for (UIScrollView* view in array) {
+    
         view.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
     }
 }
@@ -222,20 +241,20 @@
 }
 
 #pragma mark - 
-- (void)didClickShow:(NSDictionary*)showDict
+- (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
 {
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)didClickPeople:(NSDictionary *)peopleDict
+- (void)didClickPeople:(NSDictionary *)peopleDict provider:(QSAbstractListViewProvider *)provider
 {
-    [self showPeopleDetailViewControl:peopleDict];
+//    [self showPeopleDetailViewControl:peopleDict];
 }
 #pragma mark - QSModelListTableViewProviderDelegate
-- (void)clickModel:(NSDictionary*)model
+- (void)clickModel:(NSDictionary*)model 
 {
-    [self showPeopleDetailViewControl:model];
+//    [self showPeopleDetailViewControl:model];
 }
 - (void)followBtnPressed:(NSDictionary*)model
 {
@@ -254,5 +273,10 @@
 
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark -
+- (void)btnGroup:(QSBadgeBtnGroup*)btnGroup didSelectType:(QSBadgeButtonType)type {
+    [self changeToSection:type];
 }
 @end

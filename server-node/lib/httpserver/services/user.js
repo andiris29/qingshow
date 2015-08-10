@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var uuid = require('node-uuid');
+var path = require('path');
+var jPushAudiences = require('../../model/jPushAudiences');
+var fs = require('fs');
 
 var People = require('../../model/peoples');
 
@@ -12,12 +15,28 @@ var ServerError = require('../server-error');
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 
+var request = require('request');
+var WX_APPID = 'wx75cf44d922f47721';
+var WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
+
+var WB_APPID = 'wb1213293589';
+var WB_SECRET = '';
+
+var qsftp = require('../../runtime/qsftp');
+
 var _encrypt = function(string) {
     var cipher = crypto.createCipher('aes192', _secret);
     var enc = cipher.update(string, 'utf8', 'hex');
     enc += cipher.final('hex');
     return enc;
 };
+
+var userPortraitResizeOptions = [
+    {'suffix' : '_200', 'width' : 200, 'height' : 200},
+    {'suffix' : '_100', 'width' : 100, 'height' : 100},
+    {'suffix' : '_50', 'width' : 50, 'height' : 50},
+    {'suffix' : '_30', 'width' : 30, 'height' : 30}
+];
 
 var _decrypt = function(string) {
     var decipher = crypto.createDecipher('aes192', _secret);
@@ -26,7 +45,37 @@ var _decrypt = function(string) {
     return dec;
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver;
+var _addRegistrationId = function(peopleId, registrationId) {
+    if (!registrationId || registrationId.length == 0) {
+        return;
+    }
+
+    jPushAudiences.remove({
+        'registrationId' : registrationId
+    }, function(err) {
+        if (err) {
+            return;
+        }
+
+        var info = new jPushAudiences({
+            'peopleRef' : peopleId,
+            'registrationId' : registrationId
+        });
+        info.save();
+    });
+};
+
+var _removeRegistrationId = function(peopleId, registrationId) {
+    if (!registrationId || registrationId.length == 0) {
+        return;
+    }
+    jPushAudiences.remove({
+        'peopleRef' : peopleId,
+        'registrationId' : registrationId
+    });
+};
+
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -73,17 +122,23 @@ _get = function(req, res) {
 };
 
 _login = function(req, res) {
-    var param, id, password;
+    var param, idOrNickName, password;
     param = req.body;
-    id = param.id || '';
+    idOrNickName = param.idOrNickName || '';
     password = param.password || '';
     People.findOne({
-        "userInfo.id" : id,
-        "$or" : [{
-            "userInfo.password" : password
-        }, {
-            "userInfo.encryptedPassword" : _encrypt(password)
-        }]
+        "$and" : [{
+            "$or" : [{
+                "userInfo.id" : idOrNickName
+            }, {
+                "nickname" : idOrNickName
+            }]}, {
+            "$or" : [{
+                "userInfo.password" : password
+            }, {
+                "userInfo.encryptedPassword" : _encrypt(password)
+            }]}
+        ]
     }).exec(function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
@@ -92,16 +147,23 @@ _login = function(req, res) {
             req.session.userId = people._id;
             req.session.loginDate = new Date();
 
-            var retData = {
-                metadata : {
-                    //TODO change invilidateTime
-                    "invalidateTime" : 3600000
-                },
-                data : {
-                    people : people
+            people.jPushInfo = _addRegistrationId(people._id, param.registrationId);
+
+            people.save(function(err, people) {
+                if (err) {
+                    ResponseHelper.response(res, err);
+                } else {
+                    var retData = {
+                        metadata : {
+                            "invalidateTime" : 3600000
+                        },
+                        data : {
+                            people : people
+                        }
+                    };
+                    res.json(retData);
                 }
-            };
-            res.json(retData);
+            });
         } else {
             //login fail
             delete req.session.userId;
@@ -112,6 +174,8 @@ _login = function(req, res) {
 };
 
 _logout = function(req, res) {
+    var id = req.qsCurrentUserId;
+    _removeRegistrationId(id, req.body.registrationId);
     delete req.session.userId;
     delete req.session.loginDate;
     delete req.qsCurrentUserId;
@@ -128,25 +192,25 @@ _register = function(req, res) {
     param = req.body;
     id = param.id;
     password = param.password;
+    var nickname = param.nickname;
     //TODO validate id and password
-    if (!id || !password || !id.length || !password.length) {
+    if (!id || !password || !id.length || !password.length || !nickname) {
         ResponseHelper.response(res, ServerError.NotEnoughParam);
         return;
     }
-    People.findOne({
-        'userInfo.id' : id
+    People.find({
+        '$or': [{'userInfo.id' : id}, {'nickname': nickname}]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
-        } else if (people) {
+        } else if (people.length > 0) {
             ResponseHelper.response(res, ServerError.EmailAlreadyExist);
             return;
         }
-        require('../../runtime/qsmail').debug('New user: ' + id, [id, password].join(','), function(err, info) {
-        });
 
         var people = new People({
+            nickname: nickname,
             userInfo : {
                 id : id,
                 encryptedPassword : _encrypt(password)
@@ -163,6 +227,8 @@ _register = function(req, res) {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
 
+                _addRegistrationId(people._id, req.body.registrationId);
+
                 var retData = {
                     metadata : {
                     },
@@ -178,18 +244,8 @@ _register = function(req, res) {
 
 _update = function(req, res) {
     var qsParam;
+    qsParam = req.body;
     async.waterfall([
-    function(callback) {
-        try {
-            qsParam = RequestHelper.parse(req.body, {
-                'birthday' : RequestHelper.parseDate
-            });
-        } catch(err) {
-            callback(err);
-            return;
-        }
-        callback();
-    },
     function(callback) {
         People.findOne({
             '_id' : req.qsCurrentUserId
@@ -228,6 +284,28 @@ _update = function(req, res) {
         }
         delete qsParam.password;
         delete qsParam.currentPassword;
+
+        if (qsParam.measureInfo) {
+            if (qsParam.measureInfo.shoulder) {
+                people.set('measureInfo.shoulder', RequestHelper.parseNumber(qsParam.measureInfo.shoulder));
+            }
+            if (qsParam.measureInfo.bust) {
+                people.set('measureInfo.bust', RequestHelper.parseNumber(qsParam.measureInfo.bust));
+            }
+            if (qsParam.measureInfo.waist) {
+                people.set('measureInfo.waist', RequestHelper.parseNumber(qsParam.measureInfo.waist));
+            }
+            if (qsParam.measureInfo.hips) {
+                people.set('measureInfo.hips', RequestHelper.parseNumber(qsParam.measureInfo.hips));
+            }
+            if (qsParam.measureInfo.shoeSize) {
+                people.set('measureInfo.shoeSize', RequestHelper.parseNumber(qsParam.measureInfo.shoeSize));
+
+            }
+
+            delete qsParam.measureInfo;
+        }
+
         for (var field in qsParam) {
             people.set(field, qsParam[field]);
         }
@@ -239,12 +317,14 @@ _update = function(req, res) {
     });
 };
 
+
+
 _updatePortrait = function(req, res) {
-    _upload(req, res, 'portrait');
+    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait', userPortraitResizeOptions);
 };
 
 _updateBackground = function(req, res) {
-    _upload(req, res, 'background');
+    _upload(req, res, global.qsConfig.uploads.user.background, 'background');
 };
 
 _saveReceiver = function(req, res) {
@@ -321,26 +401,16 @@ _saveReceiver = function(req, res) {
     });
 };
 
-var _upload = function(req, res, keyword) {
-    var formidable = require('formidable');
-    var path = require('path');
-
-    var form = new formidable.IncomingForm();
-    form.uploadDir = global.__qingshow_uploads.folder;
-    form.keepExtensions = true;
-    form.parse(req, function(err, fields, files) {
+var _upload = function(req, res, config, keyword, resizeOptions) {
+    RequestHelper.parseFile(req, config.ftpPath, resizeOptions, function(err, fields, file) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
         }
-        var file;
-        for (var key in files) {
-            file = files[key];
-        }
         People.findOne({
             '_id' : req.qsCurrentUserId
         }, function(err, people) {
-            people.set(keyword, global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
+            people.set(keyword, config.exposeToUrl + '/' + path.relative(config.ftpPath, file.path));
             people.save(function(err) {
                 if (err) {
                     ResponseHelper.response(res, err);
@@ -397,6 +467,230 @@ _removeReceiver = function(req, res) {
     });
 };
 
+
+var _downloadHeadIcon = function (path, callback) {
+    var tempName = path.replace(/[\.\/:]/g, '_');
+    var tempPath = "/tmp/" + tempName;
+
+    request(path).pipe(fs.createWriteStream(tempPath))
+        .on('close', function () {
+            callback(null, tempPath);
+        })
+        .on('error', function (err) {
+            callback(err);
+        });
+};
+
+_loginViaWeixin = function(req, res) {
+    var config = global.qsConfig;
+    var param = req.body;
+    var code = param.code;
+    if (!code) {
+        ResponseHelper.response(res, ServerError.NotEnoughParam);
+        return;
+    }
+    async.waterfall([function(callback) {
+        var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + code + '&grant_type=authorization_code';
+        request.get(token_url, function(error, response, body) {
+            var data = JSON.parse(body);
+            if (data.errcode !== undefined) {
+                callback(data);
+                return;
+            }
+            callback(null, data.access_token, data.openid);
+        });
+    }, function(token, openid, callback) {
+        var usr_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid;
+
+        request.get(usr_url, function(errro, response, body) {
+            var data = JSON.parse(body);
+            if (data.errorcode !== undefined) {
+                callback({
+                    errorcode : data.errcode,
+                    weixin_err : data
+                });
+                return;
+            }
+
+            callback(null, {
+                'openid' : data.openid,
+                'nickname' : data.nickname,
+                'sex' : data.sex,
+                'province' : data.province,
+                'city' : data.city,
+                'country' : data.country,
+                'headimgurl' : data.headimgurl,
+                'privilege' : data.privilege,
+                'unionid' : data.unionid
+            });
+        });
+    }, function (user, callback) {
+        var url = user.headimgurl;
+        //download headIcon
+        _downloadHeadIcon(url, function (err, tempPath) {
+            if (err) {
+                callback(err);
+            } else {
+                //update head icon to ftp
+                var baseName = path.basename(tempPath);
+                qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                        user.headimgurl =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                        callback(err, user);
+                    }
+                })
+            }
+        });
+    }, function(user, callback) {
+        People.findOne({
+            'userInfo.weixin.openid' : user.openid
+        }, function(err, people) {
+            if (err) {
+                callback(err);
+                return;
+            } else if (people !== null) {
+                callback(null, people);
+                return;
+            }
+
+            people = new People({
+                nickname : user.nickname,
+                portrait : user.headimgurl,
+                userInfo : {
+                    weixin : {
+                        openid : user.openid,
+                        nickname : user.nickname,
+                        sex : user.sex,
+                        province : user.province,
+                        city : user.city,
+                        country : user.country,
+                        headimgurl : user.headimgurl,
+                        unionid : user.unionid
+                    }
+                }
+            });
+
+            people.save(function(err, people) {
+                if (err) {
+                    callback(err, people);
+                } else if (!people) {
+                    callback(ServerError.ServerError);
+                } else {
+                    callback(null, people);
+                }
+            });
+        });
+    }, function(people, callback) {
+        req.session.userId = people._id;
+        req.session.loginDate = new Date();
+        _addRegistrationId(people._id, param.registrationId);
+        callback(null, people);
+    }], function(error, people) {
+        ResponseHelper.response(res, error, {
+            'people' : people
+        });
+    });
+};
+
+_loginViaWeibo = function(req, res) {
+    var config = global.qsConfig;
+    var param = req.body;
+    var token = param.access_token;
+    var uid = param.uid;
+    if (!token || !uid) {
+        ResponseHelper.response(res, ServerError.NotEnoughParam);
+        return;
+    }
+    async.waterfall([function(callback) {
+        var url = "https://api.weibo.com/2/users/show.json?access_token=" + token + "&uid=" + uid;
+        request.get(url, function(error, response, body) {
+            var data = JSON.parse(body);
+            if (data.error !== undefined) {
+                callback(data);
+                return;
+            }
+
+            callback(null, {
+                id : data.id,
+                screen_name : data.screen_name,
+                province : data.province,
+                country : data.country,
+                gender : data.gender,
+                avatar_large : data.avatar_large
+            });
+        });
+    }, function (user, callback) {
+        var url = user.avatar_large;
+        //download headIcon
+        _downloadHeadIcon(url, function (err, tempPath) {
+            if (err) {
+                callback(err);
+            } else {
+                //update head icon to ftp
+                var baseName = path.basename(tempPath);
+                qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                        user.avatar_large =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                        callback(err, user);
+                    }
+                })
+            }
+        });
+    }, function(user, callback) {
+        People.findOne({
+            'userInfo.weibo.id' : user.id
+        }, function(err, people) {
+            if (err) {
+                callback(err);
+                return;
+            } else if (people !== null) {
+                callback(null, people);
+                return;
+            }
+
+            people = new People({
+                nickname : user.screen_name,
+                portrait : user.avatar_large,
+                userInfo : {
+                    weibo: {
+                        id : user.id,
+                        screen_name : user.screen_name,
+                        province : user.province,
+                        country : user.country,
+                        gender : user.gender,
+                        avatar_large : user.avatar_large 
+                    }
+                }
+            });
+
+            people.save(function(err, people) {
+                if (err) {
+                    callback(err, people);
+                } else if (!people) {
+                    callback(ServerError.ServerError);
+                } else {
+                    callback(null, people);
+                }
+            });
+        });
+    }, function(people, callback) {
+        req.session.userId = people._id;
+        req.session.loginDate = new Date();
+        _addRegistrationId(people._id, param.registrationId);
+        callback(null, people);
+    }], function(error, people) {
+        ResponseHelper.response(res, error, {
+            'people' : people
+        });
+    });
+};
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -440,5 +734,13 @@ module.exports = {
         method : 'post',
         func : _removeReceiver,
         permissionValidators : ['loginValidator']
+    },
+    'loginViaWeixin' : {
+        method : 'post',
+        func : _loginViaWeixin
+    },
+    'loginViaWeibo' : {
+        method : 'post',
+        func : _loginViaWeibo
     }
 };

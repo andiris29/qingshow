@@ -2,13 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "location_cell_remove_icon.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "location_cell_remove_icon@2x.png"
+      "filename" : "location_cell_delete_red.png"
     },
     {
       "idiom" : "universal",

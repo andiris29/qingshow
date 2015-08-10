@@ -1,14 +1,13 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
+var Shows = require('../../model/shows');
 var ShowComments = require('../../model/showComments');
-var PreviewComments = require('../../model/previewComments');
-var Show = require('../../model/shows');
-var People = require('../../model/peoples');
-var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
-var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
-var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
+var RPeopleShareShow = require('../../model/rPeopleShareShow');
+var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
+var People = require('../../model/peoples');
 
 /**
  * ContextHelper
@@ -19,18 +18,12 @@ var ContextHelper = module.exports;
 
 ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback) {
     peoples = _prepare(peoples);
+
     // __context.followedByCurrentUser
     var followedByCurrentUser = function(callback) {
         _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
     };
-    // __context.numShows
-    var numShows = function(callback) {
-        _numAssociated(peoples, Show, 'modelRef', 'numShows', callback);
-    };
-    // __context.numFollowBrands
-    var numFollowBrands = function(callback) {
-        _numAssociated(peoples, RPeopleFollowBrand, 'initiatorRef', 'numFollowBrands', callback);
-    };
+
     // __context.numFollowPeoples
     var numFollowPeoples = function(callback) {
         _numAssociated(peoples, RPeopleFollowPeople, 'initiatorRef', 'numFollowPeoples', callback);
@@ -39,8 +32,41 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
     var numFollowers = function(callback) {
         _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
+    // __context.numCreateShows, __context.numLikeToCreateShows
+    var numCreateShows = function(callback) {
+        var peopleMap = {};
+        Shows.aggregate([{
+            '$match' : {
+                '$or' : peoples.map(function(people) {
+                    peopleMap[people._id.toString()] = people;
+                    return {
+                        'ownerRef' : people._id
+                    };
+                })
+            }
+        }, {
+            '$group' : {
+                '_id' : '$ownerRef',
+                'numCreateShows' : {
+                    '$sum' : 1
+                },
+                'numLikeToCreateShows' : {
+                    '$sum' : '$numLike'
+                }
+            }
+        }], function(err, results) {
+            if (!err) {
+                results.forEach(function(result) {
+                    var people = peopleMap[result._id];
+                    people.__context.numCreateShows = result.numCreateShows;
+                    people.__context.numLikeToCreateShows = result.numLikeToCreateShows;
+                });
+            }
+            callback(null, peoples);
+        });
+    };
 
-    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers], function(err) {
+    async.parallel([followedByCurrentUser, numFollowPeoples, numFollowers, numCreateShows], function(err) {
         callback(null, peoples);
     });
 };
@@ -55,43 +81,27 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     var likedByCurrentUser = function(callback) {
         _rInitiator(RPeopleLikeShow, qsCurrentUserId, shows, 'likedByCurrentUser', callback);
     };
-    // modedRef.__context.followedByCurrentUser
-    var followedByCurrentUser = function(callback) {
-        var peoples = shows.map(function(show) {
-            return show.modelRef;
-        });
-        peoples = _prepare(peoples);
-        _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
+    // __context.sharedByCurrentUser
+    var sharedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
     };
-    async.parallel([numComments, likedByCurrentUser, followedByCurrentUser], function(err) {
+
+    // modedRef.__context.followedByCurrentUser
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function(err) {
         callback(null, shows);
     });
 };
 
-ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
-    brands = _prepare(brands);
-    // __context.followedByCurrentUser
-    var followedByCurrentUser = function(callback) {
-        _rInitiator(RPeopleFollowBrand, qsCurrentUserId, brands, 'followedByCurrentUser', callback);
+ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
+    trades = _prepare(trades);
+
+    // __context.sharedByCurrentUser
+    var sharedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleShareTrade, qsCurrentUserId, trades, 'sharedByCurrentUser', callback);
     };
 
-    async.parallel([followedByCurrentUser], function(err) {
-        callback(null, brands);
-    });
-};
-
-ContextHelper.appendPreviewContext = function(qsCurrentUserId, previews, callback) {
-    previews = _prepare(previews);
-    // __context.numComments
-    var numComments = function(callback) {
-        _numAssociated(previews, PreviewComments, 'targetRef', 'numComments', callback);
-    };
-    // __context.likedByCurrentUser
-    var likedByCurrentUser = function(callback) {
-        _rInitiator(RPeopleLikePreview, qsCurrentUserId, previews, 'likedByCurrentUser', callback);
-    };
-    async.parallel([numComments, likedByCurrentUser], function(err) {
-        callback(null, previews);
+    async.parallel([sharedByCurrentUser], function(err) {
+        callback(null, trades);
     });
 };
 
@@ -139,6 +149,56 @@ var _rInitiator = function(RModel, initiatorRef, models, contextField, callback)
             }
         };
     });
+    async.parallel(tasks, function(err) {
+        callback(null, models);
+    });
+};
+
+var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            if (initiatorRef) {
+                RModel.findOne({
+                    'initiatorRef' : initiatorRef,
+                    'targetRef' : model._id
+                }, function(err, relationship) {
+                    if (Boolean(!err && relationship)) {
+                        model.__context[contextField] = relationship.create;
+                    }
+                    callback();
+                });
+            } else {
+                callback();
+            }
+        };
+    });
+    async.parallel(tasks, function(err) {
+        callback(null, models);
+    });
+};
+
+var _initiator = function(RModel, InitiatorModel, models, contextField, callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            model.__context[contextField] = {};
+
+            RModel.findOne({
+                'targetRef' : model._id
+            }, function(err, relationship) {
+                if (!err && relationship) {
+                    InitiatorModel.findOne({
+                        '_id' : relationship.initiatorRef
+                    }, function(err, people) {
+                        model.__context[contextField] = Boolean(!err && people) ? people : {};
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            });
+        };
+    });
+
     async.parallel(tasks, function(err) {
         callback(null, models);
     });

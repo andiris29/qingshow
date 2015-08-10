@@ -8,6 +8,7 @@
 
 #import "NSMutableDictionary+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
+#import "NSArray+QSExtension.h"
 @implementation NSMutableDictionary(QSExtension)
 
 - (void)updateWithDict:(NSDictionary*)dict

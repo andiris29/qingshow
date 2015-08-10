@@ -13,6 +13,8 @@
 #import "WXApi.h"
 #import "QSSharePlatformConst.h"
 #import "UIViewController+ShowHud.h"
+#import "QSEntityUtil.h"
+#import "NSDictionary+QSExtension.h"
 
 #define kShareTitle @"时尚宠儿的归属地"
 #define kShareDesc @"美丽乐分享，潮流资讯早知道"
@@ -31,7 +33,12 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboAuthorizeNotiHander:) name:kWeiboAuthorizeResultNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboSendMessageNotiHandler:) name:kWeiboSendMessageResultNotification object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShareWechatSuccess:) name:kShareWechatSuccessNotification object:nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.shareContainer.hidden = YES;
     self.sharePanel.hidden = YES;
 }
@@ -50,7 +57,7 @@
 - (void)showSharePanelWithUrl:(NSString*)urlStr
 {
     self.shareUrl = urlStr;
-    if (self.shareContainer.hidden == NO && self.sharePanel.hidden == NO){
+    if (!self.shareContainer.hidden && !self.sharePanel.hidden){
         return;
     }
 
@@ -65,7 +72,7 @@
 }
 - (void)hideSharePanel
 {
-    if (self.shareContainer.hidden == YES && self.sharePanel.hidden == YES) {
+    if (self.shareContainer.hidden && self.sharePanel.hidden) {
         return;
     }
 
@@ -100,7 +107,7 @@
     if (self.shareUrl) {
         webPage.webpageUrl = self.shareUrl;
     } else {
-        webPage.webpageUrl = @"http://chingshow.com/";
+        webPage.webpageUrl = @"http://121.41.161.239/";
     }
 
     webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
@@ -116,7 +123,7 @@
 
 - (void)weiboSendMessageNotiHandler:(NSNotification*)notification
 {
-    if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
+    if (WeiboSDKResponseStatusCodeSuccess == [notification.userInfo numberValueForKeyPath:@"statusCode"].integerValue) {
         [MobClick event:@"shareShow" attributes:@{@"snsName": @"weibo"} counter:1];
         if ([self.delegate respondsToSelector:@selector(didShareWeiboSuccess)]) {
             [self.delegate didShareWeiboSuccess];
@@ -143,7 +150,7 @@
     if (self.shareUrl) {
         ext.webpageUrl = self.shareUrl;
     } else {
-        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
 
     message.mediaObject = ext;
@@ -171,7 +178,7 @@
 
         ext.webpageUrl = self.shareUrl;
     } else {
-        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
 
     message.mediaObject = ext;
@@ -183,6 +190,12 @@
     
     [WXApi sendReq:req];
     [self hideSharePanel];
+}
+
+- (void)didReceiveShareWechatSuccess:(NSNotification*)noti {
+    if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
+        [self.delegate didShareWechatSuccess];
+    }
 }
 
 - (IBAction)shareCancelPressed:(id)sender {

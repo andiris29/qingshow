@@ -8,12 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, QSImageNameType) {
+    QSImageNameTypeOrigin,
+    QSImageNameTypeS,
+    QSImageNameTypeXS,
+    QSImageNameTypeXXS,
+    QSImageNameTypeXXXS,
+    QSImageNameType30,
+    QSImageNameType50,
+    QSImageNameType100,
+    QSImageNameType200
+    
+};
+
 @interface QSImageNameUtil : NSObject
 
-+ (NSURL*)generate2xImageNameUrl:(NSURL*)imgUrl;
-+ (NSArray*)generate2xImageNameUrlArray:(NSArray*)imgUrl;
-
-+ (NSString*)generate2xImageName:(NSString*)imgName;
-+ (NSArray*)generate2xImageNameArray:(NSArray*)imgNames;
-
++ (NSURL*)appendImageNameUrl:(NSURL*)imgUrl type:(QSImageNameType)type;
++ (NSArray*)appendImageNameUrls:(NSArray*)urls type:(QSImageNameType)type;
++ (NSString*)appendImageName:(NSString*)imgUrl type:(QSImageNameType)type;
++ (NSArray*)appendImageNames:(NSArray*)urls type:(QSImageNameType)type;
++ (NSURL *)appendingDefaultImageUrl;
 @end

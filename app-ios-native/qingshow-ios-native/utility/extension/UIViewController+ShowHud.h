@@ -14,8 +14,10 @@
 
 
 - (void)showTextHud:(NSString*)text;
+- (void)showTextHud:(NSString*)text afterCustomDelay:(float)delay;
 - (void)showErrorHudWithText:(NSString*)text;
 - (void)showErrorHudWithError:(NSError*)error;
 - (void)showSuccessHudWithText:(NSString*)text;
+- (void)showSuccessHudAndPop:(NSString*)text;
 - (MBProgressHUD*)showNetworkWaitingHud;
 @end

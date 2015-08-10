@@ -1,24 +1,27 @@
 var mongoose = require('mongoose');
 var Show = require('./shows');
-var Brand = require('./brands');
 
 var Schema = mongoose.Schema;
 var peopleSchema;
 peopleSchema = Schema({
     __context : Object,
-    roles : [Number], //user 0 model 1
-    name : String,
+    nickname: String,
     assetsRoot : String,
     portrait : String,
     background : String,
     height : Number,
     weight : Number,
-    birthday : Date,
-    gender : Number,
-    hairType : Number,
-    shoeSize : Number,
-    clothingSize : Number,
-    favoriteBrand : String,
+    age : Number,
+    bodyType : Number,
+    dressStyle : Number,
+    expectations : [Number],
+    measureInfo : {
+        shoulder : Number,
+        bust : Number,
+        waist : Number,
+        hips : Number,
+        shoeSize : Number
+    },
     userInfo : {
         id : String,
         password : {
@@ -33,10 +36,24 @@ peopleSchema = Schema({
             type : Date,
             select : false,
             'default' : Date.now
+        },
+        weixin : {
+            openid : String,
+            nickname : String,
+            sec : Number,
+            province : String,
+            country : String,
+            headimgurl : String,
+            unionid : String
+        },
+        weibo : {
+            id : String,
+            screen_name : String,
+            province : Number,
+            country : Number,
+            gender : String,
+            avatar_large : String
         }
-    },
-    modelInfo : {
-        order : Number
     },
     receivers : [{
         uuid: String,
@@ -44,7 +61,7 @@ peopleSchema = Schema({
         phone : String,
         province : String,
         address : String,
-        isDefault : Boolean 
+        isDefault : Boolean
     }],
     create : {
         type : Date,
@@ -53,6 +70,14 @@ peopleSchema = Schema({
     update : {
         type : Date,
         'default' : Date.now
+    },
+    questSharing : {
+        status : Number,
+        progress : Number,
+        reward : {
+            id : String,
+            receiverUuid : String
+        }
     }
 });
 var People = mongoose.model('peoples', peopleSchema);

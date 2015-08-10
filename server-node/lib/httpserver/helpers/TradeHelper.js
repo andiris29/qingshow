@@ -8,15 +8,31 @@ var qsmail = require('../../runtime/qsmail');
 
 var TradeHelper = module.exports;
 
-TradeHelper.updateStatus = function(trade, updateStatus, peopleId, callback) {
+var _phaseMap = {
+    0 : 0,
+    1 : 0,
+    2 : 1,
+    3 : 1,
+    5 : 2,
+    7 : 1,
+    9 : 2,
+    10 : 2,
+    15 : 2,
+    17 : 2,
+    18 : 3
+};
+
+TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callback) {
     var statusLog = {
-        'status' : updateStatus,
+        'status' : newStatus,
+        'comment' : comment,
         'peopleRef' : peopleId,
         'date' : Date.now
     };
-    trade.set('status', updateStatus);
+    trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
+    trade.phase = _phaseMap[newStatus];
 
     trade.save(function(err) {
         callback(err, trade);

@@ -288,7 +288,11 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *
  * @see MBProgressHUDAnimation
  */
+
+
 @property (assign) MBProgressHUDAnimation animationType;
+//changed by MHY
+@property (strong,nonatomic)UILabel *detailsLabel;
 
 /**
  * The UIView (e.g., a UIImageView) to be shown when the HUD is in MBProgressHUDModeCustomView.

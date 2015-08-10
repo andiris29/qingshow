@@ -10,14 +10,13 @@
 #import "QSBadgeView.h"
 
 #import "QSShowCollectionViewProvider.h"
-#import "QSModelListTableViewProvider.h"
 
-@interface QSDetailBaseViewController : UIViewController <QSBadgeViewDelegate, QSShowProviderDelegate, QSModelListTableViewProviderDelegate>
+@interface QSDetailBaseViewController : UIViewController <QSShowProviderDelegate, QSBadgeBtnGroupDelegate>
 
-//@property (weak, nonatomic) IBOutlet UIButton *backBtn;
+@property (assign, nonatomic) int currentSection;
 @property (strong, nonatomic) NSArray* viewArray;
 @property (strong, nonatomic) QSBadgeView* badgeView;
-@property (assign, nonatomic) QSSectionButtonGroupType type;
+
 
 - (void)configContentInset;
 @end

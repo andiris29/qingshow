@@ -6,45 +6,53 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "UIView+ScreenShot.h"
 #import "UIViewController+QSExtension.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSS02ShandianViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
-#import "QSS06CompareViewController.h"
-#import "QSP01ModelListViewController.h"
-#import "QSP02ModelDetailViewController.h"
-#import "QSP03BrandListViewController.h"
-#import "QSS08PreviewViewController.h"
 #import "QSU01UserDetailViewController.h"
-#import "QSS02CategoryViewController.h"
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
+
+#import "QSU13PersonalizeViewController.h"
+
+#import "QSPeopleUtil.h"
+#import "QSS21CategorySelectorVC.h"
+
+#define kWelcomePageVersionKey @"kWelcomePageVersionKey"
 
 
 @interface QSAbstractRootViewController ()
 
-@property (strong, nonatomic) QSRootMenuView* menuView;
+
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (assign, nonatomic) BOOL fIsFirstLoad;
+
+
+
+@property (strong, nonatomic) QSG02WelcomeViewController* welcomeVc;
 
 @end
 
 @implementation QSAbstractRootViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+#pragma mark - Init
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+        self.hasFetchUserLogin = NO;
     }
     return self;
 }
+
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -64,6 +72,14 @@
     }
     
     self.fIsFirstLoad = YES;
+    
+    self.welcomeVc = [[QSG02WelcomeViewController alloc] init];
+    self.welcomeVc.delegate = self;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,16 +87,38 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.menuView.hidden = !self.fIsShowMenu;
+    
+    if (self.fIsFirstLoad) {
+        self.fIsFirstLoad = NO;
+        
+        NSUserDefaults* userDefault = [NSUserDefaults standardUserDefaults];
+//        userDefault valueFor
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        if (![[userDefault valueForKey:kWelcomePageVersionKey] isEqualToString:version]) {
+            [self.navigationController.view addSubview:self.welcomeVc.view];
+            [userDefault setValue:version forKey:kWelcomePageVersionKey];
+            [userDefault synchronize];
+        }
+    }
+    
+    if (self.hasFetchUserLogin) {
+        [self handleCurrentUser];
+    }
+
+}
+
+- (void)handleCurrentUser
+{
+    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
+    if (userInfo && ![QSPeopleUtil hasPersonalizeData:userInfo]) {
+        [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self hideMenu];
-    
-    if (self.fIsFirstLoad) {
-        self.fIsFirstLoad = NO;
-    }
     
 }
 
@@ -95,80 +133,24 @@
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
     UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
     titleImageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
-    tapGes.numberOfTapsRequired = 5;
-    [titleImageView addGestureRecognizer:tapGes];
     
     self.navigationItem.titleView = titleImageView;
-    
-    UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
-    self.navigationItem.leftBarButtonItem = menuItem;
-    
-    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_account_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
-    self.navigationItem.rightBarButtonItem = rightButtonItem;
 }
-
-- (void)didTapRootTitle
-{
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    
-    [self showTextHud:[NSString stringWithFormat:@"version: %@", version]];
-}
-
 
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuViewDidTapBlankView
 {
     [self hideMenu];
 }
-- (void)rootMenuItemPressedType:(int)type
+- (void)rootMenuItemPressedType:(QSRootMenuItemType)type oldType:(QSRootMenuItemType)oldType
 {
     [self hideMenu];
-    switch (type) {
-        case 1:
-        {
-            UIViewController* vc = [[QSS02ShandianViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case 3:
-        {
-            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case 4:
-        {
-            UIViewController* vc = [[QSS06CompareViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case 9:
-        {
-            UIViewController* vc = [[QSP03BrandListViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case 8:
-        {
-            UIViewController* vc = [[QSS08PreviewViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        default:
-        {
-            UIViewController* vc = [[QSS02CategoryViewController alloc] initWithCategory:type];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-    }
-    
-    
 }
 
 #pragma mark - IBAction
 - (void)menuButtonPressed
 {
+
     __weak QSAbstractRootViewController* weakSelf = self;
     if (self.fIsShowMenu)
     {
@@ -185,27 +167,6 @@
     self.fIsShowMenu = !self.fIsShowMenu;
 }
 
-- (void)accountButtonPressed
-{
-    [self hideMenu];
-    
-    QSUserManager* userManager = [QSUserManager shareUserManager];
-    //    if (userManager.fIsLogined && !userManager.userInfo) {
-    //        //还未获取到用户数据
-    //        [self showTextHud:@"请稍后再试"];
-    //        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-    //    } else
-    if (!userManager.userInfo) {
-        //未登陆
-        UIViewController *vc = [[QSU07RegisterViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-    } else {
-        //已登陆
-        UIViewController* vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-
 - (void)hideMenu
 {
     if (self.fIsShowMenu)
@@ -216,5 +177,45 @@
         }];
         self.fIsShowMenu = NO;
     }
+}
+
+#pragma mark - QSG02WelcomeViewControllerDelegate
+- (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc
+{
+    [UIView animateWithDuration:0.5f animations:^{
+        vc.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [vc.view removeFromSuperview];
+    }];
+}
+- (void)presentRegisterVC:(QSG02WelcomeViewController *)vc
+{
+    QSU07RegisterViewController *regVC = [[QSU07RegisterViewController alloc]init];
+    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:vc];
+    regVC.navigationItem.leftBarButtonItem = item;
+    [self.navigationController pushViewController:regVC
+                                         animated:YES];
+    [self dismissWelcomePage:vc];
+}
+
+- (void)presentLoginVC:(QSG02WelcomeViewController *)vc
+{
+    QSU06LoginViewController *logVC = [[QSU06LoginViewController alloc]init];
+    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:vc];
+    logVC.navigationItem.leftBarButtonItem = item;
+    [self.navigationController pushViewController:logVC
+                                         animated:YES];
+    [self dismissWelcomePage:vc];
+}
+#pragma mark - QSMenuProviderDelegate
+- (void)didClickMenuBtn
+{
+    [self menuButtonPressed];
+}
+- (void)showRegisterVc
+{
+}
+- (void)showDefaultVc {
+    
 }
 @end

@@ -15,7 +15,18 @@
 + (NSString*)getTime:(NSDate*)date;
 + (NSString*)getMYD:(NSDate*)date;
 + (NSString*)getWeek:(NSDate*)date;
++ (NSString*)gettimeSinceDate:(NSDate *)date;
 
 + (NSString*)buildDateStringFromDate:(NSDate*)date;
++ (NSString*)buildDayStringFromDate:(NSDate*)date;
++ (BOOL)date:(NSDate*)date1 isTheSameDayWith:(NSDate*)date2;
++ (NSString*)getDayDesc:(NSDate*)date;
++ (NSString*)getMonthDesc:(NSDate*)date;
++ (NSString*)getYearDesc:(NSDate*)date;
++ (NSString*)getWeekdayDesc:(NSDate*)date;
++ (int)getWeekdayIndex:(NSDate*)date;
+
+//获取日期
++ (NSString*)getMonthAndDate:(NSDate*)date;
 
 @end

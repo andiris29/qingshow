@@ -8,17 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
-#import "QSBigImageTableViewProvider.h"
-@interface QSU01UserDetailViewController : QSDetailBaseViewController<QSBigImageTableViewProviderDelegate>
+#import "QSImageCollectionViewProvider.h"
+#import "QSPeopleListTableViewProvider.h"
+@protocol QSMenuProviderDelegate;
 
-@property (strong, nonatomic) IBOutlet UICollectionView* likedCollectionView;
-@property (strong, nonatomic) IBOutlet UICollectionView* recommendationCollectionView;
-@property (strong, nonatomic) IBOutlet UITableView* followingTableView;
-@property (weak, nonatomic) IBOutlet UITableView *likeBrandTableView;
+@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate, QSPeoplelListTableViewProviderDelegate>
+
+@property (weak, nonatomic) IBOutlet UICollectionView *matcherCollectionView;
+@property (strong, nonatomic) IBOutlet UICollectionView* recommendCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *favorCollectionView;
+@property (weak, nonatomic) IBOutlet UITableView *followingTableView;
+@property (weak, nonatomic) IBOutlet UITableView *followerTableView;
+@property (weak, nonatomic) IBOutlet UIButton *menuBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;
+
+- (IBAction)topToTopBtnPressed:(id)sender;
+
+@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 - (id)initWithPeople:(NSDictionary*)peopleDict;
 - (id)initWithCurrentUser;
-
-@property (weak, nonatomic) IBOutlet UIButton *accountBtn;
 
 @end

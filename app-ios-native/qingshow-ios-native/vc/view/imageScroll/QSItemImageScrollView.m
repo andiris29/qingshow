@@ -10,6 +10,8 @@
 
 @implementation QSItemImageScrollView
 
+@dynamic delegate;
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];

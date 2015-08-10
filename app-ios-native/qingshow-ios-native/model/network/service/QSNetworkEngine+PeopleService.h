@@ -15,6 +15,9 @@
 - (MKNetworkOperation*)getModelListPage:(int)page
                               onSucceed:(ArraySuccessBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryPeopleDetail:(NSString*)peopleId
+                               onSucceed:(DicBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Follow
 - (MKNetworkOperation*)peopleQueryFollower:(NSDictionary*)peopleDict

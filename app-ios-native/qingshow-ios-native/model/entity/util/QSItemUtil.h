@@ -10,29 +10,17 @@
 
 @interface QSItemUtil : NSObject
 
-+ (NSURL*)getCoverUrl:(NSDictionary*)itemDict;
-+ (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
-+ (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict;
-//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict;
-
++ (NSURL*)getThumbnail:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
 
-
-+ (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray;
 + (NSString*)getItemName:(NSDictionary*)item;
-+ (NSString*)getItemTypeName:(NSDictionary*)item;
-+ (BOOL)hasDiscountInfo:(NSDictionary*)item;
-+ (NSString*)getPrice:(NSDictionary*)item;
-+ (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict;
++ (NSNumber*)getPrice:(NSDictionary*)itemDict;
++ (NSString*)getPriceDesc:(NSDictionary*)item;
++ (NSNumber*)getPromoPrice:(NSDictionary*)itemDict;
++ (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict;
 
-+ (NSDictionary*)getBrand:(NSDictionary*)item;
-+ (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
-+ (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
-
-+ (NSDictionary*)getTaobaoInfo:(NSDictionary*)item;
-
-+ (NSURL*)getSizeExplanation:(NSDictionary*)item;
-+ (NSString*)getVideoPath:(NSDictionary*)item;
-
-//+ (CGFloat)getHeight:(NSDictionary*)itemDict;
++ (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
++ (NSString*)getCategoryStr:(NSDictionary*)itemDict;
++ (NSArray*)getSkuProperties:(NSDictionary*)itemDict;
++ (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict;
 @end
