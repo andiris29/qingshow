@@ -88,16 +88,19 @@
     }
     
     self.itemDict = itemDict;
-    NSNumber* minExpectionPrice = [QSItemUtil getMinExpectionPrice:self.itemDict];
-    if (minExpectionPrice) {
-        self.minDiscount = (int) ([QSItemUtil getMinExpectionPrice:self.itemDict].doubleValue * 10 / [QSItemUtil getPromoPrice:self.itemDict].doubleValue);
-    } else {
+//    NSNumber* minExpectionPrice = [QSItemUtil getMinExpectionPrice:self.itemDict];
+//    if (minExpectionPrice) {
+//        self.minDiscount = (int) ([QSItemUtil getMinExpectionPrice:self.itemDict].doubleValue * 10 / [QSItemUtil getPromoPrice:self.itemDict].doubleValue);
+//    } else {
 #warning 写死3折   现在已修改为先显示最高的折扣
         float promoPrice = [QSItemUtil getPromoPrice:self.itemDict].floatValue;
         float price = [QSItemUtil getPrice:self.itemDict].floatValue;
         self.minDiscount = (promoPrice/price)*10;
+        if (self.minDiscount == 10) {
+            self.minDiscount = 9;
+        }
         self.addBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
-    }
+//    }
     self.currentDiscount = self.minDiscount;
     if (self.currentDiscount-1 < 3) {
         self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
@@ -106,12 +109,12 @@
     {
         self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
     }
-    self.maxDisCount = self.minDiscount;
+    self.maxDisCount = self.currentDiscount;
     [self updateUi];
 }
 
 - (void)updateUi {
-    self.discountRateLabel.text = [NSString stringWithFormat:@"%d折", self.currentDiscount];
+    self.discountRateLabel.text = [NSString stringWithFormat:@"%d%%", self.currentDiscount*10];
     NSNumber* finalPrice = [self getFinalPrice];
     self.totalPriceLabel.text = [NSString stringWithFormat:@"%.2f", finalPrice.doubleValue];
     

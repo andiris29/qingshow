@@ -74,10 +74,10 @@
     NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
-    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.737 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.800 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
     [self.originPriceLabel setAttributedText:attri];
     
-    
+ 
     self.nowPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
     self.colorLabel.text = [QSTradeUtil getColorText:tradeDict];
@@ -90,7 +90,9 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
-    NSLog(@"-----------%d",s);
+//    if (s == 0) {
+//           NSLog(@"%@",itemDict[@"_id"]);
+//    }
     if (s == 0 || s == 1) {
          self.dateLabel.text = [NSString stringWithFormat:@"申请日期:%@",[QSTradeUtil getDayDesc:tradeDict]];
     }else
@@ -140,7 +142,7 @@
             self.saleImgView.hidden = YES;
             self.stateLabel.hidden = YES;
             [self.submitButton setImage:nil forState:UIControlStateNormal];
-            [self setSubmitButton:self.submitButton];
+            [self configBtn:self.submitButton];
             [self.submitButton setTitle:@"申请退货" forState:UIControlStateNormal];
             break;
         }
