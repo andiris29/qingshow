@@ -14,7 +14,7 @@ public class StatusCode {
             case 1:
                 return "折扣申请成功";
             case 2:
-                return "备货中…";
+                return "备货中...";
             case 3:
                 return "已发货";
             case 5:

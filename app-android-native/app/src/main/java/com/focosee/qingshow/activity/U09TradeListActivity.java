@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.alipay.sdk.widget.Loading;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -24,6 +27,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.TradeUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -40,8 +44,8 @@ import de.greenrobot.event.EventBus;
 public class U09TradeListActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
-    private final int TYPE_ALL = 0;
-    private final int TYPE_RUNNING = 1;
+    private final int TYPE_APPLY = 0;
+    private final int TYPE_SUCCESSED = 1;
 
     @InjectView(R.id.U09_head_layout)
     LinearLayout u09HeadLayout;
@@ -66,7 +70,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
     private View firstItem;
     private int currentType = 1;
-    private boolean isRunning = true;
+    private boolean isSuccessed = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,28 +155,28 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
     private void getTradeFromNet(int type, final int pageNo, int pageSize) {
 
-        boolean inProgress = false;
+        String phases;
 
-        if (type == TYPE_RUNNING) {
-            inProgress = true;
+        if (type == TYPE_SUCCESSED) {
+            phases = ValueUtil.phases_finish;
+        }else{
+            phases = ValueUtil.phases_apply;
         }
 
         final LoadingDialogs pDialog = new LoadingDialogs(this,R.style.dialog);
-        if (currentPageNo == 1)
-            pDialog.show();
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(peopleId, pageNo, pageSize, inProgress), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQuerybyPhaseApi(phases, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println("response:" + response);
-                if (currentPageNo == 1)
-                    pDialog.dismiss();
+//                if (currentPageNo == 1)
+//                    pDialog.dismiss();
                 if (MetadataParser.hasError(response)) {
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
-                        if (isRunning) {//进入u09时的第一次请求
-                            clickTabRunning();
-                            doRefresh(TYPE_ALL);
-                            currentType = TYPE_ALL;
-                            isRunning = false;
+                        if (isSuccessed) {//进入u09时的第一次请求
+                            clickTabApply();
+                            doRefresh(TYPE_APPLY);
+                            currentType = TYPE_APPLY;
+                            isSuccessed = false;
                         }
                     } else {
                         ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
@@ -181,12 +185,12 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
                     mRefreshLayout.endLoadingMore();
                     return;
                 }
-                if (isRunning) {//进入u09时的第一次请求
-                    clickTabRunning();
-                    currentType = TYPE_RUNNING;
+                if (isSuccessed) {//进入u09时的第一次请求
+                    clickTabSuccessed();
+                    currentType = TYPE_SUCCESSED;
                 }
 
-                List<MongoTrade> tradeList = TradeParser.parseQuery(response);
+                List<MongoTrade> tradeList = TradeParser.parse_categories(response);
                 tradeList = TradeUtil.tradelistSort(tradeList);
                 if (pageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
@@ -198,7 +202,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
                 }
                 currentPageNo++;
                 mAdapter.notifyDataSetChanged();
-                isRunning = false;
+                isSuccessed = false;
             }
         });
 
@@ -220,15 +224,19 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
                 break;
             case R.id.u09_tab_all:
                 currentPageNo = 1;
-                currentType = TYPE_ALL;
-                clickTabAll();
-                doRefresh(TYPE_ALL);
+                mAdapter.clearData();
+                mAdapter.notifyDataSetChanged();
+                currentType = TYPE_APPLY;
+                clickTabApply();
+                doRefresh(TYPE_APPLY);
                 break;
             case R.id.u09_tab_running:
                 currentPageNo = 1;
-                currentType = TYPE_RUNNING;
-                clickTabRunning();
-                doRefresh(TYPE_RUNNING);
+                mAdapter.clearData();
+                mAdapter.notifyDataSetChanged();
+                currentType = TYPE_SUCCESSED;
+                clickTabSuccessed();
+                doRefresh(TYPE_SUCCESSED);
                 break;
             case R.id.backTop_btn:
                 recyclerView.scrollToPosition(0);
@@ -236,14 +244,14 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         }
     }
 
-    private void clickTabAll() {
+    private void clickTabApply() {
         u09TabAll.setBackgroundResource(R.drawable.s01_tab_btn1);
         u09TabAll.setTextColor(getResources().getColor(R.color.white));
         u09TabRunning.setBackgroundResource(R.drawable.s01_tab_border1);
         u09TabRunning.setTextColor(getResources().getColor(R.color.master_pink));
     }
 
-    private void clickTabRunning() {
+    private void clickTabSuccessed() {
         u09TabAll.setBackgroundResource(R.drawable.s01_tab_border2);
         u09TabAll.setTextColor(getResources().getColor(R.color.master_pink));
         u09TabRunning.setBackgroundResource(R.drawable.s01_tab_btn2);

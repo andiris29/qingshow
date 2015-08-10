@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="350dp"
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="10dp">
@@ -35,21 +35,7 @@
             android:textSize="@dimen/text_size"
             android:visibility="gone" />
 
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/item_tradelist_btn3"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/item_tradelist_btn2"
-            android:background="@drawable/tradelist_btn"
-            android:gravity="center"
-            android:text="取消"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@color/master_pink"
-            android:visibility="gone" />
-
-        <com.focosee.qingshow.widget.QSTextView
+        <com.focosee.qingshow.widget.QSButton
             android:id="@+id/item_tradelist_btn2"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
@@ -58,6 +44,7 @@
             android:layout_toLeftOf="@+id/item_tradelist_btn1"
             android:layout_marginRight="5dp"
             android:background="@drawable/tradelist_btn"
+            app:clickGround="@drawable/round_btn_background"
             android:gravity="center"
             android:text="申请退货"
             android:textSize="@dimen/text_size_small"
@@ -75,7 +62,7 @@
             android:background="@drawable/s11_payment_hover"
             android:visibility="gone" />
 
-        <com.focosee.qingshow.widget.QSTextView
+        <com.focosee.qingshow.widget.QSButton
             android:id="@+id/item_tradelist_btn1"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
@@ -83,6 +70,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/tradelist_btn"
+            app:clickGround="@drawable/round_btn_background"
             android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
@@ -138,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_tradelist_description"
                 android:layout_marginTop="5dp"
-                android:text="原价：￥"
+                android:text="原价："
                 android:textColor="@color/gary" />
 
             <com.focosee.qingshow.widget.QSTextView
@@ -168,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_tradelist_actualPrice"
                 android:layout_marginTop="5dp"
-                android:text="颜色："
+                android:text="属性："
                 android:textColor="@color/gary" />
 
             <com.focosee.qingshow.widget.QSTextView

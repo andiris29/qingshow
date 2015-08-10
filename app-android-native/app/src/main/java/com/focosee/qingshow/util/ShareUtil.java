@@ -45,7 +45,7 @@ public class ShareUtil {
         msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
         msg.setThumbImage(thumb);
         msg.title = ShareConfig.SHARE_TITLE;
-        msg.description = ShareConfig.SHARE_DESCRIPTION;
+        msg.description = ShareConfig.SHARRE_TRADE_DESCRIPTION;
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = transaction;

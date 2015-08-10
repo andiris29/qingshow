@@ -1,5 +1,6 @@
 package com.focosee.qingshow.httpapi.gson.deserializer;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.google.gson.JsonDeserializationContext;
@@ -17,8 +18,12 @@ public class MongoItemIdDeserializer implements JsonDeserializer<MongoItem> {
     public MongoItem deserialize
             (JsonElement jElement, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        MongoItem item = new MongoItem();
-        item._id = jElement.getAsString();
-        return item;
+        if(!jElement.isJsonObject()){
+            MongoItem item = new MongoItem();
+            item._id = jElement.getAsString();
+            return item;
+        }else{
+            return QSGsonFactory.create().fromJson(jElement.getAsJsonObject(), MongoItem.class);
+        }
     }
 }

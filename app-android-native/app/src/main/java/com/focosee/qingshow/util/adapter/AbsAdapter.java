@@ -55,6 +55,10 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
         this.datas.addAll(datas);
     }
 
+    public void clearData(){
+        this.datas.clear();
+    }
+
     public void addDataAtLast(List<T> datas) {
         this.datas.addAll(datas);
     }

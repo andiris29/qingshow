@@ -30,15 +30,16 @@ public class StringUtil {
         if(null == properties)return "尺码:        颜色:";
         StringBuffer buffer = new StringBuffer();
         for(String p : properties){
-            if(p.indexOf(":") == 0){
+            p = p.replace(":", "：");
+            if(p.indexOf("：") == 0){
                 p = p.substring(1);
             }
-            if(p.lastIndexOf(":") == p.length() - 1){
+            if(p.lastIndexOf("：") == p.length() - 1){
                 p = p.substring(0, p.length() - 1);
             }
             buffer.append(p);
-            buffer.append("\n\n");
+            buffer.append("     ");
         }
-        return "尺码:" + buffer.toString().substring(0, buffer.length() - "\n\n".length());
+        return ("尺码：" + buffer.toString());
     }
 }
