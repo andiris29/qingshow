@@ -57,7 +57,15 @@
                           url:(NSString*)url
                     onSucceed:(VoidBlock)succeedBlock
                       onError:(ErrorBlock)errorBlock {
-    [self _shareWithWechartScene:WXSceneTimeline title:title desc:desc image:image url:url onSucceed:succeedBlock onError:errorBlock];
+    //微信朋友圈不显示desc
+    NSMutableString* content = [@"" mutableCopy];
+    if (title) {
+        [content appendFormat:@"【%@】", title];
+    }
+    if (desc) {
+        [content appendString:desc];
+    }
+    [self _shareWithWechartScene:WXSceneTimeline title:content desc:nil image:image url:url onSucceed:succeedBlock onError:errorBlock];
 }
 - (void)shareWithWechatFriend:(NSString*)title
                          desc:(NSString*)desc

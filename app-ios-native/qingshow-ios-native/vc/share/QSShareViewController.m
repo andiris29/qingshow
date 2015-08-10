@@ -17,13 +17,11 @@
 #import "NSDictionary+QSExtension.h"
 #import "QSShareService.h"
 
-#define kShareTitle @"时尚宠儿的归属地"
-#define kShareDesc @"美丽乐分享，潮流资讯早知道"
-
 @interface QSShareViewController ()
 
 @property (strong, nonatomic) NSString* shareUrl;
-
+@property (strong, nonatomic) NSString* shareTitle;
+@property (strong, nonatomic) NSString* shareDesc;
 @end
 
 @implementation QSShareViewController
@@ -56,8 +54,10 @@
 
 
 #pragma mark - Share
-- (void)showSharePanelWithUrl:(NSString*)urlStr
+- (void)showSharePanelWithTitle:(NSString*)title desc:(NSString*)desc url:(NSString*)urlStr
 {
+    self.shareTitle = title;
+    self.shareDesc = desc;
     self.shareUrl = urlStr;
     if (!self.shareContainer.hidden && !self.sharePanel.hidden){
         return;
@@ -104,8 +104,8 @@
     WBMessageObject *message = [WBMessageObject message];
     WBWebpageObject* webPage = [WBWebpageObject object];
     webPage.objectID = @"qingshow_webpage_id";
-    webPage.title = kShareTitle;
-    webPage.description = kShareDesc;
+    webPage.title = self.shareTitle;
+    webPage.description = self.shareDesc;
     if (self.shareUrl) {
         webPage.webpageUrl = self.shareUrl;
     } else {
@@ -149,7 +149,7 @@
     } else {
         sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
-    [SHARE_SHARE_SERVICE shareWithWechatMoment:[NSString stringWithFormat:@"【%@】%@", kShareTitle, kShareDesc] desc:nil image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+    [SHARE_SHARE_SERVICE shareWithWechatMoment:self.shareTitle desc:self.shareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
         if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
             [self.delegate didShareWechatSuccess];
         }
@@ -171,7 +171,7 @@
         sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
     
-    [SHARE_SHARE_SERVICE shareWithWechatFriend:kShareTitle desc:kShareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+    [SHARE_SHARE_SERVICE shareWithWechatFriend:self.shareTitle desc:self.shareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
         if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
             [self.delegate didShareWechatSuccess];
         }

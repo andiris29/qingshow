@@ -354,7 +354,7 @@
     NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
     
     NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
-    [self.shareVc showSharePanelWithUrl:urlStr];
+    [self.shareVc showSharePanelWithTitle:@"来倾秀玩转搭配，show出你的范儿！" desc:@"随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算" url:urlStr];
 }
 - (void)hideSharePanel
 {

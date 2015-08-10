@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView* shareContainer;
 @property (weak, nonatomic) IBOutlet UIView* sharePanel;
-- (void)showSharePanelWithUrl:(NSString*)urlStr;
+- (void)showSharePanelWithTitle:(NSString*)title desc:(NSString*)desc url:(NSString*)urlStr;
 - (void)hideSharePanel;
 @property (weak, nonatomic) NSObject<QSShareViewControllerDelegate>* delegate;
 
