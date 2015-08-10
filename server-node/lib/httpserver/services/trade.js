@@ -197,7 +197,7 @@ trade.statusTo = {
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
-                    if (trade._id.toString() != rq.qsCurrentUserId) {
+                    if (trade._id.toString() != req.qsCurrentUserId) {
                         jPushAudiences.find({
                             'peopleRef' : trade.ownerRef
                         }).exec(function(err, infos) {
