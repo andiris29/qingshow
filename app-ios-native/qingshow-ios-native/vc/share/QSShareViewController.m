@@ -16,9 +16,9 @@
 #import "QSEntityUtil.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSShareService.h"
-
-#define kShareTitle @"时尚宠儿的归属地"
-#define kShareDesc @"美丽乐分享，潮流资讯早知道"
+#import "MKNetworkKit.h"
+#define kShareTitle @"来倾秀玩转搭配，show出你的范儿！"
+#define kShareDesc @"随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算"
 
 @interface QSShareViewController ()
 

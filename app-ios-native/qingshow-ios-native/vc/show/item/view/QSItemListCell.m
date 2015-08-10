@@ -29,7 +29,7 @@
 
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
-    self.priceLabel.text = [NSString stringWithFormat:@"价格:%@",[QSItemUtil getPriceDesc:itemDic]];
+    self.priceLabel.text = [NSString stringWithFormat:@"价格:%@",[QSItemUtil getPromoPriceDesc:itemDic]];
     NSURL *url = [QSItemUtil getThumbnail:itemDic];
     NSURL *reNamedUrl = [QSImageNameUtil appendImageNameUrl:url type:QSImageNameTypeS];
     [self.itemIcomImageView setImageFromURL:reNamedUrl];

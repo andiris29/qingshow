@@ -102,7 +102,7 @@
     {
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期：%@",[QSTradeUtil getDayDesc:tradeDict]];
     }
-    NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
+    NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d%%", (int)(_actualPrice * 100 / price.doubleValue)];
     BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     switch (s) {
@@ -112,7 +112,7 @@
             self.stateLabel.hidden = YES;
             self.exchangeButton.hidden = YES;
             self.saleImgView.hidden = YES;
-            [self.submitButton setTitle:@"取消订单" forState:UIControlStateNormal];
+            [self.submitButton setTitle:@"取消申请" forState:UIControlStateNormal];
             break;
         }
         case 2:

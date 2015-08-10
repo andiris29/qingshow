@@ -31,6 +31,7 @@
                 <outlet property="companyTextField" destination="qPh-Mc-tkf" id="JNy-Gg-UmZ"/>
                 <outlet property="datePicker" destination="2Qx-Nh-tn6" id="vZ7-M0-iJ2"/>
                 <outlet property="expressOrderTextField" destination="ISi-yr-CdL" id="vAg-mC-H11"/>
+                <outlet property="refundAddrLabel" destination="fr2-nj-tFQ" id="NfD-ug-FUM"/>
                 <outlet property="resonTextField" destination="9nf-ch-KnN" id="Y5U-xi-yNM"/>
                 <outlet property="scrollView" destination="i5M-Pr-FkT" id="UlB-RK-Fv9"/>
                 <outlet property="submitBtn" destination="sMK-6H-eMw" id="max-Ph-Za6"/>

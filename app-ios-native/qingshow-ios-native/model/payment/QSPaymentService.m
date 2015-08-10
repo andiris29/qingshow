@@ -76,7 +76,7 @@
         //分享
         NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
         NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
-        [[QSShareService shareService] shareWithWechatMoment:@"【时尚宠儿的归属地】 美丽乐分享，潮流资讯早知道" desc:nil image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id={%@}&initiatorRef={%@}",tradeId,peopleId] onSucceed:^{
+        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:@"服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id={%@}&initiatorRef={%@}",tradeId,peopleId] onSucceed:^{
             [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:succeedBlock onError:errorBlock];
         } onError:errorBlock];
     } else {
