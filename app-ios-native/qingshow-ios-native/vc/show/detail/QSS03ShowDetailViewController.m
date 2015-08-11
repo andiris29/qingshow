@@ -191,7 +191,7 @@
     
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
-    [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
+    [self.itemBtn setTitle:[self getItemArrayCount:dict] forState:UIControlStateNormal];
     
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     if (!peopleDict) {
@@ -221,6 +221,21 @@
         self.itemListVc.showDict = dict;
         [self.itemListVc refreshData];
     }
+}
+#pragma mark - getNewItemArray
+- (NSString *)getItemArrayCount:(NSDictionary *)dict
+{
+    NSArray *itemArray = [QSShowUtil getItems:dict];
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    if (itemArray.count) {
+        for (int i = 0; i < itemArray.count; i ++) {
+            NSDictionary *dic = itemArray[i];
+            if ([QSEntityUtil checkIsNil:dic[@"delist"]]) {
+                [array addObject:dic];
+            }
+        }
+    }
+    return [NSString stringWithFormat:@"%d",array.count];
 }
 
 - (void)didReceiveMemoryWarning {

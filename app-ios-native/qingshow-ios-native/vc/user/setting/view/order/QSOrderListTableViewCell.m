@@ -97,17 +97,30 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
-//    if (s == 0) {
-//           NSLog(@"%@",itemDict[@"_id"]);
-//    }
+    if (s == 0) {
+           NSLog(@"%@",itemDict[@"_id"]);
+    }
     if (s == 0 || s == 1) {
-         self.dateLabel.text = [NSString stringWithFormat:@"申请日期:%@",[QSTradeUtil getDayDesc:tradeDict]];
+         self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }else
     {
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期：%@",[QSTradeUtil getDayDesc:tradeDict]];
     }
     NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
-    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d%%", (int)(_actualPrice * 100 / price.doubleValue)];
+    int disCount = _actualPrice * 100 / price.doubleValue;
+    if (disCount < 10) {
+        disCount = 10;
+    }else if(disCount > 90)
+    {
+        disCount = 90;
+    }else
+    {
+        if (disCount%10 > 5) {
+            disCount = (disCount/10+1)*10;
+        }
+    }
+    disCount = disCount/10;
+    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d折", disCount];
     BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     switch (s) {
         case 0:
