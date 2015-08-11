@@ -68,12 +68,27 @@
 {
     return [NSString stringWithFormat:@"%.2f", [self getPromoPrice:itemDict].doubleValue];
 }
-+ (NSString*)getReturnInfo:(NSDictionary*)itemDict
++ (NSString*)getReturnInfoAddr:(NSDictionary*)itemDict
 {
     if ([QSEntityUtil checkIsNil:itemDict]) {
         return nil;
     }
-    return [QSEntityUtil getStringValue:itemDict keyPath:@"address"];
+    return [QSEntityUtil getStringValue:itemDict keyPath:@"returnInfo.address"];
+}
++ (NSString*)getReturnInfoCompany:(NSDictionary*)itemDict
+{
+    if ([QSEntityUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return [QSEntityUtil getStringValue:itemDict keyPath:@"returnInfo.name"];
+
+}
++ (NSString*)getReturnInfoPhone:(NSDictionary*)itemDict
+{
+    if ([QSEntityUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return [QSEntityUtil getStringValue:itemDict keyPath:@"returnInfo.phone"];
 }
 
 + (NSURL*)getThumbnail:(NSDictionary *)itemDict {

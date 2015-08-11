@@ -18,8 +18,9 @@
 + (NSString*)getPriceDesc:(NSDictionary*)item;
 + (NSNumber*)getPromoPrice:(NSDictionary*)itemDict;
 + (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict;
-+ (NSString*)getReturnInfo:(NSDictionary*)itemDict;
-
++ (NSString*)getReturnInfoAddr:(NSDictionary*)itemDict;
++ (NSString*)getReturnInfoCompany:(NSDictionary*)itemDict;
++ (NSString*)getReturnInfoPhone:(NSDictionary*)itemDict;
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict;

@@ -22,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 @property (weak, nonatomic) IBOutlet UITextField *resonTextField;
 @property (weak, nonatomic) IBOutlet UILabel *refundAddrLabel;
+@property (weak, nonatomic) IBOutlet UILabel *phoneLabel;
+@property (weak, nonatomic) IBOutlet UILabel *companyLabel;
 
 @property(nonatomic,assign)NSInteger type;
 
