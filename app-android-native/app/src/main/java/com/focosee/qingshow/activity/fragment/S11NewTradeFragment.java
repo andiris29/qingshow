@@ -8,12 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -32,9 +35,12 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
+import com.focosee.qingshow.widget.flow.FlowRadioButton;
+import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,15 +81,14 @@ public class S11NewTradeFragment extends Fragment {
     ImageView cutDiscount;
     @InjectView(R.id.plus_discount)
     ImageView plusDiscount;
-    @InjectView(R.id.props)
-    RecyclerView recyclerView;
     @InjectView(R.id.submitBtn)
     Button submit;
+    @InjectView(R.id.props)
+    LinearLayout propsLayout;
 
     private MongoItem itemEntity;
     private MongoTrade trade;
 
-    private SkuPropsAdpater adpater;
     private View rootView;
 
     private Map<String, List<String>> props;
@@ -137,18 +142,16 @@ public class S11NewTradeFragment extends Fragment {
     private void initProps() {
         props = SkuUtil.filter(itemEntity.skuProperties);
 
-        adpater = new SkuPropsAdpater(itemEntity.skuProperties, getActivity(), R.layout.item_sku_prop);
-        adpater.notifyDataSetChanged();
-        adpater.setOnCheckedChangeListener(new SkuPropsAdpater.OnCheckedChangeListener() {
-            @Override
-            public void onChanged(String key, int index) {
-                List<String> values = new ArrayList<>();
-                values.add(props.get(key).get(index));
-                selectProps.put(key, values);
-            }
-        });
-        recyclerView.setAdapter(adpater);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        for (int i = 0; i < props.size(); i++) {
+            bindItem(itemEntity.skuProperties,i,new OnCheckedChangeListener() {
+                @Override
+                public void onChanged(String key, int index) {
+                    List<String> values = new ArrayList<>();
+                    values.add(props.get(key).get(index));
+                    selectProps.put(key, values);
+                }
+            });
+        }
     }
 
 
@@ -275,5 +278,63 @@ public class S11NewTradeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    //------------------------------------------------------------------------------------
+
+    private float radioBtnWdith = 35;
+    private float radioBtnHeight = 28;
+
+    public interface OnCheckedChangeListener {
+        void onChanged(String key, int index);
+    }
+
+
+    private FlowRadioButton initPropItem(String text) {
+        FlowRadioButton propItem = new FlowRadioButton(getActivity());
+        propItem.setMinWidth((int) AppUtil.transformToDip(radioBtnWdith, getActivity()));
+        propItem.setMinHeight((int) AppUtil.transformToDip(radioBtnHeight, getActivity()));
+        propItem.setBackgroundResource(R.drawable.gay_btn_ring);
+        propItem.setTextColor(getActivity().getResources().getColor(R.color.gary));
+        propItem.setGravity(Gravity.CENTER);
+        propItem.setTextSize(13);
+        if (!TextUtils.isEmpty(text)) {
+            propItem.setText(text);
+        }
+        return propItem;
+    }
+
+    private void bindItem(List<String> datas,final int position,final OnCheckedChangeListener onCheckedChangeListener){
+        final int checkIndex[] = new int[datas.size()];
+        LinearLayout prop = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.item_sku_prop,null);
+        String data = datas.get(position);
+        List<String> values = SkuUtil.getValues(data);
+
+        final String key = SkuUtil.getPropName(data);
+        FlowRadioGroup group = (FlowRadioGroup) prop.findViewById(R.id.propGroup);
+        ((TextView)prop.findViewById(R.id.propText)).setText(key);
+
+        ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+        itemParams.setMargins(10, 10, 10, 10);
+        for (int i = 0; i < values.size(); i++) {
+            FlowRadioButton propItem = initPropItem(values.get(i));
+            group.addView(propItem, itemParams);
+            if (i == checkIndex[position]) {
+                propItem.setChecked(true);
+                if (onCheckedChangeListener != null)
+                    onCheckedChangeListener.onChanged(key, i);
+            }
+        }
+
+        group.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void checkedChanged(int index) {
+                checkIndex[position] = index;
+                if (onCheckedChangeListener != null)
+                    onCheckedChangeListener.onChanged(key, index);
+            }
+        });
+        propsLayout.addView(prop);
     }
 }

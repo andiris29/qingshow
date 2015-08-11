@@ -107,12 +107,12 @@
                     android:background="@color/master_pink"
                     app:layout_marginBottomPercent="1%" />
 
-                <android.support.v7.widget.RecyclerView
+                <LinearLayout
                     android:id="@+id/props"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/line2"
-                    app:layout_heightPercent="22%" />
+                    android:orientation="vertical" />
 
 
                 <android.support.percent.PercentRelativeLayout
