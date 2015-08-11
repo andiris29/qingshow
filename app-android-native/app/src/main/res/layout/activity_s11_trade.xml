@@ -108,9 +108,8 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/props"
-                    app:layout_heightPercent="23%"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/line2"/>
 
 
@@ -198,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="left"
-                        android:text="预计价格"
+                        android:text="折扣价格"
                         android:textColor="@color/master_pink"
                         android:textSize="22sp"/>
 

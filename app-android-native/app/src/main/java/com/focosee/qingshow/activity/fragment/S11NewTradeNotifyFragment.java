@@ -163,6 +163,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;
                 }
+                trade.actualPrice = Double.parseDouble(actualPrice);
                 Intent intent = new Intent(getActivity(), S17PayActivity.class);
                 intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);
                 getActivity().startActivity(intent);

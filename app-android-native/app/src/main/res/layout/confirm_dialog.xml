@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_gravity="center"
     android:background="@drawable/bg"
-    android:layout_gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
+
     <TextView
-        android:layout_marginTop="20dp"
-        android:paddingBottom="40dp"
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="确定删除？"
-        android:textSize="16dp"/>
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:paddingBottom="40dp"
+        android:textSize="16dp" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
-        android:background="@color/gray_background"/>
+        android:background="@color/gray_background" />
+
     <LinearLayout
-        android:layout_gravity="center"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
         <TextView
             android:id="@+id/dialog_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#2F8BF7"
+            android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:gravity="center"
-            android:text="取消"/>
+            android:text="取消"
+            android:textColor="#2F8BF7" />
+
         <View
             android:layout_width="1px"
             android:layout_height="fill_parent"
-            android:background="@color/gray_background"/>
+            android:background="@color/gray_background" />
+
         <TextView
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
             android:id="@+id/dialog_confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#2F8BF7"
             android:gravity="center"
-            android:text="确定"/>
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="确定"
+            android:textColor="#2F8BF7" />
 
     </LinearLayout>
 </LinearLayout>
