@@ -269,7 +269,6 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         if (paymentMode.equals(getResources().getString(R.string.weixin))) {
             PayCommand.weixin(trade);
         }
-
     }
 
     private void showPayStatus(int status) {
@@ -283,7 +282,9 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         dialog.setConfirm("查看订单", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(S17PayActivity.this, U09TradeListActivity.class));
+                Intent intent = new Intent(S17PayActivity.this, U09TradeListActivity.class);
+                intent.putExtra(U09TradeListActivity.FROM_WHEN, S17PayActivity.class.getSimpleName());
+                startActivity(intent);
                 finish();
             }
         });

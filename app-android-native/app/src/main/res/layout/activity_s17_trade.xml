@@ -9,12 +9,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="50dp"
         android:background="@drawable/bg_titlebar"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.focosee.qingshow.widget.QSImageButton
             android:onClick="onClick"
             android:id="@+id/s11_back_image_button"
             android:layout_width="fill_parent"
@@ -23,9 +22,10 @@
             android:layout_weight="5"
             android:background="#00000000"
             android:padding="10dp"
-            android:src="@drawable/btn_back_default" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_btn_back" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
@@ -97,7 +97,7 @@
         android:background="@color/white"
         android:padding="10dp">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s11_paytext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             android:text="应付金额"
             android:textSize="@dimen/text_title_size" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s11_paynum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,8 +116,9 @@
             android:textColor="@color/master_pink"
             android:textSize="@dimen/text_title_size" />
 
-        <Button
+        <com.focosee.qingshow.widget.QSButton
             android:background="@drawable/pink_btn_fall"
+            app:clickGround="@drawable/round_btn_background"
             android:id="@+id/s11_submit_button"
             android:layout_width="130dp"
             android:layout_height="260dp"

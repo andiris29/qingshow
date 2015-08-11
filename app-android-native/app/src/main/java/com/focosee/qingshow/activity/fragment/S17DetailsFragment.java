@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
+import com.focosee.qingshow.widget.QSTextView;
 
 import java.util.List;
 import java.util.Map;
@@ -28,13 +27,13 @@ import butterknife.InjectView;
 public class S17DetailsFragment extends Fragment {
 
     @InjectView(R.id.s11_details_name)
-    TextView itemName;
+    QSTextView itemName;
     @InjectView(R.id.s11_details_price)
-    TextView price;
+    QSTextView price;
     @InjectView(R.id.s11_details_maxprice)
-    TextView maxPrice;
+    QSTextView maxPrice;
     @InjectView(R.id.S11_num)
-    TextView num;
+    QSTextView num;
     @InjectView(R.id.props)
     LinearLayout group;
 
@@ -64,8 +63,8 @@ public class S17DetailsFragment extends Fragment {
 
     private void addProp(ViewGroup parent,String title ,String text){
         LinearLayout itemLayout = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.item_s17_prop,null,false);
-        TextView name = (TextView) itemLayout.findViewById(R.id.propName);
-        TextView value = (TextView) itemLayout.findViewById(R.id.propValue);
+        QSTextView name = (QSTextView) itemLayout.findViewById(R.id.propName);
+        QSTextView value = (QSTextView) itemLayout.findViewById(R.id.propValue);
         name.setText(title);
         value.setText(text);
         parent.addView(itemLayout);

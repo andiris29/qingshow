@@ -74,7 +74,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="@string/address_activity_return_value"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -102,7 +101,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="@string/receiver_activity_return_value"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -130,7 +128,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="@string/phone_activity_return_value"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -200,7 +197,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@null"
                         android:hint="请填写货运公司"
-                        android:gravity="center"
+                        android:gravity="center_vertical"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />
@@ -232,7 +229,7 @@
                         android:background="@null"
                         android:hint="请填写货运单号"
                         android:inputType="number"
-                        android:gravity="center"
+                        android:gravity="center_vertical"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />

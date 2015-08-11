@@ -46,12 +46,12 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         ButterKnife.inject(this);
         DeployWebView(webview);
         dialog = new LoadingDialogs(this,R.style.dialog);
-        if(itemEntity.readOnly){
-            bay.setVisibility(View.GONE);
-        }
         itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
         if (itemEntity != null) {
             loadWebView(itemEntity.source);
+            if(itemEntity.readOnly){
+                bay.setVisibility(View.GONE);
+            }
         }
     }
 

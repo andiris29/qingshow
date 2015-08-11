@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -17,7 +18,7 @@
             android:padding="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:paddingLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
@@ -25,10 +26,11 @@
                 android:text="收货信息"
                 android:textSize="@dimen/text_size" />
 
-            <TextView
+            <com.focosee.qingshow.widget.QSButton
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/master_pink"
+                app:clickGround="@drawable/round_btn_background"
                 android:background="@drawable/pinck_btn_radio"
                 android:gravity="center"
                 android:text="管理地址"
@@ -49,7 +51,7 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:paddingLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
@@ -57,7 +59,7 @@
                 android:text="收货人姓名："
                 android:textSize="@dimen/text_size_small" />
 
-            <EditText
+            <com.focosee.qingshow.widget.QSEditText
                 android:textSize="@dimen/text_size_small"
                 android:id="@+id/s11_receipt_name"
                 android:layout_width="match_parent"
@@ -81,7 +83,7 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:paddingLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
@@ -89,7 +91,7 @@
                 android:text="收货人电话："
                 android:textSize="@dimen/text_size_small" />
 
-            <EditText
+            <com.focosee.qingshow.widget.QSEditText
                 android:textSize="@dimen/text_size_small"
                 android:id="@+id/s11_receipt_phone"
                 android:layout_width="match_parent"
@@ -114,7 +116,7 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/s11_receipt_province"
                 android:paddingLeft="10dp"
                 android:layout_centerVertical="true"
@@ -137,7 +139,7 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <EditText
+            <com.focosee.qingshow.widget.QSEditText
                 android:paddingLeft="10dp"
                 android:textSize="@dimen/text_size_small"
                 android:id="@+id/s11_receipt_address"

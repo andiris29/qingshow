@@ -1,6 +1,7 @@
 package com.focosee.qingshow.wxapi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
+import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -30,13 +32,13 @@ import de.greenrobot.event.EventBus;
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     private MongoTrade trade;
+    public static final String ISSHARE_SUCCESSED = "WXEntryActivity_is_share_successed";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxentry);
         QSApplication.instance().getWxApi().handleIntent(getIntent(), this);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -59,8 +61,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             EventBus.getDefault().post(new PushEvent(resp));
             if (resp.transaction.equals(U09TradeListAdapter.transaction)) {
                 if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
-                    Toast.makeText(WXEntryActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
-                    EventBus.getDefault().post(trade);
+                    EventBus.getDefault().post(ISSHARE_SUCCESSED);
                 } else {
                     Toast.makeText(WXEntryActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();
                 }
@@ -75,20 +76,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
     }
 
-    public void onEventMainThread(MongoTrade trade) {
-        this.trade = trade;
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
-        trade = null;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
         trade = null;
     }
 }

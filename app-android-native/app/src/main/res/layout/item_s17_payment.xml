@@ -21,13 +21,13 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginLeft="20dp">
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s11_paymet_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="微信支付"
             android:textSize="@dimen/text_size"/>
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s11_paymet_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
