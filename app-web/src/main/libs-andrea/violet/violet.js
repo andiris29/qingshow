@@ -1,9 +1,13 @@
 /**
- * Violet is a collection of fundamental functionalities. 
+ * Violet is a collection of fundamental functionalities.
+ * 
+ * version: 0.1
+ *  
  * Include
  *  OO implementation
  *  View/ViewController async loading
  *  String utilities
+ *  URL
  */
 (function() {
     var violet = window.violet = {};
@@ -309,5 +313,22 @@
         'factory' : factory,
         'UIBase' : UIBase,
         'ViewBase' : ViewBase
+    };
+    // ------------------
+    // violet.url
+    // ------------------
+    var parseKeyValues = function(string) {
+        var object = {};
+        string.split('&').forEach(function(string) {
+            var kv = string.split('='),
+                k = kv[0],
+                v = kv.length > 1 ? kv[1] : k;
+            object[k] = v;
+        });
+        return object;
+    };
+
+    violet.url = {
+        'search' : parseKeyValues(window.location.search ? window.location.search.substr(1) : ''),
     };
 })();
