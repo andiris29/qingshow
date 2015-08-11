@@ -46,7 +46,9 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         ButterKnife.inject(this);
         DeployWebView(webview);
         dialog = new LoadingDialogs(this,R.style.dialog);
-
+        if(itemEntity.readOnly){
+            bay.setVisibility(View.GONE);
+        }
         itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
         if (itemEntity != null) {
             loadWebView(itemEntity.source);
@@ -98,10 +100,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s10_bay:
-                if(itemEntity.readOnly){
-                    Toast.makeText(this, "抱歉这件商品不能申请折扣！", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if (itemEntity.skuProperties == null || itemEntity.skuProperties.size() == 0) {
                     break;
                 }
