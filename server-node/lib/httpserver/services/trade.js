@@ -524,16 +524,29 @@ trade.queryByPhase = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var phaseMap = {
+            '0' : ['00', '01'],
+            '1' : ['10'],
+            '2' : ['20'],
+            '3' : ['30']
+        };
+
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             var criteria = {};
             if (qsParam.phases|| qsParam.phases.length > 0) {
-                criteria.phase = {
-                    '$in' : RequestHelper.parseNumbers(qsParam.phases)
+                var phases = RequestHelper.parseNumbers(qsParam.phases);
+                var orders = []
+                _.each(phases, function(phase, index) {
+                    orders = _.union(orders, phaseMap[phase]);
+                });
+
+                criteria.statusOrder = {
+                    '$in' : orders
                 }
             }
             criteria.ownerRef = req.qsCurrentUserId;
             MongoHelper.queryPaging(Trade.find(criteria).sort({
-                'phase' : 1, 
+                'statusOrder' : 1, 
                 'create' : -1
             }), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {

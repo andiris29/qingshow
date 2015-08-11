@@ -8,18 +8,18 @@ var qsmail = require('../../runtime/qsmail');
 
 var TradeHelper = module.exports;
 
-var _phaseMap = {
-    0 : 0,
-    1 : 0,
-    2 : 1,
-    3 : 1,
-    5 : 2,
-    7 : 1,
-    9 : 2,
-    10 : 2,
-    15 : 2,
-    17 : 2,
-    18 : 3
+var _statusOrderMap = {
+    0 : '01',
+    1 : '00',
+    2 : '10',
+    3 : '10',
+    5 : '20',
+    7 : '10',
+    9 : '20',
+    10 : '20',
+    15 : '20',
+    17 : '20',
+    18 : '30'
 };
 
 TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callback) {
@@ -32,7 +32,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
-    trade.phase = _phaseMap[newStatus];
+    trade.statusOrder= _statusOrderMap[newStatus];
 
     trade.save(function(err) {
         callback(err, trade);
@@ -80,3 +80,4 @@ _getStatusName = function(status) {
             return "退款失败";
     }
 };
+

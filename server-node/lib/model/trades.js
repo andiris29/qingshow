@@ -87,7 +87,7 @@ var tradeSchema = Schema({
         type: Date,
         'default' : Date.now
     },
-    phase : Number,
+    statusOrder : String,
     itemRef : {
         type : Schema.Types.ObjectId,
         ref : 'items'

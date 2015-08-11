@@ -22,7 +22,13 @@ itemSchema = Schema({
     },
     goblinUpdate : Date,
     delist : Date,
-    readOnly : Boolean
+    readOnly : Boolean,
+    returnInfo : {
+        name : String,
+        phone : String, 
+        province : String,
+        address : String
+    }
 });
 
 var Item = mongoose.model('items', itemSchema);
