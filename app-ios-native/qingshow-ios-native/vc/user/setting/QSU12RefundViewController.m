@@ -43,9 +43,11 @@
     // Do any additional setup after loading the view from its nib.
     [self setPageType];
     NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.orderDict];
-    self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:itemDic];
-    self.companyLabel.text = [QSItemUtil getReturnInfoCompany:itemDic];
-    self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:itemDic];
+    if ([QSEntityUtil getDictValue:itemDic keyPath:@"returnInfo"]) {
+        self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:itemDic];
+        self.companyLabel.text = [QSItemUtil getReturnInfoCompany:itemDic];
+        self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:itemDic];
+    }
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
 //    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
