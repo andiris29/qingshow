@@ -23,6 +23,7 @@ public class MongoTrade implements Serializable {
     public LinkedList<StatusLog> statusLogs;
     public MongoPeople peopleSnapshot;
     public String selectedPeopleReceiverUuid;
+    public boolean shareToPay;
 
     public int quantity;
     public double actualPrice;

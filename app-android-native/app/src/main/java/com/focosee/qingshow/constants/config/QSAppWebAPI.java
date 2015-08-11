@@ -84,8 +84,8 @@ public class QSAppWebAPI {
         return PAY_API;
     }
 
-    public static String getTradeShareApi(String _id) {
-        return TRADE_SHARE_API + "?_id=" + _id;
+    public static String getTradeShareApi() {
+        return TRADE_SHARE_API;
     }
 
     public static String getPeopleQueryApi(String _ids) {

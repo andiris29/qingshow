@@ -28,6 +28,10 @@ public class QSJsonObjectRequest extends JsonObjectRequest {
         super(url, jsonRequest, listener, new QSResponseErrorListener());
     }
 
+    public QSJsonObjectRequest(String url, Response.Listener<JSONObject> listener) {
+        super(url, null, listener, new QSResponseErrorListener());
+    }
+
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         RequestHelper.beforeParseNetworkResponse(response.headers);

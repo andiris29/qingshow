@@ -2,7 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.ContentLoadingProgressBar;
+import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.alipay.sdk.widget.Loading;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -29,9 +31,14 @@ import com.focosee.qingshow.util.TradeUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
+import com.focosee.qingshow.wxapi.WXEntryActivity;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -44,6 +51,8 @@ import de.greenrobot.event.EventBus;
 public class U09TradeListActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
+    public static final String FROM_WHEN = "FROM_WHEN";
+    private final String CURRENT_POSITION = "CURRENT_POSITION";
     private final int TYPE_APPLY = 0;
     private final int TYPE_SUCCESSED = 1;
 
@@ -69,8 +78,10 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     private int currentPageNo = 1;
 
     private View firstItem;
-    private int currentType = 1;
+    private int currentType = TYPE_APPLY;
     private boolean isSuccessed = true;
+
+    private String fromWhere;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +89,9 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
         setContentView(R.layout.activity_person_tradelist);
         ButterKnife.inject(this);
+        fromWhere = getIntent().getStringExtra(FROM_WHEN);
         initDrawer();
+        initCurrentType();
         navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
         navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
         peopleId = QSModel.INSTANCE.getUserId();
@@ -116,6 +129,17 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         EventBus.getDefault().register(this);
     }
 
+    private void initCurrentType(){
+        if(S10ItemDetailActivity.class.getSimpleName().equals(fromWhere)){
+            currentType = TYPE_APPLY;
+            clickTabApply();
+        }
+        if(S17PayActivity.class.getSimpleName().equals(fromWhere)){
+            currentType = TYPE_SUCCESSED;
+            clickTabSuccessed();
+        }
+    }
+
     private void initRefreshLayout() {
         mRefreshLayout.setDelegate(this);
         BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(this, true);
@@ -129,14 +153,39 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
     public void onEventMainThread(String event) {
         if (responseToStatusToSuccessed.equals(event)) doRefresh(currentType);
+        if(WXEntryActivity.ISSHARE_SUCCESSED.equals(event)){
+            if(null == trade){
+                Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Map<String, String> params = new HashMap<>();
+            params.put("_id", trade._id);
+            QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeShareApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    doRefresh(currentType);
+                }
+            });
+            RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+            Toast.makeText(U09TradeListActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
+    private MongoTrade trade;//当前分享并支付的trade
+
     public void onEventMainThread(MongoTrade trade) {
-        Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        this.trade = trade;
+    }
+
+    @Override
+    protected void onResume() {
+        doRefresh(currentType);
+        super.onResume();
     }
 
     @Override
@@ -163,13 +212,19 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
             phases = ValueUtil.phases_apply;
         }
 
-        final LoadingDialogs pDialog = new LoadingDialogs(this,R.style.dialog);
+        final LoadingDialogs pDialog = new LoadingDialogs(this, R.style.dialog);
+        if(pageNo == 1) {
+            mAdapter.clearData();
+            mAdapter.notifyDataSetChanged();
+            pDialog.show();
+        }
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQuerybyPhaseApi(phases, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println("response:" + response);
-//                if (currentPageNo == 1)
-//                    pDialog.dismiss();
+                if(pageNo == 1) {
+                    pDialog.dismiss();
+                }
                 if (MetadataParser.hasError(response)) {
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
                         if (isSuccessed) {//进入u09时的第一次请求
@@ -184,10 +239,6 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
                     mRefreshLayout.endRefreshing();
                     mRefreshLayout.endLoadingMore();
                     return;
-                }
-                if (isSuccessed) {//进入u09时的第一次请求
-                    clickTabSuccessed();
-                    currentType = TYPE_SUCCESSED;
                 }
 
                 List<MongoTrade> tradeList = TradeParser.parseQuery(response);
@@ -224,16 +275,12 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
                 break;
             case R.id.u09_tab_all:
                 currentPageNo = 1;
-                mAdapter.clearData();
-                mAdapter.notifyDataSetChanged();
                 currentType = TYPE_APPLY;
                 clickTabApply();
                 doRefresh(TYPE_APPLY);
                 break;
             case R.id.u09_tab_running:
                 currentPageNo = 1;
-                mAdapter.clearData();
-                mAdapter.notifyDataSetChanged();
                 currentType = TYPE_SUCCESSED;
                 clickTabSuccessed();
                 doRefresh(TYPE_SUCCESSED);
