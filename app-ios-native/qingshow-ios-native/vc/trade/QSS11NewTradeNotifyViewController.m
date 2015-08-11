@@ -102,12 +102,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        [self.orderInfoCell bindWithDict:self.tradeDict actualPrice:self.actualPrice];
+        [self.orderInfoCell bindWithDict:self.tradeDict ];
         self.orderInfoCell.selectionStyle = UITableViewCellSelectionStyleNone;
         self.orderInfoCell.transform = CGAffineTransformMakeScale(w/270, w/270);
         return self.orderInfoCell;
     } else {
-        [self.textCell bindWithDict:self.tradeDict];
+        [self.textCell bindWithDict:self.tradeDict actualPrice:self.actualPrice];
         self.textCell.selectionStyle = UITableViewCellSelectionStyleNone;
         self.textCell.transform = CGAffineTransformMakeScale(w/270, w/270);
         return self.textCell;

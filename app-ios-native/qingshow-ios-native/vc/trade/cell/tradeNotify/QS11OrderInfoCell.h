@@ -21,5 +21,5 @@
 @property (weak, nonatomic) IBOutlet UILabel* expectedPriceLabel;
 
 + (instancetype)generateView;
-- (void)bindWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber*)actualPrice;
+- (void)bindWithDict:(NSDictionary*)tradeDict;
 @end

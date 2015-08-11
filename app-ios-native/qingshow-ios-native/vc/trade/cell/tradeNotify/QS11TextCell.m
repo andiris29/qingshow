@@ -26,10 +26,24 @@
 
     // Configure the view for the selected state
 }
-- (void)bindWithDict:(NSDictionary*)tradeDict {
-    NSNumber* actualPrice = [QSTradeUtil getActualPrice:tradeDict];
+- (void)bindWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber *)actualPrice {
+    //NSNumber* nowPrice = [QSTradeUtil getActualPrice:tradeDict];
     NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
-    self.actualDiscountLabel.text = [NSString stringWithFormat:@"%d%%", (int)(actualPrice.doubleValue * 100 / price.doubleValue)];
-    self.actualPriceLabel.text = [QSTradeUtil getActualPriceDesc:tradeDict];
+    int disCount = actualPrice.doubleValue * 100 / price.doubleValue;
+    if (disCount < 10) {
+        disCount = 10;
+    }else if(disCount > 90)
+    {
+        disCount = 90;
+    }else
+    {
+        if (disCount%10 > 5) {
+            disCount = (disCount/10+1)*10;
+        }
+    }
+    disCount = disCount/10;
+  
+    self.actualDiscountLabel.text = [NSString stringWithFormat:@"%d折", disCount];
+    self.actualPriceLabel.text = [NSString stringWithFormat:@"%@",actualPrice];
 }
 @end

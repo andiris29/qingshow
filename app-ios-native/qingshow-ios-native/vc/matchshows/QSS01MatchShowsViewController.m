@@ -51,7 +51,7 @@
     _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
-//    [self showTradeNotiViewOfTradeId:@"55c9e3b58dd33bc40854b306" actualPrice:@0.01];
+    //[self showTradeNotiViewOfTradeId:@"55c9e3b58dd33bc40854b306" actualPrice:@0.01];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

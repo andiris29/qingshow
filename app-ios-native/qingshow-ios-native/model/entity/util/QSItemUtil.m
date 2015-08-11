@@ -70,25 +70,31 @@
 }
 + (NSString*)getReturnInfoAddr:(NSDictionary*)itemDict
 {
-    if ([QSEntityUtil checkIsNil:itemDict]) {
+    if ([QSEntityUtil checkIsNil:[self getReturnInfoDict:itemDict]]) {
         return nil;
     }
-    return [QSEntityUtil getStringValue:itemDict keyPath:@"returnInfo.address"];
+    return [QSEntityUtil getStringValue:[self getReturnInfoDict:itemDict] keyPath:@"address"];
 }
 + (NSString*)getReturnInfoCompany:(NSDictionary*)itemDict
 {
-    if ([QSEntityUtil checkIsNil:itemDict]) {
+    if ([QSEntityUtil checkIsNil:[self getReturnInfoDict:itemDict]]) {
         return nil;
     }
-    return [QSEntityUtil getStringValue:itemDict keyPath:@"returnInfo.name"];
-
+    return [QSEntityUtil getStringValue:[self getReturnInfoDict:itemDict] keyPath:@"name"];
 }
 + (NSString*)getReturnInfoPhone:(NSDictionary*)itemDict
+{
+    if ([QSEntityUtil checkIsNil:[self getReturnInfoDict:itemDict]]) {
+        return nil;
+    }
+    return [QSEntityUtil getStringValue:[self getReturnInfoDict:itemDict] keyPath:@"phone"];
+}
++ (NSDictionary *)getReturnInfoDict:(NSDictionary*)itemDict
 {
     if ([QSEntityUtil checkIsNil:itemDict]) {
         return nil;
     }
-    return [QSEntityUtil getStringValue:itemDict keyPath:@"returnInfo.phone"];
+    return [QSEntityUtil getDictValue:itemDict keyPath:@"returnInfo"];
 }
 
 + (NSURL*)getThumbnail:(NSDictionary *)itemDict {
