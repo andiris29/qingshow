@@ -37,12 +37,13 @@
                 android:layout_weight="1.5"
                 android:background="@color/gray_background">
 
-                <com.focosee.qingshow.widget.QSTextView
+                <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/selectBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/bg_submit_match"
+                    app:clickGround="@drawable/round_btn_background"
                     android:gravity="center"
                     android:text="选择分类"
                     android:textColor="@color/white"
@@ -52,13 +53,14 @@
                     app:layout_marginTopPercent="15%"
                     app:layout_widthPercent="45%" />
 
-                <com.focosee.qingshow.widget.QSTextView
+                <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/submitBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/bg_submit_match"
+                    app:clickGround="@drawable/round_btn_background"
                     android:gravity="center"
                     android:text="预览搭配"
                     android:textColor="@color/white"
@@ -70,12 +72,14 @@
             </android.support.percent.PercentRelativeLayout>
         </LinearLayout>
 
-        <ImageView
+        <com.focosee.qingshow.widget.QSImageButton
             android:id="@+id/menu"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="6dp"
-            android:padding="5dp"
+            android:padding="10dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
             android:src="@drawable/nav_btn_menu_n" />
     </FrameLayout>
 
