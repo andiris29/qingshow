@@ -260,6 +260,12 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 selectInfos.get(position).id = "";
                 selectRefs.remove(category._id);
             } else {
+                if (position == multiSelectPostion) {
+                    selectRefs.add(category._id);
+                    checkItem(tv, (SimpleDraweeView) v, category.icon);
+                    onSelectChangeListener.onSelectChanged(selectRefs);
+                    return;
+                }
                 if (info.id.isEmpty()) {
                     checkItem(tv, (SimpleDraweeView) v, category.icon);
                     selectRefs.add(category._id);
@@ -267,12 +273,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                     selectInfos.get(position).index = index;
                     selectInfos.get(position).pageNo = index / 3;
                 } else {
-                    if (position == multiSelectPostion) {
-                        selectRefs.add(category._id);
-                        checkItem(tv, (SimpleDraweeView) v, category.icon);
-                        onSelectChangeListener.onSelectChanged(selectRefs);
-                        return;
-                    }
                     selectRefs.remove(selectInfos.get(position).id);
                     int oldIndex = 0;
                     for (int i = 0; i < items.get(position).size(); i++) {

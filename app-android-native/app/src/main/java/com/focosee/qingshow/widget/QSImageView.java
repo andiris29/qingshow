@@ -43,6 +43,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     private boolean isChecked = false;
     private String categoryId;
+    private Point lastCentroid;
 
     private ScaleGestureDetector scaleGestureDetector;
 
@@ -142,7 +143,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     animatorSet.playTogether(x, y);
                     animatorSet.setDuration(0);
                     animatorSet.start();
-
+                    setLastCentroid(new Point(getLeft() + getImageView().getDrawable().getIntrinsicWidth() / 2, getTop() + getImageView().getDrawable().getIntrinsicHeight() / 2));
                     lastX = event.getRawX();
                     lastY = event.getRawY();
                     return true;
@@ -186,6 +187,11 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     public void setChecked(boolean isChecked) {
         this.isChecked = isChecked;
         onCheckedChanged(isChecked);
+    }
+
+    public void fristChecked() {
+        this.isChecked = true;
+        this.setBackgroundResource(R.drawable.bg_canvas_item);
     }
 
     public boolean isChecked() {
@@ -334,5 +340,18 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     public void setLastScaleFactor(float lastScaleFactor) {
         this.lastScaleFactor = lastScaleFactor;
+        resetPadding();
+    }
+
+    public float getLastScaleFactor() {
+        return lastScaleFactor;
+    }
+
+    public Point getLastCentroid() {
+        return lastCentroid;
+    }
+
+    public void setLastCentroid(Point lastCentroid) {
+        this.lastCentroid = lastCentroid;
     }
 }

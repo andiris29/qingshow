@@ -103,7 +103,6 @@ public class S21CategoryActivity extends BaseActivity {
                         items.add(item);
                     }
                 }
-
                 show();
             }
         });

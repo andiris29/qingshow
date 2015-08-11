@@ -4,10 +4,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -28,11 +30,13 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.util.RectUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.radio.RadioLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
@@ -173,6 +177,7 @@ public class S20MatcherActivity extends MenuActivity {
         }
     }
 
+
     private void formatPlace(QSImageView view, int row, int column, boolean moveToFrame) {
 
         float left = 0;
@@ -191,7 +196,7 @@ public class S20MatcherActivity extends MenuActivity {
                 left = 0;
                 break;
             case 1:
-                left = canvas.getWidth() / 2;
+                left = halfCanvasWidth;
                 break;
         }
 
@@ -205,10 +210,11 @@ public class S20MatcherActivity extends MenuActivity {
             minus = 1;
         }
         float ratio = Math.abs(avgCanvasHeight / height) < Math.abs(halfCanvasWidth / width)
-                ? Math.abs(avgCanvasHeight / height) : Math.abs(halfCanvasWidth / width);
+                ? Math.abs(avgCanvasHeight / (height + 20)) : Math.abs(halfCanvasWidth / (width + 20));
         view.setScaleX(ratio);
         view.setScaleY(ratio);
         view.setLastScaleFactor(ratio);
+
 
         if (moveToFrame) {
             if (column == 0) {
@@ -221,35 +227,59 @@ public class S20MatcherActivity extends MenuActivity {
             top += minus * Math.abs(height * (1.0f - ratio) / 2.0f);
 
             moveView(view, 0, 0, left, top);
+
+
         } else {
-            float nextX = view.getX();
-            float nextY = view.getY();
+            Point lastCentroid = view.getLastCentroid();
+            float dx = view.getLeft() + width / 2 - lastCentroid.x;
+            float dy = view.getTop() + height / 2 - lastCentroid.y;
+            moveView(view, view.getX(), view.getY(), view.getX() - dx, view.getY() - dy);
+        }
+    }
 
-            float x = view.getX();
-            float y = view.getY();
-            float dx = width * (ratio - 1) / 2;
-            float dy = height * (ratio - 1) / 2;
-
-            if (x + width + dx > canvas.getWidth()) {
-                nextX = x - ((x + width + dx) - canvas.getWidth());
-            }
-
-            if (y + height + dy > canvas.getHeight()) {
-                nextY = y - ((y + height + dy) - canvas.getHeight());
-            }
-
-            if (x - dx < 0) {
-                nextX = Math.abs(x - dx);
-            }
-
-            if (y - dy < 0) {
-                nextY = Math.abs(y - dy);
-            }
-
-            moveView(view, 0, 0, nextX, nextY);
+    public void checkBorder(QSImageView view, View prent) {
+        float scaleFactor = view.getLastScaleFactor();
+        float dx = view.getWidth() * (scaleFactor - 1) / 2;
+        float dy = view.getHeight() * (scaleFactor - 1) / 2;
+        float actrulLeft = view.getLeft() - dx;
+        float actrulRight = view.getRight() + dx;
+        float actrulTop = view.getTop() - dy;
+        float actrulBottom = view.getBottom() + dy;
+        if (actrulLeft < 0) {
+            checkBorder(view, prent);
         }
 
+        if (actrulRight > prent.getWidth()) {
+            scaleTo(prent.getWidth() - Math.abs(view.getRight()), view, 0);
+            checkBorder(view, prent);
+        }
 
+        if (actrulTop < 0) {
+            scaleTo(Math.abs(actrulTop) + view.getTop(), view, 1);
+            checkBorder(view, prent);
+        }
+
+        if (actrulBottom > prent.getHeight()) {
+            scaleTo(prent.getHeight() - Math.abs(view.getBottom()), view, 1);
+            checkBorder(view, prent);
+        }
+    }
+
+    public void scaleTo(float offset, QSImageView view, int i) {
+        float scale;
+        switch (i) {
+            case 0:
+                scale = (offset * 2 + view.getWidth()) / view.getWidth();
+                break;
+            case 1:
+                scale = (offset * 2 + view.getHeight()) / view.getHeight();
+                break;
+            default:
+                scale = 1.0f;
+        }
+        view.setScaleX(scale);
+        view.setScaleY(scale);
+        view.setLastScaleFactor(scale);
     }
 
 
@@ -444,6 +474,7 @@ public class S20MatcherActivity extends MenuActivity {
         animatorSet.playTogether(x, y);
         animatorSet.setDuration(0);
         animatorSet.start();
+        ((QSImageView) view).setLastCentroid(new Point(view.getLeft() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicWidth() / 2, view.getTop() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicHeight() / 2));
     }
 
     @Override
@@ -457,7 +488,7 @@ public class S20MatcherActivity extends MenuActivity {
         for (String ref : categoryRefs) {
             if (!lastCategoryRefs.contains(ref)) {
                 Random random = new Random();
-                getDataFromNet(ref, random.nextInt(3), random.nextInt(2));
+                getDataFromNet(ref, random.nextInt(3) + 1, random.nextInt(2));
             }
         }
 

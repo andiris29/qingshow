@@ -36,6 +36,7 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -242,9 +243,9 @@ public class S11NewTradeFragment extends Fragment {
 
     private void submitToNet(MongoTrade trade) {
         Map<String, Object> params = new HashMap<>();
-        params.put("selectedSkuProperties", trade.selectedSkuProperties);
         params.put("expectedPrice", trade.expectedPrice);
         try {
+            params.put("selectedSkuProperties", new JSONArray(QSGsonFactory.create().toJson(trade.selectedSkuProperties)));
             params.put("itemSnapshot", new JSONObject(QSGsonFactory.create().toJson(trade.itemSnapshot)));
         } catch (JSONException e) {
             e.printStackTrace();

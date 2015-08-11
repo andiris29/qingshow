@@ -109,6 +109,7 @@ public class RectUtil {
         return true;
     }
 
+
     public static Rect getRect(View view) {
         Rect rect = new Rect();
         view.getGlobalVisibleRect(rect);
