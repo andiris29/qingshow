@@ -192,7 +192,7 @@
     if (alertView.tag == 101) {
         if (buttonIndex == 1) {
             __weak QSU09OrderListViewController *weakSelf = self;
-            [SHARE_NW_ENGINE changeTrade:_oderDic status:5 info:nil onSucceed:^{
+            [SHARE_NW_ENGINE changeTrade:_oderDic status:5 info:nil onSucceed:^(NSDictionary* tradeDict){
                 [weakSelf showTextHud:@"收货成功！"];
             } onError:nil];
         }
@@ -205,7 +205,7 @@
     else if(alertView.tag == 102){
         if (buttonIndex == 1) {
             __weak QSU09OrderListViewController *weakSelf = self;
-            [SHARE_NW_ENGINE changeTrade:_oderDic status:18 info:nil onSucceed:^{
+            [SHARE_NW_ENGINE changeTrade:_oderDic status:18 info:nil onSucceed:^(NSDictionary* dict){
                 if ([QSTradeUtil getStatus:_oderDic].intValue == 0) {
                     [weakSelf showTextHud:@"已取消订单"];
                 }else{

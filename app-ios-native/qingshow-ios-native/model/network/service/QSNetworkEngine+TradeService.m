@@ -206,8 +206,8 @@
 - (MKNetworkOperation*)changeTrade:(NSDictionary*)tradeDict
                             status:(int)status
                               info:(NSDictionary*)dict
-                         onSucceed:(VoidBlock)succeedBlock
-                           onError:(ErrorBlock)errorBlock;
+                         onSucceed:(DicBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock
 {
     NSMutableDictionary* paramDict = nil;
     if (dict) {
@@ -224,8 +224,10 @@
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
+
                 if (succeedBlock) {
-                    succeedBlock();
+                    NSDictionary* retDict= completedOperation.responseJSON;
+                    succeedBlock([retDict dictValueForKeyPath:@"data.trade"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)

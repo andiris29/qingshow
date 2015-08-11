@@ -182,7 +182,7 @@
     if (self.type == 1) {
         __weak QSU12RefundViewController* weakSelf = self;
         [self hideKeyboardAndPicker];
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^{
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^(NSDictionary* dict){
             [self showTextHud:@"申请成功"];
             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
@@ -196,7 +196,7 @@
         [self hideKeyboardAndPicker];
         int statusCurrent = [[QSTradeUtil getStatus:weakSelf.orderDict] intValue];
         if (statusCurrent == 14) {
-            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:16 info:dict onSucceed:^{
+            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:16 info:dict onSucceed:^(NSDictionary* dict){
                 [self showTextHud:@"申请二次换货成功"];
                 [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
             } onError:^(NSError *error) {
@@ -206,7 +206,7 @@
         }
         else
         {
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:11 info:dict onSucceed:^{
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:11 info:dict onSucceed:^(NSDictionary* dict){
             [self showTextHud:@"申请退换货成功"];
             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
