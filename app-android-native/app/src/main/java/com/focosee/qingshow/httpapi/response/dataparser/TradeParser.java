@@ -13,7 +13,7 @@ import java.util.LinkedList;
  */
 public class TradeParser {
     public static LinkedList<MongoTrade> parseQuery(JSONObject response) {
-        Gson gson = QSGsonFactory.create();
+        Gson gson = QSGsonFactory.tradeBudiler().create();
         return parseQuery(gson, response);
     }
 
@@ -42,6 +42,5 @@ public class TradeParser {
         Gson gson = QSGsonFactory.cateGoryBuilder().create();
         return parseQuery(gson, response);
     }
-
 
 }

@@ -10,6 +10,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
@@ -97,7 +98,10 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s10_bay:
-                if(itemEntity.readOnly)return;
+                if(itemEntity.readOnly){
+                    Toast.makeText(this, "抱歉这件商品不能申请折扣！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (itemEntity.skuProperties == null || itemEntity.skuProperties.size() == 0) {
                     break;
                 }

@@ -27,10 +27,18 @@ public class MongoItem implements Serializable {
     public GregorianCalendar create;
     public String delist;
     public boolean readOnly;
+    public ReturnInfo returnInfo;
 
     public class Image implements Serializable {
         public String url;
         public String description;
+    }
+
+    public class ReturnInfo implements Serializable {
+        public String name;
+        public String phone;
+        public String province;
+        public String address;
     }
 
     public String getItemName() {

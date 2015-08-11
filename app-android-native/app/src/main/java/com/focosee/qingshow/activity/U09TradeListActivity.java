@@ -190,7 +190,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
                     currentType = TYPE_SUCCESSED;
                 }
 
-                List<MongoTrade> tradeList = TradeParser.parse_categories(response);
+                List<MongoTrade> tradeList = TradeParser.parseQuery(response);
                 tradeList = TradeUtil.tradelistSort(tradeList);
                 if (pageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
