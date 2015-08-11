@@ -58,6 +58,21 @@
     // violet.ui
     // ------------------
     /**
+     * TODO Refactor the whole ui
+     * 
+     * Align the terms
+     *      Remove ui, align to view
+     *      Remove ownerView
+     * More flexible
+     *      Support generate view/controller and append to a parent dom
+     *      Support generate controller when view already created
+     *      Support multi controller to 1 view
+     * More functionality
+     *      Build view/controller tree
+     *      Support css generation
+     * 
+     */
+    /**
      * 
      * violet.ui.factory.load
      *      Load a module before create ui instance.
