@@ -261,6 +261,7 @@
 }
 - (void)pnsItemPriceChanged:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
+        [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
         if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
             QSS01MatchShowsViewController* matchVc = (QSS01MatchShowsViewController*)self.contentVc;
             [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"] actualPrice:[noti.userInfo numberValueForKeyPath:@"actualPrice"]];
