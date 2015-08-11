@@ -6,7 +6,7 @@ var cheerio = require('cheerio');
 
 var URLParser = require('../URLParser');
 
-var sizePrefixs = ["20509", "20518"];
+var sizePrefixs = ["20509", "20518", "20549"];
 var colorPrefixs = ["1627207"];
 
 
