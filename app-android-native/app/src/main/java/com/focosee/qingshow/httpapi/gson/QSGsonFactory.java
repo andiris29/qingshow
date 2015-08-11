@@ -59,4 +59,11 @@ public class QSGsonFactory {
         builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer()).registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
         return builder;
     }
+
+    public static GsonBuilder tradeBudiler(){
+        GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer());
+        builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
+        return builder;
+    }
 }

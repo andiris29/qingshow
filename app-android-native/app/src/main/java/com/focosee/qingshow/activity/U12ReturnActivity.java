@@ -15,7 +15,6 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.ReturnInformationModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.FileUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
@@ -36,7 +35,6 @@ public class U12ReturnActivity extends BaseActivity{
     //一周的毫秒数
     private long weekTime = 7*24*3600*1000;
 
-    private ReturnInformationModel returnInformationModel;
     private EditText company;
     private EditText returnNo;
     private LinearLayout returnDateLayout;
@@ -60,15 +58,13 @@ public class U12ReturnActivity extends BaseActivity{
         loadingDialog = new LoadingDialogs(this,R.style.dialog);
         trade = (MongoTrade) getIntent().getSerializableExtra(TRADE_ENTITY);
 
-        String returnInformation = FileUtil.readAssets(this, "returnInformation.json");
-        JSONObject jsonObject = new JSONObject();
-        Gson gson = new Gson();
-        returnInformationModel = gson.fromJson(returnInformation, new TypeToken<ReturnInformationModel>(){}.getType());
-
-        ((TextView)findViewById(R.id.address_return_activity)).setText(returnInformationModel.address);
-        ((TextView)findViewById(R.id.receiver_return_activity)).setText(returnInformationModel.receiver);
-        ((TextView)findViewById(R.id.phone_return_activity)).setText(returnInformationModel.phone);
-        ((TextView)findViewById(R.id.matters_return_activity)).setText(returnInformationModel.matters);
+        if(null != trade.itemSnapshot) {
+            if (null != trade.itemSnapshot.returnInfo) {
+                ((TextView) findViewById(R.id.address_return_activity)).setText(trade.itemSnapshot.returnInfo.address);
+                ((TextView) findViewById(R.id.receiver_return_activity)).setText(trade.itemSnapshot.returnInfo.name);
+                ((TextView) findViewById(R.id.phone_return_activity)).setText(trade.itemSnapshot.returnInfo.phone);
+            }
+        }
 
         company = (EditText) findViewById(R.id.company_return_activity);
         returnNo = (EditText) findViewById(R.id.returnNumber__return_activity);

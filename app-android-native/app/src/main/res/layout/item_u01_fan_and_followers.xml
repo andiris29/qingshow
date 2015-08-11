@@ -39,7 +39,7 @@
             android:id="@+id/item_u01_fans_hw"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_widthPercent="50%"
+            app:layout_widthPercent="40%"
             android:text=""
             android:gravity="bottom"
             android:layout_below="@+id/item_u01_fans_name"
@@ -52,8 +52,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:layout_widthPercent="50%"
-            android:gravity="center"
+            app:layout_widthPercent="60%"
+            android:gravity="center_vertical"
             android:layout_toRightOf="@+id/item_u01_fans_hw"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp">
@@ -65,8 +65,9 @@
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_u01_fans_cloth_number"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:maxLength="3"
                 android:text="0"
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/gary" />
@@ -74,13 +75,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/model_cell_icon02_noticeno"
-                android:layout_marginLeft="20dp" />
+                android:background="@drawable/model_cell_icon02_noticeno"/>
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_u01_fans_like_number"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:maxLength="3"
                 android:text="0"
                 android:layout_marginLeft="3dp"
                 android:textColor="@color/gary" />
