@@ -33,7 +33,7 @@ define([
     // Bootstrap first page
     var search = violet.url.search;
     if (search.entry === 'shareShow') {
-        navigationService.push('qs/views/P02SharingShow', {
+        navigationService.push('qs/views/P02ShareShow', {
             '_id' : search._id
         });
     } else if (search.entry === 'shareTrade') {
