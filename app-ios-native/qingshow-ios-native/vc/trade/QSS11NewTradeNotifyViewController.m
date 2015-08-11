@@ -20,7 +20,7 @@
 
 @property (strong, nonatomic) QS11OrderInfoCell* orderInfoCell;
 @property (strong, nonatomic) QS11TextCell* textCell;
-@property (strong, nonatomic) NSNumber *actualPrice;
+
 
 @end
 

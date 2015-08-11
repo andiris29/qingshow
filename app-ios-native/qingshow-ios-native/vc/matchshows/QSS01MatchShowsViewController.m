@@ -51,7 +51,7 @@
     _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
-    //[self showTradeNotiViewOfTradeId:@"55c9e3b58dd33bc40854b306" actualPrice:@0.01];
+//    [self showTradeNotiViewOfTradeId:@"55c9e3b58dd33bc40854b306" actualPrice:@0.01];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -187,14 +187,23 @@
 }
 
 - (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
-    
-    [SHARE_PAYMENT_SERVICE sharedForTrade:vc.tradeDict onSucceed:^{
-        [self didClickClose:vc];
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:vc.tradeDict];
-        v.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:v animated:YES];
+    NSDictionary* tradeDict = vc.tradeDict;
+    NSNumber* actualPrice = vc.actualPrice;
+    NSDictionary* paramDict = nil;
+    if (actualPrice) {
+        paramDict = @{@"actualPrice" : vc.actualPrice};
+    }
+    [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:paramDict onSucceed:^{
+        [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+            [self didClickClose:vc];
+            QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:vc.tradeDict];
+            v.menuProvider = self.menuProvider;
+            [self.navigationController pushViewController:v animated:YES];
+        } onError:^(NSError *error) {
+            [vc handleError:error];
+        }];
     } onError:^(NSError *error) {
-        [self handleError:error];
+        [vc handleError:error];
     }];
 }
 @end
