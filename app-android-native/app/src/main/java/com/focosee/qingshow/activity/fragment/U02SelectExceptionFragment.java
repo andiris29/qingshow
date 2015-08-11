@@ -94,7 +94,8 @@ public class U02SelectExceptionFragment extends Fragment {
 
         for (CheckedTextView ctv : adapter.getItemViews()) {
             if(ctv.isChecked()) {
-                expectations.add((Integer)ctv.getTag());
+                if(!expectations.contains(ctv.getTag()))
+                    expectations.add((Integer)ctv.getTag());
             }
         }
         Map params = new HashMap();
