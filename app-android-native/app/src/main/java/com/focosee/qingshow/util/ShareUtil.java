@@ -27,21 +27,21 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 public class ShareUtil {
 
     public static void shareShowToWX(String showId, String transaction, Context context, boolean isTimelineCb){
-        shareToWX(ShareConfig.SHARE_SHOW_URL + showId, transaction, context, isTimelineCb);
+        shareToWX(ShareConfig.SHARE_SHOW_URL + showId, transaction, context, isTimelineCb, ShareConfig.IMG);
     }
 
     public static void shareTradeToWX(String tradeId, String peopleId, String transaction, Context context, boolean isTimelineCb){
-        shareToWX(ShareConfig.getShareTradeUrl(tradeId, peopleId), transaction, context, isTimelineCb);
+        shareToWX(ShareConfig.getShareTradeUrl(tradeId, peopleId), transaction, context, isTimelineCb, ShareConfig.SHARE_TRADE_IMG);
     }
 
-    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb){
+    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb, int img){
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
         webpage.webpageUrl = url;
 
         msg = new WXMediaMessage();
         msg.mediaObject = webpage;
-        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), ShareConfig.IMG);
+        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), img);
         msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
         msg.setThumbImage(thumb);
         msg.title = ShareConfig.SHARE_TITLE;

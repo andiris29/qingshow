@@ -38,6 +38,7 @@ public class ShareConfig {
     public static final String SHARRE_TRADE_DESCRIPTION = "服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！";
     public static final String SHARE_DESCRIPTION="美丽乐分享，潮流资讯早知道";
     public static final int IMG = R.drawable.wx_share;
+    public static final int SHARE_TRADE_IMG = R.drawable.wx_share_trade;
     public static String getShareTradeUrl(String _tradeId, String peopleId) {
         return SHARE_TRADE_URL + "&_id=" + _tradeId + "&initiatorRef=" + peopleId;
     }
