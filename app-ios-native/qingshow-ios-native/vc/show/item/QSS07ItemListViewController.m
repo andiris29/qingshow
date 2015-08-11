@@ -111,28 +111,31 @@
     }
     return cell;
 }
-#pragma mark - 数组排序
+#pragma mark - 数组排序 筛选
 - (NSMutableArray *)refreshItemArray:(NSArray *)itemArray
 {
-        NSMutableArray *array = [NSMutableArray arrayWithArray:itemArray];
-    
-        
-        for (int i = 0; i < array.count; i ++) {
-            
-            for (int j = i+1; j < array.count; j ++) {
-                int orderI = [self getOrderFromDic:array[i]];
-                int orderJ = [self getOrderFromDic:array[j]];
-                if (orderI > orderJ) {
-                    id dic = array[j];
-                    array[j] = array[i];
-                    array[i] = dic;
-                    dic = nil;
-                }
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    if (itemArray.count) {
+        for (int i = 0; i < itemArray.count; i ++) {
+            NSDictionary *dic = itemArray[i];
+            if ([QSEntityUtil checkIsNil:dic[@"delist"]]) {
+                [array addObject:dic];
             }
         }
+    }
+    for (int i = 0; i < array.count; i ++) {
+        for (int j = i+1; j < array.count; j ++) {
+            int orderI = [self getOrderFromDic:array[i]];
+            int orderJ = [self getOrderFromDic:array[j]];
+            if (orderI > orderJ) {
+                id dic = array[j];
+                array[j] = array[i];
+                array[i] = dic;
+                dic = nil;
+            }
+        }
+    }
         return array;
-
-
 }
 - (int)getOrderFromDic:(NSDictionary *)itemDict
 {

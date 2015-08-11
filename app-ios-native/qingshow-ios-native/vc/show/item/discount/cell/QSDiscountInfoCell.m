@@ -17,6 +17,8 @@
     // Initialization code
         [super awakeFromNib];
     self.priceLabel.isWithStrikeThrough = YES;
+    self.priceNameLabel.hidden = YES;
+    self.priceLabel.hidden = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -33,14 +35,12 @@
     [self.iconImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
     if ([QSItemUtil getPromoPrice:itemDict]) {
-        self.priceLabel.hidden = NO;
-        self.priceNameLabel.hidden = NO;
+
         self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
-        self.promPriceLabel.text = [QSItemUtil getPromoPriceDesc:itemDict];
+        self.promPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     } else {
-        self.priceLabel.hidden = YES;
-        self.priceNameLabel.hidden = YES;
-        self.promPriceLabel.text = [QSItemUtil getPromoPriceDesc:itemDict];
+
+        self.promPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     }
 }
 

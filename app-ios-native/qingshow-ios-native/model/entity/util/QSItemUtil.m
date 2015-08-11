@@ -68,6 +68,13 @@
 {
     return [NSString stringWithFormat:@"%.2f", [self getPromoPrice:itemDict].doubleValue];
 }
++ (NSString*)getReturnInfo:(NSDictionary*)itemDict
+{
+    if ([QSEntityUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return [QSEntityUtil getStringValue:itemDict keyPath:@"address"];
+}
 
 + (NSURL*)getThumbnail:(NSDictionary *)itemDict {
     NSString* s = [QSEntityUtil getStringValue:itemDict keyPath:@"thumbnail"];

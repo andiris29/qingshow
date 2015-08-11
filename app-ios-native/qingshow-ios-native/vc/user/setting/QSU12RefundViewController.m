@@ -12,6 +12,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSTradeUtil.h"
+#import "QSItemUtil.h"
 #define PAGE_ID @"U12 - 申请退货"
 
 @interface QSU12RefundViewController ()<UITextFieldDelegate>
@@ -28,7 +29,6 @@
     
     if (self) {
         self.orderDict = orderDict;
-
         if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
@@ -42,6 +42,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self setPageType];
+    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.orderDict];
+    NSString *addr = [QSItemUtil getReturnInfo:itemDic];
+    self.refundAddrLabel.text = addr;
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
 //    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];

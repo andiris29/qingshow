@@ -170,9 +170,9 @@
     _backToTopbtn.hidden = YES;
 }
 
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId {
+- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId actualPrice:(NSNumber *)actualPrice {
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict];
+        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict actualPrice:actualPrice];
         self.s11NotiVc.delelgate = self;
         self.s11NotiVc.view.frame = self.navigationController.view.bounds;
         [self.navigationController.view addSubview:self.s11NotiVc.view];

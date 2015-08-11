@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -28,7 +27,7 @@
                     <rect key="frame" x="8" y="18" width="304" height="542"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YG4-I0-crI">
-                    <rect key="frame" x="256" y="31" width="25" height="25"/>
+                    <rect key="frame" x="256" y="41" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="KPj-IX-unI"/>
                         <constraint firstAttribute="height" constant="25" id="diX-pf-FPY"/>
@@ -41,7 +40,7 @@
                     </connections>
                 </button>
                 <tableView clipsSubviews="YES" alpha="0.94999999999999996" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4eU-WF-9Mc">
-                    <rect key="frame" x="25" y="60" width="270" height="439"/>
+                    <rect key="frame" x="25" y="74" width="270" height="425"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="x2N-GB-pdU"/>
@@ -49,11 +48,10 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JeW-gy-VS1">
-                    <rect key="frame" x="115" y="507" width="90" height="40"/>
+                    <rect key="frame" x="115" y="513" width="90" height="34"/>
                     <color key="backgroundColor" red="0.94117647059999998" green="0.58431372550000005" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="F9r-TT-gkf"/>
-                        <constraint firstAttribute="width" secondItem="JeW-gy-VS1" secondAttribute="height" multiplier="9:4" id="T8g-r0-95T"/>
+                        <constraint firstAttribute="height" constant="34" id="F9r-TT-gkf"/>
                     </constraints>
                     <state key="normal" title="分享后购买">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -64,7 +62,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐价格" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7g8-Fr-vx6">
-                    <rect key="frame" x="126" y="33" width="68" height="20"/>
+                    <rect key="frame" x="126" y="44" width="68" height="19.5"/>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -73,17 +71,17 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="7g8-Fr-vx6" secondAttribute="trailing" constant="126" id="3oB-kh-f5N"/>
-                <constraint firstItem="YG4-I0-crI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="31" id="8ka-Wa-SEv"/>
+                <constraint firstItem="YG4-I0-crI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="41" id="8ka-Wa-SEv"/>
                 <constraint firstItem="7g8-Fr-vx6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="126" id="9xx-ga-ubM"/>
                 <constraint firstItem="96U-uZ-35n" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Dwg-lz-L93"/>
                 <constraint firstItem="JeW-gy-VS1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="115" id="FDB-P1-JKw"/>
                 <constraint firstAttribute="bottom" secondItem="JeW-gy-VS1" secondAttribute="bottom" constant="21" id="IR7-U1-Bvh"/>
                 <constraint firstAttribute="trailing" secondItem="4eU-WF-9Mc" secondAttribute="trailing" constant="25" id="PSm-iO-zYv"/>
-                <constraint firstItem="7g8-Fr-vx6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="33" id="QMq-HW-Zkh"/>
-                <constraint firstItem="JeW-gy-VS1" firstAttribute="top" secondItem="4eU-WF-9Mc" secondAttribute="bottom" constant="8" id="S7F-qe-4Cv"/>
+                <constraint firstItem="7g8-Fr-vx6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="QMq-HW-Zkh"/>
+                <constraint firstItem="JeW-gy-VS1" firstAttribute="top" secondItem="4eU-WF-9Mc" secondAttribute="bottom" constant="14" id="S7F-qe-4Cv"/>
                 <constraint firstItem="96U-uZ-35n" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="18" id="S90-Y7-pCN"/>
                 <constraint firstAttribute="trailing" secondItem="96U-uZ-35n" secondAttribute="trailing" constant="8" id="fb9-Mr-Ynq"/>
-                <constraint firstItem="4eU-WF-9Mc" firstAttribute="top" secondItem="YG4-I0-crI" secondAttribute="bottom" constant="4" id="fnz-kM-q9J"/>
+                <constraint firstItem="4eU-WF-9Mc" firstAttribute="top" secondItem="YG4-I0-crI" secondAttribute="bottom" constant="8" id="fnz-kM-q9J"/>
                 <constraint firstAttribute="bottom" secondItem="96U-uZ-35n" secondAttribute="bottom" constant="8" id="i0r-M4-UVb"/>
                 <constraint firstAttribute="trailing" secondItem="JeW-gy-VS1" secondAttribute="trailing" constant="115" id="ivM-PR-sGI"/>
                 <constraint firstAttribute="trailing" secondItem="YG4-I0-crI" secondAttribute="trailing" constant="39" id="sSg-gi-WTn"/>

@@ -64,6 +64,8 @@
     CGRect frame = self.titleLabel.frame;
     frame.origin.x = [UIScreen mainScreen].bounds.size.width/2-40;
     self.titleLabel.frame = frame;
+    
+    self.payBtn.layer.cornerRadius = 4;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
