@@ -146,14 +146,12 @@
                     android:textColor="@color/gary" />
 
                 <com.focosee.qingshow.widget.QSTextView
-                    android:id="@+id/matters_return_activity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:textSize="13sp"
                     android:text="@string/matters_activity_return_value"
                     android:textColor="@color/gary" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -228,6 +226,38 @@
                         android:layout_marginLeft="10dp"
                         android:background="@null"
                         android:hint="请填写货运单号"
+                        android:inputType="number"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/darker_gray"
+                        android:textColorHint="@color/hint_text_color"
+                        android:textSize="@dimen/text_size" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gary" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/item_height_activity_return"
+                    android:gravity="center_vertical">
+
+                    <com.focosee.qingshow.widget.QSTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="退货理由:"
+                        android:textColor="@color/darker_gray"
+                        android:textSize="@dimen/text_size" />
+
+                    <com.focosee.qingshow.widget.QSEditText
+                        android:id="@+id/matters__return_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:background="@null"
+                        android:hint="请填写退货理由"
                         android:inputType="number"
                         android:gravity="center_vertical"
                         android:textColor="@color/darker_gray"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.util.PushUtil;
 
@@ -54,6 +55,8 @@ public class QSPushActivity extends BaseActivity {
 
         if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)) {
             intent = new Intent(QSPushActivity.this, U09TradeListActivity.class);
+            if(command.equals(QSPushAPI.TRADE_SHIPPED))
+                intent.putExtra(U09TradeListActivity.FROM_WHERE, QSPushActivity.class.getSimpleName());
         }
 
         if (command.equals(QSPushAPI.ITEM_PRICE_CHANGED)) {

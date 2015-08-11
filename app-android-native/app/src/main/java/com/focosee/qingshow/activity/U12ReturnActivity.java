@@ -1,12 +1,14 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
+import android.support.percent.PercentRelativeLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -16,29 +18,42 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.util.FileUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.focosee.qingshow.widget.QSButton;
+import com.focosee.qingshow.widget.QSEditText;
+import com.focosee.qingshow.widget.QSImageButton;
+import com.focosee.qingshow.widget.QSTextView;
+import com.squareup.timessquare.CalendarPickerView;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/16.
  */
-public class U12ReturnActivity extends BaseActivity{
+public class U12ReturnActivity extends BaseActivity {
     public static final String TRADE_ENTITY = "return_logistic_entity";
-    //一周的毫秒数
-    private long weekTime = 7*24*3600*1000;
+    @InjectView(R.id.address_return_activity)
+    QSTextView addressReturnActivity;
+    @InjectView(R.id.receiver_return_activity)
+    QSTextView receiverReturnActivity;
+    @InjectView(R.id.phone_return_activity)
+    QSTextView phoneReturnActivity;
+    @InjectView(R.id.company_return_activity)
+    QSEditText company;
+    @InjectView(R.id.returnNumber__return_activity)
+    QSEditText returnNo;
+    @InjectView(R.id.matters__return_activity)
+    QSEditText common;
+    @InjectView(R.id.apply_return_btn_return_activity)
+    QSButton applyReturnBtn;
 
-    private EditText company;
-    private EditText returnNo;
-    private LinearLayout returnDateLayout;
-    private TextView applyReturnBtn;
     private MongoTrade trade;
     private boolean isSuccessed = false;
     private LoadingDialogs loadingDialog;
@@ -48,6 +63,7 @@ public class U12ReturnActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_return);
+        ButterKnife.inject(this);
 
         findViewById(R.id.return_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,21 +71,16 @@ public class U12ReturnActivity extends BaseActivity{
                 finish();
             }
         });
-        loadingDialog = new LoadingDialogs(this,R.style.dialog);
+        loadingDialog = new LoadingDialogs(this, R.style.dialog);
         trade = (MongoTrade) getIntent().getSerializableExtra(TRADE_ENTITY);
 
-        if(null != trade.itemSnapshot) {
+        if (null != trade.itemSnapshot) {
             if (null != trade.itemSnapshot.returnInfo) {
-                ((TextView) findViewById(R.id.address_return_activity)).setText(trade.itemSnapshot.returnInfo.address);
-                ((TextView) findViewById(R.id.receiver_return_activity)).setText(trade.itemSnapshot.returnInfo.name);
-                ((TextView) findViewById(R.id.phone_return_activity)).setText(trade.itemSnapshot.returnInfo.phone);
+                addressReturnActivity.setText(trade.itemSnapshot.returnInfo.address);
+                receiverReturnActivity.setText(trade.itemSnapshot.returnInfo.name);
+                phoneReturnActivity.setText(trade.itemSnapshot.returnInfo.phone);
             }
         }
-
-        company = (EditText) findViewById(R.id.company_return_activity);
-        returnNo = (EditText) findViewById(R.id.returnNumber__return_activity);
-
-        applyReturnBtn = (TextView) findViewById(R.id.apply_return_btn_return_activity);
 
         applyReturnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,17 +88,16 @@ public class U12ReturnActivity extends BaseActivity{
                 commitForm();
             }
         });
-
     }
 
-    public void commitForm(){
+    public void commitForm() {
 
-        if(TextUtils.isEmpty(company.getText().toString())){
+        if (TextUtils.isEmpty(company.getText().toString())) {
             Toast.makeText(U12ReturnActivity.this, "请填写货运公司", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(TextUtils.isEmpty(returnNo.getText().toString())){
+        if (TextUtils.isEmpty(returnNo.getText().toString())) {
             Toast.makeText(U12ReturnActivity.this, "请填写货运单号", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -98,7 +108,7 @@ public class U12ReturnActivity extends BaseActivity{
 
         params.put("_id", trade._id);
         params.put("status", 7);
-
+        params.put("comment", common.getText().toString());
 
 
         returnLogistic.put("company", company.getText().toString());
@@ -110,16 +120,12 @@ public class U12ReturnActivity extends BaseActivity{
             public void onResponse(JSONObject response) {
                 System.out.println("response:" + response);
                 loadingDialog.dismiss();
-                if(MetadataParser.hasError(response)){
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U12ReturnActivity.this, MetadataParser.getError(response));
-                    isSuccessed = false;
                     return;
                 }
-                if(isSuccessed){
-                    EventBus.getDefault().post(TradeParser.parseQuery(response));
-                    Toast.makeText(U12ReturnActivity.this, getResources().getString(R.string.toast_activity_return), Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+                Toast.makeText(U12ReturnActivity.this, getResources().getString(R.string.toast_activity_return), Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 

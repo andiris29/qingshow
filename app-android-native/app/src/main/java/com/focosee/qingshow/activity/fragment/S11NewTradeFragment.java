@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -262,7 +263,8 @@ public class S11NewTradeFragment extends Fragment {
                     submit.setClickable(true);
                     return;
                 }
-                startActivity(new Intent(getActivity(), U09TradeListActivity.class));
+                Toast.makeText(getActivity(), R.string.toast_activity_discount_successed, Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
         }, new Response.ErrorListener() {
             @Override

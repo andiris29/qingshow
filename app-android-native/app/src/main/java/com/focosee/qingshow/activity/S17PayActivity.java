@@ -283,7 +283,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(S17PayActivity.this, U09TradeListActivity.class);
-                intent.putExtra(U09TradeListActivity.FROM_WHEN, S17PayActivity.class.getSimpleName());
+                intent.putExtra(U09TradeListActivity.FROM_WHERE, S17PayActivity.class.getSimpleName());
                 startActivity(intent);
                 finish();
             }

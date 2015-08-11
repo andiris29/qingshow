@@ -51,7 +51,7 @@ import de.greenrobot.event.EventBus;
 public class U09TradeListActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
-    public static final String FROM_WHEN = "FROM_WHEN";
+    public static final String FROM_WHERE = "FROM_WHEN";
     private final String CURRENT_POSITION = "CURRENT_POSITION";
     private final int TYPE_APPLY = 0;
     private final int TYPE_SUCCESSED = 1;
@@ -89,7 +89,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
         setContentView(R.layout.activity_person_tradelist);
         ButterKnife.inject(this);
-        fromWhere = getIntent().getStringExtra(FROM_WHEN);
+        fromWhere = getIntent().getStringExtra(FROM_WHERE);
         initDrawer();
         initCurrentType();
         navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
@@ -136,6 +136,10 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         }
         if(S17PayActivity.class.getSimpleName().equals(fromWhere)){
             currentType = TYPE_SUCCESSED;
+            clickTabSuccessed();
+        }
+        if(QSPushActivity.class.getSimpleName().equals(fromWhere)){
+            currentType  = TYPE_SUCCESSED;
             clickTabSuccessed();
         }
     }
