@@ -82,3 +82,121 @@ body {
     width: 100%;
     /*box-shadow: 0px -4px 12px #999;*/
 }
+
+
+
+.p03-background {
+    position: absolute;
+    background-image: url(../assets/slicing/p03/background.jpg);
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.p03-ribbon {
+    position: absolute;
+    background-image: url(../assets/slicing/p03/ribbon.png);
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position-x : 7%;
+    width: 100%;
+    height: 100%;
+}
+
+
+.p03-success {
+    position: absolute;
+    background-image: url(../assets/slicing/p03/success.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    width: 28%;
+    height: 20%;
+    right: 5%;
+    bottom: 7%;
+}
+
+.p03-download {
+    position: absolute;
+    background-image: url(../assets/slicing/p02/download.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    bottom: 0;
+    height: 12%;
+    width: 100%;
+    /*box-shadow: 0px -4px 12px #999;*/
+}
+
+.p03-trade {
+    position: absolute;
+    width: 84%;
+    height: 68%;
+    top: 15%;
+    left: 8%;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.p03-discount-title {
+    position: absolute;
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 10%;
+    top: 8%;
+    text-align: center;
+    color: #e03651;
+    font-size: 16px;
+}
+
+.p03-split-position-up {
+    top: 18%;
+}
+
+
+.p03-trade-item-cover {
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 35%;
+    height: 30%;
+    left: 7%;
+    top: 20%;
+}
+
+.p03-split-position-down {
+    top: 52%;
+}
+
+.p03-split {
+    position: absolute;
+    background-color: #f2a3b0;
+    height: 1px;
+    width: 86%;
+    left : 7%;
+}
+
+.p03-discount-content-text {
+    position: absolute;
+    width: 100%;
+    height: 5%;
+    top: 54%;
+    text-align: center;
+    color: #f83e5b;
+    font-size: 12px;
+}
+
+.p03-actual-price-container {
+    position: absolute;
+    left : 7%;
+    top: 60%;
+    width: 86%;
+    height: 35%;
+
+    background-color: #ec6798;
+}

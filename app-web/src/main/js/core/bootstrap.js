@@ -37,7 +37,7 @@ define([
             '_id' : search._id
         });
     } else if (search.entry === 'shareTrade') {
-        navigationService.push('qs/views/P03SharingTrade', {
+        navigationService.push('qs/views/P03ShareTrade', {
             '_id' : search._id
         });
     } else {
