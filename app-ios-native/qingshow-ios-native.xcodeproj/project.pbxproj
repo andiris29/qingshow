@@ -3125,7 +3125,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "cb5a9f5d-940d-4a02-8fa5-13087f0aedd3";
+				PROVISIONING_PROFILE = "b6f60dc8-08ed-4ee2-bf63-579bf340aa54";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -3164,7 +3164,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "cb5a9f5d-940d-4a02-8fa5-13087f0aedd3";
+				PROVISIONING_PROFILE = "b6f60dc8-08ed-4ee2-bf63-579bf340aa54";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
