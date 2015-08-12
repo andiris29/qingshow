@@ -68,7 +68,7 @@
                                 <constraint firstAttribute="height" constant="5" id="cLZ-2Y-xZx"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请务必在快递单上写明" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gv8-zX-dKO">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gv8-zX-dKO">
                             <rect key="frame" x="192" y="13" width="120" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="1Ka-uI-vFZ"/>
@@ -260,7 +260,7 @@
                                 <constraint firstAttribute="height" constant="1" id="JTz-Zu-2kc"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="退换货理由" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xz2-il-kac">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="退货理由" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xz2-il-kac">
                             <rect key="frame" x="8" y="322" width="64" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="DyT-jX-1iQ"/>
@@ -286,7 +286,7 @@
                             </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写退换货理由" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9nf-ch-KnN">
-                            <rect key="frame" x="80" y="321" width="232" height="17"/>
+                            <rect key="frame" x="68" y="321" width="244" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -303,7 +303,7 @@
                         <constraint firstItem="57S-VF-9Io" firstAttribute="top" secondItem="sT6-rv-47Z" secondAttribute="bottom" constant="8" id="Bpd-cl-OBG"/>
                         <constraint firstItem="vWp-pW-qjR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="CTU-kR-nh6"/>
                         <constraint firstItem="Xz2-il-kac" firstAttribute="top" secondItem="fKa-BH-Eax" secondAttribute="bottom" constant="8" id="DaC-ai-iiQ"/>
-                        <constraint firstItem="9nf-ch-KnN" firstAttribute="leading" secondItem="Xz2-il-kac" secondAttribute="trailing" constant="8" id="Dag-U7-PHj"/>
+                        <constraint firstItem="9nf-ch-KnN" firstAttribute="leading" secondItem="Xz2-il-kac" secondAttribute="trailing" constant="-4" id="Dag-U7-PHj"/>
                         <constraint firstItem="Gl9-AQ-AQM" firstAttribute="top" secondItem="sMK-6H-eMw" secondAttribute="bottom" id="Daz-et-6uL"/>
                         <constraint firstItem="gv8-zX-dKO" firstAttribute="leading" secondItem="uaq-D1-6W7" secondAttribute="trailing" constant="8" id="FPQ-69-YnH"/>
                         <constraint firstAttribute="trailing" secondItem="UOT-KD-KMm" secondAttribute="trailing" id="HBm-Yf-t2e"/>
