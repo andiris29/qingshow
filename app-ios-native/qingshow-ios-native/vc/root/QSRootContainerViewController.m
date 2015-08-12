@@ -54,13 +54,6 @@
 
 }
 
-- (void)showDefaultVc {
-
-    [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
-
-}
-
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -165,12 +158,22 @@
     [vc didMoveToParentViewController:self];    //Call after transition
     self.contentNavVc = nav;
 }
-- (void)showRegisterVc {
+- (UIViewController*)showRegisterVc {
+    UIViewController* vc = nil;
     if (![QSUserManager shareUserManager].userInfo) {
-        [self.navigationController pushViewController:[[QSU07RegisterViewController alloc] init] animated:YES];
+        vc = [[QSU07RegisterViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
+    return vc;
 }
-
+- (UIViewController*)showDefaultVc {
+    [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
+    return self.contentVc;
+}
+- (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type {
+    [self.menuView triggerItemTypePressed:type];
+    return self.contentVc;
+}
 #pragma mark - Pns
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isKindOfClass:[QSBlockAlertView class]]) {

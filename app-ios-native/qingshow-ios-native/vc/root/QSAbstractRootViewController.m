@@ -212,10 +212,13 @@
 {
     [self menuButtonPressed];
 }
-- (void)showRegisterVc
-{
+- (UIViewController*)showRegisterVc {
+    return nil;
 }
-- (void)showDefaultVc {
-    
+- (UIViewController*)showDefaultVc {
+    return nil;
+}
+- (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type {
+    return nil;
 }
 @end

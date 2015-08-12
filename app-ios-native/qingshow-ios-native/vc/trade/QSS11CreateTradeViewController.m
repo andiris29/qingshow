@@ -498,17 +498,19 @@
 #pragma mark - UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-
-    
     if (buttonIndex == 0) {
         //继续逛逛
-        [self.navigationController popViewControllerAnimated:NO];
+        [self.navigationController popViewControllerAnimated:YES];
         [self.menuProvider showDefaultVc];
     } else if (buttonIndex == 1) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
         //查看订单
-//        UIViewController* vc = [[QSU09OrderListViewController alloc] init];
-//        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        UIViewController* vc = [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
+        if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
+            QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
+#warning TODO 显示完成 @mhy
+            
+        }
     }
 }
 
