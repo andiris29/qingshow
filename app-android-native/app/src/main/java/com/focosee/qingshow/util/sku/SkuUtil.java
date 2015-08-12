@@ -55,8 +55,13 @@ public class SkuUtil {
         for (int i = 0; i < values.size(); i++) {
             if (i == values.size())
                 sb.append(values.get(i));
-            else
-                sb.append(values.get(i)).append(":");
+            else {
+                if (i == values.size() - 1) {
+                    continue;
+                } else
+                    sb.append(values.get(i)).append(":");
+            }
+
         }
         return sb.toString();
     }

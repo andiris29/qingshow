@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -141,9 +142,9 @@ public class S11NewTradeFragment extends Fragment {
 
     private void initProps() {
         props = SkuUtil.filter(itemEntity.skuProperties);
-
-        for (int i = 0; i < props.size(); i++) {
-            bindItem(itemEntity.skuProperties,i,new OnCheckedChangeListener() {
+        Log.i("tag", QSGsonFactory.create().toJson(itemEntity.skuProperties).toString());
+        for (int i = 0; i < itemEntity.skuProperties.size(); i++) {
+            bindItem(itemEntity.skuProperties, i, new OnCheckedChangeListener() {
                 @Override
                 public void onChanged(String key, int index) {
                     List<String> values = new ArrayList<>();
@@ -295,7 +296,7 @@ public class S11NewTradeFragment extends Fragment {
         propItem.setBackgroundResource(R.drawable.gay_btn_ring);
         propItem.setTextColor(getActivity().getResources().getColor(R.color.gary));
         propItem.setGravity(Gravity.CENTER);
-        propItem.setPadding(2,2,2,2);
+        propItem.setPadding(2, 2, 2, 2);
         propItem.setTextSize(13);
         if (!TextUtils.isEmpty(text)) {
             propItem.setText(text);
@@ -303,15 +304,15 @@ public class S11NewTradeFragment extends Fragment {
         return propItem;
     }
 
-    private void bindItem(List<String> datas,final int position,final OnCheckedChangeListener onCheckedChangeListener){
+    private void bindItem(List<String> datas, final int position, final OnCheckedChangeListener onCheckedChangeListener) {
         final int checkIndex[] = new int[datas.size()];
-        LinearLayout prop = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.item_sku_prop,null);
+        LinearLayout prop = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.item_sku_prop, null);
         String data = datas.get(position);
         List<String> values = SkuUtil.getValues(data);
 
         final String key = SkuUtil.getPropName(data);
         FlowRadioGroup group = (FlowRadioGroup) prop.findViewById(R.id.propGroup);
-        ((TextView)prop.findViewById(R.id.propText)).setText(key);
+        ((TextView) prop.findViewById(R.id.propText)).setText(key);
 
         ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT);
