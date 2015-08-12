@@ -14,11 +14,13 @@
         app:cardElevation="15dp"
         app:cardUseCompatPadding="true">
 
-        <ImageView
+        <com.focosee.qingshow.widget.QSImageButton
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_alignParentRight="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
             android:layout_gravity="right"
             android:layout_margin="2dp"
             android:src="@drawable/close" />
@@ -185,13 +187,14 @@
                 </RelativeLayout>
 
 
-                <com.focosee.qingshow.widget.QSTextView
+                <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/submitBtn"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_below="@id/nowDes"
                     android:layout_centerInParent="true"
                     android:background="@drawable/bg_submit_match"
+                    app:clickGround="@drawable/round_btn_background"
                     android:gravity="center"
                     android:text="分享后购买"
                     android:textColor="@color/white"

@@ -57,7 +57,6 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
         if(null != QSModel.INSTANCE.getUser()){
             MongoPeople.Receiver defaultReceiver = null;
             for (MongoPeople.Receiver receiver : QSModel.INSTANCE.getUser().receivers) {
-                System.out.println("isDefault:" + receiver.isDefault);
                 if(receiver.isDefault){
                     defaultReceiver = receiver;
                 }

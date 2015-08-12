@@ -277,6 +277,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         dialog.setCancel("继续逛逛", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
             }
         });
         dialog.setConfirm("查看订单", new View.OnClickListener() {

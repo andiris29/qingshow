@@ -83,4 +83,12 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
 
     @Override
     abstract public void onBindViewHolder(AbsViewHolder holder, int position);
+
+    public void setItem(int position, T t){
+        datas.set(position, t);
+    }
+
+    public int indexOf(T t){
+        return datas.indexOf(t);
+    }
 }

@@ -36,7 +36,7 @@ public class QSButton extends Button{
         if (null != attrs){
             TypedArray array = context.obtainStyledAttributes(attrs,
                     R.styleable.QSButton);
-            clickGround = array.getResourceId(R.styleable.QSButton_clickGround, R.color.gray_background);
+            clickGround = array.getResourceId(R.styleable.QSButton_clickGround, R.color.btn_background);
             array.recycle();
         }
         setFont("fonts/black_fangzheng_simple.TTF");

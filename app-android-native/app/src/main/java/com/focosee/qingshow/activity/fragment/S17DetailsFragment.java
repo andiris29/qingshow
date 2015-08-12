@@ -71,9 +71,11 @@ public class S17DetailsFragment extends Fragment {
     }
 
     private void initDes() {
-        itemName.setText(trade.itemSnapshot.name);
-        price.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
-        maxPrice.setText(StringUtil.FormatPrice(trade.itemSnapshot.price));
+        if(null != trade.itemSnapshot) {
+            itemName.setText(trade.itemSnapshot.name);
+            price.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+            maxPrice.setText(StringUtil.FormatPrice(trade.itemSnapshot.price));
+        }
         maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         num.setText(String.valueOf(trade.quantity));
     }
