@@ -189,14 +189,4 @@
                 app:preText="期望价格："/>
         </android.support.percent.PercentRelativeLayout>
     </android.support.percent.PercentRelativeLayout>
-
-    <ImageView
-        android:id="@+id/item_tradelist_sale_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/u09_sale"
-        android:visibility="gone" />
 </android.support.percent.PercentRelativeLayout>

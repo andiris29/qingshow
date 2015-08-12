@@ -83,7 +83,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
         statusTV.setVisibility(View.GONE);
-        holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
 
         if(null != trade.itemSnapshot){
@@ -114,7 +113,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         //1-等待付款
         if(trade.status == 1){
             btn1.setVisibility(View.VISIBLE);
-            holder.getView(R.id.item_tradelist_sale_img).setVisibility(View.VISIBLE);
             if(null != trade.__context) {
                 if(!trade.__context.sharedByCurrentUser && trade.shareToPay) {
                     holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.VISIBLE);
