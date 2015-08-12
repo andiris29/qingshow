@@ -58,10 +58,8 @@
 {
     [super viewDidLayoutSubviews];
     if ([UIScreen mainScreen].bounds.size.width == 320 && [UIScreen mainScreen].bounds.size.height == 480) {
-        CGRect submitFrame = self.submitBtn.frame;
-        submitFrame.origin.y -= 20;
-        CGRect cancelFrame = self.cancelBtn.frame;
-        cancelFrame.origin.y -= 20;
+        CGRect submitFrame = CGRectMake(165, 420, 115, 33);
+        CGRect cancelFrame = CGRectMake(10, 420, 115, 33);
         self.submitBtn.frame = submitFrame;
         self.cancelBtn.frame = cancelFrame;
     }

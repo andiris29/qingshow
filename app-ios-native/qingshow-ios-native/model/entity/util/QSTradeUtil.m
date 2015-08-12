@@ -122,10 +122,10 @@
     if ([str hasSuffix:@":"]) {
         str = [str substringToIndex:str.length-1];
     }
-    if ([str containsString:@"尺码"]) {
+    if ([str containsString:@"规格"]) {
         return str;
     }else{
-        return [NSString stringWithFormat:@"尺码%@",str];
+        return [NSString stringWithFormat:@"规格%@",str];
     }
 }
 + (NSString *)getColorText:(NSDictionary *)dict
