@@ -12,4 +12,6 @@ public class ValueUtil {
     public static float file_size_limit = 1000000000;
     public static final String phases_apply = "0";
     public static final String phases_finish = "1,2";
+    public static final String SHARE_TRADE = "U09_SHARE_TRADE";
+    public static final String SHARE_SHOW = "S03_SHARE_SHOW";
 }

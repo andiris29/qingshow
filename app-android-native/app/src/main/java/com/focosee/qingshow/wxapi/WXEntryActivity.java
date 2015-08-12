@@ -3,6 +3,7 @@ package com.focosee.qingshow.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.ValueUtil;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelbiz.AddCardToWXCardPackage;
@@ -59,9 +61,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
             EventBus.getDefault().post(new PushEvent(resp));
-            if (resp.transaction.equals(U09TradeListAdapter.transaction)) {
+            if (resp.transaction.equals(ValueUtil.SHARE_TRADE)) {
                 if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
-                    EventBus.getDefault().post(ISSHARE_SUCCESSED);
+                    EventBus.getDefault().post(new ShareTradeEvent(true));
                 } else {
                     Toast.makeText(WXEntryActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();
                 }
