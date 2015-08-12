@@ -75,7 +75,7 @@
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    
+   // NSLog(@"itemdict ====== %@",itemDict[@"promoPrice"]);
     NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
@@ -97,8 +97,8 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
-//    if (s == 0) {
-//           NSLog(@"%@",itemDict[@"_id"]);
+//    if (s == 3) {
+//           NSLog(@"%@",itemDict);
 //    }
     if (s == 0 || s == 1) {
          self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];

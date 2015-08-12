@@ -132,7 +132,7 @@
     [self scrollToBottom:height];
 }
 - (void)keyboardWillShow:(NSNotification *)notif {
-    [self configContentInset:300.f];
+    [self configContentInset:100.f];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notif {
@@ -149,7 +149,7 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self configContentInset:300.0f];
+    [self configContentInset:100.0f];
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
