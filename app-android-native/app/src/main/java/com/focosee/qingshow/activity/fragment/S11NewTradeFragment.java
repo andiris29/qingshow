@@ -97,7 +97,6 @@ public class S11NewTradeFragment extends Fragment {
 
     private int num = 1;
     private int numOffline = 1;
-    private int numOnline = 9;
 
     private int discountNum;
     private int discountOffline;
@@ -186,9 +185,6 @@ public class S11NewTradeFragment extends Fragment {
         if (num <= numOffline) {
             cutNum.setClickable(false);
             cutNum.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
-        } else if (num >= numOnline) {
-            plusNum.setClickable(false);
-            plusNum.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
         }
     }
 
