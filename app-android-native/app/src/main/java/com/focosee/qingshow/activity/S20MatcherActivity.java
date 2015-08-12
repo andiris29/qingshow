@@ -82,7 +82,6 @@ public class S20MatcherActivity extends MenuActivity {
     private String categoryRef = "";
     private int pagaSize = 10;
     private int rows[] = new int[]{1, 2};
-
     private boolean hasDraw = false;
 
     @Override
@@ -96,7 +95,6 @@ public class S20MatcherActivity extends MenuActivity {
         setContentView(R.layout.activity_s20_matcher);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
-
         initDrawer();
         navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_match_gray);
         navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
@@ -137,6 +135,9 @@ public class S20MatcherActivity extends MenuActivity {
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
                 formatPlace(itemView, row, column, true);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
+                animator.setDuration(500);
+                animator.start();
                 canvas.notifyCheckedChange();
             }
         });
@@ -179,7 +180,7 @@ public class S20MatcherActivity extends MenuActivity {
     private void formatPlace(QSImageView view, int row, int column, boolean moveToFrame) {
 
         float left = 0;
-        float top = 0;
+        float top;
 
         int minus;
 
@@ -197,31 +198,28 @@ public class S20MatcherActivity extends MenuActivity {
                 break;
         }
 
-        if (rows[column] != 0) {
-            top = avgCanvasHeight * row;
-        }
-
-        if (width > halfCanvasWidth || height > avgCanvasHeight) {
-            minus = -1;
-        } else {
-            minus = 1;
-        }
         float ratio = Math.abs(avgCanvasHeight / height) < Math.abs(halfCanvasWidth / width)
                 ? Math.abs(avgCanvasHeight / (height + 20)) : Math.abs(halfCanvasWidth / (width + 20));
         view.setScaleX(ratio);
         view.setScaleY(ratio);
         view.setLastScaleFactor(ratio);
 
+        if (ratio < 1) {
+            minus = -1;
+        } else {
+            minus = 1;
+        }
+
         if (moveToFrame) {
-//            if (column == 0) {
-//                left = minus * Math.abs(width * (1.0f - ratio) / 2.0f);
-//            }
-//            if (column == 1) {
-//                left = (halfCanvasWidth + minus * Math.abs(width * (1.0f - ratio) / 2.0f));
-//            }
-//
-//            top += minus * Math.abs(height * (1.0f - ratio) / 2.0f);
-//            moveView(view, 0, 0, left, top);
+            if (column == 0) {
+                left = minus * Math.abs(width * (1.0f - ratio) / 2.0f);
+            }
+            if (column == 1) {
+                left = (halfCanvasWidth + minus * Math.abs(width * (1.0f - ratio) / 2.0f));
+            }
+
+            top = avgCanvasHeight * row + minus * Math.abs(height * (1.0f - ratio) / 2.0f);
+            moveView(view, 0, 0, left, top);
         } else {
             Point lastCentroid = view.getLastCentroid();
             float dx = view.getLeft() + width / 2 - lastCentroid.x;
@@ -229,8 +227,6 @@ public class S20MatcherActivity extends MenuActivity {
             moveView(view, view.getX(), view.getY(), view.getX() - dx, view.getY() - dy);
         }
     }
-
-
 
 
     public void checkBorder(QSImageView view, View prent) {
@@ -481,12 +477,6 @@ public class S20MatcherActivity extends MenuActivity {
 
     public void onEventMainThread(S21CategoryEvent event) {
         categoryRefs = event.getCategories();
-        for (String ref : categoryRefs) {
-            if (!lastCategoryRefs.contains(ref)) {
-                Random random = new Random();
-                getDataFromNet(ref, random.nextInt(3) + 1, random.nextInt(2));
-            }
-        }
 
         for (String ref : lastCategoryRefs) {
             if (!categoryRefs.contains(ref)) {
@@ -494,6 +484,18 @@ public class S20MatcherActivity extends MenuActivity {
                     canvas.detach(allSelect.get(ref).view);
                     allSelect.remove(ref);
                 }
+            }
+        }
+
+        for (String ref : categoryRefs) {
+            if (!lastCategoryRefs.contains(ref)) {
+                Random random = new Random();
+                int row = random.nextInt(3);
+                int cloum = random.nextInt(2);
+                if (row > rows[cloum]) {
+                    rows[cloum] = row;
+                }
+                getDataFromNet(ref, row, cloum);
             }
         }
     }
@@ -598,5 +600,4 @@ public class S20MatcherActivity extends MenuActivity {
             return this;
         }
     }
-
 }
