@@ -86,73 +86,128 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         imageView.setImageBitmap(bitmap);
     }
 
+    double nLenStart = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        scaleGestureDetector.onTouchEvent(event);
+//        scaleGestureDetector.onTouchEvent(event);
         int pointerCount = event.getPointerCount();
-        if (pointerCount == 2) {
-            doubleFlag = true;
-        }
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            doubleFlag = false;
-        }
+//        if (pointerCount == 2) {
+//            doubleFlag = true;
+//        }
+//        if (event.getAction() == MotionEvent.ACTION_UP) {
+//            doubleFlag = false;
+//        }
+//
+//        if (doubleFlag) {
+//            return true;
+//        }
+        int nCnt = event.getPointerCount();
 
-        if (doubleFlag) {
+        int n = event.getAction();
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_DOWN && 2 == nCnt)//<span style="color:#ff0000;">2表示两个手指</span>
+        {
+
+            for (int i = 0; i < nCnt; i++) {
+                float x = event.getX(i);
+                float y = event.getY(i);
+
+                Point pt = new Point((int) x, (int) y);
+
+            }
+
+            int xlen = Math.abs((int) event.getX(0) - (int) event.getX(1));
+            int ylen = Math.abs((int) event.getY(0) - (int) event.getY(1));
+
+            nLenStart = Math.sqrt((double) xlen * xlen + (double) ylen * ylen);
+
+
+        } else if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_UP && 2 == nCnt) {
+
+            for (int i = 0; i < nCnt; i++) {
+                float x = event.getX(i);
+                float y = event.getY(i);
+
+                Point pt = new Point((int) x, (int) y);
+
+            }
+
+            int xlen = Math.abs((int) event.getX(0) - (int) event.getX(1));
+            int ylen = Math.abs((int) event.getY(0) - (int) event.getY(1));
+
+            double nLenEnd = Math.sqrt((double) xlen * xlen + (double) ylen * ylen);
+            lastScaleFactor *= (float) (nLenEnd - nLenStart) / 1000 + 1;
+            Log.i("tag", lastScaleFactor + "");
+//            if (nLenEnd > nLenStart)//通过两个手指开始距离和结束距离，来判断放大缩小
+//            {
+//                setScaleX(scale);
+//                setScaleY(scale);
+//            } else {
+//                setScaleX(scale);
+//                setScaleY(scale);
+//
+//            }
+            ObjectAnimator y = ObjectAnimator.ofFloat(this, View.SCALE_Y, getScaleY(), lastScaleFactor);
+            ObjectAnimator x = ObjectAnimator.ofFloat(this, View.SCALE_X, getScaleX(), lastScaleFactor);
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(x, y);
+            animatorSet.setDuration(50);
+            animatorSet.start();
             return true;
         }
 
-        switch (event.getAction()) {
 
-            case MotionEvent.ACTION_DOWN:
-                showDelBtn();
-                setChecked(true);
-                lastX = event.getRawX();
-                lastY = event.getRawY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (!isMoveable()) {
-                    return false;
-                }
-
-                if (pointerCount == 1) {
-                    distanceX = lastX - event.getRawX();
-                    distanceY = lastY - event.getRawY();
-
-                    float nextY = getY() - distanceY;
-                    float nextX = getX() - distanceX;
-                    float dy = (getHeight() - getHeight() * lastScaleFactor) / 2;
-                    float dx = (getWidth() - getWidth() * lastScaleFactor) / 2;
-
-                    containerHeight = ((QSCanvasView) getParent()).getHeight();
-                    containerWidth = ((QSCanvasView) getParent()).getWidth();
-
-                    if (nextY < -dy)
-                        nextY = -dy;
-                    else if (nextY > (containerHeight - getHeight() * lastScaleFactor) - dy)
-                        nextY = containerHeight - getHeight() * lastScaleFactor - dy;
-
-                    if (nextX < -dx)
-                        nextX = -dx;
-                    else if (nextX > (containerWidth - getWidth() * lastScaleFactor) - dx)
-                        nextX = (containerWidth - getWidth() * lastScaleFactor) - dx;
-
-                    ObjectAnimator y = ObjectAnimator.ofFloat(this, "y", getY(), nextY);
-                    ObjectAnimator x = ObjectAnimator.ofFloat(this, "x", getX(), nextX);
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.playTogether(x, y);
-                    animatorSet.setDuration(0);
-                    animatorSet.start();
-                    setLastCentroid(new Point(getLeft() + getImageView().getDrawable().getIntrinsicWidth() / 2, getTop() + getImageView().getDrawable().getIntrinsicHeight() / 2));
-                    lastX = event.getRawX();
-                    lastY = event.getRawY();
-                    return true;
-                }
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                goneDelBtn(1000);
-                break;
-        }
+//        switch (event.getAction()) {
+//
+//            case MotionEvent.ACTION_DOWN:
+//                showDelBtn();
+//                setChecked(true);
+//                lastX = event.getRawX();
+//                lastY = event.getRawY();
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                if (!isMoveable()) {
+//                    return false;
+//                }
+//
+//                if (pointerCount == 1) {
+//                    distanceX = lastX - event.getRawX();
+//                    distanceY = lastY - event.getRawY();
+//
+//                    float nextY = getY() - distanceY;
+//                    float nextX = getX() - distanceX;
+//                    float dy = (getHeight() - getHeight() * lastScaleFactor) / 2;
+//                    float dx = (getWidth() - getWidth() * lastScaleFactor) / 2;
+//
+//                    containerHeight = ((QSCanvasView) getParent()).getHeight();
+//                    containerWidth = ((QSCanvasView) getParent()).getWidth();
+//
+//                    if (nextY < -dy)
+//                        nextY = -dy;
+//                    else if (nextY > (containerHeight - getHeight() * lastScaleFactor) - dy)
+//                        nextY = containerHeight - getHeight() * lastScaleFactor - dy;
+//
+//                    if (nextX < -dx)
+//                        nextX = -dx;
+//                    else if (nextX > (containerWidth - getWidth() * lastScaleFactor) - dx)
+//                        nextX = (containerWidth - getWidth() * lastScaleFactor) - dx;
+//
+//                    ObjectAnimator y = ObjectAnimator.ofFloat(this, "y", getY(), nextY);
+//                    ObjectAnimator x = ObjectAnimator.ofFloat(this, "x", getX(), nextX);
+//                    AnimatorSet animatorSet = new AnimatorSet();
+//                    animatorSet.playTogether(x, y);
+//                    animatorSet.setDuration(0);
+//                    animatorSet.start();
+//                    setLastCentroid(new Point(getLeft() + getImageView().getDrawable().getIntrinsicWidth() / 2, getTop() + getImageView().getDrawable().getIntrinsicHeight() / 2));
+//                    lastX = event.getRawX();
+//                    lastY = event.getRawY();
+//                    return true;
+//                }
+//            case MotionEvent.ACTION_UP:
+//            case MotionEvent.ACTION_CANCEL:
+//                goneDelBtn(1000);
+//                break;
+//        }
         return true;
 
     }
