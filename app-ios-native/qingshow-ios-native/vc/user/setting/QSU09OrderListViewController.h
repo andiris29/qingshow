@@ -13,7 +13,7 @@
 
 @interface QSU09OrderListViewController : QSRootContentViewController <QSOrderListTableViewProviderDelegate,UIAlertViewDelegate,QSOrderListHeaderViewDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (strong,nonatomic) QSOrderListHeaderView *headerView;
 - (instancetype)init;
 
 @end

@@ -23,7 +23,7 @@
 
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
 @property (strong,nonatomic) NSDictionary *oderDic;
-@property (strong,nonatomic) QSOrderListHeaderView *headerView;
+
 @end
 
 @implementation QSU09OrderListViewController
