@@ -2,7 +2,6 @@ package com.focosee.qingshow.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.Normalizer;
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class StringUtil {
             str = "1" + "折";
         } else if (dis > 0.9) {
             str = "9" + "折";
-        }else {
-            str = (int)(dis * 10) + "折";
+        } else {
+            str = (int) (dis * 10) + "折";
         }
         return str;
     }
@@ -32,10 +31,13 @@ public class StringUtil {
     }
 
     public static String formatSKUProperties(List<String> properties) {
-        if (null == properties) return "尺码:\n颜色:";
+        if (null == properties) return "";
         StringBuffer buffer = new StringBuffer();
-        for (String p : properties) {
+        int length = properties.size() > 2 ? 2 : properties.size();
+        for (int i = 0; i < length; i++) {
+            String p = properties.get(i);
             p = p.replace(":, ", "\n");
+            p = p.replace("尺码", "");
             p = p.replace("[", "");
             p = p.replace("]", "");
             p = p.replace("，", "");
@@ -51,8 +53,8 @@ public class StringUtil {
             buffer.append("\n");
         }
         String str = buffer.toString().substring(0, buffer.length() - "\n".length());
-        if (buffer.toString().indexOf("尺码") > -1) return str;
-        return "尺码：" + str;
+        if (buffer.toString().indexOf("规格") > -1) return str;
+        return "规格：" + str;
     }
 
     public static String formatPriceDigits(double price) {//取小数点后两位

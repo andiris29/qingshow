@@ -159,7 +159,7 @@
                 android:layout_below="@id/item_tradelist_actualPrice"
                 android:layout_marginTop="5dp"
                 android:lineSpacingExtra="5dp"
-                android:text="属性："
+                android:visibility="gone"
                 android:textColor="@color/gary" />
 
             <com.focosee.qingshow.widget.QSTextView

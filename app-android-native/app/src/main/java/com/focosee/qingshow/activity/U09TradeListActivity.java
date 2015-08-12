@@ -2,7 +2,6 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -28,11 +26,11 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.TradeUtil;
-import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
-import com.focosee.qingshow.wxapi.WXEntryActivity;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -90,7 +88,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
         setContentView(R.layout.activity_person_tradelist);
         ButterKnife.inject(this);
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             position = savedInstanceState.getInt("position", Integer.MAX_VALUE);
         }
         fromWhere = getIntent().getStringExtra(FROM_WHERE);
@@ -132,17 +130,17 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         EventBus.getDefault().register(this);
     }
 
-    private void initCurrentType(){
-        if(S10ItemDetailActivity.class.getSimpleName().equals(fromWhere)){
+    private void initCurrentType() {
+        if (S10ItemDetailActivity.class.getSimpleName().equals(fromWhere)) {
             currentType = TYPE_APPLY;
             clickTabApply();
         }
-        if(S17PayActivity.class.getSimpleName().equals(fromWhere)){
+        if (S17PayActivity.class.getSimpleName().equals(fromWhere)) {
             currentType = TYPE_SUCCESSED;
             clickTabSuccessed();
         }
-        if(QSPushActivity.class.getSimpleName().equals(fromWhere)){
-            currentType  = TYPE_SUCCESSED;
+        if (QSPushActivity.class.getSimpleName().equals(fromWhere)) {
+            currentType = TYPE_SUCCESSED;
             clickTabSuccessed();
         }
     }
@@ -162,12 +160,12 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         if (responseToStatusToSuccessed.equals(event)) doRefresh(currentType);
     }
 
-    public void onEventMainThread(ShareTradeEvent event){
-        if(!event.shareByCreateUser){
+    public void onEventMainThread(ShareTradeEvent event) {
+        if (!event.shareByCreateUser) {
             Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(position == Integer.MAX_VALUE){
+        if (position == Integer.MAX_VALUE) {
             Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -177,7 +175,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeShareApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(U09TradeListActivity.this, "分享失败，请重试！", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -198,7 +196,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
 
     public void onEventMainThread(MongoTrade trade) {
-        if(mAdapter.indexOf(trade) > -1)
+        if (mAdapter.indexOf(trade) > -1)
             this.position = mAdapter.indexOf(trade) + 1;
     }
 
@@ -233,25 +231,27 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
         if (type == TYPE_SUCCESSED) {
             phases = ValueUtil.phases_finish;
-        }else{
+        } else {
             phases = ValueUtil.phases_apply;
         }
 
         final LoadingDialogs pDialog = new LoadingDialogs(this, R.style.dialog);
-        if(pageNo == 1) {
-            mAdapter.clearData();
-            mAdapter.notifyDataSetChanged();
+        if (pageNo == 1) {
             pDialog.show();
         }
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQuerybyPhaseApi(phases, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println("response:" + response);
-                if(pageNo == 1) {
+                if (pageNo == 1) {
                     pDialog.dismiss();
                 }
                 if (MetadataParser.hasError(response)) {
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
+                        if(pageNo == 1){
+                            mAdapter.clearData();
+                            mAdapter.notifyDataSetChanged();
+                        }
                         if (isSuccessed) {//进入u09时的第一次请求
                             clickTabApply();
                             doRefresh(TYPE_APPLY);
