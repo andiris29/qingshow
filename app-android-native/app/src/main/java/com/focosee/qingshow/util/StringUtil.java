@@ -43,10 +43,10 @@ public class StringUtil {
             p = p.replace("，", "");
             p = p.replace(",", "");
             p = p.replace(":", "：");
-            if (p.indexOf("：") == 0) {
+            if (p.indexOf("：") == 0 && p.length() > 0) {
                 p = p.substring(1);
             }
-            if (p.lastIndexOf("：") == p.length() - 1) {
+            if (p.lastIndexOf("：") == p.length() - 1 && p.length() > 0) {
                 p = p.substring(0, p.length() - 1);
             }
             buffer.append(p);
