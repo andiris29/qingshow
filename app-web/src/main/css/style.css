@@ -72,17 +72,20 @@ body {
     background-image: url(../assets/slicing/p02/sale.png);
     background-size: contain;
     background-repeat: no-repeat;
-    width: 35%;
+    background-position: 0% 100%;
+    width: 28%;
     height: 20%;
     right: 5%;
-    bottom: 10%;
+    bottom: 7%;
 }
 
 .p02-download {
     position: absolute;
+    background-image: url(../assets/slicing/p02/download.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
     bottom: 0;
-    height: 15%;
+    height: 12%;
     width: 100%;
-    background-color: #fff;
-    box-shadow: 0px -4px 12px #999;
 }
