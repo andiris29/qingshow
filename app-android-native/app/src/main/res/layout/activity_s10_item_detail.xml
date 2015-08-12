@@ -11,21 +11,25 @@
         android:layout_height="match_parent" />
 
 
-    <ImageButton
+    <com.focosee.qingshow.widget.QSImageButton
         android:id="@+id/s10_back_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/nav_btn_back"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:src="@drawable/nav_btn_back"
         android:onClick="onClick" />
 
-    <ImageView
+    <com.focosee.qingshow.widget.QSImageButton
         android:id="@+id/s10_bay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
         android:onClick="onClick"
         android:src="@drawable/sale"
         app:layout_marginBottomPercent="10%"

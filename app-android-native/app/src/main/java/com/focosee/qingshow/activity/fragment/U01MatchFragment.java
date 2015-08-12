@@ -76,18 +76,11 @@ public class U01MatchFragment extends U01BaseFragment {
 
     @Override
     public void onResume() {
-//        System.out.println("count:" + adapter.getItemCount());
-//        getDatasFromNet(1, adapter.getItemCount() == 1 ? 10 : adapter.getItemCount());
-//        if (null != getArguments()) {
-//            recyclerView.scrollToPosition(getArguments().getInt("position", 0));
-//
-//        }
         super.onResume();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-//        getArguments().putInt("position", ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition());
         super.onSaveInstanceState(outState);
     }
 

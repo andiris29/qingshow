@@ -3,6 +3,7 @@
     xmlns:freso="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_s07_collection"
     android:layout_width="match_parent"
+    android:background="@drawable/s07_item_background"
     android:layout_height="70dp">
 
     <com.facebook.drawee.view.SimpleDraweeView

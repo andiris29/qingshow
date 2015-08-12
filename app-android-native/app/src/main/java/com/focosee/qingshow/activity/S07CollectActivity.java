@@ -7,21 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.ComparatorFactory;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
-import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.umeng.analytics.MobclickAgent;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -70,7 +64,6 @@ public class S07CollectActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S07ListAdapter(items, S07CollectActivity.this, R.layout.item_s07_item_list,R.layout.item_s07_text);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(5));
     }
 
 

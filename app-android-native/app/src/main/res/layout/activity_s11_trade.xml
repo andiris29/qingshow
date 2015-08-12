@@ -277,7 +277,7 @@
                     android:layout_below="@id/text"
                     android:layout_marginTop="10dp">
 
-                    <Button
+                    <com.focosee.qingshow.widget.QSButton
                         android:id="@+id/cancel"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -286,18 +286,20 @@
                         android:text="取消"
                         android:textColor="@color/white"
                         android:textSize="18sp"
+                        app:clickGround="@drawable/round_btn_background"
                         app:layout_marginBottomPercent="20%"
                         app:layout_marginLeftPercent="5%"
                         app:layout_marginTopPercent="5%"
                         app:layout_widthPercent="40%" />
 
-                    <Button
+                    <com.focosee.qingshow.widget.QSButton
                         android:id="@+id/submitBtn"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/bg_submit_match"
+                        app:clickGround="@drawable/round_btn_background"
                         android:text="确定"
                         android:textColor="@color/white"
                         android:textSize="18sp"
