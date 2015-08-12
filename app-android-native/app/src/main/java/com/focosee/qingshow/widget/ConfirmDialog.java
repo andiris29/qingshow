@@ -71,6 +71,7 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
         cancel = (TextView) mView.findViewById(R.id.dialog_cancel);
 
         title.setText(titleStr);
+        title.setTextColor(getResources().getColor(R.color.black));
         confirm.setText(confirmStr);
         confirm.setOnClickListener(confirmOnClickListener);
         cancel.setText(cancelStr);
