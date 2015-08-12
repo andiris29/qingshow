@@ -59,6 +59,9 @@
 }
 + (NSString*)getPriceDesc:(NSDictionary*)itemDict
 {
+    if ([QSEntityUtil checkIsNil:[self getPrice:itemDict]]) {
+        return nil;
+    }
     return [NSString stringWithFormat:@"%.2f", [self getPrice:itemDict].doubleValue];
 }
 + (NSNumber*)getPromoPrice:(NSDictionary*)itemDict {
@@ -66,6 +69,9 @@
 }
 + (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict
 {
+    if ([QSEntityUtil checkIsNil:[self getPromoPrice:itemDict]]) {
+        return nil;
+    }
     return [NSString stringWithFormat:@"%.2f", [self getPromoPrice:itemDict].doubleValue];
 }
 + (NSString*)getReturnInfoAddr:(NSDictionary*)itemDict

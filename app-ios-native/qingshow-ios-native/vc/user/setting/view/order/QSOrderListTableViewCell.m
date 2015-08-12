@@ -97,9 +97,9 @@
 
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
-    if (s == 0) {
-           NSLog(@"%@",itemDict[@"_id"]);
-    }
+//    if (s == 0) {
+//           NSLog(@"%@",itemDict[@"_id"]);
+//    }
     if (s == 0 || s == 1) {
          self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }else
