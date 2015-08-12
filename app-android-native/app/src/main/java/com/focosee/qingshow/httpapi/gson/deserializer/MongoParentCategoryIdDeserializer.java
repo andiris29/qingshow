@@ -1,5 +1,6 @@
 package com.focosee.qingshow.httpapi.gson.deserializer;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -16,6 +17,9 @@ public class MongoParentCategoryIdDeserializer implements JsonDeserializer<Mongo
     public MongoParentCategories deserialize
             (JsonElement jElement, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
+        if(jElement.isJsonObject()){
+            return QSGsonFactory.create().fromJson(jElement.getAsJsonObject(), MongoParentCategories.class);
+        }
         MongoParentCategories categorie = new MongoParentCategories();
         categorie._id = jElement.getAsString();
         return categorie;

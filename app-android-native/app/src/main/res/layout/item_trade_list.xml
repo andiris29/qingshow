@@ -118,7 +118,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="秋冬新款" />
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="秋冬新款f" />
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_tradelist_sourcePriceTextView"

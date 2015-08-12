@@ -6,6 +6,19 @@ package com.focosee.qingshow.constants.code;
  */
 public class StatusCode {
 
+    public static int APPLYING = 0;
+    public static int APPLY_SUCCESSED = 1;
+    public static int REPLAY_GOOD = 2;
+    public static int SENDED = 3;
+    public static int TRADE_SUCCESSED = 5;
+    public static int RETURNING = 7;
+    public static int RETURN_SUCCESSED = 9;
+    public static int RETURN_FALSE = 10;
+    public static int AUTO_RECEIVERED = 15;
+    public static int TRADE_SHUTDOWN = 17;
+    public static int TRADE_CANCEL = 18;
+
+
     public static final String getStatusText(int status){
 
         switch (status){

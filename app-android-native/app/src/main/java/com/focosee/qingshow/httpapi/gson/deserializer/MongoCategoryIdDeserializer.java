@@ -18,10 +18,10 @@ public class MongoCategoryIdDeserializer implements JsonDeserializer<MongoCatego
             (JsonElement jElement, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         MongoCategories categorie = new MongoCategories();
-        if (!jElement.isJsonObject())
-            categorie._id = jElement.getAsString();
+        if (jElement.isJsonObject())
+            return QSGsonFactory.parentCateGoryBuilder().create().fromJson(jElement.getAsJsonObject(), MongoCategories.class);
         else
-            return QSGsonFactory.create().fromJson(jElement.getAsJsonObject(), MongoCategories.class);
+            categorie._id = jElement.getAsString();
         return categorie;
     }
 }

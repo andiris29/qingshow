@@ -31,6 +31,7 @@ import com.focosee.qingshow.util.TradeUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
+import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.focosee.qingshow.wxapi.WXEntryActivity;
 import org.json.JSONObject;
 
@@ -89,6 +90,9 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
         setContentView(R.layout.activity_person_tradelist);
         ButterKnife.inject(this);
+        if(savedInstanceState != null) {
+            position = savedInstanceState.getInt("position", Integer.MAX_VALUE);
+        }
         fromWhere = getIntent().getStringExtra(FROM_WHERE);
         initDrawer();
         initCurrentType();
@@ -112,20 +116,19 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if (firstItem == null) {
-                firstItem = recyclerView.getChildAt(0);
-            }
-            if (firstItem == recyclerView.getChildAt(0)) {
-                u09HeadLayout.setY(firstItem.getBottom() - firstItem.getHeight());
-            } else
-                u09HeadLayout.setY(-u09HeadLayout.getHeight());
+                if (firstItem == null) {
+                    firstItem = recyclerView.getChildAt(0);
+                }
+                if (firstItem == recyclerView.getChildAt(0)) {
+                    u09HeadLayout.setY(firstItem.getBottom() - firstItem.getHeight());
+                } else
+                    u09HeadLayout.setY(-u09HeadLayout.getHeight());
             }
         });
 
         RecyclerViewUtil.setBackTop(recyclerView, backTopBtn, mLayoutManager);
         initRefreshLayout();
-        mRefreshLayout.beginRefreshing();
-
+        doRefresh(currentType);
         EventBus.getDefault().register(this);
     }
 
@@ -157,38 +160,56 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
     public void onEventMainThread(String event) {
         if (responseToStatusToSuccessed.equals(event)) doRefresh(currentType);
-        if(WXEntryActivity.ISSHARE_SUCCESSED.equals(event)){
-            if(null == trade){
-                Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Map<String, String> params = new HashMap<>();
-            params.put("_id", trade._id);
-            QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeShareApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    doRefresh(currentType);
-                }
-            });
-            RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-            Toast.makeText(U09TradeListActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
     }
 
-    private MongoTrade trade;//当前分享并支付的trade
+    public void onEventMainThread(ShareTradeEvent event){
+        if(!event.shareByCreateUser){
+            Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(position == Integer.MAX_VALUE){
+            Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("_id", mAdapter.getItemData(position)._id);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeShareApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response)){
+                    Toast.makeText(U09TradeListActivity.this, "分享失败，请重试！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(U09TradeListActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
+                mAdapter.getItemData(position).__context.sharedByCurrentUser = true;
+                mAdapter.notifyDataSetChanged();
+                Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, mAdapter.getItemData(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private int position = Integer.MAX_VALUE;//当前分享并支付的trader的position
+
 
     public void onEventMainThread(MongoTrade trade) {
-        this.trade = trade;
+        if(mAdapter.indexOf(trade) > -1)
+            this.position = mAdapter.indexOf(trade) + 1;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("position", position);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onResume() {
-        doRefresh(currentType);
         super.onResume();
     }
 
