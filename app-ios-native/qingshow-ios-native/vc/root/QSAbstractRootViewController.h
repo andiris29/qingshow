@@ -13,8 +13,9 @@
 @protocol QSMenuProviderDelegate <NSObject>
 
 - (void)didClickMenuBtn;
-- (void)showRegisterVc;
-- (void)showDefaultVc;
+- (UIViewController*)showRegisterVc;
+- (UIViewController*)showDefaultVc;
+- (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type;
 @end
 
 @interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate, QSMenuProviderDelegate>

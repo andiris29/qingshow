@@ -10,6 +10,4 @@
 
 @interface QSRootContainerViewController : QSAbstractRootViewController <UIAlertViewDelegate>
 
-- (void)showDefaultVc;
-
 @end
