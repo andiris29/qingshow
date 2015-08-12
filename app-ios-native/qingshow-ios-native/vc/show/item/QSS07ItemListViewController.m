@@ -56,7 +56,7 @@
     self.tableView.tableHeaderView = headerView;
     [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListCell" bundle:nil] forCellReuseIdentifier:QSItemListCellID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    self.tableView.scrollEnabled = YES;
     self.view.alpha = 0.9f;
     [self.navigationController.navigationBar setTitleTextAttributes:
      

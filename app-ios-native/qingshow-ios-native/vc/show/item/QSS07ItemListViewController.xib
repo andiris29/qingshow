@@ -39,7 +39,7 @@
                             </connections>
                         </button>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gIE-lF-fFE">
-                            <rect key="frame" x="0.0" y="63" width="320" height="400"/>
+                            <rect key="frame" x="0.0" y="63" width="320" height="382"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="ATg-xw-dzf"/>
@@ -66,7 +66,7 @@
                     <constraints>
                         <constraint firstItem="gIE-lF-fFE" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" id="2mD-kb-SKD"/>
                         <constraint firstItem="vd1-l4-Sef" firstAttribute="trailing" secondItem="LPe-vy-IT6" secondAttribute="trailing" constant="-5" id="FMb-ek-bq3"/>
-                        <constraint firstItem="vd1-l4-Sef" firstAttribute="top" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="13" id="MNX-yc-dJy"/>
+                        <constraint firstItem="vd1-l4-Sef" firstAttribute="top" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="31" id="MNX-yc-dJy"/>
                         <constraint firstItem="vd1-l4-Sef" firstAttribute="leading" secondItem="uC4-ox-47w" secondAttribute="leading" constant="14" id="RIU-kq-ciE"/>
                         <constraint firstAttribute="bottom" secondItem="vd1-l4-Sef" secondAttribute="bottom" constant="49" id="Y83-TW-Lr5"/>
                         <constraint firstItem="gIE-lF-fFE" firstAttribute="top" secondItem="LPe-vy-IT6" secondAttribute="bottom" constant="8" id="YDt-18-2Yl"/>
@@ -75,7 +75,7 @@
                         <constraint firstAttribute="trailing" secondItem="LPe-vy-IT6" secondAttribute="trailing" constant="15" id="hU5-5H-H5o"/>
                         <constraint firstItem="LPe-vy-IT6" firstAttribute="top" secondItem="VLC-N6-f3S" secondAttribute="top" constant="30" id="i12-1m-THl"/>
                         <constraint firstAttribute="bottom" secondItem="uC4-ox-47w" secondAttribute="bottom" constant="91" id="lme-pq-A7G"/>
-                        <constraint firstAttribute="bottom" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="105" id="oXe-QP-gwX"/>
+                        <constraint firstAttribute="bottom" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="123" id="oXe-QP-gwX"/>
                         <constraint firstItem="uC4-ox-47w" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" constant="8" id="zZH-ao-FgR"/>
                     </constraints>
                 </view>

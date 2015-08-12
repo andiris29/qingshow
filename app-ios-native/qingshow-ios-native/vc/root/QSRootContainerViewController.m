@@ -260,6 +260,11 @@
 - (void)pnsTradeShipped:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
         [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
+        if ([self.contentVc isKindOfClass:[QSU09OrderListViewController class]]) {
+            QSU09OrderListViewController *u09VC = (QSU09OrderListViewController *)self.contentVc;
+            [u09VC changeValueOfSegment:1];
+            u09VC.headerView.segmentControl.selectedSegmentIndex = 1;
+        }
     } title:@"你购买的宝贝已经向你狂奔而来，等着接收惊喜呦！" userInfo:noti.userInfo];
 }
 - (void)pnsItemPriceChanged:(NSNotification*)noti {

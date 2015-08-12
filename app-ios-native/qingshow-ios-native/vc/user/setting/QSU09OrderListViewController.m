@@ -208,7 +208,7 @@
                 if ([QSTradeUtil getStatus:_oderDic].intValue == 0) {
                     [weakSelf showTextHud:@"已取消订单"];
                 }else{
-                    [weakSelf showTextHud:@"感谢您的惠顾,我们会在48小时内返还此款项" afterCustomDelay:2.f];
+                    [weakSelf showTextHud:@"已取消订单" afterCustomDelay:2.f];
                 }
                 
                 [weakSelf.provider reloadData];

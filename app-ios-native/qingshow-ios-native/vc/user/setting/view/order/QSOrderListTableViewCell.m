@@ -104,7 +104,7 @@
          self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }else
     {
-        self.dateLabel.text = [NSString stringWithFormat:@"付款日期：%@",[QSTradeUtil getDayDesc:tradeDict]];
+        self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }
     NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     int disCount = _actualPrice * 100 / price.doubleValue;
@@ -143,9 +143,11 @@
         }
         case 1:{
             self.submitButton.hidden = NO;
-            self.exchangeButton.hidden = YES;
+            self.exchangeButton.hidden = NO;
             self.stateLabel.hidden = YES;
             self.saleImgView.hidden = YES;
+            [self configBtn:self.exchangeButton];
+            [self.exchangeButton setTitle:@"取消订单" forState:UIControlStateNormal];
             if (!shouldShare) {
                 [self.submitButton setTitle:@"立即付款" forState:UIControlStateNormal];
             }
@@ -163,6 +165,8 @@
             self.stateLabel.hidden = YES;
             [self.submitButton setImage:nil forState:UIControlStateNormal];
             [self configBtn:self.submitButton];
+            [self configBtn:self.exchangeButton];
+            [self.exchangeButton setTitle:@"物流信息" forState:UIControlStateNormal];
             [self.submitButton setTitle:@"申请退货" forState:UIControlStateNormal];
             break;
         }
@@ -213,9 +217,15 @@
 }
 
 - (IBAction)exchangeBtnPressed:(id)sender {
-    
+      int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
+    if (status == 1) {
+        if ([self.delegate respondsToSelector:@selector(didClickCancelBtnForCell:)]) {
+            [self.delegate didClickCancelBtnForCell:self];
+        }
+    }else{
     if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnForCell:)]) {
         [self.delegate didClickExchangeBtnForCell:self];
+    }
     }
 }
 
