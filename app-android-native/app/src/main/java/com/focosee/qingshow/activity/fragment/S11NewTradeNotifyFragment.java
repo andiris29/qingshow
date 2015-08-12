@@ -4,9 +4,15 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -76,8 +82,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
     TextView nowDiscount;
     @InjectView(R.id.nowPrice)
     TextView nowPrice;
-    @InjectView(R.id.sign)
-    TextView sign;
 
     private MongoTrade trade;
     String _id;
@@ -120,19 +124,23 @@ public class S11NewTradeNotifyFragment extends Fragment {
         itemName.setText(trade.itemSnapshot.name);
 
         promoPrice.append(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
-        price.append(StringUtil.FormatPrice(trade.itemSnapshot.price));
         num.append(trade.quantity + "");
+
+        String price = StringUtil.FormatPrice(trade.itemSnapshot.price);
+        SpannableString spannableString = new SpannableString(price);
+        spannableString.setSpan(new StrikethroughSpan(), 1, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.price.append(spannableString);
 
         expectedPrice.append(StringUtil.FormatPrice(trade.expectedPrice + ""));
         expectedDiscount.append(StringUtil.formatDiscount(trade.expectedPrice + "", trade.itemSnapshot.promoPrice));
 
-        nowPrice.append(StringUtil.FormatPrice(actualPrice + "").substring(1));
-        nowDiscount.append(StringUtil.formatDiscount(actualPrice + "", trade.itemSnapshot.promoPrice));
+        spannableString = new SpannableString(StringUtil.FormatPrice(actualPrice + ""));
+        spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new UnderlineSpan(),1,spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        nowPrice.append(spannableString);
 
-        promoPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        nowPrice.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        nowDiscount.append(StringUtil.formatDiscount(actualPrice + "", trade.itemSnapshot.promoPrice));
         nowDiscount.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        sign.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 
     @OnClick(R.id.close)

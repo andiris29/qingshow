@@ -11,11 +11,15 @@ import java.util.List;
  */
 public class StringUtil {
     public static String formatDiscount(String current, String original) {
-        String str;
+        String str = "";
         double dis = Double.parseDouble(current) / Double.parseDouble(original);
-        NumberFormat fmt = NumberFormat.getPercentInstance();
-        fmt.setMaximumFractionDigits(2);
-        str = fmt.format(dis);
+        if (dis < 0.1) {
+            str = "1" + "折";
+        } else if (dis > 0.9) {
+            str = "9" + "折";
+        }else {
+            str = (int)(dis * 10) + "折";
+        }
         return str;
     }
 
@@ -27,48 +31,48 @@ public class StringUtil {
         return heigth + "cm," + weight + "kg";
     }
 
-    public static String formatSKUProperties(List<String> properties){
-        if(null == properties)return "尺码:\n颜色:";
+    public static String formatSKUProperties(List<String> properties) {
+        if (null == properties) return "尺码:\n颜色:";
         StringBuffer buffer = new StringBuffer();
-        for(String p : properties){
+        for (String p : properties) {
             p = p.replace(":, ", "\n");
             p = p.replace("[", "");
             p = p.replace("]", "");
             p = p.replace("，", "");
             p = p.replace(",", "");
             p = p.replace(":", "：");
-            if(p.indexOf("：") == 0){
+            if (p.indexOf("：") == 0) {
                 p = p.substring(1);
             }
-            if(p.lastIndexOf("：") == p.length() - 1){
+            if (p.lastIndexOf("：") == p.length() - 1) {
                 p = p.substring(0, p.length() - 1);
             }
             buffer.append(p);
             buffer.append("\n");
         }
         String str = buffer.toString().substring(0, buffer.length() - "\n".length());
-        if(buffer.toString().indexOf("尺码") > -1)return str;
+        if (buffer.toString().indexOf("尺码") > -1) return str;
         return "尺码：" + str;
     }
 
-    public static String formatPriceDigits(double price){//取小数点后两位
+    public static String formatPriceDigits(double price) {//取小数点后两位
         return FormatPrice(formatPriceDigits(price, 2));
     }
 
-    public static String formatPriceDigits(double price, int which){//取小数点后两位
+    public static String formatPriceDigits(double price, int which) {//取小数点后两位
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(which);
         return String.valueOf(nf.format(price));
     }
 
-    public static String calculationException(double expectedPrice, String promoPrice){
+    public static String calculationException(double expectedPrice, String promoPrice) {
         return calculationException(expectedPrice, Double.parseDouble(promoPrice));
     }
 
-    public static String calculationException(double expectedPrice, double promoPrice){
+    public static String calculationException(double expectedPrice, double promoPrice) {
         int result = new BigDecimal(formatPriceDigits(expectedPrice * 10 / promoPrice, 2)).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
-        if(result < 1)result = 1;
-        if(result > 9)result = 9;
-         return String.valueOf(result) + "折";
+        if (result < 1) result = 1;
+        if (result > 9) result = 9;
+        return String.valueOf(result) + "折";
     }
 }

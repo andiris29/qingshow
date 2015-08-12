@@ -70,9 +70,7 @@
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/item_name"
-                            style="@style/s11_notify_des_text"
-                            android:ellipsize="end"
-                            android:singleLine="true" />
+                            style="@style/s11_notify_des_text" />
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/price"
@@ -176,13 +174,6 @@
                             android:text="目前价格："
                             android:textColor="@color/white"
                             android:textSize="18sp" />
-
-                        <com.focosee.qingshow.widget.QSTextView
-                            android:id="@+id/sign"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="¥"
-                            android:textColor="@color/white" />
 
                         <TextView
                             android:id="@+id/nowPrice"
