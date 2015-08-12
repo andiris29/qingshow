@@ -33,6 +33,7 @@ var _next = function (time) {
                     }]
                 }]
             };
+            //var criteria = {'_id' : new mongoose.Types.ObjectId('55b1dc9b38dadbed5a99a812')};
 
             Item.find(criteria, function (err, items) {
                 if (err) {
@@ -121,7 +122,7 @@ var _crawlItemTaobaoInfo = function (item, callback) {
                 callback('delist');
                 _logItem('item failed', item);
             } else {
-                delete item.delist;
+                item.delist = null;
                 item.price = taobaoInfo.price;
                 item.promoPrice = taobaoInfo.promo_price;
                 item.skuProperties = taobaoInfo.skuProperties;
@@ -145,9 +146,10 @@ var _crawlItemHmInfo = function(item, callback) {
             callback(err);
         } else {
             if (!hmInfo || !Object.keys(hmInfo).length) {
+                _logItem('item failed', item);
                 callback('delist');
             } else {
-                delete item.delist;
+                item.delist = null;
                 item.price = hmInfo.price;
                 item.promoPrice = hmInfo.promo_price;
                 item.skuProperties = hmInfo.skuProperties;
@@ -174,7 +176,7 @@ var _crawlItemJamyInfo = function(item, callback) {
                 _logItem('item failed', item);
                 callback('delist');
             } else {
-                delete item.delist;
+                item.delist = null;
                 item.price = jamyInfo.price;
                 item.promoPrice = jamyInfo.promo_price;
                 item.skuProperties = jamyInfo.skuProperties;

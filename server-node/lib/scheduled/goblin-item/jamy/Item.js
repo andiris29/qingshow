@@ -24,6 +24,11 @@ JamyWebItem.getSkus = function(source, callback) {
 
                 var jamyInfo = {};
 
+                if ($('.body-jamy-product').length === 0) {
+                    callback(null, jamyInfo);
+                    return;
+                }
+
                 var price = $('.prc-area-cny').text().split("￥");
                 jamyInfo.promo_price = price[price.length - 1];
                 jamyInfo.price = jamyInfo.promo_price;
