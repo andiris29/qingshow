@@ -15,26 +15,18 @@ body {
 
 .p02-background {
     position: absolute;
-    background-image: url(../assets/slicing/p02/background.png);
-    background-size: 100% 100%;
-    width: 100%;
-    height: 100%;
-}
-
-.p02-show-background {
-    position: absolute;
-    background-image: url(../assets/slicing/p02/show-background.png);
+    background-image: url(../assets/slicing/p02/background.jpg);
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
 }
 
 .p02-show {
-    transform: rotate(5deg);
+    transform: rotate(4deg);
     position: absolute;
-    width: 80%;
-    height: 80%;
-    top: 5%;
+    width: 82%;
+    height: 82%;
+    top: 8%;
     left: 12%;
     background-color: #fff;
 }
@@ -88,4 +80,5 @@ body {
     bottom: 0;
     height: 12%;
     width: 100%;
+    /*box-shadow: 0px -4px 12px #999;*/
 }
