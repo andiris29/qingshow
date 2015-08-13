@@ -65,6 +65,11 @@
             userInfoDict[@"tradeId"] = tradeId;
         }
         NSNumber* actualPrice = [userInfo numberValueForKeyPath:@"actualPrice"];
+        if (!actualPrice) {
+            NSString* actualPriceStr = [userInfo stringValueForKeyPath:@"actualPrice"];
+            actualPrice = @(actualPriceStr.doubleValue);
+        }
+        
         if (actualPrice) {
             userInfoDict[@"actualPrice"] = actualPrice;
         }
