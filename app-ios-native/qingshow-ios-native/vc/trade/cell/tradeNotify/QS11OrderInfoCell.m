@@ -30,7 +30,12 @@
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDict];
-    self.priceLabel.text = [NSString stringWithFormat:@"原价：%@", [QSItemUtil getPriceDesc:itemDict]];
+
+    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.353 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
+    [self.priceLabel setAttributedText:attri];
     self.prompPriceLabel.text = [NSString stringWithFormat:@"现价：%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     
 //    NSArray* prop = [QSTradeUtil getSkuProperties:tradeDict];

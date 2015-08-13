@@ -75,7 +75,6 @@
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    NSLog(@"itemdict ====== %@",tradeDict[@"_id"]);
     NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];

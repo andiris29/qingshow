@@ -44,6 +44,7 @@
     UIImage* img = [UIImage imageNamed:@"discount_container_bg"];
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
     self.backgroundImgView.image = img;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.orderInfoCell = [QS11OrderInfoCell generateView];
     self.textCell = [QS11TextCell generateView];
     if ([QSTradeUtil getShouldShare:self.tradeDict]) {
@@ -106,6 +107,7 @@
         self.orderInfoCell.transform = CGAffineTransformMakeScale(w/270, w/270);
         return self.orderInfoCell;
     } else {
+        
         [self.textCell bindWithDict:self.tradeDict actualPrice:self.actualPrice];
         self.textCell.selectionStyle = UITableViewCellSelectionStyleNone;
         self.textCell.transform = CGAffineTransformMakeScale(w/270, w/270);

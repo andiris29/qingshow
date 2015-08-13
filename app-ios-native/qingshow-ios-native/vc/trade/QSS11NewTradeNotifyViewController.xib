@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="backgroundImgView" destination="96U-uZ-35n" id="XS5-EX-Vv0"/>
                 <outlet property="payBtn" destination="JeW-gy-VS1" id="6LW-h6-FDG"/>
+                <outlet property="tableView" destination="4eU-WF-9Mc" id="qua-j1-YS4"/>
                 <outlet property="titleLabel" destination="7g8-Fr-vx6" id="BJ8-v4-xpB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
