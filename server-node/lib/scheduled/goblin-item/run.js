@@ -194,7 +194,7 @@ var _logItem = function (content, item) {
 
 var _run = function () {
     var startDate = new Date();
-    startDate.setDate(startDate.getDate() - 3);
+    startDate.setDate(startDate.getDate() - 1);
     winston.info('Goblin-tbitem run at: ' + startDate);
 
     _next(startDate);
