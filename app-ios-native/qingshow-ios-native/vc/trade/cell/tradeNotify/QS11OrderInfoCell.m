@@ -49,7 +49,6 @@
 
     NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     int disCount = [QSItemUtil getPromoPrice:itemDict].doubleValue * 100 / price.doubleValue;
-    NSLog(@"---------%d",disCount);
     if (disCount < 10) {
         disCount = 10;
     }else if(disCount > 90)
