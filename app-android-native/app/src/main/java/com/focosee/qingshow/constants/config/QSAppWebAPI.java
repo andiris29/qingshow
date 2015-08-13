@@ -117,7 +117,7 @@ public class QSAppWebAPI {
     }
 
     public static String getMatchCreatedbyApi(String _id, int pageNo, int pageSize) {
-        return MATCH_CREATEDBY_API + "?_id=" + _id + "&apgeNo=" + pageNo + "&pageSize=" + pageSize;
+        return MATCH_CREATEDBY_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getMatchHotApi(int pageNo, int pageSize) {

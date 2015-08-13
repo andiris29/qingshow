@@ -94,7 +94,7 @@ public class U01MatchFragment extends U01BaseFragment {
         getDatasFromNet(currentPageN0, 10);
     }
 
-    public void getDatasFromNet(final int pageNo, int pageSize){
+    public void getDatasFromNet(final int pageNo, final int pageSize){
 
         if(user == null) return;
 
