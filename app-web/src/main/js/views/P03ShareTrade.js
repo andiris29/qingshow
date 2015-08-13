@@ -31,8 +31,8 @@ define([
             }
         }.bind(this));
 
-        $('.p02-download', this._dom).on('click', __services.downloadService.download);
-        $('.p02-sale', this._dom).on('click', __services.downloadService.download);
+        $('.p03-download', this._dom).on('click', __services.downloadService.download);
+        $('.p03-success', this._dom).on('click', __services.downloadService.download);
     };
     violet.oo.extend(P02ShareShow, violet.ui.ViewBase);
 
