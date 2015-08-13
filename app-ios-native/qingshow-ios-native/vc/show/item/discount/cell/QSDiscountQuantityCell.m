@@ -23,7 +23,8 @@
     self.quantityLabel.layer.borderColor = [UIColor colorWithRed:155.f/255.f green:155.f/255.f blue:155.f/255.f alpha:1.f].CGColor;
     self.quantityLabel.layer.masksToBounds = YES;
     self.quantityLabel.layer.cornerRadius = DISCOUNT_CELL_CORNER_RADIUS;
-    
+    self.dotView.layer.cornerRadius = self.dotView.bounds.size.width/2;
+    self.dotView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -60,7 +61,7 @@
     }
 }
 - (CGFloat)getHeight:(NSDictionary*)itemDict {
-    return 52.f;
+    return 80.f;
 }
 - (int)quantity {
     return self.quantityLabel.text.intValue;
