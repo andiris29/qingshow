@@ -19,7 +19,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    
+    self.dotView.layer.cornerRadius = self.dotView.bounds.size.width / 2;
+    self.dotView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

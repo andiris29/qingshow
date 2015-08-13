@@ -20,11 +20,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="270" height="151.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GBv-q5-p0Z">
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GBv-q5-p0Z" propertyAccessControl="none">
                         <rect key="frame" x="8" y="8" width="250" height="140"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SALE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yII-6C-PKY">
-                                <rect key="frame" x="31" y="15" width="63" height="20.5"/>
+                                <rect key="frame" x="31" y="15" width="63" height="21"/>
                                 <color key="backgroundColor" red="1" green="0.10162066651803781" blue="0.19542447564913623" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -37,13 +37,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5折" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pmg-54-3d3">
-                                <rect key="frame" x="20" y="49.5" width="88" height="41.5"/>
+                                <rect key="frame" x="20" y="50" width="88" height="42"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="42"/>
                                 <color key="textColor" red="1" green="0.1016206665" blue="0.19542447560000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="￥550.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fs3-Tv-KdB">
-                                <rect key="frame" x="114" y="54.5" width="126" height="31.5"/>
+                                <rect key="frame" x="114" y="55" width="126" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="textColor" red="1" green="0.1016206665" blue="0.19542447560000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -66,6 +66,7 @@
             <connections>
                 <outlet property="actualDiscountLabel" destination="Pmg-54-3d3" id="Uht-Mt-7yr"/>
                 <outlet property="actualPriceLabel" destination="Fs3-Tv-KdB" id="g9b-zH-4eC"/>
+                <outlet property="dotView" destination="qed-l2-7ra" id="g9c-zH-4eE"/>
             </connections>
             <point key="canvasLocation" x="179" y="224"/>
         </tableViewCell>

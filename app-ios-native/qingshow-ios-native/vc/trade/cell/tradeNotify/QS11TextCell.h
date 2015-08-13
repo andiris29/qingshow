@@ -12,7 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel* actualPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel* actualDiscountLabel;
-
+@property (weak, nonatomic) IBOutlet UILabel* dotView;
 
 
 
