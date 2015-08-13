@@ -1,7 +1,7 @@
 var winston = require('winston');
 
-module.exports = function () {
-    require('./goblin-item/run')();
+module.exports = function (config) {
+    require('./goblin-item/run')(config.goblin);
     require('./trade/autoReceiving')();
     require('./trade/notifyTradeInitialized')();
     

@@ -38,6 +38,7 @@ admin-tools/imgResizer/.idea
 
 #app-web
 app-web/bin
+app-web/.idea
 
 #server-pay
 server-pay/payment/build/
