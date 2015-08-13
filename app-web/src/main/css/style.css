@@ -151,6 +151,7 @@ body {
     text-align: center;
     color: #e03651;
     font-size: 16px;
+    font-family: "Lantinghei SC Demibold";
 }
 
 .p03-split-position-up {
@@ -168,6 +169,45 @@ body {
     left: 7%;
     top: 20%;
 }
+.p03-trade-item-title {
+    position: absolute;
+    width: 40%;
+    height: 7%;
+    left: 50%;
+    top: 23%;
+    font-size: 15px;
+}
+.p03-trade-item-price {
+    position: absolute;
+    width: 40%;
+    height: 7%;
+    left: 50%;
+    top: 33%;
+    font-size: 15px;
+    color: #959595;
+}
+.p03-trade-item-tmall-price {
+    position: absolute;
+    width: 40%;
+    height: 7%;
+    left: 50%;
+    top: 43%;
+    font-size: 15px;
+
+}
+
+.p03-trade-item-price-label .p03-trade-item-tmall-price-label {
+    font-family: "FZLanTingHeiS-EL-GB";
+}
+
+.p03-trade-item-price-number .p03-trade-item-tmall-price-number {
+    font-family: "Lantinghei SC Demibold";
+}
+
+.p03-trade-item-price-number {
+    text-decoration: line-through;
+}
+
 
 .p03-split-position-down {
     top: 52%;
@@ -189,6 +229,7 @@ body {
     text-align: center;
     color: #f83e5b;
     font-size: 12px;
+    font-family: "FZLanTingHeiS-EL-GB";
 }
 
 .p03-actual-price-container {
@@ -199,4 +240,33 @@ body {
     height: 35%;
 
     background-color: #ec6798;
+}
+.p03-trade-item-qingshow-discount {
+    position: absolute;
+    left : 7%;
+    top: 20%;
+    width: 86%;
+    height: 28%;
+    text-align: center;
+    color: #ffffff;
+}
+
+.p03-trade-item-qingshow-price {
+    position: absolute;
+    left : 7%;
+    top: 55%;
+    width: 86%;
+    height: 28%;
+    text-align: center;
+    color: #ffffff;
+}
+.p03-trade-item-qingshow-discount-title, .p03-trade-item-qingshow-price-title {
+    font-size: 16px;
+    font-family: "FZLanTingHeiS-EL-GB";
+}
+.p03-trade-item-qingshow-discount-number, .p03-trade-item-qingshow-price-number {
+    font-size: 23px;
+    text-decoration: underline;
+    font-family: "Lantinghei SC Demibold";
+
 }
