@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -39,10 +38,8 @@ import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -111,6 +108,8 @@ public class U01UserActivity extends MenuActivity {
     ImageButton u01People;
     @InjectView(R.id.u01_people_tv)
     TextView u01PeopleTv;
+    @InjectView(R.id.user_back_btn)
+    ImageButton userBackBtn;
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -136,6 +135,7 @@ public class U01UserActivity extends MenuActivity {
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
+            userNavBtn.setVisibility(View.VISIBLE);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,8 +153,8 @@ public class U01UserActivity extends MenuActivity {
             };
             initDrawer();
         } else {
-            userNavBtn.setImageResource(R.drawable.nav_btn_back);
-            userNavBtn.setOnClickListener(new View.OnClickListener() {
+            userBackBtn.setVisibility(View.VISIBLE);
+            userBackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
@@ -227,7 +227,7 @@ public class U01UserActivity extends MenuActivity {
         getUserFromNet(user._id);
     }
 
-    private void getUserFromNet(String uId){
+    private void getUserFromNet(String uId) {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(uId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -244,15 +244,15 @@ public class U01UserActivity extends MenuActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void setUserBaseMInfo(){
+    private void setUserBaseMInfo() {
 
         userName.setText(user.nickname);
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
         if (!TextUtils.isEmpty(user.portrait))
             userHead.setImageURI(Uri.parse(user.portrait));
-        if(!TextUtils.isEmpty(user.background))
+        if (!TextUtils.isEmpty(user.background))
             userBg.setImageURI(Uri.parse(user.background));
-        if(null != user.__context)
+        if (null != user.__context)
             if (user.__context.followedByCurrentUser)
                 userFollowBtn.setImageResource(R.drawable.unfollow_btn);
     }
@@ -306,7 +306,7 @@ public class U01UserActivity extends MenuActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition() != 0) {
+                if (((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition() != 0) {
                     u01BackTopBtn.setVisibility(View.VISIBLE);
                 } else {
                     u01BackTopBtn.setVisibility(View.GONE);
@@ -445,7 +445,7 @@ public class U01UserActivity extends MenuActivity {
         userFollowText.setActivated(false);
         userFans.setActivated(false);
         userFansText.setActivated(false);
-        switch (pos){
+        switch (pos) {
             case POS_MATCH:
                 userMatch.setActivated(true);
                 userMatchText.setActivated(true);

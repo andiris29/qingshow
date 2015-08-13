@@ -12,7 +12,7 @@
         android:id="@+id/item_s01_matchlist_layout"
         android:layout_width="match_parent"
         android:layout_height="360dp"
-        android:background="@null">
+        android:background="@color/white">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_s01_img"
@@ -23,7 +23,7 @@
             app:layout_marginBottomPercent="20%"
             app:layout_marginTopPercent="15%"
             app:layout_widthPercent="93%"
-            fresco:actualImageScaleType="fitXY"
+            fresco:actualImageScaleType="fitCenter"
             fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
 
         <com.facebook.drawee.view.SimpleDraweeView

@@ -53,8 +53,9 @@ public class StringUtil {
             buffer.append("\n");
         }
         String str = buffer.toString().substring(0, buffer.length() - "\n".length());
-        if (buffer.toString().indexOf("规格") > -1) return str;
-        return "规格：" + str;
+        return str;
+//        if (buffer.toString().indexOf("规格") > -1) return str;
+//        return "规格：" + str;
     }
 
     public static String formatPriceDigits(double price) {//取小数点后两位
