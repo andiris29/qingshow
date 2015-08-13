@@ -20,7 +20,12 @@ public class SkuUtil {
 
     public static Map<String, List<String>> filter(List<String> skuProp) {
         Map<String, List<String>> result = new HashMap<>();
+        int i = 1;
         for (String prop : skuProp) {
+            if(result.containsKey(getPropName(prop))){
+                result.put("_" + i, getValues(prop));
+                i++;
+            }
             result.put(getPropName(prop), getValues(prop));
         }
         return result;

@@ -312,7 +312,7 @@ public class S11NewTradeFragment extends Fragment {
 
         final String key = SkuUtil.getPropName(data);
         FlowRadioGroup group = (FlowRadioGroup) prop.findViewById(R.id.propGroup);
-        ((TextView) prop.findViewById(R.id.propText)).setText(key);
+        ((TextView) prop.findViewById(R.id.propText)).setText(key.split("_")[0]);
 
         ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT);

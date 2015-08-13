@@ -25,7 +25,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.RecyclerViewUtil;
-import com.focosee.qingshow.util.TradeUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
@@ -267,7 +266,6 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
                 }
 
                 List<MongoTrade> tradeList = TradeParser.parseQuery(response);
-                tradeList = TradeUtil.tradelistSort(tradeList);
                 if (pageNo == 1) {
                     mAdapter.addDataAtTop(tradeList);
                     mRefreshLayout.endRefreshing();
