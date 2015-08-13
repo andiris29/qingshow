@@ -184,7 +184,7 @@ show.comment = {
                 '_id' : targetRef
             }).populate('ownerRef').exec(function(err, show) {
                 if (show && show.ownerRef) {
-                    if (show.ownerRef != req.qsCurrentUserId) {
+                    if (show.ownerRef._id.toString() != req.qsCurrentUserId.toString()) {
                         jPushAudiences.find({
                             'peopleRef' : show.ownerRef
                         }).exec(function(err, infos) {
