@@ -30,26 +30,31 @@
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDict];
-    self.priceLabel.text = [NSString stringWithFormat:@"原价：%@", [QSItemUtil getPriceDesc:itemDict]];
+
+    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.353 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
+    [self.priceLabel setAttributedText:attri];
     self.prompPriceLabel.text = [NSString stringWithFormat:@"现价：%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     
-    NSArray* prop = [QSTradeUtil getSkuProperties:tradeDict];
-    if (prop.count > 0) {
-        NSString* p = prop[0];
-        self.propNameLabel1.text = p;
-    }else {
-        self.propNameLabel1.text = @"";
-    }
-    if (prop.count > 1) {
-        NSString* p = prop[1];
-        self.propNameLabel2.text = p;
-    }else {
-        self.propNameLabel2.text = @"";
-    }
+//    NSArray* prop = [QSTradeUtil getSkuProperties:tradeDict];
+//    if (prop.count > 0) {
+//        NSString* p = prop[0];
+//        self.propNameLabel1.text = p;
+//    }else {
+//        self.propNameLabel1.text = @"";
+//    }
+//    if (prop.count > 1) {
+//        NSString* p = prop[1];
+//        self.propNameLabel2.text = p;
+//    }else {
+//        self.propNameLabel2.text = @"";
+//    }
+    self.propNameLabel1.text = [QSTradeUtil getSizeText:tradeDict];
 
     NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     int disCount = [QSItemUtil getPromoPrice:itemDict].doubleValue * 100 / price.doubleValue;
-    NSLog(@"---------%d",disCount);
     if (disCount < 10) {
         disCount = 10;
     }else if(disCount > 90)

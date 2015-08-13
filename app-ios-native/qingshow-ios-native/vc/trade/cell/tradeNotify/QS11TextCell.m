@@ -19,6 +19,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -44,6 +45,11 @@
     disCount = disCount/10;
   
     self.actualDiscountLabel.text = [NSString stringWithFormat:@"%d折", disCount];
-    self.actualPriceLabel.text = [NSString stringWithFormat:@"%@",actualPrice];
+    NSString *nowPrice = [NSString stringWithFormat:@"￥%@",actualPrice];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:nowPrice];
+    NSRange contentRange = {0,[attri length]};
+    [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
+    [self.actualPriceLabel setAttributedText:attri];
+
 }
 @end

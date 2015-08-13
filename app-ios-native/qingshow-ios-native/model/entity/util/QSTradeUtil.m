@@ -114,19 +114,50 @@
 }
 + (NSString *)getSizeText:(NSDictionary *)dict
 {
+//    NSArray *array = [self getSkuProperties:dict];
+//    if (!array.count) {
+//        return nil;
+//    }
+//    NSString *str = nil;
+//    if (array.count == 1) {
+//        str = array[0];
+//        NSArray *strArray = [str componentsSeparatedByString:str];
+// 
+//    }
+//    else {
+//        str = [array objectAtIndex:array.count-2];
+//    }
+//    if ([str hasSuffix:@":"]) {
+//        str = [str substringToIndex:str.length-1];
+//    }
+//    if ([str containsString:@"尺码"]) {
+//        return str;
+//    }else{
+//        return [NSString stringWithFormat:@"规格%@",str];
+//    }
     NSArray *array = [self getSkuProperties:dict];
-    if (!array.count) {
-        return nil;
+    NSMutableString *arrayStr = [[NSMutableString alloc]init];;
+    for (int i = 0; i < array.count; i++) {
+        NSString *str = (NSString *)array[i];
+        [arrayStr appendString:str];
+        [arrayStr appendString:@" "];
     }
-    NSString *str = [array firstObject];
-    if ([str hasSuffix:@":"]) {
-        str = [str substringToIndex:str.length-1];
+    NSArray *s = [arrayStr componentsSeparatedByString:@":"];
+    NSMutableString *resultStr = [[NSMutableString alloc]init];
+    for (int i = 0; i < s.count; i ++) {
+        NSString *string = (NSString *)s[i];
+        [resultStr appendString:string];
+        [resultStr appendString:@" "];
     }
-    if ([str containsString:@"规格"]) {
-        return str;
-    }else{
-        return [NSString stringWithFormat:@"规格%@",str];
+    if ([resultStr containsString:@"颜色"]) {
+        NSRange range = [resultStr rangeOfString:@"颜色"];
+        [resultStr deleteCharactersInRange:range];
     }
+    if ([resultStr containsString:@"尺码"]) {
+        NSRange range = [resultStr rangeOfString:@"尺码"];
+        [resultStr deleteCharactersInRange:range];
+    }
+    return [NSString stringWithFormat:@"规格:%@",resultStr];
 }
 + (NSString *)getColorText:(NSDictionary *)dict
 {

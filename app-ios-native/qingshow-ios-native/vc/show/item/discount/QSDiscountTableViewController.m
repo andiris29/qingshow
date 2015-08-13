@@ -85,6 +85,9 @@
     cell = [QSDiscountInfoCell generateCell];
     cell.delegate = self;
     [array addObject:cell];
+    self.resultCell = [QSDiscountResultCell generateCell];
+    self.resultCell.delegate = self;
+    [array addObject:self.resultCell];
     NSArray* props = [QSItemUtil getSkuProperties:self.itemDict];
     for (int i = 0; i < props.count; i++) {
         QSDiscountTaobaoInfoCell* taobaoInfoCell = [QSDiscountTaobaoInfoCell generateCell];
@@ -96,9 +99,7 @@
     self.quantityCell = [QSDiscountQuantityCell generateCell];
     self.quantityCell.delegate = self;
     [array addObject:self.quantityCell];
-    self.resultCell = [QSDiscountResultCell generateCell];
-    self.resultCell.delegate = self;
-    [array addObject:self.resultCell];
+
     self.cellArray = array;
     self.propCellArray = propCells;
 }

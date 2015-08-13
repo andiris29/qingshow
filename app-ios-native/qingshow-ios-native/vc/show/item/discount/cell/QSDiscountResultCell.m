@@ -38,8 +38,8 @@
 
     self.quantity = 1;
     
-    self.dotView.layer.cornerRadius = self.dotView.bounds.size.width / 2;
-    self.dotView.layer.masksToBounds = YES;
+//    self.dotView.layer.cornerRadius = self.dotView.bounds.size.width / 2;
+//    self.dotView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -72,7 +72,7 @@
 }
 
 - (CGFloat)getHeight:(NSDictionary*)itemDict {
-    return 103.f;
+    return 90.f;
 }
 
 - (void)bindWithData:(NSDictionary *)itemDict {
