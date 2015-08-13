@@ -98,7 +98,7 @@ notify.itemPriceChanged = {
                             'command' : PushNotificationHelper.CommandItemPriceChanged,
                             '_id' : req.body._id,
                             '_tradeId' : trade._id.toString(),
-                            'actualPrice' : req.body.actualPrice
+                            'actualPrice' : RequestHelper.parseNumber(req.body.actualPrice)
                         }, cb2);
                     }], cb);
                 };
