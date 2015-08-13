@@ -147,11 +147,11 @@ body {
     background-repeat: no-repeat;
     width: 100%;
     height: 10%;
-    top: 8%;
+    top: 10%;
     text-align: center;
     color: #e03651;
     font-size: 16px;
-    font-family: "Lantinghei SC Demibold";
+    font-family: "Lantinghei SC";
 }
 
 .p03-split-position-up {
@@ -201,7 +201,7 @@ body {
 }
 
 .p03-trade-item-price-number .p03-trade-item-tmall-price-number {
-    font-family: "Lantinghei SC Demibold";
+    font-family: "Lantinghei SC";
 }
 
 .p03-trade-item-price-number {
@@ -267,6 +267,6 @@ body {
 .p03-trade-item-qingshow-discount-number, .p03-trade-item-qingshow-price-number {
     font-size: 23px;
     text-decoration: underline;
-    font-family: "Lantinghei SC Demibold";
+    font-family: "Lantinghei SC";
 
 }
