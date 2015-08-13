@@ -97,9 +97,9 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="退货地址:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vWp-pW-qjR">
-                            <rect key="frame" x="8" y="45" width="52" height="15"/>
+                            <rect key="frame" x="8" y="45" width="59" height="15"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="52" id="XFK-qF-Zqe"/>
+                                <constraint firstAttribute="width" constant="59" id="XFK-qF-Zqe"/>
                                 <constraint firstAttribute="height" constant="15" id="xEQ-QN-Kfb"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
@@ -120,9 +120,9 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="退货收件人:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAQ-NK-gzS">
-                            <rect key="frame" x="8" y="76" width="64" height="15"/>
+                            <rect key="frame" x="8" y="76" width="71" height="15"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="64" id="7IM-xy-2u4"/>
+                                <constraint firstAttribute="width" constant="71" id="7IM-xy-2u4"/>
                                 <constraint firstAttribute="height" constant="15" id="VuT-I7-RGQ"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
@@ -309,7 +309,7 @@
                         <constraint firstItem="gv8-zX-dKO" firstAttribute="leading" secondItem="uaq-D1-6W7" secondAttribute="trailing" constant="8" id="FPQ-69-YnH"/>
                         <constraint firstAttribute="trailing" secondItem="UOT-KD-KMm" secondAttribute="trailing" id="HBm-Yf-t2e"/>
                         <constraint firstItem="beN-bJ-Shg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="HJA-QZ-Qx6"/>
-                        <constraint firstItem="fr2-nj-tFQ" firstAttribute="leading" secondItem="vWp-pW-qjR" secondAttribute="trailing" constant="20" id="HSE-Fc-gMI"/>
+                        <constraint firstItem="fr2-nj-tFQ" firstAttribute="leading" secondItem="vWp-pW-qjR" secondAttribute="trailing" constant="13" id="HSE-Fc-gMI"/>
                         <constraint firstItem="fr2-nj-tFQ" firstAttribute="top" secondItem="Eix-p5-RVv" secondAttribute="bottom" constant="8" id="HeP-mx-art"/>
                         <constraint firstAttribute="trailing" secondItem="fr2-nj-tFQ" secondAttribute="trailing" constant="8" id="Hf3-68-tDY"/>
                         <constraint firstAttribute="trailing" secondItem="52d-oc-xwz" secondAttribute="trailing" constant="8" id="ITu-r7-l03"/>
@@ -330,7 +330,7 @@
                         <constraint firstAttribute="trailing" secondItem="Gl9-AQ-AQM" secondAttribute="trailing" id="PhZ-yf-wD6"/>
                         <constraint firstAttribute="trailing" secondItem="HQE-QX-SJE" secondAttribute="trailing" id="Qhn-4e-jbu"/>
                         <constraint firstAttribute="trailing" secondItem="Zq9-tw-ooa" secondAttribute="trailing" id="ROh-og-J9h"/>
-                        <constraint firstItem="14S-Xr-YoH" firstAttribute="leading" secondItem="rAQ-NK-gzS" secondAttribute="trailing" constant="20" id="RTS-sy-QHG"/>
+                        <constraint firstItem="14S-Xr-YoH" firstAttribute="leading" secondItem="rAQ-NK-gzS" secondAttribute="trailing" constant="13" id="RTS-sy-QHG"/>
                         <constraint firstAttribute="trailing" secondItem="9nf-ch-KnN" secondAttribute="trailing" constant="8" id="Rh6-oe-hYX"/>
                         <constraint firstItem="beN-bJ-Shg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SaP-At-FSw"/>
                         <constraint firstItem="57S-VF-9Io" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="TMF-YV-Wj8"/>

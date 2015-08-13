@@ -72,15 +72,15 @@
 {
     if (self.type == 1) {
         self.title  = @"退货方式";
-        self.typeAddrLabel.text = @"退货地址";
-        self.typeReceiverLabel.text = @"退货收件人";
+        self.typeAddrLabel.text = @"退货地址:";
+        self.typeReceiverLabel.text = @"退货收件人:";
         [self.submitBtn setTitle:@"申请退货" forState:UIControlStateNormal];
     }
     else if(self.type == 2)
     {
         self.title = @"换货方式";
-        self.typeAddrLabel.text = @"换货地址";
-        self.typeReceiverLabel.text = @"换货收件人";
+        self.typeAddrLabel.text = @"换货地址:";
+        self.typeReceiverLabel.text = @"换货收件人:";
         [self.submitBtn setTitle:@"申请换货" forState:UIControlStateNormal];
     }
 }
