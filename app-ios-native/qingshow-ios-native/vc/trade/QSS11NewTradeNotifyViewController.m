@@ -46,7 +46,6 @@
     self.backgroundImgView.image = img;
     self.orderInfoCell = [QS11OrderInfoCell generateView];
     self.textCell = [QS11TextCell generateView];
-    
     if ([QSTradeUtil getShouldShare:self.tradeDict]) {
         [self.payBtn setTitle:@"分享后购买" forState:UIControlStateNormal];
     } else {

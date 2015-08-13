@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel* actualPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel* actualDiscountLabel;
 
+
 + (instancetype)generateView;
 - (void)bindWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber *)actualPrice;
 @end

@@ -33,19 +33,20 @@
     self.priceLabel.text = [NSString stringWithFormat:@"原价：%@", [QSItemUtil getPriceDesc:itemDict]];
     self.prompPriceLabel.text = [NSString stringWithFormat:@"现价：%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     
-    NSArray* prop = [QSTradeUtil getSkuProperties:tradeDict];
-    if (prop.count > 0) {
-        NSString* p = prop[0];
-        self.propNameLabel1.text = p;
-    }else {
-        self.propNameLabel1.text = @"";
-    }
-    if (prop.count > 1) {
-        NSString* p = prop[1];
-        self.propNameLabel2.text = p;
-    }else {
-        self.propNameLabel2.text = @"";
-    }
+//    NSArray* prop = [QSTradeUtil getSkuProperties:tradeDict];
+//    if (prop.count > 0) {
+//        NSString* p = prop[0];
+//        self.propNameLabel1.text = p;
+//    }else {
+//        self.propNameLabel1.text = @"";
+//    }
+//    if (prop.count > 1) {
+//        NSString* p = prop[1];
+//        self.propNameLabel2.text = p;
+//    }else {
+//        self.propNameLabel2.text = @"";
+//    }
+    self.propNameLabel1.text = [QSTradeUtil getSizeText:tradeDict];
 
     NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     int disCount = [QSItemUtil getPromoPrice:itemDict].doubleValue * 100 / price.doubleValue;
