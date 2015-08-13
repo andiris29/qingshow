@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textColor="@color/master_pink"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size"
-        android:text="心动宝贝，立即申请，折扣你说了算！"/>
+        android:text="点击链接查看商品详情"/>
     <com.focosee.qingshow.widget.QSTextView
         android:gravity="center"
         android:layout_width="match_parent"
@@ -18,15 +18,6 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/white"
         android:textSize="13sp"
-        android:text="进入以上单品链接，点击‘我要折扣’按钮"/>
-
-    <com.focosee.qingshow.widget.QSTextView
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/white"
-        android:textSize="13sp"
-        android:text="选择你所期望的折扣，其它我们来搞定"/>
+        android:text="通过（我要折扣）获得折扣"/>
 
 </LinearLayout>

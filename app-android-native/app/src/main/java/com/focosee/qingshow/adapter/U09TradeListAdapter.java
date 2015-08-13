@@ -7,11 +7,10 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -24,23 +23,20 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.ValueUtil;
-import com.focosee.qingshow.util.adapter.*;
+import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
 
 import org.json.JSONObject;
 
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,12 +46,9 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/16.
  */
-public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener{
+public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener {
 
     private final int CANCEL = 0;
-    private final int COMFIRM_PAY = 1;
-    private final int COMFIRM_RECEIPT = 2;
-    private final int RETURN = 3;
     private StrikethroughSpan strikethroughSpan;
     private Spannable spannable;
 
@@ -73,15 +66,15 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, final int position) {
-        if(position == StatusCode.APPLYING){
+        if (position == StatusCode.APPLYING) {
             holder.getView(R.id.U09_head_layout).setVisibility(View.INVISIBLE);
             return;
         }
-        if(null == getItemData(position))return;
+        if (null == getItemData(position)) return;
         final MongoTrade trade = getItemData(position);
-        if(null == trade)return;
+        if (null == trade) return;
         String dateStr = "付款日期：" + TimeUtil.parseDateString(trade.update);
-        if(trade.status == StatusCode.APPLYING || trade.status == StatusCode.APPLY_SUCCESSED){
+        if (trade.status == StatusCode.APPLYING || trade.status == StatusCode.APPLY_SUCCESSED) {
             dateStr = "申请日期：" + TimeUtil.parseDateString(trade.update);
         }
         holder.setText(R.id.item_tradelist_payTime, dateStr);
@@ -95,25 +88,24 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         statusTV.setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
 
-        if(null != trade.itemSnapshot){
+        if (null != trade.itemSnapshot) {
             holder.setText(R.id.item_tradelist_sourcePrice, StringUtil.FormatPrice(trade.itemSnapshot.price));
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
-            holder.setText(R.id.item_tradelist_exception,StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
+            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
             holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(String.valueOf(trade.itemSnapshot.promoPrice)));
         }
 
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
-        if(!TextUtils.isEmpty(properties)) {
+        if (!TextUtils.isEmpty(properties)) {
             properTextView.setVisibility(View.VISIBLE);
             holder.setText(R.id.item_tradelist_skuProperties, properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
-
-        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.formatPriceDigits(trade.expectedPrice));
+        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
 
         //0-折扣申请中
-        if(trade.status == StatusCode.APPLYING){
+        if (trade.status == StatusCode.APPLYING) {
             btn1.setVisibility(View.VISIBLE);
             btn1.setText("取消申请");
             btn1.setOnClickListener(new View.OnClickListener() {
@@ -125,10 +117,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             return;
         }
         //1-等待付款
-        if(trade.status == StatusCode.APPLY_SUCCESSED){
+        if (trade.status == StatusCode.APPLY_SUCCESSED) {
             btn1.setVisibility(View.VISIBLE);
-            if(null != trade.__context) {
-                if(!trade.__context.sharedByCurrentUser && trade.shareToPay) {
+            if (null != trade.__context) {
+                if (!trade.__context.sharedByCurrentUser && trade.shareToPay) {
                     holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.VISIBLE);
                     btn1.setText("分享后付款");
                     btn1.setOnClickListener(new View.OnClickListener() {
@@ -137,12 +129,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                             if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
                                 EventBus.getDefault().post(trade);
                                 ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
-                            }else
+                            } else
                                 Toast.makeText(context, "请先安装微信，然后才能分享", Toast.LENGTH_SHORT).show();
                         }
 
                     });
-                }else {
+                } else {
                     btn1.setText("立即付款");
                     btn1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -166,12 +158,8 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             });
             return;
         }
-        //2-已付款
-//        if(trade.status == 2){
-//
-//        }
         //3-已发货
-        if(trade.status == StatusCode.SENDED){
+        if (trade.status == StatusCode.SENDED) {
             btn1.setVisibility(View.VISIBLE);
             btn2.setVisibility(View.VISIBLE);
             btn1.setText("申请退货");
@@ -211,7 +199,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
     }
 
-    private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg){
+    private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg) {
         final ConfirmDialog dialog = new ConfirmDialog();
         dialog.setTitle(msg);
         dialog.setConfirm(new View.OnClickListener() {
@@ -221,7 +209,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 dialog.dismiss();
             }
         });
-        dialog.show(((U09TradeListActivity)context).getSupportFragmentManager());
+        dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
     }
 
     @Override
@@ -240,13 +228,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         return null == datas ? 1 : datas.size() + 1;
     }
 
-    public void statusTo(MongoTrade trade, final int status, final int type, final int position){
+    public void statusTo(MongoTrade trade, final int status, final int type, final int position) {
 
         JSONObject jsonObject = getStatusJSONObjcet(trade, status);
         QSJsonObjectRequest jor = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
                 }
@@ -259,7 +247,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     }
 
 
-    private JSONObject getStatusJSONObjcet(MongoTrade trade, int status){
+    private JSONObject getStatusJSONObjcet(MongoTrade trade, int status) {
 
         Map params = new HashMap();
         Map orders = new HashMap();
@@ -270,7 +258,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         params.put("status", status);
         params.put("comment", (trade.statusLogs.get(trade.statusLogs.size() - 1)).comment);
 
-        switch (status){
+        switch (status) {
             case 1:
                 taobaoInfo.put("tradeID", trade.taobaoInfo.tradeID);
                 taobaoInfo.put("userNick", trade.taobaoInfo.userNick);
@@ -296,9 +284,4 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     public void onClick(View v) {
 
     }
-
-    public interface OnViewHolderListener {
-        void onRequestedLastItem();
-    }
-
 }
