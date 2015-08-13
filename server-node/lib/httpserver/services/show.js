@@ -184,23 +184,25 @@ show.comment = {
                 '_id' : targetRef
             }).populate('ownerRef').exec(function(err, show) {
                 if (show && show.ownerRef) {
-                    jPushAudiences.find({
-                        'peopleRef' : show.ownerRef
-                    }).exec(function(err, infos) {
-                        if (infos.length > 0) {
-                            var targets = [];
-                            infos.forEach(function(element) {
-                                if (element.registrationId && element.registrationId.length > 0) {
-                                    targets.push(element.registrationId);
-                                }
-                            });
+                    if (show.ownerRef._id.toString() != req.qsCurrentUserId.toString()) {
+                        jPushAudiences.find({
+                            'peopleRef' : show.ownerRef
+                        }).exec(function(err, infos) {
+                            if (infos.length > 0) {
+                                var targets = [];
+                                infos.forEach(function(element) {
+                                    if (element.registrationId && element.registrationId.length > 0) {
+                                        targets.push(element.registrationId);
+                                    }
+                                });
 
-                            PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewShowComment, {
-                                'id' : param._id,
-                                'command' : PushNotificationHelper.CommandNewShowComments
-                            }, null);
-                        }
-                    });
+                                PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewShowComment, {
+                                    'id' : param._id,
+                                    'command' : PushNotificationHelper.CommandNewShowComments
+                                }, null);
+                            }
+                        });
+                    }
                 }
             }); 
             callback();
