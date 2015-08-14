@@ -331,7 +331,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             if (null != people.expectations && people.expectations.length != 0) {
                 String effectStr = "";
                 for (int index : people.expectations) {
-                    effectStr += expectations[index] + "\b";
+                    effectStr += expectations[index] + " ";
                 }
                 if (effectStr.length() > 0)
                     effectStr = effectStr.substring(0, effectStr.length() - 1);

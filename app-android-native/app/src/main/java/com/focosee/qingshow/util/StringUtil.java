@@ -1,5 +1,7 @@
 package com.focosee.qingshow.util;
 
+import android.text.TextUtils;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -37,16 +39,16 @@ public class StringUtil {
         StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < properties.size(); i++) {
             String p = properties.get(i).trim();
+            if(TextUtils.isEmpty(p))continue;
+            p = p.replace(" ", "");
             System.out.println("properties:" + p);
             String[] values = p.split(":");
             if(values.length > 1){
                 buffer.append(values[1]);
-            }else{
-                buffer.append(values[0]);
             }
-            buffer.append("\b");
+            buffer.append(" ");
         }
-        return "规格：" + buffer.toString();
+        return buffer.toString();
     }
 
     public static String formatPriceDigits(double price) {//取小数点后两位

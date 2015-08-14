@@ -112,12 +112,12 @@ public class S11NewTradeNotifyFragment extends Fragment {
     }
 
     private void initProps() {
-        Map<String, List<String>> skus = SkuUtil.filter(trade.selectedSkuProperties);
-        StringBuilder sb = new StringBuilder();
-        for (String key : skus.keySet()) {
-            sb.append(key).append(": ").append(skus.get(key).get(0)).append("   ");
-        }
-        selectProp.append(sb);
+//        Map<String, List<String>> skus = SkuUtil.filter(trade.selectedSkuProperties);
+//        StringBuilder sb = new StringBuilder();
+//        for (String key : skus.keySet()) {
+//            sb.append(key).append(": ").append(skus.get(key).get(0)).append("   ");
+//        }
+        selectProp.append(StringUtil.formatSKUProperties(trade.selectedSkuProperties));
     }
 
 

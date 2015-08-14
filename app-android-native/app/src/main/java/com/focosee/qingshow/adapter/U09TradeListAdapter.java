@@ -99,7 +99,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
         if (!TextUtils.isEmpty(properties)) {
             properTextView.setVisibility(View.VISIBLE);
-            holder.setText(R.id.item_tradelist_skuProperties, properties);
+            ((QSTextView)holder.getView(R.id.item_tradelist_skuProperties)).append(properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
         holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
