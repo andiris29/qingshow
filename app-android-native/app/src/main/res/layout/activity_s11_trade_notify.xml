@@ -55,6 +55,8 @@
                     android:background="@color/gary" />
 
                 <LinearLayout
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
                     android:id="@+id/des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,9 +64,10 @@
                     android:orientation="horizontal">
 
                     <com.facebook.drawee.view.SimpleDraweeView
+                        android:layout_marginTop="2dp"
                         android:id="@+id/img"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="160dp"
                         android:layout_marginRight="6dp"
                         android:layout_weight="1"
                         app:actualImageScaleType="fitCenter" />
@@ -203,9 +206,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/poster"
-                        android:text="　告诉你得朋友一起来产假折扣活动。"
+                        android:text="  告诉你得朋友一起来产假折扣活动。"
                         android:textColor="@color/gary" />
-
 
                 </android.support.percent.PercentRelativeLayout>
 
