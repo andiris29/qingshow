@@ -49,7 +49,7 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JeW-gy-VS1">
-                    <rect key="frame" x="115" y="513" width="90" height="34"/>
+                    <rect key="frame" x="105" y="513" width="111" height="34"/>
                     <color key="backgroundColor" red="0.94117647059999998" green="0.58431372550000005" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="F9r-TT-gkf"/>
@@ -75,7 +75,7 @@
                 <constraint firstItem="YG4-I0-crI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="41" id="8ka-Wa-SEv"/>
                 <constraint firstItem="7g8-Fr-vx6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="126" id="9xx-ga-ubM"/>
                 <constraint firstItem="96U-uZ-35n" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Dwg-lz-L93"/>
-                <constraint firstItem="JeW-gy-VS1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="115" id="FDB-P1-JKw"/>
+                <constraint firstItem="JeW-gy-VS1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="105" id="FDB-P1-JKw"/>
                 <constraint firstAttribute="bottom" secondItem="JeW-gy-VS1" secondAttribute="bottom" constant="21" id="IR7-U1-Bvh"/>
                 <constraint firstAttribute="trailing" secondItem="4eU-WF-9Mc" secondAttribute="trailing" constant="25" id="PSm-iO-zYv"/>
                 <constraint firstItem="7g8-Fr-vx6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="QMq-HW-Zkh"/>
@@ -84,7 +84,7 @@
                 <constraint firstAttribute="trailing" secondItem="96U-uZ-35n" secondAttribute="trailing" constant="8" id="fb9-Mr-Ynq"/>
                 <constraint firstItem="4eU-WF-9Mc" firstAttribute="top" secondItem="YG4-I0-crI" secondAttribute="bottom" constant="8" id="fnz-kM-q9J"/>
                 <constraint firstAttribute="bottom" secondItem="96U-uZ-35n" secondAttribute="bottom" constant="8" id="i0r-M4-UVb"/>
-                <constraint firstAttribute="trailing" secondItem="JeW-gy-VS1" secondAttribute="trailing" constant="115" id="ivM-PR-sGI"/>
+                <constraint firstAttribute="trailing" secondItem="JeW-gy-VS1" secondAttribute="trailing" constant="104" id="ivM-PR-sGI"/>
                 <constraint firstAttribute="trailing" secondItem="YG4-I0-crI" secondAttribute="trailing" constant="39" id="sSg-gi-WTn"/>
                 <constraint firstItem="4eU-WF-9Mc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="vDh-aS-srt"/>
             </constraints>
