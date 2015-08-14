@@ -167,7 +167,7 @@ public class QSCanvasView extends FrameLayout {
         if (checkedIndex < views.size()){
             QSImageView view = views.get(checkedIndex);
             view.fristChecked();
-            view.bringToFront();
+            view.callOnClick();
         }
     }
 

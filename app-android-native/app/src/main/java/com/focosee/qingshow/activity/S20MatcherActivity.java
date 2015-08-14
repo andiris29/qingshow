@@ -167,6 +167,7 @@ public class S20MatcherActivity extends MenuActivity {
         });
 
         canvas.attach(itemView);
+        itemView.callOnClick();
 
         if (allSelect.containsKey(categoryRef)) {
             allSelect.put(categoryRef, allSelect.get(categoryRef).setView(itemView).setPageNo(1));
@@ -225,53 +226,35 @@ public class S20MatcherActivity extends MenuActivity {
             float dx = view.getLeft() + width / 2 - lastCentroid.x;
             float dy = view.getTop() + height / 2 - lastCentroid.y;
             moveView(view, view.getX(), view.getY(), view.getX() - dx, view.getY() - dy);
+            checkBorder(view, canvas);
         }
     }
 
 
     public void checkBorder(QSImageView view, View prent) {
         float scaleFactor = view.getLastScaleFactor();
-        float dx = view.getWidth() * (scaleFactor - 1) / 2;
-        float dy = view.getHeight() * (scaleFactor - 1) / 2;
+        float dx = view.getImageView().getDrawable().getIntrinsicWidth() * (scaleFactor - 1) / 2;
+        float dy = view.getImageView().getDrawable().getIntrinsicHeight() * (scaleFactor - 1) / 2;
         float actrulLeft = view.getLeft() - dx;
         float actrulRight = view.getRight() + dx;
         float actrulTop = view.getTop() - dy;
         float actrulBottom = view.getBottom() + dy;
+
+        Log.i("tag", "left: " + actrulLeft + " right: " + actrulRight + " top: " + actrulTop + " bottom: " + actrulBottom + " dx: " + dx + " dy: " + dy + " width: " + prent.getWidth() + " height: " + prent.getHeight());
         if (actrulLeft < 0) {
-            checkBorder(view, prent);
+//            moveView(view,view.getX(),view.getY(),);
         }
+        
 
         if (actrulRight > prent.getWidth()) {
-            scaleTo(prent.getWidth() - Math.abs(view.getRight()), view, 0);
-            checkBorder(view, prent);
+
         }
 
         if (actrulTop < 0) {
-            scaleTo(Math.abs(actrulTop) + view.getTop(), view, 1);
-            checkBorder(view, prent);
         }
 
         if (actrulBottom > prent.getHeight()) {
-            scaleTo(prent.getHeight() - Math.abs(view.getBottom()), view, 1);
-            checkBorder(view, prent);
         }
-    }
-
-    public void scaleTo(float offset, QSImageView view, int i) {
-        float scale;
-        switch (i) {
-            case 0:
-                scale = (offset * 2 + view.getWidth()) / view.getWidth();
-                break;
-            case 1:
-                scale = (offset * 2 + view.getHeight()) / view.getHeight();
-                break;
-            default:
-                scale = 1.0f;
-        }
-        view.setScaleX(scale);
-        view.setScaleY(scale);
-        view.setLastScaleFactor(scale);
     }
 
 
