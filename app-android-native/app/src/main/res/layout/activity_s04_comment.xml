@@ -1,8 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:freso="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.S04CommentActivity">
 
     <include layout="@layout/title"
@@ -15,23 +16,18 @@
         android:id="@+id/s04_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp">
-
+        android:layout_weight="1"
+        android:background="@color/white">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/s04_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"/>
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
     
     <LinearLayout
         android:id="@+id/S04_bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_alignBottom="@+id/s04_refresh"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal"
         android:padding="5dp"
@@ -69,4 +65,4 @@
             android:background="@drawable/s04_send_background"
             android:text="发送"/>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

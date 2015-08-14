@@ -51,10 +51,6 @@ public class StringUtil {
         return buffer.toString();
     }
 
-    public static String formatPriceDigits(double price) {//取小数点后两位
-        return FormatPrice(formatPriceDigits(price, 2));
-    }
-
     public static String formatPriceDigits(double price, int which) {//取小数点后两位
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(which);
@@ -70,44 +66,6 @@ public class StringUtil {
         if (result < 1) result = 1;
         if (result > 9) result = 9;
         return String.valueOf(result) + "折";
-    }
-
-    /**
-     * @param number
-     * @return
-     * @Title : filterNumber
-     * @Type : FilterStr
-     * @date : 2014年3月12日 下午7:23:03
-     * @Description : 过滤出数字
-     */
-    public static String filterNumber(String number) {
-        number = number.replaceAll("[^(0-9)]", "");
-        return number;
-    }
-
-    /**
-     * @param alph
-     * @return
-     * @Title : filterAlphabet
-     * @Type : FilterStr
-     * @date : 2014年3月12日 下午7:28:54
-     * @Description : 过滤出字母
-     */
-    public static String filterAlphabet(String alph) {
-        alph = alph.replaceAll("[^(A-Za-z)]", "");
-        return alph;
-    }
-
-    /**
-     * 过滤特殊字符
-     * @param pro
-     * @return
-     */
-    public static String filterIllegal(String pro) {
-        String regEx = "[`~!@#$%^&*()+=|{}':;',//[//].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(pro);
-        return m.replaceAll("").trim();
     }
 
 }
