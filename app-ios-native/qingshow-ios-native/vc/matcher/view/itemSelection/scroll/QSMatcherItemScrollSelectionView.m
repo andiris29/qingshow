@@ -57,6 +57,10 @@
 - (void)offsetToZero:(BOOL)fAnimate {
     [self.collectionView setContentOffset:CGPointZero animated:fAnimate];
 }
+- (void)showSelect:(BOOL)fAnimate {
+    [self.collectionView setContentOffset:CGPointMake(64.f * self.selectIndex, 0) animated:fAnimate];
+//    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionLeft animated:fAnimate];
+}
 
 
 #pragma mark - UICollectionView DataSource

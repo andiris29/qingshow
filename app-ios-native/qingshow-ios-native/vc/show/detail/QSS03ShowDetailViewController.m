@@ -453,4 +453,5 @@
     self.discountContainer.alpha = 1.f;
     [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
 }
+
 @end

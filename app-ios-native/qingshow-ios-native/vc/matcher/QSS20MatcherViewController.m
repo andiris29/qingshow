@@ -187,7 +187,12 @@
     self.itemSelectionView.delegate = provider;
     self.itemSelectionView.selectIndex = provider.selectIndex;
     [self.itemSelectionView reloadData];
-    [self.itemSelectionView offsetToZero:YES];
+    if ([self.itemSelectionView respondsToSelector:@selector(showSelect:)]) {
+        [self.itemSelectionView showSelect:YES];
+    } else {
+        [self.itemSelectionView offsetToZero:YES];
+    }
+
 }
 
 #pragma mark canvas
