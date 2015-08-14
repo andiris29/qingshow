@@ -46,19 +46,22 @@
                                 <outlet property="delegate" destination="-1" id="RMs-ug-byv"/>
                             </connections>
                         </tableView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uC4-ox-47w">
-                            <rect key="frame" x="8" y="443" width="304" height="34"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 通过（我要折扣）获得优惠" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vd1-l4-Sef">
+                            <rect key="frame" x="22" y="476" width="278" height="43"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="278" id="WDx-fh-3ei"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="16"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击链接查看商品详情" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uC4-ox-47w">
+                            <rect key="frame" x="8" y="453" width="304" height="34"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="34" id="LBc-NO-eFr"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="17"/>
-                            <color key="textColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击链接查看商品详情                       通过（我要折扣）获得折扣" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vd1-l4-Sef">
-                            <rect key="frame" x="22" y="476" width="278" height="43"/>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="16"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
@@ -74,7 +77,7 @@
                         <constraint firstAttribute="trailing" secondItem="uC4-ox-47w" secondAttribute="trailing" constant="8" id="fP3-Bn-zuN"/>
                         <constraint firstAttribute="trailing" secondItem="LPe-vy-IT6" secondAttribute="trailing" constant="15" id="hU5-5H-H5o"/>
                         <constraint firstItem="LPe-vy-IT6" firstAttribute="top" secondItem="VLC-N6-f3S" secondAttribute="top" constant="30" id="i12-1m-THl"/>
-                        <constraint firstAttribute="bottom" secondItem="uC4-ox-47w" secondAttribute="bottom" constant="91" id="lme-pq-A7G"/>
+                        <constraint firstAttribute="bottom" secondItem="uC4-ox-47w" secondAttribute="bottom" constant="81" id="lme-pq-A7G"/>
                         <constraint firstAttribute="bottom" secondItem="gIE-lF-fFE" secondAttribute="bottom" constant="123" id="oXe-QP-gwX"/>
                         <constraint firstItem="uC4-ox-47w" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" constant="8" id="zZH-ao-FgR"/>
                     </constraints>
