@@ -2,6 +2,8 @@ package com.focosee.qingshow.util;
 
 import android.text.TextUtils;
 
+import org.w3c.dom.Text;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -14,6 +16,7 @@ import java.util.regex.Pattern;
  */
 public class StringUtil {
     public static String formatDiscount(String current, String original) {
+        if(TextUtils.isEmpty(current) || TextUtils.isEmpty(original))return "";
         String str = "";
         double dis = Double.parseDouble(current) / Double.parseDouble(original);
         if (dis < 0.1) {

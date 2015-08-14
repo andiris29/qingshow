@@ -93,6 +93,7 @@
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/selectProp"
                             style="@style/s11_notify_des_text"
+                            android:text="规格："
                             android:textColor="@color/gary" />
 
                         <com.focosee.qingshow.widget.QSTextView

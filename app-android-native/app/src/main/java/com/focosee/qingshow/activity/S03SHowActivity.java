@@ -263,7 +263,8 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
         if (QSModel.INSTANCE.loggedin()) {
             if (null != showDetailEntity.ownerRef) {
-                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId()) && className.equals(U01UserActivity.class.getSimpleName())) {
+                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId()) && (className.equals(U01UserActivity.class.getSimpleName())
+                        || className.equals(S20MatchPreviewActivity.class.getSimpleName()))) {
                     showData_self();
                     return;
                 }
