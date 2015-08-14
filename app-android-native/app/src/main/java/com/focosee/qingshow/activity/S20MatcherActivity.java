@@ -167,7 +167,7 @@ public class S20MatcherActivity extends MenuActivity {
         });
 
         canvas.attach(itemView);
-        itemView.callOnClick();
+        itemView.bringToFront();
 
         if (allSelect.containsKey(categoryRef)) {
             allSelect.put(categoryRef, allSelect.get(categoryRef).setView(itemView).setPageNo(1));
@@ -228,6 +228,7 @@ public class S20MatcherActivity extends MenuActivity {
             moveView(view, view.getX(), view.getY(), view.getX() - dx, view.getY() - dy);
             checkBorder(view, canvas);
         }
+        view.callOnClick();
     }
 
 
@@ -244,7 +245,7 @@ public class S20MatcherActivity extends MenuActivity {
         if (actrulLeft < 0) {
 //            moveView(view,view.getX(),view.getY(),);
         }
-        
+
 
         if (actrulRight > prent.getWidth()) {
 

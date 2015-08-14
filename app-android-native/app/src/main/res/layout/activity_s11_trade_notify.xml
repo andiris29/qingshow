@@ -180,6 +180,7 @@
                             android:textSize="30dp" />
 
                         <TextView
+                            android:layout_gravity="center"
                             android:id="@+id/nowPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -205,7 +206,7 @@
                     android:id="@+id/submitBtn"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_below="@id/nowDes"
+                    android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
                     android:background="@drawable/bg_submit_match"
                     android:gravity="center"
@@ -214,7 +215,7 @@
                     android:textSize="18sp"
                     app:clickGround="@drawable/round_btn_background"
                     app:layout_heightPercent="10%"
-                    app:layout_marginTopPercent="4%"
+                    app:layout_marginBottomPercent="6%"
                     app:layout_widthPercent="45%" />
 
 
