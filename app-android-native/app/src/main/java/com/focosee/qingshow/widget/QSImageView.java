@@ -245,6 +245,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     private void onCheckedChanged(boolean isCheck) {
         resetPadding();
         if (isCheck) {
+            goneDelBtn();
             this.setBackgroundResource(R.drawable.bg_canvas_item);
         } else {
             goneDelBtn();
