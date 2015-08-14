@@ -44,7 +44,6 @@ public class StringUtil {
             String p = properties.get(i).trim();
             if(TextUtils.isEmpty(p))continue;
             p = p.replace(" ", "");
-            System.out.println("properties:" + p);
             String[] values = p.split(":");
             if(values.length > 1){
                 buffer.append(values[1]);

@@ -123,23 +123,13 @@
                 android:text="秋冬新款f" />
 
             <com.focosee.qingshow.widget.QSTextView
-                android:id="@+id/item_tradelist_sourcePriceTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/item_tradelist_description"
-                android:layout_marginTop="5dp"
-                android:text="原价："
-                android:textColor="@color/gary" />
-
-            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_tradelist_sourcePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/item_tradelist_sourcePriceTextView"
                 android:layout_below="@id/item_tradelist_description"
                 android:layout_marginTop="5dp"
-                android:text="0.00"
-                app:del_line="true"
+                android:text="原价："
                 android:textColor="@color/gary" />
 
             <com.focosee.qingshow.widget.QSTextView

@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -34,13 +33,10 @@ import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -49,8 +45,7 @@ import de.greenrobot.event.EventBus;
 public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener {
 
     private final int CANCEL = 0;
-    private StrikethroughSpan strikethroughSpan;
-    private Spannable spannable;
+    private SpannableString spannableString;
 
     /**
      * viewType的顺序的layoutId的顺序一致
@@ -61,7 +56,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
      */
     public U09TradeListAdapter(@NonNull List<MongoTrade> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
-        spannable = new SpannableStringBuilder();
     }
 
     @Override
@@ -82,7 +76,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         QSButton btn2 = holder.getView(R.id.item_tradelist_btn2);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
-        properTextView.setText("规格：");
         properTextView.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
@@ -90,7 +83,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
 
         if (null != trade.itemSnapshot) {
-            holder.setText(R.id.item_tradelist_sourcePrice, StringUtil.FormatPrice(trade.itemSnapshot.price));
+            String str = "原价：";
+            int start = str.length() + 1;
+            String priceStr = str + StringUtil.FormatPrice(trade.itemSnapshot.price);
+            spannableString = new SpannableString(priceStr);
+            spannableString.setSpan(new StrikethroughSpan(), start, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.setText(R.id.item_tradelist_sourcePrice, spannableString);
+
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
             holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
@@ -100,7 +99,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
         if (!TextUtils.isEmpty(properties)) {
             properTextView.setVisibility(View.VISIBLE);
-            properTextView.append(properties);
+            properTextView.setText("规格：" + properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
         holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
