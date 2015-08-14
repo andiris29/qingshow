@@ -130,7 +130,7 @@
                     android:layout_height="0dp"
                     android:layout_below="@id/line"
                     android:orientation="vertical"
-                    app:layout_heightPercent="30%">
+                    app:layout_heightPercent="33%">
 
                     <LinearLayout
                         android:id="@+id/dis_text"
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/dis_text"
                         android:orientation="vertical"
-                        app:layout_marginLeftPercent="3%"
+                        app:layout_marginLeftPercent="7%"
                         app:layout_marginTopPercent="15%">
 
                         <com.focosee.qingshow.widget.QSTextView
@@ -192,12 +192,20 @@
                     </LinearLayout>
 
                     <TextView
+                        android:layout_marginTop="5dp"
                         android:id="@+id/poster"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/dis_text"
                         android:text=""
                         android:textColor="@color/gary" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/poster"
+                        android:text="　告诉你得朋友一起来产假折扣活动。"
+                        android:textColor="@color/gary" />
+
 
                 </android.support.percent.PercentRelativeLayout>
 
