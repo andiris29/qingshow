@@ -102,7 +102,8 @@ public class S11NewTradeFragment extends Fragment {
     private int discountNum;
     private int discountOffline;
     private int discountOnline;
-    double basePrice;
+    private double basePrice;
+    private int checkIndex[];
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -142,9 +143,10 @@ public class S11NewTradeFragment extends Fragment {
 
     private void initProps() {
         props = SkuUtil.filter(itemEntity.skuProperties);
-        Log.i("tag", QSGsonFactory.create().toJson(itemEntity.skuProperties).toString());
-        for (int i = 0; i < itemEntity.skuProperties.size(); i++) {
-            bindItem(itemEntity.skuProperties, i, new OnCheckedChangeListener() {
+        checkIndex = new int[props.size()];
+        int i = 0;
+        for (String key : props.keySet()) {
+            bindItem(key, props.get(key), i, new OnCheckedChangeListener() {
                 @Override
                 public void onChanged(String key, int index) {
                     List<String> values = new ArrayList<>();
@@ -152,7 +154,10 @@ public class S11NewTradeFragment extends Fragment {
                     selectProps.put(key, values);
                 }
             });
+            i++;
         }
+
+
     }
 
 
@@ -304,13 +309,9 @@ public class S11NewTradeFragment extends Fragment {
         return propItem;
     }
 
-    private void bindItem(List<String> datas, final int position, final OnCheckedChangeListener onCheckedChangeListener) {
-        final int checkIndex[] = new int[datas.size()];
-        LinearLayout prop = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.item_sku_prop, null);
-        String data = datas.get(position);
-        List<String> values = SkuUtil.getValues(data);
+    private void bindItem(final String key, final List<String> values, final int position, final OnCheckedChangeListener onCheckedChangeListener) {
 
-        final String key = SkuUtil.getPropName(data);
+        LinearLayout prop = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.item_sku_prop, null);
         FlowRadioGroup group = (FlowRadioGroup) prop.findViewById(R.id.propGroup);
         ((TextView) prop.findViewById(R.id.propText)).setText(key.split("_")[0]);
 

@@ -22,7 +22,7 @@ public class SkuUtil {
         Map<String, List<String>> result = new HashMap<>();
         int i = 1;
         for (String prop : skuProp) {
-            if(result.containsKey(getPropName(prop))){
+            if (result.containsKey(getPropName(prop))) {
                 result.put("_" + i, getValues(prop));
                 i++;
             }
@@ -56,17 +56,12 @@ public class SkuUtil {
 
     public static String propParser(String key, List<String> values) {
         StringBuilder sb = new StringBuilder();
-        sb.append(key).append(":");
+        sb.append(key.split("_")[0]).append(":");
         for (int i = 0; i < values.size(); i++) {
-            if (i == values.size())
+            if (i == values.size() - 1) {
                 sb.append(values.get(i));
-            else {
-                if (i == values.size() - 1) {
-                    continue;
-                } else
-                    sb.append(values.get(i)).append(":");
-            }
-
+            } else
+                sb.append(values.get(i)).append(":");
         }
         return sb.toString();
     }

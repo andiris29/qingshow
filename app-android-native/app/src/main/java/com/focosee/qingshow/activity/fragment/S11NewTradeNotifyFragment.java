@@ -82,6 +82,8 @@ public class S11NewTradeNotifyFragment extends Fragment {
     TextView nowDiscount;
     @InjectView(R.id.nowPrice)
     TextView nowPrice;
+    @InjectView(R.id.poster)
+    TextView poster;
 
     private MongoTrade trade;
     String _id;
@@ -136,11 +138,13 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
         spannableString = new SpannableString(StringUtil.FormatPrice(actualPrice + ""));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new UnderlineSpan(),1,spannableString.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new UnderlineSpan(), 1, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         nowPrice.append(spannableString);
 
         nowDiscount.append(StringUtil.formatDiscount(actualPrice + "", trade.itemSnapshot.promoPrice));
-        nowDiscount.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+        spannableString = new SpannableString(getActivity().getResources().getString(R.string.s11_poster));
+        poster.setText(spannableString);
     }
 
     @OnClick(R.id.close)

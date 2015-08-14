@@ -133,12 +133,11 @@
 
                     <LinearLayout
                         android:id="@+id/dis_text"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_marginLeftPercent="3%"
-                        app:layout_marginTopPercent="15%"
-                        app:layout_widthPercent="29%">
+                        app:layout_marginTopPercent="15%">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -149,7 +148,7 @@
                             android:paddingRight="7dp"
                             android:text="SALE"
                             android:textColor="@color/white"
-                            android:textSize="30dp"
+                            android:textSize="26dp"
                             android:textStyle="bold" />
 
                         <com.focosee.qingshow.widget.QSTextView
@@ -157,9 +156,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="5折"
                             android:textColor="@color/red"
-                            android:textSize="55sp"
+                            android:textSize="50sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -181,16 +179,23 @@
                             android:textSize="30dp" />
 
                         <TextView
-                            android:gravity="fill"
                             android:id="@+id/nowPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/price_text"
                             android:layout_below="@id/price_text"
-                            android:text="250.00"
+                            android:gravity="fill"
                             android:textColor="@color/red"
                             android:textSize="45sp" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/poster"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/dis_text"
+                        android:text=""
+                        android:textColor="@color/gary" />
 
                 </android.support.percent.PercentRelativeLayout>
 
