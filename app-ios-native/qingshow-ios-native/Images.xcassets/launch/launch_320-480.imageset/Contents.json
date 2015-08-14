@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "launch_320-480.png"
+      "filename" : "luanch_320_480.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "launch_320-480@2x.png"
+      "filename" : "luanch_640_960.png"
     },
     {
       "idiom" : "universal",

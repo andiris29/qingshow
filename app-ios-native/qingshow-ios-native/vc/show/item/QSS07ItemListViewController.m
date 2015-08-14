@@ -8,11 +8,9 @@
 
 #import "QSS07ItemListViewController.h"
 #import "QSItemListHeaderView.h"
-#import "QSItemListTableViewCell.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
 #import "QSCategoryUtil.h"
-#import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+QSExtension.h"
 #import "QSItemListCell.h"
@@ -39,10 +37,14 @@
     self = [super initWithNibName:@"QSS07ItemListViewController" bundle:nil];
     if (self) {
         self.showDict = showDict;
-        self.itemArray = [QSShowUtil getItems:showDict];
-         self.orderdArray  = [self refreshItemArray:self.itemArray];
+
     }
     return self;
+}
+- (void)refreshData {
+    self.itemArray = [QSShowUtil getItems:self.showDict];
+    self.orderdArray  = [self refreshItemArray:self.itemArray];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Life Cycle
@@ -54,13 +56,7 @@
     self.tableView.tableHeaderView = headerView;
     [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListCell" bundle:nil] forCellReuseIdentifier:QSItemListCellID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-        self.showDict = dict;
-        [self.tableView reloadData];
-    } onError:^(NSError *error) {
-        
-    }];
+    self.tableView.scrollEnabled = YES;
     self.view.alpha = 0.9f;
     [self.navigationController.navigationBar setTitleTextAttributes:
      
@@ -71,7 +67,7 @@
     {
         self.tableView.tableHeaderView.transform = CGAffineTransformMakeScale(1.2, 1.2);
     }
-   
+    [self refreshData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -115,28 +111,31 @@
     }
     return cell;
 }
-#pragma mark - 数组排序
+#pragma mark - 数组排序 筛选
 - (NSMutableArray *)refreshItemArray:(NSArray *)itemArray
 {
-        NSMutableArray *array = [NSMutableArray arrayWithArray:itemArray];
-    
-        
-        for (int i = 0; i < array.count; i ++) {
-            
-            for (int j = i+1; j < array.count; j ++) {
-                int orderI = [self getOrderFromDic:array[i]];
-                int orderJ = [self getOrderFromDic:array[j]];
-                if (orderI > orderJ) {
-                    id dic = array[j];
-                    array[j] = array[i];
-                    array[i] = dic;
-                    dic = nil;
-                }
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    if (itemArray.count) {
+        for (int i = 0; i < itemArray.count; i ++) {
+            NSDictionary *dic = itemArray[i];
+            if ([QSEntityUtil checkIsNil:dic[@"delist"]]) {
+                [array addObject:dic];
             }
         }
+    }
+    for (int i = 0; i < array.count; i ++) {
+        for (int j = i+1; j < array.count; j ++) {
+            int orderI = [self getOrderFromDic:array[i]];
+            int orderJ = [self getOrderFromDic:array[j]];
+            if (orderI > orderJ) {
+                id dic = array[j];
+                array[j] = array[i];
+                array[i] = dic;
+                dic = nil;
+            }
+        }
+    }
         return array;
-
-
 }
 - (int)getOrderFromDic:(NSDictionary *)itemDict
 {
@@ -163,7 +162,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UIScreen mainScreen].bounds.size.width/32*5;
+    return [UIScreen mainScreen].bounds.size.width/32*5+5;
 }
 
 @end

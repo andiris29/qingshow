@@ -23,7 +23,7 @@
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (assign,nonatomic) BOOL showBackBtn;
 - (id)initWithShow:(NSDictionary*)showDict;
-
+- (void)refreshData;
 - (IBAction)closeBtnPressed:(id)sender;
 
 @end

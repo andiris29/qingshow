@@ -67,6 +67,7 @@
     NSArray *typeArray = @[
                            @(QSRootMenuItemMeida),
                            @(QSRootMenuItemMatcher),
+                           @(QSRootMenuItemDiscount),
                            @(QSRootMenuItemMy),
                            @(QSRootMenuItemSetting)];
     self.itemArray = [@[] mutableCopy];
@@ -98,7 +99,7 @@
     float deltaY = (size.height - (QSRootMenuItemHeight * self.itemArray.count)) / 2;
     float originX = (self.containerView.frame.size.width - QSRootMenuItemWidth) / 2;
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < self.itemArray.count; i++) {
         QSRootMenuItem* item = self.itemArray[i];
         CGRect frame = item.frame;
         frame.origin.x = originX;

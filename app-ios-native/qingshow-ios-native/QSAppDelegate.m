@@ -67,7 +67,7 @@
         //Romote Notification
         if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
             NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-            [QSPnsHelper handlePnsData:pnsUserInfo];
+            [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
         }
     } onError:^(NSError *error) {
         vc.hasFetchUserLogin = YES;
@@ -77,7 +77,7 @@
         //Romote Notification
         if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
             NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-            [QSPnsHelper handlePnsData:pnsUserInfo];
+            [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
         }
     }];
     return YES;
@@ -353,12 +353,13 @@
 
     switch (application.applicationState) {
         case 0:{
-            //程序在前台，不响应
+            //程序在前台
+            [QSPnsHelper handlePnsData:userInfo fromBackground:NO];
             break;
         }
         case 1: {
             //后台收到推送并点击badge进入，处理推送
-            [QSPnsHelper handlePnsData:userInfo];
+            [QSPnsHelper handlePnsData:userInfo fromBackground:YES];
             break;
         }
         default: {

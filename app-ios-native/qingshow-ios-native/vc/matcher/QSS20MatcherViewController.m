@@ -52,8 +52,6 @@
     
     self.submitButton.layer.cornerRadius = 4.f;
     self.submitButton.layer.masksToBounds = YES;
-    self.categorySelectionButton.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.categorySelectionButton.layer.borderWidth = 1.f;
     self.categorySelectionButton.layer.cornerRadius = 4.f;
     self.categorySelectionButton.layer.masksToBounds = YES;
     // Do any additional setup after loading the view from its nib.
@@ -70,6 +68,8 @@
     [self.canvasContainer addSubview:self.canvasView];
     
     self.fShouldReload = YES;
+    
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
 
 }
 
@@ -187,7 +187,12 @@
     self.itemSelectionView.delegate = provider;
     self.itemSelectionView.selectIndex = provider.selectIndex;
     [self.itemSelectionView reloadData];
-    [self.itemSelectionView offsetToZero:YES];
+    if ([self.itemSelectionView respondsToSelector:@selector(showSelect:)]) {
+        [self.itemSelectionView showSelect:YES];
+    } else {
+        [self.itemSelectionView offsetToZero:YES];
+    }
+
 }
 
 #pragma mark canvas

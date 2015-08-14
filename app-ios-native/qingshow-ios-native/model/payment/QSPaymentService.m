@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
+
 #import "QSPaymentService.h"
+#import "QSTradeUtil.h"
+#import "QSShareService.h"
 #import "AlipayOrder.h"
 #import "APAuthV2Info.h"
 #import <AlipaySDK/AlipaySDK.h>
@@ -15,11 +18,10 @@
 #import "QSSharePlatformConst.h"
 #import "NSString+MKNetworkKitAdditions.h"
 #import "QSTradeUtil.h"
-#import "QSOrderUtil.h"
 #import "QSEntityUtil.h"
 #import "QSItemUtil.h"
 #import "QSPaymentConst.h"
-
+#import "QSNetworkKit.h"
 
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
@@ -39,6 +41,7 @@
 
 @implementation QSPaymentService
 
+#pragma mark - Singleton
 + (QSPaymentService*)shareService
 {
     static QSPaymentService* s_paymentService = nil;
@@ -48,6 +51,8 @@
     });
     return s_paymentService;
 }
+
+#pragma mark - Life Cycle
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -55,6 +60,27 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invokePaymentFailCallback:) name:kPaymentFailNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Payment Api
+- (void)sharedForTrade:(NSDictionary*)tradeDict
+             onSucceed:(VoidBlock)succeedBlock
+               onError:(ErrorBlock)errorBlock {
+    if ([QSTradeUtil getShouldShare:tradeDict]) {
+        //分享
+        NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
+        NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
+        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:@"服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id=%@&initiatorRef=%@",tradeId,peopleId] onSucceed:^{
+            [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:succeedBlock onError:errorBlock];
+        } onError:errorBlock];
+    } else {
+        succeedBlock();
+    }
 }
 
 - (void)payForTrade:(NSDictionary*)tradeDict
@@ -65,12 +91,10 @@
     self.errorBlock = errorBlock;
     
     NSString* prepayId = [QSTradeUtil getWechatPrepayId:tradeDict];
-    NSArray* orderArray = [QSTradeUtil getOrderArray:tradeDict];
+    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     NSMutableString* names = [@"" mutableCopy];
-    for (NSDictionary* orderDict in orderArray) {
-        NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
-        [names appendString:[QSItemUtil getItemName:itemDict]];
-    }
+    [names appendString:[QSItemUtil getItemName:itemDict]];
+
     
     if (prepayId && prepayId.length) {
         //Pay with Wechat
@@ -82,6 +106,8 @@
     }
 }
 
+
+#pragma mark - Detail Payment
 - (void)payWithAliPayTrade:(NSDictionary*)tradeDict
                productName:(NSString*)productName;
 {
@@ -134,6 +160,7 @@
     [WXApi sendReq:request];
 }
 
+#pragma mark - Helper
 - (void)invokePaymentSuccessCallback:(NSNotification*)notification
 {
     if (self.succeedBlock) {
@@ -150,11 +177,6 @@
         self.succeedBlock = nil;
         self.errorBlock = nil;
     }
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

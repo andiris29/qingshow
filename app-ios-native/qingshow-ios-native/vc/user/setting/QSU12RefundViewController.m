@@ -12,6 +12,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSTradeUtil.h"
+#import "QSItemUtil.h"
 #define PAGE_ID @"U12 - 申请退货"
 
 @interface QSU12RefundViewController ()<UITextFieldDelegate>
@@ -28,7 +29,6 @@
     
     if (self) {
         self.orderDict = orderDict;
-
         if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
@@ -42,6 +42,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self setPageType];
+    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.orderDict];
+    if ([QSEntityUtil getDictValue:itemDic keyPath:@"returnInfo"]) {
+        self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:itemDic];
+        self.companyLabel.text = [QSItemUtil getReturnInfoCompany:itemDic];
+        self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:itemDic];
+    }
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
 //    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
@@ -66,15 +72,15 @@
 {
     if (self.type == 1) {
         self.title  = @"退货方式";
-        self.typeAddrLabel.text = @"退货地址";
-        self.typeReceiverLabel.text = @"退货收件人";
+        self.typeAddrLabel.text = @"退货地址:";
+        self.typeReceiverLabel.text = @"退货收件人:";
         [self.submitBtn setTitle:@"申请退货" forState:UIControlStateNormal];
     }
     else if(self.type == 2)
     {
         self.title = @"换货方式";
-        self.typeAddrLabel.text = @"换货地址";
-        self.typeReceiverLabel.text = @"换货收件人";
+        self.typeAddrLabel.text = @"换货地址:";
+        self.typeReceiverLabel.text = @"换货收件人:";
         [self.submitBtn setTitle:@"申请换货" forState:UIControlStateNormal];
     }
 }
@@ -126,7 +132,7 @@
     [self scrollToBottom:height];
 }
 - (void)keyboardWillShow:(NSNotification *)notif {
-    [self configContentInset:300.f];
+    [self configContentInset:100.f];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notif {
@@ -143,7 +149,7 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self configContentInset:300.0f];
+    [self configContentInset:100.0f];
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -176,7 +182,7 @@
     if (self.type == 1) {
         __weak QSU12RefundViewController* weakSelf = self;
         [self hideKeyboardAndPicker];
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^{
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^(NSDictionary* dict){
             [self showTextHud:@"申请成功"];
             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
@@ -190,7 +196,7 @@
         [self hideKeyboardAndPicker];
         int statusCurrent = [[QSTradeUtil getStatus:weakSelf.orderDict] intValue];
         if (statusCurrent == 14) {
-            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:16 info:dict onSucceed:^{
+            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:16 info:dict onSucceed:^(NSDictionary* dict){
                 [self showTextHud:@"申请二次换货成功"];
                 [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
             } onError:^(NSError *error) {
@@ -200,7 +206,7 @@
         }
         else
         {
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:11 info:dict onSucceed:^{
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:11 info:dict onSucceed:^(NSDictionary* dict){
             [self showTextHud:@"申请退换货成功"];
             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {

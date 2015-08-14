@@ -137,7 +137,7 @@
 - (void)configBarBtn
 {
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didSelectSaveBtn)];
-    item.tintColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f];
+    item.tintColor = [UIColor colorWithRed:240.0f/255.f green:149.0f/255.f blue:164.0f/255.f alpha:1.f];
     self.navigationItem.rightBarButtonItem = item;
     [self hideNaviBackBtnTitle];
     

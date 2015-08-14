@@ -7,7 +7,7 @@
 //
 
 #import "QSOrderListTableViewProvider.h"
-
+#import "QSTradeUtil.h"
 
 @implementation QSOrderListTableViewProvider
 @dynamic delegate;
@@ -23,6 +23,7 @@
 {
     QSOrderListTableViewCell* cell = (QSOrderListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSOrderListTableViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
+    cell.type = [self getCellTypeWithIndexPath:indexPath];
     [cell bindWithDict:[self orderForIndexPath:indexPath]];
     return cell;
 }
@@ -39,7 +40,11 @@
 {
     return QSOrderListTableViewCellHeight;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(didClickOrder:)]) {
+        [self.delegate didClickOrder:[self orderForIndexPath:indexPath]];
+    }
+}
 #pragma mark - QSOrderListTableViewCellDelegate
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell
 {
@@ -48,7 +53,10 @@
     }
 }
 
-
+- (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell
+{
+        [self.delegate didClickCancelBtnOfOrder:[self orderForCell:cell]];
+}
 - (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell
 {
     if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
@@ -82,5 +90,13 @@
     } else {
         return nil;
     }
+}
+- (NSInteger)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dic = [self orderForIndexPath:indexPath];
+    if (![QSTradeUtil getSizeText:dic] && ![QSTradeUtil getColorText:dic]) {
+        return 0;
+    }
+    return 1;
 }
 @end

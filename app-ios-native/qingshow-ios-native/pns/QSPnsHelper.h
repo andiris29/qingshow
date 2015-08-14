@@ -10,6 +10,7 @@
 
 @interface QSPnsHelper : NSObject
 
-+ (void)handlePnsData:(NSDictionary*)userInfo;
++ (BOOL)isFromBackground:(NSDictionary*)userInfo;
++ (void)handlePnsData:(NSDictionary*)userInfo fromBackground:(BOOL)fFromBackground;
 
 @end

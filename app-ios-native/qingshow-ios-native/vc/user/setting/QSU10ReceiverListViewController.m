@@ -15,7 +15,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSReceiverUtil.h"
 #define PAGE_ID @"U10 - 收获地址一览"
-
+#define w ([UIScreen mainScreen].bounds.size.width)
 
 @interface QSU10ReceiverListViewController ()
 
@@ -52,7 +52,7 @@
     [self hideNaviBackBtnTitle];
     
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(newLocationBtnPressed)];
-    item.tintColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f];
+    item.tintColor = [UIColor colorWithRed:240.0f/255.f green:149.0f/255.f blue:164.0f/255.f alpha:1.f];
     self.navigationItem.rightBarButtonItem = item;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
@@ -98,6 +98,7 @@
     NSDictionary* dict = [self receiverDictForIndexPath:indexPath];
     [cell bindWithDict:dict];
     cell.isSelectedReceiver = self.selectedRecevier == dict;
+    cell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);
     return cell;
 }
 

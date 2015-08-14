@@ -9,13 +9,13 @@
 #import "QSS11CreateTradeViewController.h"
 #import "QSCreateTradeTableViewCellBase.h"
 #import "QSCreateTradePayInfoSelectCell.h"
-#import "QSTaobaoInfoUtil.h"
+#import "QSCreateTradeSkuPropertyCell.h"
 #import "QSItemUtil.h"
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSTradeUtil.h"
 #import "QSEntityUtil.h"
-#import "QSOrderUtil.h"
+#import "QSTradeUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -26,9 +26,12 @@
 #import "QSU09OrderListViewController.h"
 #define PAGE_ID @"S11 - 交易生成"
 
+#import "QSAbstractRootViewController.h"
+
 @interface QSS11CreateTradeViewController ()
 
-@property (strong, nonatomic) NSDictionary* itemDict;
+@property (strong, nonatomic) NSDictionary* tradeDict;
+
 
 @property (strong, nonatomic) NSArray* cellGroupArray;
 
@@ -45,23 +48,24 @@
 @property (strong, nonatomic) NSDictionary* selectedReceiver;
 
 @property (strong, nonatomic) MKNetworkOperation* userUpdateOp;
-@property (strong, nonatomic) MKNetworkOperation* createTradeOp;
+@property (strong, nonatomic) MKNetworkOperation* prepayOp;
 @property (strong, nonatomic) MKNetworkOperation* saveReceiverOp;
 
 @property (strong, nonatomic) QSLocationPickerProvider* locationProvider;
 
 @property (assign, nonatomic) BOOL isShowKeyboard;
 
+
 @end
 
 @implementation QSS11CreateTradeViewController
 
 #pragma mark - Init
-- (id)initWithDict:(NSDictionary*)dict
+- (id)initWithDict:(NSDictionary*)tradeDict
 {
     self = [super initWithNibName:@"QSS11CreateTradeViewController" bundle:nil];
     if (self) {
-        self.itemDict = dict;
+        self.tradeDict = tradeDict;
         self.isShowKeyboard = NO;
     }
     return self;
@@ -75,14 +79,21 @@
     [self configCellArray];
     [self configView];
     [self updateAllCell];
-//    [self receiverConfig];
-  
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
+
+    NSDictionary* tradeDict = self.tradeDict;
+    NSNumber* price = nil;
+    if ([QSTradeUtil getActualPrice:tradeDict]) {
+        price = [QSTradeUtil getActualPrice:tradeDict];
+    } else {
+        price = [QSTradeUtil getExpectedPrice:tradeDict];
+    }
+    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
+    NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
+    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
     
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)receiverConfig
 {
@@ -134,10 +145,9 @@
 {
     [self.cellGroupArray enumerateObjectsUsingBlock:^(NSArray* cellArray, NSUInteger idx, BOOL *stop) {
         [cellArray enumerateObjectsUsingBlock:^(QSCreateTradeTableViewCellBase* cell, NSUInteger idx, BOOL *stop) {
-            [cell bindWithDict:self.itemDict];
+            [cell bindWithDict:self.tradeDict];
         }];
     }];
-    [self updatePriceRelatedCell];  //for total price
 }
 - (void)configView
 {
@@ -165,33 +175,12 @@
 {
     NSMutableArray* array = [@[] mutableCopy];
     [array addObject:self.itemInfoTitleCell];
-    [array addObject:self.itemInfoColorCell];
-    //023
-    //1
-    //4
-    //56
-    
-    NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
-    
-    QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
-    if (category == QSItemCategoryClothSize) {
-        [array addObject:self.clothSizeCell];
-        self.shoeSizeCell = nil;
-        self.clothSizeCell.bustCircleOrWaistlineTextField.text = [QSPeopleUtil getBust:peopleDict];
-        self.clothSizeCell.shoulderOrHiplineTextField.text = [QSPeopleUtil getShoulder:peopleDict];
-    } else if (category == QSItemCategoryPant) {
-        [array addObject:self.clothSizeCell];
-        self.shoeSizeCell = nil;
-        self.clothSizeCell.bustCircleOrWaistlineTextField.text = [QSPeopleUtil getWaist:peopleDict];
-        self.clothSizeCell.shoulderOrHiplineTextField.text = [QSPeopleUtil getHips:peopleDict];
-        
-    } else if (category == QSItemCategoryShoe) {
-        [array addObject:self.shoeSizeCell];
-        self.shoeSizeCell.textField.text = [QSPeopleUtil getShoeSize:peopleDict];
-        self.clothSizeCell = nil;
-    } else {
-        self.shoeSizeCell = nil;
-        self.clothSizeCell = nil;
+    NSDictionary* trade = self.tradeDict;
+    NSArray* propArray = [QSTradeUtil getSkuProperties:trade];
+    for (NSString* propStr in propArray) {
+        QSCreateTradeSkuPropertyCell* propCell = [QSCreateTradeSkuPropertyCell generateCell];
+        [propCell bindSkuProperty:propStr];
+        [array addObject:propCell];
     }
     
     [array addObject:self.itemInfoQuantityCell];
@@ -259,12 +248,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
-    cell.delegate = self;
-//    if ([self.receiverInfoCellArray indexOfObject:cell] != NSNotFound) {
-//        [cell bindWithDict:self.selectedReceiver];
-//    } else {
-    [cell bindWithDict:self.itemDict];
-//    }
+    [cell bindWithDict:self.tradeDict];
 
     return cell;
 }
@@ -279,7 +263,7 @@
 {
     
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
-    return [cell getHeightWithDict:self.itemDict];
+    return [cell getHeightWithDict:self.tradeDict];
     
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -313,11 +297,9 @@
     }
     if (cell == self.receiverInfoLocationCell) {
         [self showPicker];
+    } else {
+        [self hidekeyboardAndPicker];
     }
-
-    [self hidekeyboardAndPicker];
-
-    
 }
 
 #pragma mark - UIScrollView Delegate
@@ -335,34 +317,9 @@
         return;
     }
     
-    NSDictionary* measuerInfo = nil;
-    QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
-    if (category == QSItemCategoryClothSize) {
-        measuerInfo = @{
-                        @"bust" : self.clothSizeCell.bustCircleOrWaistlineTextField.text,
-                        @"shoulder" : self.clothSizeCell.shoulderOrHiplineTextField.text
-                        };
-    } else if (category == QSItemCategoryPant) {
-        measuerInfo = @{
-                        @"waist" : self.clothSizeCell.bustCircleOrWaistlineTextField.text,
-                        @"hips" : self.clothSizeCell.shoulderOrHiplineTextField.text
-                        };
-    } else if (category == QSItemCategoryShoe) {
-        measuerInfo = @{
-                        @"shoeSize": self.shoeSizeCell.textField.text
-                        };
-    }
-    if (measuerInfo) {
-        self.userUpdateOp = [SHARE_NW_ENGINE updatePeople:@{@"measureInfo" : measuerInfo} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
-            self.userUpdateOp = nil;
-            [self saveReceiverAndCreateTrade];
-        } onError:^(NSError *error) {
-            self.userUpdateOp = nil;
-            [self showErrorHudWithError:error];
-        }];
-    } else {
-        [self saveReceiverAndCreateTrade];
-    }
+
+    [self saveReceiverAndCreateTrade];
+    
 }
 
 - (void)saveReceiverAndCreateTrade {
@@ -401,17 +358,6 @@
 }
 - (BOOL)checkFullInfo
 {
-    if (self.clothSizeCell) {
-        if (!self.clothSizeCell.bustCircleOrWaistlineTextField.text.length ||
-            !self.clothSizeCell.shoulderOrHiplineTextField.text.length) {
-            return NO;
-        }
-    }
-    if (self.shoeSizeCell) {
-        if (!self.shoeSizeCell.textField.text.length) {
-            return NO;
-        }
-    }
     
     if (!self.receiverInfoNameCell.getInputData ||
         !self.receiverInfoPhoneCell.getInputData ||
@@ -429,11 +375,9 @@
 
 - (void)submitOrderWithReceiver:(NSString*)uuid
 {
-    if (self.createTradeOp) {
+    if (self.prepayOp) {
         return;
     }
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
-    NSNumber* quantity = [self.itemInfoQuantityCell getInputData];
     
     PaymentType paymentType = 0;
     if (self.payInfoAlipayCell.isSelect) {
@@ -441,58 +385,31 @@
     } else if (self.payInfoWechatCell.isSelect) {
         paymentType = PaymentTypeWechat;
     }
-    NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
-    NSNumber* price = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
-
     
+    NSDictionary* tradeDict = self.tradeDict;
+    
+    NSNumber* price = [QSTradeUtil getActualPrice:tradeDict];
+    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
+    NSNumber* totalPrice = @(quantity.doubleValue * price.doubleValue);
+
+
     [self.totalCell updateWithPrice:totalPrice.stringValue];
     
     __weak QSS11CreateTradeViewController* weakSelf = self;
-    self.createTradeOp =
-    [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
-                                quantity:quantity.intValue
-                                   price:price.doubleValue
-                                    item:self.itemDict
-                                     sku:@(sku.longLongValue)
-                            receiverUuid:uuid
-                                    type:paymentType
-                               onSucceed:^(NSDictionary* tradeDict)
-     {
-         [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
-                                  onSuccess:^{
-                                      UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"支付成功" message:nil delegate:weakSelf cancelButtonTitle:nil otherButtonTitles:@"继续逛逛", @"查看订单", nil];
-                                      [alertView show];
-                                  }
-                                    onError:^(NSError *error) {
-                                        [weakSelf showErrorHudWithText:@"支付失败"];
-                                    }];
-         self.createTradeOp = nil;
-     }
-                                 onError:^(NSError *error)
-     {
-         [self showErrorHudWithError:error];
-         self.createTradeOp = nil;
-     }];
-}
+    self.prepayOp = [SHARE_NW_ENGINE prepayTrade:self.tradeDict type:paymentType receiverUuid:uuid onSucceed:^(NSDictionary *tradeDict) {
+        [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
+                                 onSuccess:^{
+                                     UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"支付成功" message:nil delegate:weakSelf cancelButtonTitle:nil otherButtonTitles:@"继续逛逛", @"查看订单", nil];
+                                     [alertView show];}
+                                 onError:^(NSError *error) {
+                                     [weakSelf showErrorHudWithText:@"支付失败"];
+                                 }];
+                                     self.prepayOp = nil;
 
-
-
-#pragma mark - QSCreateTradeTableViewCellBaseDelegate
-- (void)updateCellTriggerBy:(QSCreateTradeTableViewCellBase*)cell
-{
-    if (cell == self.itemInfoQuantityCell) {
-        [self updatePriceRelatedCell];
-    }
-    
-}
-- (void)updatePriceRelatedCell {
-    
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
-    NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
-
-    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+        self.prepayOp = nil;
+    }];
 }
 
 #pragma mark - QSU10ReceiverListViewControllerDelegate
@@ -526,6 +443,7 @@
 #pragma mark - Location Picker
 - (void)showPicker
 {
+    [self hideKeyboard];
     if (!self.locationPicker.hidden) {
         return;
     }
@@ -535,7 +453,7 @@
     [self.locationPicker.layer addAnimation:tran forKey:@"show"];
     self.locationPicker.hidden = NO;
     [self configContentInset:100];
-    [self hideKeyboard];
+
 }
 - (void)hidePicker
 {
@@ -571,9 +489,6 @@
 
 - (void)keyboardWillHide:(NSNotification *)notif {
     self.isShowKeyboard = NO;
-//    [UIView animateWithDuration:0.5f animations:^{
-//        self.tableView.contentInset = UIEdgeInsetsZero;
-//    }];
 }
 - (void)scrollToBottom:(float)keyboardHeight
 {
@@ -586,10 +501,17 @@
     if (buttonIndex == 0) {
         //继续逛逛
         [self.navigationController popViewControllerAnimated:YES];
+        [self.menuProvider showDefaultVc];
     } else if (buttonIndex == 1) {
         //查看订单
-        UIViewController* vc = [[QSU09OrderListViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        UIViewController* vc = [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
+        if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
+            QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
+            [u09Vc changeValueOfSegment:1];
+            u09Vc.headerView.segmentControl.selectedSegmentIndex = 1;
+        }
     }
 }
+
 @end

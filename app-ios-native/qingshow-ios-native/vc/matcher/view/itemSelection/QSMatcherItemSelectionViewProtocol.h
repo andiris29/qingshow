@@ -25,6 +25,8 @@
 @property (assign, nonatomic) int selectIndex;
 - (void)reloadData;
 - (void)offsetToZero:(BOOL)fAnimate;
+@optional
+- (void)showSelect:(BOOL)fAnimate;
 
 @property (weak, nonatomic) NSObject<QSMatcherItemSelectionViewDelegate>* delegate;
 @property (weak, nonatomic) NSObject<QSMatcherItemSelectionViewDataSource>* datasource;

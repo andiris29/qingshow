@@ -84,6 +84,8 @@
     self.headIconImageView.layer.masksToBounds = YES;
     self.headIconImageView.userInteractionEnabled = YES;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,16 +100,7 @@
             [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
                 weakSelf.showDict = dict;
                 [weakSelf bindWithDict:dict];
-                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
-                if (!promotionDict) {
-                    self.discountContainer.hidden = YES;
-                } else {
-                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
-                        [self showDiscountContainer];
-                    } else {
-                        self.discountContainer.hidden = YES;
-                    }
-                }
+                self.discountContainer.hidden = YES;
             } onError:^(NSError *error) {
                 [self showErrorHudWithError:error];
             }];
@@ -198,7 +191,7 @@
     
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
-    [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
+    [self.itemBtn setTitle:[self getItemArrayCount:dict] forState:UIControlStateNormal];
     
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     if (!peopleDict) {
@@ -222,6 +215,27 @@
             self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
         }
     }
+    
+    //Item List
+    if (self.itemListVc) {
+        self.itemListVc.showDict = dict;
+        [self.itemListVc refreshData];
+    }
+}
+#pragma mark - getNewItemArray
+- (NSString *)getItemArrayCount:(NSDictionary *)dict
+{
+    NSArray *itemArray = [QSShowUtil getItems:dict];
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    if (itemArray.count) {
+        for (int i = 0; i < itemArray.count; i ++) {
+            NSDictionary *dic = itemArray[i];
+            if ([QSEntityUtil checkIsNil:dic[@"delist"]]) {
+                [array addObject:dic];
+            }
+        }
+    }
+    return [NSString stringWithFormat:@"%d",array.count];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -260,6 +274,7 @@
 
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
+    
     NSDictionary* showDict = self.showDict;
     [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
         if (f) {
@@ -354,7 +369,7 @@
     NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
     
     NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
-    [self.shareVc showSharePanelWithUrl:urlStr];
+    [self.shareVc showSharePanelWithTitle:@"来倾秀玩转搭配，show出你的范儿！" desc:@"随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算" url:urlStr];
 }
 - (void)hideSharePanel
 {
@@ -438,4 +453,5 @@
     self.discountContainer.alpha = 1.f;
     [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
 }
+
 @end

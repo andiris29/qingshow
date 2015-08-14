@@ -12,11 +12,13 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSCategoryUtil.h"
 #import "QSCategoryManager.h"
+#import "QSImageNameUtil.h"
 @implementation QSItemListCell
 
 - (void)awakeFromNib {
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.bgImageView.layer.cornerRadius = 43/2.f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -27,13 +29,12 @@
 
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
-
-    NSString *str = [QSItemUtil getCategoryStr:itemDic];
-
-   QSCategoryManager *manager = [QSCategoryManager getInstance];
-    NSDictionary *dic =  [manager findCategoryOfId:str];
-    //NSLog(@"dic = %@",dic);
-    [self.itemIcomImageView setImageFromURL:[QSCategoryUtil getIconUrl:dic]];
+    if ([QSItemUtil getPromoPriceDesc:itemDic]) {
+         self.priceLabel.text = [NSString stringWithFormat:@"价格:%@",[QSItemUtil getPromoPriceDesc:itemDic]];
+    }
+    NSURL *url = [QSItemUtil getThumbnail:itemDic];
+    NSURL *reNamedUrl = [QSImageNameUtil appendImageNameUrl:url type:QSImageNameTypeS];
+    [self.itemIcomImageView setImageFromURL:reNamedUrl];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDic];
 }
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define QSOrderListTableViewCellIdentifier @"QSOrderListTableViewCellIdentifier"
-#define QSOrderListTableViewCellHeight 172
+#define QSOrderListTableViewCellHeight 216
 
 @class QSOrderListTableViewCell;
 
@@ -24,6 +24,7 @@
 
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
 
+- (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell;
 @end
 
 @interface QSOrderListTableViewCell : UITableViewCell
@@ -49,6 +50,11 @@
 @property (weak, nonatomic) IBOutlet UIButton* submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *exchangeButton;
 @property (weak, nonatomic) IBOutlet UIButton *returnButton;
+@property (weak, nonatomic) IBOutlet UIImageView *saleImgView;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
 
 
 - (IBAction)submitBtnPressed:(id)sender;
@@ -58,4 +64,5 @@
 - (void)bindWithDict:(NSDictionary*)dict;
 
 @property (weak, nonatomic) NSObject<QSOrderListTableViewCellDelegate>* delegate;
+@property (assign,nonatomic) NSInteger type;
 @end

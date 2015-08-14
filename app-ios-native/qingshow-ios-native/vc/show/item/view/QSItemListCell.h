@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *itemIcomImageView;
 //cell contents
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 
 //cell赋值方法
 - (void)bindWithDic:(NSDictionary *)itemDic;

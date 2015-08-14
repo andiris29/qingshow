@@ -8,10 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "QSCreateTradeTableViewCellBase.h"
-#import "QSCreateTradeItemInfoColorCell.h"
-#import "QSCreateTradeClothSizeCell.h"
-#import "QSCreateTradeShoeSizeCell.h"
-
 #import "QSCreateTradeItemInfoTitleCell.h"
 #import "QSU10ReceiverListViewController.h"
 #import "QSCreateTradeReceiverInfoTextCell.h"
@@ -20,13 +16,12 @@
 #import "QSTotalPriceCell.h"
 #import "QSLocationPickerProvider.h"
 
-@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate, UIAlertViewDelegate>
+@protocol QSMenuProviderDelegate;
+
+@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate, UIAlertViewDelegate>
 
 #pragma mark - Item Info Cells
 @property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoTitleCell *itemInfoTitleCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoColorCell *itemInfoColorCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeClothSizeCell* clothSizeCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeShoeSizeCell* shoeSizeCell;
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *itemInfoQuantityCell;
 
 #pragma mark - Receiver Info Cell
@@ -50,9 +45,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIPickerView *locationPicker;
 
+@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 #pragma mark - Init
-- (id)initWithDict:(NSDictionary*)dict;
+- (id)initWithDict:(NSDictionary*)tradeDict;
 
 #pragma mark - IBAction
 - (IBAction)submitButtonPressed:(id)sender;
