@@ -38,7 +38,7 @@ matcher.queryItems = {
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             var criteria = {
                 'categoryRef' : RequestHelper.parseId(qsParam.categoryRef),
-                'delist' : {'$exists' : false}
+                '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}]
             };
             MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
         }, function(items) {
