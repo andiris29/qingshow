@@ -8,6 +8,20 @@ var qsmail = require('../../runtime/qsmail');
 
 var TradeHelper = module.exports;
 
+var _statusOrderMap = {
+    0 : '01',
+    1 : '00',
+    2 : '10',
+    3 : '10',
+    5 : '20',
+    7 : '10',
+    9 : '20',
+    10 : '20',
+    15 : '20',
+    17 : '20',
+    18 : '30'
+};
+
 TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callback) {
     var statusLog = {
         'status' : newStatus,
@@ -18,6 +32,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
+    trade.statusOrder= _statusOrderMap[newStatus];
 
     trade.save(function(err) {
         callback(err, trade);
@@ -27,13 +42,13 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
 TradeHelper.notify = function(trade, callback) {
     // @formatter:off
     var subject = "[" + _getStatusName(trade.status) + "]" + 
-        trade.orders[0].itemSnapshot.name + "*" + trade.orders[0].quantity + "=" + trade.orders[0].price;
+        trade.itemSnapshot.name + "*" + trade.quantity + "=" + (trade.actualPrice ? trade.actualPrice : trade.expectedPrice);
         
     var content = 
         "交易：\n" + 
         JSON.stringify(trade, null, 4) + 
         "用户：\n" + 
-        JSON.stringify(trade.orders[0].peopleSnapshot, null, 4);
+        JSON.stringify(trade.peopleSnapshot, null, 4);
     // @formatter:on
 
     qsmail.send(subject, content, callback);
@@ -65,3 +80,4 @@ _getStatusName = function(status) {
             return "退款失败";
     }
 };
+

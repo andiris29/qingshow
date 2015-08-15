@@ -20,10 +20,6 @@ showSchema = Schema({
         }]
         //        select: false
     },
-    promotionRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'promotions'
-    },
     create : {
         type : Date,
         'default' : Date.now
@@ -37,9 +33,7 @@ showSchema = Schema({
         group: String,
         date : Date,
         description : String
-    },
-    ugc : Boolean
-
+    }
 });
 
 var Show = mongoose.model('shows', showSchema);

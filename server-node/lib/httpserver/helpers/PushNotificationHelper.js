@@ -19,13 +19,19 @@ var PushNotificationHelper = module.exports;
 
 PushNotificationHelper.MessageQuestSharingObjectiveComplete = "恭喜您！完成倾秀夏日季搭配活动任务！点击此处领奖吧～";
 PushNotificationHelper.MessageNewShowComment = "您的搭配有新评论！";
-PushNotificationHelper.MessageNewRecommandations = "倾秀精选搭配上新，看看吧";
+PushNotificationHelper.MessageNewRecommandations = "最新的搭配已经推送给您，美丽怎能忍心被忽略，去看看吧！";
 PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！";
+PushNotificationHelper.MessageTradeInitialized = "您申请的折扣已经成功啦，别让宝贝飞了，快块来付款吧！";
+PushNotificationHelper.MessageTradeShipped = "您购买的宝贝已经向您狂奔而来，等着接收惊喜哟！";
+PushNotificationHelper.MessageItemPriceChanged = "您申请的折扣有最新信息，不要错过哦！";
 
 PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
 PushNotificationHelper.CommandNewShowComments = "newShowComments";
 PushNotificationHelper.CommandNewRecommandations= "newRecommandations";
 PushNotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
+PushNotificationHelper.CommandTradeInitialized = "tradeInitialized";
+PushNotificationHelper.CommandTradeShipped = "tradeShipped";
+PushNotificationHelper.CommandItemPriceChanged = "itemPriceChanged";
 
 PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
     var sendTargets = _.filter(registrationIDs, function(registrationId) {
@@ -38,9 +44,9 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
             .setOptions(null, null, null, true, null)
             .send(function(err, res) {
                 if (err) {
-                    winston.error('show/comment push error', err);
+                    winston.error('Push error: ' + err);
                 } else {
-                    winston.info('show/comment push success => error:[', err, '], res:[', res, ']');
+                    winston.info('Push success: ' + res);
                 }
                 if (callback) {
                     callback(err, res);
