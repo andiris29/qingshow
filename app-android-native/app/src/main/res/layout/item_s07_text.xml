@@ -18,6 +18,6 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/white"
         android:textSize="13sp"
-        android:text="通过（我要折扣）获得折扣"/>
+        android:text="通过（我要折扣）获得优惠"/>
 
 </LinearLayout>

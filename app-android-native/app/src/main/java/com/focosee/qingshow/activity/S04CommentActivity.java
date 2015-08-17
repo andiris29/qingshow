@@ -49,6 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import de.greenrobot.event.EventBus;
 
 public class S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener, BGARefreshLayout.BGARefreshLayoutDelegate {
 
@@ -250,10 +251,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (!MetadataParser.hasError(response)) {
-                    sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value", 1).putExtra("position", position));
-
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
+                    return;
                 }
+                sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value", 1).putExtra("position", position));
+                EventBus.getDefault().post(new S04PostCommentEvent(S04PostCommentEvent.addComment));
                 doRefreshTask();
                 s04Input.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -270,6 +273,11 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+                EventBus.getDefault().post(new S04PostCommentEvent(S04PostCommentEvent.delComment));
                 doRefreshTask();
             }
         });

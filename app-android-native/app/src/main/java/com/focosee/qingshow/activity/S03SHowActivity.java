@@ -63,6 +63,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
+import static com.focosee.qingshow.R.id.context;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
@@ -232,7 +233,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             return;
 
         itemsData = showDetailEntity.itemRefs;
-
         videoUriString = showDetailEntity.video;
 
         if (!TextUtils.isEmpty(videoUriString))
@@ -263,8 +263,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
         if (QSModel.INSTANCE.loggedin()) {
             if (null != showDetailEntity.ownerRef) {
-                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId()) && (className.equals(U01UserActivity.class.getSimpleName())
-                        || className.equals(S20MatchPreviewActivity.class.getSimpleName()))) {
+                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId()) && (className.equals(U01UserActivity.class.getSimpleName()))) {
                     showData_self();
                     return;
                 }
@@ -320,6 +319,17 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             if (!showDetailEntity.__context.likedByCurrentUser) {
                 clickLikeShowButton();
             }
+        }
+    }
+
+    public void onEventMainThread(S04PostCommentEvent event) {
+        switch (event.action){
+            case S04PostCommentEvent.addComment:
+                commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString()) + 1));
+                break;
+            case S04PostCommentEvent.delComment:
+                commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString()) - 1));
+                break;
         }
     }
 
@@ -402,19 +412,22 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 }
                 return;
             case R.id.s03_del_btn:
-                final ConfirmDialog dialog = new ConfirmDialog();
-                dialog.setTitle(getResources().getString(R.string.s20_dialog)).setConfirm(new View.OnClickListener() {
+                final ConfirmDialog dialog = new ConfirmDialog(this);
+                dialog.setTitle(getResources().getString(R.string.s20_dialog));
+                dialog.setConfirm(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         hideShow();
                         dialog.dismiss();
                     }
-                }).setCancel(new View.OnClickListener() {
+                });
+                dialog.setCancel(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
-                }).show(getSupportFragmentManager());
+                });
+                dialog.show();
                 return;
             case R.id.s03_portrait:
                 if(null == showDetailEntity.ownerRef)return;
@@ -475,7 +488,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     public void onResume() {
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
-        getShowDetailFromNet();
+        reconn();
         super.onResume();
 //        if(TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
 //            showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);

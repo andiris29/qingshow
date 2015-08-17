@@ -12,9 +12,10 @@
 
         <ImageButton
             android:id="@+id/s07_back_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:adjustViewBounds="true"
+            android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/collect_icon_close"
             android:background="#00000000"

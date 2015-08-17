@@ -48,7 +48,7 @@ public class MongoTrade implements Serializable {
 
     public class Logistic implements Serializable {
         public String company;
-        public String trackingID;
+        public String trackingId;
     }
 
     public class Returnlogistic implements Serializable {
