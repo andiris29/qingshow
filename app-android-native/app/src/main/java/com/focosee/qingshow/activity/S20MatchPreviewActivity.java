@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -48,6 +49,8 @@ public class S20MatchPreviewActivity extends BaseActivity {
     ImageView back;
     @InjectView(R.id.submitBtn)
     Button submitBtn;
+    @InjectView(R.id.rootView)
+    LinearLayout rootView;
 
     private Bitmap bitmap;
     private List<String> itemRefs;
@@ -66,7 +69,8 @@ public class S20MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
-        dialog = new LoadingDialogs(this,R.style.dialog);
+        dialog = new LoadingDialogs(this, R.style.dialog);
+        dialog.setCanceledOnTouchOutside(false);
         itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         initImage();
     }
@@ -80,7 +84,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void sublit() {
-         saveMatch();
+        saveMatch();
     }
 
     @OnClick(R.id.back)
@@ -91,12 +95,16 @@ public class S20MatchPreviewActivity extends BaseActivity {
     private void allowClick() {
         submitBtn.setClickable(true);
         back.setClickable(true);
+        rootView.setClickable(true);
+        rootView.setFocusable(true);
         dialog.dismiss();
     }
 
     private void forbidClick() {
         submitBtn.setClickable(false);
         back.setClickable(false);
+        rootView.setClickable(false);
+        rootView.setFocusable(false);
         dialog.show();
     }
 

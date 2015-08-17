@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -45,11 +46,11 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_s10_item_detail);
         ButterKnife.inject(this);
         DeployWebView(webview);
-        dialog = new LoadingDialogs(this,R.style.dialog);
+        dialog = new LoadingDialogs(this, R.style.dialog);
         itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
         if (itemEntity != null) {
             loadWebView(itemEntity.source);
-            if(itemEntity.readOnly){
+            if (itemEntity.readOnly) {
                 bay.setVisibility(View.GONE);
             }
         }
@@ -67,13 +68,22 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setDisplayZoomControls(false);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webview.canGoBack()) {
+            webview.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void loadWebView(String url) {
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
-
 
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
