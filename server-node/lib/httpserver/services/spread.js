@@ -13,41 +13,43 @@ var ServerError = require('../server-error');
 var _channelStore = {};
 
 var spread = module.exports;
-/*
+
 spread.download = {
     'method' : 'get',
     'func' : function(req, res) {
-        var ip = RequestHelper.getIp(req);
-        _channelStore[ip] = req.queryString['initiatorRef'];
-        res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow');
+        _openOrDownload(req, res, 'download');
     }
 };
-*/
+
 spread.open = {
     'method' : 'get',
     'func' : function(req, res) {
-        var newlog = new Trace({
-            'ip' : RequestHelper.getIp(req),
-            'behavior' : 'open/download',
-            'behaviorInfo' : {
-                'entry' : req.entry,
-                'initiatorRef' : RequestHelper.parseId(req.initiatorRef),
-                'targetRef' : RequestHelper.parseId(req.targetRef)
-            }
-        });
-
-        newlog.save(function(err, trace) {
-            if (err) {
-                ResponseHelper.response(res, err);
-            } else if (!trace) {
-                ResponseHelper.response(res, ServerError.ServerError);
-            } else {
-                ResponseHelper.response(res, null, {
-                    'trace' : trace
-                });
-            }
-        });
+        _openOrDownload(req, res, 'open');
     }
+};
+
+var _openOrDownload = function(req, res, behavior) {
+    var newlog = new Trace({
+        'ip' : RequestHelper.getIp(req),
+        'behavior' : 'open/download',
+        'behaviorInfo' : {
+            'entry' : req.entry,
+            'initiatorRef' : RequestHelper.parseId(req.initiatorRef),
+            'targetRef' : RequestHelper.parseId(req.targetRef)
+        }
+    });
+
+    newlog.save(function(err, trace) {
+        if (err) {
+            ResponseHelper.response(res, err);
+        } else if (!trace) {
+            ResponseHelper.response(res, ServerError.ServerError);
+        } else {
+            ResponseHelper.response(res, null, {
+                'trace' : trace
+            });
+        }
+    });
 };
 
 spread.firstLaunch = {
