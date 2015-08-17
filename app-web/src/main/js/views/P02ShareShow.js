@@ -6,6 +6,12 @@ define([
     var P02ShareShow = function(dom, initOptions) {
         P02ShareShow.superclass.constructor.apply(this, arguments);
 
+        __services.httpService.request('/spread/open', 'get', {
+            'entry' : violet.url.search.entity || "",
+            'initiatorRef' : violet.url.search.initiatorRef || "",
+            'targetRef' : violet.url.search.targetRef || ""
+        }, function(err, metadata, data) {});
+
         __services.httpService.request('/show/query', 'get', {
             '_ids' : [initOptions._id]
         }, function(err, metadata, data) {

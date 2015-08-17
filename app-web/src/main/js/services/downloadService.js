@@ -5,6 +5,13 @@ define([
     var downloadService = {};
 
     downloadService.download = function() {
+
+        __services.httpService.request('/spread/download', 'get', {
+            'entry' : violet.url.search.entity || "",
+            'initiatorRef' : violet.url.search.initiatorRef || "",
+            'targetRef' : violet.url.search.targetRef || ""
+        }, function(err, metadata, data) {});
+
         if (window.WeixinJSBridge || navigator.userAgent.indexOf('Android') !== -1) {
             window.open('http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow');
         } else {
