@@ -92,6 +92,9 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         this.bringToFront();
+        if (delBtn == null) {
+            showDelBtn();
+        }
         scaleGestureDetector.onTouchEvent(event);
         int pointerCount = event.getPointerCount();
         if (isScaleing){

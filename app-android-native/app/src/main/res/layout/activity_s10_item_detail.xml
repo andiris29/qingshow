@@ -11,7 +11,8 @@
         android:layout_height="match_parent" />
 
 
-    <com.focosee.qingshow.widget.QSImageButton
+    <ImageView
+        android:padding="5dp"
         android:id="@+id/s10_back_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -19,10 +20,10 @@
         android:layout_marginTop="20dp"
         android:scaleType="fitCenter"
         android:background="@null"
-        android:src="@drawable/nav_btn_back"
+        android:src="@drawable/s10_back"
         android:onClick="onClick" />
 
-    <com.focosee.qingshow.widget.QSImageButton
+    <ImageView
         android:id="@+id/s10_bay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

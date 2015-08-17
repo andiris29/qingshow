@@ -30,7 +30,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.webview)
     WebView webview;
     @InjectView(R.id.s10_back_btn)
-    ImageButton back;
+    ImageView back;
     @InjectView(R.id.s10_bay)
     ImageView bay;
     @InjectView(R.id.container)
