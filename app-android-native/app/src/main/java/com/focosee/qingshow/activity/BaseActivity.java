@@ -46,7 +46,7 @@ public abstract class BaseActivity extends FragmentActivity {
     BroadcastReceiver pushReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
-            final ConfirmDialog dialog = new ConfirmDialog();
+            final ConfirmDialog dialog = new ConfirmDialog(context);
             final Bundle bundle = intent.getExtras();
             dialog.setTitle(bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
             dialog.setConfirm(new View.OnClickListener() {
@@ -62,7 +62,7 @@ public abstract class BaseActivity extends FragmentActivity {
                 public void onClick(View v) {
                     dialog.dismiss();
                 }
-            }).show(getSupportFragmentManager());
+            }).show();
         }
     };
 

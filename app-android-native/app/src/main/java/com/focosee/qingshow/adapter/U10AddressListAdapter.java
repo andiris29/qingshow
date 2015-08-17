@@ -118,7 +118,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
             @Override
             public void onClick(View v) {
 
-                final ConfirmDialog dialog = new ConfirmDialog();
+                final ConfirmDialog dialog = new ConfirmDialog(context);
 
                 dialog.setTitle("确认删除？");
                 dialog.setConfirm("确定", new View.OnClickListener() {
@@ -129,7 +129,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                     }
                 });
 
-                dialog.show(((U10AddressListActivity) context).getSupportFragmentManager());
+                dialog.show();
             }
         });
 

@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
@@ -31,13 +30,11 @@ import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.RectUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.radio.RadioLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
@@ -147,8 +144,9 @@ public class S20MatcherActivity extends MenuActivity {
         itemView.setOnDelClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ConfirmDialog dialog = new ConfirmDialog();
-                dialog.setTitle(getResources().getString(R.string.s20_dialog)).setConfirm(new View.OnClickListener() {
+                final ConfirmDialog dialog = new ConfirmDialog(S20MatcherActivity.this);
+                dialog.setTitle(getResources().getString(R.string.s20_dialog));
+                dialog.setConfirm(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         canvas.detach(itemView);
@@ -156,12 +154,14 @@ public class S20MatcherActivity extends MenuActivity {
                         categoryRefs.remove(categoryRef);
                         dialog.dismiss();
                     }
-                }).setCancel(new View.OnClickListener() {
+                });
+                dialog.setCancel(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
-                }).show(getSupportFragmentManager());
+                });
+                dialog.show();
 
             }
         });

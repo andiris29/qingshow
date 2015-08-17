@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.widget.Toast;
@@ -169,9 +170,11 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 public void onClick(View v) {
                     String msg = "暂无物流信息";
                     if (null != trade.logistic) {
-                        msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingID == null ? "" : trade.logistic.trackingID);
+                        msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingId == null ? "" : trade.logistic.trackingId);
                     }
-                    final ConfirmDialog dialog = new ConfirmDialog();
+                    final ConfirmDialog dialog = new ConfirmDialog(context);
+//                    SpannableString spannableString = new SpannableString(msg);
+//                    spannableString.setSpan(new StrikethroughSpan(), 0, msg.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     dialog.setTitle(msg);
                     dialog.setConfirm(new View.OnClickListener() {
                         @Override
@@ -179,7 +182,8 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                             dialog.dismiss();
                         }
                     });
-                    dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
+                    dialog.show();
+                    dialog.hideCancel();
                 }
             });
             btn1.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +204,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     }
 
     private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg) {
-        final ConfirmDialog dialog = new ConfirmDialog();
+        final ConfirmDialog dialog = new ConfirmDialog(context);
         dialog.setTitle(msg);
         dialog.setConfirm(new View.OnClickListener() {
             @Override
@@ -209,7 +213,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 dialog.dismiss();
             }
         });
-        dialog.show(((U09TradeListActivity) context).getSupportFragmentManager());
+        dialog.show();
     }
 
     @Override
@@ -266,7 +270,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 break;
             case 3:
                 logistic.put("company", trade.logistic.company);
-                logistic.put("trackingID", trade.logistic.trackingID);
+                logistic.put("trackingID", trade.logistic.trackingId);
                 params.put("logistic", logistic);
                 break;
             case 7:
