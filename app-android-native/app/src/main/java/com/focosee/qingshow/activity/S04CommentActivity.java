@@ -281,8 +281,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
                     return;
                 }
                 EventBus.getDefault().post(new S04PostCommentEvent(S04PostCommentEvent.delComment));
-                adapter.remove(clickCommentIndex);
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemRemoved(clickCommentIndex);
             }
         });
 
