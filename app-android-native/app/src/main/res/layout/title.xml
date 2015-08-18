@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:background="@drawable/bg_titlebar">
-    <com.focosee.qingshow.widget.QSImageButton
+    <ImageButton
         android:id="@+id/left_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"

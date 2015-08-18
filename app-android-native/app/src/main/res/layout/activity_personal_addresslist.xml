@@ -12,7 +12,7 @@
         android:background="@drawable/bg_titlebar"
         android:gravity="center_vertical">
 
-        <com.focosee.qingshow.widget.QSImageButton
+        <ImageButton
             android:id="@+id/person_addresslist_back_image_button"
             android:layout_width="50dp"
             android:layout_height="50dp"

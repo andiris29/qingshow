@@ -21,7 +21,7 @@
                 android:layout_centerVertical="true"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:background="@drawable/button_background"
+                android:background="@null"
                 android:src="@drawable/nav_btn_back" />
 
             <com.focosee.qingshow.widget.QSTextView

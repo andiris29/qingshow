@@ -12,7 +12,7 @@
         android:background="@drawable/bg_titlebar"
         android:orientation="horizontal">
 
-        <com.focosee.qingshow.widget.QSImageButton
+        <ImageButton
             android:id="@+id/U11ec_back_image_button"
             android:layout_width="50dp"
             android:layout_height="50dp"

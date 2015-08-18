@@ -22,7 +22,7 @@
                 android:layout_height="50dp"
                 android:id="@+id/s01_title_layout">
 
-                <com.focosee.qingshow.widget.QSImageButton
+                <ImageButton
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:padding="10dp"
