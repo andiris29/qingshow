@@ -72,7 +72,7 @@
             </android.support.percent.PercentRelativeLayout>
         </LinearLayout>
 
-        <com.focosee.qingshow.widget.QSImageButton
+        <ImageButton
             android:id="@+id/menu"
             android:layout_width="50dp"
             android:layout_height="50dp"

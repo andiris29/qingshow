@@ -28,6 +28,7 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
@@ -216,7 +217,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             @Override
             public void onResponse(JSONObject response) {
                 mRefreshLayout.endRefreshing();
+                System.out.println("response:" + response);
                 if (MetadataParser.hasError(response)) {
+
+                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist){
+                        adapter.clearData();
+                        adapter.notifyDataSetChanged();
+                        return;
+                    }
                     ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     return;
                 }
@@ -271,12 +279,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                doRefreshTask();
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 EventBus.getDefault().post(new S04PostCommentEvent(S04PostCommentEvent.delComment));
-                doRefreshTask();
             }
         });
 

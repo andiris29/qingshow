@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S17PayActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -173,8 +171,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                         msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingId == null ? "" : trade.logistic.trackingId);
                     }
                     final ConfirmDialog dialog = new ConfirmDialog(context);
-//                    SpannableString spannableString = new SpannableString(msg);
-//                    spannableString.setSpan(new StrikethroughSpan(), 0, msg.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     dialog.setTitle(msg);
                     dialog.setConfirm(new View.OnClickListener() {
                         @Override
@@ -209,7 +205,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         dialog.setConfirm(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                statusTo(trade, status, type, position);
+                statusTo(trade, status, position);
                 dialog.dismiss();
             }
         });
@@ -232,7 +228,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         return null == datas ? 1 : datas.size() + 1;
     }
 
-    public void statusTo(MongoTrade trade, final int status, final int type, final int position) {
+    public void statusTo(MongoTrade trade, final int status, final int position) {//取消
 
         JSONObject jsonObject = getStatusJSONObjcet(trade, status);
         QSJsonObjectRequest jor = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), jsonObject, new Response.Listener<JSONObject>() {

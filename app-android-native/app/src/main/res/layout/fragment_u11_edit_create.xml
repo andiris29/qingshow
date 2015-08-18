@@ -114,7 +114,7 @@
             android:id="@+id/consignee_area_layout"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/item_height_activity_settings"
-            android:background="@color/white"
+            android:background="@drawable/u02_relativelayout_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="10dp">
