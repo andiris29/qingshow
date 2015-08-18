@@ -38,8 +38,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:listSelector="#00000000"
-        ></com.focosee.qingshow.widget.S21mListview>
-
+       />
     <com.focosee.qingshow.widget.QSButton
         android:id="@+id/submit"
         android:layout_width="match_parent"

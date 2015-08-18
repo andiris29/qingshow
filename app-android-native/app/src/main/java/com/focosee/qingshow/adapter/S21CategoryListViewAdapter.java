@@ -3,10 +3,12 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -86,8 +88,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             holder = new Holder();
             holder.titleName = (TextView) convertView.findViewById(R.id.item_s21_name);
             holder.viewPager = (ViewPager) convertView.findViewById(R.id.item_s21_middle);
-            holder.last = (RelativeLayout) convertView.findViewById(R.id.last);
-            holder.next = (RelativeLayout) convertView.findViewById(R.id.next);
+            holder.last = (FrameLayout) convertView.findViewById(R.id.last);
+            holder.next = (FrameLayout) convertView.findViewById(R.id.next);
         }
         ArrayList<MongoCategories> item = items.get(position);
         holder.titleName.setText(categories.get(position).name);
@@ -113,7 +115,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
 
         List<View> views = new ArrayList<>();
-
+        final SelectInfo selectInfo = selectInfos.get(position);
         for (int i = 0; i < pageCount; i++) {
             PercentRelativeLayout rootView = (PercentRelativeLayout) mInflater.inflate(R.layout.page_item_s21, null);
             if (i == pageCount - 1 && item.size() % 3 != 0) {
@@ -123,34 +125,11 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             }
             views.add(rootView);
         }
-        int pageNo = selectInfos.get(position).pageNo == -1 ? 0 : selectInfos.get(position).pageNo;
+        int pageNo = selectInfo.pageNo == -1 ? 0 : selectInfo.pageNo;
         viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
 
-        if (selectInfos.get(position).fristIn){
-            viewPager.setCurrentItem(0);
-        }else {
-            viewPager.setCurrentItem(pageNo);
-        }
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int pos) {
-                if (pos != 0 ){
-                    selectInfos.get(position).fristIn = false;
-                    selectInfos.get(position).pageNo = pos;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
+        viewPager.setCurrentItem(pageNo);
+        viewPager.setCurrentItem(0);
         holder.last.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,8 +226,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     public class Holder {
         public TextView titleName;
         public ViewPager viewPager;
-        public RelativeLayout last;
-        public RelativeLayout next;
+        public FrameLayout last;
+        public FrameLayout next;
     }
 
     public class ItemViewHolder {
