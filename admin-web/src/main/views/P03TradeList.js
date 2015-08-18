@@ -20,6 +20,12 @@ define([
 
     violet.oo.extend(P03TradeList, View);
 
+    P03TradeList.prototype.destroy = function() {
+        model.off('trades.changed');
+        
+        P03TradeList.superclass.destroy.apply(this, arguments);
+    };
+    
     P03TradeList.prototype._refresh = function() {
         var status = this._initOptions.status;
         var parent$ = $('tbody', this._dom).empty();
