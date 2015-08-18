@@ -2,15 +2,17 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var tradeSchema = Schema({
+    __context : Object,
     status : Number,
+    shareToPay : Boolean,
     totalFee : Number,
-    orders : [{
-        quantity : Number,
-        price : Number,
-        itemSnapshot : Object,
-        peopleSnapshot : Object,
-        selectedPeopleReceiverUuid : String
-    }],
+    quantity : Number,
+    expectedPrice : Number,
+    actualPrice : Number,
+    itemSnapshot : Object,
+    selectedSkuProperties : [String],
+    peopleSnapshot : Object,
+    selectedPeopleReceiverUuid : String,
     pay : {
         weixin : {
             prepayid : String,
@@ -53,10 +55,6 @@ var tradeSchema = Schema({
             }],
         }
     },
-    agent : {
-        taobaoUserNick : String,
-        taobaoTradeId : String
-    },
     logistic : {
         company : String,
         trackingId : String
@@ -84,7 +82,16 @@ var tradeSchema = Schema({
             type : Schema.Types.ObjectId,
             ref : 'peoples'
         }
-    }]
+    }],
+    update : {
+        type: Date,
+        'default' : Date.now
+    },
+    statusOrder : String,
+    itemRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'items'
+    }
 });
 
 var Trade = mongoose.model('trades', tradeSchema);

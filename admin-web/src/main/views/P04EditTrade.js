@@ -2,14 +2,14 @@
 define([
     'main/core/model',
     'main/views/View',
-    'main/views/components/p04/StatusTo2Detail',
+    'main/views/components/p04/StatusTo1Detail',
     'main/views/components/p04/StatusTo3Detail',
     'main/views/components/p04/StatusToEndDetail',
     'main/services/codeMongoService'
 ], function(
     model,
     View,
-    StatusTo2Detail,
+    StatusTo1Detail,
     StatusTo3Detail,
     StatusToEndDetail,
     codeMongoService
@@ -21,7 +21,6 @@ define([
         this._statusToHanlder = null;
 
         var trade = initOptions.trade;
-        // [1, 2, 7, 11, 16]
         var status$ = $('#status', this._dom),
             button$ = $('button', this._dom);
         if (_statusToMap[trade.status]) {
@@ -48,9 +47,9 @@ define([
         var status$ = $('#status', this._dom),
             newStatus = parseInt(status$.val());
 
-        if (newStatus === 2) {
-            this._statusToHanlder = new StatusTo2Detail(this);
-        } else if (newStatus === 3 || newStatus === 14) {
+        if (newStatus === 1) {
+            this._statusToHanlder = new StatusTo1Detail(this);
+        } else if (newStatus === 3) {
             this._statusToHanlder = new StatusTo3Detail(this);
         } else {
             this._statusToHanlder = new StatusToEndDetail(this);
@@ -67,7 +66,7 @@ define([
             status$ = $('#status', this._dom),
             newStatus = parseInt(status$.val());
 
-        this.request('/trade/statusTo', 'post', $.extend({
+        this.request('/trade/statusTo', 'post', $.extend(true, {
             '_id' : trade._id,
             'status' : newStatus
         }, details), function(err, metadata, data) {
@@ -84,11 +83,11 @@ define([
     };
 
     var _statusToMap = {
-        1 : [2, 17],
+        0 : [1, 17],
+        1 : [17],
         2 : [3, 17],
-        7 : [9, 10],
-        11 : [13, 14],
-        16 : [13, 14]
+        3 : [5, 17],
+        7 : [9, 10, 17]
     };
 
     var _syntaxHighlight = function(json) {

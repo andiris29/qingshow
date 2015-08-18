@@ -1,15 +1,9 @@
 // @formatter:off
 define([
     'main/views/View',
-    'main/views/components/p04/StatusTo2Detail',
-    'main/views/components/p04/StatusTo3Detail',
-    'main/views/components/p04/StatusToEndDetail',
     'main/services/codeMongoService'
 ], function(
     View,
-    StatusTo2Detail,
-    StatusTo3Detail,
-    StatusToEndDetail,
     codeMongoService
 ) {
     violet.ui.factory.registerDependencies('main/views/P05ItemThumbnailList', [

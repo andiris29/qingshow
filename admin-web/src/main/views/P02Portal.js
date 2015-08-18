@@ -7,8 +7,8 @@ define([
     violet.ui.factory.registerDependencies('main/views/P02Portal', [
         'main/views/components/p02/TradeStatusLi', 
         'main/views/components/p02/ItemCategoryLi', 
-        'main/views/components/p02/NewRecommandationsLi',
-        'main/views/components/p02/QuestSharingObjectiveCompleteLi']);
+        'main/views/components/p02/NewRecommandationsLi', 
+        'main/views/components/p02/ItemPriceChangedLi']);
 // @formatter:on
     var P02Portal = function(dom, initOptions) {
         P02Portal.superclass.constructor.apply(this, arguments);
@@ -22,7 +22,7 @@ define([
         var ul$ = $('#managerTrades', this._dom);
         var module = 'main/views/components/p02/TradeStatusLi';
 
-        [0, 1, 2, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17].forEach( function(status) {
+        [0, 1, 2, 3, 5, 7, 9, 10, 15, 17, 18].forEach( function(status) {
             violet.ui.factory.createUi(module, {
                 'status' : status
             }, ul$, this);
@@ -57,7 +57,7 @@ define([
             }, ul$, this);
         }.bind(this));
 
-        violet.ui.factory.createUi('main/views/components/p02/QuestSharingObjectiveCompleteLi', {
+        violet.ui.factory.createUi('main/views/components/p02/ItemPriceChangedLi', {
         }, ul$, this);
     };
 

@@ -6,6 +6,7 @@ var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
 var People = require('../../model/peoples');
 
 /**
@@ -85,14 +86,22 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
     };
 
-    // __context.promotionRef
-    var generatePromoInfo = function(callback) {
-        _generatePromoInfo(qsCurrentUserId, shows, 'promotionRef', callback);
+    // modedRef.__context.followedByCurrentUser
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function(err) {
+        callback(null, shows);
+    });
+};
+
+ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
+    trades = _prepare(trades);
+
+    // __context.sharedByCurrentUser
+    var sharedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleShareTrade, qsCurrentUserId, trades, 'sharedByCurrentUser', callback);
     };
 
-    // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo], function(err) {
-        callback(null, shows);
+    async.parallel([sharedByCurrentUser], function(err) {
+        callback(null, trades);
     });
 };
 
@@ -163,37 +172,6 @@ var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback
             }
         };
     });
-    async.parallel(tasks, function(err) {
-        callback(null, models);
-    });
-};
-
-var _generatePromoInfo = function(peopleId, models, contextField, callback) {
-    var tasks = models.map(function(model) {
-        return function(callback) {
-            model.__context[contextField] = {};
-            if (model.promotionRef === null || model.promotionRef === undefined) {
-                model.__context[contextField].enabled = false;
-                callback();
-                return;
-            }
-            if (model.promotionRef.criteria === 0) {
-                // 分享后可获得优惠
-                RPeopleShareShow.findOne({
-                    'initiatorRef' : peopleId,
-                    'targetRef' : model._id
-                }, function(err, relationship) {
-                    model.__context[contextField].enabled = Boolean(!err && relationship);
-                    callback();
-                });
-            } else {
-                // 其他策略
-                model.__context[contextField].enabled = false;
-                callback();
-            }
-        };
-    });
-
     async.parallel(tasks, function(err) {
         callback(null, models);
     });

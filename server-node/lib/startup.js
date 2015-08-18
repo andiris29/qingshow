@@ -41,7 +41,7 @@ properties.parse(configPath, {
         require('./httpserver/startup')(config, qsdb);
 
         // Startup scheduled
-        require('./scheduled/startup')();
+        require('./scheduled/startup')(config.schedule);
     });
 
 

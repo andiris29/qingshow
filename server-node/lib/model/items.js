@@ -14,17 +14,21 @@ itemSchema = Schema({
     promoPrice : Number,
     minExpectedPrice : Number,
     skuProperties : [String],
-    images : [{
-        url : String,
-        description : String
-    }],
     source : String,
     numLike : Number,
     create : {
         type : Date,
         'default' : Date.now
     },
-    taobaoInfoRefreshTime : Date
+    goblinUpdate : Date,
+    delist : Date,
+    readOnly : Boolean,
+    returnInfo : {
+        name : String,
+        phone : String, 
+        province : String,
+        address : String
+    }
 });
 
 var Item = mongoose.model('items', itemSchema);

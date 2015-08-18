@@ -23,6 +23,7 @@ client-mobile/qingshow_android/bin
 server-node/.idea
 .picasa.ini
 goblin-tbshop/.idea
+app-web/.idea
 
 #ignore public
 server-node/public
