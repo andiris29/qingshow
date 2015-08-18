@@ -92,12 +92,10 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         this.bringToFront();
-        if (delBtn == null) {
-            showDelBtn();
-        }
+        showDelBtn();
         scaleGestureDetector.onTouchEvent(event);
         int pointerCount = event.getPointerCount();
-        if (isScaleing){
+        if (isScaleing) {
             return true;
         }
 
@@ -210,7 +208,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         resetPadding();
     }
 
-    public void scaleTo(float scale){
+    public void scaleTo(float scale) {
         goneDelBtn();
         ObjectAnimator y = ObjectAnimator.ofFloat(this, View.SCALE_Y, getScaleY(), scale);
         ObjectAnimator x = ObjectAnimator.ofFloat(this, View.SCALE_X, getScaleX(), scale);
