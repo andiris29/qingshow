@@ -3,9 +3,11 @@ var async = require('async');
 var _ = require('underscore');
 
 var People = require('../../model/peoples');
+var Trade = require('../../model/trades');
 var jPushAudiences = require('../../model/jPushAudiences');
 
 var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../helpers/RequestHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var notify = module.exports;
@@ -65,42 +67,45 @@ notify.newRecommandations = {
     }
 };
 
-notify.questSharingObjectiveComplete = {
+notify.itemPriceChanged = {
     'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
-            People.find({
-                'questSharing.status' : 1
-            }).exec(function(err, peoples) {
-                callback(err, peoples);
-            });
+            Trade.find({
+                'itemRef' : RequestHelper.parseId(req.body._id),
+                'status' : 0
+            }).exec(callback);
         },
-        function(peoples, callback) {
-            var ids = [];
-            peoples.forEach(function(people) {
-                ids.push(people._id);
+        function(trades, callback) {
+            var tasks = trades.map(function(trade) {
+                return function(cb) {
+                    async.waterfall([
+                    function(cb2) {
+                        jPushAudiences.find({
+                            peopleRef : trade.ownerRef
+                        }).exec(function(err, infos) {
+                            cb2(err, infos);
+                        });
+                    },
+                    function(infos, cb2) {
+                        var registrationIDs = [];
+                        infos.forEach(function(target) {
+                            registrationIDs.push(target.registrationId);
+                        });
+                        PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
+                            'command' : PushNotificationHelper.CommandItemPriceChanged,
+                            '_id' : req.body._id,
+                            '_tradeId' : trade._id.toString(),
+                            'actualPrice' : RequestHelper.parseNumber(req.body.actualPrice)
+                        }, cb2);
+                    }], cb);
+                };
             });
-            callback(null, ids);
-        },
-        function(ids, callback) {
-            jPushAudiences.find({
-                peopleRef : {
-                    '$in' : ids
-                }
-            }).exec(function(err, infos) {
-                callback(err, infos);
+            async.parallel(tasks, function(err) {
+                callback();
             });
-        },
-        function(peoples, callback) {
-            var registrationIDs = [];
-            peoples.forEach(function(target) {
-                registrationIDs.push(target.registrationId);
-            });
-            PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, {
-                'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete
-            }, null);
-            callback();
         }], function(err) {
             ResponseHelper.response(res, err, null);
         });

@@ -96,6 +96,7 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
                 while (skip === undefined || skipped.indexOf(skip) !== -1) {
                     skip = _.random(0, count - 1);
                 }
+                skipped.push(skip);
                 // Query
                 query.skip(skip).limit(1).exec(function(err, models) {
                     if (err) {

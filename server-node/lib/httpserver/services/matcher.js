@@ -37,12 +37,13 @@ matcher.queryItems = {
 
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             var criteria = {
-                'categoryRef' : RequestHelper.parseId(qsParam.categoryRef)
+                'categoryRef' : RequestHelper.parseId(qsParam.categoryRef),
+                '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}]
             };
             MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
         }, function(items) {
             return {
-                'items' : items 
+                'items' : items
             };
         }, {});
     }
@@ -64,7 +65,6 @@ matcher.save = {
         coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
         var show = new Show({
             'itemRefs' : itemRefs, 
-            'ugc' : true,
             'ownerRef' : req.qsCurrentUserId,
             'coverForeground' : coverUrl
         });
