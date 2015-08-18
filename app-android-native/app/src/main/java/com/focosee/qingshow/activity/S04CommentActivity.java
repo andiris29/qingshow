@@ -217,9 +217,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             @Override
             public void onResponse(JSONObject response) {
                 mRefreshLayout.endRefreshing();
-                System.out.println("response:" + response);
                 if (MetadataParser.hasError(response)) {
-
                     if(MetadataParser.getError(response) == ErrorCode.PagingNotExist){
                         adapter.clearData();
                         adapter.notifyDataSetChanged();
@@ -261,7 +259,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
                     ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value", 1).putExtra("position", position));
                 EventBus.getDefault().post(new S04PostCommentEvent(S04PostCommentEvent.addComment));
                 doRefreshTask();
                 s04Input.setText("");
@@ -279,12 +276,13 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                doRefreshTask();
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 EventBus.getDefault().post(new S04PostCommentEvent(S04PostCommentEvent.delComment));
+                adapter.remove(clickCommentIndex);
+                adapter.notifyDataSetChanged();
             }
         });
 

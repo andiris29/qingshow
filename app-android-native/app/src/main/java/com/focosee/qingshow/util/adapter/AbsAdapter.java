@@ -88,6 +88,12 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
         datas.set(position, t);
     }
 
+    public void remove(int position){
+        if(null == datas)return;
+        if(null == datas.get(position))return;
+        datas.remove(position);
+    }
+
     public int indexOf(T t){
         return datas.indexOf(t);
     }
