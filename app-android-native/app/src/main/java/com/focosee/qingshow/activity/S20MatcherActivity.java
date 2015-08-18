@@ -241,7 +241,6 @@ public class S20MatcherActivity extends MenuActivity {
         float actrulTop = view.getTop() - dy;
         float actrulBottom = view.getBottom() + dy;
 
-        Log.i("tag", "left: " + actrulLeft + " right: " + actrulRight + " top: " + actrulTop + " bottom: " + actrulBottom + " dx: " + dx + " dy: " + dy + " width: " + prent.getWidth() + " height: " + prent.getHeight());
         if (actrulLeft < 0) {
 //            moveView(view,view.getX(),view.getY(),);
         }

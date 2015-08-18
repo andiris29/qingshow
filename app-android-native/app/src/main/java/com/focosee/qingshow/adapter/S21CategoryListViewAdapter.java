@@ -125,7 +125,31 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
         int pageNo = selectInfos.get(position).pageNo == -1 ? 0 : selectInfos.get(position).pageNo;
         viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
-        viewPager.setCurrentItem(pageNo);
+
+        if (selectInfos.get(position).fristIn){
+            viewPager.setCurrentItem(0);
+        }else {
+            viewPager.setCurrentItem(pageNo);
+        }
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int pos) {
+                if (pos != 0 ){
+                    selectInfos.get(position).fristIn = false;
+                    selectInfos.get(position).pageNo = pos;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         holder.last.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +238,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     }
 
     private class SelectInfo {
+        public boolean fristIn = true;
         public int index = -1;
         public int pageNo = -1;
         public String id = "";

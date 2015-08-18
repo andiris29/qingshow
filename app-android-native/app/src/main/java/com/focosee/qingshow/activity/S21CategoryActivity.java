@@ -46,6 +46,8 @@ public class S21CategoryActivity extends BaseActivity {
 
         s21_listview = (ListView) findViewById(R.id.s21_listview);
         selectCategories = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS);
+        getDataFromNet();
+        s21_listview.setDividerHeight(0);
     }
 
     @Override
@@ -53,12 +55,6 @@ public class S21CategoryActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getDataFromNet();
-        s21_listview.setDividerHeight(0);
-    }
 
     @OnClick(R.id.submit)
     public void submit() {
