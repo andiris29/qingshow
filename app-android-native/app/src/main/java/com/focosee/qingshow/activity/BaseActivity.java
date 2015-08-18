@@ -1,19 +1,15 @@
 package com.focosee.qingshow.activity;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
-
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -29,15 +25,15 @@ public abstract class BaseActivity extends FragmentActivity {
         public void onReceive(Context context, Intent intent) {
             if (NOTNET.equals(intent.getAction())) {
                 if (!AppUtil.checkNetWork(BaseActivity.this)) {
-                    new AlertDialog.Builder(BaseActivity.this)
-                            .setTitle("连接失败")
-                            .setMessage("未连接网络或者信号不好")
-                            .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    reconn();
-                                }
-                            }).show();
+                    ConfirmDialog dialog = new ConfirmDialog(BaseActivity.this);
+                    dialog.setTitle("未连接网络或者信号不好");
+                    dialog.setConfirm("重新连接", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            reconn();
+                        }
+                    }).show();
+                    dialog.hideCancel();
                 }
             }
         }

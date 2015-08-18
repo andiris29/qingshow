@@ -1,8 +1,6 @@
 package com.focosee.qingshow.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -30,11 +28,11 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
 import com.focosee.qingshow.widget.ActionSheet;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
@@ -350,23 +348,22 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     private void createDeleteDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(S04CommentActivity.this);
-        builder.setMessage("确定要删除？");
-        builder.setTitle("提示");
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+        final ConfirmDialog dialog = new ConfirmDialog(S04CommentActivity.this);
+        dialog.setTitle("确定要删除？");
+        dialog.setConfirm("确认", new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 deleteComment();
                 dialog.dismiss();
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        dialog.setCancel("取消", new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        builder.create().show();
+        dialog.show();
     }
 
     @Override

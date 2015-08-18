@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.focosee.qingshow.R;
 
@@ -15,9 +17,11 @@ import butterknife.InjectView;
  */
 public class ConfirmDialog extends Dialog {
 
-    QSTextView dialogTitle;
-    QSButton dialogCancel;
-    QSButton dialogConfirm;
+    private QSTextView dialogTitle;
+    private QSButton dialogCancel;
+    private QSButton dialogConfirm;
+    private LinearLayout layout;
+    private View centerLine;
 
     private CharSequence titleStr;
     private String confirmStr = "确定";
@@ -56,12 +60,19 @@ public class ConfirmDialog extends Dialog {
         dialogTitle = (QSTextView) findViewById(R.id.dialog_title);
         dialogConfirm = (QSButton) findViewById(R.id.dialog_confirm);
         dialogCancel = (QSButton) findViewById(R.id.dialog_cancel);
+        layout = (LinearLayout) findViewById(R.id.dialog_layout);
+        centerLine = findViewById(R.id.dialog_center_line);
+
+        ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
+        layoutParams.width = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 2;
+        layout.setLayoutParams(layoutParams);
 
         dialogTitle.setText(titleStr);
         dialogConfirm.setText(confirmStr);
         dialogConfirm.setOnClickListener(confirmOnClickListener);
         dialogCancel.setText(cancelStr);
         dialogCancel.setOnClickListener(cancelOnClickListener);
+
     }
 
     @Override
@@ -112,6 +123,7 @@ public class ConfirmDialog extends Dialog {
     public void hideCancel() {
         if(null != this.dialogCancel) {
             this.dialogCancel.setVisibility(View.GONE);
+            this.centerLine.setVisibility(View.GONE);
         }
     }
 }
