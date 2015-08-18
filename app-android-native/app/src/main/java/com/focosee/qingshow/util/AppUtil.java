@@ -60,9 +60,9 @@ public class AppUtil {
     public static DisplayImageOptions getModelBackgroundDisplayOptions() {
         if (null == modelBackgroundDisplayOptions) {
             modelBackgroundDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.user_bg_default)
-                    .showImageOnLoading(R.drawable.user_bg_default)
-                    .showImageOnFail(R.drawable.user_bg_default)
+                    .showImageForEmptyUri(R.drawable.user_background_default)
+                    .showImageOnLoading(R.drawable.user_background_default)
+                    .showImageOnFail(R.drawable.user_background_default)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .build();

@@ -130,7 +130,7 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                                fresco:placeholderImage="@drawable/user_bg_default"
+                                fresco:placeholderImage="@drawable/user_background_default"
                                 fresco:roundAsCircle="true" />
 
                             <com.focosee.qingshow.widget.QSTextView

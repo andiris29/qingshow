@@ -32,7 +32,7 @@
                     android:id="@+id/user_bg"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
-                    fresco:placeholderImage="@drawable/user_bg_default"
+                    fresco:placeholderImage="@drawable/user_background_default"
                     fresco:placeholderImageScaleType="fitXY" />
 
                 <ImageButton

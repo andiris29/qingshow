@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_bar_height">
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -52,7 +52,7 @@
                 android:background="@null"
                 android:src="@drawable/login_user" />
 
-            <EditText
+            <com.focosee.qingshow.widget.QSEditText
                 android:id="@+id/accountEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/login_password" />
 
-            <EditText
+            <com.focosee.qingshow.widget.QSEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
             android:gravity="center"
             android:background="@color/bg_activity_settings">
 
-            <Button
+            <com.focosee.qingshow.widget.QSButton
                 android:id="@+id/submitButton"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -130,6 +130,7 @@
                 app:layout_marginLeftPercent="15%"
                 app:layout_marginRightPercent="15%"
                 android:layout_marginBottom="10dp"
+                app:clickGround="@drawable/round_btn_background"
                 android:background="@drawable/white"
                 android:text="@string/login_activity_login"
                 android:textColor="@color/master_pink"
