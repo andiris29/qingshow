@@ -128,7 +128,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         int pageNo = selectInfo.pageNo == -1 ? 0 : selectInfo.pageNo;
         viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
 
-        viewPager.setCurrentItem(pageNo);
+//        viewPager.setCurrentItem(pageNo);
         viewPager.setCurrentItem(0);
         holder.last.setOnClickListener(new View.OnClickListener() {
             @Override
