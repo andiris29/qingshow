@@ -36,7 +36,7 @@
             android:layout_marginRight="5dp"
             android:textColor="@color/darker_gray"
             android:layout_alignTop="@+id/item_comment_user_name"
-            android:text="" />
+            android:text="fdsafda" />
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_comment_content"
             android:layout_width="wrap_content"
@@ -44,6 +44,7 @@
             android:textColor="@color/darker_gray"
             android:layout_below="@+id/item_comment_user_name"
             android:layout_alignLeft="@+id/item_comment_user_name"
+            android:layout_toLeftOf="@id/item_comment_time"
             android:layout_marginTop="5dp"
             android:text="评论内容为空" />
     <View

@@ -194,13 +194,10 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             @Override
             public void onComplete(JSONObject response) {
                 showDetailEntity.__context.likedByCurrentUser = !showDetailEntity.__context.likedByCurrentUser;
-                showMessage(S03SHowActivity.this, showDetailEntity.__context.likedByCurrentUser ? "添加收藏" : "取消收藏");
                 setLikedImageButtonBackgroundImage();
                 likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
                 likeBtn.setClickable(true);
-                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), null);
-                eventModel.setFrom(S03SHowActivity.class.getSimpleName());
-                EventBus.getDefault().post(eventModel);
+                EventBus.getDefault().post(new ShowCollectionEvent(showDetailEntity.__context.likedByCurrentUser));
             }
 
             @Override

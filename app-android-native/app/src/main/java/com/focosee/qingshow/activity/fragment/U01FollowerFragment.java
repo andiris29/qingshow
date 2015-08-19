@@ -93,6 +93,10 @@ public class U01FollowerFragment extends U01BaseFragment {
                     if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     }
+                    if(pageNo == 1){
+                        adapter.clearData();
+                        adapter.notifyDataSetChanged();
+                    }
                     mRefreshLayout.endLoadingMore();
                     mRefreshLayout.endRefreshing();
                     return;

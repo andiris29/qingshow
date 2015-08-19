@@ -177,18 +177,14 @@ public class U01UserActivity extends MenuActivity {
                         @Override
                         public void onComplete(JSONObject response) {
                             super.onComplete();
-                            String msg = "";
                             if (user.__context.followedByCurrentUser) {
-                                msg = "取消关注";
                                 userFollowBtn.setImageResource(R.drawable.follow_btn);
                             } else {
-                                msg = "添加关注";
                                 userFollowBtn.setImageResource(R.drawable.unfollow_btn);
                             }
                             fragments[POS_FANS].refresh();
                             UserCommand.refresh();
                             user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
-                            Toast.makeText(U01UserActivity.this, msg, Toast.LENGTH_SHORT).show();
                             userFollowBtn.setEnabled(true);
                             EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), null);
                             eventModel.setFrom(U01UserActivity.class.getSimpleName());
@@ -318,11 +314,16 @@ public class U01UserActivity extends MenuActivity {
     }
 
     public void onEventMainThread(EventModel eventModel) {
-        //TODO recyclerviews
         if (!eventModel.tag.equals(U01UserActivity.class.getSimpleName())) return;
         if (null == recyclerViews[POS_MATCH])
             initRectcler((RecyclerView) eventModel.msg);
         initRecyclerViews((RecyclerView) eventModel.msg);
+    }
+
+    public void onEventMainThread(ShowCollectionEvent eventModel){
+        if(null == fragments)return;
+        if(fragments.length < POS_COLL)return;
+        fragments[POS_COLL].refresh();
     }
 
     int pos = 0;
