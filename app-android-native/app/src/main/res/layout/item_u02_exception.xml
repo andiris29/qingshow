@@ -7,4 +7,4 @@
     android:paddingRight="30dp"
     android:gravity="center_vertical|left"
     android:paddingLeft="10dp"
-    android:text="CheckedTextView" />
+    android:text="" />
