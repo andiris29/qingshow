@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <CheckedTextView
-        android:id="@+id/list_row_ctv"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:gravity="center_vertical|left"
-        android:paddingLeft="10dp"
-        android:text="CheckedTextView" />
-
-</LinearLayout>
+<com.focosee.qingshow.widget.QSCheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_row_ctv"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:checkMark="@drawable/check_text_view"
+    android:paddingRight="30dp"
+    android:gravity="center_vertical|left"
+    android:paddingLeft="10dp"
+    android:text="CheckedTextView" />

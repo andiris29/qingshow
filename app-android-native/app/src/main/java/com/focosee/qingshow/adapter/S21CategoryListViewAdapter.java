@@ -3,22 +3,18 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.util.ImgUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
