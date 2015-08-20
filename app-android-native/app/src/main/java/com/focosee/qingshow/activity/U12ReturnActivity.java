@@ -1,12 +1,8 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
-import android.support.percent.PercentRelativeLayout;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -15,15 +11,12 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
-import com.focosee.qingshow.widget.QSImageButton;
 import com.focosee.qingshow.widget.QSTextView;
-import com.squareup.timessquare.CalendarPickerView;
 
 import org.json.JSONObject;
 
@@ -32,7 +25,6 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/16.
