@@ -25,12 +25,13 @@ public abstract class BaseActivity extends FragmentActivity {
         public void onReceive(Context context, Intent intent) {
             if (NOTNET.equals(intent.getAction())) {
                 if (!AppUtil.checkNetWork(BaseActivity.this)) {
-                    ConfirmDialog dialog = new ConfirmDialog(BaseActivity.this);
+                    final ConfirmDialog dialog = new ConfirmDialog(BaseActivity.this);
                     dialog.setTitle("未连接网络或者信号不好");
                     dialog.setConfirm("重新连接", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             reconn();
+                            dialog.dismiss();
                         }
                     }).show();
                     dialog.hideCancel();

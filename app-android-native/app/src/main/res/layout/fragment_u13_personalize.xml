@@ -21,9 +21,9 @@
                 android:layout_height="@dimen/title_bar_height"
                 android:layout_alignParentLeft="true"
                 android:padding="12dp"
-                android:src="@drawable/title_back_btn" />
+                android:src="@drawable/nav_btn_back_white" />
 
-            <TextView
+            <com.focosee.qingshow.widget.QSTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -40,7 +40,7 @@
             android:layout_height="1dp"
             android:background="@color/line_activity_settings" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -49,7 +49,7 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -60,7 +60,7 @@
             android:textSize="18sp" />
 
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -71,7 +71,7 @@
             android:textColor="@color/white" />
 
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -81,7 +81,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/age_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
             android:id="@+id/age"
             style="@style/seeckbar" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -106,7 +106,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/height_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
             android:id="@+id/height"
             style="@style/seeckbar" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -131,7 +131,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/weight_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
             android:id="@+id/weight"
             style="@style/seeckbar" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -193,7 +193,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -234,7 +234,7 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -244,7 +244,7 @@
             android:text="搭配期望达到的效果"
             android:textColor="@color/white" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
@@ -264,7 +264,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <CheckedTextView
+                <com.focosee.qingshow.widget.QSCheckedTextView
                     android:id="@+id/result_0"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -275,7 +275,7 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <CheckedTextView
+                <com.focosee.qingshow.widget.QSCheckedTextView
                     android:id="@+id/result_1"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -287,7 +287,7 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <CheckedTextView
+                <com.focosee.qingshow.widget.QSCheckedTextView
                     android:id="@+id/result_2"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -298,7 +298,7 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <CheckedTextView
+                <com.focosee.qingshow.widget.QSCheckedTextView
                     android:id="@+id/result_3"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -311,7 +311,7 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <CheckedTextView
+                <com.focosee.qingshow.widget.QSCheckedTextView
                     android:id="@+id/result_4"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -325,7 +325,7 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <CheckedTextView
+                <com.focosee.qingshow.widget.QSCheckedTextView
                     android:id="@+id/result_5"
                     android:layout_width="80dp"
                     android:layout_height="45dp"
@@ -340,7 +340,7 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <Button
+        <com.focosee.qingshow.widget.QSButton
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -348,8 +348,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
+            app:clickGround="@drawable/round_btn_background"
             android:text="OK"
             android:textColor="@color/master_pink"
+            android:textSize="22sp"
             android:background="@drawable/white"/>
     </LinearLayout>
 </ScrollView>

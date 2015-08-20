@@ -45,7 +45,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:onClick="onClick"
-                    android:paddingRight="10dp"
+                    android:padding="10dp"
                     android:text="登陆账户"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size" />
@@ -87,6 +87,7 @@
                     android:background="@null"
                     android:hint="@string/account_hint_activity_register"
                     android:singleLine="true"
+                    android:textColor="@color/white"
                     android:textColorHint="@color/white" />
             </RelativeLayout>
 
@@ -124,6 +125,7 @@
                     android:layout_toRightOf="@id/passwordTextView"
                     android:background="@null"
                     android:focusableInTouchMode="true"
+                    android:textColor="@color/white"
                     android:hint="@string/password_hint_activity_register"
                     android:inputType="textPassword"
                     android:singleLine="true"
@@ -166,6 +168,7 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/confirm_activity_register"
                     android:inputType="textPassword"
+                    android:textColor="@color/white"
                     android:singleLine="true"
                     android:textColorHint="@color/white" />
             </RelativeLayout>
@@ -205,6 +208,7 @@
                     android:background="@null"
                     android:focusableInTouchMode="true"
                     android:hint="@string/phone_email_activity_register"
+                    android:textColor="@color/white"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
                     android:textColorHint="@color/white" />
@@ -221,7 +225,7 @@
                     android:layout_height="45dp"
                     android:background="@drawable/white"
                     android:onClick="onClick"
-                    android:text="@string/login_activity_login"
+                    android:text="@string/register1_activity_login"
                     android:textColor="@color/master_pink"
                     android:textSize="@dimen/text_size"
                     app:layout_marginLeftPercent="13%"

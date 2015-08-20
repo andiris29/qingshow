@@ -146,7 +146,7 @@
                             android:background="@drawable/gay_btn_ring"
                             android:gravity="center"
                             android:minWidth="40dp"
-                            android:text="1"
+                            android:textSize="18sp"
                             android:textColor="@color/gary"
                             app:layout_heightPercent="70%"
                             app:layout_marginLeftPercent="2.5%"
@@ -180,7 +180,7 @@
                         android:layout_gravity="left"
                         android:text="折扣价格"
                         android:textColor="@color/master_pink"
-                        android:textSize="22sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/total"
@@ -211,7 +211,7 @@
                         android:layout_gravity="left"
                         android:text="期望折扣"
                         android:textColor="@color/master_pink"
-                        android:textSize="22sp" />
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:id="@+id/cut_discount"
@@ -233,7 +233,6 @@
                         android:background="@drawable/gay_btn_ring"
                         android:gravity="center"
                         android:minWidth="50dp"
-                        android:text="2折"
                         android:textColor="@color/gary"
                         android:textSize="18sp"
                         android:textStyle="bold"

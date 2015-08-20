@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:background="@color/master_pink" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_s21_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

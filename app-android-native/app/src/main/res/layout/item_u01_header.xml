@@ -39,14 +39,14 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/user_head"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/bg"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-50dp"
+        android:layout_marginTop="-40dp"
         fresco:roundingBorderWidth="2dp"
-        fresco:roundAsCircle="true"
         fresco:actualImageScaleType="focusCrop"
+        fresco:roundAsCircle="true"
         fresco:placeholderImage="@drawable/root_cell_placehold_image1"
         fresco:roundingBorderColor="@color/white"/>
 

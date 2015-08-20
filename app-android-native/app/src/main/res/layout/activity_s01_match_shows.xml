@@ -1,4 +1,5 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,8 +44,8 @@
                     android:layout_alignBottom="@+id/s01_menu_btn"
                     android:layout_centerHorizontal="true">
 
-                    <Button
 
+                    <com.focosee.qingshow.widget.QSButton
                         android:id="@+id/s01_tab_hot"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
@@ -53,9 +54,10 @@
                         android:textSize="@dimen/text_size"
                         android:textColor="@color/white"
                         android:onClick="onClick"
+                        app:clickGround="@null"
                         android:background="@drawable/s01_tab_btn1"/>
 
-                    <Button
+                    <com.focosee.qingshow.widget.QSButton
                         android:id="@+id/s01_tab_new"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
@@ -67,6 +69,7 @@
                         android:textColor="@color/master_pink"
                         android:layout_marginLeft="-10dp"
                         android:textSize="@dimen/text_size"
+                        app:clickGround="@null"
                         android:onClick="onClick"
                         android:background="@drawable/s01_tab_border1"/>
                 </LinearLayout>

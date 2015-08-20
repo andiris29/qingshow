@@ -15,6 +15,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.widget.QSTextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,7 +153,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
             LinearLayout itemView = (LinearLayout) mInflater.inflate(R.layout.item_s21_page, rootView, false);
             SimpleDraweeView img = (SimpleDraweeView) itemView.findViewById(R.id.img);
-            TextView des = (TextView) itemView.findViewById(R.id.des);
+            QSTextView des = (QSTextView) itemView.findViewById(R.id.des);
 
             addData(des, img, item, i * 3 + j);
             PercentRelativeLayout.LayoutParams params = (PercentRelativeLayout.LayoutParams) itemView.getLayoutParams();
@@ -168,7 +170,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
     }
 
-    private void addData(final TextView tv, SimpleDraweeView img, final List item, final int index) {
+    private void addData(final QSTextView tv, SimpleDraweeView img, final List item, final int index) {
         MongoCategories category = (MongoCategories) item.get(index);
         tv.setText(category.getName());
         final SelectInfo selectInfo = selectInfos.get(position);

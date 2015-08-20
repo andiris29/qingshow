@@ -194,7 +194,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     mRefreshLayout.endLoadingMore();
                     return;
                 }
@@ -223,8 +222,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
                         adapter.notifyDataSetChanged();
                         return;
                     }
-                    ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
-                    return;
                 }
                 currentPage = 1;
                 adapter.addDataAtTop(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
