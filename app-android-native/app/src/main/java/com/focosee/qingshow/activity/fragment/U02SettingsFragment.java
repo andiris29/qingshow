@@ -242,16 +242,10 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
             }
         });
-// 获取MultipartEntity对象
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addStringPart("content", "hello");
-// 文件参数
-
         multipartEntity.addFilePart("image", file);
         multipartEntity.addStringPart("filename", file.getName());
-
-// 构建请求队列
-// 将请求添加到队列中
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 

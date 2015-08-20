@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -17,12 +16,9 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
