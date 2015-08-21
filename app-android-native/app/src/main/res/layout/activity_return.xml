@@ -13,7 +13,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.focosee.qingshow.widget.QSImageButton
+        <ImageButton
             android:id="@+id/return_back_image_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -25,20 +25,16 @@
         <com.focosee.qingshow.widget.QSTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_weight="5"
             android:gravity="center"
             android:text="@string/title_name_activity_return"
-            android:layout_centerHorizontal="true"
             android:textColor="#454545"
             android:textSize="@dimen/text_size"
             android:textStyle="bold" />
     </android.support.percent.PercentRelativeLayout>
-    <com.squareup.timessquare.CalendarPickerView
-        android:id="@+id/calendar_view_return_activity"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -149,9 +145,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textSize="13sp"
                     android:text="@string/matters_activity_return_value"
-                    android:textColor="@color/gary" />
+                    android:textColor="@color/gary"
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -194,8 +190,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
-                        android:hint="请填写货运公司"
                         android:gravity="center_vertical"
+                        android:hint="请填写货运公司"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />
@@ -225,9 +221,9 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
+                        android:gravity="center_vertical"
                         android:hint="请填写货运单号"
                         android:inputType="number"
-                        android:gravity="center_vertical"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />
@@ -257,9 +253,9 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
+                        android:gravity="center_vertical"
                         android:hint="请填写退货理由"
                         android:inputType="number"
-                        android:gravity="center_vertical"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />
@@ -285,7 +281,6 @@
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
