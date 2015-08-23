@@ -10,8 +10,8 @@ define([
             'entry' : violet.url.search.entity || "",
             'initiatorRef' : violet.url.search.initiatorRef || "",
             'targetRef' : violet.url.search.targetRef || ""
-        }, function(err, metadata, data) {});
-
+        }, function(err, metadata, data) {
+        });
 
         var imageArray = [];
         for (var i = 1; i < 5; i++) {
@@ -24,8 +24,8 @@ define([
             $(dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
         }
 
-        $(window).resize(function(){
-            this.handleResize();
+        $(window).resize( function() {
+            this._resizeHandler();
         }.bind(this));
 
         __services.httpService.request('/show/query', 'get', {
@@ -37,44 +37,23 @@ define([
                 $dom.css('background-image', violet.string.substitute('url({0})', show.cover));
                 $dom.attr('src', show.coverForeground);
 
-                $('.p02-image-slider', this._dom).slick();
+                $('.p02-image-slider', this._dom).slick({
+                    centerMode : true,
+                    slidesToShow : 1,
+                    centerPadding : '15%'
+                });
+                $('.p02-image-slider-block-content', this._dom).show();
+                this._resizeHandler();
             }
         }.bind(this));
+        $('.p02-image-slider-block-content', this._dom).hide();
         $('.p02-download', this._dom).on('click', __services.downloadService.download);
-
-        $(window).trigger('resize');
     };
     violet.oo.extend(P02ShareShow, violet.ui.ViewBase);
 
-    P02ShareShow.prototype.handleResize = function () {
-        //420 760
-        var height = document.documentElement.clientHeight;
-        var width = document.documentElement.clientWidth;
-        var slideWidth = width;
-        var slideHeight = height * 0.88;
-
-        var marginTopbottom = 30;
-        var textHeight = 30;
-        var imageHeight = slideHeight - 2 * marginTopbottom - textHeight;
-        var imageWidth = imageHeight * 420 / 760;
-        var marginLeftRight = (slideWidth - imageWidth) / 2;
-
-
-        $('.p02-image-slider-block-content', this._dom).css({'width' : slideWidth, 'height' : slideHeight});
-
-
-        $('.p02-image-slider-block-image-container', this._dom).css({
-            'width' : imageWidth,
-            'height' : imageHeight,
-            'margin-left' : marginLeftRight,
-            'margin-right' : marginLeftRight,
-            'margin-top' : marginTopbottom,
-            'margin-bottom' : marginTopbottom,
-        });
-
+    P02ShareShow.prototype._resizeHandler = function() {
         $('.p02-image-slider-block-image', this._dom).css({
-            'width' : imageWidth,
-            'height' : imageHeight
+            'height' : $('.slick-center', this._dom).width() / 9 * 16 + 'px'
         });
     };
 

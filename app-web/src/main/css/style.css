@@ -86,18 +86,24 @@ body {
 .p02-image-slider {
     position: absolute;
     width: 100%;
-    height: 200px;
+    height: 100%;
+}
+
+.p02-image-slider-block-content {
+    padding-top: 20%;
+    width: 100%;
 }
 
 .p02-image-slider-block-image-container {
+    background-color: #ffffff;
+    border-radius: 10px;
     -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 1);
     -moz-box-shadow: 0 0 30px rgba(0, 0, 0, 1);
     box-shadow: 0 0 30px rgba(0, 0, 0, 1);
-    background-color: #ffffff;
-    border-radius: 10px;
 }
 
 .p02-image-slider-block-image {
+    width: 100%;
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -105,13 +111,31 @@ body {
 }
 
 .p02-image-slider-block-text {
+    margin-top: 10%;
     font-size: 16px;
     font-family: "Lantinghei SC";
     text-align: center;
-
 }
 
-
+.p02-image-slider .slick-slide {
+    opacity: .5;
+    transform: scale(.8, .8);
+    -ms-transform: scale(.8, .8);
+    -webkit-transform: scale(.8, .8);
+    margin: 8px;
+}
+.p02-image-slider .slick-current {
+    opacity: 1;
+    transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+}
+.p02-image-slider .slick-arrow {
+    display: none !important;
+}
+.p02-image-slider {
+    margin: 0 !important;
+}
 
 .p03-background {
     position: absolute;
@@ -121,18 +145,15 @@ body {
     height: 100%;
 }
 
-
-
 .p03-ribbon {
     position: absolute;
     background-image: url(../assets/slicing/p03/ribbon.png);
     background-size: 70%;
     background-repeat: no-repeat;
-    background-position-x : 7%;
+    background-position-x: 7%;
     width: 100%;
     height: 100%;
 }
-
 
 .p03-success {
     position: absolute;
@@ -186,7 +207,6 @@ body {
     top: 18%;
 }
 
-
 .p03-trade-item-cover {
     background-size: contain;
     background-position: 50% 50%;
@@ -221,7 +241,6 @@ body {
     left: 50%;
     top: 43%;
     font-size: 15px;
-
 }
 
 .p03-trade-item-price-label .p03-trade-item-tmall-price-label {
@@ -236,7 +255,6 @@ body {
     text-decoration: line-through;
 }
 
-
 .p03-split-position-down {
     top: 52%;
 }
@@ -246,7 +264,7 @@ body {
     background-color: #f2a3b0;
     height: 1px;
     width: 86%;
-    left : 7%;
+    left: 7%;
 }
 
 .p03-discount-content-text {
@@ -262,16 +280,15 @@ body {
 
 .p03-actual-price-container {
     position: absolute;
-    left : 7%;
+    left: 7%;
     top: 60%;
     width: 86%;
     height: 35%;
-
     background-color: #ec6798;
 }
 .p03-trade-item-qingshow-discount {
     position: absolute;
-    left : 7%;
+    left: 7%;
     top: 20%;
     width: 86%;
     height: 28%;
@@ -281,7 +298,7 @@ body {
 
 .p03-trade-item-qingshow-price {
     position: absolute;
-    left : 7%;
+    left: 7%;
     top: 55%;
     width: 86%;
     height: 28%;
@@ -296,5 +313,4 @@ body {
     font-size: 23px;
     text-decoration: underline;
     font-family: "Lantinghei SC";
-
 }
