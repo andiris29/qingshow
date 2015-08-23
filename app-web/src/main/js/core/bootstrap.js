@@ -41,6 +41,7 @@ define([
             '_id' : search._id
         });
     } else {
-        navigationService.push('qs/views/P01NotFound');
+            navigationService.push('qs/views/P01NotFound');
     }
+
 });
