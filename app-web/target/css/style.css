@@ -90,7 +90,7 @@ body {
 }
 
 .p02-image-slider-block-content {
-    padding-top: 20%;
+    padding-top: 12%;
     width: 100%;
 }
 
@@ -123,6 +123,10 @@ body {
     -ms-transform: scale(.8, .8);
     -webkit-transform: scale(.8, .8);
     margin: 8px;
+    transition: transform .3s;
+    -moz-transition: transform .3s; /* Firefox 4 */
+    -webkit-transition: transform .3s; /* Safari 和 Chrome */
+    -o-transition: transform .3s; /* Opera */
 }
 .p02-image-slider .slick-current {
     opacity: 1;
