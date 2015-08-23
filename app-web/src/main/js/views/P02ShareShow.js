@@ -15,7 +15,7 @@ define([
 
         var imageArray = [];
         for (var i = 1; i < 5; i++) {
-            imageArray.push(violet.string.substitute("./assets/slicing/p02/share_show_{0}.png", i));
+            imageArray.push(violet.string.substitute("./assets/slicing/p02/share_show_{0}.jpg", i));
         }
 
         var $doms = $('.p02-image-slider-block-image', this._dom);
