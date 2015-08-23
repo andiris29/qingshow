@@ -45,3 +45,4 @@ app-web/.idea
 server-pay/payment/build/
 server-pay/payment/target/
 
+app-web/target
