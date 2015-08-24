@@ -343,6 +343,9 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        if(v.getId() == R.id.quitButton){
+            if(v.isFocused())return;
+        }
         commitForm();
         UserCommand.refresh();
     }

@@ -32,7 +32,7 @@ public class ShareConfig {
 
     public static final String SHARE_SHOW_URL = "http://chingshow.com/app-web?entry=shareShow&_id=";
 
-    public static final String SHARE_TRADE_URL = "◦http://chingshow.com/app-web?entry=shareTrade";
+    public static final String SHARE_TRADE_URL = "http://chingshow.com/app-web?entry=shareTrade";
 
     public static final String SHARE_TITLE="正品折扣，在倾秀动动手指即刻拥有";
     public static final String SHARRE_TRADE_DESCRIPTION = "服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！";
