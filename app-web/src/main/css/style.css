@@ -73,12 +73,12 @@ body {
 
 .p02-download {
     position: absolute;
-    background-image: url(../assets/slicing/p02/download.png);
+    background-image: url(../assets/slicing/p02/download.png?2015-08-24);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 0% 100%;
     bottom: 0;
-    height: 12%;
+    height: 20%;
     width: 100%;
     /*box-shadow: 0px -4px 12px #999;*/
 }
@@ -90,7 +90,7 @@ body {
 }
 
 .p02-image-slider-block-content {
-    padding-top: 6%;
+    padding-top: 3%;
     width: 100%;
 }
 
