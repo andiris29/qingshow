@@ -47,7 +47,6 @@
         fresco:roundingBorderWidth="2dp"
         fresco:actualImageScaleType="focusCrop"
         fresco:roundAsCircle="true"
-        fresco:placeholderImage="@drawable/root_cell_placehold_image1"
         fresco:roundingBorderColor="@color/white"/>
 
     <ImageView

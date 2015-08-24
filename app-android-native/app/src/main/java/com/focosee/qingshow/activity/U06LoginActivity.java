@@ -2,7 +2,10 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,13 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
+import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
@@ -26,9 +31,10 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
-
+import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +47,8 @@ public class U06LoginActivity extends BaseActivity {
     private Context context;
     private RequestQueue requestQueue;
     private LoadingDialogs pDialog;
+    private int[] portraits = {R.drawable.default_head_1, R.drawable.default_head_2, R.drawable.default_head_3, R.drawable.default_head_4
+                                ,R.drawable.default_head_5, R.drawable.default_head_6};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +107,9 @@ public class U06LoginActivity extends BaseActivity {
                                         bundle.putSerializable("user", user);
                                         intent.putExtras(bundle);
                                         startActivity(intent);
+                                        if(TextUtils.isEmpty(user.portrait)){
+                                            uploadImage();
+                                        }
                                     }
                                     sendBroadcast(new Intent(LOGIN_SUCCESS));
                                     finish();
@@ -113,7 +124,32 @@ public class U06LoginActivity extends BaseActivity {
                 requestQueue.add(stringRequest);
             }
         });
+    }
 
+    private void uploadImage() {
+
+        QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
+                QSAppWebAPI.getUserUpdateportrait(), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response))return;
+                MongoPeople user = UserParser._parsePeople(response);
+                if (user != null) {
+                    UserCommand.refresh();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        int i = (int)Math.random() * 5;
+        QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
+        multipartEntity.addBinaryPart("portrait", BitMapUtil.bmpToByteArray(BitmapFactory.decodeResource(getResources(), portraits[i]), false, Bitmap.CompressFormat.JPEG));
+        RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 
     @Override
