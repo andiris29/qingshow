@@ -2615,6 +2615,7 @@
 				ORGANIZATIONNAME = QS;
 				TargetAttributes = {
 					EF9A740D1A02A82600095F07 = {
+						DevelopmentTeam = 5BNEAQ5WZS;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
