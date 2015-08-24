@@ -15,6 +15,7 @@
 #import "QSU13PersonalizeViewController.h"
 #import "QSThirdPartLoginService.h"
 #import "QSEntityUtil.h"
+#import "WXApi.h"
 #define PAGE_ID @"U07 - 注册"
 #define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSU07RegisterViewController ()
@@ -25,6 +26,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
 @property (weak, nonatomic) IBOutlet UIButton *weixinButton;
 @property (weak, nonatomic) IBOutlet UIButton *weiboButton;
+@property (weak, nonatomic) IBOutlet UIImageView *weixinIconImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *weiboIconImageView;
 
 
 
@@ -93,6 +96,12 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    if (![WXApi isWXAppInstalled]) {
+        self.weixinButton.hidden = YES;
+        self.weixinIconImageView.hidden = YES;
+        self.weiboButton.frame = self.weixinButton.frame;
+        self.weiboIconImageView.frame = self.weixinIconImageView.frame;
+    }
     if (w == 414) {
         CGRect frame = self.navtextImageView.frame;
         frame.origin.x += 25;
