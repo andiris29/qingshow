@@ -38,9 +38,10 @@ define([
                 $dom.attr('src', show.coverForeground);
 
                 $('.p02-image-slider', this._dom).slick({
-                    centerMode : true,
-                    slidesToShow : 1,
-                    centerPadding : '15%'
+                    'infinite' : true,
+                    'centerMode' : true,
+                    'slidesToShow' : 1,
+                    'centerPadding' : '15%'
                 });
                 $('.p02-image-slider-block-content', this._dom).show();
                 this._resizeHandler();
