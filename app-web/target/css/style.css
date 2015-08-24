@@ -124,9 +124,8 @@ body {
     -webkit-transform: scale(.8, .8);
     margin: 8px;
     transition: transform .3s;
-    -moz-transition: transform .3s; /* Firefox 4 */
-    -webkit-transition: transform .3s; /* Safari 和 Chrome */
-    -o-transition: transform .3s; /* Opera */
+    -moz-transition: -moz-transform .3s; /* Firefox 4 */
+    -webkit-transition: -webkit-transform .3s; /* Safari 和 Chrome */
 }
 .p02-image-slider .slick-current {
     opacity: 1;

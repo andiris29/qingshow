@@ -38,11 +38,9 @@ admin-tools/imgResizer/out
 admin-tools/imgResizer/.idea
 
 #app-web
-app-web/bin
+app-web/target
 app-web/.idea
 
 #server-pay
 server-pay/payment/build/
 server-pay/payment/target/
-
-app-web/target
