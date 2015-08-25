@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 15
         versionCode 8
-        versionName "2.0.0-snapshot-3"
+        versionName "2.0.0"
     }
     signingConfigs {
         release {
@@ -19,7 +19,6 @@ android {
             keyPassword "6426BFcom"
         }
     }
-
 
     buildTypes {
         debug {
