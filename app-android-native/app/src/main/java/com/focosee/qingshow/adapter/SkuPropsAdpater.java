@@ -11,8 +11,8 @@ import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.SkuUtil;
-import com.focosee.qingshow.widget.flow.FlowRadioButton;
-import com.focosee.qingshow.widget.flow.FlowRadioGroup;
+import com.focosee.qingshow.widget.Flow.FlowRadioButton;
+import com.focosee.qingshow.widget.Flow.FlowRadioGroup;
 
 import java.util.List;
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U11AddressEditFragment;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by 华榕 on 2015/3/11.
@@ -37,5 +38,17 @@ public class U11EditAddressActivity extends BaseActivity {
     @Override
     public void reconn() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

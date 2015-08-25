@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.view.WindowManager;
 
@@ -26,7 +28,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import cn.jpush.android.api.InstrumentedActivity;
 
 public class LaunchActivity extends InstrumentedActivity {
@@ -42,7 +43,6 @@ public class LaunchActivity extends InstrumentedActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
         //友盟接口
         MobclickAgent.updateOnlineConfig(this);
-        MobclickAgent.openActivityDurationTrack(false);
 
         String  deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
         if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())){
@@ -78,10 +78,28 @@ public class LaunchActivity extends InstrumentedActivity {
     }
 
     public void jump(){
-        Intent mainIntent = new Intent(LaunchActivity.this, _class);
-        LaunchActivity.this.startActivity(mainIntent);
-        LaunchActivity.this.finish();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                    handler.sendEmptyMessage(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
+
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            Intent mainIntent = new Intent(LaunchActivity.this, _class);
+            LaunchActivity.this.startActivity(mainIntent);
+            LaunchActivity.this.finish();
+            return true;
+        }
+    });
 
     private void userFollow(){
         Map params = new HashMap();
@@ -105,4 +123,15 @@ public class LaunchActivity extends InstrumentedActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 }

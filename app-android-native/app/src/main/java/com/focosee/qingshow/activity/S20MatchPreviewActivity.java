@@ -25,6 +25,7 @@ import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -181,5 +182,19 @@ public class S20MatchPreviewActivity extends BaseActivity {
             bitmap.recycle();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S20MatcherPreviewActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S20MatcherPreviewActivity");
+        MobclickAgent.onPause(this);
     }
 }

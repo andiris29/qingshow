@@ -259,16 +259,11 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="54d34711fd98c533bd000c87" />
+            android:value="55dc3aa5e0f55aa396003da7" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="native" />
 
-        <activity
-            android:name=".activity.S14FashionMsgActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_s14_fashion_msg"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.G02WelcomeActivity"
             android:label="@string/title_activity_g02_welcome" />

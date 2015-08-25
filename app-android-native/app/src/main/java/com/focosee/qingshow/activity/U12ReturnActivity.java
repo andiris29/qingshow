@@ -16,6 +16,8 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,5 +130,19 @@ public class U12ReturnActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U12ReturnActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U12ReturnActivity");
+        MobclickAgent.onPause(this);
     }
 }

@@ -24,6 +24,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -114,10 +115,18 @@ public class U10AddressListActivity extends BaseActivity {
         super.onDestroy();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         refresh();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

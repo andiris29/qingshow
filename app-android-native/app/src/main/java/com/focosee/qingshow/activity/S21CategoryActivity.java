@@ -17,6 +17,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
 import com.focosee.qingshow.util.ComparatorFactory;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -117,4 +118,17 @@ public class S21CategoryActivity extends BaseActivity {
         s21_listview.setAdapter(adapter);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S21CategoryActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S21CategoryActivity");
+        MobclickAgent.onPause(this);
+    }
 }

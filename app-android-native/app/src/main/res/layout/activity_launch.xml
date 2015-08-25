@@ -1,14 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.focosee.qingshow.activity.LaunchActivity"
-    >
+    tools:context="com.focosee.qingshow.activity.LaunchActivity">
+
+
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/splash_image"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/splash_image" />
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/yingyongbao" />
+
 
 </RelativeLayout>

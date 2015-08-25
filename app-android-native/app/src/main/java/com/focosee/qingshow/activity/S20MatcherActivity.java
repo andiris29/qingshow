@@ -36,6 +36,7 @@ import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.radio.RadioLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -105,13 +106,6 @@ public class S20MatcherActivity extends MenuActivity {
         initCategoryRef();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (canvas.views.size() != 0) {
-            canvas.reselectView();
-        }
-    }
 
     private void initCategoryRef() {
         getCategoryFromNet();
@@ -582,5 +576,23 @@ public class S20MatcherActivity extends MenuActivity {
             this.item = item;
             return this;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (canvas.views.size() != 0) {
+            canvas.reselectView();
+        }
+
+        MobclickAgent.onPageStart("S20MatcherActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S20MatcherActivity");
+        MobclickAgent.onPause(this);
     }
 }

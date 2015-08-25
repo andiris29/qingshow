@@ -39,6 +39,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
@@ -374,18 +376,6 @@ public class U01UserActivity extends MenuActivity {
         getIntent().putExtras(outState);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (null != getIntent().getExtras()) {
-            if (null != getIntent().getExtras().get("user"))
-                user = (MongoPeople) getIntent().getExtras().get("user");
-        }
-        boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);
-        if (hasNew) {
-            circleTip.setVisibility(View.VISIBLE);
-        }
-    }
 
     public class UserPagerAdapter extends FragmentPagerAdapter {
 
@@ -473,5 +463,25 @@ public class U01UserActivity extends MenuActivity {
 
     public interface BackBtnListener {
         public boolean onKeyDown(int keyCode, KeyEvent event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (null != getIntent().getExtras()) {
+            if (null != getIntent().getExtras().get("user"))
+                user = (MongoPeople) getIntent().getExtras().get("user");
+        }
+        boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);
+        if (hasNew) {
+            circleTip.setVisibility(View.VISIBLE);
+        }
+        MobclickAgent.onResume(this);
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

@@ -17,6 +17,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -127,6 +128,18 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }
 

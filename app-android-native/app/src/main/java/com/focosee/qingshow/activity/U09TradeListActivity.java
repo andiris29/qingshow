@@ -28,6 +28,8 @@ import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -202,10 +204,6 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void onDestroy() {
@@ -334,5 +332,19 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
         doLoadMore(currentType);
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U09TradeListActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U09TradeListActivity");
+        MobclickAgent.onPause(this);
     }
 }

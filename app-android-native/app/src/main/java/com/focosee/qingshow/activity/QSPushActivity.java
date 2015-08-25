@@ -14,7 +14,6 @@ import com.focosee.qingshow.util.PushUtil;
  */
 public class QSPushActivity extends BaseActivity {
 
-    public static final String SHOW_DIALOG = "SHOW_DIALOG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

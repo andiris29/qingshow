@@ -10,6 +10,7 @@ import android.webkit.WebViewClient;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -77,5 +78,19 @@ public class PushWebActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         String url = intent.getStringExtra(URL);
         loadWebView(url);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("PushWebActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("PushWebActivity");
+        MobclickAgent.onPause(this);
     }
 }

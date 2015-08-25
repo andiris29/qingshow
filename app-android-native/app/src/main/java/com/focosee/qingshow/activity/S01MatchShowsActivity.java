@@ -24,6 +24,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.RecyclerViewUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -177,10 +178,6 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
         super.onClick(v);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void onDestroy() {
@@ -208,6 +205,18 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commitAllowingStateLoss();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
 }

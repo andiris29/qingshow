@@ -372,14 +372,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("S04CommentList"); //统计页面
-        MobclickAgent.onResume(this);          //统计时长
+        MobclickAgent.onPageStart("S04CommentList");
+        MobclickAgent.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("S04CommentList"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPageEnd("S04CommentList");
         MobclickAgent.onPause(this);
     }
 
