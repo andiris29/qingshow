@@ -160,11 +160,9 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
     public void onEventMainThread(ShareTradeEvent event) {
         if (!event.shareByCreateUser) {
-            Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
             return;
         }
         if (position == Integer.MAX_VALUE) {
-            Toast.makeText(this, "出错，请重试", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -174,10 +172,8 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    Toast.makeText(U09TradeListActivity.this, "分享失败，请重试！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(U09TradeListActivity.this, "分享成功，您可以付款了。", Toast.LENGTH_SHORT).show();
                 mAdapter.getItemData(position).__context.sharedByCurrentUser = true;
                 mAdapter.notifyDataSetChanged();
                 Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
@@ -236,7 +232,6 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQuerybyPhaseApi(phases, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("response:" + response);
                 if (pageNo == 1) {
                     pDialog.dismiss();
                 }

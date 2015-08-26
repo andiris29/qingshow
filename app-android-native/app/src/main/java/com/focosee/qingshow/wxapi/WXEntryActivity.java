@@ -65,8 +65,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             if (resp.transaction.equals(ValueUtil.SHARE_TRADE)) {
                 if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
                     EventBus.getDefault().post(new ShareTradeEvent(true));
-                } else {
-                    Toast.makeText(WXEntryActivity.this, "分享失败，请重试。", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 EventModel<Integer> eventModel;
