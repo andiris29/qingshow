@@ -43,6 +43,7 @@ import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.PushEvent;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -223,5 +224,19 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
+        MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S11NewTradeNotifyFragment");
+        MobclickAgent.onPause(getActivity());
     }
 }

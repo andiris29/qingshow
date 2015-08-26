@@ -46,11 +46,14 @@ import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import butterknife.ButterKnife;
 
 public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
@@ -551,7 +554,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
              }
          });
 
-        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener(){
+        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
@@ -563,10 +566,10 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onClick(View v) {
                 U02SelectExceptionFragment fragment;
-                if(null == getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
+                if (null == getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
                     fragment = new U02SelectExceptionFragment();
                 else
-                    fragment = (U02SelectExceptionFragment)getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName());
+                    fragment = (U02SelectExceptionFragment) getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", people);
                 fragment.setArguments(bundle);
@@ -578,12 +581,25 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
+        MobclickAgent.onResume(getActivity());
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U02SettingsFragment");
+        MobclickAgent.onResume(getActivity());
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }

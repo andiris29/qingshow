@@ -19,6 +19,8 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -67,10 +69,6 @@ public class U01FansFragment extends U01BaseFragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public void refresh() {
@@ -127,6 +125,20 @@ public class U01FansFragment extends U01BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U01FansFragment");
+        MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01FansFragment");
+        MobclickAgent.onPause(getActivity());
     }
 
 
