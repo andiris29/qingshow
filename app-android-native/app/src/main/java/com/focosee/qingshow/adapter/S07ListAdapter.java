@@ -78,5 +78,6 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
         bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);
         intent.putExtras(bundle);
         context.startActivity(intent);
+        System.out.println("url:" + item.source);
     }
 }

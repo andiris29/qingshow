@@ -1,15 +1,10 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.content.Intent;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,8 +22,6 @@ import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
-import com.focosee.qingshow.adapter.SkuPropsAdpater;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -41,8 +34,8 @@ import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
-import com.focosee.qingshow.widget.flow.FlowRadioButton;
-import com.focosee.qingshow.widget.flow.FlowRadioGroup;
+import com.focosee.qingshow.widget.Flow.FlowRadioButton;
+import com.focosee.qingshow.widget.Flow.FlowRadioGroup;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;

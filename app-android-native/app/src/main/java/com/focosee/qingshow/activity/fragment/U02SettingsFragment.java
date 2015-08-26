@@ -196,9 +196,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     uploadImage(imgDecodableString, TYPE_BACKGROUD);
                 }
 
-            } else {
-                Toast.makeText(getActivity(), "您未选择图片！",
-                        Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Toast.makeText(getActivity(), "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)

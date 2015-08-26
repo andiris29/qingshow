@@ -96,11 +96,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     }
 
     public void closeMenu() {
+        if(null == drawer)return;
         blur.setVisibility(View.INVISIBLE);
         drawer.closeDrawer(navigation);
     }
 
     public boolean isMenuOpened() {
+        if(null == drawer)return false;
         return drawer.isDrawerOpen(navigation);
     }
 
