@@ -23,6 +23,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ShowUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -139,7 +140,15 @@ public class U01CollectionFragment extends U01BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("U01CollectionFragment");
+        MobclickAgent.onResume(getActivity());
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01CollectionFragment");
+        MobclickAgent.onPause(getActivity());
+    }
 
 }

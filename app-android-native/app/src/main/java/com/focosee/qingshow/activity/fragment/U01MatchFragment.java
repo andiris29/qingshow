@@ -21,6 +21,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -72,11 +73,6 @@ public class U01MatchFragment extends U01BaseFragment {
 
         refresh();
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -133,6 +129,20 @@ public class U01MatchFragment extends U01BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U01MatchFragment");
+        MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01MatchFragment");
+        MobclickAgent.onPause(getActivity());
     }
 
 }

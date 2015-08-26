@@ -43,6 +43,7 @@ import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -338,4 +339,19 @@ public class S11NewTradeFragment extends Fragment {
         });
         propsLayout.addView(prop);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S11NewTradeFragment");
+        MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S11NewTradeFragment");
+        MobclickAgent.onPause(getActivity());
+    }
+
 }

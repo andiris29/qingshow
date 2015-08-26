@@ -18,6 +18,8 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.LinkedList;
 import butterknife.ButterKnife;
@@ -67,11 +69,6 @@ public class U01RecommFragment extends U01BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void refresh() {
         getDatasFromNet();
     }
@@ -114,5 +111,19 @@ public class U01RecommFragment extends U01BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U01RecommFragment");
+        MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01RecommFragment");
+        MobclickAgent.onPause(getActivity());
     }
 }
