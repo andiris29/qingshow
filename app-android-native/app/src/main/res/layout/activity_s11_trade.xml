@@ -192,7 +192,7 @@
                         android:textColor="@color/master_pink"
                         android:textSize="33sp"
                         android:textStyle="bold"
-                        app:layout_marginLeftPercent="4%" />
+                        app:layout_marginLeftPercent="10.5%" />
 
                 </android.support.percent.PercentRelativeLayout>
 
