@@ -1,25 +1,20 @@
 package com.focosee.qingshow.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -39,33 +34,21 @@ import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
-import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.SharePopupWindow;
-import com.sina.weibo.sdk.api.WebpageObject;
-import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.constant.WBConstants;
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.utils.Utility;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.umeng.analytics.MobclickAgent;
 
@@ -80,12 +63,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
+import static com.focosee.qingshow.R.id.context;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
-public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler, IWeiboHandler.Response, View.OnClickListener {
+public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
+    public static final String CLASS_NAME = "class_name";
     public final String TAG = "S03SHowActivity";
     private static final int shareMsgShowTime = 2000;//分享优惠显示时间
     @InjectView(R.id.S03_image_preground)
@@ -93,7 +78,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @InjectView(R.id.S03_describe)
     TextView s03Describe;
     @InjectView(R.id.S03_back_btn)
-    ImageButton S03BackBtn;
+    ImageView s03BackBtn;
     @InjectView(R.id.S03_video_start_btn_real)
     ImageView s03VideoStartBtnReal;
     @InjectView(R.id.s03_portrait)
@@ -127,16 +112,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     private IWeiboShareAPI mWeiboShareAPI;
 
     private String showId;
-
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (S04CommentActivity.COMMENT_NUM_CHANGE.equals(intent.getAction())) {
-                commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString()) + intent.getIntExtra("value", 0)));
-            }
-        }
-    };
+    private String className;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,10 +120,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
-
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
         }else showId = "";
+        className = getIntent().getStringExtra(CLASS_NAME);
 
         if (TextUtils.isEmpty(showId)) {
             Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
@@ -156,23 +132,29 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        S03BackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                S03SHowActivity.this.finish();
-            }
-        });
-
-        getShowDetailFromNet();
-
-        registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
-
+        if(S20MatchPreviewActivity.class.getSimpleName().equals(className)){
+            s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
+            s03BackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menuSwitch();
+                }
+            });
+            initDrawer();
+        } else {
+            s03BackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    S03SHowActivity.this.finish();
+                }
+            });
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("showDetailEntity", showDetailEntity);
+        outState.putSerializable(INPUT_SHOW_ENTITY_ID, showId);
         getIntent().putExtras(outState);
     }
 
@@ -182,7 +164,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void getShowDetailFromNet() {
-
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -213,13 +194,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             @Override
             public void onComplete(JSONObject response) {
                 showDetailEntity.__context.likedByCurrentUser = !showDetailEntity.__context.likedByCurrentUser;
-                showMessage(S03SHowActivity.this, showDetailEntity.__context.likedByCurrentUser ? "添加收藏" : "取消收藏");
                 setLikedImageButtonBackgroundImage();
                 likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
                 likeBtn.setClickable(true);
-                EventModel eventModel = new EventModel(U01UserActivity.class, null);
-                eventModel.setFrom(S03SHowActivity.class);
-                EventBus.getDefault().post(eventModel);
+                EventBus.getDefault().post(new ShowCollectionEvent(showDetailEntity.__context.likedByCurrentUser));
             }
 
             @Override
@@ -248,23 +226,16 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void showData() {
-
-        commentTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
-        itemTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
-        likeTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/black_fangzheng_simple.TTF"));
         if (null == showDetailEntity)
             return;
-        if (showDetailEntity.__context.likedByCurrentUser) {
-            likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
-        }
-        itemsData = showDetailEntity.itemRefs;
 
+        itemsData = showDetailEntity.itemRefs;
         videoUriString = showDetailEntity.video;
 
-        if (null != videoUriString && !"".equals(videoUriString))
+        if (!TextUtils.isEmpty(videoUriString))
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
-        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.PORTRAIT_LARGE)));
+        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, ImgUtil.LARGE)));
         s03ImagePreground.setAspectRatio(ValueUtil.pre_img_AspectRatio);
 
         if (null != showDetailEntity.cover) {
@@ -272,8 +243,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             image.setAspectRatio(ValueUtil.match_img_AspectRatio);
         }
 
-        if (null != showDetailEntity.__context)
+        if (null != showDetailEntity.__context) {
             commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
+            if (showDetailEntity.__context.likedByCurrentUser) {
+                likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
+            }
+        }
 
         likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
@@ -281,15 +256,17 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
         }
 
-        if (!QSModel.INSTANCE.loggedin()) {
-            showData_other();
-        } else if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUser()._id)) {
-            showData_self();
-        } else {
-            showData_other();
-        }
-
         setLikedImageButtonBackgroundImage();
+
+        if (QSModel.INSTANCE.loggedin()) {
+            if (null != showDetailEntity.ownerRef) {
+                if (showDetailEntity.ownerRef._id.equals(QSModel.INSTANCE.getUserId()) && (className.equals(U01UserActivity.class.getSimpleName()))) {
+                    showData_self();
+                    return;
+                }
+            }
+        }
+        showData_other();
     }
 
     private void showData_self() {
@@ -300,17 +277,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     private void showData_other() {
         s03Portrait.setVisibility(View.VISIBLE);
-        if (null != showDetailEntity.ownerRef)
-            UserCommand.getPeople(new Callback() {
-                @Override
-                public void onComplete(JSONObject response) {
-                    showDetailEntity.ownerRef = UserParser._parsePeoples(response).get(0);
-                    if (null != showDetailEntity.ownerRef.portrait)
-                        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
-                    s03Nickname.setVisibility(View.VISIBLE);
-                    s03Nickname.setText(showDetailEntity.ownerRef.nickname);
-                }
-            }, S03SHowActivity.this, showDetailEntity.ownerRef._id);
+        s03Nickname.setVisibility(View.VISIBLE);
+        if (null == showDetailEntity.ownerRef)return;
+        s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
+        s03Nickname.setText(showDetailEntity.ownerRef.nickname);
+
     }
 
     public void pauseVideo() {
@@ -341,10 +312,21 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     public void onEventMainThread(EventModel<Integer> event) {
-        if (event.tag == S03SHowActivity.class) {
+        if (event.tag == S03SHowActivity.class.getSimpleName()) {
             if (!showDetailEntity.__context.likedByCurrentUser) {
                 clickLikeShowButton();
             }
+        }
+    }
+
+    public void onEventMainThread(S04PostCommentEvent event) {
+        switch (event.action){
+            case S04PostCommentEvent.addComment:
+                commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString()) + 1));
+                break;
+            case S04PostCommentEvent.delComment:
+                commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString()) - 1));
+                break;
         }
     }
 
@@ -359,48 +341,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onNewIntent(intent);
 
         setIntent(intent);
-        QSApplication.instance().getWxApi().handleIntent(intent, this);
         mWeiboShareAPI.handleWeiboResponse(intent, this);
-    }
-
-    private void shareToSina() {
-        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-        WebpageObject mediaObject = new WebpageObject();
-        mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = ShareConfig.SHARE_TITLE;
-        mediaObject.description = ShareConfig.SHARE_DESCRIPTION;
-        mediaObject.setThumbImage(BitmapFactory.decodeResource(getResources(), ShareConfig.IMG));
-        mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
-        mediaObject.defaultText = ShareConfig.SHARE_DESCRIPTION;
-
-        weiboMessage.mediaObject = mediaObject;
-
-        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.multiMessage = weiboMessage;
-        AuthInfo authInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
-        Oauth2AccessToken accessToken = SinaAccessTokenKeeper.readAccessToken(getApplicationContext());
-        String token = "";
-        if (accessToken != null) {
-            token = accessToken.getToken();
-        }
-        mWeiboShareAPI.sendRequest(this, request, authInfo, token, new WeiboAuthListener() {
-
-            @Override
-            public void onWeiboException(WeiboException arg0) {
-            }
-
-            @Override
-            public void onComplete(Bundle bundle) {
-                Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
-                SinaAccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
-            }
-
-            @Override
-            public void onCancel() {
-            }
-        });
-
     }
 
     @Override
@@ -420,66 +361,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
 
-    private void shareToWX(boolean isTimelineCb) {
-
-        WXWebpageObject webpage = new WXWebpageObject();
-        WXMediaMessage msg;
-        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
-
-        msg = new WXMediaMessage();
-        msg.mediaObject = webpage;
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), ShareConfig.IMG);
-        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
-        msg.setThumbImage(thumb);
-        msg.title = ShareConfig.SHARE_TITLE;
-        msg.description = ShareConfig.SHARE_DESCRIPTION;
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());
-        req.message = msg;
-        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-        UmengCountUtil.countShareShow(this, "weixin");
-        QSApplication.instance().getWxApi().sendReq(req);
-    }
-
-
-    @Override
-    public void onReq(BaseReq req) {
-        switch (req.getType()) {
-            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
-                Log.i("tag", "COMMAND_GETMESSAGE_FROM_WX");
-                break;
-            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
-                Log.i("tag", "COMMAND_SHOWMESSAGE_FROM_WX");
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onResp(BaseResp resp) {
-
-        switch (resp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                Log.i("tag", "ERR_OK");
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                Log.i("tag", "ERR_USER_CANCEL");
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                Log.i("tag", "ERR_AUTH_DENIED");
-                break;
-            default:
-                Log.i("tag", "ERR_OK");
-                break;
-        }
-
-    }
-
     @Override
     public void onClick(View v) {
-
         Intent intent;
 
         switch (v.getId()) {
@@ -492,7 +375,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                break;
+                return;
             case R.id.S03_comment_btn://评论
                 if (null != showDetailEntity && null != showDetailEntity._id) {
                     if (S04CommentActivity.isOpened) return;
@@ -504,42 +387,45 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 } else {
                     Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
                 }
-                break;
+                return;
             case R.id.S03_like_btn://收藏
                 clickLikeShowButton();
-                break;
+                return;
             case R.id.S03_share_btn://分享
                 if (!QSModel.INSTANCE.loggedin()) {
                     Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
                     GoToWhereAfterLoginModel.INSTANCE.set_class(null);
                     startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
                 }
-                sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener());
+                sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener(S03SHowActivity.this));
                 sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
                 sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                break;
+                return;
             case R.id.S03_video_start_btn_real://视频播放
                 if (videoView.isPlaying()) {
                     pauseVideo();
                 } else {
                     startVideo();
                 }
-                break;
+                return;
             case R.id.s03_del_btn:
-                final ConfirmDialog dialog = new ConfirmDialog();
-                dialog.setTitle(getResources().getString(R.string.s20_dialog)).setConfirm(new View.OnClickListener() {
+                final ConfirmDialog dialog = new ConfirmDialog(this);
+                dialog.setTitle(getResources().getString(R.string.s20_dialog));
+                dialog.setConfirm(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         hideShow();
                         dialog.dismiss();
                     }
-                }).setCancel(new View.OnClickListener() {
+                });
+                dialog.setCancel(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
-                }).show(getSupportFragmentManager());
-                break;
+                });
+                dialog.show();
+                return;
             case R.id.s03_portrait:
                 if(null == showDetailEntity.ownerRef)return;
                 intent = new Intent(S03SHowActivity.this, U01UserActivity.class);
@@ -547,8 +433,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 bundle1.putSerializable("user", showDetailEntity.ownerRef);
                 intent.putExtras(bundle1);
                 startActivity(intent);
-                break;
+                return;
         }
+        super.onClick(v);
     }
 
     private void hideShow() {
@@ -574,17 +461,21 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     class ShareClickListener implements View.OnClickListener {
 
+        public Context context;
+        public ShareClickListener(Context context){
+            this.context = context;
+        }
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.share_wechat:
-                    shareToWX(false);
+                    ShareUtil.shareShowToWX(showDetailEntity._id, String.valueOf(System.currentTimeMillis()), context, false);
                     break;
                 case R.id.share_wx_timeline:
-                    shareToWX(true);
+                    ShareUtil.shareShowToWX(showDetailEntity._id, String.valueOf(System.currentTimeMillis()), context, true);
                     break;
                 case R.id.share_sina:
-                    shareToSina();
+                    ShareUtil.shareShowToSina(showDetailEntity._id, context, mWeiboShareAPI);
                     break;
             }
         }
@@ -594,11 +485,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     public void onResume() {
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
-        if (null != getIntent().getExtras()) {
-            if(null != getIntent().getExtras().get("showDetailEntity"))
-                showDetailEntity = (MongoShow) getIntent().getExtras().get("showDetailEntity");
-        }
+        reconn();
         super.onResume();
+//        if(TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
+//            showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
+//            getShowDetailFromNet();
+//        }
     }
 
     @Override
@@ -614,8 +506,21 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(className.equals(S20MatchPreviewActivity.class.getSimpleName())) {
+            if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
+                menuSwitch();
+            }
+        }else{
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                finish();
+            }
+        }
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package com.focosee.qingshow.wxapi;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;

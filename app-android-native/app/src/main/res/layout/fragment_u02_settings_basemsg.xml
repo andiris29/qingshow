@@ -10,7 +10,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/nameTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
             android:text="@string/name_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <EditText
+        <com.focosee.qingshow.widget.QSEditText
             android:id="@+id/nameEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/ageTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             android:text="@string/age_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <EditText
+        <com.focosee.qingshow.widget.QSEditText
             android:id="@+id/ageEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/ageTextView"
-            android:inputType="numberDecimal"
             android:background="@null"
             android:hint="请填写年龄"
             android:singleLine="true"
@@ -85,7 +84,7 @@
         android:layout_height="@dimen/item_height_activity_settings"
         android:background="#ffffff">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/heightTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -95,7 +94,7 @@
             android:text="@string/height_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <EditText
+        <com.focosee.qingshow.widget.QSEditText
             android:id="@+id/heightEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,7 +123,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/weightTextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -134,7 +133,7 @@
             android:text="@string/weight_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <EditText
+        <com.focosee.qingshow.widget.QSEditText
             android:id="@+id/weightEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -156,13 +155,165 @@
         android:background="@color/line_activity_settings" />
 
     <RelativeLayout
+        android:id="@+id/bustRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/bustTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/bust_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <com.focosee.qingshow.widget.QSEditText
+            android:id="@+id/bustEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/bustTextView"
+            android:background="@null"
+            android:hint="请填写胸围"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/shoulderRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/shoulderTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/shoulder_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <com.focosee.qingshow.widget.QSEditText
+            android:id="@+id/shoulderEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/shoulderTextView"
+            android:background="@null"
+            android:hint="请填写肩宽"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/waistlineRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/waistlineTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/waistline_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <com.focosee.qingshow.widget.QSEditText
+            android:id="@+id/waistlineEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/waistlineTextView"
+            android:background="@null"
+            android:hint="请填写腰围"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/hiplineRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/hiplineTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/hipline_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <com.focosee.qingshow.widget.QSEditText
+            android:id="@+id/hiplineEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/hiplineTextView"
+            android:background="@null"
+            android:hint="请填写臀围"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
         android:id="@+id/bodyTypeRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_activity_settings"
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/bodyTypeLabel"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -172,7 +323,7 @@
             android:text="@string/bodyType_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/bodyTypeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -199,7 +350,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/dressStyleEextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -209,7 +360,7 @@
             android:text="@string/dressStyle_activity_settings"
             android:textSize="@dimen/text_size" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/dressStyleEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -233,7 +384,7 @@
         android:background="#ffffff"
         android:visibility="visible">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/effectEextView"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -242,7 +393,7 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:text="@string/effect_activity_settings"
             android:textSize="@dimen/text_size" />
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/effectEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -255,38 +406,4 @@
             android:layout_toRightOf="@id/effectEextView"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line_activity_settings" />
-
-    <RelativeLayout
-        android:id="@+id/sexRelativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height_activity_settings"
-        android:background="#ffffff">
-
-        <TextView
-            android:id="@+id/sexLabel"
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_left_activity_settings"
-            android:layout_marginRight="@dimen/margin_right_activity_settings"
-            android:text="@string/sex_activity_settings"
-            android:textSize="@dimen/text_size" />
-
-        <TextView
-            android:id="@+id/sexTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_right_activity_settings"
-            android:layout_toRightOf="@id/sexLabel"
-            android:background="@null"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="#C7C7CD"
-            android:hint="请选择性别"/>
-    </RelativeLayout>
 </LinearLayout>

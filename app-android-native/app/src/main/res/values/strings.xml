@@ -71,6 +71,7 @@
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
     <string name="login_activity_login">登陆倾秀账号</string>
+    <string name="register1_activity_login">注册倾秀账号</string>
     <string name="login_successed">登陆成功</string>
 
     <!-- Personal Activity -->
@@ -99,15 +100,21 @@
     <string name="title_activity_return">ReturnActivity</string>
     <string name="title_name_activity_return">退货方式</string>
     <string name="address_activity_return">退货地址:</string>
+    <string name="address_activity_return_value">上海市普陀区中山北路2438号13楼B座</string>
     <string name="receiver_activity_return">退货收件人:</string>
+    <string name="receiver_activity_return_value">上海市品聚网络科技有限公司</string>
     <string name="phone_activity_return">联系电话:</string>
+    <string name="phone_activity_return_value">021-64269853</string>
     <string name="matters_activity_return">*退货注意事项:</string>
+    <string name="matters_activity_return_value">我们支持七日无理由退换货。如果亲们发现宝贝不合适，请七日内用快递将商品完好地退回（不接受平邮及到付），逾期或洗过，无吊牌等影响2次销售的商品我们是不接受退货的哦，非商品质量问题来回邮费由买家承担。
+退货时务必写明订单号。</string>
     <string name="info_title_activity_return">填写退货信息</string>
     <string name="info_expressage_activity_return">货运公司:</string>
     <string name="info_expressNO_activity_return">货运单号:</string>
     <string name="info_expressDate_activity_return">寄出日期:</string>
     <string name="sure_btn_activity_return">申请退货</string>
     <string name="toast_activity_return">退货请求已发送</string>
+    <string name="toast_activity_discount_successed">已加入申请列表</string>
 
     <!-- Others -->
     <string name="title_activity_home">HomeActivity</string>
@@ -157,17 +164,17 @@
     <string name="apply_return_activity_trade">申请退货</string>
     <string name="comfirm_receive_activity_trade">确认收货</string>
     <string name="service_text">客服热线:</string>
-    <string name="service_phone_number">4008-123-655</string>
+    <string name="service_phone_number">4007- 501- 010</string>
     <string name="service_describe1">7天退货</string>
     <string name="service_describe2">极速发货</string>
     <string name="service_describe3">全场免运</string>
     <string name="service_describe4">品质保证</string>
     <string name="trade_num_text">订单号:</string>
     <string name="trade_type_text">订单状态:</string>
-    <string name="trade_measurement">尺码:</string>
-    <string name="trade_count">数量:</string>
+    <string name="trade_measurement">尺码：</string>
+    <string name="trade_count">数量：</string>
     <string name="trade_color">颜色:</string>
-    <string name="trade_price">价格:</string>
+    <string name="trade_price">折后价格:</string>
     <string name="trade_create_date">订单生成日期:</string>
     <string name="trade_finish_date">订单完成日期:</string>
     <string name="pay_activity_trade">付款</string>
@@ -201,4 +208,11 @@
     <string name="s20_loading">上传中...</string>
     <string name="s06_loading">登陆中...</string>
     <string name="web_view">加载中...</string>
+
+    <string name="s11_discount">折</string>
+    <string name="s11_price">原价：</string>
+    <string name="s11_jian">件</string>
+    <string name="s11_poster">●折扣活动商品数量尺寸有限，请抓紧时间抢购,</string>
+    <string name="title_activity_camera">CameraActivity</string>
+
 </resources>

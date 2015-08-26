@@ -6,19 +6,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp">
 
-        <Button
-            android:layout_centerVertical="true"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <com.focosee.qingshow.widget.QSImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/nav_btn_back"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/nav_btn_back"
             android:onClick="back" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -38,9 +38,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:listSelector="#00000000"
-        ></com.focosee.qingshow.widget.S21mListview>
-
-    <Button
+       />
+    <com.focosee.qingshow.widget.QSButton
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

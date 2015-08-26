@@ -1,36 +1,29 @@
 package com.focosee.qingshow.widget;
 
-import android.graphics.Color;
-import android.graphics.Point;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 
+import butterknife.InjectView;
 
 /**
  * Created by Administrator on 2015/3/27.
  */
-public class ConfirmDialog extends Fragment implements View.OnClickListener{
+public class ConfirmDialog extends Dialog {
 
-    private static final int ALPHA_DURATION = 300;
+    private QSTextView dialogTitle;
+    private QSButton dialogCancel;
+    private QSButton dialogConfirm;
+    private LinearLayout layout;
+    private View centerLine;
 
-    private TextView title;
-    private TextView confirm;
-    private TextView cancel;
-
-    private String titleStr;
+    private CharSequence titleStr;
     private String confirmStr = "确定";
     private String cancelStr = "取消";
 
@@ -42,135 +35,95 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
         }
     };
 
-    private ViewGroup mGroup;
-    private View mView;
-    private FrameLayout frameLayout;
+    public ConfirmDialog(Context context) {
+        super(context, R.style.comfirmDialog);
+    }
 
-    private boolean isDismissed = false;
+    public ConfirmDialog(Context context, int theme) {
+        super(context, theme);
+    }
 
-    public void show(FragmentManager fm){
+    protected ConfirmDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+    }
 
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(this, "dialog");
-        ft.addToBackStack(null);
-        ft.commit();
-
+    @Override
+    public void show() {
+        super.show();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.confirm_dialog);
+
+        dialogTitle = (QSTextView) findViewById(R.id.dialog_title);
+        dialogConfirm = (QSButton) findViewById(R.id.dialog_confirm);
+        dialogCancel = (QSButton) findViewById(R.id.dialog_cancel);
+        layout = (LinearLayout) findViewById(R.id.dialog_layout);
+        centerLine = findViewById(R.id.dialog_center_line);
+
+        ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
+        layoutParams.width = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 2;
+        layout.setLayoutParams(layoutParams);
+
+        dialogTitle.setText(titleStr);
+        dialogConfirm.setText(confirmStr);
+        dialogConfirm.setOnClickListener(confirmOnClickListener);
+        dialogCancel.setText(cancelStr);
+        dialogCancel.setOnClickListener(cancelOnClickListener);
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        mView = inflater.inflate(R.layout.confirm_dialog, container);
-
-        title = (TextView) mView.findViewById(R.id.dialog_title);
-        confirm = (TextView) mView.findViewById(R.id.dialog_confirm);
-        cancel = (TextView) mView.findViewById(R.id.dialog_cancel);
-
-        title.setText(titleStr);
-        confirm.setText(confirmStr);
-        confirm.setOnClickListener(confirmOnClickListener);
-        cancel.setText(cancelStr);
-        cancel.setOnClickListener(cancelOnClickListener);
-
-        mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
-
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        frameLayout = new FrameLayout(getActivity());
-        frameLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        frameLayout.setBackgroundColor(Color.argb(136, 0, 0, 0));
-        frameLayout.setOnClickListener(this);
-
-        LinearLayout mPanel = new LinearLayout(getActivity());
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(size.x/5, 0, size.x/5, 0);
-        params.gravity = Gravity.CENTER;
-        mPanel.setLayoutParams(params);
-        mPanel.setOrientation(LinearLayout.VERTICAL);
-
-        mPanel.addView(mView);
-        frameLayout.addView(mPanel);
-        mGroup.addView(frameLayout);
-
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        mGroup.removeView(frameLayout);
-        frameLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mGroup.removeView(frameLayout);
-            }
-        }, ALPHA_DURATION);
-        super.onDestroyView();
-    }
-
-    public ConfirmDialog setTitle(String title){
+    public void setTitle(CharSequence title) {
         this.titleStr = title;
-        if(null != this.title) this.title.setText(title);
-        return this;
     }
 
-    public ConfirmDialog setConfirm(View.OnClickListener onClickListener){
+    public void setTitle(SpannableString title) {
+        if (null != this.dialogTitle) this.dialogTitle.setText(title);
+    }
+
+    public ConfirmDialog setConfirm(View.OnClickListener onClickListener) {
         this.confirmOnClickListener = onClickListener;
-        if(null != this.confirm) {
-            this.confirm.setText(confirmStr);
-            this.confirm.setOnClickListener(onClickListener);
+        if (null != this.dialogConfirm) {
+            this.dialogConfirm.setText(confirmStr);
+            this.dialogConfirm.setOnClickListener(onClickListener);
         }
         return this;
     }
 
-    public ConfirmDialog setConfirm(String confirm, View.OnClickListener onClickListener){
+    public ConfirmDialog setConfirm(String confirm, View.OnClickListener onClickListener) {
         this.confirmStr = confirm;
         this.confirmOnClickListener = onClickListener;
-        if(null != this.confirm) {
-            this.confirm.setText(confirm);
-            this.confirm.setOnClickListener(onClickListener);
+        if (null != this.dialogConfirm) {
+            this.dialogConfirm.setText(confirm);
+            this.dialogConfirm.setOnClickListener(onClickListener);
         }
         return this;
     }
 
-    public ConfirmDialog setCancel(View.OnClickListener onClickListener){
-        if(null != this.cancel) {
-            this.cancel.setText(cancelStr);
-            this.confirm.setOnClickListener(onClickListener);
+    public ConfirmDialog setCancel(View.OnClickListener onClickListener) {
+        if (null != this.dialogCancel) {
+            this.dialogCancel.setText(cancelStr);
+            this.dialogConfirm.setOnClickListener(onClickListener);
         }
         return this;
     }
 
-    public ConfirmDialog setCancel(String cancel, View.OnClickListener onClickListener){
+    public ConfirmDialog setCancel(String cancel, View.OnClickListener onClickListener) {
         this.cancelStr = cancel;
-        if(null != this.cancel) {
-            this.cancel.setText(cancel);
-            this.confirm.setOnClickListener(onClickListener);
+        if (null != this.dialogCancel) {
+            this.dialogCancel.setText(cancel);
+            this.dialogConfirm.setOnClickListener(onClickListener);
         }
         return this;
     }
 
-    public void dismiss(){
-        if(isDismissed){
-            return;
+    public void hideCancel() {
+        if(null != this.dialogCancel) {
+            this.dialogCancel.setVisibility(View.GONE);
+            this.centerLine.setVisibility(View.GONE);
         }
-        isDismissed = true;
-        getFragmentManager().popBackStack();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.remove(this);
-        ft.commit();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
     }
 }

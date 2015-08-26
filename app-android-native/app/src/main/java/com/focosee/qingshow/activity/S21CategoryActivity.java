@@ -16,10 +16,13 @@ import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
+import com.focosee.qingshow.util.ComparatorFactory;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -43,7 +46,9 @@ public class S21CategoryActivity extends BaseActivity {
         ButterKnife.inject(this);
 
         s21_listview = (ListView) findViewById(R.id.s21_listview);
-        selectCategories = new ArrayList<>();
+        selectCategories = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS);
+        getDataFromNet();
+        s21_listview.setDividerHeight(0);
     }
 
     @Override
@@ -51,12 +56,6 @@ public class S21CategoryActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getDataFromNet();
-        s21_listview.setDividerHeight(0);
-    }
 
     @OnClick(R.id.submit)
     public void submit() {
@@ -81,41 +80,25 @@ public class S21CategoryActivity extends BaseActivity {
                 ArrayList<MongoCategories> arrayList = CategoryParser.parseQuery(response);
                 for (MongoCategories ca : arrayList) {
                     MongoParentCategories parentRef = ca.parentRef;
-                    boolean activate = ca.isActivate();
-                    if (activate && (parentRef == null)) {
+                    if (parentRef == null) {
                         categories.add(ca);
                     }
                 }
-                categoriesSort();
-                List<Integer> disable = new ArrayList<>();
+                Collections.sort(categories, ComparatorFactory.categoriesComparator());
                 for (int i = 0; i < categories.size(); i++) {
                     String id = categories.get(i).get_id();
                     ArrayList<MongoCategories> item = new ArrayList<>();
                     for (MongoCategories cas : arrayList) {
                         MongoParentCategories parentRef = cas.parentRef;
-                        boolean activate;
-                        if (cas.matchInfo == null) {
-                            activate = true;
-                        } else {
-                            activate = cas.matchInfo.enabled;
-                        }
                         if (parentRef != null) {
-                            if (activate && (id.equals(parentRef._id))) {
+                            if (id.equals(parentRef._id)) {
                                 item.add(cas);
                             }
                         }
                     }
                     if (item.size() > 0) {
                         items.add(item);
-                    } else {
-                        disable.add(i);
                     }
-                }
-
-                itemSort();
-
-                for (Integer index : disable) {
-                    categories.remove(index.intValue());
                 }
                 show();
             }
@@ -125,42 +108,27 @@ public class S21CategoryActivity extends BaseActivity {
 
     private void show() {
         S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(S21CategoryActivity.this, categories, items,
-                getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS));
+                selectCategories);
         adapter.setOnSelectChangeListener(new S21CategoryListViewAdapter.OnSelectChangeListener() {
             @Override
             public void onSelectChanged(List<String> selectRefs) {
-                selectCategories.clear();
-                selectCategories.addAll(selectRefs);
+                selectCategories = selectRefs;
             }
         });
         s21_listview.setAdapter(adapter);
     }
 
-    private void categoriesSort(){
-        MongoCategories temp;
-        for (int i = 0; i < categories.size() - 1; i++) {
-            for (int j = 0; j < categories.size() - i - 1; j++) {
-                if(Integer.parseInt(categories.get(j).order) > Integer.parseInt(categories.get(j + 1).order)){
-                    temp = categories.get(j);
-                    categories.set(j, categories.get(j + 1));
-                    categories.set(j + 1, temp);
-                }
-            }
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S21CategoryActivity");
+        MobclickAgent.onResume(this);
     }
 
-    private void itemSort(){
-        MongoCategories temp;
-        for (int k = 0; k < items.size(); k++) {
-            for (int i = 0; i < items.get(k).size(); i++) {
-                for (int j = 0; j < items.get(k).size() - i - 1; j++) {
-                    if (Integer.parseInt(items.get(k).get(j).order) > Integer.parseInt(items.get(k).get(j + 1).order)) {
-                        temp = items.get(k).get(j);
-                        items.get(k).set(j, items.get(k).get(j + 1));
-                        items.get(k).set(j + 1, temp);
-                    }
-                }
-            }
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S21CategoryActivity");
+        MobclickAgent.onPause(this);
     }
 }

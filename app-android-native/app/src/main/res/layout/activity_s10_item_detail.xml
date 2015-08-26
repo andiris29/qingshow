@@ -1,83 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <com.focosee.qingshow.widget.MViewPager_NoScroll
-        android:id="@+id/s10_item_viewpager"
+
+
+    <WebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/s10_item_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
 
-    <ImageButton
+
+    <ImageView
+        android:padding="5dp"
         android:id="@+id/s10_back_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/s03_back_btn"
+        android:scaleType="fitCenter"
+        android:background="@null"
+        android:src="@drawable/s10_back"
         android:onClick="onClick" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+    <ImageView
+        android:id="@+id/s10_bay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:background="@drawable/show_bottom_shadow"
-        android:orientation="vertical">
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:onClick="onClick"
+        android:src="@drawable/sale"
+        app:layout_marginBottomPercent="10%"
+        app:layout_marginRightPercent="3%"
+        app:layout_widthPercent="40%"
+        android:adjustViewBounds="true"
+        />
 
-        <com.focosee.qingshow.widget.indicator.PageIndicator
-            android:id="@+id/s10_page_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/s10_item_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:paddingTop="25dp"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:id="@+id/s10_item_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:paddingTop="5dp"
-                android:textColor="#ffffff" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/s10_bay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:layout_marginBottom="20dp"
-            android:textSize="30sp"
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:text="Buy Now"
-            android:background="@drawable/red_btn" />
-
-    </LinearLayout>
-</RelativeLayout>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</android.support.percent.PercentRelativeLayout>
 
 

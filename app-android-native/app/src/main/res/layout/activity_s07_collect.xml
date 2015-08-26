@@ -12,9 +12,10 @@
 
         <ImageButton
             android:id="@+id/s07_back_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:adjustViewBounds="true"
+            android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/collect_icon_close"
             android:background="#00000000"
@@ -22,7 +23,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"/>
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s07_tv"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
             android:textSize="40px"
             android:layout_marginTop="30dp"/>
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/s07_brand_tv"
             android:layout_below="@+id/s07_tv"
             android:layout_width="fill_parent"
@@ -60,18 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/s07_top_line"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" ></android.support.v7.widget.RecyclerView>
-
-        <View
-            android:layout_below="@+id/s07_item_list"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="#ffffff" />
-
-
+            android:layout_marginRight="20dp" />
 
     </RelativeLayout>
 

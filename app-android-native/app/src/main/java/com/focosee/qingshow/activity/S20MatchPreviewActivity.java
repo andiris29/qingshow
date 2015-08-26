@@ -1,11 +1,11 @@
 package com.focosee.qingshow.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,6 +24,8 @@ import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.widget.LoadingDialogs;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +38,6 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import dmax.dialog.SpotsDialog;
 
 /**
  * Created by Administrator on 2015/7/9.
@@ -49,13 +50,15 @@ public class S20MatchPreviewActivity extends BaseActivity {
     ImageView back;
     @InjectView(R.id.submitBtn)
     Button submitBtn;
+    @InjectView(R.id.rootView)
+    LinearLayout rootView;
 
     private Bitmap bitmap;
     private List<String> itemRefs;
 
     private MongoShow show;
     private String uuid;
-    private SpotsDialog dialog;
+    private LoadingDialogs dialog;
 
     @Override
     public void reconn() {
@@ -67,7 +70,8 @@ public class S20MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
-        dialog = new SpotsDialog(this,getResources().getString(R.string.s20_loading));
+        dialog = new LoadingDialogs(this, R.style.dialog);
+        dialog.setCanceledOnTouchOutside(false);
         itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         initImage();
     }
@@ -92,13 +96,17 @@ public class S20MatchPreviewActivity extends BaseActivity {
     private void allowClick() {
         submitBtn.setClickable(true);
         back.setClickable(true);
+        rootView.setClickable(true);
+        rootView.setFocusable(true);
         dialog.dismiss();
     }
 
     private void forbidClick() {
-        dialog.show();
         submitBtn.setClickable(false);
         back.setClickable(false);
+        rootView.setClickable(false);
+        rootView.setFocusable(false);
+        dialog.show();
     }
 
     private void saveMatch() {
@@ -150,7 +158,8 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 show = ShowParser.parsePeopleAndItemString(response);
                 allowClick();
                 Intent intent = new Intent(S20MatchPreviewActivity.this, S03SHowActivity.class);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID,show._id);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
+                intent.putExtra(S03SHowActivity.CLASS_NAME, S20MatchPreviewActivity.class.getSimpleName());
                 S20MatchPreviewActivity.this.startActivity(intent);
                 S20MatchPreviewActivity.this.finish();
             }
@@ -169,9 +178,23 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (!bitmap.isRecycled()) {
             bitmap.recycle();
         }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S20MatcherPreviewActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S20MatcherPreviewActivity");
+        MobclickAgent.onPause(this);
     }
 }

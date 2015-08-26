@@ -4,6 +4,7 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="horizontal"
     android:scrollbarStyle="outsideOverlay">
 
@@ -15,47 +16,69 @@
             android:id="@+id/context"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <com.focosee.qingshow.widget.MViewPager_NoScroll
                 android:id="@+id/user_viewPager"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
             <RelativeLayout
                 android:id="@+id/user_head_layout"
                 android:layout_width="match_parent"
                 android:layout_height="360dp">
 
-            <ImageView
-                android:id="@+id/user_bg"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:scaleType="fitXY"
-                android:background="@color/white"/>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/user_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    fresco:placeholderImage="@drawable/user_background_default"
+                    fresco:placeholderImageScaleType="fitXY" />
 
-            <ImageView
-                android:id="@+id/user_nav_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/nav_btn_menu_n_white"/>
+                <ImageButton
+                    android:id="@+id/user_nav_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@null"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    android:src="@drawable/nav_btn_menu_n" />
 
-            <include layout="@layout/item_u01_header"/>
+                <include layout="@layout/item_u01_header" />
             </RelativeLayout>
 
         </RelativeLayout>
-        <ImageView
+
+        <ImageButton
+            android:id="@+id/user_back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:src="@drawable/nav_btn_back" />
+
+        <ImageButton
             android:id="@+id/u01_backTop_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone"
-            android:background="@drawable/back_top"/>
+            android:layout_marginBottom="40dp"
+            android:layout_marginRight="30dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_top"
+            android:visibility="gone" />
     </FrameLayout>
 
     <ImageView
@@ -63,6 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
-    <include layout="@layout/menu"/>
+
+    <include layout="@layout/menu" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -5,27 +5,27 @@
     android:background="@color/gray_background"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.percent.PercentRelativeLayout
         android:id="@+id/S08_title_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="50dp"
         android:background="@drawable/bg_titlebar"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/return_back_image_button"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="#00000000"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@null"
             android:padding="10dp"
-            android:src="@drawable/btn_back_default" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_btn_back" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
+        <com.focosee.qingshow.widget.QSTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_weight="5"
             android:gravity="center"
@@ -33,18 +33,8 @@
             android:textColor="#454545"
             android:textSize="@dimen/text_size"
             android:textStyle="bold" />
+    </android.support.percent.PercentRelativeLayout>
 
-        <TextView
-            android:id="@+id/person_addresslist_btn_address"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
-    <com.squareup.timessquare.CalendarPickerView
-        android:id="@+id/calendar_view_return_activity"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -68,19 +58,18 @@
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/address_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/address_return_activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="上海市普陀区中山北路2438号13楼B座"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -89,26 +78,25 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/receiver_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/receiver_return_activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="上海市品聚网络科技有限公司"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -117,26 +105,25 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/phone_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:id="@+id/phone_return_activity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="021-64269853"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
 
@@ -145,24 +132,22 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/matters_activity_return"
-                    android:textColor="@color/p01_text_color_model_height" />
+                    android:textColor="@color/gary" />
 
-                <TextView
-                    android:id="@+id/matters_return_activity"
+                <com.focosee.qingshow.widget.QSTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="我们支持七日无理由退货，如果亲们发现宝贝不合适，请七日内用快递将商品完好地退回"
-                    android:textColor="@color/p01_text_color_model_height" />
-
-
+                    android:text="@string/matters_activity_return_value"
+                    android:textColor="@color/gary"
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -173,7 +158,7 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -185,26 +170,27 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/info_expressage_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size" />
 
-                    <EditText
+                    <com.focosee.qingshow.widget.QSEditText
                         android:id="@+id/company_return_activity"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
+                        android:gravity="center_vertical"
                         android:hint="请填写货运公司"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
@@ -215,27 +201,29 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/item_height_activity_return"
                     android:gravity="center_vertical">
 
-                    <TextView
+                    <com.focosee.qingshow.widget.QSTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/info_expressNO_activity_return"
                         android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size" />
 
-                    <EditText
+                    <com.focosee.qingshow.widget.QSEditText
                         android:id="@+id/returnNumber__return_activity"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
+                        android:gravity="center_vertical"
                         android:hint="请填写货运单号"
+                        android:inputType="number"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />
@@ -245,52 +233,54 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                    android:background="@color/gary" />
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/returnDate_layout_return_activity"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="@dimen/item_height_activity_return"-->
-                    <!--android:gravity="center_vertical">-->
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/item_height_activity_return"
+                    android:gravity="center_vertical">
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/info_expressDate_activity_return"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="@dimen/text_size" />-->
+                    <com.focosee.qingshow.widget.QSTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="退货理由:"
+                        android:textColor="@color/darker_gray"
+                        android:textSize="@dimen/text_size" />
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/returnDate__return_activity"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:hint="请选择日期"-->
-                        <!--android:textColorHint="@color/hint_text_color"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="@dimen/text_size" />-->
+                    <com.focosee.qingshow.widget.QSEditText
+                        android:id="@+id/matters__return_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请填写退货理由"
+                        android:inputType="number"
+                        android:textColor="@color/darker_gray"
+                        android:textColorHint="@color/hint_text_color"
+                        android:textSize="@dimen/text_size" />
 
-                <!--</LinearLayout>-->
+                </LinearLayout>
 
-                <!--<View-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="1px"-->
-                    <!--android:background="@color/p01_text_color_model_height" />-->
-
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gary" />
 
             </LinearLayout>
 
-            <TextView
+            <com.focosee.qingshow.widget.QSButton
                 android:id="@+id/apply_return_btn_return_activity"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/item_height_activity_settings"
-                android:background="@drawable/bg_trade_service_phone"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginRight="-20dp"
+                android:background="@drawable/root_icon_red_round_background"
                 android:gravity="center"
                 android:text="@string/sure_btn_activity_return"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -34,15 +34,17 @@
             <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:background="#A0A0A0">
+                android:layout_weight="1.5"
+                android:background="@color/gray_background">
 
-                <Button
+                <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/selectBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
-                    android:background="@drawable/nomal_btn"
+                    android:background="@drawable/bg_submit_match"
+                    app:clickGround="@drawable/round_btn_background"
+                    android:gravity="center"
                     android:text="选择分类"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -51,13 +53,15 @@
                     app:layout_marginTopPercent="15%"
                     app:layout_widthPercent="45%" />
 
-                <Button
+                <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/submitBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/bg_submit_match"
+                    app:clickGround="@drawable/round_btn_background"
+                    android:gravity="center"
                     android:text="预览搭配"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -67,13 +71,16 @@
                     app:layout_widthPercent="45%" />
             </android.support.percent.PercentRelativeLayout>
         </LinearLayout>
-        <ImageView
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="6dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="5dp"
-            android:src="@drawable/nav_btn_menu_n"
-            android:id="@+id/menu"/>
+            android:padding="10dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_btn_menu_n" />
     </FrameLayout>
 
     <ImageView

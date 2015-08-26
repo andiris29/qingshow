@@ -2,8 +2,12 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,14 +22,20 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
+import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -35,6 +45,8 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import butterknife.ButterKnife;
@@ -53,7 +65,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
     EditText reConfirmEditText;
     @InjectView(R.id.phoneEditText)
     EditText phoneEditText;
-    private int shoeSizes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     private RequestQueue requestQueue;
     private IWXAPI wxApi;
 
@@ -62,6 +73,8 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
     private AuthInfo mAuthInfo;
     /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
     private SsoHandler mSsoHandler;
+    private int[] portraits = {R.drawable.default_head_1, R.drawable.default_head_2, R.drawable.default_head_3, R.drawable.default_head_4
+            ,R.drawable.default_head_5, R.drawable.default_head_6};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +90,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.register_login_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(U07RegisterActivity.this, "login", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
                 finish();
             }
@@ -115,6 +127,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                     if (user == null) {
                         ErrorHandler.handle(context, MetadataParser.getError(response));
                     } else {
+                        uploadImage();
                         QSModel.INSTANCE.setUser(user);
                         updateSettings();
                         Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
@@ -144,6 +157,32 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    private void uploadImage() {
+
+        QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
+                QSAppWebAPI.getUserUpdateportrait(), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response))return;
+                MongoPeople user = UserParser._parsePeople(response);
+                if (user != null) {
+                    UserCommand.refresh();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        int i = (int)Math.random() * 5;
+        QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
+        multipartEntity.addBinaryPart("portrait", BitMapUtil.bmpToByteArray(BitmapFactory.decodeResource(getResources(), portraits[i]), false, Bitmap.CompressFormat.JPEG));
+        RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
+    }
+
     public void weiChatLogin() {
         // send oauth request
         if (!wxApi.isWXAppInstalled()) {
@@ -162,9 +201,44 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         mSsoHandler.authorize(new AuthListener());
     }
 
-    public void onEventMainThread(String finish) {
-        if (FINISH_CODE.equals(finish))
-            finish();
+    private void loginWX(String code) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("code", code);
+        map.put("registrationId", PushModel.INSTANCE.getRegId());
+        JSONObject jsonObject = new JSONObject(map);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
+                    finish();
+                    return;
+                }
+
+                Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
+                MongoPeople user = UserParser._parsePeople(response);
+                if(TextUtils.isEmpty(user.portrait)){
+                    uploadImage();
+                }
+                QSModel.INSTANCE.setUser(user);
+                Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    public void onEventMainThread(EventModel<String> eventModel) {
+        if(eventModel.tag.equals(U07RegisterActivity.class.getSimpleName())){
+            loginWX(eventModel.msg);
+        }
     }
 
     @Override
@@ -234,6 +308,12 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     /**
      * 微博认证授权回调类。
      * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
@@ -252,7 +332,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
             if (mAccessToken.isSessionValid()) {
                 Map<String, String> map = new HashMap<>();
-                map.put("access_toke", mAccessToken.getToken());
+                map.put("access_token", mAccessToken.getToken());
                 map.put("uid", mAccessToken.getUid());
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
                 QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWbApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
@@ -266,7 +346,11 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                         Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                         MongoPeople user = UserParser._parsePeople(response);
                         QSModel.INSTANCE.setUser(user);
-                        startActivity(new Intent(U07RegisterActivity.this, U01UserActivity.class));
+                        Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user", user);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                         finish();
                         return;
                     }

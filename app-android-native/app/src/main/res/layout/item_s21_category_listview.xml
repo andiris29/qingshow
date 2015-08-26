@@ -7,7 +7,7 @@
         android:id="@+id/item_s21_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="5dp">
@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:background="@color/master_pink" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_s21_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,20 +38,21 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_below="@id/item_s21_head"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/last"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
             <ImageView
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:background="@drawable/matcher_item_selection_pre_hover" />
-        </RelativeLayout>
+        </FrameLayout>
 
 
         <android.support.v4.view.ViewPager
@@ -60,17 +61,17 @@
             android:layout_height="80dp"
             android:layout_weight="7" />
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/next"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
             <ImageView
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:background="@drawable/matcher_item_selection_next" />
-        </RelativeLayout>
+        </FrameLayout>
     </LinearLayout>
 </RelativeLayout>

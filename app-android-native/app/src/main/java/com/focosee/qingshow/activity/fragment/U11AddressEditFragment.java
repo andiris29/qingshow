@@ -23,6 +23,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.widget.CityPicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -74,8 +75,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         people = QSModel.INSTANCE.getUser();
 
         receiver = (MongoPeople.Receiver) getActivity().getIntent().getSerializableExtra("receiver");
-
-//        preferences = getActivity().getSharedPreferences(MPREFERENCES,Context.MODE_PRIVATE);
 
         if(null != getArguments()){
             id = getArguments().getString("id");
@@ -195,9 +194,10 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             public void onError(int errorCode) {
                 ErrorHandler.handle(getActivity(), errorCode);
             }
+
             @Override
             public void onComplete(JSONObject response) {
-                if(MetadataParser.hasError(response)){
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;
                 }
@@ -209,7 +209,8 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                     }
                 });
                 Gson gson = new Gson();
-                receiver = gson.fromJson(gson.toJson(params), new TypeToken<MongoPeople.Receiver>(){}.getType());
+                receiver = gson.fromJson(gson.toJson(params), new TypeToken<MongoPeople.Receiver>() {
+                }.getType());
                 EventBus.getDefault().post(receiver);
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
@@ -221,5 +222,17 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     public void onFocusChange(View v, boolean hasFocus) {
         if(!(ViewName.AREA == v.getTag() && hasFocus)){
         }
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U11AddressEditFragment"); //统计页面
+        MobclickAgent.onResume(getActivity());
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U11AddressEditFragment");
+        MobclickAgent.onResume(getActivity());
     }
 }

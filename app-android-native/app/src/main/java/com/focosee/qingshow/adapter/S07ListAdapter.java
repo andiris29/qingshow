@@ -4,21 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.S07CollectActivity;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
-import com.focosee.qingshow.activity.S11NewTradeActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
-import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.util.QSComponent;
+import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-import com.focosee.qingshow.widget.ConfirmDialog;
-import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 
 import java.util.List;
 
@@ -42,33 +38,46 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
 
     @Override
     public int getItemViewType(int position) {
+        if (position == getItemCount() - 1) return 1;
         return 0;
     }
 
     @Override
+    public int getItemCount() {
+        return super.getItemCount() + 1;
+    }
+
+    @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
+        if (position == getItemCount() - 1)
+            return;
 
         final MongoItem item = getItemData(position);
-
-        holder.setImgeByUrl(R.id.item_s07_category, item.categoryRef.icon);
+        if(!item.categoryRef.activate)return;
+        //TODO item.thumbnail用最小的图
+        holder.setImgeByUrl(R.id.item_s07_category, ImgUtil.getImgSrc(item.thumbnail, ImgUtil.Meduim));
         holder.setText(R.id.item_s07_name, item.name);
-        holder.getView(R.id.item_s07_detail_btn).setOnClickListener(new View.OnClickListener() {
+
+        if (!TextUtils.isEmpty(item.promoPrice))
+            holder.setText(R.id.item_s07_price, "价格：" + StringUtil.FormatPrice(item.promoPrice));
+        holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null == item){
-                    Toast.makeText(context, R.string.item_not_exist, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(null == item.images || 0 == item.images.size()){
-                    Toast.makeText(context, R.string.image_not_exist, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent intent = new Intent(context, S10ItemDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                jump(item);
             }
         });
+    }
+
+    public void jump(MongoItem item) {
+        if (null == item) {
+            Toast.makeText(context, R.string.item_not_exist, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(context, S10ItemDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+        System.out.println("url:" + item.source);
     }
 }

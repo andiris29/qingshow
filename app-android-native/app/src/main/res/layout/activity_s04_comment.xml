@@ -1,8 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:freso="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.S04CommentActivity">
 
     <include layout="@layout/title"
@@ -11,21 +12,23 @@
         android:layout_height="50dp"/>
 
 
-    <com.focosee.qingshow.widget.RecyclerPullToRefreshView
-        android:id="@+id/S04_recyclerViewPull"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/s04_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
-        android:layout_below="@+id/s04_title"
-        android:background="@color/white"/>
+        android:layout_weight="1"
+        android:background="@color/white">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/s04_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
     
     <LinearLayout
         android:id="@+id/S04_bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_alignBottom="@+id/S04_recyclerViewPull"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
         android:orientation="horizontal"
         android:padding="5dp"
         android:background="#558a8a8a">
@@ -49,17 +52,17 @@
             android:layout_marginRight="5dp"
             android:paddingLeft="5dp"
             android:hint="输入新评论"/>
-
+        <!-- TODO 换字体-->
         <Button
             android:id="@+id/S04_send_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="7"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:textSize="18sp"
+            android:gravity="center"
             android:background="@drawable/s04_send_background"
             android:text="发送"/>
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

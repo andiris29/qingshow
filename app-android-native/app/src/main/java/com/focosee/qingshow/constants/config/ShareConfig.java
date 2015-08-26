@@ -19,7 +19,8 @@ package com.focosee.qingshow.constants.config;
 import com.focosee.qingshow.R;
 
 public class ShareConfig {
-    public static final String SINA_APP_KEY = "2665932670";
+//    public static final String SINA_APP_KEY = "2665932670";
+    public static final String SINA_APP_KEY = "1213293589";
 //    public static final String APP_ID = "wxd930ea5d5a258f4f";
     public static final String APP_ID = "wx75cf44d922f47721";
 
@@ -29,8 +30,16 @@ public class ShareConfig {
                     + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
                     + "follow_app_official_microblog," + "invitation_write";
 
-    public static final String SHARE_SHOW_URL = "http://chingshow.com/app-web?action=shareShow&_id=";
-    public static final String SHARE_TITLE="";
+    public static final String SHARE_SHOW_URL = "http://chingshow.com/app-web?entry=shareShow&_id=";
+
+    public static final String SHARE_TRADE_URL = "http://chingshow.com/app-web?entry=shareTrade";
+
+    public static final String SHARE_TITLE="正品折扣，在倾秀动动手指即刻拥有";
+    public static final String SHARRE_TRADE_DESCRIPTION = "服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！";
     public static final String SHARE_DESCRIPTION="美丽乐分享，潮流资讯早知道";
-    public static final int IMG = R.drawable.wx_share;
+    public static final int IMG = R.drawable.wx_share_trade;
+    public static final int SHARE_TRADE_IMG = R.drawable.wx_share_trade;
+    public static String getShareTradeUrl(String _tradeId, String peopleId) {
+        return SHARE_TRADE_URL + "&_id=" + _tradeId + "&initiatorRef=" + peopleId;
+    }
 }

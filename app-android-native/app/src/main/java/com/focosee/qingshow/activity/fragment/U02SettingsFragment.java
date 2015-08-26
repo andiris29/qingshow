@@ -1,12 +1,13 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.activity.U06LoginActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -47,17 +45,19 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.ActionSheet;
+import com.focosee.qingshow.widget.LoadingDialogs;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
+
+    private static final String TAG = U02SettingsFragment.class.getSimpleName();
 
     private static final String[] sexArgs = {"男", "女"};
     private static final String[] bodyTypeArgs = {"A型", "H型", "V型", "X型"};
@@ -69,63 +69,37 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private static final String TAG_EXPECTATIONS = "expectations";
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
-    @InjectView(R.id.backTextView)
     ImageView backTextView;
-    @InjectView(R.id.ageEditText)
     EditText ageEditText;
-    @InjectView(R.id.quitButton)
     Button quitButton;
-    @InjectView(R.id.navigation_btn_match)
     ImageButton navigationBtnMatch;
-    @InjectView(R.id.navigation_btn_good_match)
     ImageButton navigationBtnGoodMatch;
-    @InjectView(R.id.u01_people)
+    ImageButton navigationBtnDiscount;
     ImageButton u01People;
-
-    private Context context;
-    private RequestQueue requestQueue;
-
-    @InjectView(R.id.personalRelativeLayout)
     RelativeLayout personalRelativeLayout;
-    @InjectView(R.id.backgroundRelativeLayout)
     RelativeLayout backgroundRelativeLayout;
-    @InjectView(R.id.sexRelativeLayout)
-    RelativeLayout sexRelativeLayout;
-    @InjectView(R.id.bodyTypeRelativeLayout)
     RelativeLayout bodyTypeRelativeLayout;
-    @InjectView(R.id.changePasswordRelativeLayout)
     RelativeLayout changePasswordRelativeLayout;
-    @InjectView(R.id.tradelistRelativeLayout)
-    RelativeLayout tradeRelativeLayout;
-    @InjectView(R.id.addresslist_RelativeLayout)
     RelativeLayout addresslistRelativeLayout;
-    @InjectView(R.id.dressStyleEelativeLayout)
     RelativeLayout dressStyleRelativeLayout;
-    @InjectView(R.id.effectEelativeLayout)
     RelativeLayout effectRelativeLayout;
-    @InjectView(R.id.portraitImageView)
     ImageView portraitImageView;
-    @InjectView(R.id.backgroundImageView)
     ImageView backgroundImageView;
-    @InjectView(R.id.nameEditText)
     EditText nameEditText;
-    @InjectView(R.id.sexTextView)
-    TextView sexTextView;
-    @InjectView(R.id.heightEditText)
     EditText heightEditText;
-    @InjectView(R.id.weightEditText)
     EditText weightEditText;
-    @InjectView(R.id.bodyTypeTextView)
+    EditText bustEditText;
+    EditText shoulderEditText;
+    EditText waistlineEditText;
+    EditText hiplineEditText;
     TextView bodyTypeTextView;
-    @InjectView(R.id.dressStyleEditText)
     TextView dressStyleEditText;
-    @InjectView(R.id.effectEditText)
     TextView effectEditText;
-    @InjectView(R.id.u02_change_pw_text)
     TextView changePwText;
     public static U02SettingsFragment instance;
 
     private MongoPeople people;
+    private LoadingDialogs dialog;
 
     public static U02SettingsFragment newIntance() {
         return new U02SettingsFragment();
@@ -139,7 +113,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        dialog = new LoadingDialogs(getActivity(),R.style.dialog);
         if (null != savedInstanceState) {
             people = (MongoPeople) savedInstanceState.getSerializable("people");
         }
@@ -148,13 +122,17 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
-        ButterKnife.inject(this, view);
-        context = getActivity().getApplicationContext();
-        requestQueue = RequestQueueManager.INSTANCE.getQueue();
+        ((ImageView) view.findViewById(R.id.s17_settting)).setImageResource(R.drawable.root_menu_setting_gray);
+        ((TextView) view.findViewById(R.id.s17_settting_tv)).setTextColor(getResources().getColor(R.color.darker_gray));
+        matchUI(view);
+        return view;
+    }
 
-        getUser();
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initUser();
         setJumpListener();
         initDrawer();
 
@@ -178,19 +156,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     }
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-                Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getActivity(), U06LoginActivity.class);
+                Toast.makeText(getActivity(), "已退出登录", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
                 startActivity(intent);
                 GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
                 getActivity().finish();
             }
         });
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -224,12 +196,9 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     uploadImage(imgDecodableString, TYPE_BACKGROUD);
                 }
 
-            } else {
-                Toast.makeText(context, "您未选择图片！",
-                        Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Toast.makeText(context, "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
+            Toast.makeText(getActivity(), "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
                     .show();
         }
     }
@@ -237,22 +206,33 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void uploadImage(final String imgUri, final int type) {
 
         String api = "";
-
+        File file = new File(imgUri);
         if (type == TYPE_PORTRAIT) {
             api = QSAppWebAPI.getUserUpdateportrait();
         } else {
             api = QSAppWebAPI.getUserUpdatebackground();
         }
         String API = api;
+
+        dialog.show();
         QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
                 API, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(TAG, "response:" + response);
+                dialog.dismiss();
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    return;
+                }
                 MongoPeople user = UserParser._parsePeople(response);
-                if (user == null) {
-                    ErrorHandler.handle(context, MetadataParser.getError(response));
-                } else {
-                    getUser();
+                if (user != null) {
+                    if(TYPE_PORTRAIT == type){
+                        portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE)));
+                    }else{
+                        backgroundImageView.setImageURI(Uri.parse(user.background));
+                    }
+                    UserCommand.refresh();
                 }
             }
         }, new Response.ErrorListener() {
@@ -262,24 +242,54 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
             }
         });
-// 获取MultipartEntity对象
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addStringPart("content", "hello");
-// 文件参数
-        File file = new File(imgUri);
         multipartEntity.addFilePart("image", file);
         multipartEntity.addStringPart("filename", file.getName());
+        RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
+    }
 
-// 构建请求队列
-// 将请求添加到队列中
-        requestQueue.add(multipartRequest);
+    private void matchUI(View view){
+        backTextView = (ImageView) view.findViewById(R.id.backTextView);
+        ageEditText = (EditText) view.findViewById(R.id.ageEditText);
+        quitButton = (Button) view.findViewById(R.id.quitButton);
+        navigationBtnMatch = (ImageButton) view.findViewById(R.id.navigation_btn_match);
+        navigationBtnGoodMatch = (ImageButton) view.findViewById(R.id.navigation_btn_good_match);
+        navigationBtnDiscount = (ImageButton) view.findViewById(R.id.navigation_btn_discount);
+        u01People = (ImageButton) view.findViewById(R.id.u01_people);
+        personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
+        backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
+        bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
+        changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
+        addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
+        dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
+        effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
+        portraitImageView = (ImageView) view.findViewById(R.id.portraitImageView);
+        backgroundImageView = (ImageView) view.findViewById(R.id.backgroundImageView);
+        nameEditText = (EditText) view.findViewById(R.id.nameEditText);
+        heightEditText = (EditText) view.findViewById(R.id.heightEditText);
+        weightEditText = (EditText) view.findViewById(R.id.weightEditText);
+        bustEditText = (EditText) view.findViewById(R.id.bustEditText);
+        shoulderEditText = (EditText) view.findViewById(R.id.shoulderEditText);
+        waistlineEditText = (EditText) view.findViewById(R.id.waistlineEditText);
+        hiplineEditText = (EditText) view.findViewById(R.id.hiplineEditText);
+        bodyTypeTextView = (TextView) view.findViewById(R.id.bodyTypeTextView);
+        dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
+        effectEditText = (TextView) view.findViewById(R.id.effectEditText);
+        changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
+
+        drawer = (DrawerLayout) view.findViewById(R.id.drawer);
+        navigation = (LinearLayout) view.findViewById(R.id.navigation);
+        blur = (ImageView) view.findViewById(R.id.blur);
+        right = (LinearLayout) view.findViewById(R.id.context);
+        settingBtn = (ImageView) view.findViewById(R.id.s17_settting);
     }
 
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
             if (null != people.portrait) {
-                portraitImageView.setImageURI(Uri.parse(people.portrait));
+                portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(people.portrait, ImgUtil.PORTRAIT_LARGE)));
                 portraitImageView.setAlpha(1f);
             }
             if (null != people.background) {
@@ -292,11 +302,22 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 ageEditText.setText(String.valueOf(people.age));
             if (0 != people.height)
                 heightEditText.setText(String.valueOf(people.height));
-            if (0 != people.height)
+            if (0 != people.weight)
                 weightEditText.setText(String.valueOf(people.weight));
-            sexTextView.setText(sexArgs[people.gender]);
-            sexTextView.setTag(people.gender);
-
+            if(null != people.measureInfo){
+                if(0 != people.measureInfo.bust){
+                    bustEditText.setText(String.valueOf(people.measureInfo.bust));
+                }
+                if(0 != people.measureInfo.shoulder){
+                    shoulderEditText.setText(String.valueOf(people.measureInfo.shoulder));
+                }
+                if(0 != people.measureInfo.waist){
+                    waistlineEditText.setText(String.valueOf(people.measureInfo.waist));
+                }
+                if(0 != people.measureInfo.hips){
+                    hiplineEditText.setText(String.valueOf(people.measureInfo.hips));
+                }
+            }
             bodyTypeTextView.setText(bodyTypeArgs[people.bodyType]);
             bodyTypeTextView.setTag(people.bodyType);
             dressStyleEditText.setText(dressStyles[people.dressStyle]);
@@ -304,7 +325,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             if (null != people.expectations && people.expectations.length != 0) {
                 String effectStr = "";
                 for (int index : people.expectations) {
-                    effectStr += expectations[index] + "|";
+                    effectStr += expectations[index] + " ";
                 }
                 if (effectStr.length() > 0)
                     effectStr = effectStr.substring(0, effectStr.length() - 1);
@@ -317,18 +338,20 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getUser();
         outState.putSerializable("people", people);
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        if(v.getId() == R.id.quitButton){
+            if(v.isFocused())return;
+        }
         commitForm();
         UserCommand.refresh();
     }
 
     //获得用户信息
-    private void getUser() {
+    private void initUser() {
 
         UserCommand.refresh(new Callback() {
             @Override
@@ -392,11 +415,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
 
-        if (TAG_SEX.equals(String.valueOf(actionSheet.getTag()))) {
-            sexTextView.setText(sexArgs[index]);
-            sexTextView.setTag(index);
-        }
-
         if (TAG_BODYTYPE.equals(String.valueOf(actionSheet.getTag()))) {
             bodyTypeTextView.setText(bodyTypeArgs[index]);
             bodyTypeTextView.setTag(index);
@@ -417,20 +435,29 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
     private void commitForm() {
         Map params = new HashMap();
-        if (!nameEditText.getText().toString().equals(""))
-            params.put("name", nameEditText.getText().toString());
-        if (!ageEditText.getText().toString().equals(""))
+        Map measureInfo = new HashMap();
+        if (!TextUtils.isEmpty(nameEditText.getText().toString()))
+            params.put("nickname", nameEditText.getText().toString());
+        if (!TextUtils.isEmpty(ageEditText.getText().toString()))
             params.put("age", ageEditText.getText().toString());
-        if (!heightEditText.getText().toString().equals(""))
+        if (!TextUtils.isEmpty(heightEditText.getText().toString()))
             params.put("height", heightEditText.getText().toString());
-        if (!weightEditText.getText().toString().equals(""))
+        if (!TextUtils.isEmpty(weightEditText.getText().toString()))
             params.put("weight", weightEditText.getText().toString());
-        if (null != sexTextView.getTag())
-            params.put("gender", sexTextView.getTag().toString());
+        if (!TextUtils.isEmpty(bustEditText.getText().toString()))
+            measureInfo.put("bust", bustEditText.getText().toString());
+        if (!TextUtils.isEmpty(shoulderEditText.getText().toString()))
+            measureInfo.put("shoulder", shoulderEditText.getText().toString());
+        if (!TextUtils.isEmpty(waistlineEditText.getText().toString()))
+            measureInfo.put("waist", waistlineEditText.getText().toString());
+        if (!TextUtils.isEmpty(hiplineEditText.getText().toString()))
+            measureInfo.put("hips", hiplineEditText.getText().toString());
         if (null != bodyTypeTextView.getTag())
             params.put("bodyType", bodyTypeTextView.getTag().toString());
         if (null != dressStyleEditText.getTag())
             params.put("dressStyle", dressStyleEditText.getTag().toString());
+
+        params.put("measureInfo", measureInfo);
         UserCommand.update(params, new Callback() {
             @Override
             public void onComplete() {
@@ -440,13 +467,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onError(int errorCode) {
                 super.onError(errorCode);
-                ErrorHandler.handle(context, errorCode);
+                ErrorHandler.handle(getActivity(), errorCode);
             }
 
             @Override
             public void onError() {
                 super.onError();
-                Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "请检查网络", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -454,12 +481,17 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private void setJumpListener() {
         navigationBtnMatch.setOnClickListener(this);
         navigationBtnGoodMatch.setOnClickListener(this);
+        navigationBtnDiscount.setOnClickListener(this);
         u01People.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
 
         ageEditText.setOnFocusChangeListener(this);
         heightEditText.setOnFocusChangeListener(this);
         weightEditText.setOnFocusChangeListener(this);
+        bustEditText.setOnFocusChangeListener(this);
+        shoulderEditText.setOnFocusChangeListener(this);
+        waistlineEditText.setOnFocusChangeListener(this);
+        hiplineEditText.setOnFocusChangeListener(this);
 
         backTextView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -488,14 +520,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             }
         });
 
-        sexRelativeLayout.setOnClickListener(new View.OnClickListener(){
-             @Override
-             public void onClick(View view) {
-                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                 showActionSheet(TAG_SEX);
-             }
-        });
-
         bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener(){
               @Override
               public void onClick(View view) {
@@ -507,20 +531,17 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                U02ChangePasswordFragment fragment;
+                if(null == getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName())) {
+                    fragment = new U02ChangePasswordFragment();
+                }else{
+                    fragment = (U02ChangePasswordFragment)getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName());
+                }
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_left_out, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
                 U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
             }
         });
-
-        tradeRelativeLayout.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View v) {
-               Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
-               startActivity(intent);
-           }
-       });
 
         addresslistRelativeLayout.setOnClickListener(new View.OnClickListener(){
              @Override
@@ -530,7 +551,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
              }
          });
 
-        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener(){
+        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
@@ -538,18 +559,39 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             }
         });
 
-        effectRelativeLayout.setOnClickListener(new View.OnClickListener(){
+        effectRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                U02SelectExceptionFragment fragment = new U02SelectExceptionFragment();
+                U02SelectExceptionFragment fragment;
+                if (null == getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
+                    fragment = new U02SelectExceptionFragment();
+                else
+                    fragment = (U02SelectExceptionFragment) getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", people);
                 fragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, 0, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
                 U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
+        MobclickAgent.onResume(getActivity());
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U02SettingsFragment");
+        MobclickAgent.onResume(getActivity());
     }
 
     @Override

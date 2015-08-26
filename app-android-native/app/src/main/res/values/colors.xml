@@ -19,7 +19,8 @@
     <color name="indicator_bg_default_activity_personal">#88000000</color>
     <color name="indicator_bg_chosen_activity_personal">#88ffffff</color>
     <color name="indicator_text_color_default_activity_personal">#ffffff</color>
-    <color name="p01_text_color_model_height">#9e9e9e</color>
+    <color name="gary">#ff888888</color>
+    <color name="loading">#3e000000</color>
     <color name="btntextcolor">#ff1E90FF</color><!--dialog中按钮字体颜色 -->
 
     <color name="transparent">#0000</color>
@@ -34,6 +35,7 @@
     <color name="tab_uncheck">#88000000</color>
     
     <color name="gray_background">#CCCCCC</color>
+    <color name="btn_background">#EEEEEE</color>
     <color name="home_gray_background">#ffe6e6e6</color>
     
     <color name="mask_layer">#8f000000</color>
@@ -48,5 +50,7 @@
     <color name="seekbar_bg">#c3c3c3</color>
 
     <color name="master_pink">#F095A4</color>
-    
+    <color name="pink_200">#c8f095a4</color>
+    <color name="pink_100">#64f095a4</color>
+
 </resources>

@@ -4,7 +4,7 @@ package com.focosee.qingshow.constants.config;
  * Created by jackyu on 11/22/14.
  */
 public class QSAppWebAPI {
-    public static final String IMAGE_HOST_ADDRESS = "trial01.focosee.com";//识别头像是否是用倾秀上传
+    public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
     public static final String HOST_ADDRESS = "http://chinshow.com";
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
 
@@ -42,6 +42,7 @@ public class QSAppWebAPI {
 
     private static final String TRADE_CREATE_API = HOST_NAME + "/trade/create";
     private static final String TRADE_QUERY_API = HOST_NAME + "/trade/queryCreatedBy";
+    private static final String TRADE_QUERY = HOST_NAME + "/trade/query";
     private static final String TRADE_STATUSTO_API = HOST_NAME + "/trade/statusTo";
     private static final String TRADE_REFRESH = HOST_NAME + "/trade/refreshPaymentStatus";
     private static final String TOP_API = HOST_NAME + "/feeding/hot";
@@ -60,13 +61,32 @@ public class QSAppWebAPI {
     private static final String UPDATE_COVER = HOST_NAME + "/matcher/updateCover";
     private static final String MATCH_HIDE_API = HOST_NAME + "/matcher/hide";
 
+    private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
+
+    private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
+    private static final String PEOPLE_QUERY_API = HOST_NAME + "/people/query";
+    private static final String PAY_API = HOST_NAME + "/trade/prepay";
+    private static final String TRADE_SHARE_API = HOST_NAME + "/trade/share";
+
+    private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
+
+    private static final String TRADE_QUERYBY_PHASE_API = HOST_NAME + "/trade/queryByPhase";
+
+    public static String getTradeQuerybyPhaseApi(String phases, int pageNo, int pageSize) {
+        return TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
+
     public static String getMatchHideApi() {
         return MATCH_HIDE_API;
     }
 
-    private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
-    private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
-    private static final String PEOPLE_QUERY_API = HOST_NAME + "/people/query";
+    public static String getPayApi() {
+        return PAY_API;
+    }
+
+    public static String getTradeShareApi() {
+        return TRADE_SHARE_API;
+    }
 
     public static String getPeopleQueryApi(String _ids) {
         return PEOPLE_QUERY_API + "?_ids=" + _ids;
@@ -97,7 +117,7 @@ public class QSAppWebAPI {
     }
 
     public static String getMatchCreatedbyApi(String _id, int pageNo, int pageSize) {
-        return MATCH_CREATEDBY_API + "?_id=" + _id + "&apgeNo=" + pageNo + "&pageSize=" + pageSize;
+        return MATCH_CREATEDBY_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getMatchHotApi(int pageNo, int pageSize) {
@@ -112,6 +132,7 @@ public class QSAppWebAPI {
         return QUERY_CATEGORIES;
     }
 
+
     public static String getSpreadFirstlanuchApi() {
         return SPREAD_FIRSTLANUCH_API;
     }
@@ -121,12 +142,9 @@ public class QSAppWebAPI {
         return BYDATE_API + "?date=" + date;
     }
 
-
     public static String getTopApi() {
         return TOP_API;
     }
-
-    private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
 
     public static String getFeedingRecommendationApi() {
         return FEEDING_RECOMMENDATION_API;
@@ -152,8 +170,12 @@ public class QSAppWebAPI {
         return TRADE_STATUSTO_API;
     }
 
-    public static String getTradeQueryApi(String _id, int pageNo, int pageSize) {
-        return TRADE_QUERY_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public static String getTradeQueryApi(String _id, int pageNo, int pageSize, boolean inProgress) {
+        return TRADE_QUERY_API + "?_id=" + _id + "&inProgress=" + inProgress + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
+
+    public static String getTradeApi(String _id){
+        return TRADE_QUERY + "?_ids=" + _id;
     }
 
     public static String getUserApi() {

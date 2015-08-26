@@ -11,6 +11,7 @@ import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import java.util.Collections;
@@ -62,21 +63,20 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
     }
 
     private void bindCreateBy(AbsViewHolder holder, final MongoShow show){
-        holder.setImgeByUrl(R.id.item_u01_collection_img, ImgUtil.getImgSrc(show.cover, ImgUtil.LARGE), ValueUtil.match_img_AspectRatio);
-        holder.setImgeByUrl(R.id.item_u01_collection_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.LARGE), ValueUtil.pre_img_AspectRatio);
-        MongoPeople people = show.ownerRef;
-        holder.getView(R.id.item_u01_collection_top_layout).setOnClickListener(new View.OnClickListener() {
+
+        holder.getView(R.id.item_s01_matchlist_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, S03SHowActivity.class);
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
+                intent.putExtra(S03SHowActivity.CLASS_NAME, U01UserActivity.class.getSimpleName());
                 context.startActivity(intent);
             }
         });
-        holder.getView(R.id.item_u01_collection_bottom_layout).setOnClickListener(new View.OnClickListener() {
+        holder.getView(R.id.item_s01_bottom_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null == show.ownerRef)return;
+                if (null == show.ownerRef) return;
                 Intent intent = new Intent(context, U01UserActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", show.ownerRef);
@@ -84,10 +84,19 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
                 context.startActivity(intent);
             }
         });
-        if(null != people.portrait)
-            holder.setImgeByUrl(R.id.item_u01_collection_head_img, ImgUtil.getImgSrc(people.portrait, ImgUtil.LARGE));
-        holder.setText(R.id.item_u01_collection_nikename, people.nickname);
-        holder.setText(R.id.item_u01_collection_likeNum, String.valueOf(show.numLike));
+        holder.setImgeByUrl(R.id.item_s01_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.LARGE), ValueUtil.pre_img_AspectRatio);
+        holder.setImgeByUrl(R.id.item_s01_img, ImgUtil.getImgSrc(show.cover, ImgUtil.LARGE), ValueUtil.match_img_AspectRatio);
+        MongoPeople user = new MongoPeople();
+        if(null != show.ownerRef){
+            user = show.ownerRef;
+        }
+
+        if(null != user.portrait || "".equals(user.portrait))
+            holder.setImgeByUrl(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
+
+        holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" :TimeUtil.formatDateTime_CN_Pre(show.create) + "前");
+        holder.setText(R.id.item_s01_nikename, user.nickname);
+        holder.setText(R.id.item_s01_likeNum, String.valueOf(show.numLike));
     }
 
     @Override

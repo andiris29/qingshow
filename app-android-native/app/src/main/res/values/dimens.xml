@@ -6,6 +6,7 @@
     <dimen name="text_size">16sp</dimen>
     <dimen name="text_title_size">18sp</dimen>
     <dimen name="text_size_small">15sp</dimen>
+    <dimen name="text_size_mini">10sp</dimen>
     <dimen name="tab_text_size">16sp</dimen>
     <dimen name="tab_text_size_small">13sp</dimen>
     <dimen name="title_bar_height">50dp</dimen>
@@ -49,5 +50,4 @@
     <!-- guide page -->
     <dimen name="guide_page_textSize">40sp</dimen>
     <dimen name="guide_page_textSize_small">20sp</dimen>
-
 </resources>

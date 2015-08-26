@@ -23,7 +23,7 @@ public class TimeUtil {
 
     public static String parseDateString(GregorianCalendar calendar) {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         return dateFormat.format(calendar.getTime());
     }
 
@@ -144,12 +144,14 @@ public class TimeUtil {
         todayStart.set(Calendar.MINUTE, 0);
         todayStart.set(Calendar.SECOND, 0);
         todayStart.set(Calendar.MILLISECOND, 0);
-        int day = (int)Math.abs(time.getTimeInMillis() - todayStart.getTimeInMillis()) / (1000 * 60 * 60 * 24);
-        if(day < 1) {
+        System.out.println(time.getTimeInMillis() + "-" + todayStart.getTimeInMillis());
+        int day = (int)((time.getTimeInMillis() - todayStart.getTimeInMillis()) / (1000 * 60 * 60));
+        System.out.println("day:" + day);
+        if(day > 0) {
             simpleDateFormat = new SimpleDateFormat("HH:mm");
             return simpleDateFormat.format(new Date(time.getTimeInMillis()));
         }
-        if(day == 1){
+        if(day > -24 && day < 0){
             return "昨天";
         }
         simpleDateFormat = new SimpleDateFormat("yy/MM/dd");

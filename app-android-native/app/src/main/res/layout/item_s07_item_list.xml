@@ -3,43 +3,64 @@
     xmlns:freso="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_s07_collection"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:background="@color/transparent"
+    android:layout_height="70dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_s07_category"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
         android:layout_centerVertical="true"
-        freso:placeholderImage="@drawable/root_cell_placehold_image1"/>
+        android:layout_marginLeft="20dp"
+        freso:actualImageScaleType="fitCenter"
+        freso:placeholderImage="@drawable/root_cell_placehold_image1"
+        freso:roundAsCircle="true" />
 
-    <TextView
-        android:id="@+id/item_s07_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/item_s07_category"
-        android:layout_toLeftOf="@+id/item_s07_detail_btn"
-        android:gravity="center"
-        android:textSize="30px"
-        android:textColor="#ffffff"
-        android:singleLine="true"
-        android:ellipsize="end"
+    <LinearLayout
+        android:layout_marginLeft="20dp"
         android:layout_centerInParent="true"
-        android:text="紫色呢绒大衣"/>
+        android:layout_toLeftOf="@+id/item_s07_detail_btn"
+        android:layout_toRightOf="@+id/item_s07_category"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/item_s07_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size" />
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/item_s07_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size" />
+    </LinearLayout>
 
-    <Button
+
+
+    <ImageView
         android:id="@+id/item_s07_detail_btn"
-        android:layout_width="10dp"
+        android:layout_width="15dp"
         android:layout_height="15dp"
-        android:background="@drawable/matcher_item_selection_next_hover"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:textSize="30dp"
+        android:background="@null"
+        android:src="@drawable/s07_go_next"
         android:textColor="#ffffff"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"/>
+        android:background="@color/white" />
 </RelativeLayout>

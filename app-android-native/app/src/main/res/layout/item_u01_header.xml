@@ -8,55 +8,54 @@
     <ImageView
         android:id="@+id/bg"
         android:layout_width="match_parent"
-        android:layout_height="180dp"/>
+        android:layout_height="170dp"/>
 
 
     <LinearLayout
         android:id="@+id/center_layout"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="140dp"
         android:layout_below="@id/bg"
         android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text=""
+            android:layout_marginTop="20dp"
+            android:textSize="@dimen/text_size"
             android:textColor="@color/darker_gray" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/user_hw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:text=""
+            android:paddingTop="10dp"
+            android:textSize="12sp"
             android:textColor="@color/darker_gray" />
     </LinearLayout>
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/user_head"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/bg"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-33dp"
-        fresco:roundingBorderWidth="3dp"
-        fresco:roundAsCircle="true"
+        android:layout_marginTop="-40dp"
+        fresco:roundingBorderWidth="2dp"
         fresco:actualImageScaleType="focusCrop"
-        fresco:placeholderImage="@drawable/root_cell_placehold_head"
+        fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@color/white"/>
 
     <ImageView
         android:id="@+id/user_follow_btn"
-        android:layout_width="60dp"
+        android:layout_width="65dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="-20dp"
         android:layout_alignBottom="@+id/user_head"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/follow_btn"/>
 
@@ -80,10 +79,10 @@
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_match"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/match_pink"/>
-            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/u01_tab_match"/>
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_match_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +90,9 @@
                 android:layout_below="@+id/user_match"
                 android:layout_alignLeft="@+id/user_match"
                 android:layout_alignRight="@+id/user_match"
+                android:gravity="center"
                 android:layout_marginTop="5dp"
+                android:textSize="13sp"
                 android:text="搭配"/>
         </RelativeLayout>
         <RelativeLayout
@@ -103,18 +104,20 @@
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_recomm"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/recommend"/>
-            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/u01_tab_recomm"/>
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_recomm_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_recomm"
                 android:layout_alignLeft="@+id/user_recomm"
                 android:layout_alignRight="@+id/user_recomm"
                 android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textSize="13sp"
                 android:text="推荐"/>
             <View
                 android:id="@+id/circle_tip"
@@ -133,18 +136,20 @@
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_collection"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/collection"/>
-            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/u01_tab_coll"/>
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_collection_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_collection"
                 android:layout_alignLeft="@+id/user_collection"
                 android:layout_alignRight="@+id/user_collection"
                 android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:gravity="center"
                 android:text="收藏"/>
         </RelativeLayout>
         <RelativeLayout
@@ -156,18 +161,20 @@
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_follow"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/follow"/>
-            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/u01_tab_follower"/>
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_follow_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_follow"
                 android:layout_alignLeft="@+id/user_follow"
                 android:layout_alignRight="@+id/user_follow"
                 android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:gravity="center"
                 android:text="关注"/>
         </RelativeLayout>
         <RelativeLayout
@@ -179,18 +186,20 @@
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_fans"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/fans"/>
-            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/u01_tab_fans"/>
+            <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/user_fans_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darker_gray"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_fans"
                 android:layout_alignLeft="@+id/user_fans"
                 android:layout_alignRight="@+id/user_fans"
                 android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:gravity="center"
                 android:text="粉丝"/>
         </RelativeLayout>
     </LinearLayout>
