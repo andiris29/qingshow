@@ -3,13 +3,8 @@ package com.focosee.qingshow.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -71,7 +66,7 @@ public class PaymentRadio extends RelativeLayout {
     }
 
     private void init() {
-        rootView = (RelativeLayout) inflate(getContext(), R.layout.item_s11_payment, this);
+        rootView = (RelativeLayout) inflate(getContext(), R.layout.item_s17_payment, this);
         logoView = (ImageView) rootView.findViewById(R.id.s11_paymet_logo);
         nameView = (TextView) rootView.findViewById(R.id.s11_paymet_name);
         infoView = (TextView) rootView.findViewById(R.id.s11_paymet_info);

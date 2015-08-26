@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
@@ -20,14 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
-import com.focosee.qingshow.activity.S21CategoryActivity;
+import com.focosee.qingshow.activity.S20MatcherActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
-
 import butterknife.InjectView;
 
 /**
@@ -37,7 +37,6 @@ import butterknife.InjectView;
  */
 public class MenuFragment extends Fragment implements View.OnClickListener{
 
-    @InjectView(R.id.drawer)
     DrawerLayout drawer;
     @InjectView(R.id.navigation)
     LinearLayout navigation;
@@ -97,11 +96,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     }
 
     public void closeMenu() {
+        if(null == drawer)return;
         blur.setVisibility(View.INVISIBLE);
         drawer.closeDrawer(navigation);
     }
 
     public boolean isMenuOpened() {
+        if(null == drawer)return false;
         return drawer.isDrawerOpen(navigation);
     }
 
@@ -165,14 +166,16 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
-                _class = S21CategoryActivity.class;
+                _class = S20MatcherActivity.class;
+                break;
+            case R.id.navigation_btn_discount:
+                _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:
                 _class = U01UserActivity.class;
                 break;
             case R.id.s17_settting:
-                _class = U02SettingsActivity.class;
-                break;
+                return;
         }
 
         if(!QSModel.INSTANCE.loggedin()){
@@ -191,7 +194,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
         startActivity(intent);
-        if(!(getActivity() instanceof U02SettingsActivity)) getActivity().finish();
+        getActivity().finish();
     }
 
     public boolean onBackPressed() {

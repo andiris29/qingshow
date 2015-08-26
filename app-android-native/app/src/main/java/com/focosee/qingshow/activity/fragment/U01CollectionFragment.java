@@ -22,22 +22,25 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.ShowUtil;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.LinkedList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
 public class U01CollectionFragment extends U01BaseFragment {
 
     private static final String TAG = "U01CollectionFragment";
 
-    private OnFragmentInteractionListener mListener;
     private U01CollectionFragAdapter adapter;
 
     public static U01CollectionFragment newInstance(){
@@ -54,7 +57,7 @@ public class U01CollectionFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_collection_createby, R.layout.item_u01_collection_qingshow);
+        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_s01_matchlist, R.layout.item_u01_collection_qingshow);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -68,7 +71,7 @@ public class U01CollectionFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_COLL);
-                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), recyclerView);
                 EventBus.getDefault().post(eventModel);
             }
         });
@@ -93,25 +96,28 @@ public class U01CollectionFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
+                    if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    if(pageNo == 1){
+                        adapter.clearData();
+                        adapter.notifyDataSetChanged();
+                    }
+                    mRefreshLayout.endRefreshing();
+                    mRefreshLayout.endLoadingMore();
                     return;
                 }
 
+                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery_categoryString(response));
+
                 if(pageNo == 1) {
-                     adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                     adapter.addDataAtTop(datas);
+                    mRefreshLayout.endRefreshing();
                     currentPageN0 = pageNo;
                 }else{
-                    adapter.addData(ShowParser.parseQuery_categoryString(response));
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    adapter.addData(datas);
+                    mRefreshLayout.endLoadingMore();
                 }
                 currentPageN0++;
                 adapter.notifyDataSetChanged();
@@ -123,7 +129,6 @@ public class U01CollectionFragment extends U01BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -135,29 +140,15 @@ public class U01CollectionFragment extends U01BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(currentPageN0 <= 2)
-            getDatasFromNet(1, 10);
-        else
-            getDatasFromNet(1, 10 * currentPageN0 * 10);
+        MobclickAgent.onPageStart("U01CollectionFragment");
+        MobclickAgent.onResume(getActivity());
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
-    public RecyclerView getRecyclerView(){
-        return recyclerView;
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01CollectionFragment");
+        MobclickAgent.onPause(getActivity());
     }
 
 }

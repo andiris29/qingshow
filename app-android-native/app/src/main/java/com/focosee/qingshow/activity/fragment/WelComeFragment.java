@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +71,16 @@ public class WelComeFragment extends Fragment {
         return view;
     }
 
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("WelComeFragment"); //统计页面
+        MobclickAgent.onResume(getActivity());
+    }
 
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("WelComeFragment");
+        MobclickAgent.onResume(getActivity());
+    }
 
 }

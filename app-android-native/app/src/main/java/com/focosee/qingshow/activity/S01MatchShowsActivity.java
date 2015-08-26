@@ -1,29 +1,30 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
+import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.ShowUtil;
-import com.focosee.qingshow.util.TimeUtil;
-import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
+import com.focosee.qingshow.util.RecyclerViewUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -32,29 +33,37 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import de.greenrobot.event.EventBus;
 
-public class S01MatchShowsActivity extends MenuActivity {
+public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
-    private static final String TAG = "S01MatchShowsActivity";
+    public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
+
     @InjectView(R.id.s01_backTop_btn)
-    ImageView s01BackTopBtn;
+    ImageButton s01BackTopBtn;
+    @InjectView(R.id.navigation_btn_match)
+    ImageButton navigationBtnMatch;
+    @InjectView(R.id.navigation_btn_match_tv)
+    TextView navigationBtnMatchTv;
+    @InjectView(R.id.s01_refresh)
+    BGARefreshLayout mRefreshLayout;
+    @InjectView(R.id.s01_recyclerview)
+    RecyclerView recyclerView;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
-    private final int PAGESIZE = 20;
+    private final int PAGESIZE = 30;
 
     @InjectView(R.id.s01_menu_btn)
     ImageView s01MenuBtn;
     @InjectView(R.id.s01_tab_hot)
     Button s01TabHot;
-    @InjectView(R.id.s01_recyclerView)
-    RecyclerPullToRefreshView recyclerPullToRefreshView;
     @InjectView(R.id.s01_tab_new)
     Button s01TabNew;
 
     private S01ItemAdapter adapter;
-    private RecyclerView recyclerView;
     private int currentPageNo = 1;
     private int currentType = TYPE_HOT;
 
@@ -65,48 +74,26 @@ public class S01MatchShowsActivity extends MenuActivity {
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
         initDrawer();
+        initRefreshLayout();
+        navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
+        navigationBtnMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 menuSwitch();
             }
         });
-        recyclerView = recyclerPullToRefreshView.getRefreshableView();
-        recyclerPullToRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<RecyclerView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doRefresh(currentType);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                doLoadMore(currentType);
-            }
-        });
-        LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy < 0) {
-                    s01BackTopBtn.setVisibility(View.VISIBLE);
-                } else {
-                    s01BackTopBtn.setVisibility(View.GONE);
-                }
-            }
-        });
-        s01BackTopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerView.smoothScrollToPosition(0);
-            }
-        });
-        recyclerPullToRefreshView.doPullRefreshing(true, 0);
+
+        RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
+        mRefreshLayout.beginRefreshing();
+        showNewTradeNotify(getIntent());
     }
+
 
     @Override
     public void reconn() {
@@ -123,36 +110,31 @@ public class S01MatchShowsActivity extends MenuActivity {
 
     public void getDatasFromNet(int type, final int pageNo) {
 
+
         String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, PAGESIZE) : QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response: " + response);
                 if (MetadataParser.hasError(response)) {
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
-                        ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
-                    }
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
+                    mRefreshLayout.endLoadingMore();
+                    mRefreshLayout.endRefreshing();
                     return;
                 }
 
-                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery_categoryString(response));
+                List<MongoShow> datas = ShowParser.parseQuery_categoryString(response);
                 if (pageNo == 1) {
+                    mRefreshLayout.endRefreshing();
                     adapter.addDataAtTop(datas);
                     currentPageNo = pageNo;
                 } else {
+                    mRefreshLayout.endLoadingMore();
                     adapter.addData(datas);
                 }
 
-                setLastUpdateTime();
                 adapter.notifyDataSetChanged();
-                recyclerPullToRefreshView.onPullDownRefreshComplete();
-                recyclerPullToRefreshView.onPullUpRefreshComplete();
                 currentPageNo++;
             }
         });
@@ -160,15 +142,16 @@ public class S01MatchShowsActivity extends MenuActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void setLastUpdateTime() {
-        String text = TimeUtil.formatDateTime(System.currentTimeMillis());
-        recyclerPullToRefreshView.setLastUpdatedLabel(text);
-    }
-
     public void onEventMainThread(String event) {
         if (event.equals("refresh")) {
-            recyclerPullToRefreshView.doPullRefreshing(true, 0);
+            mRefreshLayout.beginRefreshing();
         }
+    }
+
+    private void initRefreshLayout() {
+        mRefreshLayout.setDelegate(this);
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(this, true);
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
     }
 
     @Override
@@ -176,7 +159,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerView.scrollToPosition(0);
         if (v.getId() == R.id.s01_tab_hot) {
             currentType = TYPE_HOT;
-            recyclerPullToRefreshView.doPullRefreshing(true, 500);
+            mRefreshLayout.beginRefreshing();
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_btn1);
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_border1);
@@ -185,7 +168,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         }
         if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
-            recyclerPullToRefreshView.doPullRefreshing(true, 500);
+            mRefreshLayout.beginRefreshing();
             s01TabHot.setBackgroundResource(R.drawable.s01_tab_border2);
             s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);
@@ -195,9 +178,45 @@ public class S01MatchShowsActivity extends MenuActivity {
         super.onClick(v);
     }
 
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
+        doRefresh(currentType);
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
+        doLoadMore(currentType);
+        return true;
+    }
+
+
+    private void showNewTradeNotify(Intent intent) {
+        boolean showable = intent.getBooleanExtra(S1_INPUT_SHOWABLE, false);
+        if (showable) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "newTradeNotify" + System.currentTimeMillis());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
 }

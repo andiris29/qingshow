@@ -57,6 +57,17 @@
         <attr name="uncheck_color" format="color|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="QSTextView">
+        <attr name="clickAlpha" format="float|reference"/>
+        <attr name="unClickAlpha" format="float|reference"/>
+        <attr name="del_line" format="boolean|reference"/>
+        <attr name="preText" format="string|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="QSButton">
+        <attr name="clickGround" format="color|reference"/>
+    </declare-styleable>
+
 
     <declare-styleable name="NumberPicker">
         <attr name="normalTextColor" format="color" />

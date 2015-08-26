@@ -79,7 +79,7 @@ public class QSCanvasView extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         notifyCheckedChange();
-        return gestureDetector.onTouchEvent(ev);
+        return false;
     }
 
     /**
@@ -135,6 +135,16 @@ public class QSCanvasView extends FrameLayout {
             }
             lastCheckedIndex = checkedIndex;
         }
+
+        if (checkedIndex == 0 && views.size() > 0) {
+            QSImageView view = views.get(0);
+            if (!view.isChecked()){
+                view.setChecked(true);
+                view.goneDelBtn();
+            }
+            onCheckedChangeListener.checkedChanged(view);
+        }
+
     }
 
     public void notifyChildrenMoveable(QSImageView view) {
@@ -154,8 +164,11 @@ public class QSCanvasView extends FrameLayout {
     }
 
     public void reselectView() {
-        if (checkedIndex < views.size())
-            views.get(checkedIndex).setChecked(true);
+        if (checkedIndex < views.size()){
+            QSImageView view = views.get(checkedIndex);
+            view.fristChecked();
+            view.callOnClick();
+        }
     }
 
     public float calcUnOverlapArea(View view) {
@@ -196,6 +209,10 @@ public class QSCanvasView extends FrameLayout {
         return area;
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;

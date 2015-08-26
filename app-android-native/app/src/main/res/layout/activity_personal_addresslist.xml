@@ -2,54 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.percent.PercentRelativeLayout
         android:id="@+id/S08_title_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/bg_titlebar"
         android:orientation="horizontal"
+        android:background="@drawable/bg_titlebar"
         android:gravity="center_vertical">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/person_addresslist_back_image_button"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="10dp"
-            android:background="#00000000"
-            android:layout_weight="1"
-            android:src="@drawable/btn_back_default" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"/>
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/nav_btn_back" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
+        <com.focosee.qingshow.widget.QSTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_name_activity_addresslist"
             android:textColor="#454545"
             android:textSize="@dimen/text_size"
-            android:layout_weight="5"
             android:textStyle="bold" />
 
-        <TextView
+        <com.focosee.qingshow.widget.QSButton
             android:id="@+id/person_addresslist_btn_address"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:textColor="@color/pink"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/master_pink"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:padding="10dp"
             android:gravity="center"
             android:text="@string/title_name_activity_addaddress"/>
-    </LinearLayout>
+    </android.support.percent.PercentRelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/person_addresslist_recycleview"
         android:scrollbars="none"
-        android:background="@color/gray_background"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"/>
 

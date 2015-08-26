@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="15dp"
+        app:cardUseCompatPadding="true">
+
+        <com.focosee.qingshow.widget.QSImageButton
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_margin="2dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/close" />
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="折扣推荐"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_heightPercent="6%"
+                    app:layout_marginBottomPercent="3%"
+                    app:layout_marginTopPercent="3%" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/title"
+                    android:background="@color/gary" />
+
+                <LinearLayout
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:id="@+id/des"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title"
+                    android:orientation="horizontal">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:layout_marginTop="2dp"
+                        android:id="@+id/img"
+                        android:layout_width="0dp"
+                        android:layout_height="160dp"
+                        android:layout_marginRight="6dp"
+                        android:layout_weight="1"
+                        app:actualImageScaleType="fitCenter" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/item_name"
+                            style="@style/s11_notify_des_text" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/price"
+                            style="@style/s11_notify_des_text"
+                            android:text="原价："
+                            android:textColor="@color/gary" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/promoPrice"
+                            style="@style/s11_notify_des_text"
+                            android:text="现价：" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/selectProp"
+                            style="@style/s11_notify_des_text"
+                            android:text="规格："
+                            android:textColor="@color/gary" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/num"
+                            style="@style/s11_notify_des_text"
+                            android:text="数量："
+                            android:textColor="@color/gary" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/expectedDiscount"
+                            style="@style/s11_notify_des_text"
+                            android:text="期望折扣：" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/expectedPrice"
+                            style="@style/s11_notify_des_text"
+                            android:text="期望价格：" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/des"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/gary" />
+
+                <android.support.percent.PercentRelativeLayout
+                    android:id="@+id/nowDes"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/line"
+                    android:orientation="vertical"
+                    app:layout_heightPercent="33%">
+
+                    <LinearLayout
+                        android:id="@+id/dis_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_marginLeftPercent="3%"
+                        app:layout_marginTopPercent="15%">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/red"
+                            android:gravity="center"
+                            android:paddingLeft="7dp"
+                            android:paddingRight="7dp"
+                            android:text="SALE"
+                            android:textColor="@color/white"
+                            android:textSize="26dp"
+                            android:textStyle="bold" />
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/nowDiscount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/red"
+                            android:textSize="50sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/dis_text"
+                        android:orientation="vertical"
+                        app:layout_marginLeftPercent="7%"
+                        app:layout_marginTopPercent="15%">
+
+                        <com.focosee.qingshow.widget.QSTextView
+                            android:id="@+id/price_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/dis_text"
+                            android:gravity="center"
+                            android:text="目前折扣价"
+                            android:textSize="30dp" />
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:id="@+id/nowPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@id/price_text"
+                            android:layout_below="@id/price_text"
+                            android:gravity="fill"
+                            android:textColor="@color/red"
+                            android:textSize="45sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/poster"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/dis_text"
+                        android:text=""
+                        android:textColor="@color/gary" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/poster"
+                        android:text="  告诉你得朋友一起来产假折扣活动。"
+                        android:textColor="@color/gary" />
+
+                </android.support.percent.PercentRelativeLayout>
+
+
+                <com.focosee.qingshow.widget.QSButton
+                    android:id="@+id/submitBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_submit_match"
+                    android:gravity="center"
+                    android:text="分享后购买"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:clickGround="@drawable/round_btn_background"
+                    app:layout_heightPercent="10%"
+                    app:layout_marginBottomPercent="6%"
+                    app:layout_widthPercent="45%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

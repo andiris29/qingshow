@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
+import com.focosee.qingshow.util.ComparatorFactory;
+import com.focosee.qingshow.util.filter.Filter;
+import com.focosee.qingshow.util.filter.FilterHepler;
 import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
+import java.util.Collections;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -44,14 +48,25 @@ public class S07CollectActivity extends BaseActivity {
         Intent intent = getIntent();
         final Bundle bundle = intent.getExtras();
         items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
+        Collections.sort(items, ComparatorFactory.itemComparator());
+        FilterHepler.filterList(items, new Filter() {
+            @Override
+            public <T> boolean filtrate(T t) {
+                MongoItem item = (MongoItem) t;
+                if (!TextUtils.isEmpty(item.delist))
+                    return true;
+                return false;
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(S07CollectActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new S07ListAdapter(items, S07CollectActivity.this, R.layout.item_s07_item_list);
+        adapter = new S07ListAdapter(items, S07CollectActivity.this, R.layout.item_s07_item_list,R.layout.item_s07_text);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new SpacesItemDecoration(5));
     }
+
+
 
     @Override
     protected void onDestroy() {

@@ -15,11 +15,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.RectUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,7 +30,7 @@ import java.util.TimerTask;
 /**
  * Created by Administrator on 2015/7/2.
  */
-public class QSImageView extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener {
+public class QSImageView extends RelativeLayout {
     private float lastX;
     private float lastY;
     private float distanceX;
@@ -40,18 +43,17 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     private boolean isChecked = false;
     private String categoryId;
+    private Point lastCentroid;
 
-    private ScaleGestureDetector scaleGestureDetector;
 
     private float lastScaleFactor = 1.0f;
-    private boolean isScaling = false;
-    boolean isScalingJustEnd = false;
 
     private boolean moveable = false;
-
+    boolean doubleFlag = false;
 
     private OnClickListener onDelClickListener;
     private int barHeight;
+    private int padding = 2;
 
     public QSImageView(Context context) {
         this(context, null);
@@ -72,29 +74,57 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                 LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         imageView.setLayoutParams(params);
-        imageView.setPadding((int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1 / lastScaleFactor, getContext())
-                , (int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1 / lastScaleFactor, getContext()));
+        imageView.setPadding((int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext())
+                , (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()));
         addView(imageView);
 
-        scaleGestureDetector = new ScaleGestureDetector(getContext(), this);
     }
 
     public void setImage(Bitmap bitmap) {
         imageView.setImageBitmap(bitmap);
     }
 
+    double nLenStart = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        scaleGestureDetector.onTouchEvent(event);
+        this.bringToFront();
+        showDelBtn();
         int pointerCount = event.getPointerCount();
 
-        if (isScaling || pointerCount == 2) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_UP:
-                    isScaling = false;
-                    break;
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_DOWN && 2 == pointerCount) {
+            int xlen = Math.abs((int) event.getX(0) - (int) event.getX(1));
+            int ylen = Math.abs((int) event.getY(0) - (int) event.getY(1));
+            nLenStart = Math.sqrt((double) xlen * xlen + (double) ylen * ylen);
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE && 2 == pointerCount) {
+            int xlen = Math.abs((int) event.getX(0) - (int) event.getX(1));
+            int ylen = Math.abs((int) event.getY(0) - (int) event.getY(1));
+            double nLenEnd = Math.sqrt((double) xlen * xlen + (double) ylen * ylen);
+            float temp = lastScaleFactor;
+            float scaleFactor = (float) (nLenEnd - nLenStart) / 1000 + 1;
+            lastScaleFactor *= scaleFactor;
+            if (scaleFactor > 1) {
+                if (RectUtil.checkBorder(RectUtil.getRect(this), RectUtil.getParentRect(this), scaleFactor, barHeight)) {
+                    scaleTo(lastScaleFactor);
+                } else {
+                    lastScaleFactor = temp;
+                    //scaleToBorder();
+                }
+            } else {
+                scaleTo(lastScaleFactor);
             }
+            Log.i("tag", lastScaleFactor + "");
+            return true;
+        }
+
+        if (pointerCount == 2) {
+            doubleFlag = true;
+        }
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            doubleFlag = false;
+        }
+
+        if (doubleFlag) {
             return true;
         }
 
@@ -111,39 +141,35 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     return false;
                 }
 
-                if (isScalingJustEnd) {
-                    isScalingJustEnd = false;
-                    return true;
-                }
-
-                if (event.getPointerCount() == 1) {
+                if (pointerCount == 1) {
                     distanceX = lastX - event.getRawX();
                     distanceY = lastY - event.getRawY();
+
                     float nextY = getY() - distanceY;
                     float nextX = getX() - distanceX;
+                    float dy = (getHeight() - getHeight() * lastScaleFactor) / 2;
+                    float dx = (getWidth() - getWidth() * lastScaleFactor) / 2;
 
                     containerHeight = ((QSCanvasView) getParent()).getHeight();
                     containerWidth = ((QSCanvasView) getParent()).getWidth();
 
-                    // 不能移出屏幕
-                    if (nextY < -(getHeight() - getHeight() * lastScaleFactor) / 2)
-                        nextY = -(getHeight() - getHeight() * lastScaleFactor) / 2;
-                    else if (nextY > (containerHeight - getHeight() * lastScaleFactor) - (getHeight() - getHeight() * lastScaleFactor) / 2)
-                        nextY = containerHeight - getHeight() * lastScaleFactor - (getHeight() - getHeight() * lastScaleFactor) / 2;
+                    if (nextY < -dy)
+                        nextY = -dy;
+                    else if (nextY > (containerHeight - getHeight() * lastScaleFactor) - dy)
+                        nextY = containerHeight - getHeight() * lastScaleFactor - dy;
 
-                    if (nextX < -(getWidth() - getWidth() * lastScaleFactor) / 2)
-                        nextX = -(getWidth() - getWidth() * lastScaleFactor) / 2;
-                    else if (nextX > (containerWidth - getWidth() * lastScaleFactor) - (getWidth() - getWidth() * lastScaleFactor) / 2)
-                        nextX = (containerWidth - getWidth() * lastScaleFactor) - (getWidth() - getWidth() * lastScaleFactor) / 2;
+                    if (nextX < -dx)
+                        nextX = -dx;
+                    else if (nextX > (containerWidth - getWidth() * lastScaleFactor) - dx)
+                        nextX = (containerWidth - getWidth() * lastScaleFactor) - dx;
 
                     ObjectAnimator y = ObjectAnimator.ofFloat(this, "y", getY(), nextY);
                     ObjectAnimator x = ObjectAnimator.ofFloat(this, "x", getX(), nextX);
-
                     AnimatorSet animatorSet = new AnimatorSet();
                     animatorSet.playTogether(x, y);
                     animatorSet.setDuration(0);
                     animatorSet.start();
-
+                    setLastCentroid(new Point(getLeft() + getImageView().getDrawable().getIntrinsicWidth() / 2, getTop() + getImageView().getDrawable().getIntrinsicHeight() / 2));
                     lastX = event.getRawX();
                     lastY = event.getRawY();
                     return true;
@@ -155,6 +181,32 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         }
         return true;
 
+    }
+
+    public void resetPadding() {
+        imageView.setPadding((int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext())
+                , (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()));
+    }
+
+    @Override
+    public void setScaleX(float scaleX) {
+        super.setScaleX(scaleX);
+        lastScaleFactor = scaleX;
+        resetPadding();
+    }
+
+    @Override
+    public void setScaleY(float scaleY) {
+        super.setScaleY(scaleY);
+        lastScaleFactor = scaleY;
+        resetPadding();
+    }
+
+    public void scaleTo(float scale) {
+        goneDelBtn();
+        setScaleX(scale);
+        setScaleY(scale);
+        lastScaleFactor = scale;
     }
 
     @Override
@@ -172,53 +224,24 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         onCheckedChanged(isChecked);
     }
 
+    public void fristChecked() {
+        this.isChecked = true;
+        this.setBackgroundResource(R.drawable.bg_canvas_item);
+    }
+
     public boolean isChecked() {
         return isChecked;
     }
 
     private void onCheckedChanged(boolean isCheck) {
+        resetPadding();
         if (isCheck) {
+            goneDelBtn();
             this.setBackgroundResource(R.drawable.bg_canvas_item);
         } else {
             goneDelBtn();
             this.setBackgroundResource(0);
         }
-    }
-
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        goneDelBtn();
-        float scaleFactor = detector.getScaleFactor();
-        float temp = lastScaleFactor;
-        lastScaleFactor *= scaleFactor;
-        if (scaleFactor > 1) {
-            if (checkBorder(scaleFactor)) {
-                setScaleX(lastScaleFactor);
-                setScaleY(lastScaleFactor);
-            } else {
-                lastScaleFactor = temp;
-                scaleToBorder();
-            }
-        } else {
-            setScaleX(lastScaleFactor);
-            setScaleY(lastScaleFactor);
-        }
-
-
-        getArea();
-        return true;
-    }
-
-
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-        isScaling = true;
-        return true;
-    }
-
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {
-        isScalingJustEnd = true;
     }
 
     private void scaleToBorder() {
@@ -237,7 +260,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         }
 
         if (index == 0 || index == 2) {
-            lastScaleFactor *= result * 2 / rect.width() + 1;
+            lastScaleFactor *= (result * 2 / rect.width() + 1);
         }
         if (index == 1 || index == 3) {
             lastScaleFactor *= (result * 2 / rect.height() + 1);
@@ -246,36 +269,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         setScaleY(lastScaleFactor);
     }
 
-    private boolean checkBorder(float scaleFactor) {
-        Rect rect = new Rect();
-        this.getGlobalVisibleRect(rect);
-        rect.top -= barHeight;
-
-        float scaleX = rect.width() * (1 - scaleFactor) / 2;
-        float scaleY = rect.height() * (1 - scaleFactor) / 2;
-
-        if (!(rect.left > 0) || !(rect.right < containerWidth) || !(rect.top > 0) || !(rect.bottom < containerHeight)) {
-            return false;
-        }
-
-        if (!(rect.left + scaleX > 0)) {
-            return false;
-        }
-
-        if (rect.right + scaleX > containerWidth) {
-            return false;
-        }
-
-        if (!(rect.top + scaleY > 0)) {
-            return false;
-        }
-
-        if (rect.bottom + scaleY > containerHeight) {
-            return false;
-        }
-
-        return true;
-    }
 
     public ImageView getImageView() {
         return imageView;
@@ -326,7 +319,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         }, dalay);
     }
 
-    public void goneDelBtn(){
+    public void goneDelBtn() {
         if (null != delBtn)
             QSImageView.this.removeView(delBtn);
     }
@@ -340,13 +333,8 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     }
 
     public float getArea() {
-        Rect rect = new Rect();
-        this.getGlobalVisibleRect(rect);
+        Rect rect = RectUtil.getRect(this);
         return Math.abs((rect.right - rect.left)) * Math.abs((rect.bottom - rect.top));
-    }
-
-    public float getLastScaleFactor() {
-        return lastScaleFactor;
     }
 
 
@@ -356,5 +344,18 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     public void setLastScaleFactor(float lastScaleFactor) {
         this.lastScaleFactor = lastScaleFactor;
+        resetPadding();
+    }
+
+    public float getLastScaleFactor() {
+        return lastScaleFactor;
+    }
+
+    public Point getLastCentroid() {
+        return lastCentroid;
+    }
+
+    public void setLastCentroid(Point lastCentroid) {
+        this.lastCentroid = lastCentroid;
     }
 }

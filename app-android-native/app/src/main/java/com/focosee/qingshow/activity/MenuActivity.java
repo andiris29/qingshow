@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U02ChangePasswordFragment;
+import com.focosee.qingshow.activity.fragment.U02SelectExceptionFragment;
+import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -44,6 +47,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
     }
 
     protected void initDrawer() {
+        drawer.setScrimColor(getResources().getColor(R.color.transparent));
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer,
                 R.string.menu_open, R.string.menu_close) {
             @Override
@@ -112,7 +116,6 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
                 right.destroyDrawingCache();
             }
         };
-        String str;
         Bitmap overlay = BitMapUtil.convertToBlur(bkg, this);
         Message msg = mHandler.obtainMessage(1, 1, 1, overlay);
         mHandler.sendMessage(msg);
@@ -166,6 +169,9 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             case R.id.navigation_btn_good_match:
                 _class = S20MatcherActivity.class;
                 break;
+            case R.id.navigation_btn_discount:
+                _class = U09TradeListActivity.class;
+                break;
             case R.id.u01_people:
                 _class = U01UserActivity.class;
                 break;
@@ -181,6 +187,8 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
+        if(null == _class)return;
+
         Intent intent = new Intent(MenuActivity.this, _class);
 
         if (_class == U01UserActivity.class) {
@@ -190,6 +198,12 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
         }
 
         startActivity(intent);
+        if(null != getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()))
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()));
+        if(null != getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()))
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()));
+        if(null != getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()));
         finish();
     }
 }

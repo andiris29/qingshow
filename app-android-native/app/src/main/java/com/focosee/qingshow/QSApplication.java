@@ -9,6 +9,7 @@ import android.view.Display;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.activity.BaseActivity;
+import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -40,7 +41,7 @@ public class QSApplication extends Application {
         _instance = this;
         wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.APP_ID, true);
         wxApi.registerApp(ShareConfig.APP_ID);
-        Fresco.initialize(getApplicationContext());
+        Fresco.initialize(getApplicationContext(), QSImagePipelineConfigFactory.getInstance(getApplicationContext()).getImagePipelineConfig());
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
         configImageLoader();

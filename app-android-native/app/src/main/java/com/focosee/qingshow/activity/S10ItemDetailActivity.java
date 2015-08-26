@@ -1,34 +1,23 @@
 package com.focosee.qingshow.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.widget.MViewPager_NoScroll;
-import com.focosee.qingshow.widget.indicator.PageIndicator;
-
-import java.util.LinkedList;
+import com.focosee.qingshow.widget.LoadingDialogs;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,76 +28,96 @@ import butterknife.InjectView;
 public class S10ItemDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
-    @InjectView(R.id.s10_item_viewpager)
-    MViewPager_NoScroll viewPager;
-    @InjectView(R.id.s10_back_btn)
-    ImageButton s10BackBtn;
-    @InjectView(R.id.s10_page_indicator)
-    PageIndicator pageIndicator;
-    @InjectView(R.id.s10_item_description)
-    TextView description;
-    @InjectView(R.id.s10_item_price)
-    TextView price;
-    @InjectView(R.id.s10_bay)
-    Button s10Bay;
-    @InjectView(R.id.s10_item_img)
-    SimpleDraweeView s10ItemImg;
 
+    @InjectView(R.id.webview)
+    WebView webview;
+    @InjectView(R.id.s10_back_btn)
+    ImageView back;
+    @InjectView(R.id.s10_bay)
+    ImageView bay;
+    @InjectView(R.id.container)
+    FrameLayout container;
 
     private MongoItem itemEntity;
+    private LoadingDialogs dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s10_item_detail);
         ButterKnife.inject(this);
+        DeployWebView(webview);
+        dialog = new LoadingDialogs(this, R.style.dialog);
         itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
-        Log.i("tag", itemEntity._id);
-        init();
-    }
-
-    private void init() {
-
-        if (itemEntity.images.size() == 1) {
-            s10ItemImg.setVisibility(View.VISIBLE);
-            viewPager.setVisibility(View.GONE);
-            pageIndicator.setIndex(1);
-            pageIndicator.setCount(1);
-            s10ItemImg.setImageURI(Uri.parse(itemEntity.images.get(0).url));
-            s10ItemImg.setAspectRatio(0.56f);
-        }else {
-            ItemImgViewPagerAdapter viewPagerAdapter = new ItemImgViewPagerAdapter(itemEntity.images, this);
-            viewPager.setAdapter(viewPagerAdapter);
-            viewPager.addOnPageChangeListener(viewPagerAdapter);
-            viewPager.setOffscreenPageLimit(1);
-            viewPager.setCurrentItem(itemEntity.images.size() * 3);
-            pageIndicator.setCount(itemEntity.images.size());
+        if (itemEntity != null) {
+            loadWebView(itemEntity.source);
+            if (itemEntity.readOnly) {
+                bay.setVisibility(View.GONE);
+            }
         }
-        description.setText(itemEntity.name);
-//        price.setText(itemEntity.price);
     }
-
 
     @Override
     public void reconn() {
 
     }
 
+    private void DeployWebView(WebView webView) {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setDisplayZoomControls(false);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webview.canGoBack()) {
+            webview.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void loadWebView(String url) {
+        WebSettings webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webview.setWebViewClient(new WebViewClient() {
+
+
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                dialog.show();
+            }
+        });
+        webview.loadUrl(url);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s10_bay:
-                if (!QSModel.INSTANCE.loggedin()) {
-                    Toast.makeText(S10ItemDetailActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(S10ItemDetailActivity.this, U07RegisterActivity.class));
-                    return;
+                if (itemEntity.skuProperties == null || itemEntity.skuProperties.size() == 0) {
+                    break;
                 }
-                Intent intent = new Intent(S10ItemDetailActivity.this, S11NewTradeActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S11NewTradeActivity.INPUT_ITEM_ENTITY, itemEntity);
-                intent.putExtras(bundle);
-                Log.i("tag", itemEntity._id);
-                startActivity(intent);
+                container.setVisibility(View.VISIBLE);
+                FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details" + System.currentTimeMillis());
+                details.addToBackStack(null);
+                details.commit();
                 break;
             case R.id.s10_back_btn:
                 finish();
@@ -116,90 +125,21 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private class ItemImgViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
-        private LinkedList<MongoItem.Image> images;
-        private SimpleDraweeView[] _mImgViewS;
-        private int imgSize;
-        private Context context;
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
 
-        public ItemImgViewPagerAdapter(LinkedList<MongoItem.Image> images, Context context) {
-            this.images = images;
-            this.imgSize = images.size() == 0 ? 1 : images.size();
-            this.context = context;
-            initImageViewList();
-        }
-
-        @Override
-        public int getCount() {
-            return Integer.MAX_VALUE;
-        }
-
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == arg1;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(_mImgViewS[position % this.imgSize]);
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-
-            SimpleDraweeView imageView = _mImgViewS[position % this.imgSize];
-            container.addView(imageView, 0);
-            return imageView;
-        }
-
-
-        private void initImageViewList() {
-            _mImgViewS = new SimpleDraweeView[this.imgSize];
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , ViewGroup.LayoutParams.MATCH_PARENT);
-
-            int index = 0;
-
-
-            for (MongoItem.Image imgInfo : images) {
-
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.root_cell_placehold_image1);
-                BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-                GenericDraweeHierarchyBuilder builder =
-                        new GenericDraweeHierarchyBuilder(getResources());
-                GenericDraweeHierarchy hierarchy = builder
-                        .setPlaceholderImage(drawable)
-                        .build();
-
-                SimpleDraweeView imageView = new SimpleDraweeView(context);
-                imageView.setLayoutParams(params);
-                imageView.setTag(imgInfo);
-                imageView.setPadding(0, -16, 0, 0);
-                imageView.setImageURI(Uri.parse(imgInfo.url));
-                imageView.setAspectRatio(0.56f);
-                imageView.setHierarchy(hierarchy);
-                _mImgViewS[index] = imageView;
-                index++;
-            }
-
-
-        }
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            pageIndicator.setIndex(position % this.imgSize + 1);
-            description.setText(((MongoItem.Image) _mImgViewS[position % this.imgSize].getTag()).description);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }
+

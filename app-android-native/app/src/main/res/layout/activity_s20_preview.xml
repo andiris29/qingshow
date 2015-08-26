@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,12 +14,15 @@
         android:layout_weight="1"
         android:background="@color/white">
 
-        <ImageView
+        <com.focosee.qingshow.widget.QSImageButton
             android:layout_marginLeft="5dp"
             android:id="@+id/back"
-            android:padding="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:padding="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="-5dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
             android:src="@drawable/nav_btn_back" />
 
     </android.support.percent.PercentFrameLayout>
@@ -31,24 +35,31 @@
         android:background="@color/white" />
 
     <android.support.percent.PercentRelativeLayout
+        android:id="@+id/prl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:background="@color/white"
         android:padding="10dp">
 
-        <Button
+
+        <com.focosee.qingshow.widget.QSButton
             android:id="@+id/submitBtn"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerInParent="true"
             android:layout_marginLeft="5dp"
             android:background="@drawable/bg_submit_match"
+            app:clickGround="@drawable/round_btn_background"
             android:text="发布搭配"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_heightPercent="47%"
+            app:layout_heightPercent="40%"
             app:layout_widthPercent="45%" />
+        <ImageView
+            android:id="@+id/imgview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.percent.PercentRelativeLayout>
 </LinearLayout>
 

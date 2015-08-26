@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_titlebar"
+        android:orientation="horizontal">
+
+        <com.focosee.qingshow.widget.QSImageButton
+            android:onClick="onClick"
+            android:id="@+id/s11_back_image_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="5"
+            android:background="#00000000"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_btn_back" />
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="订单确认"
+            android:textColor="#454545"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="5"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="10.5"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <fragment
+                android:id="@+id/s11_details"
+                android:name="com.focosee.qingshow.activity.fragment.S17DetailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                tools:layout="@layout/fragment_s17_details" />
+
+            <fragment
+                android:id="@+id/s11_receipt"
+                android:name="com.focosee.qingshow.activity.fragment.S17ReceiptFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                tools:layout="@layout/fragment_s17_receipt" />
+
+            <fragment
+                android:id="@+id/s11_payment"
+                android:name="com.focosee.qingshow.activity.fragment.S17PaymentFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                tools:layout="@layout/fragment_s17_payment" />
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"></FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_weight="1.5"
+        android:id="@+id/s11_submit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/s11_paytext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="应付金额"
+            android:textSize="@dimen/text_title_size" />
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/s11_paynum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/s11_paytext"
+            android:padding="10dp"
+            android:textColor="@color/master_pink"
+            android:textSize="@dimen/text_title_size" />
+
+        <com.focosee.qingshow.widget.QSButton
+            android:background="@drawable/pink_btn_fall"
+            app:clickGround="@drawable/round_btn_background"
+            android:id="@+id/s11_submit_button"
+            android:layout_width="130dp"
+            android:layout_height="260dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="true"
+            android:text="确认并付款"
+            android:textColor="@color/white"
+            android:textSize="18dp"/>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -7,15 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.widget.QSTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +54,9 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         itemViewHolders = new ArrayList<>();
         for (int i = 0; i < categories.size(); i++) {
             itemViewHolders.add(new ArrayList<ItemViewHolder>());
+            if (categories.get(i)._id.equals(ACC)) {
+                multiSelectPostion = i;
+            }
         }
     }
 
@@ -83,14 +86,11 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             holder = new Holder();
             holder.titleName = (TextView) convertView.findViewById(R.id.item_s21_name);
             holder.viewPager = (ViewPager) convertView.findViewById(R.id.item_s21_middle);
-            holder.last = (RelativeLayout) convertView.findViewById(R.id.last);
-            holder.next = (RelativeLayout) convertView.findViewById(R.id.next);
+            holder.last = (FrameLayout) convertView.findViewById(R.id.last);
+            holder.next = (FrameLayout) convertView.findViewById(R.id.next);
         }
         ArrayList<MongoCategories> item = items.get(position);
         holder.titleName.setText(categories.get(position).name);
-        if (categories.get(position)._id.equals(ACC)) {
-            multiSelectPostion = position;
-        }
         initViewPager(holder, item);
 
         convertView.setTag(holder);
@@ -113,7 +113,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
 
         List<View> views = new ArrayList<>();
-
+        final SelectInfo selectInfo = selectInfos.get(position);
         for (int i = 0; i < pageCount; i++) {
             PercentRelativeLayout rootView = (PercentRelativeLayout) mInflater.inflate(R.layout.page_item_s21, null);
             if (i == pageCount - 1 && item.size() % 3 != 0) {
@@ -123,10 +123,11 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             }
             views.add(rootView);
         }
-        int pageNo = selectInfos.get(position).pageNo == -1 ? 0 : selectInfos.get(position).pageNo;
+        int pageNo = selectInfo.pageNo == -1 ? 0 : selectInfo.pageNo;
         viewPager.setAdapter(new S21CategoryViewPagerAdapter(views));
-        viewPager.setCurrentItem(pageNo);
 
+//        viewPager.setCurrentItem(pageNo);
+        viewPager.setCurrentItem(0);
         holder.last.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +140,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         holder.next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (viewPager.getCurrentItem() < pageCount - 1){
+                if (viewPager.getCurrentItem() < pageCount - 1) {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                 }
             }
@@ -152,7 +153,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
             LinearLayout itemView = (LinearLayout) mInflater.inflate(R.layout.item_s21_page, rootView, false);
             SimpleDraweeView img = (SimpleDraweeView) itemView.findViewById(R.id.img);
-            TextView des = (TextView) itemView.findViewById(R.id.des);
+            QSTextView des = (QSTextView) itemView.findViewById(R.id.des);
 
             addData(des, img, item, i * 3 + j);
             PercentRelativeLayout.LayoutParams params = (PercentRelativeLayout.LayoutParams) itemView.getLayoutParams();
@@ -169,11 +170,25 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
         }
     }
 
-    private void addData(final TextView tv, SimpleDraweeView img, final List item, final int index) {
+    private void addData(final QSTextView tv, SimpleDraweeView img, final List item, final int index) {
         MongoCategories category = (MongoCategories) item.get(index);
         tv.setText(category.getName());
         final SelectInfo selectInfo = selectInfos.get(position);
-        img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.NORMAL));
+        boolean activate;
+        if (category.matchInfo == null) {
+            activate = true;
+        } else {
+            activate = category.matchInfo.enabled;
+        }
+        if (activate == false) {
+            img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.DISABLED));
+            tv.setTextColor(context.getResources().getColor(R.color.gary));
+            img.setClickable(false);
+        } else {
+            img.setImageURI(ImgUtil.changeImgUri(category.getIcon(), ImgUtil.CategoryImgType.NORMAL));
+            img.setOnClickListener(new ItemOnClick(tv, position, category, index));
+        }
+
         for (int i = 0; i < selectRefs.size(); i++) {
             if (category._id.equals(selectRefs.get(i))) {
                 selectInfo.index = index;
@@ -183,7 +198,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
             }
         }
         img.setTag(selectInfo);
-        img.setOnClickListener(new ItemOnClick(tv, position, category, index));
     }
 
     private void checkItem(TextView tv, SimpleDraweeView img, String url) {
@@ -201,6 +215,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     }
 
     private class SelectInfo {
+        public boolean fristIn = true;
         public int index = -1;
         public int pageNo = -1;
         public String id = "";
@@ -209,8 +224,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     public class Holder {
         public TextView titleName;
         public ViewPager viewPager;
-        public RelativeLayout last;
-        public RelativeLayout next;
+        public FrameLayout last;
+        public FrameLayout next;
     }
 
     public class ItemViewHolder {
@@ -247,6 +262,12 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 selectInfos.get(position).id = "";
                 selectRefs.remove(category._id);
             } else {
+                if (position == multiSelectPostion) {
+                    selectRefs.add(category._id);
+                    checkItem(tv, (SimpleDraweeView) v, category.icon);
+                    onSelectChangeListener.onSelectChanged(selectRefs);
+                    return;
+                }
                 if (info.id.isEmpty()) {
                     checkItem(tv, (SimpleDraweeView) v, category.icon);
                     selectRefs.add(category._id);
@@ -254,12 +275,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                     selectInfos.get(position).index = index;
                     selectInfos.get(position).pageNo = index / 3;
                 } else {
-                    if (position == multiSelectPostion) {
-                        selectRefs.add(category._id);
-                        checkItem(tv, (SimpleDraweeView) v, category.icon);
-                        onSelectChangeListener.onSelectChanged(selectRefs);
-                        return;
-                    }
                     selectRefs.remove(selectInfos.get(position).id);
                     int oldIndex = 0;
                     for (int i = 0; i < items.get(position).size(); i++) {
@@ -267,7 +282,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                             oldIndex = i;
                         }
                     }
-                    disCheckItem(itemViewHolders.get(position).get(oldIndex).tv, itemViewHolders.get(position).get(oldIndex).img, category.icon);
+                    disCheckItem(itemViewHolders.get(position).get(oldIndex).tv, itemViewHolders.get(position).get(oldIndex).img, items.get(position).get(selectInfos.get(position).index).icon);
                     checkItem(tv, (SimpleDraweeView) v, category.icon);
                     selectRefs.add(category._id);
                     selectInfos.get(position).id = category._id;
@@ -276,7 +291,8 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 }
 
             }
-            onSelectChangeListener.onSelectChanged(selectRefs);
+            if (null != onSelectChangeListener)
+                onSelectChangeListener.onSelectChanged(selectRefs);
         }
     }
 }

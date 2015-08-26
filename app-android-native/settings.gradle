@@ -1,1 +1,1 @@
-include ':app', ':likePinterest'
+include ':app', ':likePinterest', ':pullRefresh'

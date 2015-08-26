@@ -1,6 +1,8 @@
 package com.focosee.qingshow.util;
 
 import android.graphics.Rect;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +79,47 @@ public class RectUtil {
 
         return resultRect;
     }
+
+    public static boolean checkBorder(Rect rect, Rect parentRect, float scaleFactor, int barHeight) {
+        rect.top -= barHeight;
+
+        float scaleX = rect.width() * (1 - scaleFactor) / 2;
+        float scaleY = rect.height() * (1 - scaleFactor) / 2;
+
+        if (!(rect.left > 0) || !(rect.right < parentRect.width()) || !(rect.top > 0) || !(rect.bottom < parentRect.height())) {
+            return false;
+        }
+
+        if (!(rect.left + scaleX > 0)) {
+            return false;
+        }
+
+        if (rect.right + scaleX > parentRect.width()) {
+            return false;
+        }
+
+        if (!(rect.top + scaleY > 0)) {
+            return false;
+        }
+
+        if (rect.bottom + scaleY > parentRect.height()) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    public static Rect getRect(View view) {
+        Rect rect = new Rect();
+        view.getGlobalVisibleRect(rect);
+        return rect;
+    }
+
+    public static Rect getParentRect(View view) {
+        return getRect((ViewGroup) view.getParent());
+    }
+
 
     public static float getRectArea(Rect rect) {
         return Math.abs(rect.width()) * Math.abs(rect.height());

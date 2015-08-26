@@ -1,10 +1,8 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +20,8 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -31,14 +31,10 @@ import de.greenrobot.event.EventBus;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
 public class U01FollowerFragment extends U01BaseFragment {
 
-    private static final String TAG = "U01FollowerFragment";
-
-    private OnFragmentInteractionListener mListener;
     private U01FollowerFragAdapter adapter;
 
     public static U01FollowerFragment newInstance(){
@@ -65,7 +61,7 @@ public class U01FollowerFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_FOLLOW);
-                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), recyclerView);
                 EventBus.getDefault().post(eventModel);
             }
         });
@@ -90,26 +86,27 @@ public class U01FollowerFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryFollowPeoplesApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
-                    if(MetadataParser.getError(response) == ErrorCode.PagingNotExist)
-                        recyclerPullToRefreshView.setHasMoreData(false);
-                    else {
+                    if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                        recyclerPullToRefreshView.onPullUpRefreshComplete();
                     }
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    if(pageNo == 1){
+                        adapter.clearData();
+                        adapter.notifyDataSetChanged();
+                    }
+                    mRefreshLayout.endLoadingMore();
+                    mRefreshLayout.endRefreshing();
                     return;
                 }
 
                 ArrayList<MongoPeople> peoples = PeopleParser.parseQueryFollowers(response);
                 if(pageNo == 1) {
                     adapter.addDataAtTop(peoples);
-                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    mRefreshLayout.endRefreshing();
                     currentPageN0 = pageNo;
                 }else{
                     adapter.addData(peoples);
-                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    mRefreshLayout.endLoadingMore();
                 }
                 adapter.notifyDataSetChanged();
                 currentPageN0++;
@@ -121,7 +118,6 @@ public class U01FollowerFragment extends U01BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -130,23 +126,18 @@ public class U01FollowerFragment extends U01BaseFragment {
         ButterKnife.reset(this);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U01FollowerFragment");
+        MobclickAgent.onResume(getActivity());
     }
 
-    public RecyclerView getRecyclerView(){
-        return recyclerView;
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01FollowerFragment");
+        MobclickAgent.onPause(getActivity());
     }
 
 }
