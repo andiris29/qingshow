@@ -254,7 +254,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
                         @Override
                         public void onError(int errorCode) {
-                            ErrorHandler.handle(S17PayActivity.this, errorCode);
+
                         }
                     });
                 }
