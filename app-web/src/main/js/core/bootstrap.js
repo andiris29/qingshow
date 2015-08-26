@@ -12,13 +12,19 @@ define([
 // @formatter:on
 
     // Initialize __runtime
+    window.__config = {
+        'image' : {
+            'root' : 'http://chingshow.com/app-web'
+        }
+    };
+    // Initialize __runtime
     window.__runtime = {
         'model' : model
     };
     // Initialize __services
     httpService.config({
         // 'root' : 'http://127.0.0.1:30001/services',
-        'root' : 'http://121.41.161.239/services',
+        'root' : 'http://chingshow.com/services',
         'version' : '2.1.0'
     });
     navigationService.config({
@@ -32,15 +38,17 @@ define([
 
     // Bootstrap first page
     var search = violet.url.search;
-    if (search.entry === 'shareShow') {
+    var entry = search.entry || search.action;
+    if (entry === 'shareShow') {
         navigationService.push('qs/views/P02ShareShow', {
             '_id' : search._id
         });
-    } else if (search.entry === 'shareTrade') {
+    } else if (entry === 'shareTrade') {
         navigationService.push('qs/views/P03ShareTrade', {
             '_id' : search._id
         });
     } else {
         navigationService.push('qs/views/P01NotFound');
     }
+
 });

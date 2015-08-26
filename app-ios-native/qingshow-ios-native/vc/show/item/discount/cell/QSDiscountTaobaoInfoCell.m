@@ -31,7 +31,7 @@
 @property (strong, nonatomic) NSArray* compInfos;
 @property (strong, nonatomic) NSArray* btnArray;
 
-@property (assign, nonatomic) int currentSelectIndex;
+@property (assign, nonatomic) NSInteger currentSelectIndex;
 @property (strong, nonatomic) NSDictionary* itemDict;
 @end
 
@@ -171,7 +171,7 @@
 }
 
 
-- (float)getHeight:(NSDictionary *)itemDict {
+- (CGFloat)getHeight:(NSDictionary *)itemDict {
     NSString* str = [QSItemUtil getSkuProperties:itemDict][self.infoIndex];
     NSArray* comps = [str componentsSeparatedByString:@":"];
     NSString* title = comps[0];
