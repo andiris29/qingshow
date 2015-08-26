@@ -262,7 +262,7 @@
             android:value="55dc3aa5e0f55aa396003da7" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="native" />
+            android:value="${UMENG_CHANNEL_VALUE}" />
 
         <activity
             android:name=".activity.G02WelcomeActivity"

@@ -33,6 +33,15 @@ android {
     sourceSets.main {
         jniLibs.srcDir 'src/main/jniLibs' // <-- Set your folder here!
     }
+
+    productFlavors {
+        _native {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_native"]
+        }
+        _yingyongbao {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_yingyongbao"]
+        }
+    }
 }
 
 dependencies {
