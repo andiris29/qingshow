@@ -91,6 +91,10 @@ var tradeSchema = Schema({
     itemRef : {
         type : Schema.Types.ObjectId,
         ref : 'items'
+    },
+    promoterRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
     }
 });
 

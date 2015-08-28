@@ -44,6 +44,7 @@ trade.create = {
             trade.itemSnapshot = req.body.itemSnapshot;
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
             trade.itemRef = RequestHelper.parseId(req.body.itemSnapshot._id);
+            trade.promoterRef = RequestHelper.parseId(req.body.promoterRef);
             trade.save(function(err) {
                 callback(err, trade);
             });
