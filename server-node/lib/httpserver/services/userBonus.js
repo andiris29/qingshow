@@ -11,7 +11,7 @@ var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 var BonusHelper = require('../helpers/BonusHelper');
 var ServerError = require('../server-error');
 
-var userBonus = model.exports;
+var userBonus = module.exports;
 
 userBonus.forge = {
     'method' : 'post',
@@ -139,6 +139,20 @@ userBonus.withdrawComplete = {
             callback(null, people);
         }], function(error, people) {
             ResponseHelper.response(res, error);
+        });
+    }
+};
+
+userBonus.queryWithdrawRequested = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        People.find({
+            bonuseWithdrawRequested : false
+        }).exec(function(error, peoples) {
+            ResponseHelper.response(res, error, {
+                'peoples' : peoples
+            });
         });
     }
 };

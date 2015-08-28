@@ -7,7 +7,7 @@ var jPushAudiences = require('../../model/jPushAudiences');
 var RequestHelper = require('../helpers/RequestHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
-var BonusHelper = model.exports;
+var BonusHelper = module.exports;
 
 BonusHelper.updateBonuse = function(promoterRef, trigger, money, name, callback) {
     async.waterfall([

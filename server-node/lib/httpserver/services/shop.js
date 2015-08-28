@@ -12,7 +12,7 @@ var ServiceHelper = require('../helpers/ServiceHelper');
 
 var ServerError = require('../server-error');
 
-var shop = model.exports;
+var shop = module.exports;
 
 shop.queryItems = {
     'method' : 'get',
@@ -32,7 +32,7 @@ shop.queryItems = {
     }
 };
 
-show.queryTradesByItem = {
+shop.queryTradesByItem = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
