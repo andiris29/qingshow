@@ -124,12 +124,10 @@ public class U02ChangePasswordFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02ChangePasswordFragment"); //统计页面
-        MobclickAgent.onResume(getActivity());
     }
 
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U02ChangePasswordFragment");
-        MobclickAgent.onResume(getActivity());
     }
 }

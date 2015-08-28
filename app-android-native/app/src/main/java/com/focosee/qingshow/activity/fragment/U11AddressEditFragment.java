@@ -211,13 +211,11 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U11AddressEditFragment"); //统计页面
-        MobclickAgent.onResume(getActivity());
     }
 
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U11AddressEditFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override

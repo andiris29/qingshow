@@ -585,13 +585,11 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
-        MobclickAgent.onResume(getActivity());
     }
 
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U02SettingsFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override

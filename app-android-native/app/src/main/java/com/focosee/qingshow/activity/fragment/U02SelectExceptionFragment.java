@@ -124,14 +124,12 @@ public class U02SelectExceptionFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02SelectExceptionFragment"); //统计页面
-        MobclickAgent.onResume(getActivity());
     }
 
     public void onPause() {
         saveUser();
         super.onPause();
         MobclickAgent.onPageEnd("U02SelectExceptionFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override
