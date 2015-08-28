@@ -19,6 +19,7 @@ var ServerError = require('../server-error');
 var request = require('request');
 
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var BonusHelper = require('../helpers/BonusHelper');
 
 var trade = module.exports;
 
@@ -337,7 +338,11 @@ trade.alipayCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            _updateBonuse(trade.promoterRef, trade._id, trade.totalFee, trade.itemSnapshot.name, callback);
+            BonusHelper.updateBonuse(trade.promoterRef, {
+                tradeRef : trade._id
+            }, trade.totalFee, trade.itemSnapshot.name, function(error, people) {
+                callback(error, trade);
+            });
         }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
@@ -398,7 +403,11 @@ trade.wechatCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            _updateBonuse(trade.promoterRef, trade._id, trade.totalFee, trade.itemSnapshot.name, callback);
+            BonusHelper.updateBonuse(trade.promoterRef, {
+                tradeRef : trade._id
+            }, trade.totalFee, trade.itemSnapshot.name, function(error, people) {
+                callback(error, trade);
+            });
         }], function(error, trade) {
             if (error === 'pass') {
                 error = null;
@@ -413,50 +422,6 @@ trade.wechatCallback = {
     }
 };
 
-var _updateBonuse = function(promoterRef, tradeId, money, name, callback) {
-    async.waterfall([
-    function(callback) {
-        People.findOne({
-            _id : promoterRef
-        }).exec(function(err, people) {
-            callback(err, people);
-        });
-    }, 
-    function(people, callback) {
-        people.bonuses = people.bonuses || [];
-        people.bonuses.push({
-            status : 0,
-            money : money.toFixed(2),
-            notes : '来自' + name + '的佣金',
-            trigger : {
-                tradeRef : tradeId
-            }
-        });
-
-        people.save(function(err, people) {
-            callback(err, people);
-        });
-    },
-    function(people, callback) {
-        jPushAudiences.find({
-            'peopleRef' : people._id
-        }).exec(function(err, infos) {
-            if (infos.length > 0) {
-                var targets = [];
-                infos.forEach(function(element) {
-                    if (element.registrationId && element.registrationId.length > 0) {
-                        targets.push(element.registrationId);
-                    }
-                });
-
-                PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewBonus, {
-                    'command' : PushNotificationHelper.CommandNewBonus
-                }, null);
-            }
-        });
-        callback();
-    }], callback);
-};
 
 trade.refreshPaymentStatus = {
     'method' : 'post',
