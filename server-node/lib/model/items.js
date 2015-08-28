@@ -8,6 +8,10 @@ itemSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'categories'
     },
+    shopRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
     thumbnail : String,
     name : String,
     price: Number,
