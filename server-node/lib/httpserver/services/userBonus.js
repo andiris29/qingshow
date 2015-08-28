@@ -43,3 +43,42 @@ userBonus.forge = {
         });
     }
 };
+
+userBonus.withDraw = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            People.findOne({
+                '_id' : req.qsCurrentUserId
+            }).exec(function(error, people) {
+                if (error) {
+                    callback(error);
+                } else if (!people) {
+                    callback(ServerError.PeopleNotExist);
+                } else {
+                    callback(null, people);
+                }
+            });
+        },
+        function(people, callback) {
+            people.bonuses = people.bonuses || [];
+            people.bonuseWithdrawRequested = true;
+            for (var i = 0; i < people.bonuses; i++) {
+                people.bonuses[i].status = 1;
+            }
+            people.save(function(error, people) {
+                if (error) {
+                    callback(error);
+                } else if (people) {
+                    callback(ServerError.ServerError);
+                } else {
+                    callback(error, people);
+                }
+            });
+        }], function(error, people) {
+            ResponseHelper.response(res, error);
+        });
+    }
+};

@@ -76,6 +76,7 @@ peopleSchema = Schema({
             ref : 'peoples'
         }
     }],
+    bonuseWithdrawRequested : Boolean,
     create : {
         type : Date,
         'default' : Date.now
