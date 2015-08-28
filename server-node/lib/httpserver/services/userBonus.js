@@ -82,3 +82,63 @@ userBonus.withDraw = {
         });
     }
 };
+
+userBonus.withdrawComplete = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            People.findOne({
+                '_id' : req.qsCurrentUserId
+            }).exec(function(error, people) {
+                if (error) {
+                    callback(error);
+                } else if (!people) {
+                    callback(ServerError.PeopleNotExist);
+                } else {
+                    callback(null, people);
+                }
+            });
+        },
+        function(people, callback) {
+            people.bonuses = people.bonuses || [];
+            people.bonuseWithdrawRequested = false;
+            var total = 0;
+            for (var i = 0; i < people.bonuses; i++) {
+                people.bonuses[i].status = 2;
+                total += people.bonuses[i].money;
+            }
+            people.save(function(error, people) {
+                if (error) {
+                    callback(error);
+                } else if (people) {
+                    callback(ServerError.ServerError);
+                } else {
+                    callback(error, people, total);
+                }
+            });
+        },
+        function(people, total, callback) {
+            jPushAudiences.find({
+                'peopleRef' : people._id
+            }).exec(function(err, infos) {
+                if (infos.length > 0) {
+                    var targets = [];
+                    infos.forEach(function(element) {
+                        if (element.registrationId && element.registrationId.length > 0) {
+                            targets.push(element.registrationId);
+                        }
+                    });
+                    var message = PushNotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, total);
+                    PushNotificationHelper.push(targets, message, {
+                        'command' : PushNotificationHelper.CommandBonusWithdrawComplete
+                    }, null);
+                }
+            });
+            callback(null, people);
+        }], function(error, people) {
+            ResponseHelper.response(res, error);
+        });
+    }
+};
