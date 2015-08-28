@@ -63,6 +63,19 @@ peopleSchema = Schema({
         address : String,
         isDefault : Boolean
     }],
+    bonuses : [{
+        status : Number,
+        money : Number,
+        notes : String,
+        create : {
+            type : Date,
+            'default' : Date.now
+        },
+        initiatorRef : {
+            type : Schema.Types.ObjectId,
+            ref : 'peoples'
+        }
+    }],
     create : {
         type : Date,
         'default' : Date.now
