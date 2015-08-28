@@ -129,7 +129,8 @@
                 android:clickable="false"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:text="@string/consignee_area"
+                android:hint="@string/consignee_area"
+                android:textColorHint="@color/master_pink"
                 android:textColor="@color/master_pink"
                 android:textSize="20dp" />
 

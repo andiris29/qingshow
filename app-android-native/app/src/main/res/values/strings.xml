@@ -214,5 +214,6 @@
     <string name="s11_jian">件</string>
     <string name="s11_poster">●折扣活动商品数量尺寸有限，请抓紧时间抢购,</string>
     <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_city">CityActivity</string>
 
 </resources>

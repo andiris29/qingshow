@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -11,7 +12,11 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +32,9 @@ import butterknife.OnClick;
  * Created by DylanJiang on 15/5/22.
  */
 public class U13PersonalizeActivity extends BaseActivity {
+    @InjectView(R.id.backImageView)
+    ImageView backImageView;
+
     @Override
     public void reconn() {
 
@@ -62,6 +70,12 @@ public class U13PersonalizeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_u13_personalize);
         ButterKnife.inject(this);
+        backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initSeekBar(age, ageText, 18, 17);
         initSeekBar(height, heightText, 150, 20);
         initSeekBar(weight, weightText, 40, 40);
@@ -105,13 +119,16 @@ public class U13PersonalizeActivity extends BaseActivity {
         map.put("dressStyle", checkClothesNum);
         List<Integer> exceptions = new ArrayList<>();
         int i = 0;
-        for (CheckedTextView ctv : results){
-            if(ctv.isChecked()){
+        for (CheckedTextView ctv : results) {
+            if (ctv.isChecked()) {
                 exceptions.add(i);
             }
             i++;
         }
-        map.put("expectations", exceptions);
+        try {
+            map.put("expectations", new JSONArray(new Gson().toJson(exceptions)));
+        } catch (JSONException e) {
+        }
         UserCommand.update(map, new Callback() {
             @Override
             public void onComplete() {

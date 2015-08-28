@@ -518,6 +518,11 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             }
         }else{
             if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if(videoView.getVisibility() == View.VISIBLE){
+                    videoView.setVisibility(View.GONE);
+                    s03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
+                    return true;
+                }
                 finish();
             }
         }

@@ -1,18 +1,18 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.CityActivity;
+import com.focosee.qingshow.activity.CityEvent;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
@@ -20,16 +20,13 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.widget.CityPicker;
+import com.focosee.qingshow.widget.QSButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -48,9 +45,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         AREA
     }
 
-//    private final String MPREFERENCES = "mPreferences";
-
-//    private SharedPreferences preferences;
     private EditText consigeeNameET;
     private EditText consigeePhoneET;
     private TextView consigeeAreaTV;
@@ -61,6 +55,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private boolean isSaved = false;
 
     private MongoPeople.Receiver receiver;
+    QSButton saveBtn;
 
     public static U11AddressEditFragment newInstace(){
         return new U11AddressEditFragment();
@@ -79,6 +74,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         if(null != getArguments()){
             id = getArguments().getString("id");
         }
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -99,9 +95,11 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             }
         });
 
-        view.findViewById(R.id.U11ec_save_btn).setOnClickListener(new View.OnClickListener() {
+        saveBtn = (QSButton) view.findViewById(R.id.U11ec_save_btn);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveBtn.setEnabled(false);
                 commitForm();
             }
         });
@@ -124,19 +122,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         area_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CityPickerFragment cityPickerFragment = new CityPickerFragment();
-                cityPickerFragment.setOnSelectedListener(new CityPicker.OnSelectingListener() {
-                    @Override
-                    public void selected(boolean selected) {
-                        consigeeAreaTV.setText(cityPickerFragment.getValue());
-                        consigeeAreaTV.setTag(cityPickerFragment.getValue());
-                    }
-                });
-                cityPickerFragment.show(getFragmentManager(), "U11", getActivity());
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(consigeeNameET.getWindowToken(), 0); //强制隐藏键盘
-                imm.hideSoftInputFromWindow(consigeePhoneET.getWindowToken(), 0); //强制隐藏键盘
-                imm.hideSoftInputFromWindow(consigeeDetailAreaET.getWindowToken(), 0); //强制隐藏键盘
+                startActivity(new Intent(getActivity(), CityActivity.class));
             }
         });
 
@@ -150,10 +136,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         if(null != receiver) {//编辑页面
             consigeeNameET.setText(receiver.name);
             consigeePhoneET.setText(receiver.phone);
-            if (!"".equals(receiver.province) && null != receiver.province) {
-                consigeeAreaTV.setTag(receiver.province);
-                consigeeAreaTV.setText(receiver.province);
-            }
+            consigeeAreaTV.setText(receiver.province);
             consigeeDetailAreaET.setText(receiver.address);
         }
     }
@@ -177,8 +160,8 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             Toast.makeText(getActivity(), "请正确填写收货人电话", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(null != consigeeAreaTV.getTag())
-            params.put(PROVINCE_STR, consigeeAreaTV.getTag().toString());
+        if(null != consigeeAreaTV.getText())
+            params.put(PROVINCE_STR, consigeeAreaTV.getText().toString());
         else {
             Toast.makeText(getActivity(), "请选择所在区域", Toast.LENGTH_SHORT).show();
             return;
@@ -202,20 +185,21 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                     return;
                 }
 
-                UserCommand.refresh(new Callback() {
-                    @Override
-                    public void onComplete() {
-                        getActivity().sendBroadcast(new Intent(ASK_REFRESH));
-                    }
-                });
+                UserCommand.refresh(new Callback());
                 Gson gson = new Gson();
                 receiver = gson.fromJson(gson.toJson(params), new TypeToken<MongoPeople.Receiver>() {
                 }.getType());
                 EventBus.getDefault().post(receiver);
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                saveBtn.setEnabled(true);
                 getActivity().finish();
             }
         });
+    }
+
+    public void onEventMainThread(CityEvent event){
+        if(null == event)return;
+        consigeeAreaTV.setText(event.address);
     }
 
     @Override
@@ -234,5 +218,11 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         super.onPause();
         MobclickAgent.onPageEnd("U11AddressEditFragment");
         MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

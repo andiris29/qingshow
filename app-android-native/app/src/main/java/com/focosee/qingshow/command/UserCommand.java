@@ -14,7 +14,13 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.model.QSModel;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +50,11 @@ public class UserCommand {
     }
 
     public static void update(Map params,final Callback callback){
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new JSONObject(params), new Response.Listener<JSONObject>() {
+        update(new JSONObject(params), callback);
+    }
+
+    public static void update(JSONObject jsonObject,final Callback callback){
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 MongoPeople user = UserParser._parsePeople(response);
