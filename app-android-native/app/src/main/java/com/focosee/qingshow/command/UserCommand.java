@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.activity.UserUpdatedEvent;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
@@ -23,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by i068020 on 2/24/15.
@@ -62,6 +65,7 @@ public class UserCommand {
                     callback.onError(MetadataParser.getError(response));
                 } else {
                     QSModel.INSTANCE.setUser(user);
+                    EventBus.getDefault().post(new UserUpdatedEvent(user));
                     callback.onComplete();
                 }
             }

@@ -72,6 +72,7 @@
             android:digits="@string/only_number"
             android:hint="请填写年龄"
             android:inputType="number"
+            android:maxLength="2"
             android:singleLine="true"
             android:textColorHint="@color/hint_text_color"
             android:textSize="@dimen/text_size" />
@@ -110,6 +111,7 @@
             android:digits="@string/only_number"
             android:hint="请填写身高"
             android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
             android:textColorHint="@color/hint_text_color"
             android:textSize="@dimen/text_size" />
@@ -150,6 +152,7 @@
             android:digits="@string/only_number"
             android:hint="请填写体重"
             android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
             android:textColorHint="#C7C7CD"
             android:textSize="@dimen/text_size" />
@@ -189,6 +192,7 @@
             android:digits="@string/only_number"
             android:hint="请填写胸围"
             android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
             android:textColorHint="#C7C7CD"
             android:textSize="@dimen/text_size" />
@@ -228,6 +232,7 @@
             android:digits="@string/only_number"
             android:hint="请填写肩宽"
             android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
             android:textColorHint="#C7C7CD"
             android:textSize="@dimen/text_size" />
@@ -267,6 +272,7 @@
             android:digits="@string/only_number"
             android:hint="请填写腰围"
             android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
             android:textColorHint="#C7C7CD"
             android:textSize="@dimen/text_size" />
@@ -306,6 +312,7 @@
             android:digits="@string/only_number"
             android:hint="请填写臀围"
             android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
             android:textColorHint="#C7C7CD"
             android:textSize="@dimen/text_size" />
