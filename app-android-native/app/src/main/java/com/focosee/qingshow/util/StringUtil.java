@@ -33,7 +33,7 @@ public class StringUtil {
         return "¥" + new DecimalFormat("0.00").format(new BigDecimal(price));
     }
 
-    public static String formatHeightAndWeight(int heigth, int weight) {
+    public static String formatHeightAndWeight(Number heigth, Number weight) {
         return heigth + "cm," + weight + "kg";
     }
 

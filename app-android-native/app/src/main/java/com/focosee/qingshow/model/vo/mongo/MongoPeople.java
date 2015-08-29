@@ -16,11 +16,9 @@ public class MongoPeople implements Serializable {
     public String name;
     public String portrait;
     public String background;
-    public int height;
-    public int weight;
-    public int age;
-    public int gender;
-    public int hairType;
+    public Number height;
+    public Number weight;
+    public Number age;
     public int bodyType;
     public int dressStyle;
     public int[] expectations;
@@ -54,10 +52,10 @@ public class MongoPeople implements Serializable {
     }
 
     public class MeasureInfo implements Serializable {
-        public int shoulder;
-        public int bust;
-        public int waist;
-        public int hips;
+        public Number shoulder;
+        public Number bust;
+        public Number waist;
+        public Number hips;
 
     }
 }

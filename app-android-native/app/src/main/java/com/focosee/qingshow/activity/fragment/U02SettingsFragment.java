@@ -298,23 +298,23 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             }
             if (null != people.nickname)
                 nameEditText.setText(people.nickname);
-            if (0 != people.age)
+            if (null != people.age)
                 ageEditText.setText(String.valueOf(people.age));
-            if (0 != people.height)
+            if (null != people.height)
                 heightEditText.setText(String.valueOf(people.height));
-            if (0 != people.weight)
+            if (null != people.weight)
                 weightEditText.setText(String.valueOf(people.weight));
             if(null != people.measureInfo){
-                if(0 != people.measureInfo.bust){
+                if(null != people.measureInfo.bust){
                     bustEditText.setText(String.valueOf(people.measureInfo.bust));
                 }
-                if(0 != people.measureInfo.shoulder){
+                if(null != people.measureInfo.shoulder){
                     shoulderEditText.setText(String.valueOf(people.measureInfo.shoulder));
                 }
-                if(0 != people.measureInfo.waist){
+                if(null != people.measureInfo.waist){
                     waistlineEditText.setText(String.valueOf(people.measureInfo.waist));
                 }
-                if(0 != people.measureInfo.hips){
+                if(null != people.measureInfo.hips){
                     hiplineEditText.setText(String.valueOf(people.measureInfo.hips));
                 }
             }
