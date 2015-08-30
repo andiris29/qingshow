@@ -53,6 +53,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private MongoPeople people;
     private String id = null;
     private boolean isSaved = false;
+    private TextView errorText;
 
     private MongoPeople.Receiver receiver;
     QSButton saveBtn;
@@ -114,6 +115,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         consigeeAreaTV = (TextView) view.findViewById(R.id.U11_area_tv);
         consigeeDetailAreaET = (EditText) view.findViewById(R.id.consigee_detailArea_editText);
         area_layout = (LinearLayout) view.findViewById(R.id.consignee_area_layout);
+        errorText = (TextView) view.findViewById(R.id.error_text);
 
         consigeeNameET.setOnFocusChangeListener(this);
         consigeePhoneET.setOnFocusChangeListener(this);
@@ -129,6 +131,17 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         area_layout.setTag(ViewName.AREA);
 
         setData();
+    }
+
+    private void showError(String msg){
+        errorText.setVisibility(View.VISIBLE);
+        errorText.setText(msg);
+        errorText.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                errorText.setVisibility(View.GONE);
+            }
+        }, 5000);
     }
 
     private void setData(){
@@ -148,28 +161,33 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             params.put("uuid", receiver.uuid);
             params.put("isDefault", receiver.isDefault);
         }
-        if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()))
+        if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()) && consigeeNameET.getText().toString().length() <= 20)
             params.put(NAME_STR, consigeeNameET.getText().toString());
         else {
-            Toast.makeText(getActivity(), "请填写收货人姓名", Toast.LENGTH_SHORT).show();
+            showError("请正确填写收货人姓名，长度应小于20位");
+            saveBtn.setEnabled(true);
             return;
         }
         if(consigeePhoneET.getText().length() == 11)
             params.put(PHONE_STR, consigeePhoneET.getText().toString());
         else {
-            Toast.makeText(getActivity(), "请正确填写收货人电话", Toast.LENGTH_SHORT).show();
+            showError("请正确填写收货人电话");
+            saveBtn.setEnabled(true);
             return;
         }
         if(null != consigeeAreaTV.getText())
             params.put(PROVINCE_STR, consigeeAreaTV.getText().toString());
         else {
-            Toast.makeText(getActivity(), "请选择所在区域", Toast.LENGTH_SHORT).show();
+            showError("请选择所在区域");
+            saveBtn.setEnabled(true);
             return;
         }
-        if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText().toString()))
+        if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText().toString())
+                && consigeeDetailAreaET.getText().toString().length() <= 50)
             params.put(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
         else {
-            Toast.makeText(getActivity(), "请填写详细地址", Toast.LENGTH_SHORT).show();
+            showError("请正确填写详细地址，长度应小于50");
+            saveBtn.setEnabled(true);
             return;
         }
         UserReceiverCommand.saveReceiver(params, new Callback() {

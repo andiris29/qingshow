@@ -34,6 +34,7 @@ public class U02ChangePasswordFragment extends Fragment {
     private Context context;
     private RequestQueue requestQueue;
 
+    private TextView errorTextView;
     private EditText currentPasswordEditText;
     private EditText newPasswordEditText;
     private EditText confirmPasswordEditText;
@@ -60,6 +61,7 @@ public class U02ChangePasswordFragment extends Fragment {
         currentPasswordEditText = (EditText) getActivity().findViewById(R.id.currentPasswordEditText);
         newPasswordEditText = (EditText) getActivity().findViewById(R.id.newPasswordEditText);
         confirmPasswordEditText = (EditText) getActivity().findViewById(R.id.confirmPasswordEditText);
+        errorTextView = (TextView) getActivity().findViewById(R.id.error_text);
 
         backTextView = (ImageButton) getActivity().findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +84,16 @@ public class U02ChangePasswordFragment extends Fragment {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(newPasswordEditText.getText().toString()) ||
                         TextUtils.isEmpty(confirmPasswordEditText.getText().toString()) || TextUtils.isEmpty(currentPasswordEditText.getText().toString())) {
-                    Toast.makeText(getActivity(), "请输入正确的内容", Toast.LENGTH_SHORT).show();
+                    showError("请输入正确的内容");
                     return;
                 }
                 if (!newPasswordEditText.getText().toString().equals(confirmPasswordEditText.getText().toString())) {
-                    Toast.makeText(context, "请确认两次输入密码是否一致", Toast.LENGTH_LONG).show();
+                    showError("请确认两次输入密码是否一致");
+                    return;
+                }
+
+                if(confirmPasswordEditText.getText().toString().length() > 20){
+                    showError("密码长度应小于20位");
                     return;
                 }
 
@@ -97,7 +104,6 @@ public class U02ChangePasswordFragment extends Fragment {
                 QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("response:" + response);
                         MongoPeople user = UserParser.parseUpdate(response);
                         if (user == null) {
                             ErrorHandler.handle(context, MetadataParser.getError(response));
@@ -119,6 +125,17 @@ public class U02ChangePasswordFragment extends Fragment {
             }
 
         });
+    }
+
+    public void showError(String errorMsg){
+        errorTextView.setVisibility(View.VISIBLE);
+        errorTextView.setText(errorMsg);
+        errorTextView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                errorTextView.setVisibility(View.GONE);
+            }
+        }, 5000);
     }
 
     public void onResume() {
