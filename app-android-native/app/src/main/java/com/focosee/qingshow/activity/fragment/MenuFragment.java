@@ -160,6 +160,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         closeMenu();
         if(v.getId() == R.id.navigation_btn_match){
             startActivity(new Intent(getActivity(), S01MatchShowsActivity.class));
+            getActivity().finish();
             return;
         }
 
@@ -182,6 +183,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             Toast.makeText(getActivity(), R.string.need_login, Toast.LENGTH_SHORT).show();
             GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
             startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+            getActivity().finish();
             return;
         }
 
@@ -196,13 +198,4 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         startActivity(intent);
         getActivity().finish();
     }
-
-    public boolean onBackPressed() {
-        if(drawer.isScrollbarFadingEnabled()){
-            menuSwitch();
-            return true;
-        }
-        return false;
-    }
-
 }

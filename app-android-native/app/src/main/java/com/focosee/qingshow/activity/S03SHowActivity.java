@@ -10,14 +10,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -27,7 +25,6 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
-import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
@@ -46,24 +43,15 @@ import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.constant.WBConstants;
-import com.tencent.mm.sdk.constants.ConstantsAPI;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
-
-import static com.focosee.qingshow.R.id.context;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
@@ -72,7 +60,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String CLASS_NAME = "class_name";
     public final String TAG = "S03SHowActivity";
-    private static final int shareMsgShowTime = 2000;//分享优惠显示时间
     @InjectView(R.id.S03_image_preground)
     SimpleDraweeView s03ImagePreground;
     @InjectView(R.id.S03_describe)
@@ -513,11 +500,22 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(className.equals(S20MatchPreviewActivity.class.getSimpleName())) {
-            if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_MENU) {
                 menuSwitch();
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
             }
         }else{
             if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if(videoView.getVisibility() == View.VISIBLE){
+                    videoView.setVisibility(View.GONE);
+                    s03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
+                    return true;
+                }
                 finish();
             }
         }

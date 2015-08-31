@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/nameRelativeLayout"
         android:layout_width="match_parent"
@@ -31,8 +33,8 @@
             android:background="@null"
             android:hint="请填写姓名"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="@color/hint_text_color" />
+            android:textColorHint="@color/hint_text_color"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -67,10 +69,13 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/ageTextView"
             android:background="@null"
+            android:digits="@string/only_number"
             android:hint="请填写年龄"
+            android:inputType="number"
+            android:maxLength="2"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="@color/hint_text_color" />
+            android:textColorHint="@color/hint_text_color"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -103,11 +108,13 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/heightTextView"
             android:background="@null"
+            android:digits="@string/only_number"
             android:hint="请填写身高"
-            android:inputType="numberDecimal"
+            android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="@color/hint_text_color" />
+            android:textColorHint="@color/hint_text_color"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -142,11 +149,13 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/weightTextView"
             android:background="@null"
+            android:digits="@string/only_number"
             android:hint="请填写体重"
-            android:inputType="numberDecimal"
+            android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="#C7C7CD" />
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -180,11 +189,13 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/bustTextView"
             android:background="@null"
+            android:digits="@string/only_number"
             android:hint="请填写胸围"
-            android:inputType="numberDecimal"
+            android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="#C7C7CD" />
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -218,11 +229,13 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/shoulderTextView"
             android:background="@null"
+            android:digits="@string/only_number"
             android:hint="请填写肩宽"
-            android:inputType="numberDecimal"
+            android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="#C7C7CD" />
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -256,11 +269,13 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/waistlineTextView"
             android:background="@null"
+            android:digits="@string/only_number"
             android:hint="请填写腰围"
-            android:inputType="numberDecimal"
+            android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="#C7C7CD" />
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -294,11 +309,13 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/hiplineTextView"
             android:background="@null"
+            android:digits="@string/only_number"
             android:hint="请填写臀围"
-            android:inputType="numberDecimal"
+            android:inputType="number"
+            android:maxLength="3"
             android:singleLine="true"
-            android:textSize="@dimen/text_size"
-            android:textColorHint="#C7C7CD" />
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -366,10 +383,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_right_activity_settings"
-            android:hint="请填选择穿衣风格"
-            android:textSize="@dimen/text_size"
             android:layout_toRightOf="@+id/dressStyleEextView"
-            android:textColorHint="#C7C7CD" />
+            android:hint="请填选择穿衣风格"
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -393,6 +410,7 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:text="@string/effect_activity_settings"
             android:textSize="@dimen/text_size" />
+
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/effectEditText"
             android:layout_width="wrap_content"
@@ -400,10 +418,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/effectEextView"
             android:hint="请填选择搭配效果"
             android:textColorHint="#C7C7CD"
-            android:textSize="@dimen/text_size"
-            android:layout_toRightOf="@id/effectEextView"/>
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
 </LinearLayout>

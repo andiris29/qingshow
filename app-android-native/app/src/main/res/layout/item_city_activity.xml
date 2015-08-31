@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.focosee.qingshow.widget.QSTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_city_text"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:padding="10dp"
+    android:background="@drawable/u02_relativelayout_background"
+    android:gravity="center_vertical">
+
+</com.focosee.qingshow.widget.QSTextView>

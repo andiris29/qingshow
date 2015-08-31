@@ -27,14 +27,16 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 public class ShareUtil {
 
     public static void shareShowToWX(String showId, String transaction, Context context, boolean isTimelineCb){
-        shareToWX(ShareConfig.SHARE_SHOW_URL + showId, transaction, context, isTimelineCb, ShareConfig.IMG);
+        shareToWX(ShareConfig.SHARE_SHOW_URL + showId, transaction, context, isTimelineCb
+                , ShareConfig.IMG, ShareConfig.SHARE_SHOW_TITLE, ShareConfig.SHARE_SHOW_DESCRIPTION);
     }
 
     public static void shareTradeToWX(String tradeId, String peopleId, String transaction, Context context, boolean isTimelineCb){
-        shareToWX(ShareConfig.getShareTradeUrl(tradeId, peopleId), transaction, context, isTimelineCb, ShareConfig.SHARE_TRADE_IMG);
+        shareToWX(ShareConfig.getShareTradeUrl(tradeId, peopleId), transaction, context, isTimelineCb
+                , ShareConfig.SHARE_TRADE_IMG, ShareConfig.SHARE_TRADE_TITLE, ShareConfig.SHARRE_TRADE_DESCRIPTION);
     }
 
-    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb, int img){
+    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb, int img, String title, String description){
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
         webpage.webpageUrl = url;
@@ -44,8 +46,8 @@ public class ShareUtil {
         Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), img);
         msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
         msg.setThumbImage(thumb);
-        msg.title = ShareConfig.SHARE_TITLE;
-        msg.description = ShareConfig.SHARRE_TRADE_DESCRIPTION;
+        msg.title = title;
+        msg.description = description;
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = transaction;
@@ -60,11 +62,11 @@ public class ShareUtil {
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         WebpageObject mediaObject = new WebpageObject();
         mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = ShareConfig.SHARE_TITLE;
-        mediaObject.description = ShareConfig.SHARE_DESCRIPTION;
+        mediaObject.title = ShareConfig.SHARE_SHOW_TITLE;
+        mediaObject.description = ShareConfig.SHARE_SHOW_DESCRIPTION;
         mediaObject.setThumbImage(BitmapFactory.decodeResource(context.getResources(), ShareConfig.IMG));
         mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showId;
-        mediaObject.defaultText = ShareConfig.SHARE_DESCRIPTION;
+        mediaObject.defaultText = ShareConfig.SHARE_SHOW_DESCRIPTION;
 
         weiboMessage.mediaObject = mediaObject;
 

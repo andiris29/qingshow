@@ -27,6 +27,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
+import com.focosee.qingshow.activity.UserUpdatedEvent;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -54,6 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
@@ -113,6 +115,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         dialog = new LoadingDialogs(getActivity(),R.style.dialog);
         if (null != savedInstanceState) {
             people = (MongoPeople) savedInstanceState.getSerializable("people");
@@ -298,23 +301,23 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             }
             if (null != people.nickname)
                 nameEditText.setText(people.nickname);
-            if (0 != people.age)
+            if (null != people.age)
                 ageEditText.setText(String.valueOf(people.age));
-            if (0 != people.height)
+            if (null != people.height)
                 heightEditText.setText(String.valueOf(people.height));
-            if (0 != people.weight)
+            if (null != people.weight)
                 weightEditText.setText(String.valueOf(people.weight));
             if(null != people.measureInfo){
-                if(0 != people.measureInfo.bust){
+                if(null != people.measureInfo.bust){
                     bustEditText.setText(String.valueOf(people.measureInfo.bust));
                 }
-                if(0 != people.measureInfo.shoulder){
+                if(null != people.measureInfo.shoulder){
                     shoulderEditText.setText(String.valueOf(people.measureInfo.shoulder));
                 }
-                if(0 != people.measureInfo.waist){
+                if(null != people.measureInfo.waist){
                     waistlineEditText.setText(String.valueOf(people.measureInfo.waist));
                 }
-                if(0 != people.measureInfo.hips){
+                if(null != people.measureInfo.hips){
                     hiplineEditText.setText(String.valueOf(people.measureInfo.hips));
                 }
             }
@@ -323,15 +326,26 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             dressStyleEditText.setText(dressStyles[people.dressStyle]);
             dressStyleEditText.setTag(people.dressStyle);
             if (null != people.expectations && people.expectations.length != 0) {
-                String effectStr = "";
-                for (int index : people.expectations) {
-                    effectStr += expectations[index] + " ";
-                }
-                if (effectStr.length() > 0)
-                    effectStr = effectStr.substring(0, effectStr.length() - 1);
-                effectEditText.setText(effectStr);
-                effectEditText.setTag(people.expectations);
+                setEffectEditText(people.expectations);
             }
+        }
+    }
+
+    private void setEffectEditText(int[] args){
+        String effectStr = "";
+        for (int index : args) {
+            effectStr += expectations[index] + " ";
+        }
+        if (effectStr.length() > 0)
+            effectStr = effectStr.substring(0, effectStr.length() - 1);
+        effectEditText.setText(effectStr);
+        effectEditText.setTag(expectations);
+    }
+
+    public void onEventMainThread(UserUpdatedEvent event){
+        if(null != event.user && null != effectEditText){
+            setEffectEditText(event.user.expectations);
+            initUser();
         }
     }
 
@@ -580,18 +594,17 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
-        MobclickAgent.onResume(getActivity());
     }
 
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U02SettingsFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override

@@ -11,7 +11,6 @@
     <uses-permission android:name="com.focosee.qingshow.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -25,8 +24,6 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -34,6 +31,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWOsRK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -277,14 +275,16 @@
         <activity android:name=".activity.S20MatchPreviewActivity" />
         <activity
             android:name=".activity.S01MatchShowsActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_s01_match_shows" />
         <activity
             android:name=".activity.PushWebActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".activity.CameraActivity"
-            android:label="@string/title_activity_camera" >
-        </activity>
+            android:name=".activity.CityActivity"
+            android:label="@string/title_activity_city" />
+
     </application>
 
 </manifest>

@@ -131,14 +131,12 @@ public class U01FansFragment extends U01BaseFragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U01FansFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U01FansFragment");
-        MobclickAgent.onPause(getActivity());
     }
 
 

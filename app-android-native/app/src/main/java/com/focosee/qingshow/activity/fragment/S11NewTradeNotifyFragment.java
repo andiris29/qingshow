@@ -230,13 +230,11 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("S11NewTradeNotifyFragment");
-        MobclickAgent.onPause(getActivity());
     }
 }

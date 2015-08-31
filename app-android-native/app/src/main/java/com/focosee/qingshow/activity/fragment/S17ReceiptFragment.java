@@ -8,13 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.CityActivity;
+import com.focosee.qingshow.activity.CityEvent;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.widget.CityPicker;
 
 import de.greenrobot.event.EventBus;
 
@@ -28,6 +30,7 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
     private EditText phoneView;
     private EditText addressView;
     private TextView provinceView;
+    private LinearLayout provinceLayout;
 
     private String provinceStr = "上海市普陀区";
     private MongoPeople.Receiver receiver;
@@ -46,9 +49,10 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
         phoneView = (EditText) rootView.findViewById(R.id.s11_receipt_phone);
         addressView = (EditText) rootView.findViewById(R.id.s11_receipt_address);
         provinceView = (TextView) rootView.findViewById(R.id.s11_receipt_province);
+        provinceLayout = (LinearLayout) rootView.findViewById(R.id.s11_receipt_province_layout);
 
         rootView.findViewById(R.id.s11_receipt_manage).setOnClickListener(this);
-        provinceView.setOnClickListener(this);
+        provinceLayout.setOnClickListener(this);
         initDefaultReceiver();
 
     }
@@ -96,18 +100,15 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
                 intent.putExtra(TO_U10,TO_U10);
                 startActivity(intent);
                 break;
-            case R.id.s11_receipt_province:
-                final CityPickerFragment cityPickerFragment = new CityPickerFragment();
-                cityPickerFragment.setOnSelectedListener(new CityPicker.OnSelectingListener() {
-                    @Override
-                    public void selected(boolean selected) {
-                        provinceStr = cityPickerFragment.getValue();
-                        provinceView.setText(provinceStr);
-                    }
-                });
-                cityPickerFragment.show(getFragmentManager(), "S11", getActivity());
+            case R.id.s11_receipt_province_layout:
+                getActivity().startActivity(new Intent(getActivity(), CityActivity.class));
                 break;
         }
+    }
+
+    public void onEventMainThread(CityEvent event){
+        if(null == event)return;
+        provinceView.setText(event.address);
     }
 
     public void onEventMainThread(MongoPeople.Receiver receiver){
