@@ -34,7 +34,7 @@ public class StringUtil {
     }
 
     public static String formatHeightAndWeight(Number heigth, Number weight) {
-        return heigth + "cm," + weight + "kg";
+        return (heigth == null ? 0 : heigth) + "cm," + (weight == null ? 0 : weight) + "kg";
     }
 
     public static String formatSKUProperties(List<String> properties) {

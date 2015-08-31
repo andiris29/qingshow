@@ -34,9 +34,10 @@ public class ShareConfig {
 
     public static final String SHARE_TRADE_URL = "http://chingshow.com/app-web?entry=shareTrade";
 
-    public static final String SHARE_TITLE="正品折扣，在倾秀动动手指即刻拥有";
+    public static final String SHARE_SHOW_TITLE="来倾秀玩转搭配，show出你的范儿！";
+    public static final String SHARE_SHOW_DESCRIPTION="随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算";
+    public static final String SHARE_TRADE_TITLE="正品折扣，在倾秀动动手指即刻拥有";
     public static final String SHARRE_TRADE_DESCRIPTION = "服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！";
-    public static final String SHARE_DESCRIPTION="美丽乐分享，潮流资讯早知道";
     public static final int IMG = R.drawable.wx_share_trade;
     public static final int SHARE_TRADE_IMG = R.drawable.wx_share_trade;
     public static String getShareTradeUrl(String _tradeId, String peopleId) {
