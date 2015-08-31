@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -132,75 +132,9 @@ public class U01UserActivity extends MenuActivity {
         user = (MongoPeople) getIntent().getExtras().get("user");
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
-            userFollowBtn.setVisibility(View.GONE);
-            userNavBtn.setVisibility(View.VISIBLE);
-            userNavBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    menuSwitch();
-                }
-            });
-            btnListener = new BackBtnListener() {
-                @Override
-                public boolean onKeyDown(int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
-                        menuSwitch();
-                    }
-                    return true;
-                }
-            };
-            initDrawer();
+            mySelf();
         } else {
-            userBackBtn.setVisibility(View.VISIBLE);
-            userBackBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            btnListener = new BackBtnListener() {
-                @Override
-                public boolean onKeyDown(int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_MENU) {
-                        menuSwitch();
-                    }
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        finish();
-                    }
-                    return true;
-                }
-            };
-            userFollowBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    userFollowBtn.setEnabled(false);
-                    String url = user.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleUnfollowApi() : QSAppWebAPI.getPeopleFollowApi();
-                    UserCommand.likeOrFollow(url, user._id, new Callback() {
-                        @Override
-                        public void onComplete(JSONObject response) {
-                            super.onComplete();
-                            if (user.__context.followedByCurrentUser) {
-                                userFollowBtn.setImageResource(R.drawable.follow_btn);
-                            } else {
-                                userFollowBtn.setImageResource(R.drawable.unfollow_btn);
-                            }
-                            fragments[POS_FANS].refresh();
-                            UserCommand.refresh();
-                            user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
-                            userFollowBtn.setEnabled(true);
-                            EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), null);
-                            eventModel.setFrom(U01UserActivity.class.getSimpleName());
-                            EventBus.getDefault().post(eventModel);
-                        }
-
-                        @Override
-                        public void onError(int errorCode) {
-                            ErrorHandler.handle(U01UserActivity.this, errorCode);
-                            userFollowBtn.setEnabled(true);
-                        }
-                    });
-                }
-            });
+            others();
         }
         eventBus = EventBus.getDefault();
         eventBus.register(this);
@@ -210,6 +144,86 @@ public class U01UserActivity extends MenuActivity {
         userViewPager.setOffscreenPageLimit(5);
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
+    }
+
+    private void mySelf(){
+        userFollowBtn.setVisibility(View.GONE);
+        userNavBtn.setVisibility(View.VISIBLE);
+        userNavBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuSwitch();
+            }
+        });
+        initDrawer();
+        btnListener = new BackBtnListener() {
+            @Override
+            public boolean onKeyDown(int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_MENU) {
+                    menuSwitch();
+                }
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    Intent home = new Intent(Intent.ACTION_MAIN);
+                    home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    home.addCategory(Intent.CATEGORY_HOME);
+                    startActivity(home);
+                }
+                return true;
+            }
+        };
+    }
+
+    private void others(){
+        userBackBtn.setVisibility(View.VISIBLE);
+        userBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        btnListener = new BackBtnListener() {
+            @Override
+            public boolean onKeyDown(int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_MENU) {
+                    menuSwitch();
+                }
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    finish();
+                }
+                return true;
+            }
+        };
+        userFollowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userFollowBtn.setEnabled(false);
+                String url = user.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleUnfollowApi() : QSAppWebAPI.getPeopleFollowApi();
+                UserCommand.likeOrFollow(url, user._id, new Callback() {
+                    @Override
+                    public void onComplete(JSONObject response) {
+                        super.onComplete();
+                        if (user.__context.followedByCurrentUser) {
+                            userFollowBtn.setImageResource(R.drawable.follow_btn);
+                        } else {
+                            userFollowBtn.setImageResource(R.drawable.unfollow_btn);
+                        }
+                        fragments[POS_FANS].refresh();
+                        UserCommand.refresh();
+                        user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
+                        userFollowBtn.setEnabled(true);
+                        EventModel eventModel = new EventModel(U01UserActivity.class.getSimpleName(), null);
+                        eventModel.setFrom(U01UserActivity.class.getSimpleName());
+                        EventBus.getDefault().post(eventModel);
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        ErrorHandler.handle(U01UserActivity.this, errorCode);
+                        userFollowBtn.setEnabled(true);
+                    }
+                });
+            }
+        });
     }
 
     private void initUserInfo() {

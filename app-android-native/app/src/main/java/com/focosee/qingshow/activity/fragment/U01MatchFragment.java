@@ -135,14 +135,12 @@ public class U01MatchFragment extends U01BaseFragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U01MatchFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U01MatchFragment");
-        MobclickAgent.onPause(getActivity());
     }
 
 }

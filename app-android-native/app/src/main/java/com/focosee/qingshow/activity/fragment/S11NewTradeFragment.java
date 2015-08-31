@@ -337,14 +337,12 @@ public class S11NewTradeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("S11NewTradeFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("S11NewTradeFragment");
-        MobclickAgent.onPause(getActivity());
     }
 
 }

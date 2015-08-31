@@ -255,7 +255,6 @@
                         android:background="@null"
                         android:gravity="center_vertical"
                         android:hint="请填写退货理由"
-                        android:inputType="number"
                         android:textColor="@color/darker_gray"
                         android:textColorHint="@color/hint_text_color"
                         android:textSize="@dimen/text_size" />

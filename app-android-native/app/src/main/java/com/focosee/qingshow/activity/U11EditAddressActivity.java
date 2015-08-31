@@ -2,7 +2,6 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U11AddressEditFragment;
 import com.umeng.analytics.MobclickAgent;
@@ -15,6 +14,7 @@ public class U11EditAddressActivity extends BaseActivity {
     private U11AddressEditFragment fragment;
 
     private String id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

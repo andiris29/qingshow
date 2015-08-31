@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
