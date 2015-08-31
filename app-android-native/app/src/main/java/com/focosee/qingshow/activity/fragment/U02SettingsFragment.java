@@ -345,6 +345,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     public void onEventMainThread(UserUpdatedEvent event){
         if(null != event.user && null != effectEditText){
             setEffectEditText(event.user.expectations);
+            initUser();
         }
     }
 

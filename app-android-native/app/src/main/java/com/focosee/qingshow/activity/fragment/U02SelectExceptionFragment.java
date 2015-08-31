@@ -89,12 +89,6 @@ public class U02SelectExceptionFragment extends Fragment {
         adapter = new ArrayAdapter<>(getActivity(), R.layout.item_u02_exception, datas);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("onItemClick:" + position + "_" + listView.isItemChecked(position));
-            }
-        });
         setDatas();
     }
 

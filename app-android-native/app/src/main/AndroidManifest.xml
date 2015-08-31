@@ -275,6 +275,8 @@
         <activity android:name=".activity.S20MatchPreviewActivity" />
         <activity
             android:name=".activity.S01MatchShowsActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_s01_match_shows" />
         <activity
             android:name=".activity.PushWebActivity"

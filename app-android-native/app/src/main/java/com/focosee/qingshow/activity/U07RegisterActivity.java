@@ -2,12 +2,8 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,20 +18,18 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
-import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.util.BitMapUtil;
-import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.FileUtil;
+import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.wxapi.WxLoginedEvent;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -45,8 +39,6 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
-
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import butterknife.ButterKnife;
@@ -55,8 +47,6 @@ import de.greenrobot.event.EventBus;
 
 public class U07RegisterActivity extends BaseActivity implements View.OnClickListener{
 
-    private static final String DEBUG_TAG = "注册页";
-    public static final String FINISH_CODE = "u07finish";
     @InjectView(R.id.accountEditText)
     EditText accountEditText;
     @InjectView(R.id.passwordEditText)
@@ -70,11 +60,12 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
 
     private Context context;
 
+    private LoadingDialogs dialogs;
+
     private AuthInfo mAuthInfo;
     /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
     private SsoHandler mSsoHandler;
-    private int[] portraits = {R.drawable.default_head_1, R.drawable.default_head_2, R.drawable.default_head_3, R.drawable.default_head_4
-            ,R.drawable.default_head_5, R.drawable.default_head_6};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +75,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         EventBus.getDefault().register(this);
 
         context = getApplicationContext();
+        dialogs = new LoadingDialogs(U07RegisterActivity.this);
 
         wxApi = QSApplication.instance().getWxApi();
 
@@ -127,7 +119,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                     if (user == null) {
                         ErrorHandler.handle(context, MetadataParser.getError(response));
                     } else {
-                        uploadImage();
+                        FileUtil.uploadDefaultPortrait(U07RegisterActivity.this);
                         QSModel.INSTANCE.setUser(user);
                         updateSettings();
                         Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
@@ -157,32 +149,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private void uploadImage() {
-
-        QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
-                QSAppWebAPI.getUserUpdateportrait(), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response))return;
-                MongoPeople user = UserParser._parsePeople(response);
-                if (user != null) {
-                    UserCommand.refresh();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        int i = (int)Math.random() * 5;
-        QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
-        multipartEntity.addBinaryPart("portrait", BitMapUtil.bmpToByteArray(BitmapFactory.decodeResource(getResources(), portraits[i]), false, Bitmap.CompressFormat.JPEG));
-        RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
-    }
-
     public void weiChatLogin() {
         // send oauth request
         if (!wxApi.isWXAppInstalled()) {
@@ -195,50 +161,24 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         req.scope = "snsapi_userinfo";
         req.state = "qingshow_wxlogin";
         wxApi.sendReq(req);
+
+        dialogs.show();
     }
 
     public void weiBoLogin() {
         mSsoHandler.authorize(new AuthListener());
+        dialogs.show();
     }
 
-    private void loginWX(String code) {
-
-        Map<String, String> map = new HashMap<>();
-        map.put("code", code);
-        map.put("registrationId", PushModel.INSTANCE.getRegId());
-        JSONObject jsonObject = new JSONObject(map);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
-                    finish();
-                    return;
+    public void onEventMainThread(WxLoginedEvent event) {
+        if("error".equals(event.code)){
+            if(null != dialogs){
+                if(dialogs.isShowing()){
+                    dialogs.dismiss();
                 }
-
-                Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
-                MongoPeople user = UserParser._parsePeople(response);
-                if(TextUtils.isEmpty(user.portrait)){
-                    uploadImage();
-                }
-                QSModel.INSTANCE.setUser(user);
-                Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", user);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
             }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
-    public void onEventMainThread(EventModel<String> eventModel) {
-        if(eventModel.tag.equals(U07RegisterActivity.class.getSimpleName())){
-            loginWX(eventModel.msg);
         }
+        finish();
     }
 
     @Override
@@ -250,6 +190,10 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+        if(null == dialogs)return;
+        if(dialogs.isShowing()){
+            dialogs.dismiss();
+        }
     }
 
     private void updateSettings() {
