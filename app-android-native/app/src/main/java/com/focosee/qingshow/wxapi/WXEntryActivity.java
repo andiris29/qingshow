@@ -104,9 +104,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("response:" + response);
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(WXEntryActivity.this, MetadataParser.getError(response));
+                    Toast.makeText(WXEntryActivity.this, "登录失败请重试！", Toast.LENGTH_SHORT).show();
                     EventBus.getDefault().post(new WxLoginedEvent("error"));
                     finish();
                     return;
