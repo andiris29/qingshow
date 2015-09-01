@@ -272,34 +272,6 @@ trade.statusTo = {
     }
 };
 
-trade.queryCreatedBy = {
-    'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var userId = req.queryString._id ? RequestHelper.parseId(req.queryString._id) : req.qsCurrentUserId;
-        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            var criteria = {
-                'ownerRef' : userId
-            };
-            if (qsParam.inProgress === "true") {
-                criteria.status = {
-                    '$in' : [1, 2, 3, 7]
-                };
-            }
-            MongoHelper.queryPaging(Trade.find(criteria).sort({'create' : -1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
-        }, function(trades) {
-            return {
-                'trades' : trades 
-            };
-        }, {
-            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                // Append Context
-                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
-            }
-        });
-    }
-};
-
 trade.alipayCallback = {
     'method' : 'post',
     'func' : function(req, res) {
