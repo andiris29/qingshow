@@ -14,10 +14,8 @@
 #import "QSEntityUtil.h"
 #import "QSTradeUtil.h"
 
-
 #define PATH_TRADE_QUERY @"trade/query"
 #define PATH_TRADE_CREATE @"trade/create"
-#define PATH_TRADE_QUERY_CREATED_BY @"trade/queryCreatedBy"
 #define PATH_TRADE_REFRESH_PAYMENT_STATUS @"trade/refreshPaymentStatus"
 #define PAHT_TRADE_STATUS_TO @"trade/statusTo"
 #define PATH_TRADE_PREPAY @"trade/prepay"
@@ -77,24 +75,6 @@
         }
     }];
 }
-- (MKNetworkOperation*)queryTradeListPage:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock
-{
-    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
-    NSString* userId = [QSEntityUtil getIdOrEmptyStr:userInfo];
-    return [self queryTradeCreatedBy:userId page:page onSucceed:succeedBlock onError:errorBlock];
-}
-
-- (MKNetworkOperation*)queryTradeListPage:(int)page
-                               inProgress:(NSString *)inProgress
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock
-{
-    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
-    NSString* userId = [QSEntityUtil getIdOrEmptyStr:userInfo];
-    return [self queryTradeCreatedBy:userId page:page inProgress:inProgress onSucceed:succeedBlock onError:errorBlock];
-}
 
 - (MKNetworkOperation*)queryPhase:(int)page
                                    phases:(NSString *)phases
@@ -106,59 +86,6 @@
     return [self queryTradePhases:userId page:page phases:phases onSucceed:succeedBlock onError:errorBlock];
 }
 
-- (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId
-                                      page:(int)page
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_TRADE_QUERY_CREATED_BY
-                                 method:@"GET"
-                               paramers:@{@"_id" : peopleId,
-                                          @"pageNo" : @(page),
-                                          @"pageSize" : @10 }
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                if (succeedBlock) {
-                    NSDictionary* retDict = completedOperation.responseJSON;
-                    NSArray* trades = retDict[@"data"][@"trades"];
-                    succeedBlock([trades deepMutableCopy], retDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-}
-
-- (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId
-                                      page:(int)page
-                                inProgress:(NSString *)inProgress
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_TRADE_QUERY_CREATED_BY
-                                 method:@"GET"
-                               paramers:@{@"_id" : peopleId,
-                                          @"pageNo" : @(page),
-                                          @"inProgress":inProgress,
-                                          @"pageSize" : @10 }
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                if (succeedBlock) {
-                    NSDictionary* retDict = completedOperation.responseJSON;
-                    NSArray* trades = retDict[@"data"][@"trades"];
-                    succeedBlock([trades deepMutableCopy], retDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-}
 - (MKNetworkOperation*)queryTradePhases:(NSString*)peopleId
                                       page:(int)page
                                 phases:(NSString *)phases
