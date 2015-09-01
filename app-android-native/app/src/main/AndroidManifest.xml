@@ -195,7 +195,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.U13PersonalizeActivity"
             android:configChanges="keyboardHidden|orientation"
