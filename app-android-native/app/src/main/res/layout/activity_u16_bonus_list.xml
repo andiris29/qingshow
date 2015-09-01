@@ -10,10 +10,18 @@
         android:id="@+id/u16_title"
         layout="@layout/title"/>
 
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/s01_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/u16_title">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/u16_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/u16_title"/>
+        android:paddingTop="10dp"/>
+
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
 </android.support.percent.PercentRelativeLayout>
