@@ -3,11 +3,8 @@ package com.focosee.qingshow.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -18,7 +15,6 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
@@ -34,7 +30,6 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
-
 import de.greenrobot.event.EventBus;
 
 /**

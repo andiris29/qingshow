@@ -195,7 +195,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.U13PersonalizeActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -276,15 +276,13 @@
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_s01_match_shows" />
+            android:label="@string/title_activity_s01_match_shows"/>
         <activity
             android:name=".activity.PushWebActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.CityActivity"
             android:label="@string/title_activity_city" />
-
     </application>
 
 </manifest>
