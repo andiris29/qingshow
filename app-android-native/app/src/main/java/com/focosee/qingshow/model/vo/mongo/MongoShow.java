@@ -3,6 +3,7 @@ package com.focosee.qingshow.model.vo.mongo;
 import com.focosee.qingshow.model.vo.context.ShowContext;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class MongoShow implements Serializable {
     public String _id;
@@ -14,7 +15,7 @@ public class MongoShow implements Serializable {
     public String[] posters;
     public String description;
 
-    public MongoItem[] itemRefs;
+    public List<MongoItem> itemRefs;
     public MongoPromotion promotionRef;
     public String coverForeground;
 
