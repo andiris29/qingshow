@@ -33,7 +33,12 @@ public class ShareUtil {
 
     public static void shareTradeToWX(String tradeId, String peopleId, String transaction, Context context, boolean isTimelineCb){
         shareToWX(ShareConfig.getShareTradeUrl(tradeId, peopleId), transaction, context, isTimelineCb
-                , ShareConfig.SHARE_TRADE_IMG, ShareConfig.SHARE_TRADE_TITLE, ShareConfig.SHARRE_TRADE_DESCRIPTION);
+                , ShareConfig.IMG, ShareConfig.SHARE_TRADE_TITLE, ShareConfig.SHARRE_TRADE_DESCRIPTION);
+    }
+
+    public static void shareBonusToWX(String peopleId, String transaction, Context context, boolean isTimelineCb){
+        shareToWX(ShareConfig.SHARE_BONUS_URL + peopleId, transaction, context, isTimelineCb
+            , ShareConfig.IMG, ShareConfig.SHARE_BONUS_TITLE, ShareConfig.SHARE_BONUS_DESCRIPTION);
     }
 
     public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb, int img, String title, String description){

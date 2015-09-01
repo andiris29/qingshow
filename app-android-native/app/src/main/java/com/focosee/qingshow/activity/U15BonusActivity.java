@@ -1,20 +1,19 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class U15BonusActivity extends BaseActivity implements View.OnClickListener {
-
 
     @InjectView(R.id.title)
     QSTextView title;
@@ -22,8 +21,6 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     QSButton rightBtn;
     @InjectView(R.id.u15_total)
     QSTextView u15Total;
-    @InjectView(R.id.u15_total_layout)
-    LinearLayout u15TotalLayout;
     @InjectView(R.id.u15_balance)
     QSTextView u15Balance;
     @InjectView(R.id.u15_hint_text)
@@ -44,6 +41,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     public void matchUI() {
         title.setText(getText(R.string.bonus_activity_settings));
         leftBtn.setOnClickListener(this);
+        rightBtn.setVisibility(View.VISIBLE);
         rightBtn.setText(getText(R.string.u15_title_right_btn));
         rightBtn.setOnClickListener(this);
     }
@@ -60,6 +58,11 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.right_btn:
+                startActivity(new Intent(U15BonusActivity.this, U16BonusListActivity.class));
+                break;
+            case R.id.u15_withDrawBtn:
+                ShareUtil.shareBonusToWX(QSModel.INSTANCE.getUserId(), String.valueOf(System.currentTimeMillis())
+                        , U15BonusActivity.this, true);
                 break;
         }
     }

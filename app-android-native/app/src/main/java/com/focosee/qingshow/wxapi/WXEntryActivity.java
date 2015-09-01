@@ -3,9 +3,7 @@ package com.focosee.qingshow.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -18,7 +16,6 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
@@ -31,7 +28,9 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,11 +67,20 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
             EventBus.getDefault().post(new PushEvent(resp));
+            //trade
             if (resp.transaction.equals(ValueUtil.SHARE_TRADE)) {
                 if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
                     EventBus.getDefault().post(new ShareTradeEvent(true));
                 }
-            } else {
+            }
+            //bonus
+            if (resp.transaction.equals(ValueUtil.SHARE_BONUS)) {
+                if(resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK){
+
+                }
+            }
+            //show
+            if(resp.transaction.equals(ValueUtil.SHARE_SHOW)) {
                 EventModel<Integer> eventModel;
                 eventModel = new EventModel<>(S03SHowActivity.class.getSimpleName(), resp.errCode);
                 eventModel.from = WXEntryActivity.class.getSimpleName();
@@ -113,7 +121,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
                 Toast.makeText(WXEntryActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                 MongoPeople user = UserParser._parsePeople(response);
-                if(TextUtils.isEmpty(user.portrait)){
+                if (TextUtils.isEmpty(user.portrait)) {
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
                 }
                 QSModel.INSTANCE.setUser(user);

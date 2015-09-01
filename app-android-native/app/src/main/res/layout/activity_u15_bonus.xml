@@ -117,6 +117,7 @@
         android:text="@string/u15_hint"/>
 
     <com.focosee.qingshow.widget.QSButton
+        android:id="@+id/u15_withDrawBtn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="10%"
@@ -128,6 +129,7 @@
         android:text="@string/u15_btn_text"
         android:textSize="20sp"
         android:textColor="@color/white"
+        android:onClick="onClick"
         android:layout_below="@+id/u15_hint_text"/>
 
 </android.support.percent.PercentRelativeLayout>
