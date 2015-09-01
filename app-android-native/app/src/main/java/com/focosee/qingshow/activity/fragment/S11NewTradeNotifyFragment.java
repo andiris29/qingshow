@@ -48,15 +48,12 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-
 
 /**
  * Created by Administrator on 2015/3/11.

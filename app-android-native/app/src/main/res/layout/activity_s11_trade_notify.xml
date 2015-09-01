@@ -185,11 +185,11 @@
                         <TextView
                             android:layout_gravity="center"
                             android:id="@+id/nowPrice"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignLeft="@id/price_text"
                             android:layout_below="@id/price_text"
-                            android:gravity="fill"
+                            android:gravity="center"
                             android:textColor="@color/red"
                             android:textSize="45sp" />
                     </LinearLayout>

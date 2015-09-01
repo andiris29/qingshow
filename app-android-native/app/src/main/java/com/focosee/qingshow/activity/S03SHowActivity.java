@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -36,6 +37,8 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.filter.Filter;
+import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.share.BaseResponse;
@@ -44,14 +47,20 @@ import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
+
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
@@ -76,7 +85,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     ImageView s03DelBtn;
 
     private MongoShow showDetailEntity;
-    private MongoItem[] itemsData;
+    private List<MongoItem> itemsData;
     private String videoUriString;
     private int playTime = 0;
 
@@ -109,7 +118,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         EventBus.getDefault().register(this);
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
-        }else showId = "";
+        } else showId = "";
         className = getIntent().getStringExtra(CLASS_NAME);
 
         if (TextUtils.isEmpty(showId)) {
@@ -119,7 +128,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        if(S20MatchPreviewActivity.class.getSimpleName().equals(className)){
+        if (S20MatchPreviewActivity.class.getSimpleName().equals(className)) {
             s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -154,7 +163,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
@@ -206,12 +214,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         }
     }
 
-
-    private void showMessage(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        Log.i(context.getPackageName(), message);
-    }
-
     private void showData() {
         if (null == showDetailEntity)
             return;
@@ -240,7 +242,16 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
         if (null != showDetailEntity.itemRefs) {
-            itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
+            FilterHepler.filterList(showDetailEntity.itemRefs, new Filter() {
+                @Override
+                public <T> boolean filtrate(T t) {
+                    MongoItem item = (MongoItem) t;
+                    if (!TextUtils.isEmpty(item.delist))
+                        return true;
+                    return false;
+                }
+            });
+            itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.size()));
         }
 
         setLikedImageButtonBackgroundImage();
@@ -265,7 +276,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     private void showData_other() {
         s03Portrait.setVisibility(View.VISIBLE);
         s03Nickname.setVisibility(View.VISIBLE);
-        if (null == showDetailEntity.ownerRef)return;
+        if (null == showDetailEntity.ownerRef) return;
         s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
         s03Nickname.setText(showDetailEntity.ownerRef.nickname);
 
@@ -307,7 +318,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     }
 
     public void onEventMainThread(S04PostCommentEvent event) {
-        switch (event.action){
+        switch (event.action) {
             case S04PostCommentEvent.addComment:
                 commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString()) + 1));
                 break;
@@ -358,7 +369,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
                 Bundle bundle = new Bundle();
                 ArrayList<MongoItem> itemList = new ArrayList<>();
-                Collections.addAll(itemList, showDetailEntity.itemRefs);
+                itemList.addAll(showDetailEntity.itemRefs);
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -414,7 +425,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 dialog.show();
                 return;
             case R.id.s03_portrait:
-                if(null == showDetailEntity.ownerRef)return;
+                if (null == showDetailEntity.ownerRef) return;
                 intent = new Intent(S03SHowActivity.this, U01UserActivity.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putSerializable("user", showDetailEntity.ownerRef);
@@ -449,9 +460,11 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     class ShareClickListener implements View.OnClickListener {
 
         public Context context;
-        public ShareClickListener(Context context){
+
+        public ShareClickListener(Context context) {
             this.context = context;
         }
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -499,19 +512,19 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(className.equals(S20MatchPreviewActivity.class.getSimpleName())) {
+        if (className.equals(S20MatchPreviewActivity.class.getSimpleName())) {
             if (keyCode == KeyEvent.KEYCODE_MENU) {
                 menuSwitch();
             }
-            if(keyCode == KeyEvent.KEYCODE_BACK){
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
                 Intent home = new Intent(Intent.ACTION_MAIN);
                 home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 home.addCategory(Intent.CATEGORY_HOME);
                 startActivity(home);
             }
-        }else{
+        } else {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                if(videoView.getVisibility() == View.VISIBLE){
+                if (videoView.getVisibility() == View.VISIBLE) {
                     videoView.setVisibility(View.GONE);
                     s03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
                     return true;

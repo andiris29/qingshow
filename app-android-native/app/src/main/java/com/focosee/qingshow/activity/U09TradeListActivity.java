@@ -194,6 +194,12 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
             this.position = mAdapter.indexOf(trade) + 1;
     }
 
+    public void onEventMainThread(U12ReturnEvent event) {
+        doRefresh(currentType);
+        if(recyclerView.getAdapter().getItemCount() - 1 < position)return;
+        recyclerView.scrollToPosition(event.position);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("position", position);

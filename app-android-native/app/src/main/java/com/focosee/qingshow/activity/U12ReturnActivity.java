@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -47,6 +48,7 @@ public class U12ReturnActivity extends BaseActivity {
     private MongoTrade trade;
     private boolean isSuccessed = false;
     private LoadingDialogs loadingDialog;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +63,10 @@ public class U12ReturnActivity extends BaseActivity {
                 finish();
             }
         });
+
         loadingDialog = new LoadingDialogs(this, R.style.dialog);
         trade = (MongoTrade) getIntent().getSerializableExtra(TRADE_ENTITY);
-
+        position = getIntent().getIntExtra("position", 0);
         if (null != trade.itemSnapshot) {
             if (null != trade.itemSnapshot.returnInfo) {
                 addressReturnActivity.setText(trade.itemSnapshot.returnInfo.address);
@@ -108,12 +111,12 @@ public class U12ReturnActivity extends BaseActivity {
         QSJsonObjectRequest jor2 = new QSJsonObjectRequest(QSAppWebAPI.getTradeStatustoApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("response:" + response);
                 loadingDialog.dismiss();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U12ReturnActivity.this, MetadataParser.getError(response));
                     return;
                 }
+                EventBus.getDefault().post(new U12ReturnEvent(position));
                 Toast.makeText(U12ReturnActivity.this, getResources().getString(R.string.toast_activity_return), Toast.LENGTH_SHORT).show();
                 finish();
             }

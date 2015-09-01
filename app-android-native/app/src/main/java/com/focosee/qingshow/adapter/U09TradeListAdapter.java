@@ -188,6 +188,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     Intent intent = new Intent(context, U12ReturnActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
+                    bundle.putInt("position", position);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }

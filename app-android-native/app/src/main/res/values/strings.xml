@@ -221,6 +221,7 @@
     <string name="only_number">0123456789</string>
 
     <!-- U15BonusActivity -->
+    <string name="title_activity_u15_bonus">U15BonusActivity</string>
     <string name="u15_mybonus">我的佣金</string>
     <string name="u15_total_bonus">佣金总计：</string>
     <string name="u15_balance">未提现：</string>

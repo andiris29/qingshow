@@ -149,6 +149,11 @@
 }
 
 - (IBAction)previewButtonPressed:(id)sender {
+    //防止因为图标未下载完提交白图
+    if (![self.canvasView checkLoadAtLeastOneImage]) {
+        [self showErrorHudWithText:@"请等待图片下载完成"];
+    }
+    
     //图片需要显示70%以上才能提交
     if (![self.canvasView checkRate:0.7f]) {
         [self showErrorHudWithText:@"图片被遮挡太多，请调整"];
