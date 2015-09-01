@@ -301,6 +301,20 @@
 }
 
 
+- (BOOL)checkLoadAtLeastOneImage {
+    NSArray* subviews = self.subviews;
+    for (QSCanvasImageView* imgView in subviews) {
+        if (![imgView isKindOfClass:[QSCanvasImageView class]]) {
+            continue;
+        }
+        if (imgView.imgView.image) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+
 - (BOOL)checkRate:(float)rate {
     NSArray* subviews = self.subviews;
     subviews = [subviews filteredArrayUsingBlock:^BOOL(QSCanvasImageView* imgView) {

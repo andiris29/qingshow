@@ -27,7 +27,7 @@
 
 - (UIImage*)submitView;
 - (BOOL)checkRate:(float)rate;
-
+- (BOOL)checkLoadAtLeastOneImage;
 
 @property (weak, nonatomic) NSObject<QSMatcherCanvasViewDelegate>* delegate;
 
