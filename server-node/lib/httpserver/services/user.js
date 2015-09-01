@@ -492,7 +492,7 @@ _loginViaWeixin = function(req, res) {
     }
     async.waterfall([function(callback) {
         var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + code + '&grant_type=authorization_code';
-        winston.log('token url', token_url);
+        winston.info('token url', token_url);
         request.get(token_url, function(error, response, body) {
             var data = JSON.parse(body);
             if (data.errcode !== undefined) {
@@ -503,7 +503,7 @@ _loginViaWeixin = function(req, res) {
         });
     }, function(token, openid, callback) {
         var usr_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid;
-        winston.log('usr_url', usr_url);
+        winston.info('usr_url', usr_url);
 
         request.get(usr_url, function(errro, response, body) {
             var data = JSON.parse(body);
