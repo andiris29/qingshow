@@ -276,18 +276,13 @@
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
-            android:label="@string/title_activity_s01_match_shows"
-            android:launchMode="singleTask" />
+            android:label="@string/title_activity_s01_match_shows"/>
         <activity
             android:name=".activity.PushWebActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.CityActivity"
             android:label="@string/title_activity_city" />
-        <activity
-            android:name=".activity.U15BonusActivity"
-            android:label="@string/title_activity_u15_bonus" >
-        </activity>
     </application>
 
 </manifest>
