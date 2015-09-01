@@ -27,6 +27,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
+import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.activity.UserUpdatedEvent;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -71,33 +72,34 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private static final String TAG_EXPECTATIONS = "expectations";
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
-    ImageView backTextView;
-    EditText ageEditText;
-    Button quitButton;
-    ImageButton navigationBtnMatch;
-    ImageButton navigationBtnGoodMatch;
-    ImageButton navigationBtnDiscount;
-    ImageButton u01People;
-    RelativeLayout personalRelativeLayout;
-    RelativeLayout backgroundRelativeLayout;
-    RelativeLayout bodyTypeRelativeLayout;
-    RelativeLayout changePasswordRelativeLayout;
-    RelativeLayout addresslistRelativeLayout;
-    RelativeLayout dressStyleRelativeLayout;
-    RelativeLayout effectRelativeLayout;
-    ImageView portraitImageView;
-    ImageView backgroundImageView;
-    EditText nameEditText;
-    EditText heightEditText;
-    EditText weightEditText;
-    EditText bustEditText;
-    EditText shoulderEditText;
-    EditText waistlineEditText;
-    EditText hiplineEditText;
-    TextView bodyTypeTextView;
-    TextView dressStyleEditText;
-    TextView effectEditText;
-    TextView changePwText;
+    private ImageView backTextView;
+    private EditText ageEditText;
+    private Button quitButton;
+    private ImageButton navigationBtnMatch;
+    private ImageButton navigationBtnGoodMatch;
+    private ImageButton navigationBtnDiscount;
+    private ImageButton u01People;
+    private RelativeLayout personalRelativeLayout;
+    private RelativeLayout backgroundRelativeLayout;
+    private RelativeLayout bodyTypeRelativeLayout;
+    private RelativeLayout changePasswordRelativeLayout;
+    private RelativeLayout bonusRelativeLayout;
+    private RelativeLayout addresslistRelativeLayout;
+    private RelativeLayout dressStyleRelativeLayout;
+    private RelativeLayout effectRelativeLayout;
+    private ImageView portraitImageView;
+    private ImageView backgroundImageView;
+    private EditText nameEditText;
+    private EditText heightEditText;
+    private EditText weightEditText;
+    private EditText bustEditText;
+    private EditText shoulderEditText;
+    private EditText waistlineEditText;
+    private EditText hiplineEditText;
+    private TextView bodyTypeTextView;
+    private TextView dressStyleEditText;
+    private TextView effectEditText;
+    private TextView changePwText;
     public static U02SettingsFragment instance;
 
     private MongoPeople people;
@@ -264,6 +266,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
         bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
         changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
+        bonusRelativeLayout = (RelativeLayout) view.findViewById(R.id.bonusRelativeLayout);
         addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
         dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
         effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
@@ -507,7 +510,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         waistlineEditText.setOnFocusChangeListener(this);
         hiplineEditText.setOnFocusChangeListener(this);
 
-        backTextView.setOnClickListener(new View.OnClickListener(){
+        backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 commitForm();
@@ -554,6 +557,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_left_out, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
                 U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
+            }
+        });
+
+        bonusRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), U15BonusActivity.class));
             }
         });
 

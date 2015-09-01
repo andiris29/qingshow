@@ -1,0 +1,19 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.focosee.qingshow.activity.U16BonusListActivity">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/u16_title"
+        layout="@layout/title"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/u16_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/u16_title"/>
+
+</android.support.percent.PercentRelativeLayout>
