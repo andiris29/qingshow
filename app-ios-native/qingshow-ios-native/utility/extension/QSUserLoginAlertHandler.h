@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface QSUserLoginAlertDelegateObj:NSObject<UIAlertViewDelegate>
+@interface QSUserLoginAlertHandler:NSObject<UIAlertViewDelegate>
 
 @property (weak, nonatomic) UIViewController* vc;
 @property (strong, nonatomic) UIAlertView* alertView;

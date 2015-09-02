@@ -10,7 +10,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSU06LoginViewController.h"
 #import "QSError.h"
-#import "QSUserLoginAlertDelegateObj.h"
+#import "QSUserLoginAlertHandler.h"
 #import "QSG01ItemWebViewController.h"
 #import "QSPeopleUtil.h"
 
@@ -20,27 +20,37 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSBlock.h"
 #import "UIView+ScreenShot.h"
+#import "QSVersionUpdateAlertHandler.h"
 
-
-static char alertDelegateObjKey;
+static char alertHandlerKey;
+static char versionUpdateHandlerKey;
 
 @interface UIViewController(NetworkPrivate)
-@property (nonatomic) QSUserLoginAlertDelegateObj* loginErrorAlertDelegateObj;
+@property (nonatomic) QSUserLoginAlertHandler* loginErrorAlertHandler;
+@property (nonatomic) QSVersionUpdateAlertHandler* versionUpdateAlertHandler;
 @end
 
 
 @implementation UIViewController(Network)
 
 #pragma mark - Private
-- (void)setLoginErrorAlertDelegateObj:(QSUserLoginAlertDelegateObj *)networkErrorAlertDelegateObj
+//Login Error
+- (void)setLoginErrorAlertHandler:(QSUserLoginAlertHandler *)networkErrorAlertHandler
 {
-    objc_setAssociatedObject(self, &alertDelegateObjKey, networkErrorAlertDelegateObj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &alertHandlerKey, networkErrorAlertHandler, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-- (QSUserLoginAlertDelegateObj*)loginErrorAlertDelegateObj
+- (QSUserLoginAlertHandler*)loginErrorAlertHandler
 {
-  return ((QSUserLoginAlertDelegateObj*)objc_getAssociatedObject(self, &alertDelegateObjKey));
+  return ((QSUserLoginAlertHandler*)objc_getAssociatedObject(self, &alertHandlerKey));
 }
 
+//Version
+- (void)setVersionUpdateAlertHandler:(QSVersionUpdateAlertHandler *)versionUpdateAlertHandler {
+        objc_setAssociatedObject(self, &versionUpdateHandlerKey, versionUpdateAlertHandler, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (QSVersionUpdateAlertHandler*)versionUpdateAlertHandler {
+    return ((QSVersionUpdateAlertHandler*)objc_getAssociatedObject(self, &versionUpdateHandlerKey));
+}
 
 #pragma mark -
 
@@ -48,11 +58,15 @@ static char alertDelegateObjKey;
 {
     if ([error isKindOfClass:[QSError class]]) {
         QSError* qsError = (QSError*)error;
-        if (qsError.code == 1012 && self.navigationController && !self.loginErrorAlertDelegateObj) {
+        if (qsError.code == 1012 && self.navigationController && !self.loginErrorAlertHandler) {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"请先登陆" message:nil delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            self.loginErrorAlertDelegateObj = [[QSUserLoginAlertDelegateObj alloc] initWithVc:self alertView:alert];
+            self.loginErrorAlertHandler = [[QSUserLoginAlertHandler alloc] initWithVc:self alertView:alert];
             [alert show];
-        } else {
+        } else if (qsError.code == 2000 && !self.versionUpdateAlertHandler) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"请更新最新版本" message:@"更多意想不到在等着你哦" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            self.versionUpdateAlertHandler = [[QSVersionUpdateAlertHandler alloc] initWithVc:self alertView:alert];
+            [alert show];
+        }else {
             [self showErrorHudWithError:error];
         }
     }

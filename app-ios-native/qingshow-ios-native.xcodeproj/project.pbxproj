@@ -173,6 +173,7 @@
 		EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F781AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m */; };
 		EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */; };
 		EF88D08E1ACEF90C002C4963 /* area.json in Resources */ = {isa = PBXBuildFile; fileRef = EF88D08D1ACEF90C002C4963 /* area.json */; };
+		EF89F9DB1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */; };
 		EF8F0EF41A657DA900D1DADE /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8F0EF31A657DA900D1DADE /* UIImage+fixOrientation.m */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
 		EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF921FBB1ACBB11100669124 /* libc++.dylib */; };
@@ -181,7 +182,7 @@
 		EF9656A91B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9656A81B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m */; };
 		EF9656AB1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */; };
 		EF9740F81A49BBA3001300B5 /* UIViewController+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */; };
-		EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */; };
+		EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertHandler.m */; };
 		EF994D881B6936B200715B0E /* QSDiscountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D871B6936B200715B0E /* QSDiscountTableViewController.m */; };
 		EF994D8C1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D8B1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m */; };
 		EF994D901B693C3B00715B0E /* QSDiscountTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D8E1B693C3B00715B0E /* QSDiscountTitleCell.m */; };
@@ -697,6 +698,8 @@
 		EF810F7A1AB602760079BA76 /* QSTotalPriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTotalPriceCell.h; sourceTree = "<group>"; };
 		EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTotalPriceCell.m; sourceTree = "<group>"; };
 		EF88D08D1ACEF90C002C4963 /* area.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = area.json; sourceTree = "<group>"; };
+		EF89F9D91B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSVersionUpdateAlertHandler.h; sourceTree = "<group>"; };
+		EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSVersionUpdateAlertHandler.m; sourceTree = "<group>"; };
 		EF8F0EF01A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8F0EF11A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8F0EF21A657DA900D1DADE /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
@@ -714,8 +717,8 @@
 		EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCreateTradeSkuPropertyCell.xib; sourceTree = "<group>"; };
 		EF9740F61A49BBA3001300B5 /* UIViewController+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+QSExtension.h"; sourceTree = "<group>"; };
 		EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+QSExtension.m"; sourceTree = "<group>"; };
-		EF9740FA1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserLoginAlertDelegateObj.h; sourceTree = "<group>"; };
-		EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserLoginAlertDelegateObj.m; sourceTree = "<group>"; };
+		EF9740FA1A49C3A5001300B5 /* QSUserLoginAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserLoginAlertHandler.h; sourceTree = "<group>"; };
+		EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserLoginAlertHandler.m; sourceTree = "<group>"; };
 		EF994D861B6936B200715B0E /* QSDiscountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDiscountTableViewController.h; sourceTree = "<group>"; };
 		EF994D871B6936B200715B0E /* QSDiscountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDiscountTableViewController.m; sourceTree = "<group>"; };
 		EF994D8A1B693C2700715B0E /* QSAbstractDiscountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractDiscountTableViewCell.h; sourceTree = "<group>"; };
@@ -2001,8 +2004,8 @@
 				EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */,
 				EF9740F61A49BBA3001300B5 /* UIViewController+QSExtension.h */,
 				EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */,
-				EF9740FA1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.h */,
-				EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */,
+				EF9740FA1A49C3A5001300B5 /* QSUserLoginAlertHandler.h */,
+				EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertHandler.m */,
 				EF42BBD41A4C677100218693 /* NSMutableDictionary+QSExtension.h */,
 				EF42BBD51A4C677100218693 /* NSMutableDictionary+QSExtension.m */,
 				EF7826AC1A4EBA2200C69460 /* UIImage+BlurryImage.h */,
@@ -2017,6 +2020,8 @@
 				68F888001B1BF83A007A36F1 /* NSDate+QSExtension.m */,
 				EF0C63FD1B2186360079B22E /* UINib+QSExtension.h */,
 				EF0C63FE1B2186360079B22E /* UINib+QSExtension.m */,
+				EF89F9D91B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.h */,
+				EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -2807,6 +2812,7 @@
 				EFAB9C661B346FE5008A4EF5 /* QSLocationPickerProvider.m in Sources */,
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,
 				EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */,
+				EF89F9DB1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
 				8C8658ED1B3403E2004DF14F /* QSMatchShowUtil.m in Sources */,
 				EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */,
@@ -2857,7 +2863,7 @@
 				8C4475961B74ABD800DF36E2 /* QS11OrderInfoCell.m in Sources */,
 				EF8080351B4F3C79005198B6 /* QSHorizontalCollectionViewLayout.m in Sources */,
 				EFED34901AFC734F00F08A0D /* QSU07RegisterViewController.m in Sources */,
-				EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m in Sources */,
+				EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertHandler.m in Sources */,
 				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
 				EFAB9C671B346FE5008A4EF5 /* QSSinglePickerProvider.m in Sources */,
 				EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */,

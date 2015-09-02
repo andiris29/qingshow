@@ -6,16 +6,17 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSUserLoginAlertDelegateObj.h"
+#import "QSUserLoginAlertHandler.h"
+#import "QSVersionUpdateAlertHandler.h"
 #import "UIViewController+QSExtension.h"
 #import "QSU07RegisterViewController.h"
 
 @interface UIViewController(NetworkPrivate)
-@property (nonatomic) QSUserLoginAlertDelegateObj* loginErrorAlertDelegateObj;
+@property (nonatomic) QSUserLoginAlertHandler* loginErrorAlertHandler;
 @end
 
 
-@implementation QSUserLoginAlertDelegateObj
+@implementation QSUserLoginAlertHandler
 
 - (id)initWithVc:(UIViewController*)vc alertView:(UIAlertView*)alertView;
 {
@@ -37,7 +38,7 @@
     }
     
     self.alertView = nil;
-    vc.loginErrorAlertDelegateObj = nil;
+    vc.loginErrorAlertHandler = nil;
 }
 
 @end
