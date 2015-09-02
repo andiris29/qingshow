@@ -2,6 +2,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var ServerError = require('../server-error');
+var RequestHelper = require('../helpers/RequestHelper');
 var People = require('../../model/peoples');
 var _validatorsMap = {};
 
@@ -10,7 +11,7 @@ var _init = function(services) {
         var module = service.module,
             path = service.path;
         for (var id in module) {
-            var validators = module[id].permissionValidators;
+            var validators = _globalValidators.concat(module[id].permissionValidators || []);
             if (validators) {
                 _validatorsMap['/services/' + path + '/' + id] = validators;
             }
@@ -50,6 +51,30 @@ var _builtInValidators = {
         } else {
             callback(ServerError.NeedLogin);
         }
+    }
+};
+
+var _globalValidators = [
+    _versionValidator
+];
+
+var _versionValidator = function(req, res, callback) {
+    var minSupportedVersion = 2.0;
+    if (req.body.version === null && req.queryString.version === null) {
+        callback(null);
+        return;
+    }
+
+    var version = 0;
+    if (req.body.version !== null) {
+        version = RequestHelper.parseNumber(req.body.version);
+    } else {
+        version = RequestHelper.parseNumber(req.queryString.version);
+    }
+    if (version < minSupportedVersion) {
+        callback(ServerError.UnsupportVersion);
+    } else {
+        callback(null);
     }
 };
 

@@ -49,6 +49,7 @@ ServerError.TopShopNotExist = 1023;
 ServerError.TradeNotExist = 1024;
 ServerError.TradeStatusChangeError = 1025;
 ServerError.AlreadyLaunched = 1026;
+ServerError.UnsupportVersion = 1027;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -88,6 +89,10 @@ var _codeToString = function(code) {
             return "TradeNotExist";
         case 1025 :
             return "TradeStatusChangeError";
+        case 1026 : 
+            return "AlreadyLaunched";
+        case 1027:
+            return "UnsupportVersion";
     }
 };
 
