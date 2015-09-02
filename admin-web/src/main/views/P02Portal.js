@@ -8,7 +8,8 @@ define([
         'main/views/components/p02/TradeStatusLi', 
         'main/views/components/p02/ItemCategoryLi', 
         'main/views/components/p02/NewRecommandationsLi', 
-        'main/views/components/p02/ItemPriceChangedLi']);
+        'main/views/components/p02/ItemPriceChangedLi',
+        'main/views/components/p02/BonusLi']);
 // @formatter:on
     var P02Portal = function(dom, initOptions) {
         P02Portal.superclass.constructor.apply(this, arguments);
@@ -16,6 +17,7 @@ define([
         this._initManagerTrades();
         this._initManagerItems();
         this._initManagerPush();
+        this._initBonus();
     };
 
     P02Portal.prototype._initManagerTrades = function() {
@@ -60,6 +62,13 @@ define([
         violet.ui.factory.createUi('main/views/components/p02/ItemPriceChangedLi', {
         }, ul$, this);
     };
+
+    P02Portal.prototype._initBonus = function () {
+        var ul$ = $('#managerBonus', this._dom);
+
+        violet.ui.factory.createUi('main/views/components/p02/BonusLi', {
+        }, ul$, this);
+    }
 
     violet.oo.extend(P02Portal, View);
 

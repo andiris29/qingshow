@@ -1,4 +1,4 @@
-package com.focosee.qingshow.util;
+package com.focosee.qingshow.util.push;
 
 import android.os.Bundle;
 import android.util.Log;

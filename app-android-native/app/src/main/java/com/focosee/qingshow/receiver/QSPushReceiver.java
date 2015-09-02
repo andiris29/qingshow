@@ -1,28 +1,23 @@
 package com.focosee.qingshow.receiver;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 
 
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.BaseActivity;
-import com.focosee.qingshow.activity.QSPushActivity;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.widget.ConfirmDialog;
+import com.focosee.qingshow.util.push.PushHepler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/7/22.
@@ -58,8 +53,7 @@ public class QSPushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             //打开自定义的Activity
-            Intent i = new Intent(context, QSPushActivity.class);
-            i.putExtras(bundle);
+            Intent i = PushHepler._jumpTo(context,bundle);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
 

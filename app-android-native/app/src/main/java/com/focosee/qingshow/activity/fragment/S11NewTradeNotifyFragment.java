@@ -1,10 +1,8 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
@@ -24,7 +22,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
@@ -35,10 +32,9 @@ import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.util.PushUtil;
+import com.focosee.qingshow.util.push.PushUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
-import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.PushEvent;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -97,7 +93,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
         EventBus.getDefault().register(this);
         Bundle bundle = getActivity().getIntent().getExtras();
         _id = PushUtil.getExtra(bundle, "_tradeId");
-        actualPrice = PushUtil.getExtra(bundle, "actualPrice");
         if (!TextUtils.isEmpty(_id))
             getDataFromNet(_id);
         rootView.setOnTouchListener(new View.OnTouchListener() {
@@ -110,16 +105,14 @@ public class S11NewTradeNotifyFragment extends Fragment {
     }
 
     private void initProps() {
-//        Map<String, List<String>> skus = SkuUtil.filter(trade.selectedSkuProperties);
-//        StringBuilder sb = new StringBuilder();
-//        for (String key : skus.keySet()) {
-//            sb.append(key).append(": ").append(skus.get(key).get(0)).append("   ");
-//        }
         selectProp.append(StringUtil.formatSKUProperties(trade.selectedSkuProperties));
     }
 
 
     private void initDes() {
+
+        actualPrice = trade.__context.actualPrice;
+
         img.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         itemName.setText(trade.itemSnapshot.name);
 

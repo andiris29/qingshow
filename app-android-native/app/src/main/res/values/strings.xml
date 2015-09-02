@@ -202,7 +202,6 @@
     <string name="title_activity_u13_person">个人信息</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_s01_match_shows">S01MatchShowsActivity</string>
-    <string name="title_activity_u15_bonus">U15BonusActivity</string>
 
     <string name="s20_dialog">确定删除？</string>
     <string name="s20_notify_more">图片被遮挡太多,请调整</string>

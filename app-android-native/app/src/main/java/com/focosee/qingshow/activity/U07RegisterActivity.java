@@ -174,8 +174,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         if("error".equals(event.code)){
             if(null != dialogs){
                 if(dialogs.isShowing()){
-                    dialogs.dismiss();
-                }
+                    dialogs.dismiss();}
             }
         }
         finish();
