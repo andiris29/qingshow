@@ -553,3 +553,25 @@ trade.queryByPhase = {
         });
     }
 };
+
+trade.queryHighlighted = {
+    'method' : 'get',
+    'func' : function (req, res){
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback){
+            MongoHelper.queryPaging(Trade.where('status').in([2, 3, 5, 15]).sort({'create' : -1}),
+                Trade.where('status').in([2, 3, 5, 15]).sort({'create' : -1}),
+                qsParam.pageNo,qsParam.pageSize , callback);
+        },function(trades){
+            return {
+                'trades' : trades
+            }
+        },{
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                        ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
+        })
+    }
+};
