@@ -158,7 +158,14 @@
         NSRange range = [resultStr rangeOfString:@"尺码"];
         [resultStr deleteCharactersInRange:range];
     }
-    return [NSString stringWithFormat:@"规格:%@",resultStr];
+    if (resultStr.length) {
+        return [NSString stringWithFormat:@"规格:%@",resultStr];
+    }
+    else
+    {
+        return nil;
+    }
+    
 }
 + (NSString *)getColorText:(NSDictionary *)dict
 {

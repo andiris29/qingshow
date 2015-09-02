@@ -90,11 +90,12 @@
     } else {
         return nil;
     }
+    return self.resultArray[row];
 }
-- (NSInteger)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
+- (int)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dic = [self orderForIndexPath:indexPath];
-    if (![QSTradeUtil getSizeText:dic] && ![QSTradeUtil getColorText:dic]) {
+    if (![QSTradeUtil getSizeText:dic]) {
         return 0;
     }
     return 1;
