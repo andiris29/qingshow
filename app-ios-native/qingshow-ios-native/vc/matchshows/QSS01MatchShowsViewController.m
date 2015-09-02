@@ -51,7 +51,7 @@
     _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
-    //[self showTradeNotiViewOfTradeId:@"55cc124fcd4ee1473606a3b8" actualPrice:[NSNumber numberWithFloat:156.78]];
+//    [self showTradeNotiViewOfTradeId:@"55cc124fcd4ee1473606a3b8" actualPrice:[NSNumber numberWithFloat:156.78]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

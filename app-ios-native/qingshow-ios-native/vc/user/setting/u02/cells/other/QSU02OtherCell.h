@@ -10,7 +10,8 @@
 #import "QSU02AbstractTableViewCell.h"
 
 typedef NS_ENUM(NSInteger, U02SectionOtherRow) {
-    U02SectionOtherRowPasswd = 0
+    U02SectionOtherRowPasswd = 0,
+    U02SectionOtherRowBonus
 };
 
 @interface QSU02OtherCell : QSU02AbstractTableViewCell

@@ -18,6 +18,7 @@
 #pragma mark - IBOutlet
 @property (weak, nonatomic) IBOutlet UILabel *modelNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *headIconImageView;
+@property (weak, nonatomic) IBOutlet UILabel *bonusLabel;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *commentBtn;

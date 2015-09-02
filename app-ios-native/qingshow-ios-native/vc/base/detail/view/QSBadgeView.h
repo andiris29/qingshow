@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton* followBtn;
 @property (strong, nonatomic) QSBadgeBtnGroup* btnGroup;
 @property (weak, nonatomic) UIView* touchDelegateView;
+@property (weak, nonatomic) IBOutlet UILabel *bonusLabel;
 
 #pragma mark - Static
 + (QSBadgeView*)generateView;

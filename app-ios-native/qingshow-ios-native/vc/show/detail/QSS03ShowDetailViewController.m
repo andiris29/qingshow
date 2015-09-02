@@ -83,6 +83,9 @@
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.bounds.size.height / 2;
     self.headIconImageView.layer.masksToBounds = YES;
     self.headIconImageView.userInteractionEnabled = YES;
+    self.bonusLabel.layer.cornerRadius = self.bonusLabel.bounds.size.height / 2;
+    self.bonusLabel.layer.borderWidth = 0.1f;
+    self.bonusLabel.layer.borderColor = [UIColor whiteColor].CGColor;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
     
     
@@ -202,6 +205,7 @@
             //当前用户
             self.headIconImageView.hidden = YES;
             self.modelNameLabel.hidden = YES;
+            self.bonusLabel.hidden = YES;
             self.releaseDateLabel.hidden = NO;
             self.trashBtn.hidden = NO;
             self.playBtn.hidden = YES;
@@ -212,6 +216,12 @@
             self.headIconImageView.hidden = NO;
             [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
             self.modelNameLabel.hidden = NO;
+            self.bonusLabel.hidden = NO;
+            float bonus = 0;
+            for (NSDictionary *dic in [QSPeopleUtil getBonusList:peopleDict]) {
+                bonus += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
+            }
+            self.bonusLabel.text = [NSString stringWithFormat:@" 已获得佣金:￥%.2f",bonus];
             self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
         }
     }

@@ -234,6 +234,7 @@
     return YES;
 }
 
+
 + (NSString*)getBodyTypeDesc:(NSDictionary*)dict{
     NSArray* array = @[@"A型",@"H型",@"V型",@"X型"];
     NSNumber* bodyType = [dict numberValueForKeyPath:@"bodyType"];
@@ -310,4 +311,24 @@
     return [dict numberValueForKeyPath:@"measureInfo.shoeSize"].stringValue;
 }
 
++ (NSArray*)getBonusList:(NSDictionary*)dict
+{
+    return [dict arrayValueForKeyPath:@"bonuses"];
+}
++ (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict
+{
+    return [QSEntityUtil getNumberValue:dict keyPath:@"money"];
+}
++ (NSNumber*)getStatusFromBonusDict:(NSDictionary *)dict
+{
+    return [QSEntityUtil getNumberValue:dict keyPath:@"status"];
+}
++ (NSString*)getNoteFromBonusDict:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"notes"];
+}
++ (NSString*)getCreateFromBonusDict:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"create"];
+}
 @end
