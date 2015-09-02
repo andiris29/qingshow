@@ -17,6 +17,7 @@ itemSchema = Schema({
     price: Number,
     promoPrice : Number,
     minExpectedPrice : Number,
+    expectablePrice : Number,
     skuProperties : [String],
     source : String,
     numLike : Number,
