@@ -277,7 +277,7 @@
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
-            android:label="@string/title_activity_s01_match_shows"/>
+            android:label="@string/title_activity_s01_match_shows" />
         <activity
             android:name=".activity.PushWebActivity"
             android:launchMode="singleTop" />
@@ -287,6 +287,10 @@
         <activity
             android:name=".activity.U16BonusListActivity"
             android:label="@string/title_activity_u16_bonus_list" >
+        </activity>
+        <activity
+            android:name=".activity.T01HighlightedTradeListActivity"
+            android:label="@string/title_activity_t01_highlighted_trade_list" >
         </activity>
     </application>
 

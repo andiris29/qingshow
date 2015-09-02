@@ -229,4 +229,6 @@
     <string name="u15_btn_text">分享APP获取佣金</string>
     <string name="u15_title_right_btn">佣金明细</string>
     <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>
+    <string name="title_activity_t01_highlighted_trade_list">T01HighlightedTradeListActivity
+    </string>
 </resources>

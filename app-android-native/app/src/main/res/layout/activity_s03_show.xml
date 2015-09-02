@@ -111,6 +111,15 @@
                                 android:onClick="onClick"
                                 android:textColor="@color/white"/>
 
+                            <com.focosee.qingshow.widget.QSTextView
+                                android:id="@+id/s03_bonus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_size"
+                                android:layout_below="@+id/s03_nickname"
+                                android:layout_alignLeft="@+id/s03_nickname"
+                                android:visibility="gone"/>
+
                             <ImageButton
                                 android:id="@+id/S03_video_start_btn"
                                 android:layout_width="43dp"

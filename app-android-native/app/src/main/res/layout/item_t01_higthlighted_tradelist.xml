@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="260dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_t01_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp">
+
+    </com.facebook.drawee.view.SimpleDraweeView>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/item_t01_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/item_t01_portrait"
+        android:layout_marginLeft="10dp"
+        android:text="fdsafdsafdsa"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/item_t01_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/item_t01_username"
+        android:layout_below="@id/item_t01_username"
+        android:text="fdsafdsafdsa"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:layout_below="@id/item_t01_portrait">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/item_t01_background"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentRight="true">
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_t01_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/red"
+                android:text="成功购买折扣：5折"/>
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_t01_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@color/white"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/red"
+                android:text="成功购买价格：￥150.00"/>
+        </LinearLayout>
+
+        <include
+            layout="@layout/include_trade_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            app:layout_heightPercent="80%"/>
+    </RelativeLayout>
+
+
+
+
+
+</RelativeLayout>
