@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
@@ -91,8 +92,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         rootView = inflater.inflate(R.layout.activity_s11_trade_notify, container, false);
         ButterKnife.inject(this, rootView);
         EventBus.getDefault().register(this);
-        Bundle bundle = getActivity().getIntent().getExtras();
-        _id = PushUtil.getExtra(bundle, "_tradeId");
+        _id = getActivity().getIntent().getStringExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION);
         if (!TextUtils.isEmpty(_id))
             getDataFromNet(_id);
         rootView.setOnTouchListener(new View.OnTouchListener() {
@@ -111,7 +111,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     private void initDes() {
 
-        actualPrice = trade.__context.actualPrice;
+        actualPrice = trade.__context.item.expectablePrice;
 
         img.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         itemName.setText(trade.itemSnapshot.name);

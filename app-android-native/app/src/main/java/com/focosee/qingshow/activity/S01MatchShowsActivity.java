@@ -35,6 +35,7 @@ import de.greenrobot.event.EventBus;
 public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
+    public static final String S1_INPUT_TRADEID_NOTIFICATION = "S1_INPUT_TRADEID_NOTIFICATION";
 
     @InjectView(R.id.s01_backTop_btn)
     ImageButton s01BackTopBtn;
