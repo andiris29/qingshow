@@ -11,5 +11,5 @@ public class QSPushAPI {
     public static final String QUEST_SHARING_OBJECTIVE_COMPLETE = "questSharingObjectiveComplete";
     public static final String TRADE_INITIALIZED = "tradeInitialized";
     public static final String TRADE_SHIPPED = "tradeShipped";
-    public static final String ITEM_PRICE_CHANGED = "itemPriceChanged";
+    public static final String ITEM_EXPECTABLE_PRICEUPDATED = "itemExpectablePriceUpdated";
 }

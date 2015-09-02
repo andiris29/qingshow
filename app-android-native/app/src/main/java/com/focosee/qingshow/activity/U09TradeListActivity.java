@@ -48,6 +48,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     public static final String FROM_WHERE = "FROM_WHEN";
+    public static final String PUSH_NOTIFICATION = "PUSH_NOTIFICATION";
     private final String CURRENT_POSITION = "CURRENT_POSITION";
     private final int TYPE_APPLY = 0;
     private final int TYPE_SUCCESSED = 1;
@@ -137,7 +138,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
             currentType = TYPE_SUCCESSED;
             clickTabSuccessed();
         }
-        if (QSPushActivity.class.getSimpleName().equals(fromWhere)) {
+        if (PUSH_NOTIFICATION.equals(fromWhere)) {
             currentType = TYPE_SUCCESSED;
             clickTabSuccessed();
         }
@@ -192,6 +193,12 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     public void onEventMainThread(MongoTrade trade) {
         if (mAdapter.indexOf(trade) > -1)
             this.position = mAdapter.indexOf(trade) + 1;
+    }
+
+    public void onEventMainThread(U12ReturnEvent event) {
+        doRefresh(currentType);
+        if(recyclerView.getAdapter().getItemCount() - 1 < position)return;
+        recyclerView.scrollToPosition(event.position);
     }
 
     @Override

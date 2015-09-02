@@ -112,9 +112,11 @@
             android:background="@color/line_activity_settings" />
 
         <LinearLayout
+            android:id="@+id/s11_receipt_province_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@drawable/u02_relativelayout_background"
             android:padding="10dp">
 
             <com.focosee.qingshow.widget.QSTextView

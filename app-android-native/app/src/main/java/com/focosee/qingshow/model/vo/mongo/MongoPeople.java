@@ -5,6 +5,7 @@ import com.focosee.qingshow.model.vo.context.PeopleContext;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MongoPeople implements Serializable {
     public static final String DEBUG_TAG = "MongoPeople";
@@ -16,17 +17,17 @@ public class MongoPeople implements Serializable {
     public String name;
     public String portrait;
     public String background;
-    public int height;
-    public int weight;
-    public int age;
-    public int gender;
-    public int hairType;
+    public Number height;
+    public Number weight;
+    public Number age;
     public int bodyType;
     public int dressStyle;
     public int[] expectations;
     public UserInfo userInfo;
     public LinkedList<Receiver> receivers;
     public MeasureInfo measureInfo;
+    public List<Bonuses> bonuses;
+    public boolean bonusWithdrawRequested;
 
     //    +modelInfo
     //    +modelInfo.order
@@ -54,10 +55,17 @@ public class MongoPeople implements Serializable {
     }
 
     public class MeasureInfo implements Serializable {
-        public int shoulder;
-        public int bust;
-        public int waist;
-        public int hips;
+        public Number shoulder;
+        public Number bust;
+        public Number waist;
+        public Number hips;
 
+    }
+
+    public class Bonuses implements Serializable {
+        public Number money;
+        public Number status;
+        public String notes;
+        public GregorianCalendar create;
     }
 }

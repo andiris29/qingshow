@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import cn.jpush.android.api.JPushInterface;
 
@@ -49,8 +50,7 @@ public abstract class BaseActivity extends FragmentActivity {
             dialog.setConfirm(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context, QSPushActivity.class);
-                    i.putExtras(bundle);
+                    Intent i = PushHepler._jumpTo(context,bundle);
                     context.startActivity(i);
                     dialog.dismiss();
                 }

@@ -23,9 +23,21 @@
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="潮流时尚"
+        android:text=""
         android:textSize="@dimen/text_size"
         android:textColor="#454545"
         android:textStyle="bold" />
+
+    <com.focosee.qingshow.widget.QSButton
+        android:id="@+id/right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@null"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text=""/>
 
 </android.support.percent.PercentRelativeLayout>

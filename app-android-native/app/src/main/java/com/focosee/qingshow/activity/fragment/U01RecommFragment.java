@@ -117,13 +117,11 @@ public class U01RecommFragment extends U01BaseFragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U01RecommFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U01RecommFragment");
-        MobclickAgent.onPause(getActivity());
     }
 }

@@ -74,13 +74,11 @@ public class WelComeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("WelComeFragment"); //统计页面
-        MobclickAgent.onResume(getActivity());
     }
 
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("WelComeFragment");
-        MobclickAgent.onResume(getActivity());
     }
 
 }

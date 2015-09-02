@@ -66,6 +66,14 @@ public class MongoTrade implements Serializable {
 
     public class TradeContext implements Serializable {
         public boolean sharedByCurrentUser;
+        public item item;
+
+        public class item implements Serializable{
+            public String expectablePrice;
+            public String delist;
+        }
     }
+
+
 
 }

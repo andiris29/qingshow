@@ -9,11 +9,13 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.constants.code.StatusCode;
@@ -29,6 +31,7 @@ import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
+import com.focosee.qingshow.util.push.PushUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
@@ -75,6 +78,8 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         QSButton btn2 = holder.getView(R.id.item_tradelist_btn2);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
+        ImageView discountBtn = holder.getView(R.id.item_tradelist_discount);
+        discountBtn.setVisibility(View.GONE);
         properTextView.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
@@ -111,6 +116,34 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 @Override
                 public void onClick(View v) {
                     onClickCancelTrade(trade, 18, CANCEL, position, "确定要取消申请？");
+                }
+            });
+            discountBtn.setVisibility(View.VISIBLE);
+            String discount = StringUtil.formatDiscount(trade.__context.item.expectablePrice, trade.itemSnapshot.promoPrice);
+            int discountNum = Integer.parseInt(discount.substring(0,1));
+            switch (discountNum){
+                case 6:
+                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_6));
+                    break;
+                case 7:
+                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_7));
+                    break;
+                case 8:
+                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_8));
+                    break;
+                case 9:
+                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_9));
+                    break;
+            }
+
+            discountBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, S01MatchShowsActivity.class);
+                    String _id = trade._id;
+                    intent.putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION,_id);
+                    intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
+                    context.startActivity(intent);
                 }
             });
             return;
@@ -188,6 +221,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     Intent intent = new Intent(context, U12ReturnActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
+                    bundle.putInt("position", position);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }

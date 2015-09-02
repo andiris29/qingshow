@@ -140,17 +140,19 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    public void onBackPressed() {
-        if (isMenuOpened())
-            closeMenu();
-        else
-            super.onBackPressed();
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
             menuSwitch();
+        }
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if(isMenuOpened()){
+                closeMenu();
+            }else{
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
+            }
         }
         return true;
     }
@@ -160,19 +162,26 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
 
         closeMenu();
         if (v.getId() == R.id.navigation_btn_match) {
+            if(this instanceof S01MatchShowsActivity){
+                return;
+            }
             startActivity(new Intent(MenuActivity.this, S01MatchShowsActivity.class));
+            finish();
             return;
         }
 
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
+                if(this instanceof S20MatcherActivity)return;
                 _class = S20MatcherActivity.class;
                 break;
             case R.id.navigation_btn_discount:
+                if(this instanceof U09TradeListActivity)return;
                 _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:
+                if(this instanceof U01UserActivity)return;
                 _class = U01UserActivity.class;
                 break;
             case R.id.s17_settting:
@@ -184,6 +193,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             Toast.makeText(this, R.string.need_login, Toast.LENGTH_SHORT).show();
             GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
             startActivity(new Intent(MenuActivity.this, U07RegisterActivity.class));
+            finish();
             return;
         }
 

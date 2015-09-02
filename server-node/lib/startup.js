@@ -1,9 +1,7 @@
-var argv = require('minimist')(process.argv.slice(2));
-
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
-var properties = require ("properties");
+var properties = require("properties");
 
 // Log
 var folderLogs = path.join(__dirname, 'logs');

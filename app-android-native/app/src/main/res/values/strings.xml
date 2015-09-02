@@ -37,6 +37,7 @@
     <string name="ref_activity_settings">></string>
     <string name="others_activity_settings">其他</string>
     <string name="change_password_activity_settings">更改密码</string>
+    <string name="bonus_activity_settings">佣金账户</string>
     <string name="change_email_activity_settings">更改邮件地址</string>
     <string name="inform_activity_settings">通知设定</string>
     <string name="rules_activity_settings">使用条例</string>
@@ -214,5 +215,18 @@
     <string name="s11_jian">件</string>
     <string name="s11_poster">●折扣活动商品数量尺寸有限，请抓紧时间抢购,</string>
     <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_city">CityActivity</string>
 
+    <string name="only_number">0123456789</string>
+
+    <!-- U15BonusActivity -->
+    <string name="title_activity_u15_bonus">U15BonusActivity</string>
+    <string name="u15_mybonus">我的佣金</string>
+    <string name="u15_total_bonus">佣金总计：</string>
+    <string name="u15_balance">未提现：</string>
+    <string name="u15_hint_edit">请输入支付宝账号</string>
+    <string name="u15_hint">*款项将在48小时内转至您的账户</string>
+    <string name="u15_btn_text">分享APP获取佣金</string>
+    <string name="u15_title_right_btn">佣金明细</string>
+    <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>
 </resources>

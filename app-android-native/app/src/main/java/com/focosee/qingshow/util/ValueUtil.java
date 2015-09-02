@@ -14,4 +14,5 @@ public class ValueUtil {
     public static final String phases_finish = "1,2";
     public static final String SHARE_TRADE = "U09_SHARE_TRADE";
     public static final String SHARE_SHOW = "S03_SHARE_SHOW";
+    public static final String SHARE_BONUS = "U15_SHARE_BONUS";
 }

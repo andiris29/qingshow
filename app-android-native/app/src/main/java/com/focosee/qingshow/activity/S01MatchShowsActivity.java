@@ -10,10 +10,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -25,12 +23,9 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -40,6 +35,7 @@ import de.greenrobot.event.EventBus;
 public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
+    public static final String S1_INPUT_TRADEID_NOTIFICATION = "S1_INPUT_TRADEID_NOTIFICATION";
 
     @InjectView(R.id.s01_backTop_btn)
     ImageButton s01BackTopBtn;
