@@ -64,7 +64,13 @@ feeding.recommendation = {
                     var userid = req.qsCurrentUserId;
                     Peoples.findOne({'_id' : userid}, callback);
                 }, function (people, callback) {
-                    var rate = people.weight / people.height;
+                    var weight = RequestHelper.parseNumber(people.weight);
+                    var height = RequestHelper.parseNumber(people.height);
+                    if (!weight) weight = 0;
+                    var rate = 0;
+                    if (!height)  {
+                        rate = weight / height;
+                    }
                     var type = null;
                     /*
                      * 0.24~0.27属于偏瘦型（A1）
