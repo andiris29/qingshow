@@ -28,7 +28,7 @@ app-web/.idea
 #ignore public
 server-node/public
 .project
-winston.log.*
+server-node/lib/logs
 
 #for goblin
 admin-tools/goblin-tbitem/.idea
