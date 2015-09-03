@@ -15,6 +15,10 @@ var ItemSyncService = {};
  * @param callback function(err, item)
  */
 ItemSyncService.syncItem = function (item, callback) {
+    if (!item) {
+        callback(null, item);
+        return;
+    }
     var crawlCallback = function (err) {
         if (err) {
             item.delist = new Date();
