@@ -44,3 +44,4 @@ app-web/.idea
 #server-pay
 server-pay/payment/build/
 server-pay/payment/target/
+winston.log.*
