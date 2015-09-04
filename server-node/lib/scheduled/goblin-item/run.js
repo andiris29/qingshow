@@ -67,7 +67,9 @@ var _next = function (time, config) {
                             report += reportContent.join(',') + '\n';
                         }
                         //Goblin Item Will Only Record Error in Report
-                        callback();
+                        setTimeout(function () {
+                            callback();
+                        }, _.random(5000, 10000));
                     });
                 };
                 tasks.push(task);

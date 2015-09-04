@@ -3,7 +3,6 @@ var async = require('async');
 var Iconv = require('iconv-lite');
 var request = require('request');
 var cheerio = require('cheerio');
-
 var URLParser = require('../URLParser');
 
 var sizePrefixs = ["20509", "20518", "20549"];
@@ -57,7 +56,31 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
             callback(err);
         } else {
             var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+
+            var shopIdRegex = /shopId=(\d+)/;
+            var matchResult = b.match(shopIdRegex);
+            var shopId = null;
+            if (matchResult && matchResult.length) {
+                shopId = matchResult[1];
+            }
+
             var $ = cheerio.load(b);
+            var shopName = null;
+            var shopTags = $('.tb-shop-info a');
+            shopTags.each(function () {
+                var t = cheerio(this).text();
+                if (!shopName || !shopName.length) {
+                    shopName = t;
+                }
+            });
+            if (shopName) {
+                shopName = shopName.trim();
+            }
+            var shopInfo = {
+                shopId : shopId,
+                shopName : shopName
+            };
+
             var scriptTags = $('script');
             var hubConfigScript = null;
             scriptTags.each(function () {
@@ -97,7 +120,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                 } else {
                     var skus = _generateSkus(webSkus, skuMap, propertyMap);
                     var taobaoInfo = generateTaobaoInfoFromSkus(skus);
-
+                    taobaoInfo.shopInfo = shopInfo;
 
                     callback(null, taobaoInfo);
                 }
@@ -163,7 +186,21 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
             callback(err);
         } else {
             var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+            var shopIdRegex = /shopId=(\d+)/;
+            var matchResult = b.match(shopIdRegex);
+            var shopId = null;
+            if (matchResult && matchResult.length) {
+                shopId = matchResult[1];
+            }
+
             var $ = cheerio.load(b);
+            var shopTag = $('.slogo-shopname');
+            var shopName = shopTag.text();
+
+            var shopInfo = {
+                shopId : shopId,
+                shopName : shopName
+            };
 
             var scriptTags = $('script');
             var tshopSetupScript = null;
@@ -201,6 +238,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                     });
 
                     var taobaoInfo = generateTaobaoInfoFromSkus(skus);
+                    taobaoInfo.shopInfo = shopInfo;
                     callback(null, taobaoInfo);
                 }
             };
@@ -405,10 +443,13 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
             callback(err);
         } else {
             try {
+                var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+
                 var g_config = {
                     vdata : {}
                 };
-                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
+
+                eval(b);
 
                 var priceBeforeDiscount = parseFloat(g_config.Price);
 //                var stockInfo = g_config.DynamicStock.sku;

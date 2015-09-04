@@ -227,4 +227,12 @@
     NSNumber* quantity = [self getQuantity:dict];
     return @(price.doubleValue * quantity.intValue);
 }
++ (NSNumber*)getItemExpectablePrice:(NSDictionary*)dict {
+    NSNumber* n = [dict numberValueForKeyPath:@"item.expectablePrice"];
+    if (!n) {
+        NSString* s = [dict stringValueForKeyPath:@"item.expectablePrice"];
+        n = @(s.doubleValue);
+    }
+    return n;
+}
 @end
