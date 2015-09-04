@@ -29,7 +29,13 @@ var _validate = function(req, res, next) {
                 if (_.isString(validator)) {
                     validator = _builtInValidators[validator];
                 }
-                validator(req, res, callback);
+                //TODO @Hashmap
+                if (validator) {
+                    validator(req, res, callback);
+                } else {
+                    callback();
+                }
+
             });
         });
         async.series(tasks, function(err) {
