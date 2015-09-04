@@ -214,7 +214,7 @@
     [center addObserver:self selector:@selector(pnsQuestSharingCompleted:) name:kPnsQuestSharingCompleteNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeInitial:) name:kPnsTradeInitialNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeShipped:) name:kPnsTradeShippedNotification object:nil];
-    [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemPriceChangedNotification object:nil];
+    [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemExpectablePriceUpdatedNotification object:nil];
 }
 
 
@@ -272,7 +272,7 @@
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
         if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
             QSS01MatchShowsViewController* matchVc = (QSS01MatchShowsViewController*)self.contentVc;
-            [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"] actualPrice:[noti.userInfo numberValueForKeyPath:@"actualPrice"]];
+            [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"]];
         }
     } title:@"您申请的折扣有最新信息，不要错过哦！" userInfo:noti.userInfo];
 }

@@ -28,11 +28,11 @@
 @implementation QSS11NewTradeNotifyViewController
 
 #pragma mark - Init
-- (instancetype)initWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber*)actualPrice {
+- (instancetype)initWithDict:(NSDictionary*)tradeDict {
     self = [super initWithNibName:@"QSS11NewTradeNotifyViewController" bundle:nil];
     if (self) {
         self.tradeDict = tradeDict;
-        self.actualPrice = actualPrice;
+        self.expectablePrice = [QSTradeUtil getItemExpectablePrice:tradeDict];
     }
     return self;
 }
@@ -108,7 +108,7 @@
         return self.orderInfoCell;
     } else {
         
-        [self.textCell bindWithDict:self.tradeDict actualPrice:self.actualPrice];
+        [self.textCell bindWithDict:self.tradeDict actualPrice:self.expectablePrice];
         self.textCell.selectionStyle = UITableViewCellSelectionStyleNone;
         self.textCell.transform = CGAffineTransformMakeScale(w/270, w/270);
         return self.textCell;

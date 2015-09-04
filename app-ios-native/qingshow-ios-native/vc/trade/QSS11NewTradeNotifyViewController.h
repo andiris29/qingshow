@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UIButton *payBtn;
-@property (strong, nonatomic) NSNumber *actualPrice;
+@property (strong, nonatomic) NSNumber *expectablePrice;
 
-- (instancetype)initWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber*)actualPrice;
+- (instancetype)initWithDict:(NSDictionary*)tradeDict;
 @end

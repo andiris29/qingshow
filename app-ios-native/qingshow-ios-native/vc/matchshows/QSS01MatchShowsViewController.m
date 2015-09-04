@@ -170,9 +170,9 @@
     _backToTopbtn.hidden = YES;
 }
 
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId actualPrice:(NSNumber *)actualPrice{
+- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId{
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict actualPrice:actualPrice];
+        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict];
         self.s11NotiVc.delelgate = self;
         self.s11NotiVc.view.frame = self.navigationController.view.bounds;
         [self.navigationController.view addSubview:self.s11NotiVc.view];
@@ -188,10 +188,10 @@
 
 - (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
     NSDictionary* tradeDict = vc.tradeDict;
-    NSNumber* actualPrice = vc.actualPrice;
+    NSNumber* actualPrice = vc.expectablePrice;
     NSDictionary* paramDict = nil;
     if (actualPrice) {
-        paramDict = @{@"actualPrice" : vc.actualPrice};
+        paramDict = @{@"actualPrice" : vc.expectablePrice};
     }
     [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:paramDict onSucceed:^(NSDictionary* dict){
         [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{

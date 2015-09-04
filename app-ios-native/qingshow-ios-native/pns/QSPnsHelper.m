@@ -17,7 +17,7 @@
 #define kPnsCommandQuestSharingComplete @"questSharingComplete"
 #define kPnsCommandTradeInitialized @"tradeInitialized"
 #define kPnsCommandTradeShipped @"tradeShipped"
-#define kPnsCommandItemPriceChanged @"itemPriceChanged"
+#define kPnsCommandItemExpectablePriceUpdated @"itemExpectablePriceUpdated"
 
 @implementation QSPnsHelper
 + (BOOL)isFromBackground:(NSDictionary*)userInfo {
@@ -33,7 +33,7 @@
     userInfoDict[@"fromBackground"] = @(fFromBackground);
     
     if ([command isEqualToString:kPnsCommandNewShowComments]) {
-        NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"id"];
+        NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"_id"];
         if (showId) {
             userInfoDict[@"showId"] = showId;
         }
@@ -58,23 +58,14 @@
     } else if ([command isEqualToString:kPnsCommandTradeShipped]) {
         //订单发货
         [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:userInfoDict];
-    } else if ([command isEqualToString:kPnsCommandItemPriceChanged]) {
+    } else if ([command isEqualToString:kPnsItemExpectablePriceUpdatedNotification]) {
         //折扣有新信息
-        NSString* tradeId = [QSEntityUtil getStringValue:userInfo keyPath:@"_tradeId"];
+        NSString* tradeId = [QSEntityUtil getStringValue:userInfo keyPath:@"_id"];
         if (tradeId) {
             userInfoDict[@"tradeId"] = tradeId;
         }
-        NSNumber* actualPrice = [userInfo numberValueForKeyPath:@"actualPrice"];
-        if (!actualPrice) {
-            NSString* actualPriceStr = [userInfo stringValueForKeyPath:@"actualPrice"];
-            actualPrice = @(actualPriceStr.doubleValue);
-        }
         
-        if (actualPrice) {
-            userInfoDict[@"actualPrice"] = actualPrice;
-        }
-        
-        [center postNotificationName:kPnsItemPriceChangedNotification object:nil userInfo:userInfoDict];
+        [center postNotificationName:kPnsItemExpectablePriceUpdatedNotification object:nil userInfo:userInfoDict];
     }
 }
 @end
