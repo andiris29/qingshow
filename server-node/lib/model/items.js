@@ -28,6 +28,7 @@ itemSchema = Schema({
     goblinUpdate : Date,
     delist : Date,
     readOnly : Boolean,
+    syncEnabled : Boolean,
     returnInfo : {
         name : String,
         phone : String, 

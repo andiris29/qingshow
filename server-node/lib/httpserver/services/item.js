@@ -8,6 +8,7 @@ var jPushAudiences = require('../../model/jPushAudiences');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var URLParser = require('../../scheduled/goblin-item/URLParser');
 
 var ItemSyncService = require("../../scheduled/goblin-item/ItemSyncService");
 var ServerError = require('../server-error');
@@ -121,6 +122,47 @@ item.delist = {
             item.syncEnabled = false;
             item.save(function(error, item) {
                 callback(error, item);
+            });
+        }], function(error, item) {
+            ResponseHelper.response(res, error, {
+                item : item
+            });
+        });
+    }
+};
+
+item.create = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var source = req.body.source;
+        var criteria;
+        if (URLParser.isFromTmall(source) || URLParser.isFromTaobao(source) {
+            var id = URLParser.getIidFromSource(source);
+            criteria = {
+                source : new RegExp(id)
+            }
+        } else {
+            criteria = {
+                source : source
+            };
+        }
+        async.waterfall([function(callback) {
+            Items.findOne(criteria, function(error, item) {
+                if (error) {
+                    callback(error);
+                } else if (item) {
+                    callback(item);
+                } else {
+                    var newItem = new Item({
+                        source : source,
+                        syncEnabled : true
+                    });
+
+                    newItem.save(function(error, item) {
+                        callback(error, item);
+                    });
+                }
             });
         }], function(error, item) {
             ResponseHelper.response(res, error, {
