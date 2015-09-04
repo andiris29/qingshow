@@ -92,6 +92,11 @@ peopleSchema = Schema({
             id : String,
             receiverUuid : String
         }
+    },
+    shopInfo : {
+        taobao : {
+            sid : String
+        }
     }
 });
 var People = mongoose.model('peoples', peopleSchema);

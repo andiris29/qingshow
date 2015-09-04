@@ -6,8 +6,11 @@ var async = require('async');
 var URLParser = require('./URLParser');
 var _ = require('underscore');
 var Item = require('../../model/items');
+var People = require('../../model/peoples');
 
 var ItemSyncService = {};
+
+var crypto = require('crypto'), _secret = 'qingshow@secret';
 
 /**
  *
@@ -23,14 +26,10 @@ ItemSyncService.syncItem = function (item, callback) {
         if (err) {
             item.delist = new Date();
             item.save(function (innerErr) {
-                setTimeout(function () {
-                    callback(innerErr || err, item);
-                }, _.random(5000, 10000));
+                callback(innerErr || err, item);
             });
         } else {
-            setTimeout(function () {
-                callback(err, item);
-            }, _.random(5000, 10000));
+            callback(err, item);
         }
     };
 
@@ -80,15 +79,10 @@ var _crawlItemTaobaoInfo = function (item, callback) {
                     callback(err, taobaoInfo);
                 }
             });
-        }
-    ], function (err, taobaoInfo) {
-        if (err) {
-            _logItem('item error', item);
-            callback(err);
-        } else {
+        }, function (taobaoInfo, callback) {
             var delist = false;
             if (!taobaoInfo || !Object.keys(taobaoInfo).length) {
-                callback('delist');
+                callback('delist', item);
                 _logItem('item failed', item);
             } else {
                 item.delist = null;
@@ -96,10 +90,46 @@ var _crawlItemTaobaoInfo = function (item, callback) {
                 item.promoPrice = taobaoInfo.promo_price;
                 item.skuProperties = taobaoInfo.skuProperties;
                 item.goblinUpdate = new Date();
+            }
+            callback(null, taobaoInfo);
+        }, function (taobaoInfo, callback) {
+            //taobaoInfo.shopId
+            var shopInfo = taobaoInfo.shopInfo;
+            if (shopInfo && shopInfo.shopId) {
+                var shopId = shopInfo.shopId;
+                async.waterfall([
+                    function (callback) {
+                        People.findOne({
+                            'shopInfo.taobao.sid' : shopInfo.shopId
+                        }, callback);
+                    }, function (people, callback) {
+                        if (!people) {
+                            new People({
+                                nickname: shopInfo.shopName,
+                                userInfo : {
+                                    id : shopId,
+                                    encryptedPassword : _encrypt(shopId)
+                                }
+                            }).save(callback);
+                        } else {
+                            callback(null, people);
+                        }
+                    }, function (people, number, callback) {
+                        item.shopRef = people._id;
+                        item.save(callback);
+                    }], callback);
+            } else {
                 _logItem('item success', item);
                 item.save(callback);
             }
+        }
+    ], function (err, item) {
+        if (err) {
+            _logItem('item error', item);
+            callback(err);
+        } else {
 
+            callback(null, item);
         }
     });
 };
@@ -159,6 +189,15 @@ var _crawlItemJamyInfo = function (item, callback) {
 
 var _logItem = function (content, item) {
     winston.info('[ItemSyncService] ' + content + ': ' + item._id);
+};
+
+
+//TODO add accountService, remove _encrypt
+var _encrypt = function(string) {
+    var cipher = crypto.createCipher('aes192', _secret);
+    var enc = cipher.update(string, 'utf8', 'hex');
+    enc += cipher.final('hex');
+    return enc;
 };
 
 module.exports = ItemSyncService;
