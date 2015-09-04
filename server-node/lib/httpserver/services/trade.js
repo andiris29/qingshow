@@ -577,3 +577,67 @@ trade.queryHighlighted = {
         })
     }
 };
+
+trade.getReturnReceiver = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([function(callback) {
+            Trade.findOne({
+                _id : RequestHelper.parseId(req.body._id)
+            }, function(error, trade) {
+                if (error) {
+                    callback(error);
+                } else if (!trade) {
+                    callback(ServerError.TradeNotExist);
+                } else {
+                    callback(null, trade)
+                }
+            });
+        }, function(trade, callback) {
+            Item.findOne({
+                _id : trade.itemRef
+            }, function(error, item) {
+                if (error) {
+                    callback(error);
+                } else if (!item) {
+                    callback(ServerError.ItemNotExist);
+                } else {
+                    callback(null, item)
+                }
+            });
+        }, function(item, callback) {
+            People.findOne({
+                _id : item.shopRef
+            }, function(error, people) {
+                if (error) {
+                    callback(error);
+                } else if (!people) {
+                    callback(ServerError.PeopleNotExist);
+                } else {
+                    callback(null, people)
+                }
+            });
+        }, function(people, callback) {
+            var defaultReceiver = global.qsConfig.receiver.default;
+            if (people.receivers === nul people.receivers.length === 0) {
+                callback(null, defaultReceiver);
+                return;
+            }
+            
+            people.receivers.forEach(function(receiver) {
+                if (receiver.isDefault) {
+                    callback(null, receiver);
+                    return;
+                }
+            });
+            
+            callback(null, people.receivers[0]);
+        }], function(error, receiver) {
+            ResponseHelper.response(res, error, {
+                receiver : receiver
+            });
+        });
+    }
+};
+
