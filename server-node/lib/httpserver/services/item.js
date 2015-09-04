@@ -100,6 +100,36 @@ item.sync = {
     }
 };
 
+item.delist = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([function(callback) {
+            Items.findOne({
+                _id : RequestHelper.parseId(req.body._id)
+            }, function(error, item) {
+                if (error) {
+                    callback(error);
+                } else if (!item) {
+                    callback(ServerError.ItemNotExist);
+                } else {
+                    callback(null, item);
+                }
+            });
+        }, function(item, callback) {
+            item.delist = Date.now();
+            item.syncEnabled = false;
+            item.save(function(error, item) {
+                callback(error, item);
+            });
+        }], function(error, item) {
+            ResponseHelper.response(res, error, {
+                item : item
+            });
+        });
+    }
+};
+
 var _itemPriceChanged = function(item, callback) {
     async.waterfall([
     function(callback) {
