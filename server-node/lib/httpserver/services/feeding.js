@@ -167,9 +167,13 @@ feeding.matchCreatedBy = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
+            var _id = req.qsCurrentUserId;
+            if (qsParam._id !== null && qsParam._id.length > 0) {
+                _id = RequestHelper.parseId(qsParam._id);
+            }
             var criteria = {
                 '$and' : [{
-                    'ownerRef' : RequestHelper.parseId(qsParam._id)
+                    'ownerRef' : _id
                 }, {
                     '$or' : [{
                         'hideAgainstOwner' : false 
