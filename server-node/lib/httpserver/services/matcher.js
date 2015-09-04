@@ -101,6 +101,7 @@ matcher.updateCover = {
             var show = _matchers[fields.uuid];
             if (!show) {
                 ResponseHelper.response(res, ServerError.NotEnoughParam);
+                return;
             }
             show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
             show.save(function(err, show) {
