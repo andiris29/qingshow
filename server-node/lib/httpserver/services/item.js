@@ -13,7 +13,7 @@ item.sync = {
     func : function (req, res) {
         async.waterfall([
             function (callback) {
-                var itemId = RequestHelper.parseId(req._id);
+                var itemId = RequestHelper.parseId(req.body._id);
                 ItemSyncService.syncItemWithItemId(itemId, callback);
             }
         ], function (err, item) {
