@@ -30,8 +30,7 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
     if (res.qsPerformance) {
         var performance = Date.now() - res.qsPerformance.start;
         if (performance > 100) {
-            winston.warn(new Date().toString() + ': qsPerformance');
-            winston.warn(res.qsPerformance.fullpath + ': ' + performance);
+            winston.warn('[qsPerformance] ' + res.qsPerformance.fullpath + ': ' + performance);
         }
     }
     res.json(json);

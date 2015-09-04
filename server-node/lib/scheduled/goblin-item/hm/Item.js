@@ -30,6 +30,9 @@ HmWebItem.getSkus = function(source, callback) {
                     hmInfo.price = hmInfo.promo_price;
                 }
 
+                hmInfo.price = hmInfo.price.replace(/,/g, '');
+                hmInfo.promo_price = hmInfo.promo_price.replace(/,/g, '');
+
                 var skuProperties = [];
                 var colorProperty = '颜色';
                 

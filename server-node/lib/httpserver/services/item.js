@@ -1,14 +1,15 @@
+
 var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 
 var Items = require('../../model/items');
 var jPushAudiences = require('../../model/jPushAudiences');
-
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
+var ItemSyncService = require("../../scheduled/goblin-item/ItemSyncService");
 var ServerError = require('../server-error');
 
 var item = module.exports;
@@ -72,6 +73,29 @@ item.removeExpectablePrice = {
             ResponseHelper.response(res, error, {
                 item : item
             });
+        });
+    }
+};
+
+
+item.sync = {
+    method : 'post',
+    func : function (req, res) {
+        async.waterfall([
+            function (callback) {
+                var itemId = RequestHelper.parseId(req.body._id);
+                ItemSyncService.syncItemWithItemId(itemId, callback);
+            }
+        ], function (err, item) {
+            if (err) {
+                ResponseHelper.response(res, err);
+            } else if (!item) {
+                ResponseHelper.response(res, ServerError.ItemNotExist);
+            } else {
+                ResponseHelper.response(res, null, {
+                    'item' : item
+                });
+            }
         });
     }
 };
