@@ -31,7 +31,7 @@ define([
                     var actualPrice = parseFloat(trade.actualPrice);
                     var discount = actualPrice * 100 / priceBefore;
                     $('.p03-trade-item-qingshow-discount-number', this._dom)[0].innerText = discount.toFixed(2) + '%';
-                    $('.p03-trade-item-qingshow-price-number', this._dom)[0].innerText = '￥' + actualPrice.toFixed(2);
+                    $('.p03-trade-item-qingshow-price-number', this._dom)[0].innerText = '￥' + parseInt(actualPrice);
                 }
 
             }

@@ -63,14 +63,21 @@ feeding.recommendation = {
                 function (callback) {
                     var userid = req.qsCurrentUserId;
                     Peoples.findOne({'_id' : userid}, callback);
-                }, function (people, callback) {
-                    var rate = people.weight / people.height;
+                }, function (err, people, callback) {
+                    if (err) {
+                        callback(err);
+                        return;
+                    }
+                    var rate = 1;
+                    if (people.weight && people.height) {
+                        rate = people.weight / people.height;
+                    }
                     var type = null;
                     /*
                      * 0.24~0.27属于偏瘦型（A1）
-                     0.28~0.31属于标准型（A2）
-                     0.32~0.40属于偏胖型（A3）
-                     0.41~0.50属于超胖型（A4）
+                     * 0.28~0.31属于标准型（A2）
+                     * 0.32~0.40属于偏胖型（A3）
+                     * 0.41~0.50属于超胖型（A4）
                      * */
                     if (rate < 0.275) {
                         type = 'A1';

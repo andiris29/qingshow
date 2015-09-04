@@ -143,17 +143,18 @@
         [arrayStr appendString:@" "];
     }
     NSArray *s = [arrayStr componentsSeparatedByString:@":"];
-    NSMutableString *resultStr = [[NSMutableString alloc]init];
+    NSMutableString *resultStr = [@"" mutableCopy];
     for (int i = 0; i < s.count; i ++) {
         NSString *string = (NSString *)s[i];
         [resultStr appendString:string];
         [resultStr appendString:@" "];
     }
-    if ([resultStr containsString:@"颜色"]) {
+
+    if ([resultStr rangeOfString:@"颜色"].location != NSNotFound) {
         NSRange range = [resultStr rangeOfString:@"颜色"];
         [resultStr deleteCharactersInRange:range];
     }
-    if ([resultStr containsString:@"尺码"]) {
+    if ([resultStr rangeOfString:@"尺码"].location != NSNotFound) {
         NSRange range = [resultStr rangeOfString:@"尺码"];
         [resultStr deleteCharactersInRange:range];
     }
@@ -169,7 +170,8 @@
     if ([str hasSuffix:@":"]) {
         str = [str substringToIndex:str.length-1];
     }
-    if ([str containsString:@"颜色"]) {
+    
+    if ([str rangeOfString:@"颜色"].location != NSNotFound) {
         return str;
     }else{
         return [NSString stringWithFormat:@"颜色%@",str];
