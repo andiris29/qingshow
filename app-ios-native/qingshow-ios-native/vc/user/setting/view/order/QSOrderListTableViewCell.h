@@ -56,6 +56,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
 
+#warning TODO
+@property (weak, nonatomic) IBOutlet UIView* currentDiscountContainer;
 
 - (IBAction)submitBtnPressed:(id)sender;
 - (IBAction)returnBtnPressed:(id)sender;

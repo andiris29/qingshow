@@ -26,7 +26,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="216"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="215.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="215"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="交易完成" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jzB-mS-e1C">
@@ -136,9 +136,15 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" id="P2w-6I-Kvx">
+                        <rect key="frame" x="242" y="135" width="68" height="68"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="currentDiscountContainer" destination="P2w-6I-Kvx" id="akm-HR-hsF"/>
                 <outlet property="dateLabel" destination="zoQ-B7-uaB" id="IVY-DV-Vf4"/>
                 <outlet property="exDiscountLabel" destination="vGC-id-sxo" id="tom-as-6XB"/>
                 <outlet property="exchangeButton" destination="DHm-Pe-qd6" id="CgY-jr-z6o"/>
