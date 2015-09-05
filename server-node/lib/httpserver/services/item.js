@@ -193,6 +193,7 @@ item.list = {
         }, function(item, callback) {
             item.name = param.name;
             item.categoryRef = RequestHelper.parseId(param.categoryRef);
+            item.list = new Date();
             RequestHelper.parseFile(req, global.qsConfig.uploads.item.thumbnail.ftpPath, [
                 {'suffix' : '_s', 'rate' : 0.5},
                 {'suffix' : '_xs', 'rate' : 0.25}
@@ -212,7 +213,7 @@ item.list = {
                 });
             });
         }，function(item, callback) {
-            ItemSyncService.syncItemWithItemId(item._id, callback);
+            ItemSyncService.syncItem(item, callback);
         }], function(error, item) {
             ResponseHelper.response(res, error, {
                 item : item
