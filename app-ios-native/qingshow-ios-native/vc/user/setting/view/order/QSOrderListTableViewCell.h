@@ -25,6 +25,8 @@
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
 
 - (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell;
+
+- (void)didClickExpectablePriceBtnForCell:(QSOrderListTableViewCell *)cell;
 @end
 
 @interface QSOrderListTableViewCell : UITableViewCell
@@ -56,6 +58,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
 
+@property (weak, nonatomic) IBOutlet UIView* currentDiscountContainer;
+@property (weak, nonatomic) IBOutlet UILabel* expectableDiscountLabel;
 
 - (IBAction)submitBtnPressed:(id)sender;
 - (IBAction)returnBtnPressed:(id)sender;

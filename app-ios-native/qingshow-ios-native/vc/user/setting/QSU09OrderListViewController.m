@@ -24,6 +24,8 @@
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
 @property (strong,nonatomic) NSDictionary *oderDic;
 
+@property (strong, nonatomic) QSS11NewTradeNotifyViewController* s11NotiVc;
+
 @end
 
 @implementation QSU09OrderListViewController
@@ -185,6 +187,10 @@
     alert.tag = 102;
     [alert show];
 }
+
+- (void)didClickExpectablePriceBtnOfOrder:(NSDictionary *)orderDict {
+    [self showTradeNotiViewOfTradeId:orderDict];
+}
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -223,4 +229,38 @@
 }
 
 
+#pragma mark -
+- (void)showTradeNotiViewOfTradeId:(NSDictionary*)tradeDict
+{
+    self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:tradeDict];
+    self.s11NotiVc.delelgate = self;
+    self.s11NotiVc.view.frame = self.navigationController.view.bounds;
+    [self.navigationController.view addSubview:self.s11NotiVc.view];
+}
+    
+- (void)didClickClose:(QSS11NewTradeNotifyViewController*)vc {
+    [self.s11NotiVc.view removeFromSuperview];
+    self.s11NotiVc = nil;
+}
+- (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
+    NSDictionary* tradeDict = vc.tradeDict;
+    NSNumber* actualPrice = vc.expectablePrice;
+    NSDictionary* paramDict = nil;
+    if (actualPrice) {
+        paramDict = @{@"actualPrice" : vc.expectablePrice};
+    }
+    [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:paramDict onSucceed:^(NSDictionary* dict){
+        [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+            [self didClickClose:vc];
+            QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:dict];
+            v.menuProvider = self.menuProvider;
+            [self.navigationController pushViewController:v animated:YES];
+        } onError:^(NSError *error) {
+            [vc handleError:error];
+        }];
+    } onError:^(NSError *error) {
+        [vc handleError:error];
+    }];
+}
+    
 @end

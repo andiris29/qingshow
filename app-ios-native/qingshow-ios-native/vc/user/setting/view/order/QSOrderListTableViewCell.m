@@ -32,6 +32,12 @@
     self.saleImgView.hidden = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 //    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
+    self.currentDiscountContainer.layer.cornerRadius = self.currentDiscountContainer.bounds.size.width / 2;
+    self.currentDiscountContainer.layer.masksToBounds = YES;
+    self.currentDiscountContainer.transform = CGAffineTransformMakeRotation(0.3);
+    self.currentDiscountContainer.userInteractionEnabled = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapExpectablePriceBtn:)];
+    [self.currentDiscountContainer addGestureRecognizer:ges];
 }
 - (void)configBtn:(UIButton*)btn
 {
@@ -102,21 +108,7 @@
     {
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }
-    NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
-    int disCount = _actualPrice * 100 / price.doubleValue;
-    if (disCount < 10) {
-        disCount = 10;
-    }else if(disCount > 90)
-    {
-        disCount = 90;
-    }else
-    {
-        if (disCount%10 > 5) {
-            disCount = (disCount/10+1)*10;
-        }
-    }
-    disCount = disCount/10;
-    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d折", disCount];
+    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     switch (s) {
         case 0:
@@ -174,6 +166,15 @@
             break;
         }
     }
+    NSNumber* expectablePrice = [QSTradeUtil getItemExpectablePrice:tradeDict];
+    if (!expectablePrice) {
+        self.currentDiscountContainer.hidden = YES;
+        self.expectableDiscountLabel.text = nil;
+    } else {
+        self.currentDiscountContainer.hidden = NO;
+        self.expectableDiscountLabel.text = [QSTradeUtil calculateDiscountDescWithPrice:expectablePrice trade:tradeDict];
+    }
+    
 }
 
 #pragma mark - IBAction
@@ -231,5 +232,9 @@
         [self.delegate didClickPayBtnForCell:self];
     }
 }
-
+- (void)didTapExpectablePriceBtn:(UIGestureRecognizer*)ges {
+    if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnForCell:)]) {
+        [self.delegate didClickExpectablePriceBtnForCell:self];
+    }
+}
 @end
