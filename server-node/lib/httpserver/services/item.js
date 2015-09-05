@@ -9,6 +9,7 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 var URLParser = require('../../scheduled/goblin-item/URLParser');
+var qsftp = require('../../runtime/qsftp');
 
 var ItemSyncService = require("../../scheduled/goblin-item/ItemSyncService");
 var ServerError = require('../server-error');
@@ -163,6 +164,52 @@ item.create = {
                         callback(error, item);
                     });
                 }
+            });
+        }], function(error, item) {
+            ResponseHelper.response(res, error, {
+                item : item
+            });
+        });
+    }
+};
+
+item.list = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var param = req.body;
+        async.waterfall([function(callback) {
+            Items.findOne({
+                _id : RequestHelper.parseId(param._id);
+            }, function(error, item) {
+                if (error) {
+                    callback(error);
+                } else if (!item) {
+                    callback(ServerError.ItemNotExist);
+                } else {
+                    callback(null, item);
+                }
+            });
+        }, function(item, callback) {
+            item.name = param.name;
+            item.categoryRef = RequestHelper.parseId(param.categoryRef);
+            RequestHelper.parseFile(req, global.qsConfig.uploads.item.thumbnail.ftpPath, [
+                {'suffix' : '_s', 'rate' : 0.5},
+                {'suffix' : '_xs', 'rate' : 0.25}
+            ], function(err, fields, file) {
+                if (!fields.thumbnail || !fields.thumbnail.length) {
+                    ResponseHelper.response(res, ServerError.NotEnoughParam);
+                    return;
+                }
+                if (!file) {
+                    ResponseHelper.response(res, ServerError.NotEnoughParam);
+                    return;
+                }
+
+                item.set('cover', global.qsConfig.uploads.item.thumbnail.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.item.thumbnail.ftpPath, file.path));
+                item.save(function(error, item) {
+                    callback(error, item);
+                });
             });
         }], function(error, item) {
             ResponseHelper.response(res, error, {
