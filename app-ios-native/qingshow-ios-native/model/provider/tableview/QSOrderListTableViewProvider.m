@@ -75,6 +75,12 @@
         [self.delegate didClickExchangeBtnOfOrder:[self orderForCell:cell]];
     }
 }
+
+- (void)didClickExpectablePriceBtnForCell:(QSOrderListTableViewCell *)cell {
+    if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnOfOrder:)]) {
+        [self.delegate didClickExpectablePriceBtnOfOrder:[self orderForCell:cell]];
+    }
+}
 #pragma mark - Private
 - (NSDictionary*)orderForCell:(UITableViewCell*)cell
 {

@@ -37,4 +37,5 @@
 + (NSNumber*)getTotalFee:(NSDictionary*)dict;
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 + (NSNumber*)getItemExpectablePrice:(NSDictionary*)dict;
++ (NSString*)calculateDiscountDescWithPrice:(NSNumber*)price trade:(NSDictionary*)trade;
 @end
