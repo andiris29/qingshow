@@ -211,6 +211,8 @@ item.list = {
                     callback(error, item);
                 });
             });
+        }，function(item, callback) {
+            ItemSyncService.syncItemWithItemId(item._id, callback);
         }], function(error, item) {
             ResponseHelper.response(res, error, {
                 item : item
