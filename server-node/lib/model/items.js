@@ -25,16 +25,11 @@ itemSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    goblinUpdate : Date,
     delist : Date,
+    list : Date,
     readOnly : Boolean,
     syncEnabled : Boolean,
-    returnInfo : {
-        name : String,
-        phone : String, 
-        province : String,
-        address : String
-    }
+    sync : Date
 });
 
 var Item = mongoose.model('items', itemSchema);
