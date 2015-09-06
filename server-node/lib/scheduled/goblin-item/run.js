@@ -31,6 +31,14 @@ var _next = function (time, config) {
                             '$lt': time
                         }
                     }]
+                }, {
+                    '$or' : [{
+                        'syncEnabled': {
+                            '$exists': false
+                        }
+                    }, {
+                        'syncEnabled' : true
+                    }]
                 }]
             };
 //            var criteria = {'_id' : new mongoose.Types.ObjectId('55b1dc9b38dadbed5a99a812')};
