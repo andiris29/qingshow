@@ -138,7 +138,7 @@ item.create = {
     'func' : function(req, res) {
         var source = req.body.source;
         var criteria;
-        if (URLParser.isFromTmall(source) || URLParser.isFromTaobao(source) {
+        if (URLParser.isFromTmall(source) || URLParser.isFromTaobao(source)) {
             var id = URLParser.getIidFromSource(source);
             criteria = {
                 source : new RegExp(id)
