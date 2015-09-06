@@ -30,6 +30,65 @@ dashboard.topPaidItems = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+                emit(this.itemRef, {
+                    name: this.itemSnapshot.name, 
+                    quantity : this.quantity,
+                    revenue : (this.totalFee === undefined ? 0 : this.totalFee)
+                });
+            },
+            reduce : function(key, values) {
+                var newValue = {
+                    name : '',
+                    quantity : 0,
+                    revenue : 0
+                };
+                if (values instanceof Array) {
+                    values.forEach(function(e) {
+                        newValue.name = e.name;
+                        newValue.quantity += e.quantity;
+                        newValue.revenue += e.revenue;
+                    });
+                    return newValue;
+                }
+            },
+            query : {
+                status : {
+                    '$nin' : [0, 1]
+                }
+            },
+            out : {
+                inline : 1
+            } 
+        };
+        Trades.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var results = data.results;
+            results.sort(function(n, m) {
+                if (req.queryString === "quantity") {
+                    return n.value.quantity < m.value.quantity;
+                } else {
+                    return n.value.revenue < m.value.revenue;
+                }
+            });
+            var limits = _.first(results, req.queryString.n);
+            var rows = _.map(function(e) {
+                return {
+                    _id : e._id,
+                    name : e.value.name,
+                    quantity : e.value.quantity,
+                    revenue : e.value.revenue
+                };
+            });
+
+            ResponseHelper.response(res, error, {
+                rows : rows 
+            });
+        });
     }
 };
 
@@ -37,6 +96,59 @@ dashboard.topAppliedItems = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+            },
+            reduce : function(key, values) {
+                var newValue = {
+                    name : '',
+                    quantity : 0,
+                    revenue : 0
+                };
+                if (values instanceof Array) {
+                    values.forEach(function(e) {
+                        newValue.name = e.name;
+                        newValue.quantity += e.quantity;
+                        newValue.revenue += e.revenue;
+                    });
+                    return newValue;
+                }
+            },
+            query : {
+                status : 0
+            },
+            out : {
+                inline : 1
+            }
+        };
+
+        Trades.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var results = data.results;
+            results.sort(function(n, m) {
+                if (req.queryString === "quantity") {
+                    return n.value.quantity < m.value.quantity;
+                } else {
+                    return n.value.revenue < m.value.revenue;
+                }
+            });
+            var limits = _.first(results, req.queryString.n);
+            var rows = _.map(function(e) {
+                return {
+                    _id : e._id,
+                    name : e.value.name,
+                    quantity : e.value.quantity,
+                    revenue : e.value.revenue
+                };
+            });
+
+            ResponseHelper.response(res, error, {
+                rows : rows 
+            });
+        });
     }
 };
 
