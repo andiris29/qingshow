@@ -9,7 +9,8 @@ define([
         'main/views/components/p02/ItemCategoryLi', 
         'main/views/components/p02/NewRecommandationsLi', 
         'main/views/components/p02/ItemPriceChangedLi',
-        'main/views/components/p02/BonusLi']);
+        'main/views/components/p02/BonusSummaryLi',
+        'main/views/components/p02/BonusForgeLi']);
 // @formatter:on
     var P02Portal = function(dom, initOptions) {
         P02Portal.superclass.constructor.apply(this, arguments);
@@ -58,17 +59,16 @@ define([
                 'group' : group
             }, ul$, this);
         }.bind(this));
-
-        violet.ui.factory.createUi('main/views/components/p02/ItemPriceChangedLi', {
-        }, ul$, this);
     };
 
     P02Portal.prototype._initBonus = function () {
         var ul$ = $('#managerBonus', this._dom);
 
-        violet.ui.factory.createUi('main/views/components/p02/BonusLi', {
+        violet.ui.factory.createUi('main/views/components/p02/BonusForgeLi', {
         }, ul$, this);
-    }
+
+
+    };
 
     violet.oo.extend(P02Portal, View);
 
