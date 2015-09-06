@@ -180,7 +180,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
                 if(this instanceof U09TradeListActivity)return;
                 _class = U09TradeListActivity.class;
                 break;
-            case R.id.u01_bonusList_tv:
+            case R.id.u01_bonusList:
                 if(this instanceof T01HighlightedTradeListActivity)return;
                 _class = T01HighlightedTradeListActivity.class;
                 break;

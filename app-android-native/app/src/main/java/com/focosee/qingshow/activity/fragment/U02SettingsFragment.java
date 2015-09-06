@@ -78,6 +78,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private ImageButton navigationBtnMatch;
     private ImageButton navigationBtnGoodMatch;
     private ImageButton navigationBtnDiscount;
+    private ImageButton navigationBtnBonus;
     private ImageButton u01People;
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
@@ -261,6 +262,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         navigationBtnMatch = (ImageButton) view.findViewById(R.id.navigation_btn_match);
         navigationBtnGoodMatch = (ImageButton) view.findViewById(R.id.navigation_btn_good_match);
         navigationBtnDiscount = (ImageButton) view.findViewById(R.id.navigation_btn_discount);
+        navigationBtnBonus = (ImageButton) view.findViewById(R.id.u01_bonusList);
         u01People = (ImageButton) view.findViewById(R.id.u01_people);
         personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
@@ -499,6 +501,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         navigationBtnMatch.setOnClickListener(this);
         navigationBtnGoodMatch.setOnClickListener(this);
         navigationBtnDiscount.setOnClickListener(this);
+        navigationBtnBonus.setOnClickListener(this);
         u01People.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
 

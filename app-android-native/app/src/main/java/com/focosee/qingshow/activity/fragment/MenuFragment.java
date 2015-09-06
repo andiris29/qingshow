@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S20MatcherActivity;
+import com.focosee.qingshow.activity.T01HighlightedTradeListActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
@@ -171,6 +172,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.navigation_btn_discount:
                 _class = U09TradeListActivity.class;
+                break;
+            case R.id.u01_bonusList:
+                _class = T01HighlightedTradeListActivity.class;
                 break;
             case R.id.u01_people:
                 _class = U01UserActivity.class;

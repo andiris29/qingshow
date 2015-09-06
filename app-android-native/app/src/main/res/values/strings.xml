@@ -229,6 +229,10 @@
     <string name="u15_btn_text">分享APP获取佣金</string>
     <string name="u15_title_right_btn">佣金明细</string>
     <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>
-    <string name="title_activity_t01_highlighted_trade_list">T01HighlightedTradeListActivity
-    </string>
+    <string name="title_activity_t01_highlighted_trade_list">T01HighlightedTradeListActivity</string>
+
+    <!-- T01-->
+    <string name="title_t01">潮人晒单</string>
+    <string name="t01_successed_discount">成功购买折扣：</string>
+    <string name="t01_successed_price">成功购买价格：</string>
 </resources>

@@ -10,14 +10,15 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ReturnReceiverPaser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +47,6 @@ public class U12ReturnActivity extends BaseActivity {
     QSButton applyReturnBtn;
 
     private MongoTrade trade;
-    private boolean isSuccessed = false;
     private LoadingDialogs loadingDialog;
     private int position;
 
@@ -67,13 +67,7 @@ public class U12ReturnActivity extends BaseActivity {
         loadingDialog = new LoadingDialogs(this, R.style.dialog);
         trade = (MongoTrade) getIntent().getSerializableExtra(TRADE_ENTITY);
         position = getIntent().getIntExtra("position", 0);
-        if (null != trade.itemSnapshot) {
-            if (null != trade.itemSnapshot.returnInfo) {
-                addressReturnActivity.setText(trade.itemSnapshot.returnInfo.address);
-                receiverReturnActivity.setText(trade.itemSnapshot.returnInfo.name);
-                phoneReturnActivity.setText(trade.itemSnapshot.returnInfo.phone);
-            }
-        }
+        getTradeReturnReceiver();
 
         applyReturnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +75,34 @@ public class U12ReturnActivity extends BaseActivity {
                 commitForm();
             }
         });
+    }
+
+    private void getTradeReturnReceiver(){
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeGetReturnreceiver(trade._id)
+                , new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println("response:" + response);
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(U12ReturnActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+
+                MongoPeople.Receiver receiver = ReturnReceiverPaser.paser(response);
+
+                if(null != receiver){
+                    init(receiver);
+                }
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void init(MongoPeople.Receiver receiver){
+        addressReturnActivity.setText(receiver.province + receiver.address);
+        receiverReturnActivity.setText(receiver.name);
+        phoneReturnActivity.setText(receiver.phone);
     }
 
     public void commitForm() {
