@@ -6,7 +6,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -31,6 +29,7 @@ import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
@@ -40,6 +39,7 @@ import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
+import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
@@ -47,20 +47,14 @@ import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
-
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
@@ -68,7 +62,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String CLASS_NAME = "class_name";
-    public final String TAG = "S03SHowActivity";
     @InjectView(R.id.S03_image_preground)
     SimpleDraweeView s03ImagePreground;
     @InjectView(R.id.S03_describe)
@@ -83,6 +76,8 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     TextView s03Nickname;
     @InjectView(R.id.s03_del_btn)
     ImageView s03DelBtn;
+    @InjectView(R.id.s03_bonus)
+    QSTextView s03Bonus;
 
     private MongoShow showDetailEntity;
     private List<MongoItem> itemsData;
@@ -265,6 +260,16 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             }
         }
         showData_other();
+
+        if(null != showDetailEntity.ownerRef){
+            if(null != showDetailEntity.ownerRef.bonuses){
+                float money = 0;
+                for(MongoPeople.Bonuses bonus : showDetailEntity.ownerRef.bonuses){
+                    money += bonus.money.floatValue();
+                }
+                s03Bonus.setText(String.valueOf(money));
+            }
+        }
     }
 
     private void showData_self() {
@@ -347,13 +352,10 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         switch (baseResponse.errCode) {
             case WBConstants.ErrorCode.ERR_OK:
                 UmengCountUtil.countShareShow(this, "weibo");
-                Log.i("tag", "ERR_OK");
                 break;
             case WBConstants.ErrorCode.ERR_CANCEL:
-                Log.i("tag", "ERR_CANCEL");
                 break;
             case WBConstants.ErrorCode.ERR_FAIL:
-                Log.i("tag", "ERR_FAIL");
                 break;
         }
     }
@@ -382,8 +384,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
                 }
                 return;
             case R.id.S03_like_btn://收藏
@@ -442,7 +442,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "repsonse_del:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
