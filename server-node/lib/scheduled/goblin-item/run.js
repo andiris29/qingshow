@@ -5,7 +5,7 @@ var fs = require('fs');
 var winston = require('winston');
 var async = require('async');
 var _ = require('underscore');
-
+var moment = require('moment');
 
 var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
@@ -84,14 +84,17 @@ var _next = function (time, config) {
         }
     ], function (err) {
         winston.info('[Goblin-tbitem] Complete.');
-        var date = new Date();
-        var fileName = 'gobin_report_' + date + '.txt';
+
+        var date = moment();
+        var dateStr = date.format("YYYY-MM-DD__HH_mm_ss");
+
+        var fileName = 'gobin_report_' + dateStr + '.txt';
         if (config.reportDirectory) {
             var fullPath = path.join(config.reportDirectory, fileName);
             fs.writeFileSync(fullPath, report);
-            qsmail.send('商品爬虫总结' + new Date(), fullPath);
+            qsmail.send('商品爬虫总结' + dateStr, fullPath);
         } else {
-            qsmail.send('商品爬虫总结' + new Date(), 'error: unknown report directory');
+            qsmail.send('商品爬虫总结' + dateStr, 'error: unknown report directory');
         }
 
     });
@@ -99,9 +102,10 @@ var _next = function (time, config) {
 
 
 var _run = function (config) {
-    var startDate = new Date();
+    var startDate = moment();
+
 //    startDate.setDate(startDate.getDate() - 1);
-    winston.info('Goblin-tbitem run at: ' + startDate);
+    winston.info('Goblin-tbitem run at: ' + startDate.format("YYYY-MM-DD_HH:mm:ss"));
 
     _next(startDate, config);
 };
