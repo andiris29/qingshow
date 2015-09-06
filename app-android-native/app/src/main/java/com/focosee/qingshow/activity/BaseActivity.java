@@ -76,8 +76,8 @@ public abstract class BaseActivity extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-//                    Uri uri= Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow");
-                    Uri uri= Uri.parse("http://dd.myapp.com/16891/C033480CED9F6141C9A55D94AD285F29.apk?fsname=com.focosee.qingshow_2.0.0_8.apk");
+                    Uri uri= Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow");
+//                    Uri uri= Uri.parse("http://dd.myapp.com/16891/C033480CED9F6141C9A55D94AD285F29.apk?fsname=com.focosee.qingshow_2.0.0_8.apk");
                     Intent intent=new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }

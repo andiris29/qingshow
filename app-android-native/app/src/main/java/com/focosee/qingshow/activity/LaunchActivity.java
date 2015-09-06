@@ -65,7 +65,6 @@ public class LaunchActivity extends InstrumentedActivity {
             @Override
             public void onComplete() {
                 super.onComplete();
-                // Bootstrap
                 jump();
             }
 
