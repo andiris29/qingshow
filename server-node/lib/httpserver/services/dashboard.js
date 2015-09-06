@@ -98,6 +98,11 @@ dashboard.topAppliedItems = {
     'func' : function(req, res) {
         var mapReduce = {
             map : function() {
+                emit(this.itemRef, {
+                    name: this.itemSnapshot.name, 
+                    quantity : this.quantity,
+                    revenue : (this.totalFee === undefined ? 0 : this.totalFee)
+                });
             },
             reduce : function(key, values) {
                 var newValue = {
