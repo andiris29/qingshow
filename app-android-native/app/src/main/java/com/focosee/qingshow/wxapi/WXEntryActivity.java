@@ -74,7 +74,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             //bonus
             if (resp.transaction.equals(ValueUtil.SHARE_BONUS)) {
                 if(resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK){
-
+                    EventBus.getDefault().post(new ShareBonusEvent(resp.errCode));
+                }else{
+                    Toast.makeText(WXEntryActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
             //show

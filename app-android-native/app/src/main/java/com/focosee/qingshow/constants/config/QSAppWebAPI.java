@@ -74,6 +74,12 @@ public class QSAppWebAPI {
 
     private static final String TRADE_QUERYBY_PHASE_API = HOST_NAME + "/trade/queryByPhase";
 
+    public static String getUserBonusWithdrawApi() {
+        return USER_BONUS_WITHDRAW_API;
+    }
+
+    private static final String USER_BONUS_WITHDRAW_API = HOST_NAME + "/userBonus/withdraw";
+
     public static String getTradeGetReturnreceiver(String _id) {
         return TRADE_GET_RETURNRECEIVER + "?_id=" + _id;
     }

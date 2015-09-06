@@ -44,15 +44,14 @@ public class U16BonusListActivity extends Activity {
     public void initUser(){
         final LoadingDialogs dialogs = new LoadingDialogs(U16BonusListActivity.this);
         dialogs.show();
-        UserCommand.getPeople(new Callback(){
+        UserCommand.refresh(new Callback() {
             @Override
-            public void onComplete(JSONObject response) {
+            public void onComplete() {
                 dialogs.dismiss();
-                if(!MetadataParser.hasError(response)){
-                    people = UserParser.parseGet(response);
-                }
+                people = QSModel.INSTANCE.getUser();
+                initList();
             }
-        }, U16BonusListActivity.this, QSModel.INSTANCE.getUserId());
+        });
     }
 
     public void matchUI() {
@@ -63,6 +62,10 @@ public class U16BonusListActivity extends Activity {
             }
         });
         title.setText(getText(R.string.bonus_activity_settings));
+
+    }
+
+    public void initList(){
         LinearLayoutManager manager = new LinearLayoutManager(U16BonusListActivity.this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         u16Recycler.setLayoutManager(manager);
