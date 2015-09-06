@@ -95,7 +95,7 @@ var _crawlItemTaobaoInfo = function (item, callback) {
                 item.price = taobaoInfo.price;
                 item.promoPrice = taobaoInfo.promo_price;
                 item.skuProperties = taobaoInfo.skuProperties;
-                item.goblinUpdate = new Date();
+                item.sync = new Date();
                 _logItem('item success', item);
                 item.save(callback);
             }
@@ -122,7 +122,7 @@ var _crawlItemHmInfo = function (item, callback) {
                 item.price = hmInfo.price;
                 item.promoPrice = hmInfo.promo_price;
                 item.skuProperties = hmInfo.skuProperties;
-                item.goblinUpdate = new Date();
+                item.sync = new Date();
                 _logItem('item success', item);
                 item.save(callback);
             }
@@ -149,7 +149,7 @@ var _crawlItemJamyInfo = function (item, callback) {
                 item.price = jamyInfo.price;
                 item.promoPrice = jamyInfo.promo_price;
                 item.skuProperties = jamyInfo.skuProperties;
-                item.goblinUpdate = new Date();
+                item.sync = new Date();
                 _logItem('item success', item);
                 item.save(callback);
             }
