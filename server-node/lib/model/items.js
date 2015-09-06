@@ -20,7 +20,11 @@ itemSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    goblinUpdate : Date,
+    syncEnabled : {
+        type : Boolean,
+        'default' : true
+    },
+    sync : Date,
     delist : Date,
     readOnly : Boolean,
     returnInfo : {
