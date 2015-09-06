@@ -102,10 +102,9 @@ var _next = function (time, config) {
 
 
 var _run = function (config) {
-    var startDate = moment();
-
-//    startDate.setDate(startDate.getDate() - 1);
-    winston.info('Goblin-tbitem run at: ' + startDate.format("YYYY-MM-DD_HH:mm:ss"));
+    var startDate = new Date();
+    startDate.setHours(startDate.getHours() - 6);
+    winston.info('Goblin-tbitem run at: ' + startDate);
 
     _next(startDate, config);
 };

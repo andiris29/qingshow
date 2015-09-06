@@ -21,6 +21,7 @@ ItemSyncService.syncItem = function (item, callback) {
     }
     var crawlCallback = function (err) {
         if (err) {
+            item.sync = new Date();
             item.delist = new Date();
             item.save(function (innerErr) {
                 setTimeout(function () {
@@ -142,7 +143,7 @@ var _crawlItemJamyInfo = function (item, callback) {
             callback(err);
         } else {
             if (!jamyInfo || !Object.keys(jamyInfo).length) {
-                _logItem('item failed', item);
+                _logItem('item success, delist', item);
                 callback('delist');
             } else {
                 item.delist = null;
