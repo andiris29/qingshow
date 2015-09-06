@@ -15,6 +15,53 @@ dashboard.itemSyncStatus = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var now = new Date();
+        now.setDate(now.getDate() - 1);
+        var mapReduce = {
+            map : function() {
+                if (this.syncEnabled === false) {
+                    emit('disabled', 1);
+                }
+                if (this.sync === null || this.sync === undefined) {
+                    emit('notSynced', 1);
+                } else if (this.sync >= now) {
+                    emit('normal', 1);
+                } else {
+                    emit('outdated', 1);
+                }
+            },
+            reduce : function(key, values) {
+                return Array.sum(values);
+            },
+            query : {},
+            out : {
+                inline : 1
+            }
+        };
+
+        Items.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var returnData = {
+                disabled : 0,
+                notSynced : 0,
+                normal : 0,
+                outdated : 0
+            };
+
+            data.results.forEach(function(e) {
+                retrunData[e._id] = e.value;
+            });
+
+            ResponseHelper.response(res, error, {
+                disabled : returnData.disabled,
+                notSynced : returnData.notSynced,
+                normal : returnData.normal,
+                outdated : returnData.outdated
+            });
+        });
     }
 };
 
@@ -23,6 +70,54 @@ dashboard.itemListingStatus = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+                if (this.delist) {
+                    emit('delist', 1);
+                }
+                if (!this.list) {
+                    emit('notListed', 1);
+                } else {
+                    if (!this.delist) {
+                        emit('normal', 1);
+                        if (this.readOnly === true) {
+                            emit('readOnly', 1);
+                        }
+                    }
+                }
+            },
+            reduce : function(key, values) {
+                return Array.sum(values);
+            },
+            query : {},
+            out : {
+                inline : 1
+            }
+        };
+
+        Items.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var returnData = {
+                delist: 0,
+                notListed: 0,
+                normal : 0,
+                readOnly: 0
+            };
+
+            data.results.forEach(function(e) {
+                retrunData[e._id] = e.value;
+            });
+
+            ResponseHelper.response(res, error, {
+                delist: returnData.delist,
+                notListed: returnData.notListed,
+                normal : returnData.normal,
+                readOnly: returnData.readOnly
+            });
+        });
     }
 };
 
