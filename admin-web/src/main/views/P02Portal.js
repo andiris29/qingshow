@@ -66,7 +66,8 @@ define([
 
         violet.ui.factory.createUi('main/views/components/p02/BonusForgeLi', {
         }, ul$, this);
-
+        violet.ui.factory.createUi('main/views/components/p02/BonusSummaryLi', {
+        }, ul$, this);
 
     };
 
