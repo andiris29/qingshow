@@ -44,6 +44,47 @@ dashboard.tradeRevenueByDate = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+                var targetLogs = _.filter(this.statusLogs, function(element) {
+                    return (element.status === 2);
+                });
+                if (targetLogs.length > 0) {
+                    var year = this.update.getFullYear();
+                    var month = this.update.getMonth() + 1;
+                    var day = this.update.getDate();
+                    month = ("0" + month).substr(-2);
+                    day = ("0" + day).substr(-2);
+                    emit(year + '-' + month + '-' + day, this.totalFee);
+                }
+            },
+            reduce : function(key, values) {
+                return Array.sum(values);
+            },
+            query : {
+                status : {
+                    '$nin' : [0, 1]
+                }
+            },
+            out : {
+                inline : 1
+            }, 
+            sort : {
+                create : 1
+            }
+        };
+
+        Trade.mapReduce(mapReduce, function(error, data) {
+            var rows = _.map(data.results, function(element) {
+                return {
+                    date : element._id,
+                    revenue : element.value
+                };
+            });
+            ResponseHelper.response(res, error, {
+                rows : rows
+            });
+        });
     }
 };
 
