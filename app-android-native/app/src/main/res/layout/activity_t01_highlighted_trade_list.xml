@@ -13,31 +13,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.percent.PercentRelativeLayout
+        <LinearLayout
+            android:id="@+id/context"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
 
-            <include
-                android:id="@+id/t01_title"
-                layout="@layout/title"
+            <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="match_parent">
 
-            <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/s01_refresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/t01_title">
+                <include
+                    android:id="@+id/t01_title"
+                    layout="@layout/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/t01_recycler"
+                <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/s01_refresh"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingTop="10dp" />
+                    android:layout_below="@+id/t01_title">
 
-            </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/t01_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="10dp" />
 
-        </android.support.percent.PercentRelativeLayout>
+                </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+
+            </android.support.percent.PercentRelativeLayout>
+        </LinearLayout>
     </FrameLayout>
 
     <ImageView
