@@ -23,13 +23,21 @@ var _next = function (time, config) {
             var criteria = {
                 '$and': [{
                     '$or': [{
-                        'goblinUpdate': {
+                        'sync': {
                             '$exists': false
                         }
                     }, {
-                        'goblinUpdate': {
+                        'sync': {
                             '$lt': time
                         }
+                    }]
+                }, {
+                    '$or' : [{
+                        'syncEnabled': {
+                            '$exists': false
+                        }
+                    }, {
+                        'syncEnabled' : true
                     }]
                 }]
             };

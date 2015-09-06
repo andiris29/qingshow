@@ -180,7 +180,7 @@ item.list = {
         var param = req.body;
         async.waterfall([function(callback) {
             Items.findOne({
-                _id : RequestHelper.parseId(param._id);
+                _id : RequestHelper.parseId(param._id)
             }, function(error, item) {
                 if (error) {
                     callback(error);
@@ -212,7 +212,7 @@ item.list = {
                     callback(error, item);
                 });
             });
-        }，function(item, callback) {
+        }, function(item, callback) {
             ItemSyncService.syncItem(item, callback);
         }], function(error, item) {
             ResponseHelper.response(res, error, {

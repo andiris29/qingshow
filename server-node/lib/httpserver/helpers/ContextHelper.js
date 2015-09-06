@@ -8,6 +8,7 @@ var RPeopleShareShow = require('../../model/rPeopleShareShow');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 var RPeopleShareTrade = require('../../model/rPeopleShareTrade');
 var People = require('../../model/peoples');
+var Item = require('../../model/items');
 
 /**
  * ContextHelper
@@ -100,7 +101,15 @@ ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
         _rInitiator(RPeopleShareTrade, qsCurrentUserId, trades, 'sharedByCurrentUser', callback);
     };
 
-    async.parallel([sharedByCurrentUser], function(err) {
+    var itemDelist = function(callback) {
+        _item(Item, trades, 'delist', callback);
+    };
+
+    var itemExpectablePrice = function(callback) {
+        _item(Item, trades, 'expectablePrice', callback);
+    };
+
+    async.parallel([sharedByCurrentUser, itemDelist, itemExpectablePrice], function(err) {
         callback(null, trades);
     });
 };
@@ -203,3 +212,33 @@ var _initiator = function(RModel, InitiatorModel, models, contextField, callback
         callback(null, models);
     });
 };
+
+var _item = function(InitiatorModel, models, contextField, callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            if (!model.__context.item) {
+                model.__context.item = {};
+            }
+            model.__context.item[contextField] = {};                
+
+            InitiatorModel.findOne({
+                '_id' : model.itemRef
+            }, function(err , relationship) {
+                 if (Boolean(!err && relationship)) {
+                    console.log(relationship[contextField]);
+                    if (relationship[contextField]) { 
+                        model.__context.item[contextField] = relationship[contextField];
+                    };
+                   
+                    callback();
+                 } else {
+                    callback();
+                 }
+            })
+        }
+    });
+
+    async.parallel(tasks, function(err) {
+        callback(null, models);
+    })
+}

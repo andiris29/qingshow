@@ -620,7 +620,7 @@ trade.getReturnReceiver = {
             });
         }, function(people, callback) {
             var defaultReceiver = global.qsConfig.receiver.default;
-            if (people.receivers === nul people.receivers.length === 0) {
+            if (people.receivers === nul || people.receivers.length === 0) {
                 callback(null, defaultReceiver);
                 return;
             }
