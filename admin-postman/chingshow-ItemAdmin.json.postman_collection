@@ -1,0 +1,56 @@
+{
+	"id": "b91142bf-1afc-92a5-2852-e79404af1ce8",
+	"name": "chingshow-ItemAdmin",
+	"description": "",
+	"order": [
+		"dcfa575f-c19d-377f-c7d6-71382d0a3572",
+		"eba9b082-a4b1-5a9d-0ac5-97949c8e42b7"
+	],
+	"folders": [],
+	"timestamp": 1441512487808,
+	"owner": "",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "dcfa575f-c19d-377f-c7d6-71382d0a3572",
+			"headers": "Content-Type: application/json\n",
+			"url": "chingshow.com/services/item/sync",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1441513731439,
+			"name": "同步价格",
+			"description": "",
+			"collectionId": "b91142bf-1afc-92a5-2852-e79404af1ce8",
+			"responses": [],
+			"rawModeData": "{\n  \"_id\": \"55b0457138dadbed5a99a408\"\n}"
+		},
+		{
+			"id": "eba9b082-a4b1-5a9d-0ac5-97949c8e42b7",
+			"headers": "Content-Type: application/json\n",
+			"url": "chingshow.com/services/item/updateExpectablePrice",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1441514918082,
+			"name": "商品降价（未测试）",
+			"description": "更改商品可期待价格。\n所有申请该商品的交易的用户，将会收到通知。",
+			"collectionId": "b91142bf-1afc-92a5-2852-e79404af1ce8",
+			"responses": [],
+			"rawModeData": "{\n  \"_id\": \"55b0457138dadbed5a99a408\",\n  \"expectablePrice\": 99.99\n}"
+		}
+	]
+}
