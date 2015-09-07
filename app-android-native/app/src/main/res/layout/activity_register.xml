@@ -47,7 +47,7 @@
                     android:gravity="center"
                     android:onClick="onClick"
                     android:padding="10dp"
-                    android:text="登陆账户"
+                    android:text="登录账户"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size" />
             </android.support.percent.PercentRelativeLayout>

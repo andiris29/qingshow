@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -29,7 +28,6 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -49,6 +47,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     public static final String FROM_WHERE = "FROM_WHEN";
     private final String CURRENT_POSITION = "CURRENT_POSITION";
+    public static final String PUSH_NOTIFICATION = "PUSH_NOTIFICATION";
     private final int TYPE_APPLY = 0;
     private final int TYPE_SUCCESSED = 1;
 

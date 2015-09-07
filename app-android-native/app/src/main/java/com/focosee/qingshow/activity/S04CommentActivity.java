@@ -32,6 +32,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.google.gson.reflect.TypeToken;
@@ -241,7 +242,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
         String comment = s04Input.getText().toString().trim();
         if (comment.length() <= 0) {
-            Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShortToast(getApplicationContext(), "评论不能为空");
             return;
         }
         Map<String, String> map = new HashMap<String, String>();
