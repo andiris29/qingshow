@@ -124,7 +124,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     return;
                 }
 
-                Toast.makeText(WXEntryActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                 MongoPeople user = UserParser._parsePeople(response);
                 if (TextUtils.isEmpty(user.portrait)) {
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
