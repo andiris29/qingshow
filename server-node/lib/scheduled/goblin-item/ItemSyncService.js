@@ -9,16 +9,28 @@ var Item = require('../../model/items');
 
 var ItemSyncService = {};
 
+
+ItemSyncService.isOutDate = function (item) {
+    if (!item || !item.sync) {
+        return true;
+    }
+    var now = new Date();
+    //暂定为一天以上需要重新sync
+    return ((now - item.sync) > 1000 * 60 * 60 * 24);
+};
+
 /**
  *
  * @param item
  * @param callback function(err, item)
  */
 ItemSyncService.syncItem = function (item, callback) {
-    if (!item) {
+    if (!item || !ItemSyncService.isOutDate(item)) {
         callback(null, item);
         return;
     }
+
+
     var crawlCallback = function (err) {
         if (err) {
             item.sync = new Date();
