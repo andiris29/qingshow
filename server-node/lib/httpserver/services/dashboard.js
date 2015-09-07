@@ -31,7 +31,7 @@ dashboard.itemSyncStatus = {
                 }
             },
             reduce : function(key, values) {
-                return Array.sum(values);
+                return _sum(values);
             },
             query : {},
             out : {
@@ -87,7 +87,7 @@ dashboard.itemListingStatus = {
                 }
             },
             reduce : function(key, values) {
-                return Array.sum(values);
+                return _sum(values);
             },
             query : {},
             out : {
@@ -271,7 +271,7 @@ dashboard.tradeRevenueByDate = {
                 }
             },
             reduce : function(key, values) {
-                return Array.sum(values);
+                return _sum(values);
             },
             query : {
                 status : {
@@ -314,7 +314,7 @@ dashboard.tradeNumCreatedyDate = {
                 emit(year + '-' + month + '-' + day, 1);
             },
             reduce : function(key, values) {
-                return Array.sum(values);
+                return _sum(values);
             },
             query : {},
             out : {
@@ -339,3 +339,10 @@ dashboard.tradeNumCreatedyDate = {
     }
 };
 
+var _sum = function(array) {
+    var result = 0;
+    array.forEach(function(e) {
+        result += e;
+    });
+    return result;
+};

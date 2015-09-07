@@ -74,9 +74,9 @@ peopleSchema = Schema({
         initiatorRef : {
             type : Schema.Types.ObjectId,
             ref : 'peoples'
-        }
+        },
+        alipayId : String
     }],
-    bonuseWithdrawRequested : Boolean,
     create : {
         type : Date,
         'default' : Date.now
