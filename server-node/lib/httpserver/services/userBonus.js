@@ -45,7 +45,7 @@ userBonus.forge = {
     }
 };
 
-userBonus.withDraw = {
+userBonus.withdraw = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
