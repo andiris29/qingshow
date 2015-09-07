@@ -31,7 +31,7 @@ ItemSyncService.syncItem = function (item, callback) {
         return;
     }
 
-    var crawlCallback = function (err, item, count, log) {
+    var crawlCallback = function (err, i, count, log) {
         if (err) {
             item.sync = new Date();
             item.delist = new Date();
