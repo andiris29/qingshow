@@ -26,4 +26,5 @@
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict;
 + (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict;
 + (BOOL)getReadOnly:(NSDictionary*)itemDict;
++ (BOOL)getDelist:(NSDictionary *)itemDict;
 @end

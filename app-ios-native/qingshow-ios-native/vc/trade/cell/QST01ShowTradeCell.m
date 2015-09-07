@@ -1,0 +1,55 @@
+//
+//  QST01ShowTradeCell.m
+//  qingshow-ios-native
+//
+//  Created by mhy on 15/9/6.
+//  Copyright (c) 2015年 QS. All rights reserved.
+//
+
+#import "QST01ShowTradeCell.h"
+#import "QSTradeUtil.h"
+#import "QSPeopleUtil.h"
+#import "QSItemUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+@implementation QST01ShowTradeCell
+
+- (void)awakeFromNib {
+    // Initialization code
+    self.outOfSaleLabel.layer.masksToBounds = YES;
+    self.outOfSaleLabel.layer.cornerRadius = self.outOfSaleLabel.bounds.size.height/2;
+    self.outOfSaleLabel.hidden = YES;
+    self.headerImgView.layer.masksToBounds = YES;
+    self.headerImgView.layer.cornerRadius = self.headerImgView.bounds.size.height/2;
+}
+
+- (void)bindWithDic:(NSDictionary *)dict
+{
+    NSDictionary *peopleDic = [QSTradeUtil getPeopleDic:dict];
+    [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDic type:QSImageNameType100]];
+    self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDic];
+    self.timeLabel.text = [QSTradeUtil getDayDesc:dict];
+    self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSTradeUtil getActualPriceDesc:dict]];
+    
+    NSDictionary *itemDict = [QSTradeUtil getItemSnapshot:dict];
+    self.clothNameLabel.text = [QSItemUtil getItemName:itemDict];
+    [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
+    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.400 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
+    [self.priceLabel setAttributedText:attri];
+    self.promoPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+    self.infoLabel.text = [QSTradeUtil getSizeText:dict];
+
+    self.countLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:dict]];
+    self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getActualPrice:dict] trade:dict]];
+    if ([QSItemUtil getDelist:itemDict]) {
+        self.outOfSaleLabel.hidden = NO;
+    }
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    // Configure the view for the selected state
+}
+
+@end

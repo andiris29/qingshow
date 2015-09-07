@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface QSTradeUtil : NSObject
++ (NSString *)getTradeId:(NSDictionary *)dict;
 + (NSDictionary *)getPeopleDic:(NSDictionary *)dict;
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;
 + (NSString *)getDayDesc:(NSDictionary *)dict;

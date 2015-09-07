@@ -10,6 +10,9 @@
 #import "QSU16BonusListViewController.h"
 #import "MKNetworkKit.h"
 #import "QSPeopleUtil.h"
+#import "QSShareService.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+ShowHud.h"
 @interface QSU15BonusViewController ()
 
 @end
@@ -91,6 +94,15 @@
 }
 
 - (IBAction)shareToGetBonusBtnPressed:(id)sender {
+    __weak QSU15BonusViewController *weakSelf = self;
+    [[QSShareService shareService]shareWithWechatMoment:@"原来玩搭配还能赚钱，我觉得我快要发财了..." desc:@"只要其他用户通过你的美搭购买了其中的单品,那么1%的佣金即刻转账至您的账户" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareBonus&initiatorRef=%@",self.peopleId] onSucceed:^{
+        [SHARE_NW_ENGINE getBonusOnSusscee:^{
+            [self showTextHud:@"申请成功"];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+            } onError:^(NSError *error) {
+                
+        }];
+    } onError:nil];
     
 }
 - (void)didReceiveMemoryWarning {

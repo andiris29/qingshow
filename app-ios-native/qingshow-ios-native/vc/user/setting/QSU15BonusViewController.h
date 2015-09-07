@@ -15,5 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *shareToGetBtn;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+
+@property (strong,nonatomic)NSString *peopleId;
 - (instancetype)initwithBonuesArray:(NSArray *)array;
+
 @end

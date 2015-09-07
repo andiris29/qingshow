@@ -153,7 +153,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="16"/>
-                    <state key="normal" title="微信登陆">
+                    <state key="normal" title="微信登录">
                         <color key="titleColor" red="0.91764705882352937" green="0.49803921568627452" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>

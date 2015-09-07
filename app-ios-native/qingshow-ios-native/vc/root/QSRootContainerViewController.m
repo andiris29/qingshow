@@ -20,6 +20,7 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSS04CommentListViewController.h"
 #import "QSU09OrderListViewController.h"
+#import "QST01ShowTradeViewController.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSBlockAlertView.h"
 #import "QSPnsHelper.h"
@@ -118,6 +119,12 @@
                 QSU09OrderListViewController* orderListVc = [[QSU09OrderListViewController alloc] init];
                 orderListVc.menuProvider = self;
                 vc = orderListVc;
+                break;
+            }
+            case QSRootMenuItemShowTrade:{
+                QST01ShowTradeViewController *t01VC = [[QST01ShowTradeViewController alloc]init];
+                t01VC.menuProvider = self;
+                vc = t01VC;
                 break;
             }
             default:{

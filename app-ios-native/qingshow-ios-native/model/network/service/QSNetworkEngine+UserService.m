@@ -25,7 +25,7 @@
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 #define PATH_USER_SAVE_RECEIVER @"user/saveReceiver"
 #define PATH_USER_REMOVE_RECEIVER @"user/removeReceiver"
-
+#define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
 
 @implementation QSNetworkEngine(UserService)
 
@@ -407,7 +407,19 @@
                                 }
             ];
 }
-
+- (MKNetworkOperation*)getBonusOnSusscee:(VoidBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_USER_BONUS_WITHDRAW method:@"POST" paramers:nil onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 
 
 @end
