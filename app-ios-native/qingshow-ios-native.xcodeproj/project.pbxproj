@@ -213,6 +213,7 @@
 		EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952C1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m */; };
 		EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952F1A0FC3A9006A0AE3 /* QSError.m */; };
 		EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */; };
+		EF9D096C1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9D096B1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m */; };
 		EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F5551A52E88A00010F79 /* QSShareViewController.m */; };
 		EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */; };
 		EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F55F1A53052100010F79 /* QSImageEditingViewController.m */; };
@@ -766,6 +767,8 @@
 		EF9C952F1A0FC3A9006A0AE3 /* QSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSError.m; sourceTree = "<group>"; };
 		EF9C95311A0FC3CD006A0AE3 /* QSNetworkOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkOperation.h; sourceTree = "<group>"; };
 		EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkOperation.m; sourceTree = "<group>"; };
+		EF9D096A1B9DE7D800F39341 /* QSNetworkEngine+ItemService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ItemService.h"; sourceTree = "<group>"; };
+		EF9D096B1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ItemService.m"; sourceTree = "<group>"; };
 		EFA1F5541A52E88A00010F79 /* QSShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareViewController.h; sourceTree = "<group>"; };
 		EFA1F5551A52E88A00010F79 /* QSShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShareViewController.m; sourceTree = "<group>"; };
 		EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSShareViewController.xib; sourceTree = "<group>"; };
@@ -1637,6 +1640,8 @@
 				68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */,
 				EFB1ADE91B386889007893AB /* QSNetworkEngine+MatcherService.h */,
 				EFB1ADEA1B386889007893AB /* QSNetworkEngine+MatcherService.m */,
+				EF9D096A1B9DE7D800F39341 /* QSNetworkEngine+ItemService.h */,
+				EF9D096B1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -2893,6 +2898,7 @@
 				EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */,
 				EF994D9F1B693CB900715B0E /* QSDiscountQuantityCell.m in Sources */,
 				EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */,
+				EF9D096C1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m in Sources */,
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF0C642E1B21AAC20079B22E /* QSU02InfoTitleCell.m in Sources */,
 				EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */,

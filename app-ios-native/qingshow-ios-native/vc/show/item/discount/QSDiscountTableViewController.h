@@ -10,8 +10,11 @@
 #import "QSAbstractDiscountTableViewCell.h"
 @interface QSDiscountTableViewController : UITableViewController<QSDiscountTableViewCellDelegate>
 
+@property (strong, nonatomic) NSDictionary* itemDict;
+
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
 
 - (BOOL)checkComplete;
 - (NSDictionary*)getResult;
+- (void)refresh;
 @end

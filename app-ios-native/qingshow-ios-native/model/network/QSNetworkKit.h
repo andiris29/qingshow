@@ -17,4 +17,6 @@
 #import "QSNetworkEngine+TradeService.h"
 #import "QSNetworkEngine+SpreadService.h"
 #import "QSNetworkEngine+MatcherService.h"
+#import "QSNetworkEngine+ItemService.h"
+
 #endif
