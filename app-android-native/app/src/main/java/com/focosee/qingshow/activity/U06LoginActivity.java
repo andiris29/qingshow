@@ -170,14 +170,6 @@ public class U06LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        Intent home = new Intent(Intent.ACTION_MAIN);
-        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        home.addCategory(Intent.CATEGORY_HOME);
-        startActivity(home);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
     }

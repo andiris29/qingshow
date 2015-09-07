@@ -80,14 +80,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
 
         wxApi = QSApplication.instance().getWxApi();
 
-        findViewById(R.id.register_login_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-                finish();
-            }
-        });
-
         // 创建微博实例
         //mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
         // 快速授权时，请不要传入 SCOPE，否则可能会授权不成功
@@ -230,14 +222,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    public void onBackPressed() {
-        Intent home = new Intent(Intent.ACTION_MAIN);
-        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        home.addCategory(Intent.CATEGORY_HOME);
-        startActivity(home);
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.backImageView:
@@ -245,7 +229,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.register_login_btn:
                 startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-                finish();
                 break;
             case R.id.submitButton:
                 submit();
