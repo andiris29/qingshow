@@ -35,6 +35,7 @@ import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.radio.RadioLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.umeng.analytics.MobclickAgent;
 
@@ -81,6 +82,7 @@ public class S20MatcherActivity extends MenuActivity {
     private int pagaSize = 10;
     private int rows[] = new int[]{1, 2};
     private boolean hasDraw = false;
+    private Toast toast = null;
 
     @Override
     public void reconn() {
@@ -112,6 +114,12 @@ public class S20MatcherActivity extends MenuActivity {
     }
 
     private void addItemsToCanvas(final String categoryRef, String url, final int row, final int column) {
+        final Select select;
+        if (allSelect.containsKey(categoryRef)) {
+            select = allSelect.get(categoryRef);
+        } else {
+            select = new Select();
+        }
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -130,6 +138,22 @@ public class S20MatcherActivity extends MenuActivity {
                 animator.setDuration(500);
                 animator.start();
                 canvas.notifyCheckedChange();
+                select.loadDone = true;
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                select.loadDone = true;
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+                select.loadDone = true;
+            }
+
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                select.loadDone = false;
             }
         });
 
@@ -162,13 +186,8 @@ public class S20MatcherActivity extends MenuActivity {
 
         canvas.attach(itemView);
         itemView.bringToFront();
-
-        if (allSelect.containsKey(categoryRef)) {
-            allSelect.put(categoryRef, allSelect.get(categoryRef).setView(itemView).setPageNo(1));
-        } else {
-            Select select = new Select().setView(itemView).setPageNo(1);
-            allSelect.put(categoryRef, select);
-        }
+        select.setView(itemView).setPageNo(1);
+        allSelect.put(categoryRef, select);
     }
 
 
@@ -491,10 +510,29 @@ public class S20MatcherActivity extends MenuActivity {
         startActivity(intent);
     }
 
+    private boolean onSubmit = false;
+
     @OnClick(R.id.submitBtn)
     public void submit() {
+        if (onSubmit) {
+            return;
+        } else {
+            onSubmit = true;
+        }
+        for (String key : allSelect.keySet()) {
+            if (!allSelect.get(key).loadDone) {
+                toast = Toast.makeText(getApplicationContext(), R.string.s20_notify_load_image_unfinished, Toast.LENGTH_SHORT);
+                toast.show();
+                onSubmit = false;
+                return;
+            }
+        }
+
+
         if (!checkOverlap(0.7f)) {
-            Toast.makeText(this, getResources().getString(R.string.s20_notify_more), Toast.LENGTH_SHORT).show();
+            toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.s20_notify_more), Toast.LENGTH_SHORT);
+            toast.show();
+            onSubmit = false;
             return;
         }
 
@@ -515,6 +553,7 @@ public class S20MatcherActivity extends MenuActivity {
         }
         intent.putStringArrayListExtra(S20_ITEMREFS, itemRefs);
         startActivity(intent);
+        onSubmit = false;
     }
 
     private boolean checkOverlap(float limit) {
@@ -536,6 +575,7 @@ public class S20MatcherActivity extends MenuActivity {
         public MongoItem item;
         public int row;
         public int column;
+        public boolean loadDone = false;
 
         public Select setRow(int row) {
             this.row = row;
@@ -574,6 +614,11 @@ public class S20MatcherActivity extends MenuActivity {
 
         public Select setItem(MongoItem item) {
             this.item = item;
+            return this;
+        }
+
+        public Select setLoadDone(boolean loadDone) {
+            this.loadDone = loadDone;
             return this;
         }
     }

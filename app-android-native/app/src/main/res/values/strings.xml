@@ -235,4 +235,6 @@
     <string name="title_t01">潮人晒单</string>
     <string name="t01_successed_discount">成功购买折扣：</string>
     <string name="t01_successed_price">成功购买价格：</string>
+    
+    <string name="s20_notify_load_image_unfinished">不要着急，奋力加载图片中···</string>
 </resources>
