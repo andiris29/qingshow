@@ -115,7 +115,9 @@
     if (self.hasSyncItem) {
         self.discountLayerContainer.hidden = NO;
     } else {
+        __block MBProgressHUD* hud = [self showNetworkWaitingHud];
         [SHARE_NW_ENGINE itemSync:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+            [hud hide:YES];
             self.hasSyncItem = YES;
             self.itemDict = data;
             self.discountVc.itemDict = self.itemDict;
@@ -123,7 +125,9 @@
             
             self.discountLayerContainer.hidden = NO;
         } onError:^(NSError *error) {
-            [self handleError:error];
+            [hud hide:YES];
+            [self showErrorHudWithText:@"活动结束"];
+            self.discountBtn.hidden = YES;
         }];
     }
 
