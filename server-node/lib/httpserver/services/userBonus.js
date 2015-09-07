@@ -66,7 +66,7 @@ userBonus.withDraw = {
         function(people, callback) {
             people.bonuses = people.bonuses || [];
             people.bonuseWithdrawRequested = true;
-            for (var i = 0; i < people.bonuses; i++) {
+            for (var i = 0; i < people.bonuses.length; i++) {
                 people.bonuses[i].status = 1;
             }
             people.save(function(error, people) {
@@ -106,7 +106,7 @@ userBonus.withdrawComplete = {
             people.bonuses = people.bonuses || [];
             people.bonuseWithdrawRequested = false;
             var total = 0;
-            for (var i = 0; i < people.bonuses; i++) {
+            for (var i = 0; i < people.bonuses.length; i++) {
                 people.bonuses[i].status = 2;
                 total += people.bonuses[i].money;
             }
