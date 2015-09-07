@@ -65,17 +65,20 @@ var _next = function (time, config) {
             var tasks = [];
             items.forEach(function (item) {
                 var task = function (callback) {
-                    ItemSyncService.syncItem(item, function (err, item) {
+                    ItemSyncService.syncItem(item, function (err, item, count, log) {
                         var reportContent = [];
-                        if (err) {
-                            reportContent = [new Date(), item._id, err, null, item.source];
+                        if (err || log) {
+                            reportContent = [new Date(), item._id, err || log, null, item.source];
                             report += reportContent.join(',') + '\n';
                         } else {
                             reportContent = [new Date(), item._id, 'success', 'promoPrice:' + item.promoPrice + ' price:' + item.price, item.source];
                             report += reportContent.join(',') + '\n';
                         }
                         //Goblin Item Will Only Record Error in Report
-                        callback();
+                        setTimeout(function () {
+                            callback();
+                        }, _.random(5000, 10000));
+
                     });
                 };
                 tasks.push(task);
