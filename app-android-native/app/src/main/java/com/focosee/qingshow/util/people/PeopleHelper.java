@@ -26,8 +26,10 @@ public class PeopleHelper {
 
     public static String getTotalBonuses(List<MongoPeople.Bonuses> bonuses) {
         float total = 0;
-        for (MongoPeople.Bonuses bonus : bonuses){
-            total += bonus.money.floatValue();
+        if(null != bonuses){
+            for (MongoPeople.Bonuses bonus : bonuses){
+                total += bonus.money.floatValue();
+            }
         }
         return StringUtil.FormatPrice(String.valueOf(total));
     }

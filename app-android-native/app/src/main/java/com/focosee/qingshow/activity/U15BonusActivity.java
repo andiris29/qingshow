@@ -18,6 +18,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ShareUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.people.PeopleHelper;
 import com.focosee.qingshow.widget.QSButton;
@@ -98,9 +99,9 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onResponse(JSONObject response) {
                     if (MetadataParser.hasError(response)) {
-                        Toast.makeText(U15BonusActivity.this, "提现失败，请重试", Toast.LENGTH_SHORT).show();
+                        ToastUtil.showShortToast(getApplicationContext(), "提现失败，请重试");
                     }
-                    Toast.makeText(U15BonusActivity.this, "提现成功", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToast(getApplicationContext(), "提现成功");
                     finish();
                 }
             });

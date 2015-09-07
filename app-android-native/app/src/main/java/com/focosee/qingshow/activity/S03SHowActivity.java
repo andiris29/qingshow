@@ -34,10 +34,12 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
+import com.focosee.qingshow.util.people.PeopleHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
@@ -117,7 +119,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         className = getIntent().getStringExtra(CLASS_NAME);
 
         if (TextUtils.isEmpty(showId)) {
-            Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
             finish();
         }
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
@@ -263,11 +264,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
         if(null != showDetailEntity.ownerRef){
             if(null != showDetailEntity.ownerRef.bonuses){
-                float money = 0;
-                for(MongoPeople.Bonuses bonus : showDetailEntity.ownerRef.bonuses){
-                    money += bonus.money.floatValue();
-                }
-                s03Bonus.setText(String.valueOf(money));
+                s03Bonus.setText(PeopleHelper.getTotalBonuses(showDetailEntity.ownerRef.bonuses));
             }
         }
     }

@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -38,12 +39,16 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.people.PeopleHelper;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
+import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -108,6 +113,8 @@ public class U01UserActivity extends MenuActivity {
     TextView u01PeopleTv;
     @InjectView(R.id.user_back_btn)
     ImageButton userBackBtn;
+    @InjectView(R.id.user_bonuses)
+    QSTextView userBonuses;
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -146,7 +153,7 @@ public class U01UserActivity extends MenuActivity {
         userViewPager.setScrollble(false);
     }
 
-    private void mySelf(){
+    private void mySelf() {
         userFollowBtn.setVisibility(View.GONE);
         userNavBtn.setVisibility(View.VISIBLE);
         userNavBtn.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +180,7 @@ public class U01UserActivity extends MenuActivity {
         };
     }
 
-    private void others(){
+    private void others() {
         userBackBtn.setVisibility(View.VISIBLE);
         userBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,6 +263,7 @@ public class U01UserActivity extends MenuActivity {
 
         userName.setText(user.nickname);
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
+        userBonuses.setText(getText(R.string.get_bonuses_label) + PeopleHelper.getTotalBonuses(user.bonuses));
         if (!TextUtils.isEmpty(user.portrait))
             userHead.setImageURI(Uri.parse(user.portrait));
         if (!TextUtils.isEmpty(user.background))
@@ -336,9 +344,9 @@ public class U01UserActivity extends MenuActivity {
         initRecyclerViews((RecyclerView) eventModel.msg);
     }
 
-    public void onEventMainThread(ShowCollectionEvent eventModel){
-        if(null == fragments)return;
-        if(fragments.length < POS_COLL)return;
+    public void onEventMainThread(ShowCollectionEvent eventModel) {
+        if (null == fragments) return;
+        if (fragments.length < POS_COLL) return;
         fragments[POS_COLL].refresh();
     }
 
@@ -492,7 +500,7 @@ public class U01UserActivity extends MenuActivity {
         }
         MobclickAgent.onResume(this);
     }
-    
+
     @Override
     public void onPause() {
         super.onPause();
