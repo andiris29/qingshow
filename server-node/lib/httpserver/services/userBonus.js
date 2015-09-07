@@ -4,6 +4,7 @@ var _ = require('underscore');
 
 var People = require('../../model/peoples');
 var jPushAudiences = require('../../model/jPushAudiences');
+var Item = require('../../model/items');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -71,7 +72,7 @@ userBonus.withDraw = {
             people.save(function(error, people) {
                 if (error) {
                     callback(error);
-                } else if (people) {
+                } else if (!people) {
                     callback(ServerError.ServerError);
                 } else {
                     callback(error, people);
@@ -112,7 +113,7 @@ userBonus.withdrawComplete = {
             people.save(function(error, people) {
                 if (error) {
                     callback(error);
-                } else if (people) {
+                } else if (!people) {
                     callback(ServerError.ServerError);
                 } else {
                     callback(error, people, total);
@@ -148,7 +149,7 @@ userBonus.queryWithdrawRequested = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         People.find({
-            bonuseWithdrawRequested : false
+            bonuseWithdrawRequested : true
         }).exec(function(error, peoples) {
             ResponseHelper.response(res, error, {
                 'peoples' : peoples
