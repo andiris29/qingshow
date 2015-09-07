@@ -5,7 +5,7 @@ package com.focosee.qingshow.constants.config;
  */
 public class QSAppWebAPI {
     public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
-    public static final String HOST_ADDRESS = "http://chinshow.com";
+    public static final String HOST_ADDRESS = "http://192.168.1.110:30001";
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
 
     public static final String LOGIN_SERVICE_URL = HOST_NAME + "/user/login";
@@ -45,6 +45,8 @@ public class QSAppWebAPI {
     private static final String TRADE_QUERY = HOST_NAME + "/trade/query";
     private static final String TRADE_STATUSTO_API = HOST_NAME + "/trade/statusTo";
     private static final String TRADE_REFRESH = HOST_NAME + "/trade/refreshPaymentStatus";
+
+    private static final String TRADE_GET_RETURNRECEIVER = HOST_NAME + "/trade/getReturnReceiver";
     private static final String TOP_API = HOST_NAME + "/feeding/hot";
     private static final String BYDATE_API = HOST_NAME + "/feeding/byRecommendDate";
 
@@ -71,6 +73,16 @@ public class QSAppWebAPI {
     private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
 
     private static final String TRADE_QUERYBY_PHASE_API = HOST_NAME + "/trade/queryByPhase";
+
+    public static String getUserBonusWithdrawApi() {
+        return USER_BONUS_WITHDRAW_API;
+    }
+
+    private static final String USER_BONUS_WITHDRAW_API = HOST_NAME + "/userBonus/withdraw";
+
+    public static String getTradeGetReturnreceiver(String _id) {
+        return TRADE_GET_RETURNRECEIVER + "?_id=" + _id;
+    }
 
     public static String getTradeQuerybyPhaseApi(String phases, int pageNo, int pageSize) {
         return TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;

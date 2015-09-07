@@ -28,7 +28,10 @@ itemSchema = Schema({
     delist : Date,
     list : Date,
     readOnly : Boolean,
-    syncEnabled : Boolean,
+    syncEnabled : {
+        type : Boolean,
+        'default' : true
+    },
     sync : Date
 });
 

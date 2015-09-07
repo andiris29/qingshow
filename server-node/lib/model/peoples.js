@@ -74,6 +74,16 @@ peopleSchema = Schema({
         initiatorRef : {
             type : Schema.Types.ObjectId,
             ref : 'peoples'
+        },
+        trigger : {
+            forgerRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'peoples'
+            },
+            tradeRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'trades'
+            }
         }
     }],
     bonuseWithdrawRequested : Boolean,

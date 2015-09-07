@@ -63,9 +63,9 @@ feeding.recommendation = {
                 function (callback) {
                     var userid = req.qsCurrentUserId;
                     Peoples.findOne({'_id' : userid}, callback);
-                }, function (err, people, callback) {
-                    if (err) {
-                        callback(err);
+                }, function (people, callback) {
+                    if (!people) {
+                        callback(ServerError.PeopleNotExist);
                         return;
                     }
                     var rate = 1;

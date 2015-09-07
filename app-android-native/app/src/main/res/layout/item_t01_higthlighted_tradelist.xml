@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/item_t01_portrait"
         android:layout_marginLeft="10dp"
-        android:text="fdsafdsafdsa"/>
+        android:text=""/>
 
     <com.focosee.qingshow.widget.QSTextView
         android:id="@+id/item_t01_time"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/item_t01_username"
         android:layout_below="@id/item_t01_username"
-        android:text="fdsafdsafdsa"/>
+        android:text=""/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                 android:padding="5dp"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/red"
-                android:text="成功购买折扣：5折"/>
+                android:text="成功购买折扣：￥5折"/>
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/item_t01_price"

@@ -15,6 +15,53 @@ dashboard.itemSyncStatus = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var now = new Date();
+        now.setDate(now.getDate() - 1);
+        var mapReduce = {
+            map : function() {
+                if (this.syncEnabled === false) {
+                    emit('disabled', 1);
+                }
+                if (this.sync === null || this.sync === undefined) {
+                    emit('notSynced', 1);
+                } else if (this.sync >= now) {
+                    emit('normal', 1);
+                } else {
+                    emit('outdated', 1);
+                }
+            },
+            reduce : function(key, values) {
+                return Array.sum(values);
+            },
+            query : {},
+            out : {
+                inline : 1
+            }
+        };
+
+        Items.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var returnData = {
+                disabled : 0,
+                notSynced : 0,
+                normal : 0,
+                outdated : 0
+            };
+
+            data.results.forEach(function(e) {
+                retrunData[e._id] = e.value;
+            });
+
+            ResponseHelper.response(res, error, {
+                disabled : returnData.disabled,
+                notSynced : returnData.notSynced,
+                normal : returnData.normal,
+                outdated : returnData.outdated
+            });
+        });
     }
 };
 
@@ -23,6 +70,54 @@ dashboard.itemListingStatus = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+                if (this.delist) {
+                    emit('delist', 1);
+                }
+                if (!this.list) {
+                    emit('notListed', 1);
+                } else {
+                    if (!this.delist) {
+                        emit('normal', 1);
+                        if (this.readOnly === true) {
+                            emit('readOnly', 1);
+                        }
+                    }
+                }
+            },
+            reduce : function(key, values) {
+                return Array.sum(values);
+            },
+            query : {},
+            out : {
+                inline : 1
+            }
+        };
+
+        Items.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var returnData = {
+                delist: 0,
+                notListed: 0,
+                normal : 0,
+                readOnly: 0
+            };
+
+            data.results.forEach(function(e) {
+                retrunData[e._id] = e.value;
+            });
+
+            ResponseHelper.response(res, error, {
+                delist: returnData.delist,
+                notListed: returnData.notListed,
+                normal : returnData.normal,
+                readOnly: returnData.readOnly
+            });
+        });
     }
 };
 
@@ -30,6 +125,65 @@ dashboard.topPaidItems = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+                emit(this.itemRef, {
+                    name: this.itemSnapshot.name, 
+                    quantity : this.quantity,
+                    revenue : (this.totalFee === undefined ? 0 : this.totalFee)
+                });
+            },
+            reduce : function(key, values) {
+                var newValue = {
+                    name : '',
+                    quantity : 0,
+                    revenue : 0
+                };
+                if (values instanceof Array) {
+                    values.forEach(function(e) {
+                        newValue.name = e.name;
+                        newValue.quantity += e.quantity;
+                        newValue.revenue += e.revenue;
+                    });
+                    return newValue;
+                }
+            },
+            query : {
+                status : {
+                    '$nin' : [0, 1]
+                }
+            },
+            out : {
+                inline : 1
+            } 
+        };
+        Trades.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var results = data.results;
+            results.sort(function(n, m) {
+                if (req.queryString === "quantity") {
+                    return n.value.quantity < m.value.quantity;
+                } else {
+                    return n.value.revenue < m.value.revenue;
+                }
+            });
+            var limits = _.first(results, req.queryString.n);
+            var rows = _.map(function(e) {
+                return {
+                    _id : e._id,
+                    name : e.value.name,
+                    quantity : e.value.quantity,
+                    revenue : e.value.revenue
+                };
+            });
+
+            ResponseHelper.response(res, error, {
+                rows : rows 
+            });
+        });
     }
 };
 
@@ -37,6 +191,64 @@ dashboard.topAppliedItems = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+                emit(this.itemRef, {
+                    name: this.itemSnapshot.name, 
+                    quantity : this.quantity,
+                    revenue : (this.totalFee === undefined ? 0 : this.totalFee)
+                });
+            },
+            reduce : function(key, values) {
+                var newValue = {
+                    name : '',
+                    quantity : 0,
+                    revenue : 0
+                };
+                if (values instanceof Array) {
+                    values.forEach(function(e) {
+                        newValue.name = e.name;
+                        newValue.quantity += e.quantity;
+                        newValue.revenue += e.revenue;
+                    });
+                    return newValue;
+                }
+            },
+            query : {
+                status : 0
+            },
+            out : {
+                inline : 1
+            }
+        };
+
+        Trades.mapReduce(mapReduce, function(error, data) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+            var results = data.results;
+            results.sort(function(n, m) {
+                if (req.queryString === "quantity") {
+                    return n.value.quantity < m.value.quantity;
+                } else {
+                    return n.value.revenue < m.value.revenue;
+                }
+            });
+            var limits = _.first(results, req.queryString.n);
+            var rows = _.map(function(e) {
+                return {
+                    _id : e._id,
+                    name : e.value.name,
+                    quantity : e.value.quantity,
+                    revenue : e.value.revenue
+                };
+            });
+
+            ResponseHelper.response(res, error, {
+                rows : rows 
+            });
+        });
     }
 };
 
@@ -44,6 +256,47 @@ dashboard.tradeRevenueByDate = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var mapReduce = {
+            map : function() {
+                var targetLogs = _.filter(this.statusLogs, function(element) {
+                    return (element.status === 2);
+                });
+                if (targetLogs.length > 0) {
+                    var year = this.update.getFullYear();
+                    var month = this.update.getMonth() + 1;
+                    var day = this.update.getDate();
+                    month = ("0" + month).substr(-2);
+                    day = ("0" + day).substr(-2);
+                    emit(year + '-' + month + '-' + day, this.totalFee);
+                }
+            },
+            reduce : function(key, values) {
+                return Array.sum(values);
+            },
+            query : {
+                status : {
+                    '$nin' : [0, 1]
+                }
+            },
+            out : {
+                inline : 1
+            }, 
+            sort : {
+                create : 1
+            }
+        };
+
+        Trade.mapReduce(mapReduce, function(error, data) {
+            var rows = _.map(data.results, function(element) {
+                return {
+                    date : element._id,
+                    revenue : element.value
+                };
+            });
+            ResponseHelper.response(res, error, {
+                rows : rows
+            });
+        });
     }
 };
 
