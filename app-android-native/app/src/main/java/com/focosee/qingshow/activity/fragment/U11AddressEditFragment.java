@@ -20,6 +20,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.QSButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,6 +39,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private final String PHONE_STR = "phone";
     private final String PROVINCE_STR = "province";
     private final String ADDRESS_STR = "address";
+
 
     public static final String ASK_REFRESH = "ask_refresh";
 
@@ -141,7 +143,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             public void run() {
                 errorText.setVisibility(View.GONE);
             }
-        }, 5000);
+        }, ValueUtil.SHOW_ERROR_TIME);
     }
 
     private void setData(){

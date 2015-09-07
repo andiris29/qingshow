@@ -4,17 +4,20 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
+import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
+import android.view.View;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.widget.QSTextView;
-
 import java.util.List;
 
 /**
@@ -24,18 +27,13 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
 
     private CharSequence disPreText;
     private CharSequence pricePreText;
-    /**
-     * viewType的顺序的layoutId的顺序一致
-     *
-     * @param datas
-     * @param context
-     * @param layoutId
-     */
+    private RelativeSizeSpan relativeSizeSpan;
+
     public T01HihghtedTradeListAdapter(@NonNull List<MongoTrade> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
         disPreText = context.getText(R.string.t01_successed_discount);
         pricePreText = context.getText(R.string.t01_successed_price);
-
+        relativeSizeSpan = new RelativeSizeSpan(1.2f);
     }
 
     @Override
@@ -45,18 +43,25 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-        if(null == datas)return;
+        QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
+        properTextView.setVisibility(View.GONE);
+        if(null == datas || datas.size() == 0)return;
         MongoTrade trade = datas.get(position);
         if(null == trade)return;
-        RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(2);
-        QSTextView discount = holder.getView(R.id.item_t01_discount);
         SpannableString spanStrDis = new SpannableString(disPreText + StringUtil.calculationException(
                 datas.get(position).expectedPrice, datas.get(position).actualPrice));
         spanStrDis.setSpan(relativeSizeSpan, disPreText.length(), spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        discount.setText(spanStrDis);
+//        spanStrDis.setSpan(new ImageSpan(context, R.drawable.t01_clear), );
+        holder.setText(R.id.item_t01_discount, spanStrDis);
 
-        SpannableString spanStrPrice = new SpannableString(pricePreText + String.valueOf(datas.get(position).expectedPrice));
-        spanStrDis.setSpan(relativeSizeSpan, pricePreText.length(), spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(String.valueOf(datas.get(position).expectedPrice)));
+        spanStrPrice.setSpan(relativeSizeSpan, pricePreText.length(), spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.setText(R.id.item_t01_price, spanStrPrice);
+
+        if(null != trade.peopleSnapshot){
+            holder.setImgeByController(R.id.item_t01_portrait, trade.peopleSnapshot.portrait, ValueUtil.pre_img_AspectRatio);
+            holder.setText(R.id.item_t01_username, trade.peopleSnapshot.nickname);
+        }
 
         if (null != trade.itemSnapshot) {
             String str = "原价：";
@@ -71,11 +76,16 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
             holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(String.valueOf(trade.itemSnapshot.promoPrice)));
         }
-
+        String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
+        if (!TextUtils.isEmpty(properties)) {
+            properTextView.setVisibility(View.VISIBLE);
+            properTextView.setText("规格：" + properties);
+        }
+        holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return null == datas ? 0 : datas.size();
     }
 }

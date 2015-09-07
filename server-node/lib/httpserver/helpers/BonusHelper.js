@@ -24,11 +24,8 @@ BonusHelper.updateBonuse = function(promoterRef, trigger, money, name, callback)
             status : 0,
             money : (money / 100).toFixed(2),
             notes : '来自' + name + '的佣金',
-            trigger : {
-                tradeRef : tradeId
-            }
+            trigger : trigger
         });
-
         people.save(function(err, people) {
             callback(err, people);
         });

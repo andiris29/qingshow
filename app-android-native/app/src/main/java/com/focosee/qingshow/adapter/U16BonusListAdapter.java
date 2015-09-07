@@ -8,6 +8,9 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
+import com.focosee.qingshow.util.people.PeopleHelper;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -34,8 +37,9 @@ public class U16BonusListAdapter extends AbsAdapter<MongoPeople.Bonuses> {
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
         holder.setText(R.id.item_u16_description, datas.get(position).notes);
-        holder.setText(R.id.item_u16_time, TimeUtil.formatDateTime(datas.get(position).create));
-        holder.setText(R.id.item_u16_money, String.valueOf(datas.get(position).money));
+        holder.setText(R.id.item_u16_time, TimeUtil.formatDateTime(datas.get(position).create
+                , new SimpleDateFormat("yyyy.MM.dd HH:mm:ss")));
+        holder.setText(R.id.item_u16_money, PeopleHelper.getBonusesMoneySign(datas.get(position)));
     }
 
     @Override

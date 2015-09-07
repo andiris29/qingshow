@@ -9,6 +9,8 @@
         android:id="@+id/item_u16_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/item_u16_money"
+        android:layout_alignParentLeft="true"
         android:textSize="20sp"
         android:text="来自默默的佣金"/>
 

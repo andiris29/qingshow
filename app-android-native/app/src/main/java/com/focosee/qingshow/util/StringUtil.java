@@ -30,7 +30,11 @@ public class StringUtil {
     }
 
     public static String FormatPrice(String price) {
-        return "¥" + new DecimalFormat("0.00").format(new BigDecimal(price));
+        return "¥" + formatPriceWithoutSign(price);
+    }
+
+    public static String formatPriceWithoutSign(String price){
+        return new DecimalFormat("0.00").format(new BigDecimal(price));
     }
 
     public static String formatHeightAndWeight(Number heigth, Number weight) {

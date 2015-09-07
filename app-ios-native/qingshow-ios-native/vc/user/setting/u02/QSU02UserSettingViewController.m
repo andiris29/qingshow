@@ -257,6 +257,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 {
     NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
     QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:[QSPeopleUtil getBonusList:dic]];
+    vc.peopleId = [QSPeopleUtil getPeopleId:dic];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

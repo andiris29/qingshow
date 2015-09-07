@@ -101,6 +101,7 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onDestroy() {
         unregisterReceiver(netReceiver);
         unregisterReceiver(pushReceiver);
+        unregisterReceiver(updateAppReceiver);
         super.onDestroy();
     }
 

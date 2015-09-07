@@ -138,4 +138,13 @@
         return NO;
     }
 }
++ (BOOL)getDelist:(NSDictionary *)itemDict{
+    if ([QSEntityUtil checkIsNil:itemDict[@"delist"]]) {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
+}
 @end

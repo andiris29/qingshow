@@ -15,6 +15,10 @@
 
 @implementation QSTradeUtil
 
++ (NSString *)getTradeId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"_id"];
+}
 
 + (NSDictionary *)getPeopleDic:(NSDictionary *)dict
 {

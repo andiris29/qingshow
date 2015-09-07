@@ -26,7 +26,7 @@
             <RelativeLayout
                 android:id="@+id/user_head_layout"
                 android:layout_width="match_parent"
-                android:layout_height="360dp">
+                android:layout_height="380dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/user_bg"

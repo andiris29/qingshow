@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -74,7 +77,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             //bonus
             if (resp.transaction.equals(ValueUtil.SHARE_BONUS)) {
                 if(resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK){
-
+                    EventBus.getDefault().post(new ShareBonusEvent(resp.errCode));
+                }else{
+                    Toast.makeText(WXEntryActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
             //show
@@ -105,7 +111,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         map.put("code", code);
         map.put("registrationId", PushModel.INSTANCE.getRegId());
         JSONObject jsonObject = new JSONObject(map);
-
+        Log.i("tag", code);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
@@ -132,7 +138,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 finish();
             }
         });
-
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(Integer.MAX_VALUE,0,1f));
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 }

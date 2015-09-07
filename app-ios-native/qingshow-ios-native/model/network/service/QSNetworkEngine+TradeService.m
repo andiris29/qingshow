@@ -21,6 +21,8 @@
 #define PATH_TRADE_PREPAY @"trade/prepay"
 #define PATH_TRADE_SHARE @"trade/share"
 #define PATH_TRADE_QUERY_PHASES @"trade/queryByPhase"
+#define PATH_TRADE_QUERY_HIGILIGHTED @"trade/queryHighlighted"
+#define PATH_TRADE_RECEIVER @"trade/getReturnReceiver"
 
 @implementation QSNetworkEngine(TradeService)
 
@@ -202,6 +204,53 @@
         if (succeedBlock) {
             succeedBlock();
         }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)tradeQueryHighted:(int)page
+                               OnSecceed:(ArraySuccessBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPathNoVersion:PATH_TRADE_QUERY_HIGILIGHTED method:@"GET" paramers:@{@"pageNo":@(page),
+                   @"pageSize":@10} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            NSDictionary* retDict = completedOperation.responseJSON;
+            NSArray* trades = retDict[@"data"][@"trades"];
+            succeedBlock([trades deepMutableCopy],retDict[@"metadata"]);
+        }
+
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+- (MKNetworkOperation*)tradeReceiver:(NSString *)tradeId
+                           onSucceed:(DicBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_TRADE_RECEIVER method:@"GET"
+                               paramers:@{@"_id":tradeId}
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    NSDictionary* retDict = nil;
+                                    id retData = completedOperation.responseJSON[@"data"][@"receiver"];
+                                    if ([retData isKindOfClass:[NSDictionary class]])
+                                    {
+                                        retDict = retData;
+                                    } else if ([retData isKindOfClass:[NSArray class]]) {
+                                        NSArray* retArray = retData;
+                                        if (retArray.count) {
+                                            retDict = retArray[0];
+                                        }
+                                    }
+                                    succeedBlock([retDict deepMutableCopy]);
+                                }
+                         
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
             errorBlock(error);

@@ -86,7 +86,6 @@ public class UserCommand {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("likeOrFollow:  response:" + response);
                 if (!MetadataParser.hasError(response)) {
                     callback.onComplete(response);
                     UserCommand.refresh();

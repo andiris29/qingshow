@@ -1,6 +1,5 @@
 package com.focosee.qingshow.util;
 
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 /**
  * Created by i068020 on 2/21/15.
@@ -15,4 +14,6 @@ public class ValueUtil {
     public static final String SHARE_TRADE = "U09_SHARE_TRADE";
     public static final String SHARE_SHOW = "S03_SHARE_SHOW";
     public static final String SHARE_BONUS = "U15_SHARE_BONUS";
+
+    public static final int SHOW_ERROR_TIME = 5000;//显示错误信息的时间
 }

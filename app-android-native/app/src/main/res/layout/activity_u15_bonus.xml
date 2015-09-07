@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3.3"
             android:textSize="30sp"
-            android:text="￥123.56"/>
+            android:text="￥0.00"/>
 
     </LinearLayout>
 
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3.3"
             android:textSize="30sp"
-            android:text="￥123.56"/>
+            android:text="￥0.00"/>
 
     </LinearLayout>
 
@@ -108,10 +108,21 @@
     </LinearLayout>
 
     <com.focosee.qingshow.widget.QSTextView
-        android:id="@+id/u15_hint_text"
+        android:id="@+id/u15_error_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/u15_input_layout"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        android:text="请输入支付宝账号"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/u15_hint_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/u15_error_text"
         android:layout_marginTop="10dp"
         android:paddingLeft="15dp"
         android:text="@string/u15_hint"/>

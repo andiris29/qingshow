@@ -116,9 +116,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/text_size"
+                                android:text=""
                                 android:layout_below="@+id/s03_nickname"
-                                android:layout_alignLeft="@+id/s03_nickname"
-                                android:visibility="gone"/>
+                                android:layout_alignLeft="@+id/s03_nickname"/>
 
                             <ImageButton
                                 android:id="@+id/S03_video_start_btn"
