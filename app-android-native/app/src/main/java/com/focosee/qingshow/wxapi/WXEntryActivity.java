@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -107,7 +108,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     return;
                 }
 
-                Toast.makeText(WXEntryActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                 MongoPeople user = UserParser._parsePeople(response);
                 if(TextUtils.isEmpty(user.portrait)){
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
