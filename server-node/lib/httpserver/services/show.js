@@ -44,19 +44,6 @@ show.query = {
             }).populate('ownerRef').populate('itemRefs').exec(callback);
         },
         function(shows, callback) {
-            var tasks = shows.map(function(show) {
-                return function(callback) {
-                    Item.populate(show.itemRefs, {
-                        'path' : 'categoryRef',
-                        'model' : "categories"
-                    }, callback);
-                };
-            });
-            async.parallel(tasks, function() {
-                callback(null, shows);
-            });
-        },
-        function(shows, callback) {
             // Append followed by current user
             ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
