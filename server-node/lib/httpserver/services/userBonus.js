@@ -35,9 +35,8 @@ userBonus.forge = {
             });
         },
         function(item, callback) {
-            BonusHelper.updateBonuse(RequestHelper.parseId(param.promoterRef), {
-                forgerRef : req.qsCurrentUserId
-            },  (item.promoPrice * 0.9), item.name, callback);
+            BonusHelper.createBonusViaForger(req.qsCurrentUserId, RequestHelper.parseId(param.promoterRef), 
+             item, callback);
         }], function(error, people) {
             ResponseHelper.response(res, error, {
                 'people' : people

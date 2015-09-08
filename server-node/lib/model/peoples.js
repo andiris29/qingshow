@@ -67,6 +67,7 @@ peopleSchema = Schema({
         status : Number,
         money : Number,
         notes : String,
+        icon : String,
         create : {
             type : Date,
             'default' : Date.now
@@ -83,6 +84,10 @@ peopleSchema = Schema({
             tradeRef : {
                 type : Schema.Types.ObjectId,
                 ref : 'trades'
+            },
+            itemRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'items'
             }
         },
         alipayId : String
