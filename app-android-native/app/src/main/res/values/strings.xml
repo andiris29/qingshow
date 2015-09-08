@@ -218,4 +218,6 @@
 
     <string name="only_number">0123456789</string>
     <string name="title_activity_u15_bonus">U15BonusActivity</string>
+
+    <string name="s10_scale_close">"亲，这款商品的活动已结束"</string>
 </resources>

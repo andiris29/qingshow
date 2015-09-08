@@ -6,31 +6,40 @@ var async = require('async');
 var URLParser = require('./URLParser');
 var _ = require('underscore');
 var Item = require('../../model/items');
+var ServerError = require('../../httpserver/server-error');
 
 var ItemSyncService = {};
+
+
+ItemSyncService.isOutDate = function (item) {
+    if (!item || !item.sync) {
+        return true;
+    }
+    var now = new Date();
+    // 暂定为 1小时 需要重新sync
+    return ((now - item.sync) > 1000 * 60 * 60 * 1);
+};
 
 /**
  *
  * @param item
- * @param callback function(err, item)
+ * @param callback function(err, item, log)
  */
 ItemSyncService.syncItem = function (item, callback) {
-    if (!item) {
+    if (!item || !ItemSyncService.isOutDate(item)) {
         callback(null, item);
         return;
     }
-    var crawlCallback = function (err) {
+
+    var crawlCallback = function (err, i, count, log) {
         if (err) {
+            item.sync = new Date();
             item.delist = new Date();
             item.save(function (innerErr) {
-                setTimeout(function () {
-                    callback(innerErr || err, item);
-                }, _.random(5000, 10000));
+                callback(innerErr || err, item, log);
             });
         } else {
-            setTimeout(function () {
-                callback(err, item);
-            }, _.random(5000, 10000));
+            callback(err, item, log);
         }
     };
 
@@ -41,6 +50,8 @@ ItemSyncService.syncItem = function (item, callback) {
         _crawlItemHmInfo(item, crawlCallback);
     } else if (URLParser.isFromJamy(item.source)) {
         _crawlItemJamyInfo(item, crawlCallback);
+    } else {
+        callback(ServerError.fromCode(ServerError.NotSupportItemSource), item);
     }
 
 };
@@ -69,13 +80,21 @@ ItemSyncService.canParseItemSource = function (itemSouceStr) {
 };
 
 
+/**]
+ *
+ * @param item
+ * @param callback
+ *            function (err, item, count, log)
+ *                                          option.delist  boolean
+ * @private
+ */
 
 var _crawlItemTaobaoInfo = function (item, callback) {
     async.waterfall([
         function (callback) {
             TaobaoWebItem.getSkus(item.source, function (err, taobaoInfo) {
                 if (!taobaoInfo) {
-                    callback('invalidSource');
+                    callback(ServerError.fromCode(ServerError.InvalidItemSource));
                 } else {
                     callback(err, taobaoInfo);
                 }
@@ -88,8 +107,9 @@ var _crawlItemTaobaoInfo = function (item, callback) {
         } else {
             var delist = false;
             if (!taobaoInfo || !Object.keys(taobaoInfo).length) {
-                callback('delist');
-                _logItem('item failed', item);
+                _logItem('item success, delist', item);
+                callback(null, item, 0, 'delist');
+
             } else {
                 item.delist = null;
                 item.price = taobaoInfo.price;
@@ -115,8 +135,8 @@ var _crawlItemHmInfo = function (item, callback) {
             callback(err);
         } else {
             if (!hmInfo || !Object.keys(hmInfo).length) {
-                _logItem('item failed', item);
-                callback('delist');
+                _logItem('item success, delist', item);
+                callback(null, item, 0, 'delist');
             } else {
                 item.delist = null;
                 item.price = hmInfo.price;
@@ -142,8 +162,8 @@ var _crawlItemJamyInfo = function (item, callback) {
             callback(err);
         } else {
             if (!jamyInfo || !Object.keys(jamyInfo).length) {
-                _logItem('item failed', item);
-                callback('delist');
+                _logItem('item success, delist', item);
+                callback(null, item, 0, 'delist');
             } else {
                 item.delist = null;
                 item.price = jamyInfo.price;

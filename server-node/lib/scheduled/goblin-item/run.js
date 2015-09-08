@@ -5,7 +5,7 @@ var fs = require('fs');
 var winston = require('winston');
 var async = require('async');
 var _ = require('underscore');
-
+var moment = require('moment');
 
 var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
@@ -43,7 +43,9 @@ var _next = function (time, config) {
             };
 //            var criteria = {'_id' : new mongoose.Types.ObjectId('55b1dc9b38dadbed5a99a812')};
 
-            Item.find(criteria, function (err, items) {
+            Item.find(criteria).sort({
+                'sync' : 1
+            }).exec(function (err, items) {
                 if (err) {
                     callback(err);
                 } else if (!items || !items.length) {
@@ -65,17 +67,20 @@ var _next = function (time, config) {
             var tasks = [];
             items.forEach(function (item) {
                 var task = function (callback) {
-                    ItemSyncService.syncItem(item, function (err, item) {
+                    ItemSyncService.syncItem(item, function (err, item, count, log) {
                         var reportContent = [];
-                        if (err) {
-                            reportContent = [new Date(), item._id, err, null, item.source];
+                        if (err || log) {
+                            reportContent = [new Date(), item._id, err || log, null, item.source];
                             report += reportContent.join(',') + '\n';
                         } else {
                             reportContent = [new Date(), item._id, 'success', 'promoPrice:' + item.promoPrice + ' price:' + item.price, item.source];
                             report += reportContent.join(',') + '\n';
                         }
                         //Goblin Item Will Only Record Error in Report
-                        callback();
+                        setTimeout(function () {
+                            callback();
+                        }, _.random(5000, 10000));
+
                     });
                 };
                 tasks.push(task);
@@ -84,14 +89,17 @@ var _next = function (time, config) {
         }
     ], function (err) {
         winston.info('[Goblin-tbitem] Complete.');
-        var date = new Date();
-        var fileName = 'gobin_report_' + date + '.txt';
+
+        var date = moment();
+        var dateStr = date.format("YYYY-MM-DD__HH_mm_ss");
+
+        var fileName = 'gobin_report_' + dateStr + '.txt';
         if (config.reportDirectory) {
             var fullPath = path.join(config.reportDirectory, fileName);
             fs.writeFileSync(fullPath, report);
-            qsmail.send('商品爬虫总结' + new Date(), fullPath);
+            qsmail.send('商品爬虫总结' + dateStr, fullPath);
         } else {
-            qsmail.send('商品爬虫总结' + new Date(), 'error: unknown report directory');
+            qsmail.send('商品爬虫总结' + dateStr, 'error: unknown report directory');
         }
 
     });
@@ -100,7 +108,7 @@ var _next = function (time, config) {
 
 var _run = function (config) {
     var startDate = new Date();
-//    startDate.setDate(startDate.getDate() - 1);
+    // startDate.setHours(startDate.getHours() - 6);
     winston.info('Goblin-tbitem run at: ' + startDate);
 
     _next(startDate, config);
@@ -113,6 +121,6 @@ module.exports = function (config) {
     schedule.scheduleJob(rule, function () {
         _run(config);
     });
-    _run(config);
+    // _run(config);
 };
 

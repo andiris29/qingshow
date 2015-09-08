@@ -57,9 +57,6 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
         //TODO item.thumbnail用最小的图
         holder.setImgeByUrl(R.id.item_s07_category, ImgUtil.getImgSrc(item.thumbnail, ImgUtil.Meduim));
         holder.setText(R.id.item_s07_name, item.name);
-
-        if (!TextUtils.isEmpty(item.promoPrice))
-            holder.setText(R.id.item_s07_price, "价格：" + StringUtil.FormatPrice(item.promoPrice));
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -105,7 +105,7 @@ public class S11NewTradeFragment extends Fragment {
         rootView = inflater.inflate(R.layout.activity_s11_trade, container, false);
         ButterKnife.inject(this, rootView);
 
-        itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY);
+        itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S10ItemDetailActivity.OUTPUT_ITEM_ENTITY);
         trade = new MongoTrade();
         selectProps = new HashMap<>();
 
