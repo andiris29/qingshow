@@ -9,6 +9,7 @@ import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
+import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 
 /**
@@ -47,6 +48,10 @@ public class PushHepler {
             String _id = PushUtil.getExtra(bundle, "_tradeId");
             intent.putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION,_id);
             intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
+        }
+
+        if(command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
+            intent = new Intent(context, U15BonusActivity.class);
         }
 
         if (intent != null)
