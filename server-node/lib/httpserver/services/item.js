@@ -89,7 +89,7 @@ item.sync = {
                 var itemId = RequestHelper.parseId(req.body._id);
                 ItemSyncService.syncItemWithItemId(itemId, callback);
             }
-        ], function (err, item) {
+        ], function (err, item, count , log) {
             if (err) {
                 ResponseHelper.response(res, err);
             } else if (!item) {

@@ -5,7 +5,9 @@ package com.focosee.qingshow.constants.config;
  */
 public class QSAppWebAPI {
     public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
-    public static final String HOST_ADDRESS = "http://chinshow.com";
+//    public static final String HOST_ADDRESS = "http://chinshow.com";
+    public static final String HOST_ADDRESS = "http://192.168.1.110:30001";
+
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
 
     public static final String LOGIN_SERVICE_URL = HOST_NAME + "/user/login";
@@ -73,6 +75,7 @@ public class QSAppWebAPI {
     private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
 
     private static final String TRADE_QUERYBY_PHASE_API = HOST_NAME + "/trade/queryByPhase";
+    private static final String ITEM_SYNC_API = HOST_NAME + "/item/sync";
 
     private static final String TRADE_QUERY_HIGHLIGHTED_API = HOST_NAME + "/trade/queryHighlighted";
 
@@ -92,6 +95,10 @@ public class QSAppWebAPI {
 
     public static String getTradeQuerybyPhaseApi(String phases, int pageNo, int pageSize) {
         return TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
+
+    public static String getItemSyncApi() {
+        return ITEM_SYNC_API;
     }
 
     public static String getMatchHideApi() {

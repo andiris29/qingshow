@@ -50,6 +50,8 @@ ServerError.TradeNotExist = 1024;
 ServerError.TradeStatusChangeError = 1025;
 ServerError.AlreadyLaunched = 1026;
 ServerError.UnsupportVersion = 1027;
+ServerError.NotSupportItemSource = 1028;
+ServerError.InvalidItemSource = 1029;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -93,6 +95,10 @@ var _codeToString = function(code) {
             return "AlreadyLaunched";
         case 1027:
             return "UnsupportVersion";
+        case 1028 :
+            return "NotSupportItemSource";
+        case 1029 :
+            return "InvalidItemSource";
     }
 };
 

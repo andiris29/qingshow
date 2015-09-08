@@ -19,7 +19,7 @@
 
 @interface QSDiscountTableViewController ()
 
-@property (strong, nonatomic) NSDictionary* itemDict;
+
 @property (strong, nonatomic) NSArray* cellArray;
 
 @property (strong, nonatomic) QSDiscountQuantityCell* quantityCell;
@@ -33,9 +33,7 @@
 - (instancetype)initWithItem:(NSDictionary*)itemDict {
     self = [super init];
     if (self) {
-        
         self.itemDict = itemDict;
-        
     }
     return self;
 }
@@ -126,5 +124,8 @@
     retDict[@"quantity"] = @(self.quantityCell.quantity);
     retDict[@"expectedPrice"] = [self.resultCell getSinglePrice];
     return retDict;
+}
+- (void)refresh {
+    [self.tableView reloadData];
 }
 @end
