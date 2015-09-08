@@ -28,6 +28,10 @@ import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareBonusEvent;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -71,10 +75,6 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         rightBtn.setVisibility(View.VISIBLE);
         rightBtn.setText(getText(R.string.u15_title_right_btn));
         rightBtn.setOnClickListener(this);
-        String alipayId = QSApplication.instance().getPreferences().getString(ALIPAYID, "");
-        if(!TextUtils.isEmpty(alipayId)){
-            u15AlipayAccount.setText(alipayId);
-        }
     }
 
     public void setData() {
@@ -82,6 +82,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         if (null == people.bonuses) return;
         u15Balance.setText(PeopleHelper.getBonusesNotWithDraw(people.bonuses));
         u15Total.setText(PeopleHelper.getTotalBonuses(people.bonuses));
+        u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
     }
 
     private void getUser() {
@@ -101,26 +102,23 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
 
     public void onEventMainThread(ShareBonusEvent event) {
         if (event.errorCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("alipayId", u15AlipayAccount.getText().toString());
+
             QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST
-                    , QSAppWebAPI.getUserBonusWithdrawApi(), null, new Response.Listener<JSONObject>() {
+                    , QSAppWebAPI.getUserBonusWithdrawApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     if (MetadataParser.hasError(response)) {
                         ToastUtil.showShortToast(getApplicationContext(), "提现失败，请重试");
                     }
                     ToastUtil.showShortToast(getApplicationContext(), "已发送提现申请");
-                    saveAliPayId();
                     finish();
                 }
             });
             RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
         }
-    }
-
-    private void saveAliPayId(){
-        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-        editor.putString(ALIPAYID, u15AlipayAccount.getText().toString());
-        editor.commit();
     }
 
     @Override

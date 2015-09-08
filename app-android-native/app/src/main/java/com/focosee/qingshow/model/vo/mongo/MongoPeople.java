@@ -66,6 +66,7 @@ public class MongoPeople implements Serializable {
         public Number money;
         public Number status;
         public String notes;
+        public String alipayId;
         public GregorianCalendar create;
     }
 }
