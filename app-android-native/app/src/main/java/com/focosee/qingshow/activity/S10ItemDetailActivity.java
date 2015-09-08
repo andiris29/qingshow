@@ -3,21 +3,34 @@ package com.focosee.qingshow.activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,6 +41,7 @@ import butterknife.InjectView;
 public class S10ItemDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
+    public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
 
     @InjectView(R.id.webview)
     WebView webview;
@@ -38,7 +52,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.container)
     FrameLayout container;
 
-    private MongoItem itemEntity;
+    private MongoItem itemEntity, innerItemEntity;
     private LoadingDialogs dialog;
 
     @Override
@@ -111,18 +125,64 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s10_bay:
-                if (itemEntity.skuProperties == null || itemEntity.skuProperties.size() == 0) {
-                    break;
-                }
-                container.setVisibility(View.VISIBLE);
-                FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details" + System.currentTimeMillis());
-                details.addToBackStack(null);
-                details.commit();
+                dialog.show();
+
+                getItemFormNet(itemEntity._id);
                 break;
             case R.id.s10_back_btn:
                 finish();
                 break;
         }
+    }
+
+    private void getItemFormNet(String id) {
+        Map map = new HashMap();
+        map.put("_id", id);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getItemSyncApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("S10ItemDetailActivity",response.toString());
+                dialog.dismiss();
+                if (MetadataParser.hasError(response)) {
+                    final ConfirmDialog confirmDialog = new ConfirmDialog(S10ItemDetailActivity.this);
+                    confirmDialog.setTitle(getResources().getString(R.string.s10_scale_close));
+                    View.OnClickListener onClickListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bay.setVisibility(View.GONE);
+                            confirmDialog.dismiss();
+                        }
+                    };
+
+                    confirmDialog.setConfirm(onClickListener);
+                    confirmDialog.setCancel(onClickListener);
+                    confirmDialog.show();
+                    return;
+                }
+
+                innerItemEntity = ItemFeedingParser.parseOne(response);
+                showNext(innerItemEntity);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void showNext(MongoItem item){
+
+        if (item.skuProperties == null || item.skuProperties.size() == 0) {
+            return;
+        }
+        container.setVisibility(View.VISIBLE);
+        getIntent().putExtra(OUTPUT_ITEM_ENTITY, item);
+        FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details" + System.currentTimeMillis());
+        details.addToBackStack(null);
+        details.commit();
     }
 
     @Override

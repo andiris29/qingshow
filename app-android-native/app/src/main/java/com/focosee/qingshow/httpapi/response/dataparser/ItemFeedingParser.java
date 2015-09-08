@@ -28,4 +28,16 @@ public class ItemFeedingParser {
         }
     }
 
+    public static MongoItem parseOne(JSONObject response) {
+        try {
+            String item = response.getJSONObject("data").getJSONObject("item").toString();
+            return QSGsonFactory.cateGoryBuilder().create().fromJson(item, new TypeToken<MongoItem>() {
+            }.getType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 }
