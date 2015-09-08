@@ -16,8 +16,8 @@ ItemSyncService.isOutDate = function (item) {
         return true;
     }
     var now = new Date();
-    //暂定为一天以上需要重新sync
-    return ((now - item.sync) > 1000 * 60 * 60 * 24);
+    // 暂定为 1小时 需要重新sync
+    return ((now - item.sync) > 1000 * 60 * 60 * 1);
 };
 
 /**
