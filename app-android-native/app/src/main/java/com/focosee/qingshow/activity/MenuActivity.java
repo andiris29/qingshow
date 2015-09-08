@@ -192,6 +192,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
         if (!QSModel.INSTANCE.loggedin()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
             startActivity(new Intent(MenuActivity.this, U07RegisterActivity.class));
+            finish();
             return;
         }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/master_pink">
 
-    <android.support.percent.PercentRelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/master_pink">
@@ -26,16 +26,6 @@
                 android:layout_height="@dimen/title_bar_height"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/backImageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitCenter"
-                    android:padding="10dp"
-                    android:background="@null"
-                    android:onClick="onClick"
-                    android:src="@drawable/nav_btn_back_white"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -239,8 +229,8 @@
                     android:text="@string/register1_activity_login"
                     android:textColor="@color/master_pink"
                     android:textSize="@dimen/text_size"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginRight="45dp"
+                    app:layout_marginLeftPercent="13%"
+                    app:layout_marginRightPercent="13%"
                     auto:clickGround="@drawable/round_btn_background" />
             </android.support.percent.PercentRelativeLayout>
 
@@ -279,8 +269,8 @@
                 android:id="@+id/weixinLoginButton"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginLeft="55dp"
-                android:layout_marginRight="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/round_relativelayout_background"
                 android:onClick="onClick">
 
@@ -306,8 +296,8 @@
                 android:id="@+id/weiboLoginButton"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginLeft="55dp"
-                android:layout_marginRight="55dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/round_relativelayout_background"
                 android:onClick="onClick">
@@ -330,5 +320,5 @@
                     android:textSize="@dimen/text_size" />
             </RelativeLayout>
         </LinearLayout>
-    </android.support.percent.PercentRelativeLayout>
+    </RelativeLayout>
 </ScrollView>
