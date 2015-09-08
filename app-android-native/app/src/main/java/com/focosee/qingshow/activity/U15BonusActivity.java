@@ -1,12 +1,14 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -31,6 +33,8 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 public class U15BonusActivity extends BaseActivity implements View.OnClickListener {
+
+    private final String ALIPAYID = "alipayId";
 
     @InjectView(R.id.title)
     QSTextView title;
@@ -67,6 +71,10 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         rightBtn.setVisibility(View.VISIBLE);
         rightBtn.setText(getText(R.string.u15_title_right_btn));
         rightBtn.setOnClickListener(this);
+        String alipayId = QSApplication.instance().getPreferences().getString(ALIPAYID, "");
+        if(!TextUtils.isEmpty(alipayId)){
+            u15AlipayAccount.setText(alipayId);
+        }
     }
 
     public void setData() {
@@ -100,12 +108,19 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                     if (MetadataParser.hasError(response)) {
                         ToastUtil.showShortToast(getApplicationContext(), "提现失败，请重试");
                     }
-                    ToastUtil.showShortToast(getApplicationContext(), "提现成功");
+                    ToastUtil.showShortToast(getApplicationContext(), "已发送提现申请");
+                    saveAliPayId();
                     finish();
                 }
             });
             RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
         }
+    }
+
+    private void saveAliPayId(){
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.putString(ALIPAYID, u15AlipayAccount.getText().toString());
+        editor.commit();
     }
 
     @Override
