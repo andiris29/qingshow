@@ -208,6 +208,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                 receiver = gson.fromJson(gson.toJson(params), new TypeToken<MongoPeople.Receiver>() {
                 }.getType());
                 EventBus.getDefault().post(receiver);
+                Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 saveBtn.setEnabled(true);
                 getActivity().finish();
             }

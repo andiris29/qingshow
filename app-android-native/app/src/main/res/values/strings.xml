@@ -59,20 +59,20 @@
     <string name="submit_activity_register">注册倾秀账号</string>
     <string name="phone_email_activity_register">输入邮箱或手机号码</string>
     <string name="or_activity_register">or</string>
-    <string name="weixin_login_activity_register">微信登录</string>
-    <string name="weibologin_activity_register">微博登录</string>
+    <string name="weixin_login_activity_register">微信登入</string>
+    <string name="weibologin_activity_register">微博登入</string>
 
     <!-- Login Activity -->
     <string name="title_activity_login">LoginActivity</string>
-    <string name="title_bar_activity_login">登录</string>
+    <string name="title_bar_activity_login">登陆</string>
     <string name="register_activity_login">注册</string>
     <string name="account_hint_activity_login">输入昵称,邮箱或手机号码</string>
     <string name="account_activity_login">账号</string>
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
-    <string name="login_activity_login">登录倾秀账号</string>
+    <string name="login_activity_login">登陆倾秀账号</string>
     <string name="register1_activity_login">注册倾秀账号</string>
-    <string name="login_successed">登录成功</string>
+    <string name="login_successed">登陆成功</string>
 
     <!-- Personal Activity -->
     <string name="title_activity_personal">PersonalActivity</string>
@@ -157,7 +157,6 @@
     <string name="brand_not_exist">非常抱歉，店铺已不存在</string>
     <string name="item_not_exist">商品不存在</string>
     <string name="image_not_exist">商品没有图片</string>
-    <string name="get_bonuses_label">获得佣金：</string>
 
     <!-- trade -->
     <string name="title_name_activity_trade">订单管理</string>
@@ -207,7 +206,7 @@
     <string name="s20_notify_more">图片被遮挡太多,请调整</string>
 
     <string name="s20_loading">上传中...</string>
-    <string name="s06_loading">登录中...</string>
+    <string name="s06_loading">登陆中...</string>
     <string name="web_view">加载中...</string>
 
     <string name="s11_discount">折</string>
@@ -219,5 +218,4 @@
 
     <string name="only_number">0123456789</string>
     <string name="title_activity_u15_bonus">U15BonusActivity</string>
-    <string name="s20_notify_load_image_unfinished">不要着急，奋力加载图片中···</string>
 </resources>

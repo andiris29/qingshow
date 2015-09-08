@@ -21,7 +21,6 @@ import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.FileUtil;
-import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -101,7 +100,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    ToastUtil.showShortToast(getApplicationContext(), "登录失败，请重试！");
+                    Toast.makeText(WXEntryActivity.this, "登录失败请重试！", Toast.LENGTH_SHORT).show();
                     EventBus.getDefault().post(new WxLoginedEvent("error"));
                     finish();
                     return;

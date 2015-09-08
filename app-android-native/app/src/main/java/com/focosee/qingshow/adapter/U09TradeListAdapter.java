@@ -26,7 +26,6 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
-import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
@@ -130,7 +129,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                                 EventBus.getDefault().post(trade);
                                 ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
                             } else
-                                ToastUtil.showShortToast(context.getApplicationContext(), "请先安装微信，然后才能分享");
+                                Toast.makeText(context, "请先安装微信，然后才能分享", Toast.LENGTH_SHORT).show();
                         }
 
                     });

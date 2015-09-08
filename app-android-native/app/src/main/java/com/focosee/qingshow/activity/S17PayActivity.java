@@ -30,7 +30,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
-import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.wxapi.WXPayEvent;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -169,12 +168,12 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         else hasEmptyAds = true;
 
         if (hasEmptyAds) {
-            ToastUtil.showShortToast(getApplicationContext(), "请将联系方式填写完整");
+            Toast.makeText(getApplicationContext(), "请将联系方式填写完整", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(paymentFragment.getPaymentMode())) {
-            ToastUtil.showShortToast(getApplicationContext(), "请选择支付方式");
+            Toast.makeText(getApplicationContext(), "请选择支付方式", Toast.LENGTH_SHORT).show();
             return;
         }
 

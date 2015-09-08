@@ -30,7 +30,6 @@ import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
@@ -495,7 +494,7 @@ public class S20MatcherActivity extends MenuActivity {
     @OnClick(R.id.submitBtn)
     public void submit() {
         if (!checkOverlap(0.7f)) {
-            ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_notify_more));
+            Toast.makeText(this, getResources().getString(R.string.s20_notify_more), Toast.LENGTH_SHORT).show();
             return;
         }
 

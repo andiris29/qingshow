@@ -35,7 +35,6 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
-import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
@@ -123,7 +122,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         className = getIntent().getStringExtra(CLASS_NAME);
 
         if (TextUtils.isEmpty(showId)) {
-            ToastUtil.showShortToast(getApplicationContext(), "请重试");
+            Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
             finish();
         }
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
@@ -383,6 +382,8 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
+                } else {
+                    Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
                 }
                 return;
             case R.id.S03_like_btn://收藏
