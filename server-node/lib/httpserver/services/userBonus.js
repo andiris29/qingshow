@@ -65,7 +65,7 @@ userBonus.withdraw = {
         },
         function(people, callback) {
             people.bonuses = people.bonuses || [];
-            for (var i = 0; i < people.bonuses; i++) {
+            for (var i = 0; i < people.bonuses.length; i++) {
                 if (people.bonuses[i].status === 0) {
                     people.bonuses[i].status = 1;
                     people.bonuses[i].alipayId = req.body.alipayId;
@@ -108,7 +108,7 @@ userBonus.withdrawComplete = {
             people.bonuses = people.bonuses || [];
             var count = parseInt(req.body.count);
             var sum = req.body.sum;
-            for (var i = 0; i < people.bonuses; i++) {
+            for (var i = 0; i < people.bonuses.length; i++) {
                 if (count > 0) {
                     if (people.bonuses[i].status === 1) {
                         people.bonuses[i].status = 2;
