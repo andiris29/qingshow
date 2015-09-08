@@ -43,7 +43,9 @@ var _next = function (time, config) {
             };
 //            var criteria = {'_id' : new mongoose.Types.ObjectId('55b1dc9b38dadbed5a99a812')};
 
-            Item.find(criteria, function (err, items) {
+            Item.find(criteria).sort({
+                'sync' : 1
+            }).exec(function (err, items) {
                 if (err) {
                     callback(err);
                 } else if (!items || !items.length) {
@@ -106,7 +108,7 @@ var _next = function (time, config) {
 
 var _run = function (config) {
     var startDate = new Date();
-    startDate.setHours(startDate.getHours() - 6);
+    // startDate.setHours(startDate.getHours() - 6);
     winston.info('Goblin-tbitem run at: ' + startDate);
 
     _next(startDate, config);
@@ -119,6 +121,6 @@ module.exports = function (config) {
     schedule.scheduleJob(rule, function () {
         _run(config);
     });
-    _run(config);
+    // _run(config);
 };
 
