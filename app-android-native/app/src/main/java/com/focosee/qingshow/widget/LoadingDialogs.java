@@ -46,7 +46,6 @@ public class LoadingDialogs extends Dialog {
     public void show() {
         super.show();
         load.setAnimation(rotateAnimation);
-        setCanceledOnTouchOutside(false);
         rotateAnimation.start();
     }
 
