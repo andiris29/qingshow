@@ -39,7 +39,7 @@ dashboard.itemSyncStatus = {
             }
         };
 
-        Items.mapReduce(mapReduce, function(error, data) {
+        Items.mapReduce(mapReduce, function(error, results) {
             if (error) {
                 ResponseHelper.response(res, error);
                 return;
@@ -51,7 +51,7 @@ dashboard.itemSyncStatus = {
                 outdated : 0
             };
 
-            data.results.forEach(function(e) {
+            results.forEach(function(e) {
                 retrunData[e._id] = e.value;
             });
 
@@ -95,7 +95,7 @@ dashboard.itemListingStatus = {
             }
         };
 
-        Items.mapReduce(mapReduce, function(error, data) {
+        Items.mapReduce(mapReduce, function(error, results) {
             if (error) {
                 ResponseHelper.response(res, error);
                 return;
@@ -107,7 +107,7 @@ dashboard.itemListingStatus = {
                 readOnly: 0
             };
 
-            data.results.forEach(function(e) {
+            results.forEach(function(e) {
                 retrunData[e._id] = e.value;
             });
 
@@ -157,12 +157,11 @@ dashboard.topPaidItems = {
                 inline : 1
             } 
         };
-        Trades.mapReduce(mapReduce, function(error, data) {
+        Trades.mapReduce(mapReduce, function(error, results) {
             if (error) {
                 ResponseHelper.response(res, error);
                 return;
             }
-            var results = data.results;
             results.sort(function(n, m) {
                 if (req.queryString === "quantity") {
                     return n.value.quantity < m.value.quantity;
@@ -222,12 +221,11 @@ dashboard.topAppliedItems = {
             }
         };
 
-        Trades.mapReduce(mapReduce, function(error, data) {
+        Trades.mapReduce(mapReduce, function(error, results) {
             if (error) {
                 ResponseHelper.response(res, error);
                 return;
             }
-            var results = data.results;
             results.sort(function(n, m) {
                 if (req.queryString === "quantity") {
                     return n.value.quantity < m.value.quantity;
@@ -286,8 +284,8 @@ dashboard.tradeRevenueByDate = {
             }
         };
 
-        Trade.mapReduce(mapReduce, function(error, data) {
-            var rows = _.map(data.results, function(element) {
+        Trade.mapReduce(mapReduce, function(error, results) {
+            var rows = _.map(results, function(element) {
                 return {
                     date : element._id,
                     revenue : element.value
@@ -325,8 +323,8 @@ dashboard.tradeNumCreatedyDate = {
             }
         };
 
-        Trades.mapReduce( mapReduce, function(error, data) {
-            var rows = _.map(data.results, function(element) {
+        Trades.mapReduce( mapReduce, function(error, results) {
+            var rows = _.map(results, function(element) {
                 return {
                     date : element._id,
                     count : element.value

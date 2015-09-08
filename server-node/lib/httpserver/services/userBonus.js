@@ -187,13 +187,13 @@ userBonus.queryWithdrawRequested = {
                 inline : 1
             }
         };
-        Trades.mapReduce(mapReduce, function(error, data) {
+        People.mapReduce(mapReduce, function(error, results) {
             if (error) {
                 ResponseHelper.response(res, error);
                 return;
             }
 
-            var rows = _.map(data.results, function(n) {
+            var rows = _.map(results, function(n) {
                 return {
                     _id : n._id,
                     id : n.value.id,
