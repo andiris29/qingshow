@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class MongoItem implements Serializable {
     public String promoPrice;
     public String minExpectedPrice;
     public List<String> skuProperties;
+    public HashMap<String,String> skuTable;
     public GregorianCalendar create;
     public String delist;
     public boolean readOnly;

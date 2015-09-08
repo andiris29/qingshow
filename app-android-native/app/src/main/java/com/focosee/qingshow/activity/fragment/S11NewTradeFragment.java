@@ -32,6 +32,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.Flow.FlowRadioButton;
@@ -98,6 +99,7 @@ public class S11NewTradeFragment extends Fragment {
     private int discountOnline;
     private double basePrice;
     private int checkIndex[];
+    private int stock;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -146,11 +148,36 @@ public class S11NewTradeFragment extends Fragment {
                     List<String> values = new ArrayList<>();
                     values.add(props.get(key).get(index));
                     selectProps.put(key, values);
+                    if (null == itemEntity.skuTable){
+                        changeBtnClickable(false);
+                        return;
+                    }
+
+                    stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
+                    if (stock < 0){
+                        changeBtnClickable(false);
+                    }else {
+                        changeBtnClickable(true);
+                    }
                 }
             });
             i++;
         }
 
+    }
+
+    private void changeBtnClickable(boolean clickable){
+        cutDiscount.setClickable(clickable);
+        plusDiscount.setClickable(clickable);
+        cutNum.setClickable(clickable);
+        plusNum.setClickable(clickable);
+        submit.setClickable(clickable);
+
+        if (clickable == false){
+            submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.gary_btn));
+        }else {
+            submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_submit_match));
+        }
 
     }
 
