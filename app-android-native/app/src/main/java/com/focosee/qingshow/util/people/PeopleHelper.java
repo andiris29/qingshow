@@ -35,12 +35,12 @@ public class PeopleHelper {
     }
 
     public static String getBonusesMoneySign(MongoPeople.Bonuses bonuses){
-        if(null == bonuses)return "+0.00";
+        if(null == bonuses)return "+ 0.00";
         String sign;
         if(bonuses.status.intValue() == NOT_WITHDRAW){
-            sign = "+";
+            sign = "+ ";
         }else{
-            sign = "-";
+            sign = "- ";
         }
         return sign + StringUtil.formatPriceWithoutSign(String.valueOf(bonuses.money));
     }
