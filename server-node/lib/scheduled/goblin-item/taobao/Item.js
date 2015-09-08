@@ -185,15 +185,6 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                 }
                 var skuMap = itemInfo.skuMap;
 
-                if (obj && obj.url && obj.url.tgDomain) {
-                    var tgdomain = obj.url.tgDomain;
-                    if (tgdomain.indexOf("ju.taobao.com") !== -1) {
-                        //Ignore 聚划算
-                        callbcak(null, {});
-                        return;
-                    }
-                }
-
                 var propertyMap = _parseTmallPropertyMap($);
                 if (!propertyMap || !Object.keys(propertyMap).length) {
                     //Item已下架
