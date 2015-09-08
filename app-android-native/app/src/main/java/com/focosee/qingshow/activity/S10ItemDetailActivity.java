@@ -21,6 +21,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
@@ -38,7 +39,7 @@ import butterknife.InjectView;
 public class S10ItemDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
-    public static final String BONUSES_TRADEID = "BONUSES_TRADEID";
+    public static final String BONUSES_ITEMID = "BONUSES_ITEMID";
 
     @InjectView(R.id.webview)
     WebView webview;
@@ -51,7 +52,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
     private MongoItem itemEntity;
     private LoadingDialogs dialog;
-    private MongoTrade trade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,24 +74,23 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             }
         }
 
-        trade = new MongoTrade();
-        trade._id = getIntent().getStringExtra(BONUSES_TRADEID);
-        if(!TextUtils.isEmpty(trade._id)){
-            getTrade();
+        itemEntity = new MongoItem();
+        itemEntity._id = getIntent().getStringExtra(BONUSES_ITEMID);
+        if(!TextUtils.isEmpty(itemEntity._id)){
+            getItem();
         }
         dialog.show();
     }
 
-    private void getTrade(){
+    private void getItem(){
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeApi(trade._id), new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getItemQueryApi(itemEntity._id), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(!MetadataParser.hasError(response)){
                     if(dialog.isShowing())
                         dialog.dismiss();
-                    trade = TradeParser.parseQuery(response).get(0);
-                    itemEntity = trade.itemSnapshot;
+                    itemEntity = ItemFeedingParser.parse(response).get(0);
                     loadWebView(itemEntity.source);
                     if (itemEntity.readOnly) {
                         bay.setVisibility(View.GONE);
@@ -99,6 +98,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 }
             }
         });
+
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 

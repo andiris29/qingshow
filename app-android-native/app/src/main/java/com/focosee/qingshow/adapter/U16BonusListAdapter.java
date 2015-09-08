@@ -56,8 +56,8 @@ public class U16BonusListAdapter extends AbsAdapter<MongoPeople.Bonuses> {
                 Intent intent = new Intent(context, S10ItemDetailActivity.class);
 
                 if (null != bonuses.trigger) {
-                    if (!TextUtils.isEmpty(bonuses.trigger.tradeRef)) {
-                        intent.putExtra(S10ItemDetailActivity.BONUSES_TRADEID, bonuses.trigger.tradeRef);
+                    if (!TextUtils.isEmpty(bonuses.trigger.itemRef)) {
+                        intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, bonuses.trigger.itemRef);
                     }
                 }
                 context.startActivity(intent);

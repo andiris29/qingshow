@@ -75,5 +75,6 @@ public class MongoPeople implements Serializable {
     public class Trigger implements Serializable {
         public String forgerRef;
         public String tradeRef;
+        public String itemRef;
     }
 }
