@@ -19,11 +19,4 @@
             android:padding="1dp"
             fresco:actualImageScaleType="fitCenter" />
     </com.focosee.qingshow.widget.radio.RadioLayout>
-
-    <com.focosee.qingshow.widget.QSTextView
-        android:id="@+id/price"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="12sp" />
 </LinearLayout>
