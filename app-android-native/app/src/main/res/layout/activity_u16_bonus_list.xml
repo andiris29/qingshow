@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/btn_background"
     tools:context="com.focosee.qingshow.activity.U16BonusListActivity">
 
     <include
@@ -19,8 +20,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/u16_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="10dp"/>
+        android:layout_height="wrap_content"
+        android:padding="10dp"/>
 
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
