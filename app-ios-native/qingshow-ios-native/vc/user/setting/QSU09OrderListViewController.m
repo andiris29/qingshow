@@ -21,7 +21,6 @@
 #define PAGE_ID @"U09 - 交易一览"
 @interface QSU09OrderListViewController ()
 
-@property (strong, nonatomic) QSOrderListTableViewProvider* provider;
 @property (strong,nonatomic) NSDictionary *oderDic;
 
 @property (strong, nonatomic) QSS11NewTradeNotifyViewController* s11NotiVc;
@@ -140,7 +139,7 @@
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)tradeDict
 {
     
-    QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:tradeDict];
+    QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:tradeDict actionVC:self];
     vc.type = 1;
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;

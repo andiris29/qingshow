@@ -22,17 +22,20 @@
 
 @property (strong, nonatomic) NSDictionary* orderDict;
 @property (strong, nonatomic) NSDictionary* receiverDict;
+@property (strong, nonatomic) QSU09OrderListViewController *actionVC;
+
 @end
 
 @implementation QSU12RefundViewController
 
 #pragma mark - Init
-- (instancetype)initWithDict:(NSDictionary*)orderDict
+- (instancetype)initWithDict:(NSDictionary*)orderDict actionVC:(QSU09OrderListViewController *)actionVC
 {
     self = [super initWithNibName:@"QSU12RefundViewController" bundle:nil];
     
     if (self) {
         self.orderDict = orderDict;
+        self.actionVC = actionVC;
         if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
@@ -240,6 +243,7 @@
 }
 - (void)popBack
 {
+    [self.actionVC.provider reloadData];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

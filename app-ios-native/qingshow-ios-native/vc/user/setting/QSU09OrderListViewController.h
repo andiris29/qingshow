@@ -15,6 +15,8 @@
 @interface QSU09OrderListViewController : QSRootContentViewController <QSOrderListTableViewProviderDelegate,UIAlertViewDelegate,QSOrderListHeaderViewDelegate,UIAlertViewDelegate, QSS11NewTradeNotifyViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong,nonatomic) QSOrderListHeaderView *headerView;
+@property (strong, nonatomic) QSOrderListTableViewProvider* provider;
+
 - (instancetype)init;
 
 @end
