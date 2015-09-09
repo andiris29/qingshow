@@ -59,6 +59,8 @@ define([
                 'group' : group
             }, ul$, this);
         }.bind(this));
+        violet.ui.factory.createUi('main/views/components/p02/ItemPriceChangedLi', {
+        }, ul$, this);
     };
 
     P02Portal.prototype._initBonus = function () {
