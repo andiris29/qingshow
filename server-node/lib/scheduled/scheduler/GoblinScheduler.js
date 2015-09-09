@@ -209,14 +209,16 @@ var _checkToQueryNewItems = function (callback) {
                     .reduce(function (l, r) { return l.concat(r);}, [])
                     .map(function (i) { return _idToString(i._id); });
             var newItems = items.filter(function (i) {
-                return allItemIds.indexOf(_idToString(i._id)) == -1;
+                return allItemIds.indexOf(_idToString(i._id)) === -1;
             });
             secondaryItems = secondaryItems.concat(newItems);
             callback();
         }
     ], function (err) {
         isQueryNewItems = false;
-        callback && callback(err);
+        if (callback) {
+            callback(err);
+        }
     });
 
 };
@@ -271,7 +273,7 @@ var _idToString = function (itemId) {
 var _findItemIndexWithId = function (itemArray, otherItemId) {
     otherItemId = _idToString(otherItemId);
     var item, i;
-    for (i = 0; i < itemArray.length, i++) {
+    for (i = 0; i < itemArray.length; i++) {
         item = itemArray[i];
         if (_idToString(item._id) === otherItemId) {
             return i;
