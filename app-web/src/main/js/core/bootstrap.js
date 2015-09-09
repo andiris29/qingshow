@@ -12,12 +12,6 @@ define([
 // @formatter:on
 
     // Initialize __runtime
-    window.__config = {
-        'image' : {
-            'root' : 'http://chingshow.com/app-web'
-        }
-    };
-    // Initialize __runtime
     window.__runtime = {
         'model' : model
     };
