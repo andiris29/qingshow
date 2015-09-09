@@ -116,18 +116,11 @@ MongoHelper.querySchema = function(Model, qsParam) {
     for (var key in qsParam) {
         var value = qsParam[key];
 
-        if (key === 'delist') {
-            criteria[key] = null;
-            continue;
-        };
-
-        if (!qsParam[key] || qsParam[key].length == 0) {
-            continue;
-        }
         if (key === '__context' || key === '__v' || key === 'pageNo' || key === 'pageSize') {
             continue;
         }
         if (!value || value.length == 0) {
+            criteria[key] = null;
             continue;
         }
         var column = Model.schema.paths[key];
