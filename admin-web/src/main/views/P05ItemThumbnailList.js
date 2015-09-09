@@ -19,7 +19,8 @@ define([
         this.request('/admin/find', 'get', {
             'collection' : 'items',
             'pageSize' : 1000,
-            'categoryRef' : category._id
+            'categoryRef' : category._id,
+            'delist' : null
         }, function(err, metadata, data) {
             if (err || metadata.error) {
                 alertify.error(violet.string.substitute('不存在分类为{0}的商品', category.name));
