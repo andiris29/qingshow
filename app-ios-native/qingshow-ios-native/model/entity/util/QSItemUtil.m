@@ -144,12 +144,18 @@
 + (NSString*)getKeyValueForSkuTableFromeSkuProperties:(NSArray*)skuArray
 {
     if (skuArray.count) {
-        NSMutableString *key = [NSMutableString mutableCopy];
+        NSMutableString *key = [[NSMutableString alloc]init];;
         for (int i = 0; i < skuArray.count; i ++) {
             NSString *str = skuArray[i];
-            NSRange range = [str rangeOfString:@":"];
-            [key appendString:[str substringWithRange:NSMakeRange(range.location+1, str.length-range.location)]];
-            if (i < skuArray.count-1 ) {
+            NSArray *subArray = [str componentsSeparatedByString:@":"];
+            NSMutableArray *mutableSubArray = [[NSMutableArray alloc]initWithArray:subArray];
+            if (mutableSubArray.count >= 2) {
+                [mutableSubArray removeObjectAtIndex:0];
+            }
+            for (int j = 0; j < mutableSubArray.count; j ++) {
+                [key appendString:mutableSubArray[j]];
+            }
+            if (i != skuArray.count-1) {
                 [key appendString:@":"];
             }
         }
