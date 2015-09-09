@@ -17,9 +17,10 @@ ItemSyncService.isOutDate = function (item) {
     }
     var now = new Date();
     // 暂定为 1小时 需要重新sync
-    return ((now - item.sync) > 1000 * 60 * 60 * 1);
+    return ((now - item.sync) > ItemSyncService.outDateDuration);
 };
 
+ItemSyncService.outDateDuration = 1000 * 60 * 60 * 1;
 /**
  *
  * @param item

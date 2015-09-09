@@ -16,6 +16,14 @@ var allocatedSecondaryItems = [];
 var requestedItems = [];  //收到主动请求爬取的items
 var secondaryItems = [];  //其余item队列
 
+var allArrays = [
+    allocatedRequestedItems,
+    allocatedSecondaryItems,
+    requestedItems,
+    secondaryItems
+];
+
+
 var itemIdToHandlers = {}; //itemId<String> => [callback]
 var itemIdToAllocatedDate = {}; // itemId<String> => Date, 记录item分配出去的时间，防止某个item被分配后没有处理
 
@@ -26,6 +34,7 @@ var itemIdToAllocatedDate = {}; // itemId<String> => Date, 记录item分配出�
  * @param callback function (err, item)
  */
 GoblinScheduler.nextItem = function (type, callback) {
+
     var allItems = requestedItems.concat(secondaryItems);
     var i, matchedItem = null, tempItem = null;
     for (i = 0; i < allItems.length; i++) {
@@ -35,9 +44,11 @@ GoblinScheduler.nextItem = function (type, callback) {
             break;
         }
     }
+
     if (!matchedItem) {
-        //TODO 没有匹配item时暂时不query更多item, 返回错误
+        //没有匹配item时暂时不等待, 直接返回错误并异步query新的item
         callback(ServerError.fromCode(ServerError.ItemNotExist));
+        _checkToQueryNewItems();
     } else {
         if (i < requestedItems.length) {
             requestedItems.splice(i, 1);
@@ -50,6 +61,7 @@ GoblinScheduler.nextItem = function (type, callback) {
         itemIdToAllocatedDate[itemIdStr] = new Date();
 
         callback(null, matchedItem);
+        _checkToQueryNewItems();
     }
 };
 
@@ -82,9 +94,8 @@ GoblinScheduler.registerItem = function (item, callback) {
         return;
     }
     //检查item是否已经在队列
-    var allItems = allocatedRequestedItems.concat(allocatedSecondaryItems)
-        .concat(requestedItems)
-        .concat(secondaryItems);
+    var allItems = allArrays.reduce(function (l, r) { return l.concat(r);}, []);
+
     var itemIdStr = _idToString(item._id);
 
     var itemIndex = _findItemIndexWithId(allItems, itemIdStr);
@@ -109,10 +120,7 @@ GoblinScheduler.registerItem = function (item, callback) {
 
 GoblinScheduler.finishItem = function (itemId, err, callback) {
     //finish暂时不check该item是否真被被爬好
-    var allArrays = [allocatedRequestedItems,
-        allocatedSecondaryItems,
-        requestedItems,
-        secondaryItems];
+
     var itemIdStr = _idToString(itemId);
     allArrays.forEach(function (array) {
         var index = _findItemIndexWithId(array, itemIdStr);
@@ -125,6 +133,93 @@ GoblinScheduler.finishItem = function (itemId, err, callback) {
 };
 
 //TODO schedule扫描已分配item是否超时
+
+
+
+var isQueryNewItems = false;
+var secondaryQueueMinSize = 200;
+var querySize = 200;
+var lastAllItemDate = null;
+var allItemDuration = 5 * 60 * 1000;   //如果所有需要爬的item都进入队列，则5分钟重新检查一次是否有新的item需要被爬
+/**
+ * 检查是否需要往secondary队列中添加新的item，若需要，则查找并添加
+ */
+var _checkToQueryNewItems = function (callback) {
+    if (isQueryNewItems) {
+        return;
+    }
+    if (secondaryItems.length > secondaryQueueMinSize) {
+        return;
+    }
+    if (lastAllItemDate && new Date() - lastAllItemDate < allItemDuration) {
+        //距离上次所有item都被爬取的时间间隔太短
+        return;
+    }
+    var totalCount = allArrays.reduce(function (l, r) { return l + r.length;}, 0);
+
+    var time = new Date() - ItemSyncService.outDateDuration;
+    var criteria = {
+        '$and': [{
+            '$or': [{
+                'sync': {
+                    '$exists': false
+                }
+            }, {
+                'sync': {
+                    '$lt': time
+                }
+            }]
+        }, {
+            '$or' : [{
+                'syncEnabled': {
+                    '$exists': false
+                }
+            }, {
+                'syncEnabled' : true
+            }]
+        }]
+    };
+    isQueryNewItems = true;
+    async.waterfall([
+        function (callback) {
+            Items.find(criteria)
+                .count()
+                .exec(callback);
+        }, function (count, callback) {
+            if (count < totalCount) {
+                //所有需要爬的item都在队列中，不需要继续query
+
+                lastAllItemDate = new Date();
+                callback('all item in the queue');
+            } else {
+                callback();
+            }
+        }, function (callback) {
+            //查询新item
+            //TODO 根据feeding/hot feeding/new等顺序进行查询
+            Items.find(criteria)
+                .limit(querySize + totalCount) //查找querySize + totalCount个item以保证有新item
+                .exec(callback);
+        }, function (items, callback) {
+            //将新item加入队列
+
+            //去除已经在队列中的item
+            var allItemIds =
+                allArrays
+                    .reduce(function (l, r) { return l.concat(r);}, [])
+                    .map(function (i) { return _idToString(i._id); });
+            var newItems = items.filter(function (i) {
+                return allItemIds.indexOf(_idToString(i._id)) == -1;
+            });
+            secondaryItems = secondaryItems.concat(newItems);
+            callback();
+        }
+    ], function (err) {
+        isQueryNewItems = false;
+        callback && callback(err);
+    });
+
+};
 
 
 /**
