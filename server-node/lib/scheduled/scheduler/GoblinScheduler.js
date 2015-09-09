@@ -27,6 +27,9 @@ var allArrays = [
 var itemIdToHandlers = {}; //itemId<String> => [callback]
 var itemIdToAllocatedDate = {}; // itemId<String> => Date, 记录item分配出去的时间，防止某个item被分配后没有处理
 
+GlobinScheduler.start = function (config) {
+    //TODO save config, add schedule
+};
 
 /**
  * 请求下一个需要爬的item
