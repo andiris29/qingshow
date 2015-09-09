@@ -122,6 +122,9 @@ public class TimeUtil {
 
         int timeI = (int)Math.abs(time.getTimeInMillis() - System.currentTimeMillis()) / 1000;//s
         int m = timeI / 60;//m
+        if(m < 0){
+            m = Math.abs(m);
+        }
         if(m < 60){
             return String.valueOf(m + "分钟");
         }else{
