@@ -22,7 +22,7 @@ BonusHelper.createBonusViaTrade = function(trade, item, callback){
         people.bonuses = people.bonuses || [];
         people.bonuses.push({
             status : 0,
-            money : (trade.totalFee / 100).toFixed(2),
+            money : (trade.totalFee * global.qsConfig.bonus.rate).toFixed(2),
             notes : '来自' + item.name + '的佣金',
             icon : item.thumbnail,
             trigger : {
@@ -70,7 +70,7 @@ BonusHelper.createBonusViaForger = function(forger, promoterRef, item, callback)
         people.bonuses = people.bonuses || [];
         people.bonuses.push({
             status : 0,
-            money : ((item.promoPrice * 0.9) / 100).toFixed(2),
+            money : ((item.promoPrice * 0.9) * global.qsConfig.bonus.rate).toFixed(2),
             notes : '来自' + item.name + '的佣金',
             icon : item.thumbnail,
             trigger : {
