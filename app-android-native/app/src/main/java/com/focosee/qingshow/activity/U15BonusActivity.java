@@ -1,14 +1,12 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -21,7 +19,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
-import com.focosee.qingshow.util.people.PeopleHelper;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
@@ -80,8 +78,8 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     public void setData() {
         if (null == people) return;
         if (null == people.bonuses) return;
-        u15Balance.setText(PeopleHelper.getBonusesNotWithDraw(people.bonuses));
-        u15Total.setText(PeopleHelper.getTotalBonuses(people.bonuses));
+        u15Balance.setText(BonusHelper.getBonusesNotWithDraw(people.bonuses));
+        u15Total.setText(BonusHelper.getTotalBonuses(people.bonuses));
         u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
     }
 

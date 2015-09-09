@@ -39,7 +39,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.StringUtil;
-import com.focosee.qingshow.util.people.PeopleHelper;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
@@ -263,7 +263,7 @@ public class U01UserActivity extends MenuActivity {
 
         userName.setText(user.nickname);
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
-        userBonuses.setText(getText(R.string.get_bonuses_label) + PeopleHelper.getTotalBonuses(user.bonuses));
+        userBonuses.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonuses(user.bonuses));
         if (!TextUtils.isEmpty(user.portrait))
             userHead.setImageURI(Uri.parse(user.portrait));
         if (!TextUtils.isEmpty(user.background))

@@ -29,7 +29,6 @@ import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
@@ -38,7 +37,7 @@ import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
-import com.focosee.qingshow.util.people.PeopleHelper;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
@@ -263,7 +262,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
         if(null != showDetailEntity.ownerRef){
             if(null != showDetailEntity.ownerRef.bonuses){
-                s03Bonus.setText(getText(R.string.get_bonuses_label) + PeopleHelper.getTotalBonuses(showDetailEntity.ownerRef.bonuses));
+                s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonuses(showDetailEntity.ownerRef.bonuses));
             }
         }
     }

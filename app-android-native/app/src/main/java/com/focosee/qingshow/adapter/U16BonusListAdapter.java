@@ -13,7 +13,7 @@ import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-import com.focosee.qingshow.util.people.PeopleHelper;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -46,7 +46,7 @@ public class U16BonusListAdapter extends AbsAdapter<MongoPeople.Bonuses> {
         holder.setText(R.id.item_u16_description, bonuses.notes);
         holder.setText(R.id.item_u16_time, TimeUtil.formatDateTime(bonuses.create
                 , new SimpleDateFormat("yyyy.MM.dd HH:mm:ss")));
-        holder.setText(R.id.item_u16_money, PeopleHelper.getBonusesMoneySign(bonuses));
+        holder.setText(R.id.item_u16_money, BonusHelper.getBonusesMoneySign(bonuses));
 
         holder.setImgeByController(R.id.item_u16_portrait, ImgUtil.getImgSrc(bonuses.icon, ImgUtil.Meduim), 1f);
 
