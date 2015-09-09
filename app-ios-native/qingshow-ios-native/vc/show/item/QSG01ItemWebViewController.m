@@ -27,6 +27,10 @@
 
 @property (assign, nonatomic) BOOL hasSyncItem;
 
+@property (strong, nonatomic) MKNetworkOperation* syncOp;
+@property (strong, nonatomic) MBProgressHUD* hud;
+
+
 @end
 
 @implementation QSG01ItemWebViewController
@@ -99,6 +103,28 @@
     self.cancelBtn.layer.cornerRadius = 5.f;
     self.cancelBtn.layer.masksToBounds = YES;
     
+    
+    [SHARE_NW_ENGINE itemSync:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+        
+        self.hasSyncItem = YES;
+        self.itemDict = data;
+        self.discountVc.itemDict = self.itemDict;
+        [self.discountVc refresh];
+        
+        if (self.hud) {
+            [self.hud hide:YES];
+            self.hud = nil;
+            self.discountLayerContainer.hidden = NO;
+        }
+        
+    } onError:^(NSError *error) {
+        if (self.hud) {
+            [self.hud hide:YES];
+            self.hud = nil;
+            [self showErrorHudWithText:@"活动结束"];
+        }
+        self.discountBtn.hidden = YES;
+    }];
 
 }
 
@@ -115,20 +141,9 @@
     if (self.hasSyncItem) {
         self.discountLayerContainer.hidden = NO;
     } else {
-        __block MBProgressHUD* hud = [self showNetworkWaitingHud];
-        [SHARE_NW_ENGINE itemSync:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
-            [hud hide:YES];
-            self.hasSyncItem = YES;
-            self.itemDict = data;
-            self.discountVc.itemDict = self.itemDict;
-            [self.discountVc refresh];
-            
-            self.discountLayerContainer.hidden = NO;
-        } onError:^(NSError *error) {
-            [hud hide:YES];
-            [self showErrorHudWithText:@"活动结束"];
-            self.discountBtn.hidden = YES;
-        }];
+        if (!self.hud) {
+            self.hud = [self showNetworkWaitingHud];
+        }
     }
 
 }
