@@ -66,6 +66,15 @@ public class SkuUtil {
         return sb.toString();
     }
 
+    public static String formetPropsAsTableKey(Map<String, List<String>> selectProps){
+        String props = "";
+        for (List<String> list : selectProps.values()) {
+            props += ":" + list.get(0);
+        }
+        props = props.substring(1);
+        return props;
+    }
+
 
     public static String getSkuId(String url) {
         Map<String, String> params = getUrlParam(url);

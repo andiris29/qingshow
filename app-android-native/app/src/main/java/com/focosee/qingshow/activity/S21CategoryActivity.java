@@ -1,7 +1,6 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -16,7 +15,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
-import com.focosee.qingshow.util.ComparatorFactory;
+import com.focosee.qingshow.util.ComparatorList;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -84,7 +83,7 @@ public class S21CategoryActivity extends BaseActivity {
                         categories.add(ca);
                     }
                 }
-                Collections.sort(categories, ComparatorFactory.categoriesComparator());
+                Collections.sort(categories, ComparatorList.categoriesComparator());
                 for (int i = 0; i < categories.size(); i++) {
                     String id = categories.get(i).get_id();
                     ArrayList<MongoCategories> item = new ArrayList<>();

@@ -2,10 +2,11 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_tradelist_msg_relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:paddingBottom="20dp"
+    android:background="@drawable/u02_relativelayout_background"
     android:paddingTop="20dp">
 
     <com.facebook.drawee.view.SimpleDraweeView

@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.util.ComparatorFactory;
+import com.focosee.qingshow.util.ComparatorList;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
 import com.umeng.analytics.MobclickAgent;
@@ -48,7 +48,7 @@ public class S07CollectActivity extends BaseActivity {
         Intent intent = getIntent();
         final Bundle bundle = intent.getExtras();
         items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
-        Collections.sort(items, ComparatorFactory.itemComparator());
+        Collections.sort(items, ComparatorList.itemComparator());
         FilterHepler.filterList(items, new Filter() {
             @Override
             public <T> boolean filtrate(T t) {

@@ -1,14 +1,19 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.view.View;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
-import com.focosee.qingshow.util.adapter.*;
+import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-import com.focosee.qingshow.util.people.PeopleHelper;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -36,10 +41,28 @@ public class U16BonusListAdapter extends AbsAdapter<MongoPeople.Bonuses> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-        holder.setText(R.id.item_u16_description, datas.get(position).notes);
-        holder.setText(R.id.item_u16_time, TimeUtil.formatDateTime(datas.get(position).create
+        final MongoPeople.Bonuses bonuses = datas.get(position);
+        if (null == bonuses) return;
+        holder.setText(R.id.item_u16_description, bonuses.notes);
+        holder.setText(R.id.item_u16_time, TimeUtil.formatDateTime(bonuses.create
                 , new SimpleDateFormat("yyyy.MM.dd HH:mm:ss")));
-        holder.setText(R.id.item_u16_money, PeopleHelper.getBonusesMoneySign(datas.get(position)));
+        holder.setText(R.id.item_u16_money, BonusHelper.getBonusesMoneySign(bonuses));
+
+        holder.setImgeByController(R.id.item_u16_portrait, ImgUtil.getImgSrc(bonuses.icon, ImgUtil.Meduim), 1f);
+
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, S10ItemDetailActivity.class);
+
+                if (null != bonuses.trigger) {
+                    if (!TextUtils.isEmpty(bonuses.trigger.itemRef)) {
+                        intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, bonuses.trigger.itemRef);
+                    }
+                }
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

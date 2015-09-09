@@ -29,7 +29,6 @@ import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
@@ -38,6 +37,7 @@ import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
@@ -117,7 +117,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         className = getIntent().getStringExtra(CLASS_NAME);
 
         if (TextUtils.isEmpty(showId)) {
-            Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
             finish();
         }
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
@@ -162,7 +161,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                showDetailEntity = ShowParser.parseQuery_parentCategoryString(response).get(0);
+                showDetailEntity = ShowParser.parseQuery_categoryString(response).get(0);
                 showData();
             }
         });
@@ -263,11 +262,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
         if(null != showDetailEntity.ownerRef){
             if(null != showDetailEntity.ownerRef.bonuses){
-                float money = 0;
-                for(MongoPeople.Bonuses bonus : showDetailEntity.ownerRef.bonuses){
-                    money += bonus.money.floatValue();
-                }
-                s03Bonus.setText(String.valueOf(money));
+                s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonuses(showDetailEntity.ownerRef.bonuses));
             }
         }
     }
@@ -378,8 +373,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 return;
             case R.id.S03_comment_btn://评论
                 if (null != showDetailEntity && null != showDetailEntity._id) {
-                    if (S04CommentActivity.isOpened) return;
-                    S04CommentActivity.isOpened = true;
                     intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

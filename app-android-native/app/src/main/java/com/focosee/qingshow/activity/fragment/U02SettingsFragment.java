@@ -46,6 +46,7 @@ import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
@@ -162,7 +163,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     }
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-                Toast.makeText(getActivity(), "已退出登录", Toast.LENGTH_LONG).show();
+                ToastUtil.showShortToast(getActivity().getApplicationContext(), "已退出登录");
                 Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
                 startActivity(intent);
                 GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
@@ -204,8 +205,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
             }
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
-                    .show();
         }
     }
 
@@ -383,7 +382,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onError() {
                 super.onError();
-                Toast.makeText(U02SettingsFragment.this.getActivity(), "网络请求错误", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -492,7 +490,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onError() {
                 super.onError();
-                Toast.makeText(getActivity(), "请检查网络", Toast.LENGTH_LONG).show();
+                ToastUtil.showShortToast(getActivity().getApplicationContext(), "请检查网络");
             }
         });
     }

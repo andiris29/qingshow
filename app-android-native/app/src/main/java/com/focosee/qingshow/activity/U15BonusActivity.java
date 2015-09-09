@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -18,19 +17,26 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ShareUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
-import com.focosee.qingshow.util.people.PeopleHelper;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareBonusEvent;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 public class U15BonusActivity extends BaseActivity implements View.OnClickListener {
+
+    private final String ALIPAYID = "alipayId";
 
     @InjectView(R.id.title)
     QSTextView title;
@@ -72,8 +78,9 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     public void setData() {
         if (null == people) return;
         if (null == people.bonuses) return;
-        u15Balance.setText(PeopleHelper.getBonusesNotWithDraw(people.bonuses));
-        u15Total.setText(PeopleHelper.getTotalBonuses(people.bonuses));
+        u15Balance.setText(BonusHelper.getBonusesNotWithDraw(people.bonuses));
+        u15Total.setText(BonusHelper.getTotalBonuses(people.bonuses));
+        u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
     }
 
     private void getUser() {
@@ -93,14 +100,18 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
 
     public void onEventMainThread(ShareBonusEvent event) {
         if (event.errorCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
+
+            Map<String, String> params = new HashMap<>();
+            params.put("alipayId", u15AlipayAccount.getText().toString());
+
             QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST
-                    , QSAppWebAPI.getUserBonusWithdrawApi(), null, new Response.Listener<JSONObject>() {
+                    , QSAppWebAPI.getUserBonusWithdrawApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     if (MetadataParser.hasError(response)) {
-                        Toast.makeText(U15BonusActivity.this, "提现失败，请重试", Toast.LENGTH_SHORT).show();
+                        ToastUtil.showShortToast(getApplicationContext(), "提现失败，请重试");
                     }
-                    Toast.makeText(U15BonusActivity.this, "提现成功", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToast(getApplicationContext(), "已发送提现申请");
                     finish();
                 }
             });

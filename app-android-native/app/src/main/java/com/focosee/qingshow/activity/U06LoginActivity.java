@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,12 +30,12 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class U06LoginActivity extends BaseActivity {
 
@@ -95,9 +93,9 @@ public class U06LoginActivity extends BaseActivity {
                                 MongoPeople user = UserParser.parseLogin(response);
                                 if (user == null) {
                                     if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {
-                                        Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                                        ToastUtil.showShortToast(getApplicationContext(), "账号或密码错误");
                                     } else {
-                                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                                        ToastUtil.showShortToast(getApplicationContext(), "请重试");
                                     }
                                 } else {
                                     QSModel.INSTANCE.setUser(user);

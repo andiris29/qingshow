@@ -225,7 +225,6 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 datas = people.receivers;
                 notifyDataSetChanged();
                 if (position == default_posion) default_posion = Integer.MAX_VALUE;
-                Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
             }
         });
 

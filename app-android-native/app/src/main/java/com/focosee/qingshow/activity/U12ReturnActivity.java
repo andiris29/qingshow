@@ -14,6 +14,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.ReturnReceiverPaser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
@@ -108,12 +109,12 @@ public class U12ReturnActivity extends BaseActivity {
     public void commitForm() {
 
         if (TextUtils.isEmpty(company.getText().toString())) {
-            Toast.makeText(U12ReturnActivity.this, "请填写货运公司", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShortToast(getApplicationContext(), "请填写货运公司");
             return;
         }
 
         if (TextUtils.isEmpty(returnNo.getText().toString())) {
-            Toast.makeText(U12ReturnActivity.this, "请填写货运单号", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShortToast(getApplicationContext(), "请填写货运单号");
             return;
         }
 
@@ -139,7 +140,7 @@ public class U12ReturnActivity extends BaseActivity {
                     return;
                 }
                 EventBus.getDefault().post(new U12ReturnEvent(position));
-                Toast.makeText(U12ReturnActivity.this, getResources().getString(R.string.toast_activity_return), Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.toast_activity_return));
                 finish();
             }
         });

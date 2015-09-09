@@ -19,13 +19,14 @@
 
 @property (strong, nonatomic) NSDictionary* itemDict;
 
-
-
 @property (strong, nonatomic) IBOutlet UIView *discountLayerContainer;
 @property (weak, nonatomic) IBOutlet UIImageView *discountBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *discountTableViewContainer;
 @property (strong, nonatomic) QSDiscountTableViewController* discountVc;
 @property (strong, nonatomic) MKNetworkOperation* createTradeOp;
+
+@property (assign, nonatomic) BOOL hasSyncItem;
+
 @end
 
 @implementation QSG01ItemWebViewController
@@ -36,6 +37,7 @@
     if (self) {
         self.itemDict = item;
         self.discountVc = [[QSDiscountTableViewController alloc] initWithItem:item];
+        self.hasSyncItem = NO;
     }
     return self;
 }
@@ -85,9 +87,7 @@
     [self.webView setScalesPageToFit:YES];
     [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
     [self.navigationController.navigationBar setTitleTextAttributes:
-     
      @{NSFontAttributeName:NAVNEWFONT,
-       
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     [self.view addSubview:self.discountLayerContainer];
@@ -120,7 +120,25 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)discountBtnPressed:(id)sender {
-    self.discountLayerContainer.hidden = NO;
+    if (self.hasSyncItem) {
+        self.discountLayerContainer.hidden = NO;
+    } else {
+        __block MBProgressHUD* hud = [self showNetworkWaitingHud];
+        [SHARE_NW_ENGINE itemSync:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+            [hud hide:YES];
+            self.hasSyncItem = YES;
+            self.itemDict = data;
+            self.discountVc.itemDict = self.itemDict;
+            [self.discountVc refresh];
+            
+            self.discountLayerContainer.hidden = NO;
+        } onError:^(NSError *error) {
+            [hud hide:YES];
+            [self showErrorHudWithText:@"活动结束"];
+            self.discountBtn.hidden = YES;
+        }];
+    }
+
 }
 - (IBAction)closeBtnPressed:(id)sender {
     self.discountLayerContainer.hidden = YES;

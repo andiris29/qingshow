@@ -68,6 +68,7 @@ public class StringUtil {
     }
 
     public static String calculationException(double expectedPrice, double promoPrice) {
+        if(promoPrice <= 0)return "";
         int result = new BigDecimal(formatPriceDigits(expectedPrice * 10 / promoPrice, 2)).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
         if (result < 1) result = 1;
         if (result > 9) result = 9;

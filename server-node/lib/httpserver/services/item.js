@@ -7,6 +7,7 @@ var Items = require('../../model/items');
 var jPushAudiences = require('../../model/jPushAudiences');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
+var MongoHelper = require('../helpers/MongoHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 var URLParser = require('../../scheduled/goblin-item/URLParser');
 var qsftp = require('../../runtime/qsftp');
@@ -88,7 +89,7 @@ item.sync = {
                 var itemId = RequestHelper.parseId(req.body._id);
                 ItemSyncService.syncItemWithItemId(itemId, callback);
             }
-        ], function (err, item) {
+        ], function (err, item, count , log) {
             if (err) {
                 ResponseHelper.response(res, err);
             } else if (!item) {
@@ -262,4 +263,22 @@ var _itemPriceChanged = function(item, callback) {
         callback(err);
     });
 };
+
+item.query = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        ServiceHelper.queryPaging(req, res,function(qsParam, callback){
+            var criteria = {};
+            if (qsParam._ids && qsParam._ids.length > 0) {
+                criteria._id = {
+                    '$in' : RequestHelper.parseIds(qsParam._ids)
+                };
+            }
+            MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        },function(items){
+            return {'items': items}
+        })
+    }
+};
+
 

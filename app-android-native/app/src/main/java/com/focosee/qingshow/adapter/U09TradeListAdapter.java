@@ -10,12 +10,12 @@ import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
+import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.constants.code.StatusCode;
@@ -28,10 +28,10 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-import com.focosee.qingshow.util.push.PushUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
@@ -97,7 +97,16 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
             holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
-            holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(String.valueOf(trade.itemSnapshot.promoPrice)));
+            holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+
+            holder.getView(R.id.item_tradelist_msg_relative).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, S10ItemDetailActivity.class);
+                    intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, datas.get(position - 1).itemSnapshot._id);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
@@ -119,6 +128,11 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 }
             });
             discountBtn.setVisibility(View.VISIBLE);
+            if(null == trade.__context)return;
+            if(null == trade.__context.item)return;
+            if(null == trade.itemSnapshot)return;
+            if(TextUtils.isEmpty(trade.__context.item.expectablePrice))return;
+            if(TextUtils.isEmpty(trade.itemSnapshot.promoPrice))return;
             String discount = StringUtil.formatDiscount(trade.__context.item.expectablePrice, trade.itemSnapshot.promoPrice);
             int discountNum = Integer.parseInt(discount.substring(0,1));
             switch (discountNum){
@@ -162,7 +176,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                                 EventBus.getDefault().post(trade);
                                 ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
                             } else
-                                Toast.makeText(context, "请先安装微信，然后才能分享", Toast.LENGTH_SHORT).show();
+                                ToastUtil.showShortToast(context.getApplicationContext(), "请先安装微信，然后才能分享");
                         }
 
                     });

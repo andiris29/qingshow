@@ -312,9 +312,7 @@ trade.alipayCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.updateBonuse(trade.promoterRef, {
-                tradeRef : trade._id
-            }, trade.totalFee, trade.itemSnapshot.name, function(error, people) {
+            BonusHelper.updateBonuse(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {
@@ -377,9 +375,7 @@ trade.wechatCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.updateBonuse(trade.promoterRef, {
-                tradeRef : trade._id
-            }, trade.totalFee, trade.itemSnapshot.name, function(error, people) {
+            BonusHelper.updateBonuse(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {

@@ -3,6 +3,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var People = require('../../model/peoples');
+var Trades = require('../../model/trades');
 var jPushAudiences = require('../../model/jPushAudiences');
 var Item = require('../../model/items');
 
@@ -34,9 +35,8 @@ userBonus.forge = {
             });
         },
         function(item, callback) {
-            BonusHelper.updateBonuse(RequestHelper.parseId(param.promoterRef), {
-                forgerRef : req.qsCurrentUserId
-            },  (item.promoPrice * 0.9), item.name, callback);
+            BonusHelper.createBonusViaForger(req.qsCurrentUserId, RequestHelper.parseId(param.promoterRef), 
+             item, callback);
         }], function(error, people) {
             ResponseHelper.response(res, error, {
                 'people' : people
@@ -65,9 +65,11 @@ userBonus.withdraw = {
         },
         function(people, callback) {
             people.bonuses = people.bonuses || [];
-            people.bonuseWithdrawRequested = true;
             for (var i = 0; i < people.bonuses.length; i++) {
-                people.bonuses[i].status = 1;
+                if (people.bonuses[i].status === 0) {
+                    people.bonuses[i].status = 1;
+                    people.bonuses[i].alipayId = req.body.alipayId;
+                }
             }
             people.save(function(error, people) {
                 if (error) {
@@ -91,7 +93,7 @@ userBonus.withdrawComplete = {
         async.waterfall([
         function(callback) {
             People.findOne({
-                '_id' : req.qsCurrentUserId
+                '_id' : RequestHelper.parseId(req.body._id)
             }).exec(function(error, people) {
                 if (error) {
                     callback(error);
@@ -104,11 +106,17 @@ userBonus.withdrawComplete = {
         },
         function(people, callback) {
             people.bonuses = people.bonuses || [];
-            people.bonuseWithdrawRequested = false;
-            var total = 0;
+            var count = parseInt(req.body.count);
+            var sum = req.body.sum;
             for (var i = 0; i < people.bonuses.length; i++) {
-                people.bonuses[i].status = 2;
-                total += people.bonuses[i].money;
+                if (count > 0) {
+                    if (people.bonuses[i].status === 1) {
+                        people.bonuses[i].status = 2;
+                        count--;
+                    }
+                } else {
+                    break;
+                }
             }
             people.save(function(error, people) {
                 if (error) {
@@ -116,7 +124,7 @@ userBonus.withdrawComplete = {
                 } else if (!people) {
                     callback(ServerError.ServerError);
                 } else {
-                    callback(error, people, total);
+                    callback(error, people, sum);
                 }
             });
         },
@@ -148,11 +156,54 @@ userBonus.queryWithdrawRequested = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        People.find({
-            bonuseWithdrawRequested : true
-        }).exec(function(error, peoples) {
-            ResponseHelper.response(res, error, {
-                'peoples' : peoples
+        var mapReduce = {
+            map : function() {
+                var sum = 0,
+                    count = 0;
+                (this.bonuses || []).forEach(function(bonus) {
+                    if (bonus.status === 1) {
+                        sum += bonus.money;
+                        count++;
+                    }
+                });
+                if (sum > 0) {
+                    emit(this._id, {
+                        'id' : this.userInfo.id,
+                        'nickname' : this.nickname,
+                        'sum' : sum,
+                        'count' : count
+                    });
+                }
+            }, 
+            reduce : function(_id, array) {
+                return array[0];
+            },
+            query : {
+                bonuses : {
+                    '$ne' : null
+                }
+            },
+            out : {
+                inline : 1
+            }
+        };
+        People.mapReduce(mapReduce, function(error, results) {
+            if (error) {
+                ResponseHelper.response(res, error);
+                return;
+            }
+
+            var rows = _.map(results, function(n) {
+                return {
+                    _id : n._id,
+                    id : n.value.id,
+                    nickname : n.value.nickname,
+                    sum : n.value.sum,
+                    count : n.value.count
+                };
+            });
+            ResponseHelper.response(res, null, {
+                rows : rows
             });
         });
     }

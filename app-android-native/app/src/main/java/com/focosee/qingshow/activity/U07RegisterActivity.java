@@ -28,6 +28,7 @@ import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.FileUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.wxapi.WxLoginedEvent;
 import com.sina.weibo.sdk.auth.AuthInfo;
@@ -79,14 +80,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
 
         wxApi = QSApplication.instance().getWxApi();
 
-        findViewById(R.id.register_login_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-                finish();
-            }
-        });
-
         // 创建微博实例
         //mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
         // 快速授权时，请不要传入 SCOPE，否则可能会授权不成功
@@ -97,19 +90,19 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
 
     public void submit(){
         if (null == accountEditText.getText().toString() || "".equals(accountEditText.getText().toString())) {
-            Toast.makeText(context, "昵称不能为空", Toast.LENGTH_LONG).show();
+            ToastUtil.showShortToast(getApplicationContext(), "昵称不能为空");
             return;
         }
         if (null == passwordEditText.getText().toString() || "".equals(passwordEditText.getText().toString())) {
-            Toast.makeText(context, "密码不能为空", Toast.LENGTH_LONG).show();
+            ToastUtil.showShortToast(getApplicationContext(), "密码不能为空");
             return;
         }
         if (null == phoneEditText.getText().toString() || "".equals(phoneEditText.getText().toString())) {
-            Toast.makeText(context, "手机或邮箱不能为空", Toast.LENGTH_LONG).show();
+            ToastUtil.showShortToast(getApplicationContext(), "手机或邮箱不能为空");
             return;
         }
         if (!passwordEditText.getText().toString().equals(reConfirmEditText.getText().toString())) {
-            Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
+            ToastUtil.showShortToast(getApplicationContext(), "请确认两次密码是否一致");
             return;
         } else {
             QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
@@ -122,7 +115,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                         FileUtil.uploadDefaultPortrait(U07RegisterActivity.this);
                         QSModel.INSTANCE.setUser(user);
                         updateSettings();
-                        Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(U07RegisterActivity.this, U13PersonalizeActivity.class));
                         finish();
                     }
@@ -130,7 +122,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                    ToastUtil.showShortToast(getApplicationContext(), "请重试");
                 }
             }) {
                 @Override
@@ -153,7 +145,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         // send oauth request
         if (!wxApi.isWXAppInstalled()) {
             //提醒用户没有按照微信
-            Toast.makeText(this, "您还没有安装微信，请先安装微信", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShortToast(getApplicationContext(), "您还没有安装微信，请先安装微信");
             return;
         }
 
@@ -235,9 +227,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.register_login_btn:
-                Toast.makeText(U07RegisterActivity.this, "login", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-                finish();
                 break;
             case R.id.submitButton:
                 submit();
@@ -310,7 +300,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 if (!TextUtils.isEmpty(code)) {
                     message = message + "\nObtained the code: " + code;
                 }
-                Toast.makeText(U07RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+                ToastUtil.showShortToast(getApplicationContext(), message);
             }
         }
 

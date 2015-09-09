@@ -10,13 +10,10 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U16BonusListAdapter;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSTextView;
-import org.json.JSONObject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
