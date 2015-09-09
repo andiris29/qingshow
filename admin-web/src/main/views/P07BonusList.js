@@ -20,7 +20,7 @@ define([
 
         this.request('/userBonus/queryWithdrawRequested', 'get', {
         }, function (err, metadata, data) {
-            data.peoples.forEach( function(people) {
+            data.rows.forEach( function(people) {
                 violet.ui.factory.createUi('main/views/components/p07/BonusTr', {
                     'people' : people
                 }, parent$, this);
