@@ -7,7 +7,7 @@ define([
         P02ShareShow.superclass.constructor.apply(this, arguments);
 
         __services.httpService.request('/spread/open', 'get', {
-            'entry' : violet.url.search.entity || "",
+            'entry' : violet.url.search.entry || "",
             'initiatorRef' : violet.url.search.initiatorRef || "",
             'targetRef' : violet.url.search.targetRef || ""
         }, function(err, metadata, data) {});
