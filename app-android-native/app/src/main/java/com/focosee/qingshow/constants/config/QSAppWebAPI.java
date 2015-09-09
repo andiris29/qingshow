@@ -81,6 +81,12 @@ public class QSAppWebAPI {
 
     private static final String USER_BONUS_WITHDRAW_API = HOST_NAME + "/userBonus/withdraw";
 
+    public static String getItemQueryApi(String _ids) {
+        return ITEM_QUERY_API + "?_ids=" + _ids;
+    }
+
+    private static final String ITEM_QUERY_API = HOST_NAME + "/item/query";
+
     public static String getUserBonusWithdrawApi() {
         return USER_BONUS_WITHDRAW_API;
     }

@@ -162,7 +162,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                showDetailEntity = ShowParser.parseQuery_parentCategoryString(response).get(0);
+                showDetailEntity = ShowParser.parseQuery_categoryString(response).get(0);
                 showData();
             }
         });
