@@ -21,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gDQ-E2-X9Z">
-                        <rect key="frame" x="93" y="6" width="191" height="24"/>
+                        <rect key="frame" x="93" y="6" width="191" height="45"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -61,7 +61,7 @@
                 <outlet property="itemNameLabel" destination="gDQ-E2-X9Z" id="Uhx-3P-0oz"/>
                 <outlet property="priceLabel" destination="jIp-3f-DK0" id="eCR-fo-vOM"/>
             </connections>
-            <point key="canvasLocation" x="326" y="314.5"/>
+            <point key="canvasLocation" x="326" y="314"/>
         </tableViewCell>
     </objects>
 </document>

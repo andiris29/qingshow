@@ -129,6 +129,9 @@
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict {
     return [itemDict arrayValueForKeyPath:@"skuProperties"];
 }
++ (NSDictionary*)getSkuTable:(NSDictionary*)itemDict{
+    return [QSEntityUtil getDictValue:itemDict keyPath:@"skuTable"];
+}
 
 + (BOOL)getReadOnly:(NSDictionary *)itemDict {
     NSNumber* n = [itemDict numberValueForKeyPath:@"readOnly"];
@@ -137,6 +140,31 @@
     } else {
         return NO;
     }
+}
++ (NSString*)getKeyValueForSkuTableFromeSkuProperties:(NSArray*)skuArray
+{
+    if (skuArray.count) {
+        NSMutableString *key = [NSMutableString mutableCopy];
+        for (int i = 0; i < skuArray.count; i ++) {
+            NSString *str = skuArray[i];
+            NSRange range = [str rangeOfString:@":"];
+            [key appendString:[str substringWithRange:NSMakeRange(range.location+1, str.length-range.location)]];
+            if (i < skuArray.count-1 ) {
+                [key appendString:@":"];
+            }
+        }
+        return (NSString*)key;
+    }
+    return nil;
+}
+
++ (int)getFirstValueFromSkuTableWithkey:(NSString*)key itemDic:(NSDictionary*)itemDic
+{
+    NSDictionary *skuDic = [self getSkuTable:itemDic];
+    NSString *str = [QSEntityUtil getStringValue:skuDic keyPath:key];
+    NSArray *array = [str componentsSeparatedByString:@":"];
+    NSString *returnStr = (NSString *)[array firstObject];
+    return returnStr.intValue;
 }
 + (BOOL)getDelist:(NSDictionary *)itemDict{
     if ([QSEntityUtil checkIsNil:itemDict[@"delist"]]) {

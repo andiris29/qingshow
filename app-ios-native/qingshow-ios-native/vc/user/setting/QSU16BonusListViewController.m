@@ -8,7 +8,10 @@
 
 #import "QSU16BonusListViewController.h"
 #import "QSU15BonusListTableViewCell.h"
-
+#import "QSPeopleUtil.h"
+#import "QSNetworkEngine+ShowService.h"
+#import "QSNetworkKit.h"
+#import "QSG01ItemWebViewController.h"
 #define QSU16CELLID @"QSU16TableViewCellId"
 @interface QSU16BonusListViewController ()
 
@@ -19,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    self.title = @"佣金明细";
     UITableView *tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -42,6 +45,22 @@
     }
     [cell bindWithDict:_listArray[indexPath.row]];
     return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dic = _listArray[indexPath.row];
+    NSString *itemId = [QSPeopleUtil getItemIdFromeBonusDict:dic];
+    __weak QSU16BonusListViewController *weakSelf = self;
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        if (array.count) {
+            NSDictionary  *itemDic = [array firstObject];
+            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:itemDic];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    } onError:^(NSError *error) {
+        
+    }];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

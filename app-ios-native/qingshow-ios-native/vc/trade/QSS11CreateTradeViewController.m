@@ -94,7 +94,27 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self delisthandle];
 }
+- (void)delisthandle
+{
+    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.tradeDict];
+    NSString *itemId = [QSTradeUtil getItemId:self.tradeDict];
+    NSArray *skuArray = [QSItemUtil getSkuProperties:itemDic];
+    NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        NSDictionary *dic = [array firstObject];
+        int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:dic];
+        if (count < 1) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这件商品已经下架啦" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"",nil];
+            alert.tag = 123;
+            [alert show];
+        }
+    } onError:^(NSError *error) {
+        
+    }];
+}
+
 - (void)receiverConfig
 {
     NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
@@ -498,6 +518,11 @@
 #pragma mark - UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (alertView.tag == 123) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+    {
     if (buttonIndex == 0) {
         //继续逛逛
         [self.navigationController popViewControllerAnimated:YES];
@@ -511,6 +536,7 @@
             [u09Vc changeValueOfSegment:1];
             u09Vc.headerView.segmentControl.selectedSegmentIndex = 1;
         }
+    }
     }
 }
 

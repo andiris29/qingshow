@@ -25,6 +25,7 @@
 
 #pragma mark - Order
 
++ (NSString *)getItemId:(NSDictionary *)dict;
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
 + (NSArray*)getSkuProperties:(NSDictionary*)dict;
 + (NSString *)getSizeText:(NSDictionary *)dict;

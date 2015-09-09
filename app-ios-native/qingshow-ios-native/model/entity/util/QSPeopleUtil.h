@@ -55,5 +55,7 @@
 + (NSNumber*)getStatusFromBonusDict:(NSDictionary *)dict;
 + (NSString*)getNoteFromBonusDict:(NSDictionary *)dict;
 + (NSString*)getCreateFromBonusDict:(NSDictionary *)dict;
-
++ (NSString*)getAlipayId:(NSDictionary *)dict;
++ (NSString*)getIconFromBonusDict:(NSDictionary*)dict;
++ (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict;
 @end

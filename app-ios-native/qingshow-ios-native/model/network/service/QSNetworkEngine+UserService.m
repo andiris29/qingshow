@@ -407,10 +407,11 @@
                                 }
             ];
 }
-- (MKNetworkOperation*)getBonusOnSusscee:(VoidBlock)succeedBlock
+- (MKNetworkOperation*)getBonusWithAlipayId:(NSString*)alipayId
+                                OnSusscee:(VoidBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_USER_BONUS_WITHDRAW method:@"POST" paramers:nil onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_USER_BONUS_WITHDRAW method:@"POST" paramers:@{@"alipayId":alipayId} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }

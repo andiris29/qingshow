@@ -331,4 +331,16 @@
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"create"];
 }
++ (NSString*)getAlipayId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"alipayId"];
+}
++ (NSString*)getIconFromBonusDict:(NSDictionary*)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"icon"];
+}
++ (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"trigger.itemRef"];
+}
 @end

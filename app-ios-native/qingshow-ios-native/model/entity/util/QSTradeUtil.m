@@ -107,6 +107,10 @@
 
 #pragma mark - Order
 
++ (NSString *)getItemId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"itemRef"];
+}
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict
 {
     if (![QSEntityUtil checkIsDict:dict]) {

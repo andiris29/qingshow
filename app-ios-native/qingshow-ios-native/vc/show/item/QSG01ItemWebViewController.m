@@ -39,6 +39,13 @@
     }
     return self;
 }
+- (id)initWithItemId:(NSString*)itemId
+{
+    if (self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil]) {
+        
+    }
+    return self;
+}
 
 #pragma mark - Life Cycle
 - (void)viewWillAppear:(BOOL)animated
@@ -109,6 +116,7 @@
 
 #pragma mark -
 - (IBAction)backBtnPressed:(id)sender {
+    self.navigationController.navigationBarHidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)discountBtnPressed:(id)sender {

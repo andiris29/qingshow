@@ -69,6 +69,7 @@
 - (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
                             onSuccess:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getBonusOnSusscee:(VoidBlock)succeedBlock
+- (MKNetworkOperation*)getBonusWithAlipayId:(NSString*)alipayId
+                                OnSusscee:(VoidBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock;
 @end

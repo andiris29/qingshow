@@ -60,6 +60,7 @@
     self.scrollView.delegate = self;
     self.scrollView.scrollEnabled = YES;
     self.alipayTextField.delegate = self;
+    self.alipayTextField.placeholder = self.alipayId;
 }
 - (void)configNav
 {
@@ -94,9 +95,12 @@
 }
 
 - (IBAction)shareToGetBonusBtnPressed:(id)sender {
+    if (![self.alipayTextField.text isEqualToString:@""] ) {
+        self.alipayId = self.alipayTextField.text;
+    }
     __weak QSU15BonusViewController *weakSelf = self;
     [[QSShareService shareService]shareWithWechatMoment:@"原来玩搭配还能赚钱，我觉得我快要发财了..." desc:@"只要其他用户通过你的美搭购买了其中的单品,那么1%的佣金即刻转账至您的账户" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareBonus&initiatorRef=%@",self.peopleId] onSucceed:^{
-        [SHARE_NW_ENGINE getBonusOnSusscee:^{
+        [SHARE_NW_ENGINE getBonusWithAlipayId:self.alipayId OnSusscee:^{
             [self showTextHud:@"申请成功"];
             [weakSelf.navigationController popViewControllerAnimated:YES];
             } onError:^(NSError *error) {

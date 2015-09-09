@@ -9,6 +9,7 @@
 #import "QSU15BonusListTableViewCell.h"
 #import "QSPeopleUtil.h"
 #import "QSDateUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
 @implementation QSU15BonusListTableViewCell
 
 - (void)awakeFromNib {
@@ -21,7 +22,12 @@
     NSString *dateStr = [QSPeopleUtil getCreateFromBonusDict:dict];
     NSDate *date = [QSDateUtil buildDateFromResponseString:dateStr];
     self.dateLabel.text = [QSDateUtil buildStringFromDate:date];
-    self.priceLabel.text = [NSString stringWithFormat:@"+%@",[QSPeopleUtil getMoneyFromBonusDict:dict]];
+    if ([QSPeopleUtil getStatusFromBonusDict:dict] == [NSNumber numberWithInt:2]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"-%@",[QSPeopleUtil getMoneyFromBonusDict:dict]];
+    }else{
+        self.priceLabel.text = [NSString stringWithFormat:@"+%@",[QSPeopleUtil getMoneyFromBonusDict:dict]];
+    }
+    [self.headerImgView setImageFromURL:[NSURL URLWithString:[QSPeopleUtil getIconFromBonusDict:dict]]];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

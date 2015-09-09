@@ -256,8 +256,12 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 - (void)showBonuesVC
 {
     NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
-    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:[QSPeopleUtil getBonusList:dic]];
+    NSArray *bonusArray = [QSPeopleUtil getBonusList:dic];
+    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:bonusArray];
     vc.peopleId = [QSPeopleUtil getPeopleId:dic];
+    if (bonusArray.count) {
+        vc.alipayId = [QSPeopleUtil getAlipayId:[bonusArray firstObject]];
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

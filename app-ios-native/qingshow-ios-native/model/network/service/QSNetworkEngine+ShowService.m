@@ -26,7 +26,8 @@
 #define PATH_SHOW_UNLIKE @"show/unlike"
 //Share
 #define PATH_SHOW_SHARE @"show/share"
-
+//Item
+#define PATH_ITEM_QUERY @"item/query"
 
 
 @implementation QSNetworkEngine(ShowService)
@@ -266,6 +267,24 @@
     return [self startOperationWithPath:PATH_SHOW_SHARE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+#pragma mark - Item
+- (MKNetworkOperation*)getItemWithId:(NSString*)itemId
+                           onSucceed:(ArraySuccessBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_ITEM_QUERY method:@"GET" paramers:@{@"_ids":itemId} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            NSDictionary *retDic = completedOperation.responseJSON;
+            NSArray *array = retDic[@"data"][@"items"];
+            succeedBlock([array deepMutableCopy],retDic[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
