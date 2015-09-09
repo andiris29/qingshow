@@ -373,8 +373,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 return;
             case R.id.S03_comment_btn://评论
                 if (null != showDetailEntity && null != showDetailEntity._id) {
-                    if (S04CommentActivity.isOpened) return;
-                    S04CommentActivity.isOpened = true;
                     intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

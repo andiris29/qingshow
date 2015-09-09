@@ -55,7 +55,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
     public static final String COMMENT_NUM_CHANGE = "comment_num_changed";
-    public static boolean isOpened = false;
     @InjectView(R.id.left_btn)
     ImageView leftBtn;
     @InjectView(R.id.title)
@@ -168,7 +167,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        isOpened = false;
     }
 
     @Override
