@@ -57,6 +57,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewDidDisappear:(BOOL)animated
@@ -150,6 +151,8 @@
 {
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
         QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
+        QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+        vc.navigationItem.leftBarButtonItem = backItem;
         vc.menuProvider = self.menuProvider;
         [self.navigationController pushViewController:vc animated:YES];
     } onError:^(NSError *error) {
