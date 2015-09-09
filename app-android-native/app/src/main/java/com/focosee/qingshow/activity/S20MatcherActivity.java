@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -31,6 +32,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ToastUtil;
+import com.focosee.qingshow.util.filter.Filter;
+import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
@@ -404,7 +407,20 @@ public class S20MatcherActivity extends MenuActivity {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
                 }
+
                 datas = ItemFeedingParser.parse(response);
+
+                FilterHepler.filterList(datas, new Filter() {
+
+                    @Override
+                    public <T> boolean filtrate(T t) {
+                        MongoItem item = (MongoItem) t;
+                        if (!TextUtils.isEmpty(item.delist))
+                            return true;
+                        return false;
+                    }
+                });
+
                 adapter.addDataAtLast(datas);
 
                 List<MongoItem> mongoItems = allSelect.get(categoryRef).data;
