@@ -44,7 +44,7 @@
     <com.focosee.qingshow.widget.QSTextView
         style="@style/navigation_text"
         android:id="@+id/navigation_btn_discount_tv"
-        android:text="我要折扣" />
+        android:text="我的折扣" />
 
     <ImageButton
         style="@style/navigation_btn"
