@@ -4,7 +4,7 @@
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var async = require('async');
-var Items = require('../../model/Items');
+var Items = require('../../model/items');
 
 var item = module.exports;
 var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");

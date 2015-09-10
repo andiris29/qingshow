@@ -4,7 +4,7 @@ var iconv = require('iconv-lite');
 var request = require('request');
 var cheerio = require('cheerio');
 
-var URLParser = require('../URLParser');
+var URLParser = require('../../URLParser');
 
 var HmWebItem = module.exports;
 

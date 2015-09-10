@@ -47,6 +47,9 @@ GoblinCrawler.canParseItemSource = function (itemSouceStr) {
 };
 
 var _getCrawlerWithSource = function (source) {
+    if (!source) {
+        return;
+    }
     var sourceType = ItemSourceUtil.getType(source);
     if (sourceType === null) {
         return null;

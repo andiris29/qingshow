@@ -35,7 +35,7 @@ ItemSyncService.syncItem = function (item, callback) {
     _logItem('item start', item);
     async.waterfall([
         function (callback) {
-            GoblinCrawler.crawl(callback);
+            GoblinCrawler.crawl(item.source, callback);
         }
     ], function (goblinError, webItem) {
         if (goblinError) {

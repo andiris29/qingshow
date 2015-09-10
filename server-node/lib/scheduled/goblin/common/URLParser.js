@@ -21,6 +21,7 @@ URLParser.isFromTmall = function (source) {
 
 URLParser.isFromTaobao = function (source) {
     var taobaoRegex = /(http|https):\/\/\w*\.taobao\.com/;
+
     return source.match(taobaoRegex);
 };
 
