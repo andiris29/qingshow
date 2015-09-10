@@ -42,7 +42,7 @@ public class ShareConfig {
     //bonus
     public static final String SHARE_BONUS_URL = "http://chingshow.com/app-web?entry=shareBonus&initiatorRef=";
     public static final String SHARE_BONUS_TITLE = "原来玩搭配还能赚钱，我觉得我快要发财了...";
-    public static final String SHARE_BONUS_DESCRIPTION = "只要其他用户通过你的美搭购买了其中的单品,那么1%的佣金即刻转账至您的账户";
+    public static final String SHARE_BONUS_DESCRIPTION = "只要其他用户通过你的美搭购买了其中的单品,丰厚佣金即刻转账至您的账户";
 
     public static final int IMG = R.drawable.wx_share_trade;
 

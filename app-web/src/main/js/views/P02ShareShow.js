@@ -13,10 +13,11 @@ define([
         }, function(err, metadata, data) {
         });
 
-        var imageArray = [];
-        for (var i = 1; i < 5; i++) {
-            imageArray.push(violet.string.substitute(__config.image.root + "/assets/slicing/p02/share_show_{0}.jpg", i));
-        }
+        var imageArray = [''];
+        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_2.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_3.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_4.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_5.jpg");
 
         var $doms = $('.p02-image-slider-block-image', this._dom);
         for (var index = 1; index < $doms.size(); index++) {

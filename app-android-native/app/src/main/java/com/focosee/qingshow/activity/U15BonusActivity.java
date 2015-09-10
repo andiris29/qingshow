@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import com.android.volley.Request;
@@ -54,8 +55,11 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     QSEditText u15AlipayAccount;
     @InjectView(R.id.u15_error_text)
     QSTextView u15ErrorText;
+    @InjectView(R.id.u15_withDrawBtn)
+    QSButton withDrawBtn;
 
     private MongoPeople people;
+    private boolean isCanWithDrwa = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +84,12 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         if (null == people.bonuses) return;
         u15Balance.setText(BonusHelper.getBonusesNotWithDraw(people.bonuses));
         u15Total.setText(BonusHelper.getTotalBonuses(people.bonuses));
-        u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
+        Log.d(U15BonusActivity.class.getSimpleName(), "bonus:" + people.bonuses.size());
+        if(null == people.bonuses || people.bonuses.size() == 0)
+            u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
+        if(BonusHelper.getBonusesWithFloat(people.bonuses) > 0){
+            isCanWithDrwa = true;
+        }
     }
 
     private void getUser() {
@@ -129,20 +138,34 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(U15BonusActivity.this, U16BonusListActivity.class));
                 break;
             case R.id.u15_withDrawBtn:
+                if(!isCanWithDrwa){
+                    if(u15ErrorText.isShown())return;
+                    showError("您没有可提现的佣金");
+                    return;
+                }
                 if (TextUtils.isEmpty(u15AlipayAccount.getText())) {
-                    u15ErrorText.setVisibility(View.VISIBLE);
-                    u15ErrorText.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            u15ErrorText.setVisibility(View.GONE);
-                        }
-                    }, ValueUtil.SHOW_ERROR_TIME);
+                    showError(null);
                     return;
                 }
                 ShareUtil.shareBonusToWX(QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_BONUS
                         , U15BonusActivity.this, true);
                 break;
         }
+    }
+
+    private void showError(String msg){
+        if(!TextUtils.isEmpty(msg)){
+            u15ErrorText.setText(msg);
+            withDrawBtn.setEnabled(false);
+        }
+        u15ErrorText.setVisibility(View.VISIBLE);
+        u15ErrorText.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                u15ErrorText.setVisibility(View.GONE);
+            }
+        }, ValueUtil.SHOW_ERROR_TIME);
+        return;
     }
 
     @Override
