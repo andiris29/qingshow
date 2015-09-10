@@ -26,6 +26,8 @@
 #define PATH_USER_SAVE_RECEIVER @"user/saveReceiver"
 #define PATH_USER_REMOVE_RECEIVER @"user/removeReceiver"
 #define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
+#define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
+#define PATH_MOBILE_VALIDATE @"user/validateMobile"
 
 @implementation QSNetworkEngine(UserService)
 
@@ -422,5 +424,35 @@
     }];
 }
 
+- (MKNetworkOperation*)getTestNumberWithMobileNumber:(NSString*)mobileNum
+                                           onSucceed:(VoidBlock)succeedBlock
+                                             onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_MOBILE_REQUEST_CODE method:@"POST" paramers:@{@"mobileNumber":mobileNum} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+- (MKNetworkOperation*)MobileNumberAvilable:(NSString*)mobileNum
+                                       code:(NSString*)code
+                                  onSucceed:(BoolBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_MOBILE_VALIDATE method:@"GET" paramers:@{@"mobileNumber":mobileNum,   @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *retDic = completedOperation.responseJSON;
+        if (succeedBlock) {
+            succeedBlock(retDic[@"data"][@"success"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 
 @end

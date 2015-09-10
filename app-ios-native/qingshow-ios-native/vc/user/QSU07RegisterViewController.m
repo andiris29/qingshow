@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *weiboButton;
 @property (weak, nonatomic) IBOutlet UIImageView *weixinIconImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *weiboIconImageView;
+@property (weak, nonatomic) IBOutlet UITextField *testTextField;
+@property (weak, nonatomic) IBOutlet UIButton *geTestNumBtn;
 
 
 
@@ -71,15 +73,21 @@
     [self.passwdText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.passwdCfmText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.mailAndPhoneText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.testTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    
     self.nickNameText.tintColor = [UIColor whiteColor];
     self.passwdText.tintColor = [UIColor whiteColor];
     self.passwdCfmText.tintColor = [UIColor whiteColor];
     self.mailAndPhoneText.tintColor = [UIColor whiteColor];
+    self.testTextField.tintColor = [UIColor whiteColor];
     
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
     self.registerButton.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0f];
-  
+    
+    self.geTestNumBtn.layer.cornerRadius = self.geTestNumBtn.frame.size.height / 8;
+    self.geTestNumBtn.backgroundColor = [UIColor whiteColor];
+    
     self.weixinButton.layer.cornerRadius = self.weixinButton.frame.size.height / 8;
     self.weixinButton.layer.masksToBounds = YES;
     [self.weixinButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
@@ -122,6 +130,14 @@
 - (void)dealloc
 {
     [self unregisterKeyboardNotifications];
+}
+- (IBAction)getTestNumberButtonPressed:(id)sender {
+    NSString *mobileNum = self.mailAndPhoneText.text;
+        [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
+            [self showTextHud:@"已成功发送验证码"];
+        } onError:^(NSError *error) {
+            [self showTextHud:@"手机号码不正确或已被注册"];
+        }];
 }
 - (IBAction)login:(id)sender {
     [self resignOnTap:nil];
@@ -223,7 +239,17 @@
             return;
         }
     };
-    [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
+    [SHARE_NW_ENGINE MobileNumberAvilable:self.mailAndPhoneText.text code:self.testTextField.text onSucceed:^(BOOL code) {
+        if (code == YES) {
+            [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
+        }else{
+            [self showTextHud:@"验证码错误"];
+        }
+        
+    } onError:^(NSError *error) {
+        [self showTextHud:@"注册失败，请重新核对信息"];
+    }];
+    
 
 }
 
