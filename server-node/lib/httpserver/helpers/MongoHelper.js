@@ -115,13 +115,12 @@ MongoHelper.querySchema = function(Model, qsParam) {
     var criteria = {};
     for (var key in qsParam) {
         var value = qsParam[key];
-        if (!qsParam[key] || qsParam[key].length == 0) {
-            continue;
-        }
+
         if (key === '__context' || key === '__v' || key === 'pageNo' || key === 'pageSize') {
             continue;
         }
         if (!value || value.length == 0) {
+            criteria[key] = null;
             continue;
         }
         var column = Model.schema.paths[key];

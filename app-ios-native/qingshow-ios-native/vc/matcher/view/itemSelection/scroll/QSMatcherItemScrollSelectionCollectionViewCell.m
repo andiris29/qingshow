@@ -18,6 +18,7 @@
 - (void)awakeFromNib {
     // Initialization code
     self.imgView.layer.borderWidth = 1.f;
+    self.label.hidden = YES;
 }
 
 - (void)bindWithDict:(NSDictionary*)dict {

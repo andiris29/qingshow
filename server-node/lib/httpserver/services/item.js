@@ -4,8 +4,11 @@
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var async = require('async');
+var Items = require('../../model/items');
+
 var item = module.exports;
-var ItemSyncService = require("../../scheduled/goblin-item/ItemSyncService");
+var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
+var GoblinError = require("../../scheduled/goblin/common/GoblinError");
 var ServerError = require('../server-error');
 
 item.sync = {
@@ -16,8 +19,11 @@ item.sync = {
                 var itemId = RequestHelper.parseId(req.body._id);
                 ItemSyncService.syncItemWithItemId(itemId, callback);
             }
-        ], function (err, item, count , log) {
+        ], function (err, item) {
             if (err) {
+                if (err.domain === GoblinError.Domain) {
+                    err = new ServerError(ServerError.GoblinError, err.description, err);
+                }
                 ResponseHelper.response(res, err);
             } else if (!item) {
                 ResponseHelper.response(res, ServerError.ItemNotExist);

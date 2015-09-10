@@ -7,12 +7,11 @@ var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
 
-var Item = require('../../model/items');
-// TODO Remove dependency on httpserver
-var ServerError = require('../../httpserver/server-error');
+var Item = require('../../../model/items');
+var GoblinError = require('../common/GoblinError');
 var mongoose = require('mongoose');
-var qsmail = require('../../runtime/qsmail');
-var ItemSyncService = require('./ItemSyncService');
+var qsmail = require('../../../runtime/qsmail');
+var ItemSyncService = require('./../common/ItemSyncService');
 
 
 
@@ -49,7 +48,7 @@ var _next = function (time, config) {
                 if (err) {
                     callback(err);
                 } else if (!items || !items.length) {
-                    callback(ServerError.fromCode(ServerError.PagingNotExist));
+                    callback(GoblinError.fromCode(GoblinError.NoItemShouldBeCrawl));
                 } else {
                     items = items.filter(function (item) {
                         if (!item) {
@@ -67,10 +66,10 @@ var _next = function (time, config) {
             var tasks = [];
             items.forEach(function (item) {
                 var task = function (callback) {
-                    ItemSyncService.syncItem(item, function (err, item, count, log) {
+                    ItemSyncService.syncItem(item, function (err, item) {
                         var reportContent = [];
-                        if (err || log) {
-                            reportContent = [new Date(), item._id, err || log, null, item.source];
+                        if (err) {
+                            reportContent = [new Date(), item._id, err.description, null, item.source];
                             report += reportContent.join(',') + '\n';
                         } else {
                             reportContent = [new Date(), item._id, 'success', 'promoPrice:' + item.promoPrice + ' price:' + item.price, item.source];
@@ -104,7 +103,6 @@ var _next = function (time, config) {
 
     });
 };
-
 
 var _run = function (config) {
     var startDate = new Date();
