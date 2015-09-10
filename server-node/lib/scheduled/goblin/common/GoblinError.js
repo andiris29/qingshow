@@ -36,6 +36,8 @@ GoblinError.NotSupportItemSource = 2001;
 GoblinError.Delist = 2002;
 GoblinError.InvalidItemSource = 2003;
 GoblinError.NoItemShouldBeCrawl = 2004;
+GoblinError.ItemNotExist = 2005;
+
 
 var _codeToString = function (code) {
     switch (code) {
@@ -49,6 +51,8 @@ var _codeToString = function (code) {
             return "InvalidItemSource";
         case GoblinError.NoItemShouldBeCrawl:
             return "NoItemShouldBeCrawl";
+        case GoblinError.ItemNotExist:
+            return "ItemNotExist";
     }
     return "";
 };

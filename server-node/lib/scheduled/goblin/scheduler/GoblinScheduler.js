@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var ItemSyncService = require('./ItemSyncService');
 var ItemSourceUtil = require('././ItemSourceUtil');
 var Items = require('../../model/items');
-var ServerError = require('../../httpserver/server-error');
+var GoblinError = require('../common/GoblinError');
 
 var GoblinScheduler = module.exports;
 
@@ -50,7 +50,7 @@ GoblinScheduler.nextItem = function (type, callback) {
 
     if (!matchedItem) {
         //没有匹配item时暂时不等待, 直接返回错误并异步query新的item
-        callback(ServerError.fromCode(ServerError.ItemNotExist));
+        callback(GoblinError.fromCode(GoblinError.NoItemShouldBeCrawl));
         _checkToQueryNewItems();
     } else {
         if (i < requestedItems.length) {
@@ -293,7 +293,7 @@ var _queryItemWithId = function (itemId, callback) {
             }, callback);
         }, function (i, callback) {
             if (!i) {
-                callback(ServerError.fromCode(ServerError.ItemNotExist));
+                callback(GoblinError.fromCode(GoblinError.ItemNotExist));
             } else {
                 callback(null, i);
             }

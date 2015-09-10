@@ -1,22 +1,71 @@
-/**
- * Created by wxy325 on 15/9/10.
- */
+var async = require('async');
+var _ = require('underscore');
+
+var GoblinScheduler = require('../scheduler/GoblinScheduler');
+var ItemSyncService = require('../common/ItemSync');
+var ItemSourceType = require('../common/ItemSourceType');
+var GoblinError = require('../common/GoblinError');
+
 var GoblinMainSlaver = module.exports;
-var ItemSourceType = require('././ItemSourceType');
+
+
 
 //淘宝与天猫暂时分为一类
-var supportType = [
+var supportTypes = [
     ItemSourceType.Taobao | ItemSourceType.Tmall,
     ItemSourceType.Hm,
     ItemSourceType.Jamy
 ];
-//TODO schedule, add config
-GoblinMainSlaver.start = function (config) {
 
+
+/**
+ *
+ * @type {{config, running}}
+ */
+var slaverModel = null;
+
+GoblinMainSlaver.start = function (config) {
+    slaverModel = {
+        config : config,
+        running : true
+    };
+    supportTypes.forEach(function (t) {
+        _next(t);
+    });
+};
+
+GoblinMainSlaver.stop = function () {
+    slaverModel.running = false;
+    slaverModel = null;
+};
+
+var succeedDelay = [5000, 10000];
+var failDelay = [60000, 120000];
+
+var _next = function (type) {
+    if (!slaverModel || !slaverModel.running) {
+        return;
+    }
+    async.waterfall([
+        function (callback) {
+            GoblinScheduler.nextItem(type, callback);
+        }, function (item, callback) {
+            ItemSyncService.sync(item, callback);
+        }
+    ], function (err) {
+        var delayTime = null;
+        if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
+            delayTime = _.random(failDelay[0], failDelay[1]);
+        } else {
+            delayTime = _.random(succeedDelay[0], succeedDelay[1]);
+        }
+        setTimeout(function () {
+            _next(type);
+        }, delayTime);
+    });
 };
 
 //TODO 外部主动触发slaver请求并爬取下一个item
 GoblinMainSlaver.tregger = function () {
 
 };
-
