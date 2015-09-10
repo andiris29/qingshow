@@ -76,7 +76,7 @@
     for (NSDictionary *dic in [QSPeopleUtil getBonusList:peopleDict]) {
         bonus += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
     }
-    self.bonusLabel.text = [NSString stringWithFormat:@"获得佣金:￥%.2f",bonus];
+    self.bonusLabel.text = [NSString stringWithFormat:@"我的佣金:￥%.2f",bonus];
     if([QSPeopleUtil getHeadIconUrl:peopleDict])
     {
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType200] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];

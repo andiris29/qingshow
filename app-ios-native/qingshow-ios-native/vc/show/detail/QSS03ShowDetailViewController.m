@@ -221,7 +221,7 @@
             for (NSDictionary *dic in [QSPeopleUtil getBonusList:peopleDict]) {
                 bonus += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
             }
-            self.bonusLabel.text = [NSString stringWithFormat:@" 已获得佣金:￥%.2f",bonus];
+            self.bonusLabel.text = [NSString stringWithFormat:@" 我的佣金:￥%.2f",bonus];
             self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
         }
     }
