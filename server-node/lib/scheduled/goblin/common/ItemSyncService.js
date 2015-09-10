@@ -5,8 +5,8 @@ var JamyWebItem = require('./jamy/Item');
 var async = require('async');
 var URLParser = require('./URLParser');
 var _ = require('underscore');
-var Item = require('../../model/items');
-var ServerError = require('../../httpserver/server-error');
+var Item = require('../../../model/items');
+var ServerError = require('../../../httpserver/server-error');
 
 var ItemSyncService = {};
 

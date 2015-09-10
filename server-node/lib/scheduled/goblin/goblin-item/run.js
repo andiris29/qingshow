@@ -7,11 +7,11 @@ var async = require('async');
 var _ = require('underscore');
 var moment = require('moment');
 
-var Item = require('../../model/items');
+var Item = require('../../../model/items');
 // TODO Remove dependency on httpserver
-var ServerError = require('../../httpserver/server-error');
+var ServerError = require('../../../httpserver/server-error');
 var mongoose = require('mongoose');
-var qsmail = require('../../runtime/qsmail');
+var qsmail = require('../../../runtime/qsmail');
 var ItemSyncService = require('./../common/ItemSyncService');
 
 
