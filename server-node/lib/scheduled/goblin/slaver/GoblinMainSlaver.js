@@ -2,13 +2,11 @@ var async = require('async');
 var _ = require('underscore');
 
 var GoblinScheduler = require('../scheduler/GoblinScheduler');
-var ItemSyncService = require('../common/ItemSync');
+var ItemSyncService = require('../common/ItemSyncService');
 var ItemSourceType = require('../common/ItemSourceType');
 var GoblinError = require('../common/GoblinError');
 
 var GoblinMainSlaver = module.exports;
-
-
 
 //淘宝与天猫暂时分为一类
 var supportTypes = [
@@ -16,7 +14,6 @@ var supportTypes = [
     ItemSourceType.Hm,
     ItemSourceType.Jamy
 ];
-
 
 /**
  *
@@ -40,7 +37,7 @@ GoblinMainSlaver.stop = function () {
 };
 
 var succeedDelay = [5000, 10000];
-var failDelay = [60000, 120000];
+var failDelay = [5000, 10000];
 
 var _next = function (type) {
     if (!slaverModel || !slaverModel.running) {
@@ -50,18 +47,28 @@ var _next = function (type) {
         function (callback) {
             GoblinScheduler.nextItem(type, callback);
         }, function (item, callback) {
-            ItemSyncService.sync(item, callback);
+            ItemSyncService.syncItem(item, callback);
         }
-    ], function (err) {
-        var delayTime = null;
-        if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
-            delayTime = _.random(failDelay[0], failDelay[1]);
+    ], function (err, item) {
+        var innerCallback = function () {
+            var delayTime = null;
+            if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
+                delayTime = _.random(failDelay[0], failDelay[1]);
+            } else {
+                delayTime = _.random(succeedDelay[0], succeedDelay[1]);
+            }
+            setTimeout(function () {
+                _next(type);
+            }, delayTime);
+        };
+
+        if (item) {
+            GoblinScheduler.finishItem(item && item._id, err, function (err, item) {
+                innerCallback();
+            });
         } else {
-            delayTime = _.random(succeedDelay[0], succeedDelay[1]);
+            innerCallback();
         }
-        setTimeout(function () {
-            _next(type);
-        }, delayTime);
     });
 };
 

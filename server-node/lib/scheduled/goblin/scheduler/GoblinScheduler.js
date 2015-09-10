@@ -2,9 +2,9 @@ var async = require('async');
 var _ = require('underscore');
 var mongoose = require('mongoose');
 
-var ItemSyncService = require('./ItemSyncService');
-var ItemSourceUtil = require('././ItemSourceUtil');
-var Items = require('../../model/items');
+var ItemSyncService = require('../common/ItemSyncService');
+var ItemSourceUtil = require('../common/ItemSourceUtil');
+var Items = require('../../../model/items');
 var GoblinError = require('../common/GoblinError');
 
 var GoblinScheduler = module.exports;
@@ -27,8 +27,10 @@ var allArrays = [
 var itemIdToHandlers = {}; //itemId<String> => [callback]
 var itemIdToAllocatedDate = {}; // itemId<String> => Date, 记录item分配出去的时间，防止某个item被分配后没有处理
 
+
 GoblinScheduler.start = function (config) {
     //TODO save config, add schedule
+    _checkToQueryNewItems();
 };
 
 /**
