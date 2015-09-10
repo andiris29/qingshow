@@ -2,7 +2,7 @@
  * Created by wxy325 on 15/9/10.
  */
 var GoblinMainSlaver = module.exports;
-var ItemSourceType = require('./../scheduler/ItemSourceType');
+var ItemSourceType = require('././ItemSourceType');
 
 //淘宝与天猫暂时分为一类
 var supportType = [

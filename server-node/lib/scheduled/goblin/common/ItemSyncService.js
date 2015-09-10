@@ -1,15 +1,14 @@
 var winston = require('winston');
-var TaobaoWebItem = require('./taobao/Item');
-var HmWebItem = require('./hm/Item');
-var JamyWebItem = require('./jamy/Item');
+var GoblinCrawler = require('./crawler/GoblinCrawler');
+
 var async = require('async');
 var URLParser = require('./URLParser');
 var _ = require('underscore');
+var GoblinError = require('./GoblinError');
+
 var Item = require('../../../model/items');
-var ServerError = require('../../../httpserver/server-error');
 
 var ItemSyncService = {};
-
 
 ItemSyncService.isOutDate = function (item) {
     if (!item || !item.sync) {
@@ -21,10 +20,11 @@ ItemSyncService.isOutDate = function (item) {
 };
 
 ItemSyncService.outDateDuration = 1000 * 60 * 60 * 1;
+
 /**
  *
  * @param item
- * @param callback function(err, item, log)
+ * @param callback function(err, item)
  */
 ItemSyncService.syncItem = function (item, callback) {
     if (!item || !ItemSyncService.isOutDate(item)) {
@@ -32,29 +32,33 @@ ItemSyncService.syncItem = function (item, callback) {
         return;
     }
 
-    var crawlCallback = function (err, i, count, log) {
-        if (err) {
-            item.sync = new Date();
-            item.delist = new Date();
-            item.save(function (innerErr) {
-                callback(innerErr || err, item, log);
-            });
-        } else {
-            callback(err, item, log);
-        }
-    };
-
     _logItem('item start', item);
-    if (URLParser.isFromTaobao(item.source) || URLParser.isFromTmall(item.source)) {
-        _crawlItemTaobaoInfo(item, crawlCallback);
-    } else if (URLParser.isFromHm(item.source)) {
-        _crawlItemHmInfo(item, crawlCallback);
-    } else if (URLParser.isFromJamy(item.source)) {
-        _crawlItemJamyInfo(item, crawlCallback);
-    } else {
-        callback(ServerError.fromCode(ServerError.NotSupportItemSource), item);
-    }
-
+    async.waterfall([
+        function (callback) {
+            GoblinCrawler.crawl(callback);
+        }
+    ], function (goblinError, webItem) {
+        if (goblinError) {
+            //Delist
+            item.delist = new Date();
+            if (goblinError.errorCode === GoblinError.Delist) {
+                _logItem('item success, delist', item);
+            } else {
+                //Other Error
+                _logItem('item error', item);
+            }
+        } else {
+            item.delist = null;
+            item.price = webItem.price;
+            item.promoPrice = webItem.promo_price;
+            item.skuProperties = webItem.skuProperties;
+            _logItem('item success', item);
+        }
+        item.sync = new Date();
+        item.save(function (innerErr) {
+            callback(innerErr || goblinError, item);
+        });
+    });
 };
 
 ItemSyncService.syncItemWithItemId = function (itemId, callback) {
@@ -70,112 +74,8 @@ ItemSyncService.syncItemWithItemId = function (itemId, callback) {
 };
 
 
-ItemSyncService.canParseItemSource = function (itemSouceStr) {
-    if (!itemSouceStr) {
-        return false;
-    }
-    return URLParser.isFromTaobao(itemSouceStr) ||
-        URLParser.isFromTmall(itemSouceStr) ||
-        URLParser.isFromHm(itemSouceStr) ||
-        URLParser.isFromJamy(itemSouceStr);
-};
-
-
-/**]
- *
- * @param item
- * @param callback
- *            function (err, item, count, log)
- *                                          option.delist  boolean
- * @private
- */
-
-var _crawlItemTaobaoInfo = function (item, callback) {
-    async.waterfall([
-        function (callback) {
-            TaobaoWebItem.getSkus(item.source, function (err, taobaoInfo) {
-                if (!taobaoInfo) {
-                    callback(ServerError.fromCode(ServerError.InvalidItemSource));
-                } else {
-                    callback(err, taobaoInfo);
-                }
-            });
-        }
-    ], function (err, taobaoInfo) {
-        if (err) {
-            _logItem('item error', item);
-            callback(err);
-        } else {
-            var delist = false;
-            if (!taobaoInfo || !Object.keys(taobaoInfo).length) {
-                _logItem('item success, delist', item);
-                callback(null, item, 0, 'delist');
-
-            } else {
-                item.delist = null;
-                item.price = taobaoInfo.price;
-                item.promoPrice = taobaoInfo.promo_price;
-                item.skuProperties = taobaoInfo.skuProperties;
-                item.sync = new Date();
-                _logItem('item success', item);
-                item.save(callback);
-            }
-
-        }
-    });
-};
-
-var _crawlItemHmInfo = function (item, callback) {
-    async.waterfall([function (callback) {
-        HmWebItem.getSkus(item.source, function(err, hmInfo) {
-            callback(err, hmInfo);
-        });
-    }], function (err, hmInfo) {
-        if (err) {
-            _logItem('item error', item);
-            callback(err);
-        } else {
-            if (!hmInfo || !Object.keys(hmInfo).length) {
-                _logItem('item success, delist', item);
-                callback(null, item, 0, 'delist');
-            } else {
-                item.delist = null;
-                item.price = hmInfo.price;
-                item.promoPrice = hmInfo.promo_price;
-                item.skuProperties = hmInfo.skuProperties;
-                item.sync = new Date();
-                _logItem('item success', item);
-                item.save(callback);
-            }
-
-        }
-    });
-};
-
-var _crawlItemJamyInfo = function (item, callback) {
-    async.waterfall([function (callback) {
-        JamyWebItem.getSkus(item.source, function (err, jamyInfo) {
-            callback(err, jamyInfo);
-        });
-    }], function (err, jamyInfo) {
-        if (err) {
-            _logItem('item error', item);
-            callback(err);
-        } else {
-            if (!jamyInfo || !Object.keys(jamyInfo).length) {
-                _logItem('item success, delist', item);
-                callback(null, item, 0, 'delist');
-            } else {
-                item.delist = null;
-                item.price = jamyInfo.price;
-                item.promoPrice = jamyInfo.promo_price;
-                item.skuProperties = jamyInfo.skuProperties;
-                item.sync = new Date();
-                _logItem('item success', item);
-                item.save(callback);
-            }
-        }
-    });
+ItemSyncService.canParseItemSource = function (itemSourceStr) {
+    return GoblinCrawler.canParseItemSource(itemSourceStr);
 };
 
 var _logItem = function (content, item) {

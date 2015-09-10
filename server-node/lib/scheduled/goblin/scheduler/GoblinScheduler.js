@@ -3,7 +3,7 @@ var _ = require('underscore');
 var mongoose = require('mongoose');
 
 var ItemSyncService = require('./ItemSyncService');
-var ItemSourceUtil = require('./ItemSourceUtil');
+var ItemSourceUtil = require('././ItemSourceUtil');
 var Items = require('../../model/items');
 var ServerError = require('../../httpserver/server-error');
 
