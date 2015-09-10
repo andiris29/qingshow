@@ -15,10 +15,10 @@ dashboard.itemSyncStatus = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var now = new Date();
-        now.setDate(now.getDate() - 1);
         var mapReduce = {
             map : function() {
+                var now = new Date();
+                now.setDate(now.getDate() - 1);
                 if (this.syncEnabled === false) {
                     emit('disabled', 1);
                 }
@@ -31,7 +31,7 @@ dashboard.itemSyncStatus = {
                 }
             },
             reduce : function(key, values) {
-                return _sum(values);
+                return Array.sum(values);
             },
             query : {},
             out : {
@@ -52,7 +52,7 @@ dashboard.itemSyncStatus = {
             };
 
             results.forEach(function(e) {
-                retrunData[e._id] = e.value;
+                returnData[e._id] = e.value;
             });
 
             ResponseHelper.response(res, error, {
@@ -87,7 +87,7 @@ dashboard.itemListingStatus = {
                 }
             },
             reduce : function(key, values) {
-                return _sum(values);
+                return Array.sum(values);
             },
             query : {},
             out : {
@@ -108,7 +108,7 @@ dashboard.itemListingStatus = {
             };
 
             results.forEach(function(e) {
-                retrunData[e._id] = e.value;
+                returnData[e._id] = e.value;
             });
 
             ResponseHelper.response(res, error, {
@@ -162,15 +162,18 @@ dashboard.topPaidItems = {
                 ResponseHelper.response(res, error);
                 return;
             }
-            results.sort(function(n, m) {
-                if (req.queryString === "quantity") {
-                    return n.value.quantity < m.value.quantity;
+            var lists = _.map(results, function(e) {
+                return e;
+            });
+            lists.sort(function(n, m) {
+                if (req.queryString.sort === "quantity") {
+                    return m.value.quantity - n.value.quantity;
                 } else {
-                    return n.value.revenue < m.value.revenue;
+                    return m.value.revenue - n.value.revenue;
                 }
             });
-            var limits = _.first(results, req.queryString.n);
-            var rows = _.map(function(e) {
+            var limits = _.first(lists, req.queryString.n);
+            var rows = _.map(limits, function(e) {
                 return {
                     _id : e._id,
                     name : e.value.name,
@@ -227,14 +230,14 @@ dashboard.topAppliedItems = {
                 return;
             }
             results.sort(function(n, m) {
-                if (req.queryString === "quantity") {
-                    return n.value.quantity < m.value.quantity;
+                if (req.queryString.sort === "quantity") {
+                    return m.value.quantity - n.value.quantity;
                 } else {
-                    return n.value.revenue < m.value.revenue;
+                    return m.value.revenue - n.value.revenue;
                 }
             });
             var limits = _.first(results, req.queryString.n);
-            var rows = _.map(function(e) {
+            var rows = _.map(limits, function(e) {
                 return {
                     _id : e._id,
                     name : e.value.name,
@@ -256,8 +259,12 @@ dashboard.tradeRevenueByDate = {
     'func' : function(req, res) {
         var mapReduce = {
             map : function() {
-                var targetLogs = _.filter(this.statusLogs, function(element) {
-                    return (element.status === 2);
+                var targetLogs = [];
+                
+                this.statusLogs.forEach(function(element) {
+                    if (element.status === 2) {
+                        targetLogs.push(element);
+                    }
                 });
                 if (targetLogs.length > 0) {
                     var year = this.update.getFullYear();
@@ -269,7 +276,7 @@ dashboard.tradeRevenueByDate = {
                 }
             },
             reduce : function(key, values) {
-                return _sum(values);
+                return Array.sum(values);
             },
             query : {
                 status : {
@@ -278,13 +285,10 @@ dashboard.tradeRevenueByDate = {
             },
             out : {
                 inline : 1
-            }, 
-            sort : {
-                create : 1
             }
         };
 
-        Trade.mapReduce(mapReduce, function(error, results) {
+        Trades.mapReduce(mapReduce, function(error, results) {
             var rows = _.map(results, function(element) {
                 return {
                     date : element._id,
@@ -312,14 +316,11 @@ dashboard.tradeNumCreatedyDate = {
                 emit(year + '-' + month + '-' + day, 1);
             },
             reduce : function(key, values) {
-                return _sum(values);
+                return Array.sum(values);
             },
             query : {},
             out : {
                 inline : 1
-            },
-            sort : {
-                create : 1
             }
         };
 
@@ -337,10 +338,3 @@ dashboard.tradeNumCreatedyDate = {
     }
 };
 
-var _sum = function(array) {
-    var result = 0;
-    array.forEach(function(e) {
-        result += e;
-    });
-    return result;
-};
