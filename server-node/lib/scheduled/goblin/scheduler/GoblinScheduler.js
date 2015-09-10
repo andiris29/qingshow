@@ -44,7 +44,7 @@ GoblinScheduler.nextItem = function (type, callback) {
     var i, matchedItem = null, tempItem = null;
     for (i = 0; i < allItems.length; i++) {
         tempItem = allItems[i];
-        if (ItemSourceUtil.matchType(tempItem && tempItem.source, type)) {
+        if (!type || ItemSourceUtil.matchType(tempItem && tempItem.source, type)) {
             matchedItem = tempItem;
             break;
         }
