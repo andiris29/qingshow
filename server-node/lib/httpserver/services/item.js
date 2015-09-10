@@ -17,6 +17,7 @@ item.sync = {
         async.waterfall([
             function (callback) {
                 var itemId = RequestHelper.parseId(req.body._id);
+                //TODO 改为使用GoblinScheduler
                 ItemSyncService.syncItemWithItemId(itemId, callback);
             }
         ], function (err, item) {
