@@ -4,7 +4,7 @@
 
 var ItemSourceUtil = module.exports;
 
-var URLParser = require('../goblin-item/URLParser');
+var URLParser = require('./URLParser');
 var ItemSourceType = require('./ItemSourceType');
 
 /**

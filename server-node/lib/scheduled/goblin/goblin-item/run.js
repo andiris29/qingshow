@@ -12,7 +12,7 @@ var Item = require('../../model/items');
 var ServerError = require('../../httpserver/server-error');
 var mongoose = require('mongoose');
 var qsmail = require('../../runtime/qsmail');
-var ItemSyncService = require('./ItemSyncService');
+var ItemSyncService = require('./../common/ItemSyncService');
 
 
 
