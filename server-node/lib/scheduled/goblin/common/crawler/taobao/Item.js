@@ -3,7 +3,7 @@ var async = require('async');
 var Iconv = require('iconv-lite');
 var request = require('request');
 var cheerio = require('cheerio');
-var URLParser = require('../URLParser');
+var URLParser = require('../../URLParser');
 
 var sizePrefixs = ["20509", "20518", "20549"];
 var colorPrefixs = ["1627207"];

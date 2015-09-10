@@ -9,10 +9,10 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
-var URLParser = require('../../scheduled/goblin-item/URLParser');
+var URLParser = require('../../scheduled/goblin/common/URLParser');
 var qsftp = require('../../runtime/qsftp');
 
-var ItemSyncService = require("../../scheduled/goblin-item/ItemSyncService");
+var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
 var ServerError = require('../server-error');
 
 var item = module.exports;
@@ -89,8 +89,11 @@ item.sync = {
                 var itemId = RequestHelper.parseId(req.body._id);
                 ItemSyncService.syncItemWithItemId(itemId, callback);
             }
-        ], function (err, item, count , log) {
+        ], function (err, item) {
             if (err) {
+                if (err.domain === GoblinError.Domain) {
+                    err = new ServerError(ServerError.GoblinError, err.description, err);
+                }
                 ResponseHelper.response(res, err);
             } else if (!item) {
                 ResponseHelper.response(res, ServerError.ItemNotExist);
