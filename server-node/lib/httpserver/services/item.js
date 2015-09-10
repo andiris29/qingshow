@@ -192,23 +192,22 @@ item.list = {
                 }
             });
         }, function(item, callback) {
-            item.name = param.name;
-            item.categoryRef = RequestHelper.parseId(param.categoryRef);
+            if (param.name && param.name.length > 0) { 
+                item.name = param.name;
+            }
+            if (param.categoryRef && param.categoryRef.length > 0) {
+                item.categoryRef = RequestHelper.parseId(param.categoryRef);
+            }
             item.list = new Date();
             RequestHelper.parseFile(req, global.qsConfig.uploads.item.thumbnail.ftpPath, [
                 {'suffix' : '_s', 'rate' : 0.5},
                 {'suffix' : '_xs', 'rate' : 0.25}
             ], function(err, fields, file) {
-                if (!fields.thumbnail || !fields.thumbnail.length) {
-                    ResponseHelper.response(res, ServerError.NotEnoughParam);
-                    return;
-                }
-                if (!file) {
-                    ResponseHelper.response(res, ServerError.NotEnoughParam);
+                if (file) {
+                    item.set('cover', global.qsConfig.uploads.item.thumbnail.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.item.thumbnail.ftpPath, file.path));
                     return;
                 }
 
-                item.set('cover', global.qsConfig.uploads.item.thumbnail.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.item.thumbnail.ftpPath, file.path));
                 item.save(function(error, item) {
                     callback(error, item);
                 });
