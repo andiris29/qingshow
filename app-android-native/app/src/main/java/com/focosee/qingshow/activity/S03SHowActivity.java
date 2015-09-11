@@ -23,11 +23,14 @@ import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.CategoriesModel;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
@@ -362,14 +365,11 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
         switch (v.getId()) {
             case R.id.S03_item_btn://搭配清单
-                if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
-                intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
-                Bundle bundle = new Bundle();
-                ArrayList<MongoItem> itemList = new ArrayList<>();
-                itemList.addAll(showDetailEntity.itemRefs);
-                bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if(null == CategoriesModel.INSTANCE.getCategories()){
+                    getCategories();
+                    return;
+                }
+                jumpToS07();
                 return;
             case R.id.S03_comment_btn://评论
                 if (null != showDetailEntity && null != showDetailEntity._id) {
@@ -427,6 +427,35 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 return;
         }
         super.onClick(v);
+    }
+
+    private void jumpToS07(){
+        if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
+        Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
+        Bundle bundle = new Bundle();
+        ArrayList<MongoItem> itemList = new ArrayList<>();
+        itemList.addAll(showDetailEntity.itemRefs);
+        bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    private void getCategories() {
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (!MetadataParser.hasError(response)) {
+                    Map<String, MongoCategories> categoriesMap = new HashMap<>();
+                    for (MongoCategories categories : CategoryParser.parseQuery(response)) {
+                        categoriesMap.put(categories._id, categories);
+                    }
+                    CategoriesModel.INSTANCE.setCategories(categoriesMap);
+                    jumpToS07();
+                }
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void hideShow() {
