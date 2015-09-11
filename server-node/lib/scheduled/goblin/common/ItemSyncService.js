@@ -37,29 +37,38 @@ ItemSyncService.syncItem = function (item, callback) {
         function (callback) {
             GoblinCrawler.crawl(item.source, callback);
         }
-    ], function (goblinError, webItem) {
-        if (goblinError) {
-            //Delist
-            item.delist = new Date();
-            if (goblinError.errorCode === GoblinError.Delist) {
-                _logItem('item success, delist', item);
-            } else {
-                //Other Error
-                _logItem('item error', item);
-            }
-        } else {
-            item.delist = null;
-            item.price = webItem.price;
-            item.promoPrice = webItem.promo_price;
-            item.skuProperties = webItem.skuProperties;
-            _logItem('item success', item);
-        }
-        item.sync = new Date();
-        item.save(function (innerErr) {
-            callback(innerErr || goblinError, item);
-        });
+    ], function (goblinError, itemInfo) {
+        ItemSyncService.syncItemInfo(item, itemInfo, goblinError, callback);
     });
 };
+
+ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
+    if (err && _.isString(err)) {
+        err = GoblinError.fromDescription(err);
+    }
+
+    if (err) {
+        //Delist
+        item.delist = new Date();
+        if (err.errorCode === GoblinError.Delist) {
+            _logItem('item success, delist', item);
+        } else {
+            //Other Error
+            _logItem('item error', item);
+        }
+    } else {
+        item.delist = null;
+        item.price = itemInfo.price;
+        item.promoPrice = itemInfo.promo_price;
+        item.skuProperties = itemInfo.skuProperties;
+        _logItem('item success', item);
+    }
+    item.sync = new Date();
+    item.save(function (innerErr) {
+        callback(innerErr || err, item);
+    });
+};
+
 
 ItemSyncService.syncItemWithItemId = function (itemId, callback) {
     async.waterfall([

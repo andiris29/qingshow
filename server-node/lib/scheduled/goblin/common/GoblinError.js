@@ -7,7 +7,7 @@ var GoblinError = function(errorCode, description, err) {
     this.errorCode = errorCode;
     this.description = description || _codeToString(errorCode);
     this.domain = GoblinError.Domain;
-    if (errorCode === GoblinError.ServerError) {
+    if (errorCode === GoblinError.GoblinError) {
         err = err || new Error();
         this.stack = err.stack;
         winston.error(err.errorCode, new Date().toString() + '- GoblinError: ' + this.errorCode);
@@ -19,10 +19,10 @@ GoblinError.fromCode = function(code) {
     return new GoblinError(code);
 };
 GoblinError.fromDescription = function(description) {
-    return new GoblinError(GoblinError.ServerError, description, new Error());
+    return new GoblinError(GoblinError.GoblinError, description, new Error());
 };
 GoblinError.fromError = function(err) {
-    return new GoblinError(GoblinError.ServerError, 'Goblin Error: ' + err.toString(), err);
+    return new GoblinError(GoblinError.GoblinError, 'Goblin Error: ' + err.toString(), err);
 };
 
 util.inherits(GoblinError, Error);

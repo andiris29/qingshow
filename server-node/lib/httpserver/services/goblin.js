@@ -3,8 +3,11 @@ var async = require('async');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
-
 var GoblinScheduler = require('../../scheduled/goblin/scheduler/GoblinScheduler');
+var ItemSyncService = require('../../scheduled/goblin/common/ItemSyncService');
+var Item = require('../../model/items');
+var ServerError = require('../server-error');
+
 
 var goblin = module.exports;
 
@@ -33,6 +36,28 @@ goblin.crawlItemComplete = {
     func : function (req, res) {
         var param = req.body;
         var itemIdStr = param.itemId;
+        var itemInfo = param.itemInfo;
+        var error = error;
+
+        async.waterfall([
+            function (callback) {
+                Item.findOne({
+                    _id : RequestHelper.parseId(itemIdStr)
+                }, callback);
+            }, function (item, callback) {
+                if (!item) {
+                    callback(ServerError.fromCode(ServerError.ItemNotExist));
+                } else {
+                    callback(null, item);
+                }
+            }, function (item, callback) {
+                ItemSyncService.syncItemInfo(item, itemInfo, error, callback);
+            }
+        ], function (err, item) {
+            ResponseHelper.response(res, err, {
+                item : item
+            });
+        });
 
     }
 };
