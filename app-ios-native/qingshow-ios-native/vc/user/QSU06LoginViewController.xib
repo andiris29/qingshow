@@ -61,7 +61,7 @@
                         <constraint firstAttribute="width" constant="30" id="hok-Kk-kOu"/>
                     </constraints>
                 </imageView>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入昵称、邮箱或手机号码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GHB-x5-Sck">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入昵称或手机号码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GHB-x5-Sck">
                     <rect key="frame" x="75" y="104" width="225" height="25"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

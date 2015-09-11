@@ -23,6 +23,7 @@
 - (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic;
 - (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic;
 - (void)didClickOrder:(NSDictionary*)orderDict;
+- (void)didClickToWebPage:(NSDictionary *)orderDic;
 @end
 
 @interface QSOrderListTableViewProvider : QSTableViewBasicProvider <QSOrderListTableViewCellDelegate>

@@ -18,7 +18,7 @@ NSString* getTitleFromType(QSRootMenuItemType type) {
                             @"我的收藏",
                             @"个人设置",
                             @"百搭秀场",
-                            @"我要折扣",
+                            @"我的折扣",
                             @"潮人晒单"];
     if ((NSUInteger)type < titleArray.count) {
         return titleArray[type];

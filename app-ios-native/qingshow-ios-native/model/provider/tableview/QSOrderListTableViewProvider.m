@@ -81,6 +81,10 @@
         [self.delegate didClickExpectablePriceBtnOfOrder:[self orderForCell:cell]];
     }
 }
+- (void)didClickToWebPageForCell:(QSOrderListTableViewCell *)cell
+{
+    [self.delegate didClickToWebPage:[self orderForCell:cell]];
+}
 #pragma mark - Private
 - (NSDictionary*)orderForCell:(UITableViewCell*)cell
 {

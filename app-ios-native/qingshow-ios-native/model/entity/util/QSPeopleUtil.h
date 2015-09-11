@@ -58,4 +58,7 @@
 + (NSString*)getAlipayId:(NSDictionary *)dict;
 + (NSString*)getIconFromBonusDict:(NSDictionary*)dict;
 + (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict;
+
+#pragma mark - code
++ (BOOL)checkMobileExist:(NSDictionary *)dict;
 @end

@@ -11,6 +11,8 @@
 #import "UIViewController+ShowHud.h"
 #import "QSReceiverUtil.h"
 #import "UIViewController+QSExtension.h"
+#import "QSUserManager.h"
+#import "QSPeopleUtil.h"
 #define PAGE_ID @"U11 - 编辑收获地址"
 
 @interface QSU11ReceiverEditingViewController ()
@@ -115,9 +117,14 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
-    self.textFieldArray = @[self.nameTextField, self.phoneTextField, self.detailLocationTextField];
-    self.cellArray = @[self.nameCell, self.phoneCell, self.locationCell, self.detailLocationCell];
-    
+    self.textFieldArray = @[self.nameTextField, self.phoneTextField,self.codeTextField, self.detailLocationTextField];
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    BOOL hasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
+    if (hasMobile == NO) {
+        self.cellArray = @[self.nameCell, self.phoneCell,self.codeCell, self.locationCell, self.detailLocationCell];
+    }else{
+        self.cellArray = @[self.nameCell, self.phoneCell, self.locationCell, self.detailLocationCell];
+    }
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 5)];
     headerView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     self.tableView.tableHeaderView = headerView;
@@ -131,7 +138,7 @@
     }
     
     self.view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
-    
+    self.getCodeBtn.layer.cornerRadius = self.getCodeBtn.bounds.size.height / 8;
 
 }
 - (void)configBarBtn
@@ -173,6 +180,15 @@
 
 
 #pragma mark - IBAction
+- (IBAction)getCodeBtnPressed:(id)sender {
+    NSString *mobileNum = self.phoneTextField.text;
+    [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
+        [self showTextHud:@"已成功发送验证码"];
+    } onError:^(NSError *error) {
+        [self showTextHud:@"手机号码不正确或已被注册"];
+    }];
+}
+
 - (void)didSelectSaveBtn
 {
     if (!self.nameTextField.text.length || !self.phoneTextField.text.length || !self.detailLocationTextField.text.length) {
@@ -187,21 +203,31 @@
         uuid = [QSReceiverUtil getUuid:self.locationDict];
         isDefault = NO;
     }
-    
-    [SHARE_NW_ENGINE saveReceiver:uuid
-                             name:self.nameTextField.text
-                            phone:self.phoneTextField.text
-                         province:self.selectionLocation
-                          address:self.detailLocationTextField.text
-                        isDefault:isDefault
-                        onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
-    {
-        [self showTextHud:@"保存成功"];
-        [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+    [SHARE_NW_ENGINE MobileNumberAvilable:self.phoneTextField.text code:self.codeTextField.text onSucceed:^(BOOL code) {
+        if (code == YES) {
+            [SHARE_NW_ENGINE saveReceiver:uuid
+                                     name:self.nameTextField.text
+                                    phone:self.phoneTextField.text
+                                 province:self.selectionLocation
+                                  address:self.detailLocationTextField.text
+                                isDefault:isDefault
+                                onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
+             {
+                 [self showTextHud:@"保存成功"];
+                 [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+             } onError:^(NSError *error) {
+                 [self showErrorHudWithError:error];
+             }];
+
+        }else{
+            [self showTextHud:@"验证码错误"];
+        }
+        
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self showTextHud:@"注册失败，请重新核对信息"];
     }];
-}
+
+    }
 
 - (void)popBack
 {

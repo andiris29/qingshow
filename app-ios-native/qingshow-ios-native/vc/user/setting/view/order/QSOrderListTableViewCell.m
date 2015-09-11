@@ -18,6 +18,7 @@
 @interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
+@property (strong, nonatomic) NSString *itemId;
 @property (assign, nonatomic) float skuLabelBaseY;
 @property (assign, nonatomic) float actualPrice;
 @end
@@ -38,6 +39,12 @@
     self.currentDiscountContainer.userInteractionEnabled = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapExpectablePriceBtn:)];
     [self.currentDiscountContainer addGestureRecognizer:ges];
+    self.clickToWebpageBtn.layer.cornerRadius = self.clickToWebpageBtn.bounds.size.height / 8;
+    self.clickToWebpageBtn.layer.borderColor = [UIColor redColor].CGColor;
+    self.clickToWebpageBtn.layer.borderWidth = 1.f;
+    self.itemImgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *imgGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapClickToWebViewPage:)];
+    [self.itemImgView addGestureRecognizer:imgGes];
 }
 - (void)configBtn:(UIButton*)btn
 {
@@ -75,6 +82,8 @@
     [self.submitButton setImage:nil forState:UIControlStateNormal];
     [self.submitButton setTitle:nil forState:UIControlStateNormal];
     
+    NSString *str = [QSTradeUtil getItemId:tradeDict];
+    self.itemId = str;
     self.tradeDict = tradeDict;
     
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
@@ -176,6 +185,12 @@
     }
     
 }
+- (void)didTapClickToWebViewPage:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didClickToWebPageForCell:)]) {
+        [self.delegate didClickToWebPageForCell:self];
+    }
+}
 
 #pragma mark - IBAction
 - (IBAction)refundBtnPressed:(id)sender
@@ -224,6 +239,10 @@
         [self.delegate didClickExchangeBtnForCell:self];
     }
     }
+}
+
+- (IBAction)clickToWebpageBtnPressed:(id)sender {
+    [self didTapClickToWebViewPage:self];
 }
 
 - (void)payBtnPressed

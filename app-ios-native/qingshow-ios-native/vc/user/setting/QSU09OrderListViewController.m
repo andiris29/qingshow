@@ -18,6 +18,7 @@
 #import "QSDateUtil.h"
 #import "QSTradeUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSG01ItemWebViewController.h"
 #define PAGE_ID @"U09 - 交易一览"
 @interface QSU09OrderListViewController ()
 
@@ -133,8 +134,6 @@
 }
 #pragma mark - QSOrderListTableViewProviderDelegate
 - (void)didClickOrder:(NSDictionary *)orderDict {
-    
-
 }
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)tradeDict
 {
@@ -192,6 +191,22 @@
 
 - (void)didClickExpectablePriceBtnOfOrder:(NSDictionary *)orderDict {
     [self showTradeNotiViewOfTradeId:orderDict];
+}
+- (void)didClickToWebPage:(NSDictionary *)orderDic
+{
+    NSString *itemId = [QSTradeUtil getItemId:orderDic];
+    __weak QSU09OrderListViewController *weakSelf = self;
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        if (array.count) {
+            NSDictionary *item = [array firstObject];
+            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item];
+            vc.isDisCountBtnHidden = YES;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    } onError:^(NSError *error) {
+        
+    }];
+
 }
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

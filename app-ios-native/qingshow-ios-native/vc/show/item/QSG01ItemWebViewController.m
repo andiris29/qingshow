@@ -106,7 +106,9 @@
     self.cancelBtn.layer.cornerRadius = 5.f;
     self.cancelBtn.layer.masksToBounds = YES;
     
-
+    if (self.isDisCountBtnHidden == YES) {
+        self.discountBtn.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

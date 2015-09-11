@@ -60,7 +60,10 @@
     self.scrollView.delegate = self;
     self.scrollView.scrollEnabled = YES;
     self.alipayTextField.delegate = self;
-    self.alipayTextField.placeholder = self.alipayId;
+    if (self.alipayId.length > 1) {
+        self.alipayTextField.placeholder = self.alipayId;
+    }
+   
 }
 - (void)configNav
 {

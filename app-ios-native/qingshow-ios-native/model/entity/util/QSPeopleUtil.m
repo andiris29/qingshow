@@ -343,4 +343,11 @@
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"trigger.itemRef"];
 }
++ (BOOL)checkMobileExist:(NSDictionary *)dict
+{
+    if (![QSEntityUtil getNumberValue:dict keyPath:@"mobile"]) {
+        return NO;
+    }
+    return YES;
+}
 @end

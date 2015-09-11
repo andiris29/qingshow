@@ -18,4 +18,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 
+@property (assign,nonatomic)BOOL isDisCountBtnHidden;
 @end
