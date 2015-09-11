@@ -8,7 +8,6 @@ var categorySchema = {
     order : Number,
     matchInfo : {
         enabled : Boolean,
-        exclusive : Boolean,
         defaultOnCanvas : Boolean,
         row : Number,
         column : Number
