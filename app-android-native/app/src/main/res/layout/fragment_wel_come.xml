@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/guide_page1_bg"/>
+        android:src="@drawable/welcome1"/>
     <View
         android:id="@+id/g02_reference"
         android:layout_width="0dp"

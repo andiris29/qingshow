@@ -58,16 +58,18 @@
     <string name="password_hint_activity_register">输入密码</string>
     <string name="confirm_activity_register">再次输入密码</string>
     <string name="submit_activity_register">注册倾秀账号</string>
-    <string name="phone_email_activity_register">输入邮箱或手机号码</string>
+    <string name="phone_email_activity_register">输入手机号码</string>
+    <string name="verification_code_activity_register">输入验证码</string>
     <string name="or_activity_register">or</string>
     <string name="weixin_login_activity_register">微信登录</string>
     <string name="weibologin_activity_register">微博登录</string>
+    <string name="send_verification_activity_register">发送验证码</string>
 
     <!-- Login Activity -->
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_bar_activity_login">登录</string>
     <string name="register_activity_login">注册</string>
-    <string name="account_hint_activity_login">输入昵称,邮箱或手机号码</string>
+    <string name="account_hint_activity_login">输入昵称或手机号码</string>
     <string name="account_activity_login">账号</string>
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
@@ -226,7 +228,7 @@
     <string name="u15_total_bonus">佣金总计：</string>
     <string name="u15_balance">未提现：</string>
     <string name="u15_hint_edit">请输入支付宝账号</string>
-    <string name="u15_hint">*款项将在48小时内转至您的账户</string>
+    <string name="u15_hint">*提现后，款项将在48小时内转至您的账户</string>
     <string name="u15_btn_text">分享APP获取佣金</string>
     <string name="u15_title_right_btn">佣金明细</string>
     <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>

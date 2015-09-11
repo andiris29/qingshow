@@ -9,10 +9,10 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
-var URLParser = require('../../scheduled/goblin-item/URLParser');
+var URLParser = require('../../scheduled/goblin/common/URLParser');
 var qsftp = require('../../runtime/qsftp');
 
-var ItemSyncService = require("../../scheduled/goblin-item/ItemSyncService");
+var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
 var ServerError = require('../server-error');
 
 var item = module.exports;
@@ -89,8 +89,11 @@ item.sync = {
                 var itemId = RequestHelper.parseId(req.body._id);
                 ItemSyncService.syncItemWithItemId(itemId, callback);
             }
-        ], function (err, item, count , log) {
+        ], function (err, item) {
             if (err) {
+                if (err.domain === GoblinError.Domain) {
+                    err = new ServerError(ServerError.GoblinError, err.description, err);
+                }
                 ResponseHelper.response(res, err);
             } else if (!item) {
                 ResponseHelper.response(res, ServerError.ItemNotExist);
@@ -192,23 +195,22 @@ item.list = {
                 }
             });
         }, function(item, callback) {
-            item.name = param.name;
-            item.categoryRef = RequestHelper.parseId(param.categoryRef);
+            if (param.name && param.name.length > 0) { 
+                item.name = param.name;
+            }
+            if (param.categoryRef && param.categoryRef.length > 0) {
+                item.categoryRef = RequestHelper.parseId(param.categoryRef);
+            }
             item.list = new Date();
             RequestHelper.parseFile(req, global.qsConfig.uploads.item.thumbnail.ftpPath, [
                 {'suffix' : '_s', 'rate' : 0.5},
                 {'suffix' : '_xs', 'rate' : 0.25}
             ], function(err, fields, file) {
-                if (!fields.thumbnail || !fields.thumbnail.length) {
-                    ResponseHelper.response(res, ServerError.NotEnoughParam);
-                    return;
-                }
-                if (!file) {
-                    ResponseHelper.response(res, ServerError.NotEnoughParam);
+                if (file) {
+                    item.set('cover', global.qsConfig.uploads.item.thumbnail.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.item.thumbnail.ftpPath, file.path));
                     return;
                 }
 
-                item.set('cover', global.qsConfig.uploads.item.thumbnail.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.item.thumbnail.ftpPath, file.path));
                 item.save(function(error, item) {
                     callback(error, item);
                 });

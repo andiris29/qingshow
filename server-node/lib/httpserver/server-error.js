@@ -5,6 +5,7 @@ var ServerError = function(errorCode, description, err) {
     Error.call(this, 'server error');
     this.errorCode = errorCode;
     this.description = description || _codeToString(errorCode);
+    this.domain = 'ServerError';
     if (errorCode === ServerError.ServerError) {
         err = err || new Error();
         this.stack = err.stack;
@@ -50,8 +51,7 @@ ServerError.TradeNotExist = 1024;
 ServerError.TradeStatusChangeError = 1025;
 ServerError.AlreadyLaunched = 1026;
 ServerError.UnsupportVersion = 1027;
-ServerError.NotSupportItemSource = 1028;
-ServerError.InvalidItemSource = 1029;
+ServerError.GoblinError = 1028;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -93,12 +93,10 @@ var _codeToString = function(code) {
             return "TradeStatusChangeError";
         case 1026 : 
             return "AlreadyLaunched";
-        case 1027:
+        case  1027:
             return "UnsupportVersion";
-        case 1028 :
-            return "NotSupportItemSource";
-        case 1029 :
-            return "InvalidItemSource";
+        case ServerError.GoblinError :
+            return 'GoblinError';
     }
 };
 

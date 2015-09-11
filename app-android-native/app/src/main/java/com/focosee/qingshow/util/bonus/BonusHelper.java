@@ -15,13 +15,17 @@ public class BonusHelper {
     private static final int WITHDRAWED = 2;
 
     public static String getBonusesNotWithDraw(List<MongoPeople.Bonuses> bonuses) {
+        return StringUtil.FormatPrice(String.valueOf(getBonusesWithFloat(bonuses)));
+    }
+
+    public static float getBonusesWithFloat(List<MongoPeople.Bonuses> bonuses) {
         float total = 0;
         for (MongoPeople.Bonuses bonus : bonuses) {
             if (bonus.status.intValue() == NOT_WITHDRAW) {
                 total += bonus.money.floatValue();
             }
         }
-        return StringUtil.FormatPrice(String.valueOf(total));
+        return total;
     }
 
     public static String getTotalBonuses(List<MongoPeople.Bonuses> bonuses) {

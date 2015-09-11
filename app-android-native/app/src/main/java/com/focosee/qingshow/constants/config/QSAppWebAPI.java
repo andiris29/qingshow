@@ -81,11 +81,23 @@ public class QSAppWebAPI {
 
     private static final String USER_BONUS_WITHDRAW_API = HOST_NAME + "/userBonus/withdraw";
 
+    private static final String ITEM_QUERY_API = HOST_NAME + "/item/query";
+
+    private static final String REQUEST_VERIFICATION_CODE_API = HOST_NAME + "/user/requestVerificationCode";
+
+    private static final String VALIDATE_MOBILE_API = HOST_NAME + "user/validateMobile";
+
+    public static String getRequestVerificationCodeApi() {
+        return REQUEST_VERIFICATION_CODE_API;
+    }
+
+    public static String getValidateMobileApi() {
+        return VALIDATE_MOBILE_API;
+    }
+
     public static String getItemQueryApi(String _ids) {
         return ITEM_QUERY_API + "?_ids=" + _ids;
     }
-
-    private static final String ITEM_QUERY_API = HOST_NAME + "/item/query";
 
     public static String getUserBonusWithdrawApi() {
         return USER_BONUS_WITHDRAW_API;

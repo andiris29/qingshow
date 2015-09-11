@@ -4,7 +4,7 @@
 
 var ItemSourceUtil = module.exports;
 
-var URLParser = require('../goblin-item/URLParser');
+var URLParser = require('./URLParser');
 var ItemSourceType = require('./ItemSourceType');
 
 /**
@@ -16,13 +16,32 @@ var ItemSourceType = require('./ItemSourceType');
 ItemSourceUtil.matchType = function (source, type) {
     for (var i =ItemSourceType.Min; i < ItemSourceType.Max; i = i << 1) {
         if (i & type) {
-            var validator = ItemSourceUtil.getTypeValidator()
+            var validator = ItemSourceUtil.getTypeValidator(i);
             if (validator(source)) {
                 return true;
             }
         }
     }
     return false;
+};
+
+/**
+ * Return type of item source
+ * @param {string} source
+ * @returns {ItemSourceType} type of source, null if there is not match type
+ */
+ItemSourceUtil.getType = function (source) {
+    if (!source) {
+        return null;
+    }
+    for (var i =ItemSourceType.Min; i < ItemSourceType.Max; i = i << 1) {
+        var validator = ItemSourceUtil.getTypeValidator(i);
+
+        if (validator && validator(source)) {
+            return i;
+        }
+    }
+    return null;
 };
 
 /**
