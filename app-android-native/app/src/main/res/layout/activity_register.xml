@@ -204,7 +204,7 @@
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/email" />
+                    android:src="@drawable/phone" />
 
                 <com.focosee.qingshow.widget.QSEditText
                     android:id="@+id/phoneEditText"
@@ -220,10 +220,70 @@
                     android:focusableInTouchMode="true"
                     android:hint="@string/phone_email_activity_register"
                     android:textColor="@color/white"
-                    android:inputType="textEmailAddress"
+                    android:inputType="phone"
                     android:singleLine="true"
                     android:textColorHint="@color/white" />
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_background" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/verificationCodeRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <com.focosee.qingshow.widget.QSEditText
+                    android:id="@+id/verification_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/verification_code_activity_register"
+                    android:textColor="@color/white"
+                    android:inputType="number"
+                    android:digits="@string/only_number"
+                    android:layout_toLeftOf="@+id/verification_code_btn"
+                    android:paddingLeft="35dp"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp"
+                    android:textColorHint="@color/white" />
+
+                <com.focosee.qingshow.widget.QSButton
+                    android:id="@+id/verification_code_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_heightPercent="60%"
+                    android:layout_alignParentRight="true"
+                    app:layout_marginRightPercent="10%"
+                    android:background="@drawable/white_small"
+                    app:clickGround="@drawable/white_small"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="发送验证码"
+                    android:textSize="12sp"
+                    android:onClick="onClick"
+                    android:textColor="@color/master_pink"/>
+            </android.support.percent.PercentRelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/gray_background" />
 
             <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
