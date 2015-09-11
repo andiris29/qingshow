@@ -17,7 +17,7 @@ ItemSourceUtil.matchType = function (source, type) {
     for (var i = ItemSourceType.Min; i < ItemSourceType.Max; i = i << 1) {
         if (i & type) {
             var validator = ItemSourceUtil.getTypeValidator(i);
-            if (validator(source)) {
+            if (validator && validator(source)) {
                 return true;
             }
         }

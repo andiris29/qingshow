@@ -1,14 +1,16 @@
 var async = require('async');
 var _ = require('underscore');
+var request = require('request');
 
-var GoblinScheduler = require('../scheduler/GoblinScheduler');
-//var ItemSyncService = require('../common/ItemSyncService');
+
 var ItemSourceType = require('../common/ItemSourceType');
 var GoblinError = require('../common/GoblinError');
 
+var GoblinCrawler = require('../common/crawler/GoblinCrawler');
+
 var GoblinMainSlaver = module.exports;
 
-//???????????
+
 var supportTypes = [
     ItemSourceType.Taobao | ItemSourceType.Tmall,
     ItemSourceType.Hm,
@@ -45,14 +47,17 @@ var _next = function (type) {
     }
     async.waterfall([
         function (callback) {
-            GoblinScheduler.nextItem(type, callback);
+            _queryNextItem(type, callback);
         }, function (item, callback) {
-            ItemSyncService.syncItem(item, callback);
+            GoblinCrawler.crawl(item.source, function (err, itemInfo) {
+                callback(err, item, itemInfo);
+            });
         }
-    ], function (err, item) {
-        var innerCallback = function () {
+    ], function (err, item, itemInfo) {
+        _postItemInfo(item, itemInfo, err, function() {
             var delayTime = null;
-            if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
+            if (err) {
+                //TODO handle error
                 delayTime = _.random(failDelay[0], failDelay[1]);
             } else {
                 delayTime = _.random(succeedDelay[0], succeedDelay[1]);
@@ -60,19 +65,59 @@ var _next = function (type) {
             setTimeout(function () {
                 _next(type);
             }, delayTime);
-        };
+        });
+    });
+};
 
-        if (item) {
-            GoblinScheduler.finishItem(item && item._id, err, function (err, item) {
-                innerCallback();
-            });
+var _queryNextItem = function (type, callback) {
+    var path = slaverModel.config.server.path + '/services/goblin/nextItem';
+
+    request.post({
+        url: path,
+        form: {
+            type : type
+        }
+    }, function(err, httpResponse, body){
+        if (err) {
+            callback(err);
         } else {
-            innerCallback();
+            var data = JSON.parse(body);;
+
+            if (data.metadata && data.metadata.error) {
+                callback(data.metadata.error);
+            } else {
+                var item = data && data.data && data.data.item;
+                callback(null, item);
+            }
         }
     });
 };
 
-//TODO ??????slaver????????item
-GoblinMainSlaver.tregger = function () {
+var _postItemInfo = function (item, itemInfo, err, callback) {
+    if (!item) {
+        callback();
+        return;
+    }
 
+    var param = {};
+    if (item && item._id) {
+        param.itemId = item._id;
+    }
+    if (itemInfo) {
+        param.itemInfo = itemInfo;
+    }
+
+    if (err) {
+        param.error = err;
+    }
+
+    var path = slaverModel.config.server.path + '/services/goblin/crawlItemComplete';
+
+    request.post({
+        url: path,
+        form: param
+    }, function(err, httpResponse, body){
+        console.log(item._id);
+        callback();
+    });
 };

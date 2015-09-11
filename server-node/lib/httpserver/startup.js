@@ -11,7 +11,8 @@ var winston = require('winston');
 var qsftp = require('../runtime/qsftp');
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people', 'matcher', 'notify', 'item'];
+var servicesNames =
+    ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people', 'matcher', 'notify', 'item', 'goblin'];
 var services = servicesNames.map(function (path) {
     return {
         'path' : path,

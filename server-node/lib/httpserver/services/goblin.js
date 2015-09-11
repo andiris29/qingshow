@@ -5,6 +5,7 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var GoblinScheduler = require('../../scheduled/goblin/scheduler/GoblinScheduler');
 var ItemSyncService = require('../../scheduled/goblin/common/ItemSyncService');
+var GoblinError = require('../../scheduled/goblin/common/GoblinError');
 var Item = require('../../model/items');
 var ServerError = require('../server-error');
 
@@ -24,6 +25,10 @@ goblin.nextItem = {
                 GoblinScheduler.nextItem(type, callback);
             }
         ], function (err, item) {
+            if (err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
+                //TODO refactor
+                err = ServerError.fromCode(ServerError.GoblinError);
+            }
             ResponseHelper.response(res, err, {
                 item : item
             });
