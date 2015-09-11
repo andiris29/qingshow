@@ -132,7 +132,9 @@
         }
         self.discountBtn.hidden = YES;
     }];
-
+    if (self.isDisCountBtnHidden == YES) {
+        self.discountBtn.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
