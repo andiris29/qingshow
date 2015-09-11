@@ -1,5 +1,5 @@
 {
-  "name": "com.focosee.server",
+  "name": "com.focosee.goblin_slaver",
   "version": "0.1.0",
   "dependencies": {
     "async": "0.9.*",
