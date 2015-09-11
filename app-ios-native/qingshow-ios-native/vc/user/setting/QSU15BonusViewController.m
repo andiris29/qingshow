@@ -13,6 +13,7 @@
 #import "QSShareService.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
+#import "QSUserManager.h"
 @interface QSU15BonusViewController ()
 
 @end
@@ -36,15 +37,15 @@
     // Do any additional setup after loading the view from its nib.
     [self configNav];
     [self configUI];
-    [self bindVC];
+    [self bindVCWithArray:_bonusArray];
 }
 
-- (void)bindVC
+- (void)bindVCWithArray:(NSArray*)bonusArray;
 {
-    if (_bonusArray.count) {
+    if (bonusArray.count) {
         float currMoney = 0;
         float money = 0;
-        for (NSDictionary *dic in _bonusArray) {
+        for (NSDictionary *dic in bonusArray) {
             money += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
             if ([QSPeopleUtil getStatusFromBonusDict:dic].integerValue == 0) {
                 currMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
@@ -104,6 +105,9 @@
     __weak QSU15BonusViewController *weakSelf = self;
     [[QSShareService shareService]shareWithWechatMoment:@"原来玩搭配还能赚钱，我觉得我快要发财了..." desc:@"只要其他用户通过你的美搭购买了其中的单品,丰厚佣金即刻转账至您的账户" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareBonus&initiatorRef=%@",self.peopleId] onSucceed:^{
         [SHARE_NW_ENGINE getBonusWithAlipayId:self.alipayId OnSusscee:^{
+            NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+            NSArray *bonusArray = [QSPeopleUtil getBonusList:peopleDic];
+            [weakSelf bindVCWithArray:bonusArray];
             [self showTextHud:@"申请成功"];
             [weakSelf.navigationController popViewControllerAnimated:YES];
             } onError:^(NSError *error) {

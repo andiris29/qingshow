@@ -148,6 +148,7 @@
 - (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict
 {
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+        [self.provider reloadData];
         QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
         QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
         vc.navigationItem.leftBarButtonItem = backItem;
