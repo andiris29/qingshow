@@ -135,6 +135,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             });
             initDrawer();
         } else {
+            navigation.setVisibility(View.GONE);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -173,7 +174,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
     private void clickLikeShowButton() {
         if (!QSModel.INSTANCE.loggedin()) {
-            Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
         }
@@ -384,7 +384,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 return;
             case R.id.S03_share_btn://分享
                 if (!QSModel.INSTANCE.loggedin()) {
-                    Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
                     GoToWhereAfterLoginModel.INSTANCE.set_class(null);
                     startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
                 }

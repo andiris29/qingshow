@@ -2,6 +2,7 @@ package com.focosee.qingshow.util;
 
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 
@@ -54,12 +55,13 @@ public class ImgUtil {
 
 
     public static String getImgSrc(String url, String scale) {
-        if(null == url || "".equals(url))return getUserDefaultPortrait();
-        if (scale == null || "".equals(scale)) return url;
+        if(TextUtils.isEmpty(url))return getUserDefaultPortrait();
+        if (TextUtils.isEmpty(scale)) return url;
         String type = FilenameUtils.getExtension(url);
         url = url.substring(0, url.length() - type.length());
-        if(TextUtils.isEmpty(type))
+        if(TextUtils.isEmpty(type)) {
             return url + "_" + scale;
+        }
         if(url.substring(url.length() - 1).equals("."))
             url = url.substring(0, url.length() - 1);
         return url + "_" + scale + "." + type;
