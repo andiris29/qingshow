@@ -1,9 +1,8 @@
 package com.focosee.qingshow.util;
 
+import com.focosee.qingshow.model.CategoriesModel;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-
-import java.util.Comparator;
 
 /**
 * Created by Administrator on 2015/8/4.
@@ -14,7 +13,7 @@ public class ComparatorList {
         return new java.util.Comparator<MongoItem>() {
             @Override
             public int compare(MongoItem lhs, MongoItem rhs) {
-                return lhs.categoryRef.order.compareTo(rhs.categoryRef.order);
+                return CategoriesModel.INSTANCE.getCategories().get(lhs.categoryRef._id).order.compareTo(CategoriesModel.INSTANCE.getCategories().get(lhs.categoryRef._id).order);
             }
         };
     }

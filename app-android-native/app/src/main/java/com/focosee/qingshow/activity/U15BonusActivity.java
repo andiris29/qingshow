@@ -85,7 +85,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         u15Balance.setText(BonusHelper.getBonusesNotWithDraw(people.bonuses));
         u15Total.setText(BonusHelper.getTotalBonuses(people.bonuses));
         Log.d(U15BonusActivity.class.getSimpleName(), "bonus:" + people.bonuses.size());
-        if(null == people.bonuses || people.bonuses.size() == 0)
+        if(!(null == people.bonuses || people.bonuses.size() == 0))
             u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
         if(BonusHelper.getBonusesWithFloat(people.bonuses) > 0){
             isCanWithDrwa = true;

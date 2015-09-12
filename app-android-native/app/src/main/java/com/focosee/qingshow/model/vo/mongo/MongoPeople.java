@@ -20,6 +20,7 @@ public class MongoPeople implements Serializable {
     public Number height;
     public Number weight;
     public Number age;
+    public String mobile;
     public int bodyType;
     public int dressStyle;
     public int[] expectations;

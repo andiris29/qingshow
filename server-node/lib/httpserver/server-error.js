@@ -52,6 +52,8 @@ ServerError.TradeStatusChangeError = 1025;
 ServerError.AlreadyLaunched = 1026;
 ServerError.UnsupportVersion = 1027;
 ServerError.GoblinError = 1028;
+ServerError.MobileAlreadyExist = 1029;
+ServerError.SMSValidationFail = 1030;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -97,6 +99,10 @@ var _codeToString = function(code) {
             return "UnsupportVersion";
         case ServerError.GoblinError :
             return 'GoblinError';
+        case 1029 : 
+            return "MobileAlreadyExist";
+        case 1030 :
+            return "SMSValidationFail";
     }
 };
 
