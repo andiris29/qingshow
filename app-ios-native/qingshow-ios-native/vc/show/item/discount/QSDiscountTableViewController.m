@@ -15,7 +15,8 @@
 #import "QSDiscountQuantityCell.h"
 #import "QSDiscountResultCell.h"
 #import "QSItemUtil.h"
-
+#import "QSPeopleUtil.h"
+#import "QSUserManager.h"
 
 @interface QSDiscountTableViewController ()
 
@@ -117,6 +118,12 @@
 
 - (NSDictionary*)getResult {
     NSMutableDictionary* retDict = [@{} mutableCopy];
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
+    if (peopleId == nil) {
+        peopleId = @"";
+    }
+    retDict[@"promoterRef"] = peopleId;
     retDict[@"itemSnapshot"] = self.itemDict;
     retDict[@"selectedSkuProperties"] = [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell* cell) {
         return [cell getResult];

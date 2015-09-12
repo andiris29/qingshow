@@ -6,7 +6,8 @@ package com.focosee.qingshow.constants.config;
 public class QSAppWebAPI {
     public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
 //    public static final String HOST_ADDRESS = "http://chinshow.com";
-    public static final String HOST_ADDRESS = "http://192.168.1.110:30001";
+//    public static final String HOST_ADDRESS = "http://192.168.1.110:30001";
+    public static final String HOST_ADDRESS = "http://139.196.32.82";
 
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
 
@@ -85,7 +86,7 @@ public class QSAppWebAPI {
 
     private static final String REQUEST_VERIFICATION_CODE_API = HOST_NAME + "/user/requestVerificationCode";
 
-    private static final String VALIDATE_MOBILE_API = HOST_NAME + "user/validateMobile";
+    private static final String VALIDATE_MOBILE_API = HOST_NAME + "/user/validateMobile";
 
     public static String getRequestVerificationCodeApi() {
         return REQUEST_VERIFICATION_CODE_API;

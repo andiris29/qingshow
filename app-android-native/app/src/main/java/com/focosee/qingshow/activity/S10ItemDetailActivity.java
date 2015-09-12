@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +25,8 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.widget.ConfirmDialog;
@@ -84,7 +87,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         itemEntity = new MongoItem();
         itemEntity._id = getIntent().getStringExtra(BONUSES_ITEMID);
         if(!TextUtils.isEmpty(itemEntity._id)){
-            getItem();
+            getItemFormNet(itemEntity._id);
         }
         dialog.show();
     }
@@ -172,6 +175,10 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    private void isJumpToAddress(){
+
     }
 
     private void getItemFormNet(String id) {

@@ -105,6 +105,7 @@ public class U06LoginActivity extends BaseActivity {
                                         bundle.putSerializable("user", user);
                                         intent.putExtras(bundle);
                                         startActivity(intent);
+                                        GoToWhereAfterLoginModel.INSTANCE.set_class(null);
                                         if(TextUtils.isEmpty(user.portrait)){
                                             uploadImage();
                                         }

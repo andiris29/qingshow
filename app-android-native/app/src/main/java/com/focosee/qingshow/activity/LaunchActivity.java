@@ -43,11 +43,10 @@ public class LaunchActivity extends InstrumentedActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         getWindow().setFormat(PixelFormat.RGBA_8888);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
         //友盟接口
-        MobclickAgent.updateOnlineConfig(this);
+//        MobclickAgent.updateOnlineConfig(this);
 
         String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
         if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())) {

@@ -152,8 +152,10 @@
             if (mutableSubArray.count >= 2) {
                 [mutableSubArray removeObjectAtIndex:0];
             }
-            for (int j = 0; j < mutableSubArray.count; j ++) {
-                [key appendString:mutableSubArray[j]];
+            if (mutableSubArray.count > 1) {
+                for (int j = 0; j < mutableSubArray.count; j ++) {
+                    [key appendString:mutableSubArray[j]];
+                }
             }
             if (i != skuArray.count-1) {
                 [key appendString:@":"];

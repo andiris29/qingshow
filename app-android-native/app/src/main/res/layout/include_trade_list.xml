@@ -2,11 +2,9 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_tradelist_msg_relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:background="@drawable/u02_relativelayout_background"
     android:paddingTop="20dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -15,8 +13,22 @@
         fresco:actualImageScaleType="fitCenter"
         fresco:placeholderImage="@drawable/root_cell_placehold_image1"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="60%"
         android:layout_alignParentLeft="true" />
+
+    <com.focosee.qingshow.widget.QSButton
+        android:id="@+id/item_tradelist_check"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="20%"
+        app:layout_heightPercent="12%"
+        app:layout_marginTopPercent="5%"
+        app:layout_marginLeftPercent="6%"
+        android:background="@drawable/tradelist_btn"
+        android:text="查看商品"
+        android:textColor="@color/master_pink"
+        android:layout_below="@id/item_tradelist_image"/>
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
@@ -92,15 +104,19 @@
             android:layout_marginTop="5dp"
             android:text="期望价格：" />
 
-        <ImageView
+        <com.focosee.qingshow.widget.QSButton
             android:id="@+id/item_tradelist_discount"
-            app:layout_heightPercent="40%"
-            app:layout_widthPercent="30%"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignBottom="@id/item_tradelist_expectedPrice"
             android:layout_alignParentRight="true"
             android:layout_marginRight="3dp"
+            android:background="@drawable/newest_btn"
+            app:clickGround="@drawable/newest_btn_click_ground"
+            android:layout_alignParentBottom="true"
+            android:text="最新\n折扣"
+            android:textColor="@color/white"
+            android:rotation="30"
             android:scaleType="fitCenter" />
     </android.support.percent.PercentRelativeLayout>
 </android.support.percent.PercentRelativeLayout>

@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,12 +23,16 @@ import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
+import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
@@ -259,6 +264,17 @@ public class S11NewTradeFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
+        if(!QSModel.INSTANCE.loggedin()){
+            GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+            startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+            return;
+        }
+
+        if(TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)){
+            startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
+            return;
+        }
+
         submit.setClickable(false);
         trade.selectedSkuProperties = SkuUtil.propParser(selectProps);
 
@@ -278,6 +294,7 @@ public class S11NewTradeFragment extends Fragment {
             e.printStackTrace();
         }
         params.put("quantity", trade.quantity);
+        params.put("promoterRef", trade.peopleSnapshot._id);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

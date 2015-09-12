@@ -275,7 +275,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             public void onResponse(JSONObject response) {
                 Log.d(U07RegisterActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
-                    ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
+                    ToastUtil.showShortToast(getActivity().getApplicationContext(), "验证失败，请重试");
                     saveBtn.setEnabled(true);
                     return;
                 }
