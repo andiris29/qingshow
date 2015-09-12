@@ -443,10 +443,10 @@
                                   onSucceed:(BoolBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_MOBILE_VALIDATE method:@"GET" paramers:@{@"mobileNumber":mobileNum,   @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_MOBILE_VALIDATE method:@"POST" paramers:@{@"mobileNumber":mobileNum,   @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary *retDic = completedOperation.responseJSON;
         if (succeedBlock) {
-            succeedBlock(retDic[@"data"][@"success"]);
+            succeedBlock((BOOL)retDic[@"data"][@"success"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

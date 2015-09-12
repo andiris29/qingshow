@@ -9,6 +9,8 @@
 #import "QST01ShowTradeViewController.h"
 #import "QSNetworkKit.h"
 #import "QSNetworkEngine+TradeService.h"
+#import "QSNetworkEngine+ShowService.h"
+#import "QSG01ItemWebViewController.h"
 @interface QST01ShowTradeViewController ()
 
 @property (strong,nonatomic)QST01ShowTradeProvider *provider;
@@ -40,6 +42,19 @@
     };
     [self.provider fetchDataOfPage:1];
     [self.provider reloadData];
+}
+- (void)didTapTradeCell:(NSString *)ItemId
+{
+    __weak QST01ShowTradeViewController *weakSelf = self;
+    [SHARE_NW_ENGINE getItemWithId:ItemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        if (array.count) {
+            NSDictionary *ItemDic = [array firstObject];
+            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:ItemDic];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    } onError:^(NSError *error) {
+        
+    }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

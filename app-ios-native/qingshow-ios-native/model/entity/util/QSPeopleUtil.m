@@ -345,7 +345,7 @@
 }
 + (BOOL)checkMobileExist:(NSDictionary *)dict
 {
-    if (![QSEntityUtil getNumberValue:dict keyPath:@"mobile"]) {
+    if (![QSEntityUtil getStringValue:dict keyPath:@"mobile"]) {
         return NO;
     }
     return YES;

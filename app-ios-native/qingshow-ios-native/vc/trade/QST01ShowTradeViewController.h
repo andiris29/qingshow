@@ -9,7 +9,7 @@
 #import "QSRootContentViewController.h"
 #import "QST01ShowTradeProvider.h"
 
-@interface QST01ShowTradeViewController : QSRootContentViewController<QSAbstractScrollProviderDelegate>
+@interface QST01ShowTradeViewController : QSRootContentViewController<QSAbstractScrollProviderDelegate,QST01ShowTradeProviderDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

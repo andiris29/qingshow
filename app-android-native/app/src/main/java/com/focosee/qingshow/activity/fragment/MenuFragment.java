@@ -165,6 +165,12 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             return;
         }
 
+        if(v.getId() == R.id.u01_bonusList){
+            startActivity(new Intent(getActivity(), T01HighlightedTradeListActivity.class));
+            getActivity().finish();
+            return;
+        }
+
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
@@ -172,9 +178,6 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.navigation_btn_discount:
                 _class = U09TradeListActivity.class;
-                break;
-            case R.id.u01_bonusList:
-                _class = T01HighlightedTradeListActivity.class;
                 break;
             case R.id.u01_people:
                 _class = U01UserActivity.class;

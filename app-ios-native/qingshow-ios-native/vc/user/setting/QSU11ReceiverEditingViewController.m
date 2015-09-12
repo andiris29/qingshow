@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSDictionary* locationDict;
 @property (strong, nonatomic) NSString* selectionLocation;
 @property (strong, nonatomic) QSLocationPickerProvider* pickerProvider;
+@property (strong, nonatomic) NSTimer *timer;
 @end
 
 @implementation QSU11ReceiverEditingViewController
@@ -120,6 +121,7 @@
     self.textFieldArray = @[self.nameTextField, self.phoneTextField,self.codeTextField, self.detailLocationTextField];
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
     BOOL hasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
+    NSLog(@"mobile = %@",peopleDic[@"mobile"]);
     if (hasMobile == NO) {
         self.cellArray = @[self.nameCell, self.phoneCell,self.codeCell, self.locationCell, self.detailLocationCell];
     }else{
@@ -177,13 +179,34 @@
     self.selectionLocation = self.localLabel.text;
     self.detailLocationTextField.text = [QSReceiverUtil getAddress:dict];
 }
-
+- (void)setTimer
+{
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
+    [_timer fire];
+    
+    self.getCodeBtn.userInteractionEnabled = NO;
+}
+- (void)timerRun
+{
+    static int num = 60;
+    [self.getCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后重新发送",num] forState:UIControlStateNormal];
+    num -= 1;
+    if (num < 1) {
+        [_timer invalidate];
+        _timer = nil;
+        num = 60;
+        [self.getCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        self.getCodeBtn.userInteractionEnabled = YES;
+    }
+    
+}
 
 #pragma mark - IBAction
 - (IBAction)getCodeBtnPressed:(id)sender {
     NSString *mobileNum = self.phoneTextField.text;
     [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
         [self showTextHud:@"已成功发送验证码"];
+        [self setTimer];
     } onError:^(NSError *error) {
         [self showTextHud:@"手机号码不正确或已被注册"];
     }];
@@ -218,13 +241,13 @@
              } onError:^(NSError *error) {
                  [self showErrorHudWithError:error];
              }];
-
+            [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.phoneTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
         }else{
             [self showTextHud:@"验证码错误"];
         }
         
     } onError:^(NSError *error) {
-        [self showTextHud:@"注册失败，请重新核对信息"];
+        [self showTextHud:@"未能保存，请正确填写信息"];
     }];
 
     }

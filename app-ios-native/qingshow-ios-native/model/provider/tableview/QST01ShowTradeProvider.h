@@ -8,6 +8,14 @@
 
 #import "QSTableViewBasicProvider.h"
 
+@protocol QST01ShowTradeProviderDelegate <NSObject>
+
+- (void)didTapTradeCell:(NSString *)ItemId;
+
+@end
+
 @interface QST01ShowTradeProvider : QSTableViewBasicProvider<QSAbstractScrollProviderDelegate>
+
+@property (weak, nonatomic)NSObject<QST01ShowTradeProviderDelegate>* delegate;
 
 @end
