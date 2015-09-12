@@ -166,6 +166,8 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                     new VerificationHelper().getVerification(consigeePhoneET.getText().toString(), verificationBtn, getActivity());
                 }
             });
+        } else {
+            verification_layout.setVisibility(View.GONE);
         }
         setData();
     }
@@ -176,7 +178,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         errorText.postDelayed(new Runnable() {
             @Override
             public void run() {
-                errorText.setVisibility(View.GONE);
+                errorText.setVisibility(View.INVISIBLE);
             }
         }, ValueUtil.SHOW_ERROR_TIME);
     }
@@ -274,18 +276,17 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                 Log.d(U07RegisterActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
+                    saveBtn.setEnabled(true);
                     return;
                 }
 
-                Gson gson = QSGsonFactory.create();
-
                 try {
-                    String data = response.getJSONObject("data").getJSONObject("success").toString();
-                    if (gson.fromJson(data, Boolean.class)) {
+                    if (response.getJSONObject("data").getBoolean("success")) {
                         udpatePeople();
                         commit(pa);
                     } else {
                         ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
+                        saveBtn.setEnabled(true);
                         return;
                     }
                 } catch (JSONException e) {

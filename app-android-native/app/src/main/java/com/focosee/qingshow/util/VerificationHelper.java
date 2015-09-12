@@ -3,13 +3,13 @@ package com.focosee.qingshow.util;
 import android.content.Context;
 import android.os.Message;
 import android.util.Log;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.widget.QSButton;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -24,12 +24,13 @@ public class VerificationHelper {
 
     private QSButton veri_btn;
     private Context context;
-    private int color;
+    private int color = Integer.MAX_VALUE;
 
-    public void getVerification(String mobileNumber, QSButton veri_btn, Context context){
+    public void getVerification(String mobileNumber, QSButton veri_btn, final Context context){
         veri_btn.setEnabled(false);
+        if(color == Integer.MAX_VALUE)
+            color = veri_btn.getCurrentTextColor();
         veri_btn.setTextColor(context.getResources().getColor(R.color.gary));
-        color = veri_btn.getCurrentTextColor();
         this.veri_btn = veri_btn;
         this.context = context;
         Timer timer = new Timer();
@@ -43,10 +44,13 @@ public class VerificationHelper {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(VerificationHelper.class.getSimpleName(), "response:" + response);
+
+                if(MetadataParser.hasError(response)){
+                    ToastUtil.showShortToast(context.getApplicationContext(), "获得验证码失败，请重试");
+                }
             }
         });
 
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(Integer.MAX_VALUE, 0, 1f));
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
