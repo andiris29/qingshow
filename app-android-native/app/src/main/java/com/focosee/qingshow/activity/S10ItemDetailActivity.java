@@ -31,6 +31,7 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
                 if (itemEntity != null) {
                     loadWebView(itemEntity.source);
-                    if (itemEntity.readOnly) {
+                    if (itemEntity.readOnly || !TextUtils.isEmpty(itemEntity.delist)) {
                         bay.setVisibility(View.GONE);
                     }
                 } else {
@@ -165,7 +166,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.s10_bay:
                 dialog.show();
-
                 getItemFormNet(itemEntity._id);
                 break;
             case R.id.s10_back_btn:

@@ -136,7 +136,6 @@
                 android:paddingRight="10dp"
                 android:text="发送验证码"
                 android:textSize="12sp"
-                android:onClick="onClick"
                 android:textColor="@color/white"/>
 
         </LinearLayout>
