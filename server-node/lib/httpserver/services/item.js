@@ -8,6 +8,7 @@ var Items = require('../../model/items');
 
 var item = module.exports;
 var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
+var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");
 var GoblinError = require("../../scheduled/goblin/common/GoblinError");
 var ServerError = require('../server-error');
 
@@ -17,8 +18,8 @@ item.sync = {
         async.waterfall([
             function (callback) {
                 var itemId = RequestHelper.parseId(req.body._id);
-                //TODO 改为使用GoblinScheduler
-                ItemSyncService.syncItemWithItemId(itemId, callback);
+                GoblinScheduler.registerItemWithId(itemId, callback);
+                //ItemSyncService.syncItemWithItemId(itemId, callback);
             }
         ], function (err, item) {
             if (err) {

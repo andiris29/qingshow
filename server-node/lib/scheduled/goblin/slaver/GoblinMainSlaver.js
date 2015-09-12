@@ -24,12 +24,20 @@ var slaverModel = null;
 GoblinMainSlaver.start = function (config) {
     slaverModel = {
         config : config,
-        running : true
+        running : true,
+        timer : {}  //用于记录某个爬虫当前是否正在进行
     };
+    GoblinMainSlaver.triggerAllTimer();
+};
+
+GoblinMainSlaver.triggerAllTimer = function () {
     supportTypes.forEach(function (t) {
-        _next(t);
+        if (!slaverModel.timer[t]) {
+            _next(t);
+        }
     });
 };
+
 
 GoblinMainSlaver.stop = function () {
     slaverModel.running = false;
@@ -39,13 +47,14 @@ GoblinMainSlaver.stop = function () {
 var succeedDelay = [5000, 10000];
 var failDelay = [5000, 10000];
 
+
 var _next = function (type) {
     if (!slaverModel || !slaverModel.running) {
         return;
     }
     async.waterfall([
         function (callback) {
-            GoblinScheduler.nextItem(type, callback);
+            GoblinScheduler.nextRequestedItem(type, callback);
         }, function (item, callback) {
             ItemSyncService.syncItem(item, callback);
         }
@@ -57,9 +66,13 @@ var _next = function (type) {
             } else {
                 delayTime = _.random(succeedDelay[0], succeedDelay[1]);
             }
-            setTimeout(function () {
-                _next(type);
-            }, delayTime);
+            if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
+                slaverModel.timer[type] = null;
+            } else {
+                slaverModel.timer[type] = setTimeout(function () {
+                    _next(type);
+                }, delayTime);
+            }
         };
 
         if (item) {
@@ -72,7 +85,6 @@ var _next = function (type) {
     });
 };
 
-//TODO 外部主动触发slaver请求并爬取下一个item
-GoblinMainSlaver.tregger = function () {
-
+GoblinMainSlaver.tregger = function (item) {
+    GoblinMainSlaver.triggerAllTimer();
 };

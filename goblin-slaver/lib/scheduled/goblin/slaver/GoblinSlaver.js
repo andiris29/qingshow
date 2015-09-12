@@ -38,6 +38,7 @@ GoblinMainSlaver.stop = function () {
     slaverModel = null;
 };
 
+//TODO MOVE To CONFIG
 var succeedDelay = [5000, 10000];
 var failDelay = [5000, 10000];
 
@@ -117,7 +118,7 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         url: path,
         form: param
     }, function(err, httpResponse, body){
-        console.log(item._id);
+        console.log(item._id + ':' + item.source );
         callback();
     });
 };

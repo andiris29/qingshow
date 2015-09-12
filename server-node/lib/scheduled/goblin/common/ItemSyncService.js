@@ -1,8 +1,6 @@
 var winston = require('winston');
 var GoblinCrawler = require('./crawler/GoblinCrawler');
-
 var async = require('async');
-var URLParser = require('./URLParser');
 var _ = require('underscore');
 var GoblinError = require('./GoblinError');
 

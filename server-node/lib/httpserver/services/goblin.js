@@ -25,7 +25,7 @@ goblin.nextItem = {
                 GoblinScheduler.nextItem(type, callback);
             }
         ], function (err, item) {
-            if (err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
+            if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
                 //TODO refactor
                 err = ServerError.fromCode(ServerError.GoblinError);
             }

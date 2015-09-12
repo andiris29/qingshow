@@ -64,7 +64,7 @@ var _rollbackAllocatedItem = function (itemId, allocatedArray, sourceArray) {
     if (index !== -1) {
         var item = allocatedArray(index);
         allocatedArray.splice(index, 1);
-        sourceArray.unshift(item);  //rollback 回待分配数组的item优先分配
+        sourceArray.unshift(item);   //rollback 回待分配数组的item优先分配
     }
 };
 
@@ -75,11 +75,18 @@ var _rollbackAllocatedItem = function (itemId, allocatedArray, sourceArray) {
  * @param callback function (err, item)
  */
 GoblinScheduler.nextItem = function (type, callback) {
-
     var allItems = requestedItems.concat(secondaryItems);
+    _fetchNextItem(allItems, type, callback);
+};
+
+GoblinScheduler.nextRequestedItem = function (type, callback) {
+    _fetchNextItem(requestedItems, type, callback);
+};
+
+var _fetchNextItem = function (scope, type, callback) {
     var i, matchedItem = null, tempItem = null;
-    for (i = 0; i < allItems.length; i++) {
-        tempItem = allItems[i];
+    for (i = 0; i < scope.length; i++) {
+        tempItem = scope[i];
         if (!type || ItemSourceUtil.matchType(tempItem && tempItem.source, type)) {
             matchedItem = tempItem;
             break;
@@ -91,16 +98,20 @@ GoblinScheduler.nextItem = function (type, callback) {
         callback(GoblinError.fromCode(GoblinError.NoItemShouldBeCrawl));
         _checkToQueryNewItems();
     } else {
-        if (i < requestedItems.length) {
-            requestedItems.splice(i, 1);
+        var tempIndex;
+        tempIndex = requestedItems.indexOf(matchedItem);
+        if (tempIndex !== -1) {
+            requestedItems.splice(tempIndex, 1);
             allocatedRequestedItems.push(matchedItem);
-        } else {
-            secondaryItems.splice(i - requestedItems.length, 1);
+        }
+
+        tempIndex = secondaryItems.indexOf(matchedItem);
+        if (tempIndex !== -1) {
+            secondaryItems.splice(tempIndex, 1);
             allocatedSecondaryItems.push(matchedItem);
         }
         var itemIdStr = _idToString(matchedItem._id);
         itemIdToAllocatedDate[itemIdStr] = new Date();
-
         callback(null, matchedItem);
         _checkToQueryNewItems();
     }
@@ -134,6 +145,13 @@ GoblinScheduler.registerItem = function (item, callback) {
         callback(null, item);
         return;
     }
+    if (!ItemSyncService.canParseItemSource(item.source)) {
+        //ItemSource类型不支持
+        callback(GoblinError.fromCode(GoblinError.NotSupportItemSource), item);
+        return;
+    }
+
+
     //检查item是否已经在队列
     var allItems = allArrays.reduce(function (l, r) { return l.concat(r);}, []);
 
@@ -146,11 +164,14 @@ GoblinScheduler.registerItem = function (item, callback) {
         if (secondaryIndex !== -1) {
             //item在secondary队列中，需要移到requested队列
             secondaryItems.splice(secondaryIndex, 1);
-            requestedItems.push(itemIdStr);
+            requestedItems.push(item);
         }
     } else {
         //item不再队列中，加入队列
-        requestedItems.push(itemIdStr);
+        requestedItems.push(item);
+        //trigger goblin main slaver，令其主动爬取item
+        require('../slaver/GoblinMainSlaver').tregger(item);
+
     }
     //记录handler
     var handlerArray = itemIdToHandlers[itemIdStr] || [];
@@ -252,6 +273,11 @@ var _checkToQueryNewItems = function (callback) {
             var newItems = items.filter(function (i) {
                 return allItemIds.indexOf(_idToString(i._id)) === -1;
             });
+            newItems = items.filter(function (i) {
+                //去除不支持的item
+                return ItemSyncService.canParseItemSource(i.source);
+            });
+
             secondaryItems = secondaryItems.concat(newItems);
             callback();
         }
@@ -296,7 +322,9 @@ var _invokeHandlerForItem = function (itemId, err, callback) {
 //////////
 // Utility
 var _parseId = function (itemId) {
-    if (_.isString(itemId)) {
+    if (!itemId) {
+        return itemId;
+    } else if (_.isString(itemId)) {
         return new mongoose.Types.ObjectId(itemId);
     } else {
         return itemId;
@@ -304,7 +332,9 @@ var _parseId = function (itemId) {
 };
 
 var _idToString = function (itemId) {
-    if (_.isString(itemId)) {
+    if (!itemId) {
+        return itemId;
+    } else if (_.isString(itemId)) {
         return itemId;
     } else {
         return itemId.toString();
