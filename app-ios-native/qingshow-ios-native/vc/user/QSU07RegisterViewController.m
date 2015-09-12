@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *geTestNumBtn;
 
 
+//@property (assign,nonatomic)static int num;
+@property (strong,nonatomic)NSTimer *timer;
 
 @end
 
@@ -61,7 +63,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
     [self registerForKeyboardNotifications];
     [self configScrollView];
     [self.containerView addSubview:self.contentView];
@@ -135,9 +136,31 @@
     NSString *mobileNum = self.mailAndPhoneText.text;
         [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
             [self showTextHud:@"已成功发送验证码"];
+            [self setTimer];
         } onError:^(NSError *error) {
             [self showTextHud:@"手机号码不正确或已被注册"];
         }];
+}
+- (void)setTimer
+{
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
+    [_timer fire];
+    
+    self.geTestNumBtn.userInteractionEnabled = NO;
+}
+- (void)timerRun
+{
+    static int num = 60;
+    [self.geTestNumBtn setTitle:[NSString stringWithFormat:@"%d秒后重新发送",num] forState:UIControlStateNormal];
+    num -= 1;
+    if (num < 1) {
+        [_timer invalidate];
+        _timer = nil;
+        num = 60;
+        [self.geTestNumBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        self.geTestNumBtn.userInteractionEnabled = YES;
+    }
+    
 }
 - (IBAction)login:(id)sender {
     [self resignOnTap:nil];
@@ -242,6 +265,7 @@
     [SHARE_NW_ENGINE MobileNumberAvilable:self.mailAndPhoneText.text code:self.testTextField.text onSucceed:^(BOOL code) {
         if (code == YES) {
             [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
+            [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.mailAndPhoneText.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
         }else{
             [self showTextHud:@"验证码错误"];
         }
