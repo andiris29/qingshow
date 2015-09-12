@@ -48,7 +48,7 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
     if (err || !itemInfo) {
         //Delist
         item.delist = new Date();
-        if (err.errorCode === GoblinError.Delist) {
+        if (err && err.errorCode === GoblinError.Delist) {
             _logItem('item success, delist', item);
         } else {
             //Other Error
