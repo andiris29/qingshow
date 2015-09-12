@@ -31,7 +31,43 @@ var itemIdToAllocatedDate = {}; // itemId<String> => Date, 记录item分配出�
 GoblinScheduler.start = function (config) {
     //TODO save config, add schedule
     _checkToQueryNewItems();
+    _timeoutScheduler();
 };
+
+
+//定时扫描已分配item是否超时，如果超时则放回待分配数组重新分配
+var timeoutCheckDuration = 60 * 1000; //TODO move to config,暂时hard code 1 分钟
+var timeoutDuration = 30 * 1000; // TODO move to config
+var _timeoutScheduler = function () {
+    var now = new Date();
+    for (var itemId in itemIdToAllocatedDate) {
+        if (itemIdToAllocatedDate.hasOwnProperty(itemId)) {
+            var setupTime = itemIdToAllocatedDate[itemId];
+            if (now - setupTime > timeoutDuration) {
+                _handlerTimeout(itemId);
+            }
+        }
+    }
+    setTimeout(function () {
+        _timeoutScheduler();
+    }, timeoutCheckDuration);
+};
+
+var _handlerTimeout = function(itemId) {
+    _rollbackAllocatedItem(itemId, allocatedRequestedItems, requestedItems);
+    _rollbackAllocatedItem(itemId, allocatedSecondaryItems, secondaryItems);
+    delete itemIdToAllocatedDate[itemId];
+};
+
+var _rollbackAllocatedItem = function (itemId, allocatedArray, sourceArray) {
+    var index = _findItemIndexWithId(itemId, allocatedArray);
+    if (index !== -1) {
+        var item = allocatedArray(index);
+        allocatedArray.splice(index, 1);
+        sourceArray.unshift(item);  //rollback 回待分配数组的item优先分配
+    }
+};
+
 
 /**
  * 请求下一个需要爬的item
@@ -137,7 +173,7 @@ GoblinScheduler.finishItem = function (itemId, err, callback) {
     _invokeHandlerForItem(itemId, err, callback);
 };
 
-//TODO schedule扫描已分配item是否超时
+
 
 
 
