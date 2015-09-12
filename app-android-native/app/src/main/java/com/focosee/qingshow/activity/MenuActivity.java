@@ -170,6 +170,15 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
+        if(v.getId() == R.id.u01_bonusList){
+            if(this instanceof T01HighlightedTradeListActivity){
+                return;
+            }
+            startActivity(new Intent(MenuActivity.this, T01HighlightedTradeListActivity.class));
+            finish();
+            return;
+        }
+
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
@@ -179,10 +188,6 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             case R.id.navigation_btn_discount:
                 if(this instanceof U09TradeListActivity)return;
                 _class = U09TradeListActivity.class;
-                break;
-            case R.id.u01_bonusList:
-                if(this instanceof T01HighlightedTradeListActivity)return;
-                _class = T01HighlightedTradeListActivity.class;
                 break;
             case R.id.u01_people:
                 if(this instanceof U01UserActivity)return;

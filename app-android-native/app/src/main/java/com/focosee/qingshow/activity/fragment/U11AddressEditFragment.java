@@ -3,31 +3,47 @@ package com.focosee.qingshow.activity.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.CityActivity;
 import com.focosee.qingshow.activity.CityEvent;
+import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.VerificationHelper;
 import com.focosee.qingshow.widget.QSButton;
+import com.focosee.qingshow.widget.QSEditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -43,7 +59,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
     public static final String ASK_REFRESH = "ask_refresh";
 
-    enum ViewName{
+    enum ViewName {
         AREA
     }
 
@@ -58,13 +74,17 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private TextView errorText;
 
     private MongoPeople.Receiver receiver;
-    QSButton saveBtn;
+    private QSButton verificationBtn;
+    private QSEditText consigee_verificationCode;
+    private QSButton saveBtn;
+    private LinearLayout verification_layout;
 
-    public static U11AddressEditFragment newInstace(){
+    public static U11AddressEditFragment newInstace() {
         return new U11AddressEditFragment();
     }
 
-    public U11AddressEditFragment(){}
+    public U11AddressEditFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +94,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         receiver = (MongoPeople.Receiver) getActivity().getIntent().getSerializableExtra("receiver");
 
-        if(null != getArguments()){
+        if (null != getArguments()) {
             id = getArguments().getString("id");
         }
         EventBus.getDefault().register(this);
@@ -89,7 +109,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         return view;
     }
 
-    private void matchUI(View view){
+    private void matchUI(View view) {
 
         view.findViewById(R.id.U11ec_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +127,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             }
         });
 
-        if(null == id){
+        if (null == id) {
             ((TextView) view.findViewById(R.id.U11_title_tv)).setText(getResources().getString(R.string.title_name_activity_addaddress));
         } else {
             ((TextView) view.findViewById(R.id.U11_title_tv)).setText(getResources().getString(R.string.title_name_activity_editaddress));
@@ -118,6 +138,9 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         consigeeDetailAreaET = (EditText) view.findViewById(R.id.consigee_detailArea_editText);
         area_layout = (LinearLayout) view.findViewById(R.id.consignee_area_layout);
         errorText = (TextView) view.findViewById(R.id.error_text);
+        verificationBtn = (QSButton) view.findViewById(R.id.verification_code_btn);
+        consigee_verificationCode = (QSEditText) view.findViewById(R.id.consigee_verification);
+        verification_layout = (LinearLayout) view.findViewById(R.id.consigee_verification_layout);
 
         consigeeNameET.setOnFocusChangeListener(this);
         consigeePhoneET.setOnFocusChangeListener(this);
@@ -132,10 +155,22 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         area_layout.setTag(ViewName.AREA);
 
+        if (people.mobile == null) {
+            verificationBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (TextUtils.isEmpty(consigeePhoneET.getText().toString())) {
+                        ToastUtil.showShortToast(getActivity(), "请输入手机号码");
+                        return;
+                    }
+                    new VerificationHelper().getVerification(consigeePhoneET.getText().toString(), verificationBtn, getActivity());
+                }
+            });
+        }
         setData();
     }
 
-    private void showError(String msg){
+    private void showError(String msg) {
         errorText.setVisibility(View.VISIBLE);
         errorText.setText(msg);
         errorText.postDelayed(new Runnable() {
@@ -146,9 +181,9 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         }, ValueUtil.SHOW_ERROR_TIME);
     }
 
-    private void setData(){
+    private void setData() {
 
-        if(null != receiver) {//编辑页面
+        if (null != receiver) {//编辑页面
             consigeeNameET.setText(receiver.name);
             consigeePhoneET.setText(receiver.phone);
             consigeeAreaTV.setText(receiver.province);
@@ -156,35 +191,35 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         }
     }
 
-    private void commitForm(){
+    private void commitForm() {
 
         final Map params = new HashMap();
-        if(null != receiver){//编辑页面
+        if (null != receiver) {//编辑页面
             params.put("uuid", receiver.uuid);
             params.put("isDefault", receiver.isDefault);
         }
-        if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()) && consigeeNameET.getText().toString().length() <= 20)
+        if (null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()) && consigeeNameET.getText().toString().length() <= 20)
             params.put(NAME_STR, consigeeNameET.getText().toString());
         else {
             showError("请正确填写收货人姓名，长度应小于20位");
             saveBtn.setEnabled(true);
             return;
         }
-        if(consigeePhoneET.getText().length() == 11)
+        if (consigeePhoneET.getText().length() == 11)
             params.put(PHONE_STR, consigeePhoneET.getText().toString());
         else {
-            showError("请正确填写收货人电话");
+            showError("请正确填写手机号码");
             saveBtn.setEnabled(true);
             return;
         }
-        if(null != consigeeAreaTV.getText())
+        if (null != consigeeAreaTV.getText())
             params.put(PROVINCE_STR, consigeeAreaTV.getText().toString());
         else {
             showError("请选择所在区域");
             saveBtn.setEnabled(true);
             return;
         }
-        if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText().toString())
+        if (null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText().toString())
                 && consigeeDetailAreaET.getText().toString().length() <= 50)
             params.put(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
         else {
@@ -192,6 +227,16 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             saveBtn.setEnabled(true);
             return;
         }
+
+        if (people.mobile == null) {
+            validateMobile(params);
+        } else {
+            commit(params);
+        }
+
+    }
+
+    private void commit(final Map params) {
         UserReceiverCommand.saveReceiver(params, new Callback() {
             @Override
             public void onError(int errorCode) {
@@ -216,14 +261,56 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         });
     }
 
-    public void onEventMainThread(CityEvent event){
-        if(null == event)return;
+    private void validateMobile(final Map pa) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("mobileNumber", consigeePhoneET.getText().toString());
+        params.put("verificationCode", consigee_verificationCode.getText().toString());
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getValidateMobileApi()
+                , new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(U07RegisterActivity.class.getSimpleName(), "response:" + response);
+                if (MetadataParser.hasError(response)) {
+                    ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
+                    return;
+                }
+
+                Gson gson = QSGsonFactory.create();
+
+                try {
+                    String data = response.getJSONObject("data").getJSONObject("success").toString();
+                    if (gson.fromJson(data, Boolean.class)) {
+                        udpatePeople();
+                        commit(pa);
+                    } else {
+                        ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void udpatePeople(){
+        Map<String, String> params = new HashMap<>();
+        params.put("mobile", consigeePhoneET.getText().toString());
+        UserCommand.update(params, new Callback());
+    }
+
+    public void onEventMainThread(CityEvent event) {
+        if (null == event) return;
         consigeeAreaTV.setText(event.address);
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if(!(ViewName.AREA == v.getTag() && hasFocus)){
+        if (!(ViewName.AREA == v.getTag() && hasFocus)) {
         }
     }
 
