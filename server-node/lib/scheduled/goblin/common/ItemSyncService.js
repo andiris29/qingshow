@@ -45,7 +45,7 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
         err = GoblinError.fromDescription(err);
     }
 
-    if (err) {
+    if (err || !itemInfo) {
         //Delist
         item.delist = new Date();
         if (err.errorCode === GoblinError.Delist) {
