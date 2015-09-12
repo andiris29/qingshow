@@ -6,6 +6,7 @@ var peopleSchema;
 peopleSchema = Schema({
     __context : Object,
     nickname: String,
+    mobile: String,
     assetsRoot : String,
     portrait : String,
     background : String,
