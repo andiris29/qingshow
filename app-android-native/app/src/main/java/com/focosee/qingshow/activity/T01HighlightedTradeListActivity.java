@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import com.focosee.qingshow.widget.RecyclerView.*;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.T01HihghtedTradeListAdapter;
@@ -18,12 +18,9 @@ import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.widget.QSTextView;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -77,7 +74,7 @@ public class T01HighlightedTradeListActivity extends MenuActivity implements BGA
 
         t01Recycler.setAdapter(adapter);
 
-
+        t01Recycler.addItemDecoration(new SpacesItemDecoration(10));
     }
 
     private void initRefreshLayout() {

@@ -1,7 +1,9 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,6 +14,8 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S10ItemDetailActivity;
+import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
@@ -37,7 +41,7 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
         super(datas, context, layoutId);
         disPreText = context.getText(R.string.t01_successed_discount);
         pricePreText = context.getText(R.string.t01_successed_price);
-        relativeSizeSpan = new RelativeSizeSpan(1.2f);
+        relativeSizeSpan = new RelativeSizeSpan(1.5f);
         styleSpan = new StyleSpan(Typeface.BOLD);
     }
 
@@ -51,7 +55,7 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
         properTextView.setVisibility(View.GONE);
         if (null == datas || datas.size() == 0) return;
-        MongoTrade trade = datas.get(position);
+        final MongoTrade trade = datas.get(position);
         if (null == trade) return;
         if (!TextUtils.isEmpty(trade.itemSnapshot.delist)) {
             holder.getView(R.id.item_t01_delist).setVisibility(View.VISIBLE);
@@ -59,12 +63,12 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
         SpannableString spanStrDis = new SpannableString(disPreText + StringUtil.calculationException(
                 datas.get(position).expectedPrice, datas.get(position).actualPrice));
         spanStrDis.setSpan(relativeSizeSpan, disPreText.length(), spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spanStrDis.setSpan(styleSpan, disPreText.length(), spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanStrDis.setSpan(styleSpan, 0, spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_discount, spanStrDis);
 
         SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(String.valueOf(datas.get(position).expectedPrice)));
         spanStrPrice.setSpan(relativeSizeSpan, pricePreText.length(), spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spanStrPrice.setSpan(styleSpan, pricePreText.length(), spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanStrPrice.setSpan(styleSpan, 0, spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_price, spanStrPrice);
 
         holder.setText(R.id.item_t01_time, TimeUtil.parseDateString(trade.create));
@@ -92,6 +96,25 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
             properTextView.setText("规格：" + properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
+
+        holder.getView(R.id.item_t01_click_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, S10ItemDetailActivity.class);
+                intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, trade.itemSnapshot._id);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.getView(R.id.item_t01_portrait).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, U01UserActivity.class);
+                intent.putExtra("user", trade.peopleSnapshot);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
