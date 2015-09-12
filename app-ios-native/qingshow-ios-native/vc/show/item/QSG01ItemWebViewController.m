@@ -13,6 +13,11 @@
 #import "UIViewController+ShowHud.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
+#import "QSTradeUtil.h"
+#import "QSUserManager.h"
+#import "QSU07RegisterViewController.h"
+#import "QSPeopleUtil.h"
+#import "QSU10ReceiverListViewController.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
@@ -174,14 +179,56 @@
     if (![self.discountVc checkComplete]) {
         [self showErrorHudWithText:@"信息不完整"];
     } else {
-        self.createTradeOp =
-        [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+        NSDictionary *people = [QSUserManager shareUserManager].userInfo;
+        if (people && ([QSPeopleUtil checkMobileExist:people] == NO)) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请新增地址绑定手机" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
+        }else{
+            self.createTradeOp =
+                [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
             [self showSuccessHudAndPop:@"创建成功"];
             self.createTradeOp = nil;
         } onError:^(NSError *error) {
             [self handleError:error];
             self.createTradeOp = nil;
         }];
+        }
+    }
+}
+//- (void)delisthandle
+//{
+//    NSDictionary *newTradeDic = [self.discountVc getResult];
+//    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:newTradeDic];
+//    NSString *itemId = [QSTradeUtil getItemId:newTradeDic];
+//    NSArray *skuArray = [QSItemUtil getSkuProperties:itemDic];
+//    NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
+//    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
+//        NSDictionary *dic = [array firstObject];
+//        int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:dic];
+//        if (count < 1) {
+//            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这个规格的已经卖完啦！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"",nil];
+//            [alert show];
+//        }
+//        else{
+//            self.createTradeOp =
+//            [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+//                [self showSuccessHudAndPop:@"创建成功"];
+//                self.createTradeOp = nil;
+//            } onError:^(NSError *error) {
+//                [self handleError:error];
+//                self.createTradeOp = nil;
+//            }];
+//        }
+//    } onError:^(NSError *error) {
+//        
+//    }];
+//}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        QSU10ReceiverListViewController *vc = [[QSU10ReceiverListViewController alloc]init];
+        self.navigationController.navigationBarHidden = NO;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 - (IBAction)cancelBtnPressed:(id)sender {

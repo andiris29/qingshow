@@ -35,7 +35,7 @@
     if(![QSEntityUtil checkIsDict:peopleDict]){
         return nil;
     }
-    return peopleDict[@"_id"];
+    return [QSEntityUtil getStringValue:peopleDict keyPath:@"_id"];
 }
 + (NSString*)getNickname:(NSDictionary*)peopleDict
 {
