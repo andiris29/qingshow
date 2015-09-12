@@ -23,7 +23,7 @@ userBonus.forge = {
         async.waterfall([
         function(callback) {
             Item.findOne({
-                '_id' : RequestHelper.parseId(param.itemRef)
+                _id : RequestHelper.parseId(param.itemRef)
             }).exec(function(err, item) {
                 if (err) {
                     callback(err);
