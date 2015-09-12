@@ -14,6 +14,7 @@ var qsftp = require('../../runtime/qsftp');
 
 var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
 var ServerError = require('../server-error');
+var GoblinError = require('../../scheduled/goblin/common/GoblinError');
 
 var item = module.exports;
 

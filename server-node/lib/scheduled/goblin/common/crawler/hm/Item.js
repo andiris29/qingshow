@@ -42,6 +42,10 @@ HmWebItem.getSkus = function(source, callback) {
                         return;
                     }
 
+                    var scripts = $('script', '.product');
+                    eval(scripts[0].children[0].data);
+
+                    var colorPriceTable = productArticleDetails;
                     hmInfo.promo_price = $('.price-value', '.product-detail-meta').text().trim().replace(/¥/g,'');
                     if ($('.price-value-original','.product-detail-meta').length > 0) {
                         hmInfo.price = $('.price-value-original','.product-detail-meta').text().trim().replace(/¥/g,'');
@@ -53,33 +57,49 @@ HmWebItem.getSkus = function(source, callback) {
                     hmInfo.promo_price = hmInfo.promo_price.replace(/,/g, '');
 
                     var skuProperties = [];
-                    var colorProperty = '颜色';
+                    var skuTable = {};
+                    var colorProperties = [];
+                    var sizeProperties = [];
+                    colorProperties.push('颜色');
+                    sizeProperties.push('尺寸');
+
+                    var sizeLists = $('input','.product-sizes');
                     
-                    var skuColor = $('input[name="product-color"]','.product-detail-meta');
-                    if (skuColor.length > 1) {
-                        for(var i = 0; i < skuColor.length; i++) {
-                            colorProperty = colorProperty + ":" + skuColor[i].attribs.value;
+                    // color code sample = 0261676010
+                    // size code sample  = 0261676038020
+                    datas.forEach(function(size) {
+                        var color = size.substr(0, 10);
+                        var colorName = colorPriceTable[color].name;
+                        var price = colorPriceTable[color].priceSaleValue;
+                        if (!price) {
+                            price = colorPriceTable[color].priceValue;
                         }
-                    } else if(skuColor.length == 1) {
-                        colorProperty = colorProperty + ":" + skuColor.val();
-                    }
-
-                    skuProperties.push(colorProperty);
-
-                    var sizeProperty = '尺寸';
-                    var skuSize = $('.inputlist','.product-sizes').first().find('input');
-
-                    if (skuSize.length > 1) {
-                        for(var i = 0; i < skuSize.length; i++) {
-                            sizeProperty = sizeProperty + ":" + skuSize[i].attribs.value;
+                        if (colorProperties.indexOf(colorName) < 0) {
+                            colorProperties.push(colorName);
                         }
-                    } else if (skuSize.length == 1) {
-                        sizeProperty = sizeProperty + ":" + skuSize.val();
-                    }
 
-                    skuProperties.push(sizeProperty);
+                        // get size name 
+                        var sizeName = '';
+                        for(var i = 0; i < sizeLists.length; i++) {
+                            if (sizeLists[i].attribs['data-code'] == size) {
+                                sizeName = sizeLists[i].attribs.value;
+                                break;
+                            }
+                        }
+
+                        if (sizeProperties.indexOf(sizeName) < 0) {
+                            sizeProperties.push(sizeName);
+                        }
+
+                        var key = colorName + ':' + sizeName;
+                        skuTable[key] = price;
+                    });
+
+                    skuProperties.push(colorProperties.join(':'));
+                    skuProperties.push(sizeProperties.join(':'));
 
                     hmInfo.skuProperties = skuProperties;
+                    hmInfo.skuTable = skuTable;
 
                     callback(null, hmInfo);
 

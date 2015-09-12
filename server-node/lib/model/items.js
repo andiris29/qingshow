@@ -19,6 +19,7 @@ itemSchema = Schema({
     minExpectedPrice : Number,
     expectablePrice : Number,
     skuProperties : [String],
+    skuTable : {},
     source : String,
     numLike : Number,
     create : {
