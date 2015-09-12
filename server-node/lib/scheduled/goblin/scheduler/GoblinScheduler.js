@@ -221,25 +221,9 @@ var _checkToQueryNewItems = function (callback) {
 
     var time = new Date() - ItemSyncService.outDateDuration;
     var criteria = {
-        '$and': [{
-            '$or': [{
-                'sync': {
-                    '$exists': false
-                }
-            }, {
-                'sync': {
-                    '$lt': time
-                }
-            }]
-        }, {
-            '$or' : [{
-                'syncEnabled': {
-                    '$exists': false
-                }
-            }, {
-                'syncEnabled' : true
-            }]
-        }]
+        'syncEnabled' : {
+            '$ne' : false
+        }
     };
     isQueryNewItems = true;
     async.waterfall([
@@ -260,6 +244,7 @@ var _checkToQueryNewItems = function (callback) {
             //查询新item
             //TODO 根据feeding/hot feeding/new等顺序进行查询
             Items.find(criteria)
+                .sort({'sync' : 1})
                 .limit(querySize + totalCount) //查找querySize + totalCount个item以保证有新item
                 .exec(callback);
         }, function (items, callback) {
