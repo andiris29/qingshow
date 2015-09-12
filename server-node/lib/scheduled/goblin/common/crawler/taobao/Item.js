@@ -166,10 +166,19 @@ var generateTaobaoInfoFromSkus = function (skus){
                     names.push(n[i]);
                     retStr = retStr + ':' + n[i];
                 }
-            })
+            });
             skuProperties.push(retStr);
         }
+        var skuTable = {};
+        for (var j = 0; j < skuNames.length; j++) {
+            var price = skus[j].promo_price;
+            if (!price) {
+                price = skus[j].price;
+            }
+            skuTable[skuNames[j][0] + ':' + skuNames[j][1]] = price;
+        }
         taobaoInfo.skuProperties = skuProperties;
+        taobaoInfo.skuTable = skuTable;
     }
     return taobaoInfo;
 }
