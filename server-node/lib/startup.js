@@ -3,17 +3,52 @@ var fs = require('fs');
 var path = require('path');
 var properties = require("properties");
 
-// Log
+// ------------------
+// Initialize logger
+// ------------------
 var folderLogs = path.join(__dirname, 'logs');
 if (!fs.existsSync(folderLogs)) {
     fs.mkdirSync(folderLogs);
 }
+
 var winston = require('winston');
+// Default logger
 winston.add(winston.transports.DailyRotateFile, {
     'filename' : path.join(folderLogs, 'winston.log')
 });
+winston.remove(winston.transports.Console);
 
-// Load the config file(config.properties)
+// Exception logger
+new winston.Logger({
+    'exceptionHandlers' : [
+        new winston.transports.DailyRotateFile({
+            'filename' : path.join(folderLogs, 'winston-exception.log')
+        })
+    ],
+    'exitOnError' : false
+});
+
+// Performance logger
+winston.loggers.add('performance', {
+    'transports' : [
+        new winston.transports.DailyRotateFile({
+            'filename' : path.join(folderLogs, 'winston-performance.log')
+        })
+    ]
+});
+
+// Goblin logger
+winston.loggers.add('goblin', {
+    'transports' : [
+        new winston.transports.DailyRotateFile({
+            'filename' : path.join(folderLogs, 'winston-goblin.log')
+        })
+    ]
+});
+
+// ------------------
+// Load & parse config.properties
+// ------------------
 var configPath = path.join(__dirname, 'config.properties');
 properties.parse(configPath, {
     path : true,
@@ -45,9 +80,3 @@ properties.parse(configPath, {
 
 });
 
-// Handle uncaught exceptions
-process.on('uncaughtException', function(err) {
-    winston.error(new Date().toString() + ': uncaughtException');
-    winston.error(err);
-    winston.error('\t' + err.stack);
-});

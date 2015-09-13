@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var winston = require('winston');
+var performanceLogger = winston.loggers.get('performance');
 
 var ServerError = require('../server-error');
 
@@ -28,9 +29,17 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
     }
 
     if (res.qsPerformance) {
-        var performance = Date.now() - res.qsPerformance.start;
-        if (performance > 100) {
-            winston.warn('[qsPerformance] ' + res.qsPerformance.fullpath + ': ' + performance);
+        var log = {
+            'ip' : res.qsPerformance.ip,
+            'cost' : Date.now() - res.qsPerformance.start,
+            'path' : res.qsPerformance.fullpath
+        };
+        if (log.cost > 1000) {
+            performanceLogger.error(log);
+        } else if (log.cost > 100) {
+            performanceLogger.warn(log);
+        } else {
+            performanceLogger.info(log);
         }
     }
     res.json(json);

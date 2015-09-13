@@ -9,6 +9,8 @@ var GoblinError = require('../../scheduled/goblin/common/GoblinError');
 var Item = require('../../model/items');
 var ServerError = require('../server-error');
 
+var winston = require('winston');
+var goblinLogger = winston.loggers.get('goblin');
 
 var goblin = module.exports;
 
@@ -59,6 +61,12 @@ goblin.crawlItemComplete = {
                 ItemSyncService.syncItemInfo(item, itemInfo, error, callback);
             }
         ], function (err, item) {
+            if (!err) {
+                goblinLogger.info({
+                    'ip' : RequestHelper.getIp(req),
+                    'nextItem' : item._id ? item._id.toString() : ''
+                });
+            }
             ResponseHelper.response(res, err, {
                 item : item
             });

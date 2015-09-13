@@ -23,21 +23,10 @@ var services = servicesNames.map(function (path) {
 var wrapCallback = function (fullpath, callback) {
     return function (req, res) {
         res.qsPerformance = {
+            'ip' : req.header('X-Real-IP') || req.connection.remoteAddress,
             'fullpath' : fullpath,
             'start' : Date.now()
         };
-        var f = require('path').join(__dirname, 'performance.js');
-        if (req.queryString && req.queryString.qsPerformance) {
-            fs.appendFileSync(f, '// ' + new Date());
-        }
-        if (fs.existsSync(f)) {
-            if (req.queryString && req.queryString.qsPerformance === 'unlink') {
-                fs.unlinkSync(f);
-            } else {
-                res.qsPerformance.d = _.random(3000, 10000);
-            }
-        }
-        // req.queryString.version: "1.2.0"
         callback.func(req, res);
     };
 };
