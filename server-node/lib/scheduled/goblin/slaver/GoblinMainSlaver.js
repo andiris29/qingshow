@@ -44,9 +44,6 @@ GoblinMainSlaver.stop = function () {
     slaverModel = null;
 };
 
-var succeedDelay = [5000, 10000];
-var failDelay = [5000, 10000];
-
 
 var _next = function (type) {
     if (!slaverModel || !slaverModel.running) {
@@ -62,9 +59,15 @@ var _next = function (type) {
         var innerCallback = function () {
             var delayTime = null;
             if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
-                delayTime = _.random(failDelay[0], failDelay[1]);
+                var failDelayConfig = (slaverModel && slaverModel.config && slaverModel.config.failDelay) || {};
+                var failDelayMax = failDelayConfig.max || 10000;
+                var failDelayMin = failDelayConfig.min || 5000;
+                delayTime = _.random(failDelayMin, failDelayMax);
             } else {
-                delayTime = _.random(succeedDelay[0], succeedDelay[1]);
+                var succeedDelayConfig = (slaverModel && slaverModel.config && slaverModel.config.succeedDelay) || {};
+                var succeedDelayMax = succeedDelayConfig.max || 10000;
+                var succeedDelayMin = succeedDelayConfig.min || 5000;
+                delayTime = _.random(succeedDelayMin, succeedDelayMax);
             }
             if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
                 slaverModel.timer[type] = null;
@@ -85,6 +88,6 @@ var _next = function (type) {
     });
 };
 
-GoblinMainSlaver.tregger = function (item) {
+GoblinMainSlaver.trigger = function (item) {
     GoblinMainSlaver.triggerAllTimer();
 };

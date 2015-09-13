@@ -28,17 +28,17 @@ var itemIdToHandlers = {}; //itemId<String> => [callback]
 var itemIdToAllocatedDate = {}; // itemId<String> => Date, 记录item分配出去的时间，防止某个item被分配后没有处理
 
 
+var schedulerConfig = null;
 GoblinScheduler.start = function (config) {
-    //TODO save config, add schedule
+    schedulerConfig = config;
     _checkToQueryNewItems();
     _timeoutScheduler();
 };
 
 
 //定时扫描已分配item是否超时，如果超时则放回待分配数组重新分配
-var timeoutCheckDuration = 60 * 1000; //TODO move to config,暂时hard code 1 分钟
-var timeoutDuration = 30 * 1000; // TODO move to config
 var _timeoutScheduler = function () {
+    var timeoutDuration = schedulerConfig.timeoutDuration || 60000;
     var now = new Date();
     for (var itemId in itemIdToAllocatedDate) {
         if (itemIdToAllocatedDate.hasOwnProperty(itemId)) {
@@ -48,6 +48,7 @@ var _timeoutScheduler = function () {
             }
         }
     }
+    var timeoutCheckDuration = schedulerConfig.timeoutCheckDuration || 30000;
     setTimeout(function () {
         _timeoutScheduler();
     }, timeoutCheckDuration);
@@ -141,7 +142,7 @@ GoblinScheduler.registerItemWithId = function (itemId, callback) {
 
 var _handleNotSupportItem = function (item, callback) {
     item.sync = new Date();
-    item.save(function (err, i, count) {
+    item.save(function () {
         callback(GoblinError.fromCode(GoblinError.NotSupportItemSource), item);
     });
 };
@@ -177,7 +178,7 @@ GoblinScheduler.registerItem = function (item, callback) {
         //item不再队列中，加入队列
         requestedItems.push(item);
         //trigger goblin main slaver，令其主动爬取item
-        require('../slaver/GoblinMainSlaver').tregger(item);
+        require('../slaver/GoblinMainSlaver').trigger(item);
 
     }
     //记录handler
@@ -226,7 +227,6 @@ var _checkToQueryNewItems = function (callback) {
     }
     var totalCount = allArrays.reduce(function (l, r) { return l + r.length;}, 0);
 
-    var time = new Date() - ItemSyncService.outDateDuration;
     var criteria = {
         'syncEnabled' : {
             '$ne' : false

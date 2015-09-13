@@ -5,8 +5,8 @@ module.exports = function (config) {
     require('./trade/autoReceiving')();
     require('./trade/notifyTradeInitialized')();
 
-    require('./goblin/scheduler/GoblinScheduler').start();
-    require('./goblin/slaver/GoblinMainSlaver').start();
+    require('./goblin/scheduler/GoblinScheduler').start(config.goblinScheduler);
+    require('./goblin/slaver/GoblinMainSlaver').start(config.goblinMainSlaver);
 
     winston.info('Startup scheduled success');
 };
