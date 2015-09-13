@@ -27,10 +27,8 @@ import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareBonusEvent;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;

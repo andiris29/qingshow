@@ -307,6 +307,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.register_login_btn:
                 startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
+                finish();
                 break;
             case R.id.submitButton:
                 submit();
