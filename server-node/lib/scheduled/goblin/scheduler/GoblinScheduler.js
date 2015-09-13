@@ -208,7 +208,7 @@ GoblinScheduler.finishItem = function (itemId, err, callback) {
 
 var isQueryNewItems = false;
 var secondaryQueueMinSize = 200;
-var querySize = 200;
+var querySize = 1000;
 var lastAllItemDate = null;
 var allItemDuration = 5 * 60 * 1000;   //如果所有需要爬的item都进入队列，则5分钟重新检查一次是否有新的item需要被爬
 /**
