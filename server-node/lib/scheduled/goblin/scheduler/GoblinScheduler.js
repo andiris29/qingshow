@@ -139,6 +139,13 @@ GoblinScheduler.registerItemWithId = function (itemId, callback) {
     });
 };
 
+var _handleNotSupportItem = function (item, callback) {
+    item.sync = new Date();
+    item.save(function (err, i, count) {
+        callback(GoblinError.fromCode(GoblinError.NotSupportItemSource), item);
+    });
+};
+
 GoblinScheduler.registerItem = function (item, callback) {
     if (!ItemSyncService.isOutDate(item)) {
         // 该Item最近已经爬过，不需要再爬，直接执行callback
@@ -147,7 +154,7 @@ GoblinScheduler.registerItem = function (item, callback) {
     }
     if (!ItemSyncService.canParseItemSource(item.source)) {
         //ItemSource类型不支持
-        callback(GoblinError.fromCode(GoblinError.NotSupportItemSource), item);
+        _handleNotSupportItem(item, callback);
         return;
     }
 
@@ -258,13 +265,23 @@ var _checkToQueryNewItems = function (callback) {
             var newItems = items.filter(function (i) {
                 return allItemIds.indexOf(_idToString(i._id)) === -1;
             });
-            newItems = items.filter(function (i) {
-                //去除不支持的item
-                return ItemSyncService.canParseItemSource(i.source);
-            });
 
+            var tasks = [];
+            newItems = newItems.filter(function (i) {
+                //去除不支持的item
+                var fSupport = ItemSyncService.canParseItemSource(i.source);
+
+                if (!fSupport) {
+                    var task = function (callback) {
+                        _handleNotSupportItem(i, callback);
+                    };
+                    tasks.push(task);
+                }
+
+                return fSupport;
+            });
             secondaryItems = secondaryItems.concat(newItems);
-            callback();
+            async.parallel(tasks, callback);
         }
     ], function (err) {
         isQueryNewItems = false;
