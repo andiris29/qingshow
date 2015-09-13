@@ -38,10 +38,6 @@ GoblinMainSlaver.stop = function () {
     slaverModel = null;
 };
 
-//TODO MOVE To CONFIG
-var succeedDelay = [5000, 10000];
-var failDelay = [5000, 10000];
-
 var _next = function (type) {
     if (!slaverModel || !slaverModel.running) {
         return;
@@ -59,9 +55,11 @@ var _next = function (type) {
             var delayTime = null;
             if (err) {
                 //TODO handle error
-                delayTime = _.random(failDelay[0], failDelay[1]);
+                var failDelayConfig = slaverModel && slaverModel.config && slaverModel.config.failDelay || {};
+                delayTime = _.random(failDelayConfig.min || 5000, failDelayConfig.max || 10000);
             } else {
-                delayTime = _.random(succeedDelay[0], succeedDelay[1]);
+                var succeedDelayConfig = slaverModel && slaverModel.config && slaverModel.config.succeedDelay || {};
+                delayTime = _.random(succeedDelayConfig.min || 5000, succeedDelayConfig.max || 10000);
             }
             setTimeout(function () {
                 _next(type);
