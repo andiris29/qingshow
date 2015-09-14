@@ -7,7 +7,7 @@
 //
 
 #import "QSNetworkEngine+ItemService.h"
-#import "QSNetworkEngine+Protect.h"
+#import "MKNetworkEngine+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 
 #define URL_ITEM_SYNC @"item/sync"

@@ -13,6 +13,8 @@
 
 @interface QSPaymentService : NSObject
 
++ (void)configPaymentHost:(NSString*)paymentHost;
+
 + (QSPaymentService*)shareService;
 
 - (void)sharedForTrade:(NSDictionary*)tradeDict

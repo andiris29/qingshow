@@ -41,6 +41,12 @@
 
 @implementation QSPaymentService
 
+static NSString* s_paymentHost = nil;
+
++ (void)configPaymentHost:(NSString*)paymentHost {
+    s_paymentHost = paymentHost;
+}
+
 #pragma mark - Singleton
 + (QSPaymentService*)shareService
 {
@@ -75,7 +81,8 @@
         //分享
         NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
         NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
-        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:@"服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://%@?entry=shareTrade&_id=%@&initiatorRef=%@",PATH_SERVER_ADDR_WEB,tradeId,peopleId] onSucceed:^{
+        
+        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:@"服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareTrade&_id=%@&initiatorRef=%@",[QSShareService getShareHost],tradeId,peopleId] onSucceed:^{
             [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:succeedBlock onError:errorBlock];
         } onError:errorBlock];
     } else {
@@ -120,7 +127,7 @@
     order.productName = productName;
     order.productDescription = @"desc";
     order.amount = [QSTradeUtil getTotalFeeDesc:tradeDict];
-    order.notifyURL = [NSString stringWithFormat:@"%@/alipay/callback",PATH_SERVER_ADDR_PAY];
+    order.notifyURL = [NSString stringWithFormat:@"%@/alipay/callback",s_paymentHost];
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
     order.inputCharset = @"utf-8";

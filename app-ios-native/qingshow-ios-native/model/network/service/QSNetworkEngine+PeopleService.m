@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSNetworkEngine+Protect.h"
+#import "MKNetworkEngine+QSExtension.h"
 #import "QSNetworkEngine+PeopleService.h"
 #import "NSArray+QSExtension.h"
 #import "QSPeopleUtil.h"

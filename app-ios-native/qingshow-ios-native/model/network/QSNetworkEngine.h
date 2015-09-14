@@ -10,11 +10,11 @@
 #import "QSBlock.h"
 
 #define SHARE_NW_ENGINE [QSNetworkEngine shareNetworkEngine]
-#define SHARE_NW_ENGINE_DELEGATE [QSNetworkEngine shareNetworkEngineForAPPDelegate]
+
 @interface QSNetworkEngine : MKNetworkEngine
 
 #pragma mark - Static Method
 + (QSNetworkEngine*)shareNetworkEngine;
++ (void)hostInit:(NSString*)hostPath;
 
-+ (QSNetworkEngine*)shareNetworkEngineForAPPDelegate;
 @end

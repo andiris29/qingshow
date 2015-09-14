@@ -13,6 +13,9 @@
 
 @interface QSShareService : NSObject
 
++ (void)configShareHost:(NSString*)shareHost;
++ (NSString*)getShareHost;
+
 + (QSShareService*)shareService;
 
 //朋友圈
