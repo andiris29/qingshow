@@ -74,3 +74,13 @@ goblin.crawlItemComplete = {
 
     }
 };
+
+goblin.crawlItemFailed = {
+    method : 'post',
+    func : function (req, res) {
+        var param = req.body;
+        var log = param.log;
+        goblinLogger.info('Slaver Exception:\n' + log);
+        ResponseHelper.response(res, null, {});
+    }
+};

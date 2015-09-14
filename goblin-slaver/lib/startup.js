@@ -15,11 +15,23 @@ properties.parse(configPath, {
     if (!error) {
         GoblinSlaver.start(config);
     }
+    global.config = config;
 });
+
+
 
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
     GoblinSlaver.continue();
+
+    var path = global.config.server.path + '/services/goblin/crawlItemFailed';
+    var logStr = new Date().toString() + ': uncaughtException\n' + err + '\n'+ '\t' + err.stack;
+    var param = {log : logStr};
+    request.post({
+        url: path,
+        form: param
+    }, function(err, httpResponse, body){
+    });
 
     console.log(new Date().toString() + ': uncaughtException');
     console.log(err);

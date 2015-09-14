@@ -51,6 +51,7 @@ GoblinMainSlaver.stop = function () {
 };
 
 var _next = function (type) {
+
     if (!slaverModel || !slaverModel.running) {
         return;
     }
