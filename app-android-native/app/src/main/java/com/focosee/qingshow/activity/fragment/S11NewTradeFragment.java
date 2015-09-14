@@ -133,7 +133,10 @@ public class S11NewTradeFragment extends Fragment {
             discountNum = discountOnline = 9;
 
 
-        initProps();
+        if (itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
+            initProps();
+        }
+
         initDes();
 
         checkDiscount();
