@@ -98,9 +98,14 @@ var _queryNextItem = function (type, callback) {
         if (err) {
             callback(err);
         } else {
-            var data = JSON.parse(body);;
+            var data = null;
+            try {
+                data = JSON.parse(body);;
+            } catch(e) {}
 
-            if (data.metadata && data.metadata.error) {
+            if (!data) {
+                callback('Goblin Scheduler response empty data');
+            } if (data.metadata && data.metadata.error) {
                 callback(data.metadata.error);
             } else {
                 var item = data && data.data && data.data.item;

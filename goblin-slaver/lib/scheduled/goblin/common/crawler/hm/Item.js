@@ -35,9 +35,13 @@ HmWebItem.getSkus = function(source, callback) {
                 var url = 'http://www2.hm.com/zh_cn/getAvailability?variants=' + ids.join(',');
 
                 request.get(url, function(error, response, body) {
-                    var datas = JSON.parse(body);
+                    var datas = null;
+                    try {
+                        datas = JSON.parse(body);
+                    } catch (e) {}
 
-                    if (datas.length === 0) {
+
+                    if (!datas || datas.length === 0) {
                         callback(null, {});
                         return;
                     }
