@@ -237,7 +237,7 @@
 		EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */; };
 		EFA785C01B5AB5BC00CC227C /* QSPnsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */; };
 		EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */; };
-		EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */; };
+		EFA98A791A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A781A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m */; };
 		EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */; };
 		EFA98A7F1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */; };
 		EFA98A821A38923300A8BFC7 /* QSEntityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A811A38923300A8BFC7 /* QSEntityUtil.m */; };
@@ -303,6 +303,7 @@
 		EFED348F1AFC734F00F08A0D /* QSU06LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED348A1AFC734F00F08A0D /* QSU06LoginViewController.xib */; };
 		EFED34901AFC734F00F08A0D /* QSU07RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED348C1AFC734F00F08A0D /* QSU07RegisterViewController.m */; };
 		EFED34911AFC734F00F08A0D /* QSU07RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED348D1AFC734F00F08A0D /* QSU07RegisterViewController.xib */; };
+		EFED68BE1BA7091700120CAC /* QSNetworkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED68BD1BA7091700120CAC /* QSNetworkHelper.m */; };
 		EFEDA3771B4A01F90036B0EE /* QSRectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEDA3761B4A01F90036B0EE /* QSRectUtil.m */; };
 		EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */; };
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
@@ -819,8 +820,8 @@
 		EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPnsHelper.m; sourceTree = "<group>"; };
 		EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+UserService.h"; sourceTree = "<group>"; };
 		EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+UserService.m"; sourceTree = "<group>"; };
-		EFA98A771A38862800A8BFC7 /* QSNetworkEngine+Protect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+Protect.h"; sourceTree = "<group>"; };
-		EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+Protect.m"; sourceTree = "<group>"; };
+		EFA98A771A38862800A8BFC7 /* MKNetworkEngine+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKNetworkEngine+QSExtension.h"; path = "service/MKNetworkEngine+QSExtension.h"; sourceTree = "<group>"; };
+		EFA98A781A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MKNetworkEngine+QSExtension.m"; path = "service/MKNetworkEngine+QSExtension.m"; sourceTree = "<group>"; };
 		EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ShowService.h"; sourceTree = "<group>"; };
 		EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "QSNetworkEngine+ShowService.m"; path = "model/network/service/QSNetworkEngine+ShowService.m"; sourceTree = "<group>"; };
 		EFA98A7D1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+PeopleService.h"; sourceTree = "<group>"; };
@@ -936,6 +937,8 @@
 		EFED348B1AFC734F00F08A0D /* QSU07RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU07RegisterViewController.h; sourceTree = "<group>"; };
 		EFED348C1AFC734F00F08A0D /* QSU07RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU07RegisterViewController.m; sourceTree = "<group>"; };
 		EFED348D1AFC734F00F08A0D /* QSU07RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU07RegisterViewController.xib; sourceTree = "<group>"; };
+		EFED68BC1BA7091700120CAC /* QSNetworkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkHelper.h; sourceTree = "<group>"; };
+		EFED68BD1BA7091700120CAC /* QSNetworkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkHelper.m; sourceTree = "<group>"; };
 		EFEDA3751B4A01F90036B0EE /* QSRectUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRectUtil.h; sourceTree = "<group>"; };
 		EFEDA3761B4A01F90036B0EE /* QSRectUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRectUtil.m; sourceTree = "<group>"; };
 		EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSSharePlatformConst.h; sourceTree = "<group>"; };
@@ -1657,8 +1660,6 @@
 		EF7FA3721A3447E300090EE4 /* service */ = {
 			isa = PBXGroup;
 			children = (
-				EFA98A771A38862800A8BFC7 /* QSNetworkEngine+Protect.h */,
-				EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */,
 				EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */,
 				EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */,
 				EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */,
@@ -1969,14 +1970,8 @@
 		EF9A74471A02A87900095F07 /* network */ = {
 			isa = PBXGroup;
 			children = (
-				EF7FA3721A3447E300090EE4 /* service */,
-				EF9A74771A02A89900095F07 /* QSNetworkEngine.h */,
-				EF9A74781A02A89900095F07 /* QSNetworkEngine.m */,
-				EF9C952E1A0FC3A9006A0AE3 /* QSError.h */,
-				EF9C952F1A0FC3A9006A0AE3 /* QSError.m */,
-				EF9C95311A0FC3CD006A0AE3 /* QSNetworkOperation.h */,
-				EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */,
-				EF7FA3761A3472B900090EE4 /* QSNetworkKit.h */,
+				EFED68BB1BA708B200120CAC /* qsService */,
+				EFED68BA1BA7089000120CAC /* basic */,
 			);
 			path = network;
 			sourceTree = "<group>";
@@ -2398,6 +2393,32 @@
 				EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */,
 			);
 			path = welcome;
+			sourceTree = "<group>";
+		};
+		EFED68BA1BA7089000120CAC /* basic */ = {
+			isa = PBXGroup;
+			children = (
+				EF9C952E1A0FC3A9006A0AE3 /* QSError.h */,
+				EF9C952F1A0FC3A9006A0AE3 /* QSError.m */,
+				EF9C95311A0FC3CD006A0AE3 /* QSNetworkOperation.h */,
+				EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */,
+				EFA98A771A38862800A8BFC7 /* MKNetworkEngine+QSExtension.h */,
+				EFA98A781A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m */,
+				EFED68BC1BA7091700120CAC /* QSNetworkHelper.h */,
+				EFED68BD1BA7091700120CAC /* QSNetworkHelper.m */,
+			);
+			name = basic;
+			sourceTree = "<group>";
+		};
+		EFED68BB1BA708B200120CAC /* qsService */ = {
+			isa = PBXGroup;
+			children = (
+				EF7FA3721A3447E300090EE4 /* service */,
+				EF7FA3761A3472B900090EE4 /* QSNetworkKit.h */,
+				EF9A74771A02A89900095F07 /* QSNetworkEngine.h */,
+				EF9A74781A02A89900095F07 /* QSNetworkEngine.m */,
+			);
+			name = qsService;
 			sourceTree = "<group>";
 		};
 		EFEF03271A30BBC000EC9B48 /* libWeChatSDK */ = {
@@ -2942,7 +2963,7 @@
 				EFEDA3771B4A01F90036B0EE /* QSRectUtil.m in Sources */,
 				EF0C642F1B21AAC20079B22E /* QSU02ManagerCell.m in Sources */,
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
-				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
+				EFA98A791A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m in Sources */,
 				8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */,
 				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
 				EF994D881B6936B200715B0E /* QSDiscountTableViewController.m in Sources */,
@@ -2983,6 +3004,7 @@
 				EF30133B1AC3174000568D92 /* MD5DataSigner.m in Sources */,
 				EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */,
 				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,
+				EFED68BE1BA7091700120CAC /* QSNetworkHelper.m in Sources */,
 				EF0C64301B21AAC20079B22E /* QSU02OtherCell.m in Sources */,
 				EFAB9C681B346FE5008A4EF5 /* QSAbstractListViewProvider.m in Sources */,
 				68D16CB91B32DDA500A4646C /* QSS21CategorySelectorVC.m in Sources */,

@@ -7,7 +7,7 @@
 //
 
 #import "QSNetworkEngine+TradeService.h"
-#import "QSNetworkEngine+Protect.h"
+#import "MKNetworkEngine+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
 #import "QSUserManager.h"

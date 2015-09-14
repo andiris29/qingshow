@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSNetworkEngine+Protect.h"
+#import "MKNetworkEngine+QSExtension.h"
 
-@implementation QSNetworkEngine (Protect)
+@implementation MKNetworkEngine (QSExtension)
 
 - (MKNetworkOperation*)startOperationWithPath:(NSString*)path
                                        method:(NSString*)method

@@ -15,12 +15,6 @@
 #define NAVNEWFONT ([UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:16])
 #define MININEWFONT ([UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:12])
 
-#define PATH_SERVER_ADDR_PAY ([QSEntityUtil getStringValue:[NSUserDefaults standardUserDefaults].dictionaryRepresentation keyPath:@"paymentServiceRoot"])
-
-#define PATH_SERVER_ADDR_WEB ([QSEntityUtil getStringValue:[NSUserDefaults standardUserDefaults].dictionaryRepresentation keyPath:@"appWebRoot"])
-
-#define PATH_SERVER_ADDR_SERVER ([QSEntityUtil getStringValue:[NSUserDefaults standardUserDefaults].dictionaryRepresentation keyPath:@"appServiceRoot"])
-
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "MobClick.h"

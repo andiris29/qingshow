@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QSNetworkEngine.h"
 
-@interface QSNetworkEngine (Protect)
+#import "MKNetworkEngine.h"
+
+@interface MKNetworkEngine (QSExtension)
 
 - (MKNetworkOperation*)startOperationWithPath:(NSString*)path
                                        method:(NSString*)method
