@@ -719,8 +719,8 @@ _requestVerificationCode = function(req, res){
             }
         })
     },function(mobile, code, callback){
-        console.log(code);
-        SMSHelper.sendTemplateSMS(mobile, [code, '10'], '1', function(err, body){
+        var expire = global.qsConfig.verification.expire;
+        SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
             if (err) {
                 callback(err);
             }else {
