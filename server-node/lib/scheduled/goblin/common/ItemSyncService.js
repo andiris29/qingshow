@@ -52,7 +52,15 @@ ItemSyncService.syncItem = function (item, callback) {
             item.price = webItem.price;
             item.promoPrice = webItem.promo_price;
             item.skuProperties = webItem.skuProperties;
-            item.skuTable = webItem.skuTable;
+            var skuTable = {};
+            webItem.skuTable = webItem.skuTable || {};
+            for (var key in webItem.skuTable) {
+                var value = webItem.skuTable[key];
+                // skuTable key should not contain '.' to avoid mongo error
+                key = key.replace(/\./g, '');
+                skuTable[key] = value;
+            }
+            item.skuTable = skuTable;
             _logItem('item success', item);
         }
         item.sync = new Date();

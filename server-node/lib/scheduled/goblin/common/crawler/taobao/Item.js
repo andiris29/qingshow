@@ -178,8 +178,6 @@ var generateTaobaoInfoFromSkus = function (skus){
             var stock = skus[j].stock;
             var key = skus[j].properties_name;
             key = key.replace(/;/g, ':');
-            // skuTable key should not contain '.' to avoid mongo error
-            key = key.replace(/\./g, '');
             skuTable[key] = stock + ':' + price;
         }
         taobaoInfo.skuProperties = skuProperties;
