@@ -121,18 +121,15 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
 
-                Gson gson = QSGsonFactory.create();
-
                 try {
-                    String data = response.getJSONObject("data").getJSONObject("success").toString();
-                    if (gson.fromJson(data, Boolean.class)) {
+                    if (response.getJSONObject("data").getBoolean("success")) {
                         register();
                     } else {
                         ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
                         return;
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
                 }
             }
         });

@@ -21,6 +21,7 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
@@ -58,12 +59,14 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
 
     private MongoPeople people;
     private boolean isCanWithDrwa = false;
+    private LoadingDialogs dialogs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u15_bonus);
         ButterKnife.inject(this);
+        dialogs = new LoadingDialogs(U15BonusActivity.this);
         EventBus.getDefault().register(this);
         getUser();
         matchUI();
@@ -91,9 +94,11 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void getUser() {
+        dialogs.show();
         UserCommand.refresh(new Callback() {
             @Override
             public void onComplete() {
+                dialogs.dismiss();
                 people = QSModel.INSTANCE.getUser();
                 setData();
             }
@@ -142,7 +147,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 if (TextUtils.isEmpty(u15AlipayAccount.getText())) {
-                    showError(null);
+                    showError(getString(R.string.u15_hint_edit));
                     return;
                 }
                 ShareUtil.shareBonusToWX(QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_BONUS

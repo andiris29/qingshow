@@ -131,12 +131,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     onClickCancelTrade(trade, 18, CANCEL, position, "确定要取消申请？");
                 }
             });
-            discountBtn.setVisibility(View.VISIBLE);
             if(null == trade.__context)return;
             if(null == trade.__context.item)return;
             if(null == trade.itemSnapshot)return;
             if(TextUtils.isEmpty(trade.__context.item.expectablePrice))return;
             if(TextUtils.isEmpty(trade.itemSnapshot.promoPrice))return;
+            discountBtn.setVisibility(View.VISIBLE);
             discountBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

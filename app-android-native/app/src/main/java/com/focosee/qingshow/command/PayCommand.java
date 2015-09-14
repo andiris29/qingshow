@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.alipay.sdk.app.PayTask;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.constants.config.PaymentConfig;
@@ -16,7 +14,6 @@ import com.focosee.qingshow.util.MD5;
 import com.focosee.qingshow.util.payment.Alipay.AlipayUtil;
 import com.focosee.qingshow.util.payment.Alipay.SignUtils;
 import com.tencent.mm.sdk.modelpay.PayReq;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
