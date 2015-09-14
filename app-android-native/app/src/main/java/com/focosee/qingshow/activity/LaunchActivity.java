@@ -49,7 +49,15 @@ public class LaunchActivity extends InstrumentedActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
         //友盟接口
 //        MobclickAgent.updateOnlineConfig(this);
+        systemGet();
 
+
+
+
+        setContentView(R.layout.activity_launch);
+    }
+
+    private void init(){
         String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
         if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())) {
             userFollow();
@@ -64,10 +72,6 @@ public class LaunchActivity extends InstrumentedActivity {
             _user._id = id;
             QSModel.INSTANCE.setUser(_user);
         }
-
-        systemGet();
-
-        setContentView(R.layout.activity_launch);
     }
 
     private void getCategories() {
@@ -135,17 +139,18 @@ public class LaunchActivity extends InstrumentedActivity {
 
     private void systemGet(){
 
-//        String url = "http://chinshow.com/services/system/get?client=android";
-        String url = "http://192.168.1.110:30001/services/system/get?client=android&version=" + AppUtil.getVersion();
+        String url = "http://chinshow.com/services/system/get?client=android&version=" + AppUtil.getVersion();
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(LaunchActivity.class.getSimpleName(), "response:" + response);
                 try {
-                    String url = response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot");
-                    QSAppWebAPI.HOST_ADDRESS = url.substring(0, url.lastIndexOf("/"));
+                    QSAppWebAPI.HOST_NAME = response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot");
+                    QSAppWebAPI.HOST_ADDRESS_PAYMENT = response.getJSONObject("data").getJSONObject("deployment").getString("paymentServiceRoot");
+                    QSAppWebAPI.HOST_ADDRESS_APPWEB = response.getJSONObject("data").getJSONObject("deployment").getString("appWebRoot");
+                    init();
                 } catch (JSONException e) {
-                    QSAppWebAPI.HOST_ADDRESS = "http://chinshow.com";
+
                 }
 
                 UserCommand.refresh(new Callback() {

@@ -139,7 +139,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
 
     private void register() {
 
-        QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
+        QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.getRegisterServiceUrl(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 MongoPeople user = UserParser.parseRegister(response);

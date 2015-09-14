@@ -84,7 +84,7 @@ public class U06LoginActivity extends BaseActivity {
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
 
                 QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
-                        QSAppWebAPI.LOGIN_SERVICE_URL,
+                        QSAppWebAPI.getLoginServiceUrl(),
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {

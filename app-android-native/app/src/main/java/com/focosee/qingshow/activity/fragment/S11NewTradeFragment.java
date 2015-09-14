@@ -105,7 +105,7 @@ public class S11NewTradeFragment extends Fragment {
     private int discountOnline;
     private double basePrice;
     private int checkIndex[];
-    private int stock;
+    private float stock;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -298,7 +298,7 @@ public class S11NewTradeFragment extends Fragment {
             e.printStackTrace();
         }
         params.put("quantity", trade.quantity);
-        params.put("promoterRef", trade.peopleSnapshot._id);
+        params.put("promoterRef", QSModel.INSTANCE.getUserId());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

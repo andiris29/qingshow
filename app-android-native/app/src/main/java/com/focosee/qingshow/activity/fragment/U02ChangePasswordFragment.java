@@ -102,7 +102,7 @@ public class U02ChangePasswordFragment extends Fragment {
                 params.put("currentPassword", currentPasswordEditText.getText().toString());
                 params.put("password", newPasswordEditText.getText().toString());
 
-                QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+                QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         MongoPeople user = UserParser.parseUpdate(response);

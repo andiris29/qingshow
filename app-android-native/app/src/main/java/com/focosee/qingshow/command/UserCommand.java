@@ -57,7 +57,7 @@ public class UserCommand {
     }
 
     public static void update(JSONObject jsonObject,final Callback callback){
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 MongoPeople user = UserParser._parsePeople(response);
