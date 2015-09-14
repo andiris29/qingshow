@@ -170,19 +170,22 @@ var generateTaobaoInfoFromSkus = function (skus){
             skuProperties.push(retStr);
         }
         var skuTable = {};
-        for (var j = 0; j < skuNames.length; j++) {
+        for (var j = 0; j < skus.length; j++) {
             var price = skus[j].promo_price;
             if (!price) {
                 price = skus[j].price;
             }
             var stock = skus[j].stock;
-            skuTable[skuNames[j][0] + ':' + skuNames[j][1]] = stock + ':' + price;
+            var key = skus[j].properties_name;
+            key = key.replace(/;/g, ':');
+            key = key.replace(/\./g, '__');
+            skuTable[key] = stock + ':' + price;
         }
         taobaoInfo.skuProperties = skuProperties;
         taobaoInfo.skuTable = skuTable;
     }
     return taobaoInfo;
-}
+};
 
 // Tmall
 var _parseTmallWebPage = function (source, webSkus, callback) {
