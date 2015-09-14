@@ -121,7 +121,6 @@
     self.textFieldArray = @[self.nameTextField, self.phoneTextField,self.codeTextField, self.detailLocationTextField];
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
     BOOL hasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
-    NSLog(@"mobile = %@",peopleDic[@"mobile"]);
     if (hasMobile == NO) {
         self.cellArray = @[self.nameCell, self.phoneCell,self.codeCell, self.locationCell, self.detailLocationCell];
     }else{
@@ -189,7 +188,7 @@
 - (void)timerRun
 {
     static int num = 60;
-    [self.getCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后重新发送",num] forState:UIControlStateNormal];
+    [self.getCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
     num -= 1;
     if (num < 1) {
         [_timer invalidate];

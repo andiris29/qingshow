@@ -181,7 +181,7 @@
     } else {
         NSDictionary *people = [QSUserManager shareUserManager].userInfo;
         if (people && ([QSPeopleUtil checkMobileExist:people] == NO)) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请新增地址绑定手机" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请填写收货信息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
         }else{
             self.createTradeOp =

@@ -151,7 +151,7 @@
 - (void)timerRun
 {
     static int num = 60;
-    [self.geTestNumBtn setTitle:[NSString stringWithFormat:@"%d秒后重新发送",num] forState:UIControlStateNormal];
+    [self.geTestNumBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
     num -= 1;
     if (num < 1) {
         [_timer invalidate];
@@ -203,7 +203,7 @@
 }
 - (void)hideKeyboard
 {
-    for (UITextField* t in @[self.nickNameText, self.passwdText, self.passwdCfmText, self.mailAndPhoneText]) {
+    for (UITextField* t in @[self.nickNameText, self.passwdText, self.passwdCfmText, self.mailAndPhoneText,self.testTextField]) {
         [t resignFirstResponder];
     }
 }

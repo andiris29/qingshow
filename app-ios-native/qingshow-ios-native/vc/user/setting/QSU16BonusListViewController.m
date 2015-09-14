@@ -43,7 +43,7 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU15BonusListTableViewCell" owner:self options:nil]lastObject];
     }
-    [cell bindWithDict:_listArray[indexPath.row]];
+    [cell bindWithDict:_listArray[_listArray.count - indexPath.row -1]];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

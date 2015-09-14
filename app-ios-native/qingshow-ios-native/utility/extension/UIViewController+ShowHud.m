@@ -74,6 +74,7 @@
 }
 
 - (void)popVc {
+    self.navigationController.navigationBarHidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
