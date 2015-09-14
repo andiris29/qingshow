@@ -30,4 +30,5 @@
 + (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict;
 + (BOOL)getReadOnly:(NSDictionary*)itemDict;
 + (BOOL)getDelist:(NSDictionary *)itemDict;
++ (NSString*)getItemId:(NSDictionary *)itemDict;
 @end

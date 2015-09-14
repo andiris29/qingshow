@@ -184,45 +184,46 @@
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请填写收货信息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
         }else{
-            self.createTradeOp =
-                [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
-            [self showSuccessHudAndPop:@"创建成功"];
-            self.createTradeOp = nil;
-        } onError:^(NSError *error) {
-            [self handleError:error];
-            self.createTradeOp = nil;
-        }];
+//            self.createTradeOp =
+//                [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+//            [self showSuccessHudAndPop:@"创建成功"];
+//            self.createTradeOp = nil;
+//        } onError:^(NSError *error) {
+//            [self handleError:error];
+//            self.createTradeOp = nil;
+//        }];
+            [self delisthandle];
         }
     }
 }
-//- (void)delisthandle
-//{
-//    NSDictionary *newTradeDic = [self.discountVc getResult];
-//    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:newTradeDic];
-//    NSString *itemId = [QSTradeUtil getItemId:newTradeDic];
-//    NSArray *skuArray = [QSItemUtil getSkuProperties:itemDic];
-//    NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
-//    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
-//        NSDictionary *dic = [array firstObject];
-//        int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:dic];
-//        if (count < 1) {
-//            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这个规格的已经卖完啦！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"",nil];
-//            [alert show];
-//        }
-//        else{
-//            self.createTradeOp =
-//            [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
-//                [self showSuccessHudAndPop:@"创建成功"];
-//                self.createTradeOp = nil;
-//            } onError:^(NSError *error) {
-//                [self handleError:error];
-//                self.createTradeOp = nil;
-//            }];
-//        }
-//    } onError:^(NSError *error) {
-//        
-//    }];
-//}
+- (void)delisthandle
+{
+    NSDictionary *newTradeDic = [self.discountVc getResult];
+    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:newTradeDic];
+    NSString *itemId = [QSItemUtil getItemId:itemDic];
+    NSArray *skuArray = newTradeDic[@"selectedSkuProperties"];
+    NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        NSDictionary *dic = [array firstObject];
+        int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:dic];
+        if (count < 1) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这个规格的已经卖完啦！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"",nil];
+            [alert show];
+        }
+        else{
+            self.createTradeOp =
+            [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+                [self showSuccessHudAndPop:@"创建成功"];
+                self.createTradeOp = nil;
+            } onError:^(NSError *error) {
+                [self handleError:error];
+                self.createTradeOp = nil;
+            }];
+        }
+    } onError:^(NSError *error) {
+        
+    }];
+}
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {

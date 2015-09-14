@@ -143,25 +143,21 @@
 }
 + (NSString*)getKeyValueForSkuTableFromeSkuProperties:(NSArray*)skuArray
 {
+
     if (skuArray.count) {
-        NSMutableString *key = [[NSMutableString alloc]init];;
+        NSMutableString *returnStr = [[NSMutableString alloc]init];
         for (int i = 0; i < skuArray.count; i ++) {
             NSString *str = skuArray[i];
-            NSArray *subArray = [str componentsSeparatedByString:@":"];
-            NSMutableArray *mutableSubArray = [[NSMutableArray alloc]initWithArray:subArray];
-            if (mutableSubArray.count >= 2) {
-                [mutableSubArray removeObjectAtIndex:0];
+            NSRange range = [str rangeOfString:@":"];
+            NSString *subStr = [[NSString alloc]init];
+            if ((i == 0) && (skuArray.count > 1) && (range.location+1 < str.length)) {
+                subStr = [str substringFromIndex:range.location+1];
+            }else{
+                subStr = [str substringFromIndex:range.location];
             }
-            if (mutableSubArray.count > 1) {
-                for (int j = 0; j < mutableSubArray.count; j ++) {
-                    [key appendString:mutableSubArray[j]];
-                }
-            }
-            if (i != skuArray.count-1) {
-                [key appendString:@":"];
-            }
+            [returnStr appendString:subStr];
         }
-        return (NSString*)key;
+        return returnStr;
     }
     return nil;
 }
@@ -182,5 +178,9 @@
     {
         return YES;
     }
+}
++ (NSString*)getItemId:(NSDictionary *)itemDict
+{
+    return [QSEntityUtil getStringValue:itemDict keyPath:@"_id"];
 }
 @end

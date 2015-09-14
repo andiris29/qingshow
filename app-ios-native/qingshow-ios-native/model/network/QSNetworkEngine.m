@@ -27,12 +27,27 @@
     static QSNetworkEngine* s_networkEngine = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:HOST_NAME];
+        s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:PATH_SERVER_ADDR_SERVER];
         [s_networkEngine registerOperationSubclass:[QSNetworkOperation class]];
         [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
         
     });
     return s_networkEngine;
+}
++ (QSNetworkEngine*)shareNetworkEngineForAPPDelegate
+{
+    static QSNetworkEngine* s_networkEngine = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:HOST_NAME];
+        
+        [s_networkEngine registerOperationSubclass:[QSNetworkOperation class]];
+        [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+        
+    });
+    return s_networkEngine;
+
 }
 
 @end

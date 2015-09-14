@@ -34,6 +34,9 @@
 #pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //Get ServerPath
+    [self getServerPathAndSave];
+    
     //标记第一次载入
     [self rememberFirstLaunch];
     //注册第三方登陆、分享平台
@@ -48,8 +51,7 @@
     //Init Matcher Categories List
     [QSCategoryManager getInstance];
     
-    //Get ServerPath
-    [self getServerPathAndSave];
+   
     
     //Start App
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -266,12 +268,13 @@
 #pragma mark - GetServerPath
 - (void)getServerPathAndSave
 {
-    [SHARE_NW_ENGINE getServerPathFromAPIOnSucceed:^(NSDictionary *dict) {
+    [SHARE_NW_ENGINE_DELEGATE getServerPathFromAPIOnSucceed:^(NSDictionary *dict) {
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         [ud setObject:[QSEntityUtil getStringValue:dict keyPath:@"appServiceRoot"] forKey:@"appServiceRoot"];
         [ud setObject:[QSEntityUtil getStringValue:dict keyPath:@"appWebRoot"] forKey:@"appWebRoot"];
         [ud setObject:[QSEntityUtil getStringValue:dict keyPath:@"paymentServiceRoot"] forKey:@"paymentServiceRoot"];
         [ud synchronize];
+        
     } onError:^(NSError *error) {
         
     }];
