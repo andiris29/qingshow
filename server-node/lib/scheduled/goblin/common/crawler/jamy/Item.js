@@ -73,7 +73,7 @@ JamyWebItem.getSkus = function(source, callback) {
                             var offset = '0000' + index;
                             offset = offset.substr(-4);
                             var newCode = code + offset;
-                            skuTable[colorProperties[i] + ':' + sizeProperties[j]] = datas['response'][newCode].prc.sum.cny + '';
+                            skuTable[colorProperties[i] + ':' + sizeProperties[j]] = '1:' + datas['response'][newCode].prc.sum.cny + '';
                         }
                     }
 

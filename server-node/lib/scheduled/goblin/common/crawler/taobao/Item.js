@@ -175,7 +175,8 @@ var generateTaobaoInfoFromSkus = function (skus){
             if (!price) {
                 price = skus[j].price;
             }
-            skuTable[skuNames[j][0] + ':' + skuNames[j][1]] = price;
+            var stock = skus[j].stock;
+            skuTable[skuNames[j][0] + ':' + skuNames[j][1]] = stock + ':' + price;
         }
         taobaoInfo.skuProperties = skuProperties;
         taobaoInfo.skuTable = skuTable;

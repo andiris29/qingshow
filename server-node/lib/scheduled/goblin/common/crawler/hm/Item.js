@@ -92,7 +92,7 @@ HmWebItem.getSkus = function(source, callback) {
                         }
 
                         var key = colorName + ':' + sizeName;
-                        skuTable[key] = price;
+                        skuTable[key] = '1:' + price;
                     });
 
                     skuProperties.push(colorProperties.join(':'));
