@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="300dp"
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_t01_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        fresco:placeholderImage="@drawable/root_cell_placehold_head"
+        fresco:roundAsCircle="true">
+
+    </com.facebook.drawee.view.SimpleDraweeView>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/item_t01_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/item_t01_portrait"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/item_t01_portrait"
+        android:text="" />
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/item_t01_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/item_t01_portrait"
+        android:layout_alignLeft="@+id/item_t01_username"
+        android:text="" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_t01_portrait"
+        app:layout_marginLeftPercent="6%">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/item_t01_background" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="left"
+            app:layout_heightPercent="25%"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:layout_marginRightPercent="10%">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="bottom"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1">
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_t01_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    android:layout_alignParentRight="true"
+                    android:layout_toLeftOf="@+id/item_t01_discount"
+                    android:text="成功购买折扣："
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/item_t01_delist"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/t01_clear" />
+
+            </LinearLayout>
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_t01_price"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="top"
+                android:text="成功购买价格："
+                android:layout_marginTop="-4dp"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/item_t01_click_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            app:layout_marginBottomPercent="8%"
+            app:layout_marginLeftPercent="6%"
+            app:layout_marginRightPercent="4%"
+            app:layout_marginTopPercent="22%">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/item_tradelist_image"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignTop="@+id/item_t01_msg_relative"
+                app:layout_widthPercent="30%"
+                fresco:actualImageScaleType="fitCenter"
+                fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/item_t01_msg_relative"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/item_tradelist_image"
+                app:layout_marginTopPercent="10%">
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_tradelist_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:ellipsize="end"
+                    android:singleLine="true"/>
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_tradelist_sourcePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_tradelist_description"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/item_tradelist_sourcePriceTextView"
+                    android:text="原价："
+                    android:textColor="@color/gary"
+                    android:textSize="@dimen/text_size_small" />
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_tradelist_actualPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_tradelist_sourcePrice"
+                    android:layout_marginTop="5dp"
+                    android:text="现价："
+                    android:textColor="@color/gary"
+                    android:textSize="@dimen/text_size_small"
+                    app:preText="现价：" />
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_tradelist_skuProperties"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_tradelist_actualPrice"
+                    android:layout_marginTop="5dp"
+                    android:lineSpacingExtra="5dp"
+                    android:text="规格："
+                    android:textColor="@color/gary"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="gone" />
+
+                <com.focosee.qingshow.widget.QSTextView
+                    android:id="@+id/item_tradelist_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_tradelist_skuProperties"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/trade_count"
+                    android:textColor="@color/gary"
+                    android:textSize="@dimen/text_size_small"
+                    app:preText="@string/trade_count" />
+            </android.support.percent.PercentRelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
+</android.support.percent.PercentRelativeLayout>

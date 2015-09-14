@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/u16_relativelayout_background"
+    android:paddingTop="10dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_u16_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        fresco:actualImageScaleType="fitCenter"
+        android:padding="5dp"
+        fresco:roundAsCircle="true"
+        fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/item_u16_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_u16_portrait"
+        android:layout_toLeftOf="@+id/item_u16_money"
+        android:layout_marginRight="5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="@dimen/text_size"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/item_u16_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/item_u16_portrait"
+        android:layout_alignBottom="@id/item_u16_portrait"
+        android:gravity="center"
+        android:textSize="@dimen/text_size"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/item_u16_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/item_u16_portrait"
+        android:layout_alignLeft="@id/item_u16_description"
+        android:textSize="13sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/item_u16_time"
+        android:layout_marginTop="10dp"
+        android:background="@color/line_activity_settings"/>
+
+</android.support.percent.PercentRelativeLayout>

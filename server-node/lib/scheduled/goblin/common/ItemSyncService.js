@@ -52,6 +52,7 @@ ItemSyncService.syncItem = function (item, callback) {
             item.price = webItem.price;
             item.promoPrice = webItem.promo_price;
             item.skuProperties = webItem.skuProperties;
+            item.skuTable = webItem.skuTable;
             _logItem('item success', item);
         }
         item.sync = new Date();

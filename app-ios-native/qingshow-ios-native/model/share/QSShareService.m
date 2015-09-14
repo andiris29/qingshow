@@ -124,4 +124,12 @@
     }
 }
 
+
+static NSString* s_shareHost = nil;
++ (void)configShareHost:(NSString*)shareHost {
+    s_shareHost = shareHost;
+}
++ (NSString*)getShareHost {
+    return s_shareHost;
+}
 @end

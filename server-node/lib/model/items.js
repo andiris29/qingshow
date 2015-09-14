@@ -8,31 +8,32 @@ itemSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'categories'
     },
+    shopRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
     thumbnail : String,
     name : String,
     price: Number,
     promoPrice : Number,
     minExpectedPrice : Number,
+    expectablePrice : Number,
     skuProperties : [String],
+    skuTable : {},
     source : String,
     numLike : Number,
     create : {
         type : Date,
         'default' : Date.now
     },
+    delist : Date,
+    list : Date,
+    readOnly : Boolean,
     syncEnabled : {
         type : Boolean,
         'default' : true
     },
-    sync : Date,
-    delist : Date,
-    readOnly : Boolean,
-    returnInfo : {
-        name : String,
-        phone : String, 
-        province : String,
-        address : String
-    }
+    sync : Date
 });
 
 var Item = mongoose.model('items', itemSchema);

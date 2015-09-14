@@ -50,9 +50,12 @@ ServerError.TopShopNotExist = 1023;
 ServerError.TradeNotExist = 1024;
 ServerError.TradeStatusChangeError = 1025;
 ServerError.AlreadyLaunched = 1026;
-ServerError.GoblinError = 1027;
+ServerError.UnsupportVersion = 1027;
+ServerError.GoblinError = 1028;
+ServerError.MobileAlreadyExist = 1029;
+ServerError.SMSValidationFail = 1030;
 
-var _codeToString = function (code) {
+var _codeToString = function(code) {
     switch (code) {
         case 1000 :
             return "ServerError";
@@ -90,10 +93,16 @@ var _codeToString = function (code) {
             return "TradeNotExist";
         case 1025 :
             return "TradeStatusChangeError";
-        case 1026 :
+        case 1026 : 
             return "AlreadyLaunched";
+        case  1027:
+            return "UnsupportVersion";
         case ServerError.GoblinError :
             return 'GoblinError';
+        case 1029 : 
+            return "MobileAlreadyExist";
+        case 1030 :
+            return "SMSValidationFail";
     }
 };
 

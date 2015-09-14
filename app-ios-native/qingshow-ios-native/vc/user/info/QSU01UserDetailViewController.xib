@@ -114,10 +114,10 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
-                    <rect key="frame" x="20" y="25" width="36" height="36"/>
+                    <rect key="frame" x="17" y="22" width="39" height="39"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="36" id="96r-aa-5BR"/>
-                        <constraint firstAttribute="width" constant="36" id="qD7-AF-iCw"/>
+                        <constraint firstAttribute="height" constant="39" id="96r-aa-5BR"/>
+                        <constraint firstAttribute="width" constant="39" id="qD7-AF-iCw"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <state key="normal" image="nav_menu_u01">
@@ -128,10 +128,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ac3-Q3-Rae">
-                    <rect key="frame" x="20" y="25" width="36" height="36"/>
+                    <rect key="frame" x="17" y="22" width="39" height="39"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="36" id="3Lc-wb-1SG"/>
-                        <constraint firstAttribute="width" constant="36" id="b32-WZ-UZ8"/>
+                        <constraint firstAttribute="height" constant="39" id="3Lc-wb-1SG"/>
+                        <constraint firstAttribute="width" constant="39" id="b32-WZ-UZ8"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <state key="normal" image="nav_btn_back">
@@ -144,14 +144,14 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ac3-Q3-Rae" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="3hV-Eq-L5b"/>
+                <constraint firstItem="ac3-Q3-Rae" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="3hV-Eq-L5b"/>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
-                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="DTe-9u-7lB"/>
+                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="DTe-9u-7lB"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
-                <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="QPE-wC-rfU"/>
+                <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="QPE-wC-rfU"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
                 <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
-                <constraint firstItem="ac3-Q3-Rae" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="nPm-wY-OMy"/>
+                <constraint firstItem="ac3-Q3-Rae" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="nPm-wY-OMy"/>
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v9I-jF-Wrp"/>

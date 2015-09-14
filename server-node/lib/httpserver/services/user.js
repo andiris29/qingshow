@@ -10,11 +10,12 @@ var People = require('../../model/peoples');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
-var RequestHelper = require('../helpers/RequestHelper');
+var SMSHelper = require('../helpers/SMSHelper');
 
 var ServerError = require('../server-error');
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
+var moment =require('moment');
 
 var request = require('request');
 var WX_APPID = 'wx75cf44d922f47721';
@@ -76,7 +77,7 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     });
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -527,7 +528,8 @@ _loginViaWeixin = function(req, res) {
                 'unionid' : data.unionid
             });
         });
-    }, function (user, callback) {
+    }, 
+    function (user, callback) {
         var url = user.headimgurl;
         //download headIcon
         _downloadHeadIcon(url, function (err, tempPath) {
@@ -547,7 +549,8 @@ _loginViaWeixin = function(req, res) {
                 })
             }
         });
-    }, function(user, callback) {
+    }, 
+    function(user, callback) {
         People.findOne({
             'userInfo.weixin.openid' : user.openid
         }, function(err, people) {
@@ -694,6 +697,57 @@ _loginViaWeibo = function(req, res) {
     });
 };
 
+_requestVerificationCode = function(req, res){
+
+    async.waterfall([function(callback){
+        var mobile = req.body.mobileNumber;
+        People.count({
+            'mobile' : mobile
+        },function(err, num){
+            if (num > 0) {
+                callback(ServerError.MobileAlreadyExist);
+            }else {
+                callback(null, mobile);
+            }
+        })
+    },function(mobile, callback){
+        SMSHelper.createVerificationCode(mobile, function(err, code){
+            if (err) {
+                callback(err);
+            }else {
+                callback(null, mobile, code);
+            }
+        })
+    },function(mobile, code, callback){
+        var expire = global.qsConfig.verification.expire;
+        SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
+            if (err) {
+                callback(err);
+            }else {
+                callback(null, mobile);
+            }
+        });
+    }],function(error, mobile) {
+        ResponseHelper.response(res, error, {
+        });
+    })
+};
+
+_validateMobile = function(req, res){
+    var params = req.body;
+    async.series([function(callback){
+        var mobile = params.mobileNumber;
+        var code = params.verificationCode;
+        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+            callback(err, success);
+        });
+    }],function(error, success) {
+        ResponseHelper.response(res, error, {            
+            'success' : success[0]
+        });
+    })
+};
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -745,5 +799,13 @@ module.exports = {
     'loginViaWeibo' : {
         method : 'post',
         func : _loginViaWeibo
+    },
+    'requestVerificationCode' : {
+        method : 'post',
+        func : _requestVerificationCode
+    },
+    'validateMobile' : {
+        method : 'post',
+        func : _validateMobile
     }
 };

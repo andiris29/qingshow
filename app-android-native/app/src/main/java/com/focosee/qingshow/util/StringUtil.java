@@ -30,7 +30,11 @@ public class StringUtil {
     }
 
     public static String FormatPrice(String price) {
-        return "¥" + new DecimalFormat("0.00").format(new BigDecimal(price));
+        return "¥" + formatPriceWithoutSign(price);
+    }
+
+    public static String formatPriceWithoutSign(String price){
+        return new DecimalFormat("0.00").format(new BigDecimal(price));
     }
 
     public static String formatHeightAndWeight(Number heigth, Number weight) {
@@ -64,7 +68,8 @@ public class StringUtil {
     }
 
     public static String calculationException(double expectedPrice, double promoPrice) {
-        int result = new BigDecimal(formatPriceDigits(expectedPrice * 10 / promoPrice, 2)).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+        if(promoPrice <= 0)return "";
+        int result = (int)(expectedPrice * 10 / promoPrice);
         if (result < 1) result = 1;
         if (result > 9) result = 9;
         return String.valueOf(result) + "折";

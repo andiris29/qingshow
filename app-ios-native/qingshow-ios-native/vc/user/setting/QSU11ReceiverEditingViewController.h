@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UITableViewCell *phoneCell;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationCell;
 @property (strong, nonatomic) IBOutlet UITableViewCell *detailLocationCell;
+@property (strong, nonatomic) IBOutlet UITableViewCell *codeCell;
 
 
 #pragma mark - Label
@@ -24,6 +25,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (strong, nonatomic) IBOutlet UILabel *localLabel;
 @property (strong, nonatomic) IBOutlet UITextField *detailLocationTextField;
+@property (strong, nonatomic) IBOutlet UITextField *codeTextField;
+@property (weak, nonatomic) IBOutlet UIButton *getCodeBtn;
 
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

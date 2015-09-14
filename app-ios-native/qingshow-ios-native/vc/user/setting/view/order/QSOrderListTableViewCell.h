@@ -25,6 +25,11 @@
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
 
 - (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell;
+
+- (void)didClickExpectablePriceBtnForCell:(QSOrderListTableViewCell *)cell;
+
+- (void)didClickToWebPageForCell:(QSOrderListTableViewCell *)cell;
+
 @end
 
 @interface QSOrderListTableViewCell : UITableViewCell
@@ -55,14 +60,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
+@property (weak, nonatomic) IBOutlet UIButton *clickToWebpageBtn;
 
+@property (weak, nonatomic) IBOutlet UIView* currentDiscountContainer;
+@property (weak, nonatomic) IBOutlet UILabel* expectableDiscountLabel;
 
 - (IBAction)submitBtnPressed:(id)sender;
 - (IBAction)returnBtnPressed:(id)sender;
 - (IBAction)exchangeBtnPressed:(id)sender;
+- (IBAction)clickToWebpageBtnPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 
 @property (weak, nonatomic) NSObject<QSOrderListTableViewCellDelegate>* delegate;
-@property (assign,nonatomic) NSInteger type;
+@property (assign,nonatomic) int type;
 @end

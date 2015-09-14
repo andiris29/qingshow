@@ -35,7 +35,6 @@
 + (BOOL)isPeople:(NSDictionary*)l equalToPeople:(NSDictionary*)r;
 
 + (NSArray*)getReceiverList:(NSDictionary*)dict;
-
 + (BOOL)hasPersonalizeData:(NSDictionary*)dict;
 
 + (NSString*)getAge:(NSDictionary*)dict;
@@ -49,4 +48,17 @@
 + (NSString*)getWaist:(NSDictionary*)dict;
 + (NSString*)getHips:(NSDictionary*)dict;
 + (NSString*)getShoeSize:(NSDictionary*)dict;
+
+#pragma mark - Bonus
++ (NSArray*)getBonusList:(NSDictionary*)dict;
++ (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict;
++ (NSNumber*)getStatusFromBonusDict:(NSDictionary *)dict;
++ (NSString*)getNoteFromBonusDict:(NSDictionary *)dict;
++ (NSString*)getCreateFromBonusDict:(NSDictionary *)dict;
++ (NSString*)getAlipayId:(NSDictionary *)dict;
++ (NSString*)getIconFromBonusDict:(NSDictionary*)dict;
++ (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict;
+
+#pragma mark - code
++ (BOOL)checkMobileExist:(NSDictionary *)dict;
 @end

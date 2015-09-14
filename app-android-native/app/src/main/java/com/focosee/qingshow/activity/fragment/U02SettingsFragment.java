@@ -27,6 +27,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
+import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.activity.UserUpdatedEvent;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -45,6 +46,7 @@ import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
@@ -71,33 +73,35 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private static final String TAG_EXPECTATIONS = "expectations";
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
-    ImageView backTextView;
-    EditText ageEditText;
-    Button quitButton;
-    ImageButton navigationBtnMatch;
-    ImageButton navigationBtnGoodMatch;
-    ImageButton navigationBtnDiscount;
-    ImageButton u01People;
-    RelativeLayout personalRelativeLayout;
-    RelativeLayout backgroundRelativeLayout;
-    RelativeLayout bodyTypeRelativeLayout;
-    RelativeLayout changePasswordRelativeLayout;
-    RelativeLayout addresslistRelativeLayout;
-    RelativeLayout dressStyleRelativeLayout;
-    RelativeLayout effectRelativeLayout;
-    ImageView portraitImageView;
-    ImageView backgroundImageView;
-    EditText nameEditText;
-    EditText heightEditText;
-    EditText weightEditText;
-    EditText bustEditText;
-    EditText shoulderEditText;
-    EditText waistlineEditText;
-    EditText hiplineEditText;
-    TextView bodyTypeTextView;
-    TextView dressStyleEditText;
-    TextView effectEditText;
-    TextView changePwText;
+    private ImageView backTextView;
+    private EditText ageEditText;
+    private Button quitButton;
+    private ImageButton navigationBtnMatch;
+    private ImageButton navigationBtnGoodMatch;
+    private ImageButton navigationBtnDiscount;
+    private ImageButton navigationBtnBonus;
+    private ImageButton u01People;
+    private RelativeLayout personalRelativeLayout;
+    private RelativeLayout backgroundRelativeLayout;
+    private RelativeLayout bodyTypeRelativeLayout;
+    private RelativeLayout changePasswordRelativeLayout;
+    private RelativeLayout bonusRelativeLayout;
+    private RelativeLayout addresslistRelativeLayout;
+    private RelativeLayout dressStyleRelativeLayout;
+    private RelativeLayout effectRelativeLayout;
+    private ImageView portraitImageView;
+    private ImageView backgroundImageView;
+    private EditText nameEditText;
+    private EditText heightEditText;
+    private EditText weightEditText;
+    private EditText bustEditText;
+    private EditText shoulderEditText;
+    private EditText waistlineEditText;
+    private EditText hiplineEditText;
+    private TextView bodyTypeTextView;
+    private TextView dressStyleEditText;
+    private TextView effectEditText;
+    private TextView changePwText;
     public static U02SettingsFragment instance;
 
     private MongoPeople people;
@@ -148,7 +152,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 Map map = new HashMap();
                 Log.i("JPush_QS", "logout" + PushModel.INSTANCE.getRegId());
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
-                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.USER_LOGOUT, new JSONObject(map), new Response.Listener<JSONObject>() {
+                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getUserLogout(), new JSONObject(map), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         if (MetadataParser.hasError(response)) {
@@ -159,7 +163,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     }
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-                Toast.makeText(getActivity(), "已退出登录", Toast.LENGTH_LONG).show();
+                ToastUtil.showShortToast(getActivity().getApplicationContext(), "已退出登录");
                 Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
                 startActivity(intent);
                 GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
@@ -201,8 +205,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
             }
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "未知错误，请重试！（只能传本地图片）", Toast.LENGTH_LONG)
-                    .show();
         }
     }
 
@@ -259,11 +261,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         navigationBtnMatch = (ImageButton) view.findViewById(R.id.navigation_btn_match);
         navigationBtnGoodMatch = (ImageButton) view.findViewById(R.id.navigation_btn_good_match);
         navigationBtnDiscount = (ImageButton) view.findViewById(R.id.navigation_btn_discount);
+        navigationBtnBonus = (ImageButton) view.findViewById(R.id.u01_bonusList);
         u01People = (ImageButton) view.findViewById(R.id.u01_people);
         personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
         bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
         changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
+        bonusRelativeLayout = (RelativeLayout) view.findViewById(R.id.bonusRelativeLayout);
         addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
         dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
         effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
@@ -378,7 +382,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onError() {
                 super.onError();
-                Toast.makeText(U02SettingsFragment.this.getActivity(), "网络请求错误", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -487,7 +490,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onError() {
                 super.onError();
-                Toast.makeText(getActivity(), "请检查网络", Toast.LENGTH_LONG).show();
+                ToastUtil.showShortToast(getActivity().getApplicationContext(), "请检查网络");
             }
         });
     }
@@ -496,6 +499,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         navigationBtnMatch.setOnClickListener(this);
         navigationBtnGoodMatch.setOnClickListener(this);
         navigationBtnDiscount.setOnClickListener(this);
+        navigationBtnBonus.setOnClickListener(this);
         u01People.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
 
@@ -507,7 +511,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         waistlineEditText.setOnFocusChangeListener(this);
         hiplineEditText.setOnFocusChangeListener(this);
 
-        backTextView.setOnClickListener(new View.OnClickListener(){
+        backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 commitForm();
@@ -554,6 +558,13 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_left_out, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
                 U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
+            }
+        });
+
+        bonusRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), U15BonusActivity.class));
             }
         });
 

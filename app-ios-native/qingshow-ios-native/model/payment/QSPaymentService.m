@@ -26,7 +26,7 @@
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
 #define ALIPAY_PRIVATE_KEY @"MIICXAIBAAKBgQDB/r4VcnLMRYodfK0vh8i37fL+VggeLnAhn7vxEvR1vOwxnaNXwjMJYk9abLe3YUPyeBTC07IXMlrjFakw367vNqj+E6vJUA1y4np6VQLbcl7wejyH4aOEe4ytrOabCVC2XsZ+BPfQoH6KtVWDghVN+18D4fD7FWYLYhCmgkNVrQIDAQABAoGAATdyw7mrBKLvAc5VW7XzSUwBuRybAm1yIJPa3uEqjU55ALqnWpaKMWXfb4a9BDZk8bFVF/+x3zlenov1Oqw8cZrOy2lNt30mBZ49rGZXHF5UDKndxIhyYQFX+h4/8+2VqFM0acjK5gjU6on9kEiBz5gONnXdU7mtO3gUUmrs7PUCQQDpmXUiPU82fRn4F71S66JsyREbVGjl3nPJQukZ+UJJWUHvLjnK0YSmNRr1692QVw6cLRzO3UzB8B41Zc7YKd/PAkEA1JkNjbFA4S/ymdqNqVMzJHf61FxZZlXpoNva2yLNg85m0YxwUqOaAStOyy7th8vjRSedhxAy/sbPFSDg2ng1wwJACs+QTTJbLSFjB0lJ+MFw9enkQciJRkIiR6kyEoKnn69izsfr4sgJhIumoMT2rwxoX6/yylwRhlQvgbcheH2PnwJBAKET4dAEh+rWgFKP5Btx/WLZQQPbgKTn3R7S1UyJXvtJzF9ir8v9Rvcxz/5kbPYhxe2kqVcnL+wXx9jzU0pUIC8CQDGei23BahmXvkNPF07JwGIoikoNZyUQZyd/NKpPiwMJTnyYrjp/rZEkwEUz5z3yJGLsuauqInWZDxyx32BUpUM="
-#define ALIPAY_NOTIFY_URL @"http://chingshow.com/payment/alipay/callback"
+#define ALIPAY_NOTIFY_URL [NSString stringWithFormat:@"%@/alipay/callback",PATH_SERVER_ADDR_PAY]
 #define ALIPAY_URL_SCHEMA @"alipay2088301244798510"
 
 #define WECHAT_SIGN_KEY @"1qaz2wsx3edc4rfv1234qwerasdfzxcv"
@@ -40,6 +40,12 @@
 @end
 
 @implementation QSPaymentService
+
+static NSString* s_paymentHost = nil;
+
++ (void)configPaymentHost:(NSString*)paymentHost {
+    s_paymentHost = paymentHost;
+}
 
 #pragma mark - Singleton
 + (QSPaymentService*)shareService
@@ -75,7 +81,8 @@
         //分享
         NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
         NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
-        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:@"服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareTrade&_id=%@&initiatorRef=%@",tradeId,peopleId] onSucceed:^{
+        
+        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:@"服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareTrade&_id=%@&initiatorRef=%@",[QSShareService getShareHost],tradeId,peopleId] onSucceed:^{
             [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:succeedBlock onError:errorBlock];
         } onError:errorBlock];
     } else {
@@ -120,7 +127,7 @@
     order.productName = productName;
     order.productDescription = @"desc";
     order.amount = [QSTradeUtil getTotalFeeDesc:tradeDict];
-    order.notifyURL = ALIPAY_NOTIFY_URL;
+    order.notifyURL = [NSString stringWithFormat:@"%@/alipay/callback",s_paymentHost];
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
     order.inputCharset = @"utf-8";

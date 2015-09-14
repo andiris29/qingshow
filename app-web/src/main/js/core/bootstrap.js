@@ -41,6 +41,9 @@ define([
         navigationService.push('qs/views/P03ShareTrade', {
             '_id' : search._id
         });
+    } else if (entry === 'shareBonus') {
+        navigationService.push('qs/views/P04ShareBonus', {
+        });
     } else {
         navigationService.push('qs/views/P01NotFound');
     }

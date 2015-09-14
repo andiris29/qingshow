@@ -1,85 +1,81 @@
 package com.focosee.qingshow.httpapi.response.error;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.focosee.qingshow.util.ToastUtil;
 
 /**
  * Created by zenan on 1/2/15.
  */
 public class ErrorHandler {
 
+    private static final String TAG = ErrorHandler.class.getSimpleName();
+
     public static void handle(Context context, int errorCode) {
         switch (errorCode) {
             case ErrorCode.ServerError:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToast(context.getApplicationContext(), "请重试");
                 break;
             case ErrorCode.IncorrectMailOrPassword:
-                Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                ToastUtil.showShortToast(context.getApplicationContext(), "账号或密码错误");
                 break;
             case ErrorCode.SessionExpired:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "SessionExpired");
                 break;
             case ErrorCode.ShowNotExist:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "ShowNotExist");
                 break;
             case ErrorCode.ItemNotExist:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "ItemNotExist");
                 break;
             case ErrorCode.PeopleNotExist:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
-                break;
-            case ErrorCode.BrandNotExist:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "PeopleNotExist");
                 break;
             case ErrorCode.InvalidEmail:
-                Toast.makeText(context, "不合法的邮箱", Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToast(context.getApplicationContext(), "不合法的邮箱");
                 break;
             case ErrorCode.NotEnoughParam:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "参数不够");
                 break;
             case ErrorCode.PagingNotExist:
-                Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "没有更多数据了");
                 break;
             case ErrorCode.EmailAlreadyExist:
-                Toast.makeText(context, "账号已存在", Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToast(context.getApplicationContext(), "账号已存在");
                 break;
             case ErrorCode.AlreadyLikeShow:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "AlreadyLikeShow");
                 break;
             case ErrorCode.NeedLogin:
-                Toast.makeText(context, "需要登录", Toast.LENGTH_LONG).show();
                 break;
             case ErrorCode.AlreadyFollowPeople:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "AlreadyFollowPeople");
                 break;
             case ErrorCode.DidNotFollowPeople:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
-                break;
-            case ErrorCode.AlreadyFollowBrand:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
-                break;
-            case ErrorCode.DidNotFollowBrand:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "DidNotFollowPeople");
                 break;
             case ErrorCode.PItemNotExist:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
                 break;
             case ErrorCode.RequestValidationFail:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "RequestValidationFail");
                 break;
             case ErrorCode.AlreadyRelated:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "AlreadyRelated");
                 break;
             case ErrorCode.AlreadyUnrelated:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "AlreadyUnrelated");
                 break;
             case ErrorCode.InvalidCurrentPassword:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "InvalidCurrentPassword");
                 break;
             case ErrorCode.NoNetWork:
-                Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
-            default:
-                Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToast(context.getApplicationContext(), "请检查网络");
+            case ErrorCode.MobileAlreadyExist:
+                ToastUtil.showShortToast(context.getApplicationContext(), "手机已注册");
+            case ErrorCode.MobileVerifyFailed:
+                ToastUtil.showShortToast(context.getApplicationContext(), "验证失败");
                 break;
         }
     }

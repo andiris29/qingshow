@@ -30,8 +30,11 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
+import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.google.gson.reflect.TypeToken;
@@ -54,7 +57,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
     public static final String COMMENT_NUM_CHANGE = "comment_num_changed";
-    public static boolean isOpened = false;
     @InjectView(R.id.left_btn)
     ImageView leftBtn;
     @InjectView(R.id.title)
@@ -97,11 +99,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         });
 
         title.setText("评论");
-        if (!QSModel.INSTANCE.loggedin()) {
-            startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
-            finish();
-            return;
-        }
         Intent intent = getIntent();
 
         if (!TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
@@ -135,10 +132,8 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
         if (QSModel.INSTANCE.loggedin()) {
             if (null != QSModel.INSTANCE.getUser()) {
-                if (null != QSModel.INSTANCE.getUser().portrait && !"".equals(QSModel.INSTANCE.getUser().portrait)) {
-                    S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
-                    S04UserImage.setAspectRatio(1f);
-                }
+                S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+                S04UserImage.setAspectRatio(1f);
             }
         }
 
@@ -167,7 +162,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        isOpened = false;
     }
 
     @Override
@@ -234,14 +228,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     private void postComment() {
 
         if (!QSModel.INSTANCE.loggedin()) {
-            Toast.makeText(S04CommentActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
+            GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
             return;
         }
 
         String comment = s04Input.getText().toString().trim();
         if (comment.length() <= 0) {
-            Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShortToast(getApplicationContext(), "评论不能为空");
             return;
         }
         Map<String, String> map = new HashMap<String, String>();

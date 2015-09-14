@@ -95,6 +95,8 @@
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
+
+
 - (void)receiverConfig
 {
     NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
@@ -498,6 +500,11 @@
 #pragma mark - UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (alertView.tag == 123) {
+    
+    }
+    else
+    {
     if (buttonIndex == 0) {
         //继续逛逛
         [self.navigationController popViewControllerAnimated:YES];
@@ -511,6 +518,7 @@
             [u09Vc changeValueOfSegment:1];
             u09Vc.headerView.segmentControl.selectedSegmentIndex = 1;
         }
+    }
     }
 }
 

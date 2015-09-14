@@ -9,11 +9,16 @@
 #import "QSTradeUtil.h"
 #import "QSEntityUtil.h"
 #import "QSDateUtil.h"
+#import "QSItemUtil.h"
 #import "QSTradeStatus.h"
 #import "NSDictionary+QSExtension.h"
 
 @implementation QSTradeUtil
 
++ (NSString *)getTradeId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"_id"];
+}
 
 + (NSDictionary *)getPeopleDic:(NSDictionary *)dict
 {
@@ -102,6 +107,10 @@
 
 #pragma mark - Order
 
++ (NSString *)getItemId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"itemRef"];
+}
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict
 {
     if (![QSEntityUtil checkIsDict:dict]) {
@@ -158,7 +167,14 @@
         NSRange range = [resultStr rangeOfString:@"尺码"];
         [resultStr deleteCharactersInRange:range];
     }
-    return [NSString stringWithFormat:@"规格:%@",resultStr];
+    if (resultStr.length) {
+        return [NSString stringWithFormat:@"规格:%@",resultStr];
+    }
+    else
+    {
+        return nil;
+    }
+    
 }
 + (NSString *)getColorText:(NSDictionary *)dict
 {
@@ -219,5 +235,35 @@
     }
     NSNumber* quantity = [self getQuantity:dict];
     return @(price.doubleValue * quantity.intValue);
+}
++ (NSNumber*)getItemExpectablePrice:(NSDictionary*)dict {
+    NSNumber* n = [dict numberValueForKeyPath:@"__context.item.expectablePrice"];
+    if (!n) {
+        NSString* s = [dict stringValueForKeyPath:@"__context.item.expectablePrice"];
+        if (s) {
+            n = @(s.doubleValue);
+        }
+
+    }
+    return n;
+}
+
++ (NSString*)calculateDiscountDescWithPrice:(NSNumber*)targetPrice trade:(NSDictionary*)trade {
+    
+    NSNumber* price = [QSItemUtil getPromoPrice:[self getItemSnapshot:trade]];
+    int disCount = targetPrice.doubleValue * 100 / price.doubleValue;
+    if (disCount < 10) {
+        disCount = 10;
+    }else if(disCount > 90)
+    {
+        disCount = 90;
+    }else
+    {
+        if (disCount%10 > 5) {
+            disCount = (disCount/10+1)*10;
+        }
+    }
+    disCount = disCount/10;
+    return [NSString stringWithFormat:@"%d折", disCount];
 }
 @end

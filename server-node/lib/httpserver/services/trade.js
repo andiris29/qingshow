@@ -19,6 +19,7 @@ var ServerError = require('../server-error');
 var request = require('request');
 
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var BonusHelper = require('../helpers/BonusHelper');
 
 var trade = module.exports;
 
@@ -44,6 +45,9 @@ trade.create = {
             trade.itemSnapshot = req.body.itemSnapshot;
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
             trade.itemRef = RequestHelper.parseId(req.body.itemSnapshot._id);
+            if (req.body.promoterRef !== null && req.body.promoterRef.length > 0) {
+                trade.promoterRef = RequestHelper.parseId(req.body.promoterRef);
+            }
             trade.save(function(err) {
                 callback(err, trade);
             });
@@ -270,34 +274,6 @@ trade.statusTo = {
     }
 };
 
-trade.queryCreatedBy = {
-    'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var userId = req.queryString._id ? RequestHelper.parseId(req.queryString._id) : req.qsCurrentUserId;
-        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            var criteria = {
-                'ownerRef' : userId
-            };
-            if (qsParam.inProgress === "true") {
-                criteria.status = {
-                    '$in' : [1, 2, 3, 7]
-                };
-            }
-            MongoHelper.queryPaging(Trade.find(criteria).sort({'create' : -1}), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
-        }, function(trades) {
-            return {
-                'trades' : trades 
-            };
-        }, {
-            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                // Append Context
-                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
-            }
-        });
-    }
-};
-
 trade.alipayCallback = {
     'method' : 'post',
     'func' : function(req, res) {
@@ -334,6 +310,11 @@ trade.alipayCallback = {
         },
         function(trade, callback) {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
+        },
+        function(trade, callback) {
+            BonusHelper.updateBonuse(trade, trade.itemSnapshot, function(error, people) {
+                callback(error, trade);
+            });
         }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
@@ -392,6 +373,11 @@ trade.wechatCallback = {
         },
         function(trade, callback) {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
+        },
+        function(trade, callback) {
+            BonusHelper.updateBonuse(trade, trade.itemSnapshot, function(error, people) {
+                callback(error, trade);
+            });
         }], function(error, trade) {
             if (error === 'pass') {
                 error = null;
@@ -405,6 +391,7 @@ trade.wechatCallback = {
         });
     }
 };
+
 
 trade.refreshPaymentStatus = {
     'method' : 'post',
@@ -564,3 +551,89 @@ trade.queryByPhase = {
         });
     }
 };
+
+trade.queryHighlighted = {
+    'method' : 'get',
+    'func' : function (req, res){
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback){
+            MongoHelper.queryPaging(Trade.where('status').in([2, 3, 5, 15]).sort({'create' : -1}),
+                Trade.where('status').in([2, 3, 5, 15]).sort({'create' : -1}),
+                qsParam.pageNo,qsParam.pageSize , callback);
+        },function(trades){
+            return {
+                'trades' : trades
+            }
+        },{
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                        ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
+        })
+    }
+};
+
+trade.getReturnReceiver = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([function(callback) {
+            Trade.findOne({
+                _id : RequestHelper.parseId(req.body._id)
+            }, function(error, trade) {
+                if (error) {
+                    callback(error);
+                } else if (!trade) {
+                    callback(ServerError.TradeNotExist);
+                } else {
+                    callback(null, trade)
+                }
+            });
+        }, function(trade, callback) {
+            Item.findOne({
+                _id : trade.itemRef
+            }, function(error, item) {
+                if (error) {
+                    callback(error);
+                } else if (!item) {
+                    callback(ServerError.ItemNotExist);
+                } else {
+                    callback(null, item)
+                }
+            });
+        }, function(item, callback) {
+            People.findOne({
+                _id : item.shopRef
+            }, function(error, people) {
+                if (error) {
+                    callback(error);
+                } else if (!people) {
+                    callback(ServerError.PeopleNotExist);
+                } else {
+                    callback(null, people)
+                }
+            });
+        }, function(people, callback) {
+            var defaultReceiver = global.qsConfig.receiver.default;
+            if (people.receivers === nul || people.receivers.length === 0) {
+                callback(null, defaultReceiver);
+                return;
+            }
+            
+            people.receivers.forEach(function(receiver) {
+                if (receiver.isDefault) {
+                    callback(null, receiver);
+                    return;
+                }
+            });
+            
+            callback(null, people.receivers[0]);
+        }], function(error, receiver) {
+            ResponseHelper.response(res, error, {
+                receiver : receiver
+            });
+        });
+    }
+};
+

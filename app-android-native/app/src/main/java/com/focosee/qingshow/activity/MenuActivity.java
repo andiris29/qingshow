@@ -10,14 +10,13 @@ import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U02ChangePasswordFragment;
 import com.focosee.qingshow.activity.fragment.U02SelectExceptionFragment;
@@ -25,7 +24,6 @@ import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
-
 import butterknife.InjectView;
 
 public class MenuActivity extends BaseActivity implements View.OnClickListener {
@@ -89,7 +87,6 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
 
         applyBlur();
         if (Build.VERSION.SDK_INT > 16)
-
             blur.setVisibility(View.VISIBLE);
 
         navigation.setOnTouchListener(new View.OnTouchListener() {
@@ -170,6 +167,15 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
             return;
         }
 
+        if(v.getId() == R.id.u01_bonusList){
+            if(this instanceof T01HighlightedTradeListActivity){
+                return;
+            }
+            startActivity(new Intent(MenuActivity.this, T01HighlightedTradeListActivity.class));
+            finish();
+            return;
+        }
+
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
@@ -190,10 +196,8 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener {
         }
 
         if (!QSModel.INSTANCE.loggedin()) {
-            Toast.makeText(this, R.string.need_login, Toast.LENGTH_SHORT).show();
             GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
             startActivity(new Intent(MenuActivity.this, U07RegisterActivity.class));
-            finish();
             return;
         }
 

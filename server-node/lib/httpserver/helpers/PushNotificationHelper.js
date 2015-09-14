@@ -24,6 +24,8 @@ PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙�
 PushNotificationHelper.MessageTradeInitialized = "您申请的折扣已经成功啦，别让宝贝飞了，快块来付款吧！";
 PushNotificationHelper.MessageTradeShipped = "您购买的宝贝已经向您狂奔而来，等着接收惊喜哟！";
 PushNotificationHelper.MessageItemPriceChanged = "您申请的折扣有最新信息，不要错过哦！";
+PushNotificationHelper.MessageNewBonus = "您有一笔佣金入账啦，立即查看！";
+PushNotificationHelper.MessageBonusWithdrawComplete = "您的账户成功提现{0}，请注意查看账户！";
 
 PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
 PushNotificationHelper.CommandNewShowComments = "newShowComments";
@@ -32,6 +34,8 @@ PushNotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
 PushNotificationHelper.CommandTradeInitialized = "tradeInitialized";
 PushNotificationHelper.CommandTradeShipped = "tradeShipped";
 PushNotificationHelper.CommandItemPriceChanged = "itemPriceChanged";
+PushNotificationHelper.CommandNewBonus = "newBonus";
+PushNotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
 
 PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
     var sendTargets = _.filter(registrationIDs, function(registrationId) {

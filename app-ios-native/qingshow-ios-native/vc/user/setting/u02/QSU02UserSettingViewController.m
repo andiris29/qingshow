@@ -11,7 +11,7 @@
 #import "QSU08PasswordViewController.h"
 #import "QSU09OrderListViewController.h"
 #import "QSU10ReceiverListViewController.h"
-
+#import "QSU15BonusViewController.h"
 #import "QSU07RegisterViewController.h"
 
 #import "QSNetworkKit.h"
@@ -109,7 +109,9 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                @(U02SectionImageRowBackground)
                                ],
                            @[@(U02SectionManagerRowAddress)],
-                           @[@(U02SectionOtherRowPasswd)],
+                           @[@(U02SectionOtherRowPasswd),
+                             @(U02SectionOtherRowBonus)],
+                           
                            @[
                                @(U02SectionInfoRowName),
                                @(U02SectionInfoRowAge),
@@ -251,6 +253,17 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)showBonuesVC
+{
+    NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
+    NSArray *bonusArray = [QSPeopleUtil getBonusList:dic];
+    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:bonusArray];
+    vc.peopleId = [QSPeopleUtil getPeopleId:dic];
+    if (bonusArray.count) {
+        vc.alipayId = [QSPeopleUtil getAlipayId:[bonusArray firstObject]];
+    }
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     QSU02AbstractTableViewCell* cell = [self getCellWithIndexPath:indexPath];

@@ -30,7 +30,7 @@
 }
 - (void)bindWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber *)actualPrice {
     //NSNumber* nowPrice = [QSTradeUtil getActualPrice:tradeDict];
-    NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
+    NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     int disCount = actualPrice.doubleValue * 100 / price.doubleValue;
     if (disCount < 10) {
         disCount = 10;

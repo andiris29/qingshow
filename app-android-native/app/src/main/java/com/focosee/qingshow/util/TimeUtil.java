@@ -98,16 +98,21 @@ public class TimeUtil {
         return result;
     }
 
-    public static String formatDateTime(long time) {
+    public static String formatDateTime(long time, SimpleDateFormat _mDateFormat) {
         if (0 == time) {
             return "";
         }
-        SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
         return _mDateFormat.format(new Date(time));
     }
 
+
+    public static String formatDateTime(GregorianCalendar time, SimpleDateFormat _mDateFormat){
+        return formatDateTime(time.getTime().getTime(), _mDateFormat);
+    }
+
     public static String formatDateTime(GregorianCalendar time){
-        return formatDateTime(time.getTime().getTime());
+        SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM- dd HH:mm");
+        return formatDateTime(time, _mDateFormat);
     }
 
     public static String formatDateTime_CN_Pre(GregorianCalendar time){
@@ -117,6 +122,9 @@ public class TimeUtil {
 
         int timeI = (int)Math.abs(time.getTimeInMillis() - System.currentTimeMillis()) / 1000;//s
         int m = timeI / 60;//m
+        if(m < 0){
+            m = Math.abs(m);
+        }
         if(m < 60){
             return String.valueOf(m + "分钟");
         }else{

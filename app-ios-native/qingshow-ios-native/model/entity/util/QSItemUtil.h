@@ -24,6 +24,11 @@
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict;
++ (NSDictionary*)getSkuTable:(NSDictionary*)itemDict;
++ (NSString*)getKeyValueForSkuTableFromeSkuProperties:(NSArray*)skuArray;
++ (int)getFirstValueFromSkuTableWithkey:(NSString*)key itemDic:(NSDictionary*)itemDic;
 + (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict;
 + (BOOL)getReadOnly:(NSDictionary*)itemDict;
++ (BOOL)getDelist:(NSDictionary *)itemDict;
++ (NSString*)getItemId:(NSDictionary *)itemDict;
 @end

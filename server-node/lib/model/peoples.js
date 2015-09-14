@@ -6,6 +6,7 @@ var peopleSchema;
 peopleSchema = Schema({
     __context : Object,
     nickname: String,
+    mobile: String,
     assetsRoot : String,
     portrait : String,
     background : String,
@@ -63,6 +64,35 @@ peopleSchema = Schema({
         address : String,
         isDefault : Boolean
     }],
+    bonuses : [{
+        status : Number,
+        money : Number,
+        notes : String,
+        icon : String,
+        create : {
+            type : Date,
+            'default' : Date.now
+        },
+        initiatorRef : {
+            type : Schema.Types.ObjectId,
+            ref : 'peoples'
+        },
+        trigger : {
+            forgerRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'peoples'
+            },
+            tradeRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'trades'
+            },
+            itemRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'items'
+            }
+        },
+        alipayId : String
+    }],
     create : {
         type : Date,
         'default' : Date.now
@@ -77,6 +107,11 @@ peopleSchema = Schema({
         reward : {
             id : String,
             receiverUuid : String
+        }
+    },
+    shopInfo : {
+        taobao : {
+            sid : String
         }
     }
 });

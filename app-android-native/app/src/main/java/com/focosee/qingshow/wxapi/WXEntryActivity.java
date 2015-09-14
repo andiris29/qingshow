@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -21,13 +24,16 @@ import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.FileUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import de.greenrobot.event.EventBus;
@@ -63,11 +69,23 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
             EventBus.getDefault().post(new PushEvent(resp));
+            //trade
             if (resp.transaction.equals(ValueUtil.SHARE_TRADE)) {
                 if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
                     EventBus.getDefault().post(new ShareTradeEvent(true));
                 }
-            } else {
+            }
+            //bonus
+            if (resp.transaction.equals(ValueUtil.SHARE_BONUS)) {
+                if(resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK){
+                    EventBus.getDefault().post(new ShareBonusEvent(resp.errCode));
+                }else{
+                    Toast.makeText(WXEntryActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+            //show
+            if(resp.transaction.equals(ValueUtil.SHARE_SHOW)) {
                 EventModel<Integer> eventModel;
                 eventModel = new EventModel<>(S03SHowActivity.class.getSimpleName(), resp.errCode);
                 eventModel.from = WXEntryActivity.class.getSimpleName();
@@ -94,21 +112,20 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         map.put("code", code);
         map.put("registrationId", PushModel.INSTANCE.getRegId());
         JSONObject jsonObject = new JSONObject(map);
-
+        Log.i("tag", code);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    Toast.makeText(WXEntryActivity.this, "登录失败请重试！", Toast.LENGTH_SHORT).show();
+                    ToastUtil.showShortToast(getApplicationContext(), "登录失败，请重试！");
                     EventBus.getDefault().post(new WxLoginedEvent("error"));
                     finish();
                     return;
                 }
 
-                Toast.makeText(WXEntryActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
                 MongoPeople user = UserParser._parsePeople(response);
-                if(TextUtils.isEmpty(user.portrait)){
+                if (TextUtils.isEmpty(user.portrait)) {
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
                 }
                 QSModel.INSTANCE.setUser(user);
@@ -121,7 +138,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 finish();
             }
         });
-
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(Integer.MAX_VALUE,0,1f));
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 }

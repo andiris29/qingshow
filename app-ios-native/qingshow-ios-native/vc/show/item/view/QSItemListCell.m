@@ -19,7 +19,7 @@
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.bgImageView.layer.cornerRadius = 43/2.f;
-    self.priceLabel.hidden = YES;
+    self.priceLabel.hidden  = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

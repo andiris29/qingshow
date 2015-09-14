@@ -5,7 +5,12 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="HelveticaInserat-Roman-SemiBold.ttf">
+            <string>HelveticaInserat-Roman-SemiBold</string>
+        </mutableArray>
         <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
@@ -136,12 +141,48 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" id="P2w-6I-Kvx">
+                        <rect key="frame" x="242" y="135" width="68" height="68"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目前" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4OH-4s-O9R">
+                                <rect key="frame" x="19" y="8" width="30" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6折" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5gx-a8-GFe">
+                                <rect key="frame" x="14" y="33" width="40" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaInserat-Roman-SemiBold" family="HelveticaInserat-Roman-SemiBold" pointSize="27"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.97254901960784312" green="0.24313725490196078" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ztt-q0-Qh1">
+                        <rect key="frame" x="33" y="179" width="55" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
+                        <state key="normal" title="查看商品">
+                            <color key="titleColor" red="1" green="0.6588235294" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="clickToWebpageBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Tz1-JS-4gT"/>
+                        </connections>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="clickToWebpageBtn" destination="Ztt-q0-Qh1" id="jVd-pp-ce5"/>
+                <outlet property="currentDiscountContainer" destination="P2w-6I-Kvx" id="akm-HR-hsF"/>
                 <outlet property="dateLabel" destination="zoQ-B7-uaB" id="IVY-DV-Vf4"/>
                 <outlet property="exDiscountLabel" destination="vGC-id-sxo" id="tom-as-6XB"/>
                 <outlet property="exchangeButton" destination="DHm-Pe-qd6" id="CgY-jr-z6o"/>
+                <outlet property="expectableDiscountLabel" destination="5gx-a8-GFe" id="3rt-8S-UNu"/>
                 <outlet property="itemImgView" destination="v5b-Zo-lnU" id="YEc-dC-beU"/>
                 <outlet property="nowPriceLabel" destination="2zm-dz-QDO" id="wY0-YY-Yhj"/>
                 <outlet property="originPriceLabel" destination="muR-o9-xYo" id="fOF-Rr-X66"/>

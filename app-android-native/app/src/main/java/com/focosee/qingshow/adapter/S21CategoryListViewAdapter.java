@@ -16,7 +16,6 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.QSTextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -254,7 +253,6 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View v) {
-            SelectInfo info = (SelectInfo) v.getTag();
             if (selectRefs.contains(category._id)) {
                 disCheckItem(tv, (SimpleDraweeView) v, category.icon);
                 selectInfos.get(position).pageNo = -1;
@@ -262,34 +260,10 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 selectInfos.get(position).id = "";
                 selectRefs.remove(category._id);
             } else {
-                if (position == multiSelectPostion) {
                     selectRefs.add(category._id);
                     checkItem(tv, (SimpleDraweeView) v, category.icon);
                     onSelectChangeListener.onSelectChanged(selectRefs);
                     return;
-                }
-                if (info.id.isEmpty()) {
-                    checkItem(tv, (SimpleDraweeView) v, category.icon);
-                    selectRefs.add(category._id);
-                    selectInfos.get(position).id = category._id;
-                    selectInfos.get(position).index = index;
-                    selectInfos.get(position).pageNo = index / 3;
-                } else {
-                    selectRefs.remove(selectInfos.get(position).id);
-                    int oldIndex = 0;
-                    for (int i = 0; i < items.get(position).size(); i++) {
-                        if (items.get(position).get(i)._id.equals(selectInfos.get(position).id)) {
-                            oldIndex = i;
-                        }
-                    }
-                    disCheckItem(itemViewHolders.get(position).get(oldIndex).tv, itemViewHolders.get(position).get(oldIndex).img, items.get(position).get(selectInfos.get(position).index).icon);
-                    checkItem(tv, (SimpleDraweeView) v, category.icon);
-                    selectRefs.add(category._id);
-                    selectInfos.get(position).id = category._id;
-                    selectInfos.get(position).index = index;
-                    selectInfos.get(position).pageNo = index / 3;
-                }
-
             }
             if (null != onSelectChangeListener)
                 onSelectChangeListener.onSelectChanged(selectRefs);

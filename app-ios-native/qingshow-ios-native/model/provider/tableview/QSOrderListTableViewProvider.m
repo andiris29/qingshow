@@ -75,6 +75,16 @@
         [self.delegate didClickExchangeBtnOfOrder:[self orderForCell:cell]];
     }
 }
+
+- (void)didClickExpectablePriceBtnForCell:(QSOrderListTableViewCell *)cell {
+    if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnOfOrder:)]) {
+        [self.delegate didClickExpectablePriceBtnOfOrder:[self orderForCell:cell]];
+    }
+}
+- (void)didClickToWebPageForCell:(QSOrderListTableViewCell *)cell
+{
+    [self.delegate didClickToWebPage:[self orderForCell:cell]];
+}
 #pragma mark - Private
 - (NSDictionary*)orderForCell:(UITableViewCell*)cell
 {
@@ -90,11 +100,12 @@
     } else {
         return nil;
     }
+    return self.resultArray[row];
 }
-- (NSInteger)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
+- (int)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dic = [self orderForIndexPath:indexPath];
-    if (![QSTradeUtil getSizeText:dic] && ![QSTradeUtil getColorText:dic]) {
+    if (![QSTradeUtil getSizeText:dic]) {
         return 0;
     }
     return 1;

@@ -2,17 +2,19 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -26,10 +28,10 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -49,6 +51,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     public static final String FROM_WHERE = "FROM_WHEN";
     private final String CURRENT_POSITION = "CURRENT_POSITION";
+    public static final String PUSH_NOTIFICATION = "PUSH_NOTIFICATION";
     private final int TYPE_APPLY = 0;
     private final int TYPE_SUCCESSED = 1;
 
@@ -78,6 +81,8 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     private boolean isSuccessed = true;
 
     private String fromWhere;
+
+    private boolean notity_showable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +142,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
             currentType = TYPE_SUCCESSED;
             clickTabSuccessed();
         }
-        if (QSPushActivity.class.getSimpleName().equals(fromWhere)) {
+        if (PUSH_NOTIFICATION.equals(fromWhere)) {
             currentType = TYPE_SUCCESSED;
             clickTabSuccessed();
         }
@@ -238,6 +243,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQuerybyPhaseApi(phases, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(U09TradeListActivity.class.getSimpleName(), "response:" + response);
                 if (pageNo == 1) {
                     pDialog.dismiss();
                 }

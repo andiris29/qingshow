@@ -11,7 +11,7 @@ public enum GoToWhereAfterLoginModel {
     private Class _class;
 
     public Class get_class() {
-        return null == _class ? U01UserActivity.class : _class;
+        return _class;
     }
 
     public void set_class(Class _class) {

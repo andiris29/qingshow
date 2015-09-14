@@ -21,6 +21,7 @@
 #import "APService.h"
 #import "QSPnsHelper.h"
 #import "QSEntityUtil.h"
+#import "QSNetworkHelper.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -34,8 +35,6 @@
 #pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //标记第一次载入
-    [self rememberFirstLaunch];
     //注册第三方登陆、分享平台
     [self registerSharePlatform];
     
@@ -44,42 +43,55 @@
     
     //Push Notification
     [self registerPushNotification:launchOptions];
-
-    //Init Matcher Categories List
-    [QSCategoryManager getInstance];
     
     //Start App
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
-    self.rootVc = vc;
-    UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
 
-    nav.navigationBar.translucent = NO;
-    self.window.rootViewController = nav;
-    [self.window makeKeyAndVisible];
     
     [self showLaunchImage];
-    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
-        vc.hasFetchUserLogin = YES;
-        [vc handleCurrentUser];
-        [self hideLaunchImageAfterDelay:0.f];
-        [vc showDefaultVc];
-        //Romote Notification
-        if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
-            NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-            [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
-        }
+    
+    [QSNetworkHelper querySystemPathOnSucceed:^{
+        
+        QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
+        self.rootVc = vc;
+        UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
+        
+        nav.navigationBar.translucent = NO;
+        self.window.rootViewController = nav;
+        [self.window makeKeyAndVisible];
+        
+        //标记第一次载入
+        [self rememberFirstLaunch];
+        
+        //Init Matcher Categories List
+        [QSCategoryManager getInstance];
+        
+        [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+            vc.hasFetchUserLogin = YES;
+            [vc handleCurrentUser];
+            [self hideLaunchImageAfterDelay:0.f];
+            [vc showDefaultVc];
+            //Romote Notification
+            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
+            }
+        } onError:^(NSError *error) {
+            vc.hasFetchUserLogin = YES;
+            [vc handleCurrentUser];
+            [self hideLaunchImageAfterDelay:0.f];
+            [vc showDefaultVc];
+            //Romote Notification
+            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
+            }
+        }];
     } onError:^(NSError *error) {
-        vc.hasFetchUserLogin = YES;
-        [vc handleCurrentUser];
-        [self hideLaunchImageAfterDelay:0.f];
-        [vc showDefaultVc];
-        //Romote Notification
-        if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
-            NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-            [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
-        }
+#warning handle error
     }];
+    
+    
     return YES;
 }
 
@@ -259,8 +271,6 @@
     }];
     
 }
-
-
 
 #pragma mark -- rememberFirstLaunch
 - (void)logTraceFirstLaunch

@@ -20,6 +20,7 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSS04CommentListViewController.h"
 #import "QSU09OrderListViewController.h"
+#import "QST01ShowTradeViewController.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSBlockAlertView.h"
 #import "QSPnsHelper.h"
@@ -120,6 +121,12 @@
                 vc = orderListVc;
                 break;
             }
+            case QSRootMenuItemShowTrade:{
+                QST01ShowTradeViewController *t01VC = [[QST01ShowTradeViewController alloc]init];
+                t01VC.menuProvider = self;
+                vc = t01VC;
+                break;
+            }
             default:{
                 break;
             }
@@ -214,7 +221,7 @@
     [center addObserver:self selector:@selector(pnsQuestSharingCompleted:) name:kPnsQuestSharingCompleteNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeInitial:) name:kPnsTradeInitialNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeShipped:) name:kPnsTradeShippedNotification object:nil];
-    [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemPriceChangedNotification object:nil];
+    [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemExpectablePriceUpdatedNotification object:nil];
 }
 
 
@@ -254,6 +261,12 @@
 - (void)pnsTradeInitial:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
         [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
+        if ([self.contentVc isKindOfClass:[QSU09OrderListViewController class]]) {
+            QSU09OrderListViewController *u09VC = (QSU09OrderListViewController *)self.contentVc;
+            [u09VC changeValueOfSegment:0];
+            u09VC.headerView.segmentControl.selectedSegmentIndex = 0;
+        }
+
     } title:@"你申请的折扣已经成功啦，别让宝贝飞了，快快来付款吧！" userInfo:noti.userInfo];
 }
 
@@ -272,7 +285,7 @@
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
         if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
             QSS01MatchShowsViewController* matchVc = (QSS01MatchShowsViewController*)self.contentVc;
-            [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"] actualPrice:[noti.userInfo numberValueForKeyPath:@"actualPrice"]];
+            [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"]];
         }
     } title:@"您申请的折扣有最新信息，不要错过哦！" userInfo:noti.userInfo];
 }

@@ -18,6 +18,7 @@
 @interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
+@property (strong, nonatomic) NSString *itemId;
 @property (assign, nonatomic) float skuLabelBaseY;
 @property (assign, nonatomic) float actualPrice;
 @end
@@ -32,6 +33,18 @@
     self.saleImgView.hidden = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 //    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
+    self.currentDiscountContainer.layer.cornerRadius = self.currentDiscountContainer.bounds.size.width / 2;
+    self.currentDiscountContainer.layer.masksToBounds = YES;
+    self.currentDiscountContainer.transform = CGAffineTransformMakeRotation(0.3);
+    self.currentDiscountContainer.userInteractionEnabled = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapExpectablePriceBtn:)];
+    [self.currentDiscountContainer addGestureRecognizer:ges];
+    self.clickToWebpageBtn.layer.cornerRadius = self.clickToWebpageBtn.bounds.size.height / 8;
+    self.clickToWebpageBtn.layer.borderColor = [UIColor redColor].CGColor;
+    self.clickToWebpageBtn.layer.borderWidth = 1.f;
+    self.itemImgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *imgGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapClickToWebViewPage:)];
+    [self.itemImgView addGestureRecognizer:imgGes];
 }
 - (void)configBtn:(UIButton*)btn
 {
@@ -69,6 +82,8 @@
     [self.submitButton setImage:nil forState:UIControlStateNormal];
     [self.submitButton setTitle:nil forState:UIControlStateNormal];
     
+    NSString *str = [QSTradeUtil getItemId:tradeDict];
+    self.itemId = str;
     self.tradeDict = tradeDict;
     
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
@@ -102,21 +117,7 @@
     {
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }
-    NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
-    int disCount = _actualPrice * 100 / price.doubleValue;
-    if (disCount < 10) {
-        disCount = 10;
-    }else if(disCount > 90)
-    {
-        disCount = 90;
-    }else
-    {
-        if (disCount%10 > 5) {
-            disCount = (disCount/10+1)*10;
-        }
-    }
-    disCount = disCount/10;
-    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d折", disCount];
+    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     switch (s) {
         case 0:
@@ -174,6 +175,21 @@
             break;
         }
     }
+    NSNumber* expectablePrice = [QSTradeUtil getItemExpectablePrice:tradeDict];
+    if (!expectablePrice) {
+        self.currentDiscountContainer.hidden = YES;
+        self.expectableDiscountLabel.text = nil;
+    } else {
+        self.currentDiscountContainer.hidden = NO;
+        self.expectableDiscountLabel.text = [QSTradeUtil calculateDiscountDescWithPrice:expectablePrice trade:tradeDict];
+    }
+    
+}
+- (void)didTapClickToWebViewPage:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didClickToWebPageForCell:)]) {
+        [self.delegate didClickToWebPageForCell:self];
+    }
 }
 
 #pragma mark - IBAction
@@ -225,11 +241,19 @@
     }
 }
 
+- (IBAction)clickToWebpageBtnPressed:(id)sender {
+    [self didTapClickToWebViewPage:self];
+}
+
 - (void)payBtnPressed
 {
     if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {
         [self.delegate didClickPayBtnForCell:self];
     }
 }
-
+- (void)didTapExpectablePriceBtn:(UIGestureRecognizer*)ges {
+    if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnForCell:)]) {
+        [self.delegate didClickExpectablePriceBtnForCell:self];
+    }
+}
 @end

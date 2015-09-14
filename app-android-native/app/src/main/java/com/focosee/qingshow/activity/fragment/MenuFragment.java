@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S20MatcherActivity;
+import com.focosee.qingshow.activity.T01HighlightedTradeListActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
@@ -160,6 +161,12 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         closeMenu();
         if(v.getId() == R.id.navigation_btn_match){
             startActivity(new Intent(getActivity(), S01MatchShowsActivity.class));
+            getActivity().finish();
+            return;
+        }
+
+        if(v.getId() == R.id.u01_bonusList){
+            startActivity(new Intent(getActivity(), T01HighlightedTradeListActivity.class));
             getActivity().finish();
             return;
         }

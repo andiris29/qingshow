@@ -9,7 +9,7 @@
 #import "QSU02OtherCell.h"
 
 NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
-    return @[@"更改密码"][type];
+    return @[@"更改密码",@"我的佣金账户"][type];
 }
 
 @implementation QSU02OtherCell
@@ -43,6 +43,10 @@ NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
 - (void)cellDidClicked {
     if (self.rowType == U02SectionOtherRowPasswd) {
         [self.delegate showChangePasswordVc];
+    }
+    else if (self.rowType == U02SectionOtherRowBonus)
+    {
+        [self.delegate  showBonuesVC];
     }
 }
 @end

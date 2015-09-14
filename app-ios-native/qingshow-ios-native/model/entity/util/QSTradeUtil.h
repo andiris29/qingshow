@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface QSTradeUtil : NSObject
++ (NSString *)getTradeId:(NSDictionary *)dict;
 + (NSDictionary *)getPeopleDic:(NSDictionary *)dict;
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;
 + (NSString *)getDayDesc:(NSDictionary *)dict;
@@ -24,6 +25,7 @@
 
 #pragma mark - Order
 
++ (NSString *)getItemId:(NSDictionary *)dict;
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
 + (NSArray*)getSkuProperties:(NSDictionary*)dict;
 + (NSString *)getSizeText:(NSDictionary *)dict;
@@ -36,4 +38,6 @@
 + (NSString*)getQuantityDesc:(NSDictionary*)dict;
 + (NSNumber*)getTotalFee:(NSDictionary*)dict;
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
++ (NSNumber*)getItemExpectablePrice:(NSDictionary*)dict;
++ (NSString*)calculateDiscountDescWithPrice:(NSNumber*)price trade:(NSDictionary*)trade;
 @end

@@ -1,17 +1,12 @@
 package com.focosee.qingshow.util.sku;
 
 import android.text.TextUtils;
-
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Administrator on 2015/3/18.
@@ -31,6 +26,14 @@ public class SkuUtil {
         return result;
     }
 
+    public static List<String> getKeyOrder(Map<String, List<String>> skuMap){
+        List<String> keys = new ArrayList<>();
+        for(String key : skuMap.keySet()){
+            keys.add(key);
+        }
+        return keys;
+    }
+
     public static String getPropName(String prop) {
         return TextUtils.split(prop, ":")[0] == null ? "" : TextUtils.split(prop, ":")[0];
     }
@@ -46,10 +49,10 @@ public class SkuUtil {
         return values;
     }
 
-    public static List<String> propParser(Map<String, List<String>> props) {
+    public static List<String> propParser(Map<String, List<String>> props, List<String> keys_order) {
         List<String> result = new ArrayList<>();
         for (String key : props.keySet()) {
-            result.add(propParser(key, props.get(key)));
+            result.add(keys_order.indexOf(key), propParser(key, props.get(key)));
         }
         return result;
     }
@@ -64,6 +67,15 @@ public class SkuUtil {
                 sb.append(values.get(i)).append(":");
         }
         return sb.toString();
+    }
+
+    public static String formetPropsAsTableKey(Map<String, List<String>> selectProps){
+        String props = "";
+        for (List<String> list : selectProps.values()) {
+            props += ":" + list.get(0);
+        }
+        props = props.substring(1);
+        return props;
     }
 
 

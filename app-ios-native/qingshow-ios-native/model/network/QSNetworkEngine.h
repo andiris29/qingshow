@@ -15,5 +15,6 @@
 
 #pragma mark - Static Method
 + (QSNetworkEngine*)shareNetworkEngine;
++ (void)hostInit:(NSString*)hostPath;
 
 @end

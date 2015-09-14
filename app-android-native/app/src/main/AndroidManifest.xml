@@ -132,11 +132,6 @@
             android:value="dad14285add5a5ade0fbfd81" />
         <!-- </>值来自开发者平台取得的AppKey -->
         <activity
-            android:name=".activity.QSPushActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
-            android:theme="@style/Theme.Transparent" />
-        <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name"
@@ -202,6 +197,12 @@
             android:label="@string/title_activity_u13_person"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".activity.U15BonusActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_u15_bonus"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -276,13 +277,21 @@
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
-            android:label="@string/title_activity_s01_match_shows"/>
+            android:label="@string/title_activity_s01_match_shows" />
         <activity
             android:name=".activity.PushWebActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.CityActivity"
             android:label="@string/title_activity_city" />
+        <activity
+            android:name=".activity.U16BonusListActivity"
+            android:label="@string/title_activity_u16_bonus_list" >
+        </activity>
+        <activity
+            android:name=".activity.T01HighlightedTradeListActivity"
+            android:label="@string/title_activity_t01_highlighted_trade_list" >
+        </activity>
     </application>
 
 </manifest>

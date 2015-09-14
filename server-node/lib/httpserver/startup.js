@@ -11,7 +11,7 @@ var winston = require('winston');
 var qsftp = require('../runtime/qsftp');
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people', 'matcher', 'notify', 'item'];
+var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people', 'matcher', 'notify', 'shop', 'userBonus', 'item', 'dashboard'];
 var services = servicesNames.map(function (path) {
     return {
         'path' : path,
@@ -57,8 +57,11 @@ var mkdirUploads = function (config) {
 module.exports = function (config, qsdb) {
     var app = express();
     global.qsConfig = config;
+    // GZip
+    app.use(connect.compress());
+    
     app.listen(config.server.port);
-
+    
     // Upload
     mkdirUploads(config.uploads);
 

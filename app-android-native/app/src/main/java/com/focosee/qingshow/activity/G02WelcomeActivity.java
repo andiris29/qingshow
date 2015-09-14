@@ -101,7 +101,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
     public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final int count = 3;
-        private final int[] backgroundArgs = {R.drawable.guide_page1_bg, R.drawable.guide_page2_bg, R.drawable.guide_page3_bg};
+        private final int[] backgroundArgs = {R.drawable.welcome1, R.drawable.welcome2, R.drawable.welcome3};
         private View[] views;
 
         public ViewPagerAdapter(FragmentManager fm) {

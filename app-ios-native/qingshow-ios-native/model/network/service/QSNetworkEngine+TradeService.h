@@ -48,4 +48,11 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation*)tradeQueryHighted:(int)page
+                                OnSecceed:(ArraySuccessBlock)succeedBlock
+                                          onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)tradeReceiver:(NSString *)tradeId
+                           onSucceed:(DicBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock;
 @end

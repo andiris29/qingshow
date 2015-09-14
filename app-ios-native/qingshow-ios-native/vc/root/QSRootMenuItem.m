@@ -18,7 +18,8 @@ NSString* getTitleFromType(QSRootMenuItemType type) {
                             @"我的收藏",
                             @"个人设置",
                             @"百搭秀场",
-                            @"我要折扣"];
+                            @"我的折扣",
+                            @"潮人晒单"];
     if ((NSUInteger)type < titleArray.count) {
         return titleArray[type];
     } else {
@@ -32,7 +33,8 @@ UIImage* getIconImageFromType(QSRootMenuItemType type) {
                             @"root_menu_icon_myfavor",
                             @"root_menu_icon_setting",
                             @"root_menu_icon_matcher",
-                            @"root_menu_icon_discount"];
+                            @"root_menu_icon_discount",
+                            @"root_menu_icon_showtrade"];
     if ((NSUInteger)type < titleArray.count) {
         NSString* str = titleArray[type];
         return [UIImage imageNamed:str];
@@ -47,7 +49,8 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
                             @"root_menu_icon_myfavor_hover",
                             @"root_menu_icon_setting_hover",
                             @"root_menu_icon_matcher_hover",
-                            @"root_menu_icon_discount_hover"];
+                            @"root_menu_icon_discount_hover",
+                            @"root_menu_icon_showtrade_hover"];
     if ((NSUInteger)type < titleArray.count) {
         NSString* str = titleArray[type];
         return [UIImage imageNamed:str];

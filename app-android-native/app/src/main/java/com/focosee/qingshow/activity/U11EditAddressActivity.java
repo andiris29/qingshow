@@ -2,6 +2,8 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U11AddressEditFragment;
 import com.umeng.analytics.MobclickAgent;
@@ -25,7 +27,7 @@ public class U11EditAddressActivity extends BaseActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         fragment = U11AddressEditFragment.newInstace();
-        if(null != id && !"".equals(id)){
+        if(TextUtils.isEmpty(id)){
             Bundle bundle = new Bundle();
             bundle.putString("id", getIntent().getStringExtra("id"));
             fragment.setArguments(bundle);

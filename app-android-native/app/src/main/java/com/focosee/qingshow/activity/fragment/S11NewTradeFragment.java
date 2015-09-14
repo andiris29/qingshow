@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,16 +23,21 @@ import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
+import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.Flow.FlowRadioButton;
@@ -89,6 +95,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private Map<String, List<String>> props;
     private Map<String, List<String>> selectProps;
+    private List<String> keys_order;
 
     private int num = 1;
     private int numOffline = 1;
@@ -98,6 +105,7 @@ public class S11NewTradeFragment extends Fragment {
     private int discountOnline;
     private double basePrice;
     private int checkIndex[];
+    private float stock;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,7 +134,10 @@ public class S11NewTradeFragment extends Fragment {
             discountNum = discountOnline = 9;
 
 
-        initProps();
+        if (itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
+            initProps();
+        }
+
         initDes();
 
         checkDiscount();
@@ -137,6 +148,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private void initProps() {
         props = SkuUtil.filter(itemEntity.skuProperties);
+        keys_order = SkuUtil.getKeyOrder(props);
         checkIndex = new int[props.size()];
         int i = 0;
         for (String key : props.keySet()) {
@@ -146,11 +158,36 @@ public class S11NewTradeFragment extends Fragment {
                     List<String> values = new ArrayList<>();
                     values.add(props.get(key).get(index));
                     selectProps.put(key, values);
+                    if (null == itemEntity.skuTable){
+                        changeBtnClickable(false);
+                        return;
+                    }
+
+                    stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
+                    if (stock < 0){
+                        changeBtnClickable(false);
+                    }else {
+                        changeBtnClickable(true);
+                    }
                 }
             });
             i++;
         }
 
+    }
+
+    private void changeBtnClickable(boolean clickable){
+        cutDiscount.setClickable(clickable);
+        plusDiscount.setClickable(clickable);
+        cutNum.setClickable(clickable);
+        plusNum.setClickable(clickable);
+        submit.setClickable(clickable);
+
+        if (clickable == false){
+            submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.gary_btn));
+        }else {
+            submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_submit_match));
+        }
 
     }
 
@@ -232,9 +269,19 @@ public class S11NewTradeFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        submit.setClickable(false);
-        trade.selectedSkuProperties = SkuUtil.propParser(selectProps);
+        if(!QSModel.INSTANCE.loggedin()){
+            GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+            startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+            return;
+        }
 
+        if(TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)){
+            startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
+            return;
+        }
+
+        submit.setClickable(false);
+        trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
         trade.expectedPrice = basePrice * discountNum / 10;
         trade.itemSnapshot = itemEntity;
         trade.quantity = num;
@@ -251,6 +298,7 @@ public class S11NewTradeFragment extends Fragment {
             e.printStackTrace();
         }
         params.put("quantity", trade.quantity);
+        params.put("promoterRef", QSModel.INSTANCE.getUserId());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

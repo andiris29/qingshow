@@ -4,18 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
+import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
+import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
+import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -26,6 +32,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
@@ -75,10 +82,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         QSButton btn2 = holder.getView(R.id.item_tradelist_btn2);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
+        QSButton discountBtn = holder.getView(R.id.item_tradelist_discount);
         properTextView.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
         statusTV.setVisibility(View.GONE);
+        discountBtn.setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
 
         if (null != trade.itemSnapshot) {
@@ -92,7 +101,16 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
             holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
-            holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(String.valueOf(trade.itemSnapshot.promoPrice)));
+            holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+
+            holder.getView(R.id.item_tradelist_check).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, S10ItemDetailActivity.class);
+                    intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, datas.get(position - 1).itemSnapshot._id);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
@@ -113,6 +131,29 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     onClickCancelTrade(trade, 18, CANCEL, position, "确定要取消申请？");
                 }
             });
+            if(null == trade.__context)return;
+            if(null == trade.__context.item)return;
+            if(null == trade.itemSnapshot)return;
+            if(TextUtils.isEmpty(trade.__context.item.expectablePrice))return;
+            if(TextUtils.isEmpty(trade.itemSnapshot.promoPrice))return;
+            discountBtn.setVisibility(View.VISIBLE);
+            discountBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showNewTradeNotify(trade._id);
+                }
+            });
+
+            discountBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, S01MatchShowsActivity.class);
+                    String _id = trade._id;
+                    intent.putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION,_id);
+                    intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
+                    context.startActivity(intent);
+                }
+            });
             return;
         }
         //1-等待付款
@@ -129,7 +170,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                                 EventBus.getDefault().post(trade);
                                 ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
                             } else
-                                Toast.makeText(context, "请先安装微信，然后才能分享", Toast.LENGTH_SHORT).show();
+                                ToastUtil.showShortToast(context.getApplicationContext(), "请先安装微信，然后才能分享");
                         }
 
                     });
@@ -198,6 +239,15 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         statusTV.setVisibility(View.VISIBLE);
         statusTV.setText(StatusCode.getStatusText(trade.status));
 
+    }
+
+    private void showNewTradeNotify(String _id) {
+        if(!(context instanceof U09TradeListActivity))return;
+            ((U09TradeListActivity)context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
+            FragmentTransaction fragmentTransaction = ((U09TradeListActivity)context).getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "u09_notify");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
     }
 
     private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg) {

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSG01ItemWebViewController : UIViewController
+@interface QSG01ItemWebViewController : UIViewController<UIAlertViewDelegate>
 
 - (id)initWithItem:(NSDictionary*)item;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
@@ -18,4 +18,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 
+@property (assign,nonatomic)BOOL isDisCountBtnHidden;
 @end

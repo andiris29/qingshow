@@ -6,7 +6,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -25,11 +23,14 @@ import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.CategoriesModel;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
@@ -39,7 +40,10 @@ import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
@@ -47,20 +51,14 @@ import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
-
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
@@ -68,7 +66,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String CLASS_NAME = "class_name";
-    public final String TAG = "S03SHowActivity";
     @InjectView(R.id.S03_image_preground)
     SimpleDraweeView s03ImagePreground;
     @InjectView(R.id.S03_describe)
@@ -83,6 +80,8 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     TextView s03Nickname;
     @InjectView(R.id.s03_del_btn)
     ImageView s03DelBtn;
+    @InjectView(R.id.s03_bonus)
+    QSTextView s03Bonus;
 
     private MongoShow showDetailEntity;
     private List<MongoItem> itemsData;
@@ -122,7 +121,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         className = getIntent().getStringExtra(CLASS_NAME);
 
         if (TextUtils.isEmpty(showId)) {
-            Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
             finish();
         }
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
@@ -138,6 +136,7 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             });
             initDrawer();
         } else {
+            navigation.setVisibility(View.GONE);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -160,14 +159,17 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     }
 
     private void getShowDetailFromNet() {
+        final LoadingDialogs dialogs = new LoadingDialogs(S03SHowActivity.this);
+        dialogs.show();
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                dialogs.dismiss();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                showDetailEntity = ShowParser.parseQuery_parentCategoryString(response).get(0);
+                showDetailEntity = ShowParser.parseQuery_categoryString(response).get(0);
                 showData();
             }
         });
@@ -176,7 +178,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
     private void clickLikeShowButton() {
         if (!QSModel.INSTANCE.loggedin()) {
-            Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
         }
@@ -265,6 +266,12 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             }
         }
         showData_other();
+
+        if(null != showDetailEntity.ownerRef){
+            if(null != showDetailEntity.ownerRef.bonuses){
+                s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonuses(showDetailEntity.ownerRef.bonuses));
+            }
+        }
     }
 
     private void showData_self() {
@@ -347,13 +354,10 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         switch (baseResponse.errCode) {
             case WBConstants.ErrorCode.ERR_OK:
                 UmengCountUtil.countShareShow(this, "weibo");
-                Log.i("tag", "ERR_OK");
                 break;
             case WBConstants.ErrorCode.ERR_CANCEL:
-                Log.i("tag", "ERR_CANCEL");
                 break;
             case WBConstants.ErrorCode.ERR_FAIL:
-                Log.i("tag", "ERR_FAIL");
                 break;
         }
     }
@@ -365,25 +369,18 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
 
         switch (v.getId()) {
             case R.id.S03_item_btn://搭配清单
-                if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
-                intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
-                Bundle bundle = new Bundle();
-                ArrayList<MongoItem> itemList = new ArrayList<>();
-                itemList.addAll(showDetailEntity.itemRefs);
-                bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if(null == CategoriesModel.INSTANCE.getCategories()){
+                    getCategories();
+                    return;
+                }
+                jumpToS07();
                 return;
             case R.id.S03_comment_btn://评论
                 if (null != showDetailEntity && null != showDetailEntity._id) {
-                    if (S04CommentActivity.isOpened) return;
-                    S04CommentActivity.isOpened = true;
                     intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
                 }
                 return;
             case R.id.S03_like_btn://收藏
@@ -391,7 +388,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 return;
             case R.id.S03_share_btn://分享
                 if (!QSModel.INSTANCE.loggedin()) {
-                    Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
                     GoToWhereAfterLoginModel.INSTANCE.set_class(null);
                     startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
                 }
@@ -436,13 +432,41 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         super.onClick(v);
     }
 
+    private void jumpToS07(){
+        if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
+        Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
+        Bundle bundle = new Bundle();
+        ArrayList<MongoItem> itemList = new ArrayList<>();
+        itemList.addAll(showDetailEntity.itemRefs);
+        bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    private void getCategories() {
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (!MetadataParser.hasError(response)) {
+                    Map<String, MongoCategories> categoriesMap = new HashMap<>();
+                    for (MongoCategories categories : CategoryParser.parseQuery(response)) {
+                        categoriesMap.put(categories._id, categories);
+                    }
+                    CategoriesModel.INSTANCE.setCategories(categoriesMap);
+                    jumpToS07();
+                }
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
     private void hideShow() {
         Map<String, String> params = new HashMap<>();
         params.put("_id", showDetailEntity._id);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchHideApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "repsonse_del:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
@@ -469,10 +493,10 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.share_wechat:
-                    ShareUtil.shareShowToWX(showDetailEntity._id, String.valueOf(System.currentTimeMillis()), context, false);
+                    ShareUtil.shareShowToWX(showDetailEntity._id, ValueUtil.SHARE_SHOW, context, false);
                     break;
                 case R.id.share_wx_timeline:
-                    ShareUtil.shareShowToWX(showDetailEntity._id, String.valueOf(System.currentTimeMillis()), context, true);
+                    ShareUtil.shareShowToWX(showDetailEntity._id, ValueUtil.SHARE_SHOW, context, true);
                     break;
                 case R.id.share_sina:
                     ShareUtil.shareShowToSina(showDetailEntity._id, context, mWeiboShareAPI);

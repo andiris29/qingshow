@@ -8,7 +8,7 @@
 
 
 #import "QSNetworkEngine.h"
-#import "QSNetworkEngine+Protect.h"
+#import "MKNetworkEngine+QSExtension.h"
 
 #import "ServerPath.h"
 #import "QSNetworkOperation.h"
@@ -22,16 +22,19 @@
 @implementation QSNetworkEngine
 
 #pragma mark - Static Method
-+ (QSNetworkEngine*)shareNetworkEngine
-{
-    static QSNetworkEngine* s_networkEngine = nil;
+static QSNetworkEngine* s_networkEngine = nil;
++ (void)hostInit:(NSString*)hostPath {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:HOST_NAME];
+
+        s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:[hostPath stringByReplacingOccurrencesOfString:@"http://" withString:@""]];
         [s_networkEngine registerOperationSubclass:[QSNetworkOperation class]];
         [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
-        
     });
+}
+
++ (QSNetworkEngine*)shareNetworkEngine
+{
     return s_networkEngine;
 }
 

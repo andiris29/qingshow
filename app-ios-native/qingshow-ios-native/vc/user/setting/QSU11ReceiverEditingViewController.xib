@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
@@ -18,8 +21,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU11ReceiverEditingViewController">
             <connections>
+                <outlet property="codeCell" destination="wMj-IU-CHS" id="rnC-e6-2qk"/>
+                <outlet property="codeTextField" destination="75n-0h-g8J" id="0aG-7Q-zoR"/>
                 <outlet property="detailLocationCell" destination="wmP-MO-sNd" id="whE-xu-nge"/>
                 <outlet property="detailLocationTextField" destination="Jyc-Hr-c9U" id="0jA-yY-wuL"/>
+                <outlet property="getCodeBtn" destination="cKh-W8-olS" id="7bR-Yu-NeE"/>
                 <outlet property="localLabel" destination="FcC-So-V1Y" id="Ulu-dF-Pw3"/>
                 <outlet property="locationCell" destination="bOC-rA-X5j" id="x7p-WJ-Ohu"/>
                 <outlet property="nameCell" destination="BRo-wI-JsV" id="x2Y-Es-l3O"/>
@@ -213,6 +219,33 @@
                 </constraints>
             </tableViewCellContentView>
             <point key="canvasLocation" x="756" y="522"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wMj-IU-CHS">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wMj-IU-CHS" id="sge-O4-f1Z">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机验证码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="75n-0h-g8J">
+                        <rect key="frame" x="8" y="8" width="188" height="30"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cKh-W8-olS">
+                        <rect key="frame" x="204" y="8" width="103" height="30"/>
+                        <color key="backgroundColor" red="1" green="0.6588235294" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <state key="normal" title="发送验证码">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="getCodeBtnPressed:" destination="-1" eventType="touchUpInside" id="sFp-io-mH2"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="747" y="88"/>
         </tableViewCell>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

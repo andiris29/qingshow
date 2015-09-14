@@ -27,6 +27,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import java.util.HashMap;
 
@@ -101,7 +102,7 @@ public class U02ChangePasswordFragment extends Fragment {
                 params.put("currentPassword", currentPasswordEditText.getText().toString());
                 params.put("password", newPasswordEditText.getText().toString());
 
-                QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+                QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         MongoPeople user = UserParser.parseUpdate(response);
@@ -111,14 +112,13 @@ public class U02ChangePasswordFragment extends Fragment {
                             QSModel.INSTANCE.setUser(user);
                             U02SettingsFragment settingsFragment = new U02SettingsFragment();
                             getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
-                            Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
                             U02Model.INSTANCE.set_class(U02SettingsFragment.class);
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
+                        ToastUtil.showShortToast(getActivity().getApplicationContext(), "请检查网络");
                     }
                 });
                 requestQueue.add(qxStringRequest);

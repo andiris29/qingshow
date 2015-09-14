@@ -28,8 +28,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *weiboButton;
 @property (weak, nonatomic) IBOutlet UIImageView *weixinIconImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *weiboIconImageView;
+@property (weak, nonatomic) IBOutlet UITextField *testTextField;
+@property (weak, nonatomic) IBOutlet UIButton *geTestNumBtn;
 
 
+//@property (assign,nonatomic)static int num;
+@property (strong,nonatomic)NSTimer *timer;
 
 @end
 
@@ -59,7 +63,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
     [self registerForKeyboardNotifications];
     [self configScrollView];
     [self.containerView addSubview:self.contentView];
@@ -71,15 +74,21 @@
     [self.passwdText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.passwdCfmText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.mailAndPhoneText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.testTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    
     self.nickNameText.tintColor = [UIColor whiteColor];
     self.passwdText.tintColor = [UIColor whiteColor];
     self.passwdCfmText.tintColor = [UIColor whiteColor];
     self.mailAndPhoneText.tintColor = [UIColor whiteColor];
+    self.testTextField.tintColor = [UIColor whiteColor];
     
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
     self.registerButton.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0f];
-  
+    
+    self.geTestNumBtn.layer.cornerRadius = self.geTestNumBtn.frame.size.height / 8;
+    self.geTestNumBtn.backgroundColor = [UIColor whiteColor];
+    
     self.weixinButton.layer.cornerRadius = self.weixinButton.frame.size.height / 8;
     self.weixinButton.layer.masksToBounds = YES;
     [self.weixinButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
@@ -123,6 +132,36 @@
 {
     [self unregisterKeyboardNotifications];
 }
+- (IBAction)getTestNumberButtonPressed:(id)sender {
+    NSString *mobileNum = self.mailAndPhoneText.text;
+        [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
+            [self showTextHud:@"已成功发送验证码"];
+            [self setTimer];
+        } onError:^(NSError *error) {
+            [self showTextHud:@"手机号码不正确或已被注册"];
+        }];
+}
+- (void)setTimer
+{
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
+    [_timer fire];
+    
+    self.geTestNumBtn.userInteractionEnabled = NO;
+}
+- (void)timerRun
+{
+    static int num = 60;
+    [self.geTestNumBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
+    num -= 1;
+    if (num < 1) {
+        [_timer invalidate];
+        _timer = nil;
+        num = 60;
+        [self.geTestNumBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        self.geTestNumBtn.userInteractionEnabled = YES;
+    }
+    
+}
 - (IBAction)login:(id)sender {
     [self resignOnTap:nil];
     QSU06LoginViewController *vc = [[QSU06LoginViewController alloc] init];
@@ -164,7 +203,7 @@
 }
 - (void)hideKeyboard
 {
-    for (UITextField* t in @[self.nickNameText, self.passwdText, self.passwdCfmText, self.mailAndPhoneText]) {
+    for (UITextField* t in @[self.nickNameText, self.passwdText, self.passwdCfmText, self.mailAndPhoneText,self.testTextField]) {
         [t resignFirstResponder];
     }
 }
@@ -223,7 +262,18 @@
             return;
         }
     };
-    [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
+    [SHARE_NW_ENGINE MobileNumberAvilable:self.mailAndPhoneText.text code:self.testTextField.text onSucceed:^(BOOL code) {
+        if (code == YES) {
+            [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
+            [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.mailAndPhoneText.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
+        }else{
+            [self showTextHud:@"验证码错误"];
+        }
+        
+    } onError:^(NSError *error) {
+        [self showTextHud:@"注册失败，请重新核对信息"];
+    }];
+    
 
 }
 

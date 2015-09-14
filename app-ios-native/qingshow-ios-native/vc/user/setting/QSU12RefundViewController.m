@@ -13,27 +13,33 @@
 #import "UIViewController+ShowHud.h"
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
+#import "QSNetworkEngine+TradeService.h"
+#import "QSNetworkKit.h"
+
 #define PAGE_ID @"U12 - 申请退货"
 
 @interface QSU12RefundViewController ()<UITextFieldDelegate>
 
 @property (strong, nonatomic) NSDictionary* orderDict;
+@property (strong, nonatomic) NSDictionary* receiverDict;
+@property (strong, nonatomic) QSU09OrderListViewController *actionVC;
+
 @end
 
 @implementation QSU12RefundViewController
 
 #pragma mark - Init
-- (instancetype)initWithDict:(NSDictionary*)orderDict
+- (instancetype)initWithDict:(NSDictionary*)orderDict actionVC:(QSU09OrderListViewController *)actionVC
 {
     self = [super initWithNibName:@"QSU12RefundViewController" bundle:nil];
     
     if (self) {
         self.orderDict = orderDict;
+        self.actionVC = actionVC;
         if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
     }
-    
     return self;
 }
 
@@ -42,12 +48,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self setPageType];
-    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.orderDict];
-    if ([QSEntityUtil getDictValue:itemDic keyPath:@"returnInfo"]) {
-        self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:itemDic];
-        self.companyLabel.text = [QSItemUtil getReturnInfoCompany:itemDic];
-        self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:itemDic];
-    }
+    [self getAddrWithOrderDict];
+//    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.orderDict];
+//    if ([QSEntityUtil getDictValue:itemDic keyPath:@"returnInfo"]) {
+//        self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:itemDic];
+//        self.companyLabel.text = [QSItemUtil getReturnInfoCompany:itemDic];
+//        self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:itemDic];
+//    }
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
 //    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
@@ -61,10 +68,29 @@
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
 }
 - (void)didTapTextField
 {
     [self showPicker];
+    
+}
+- (void)bindWithDic:(NSDictionary *)dict
+{
+    self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:dict];
+    self.companyLabel.text = [QSItemUtil getReturnInfoCompany:dict];
+    self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:dict];
+}
+- (void)getAddrWithOrderDict
+{
+    NSString *tradeId = [QSTradeUtil getTradeId:self.orderDict];
+    __weak QSU12RefundViewController *weakself = self;
+    [SHARE_NW_ENGINE tradeReceiver:tradeId onSucceed:^(NSDictionary *dict) {
+        weakself.receiverDict = dict;
+        [weakself bindWithDic:dict];
+    } onError:^(NSError *error) {
+        
+    }];
     
 }
 
@@ -217,6 +243,7 @@
 }
 - (void)popBack
 {
+    [self.actionVC.provider reloadData];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

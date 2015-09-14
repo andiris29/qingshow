@@ -2,13 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "user_mailbox.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "user_mailbox@2x.png"
+      "filename" : "phone.png"
     },
     {
       "idiom" : "universal",
