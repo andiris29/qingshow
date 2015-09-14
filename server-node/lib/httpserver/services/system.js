@@ -24,13 +24,12 @@ system.get = {
 	'func' : function(req, res){
 		async.waterfall([function(callback){
 			var deployment = {};
-			var versionLimit = global.qsConfig.system.version.limit;
+			var versionLimit = global.qsConfig.system.production.maxSupportedVersion;
 			var version = req.queryString.version;
 			if (!version) {
 				callback(ServerError.NotEnoughParam);
 			}else {
-				var result = VersionUtil.compare(version, versionLimit);
-				if (result === 1) {
+				if (VersionUtil.greater(version, versionLimit)) {
 					deployment = researchDeployment;
 				}else {
 					deployment = productionDeployment;
