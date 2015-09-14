@@ -48,6 +48,7 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
             })
     },function(err, res, body){
     	var result = JSON.parse(body);
+    	console.log(body);
     	if (err || result.statusCode !== '000000') {
     		callback(ServerError.ServerError);
     	}else {
@@ -58,6 +59,7 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
 }
 
 SMSHelper.createVerificationCode = function (to, callback){
+	console.log(_verifications);
 	var config = global.qsConfig;
 	if (_verifications.to && 
 		new Date() - _verifications.to.create < config.verification.retry) {
@@ -75,6 +77,7 @@ SMSHelper.createVerificationCode = function (to, callback){
 SMSHelper.checkVerificationCode = function (to, code, callback){
 	var config = global.qsConfig;		
 	var verification = _verifications[to];
+	console.log('check', verification);
 	if (verification && code == verification.verificationCode && 
 		new Date() - verification.create < config.verification.expire) {
 		callback(null, true);
