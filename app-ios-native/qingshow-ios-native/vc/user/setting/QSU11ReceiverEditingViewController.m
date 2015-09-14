@@ -184,11 +184,13 @@
     [_timer fire];
     
     self.getCodeBtn.userInteractionEnabled = NO;
+    self.getCodeBtn.highlighted = YES;
 }
 - (void)timerRun
 {
     static int num = 60;
-    [self.getCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
+    
+    [self.getCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateHighlighted];
     num -= 1;
     if (num < 1) {
         [_timer invalidate];
@@ -196,6 +198,7 @@
         num = 60;
         [self.getCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
         self.getCodeBtn.userInteractionEnabled = YES;
+        self.getCodeBtn.highlighted = NO;
     }
     
 }

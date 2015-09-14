@@ -103,7 +103,7 @@
         self.alipayId = self.alipayTextField.text;
     }
     __weak QSU15BonusViewController *weakSelf = self;
-    [[QSShareService shareService]shareWithWechatMoment:@"原来玩搭配还能赚钱，我觉得我快要发财了..." desc:@"只要其他用户通过你的美搭购买了其中的单品,丰厚佣金即刻转账至您的账户" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://chingshow.com/app-web?entry=shareBonus&initiatorRef=%@",self.peopleId] onSucceed:^{
+    [[QSShareService shareService]shareWithWechatMoment:@"原来玩搭配还能赚钱，我觉得我快要发财了..." desc:@"只要其他用户通过你的美搭购买了其中的单品,丰厚佣金即刻转账至您的账户" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"http://%@?entry=shareBonus&initiatorRef=%@",PATH_SERVER_ADDR_WEB,self.peopleId] onSucceed:^{
         [SHARE_NW_ENGINE getBonusWithAlipayId:self.alipayId OnSusscee:^{
             NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
             NSArray *bonusArray = [QSPeopleUtil getBonusList:peopleDic];

@@ -29,6 +29,8 @@
 #define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
 #define PATH_MOBILE_VALIDATE @"user/validateMobile"
 
+#define PATH_SYSTEM_GET_SERVER @"system/get"
+
 @implementation QSNetworkEngine(UserService)
 
 
@@ -452,6 +454,19 @@
         if (errorBlock) {
             errorBlock(error);
         }
+    }];
+}
+- (MKNetworkOperation*)getServerPathFromAPIOnSucceed:(DicBlock)succeedBlock
+                                             onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_SYSTEM_GET_SERVER method:@"GET" paramers:@{@"client":@"ios"} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+             NSDictionary *retDict = completedOperation.responseJSON;
+            succeedBlock(retDict[@"data"][@"deployment"]);
+        }
+        
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        
     }];
 }
 

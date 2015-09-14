@@ -48,6 +48,9 @@
     //Init Matcher Categories List
     [QSCategoryManager getInstance];
     
+    //Get ServerPath
+    [self getServerPathAndSave];
+    
     //Start App
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
@@ -260,7 +263,19 @@
     
 }
 
-
+#pragma mark - GetServerPath
+- (void)getServerPathAndSave
+{
+    [SHARE_NW_ENGINE getServerPathFromAPIOnSucceed:^(NSDictionary *dict) {
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        [ud setObject:[QSEntityUtil getStringValue:dict keyPath:@"appServiceRoot"] forKey:@"appServiceRoot"];
+        [ud setObject:[QSEntityUtil getStringValue:dict keyPath:@"appWebRoot"] forKey:@"appWebRoot"];
+        [ud setObject:[QSEntityUtil getStringValue:dict keyPath:@"paymentServiceRoot"] forKey:@"paymentServiceRoot"];
+        [ud synchronize];
+    } onError:^(NSError *error) {
+        
+    }];
+}
 
 #pragma mark -- rememberFirstLaunch
 - (void)logTraceFirstLaunch

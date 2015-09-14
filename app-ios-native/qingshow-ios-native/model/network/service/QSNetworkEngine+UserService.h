@@ -79,4 +79,6 @@
                                        code:(NSString*)code
                                   onSucceed:(BoolBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)getServerPathFromAPIOnSucceed:(DicBlock)succeedBlock
+                                             onError:(ErrorBlock)errorBlock;
 @end

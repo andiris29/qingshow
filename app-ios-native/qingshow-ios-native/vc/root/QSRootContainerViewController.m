@@ -261,6 +261,12 @@
 - (void)pnsTradeInitial:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
         [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
+        if ([self.contentVc isKindOfClass:[QSU09OrderListViewController class]]) {
+            QSU09OrderListViewController *u09VC = (QSU09OrderListViewController *)self.contentVc;
+            [u09VC changeValueOfSegment:0];
+            u09VC.headerView.segmentControl.selectedSegmentIndex = 0;
+        }
+
     } title:@"你申请的折扣已经成功啦，别让宝贝飞了，快快来付款吧！" userInfo:noti.userInfo];
 }
 
