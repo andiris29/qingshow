@@ -2,7 +2,8 @@ package com.focosee.qingshow.util.bonus;
 
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.StringUtil;
-
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -47,5 +48,14 @@ public class BonusHelper {
             sign = "- ";
         }
         return sign + StringUtil.formatPriceWithoutSign(String.valueOf(bonuses.money));
+    }
+
+    public static void bonusSort(List<MongoPeople.Bonuses> bonusesList){
+        Collections.sort(bonusesList, new Comparator<MongoPeople.Bonuses>() {
+            @Override
+            public int compare(MongoPeople.Bonuses lhs, MongoPeople.Bonuses rhs) {
+                return rhs.create.compareTo(lhs.create);
+            }
+        });
     }
 }

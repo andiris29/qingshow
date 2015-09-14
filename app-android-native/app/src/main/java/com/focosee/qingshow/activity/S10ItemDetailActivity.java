@@ -63,6 +63,8 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     private MongoItem itemEntity, innerItemEntity;
     private LoadingDialogs dialog;
 
+    private boolean showble = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                     if (itemEntity.readOnly || !TextUtils.isEmpty(itemEntity.delist)) {
                         bay.setVisibility(View.GONE);
                     }
+                    return;
                 } else {
                     bay.setVisibility(View.GONE);
                 }
@@ -90,26 +93,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             getItemFormNet(itemEntity._id);
         }
         dialog.show();
-    }
-
-    private void getItem(){
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getItemQueryApi(itemEntity._id), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if(!MetadataParser.hasError(response)){
-                    if(dialog.isShowing())
-                        dialog.dismiss();
-                    itemEntity = ItemFeedingParser.parse(response).get(0);
-                    loadWebView(itemEntity.source);
-                    if (itemEntity.readOnly) {
-                        bay.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     @Override
@@ -169,9 +152,8 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.s10_bay:
                 dialog.show();
-                if (innerItemEntity != null) {
-                    showNext(innerItemEntity);
-                }
+                showble = true;
+                getItemFormNet(itemEntity._id);
                 break;
             case R.id.s10_back_btn:
                 finish();
@@ -179,16 +161,15 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private void isJumpToAddress(){
-
-    }
 
     private void getItemFormNet(String id) {
         Map map = new HashMap();
+        Log.d("_id:" , id);
         map.put("_id", id);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getItemSyncApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
                 Log.i("S10ItemDetailActivity",response.toString());
                 dialog.dismiss();
                 if (MetadataParser.hasError(response)) {
@@ -208,8 +189,14 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
 
-                innerItemEntity = ItemFeedingParser.parseOne(response);
-                showNext(innerItemEntity);
+                if(showble) {
+                    innerItemEntity = ItemFeedingParser.parseOne(response);
+                    showNext(innerItemEntity);
+                    showble = false;
+                }else{
+                    itemEntity = ItemFeedingParser.parseOne(response);
+                    loadWebView(itemEntity.source);
+                }
             }
         }, new Response.ErrorListener() {
             @Override

@@ -152,7 +152,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 Map map = new HashMap();
                 Log.i("JPush_QS", "logout" + PushModel.INSTANCE.getRegId());
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
-                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.USER_LOGOUT, new JSONObject(map), new Response.Listener<JSONObject>() {
+                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getUserLogout(), new JSONObject(map), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         if (MetadataParser.hasError(response)) {

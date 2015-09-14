@@ -72,6 +72,10 @@ public class ErrorHandler {
                 break;
             case ErrorCode.NoNetWork:
                 ToastUtil.showShortToast(context.getApplicationContext(), "请检查网络");
+            case ErrorCode.MobileAlreadyExist:
+                ToastUtil.showShortToast(context.getApplicationContext(), "手机已注册");
+            case ErrorCode.MobileVerifyFailed:
+                ToastUtil.showShortToast(context.getApplicationContext(), "验证失败");
                 break;
         }
     }

@@ -290,7 +290,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                         return;
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
                 }
             }
         });

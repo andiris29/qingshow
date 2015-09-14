@@ -8,7 +8,7 @@ var YTX_SID = 'aaf98f894fa5766f014fa72f897102e6';
 var YTX_TOKEN = '999249ff15ad4222aa268c7374430107';
 var APP_ID = '8a48b5514fb1a66a014fb545362305a1';
 
-var TEMPLATE_ID = '1';
+var TEMPLATE_ID = '36286';
 
 var _verifications = {};
 
@@ -48,7 +48,6 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
             })
     },function(err, res, body){
     	var result = JSON.parse(body);
-    	console.log(body);
     	if (err || result.statusCode !== '000000') {
     		callback(ServerError.ServerError);
     	}else {
@@ -59,7 +58,6 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
 }
 
 SMSHelper.createVerificationCode = function (to, callback){
-	console.log(_verifications);
 	var config = global.qsConfig;
 	if (_verifications.to && 
 		new Date() - _verifications.to.create < config.verification.retry) {
@@ -77,7 +75,6 @@ SMSHelper.createVerificationCode = function (to, callback){
 SMSHelper.checkVerificationCode = function (to, code, callback){
 	var config = global.qsConfig;		
 	var verification = _verifications[to];
-	console.log('check', verification);
 	if (verification && code == verification.verificationCode && 
 		new Date() - verification.create < config.verification.expire) {
 		callback(null, true);

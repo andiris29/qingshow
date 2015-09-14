@@ -23,7 +23,7 @@ public class RequestHelper {
 
     public static Map<String, String> beforeGetHeaders(Map<String, String> headers) {
         if (headers == null || headers.equals(Collections.emptyMap())) {
-            headers = new HashMap<String, String>();
+            headers = new HashMap<>();
         }
         _appendCookie(headers);
         _appendVersion(headers);

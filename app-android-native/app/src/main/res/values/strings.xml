@@ -63,7 +63,7 @@
     <string name="or_activity_register">or</string>
     <string name="weixin_login_activity_register">微信登录</string>
     <string name="weibologin_activity_register">微博登录</string>
-    <string name="send_verification_activity_register">发送验证码</string>
+    <string name="send_verification_activity_register">获取验证码</string>
 
     <!-- Login Activity -->
     <string name="title_activity_login">LoginActivity</string>
@@ -118,7 +118,7 @@
     <string name="info_expressDate_activity_return">寄出日期:</string>
     <string name="sure_btn_activity_return">申请退货</string>
     <string name="toast_activity_return">退货请求已发送</string>
-    <string name="toast_activity_discount_successed">已加入申请列表</string>
+    <string name="toast_activity_discount_successed">申请成功</string>
 
     <!-- Others -->
     <string name="title_activity_home">HomeActivity</string>

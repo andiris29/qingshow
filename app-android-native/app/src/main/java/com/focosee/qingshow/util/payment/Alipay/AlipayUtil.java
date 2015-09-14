@@ -28,7 +28,7 @@ public class AlipayUtil {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + QSAppWebAPI.HOST_ADDRESS +"/payment/alipay/callback"
+        orderInfo += "&notify_url=" + "\"" + QSAppWebAPI.HOST_ADDRESS_PAYMENT +"/alipay/callback"
                 + "\"";
 
         // 服务接口名称， 固定值

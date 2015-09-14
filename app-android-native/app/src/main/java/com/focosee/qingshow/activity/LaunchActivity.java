@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.volley.Response;
@@ -28,6 +29,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -47,7 +49,15 @@ public class LaunchActivity extends InstrumentedActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
         //友盟接口
 //        MobclickAgent.updateOnlineConfig(this);
+        systemGet();
 
+
+
+
+        setContentView(R.layout.activity_launch);
+    }
+
+    private void init(){
         String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
         if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())) {
             userFollow();
@@ -62,24 +72,6 @@ public class LaunchActivity extends InstrumentedActivity {
             _user._id = id;
             QSModel.INSTANCE.setUser(_user);
         }
-
-        setContentView(R.layout.activity_launch);
-
-        UserCommand.refresh(new Callback() {
-            @Override
-            public void onComplete() {
-                super.onComplete();
-                getCategories();
-                jump();
-            }
-
-            @Override
-            public void onError() {
-                super.onError();
-                getCategories();
-                jump();
-            }
-        });
     }
 
     private void getCategories() {
@@ -140,6 +132,42 @@ public class LaunchActivity extends InstrumentedActivity {
                     editor.commit();
                 }
 
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void systemGet(){
+
+        String url = "http://chinshow.com/services/system/get?client=android&version=" + AppUtil.getVersion();
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(LaunchActivity.class.getSimpleName(), "response:" + response);
+                try {
+                    QSAppWebAPI.HOST_NAME = response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot");
+                    QSAppWebAPI.HOST_ADDRESS_PAYMENT = response.getJSONObject("data").getJSONObject("deployment").getString("paymentServiceRoot");
+                    QSAppWebAPI.HOST_ADDRESS_APPWEB = response.getJSONObject("data").getJSONObject("deployment").getString("appWebRoot");
+                    init();
+                } catch (JSONException e) {
+
+                }
+
+                UserCommand.refresh(new Callback() {
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        getCategories();
+                        jump();
+                    }
+
+                    @Override
+                    public void onError() {
+                        super.onError();
+                        getCategories();
+                        jump();
+                    }
+                });
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

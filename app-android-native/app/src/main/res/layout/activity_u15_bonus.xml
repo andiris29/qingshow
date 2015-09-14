@@ -116,7 +116,7 @@
         android:paddingLeft="15dp"
         android:textColor="@color/red"
         android:visibility="gone"
-        android:text="请输入支付宝账号"/>
+        android:text="@string/u15_hint_edit"/>
 
     <com.focosee.qingshow.widget.QSTextView
         android:id="@+id/u15_hint_text"
