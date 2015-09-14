@@ -250,8 +250,17 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                         try {
 //                            var stock = stockInfo[key].quantity;
                             var price = null;
-                            if (priceInfo[key].promotionList && priceInfo[key].promotionList.length && priceInfo[key].promotionList[0].price) {
-                                price = parseFloat(priceInfo[key].promotionList[0].price);
+
+                            // "type": "店铺vip",
+                            // "promText": "登录后确认是否享有此优惠",
+                            if (priceInfo[key].promotionList && priceInfo[key].promotionList.length) {
+                                var promotion = priceInfo[key].promotionList[0];
+                                if (promotion.promText.indexOf("登录") !== -1) {
+                                    price = parseFloat(priceInfo[key].price);
+                                } else {
+                                    price = parseFloat(priceInfo[key].promotionList[0].price);
+                                }
+
                             } else {
                                 price = parseFloat(priceInfo[key].price);
                             }
