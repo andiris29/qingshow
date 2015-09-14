@@ -10,6 +10,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.widget.QSButton;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -46,7 +47,8 @@ public class VerificationHelper {
                 Log.d(VerificationHelper.class.getSimpleName(), "response:" + response);
 
                 if(MetadataParser.hasError(response)){
-                    ToastUtil.showShortToast(context.getApplicationContext(), "获得验证码失败，请重试");
+                    ErrorHandler.handle(context, MetadataParser.getError(response));
+                    return;
                 }
             }
         });
@@ -63,7 +65,7 @@ public class VerificationHelper {
                 veri_btn.setEnabled(true);
                 return;
             }
-            veri_btn.setText(msg.arg1 + "S后重新发送");
+            veri_btn.setText(msg.arg1 + "秒后可重发");
         }
     };
 
