@@ -113,10 +113,10 @@
             android:layout_marginRight="3dp"
             android:background="@drawable/newest_btn"
             app:clickGround="@drawable/newest_btn_click_ground"
-            android:layout_alignParentBottom="true"
             android:text="最新\n折扣"
             android:textColor="@color/white"
             android:rotation="30"
+            android:visibility="gone"
             android:scaleType="fitCenter" />
     </android.support.percent.PercentRelativeLayout>
 </android.support.percent.PercentRelativeLayout>

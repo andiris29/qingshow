@@ -161,6 +161,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void run() {
                 u15ErrorText.setVisibility(View.GONE);
+                withDrawBtn.setEnabled(true);
             }
         }, ValueUtil.SHOW_ERROR_TIME);
         return;

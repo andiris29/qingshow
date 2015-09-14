@@ -132,7 +132,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
         if (QSModel.INSTANCE.loggedin()) {
             if (null != QSModel.INSTANCE.getUser()) {
-                S04UserImage.setImageURI(Uri.parse(ImgUtil.getImgSrc(QSModel.INSTANCE.getUser().portrait, ImgUtil.Meduim)));
+                S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
                 S04UserImage.setAspectRatio(1f);
             }
         }

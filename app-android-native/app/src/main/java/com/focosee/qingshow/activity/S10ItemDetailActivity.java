@@ -169,7 +169,9 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.s10_bay:
                 dialog.show();
-                getItemFormNet(itemEntity._id);
+                if (innerItemEntity != null) {
+                    showNext(innerItemEntity);
+                }
                 break;
             case R.id.s10_back_btn:
                 finish();
@@ -221,9 +223,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
     private void showNext(MongoItem item){
 
-        if (item.skuProperties == null || item.skuProperties.size() == 0) {
-            return;
-        }
         container.setVisibility(View.VISIBLE);
         getIntent().putExtra(OUTPUT_ITEM_ENTITY, item);
         FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details" + System.currentTimeMillis());

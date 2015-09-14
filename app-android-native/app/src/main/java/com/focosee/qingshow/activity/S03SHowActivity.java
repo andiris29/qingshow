@@ -42,6 +42,7 @@ import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.share.BaseResponse;
@@ -158,9 +159,12 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     }
 
     private void getShowDetailFromNet() {
+        final LoadingDialogs dialogs = new LoadingDialogs(S03SHowActivity.this);
+        dialogs.show();
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                dialogs.dismiss();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;

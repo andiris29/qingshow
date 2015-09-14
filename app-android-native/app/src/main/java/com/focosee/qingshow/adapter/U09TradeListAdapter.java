@@ -87,6 +87,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
         statusTV.setVisibility(View.GONE);
+        discountBtn.setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
 
         if (null != trade.itemSnapshot) {
@@ -136,28 +137,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             if(null == trade.itemSnapshot)return;
             if(TextUtils.isEmpty(trade.__context.item.expectablePrice))return;
             if(TextUtils.isEmpty(trade.itemSnapshot.promoPrice))return;
-            String discount = StringUtil.formatDiscount(trade.__context.item.expectablePrice, trade.itemSnapshot.promoPrice);
             discountBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showNewTradeNotify(trade._id);
                 }
             });
-            int discountNum = Integer.parseInt(discount.substring(0,1));
-//            switch (discountNum){
-//                case 6:
-//                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_6));
-//                    break;
-//                case 7:
-//                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_7));
-//                    break;
-//                case 8:
-//                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_8));
-//                    break;
-//                case 9:
-//                    discountBtn.setImageDrawable(context.getResources().getDrawable(R.drawable.trade_list_discount_9));
-//                    break;
-//            }
 
             discountBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

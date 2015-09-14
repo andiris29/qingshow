@@ -95,6 +95,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private Map<String, List<String>> props;
     private Map<String, List<String>> selectProps;
+    private List<String> keys_order;
 
     private int num = 1;
     private int numOffline = 1;
@@ -133,7 +134,10 @@ public class S11NewTradeFragment extends Fragment {
             discountNum = discountOnline = 9;
 
 
-        initProps();
+        if (itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
+            initProps();
+        }
+
         initDes();
 
         checkDiscount();
@@ -144,6 +148,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private void initProps() {
         props = SkuUtil.filter(itemEntity.skuProperties);
+        keys_order = SkuUtil.getKeyOrder(props);
         checkIndex = new int[props.size()];
         int i = 0;
         for (String key : props.keySet()) {
@@ -276,8 +281,7 @@ public class S11NewTradeFragment extends Fragment {
         }
 
         submit.setClickable(false);
-        trade.selectedSkuProperties = SkuUtil.propParser(selectProps);
-
+        trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
         trade.expectedPrice = basePrice * discountNum / 10;
         trade.itemSnapshot = itemEntity;
         trade.quantity = num;
