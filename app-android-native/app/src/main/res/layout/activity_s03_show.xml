@@ -118,7 +118,7 @@
                                 android:textSize="13sp"
                                 android:layout_alignBottom="@id/s03_portrait"
                                 android:padding="5dp"
-                                android:text=""
+                                android:text="获得佣金：￥0.00"
                                 android:textColor="@color/white"
                                 android:background="@drawable/s03_bonus_text_border"
                                 android:layout_below="@+id/s03_nickname"
