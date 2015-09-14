@@ -26,12 +26,24 @@ var slaverModel = null;
 GoblinMainSlaver.start = function (config) {
     slaverModel = {
         config : config,
-        running : true
+        running : true,
+        timerId : {}
     };
     supportTypes.forEach(function (t) {
         _next(t);
     });
 };
+
+GoblinMainSlaver.continue = function () {
+    if (!slaverModel || !slaverModel.running) {
+        return;
+    }
+    supportTypes.forEach(function (t) {
+        if (!slaverModel.timerId[t]) {
+            _next(t);
+        }
+    });
+}
 
 GoblinMainSlaver.stop = function () {
     slaverModel.running = false;
@@ -42,6 +54,8 @@ var _next = function (type) {
     if (!slaverModel || !slaverModel.running) {
         return;
     }
+    slaverModel.timerId[type] = null;
+
     async.waterfall([
         function (callback) {
             _queryNextItem(type, callback);
@@ -61,9 +75,12 @@ var _next = function (type) {
                 var succeedDelayConfig = slaverModel && slaverModel.config && slaverModel.config.succeedDelay || {};
                 delayTime = _.random(succeedDelayConfig.min || 5000, succeedDelayConfig.max || 10000);
             }
-            setTimeout(function () {
-                _next(type);
-            }, delayTime);
+            if (!slaverModel.timerId[type]) {
+                slaverModel.timerId[type] = setTimeout(function () {
+                    _next(type);
+                }, delayTime);
+            }
+
         });
     });
 };

@@ -19,6 +19,8 @@ properties.parse(configPath, {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
+    GoblinSlaver.continue();
+
     console.log(new Date().toString() + ': uncaughtException');
     console.log(err);
     console.log('\t' + err.stack);
