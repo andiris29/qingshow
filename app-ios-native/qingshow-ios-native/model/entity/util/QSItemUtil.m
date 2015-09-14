@@ -157,6 +157,8 @@
             }
             [returnStr appendString:subStr];
         }
+        NSRange range = [returnStr rangeOfString:@"."];
+        [returnStr deleteCharactersInRange:range];
         return returnStr;
     }
     return nil;
