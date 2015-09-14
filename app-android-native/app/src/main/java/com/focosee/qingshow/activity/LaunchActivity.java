@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.volley.Response;
@@ -28,6 +29,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -63,23 +65,9 @@ public class LaunchActivity extends InstrumentedActivity {
             QSModel.INSTANCE.setUser(_user);
         }
 
+        systemGet();
+
         setContentView(R.layout.activity_launch);
-
-        UserCommand.refresh(new Callback() {
-            @Override
-            public void onComplete() {
-                super.onComplete();
-                getCategories();
-                jump();
-            }
-
-            @Override
-            public void onError() {
-                super.onError();
-                getCategories();
-                jump();
-            }
-        });
     }
 
     private void getCategories() {
@@ -140,6 +128,41 @@ public class LaunchActivity extends InstrumentedActivity {
                     editor.commit();
                 }
 
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void systemGet(){
+
+//        String url = "http://chinshow.com/services/system/get?client=android";
+        String url = "http://192.168.1.110:30001/services/system/get?client=android&version=" + AppUtil.getVersion();
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(LaunchActivity.class.getSimpleName(), "response:" + response);
+                try {
+                    String url = response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot");
+                    QSAppWebAPI.HOST_ADDRESS = url.substring(0, url.lastIndexOf("/"));
+                } catch (JSONException e) {
+                    QSAppWebAPI.HOST_ADDRESS = "http://chinshow.com";
+                }
+
+                UserCommand.refresh(new Callback() {
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        getCategories();
+                        jump();
+                    }
+
+                    @Override
+                    public void onError() {
+                        super.onError();
+                        getCategories();
+                        jump();
+                    }
+                });
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

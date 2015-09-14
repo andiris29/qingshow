@@ -5,11 +5,9 @@ package com.focosee.qingshow.constants.config;
  */
 public class QSAppWebAPI {
     public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
-//    public static final String HOST_ADDRESS = "http://chinshow.com";
-//    public static final String HOST_ADDRESS = "http://192.168.1.110:30001";
-    public static final String HOST_ADDRESS = "http://139.196.32.82";
+    public static String HOST_ADDRESS = "";
 
-    private static final String HOST_NAME = HOST_ADDRESS + "/services";
+    public static String HOST_NAME = HOST_ADDRESS + "/services";
 
     public static final String LOGIN_SERVICE_URL = HOST_NAME + "/user/login";
     public static final String REGISTER_SERVICE_URL = HOST_NAME + "/user/register";
