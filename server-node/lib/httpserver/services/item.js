@@ -236,7 +236,9 @@ var _itemPriceChanged = function(item, callback) {
         Trade.find({
             'itemRef' : item._id,
             'status' : 0
-        }).exec(callback);
+        }).exec(function(error, trades) {
+            callback(error, trades);
+        });
     },
     function(trades, callback) {
         var tasks = trades.map(function(trade) {
