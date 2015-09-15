@@ -4,6 +4,8 @@ var async = require('async');
 var _ = require('underscore');
 
 var Items = require('../../model/items');
+var Trade = require('../../model/trades');
+
 var jPushAudiences = require('../../model/jPushAudiences');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
