@@ -44,7 +44,7 @@ item.updateExpectablePrice = {
                 callback(error, item);
             });
         }, function(item, callback) {
-            _itemPriceChanged(item, function() {
+            _itemPriceChanged(item, RequestHelper.parseNumber(param.expectablePrice), function() {
                 // do nothing
             });
             callback(null, item);
@@ -230,7 +230,7 @@ item.list = {
     }
 };
 
-var _itemPriceChanged = function(item, callback) {
+var _itemPriceChanged = function(item, price, callback) {
     async.waterfall([
     function(callback) {
         Trade.find({
@@ -260,7 +260,7 @@ var _itemPriceChanged = function(item, callback) {
                         'command' : PushNotificationHelper.CommandItemPriceChanged,
                         '_id' : item._id.toString(),
                         '_tradeId' : trade._id.toString(),
-                        'actualPrice' : RequestHelper.parseNumber(req.body.actualPrice)
+                        'actualPrice' : price
                     }, cb2);
                 }], cb);
             };
