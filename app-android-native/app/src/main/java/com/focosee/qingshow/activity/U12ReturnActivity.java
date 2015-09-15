@@ -79,11 +79,11 @@ public class U12ReturnActivity extends BaseActivity {
     }
 
     private void getTradeReturnReceiver(){
+
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeGetReturnreceiver(trade._id)
                 , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(U12ReturnActivity.this, MetadataParser.getError(response));
                     return;

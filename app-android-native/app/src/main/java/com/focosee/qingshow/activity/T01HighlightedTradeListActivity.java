@@ -97,7 +97,6 @@ public class T01HighlightedTradeListActivity extends MenuActivity implements BGA
                 , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("response:" + response);
                 if (MetadataParser.hasError(response)) {
                     mRefreshLayout.endRefreshing();
                     mRefreshLayout.endLoadingMore();

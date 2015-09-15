@@ -1,7 +1,6 @@
 package com.focosee.qingshow.command;
 
 import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -10,9 +9,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 
 /**
@@ -27,7 +24,7 @@ public class TradeRefreshCommand {
 
             @Override
             public void onResponse(JSONObject response) {
-
+                Log.d(TradeRefreshCommand.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     callback.onError(MetadataParser.getError(response));
                 }
