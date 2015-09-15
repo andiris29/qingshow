@@ -258,7 +258,7 @@ var _itemPriceChanged = function(item, callback) {
                     });
                     PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
                         'command' : PushNotificationHelper.CommandItemPriceChanged,
-                        '_id' : req.body._id,
+                        '_id' : item._id.toString(),
                         '_tradeId' : trade._id.toString(),
                         'actualPrice' : RequestHelper.parseNumber(req.body.actualPrice)
                     }, cb2);
