@@ -161,7 +161,7 @@ static NSString* s_paymentHost = nil;
     request.package = @"Sign=WXPay";
     request.nonceStr= @(random()).stringValue;
     request.timeStamp= [[NSDate date] timeIntervalSince1970];
-    NSString* str = [NSString stringWithFormat:@"appid=%@&noncestr=%@&package=Sign=WXPay&partnerid=%@&prepayid=%@&timestamp=%ld&key=%@",kWechatAppID, request.nonceStr, request.partnerId, request.prepayId, request.timeStamp, WECHAT_SIGN_KEY];
+    NSString* str = [NSString stringWithFormat:@"appid=%@&noncestr=%@&package=Sign=WXPay&partnerid=%@&prepayid=%@&timestamp=%u&key=%@",kWechatAppID, request.nonceStr, request.partnerId, request.prepayId, (unsigned int)request.timeStamp, WECHAT_SIGN_KEY];
     request.sign = [[str md5] uppercaseString];
 
     [WXApi sendReq:request];

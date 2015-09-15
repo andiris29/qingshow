@@ -207,7 +207,7 @@
         NSDictionary *dic = [array firstObject];
         int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:dic];
         if (count < 1) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这个规格的已经卖完啦！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"",nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这个规格的已经卖完啦！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil,nil];
             [alert show];
         }
         else{
