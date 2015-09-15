@@ -101,6 +101,18 @@ trade.prepay = {
             });
         },
         function(trade, callback) {
+            People.findOne({
+                '_id' : trade.ownerRef
+            }, function(err, people){
+                if (err) {
+                    callback(err);
+                }else {
+                    trade.peopleSnapshot = people;
+                    callback(null, trade);
+                }
+            });
+        },
+        function(trade, callback) {
             if (req.body.pay && req.body.pay['weixin']) {
                 trade.pay = req.body.pay;
                 // Communicate to payment to get prepayid for weixin

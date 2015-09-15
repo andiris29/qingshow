@@ -11,6 +11,7 @@ var MongoHelper = require('../helpers/MongoHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 var URLParser = require('../../scheduled/goblin/common/URLParser');
 var qsftp = require('../../runtime/qsftp');
+var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");
 
 var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
 var ServerError = require('../server-error');
@@ -88,7 +89,8 @@ item.sync = {
         async.waterfall([
             function (callback) {
                 var itemId = RequestHelper.parseId(req.body._id);
-                ItemSyncService.syncItemWithItemId(itemId, callback);
+                GoblinScheduler.registerItemWithId(itemId, callback);
+                //ItemSyncService.syncItemWithItemId(itemId, callback);
             }
         ], function (err, item) {
             if (err) {

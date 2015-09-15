@@ -130,6 +130,9 @@
 		EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */; };
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
 		EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */; };
+		EF4A57F01BA45CFC00677472 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4A57EF1BA45CFC00677472 /* Aspects.m */; };
+		EF4A57F51BA4633C00677472 /* QSHookDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4A57F41BA4633C00677472 /* QSHookDictionary.m */; };
+		EF4A57F81BA463BC00677472 /* QSHookHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4A57F71BA463BC00677472 /* QSHookHelper.m */; };
 		EF4CEC451B765011002865DE /* QSBlockAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4CEC441B765011002865DE /* QSBlockAlertView.m */; };
 		EF4CEC491B76558E002865DE /* QSShareService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4CEC481B76558E002865DE /* QSShareService.m */; };
 		EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */; };
@@ -634,6 +637,12 @@
 		EF46462A1A2B5DBC00172618 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		EF4985961AC875F900F70811 /* QSAbstractRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractRootViewController.h; sourceTree = "<group>"; };
 		EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractRootViewController.m; sourceTree = "<group>"; };
+		EF4A57EE1BA45CFC00677472 /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
+		EF4A57EF1BA45CFC00677472 /* Aspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
+		EF4A57F31BA4633C00677472 /* QSHookDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHookDictionary.h; sourceTree = "<group>"; };
+		EF4A57F41BA4633C00677472 /* QSHookDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSHookDictionary.m; sourceTree = "<group>"; };
+		EF4A57F61BA463BC00677472 /* QSHookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHookHelper.h; sourceTree = "<group>"; };
+		EF4A57F71BA463BC00677472 /* QSHookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSHookHelper.m; sourceTree = "<group>"; };
 		EF4CEC431B765011002865DE /* QSBlockAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBlockAlertView.h; sourceTree = "<group>"; };
 		EF4CEC441B765011002865DE /* QSBlockAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBlockAlertView.m; sourceTree = "<group>"; };
 		EF4CEC471B76558E002865DE /* QSShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareService.h; sourceTree = "<group>"; };
@@ -1574,6 +1583,26 @@
 			path = label;
 			sourceTree = "<group>";
 		};
+		EF4A57ED1BA45CFC00677472 /* Aspect */ = {
+			isa = PBXGroup;
+			children = (
+				EF4A57EE1BA45CFC00677472 /* Aspects.h */,
+				EF4A57EF1BA45CFC00677472 /* Aspects.m */,
+			);
+			path = Aspect;
+			sourceTree = "<group>";
+		};
+		EF4A57F21BA4632700677472 /* hook */ = {
+			isa = PBXGroup;
+			children = (
+				EF4A57F31BA4633C00677472 /* QSHookDictionary.h */,
+				EF4A57F41BA4633C00677472 /* QSHookDictionary.m */,
+				EF4A57F61BA463BC00677472 /* QSHookHelper.h */,
+				EF4A57F71BA463BC00677472 /* QSHookHelper.m */,
+			);
+			path = hook;
+			sourceTree = "<group>";
+		};
 		EF4CEC421B764FE4002865DE /* common */ = {
 			isa = PBXGroup;
 			children = (
@@ -1979,6 +2008,7 @@
 		EF9A74681A02A87900095F07 /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				EF4A57F21BA4632700677472 /* hook */,
 				EF9C952A1A0FBFF2006A0AE3 /* extension */,
 				EF9A747B1A02A8E700095F07 /* type */,
 				EF36BD761A87153F003CBBEE /* QSDateUtil.h */,
@@ -2486,6 +2516,7 @@
 		EFF1148C1A0D2EEC009B7361 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				EF4A57ED1BA45CFC00677472 /* Aspect */,
 				EFF58B4A1B55DD5D001A9AC8 /* JPush */,
 				EF3012CE1AC3174000568D92 /* AlipaySDK */,
 				EF05E9401A7928DC00A58F72 /* umeng */,
@@ -2876,6 +2907,7 @@
 				EFAB9C6C1B346FE5008A4EF5 /* QSPeopleListTableViewProvider.m in Sources */,
 				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
 				EF30133C1AC3174000568D92 /* NSDataEx.m in Sources */,
+				EF4A57F81BA463BC00677472 /* QSHookHelper.m in Sources */,
 				EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */,
 				EFBC76491B332A6200832116 /* QSBadgeButton.m in Sources */,
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
@@ -2900,6 +2932,7 @@
 				EF6753BF1A6416C90045E96C /* QSG01ItemWebViewController.m in Sources */,
 				EFCC1B8E1B0203FB00E13279 /* QSThirdPartLoginService.m in Sources */,
 				EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */,
+				EF4A57F01BA45CFC00677472 /* Aspects.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */,
 				EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */,
@@ -2946,6 +2979,7 @@
 				EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */,
 				68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
+				EF4A57F51BA4633C00677472 /* QSHookDictionary.m in Sources */,
 				EF994D9A1B693C7400715B0E /* QSDiscountTaobaoInfoCell.m in Sources */,
 				EF610EFB1AF937E400B7DFB3 /* QSBigImageDateView.m in Sources */,
 				EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */,

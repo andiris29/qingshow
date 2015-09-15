@@ -46,3 +46,4 @@ server-pay/payment/build/
 server-pay/payment/target/
 winston.log.*
 server-node/projectFilesBackup/.idea
+goblin-slaver/.idea

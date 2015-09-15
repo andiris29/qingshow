@@ -1,8 +1,6 @@
 var winston = require('winston');
 var GoblinCrawler = require('./crawler/GoblinCrawler');
-
 var async = require('async');
-var URLParser = require('./URLParser');
 var _ = require('underscore');
 var GoblinError = require('./GoblinError');
 
@@ -73,40 +71,49 @@ ItemSyncService.syncItem = function (item, callback) {
             }
 
         }
-    ], function (goblinError, webItem) {
-        if (goblinError) {
-            //Delist
-            item.delist = new Date();
-            if (goblinError.errorCode === GoblinError.Delist) {
-                _logItem('item success, delist', item);
-            } else {
-                //Other Error
-                _logItem('item error', item);
-            }
-        } else {
-            item.delist = null;
-            item.price = webItem.price;
-            item.promoPrice = webItem.promo_price;
-            item.skuProperties = webItem.skuProperties;
-            var skuTable = {};
-            webItem.skuTable = webItem.skuTable || {};
-            for (var key in webItem.skuTable) {
-                if (webItem.skuTable.hasOwnProperty(key)) {
-                    var value = webItem.skuTable[key];
-                    // skuTable key should not contain '.' to avoid mongo error
-                    key = key.replace(/\./g, '');
-                    skuTable[key] = value;
-                }
-            }
-            item.skuTable = skuTable;
-            _logItem('item success', item);
-        }
-        item.sync = new Date();
-        item.save(function (innerErr) {
-            callback(innerErr || goblinError, item);
-        });
+    ], function (goblinError, itemInfo) {
+        ItemSyncService.syncItemInfo(item, itemInfo, goblinError, callback);
     });
 };
+
+ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
+    if (err && _.isString(err)) {
+        err = GoblinError.fromDescription(err);
+    }
+
+    if (err || !itemInfo) {
+        //Delist
+        item.delist = new Date();
+        if (err && err.errorCode === GoblinError.Delist) {
+            _logItem('item success, delist', item);
+        } else {
+            //Other Error
+            _logItem('item error', item);
+        }
+    } else {
+        item.delist = null;
+        item.price = itemInfo.price;
+        item.promoPrice = itemInfo.promo_price;
+        item.skuProperties = itemInfo.skuProperties;
+        var skuTable = {};
+        webItem.skuTable = webItem.skuTable || {};
+        for (var key in webItem.skuTable) {
+            if (webItem.skuTable.hasOwnProperty(key)) {
+                var value = webItem.skuTable[key];
+                // skuTable key should not contain '.' to avoid mongo error
+                key = key.replace(/\./g, '');
+                skuTable[key] = value;
+            }
+        }
+        item.skuTable = skuTable;
+        _logItem('item success', item);
+    }
+    item.sync = new Date();
+    item.save(function (innerErr) {
+        callback(innerErr || err, item);
+    });
+};
+
 
 ItemSyncService.syncItemWithItemId = function (itemId, callback) {
     async.waterfall([

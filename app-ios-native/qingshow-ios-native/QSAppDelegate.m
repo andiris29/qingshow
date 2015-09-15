@@ -22,6 +22,7 @@
 #import "QSPnsHelper.h"
 #import "QSEntityUtil.h"
 #import "QSNetworkHelper.h"
+#import "QSHookHelper.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -35,6 +36,7 @@
 #pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [QSHookHelper registerHooker];
     //注册第三方登陆、分享平台
     [self registerSharePlatform];
     

@@ -24,20 +24,26 @@ var slaverModel = null;
 GoblinMainSlaver.start = function (config) {
     slaverModel = {
         config : config,
-        running : true
+        running : true,
+        timer : {}  //用于记录某个爬虫当前是否正在进行
     };
+    GoblinMainSlaver.triggerAllTimer();
+};
+
+GoblinMainSlaver.triggerAllTimer = function () {
     supportTypes.forEach(function (t) {
-        _next(t);
+        if (!slaverModel.timer[t]) {
+            _next(t);
+        }
     });
 };
+
 
 GoblinMainSlaver.stop = function () {
     slaverModel.running = false;
     slaverModel = null;
 };
 
-var succeedDelay = [5000, 10000];
-var failDelay = [5000, 10000];
 
 var _next = function (type) {
     if (!slaverModel || !slaverModel.running) {
@@ -45,7 +51,7 @@ var _next = function (type) {
     }
     async.waterfall([
         function (callback) {
-            GoblinScheduler.nextItem(type, callback);
+            GoblinScheduler.nextRequestedItem(type, callback);
         }, function (item, callback) {
             ItemSyncService.syncItem(item, callback);
         }
@@ -53,13 +59,23 @@ var _next = function (type) {
         var innerCallback = function () {
             var delayTime = null;
             if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
-                delayTime = _.random(failDelay[0], failDelay[1]);
+                var failDelayConfig = (slaverModel && slaverModel.config && slaverModel.config.failDelay) || {};
+                var failDelayMax = failDelayConfig.max || 10000;
+                var failDelayMin = failDelayConfig.min || 5000;
+                delayTime = _.random(failDelayMin, failDelayMax);
             } else {
-                delayTime = _.random(succeedDelay[0], succeedDelay[1]);
+                var succeedDelayConfig = (slaverModel && slaverModel.config && slaverModel.config.succeedDelay) || {};
+                var succeedDelayMax = succeedDelayConfig.max || 10000;
+                var succeedDelayMin = succeedDelayConfig.min || 5000;
+                delayTime = _.random(succeedDelayMin, succeedDelayMax);
             }
-            setTimeout(function () {
-                _next(type);
-            }, delayTime);
+            if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
+                slaverModel.timer[type] = null;
+            } else {
+                slaverModel.timer[type] = setTimeout(function () {
+                    _next(type);
+                }, delayTime);
+            }
         };
 
         if (item) {
@@ -72,7 +88,6 @@ var _next = function (type) {
     });
 };
 
-//TODO 外部主动触发slaver请求并爬取下一个item
-GoblinMainSlaver.tregger = function () {
-
+GoblinMainSlaver.trigger = function (item) {
+    GoblinMainSlaver.triggerAllTimer();
 };
