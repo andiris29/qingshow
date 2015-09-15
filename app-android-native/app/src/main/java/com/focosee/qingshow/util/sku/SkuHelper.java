@@ -2,6 +2,8 @@ package com.focosee.qingshow.util.sku;
 
 import android.text.TextUtils;
 
+import com.focosee.qingshow.util.StringUtil;
+
 import java.util.Map;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Map;
  */
 public class SkuHelper {
     public static float obtainSkuStock(Map<String,String> skuTable, String props){
+        props = StringUtil.ignoreDot(props);
         if (!skuTable.containsKey(props))
             return -1;
         String values = skuTable.get(props);

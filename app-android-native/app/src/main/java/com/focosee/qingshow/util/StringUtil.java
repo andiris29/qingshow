@@ -75,4 +75,8 @@ public class StringUtil {
         return String.valueOf(result) + "折";
     }
 
+    public static String ignoreDot(String str){
+        return str.replace(".","");
+    }
+
 }
