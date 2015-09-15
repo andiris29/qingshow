@@ -10,6 +10,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -75,15 +76,9 @@ public class QSApplication extends Application {
         return wxApi;
     }
 
-    public static Point getScreenSize(Context context){
-        Display display = ((BaseActivity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
-
     public SharedPreferences getPreferences(){
         return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
+
 }
 

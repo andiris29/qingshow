@@ -40,6 +40,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
@@ -243,9 +244,12 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private void getUserFromNet(String uId) {
+        final LoadingDialogs loading = new LoadingDialogs(U01UserActivity.this);
+        loading.show();
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(uId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                loading.dismiss();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
                     return;

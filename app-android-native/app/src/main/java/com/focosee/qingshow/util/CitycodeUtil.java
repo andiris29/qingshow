@@ -91,7 +91,6 @@ public class CitycodeUtil {
 		}
 		List<Cityinfo> city = new ArrayList<Cityinfo>();
 		city = cityHashMap.get(provicecode);
-		System.out.println("city--->" + city.toString());
 		for (int i = 0; i < city.size(); i++) {
 			city_list.add(city.get(i).getCity_name());
 			city_list_code.add(city.get(i).getId());
@@ -102,7 +101,6 @@ public class CitycodeUtil {
 
 	public ArrayList<String> getCouny(
 			HashMap<String, List<Cityinfo>> cityHashMap, String citycode) {
-		System.out.println("citycode" + citycode);
 		List<Cityinfo> couny = null;
 		if (couny_list_code.size() > 0) {
 			couny_list_code.clear();
@@ -118,7 +116,6 @@ public class CitycodeUtil {
 		}
 
 		couny = cityHashMap.get(citycode);
-		System.out.println("couny--->" + couny.toString());
 		for (int i = 0; i < couny.size(); i++) {
 			couny_list.add(couny.get(i).getCity_name());
 			couny_list_code.add(couny.get(i).getId());

@@ -24,7 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
 import com.focosee.qingshow.R;
 
 public class ActionSheet extends Fragment implements OnClickListener {

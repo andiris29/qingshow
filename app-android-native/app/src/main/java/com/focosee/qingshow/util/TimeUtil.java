@@ -152,9 +152,7 @@ public class TimeUtil {
         todayStart.set(Calendar.MINUTE, 0);
         todayStart.set(Calendar.SECOND, 0);
         todayStart.set(Calendar.MILLISECOND, 0);
-        System.out.println(time.getTimeInMillis() + "-" + todayStart.getTimeInMillis());
         int day = (int)((time.getTimeInMillis() - todayStart.getTimeInMillis()) / (1000 * 60 * 60));
-        System.out.println("day:" + day);
         if(day > 0) {
             simpleDateFormat = new SimpleDateFormat("HH:mm");
             return simpleDateFormat.format(new Date(time.getTimeInMillis()));
