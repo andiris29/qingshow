@@ -96,10 +96,10 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
         item.promoPrice = itemInfo.promo_price;
         item.skuProperties = itemInfo.skuProperties;
         var skuTable = {};
-        webItem.skuTable = webItem.skuTable || {};
-        for (var key in webItem.skuTable) {
-            if (webItem.skuTable.hasOwnProperty(key)) {
-                var value = webItem.skuTable[key];
+        itemInfo.skuTable = itemInfo.skuTable || {};
+        for (var key in itemInfo.skuTable) {
+            if (itemInfo.skuTable.hasOwnProperty(key)) {
+                var value = itemInfo.skuTable[key];
                 // skuTable key should not contain '.' to avoid mongo error
                 key = key.replace(/\./g, '');
                 skuTable[key] = value;
