@@ -161,7 +161,7 @@
     <string name="brand_not_exist">非常抱歉，店铺已不存在</string>
     <string name="item_not_exist">商品不存在</string>
     <string name="image_not_exist">商品没有图片</string>
-    <string name="get_bonuses_label">获得佣金：</string>
+    <string name="get_bonuses_label">佣金：</string>
 
     <!-- trade -->
     <string name="title_name_activity_trade">订单管理</string>
