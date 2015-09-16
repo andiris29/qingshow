@@ -98,7 +98,7 @@ public class U06LoginActivity extends BaseActivity {
                                         ToastUtil.showShortToast(getApplicationContext(), "请重试");
                                     }
                                 } else {
-                                    QSModel.INSTANCE.setUser(user);
+                                    QSModel.INSTANCE.login(user);
                                     if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
                                         Intent intent = new Intent(U06LoginActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
                                         Bundle bundle = new Bundle();

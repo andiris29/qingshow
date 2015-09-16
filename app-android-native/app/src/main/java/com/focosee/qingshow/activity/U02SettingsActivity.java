@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.KeyEvent;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.focosee.qingshow.model.U02Model;
@@ -47,25 +48,18 @@ public class U02SettingsActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(U02Model.INSTANCE.get_class() == U02SettingsFragment.class || U02Model.INSTANCE.get_class() == null) {
-            if (keyCode == KeyEvent.KEYCODE_MENU) {
-                settingsFragment.menuSwitch();
+        if (U02Model.INSTANCE.get_class() == U02SettingsFragment.class || U02Model.INSTANCE.get_class() == null) {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
             }
-            if(keyCode == KeyEvent.KEYCODE_BACK){
-                if(settingsFragment.isMenuOpened()){
-                    settingsFragment.closeMenu();
-                }else{
-                    Intent home = new Intent(Intent.ACTION_MAIN);
-                    home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    home.addCategory(Intent.CATEGORY_HOME);
-                    startActivity(home);
-                }
-            }
-        }else{
+        } else {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 U02Model.INSTANCE.set_class(U02SettingsFragment.class);
                 settingsFragment = new U02SettingsFragment();
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0,0, 0).
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, 0, 0).
                         replace(R.id.settingsScrollView, settingsFragment).commit();
             }
         }

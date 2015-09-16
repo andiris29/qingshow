@@ -164,7 +164,7 @@ public class S11NewTradeFragment extends Fragment {
                     }
 
                     stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
-                    if (stock < 0){
+                    if (stock < 1){
                         changeBtnClickable(false);
                     }else {
                         changeBtnClickable(true);

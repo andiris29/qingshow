@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,8 +44,10 @@ import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
+import com.sina.weibo.sdk.api.share.Base;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
@@ -61,7 +64,7 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
-public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Response {
+public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener{
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
@@ -102,12 +105,16 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     TextView likeTextView;
     @InjectView(R.id.S03_item_text_view)
     TextView itemTextView;
+    @InjectView(R.id.container)
+    FrameLayout container;
     private SharePopupWindow sharePopupWindow;
 
     private IWeiboShareAPI mWeiboShareAPI;
 
     private String showId;
     private String className;
+
+    private MenuView menuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +138,11 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    menuSwitch();
+                    menuView = new MenuView();
+                    menuView.show(getSupportFragmentManager(), S03SHowActivity.class.getSimpleName(), container);
                 }
             });
-            initDrawer();
         } else {
-            navigation.setVisibility(View.GONE);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -429,7 +435,6 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
                 startActivity(intent);
                 return;
         }
-        super.onClick(v);
     }
 
     private void jumpToS07(){
@@ -538,7 +543,8 @@ public class S03SHowActivity extends MenuActivity implements IWeiboHandler.Respo
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (className.equals(S20MatchPreviewActivity.class.getSimpleName())) {
             if (keyCode == KeyEvent.KEYCODE_MENU) {
-                menuSwitch();
+                menuView = new MenuView();
+                menuView.show(getSupportFragmentManager(), S03SHowActivity.class.getSimpleName(), container);
             }
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 Intent home = new Intent(Intent.ACTION_MAIN);

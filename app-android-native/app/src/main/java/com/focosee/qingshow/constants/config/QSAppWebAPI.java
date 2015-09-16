@@ -1,14 +1,17 @@
 package com.focosee.qingshow.constants.config;
 
+import com.focosee.qingshow.QSApplication;
+
 /**
  * Created by jackyu on 11/22/14.
  */
 public class QSAppWebAPI {
     public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
+    public static final String host_name = "HOST_NAEM";
+    public static final String host_address_payment = "HOST_ADDRESS_PAYMENT";
+    public static final String host_address_appweb = "HOST_ADDRESS_APPWEB";
     public static String HOST_ADDRESS_PAYMENT = "";
     public static String HOST_ADDRESS_APPWEB = "";
-
-    public static String HOST_NAME = "";
 
     private static String LOGIN_SERVICE_URL = "/user/login";
     private static String REGISTER_SERVICE_URL = "/user/register";
@@ -93,210 +96,210 @@ public class QSAppWebAPI {
     }
 
     public static String getLoginServiceUrl() {
-        return HOST_NAME + LOGIN_SERVICE_URL;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + LOGIN_SERVICE_URL;
     }
 
     public static String getRegisterServiceUrl() {
-        return HOST_NAME + REGISTER_SERVICE_URL;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + REGISTER_SERVICE_URL;
     }
 
     public static String getUpdateServiceUrl() {
-        return HOST_NAME + UPDATE_SERVICE_URL;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + UPDATE_SERVICE_URL;
     }
 
     public static String getRequestVerificationCodeApi() {
-        return HOST_NAME + REQUEST_VERIFICATION_CODE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + REQUEST_VERIFICATION_CODE_API;
     }
 
     public static String getValidateMobileApi() {
-        return HOST_NAME + VALIDATE_MOBILE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + VALIDATE_MOBILE_API;
     }
 
     public static String getItemQueryApi(String _ids) {
-        return HOST_NAME + ITEM_QUERY_API + "?_ids=" + _ids;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + ITEM_QUERY_API + "?_ids=" + _ids;
     }
 
     public static String getUserBonusWithdrawApi() {
-        return HOST_NAME + USER_BONUS_WITHDRAW_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_BONUS_WITHDRAW_API;
     }
 
     public static String getTradeQueryHighlightedApi(int pageNo, int pageSize) {
-        return HOST_NAME + TRADE_QUERY_HIGHLIGHTED_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERY_HIGHLIGHTED_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getTradeGetReturnreceiver(String _id) {
-        return HOST_NAME + TRADE_GET_RETURNRECEIVER + "?_id=" + _id;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_GET_RETURNRECEIVER + "?_id=" + _id;
     }
 
     public static String getTradeQuerybyPhaseApi(String phases, int pageNo, int pageSize) {
-        return HOST_NAME + TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getItemSyncApi() {
-        return HOST_NAME + ITEM_SYNC_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + ITEM_SYNC_API;
     }
 
     public static String getMatchHideApi() {
-        return HOST_NAME + MATCH_HIDE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_HIDE_API;
     }
 
     public static String getPayApi() {
-        return HOST_NAME + PAY_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PAY_API;
     }
 
     public static String getTradeShareApi() {
-        return HOST_NAME + TRADE_SHARE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_SHARE_API;
     }
 
     public static String getPeopleQueryApi(String _ids) {
-        return HOST_NAME + PEOPLE_QUERY_API + "?_ids=" + _ids;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_QUERY_API + "?_ids=" + _ids;
     }
 
     public static String getMatchSaveApi() {
-        return HOST_NAME + MATCH_SAVE;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_SAVE;
     }
 
     public static String getUpdateMatchCoverApi() {
-        return HOST_NAME + UPDATE_COVER;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + UPDATE_COVER;
     }
 
     public static String getUserLoginWbApi() {
-        return HOST_NAME + USER_LOGIN_WB_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGIN_WB_API;
     }
 
     public static String getUserLoginWxApi() {
-        return HOST_NAME + USER_LOGIN_WX_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGIN_WX_API;
     }
 
     public static String getQueryItems(int pageNo, int pageSize, String categoryRef) {
-        return HOST_NAME + QUERY_ITEMS + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&categoryRef=" + categoryRef;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_ITEMS + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&categoryRef=" + categoryRef;
     }
 
     public static String getPeopleQueryFollowPeoplesApi(String _id, int pageNo, int pageSize) {
-        return HOST_NAME + PEOPLE_QUERY_FOLLOW_PEOPLES_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_QUERY_FOLLOW_PEOPLES_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getMatchCreatedbyApi(String _id, int pageNo, int pageSize) {
-        return HOST_NAME + MATCH_CREATEDBY_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_CREATEDBY_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getMatchHotApi(int pageNo, int pageSize) {
-        return HOST_NAME + MATCH_HOT_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_HOT_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getMatchNewApi(int pageNo, int pageSize) {
-        return HOST_NAME + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getQueryCategories() {
-        return HOST_NAME + QUERY_CATEGORIES;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_CATEGORIES;
     }
 
 
     public static String getSpreadFirstlanuchApi() {
-        return HOST_NAME + SPREAD_FIRSTLANUCH_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SPREAD_FIRSTLANUCH_API;
     }
 
 
     public static String getBydateApi(String date) {
-        return HOST_NAME + BYDATE_API + "?date=" + date;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + BYDATE_API + "?date=" + date;
     }
 
     public static String getTopApi() {
-        return HOST_NAME + TOP_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TOP_API;
     }
 
     public static String getFeedingRecommendationApi() {
-        return HOST_NAME + FEEDING_RECOMMENDATION_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_RECOMMENDATION_API;
     }
 
     public static String getTradeRefreshApi() {
-        return HOST_NAME + TRADE_REFRESH;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_REFRESH;
     }
 
     public static String getUserRemoveReceiverApi() {
-        return HOST_NAME + USER_REMOVE_RECEIVER_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_REMOVE_RECEIVER_API;
     }
 
     public static String getTradeCreateApi() {
-        return HOST_NAME + TRADE_CREATE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_CREATE_API;
     }
 
     public static String getUserSaveReceiverApi() {
-        return HOST_NAME + USER_SAVE_RECEIVER_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_SAVE_RECEIVER_API;
     }
 
     public static String getTradeStatustoApi() {
-        return HOST_NAME + TRADE_STATUSTO_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_STATUSTO_API;
     }
 
     public static String getTradeQueryApi(String _id, int pageNo, int pageSize, boolean inProgress) {
-        return HOST_NAME + TRADE_QUERY_API + "?_id=" + _id + "&inProgress=" + inProgress + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERY_API + "?_id=" + _id + "&inProgress=" + inProgress + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getTradeApi(String _id){
-        return HOST_NAME + TRADE_QUERY + "?_ids=" + _id;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERY + "?_ids=" + _id;
     }
 
     public static String getUserApi() {
-        return HOST_NAME + GET_SERVICE_URL;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + GET_SERVICE_URL;
     }
 
     public static String getPreviewQuerycommentsApi(String _id, int pageIndex, int pageSize) {
-        return HOST_NAME + PREVIEW_QUERYCOMMENTS_API + "?_id=" + _id + "&pageNo=" + pageIndex + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PREVIEW_QUERYCOMMENTS_API + "?_id=" + _id + "&pageNo=" + pageIndex + "&pageSize=" + pageSize;
     }
 
     public static String getFeedingLikeApi(String _id, int pageNo, int pageSize) {
-        return HOST_NAME + FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getShowDetailApi(String showId) {
-        return HOST_NAME + SHOW_DETAIL_API + "?_ids=" + showId;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHOW_DETAIL_API + "?_ids=" + showId;
     }
 
     public static String getShowCommentsListApi(String showId, int pageIndex, int pageSize) {
-        return HOST_NAME + SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo=" + pageIndex + "pageSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo=" + pageIndex + "pageSize=" + pageSize;
     }
 
     public static String getCommentPostApi(int API_TYPE) {
         if (API_TYPE == 1) {//preview
-            return HOST_NAME + PREVIEW_COMMENT_POST_API;
+            return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PREVIEW_COMMENT_POST_API;
         }
-        return HOST_NAME + COMMENT_POST_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + COMMENT_POST_API;
     }
 
     public static String getCommentDeleteApi(int API_TYPE) {
         if (API_TYPE == 1) {
-            return HOST_NAME + PREVIEW_COMMENT_DEL_API;
+            return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PREVIEW_COMMENT_DEL_API;
         }
-        return HOST_NAME + COMMENT_DELETE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + COMMENT_DELETE_API;
     }
 
     public static String getPeopleFollowApi() {
-        return HOST_NAME + PEOPLE_FOLLOW_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_FOLLOW_API;
     }
 
     public static String getPeopleUnfollowApi() {
-        return HOST_NAME + PEOPLE_UNFOLLOW_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_UNFOLLOW_API;
     }
 
     public static String getShowLikeApi() {
-        return HOST_NAME + SHOW_LIKE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHOW_LIKE_API;
     }
 
     public static String getShowUnlikeApi() {
-        return HOST_NAME + SHOW_UNLIKE_API;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHOW_UNLIKE_API;
     }
 
     public static String getQueryPeopleFollowerApi(String _id, int pageNo, int pageSize) {
-        return HOST_NAME + QUERY_PEOPLE_FOLLOWER_API + "?_id=" + _id + "&pageNo=" + pageNo + "&paegSize=" + pageSize;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_PEOPLE_FOLLOWER_API + "?_id=" + _id + "&pageNo=" + pageNo + "&paegSize=" + pageSize;
     }
 
     public static String getUserUpdatebackground() {
-        return HOST_NAME + USER_UPDATEBACKGROUND;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEBACKGROUND;
     }
 
     public static String getUserUpdateportrait() {
-        return HOST_NAME + USER_UPDATEPORTRAIT;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEPORTRAIT;
     }
 }

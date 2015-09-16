@@ -164,7 +164,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
     private void getItemFormNet(String id) {
         Map map = new HashMap();
-        Log.d("_id:" , id);
+        Log.d(S10ItemDetailActivity.class.getSimpleName(), "_id:" + id);
         map.put("_id", id);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getItemSyncApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
             @Override
