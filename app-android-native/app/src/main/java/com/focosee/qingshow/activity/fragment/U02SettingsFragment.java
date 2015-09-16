@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
+import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.activity.UserUpdatedEvent;
@@ -49,6 +52,7 @@ import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.widget.MenuView;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -59,7 +63,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
-public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
+public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
     private static final String TAG = U02SettingsFragment.class.getSimpleName();
 
@@ -102,6 +106,8 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private TextView dressStyleEditText;
     private TextView effectEditText;
     private TextView changePwText;
+    private FrameLayout container;
+    private MenuView menuView;
     public static U02SettingsFragment instance;
 
     private MongoPeople people;
@@ -130,8 +136,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
-        ((ImageView) view.findViewById(R.id.s17_settting)).setImageResource(R.drawable.root_menu_setting_gray);
-        ((TextView) view.findViewById(R.id.s17_settting_tv)).setTextColor(getResources().getColor(R.color.darker_gray));
         matchUI(view);
         return view;
     }
@@ -141,7 +145,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         super.onActivityCreated(savedInstanceState);
         initUser();
         setJumpListener();
-        initDrawer();
 
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,11 +261,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         backTextView = (ImageView) view.findViewById(R.id.backTextView);
         ageEditText = (EditText) view.findViewById(R.id.ageEditText);
         quitButton = (Button) view.findViewById(R.id.quitButton);
-        navigationBtnMatch = (ImageButton) view.findViewById(R.id.navigation_btn_match);
-        navigationBtnGoodMatch = (ImageButton) view.findViewById(R.id.navigation_btn_good_match);
-        navigationBtnDiscount = (ImageButton) view.findViewById(R.id.navigation_btn_discount);
-        navigationBtnBonus = (ImageButton) view.findViewById(R.id.u01_bonusList);
-        u01People = (ImageButton) view.findViewById(R.id.u01_people);
         personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
         bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
@@ -284,12 +282,8 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
         changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
+        container = (FrameLayout) view.findViewById(R.id.container);
 
-        drawer = (DrawerLayout) view.findViewById(R.id.drawer);
-        navigation = (LinearLayout) view.findViewById(R.id.navigation);
-        blur = (ImageView) view.findViewById(R.id.blur);
-        right = (LinearLayout) view.findViewById(R.id.context);
-        settingBtn = (ImageView) view.findViewById(R.id.s17_settting);
     }
 
     //进入页面时，给字段赋值
@@ -498,12 +492,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     }
 
     private void setJumpListener() {
-        navigationBtnMatch.setOnClickListener(this);
-        navigationBtnGoodMatch.setOnClickListener(this);
-        navigationBtnDiscount.setOnClickListener(this);
-        navigationBtnBonus.setOnClickListener(this);
-        u01People.setOnClickListener(this);
-        settingBtn.setOnClickListener(this);
 
         ageEditText.setOnFocusChangeListener(this);
         heightEditText.setOnFocusChangeListener(this);
@@ -517,7 +505,8 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             @Override
             public void onClick(View view) {
                 commitForm();
-                menuSwitch();
+                menuView = new MenuView();
+                menuView.show(getActivity().getSupportFragmentManager(), U02SettingsFragment.class.getSimpleName(), container);
             }
         });
 

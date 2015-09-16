@@ -1,9 +1,11 @@
 package com.focosee.qingshow.httpapi.response.error;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.util.ToastUtil;
 
 /**
@@ -49,6 +51,7 @@ public class ErrorHandler {
                 Log.d(TAG, "AlreadyLikeShow");
                 break;
             case ErrorCode.NeedLogin:
+                context.startActivity(new Intent(context, U07RegisterActivity.class));
                 break;
             case ErrorCode.AlreadyFollowPeople:
                 Log.d(TAG, "AlreadyFollowPeople");

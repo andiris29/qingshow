@@ -12,11 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -42,19 +42,17 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
+import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
-public class U01UserActivity extends MenuActivity {
+public class U01UserActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String TAG = "U01UserActivity";
 
@@ -108,14 +106,12 @@ public class U01UserActivity extends MenuActivity {
     View circleTip;
     @InjectView(R.id.u01_backTop_btn)
     ImageButton u01BackTopBtn;
-    @InjectView(R.id.u01_people)
-    ImageButton u01People;
-    @InjectView(R.id.u01_people_tv)
-    TextView u01PeopleTv;
     @InjectView(R.id.user_back_btn)
     ImageButton userBackBtn;
     @InjectView(R.id.user_bonuses)
     QSTextView userBonuses;
+    @InjectView(R.id.container)
+    FrameLayout container;
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -123,6 +119,7 @@ public class U01UserActivity extends MenuActivity {
     private MongoPeople user;
 
     private BackBtnListener btnListener;
+    private MenuView menuView;
 
     public void reconn() {
 
@@ -133,8 +130,6 @@ public class U01UserActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
-        u01People.setImageResource(R.drawable.root_menu_flash_gray);
-        u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
         userMatchText.setActivated(true);
         userMatch.setActivated(true);
         user = (MongoPeople) getIntent().getExtras().get("user");
@@ -160,15 +155,16 @@ public class U01UserActivity extends MenuActivity {
         userNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuSwitch();
+                menuView = new MenuView();
+                menuView.show(getSupportFragmentManager(), U01UserActivity.class.getSimpleName(), container);
             }
         });
-        initDrawer();
         btnListener = new BackBtnListener() {
             @Override
             public boolean onKeyDown(int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_MENU) {
-                    menuSwitch();
+                    menuView = new MenuView();
+                    menuView.show(getSupportFragmentManager(), U01UserActivity.class.getSimpleName(), container);
                 }
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     Intent home = new Intent(Intent.ACTION_MAIN);
@@ -193,7 +189,7 @@ public class U01UserActivity extends MenuActivity {
             @Override
             public boolean onKeyDown(int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_MENU) {
-                    menuSwitch();
+                    menuView.show(getSupportFragmentManager(), U01UserActivity.class.getSimpleName(), container);
                 }
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     finish();
@@ -376,8 +372,6 @@ public class U01UserActivity extends MenuActivity {
                 tabOnclick(POS_FANS);
                 return;
         }
-        super.onClick(v);
-
     }
 
     private void tabOnclick(int pos) {

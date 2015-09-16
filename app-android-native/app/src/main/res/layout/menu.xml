@@ -1,88 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/navigation"
-    android:layout_width="140dp"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:background="#30000000"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:onClick="onClick">
 
-    <ImageButton
-        style="@style/navigation_btn"
-        android:id="@+id/navigation_btn_match"
-        android:onClick="onClick"
-        android:background="@null"
-        android:src="@drawable/root_menu_icon_meida" />
+    <ImageView
+        android:id="@+id/menu_blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"/>
 
-    <com.focosee.qingshow.widget.QSTextView
-        style="@style/navigation_text"
-        android:id="@+id/navigation_btn_match_tv"
-        android:text="美搭榜单" />
+    <LinearLayout
+        android:id="@+id/navigation"
+        android:layout_width="140dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#30000000"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <ImageButton
-        style="@style/navigation_btn"
-        android:layout_marginTop="20dp"
-        android:id="@+id/navigation_btn_good_match"
-        android:onClick="onClick"
-        android:background="@null"
-        android:src="@drawable/root_menu_match" />
+        <ImageButton
+            android:id="@+id/navigation_btn_match"
+            style="@style/navigation_btn"
+            android:background="@null"
+            android:src="@drawable/root_menu_icon_meida" />
 
-    <com.focosee.qingshow.widget.QSTextView
-        style="@style/navigation_text"
-        android:id="@+id/navigation_btn_good_match_tv"
-        android:text="百搭秀场" />
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/navigation_btn_match_tv"
+            style="@style/navigation_text"
+            android:text="美搭榜单" />
 
-    <ImageButton
-        style="@style/navigation_btn"
-        android:layout_marginTop="20dp"
-        android:id="@+id/navigation_btn_discount"
-        android:onClick="onClick"
-        android:background="@null"
-        android:src="@drawable/root_menu_discount" />
+        <ImageButton
+            android:id="@+id/navigation_btn_good_match"
+            style="@style/navigation_btn"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:src="@drawable/root_menu_match" />
 
-    <com.focosee.qingshow.widget.QSTextView
-        style="@style/navigation_text"
-        android:id="@+id/navigation_btn_discount_tv"
-        android:text="我的折扣" />
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/navigation_btn_good_match_tv"
+            style="@style/navigation_text"
+            android:text="百搭秀场" />
 
-    <ImageButton
-        style="@style/navigation_btn"
-        android:layout_marginTop="20dp"
-        android:id="@+id/u01_bonusList"
-        android:onClick="onClick"
-        android:background="@null"
-        android:src="@drawable/root_menu_highted" />
+        <ImageButton
+            android:id="@+id/navigation_btn_discount"
+            style="@style/navigation_btn"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:src="@drawable/root_menu_discount" />
 
-    <com.focosee.qingshow.widget.QSTextView
-        style="@style/navigation_text"
-        android:id="@+id/u01_bonusList_tv"
-        android:text="潮人晒单" />
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/navigation_btn_discount_tv"
+            style="@style/navigation_text"
+            android:text="我的折扣" />
 
-    <ImageButton
-        style="@style/navigation_btn"
-        android:layout_marginTop="20dp"
-        android:id="@+id/u01_people"
-        android:onClick="onClick"
-        android:background="@null"
-        android:src="@drawable/root_menu_flash" />
+        <ImageButton
+            android:id="@+id/u01_bonusList"
+            style="@style/navigation_btn"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:src="@drawable/root_menu_highted" />
 
-    <com.focosee.qingshow.widget.QSTextView
-        style="@style/navigation_text"
-        android:id="@+id/u01_people_tv"
-        android:text="我的搭配" />
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/u01_bonusList_tv"
+            style="@style/navigation_text"
+            android:text="潮人晒单" />
 
-    <ImageButton
-        style="@style/navigation_btn"
-        android:layout_marginTop="20dp"
-        android:id="@+id/s17_settting"
-        android:onClick="onClick"
-        android:background="@null"
-        android:src="@drawable/root_menu_setting" />
+        <ImageButton
+            android:id="@+id/u01_people"
+            style="@style/navigation_btn"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:src="@drawable/root_menu_flash" />
 
-    <com.focosee.qingshow.widget.QSTextView
-        style="@style/navigation_text"
-        android:id="@+id/s17_settting_tv"
-        android:text="个人设置" />
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/u01_people_tv"
+            style="@style/navigation_text"
+            android:text="我的搭配" />
 
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/s17_settting"
+            style="@style/navigation_btn"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:src="@drawable/root_menu_setting" />
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/s17_settting_tv"
+            style="@style/navigation_text"
+            android:text="个人设置" />
+    </LinearLayout>
+</FrameLayout>
