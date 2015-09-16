@@ -5,6 +5,7 @@ var People = require('../../model/peoples');
 var Trade = require('../../model/trades');
 
 var qsmail = require('../../runtime/qsmail');
+var winston = require('winston');
 
 var TradeHelper = module.exports;
 
@@ -23,6 +24,7 @@ var _statusOrderMap = {
 };
 
 TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callback) {
+    winston.info('[TradeHelper.updateStatus] ' + trade._id.toString() + ':' + trade.status + '>' + newStatus);
     var statusLog = {
         'status' : newStatus,
         'comment' : comment,
