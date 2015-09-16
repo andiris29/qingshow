@@ -2,7 +2,7 @@
 var GoblinSlaver = require('./scheduled/goblin/slaver/GoblinSlaver');
 var path = require('path');
 var properties = require("properties");
-
+var request = require('request');
 
 var configPath = path.join(__dirname, 'config.properties');
 
