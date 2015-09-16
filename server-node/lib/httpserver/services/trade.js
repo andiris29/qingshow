@@ -57,6 +57,26 @@ trade.create = {
             TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
                 callback(err, trade);
             });
+        },
+        function(trade, callback) {
+            Item.findOne({
+                _id : trade.itemRef
+            }, function(error, item) {
+                if (error) {
+                    callback(error);
+                } else if (!item) {
+                    callback(ServerError.ItemNotExist);
+                } else {
+                    if (item.expectablePrice >= trade.expectedPrice) {
+                        trade.expectedPrice = item.expectablePrice;
+                        TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err) {
+                            callback(error, trade);
+                        });
+                    } else {
+                        callback(null, trade);
+                    }
+                }
+            });
         }], function(error, trade) {
             // Send response
             ResponseHelper.response(res, error, {

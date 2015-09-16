@@ -310,7 +310,9 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                                 } else {
                                     price = parseFloat(priceInfo[key].promotionList[0].price);
                                 }
-
+                            } else if (priceInfo[key].suggestivePromotionList && priceInfo[key].suggestivePromotionList.length) {
+                                var promotion = priceInfo[key].suggestivePromotionList[0];
+                                price = parseFloat(promotion.price);
                             } else {
                                 price = parseFloat(priceInfo[key].price);
                             }
