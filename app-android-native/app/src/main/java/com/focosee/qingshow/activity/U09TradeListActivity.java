@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,9 +29,11 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
+import com.sina.weibo.sdk.api.share.Base;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -46,7 +49,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class U09TradeListActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
+public class U09TradeListActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener{
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     public static final String FROM_WHERE = "FROM_WHEN";
@@ -63,14 +66,12 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     Button u09TabRunning;
     @InjectView(R.id.backTop_btn)
     ImageButton backTopBtn;
-    @InjectView(R.id.navigation_btn_discount)
-    ImageButton navigationBtnDiscount;
-    @InjectView(R.id.navigation_btn_discount_tv)
-    TextView navigationBtnDiscountTv;
     @InjectView(R.id.u09_recyclerview)
     RecyclerView recyclerView;
     @InjectView(R.id.u09_refresh)
     BGARefreshLayout mRefreshLayout;
+    @InjectView(R.id.container)
+    FrameLayout container;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private String peopleId;
@@ -81,6 +82,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
     private boolean isSuccessed = true;
 
     private String fromWhere;
+    private MenuView menuView;
 
     private boolean notity_showable = true;
 
@@ -94,10 +96,7 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
             position = savedInstanceState.getInt("position", Integer.MAX_VALUE);
         }
         fromWhere = getIntent().getStringExtra(FROM_WHERE);
-        initDrawer();
         initCurrentType();
-        navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
-        navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
         peopleId = QSModel.INSTANCE.getUserId();
         if (null == peopleId) {
             finish();
@@ -293,10 +292,10 @@ public class U09TradeListActivity extends MenuActivity implements BGARefreshLayo
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.person_activity_back_image_button:
-                menuSwitch();
+                menuView = new MenuView();
+                menuView.show(getSupportFragmentManager(), U09TradeListActivity.class.getSimpleName(), container);
                 break;
             case R.id.u09_tab_all:
                 currentPageNo = 1;

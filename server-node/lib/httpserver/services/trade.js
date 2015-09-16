@@ -210,6 +210,7 @@ trade.statusTo = {
             // update trade
             if (newStatus == 1) {
                 trade.actualPrice = req.body.actualPrice;
+                trade.hint = req.body.hint;
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
@@ -324,7 +325,7 @@ trade.alipayCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.updateBonuse(trade, trade.itemSnapshot, function(error, people) {
+            BonusHelper.createBonusViaTrade(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {
@@ -387,7 +388,7 @@ trade.wechatCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.updateBonuse(trade, trade.itemSnapshot, function(error, people) {
+            BonusHelper.createBonusViaTrade(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {

@@ -132,7 +132,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                 TradeRefreshCommand.refresh(trade._id, new Callback() {
                     @Override
                     public void onComplete(int result) {
-                        showPayStatus(result);
+                        showPayStatus();
                     }
 
                     @Override
@@ -250,7 +250,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                     TradeRefreshCommand.refresh(trade._id, new Callback() {
                         @Override
                         public void onComplete(int result) {
-                            showPayStatus(result);
+                            showPayStatus();
                         }
 
                         @Override
@@ -272,13 +272,13 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void showPayStatus(int status) {
+    private void showPayStatus() {
         ConfirmDialog dialog = new ConfirmDialog(S17PayActivity.this);
-        dialog.setTitle(StatusCode.getStatusText(status));
+        dialog.setTitle("支付成功");
         dialog.setCancel("继续逛逛", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                S17PayActivity.this.finish();
             }
         });
         dialog.setConfirm("查看订单", new View.OnClickListener() {
@@ -287,7 +287,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                 Intent intent = new Intent(S17PayActivity.this, U09TradeListActivity.class);
                 intent.putExtra(U09TradeListActivity.FROM_WHERE, S17PayActivity.class.getSimpleName());
                 startActivity(intent);
-                finish();
+                S17PayActivity.this.finish();
             }
         });
         dialog.show();

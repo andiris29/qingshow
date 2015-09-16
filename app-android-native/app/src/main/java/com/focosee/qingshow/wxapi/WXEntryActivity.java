@@ -128,7 +128,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 if (TextUtils.isEmpty(user.portrait)) {
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
                 }
-                QSModel.INSTANCE.setUser(user);
+                QSModel.INSTANCE.login(user);
                 Intent intent = new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("user", user);

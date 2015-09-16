@@ -362,9 +362,9 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                             return;
                         }
 
-                        Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
+                        ToastUtil.showShortToast(U07RegisterActivity.this, getString(R.string.login_successed));
                         MongoPeople user = UserParser._parsePeople(response);
-                        QSModel.INSTANCE.setUser(user);
+                        QSModel.INSTANCE.login(user);
                         Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("user", user);

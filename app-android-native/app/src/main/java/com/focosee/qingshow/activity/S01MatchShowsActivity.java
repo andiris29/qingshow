@@ -2,11 +2,13 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.RecyclerViewUtil;
+import com.focosee.qingshow.widget.MenuView;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -32,21 +35,19 @@ import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import de.greenrobot.event.EventBus;
 
-public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
+public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener{
 
     public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
     public static final String S1_INPUT_TRADEID_NOTIFICATION = "S1_INPUT_TRADEID_NOTIFICATION";
 
     @InjectView(R.id.s01_backTop_btn)
     ImageButton s01BackTopBtn;
-    @InjectView(R.id.navigation_btn_match)
-    ImageButton navigationBtnMatch;
-    @InjectView(R.id.navigation_btn_match_tv)
-    TextView navigationBtnMatchTv;
     @InjectView(R.id.s01_refresh)
     BGARefreshLayout mRefreshLayout;
     @InjectView(R.id.s01_recyclerview)
     RecyclerView recyclerView;
+    @InjectView(R.id.container)
+    FrameLayout container;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -63,20 +64,20 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
     private int currentPageNo = 1;
     private int currentType = TYPE_HOT;
 
+    private MenuView menuView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s01_match_shows);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
-        initDrawer();
         initRefreshLayout();
-        navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
-        navigationBtnMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuSwitch();
+                menuView = new MenuView();
+                menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
             }
         });
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
@@ -171,7 +172,6 @@ public class S01MatchShowsActivity extends MenuActivity implements BGARefreshLay
             s01TabNew.setTextColor(getResources().getColor(R.color.white));
             return;
         }
-        super.onClick(v);
     }
 
 

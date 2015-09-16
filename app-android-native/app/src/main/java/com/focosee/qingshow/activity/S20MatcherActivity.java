@@ -10,13 +10,11 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
@@ -31,27 +29,25 @@ import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
+import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSCanvasView;
 import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.radio.RadioLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.sina.weibo.sdk.api.share.Base;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -60,7 +56,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/7/1.
  */
-public class S20MatcherActivity extends MenuActivity {
+public class S20MatcherActivity extends BaseActivity {
 
     @InjectView(R.id.canvas)
     QSCanvasView canvas;
@@ -69,10 +65,8 @@ public class S20MatcherActivity extends MenuActivity {
 
     public static final String S20_ITEMREFS = "S20_ITEMREFS";
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
-    @InjectView(R.id.navigation_btn_good_match)
-    ImageButton navigationBtnGoodMatch;
-    @InjectView(R.id.navigation_btn_good_match_tv)
-    TextView navigationBtnGoodMatchTv;
+    @InjectView(R.id.container)
+    FrameLayout container;
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -88,6 +82,8 @@ public class S20MatcherActivity extends MenuActivity {
     private boolean hasDraw = false;
     private Toast toast = null;
 
+    private MenuView menuView;
+
     @Override
     public void reconn() {
 
@@ -99,9 +95,6 @@ public class S20MatcherActivity extends MenuActivity {
         setContentView(R.layout.activity_s20_matcher);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
-        initDrawer();
-        navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_match_gray);
-        navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
@@ -515,7 +508,8 @@ public class S20MatcherActivity extends MenuActivity {
 
     @OnClick(R.id.menu)
     public void menuOpen() {
-        menuSwitch();
+        menuView = new MenuView();
+        menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
     }
 
     @OnClick(R.id.selectBtn)

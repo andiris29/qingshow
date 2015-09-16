@@ -11,7 +11,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
@@ -28,13 +27,10 @@ import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import cn.jpush.android.api.InstrumentedActivity;
 
 public class LaunchActivity extends InstrumentedActivity {
@@ -49,15 +45,24 @@ public class LaunchActivity extends InstrumentedActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
         //友盟接口
 //        MobclickAgent.updateOnlineConfig(this);
-        systemGet();
 
+        String api_name = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "");
+        String api_payment = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_payment, "");
+        String api_appweb = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_appweb, "");
 
-
+        if(TextUtils.isEmpty(api_name) || TextUtils.isEmpty(api_payment) || TextUtils.isEmpty(api_appweb)){
+            systemGet();
+        }else{
+            init();
+            getUser();
+        }
 
         setContentView(R.layout.activity_launch);
     }
 
     private void init(){
+        QSAppWebAPI.HOST_ADDRESS_PAYMENT = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_payment, "");
+        QSAppWebAPI.HOST_ADDRESS_APPWEB = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_appweb, "");
         String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
         if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())) {
             userFollow();
@@ -145,32 +150,40 @@ public class LaunchActivity extends InstrumentedActivity {
             public void onResponse(JSONObject response) {
                 Log.d(LaunchActivity.class.getSimpleName(), "response:" + response);
                 try {
-                    QSAppWebAPI.HOST_NAME = response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot");
                     QSAppWebAPI.HOST_ADDRESS_PAYMENT = response.getJSONObject("data").getJSONObject("deployment").getString("paymentServiceRoot");
                     QSAppWebAPI.HOST_ADDRESS_APPWEB = response.getJSONObject("data").getJSONObject("deployment").getString("appWebRoot");
+                    SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                    editor.putString(QSAppWebAPI.host_name, response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot"));
+                    editor.putString(QSAppWebAPI.host_address_payment, QSAppWebAPI.HOST_ADDRESS_PAYMENT);
+                    editor.putString(QSAppWebAPI.host_address_appweb, QSAppWebAPI.HOST_ADDRESS_APPWEB);
+                    editor.commit();
                     init();
                 } catch (JSONException e) {
 
                 }
 
-                UserCommand.refresh(new Callback() {
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
-                        getCategories();
-                        jump();
-                    }
-
-                    @Override
-                    public void onError() {
-                        super.onError();
-                        getCategories();
-                        jump();
-                    }
-                });
+                getUser();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void getUser(){
+        UserCommand.refresh(new Callback() {
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                getCategories();
+                jump();
+            }
+
+            @Override
+            public void onError() {
+                super.onError();
+                getCategories();
+                jump();
+            }
+        });
     }
 
     @Override

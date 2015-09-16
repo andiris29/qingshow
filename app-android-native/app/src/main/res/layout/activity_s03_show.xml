@@ -1,33 +1,26 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:scrollbarStyle="outsideOverlay"
     tools:context="com.focosee.qingshow.activity.S03SHowActivity">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <LinearLayout
+        android:id="@+id/context"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/context"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <android.support.percent.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white">
 
-            <android.support.percent.PercentRelativeLayout
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/S03_relative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -37,29 +30,28 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_centerHorizontal="true"
+                    app:layout_heightPercent="70%"
                     app:layout_marginBottomPercent="12%"
                     app:layout_marginTopPercent="18%"
-                    app:layout_heightPercent="70%"
                     app:layout_widthPercent="90%"
-                    fresco:placeholderImage="@drawable/root_cell_placehold_image1"
                     fresco:actualImageScaleType="fitCenter"
-                    />
+                    fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/S03_image_preground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    fresco:actualImageScaleType="fitXY"/>
+                    fresco:actualImageScaleType="fitXY" />
 
                 <RelativeLayout
-                    android:layout_height="match_parent"
                     android:id="@+id/S03_before_video_view"
-                    android:layout_width="match_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <RelativeLayout
+                        android:id="@+id/S03_before_video_view_button"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/S03_before_video_view_button">
+                        android:layout_height="match_parent">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -69,60 +61,60 @@
                             android:minHeight="100dp" />
 
                         <RelativeLayout
+                            android:id="@+id/S03_before_video_without_back"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/S03_before_video_without_back">
+                            android:layout_height="match_parent">
 
                             <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_describe"
                                 android:layout_width="wrap_content"
                                 android:layout_height="25dp"
                                 android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="35dp"
+                                android:layout_marginLeft="15dp"
+                                android:gravity="center"
                                 android:text="发布日期：2015.7.6"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
-                                android:gravity="center"
-                                android:visibility="invisible"
-                                android:layout_marginBottom="35dp"
-                                android:layout_marginLeft="15dp"/>
+                                android:visibility="invisible" />
 
                             <com.facebook.drawee.view.SimpleDraweeView
                                 android:id="@+id/s03_portrait"
                                 android:layout_width="45dp"
                                 android:layout_height="45dp"
-                                android:visibility="gone"
-                                fresco:roundAsCircle="true"
+                                android:layout_alignParentBottom="true"
                                 android:layout_marginBottom="20dp"
                                 android:layout_marginLeft="15dp"
-                                android:layout_alignParentBottom="true"
                                 android:onClick="onClick"
-                                fresco:placeholderImage="@drawable/root_cell_placehold_head" />
+                                android:visibility="gone"
+                                fresco:placeholderImage="@drawable/root_cell_placehold_head"
+                                fresco:roundAsCircle="true" />
 
                             <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/s03_nickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/text_size"
-                                android:layout_toRightOf="@+id/s03_portrait"
                                 android:layout_alignTop="@+id/s03_portrait"
                                 android:layout_marginLeft="5dp"
-                                android:visibility="gone"
+                                android:layout_toRightOf="@+id/s03_portrait"
                                 android:gravity="center"
                                 android:onClick="onClick"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size"
+                                android:visibility="gone" />
 
                             <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/s03_bonus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="13sp"
                                 android:layout_alignBottom="@id/s03_portrait"
+                                android:layout_alignLeft="@+id/s03_nickname"
+                                android:layout_below="@+id/s03_nickname"
+                                android:background="@drawable/s03_bonus_text_border"
                                 android:padding="5dp"
                                 android:text="获得佣金：￥0.00"
                                 android:textColor="@color/white"
-                                android:background="@drawable/s03_bonus_text_border"
-                                android:layout_below="@+id/s03_nickname"
-                                android:layout_alignLeft="@+id/s03_nickname"/>
+                                android:textSize="13sp" />
 
                             <ImageButton
                                 android:id="@+id/S03_video_start_btn"
@@ -132,7 +124,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="25dp"
                                 android:background="@null"
-                                android:scaleType="centerInside"/>
+                                android:scaleType="centerInside" />
 
                             <ImageButton
                                 android:id="@+id/S03_share_btn"
@@ -141,9 +133,9 @@
                                 android:layout_above="@+id/S03_video_start_btn"
                                 android:layout_alignRight="@+id/S03_video_start_btn"
                                 android:layout_marginBottom="20dp"
-                                android:scaleType="centerInside"
-                                android:onClick="onClick"
                                 android:background="@null"
+                                android:onClick="onClick"
+                                android:scaleType="centerInside"
                                 android:src="@drawable/s03_share_btn" />
 
                             <ImageView
@@ -164,24 +156,23 @@
                                 android:layout_height="@dimen/right_btn_list_height"
                                 android:layout_above="@+id/S03_line_share_like"
                                 android:layout_alignRight="@+id/S03_line_share_like"
-                                android:scaleType="centerInside"
-                                android:onClick="onClick"
                                 android:background="@null"
-                                android:src="@drawable/s03_like_btn"
-                                 />
+                                android:onClick="onClick"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/s03_like_btn" />
 
                             <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_like_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignLeft="@+id/S03_like_btn"
-                                android:layout_alignTop="@+id/S03_like_btn"
                                 android:layout_alignBottom="@+id/S03_like_btn"
+                                android:layout_alignLeft="@+id/S03_like_btn"
                                 android:layout_alignRight="@+id/S03_like_btn"
+                                android:layout_alignTop="@+id/S03_like_btn"
                                 android:gravity="center"
                                 android:text="0"
-                                android:textSize="@dimen/text_size_mini"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_mini" />
 
                             <ImageView
                                 android:id="@+id/S03_line_like_message"
@@ -191,9 +182,9 @@
                                 android:layout_alignRight="@+id/S03_like_btn"
                                 android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
+                                android:background="@drawable/s03_line"
                                 android:paddingLeft="2dp"
-                                android:paddingRight="2dp"
-                                android:background="@drawable/s03_line" />
+                                android:paddingRight="2dp" />
 
                             <ImageButton
                                 android:id="@+id/S03_comment_btn"
@@ -201,23 +192,23 @@
                                 android:layout_height="@dimen/right_btn_list_height"
                                 android:layout_above="@+id/S03_line_like_message"
                                 android:layout_alignRight="@+id/S03_line_like_message"
-                                android:scaleType="centerInside"
                                 android:background="@null"
                                 android:onClick="onClick"
+                                android:scaleType="centerInside"
                                 android:src="@drawable/s03_comment_btn" />
 
                             <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_comment_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignLeft="@+id/S03_comment_btn"
-                                android:layout_alignTop="@+id/S03_comment_btn"
                                 android:layout_alignBottom="@+id/S03_comment_btn"
+                                android:layout_alignLeft="@+id/S03_comment_btn"
                                 android:layout_alignRight="@+id/S03_comment_btn"
+                                android:layout_alignTop="@+id/S03_comment_btn"
                                 android:gravity="center"
-                                android:textSize="@dimen/text_size_mini"
                                 android:text="0"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_mini" />
 
                             <ImageView
                                 android:id="@+id/S03_line_comment_item"
@@ -237,35 +228,35 @@
                                 android:layout_height="@dimen/right_btn_list_height"
                                 android:layout_above="@+id/S03_line_comment_item"
                                 android:layout_alignRight="@+id/S03_line_comment_item"
-                                android:scaleType="centerInside"
                                 android:background="@null"
                                 android:onClick="onClick"
+                                android:scaleType="centerInside"
                                 android:src="@drawable/s03_item_btn" />
 
                             <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/S03_item_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignLeft="@+id/S03_item_btn"
-                                android:layout_alignTop="@+id/S03_item_btn"
                                 android:layout_alignBottom="@+id/S03_item_btn"
+                                android:layout_alignLeft="@+id/S03_item_btn"
                                 android:layout_alignRight="@+id/S03_item_btn"
+                                android:layout_alignTop="@+id/S03_item_btn"
+                                android:layout_centerInParent="true"
                                 android:gravity="center"
                                 android:paddingTop="13dp"
-                                android:layout_centerInParent="true"
                                 android:text="0"
-                                android:textSize="@dimen/text_size_mini"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_mini" />
 
                             <ImageButton
                                 android:id="@+id/S03_back_btn"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:padding="5dp"
-                                android:background="@null"
-                                android:scaleType="fitCenter"
                                 android:layout_marginLeft="20dp"
                                 android:layout_marginTop="20dp"
+                                android:background="@null"
+                                android:padding="5dp"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/nav_btn_back" />
 
                             <ImageButton
@@ -273,56 +264,49 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@null"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                             <com.focosee.qingshow.widget.MFullScreenVideoView
                                 android:id="@+id/S03_video_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                             <ImageButton
                                 android:id="@+id/S03_video_start_btn_real"
                                 android:layout_width="43dp"
                                 android:layout_height="43dp"
                                 android:layout_alignBottom="@+id/S03_video_start_btn"
-                                android:layout_alignTop="@+id/S03_video_start_btn"
                                 android:layout_alignLeft="@+id/S03_video_start_btn"
-                                android:layout_alignRight="@+id/S03_video_start_btn"
                                 android:layout_alignParentRight="true"
+                                android:layout_alignRight="@+id/S03_video_start_btn"
+                                android:layout_alignTop="@+id/S03_video_start_btn"
                                 android:layout_marginRight="25dp"
-                                android:scaleType="centerInside"
-                                android:onClick="onClick"
-                                android:visibility="gone"
                                 android:background="@null"
-                                android:src="@drawable/s03_play_btn" />
+                                android:onClick="onClick"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/s03_play_btn"
+                                android:visibility="gone" />
 
                             <ImageButton
                                 android:id="@+id/s03_del_btn"
                                 android:layout_width="43dp"
                                 android:layout_height="43dp"
                                 android:layout_alignBottom="@+id/S03_video_start_btn"
-                                android:layout_alignTop="@+id/S03_video_start_btn"
                                 android:layout_alignLeft="@+id/S03_video_start_btn"
-                                android:layout_alignRight="@+id/S03_video_start_btn"
                                 android:layout_alignParentRight="true"
+                                android:layout_alignRight="@+id/S03_video_start_btn"
+                                android:layout_alignTop="@+id/S03_video_start_btn"
                                 android:layout_marginRight="25dp"
-                                android:scaleType="centerInside"
-                                android:onClick="onClick"
                                 android:background="@null"
-                                android:visibility="gone"
-                                android:src="@drawable/canvas_del" />
+                                android:onClick="onClick"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/canvas_del"
+                                android:visibility="gone" />
                         </RelativeLayout>
                     </RelativeLayout>
                 </RelativeLayout>
             </android.support.percent.PercentRelativeLayout>
         </android.support.percent.PercentRelativeLayout>
-        </LinearLayout>
-    </FrameLayout>
-    <ImageView
-        android:id="@+id/blur"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-    <include layout="@layout/menu"/>
-</android.support.v4.widget.DrawerLayout>
+    </LinearLayout>
+</FrameLayout>

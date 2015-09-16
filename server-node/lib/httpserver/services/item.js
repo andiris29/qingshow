@@ -4,6 +4,8 @@ var async = require('async');
 var _ = require('underscore');
 
 var Items = require('../../model/items');
+var Trade = require('../../model/trades');
+
 var jPushAudiences = require('../../model/jPushAudiences');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -42,7 +44,7 @@ item.updateExpectablePrice = {
                 callback(error, item);
             });
         }, function(item, callback) {
-            _itemPriceChanged(item, function() {
+            _itemPriceChanged(item, RequestHelper.parseNumber(param.expectablePrice), function() {
                 // do nothing
             });
             callback(null, item);
@@ -228,13 +230,15 @@ item.list = {
     }
 };
 
-var _itemPriceChanged = function(item, callback) {
+var _itemPriceChanged = function(item, price, callback) {
     async.waterfall([
     function(callback) {
         Trade.find({
             'itemRef' : item._id,
             'status' : 0
-        }).exec(callback);
+        }).exec(function(error, trades) {
+            callback(error, trades);
+        });
     },
     function(trades, callback) {
         var tasks = trades.map(function(trade) {
@@ -254,9 +258,9 @@ var _itemPriceChanged = function(item, callback) {
                     });
                     PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
                         'command' : PushNotificationHelper.CommandItemPriceChanged,
-                        '_id' : req.body._id,
+                        '_id' : item._id.toString(),
                         '_tradeId' : trade._id.toString(),
-                        'actualPrice' : RequestHelper.parseNumber(req.body.actualPrice)
+                        'actualPrice' : price
                     }, cb2);
                 }], cb);
             };

@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.*;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -26,7 +29,7 @@ import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
-public class T01HighlightedTradeListActivity extends MenuActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
+public class T01HighlightedTradeListActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static int PAGE_SIZE = 10;
 
@@ -38,22 +41,18 @@ public class T01HighlightedTradeListActivity extends MenuActivity implements BGA
     RecyclerView t01Recycler;
     @InjectView(R.id.t01_refresh)
     BGARefreshLayout mRefreshLayout;
-    @InjectView(R.id.u01_bonusList)
-    ImageButton nav_bonusList;
-    @InjectView(R.id.u01_bonusList_tv)
-    TextView nav_bonusListTV;
+    @InjectView(R.id.container)
+    FrameLayout contrainer;
 
     private T01HihghtedTradeListAdapter adapter;
     private int currentPageNo = 1;
+    private MenuView menuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_t01_highlighted_trade_list);
         ButterKnife.inject(this);
-        nav_bonusList.setImageResource(R.drawable.root_menu_highted_gray);
-        nav_bonusListTV.setTextColor(getResources().getColor(R.color.darker_gray));
-        initDrawer();
         initRefreshLayout();
         mRefreshLayout.beginRefreshing();
         title.setText(getText(R.string.title_t01));
@@ -61,7 +60,8 @@ public class T01HighlightedTradeListActivity extends MenuActivity implements BGA
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuSwitch();
+                menuView = new MenuView();
+                menuView.show(getSupportFragmentManager(), T01HighlightedTradeListActivity.class.getSimpleName(), contrainer);
             }
         });
 
