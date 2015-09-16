@@ -16,6 +16,7 @@ public class FlowRadioImgeView extends ImageView implements IRadioViewHelper {
 
 
     private boolean check = false;
+    private boolean isEnable = true;
 
     public FlowRadioImgeView(Context context) {
         this(context, null);
@@ -42,6 +43,11 @@ public class FlowRadioImgeView extends ImageView implements IRadioViewHelper {
         onCheckedChanged(check);
     }
 
+    @Override
+    public void setEnable(boolean enable) {
+        this.isEnable = enable;
+    }
+
     private void onCheckedChanged(boolean isCheck) {
         if(isCheck){
             setImageResource(R.drawable.s11_item_chek);
@@ -53,5 +59,10 @@ public class FlowRadioImgeView extends ImageView implements IRadioViewHelper {
     @Override
     public boolean isChecked() {
         return check;
+    }
+
+    @Override
+    public boolean isEnable() {
+        return false;
     }
 }

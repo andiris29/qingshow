@@ -13,6 +13,7 @@ import com.focosee.qingshow.R;
 public class RadioLayout extends RelativeLayout implements IRadioViewHelper {
 
     private boolean check;
+    private boolean isEnable = true;
 
     public RadioLayout(Context context) {
         this(context, null, 0);
@@ -33,9 +34,20 @@ public class RadioLayout extends RelativeLayout implements IRadioViewHelper {
     }
 
     @Override
+    public void setEnable(boolean enable) {
+        this.isEnable = enable;
+    }
+
+    @Override
     public boolean isChecked() {
         return check;
     }
+
+    @Override
+    public boolean isEnable() {
+        return false;
+    }
+
     private void onCheckedChanged(boolean isCheck) {
         if(isCheck){
             setBackgroundResource(R.drawable.pinck_btn);

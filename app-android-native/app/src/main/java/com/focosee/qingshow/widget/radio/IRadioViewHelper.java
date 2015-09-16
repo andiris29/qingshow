@@ -6,7 +6,8 @@ package com.focosee.qingshow.widget.radio;
 public interface IRadioViewHelper {
 
     void setChecked(boolean check);
+    void setEnable(boolean enable);
     boolean isChecked();
-
+    boolean isEnable();
 }
 

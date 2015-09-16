@@ -3,7 +3,6 @@ package com.focosee.qingshow.widget.Flow;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-
 import com.focosee.qingshow.widget.radio.IRadioViewHelper;
 
 /**
@@ -43,6 +42,9 @@ public class FlowRadioGroup extends FlowLayout {
 
         for (int i = 0; i < getChildCount(); i++) {
             IRadioViewHelper item = (IRadioViewHelper) getChildAt(i);
+            if(!item.isEnable()){
+                continue;
+            }
             if (item.isChecked()) {
                 ++checkedCount;
                 check[i] = true;

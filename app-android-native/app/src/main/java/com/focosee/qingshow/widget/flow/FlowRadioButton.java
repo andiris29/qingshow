@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.widget.radio.IRadioViewHelper;
 
@@ -15,6 +14,7 @@ import com.focosee.qingshow.widget.radio.IRadioViewHelper;
 public class FlowRadioButton extends Button implements IRadioViewHelper {
 
     private boolean check = false;
+    private boolean enable = true;
 
     public FlowRadioButton(Context context) {
         this(context, null);
@@ -41,7 +41,15 @@ public class FlowRadioButton extends Button implements IRadioViewHelper {
         onCheckedChanged(check);
     }
 
+    @Override
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+        setBackgroundResource(R.drawable.gray_btn);
+        setTextColor(getResources().getColor(R.color.white));
+    }
+
     private void onCheckedChanged(boolean isCheck) {
+        if(!isEnable())return;
         if(isCheck){
             setBackgroundResource(R.drawable.pink_btn_fall);
             setTextColor(Color.WHITE);
@@ -54,5 +62,10 @@ public class FlowRadioButton extends Button implements IRadioViewHelper {
     @Override
     public boolean isChecked() {
         return check;
+    }
+
+    @Override
+    public boolean isEnable() {
+        return enable;
     }
 }
