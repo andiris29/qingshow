@@ -11,13 +11,12 @@
 
 #import "QSDiscountTitleCell.h"
 #import "QSDiscountInfoCell.h"
-#import "QSDiscountTaobaoInfoCell.h"
 #import "QSDiscountQuantityCell.h"
 #import "QSDiscountResultCell.h"
 #import "QSItemUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
-
+#import "QSTradeUtil.h"
 @interface QSDiscountTableViewController ()
 
 
@@ -116,6 +115,22 @@
     return YES;
 }
 
+- (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex
+{
+//    NSLog(@"%@",[self getResult]);
+//    NSDictionary *newTradeDic = [self getResult];
+//    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:newTradeDic];
+//    NSArray *skuArray = newTradeDic[@"selectedSkuProperties"];
+//    NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
+//    int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:itemDic];
+//    NSLog(@"count ============ %d",count);
+//    NSLog(@"index = %ld",(long)infoIndex);
+//    NSLog(@"cell.co = %lu",(unsigned long)self.propCellArray.count);
+//    [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
+//        NSLog(@"cell.btn.co = %lu",(unsigned long)cell.btnArray.count);
+//        return [cell getResult];
+//    }];
+}
 - (NSDictionary*)getResult {
     NSMutableDictionary* retDict = [@{} mutableCopy];
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;

@@ -17,7 +17,7 @@
 #import "QSUserManager.h"
 #import "QSU07RegisterViewController.h"
 #import "QSPeopleUtil.h"
-#import "QSU10ReceiverListViewController.h"
+#import "QSU11ReceiverEditingViewController.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
@@ -227,9 +227,12 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        QSU10ReceiverListViewController *vc = [[QSU10ReceiverListViewController alloc]init];
         self.navigationController.navigationBarHidden = NO;
+        UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:nil];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+        vc.navigationItem.leftBarButtonItem = backItem;
         [self.navigationController pushViewController:vc animated:YES];
+
     }
 }
 - (IBAction)cancelBtnPressed:(id)sender {

@@ -29,7 +29,6 @@
 
 @property (strong, nonatomic) NSString* title;
 @property (strong, nonatomic) NSArray* compInfos;
-@property (strong, nonatomic) NSArray* btnArray;
 
 @property (assign, nonatomic) NSInteger currentSelectIndex;
 @property (strong, nonatomic) NSDictionary* itemDict;
@@ -167,6 +166,9 @@
     for (int i = 0; i < self.btnArray.count; i++) {
         UIButton* btn = self.btnArray[i];
         [QSDiscountTaobaoInfoCell setBtn:btn Hover:i == self.currentSelectIndex];
+    }
+    if ([self.delegate respondsToSelector:@selector(disCountBtnPressed:btnIndex:)]) {
+        [self.delegate disCountBtnPressed:self.btnArray btnIndex:self.currentSelectIndex];
     }
 }
 

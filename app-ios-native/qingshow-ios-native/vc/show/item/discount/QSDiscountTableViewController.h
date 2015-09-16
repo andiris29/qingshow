@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "QSAbstractDiscountTableViewCell.h"
-@interface QSDiscountTableViewController : UITableViewController<QSDiscountTableViewCellDelegate>
+#import "QSDiscountTaobaoInfoCell.h"
+
+@interface QSDiscountTableViewController : UITableViewController<QSDiscountTableViewCellDelegate,QSDiscountTaobaoInfoCellDelegate>
 
 @property (strong, nonatomic) NSDictionary* itemDict;
 
