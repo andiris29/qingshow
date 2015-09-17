@@ -14,6 +14,7 @@
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
 #import "QSDateUtil.h"
+#import "QSNetworkKit.h"
 @implementation QSShowUtil
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict
 {
@@ -156,13 +157,23 @@
         return nil;
     }
     NSArray* itemArray = showDict[@"itemRefs"];
-    NSMutableArray* array = [@[] mutableCopy];
+    NSMutableArray* returnArray = [@[] mutableCopy];
     for (id item in itemArray) {
         if ([QSEntityUtil checkIsDict:item]) {
-            [array addObject:item];
+            [returnArray addObject:item];
+        }else{
+            
+            [SHARE_NW_ENGINE getItemWithId:item onSucceed:^(NSArray *array, NSDictionary *metadata) {
+                if (array.count) {
+                    [returnArray addObject:[array firstObject]];
+                }
+            } onError:^(NSError *error) {
+                
+            }];
+            
         }
     }
-    return array;
+    return returnArray;
 }
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
