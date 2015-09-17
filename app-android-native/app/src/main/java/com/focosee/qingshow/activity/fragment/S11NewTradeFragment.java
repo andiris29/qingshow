@@ -149,77 +149,92 @@ public class S11NewTradeFragment extends Fragment {
         return rootView;
     }
 
+    private boolean inited = false;
+
+    private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
+        @Override
+        public void onChanged(String key, int index) {
+            List<String> values = new ArrayList<>();
+            values.add(props.get(key).get(index));
+            selectProps.put(key, values);
+            if (null == itemEntity.skuTable) {
+                changeBtnClickable(false);
+                return;
+            }
+
+            stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
+            if (stock < 1) {
+                changeBtnClickable(false);
+            } else {
+                changeBtnClickable(true);
+            }
+            if(!inited){
+                checkNotExistItem(key, 0);
+                inited = true;
+            }else {
+                if (btnMap.get(key).get(index).isEnable())
+                    checkNotExistItem(key, index);
+            }
+        }
+    };
+
     private void initProps() {
         props = SkuUtil.filter(itemEntity.skuProperties);
         keys_order = SkuUtil.getKeyOrder(props);
         checkIndex = new int[props.size()];
         int i = 0;
         for (String key : props.keySet()) {
-            bindItem(key, props.get(key), i, new OnCheckedChangeListener() {
-                @Override
-                public void onChanged(String key, int index) {
-                    List<String> values = new ArrayList<>();
-                    values.add(props.get(key).get(index));
-                    selectProps.put(key, values);
-                    if (null == itemEntity.skuTable){
-                        changeBtnClickable(false);
-                        return;
-                    }
-
-                    stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
-                    if (stock < 1){
-                        changeBtnClickable(false);
-                    }else {
-                        changeBtnClickable(true);
-                    }
-
-                    checkNotExistItem(key, index);
-                }
-            });
+            bindItem(key, props.get(key), i, onCheckedChangeListener);
+            btnMap.get(key).get(checkIndex[0]).setChecked(true);
+            onCheckedChangeListener.onChanged(key, 0);
             i++;
         }
     }
 
     //选择属性时，同步更新其他属性的状态。
-    private void checkNotExistItem(String prop, int index){
+    private void checkNotExistItem(String prop, int index) {
 
-        for(String b: keys_order) {
-            if (b.equals(prop)) return;
-            for (String p : keys_order) {
-                if (p.equals(b)) return;
-                for (String value : props.get(p)) {
-                    List<String> bList = new ArrayList<>();
-                    boolean isAble;
-                    Map<String, List<String>> tempMap = new HashMap<>();
-                    List<String> aList = new ArrayList<>();
-                    aList.add(props.get(prop).get(index));
-                    tempMap.put(prop, aList);
-                    bList.add(value);
-                    tempMap.put(p, bList);
-                    Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
-                    Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
-                    isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
-                    if (isAble) continue;
-                    for (FlowRadioButton btn : btnMap.get(p)) {
-                        if (btn.getText().equals(value)) {
-                            btn.setEnable(false);
-                        }
+        Map<String, List<String>> tempMap = new HashMap<>();
+        List<String> aList = new ArrayList<>();
+        aList.add(props.get(prop).get(index));
+        tempMap.put(prop, aList);
+        for (String p : keys_order) {
+            if (p.equals(prop)) continue;
+            if(null == btnMap.get(p))continue;
+            for (FlowRadioButton btn : btnMap.get(p)) {
+                if(btn.isChecked())continue;
+                btn.setEnable(true);
+            }
+            for (String value : props.get(p)) {
+                if(null == btnMap.get(p))continue;
+                List<String> bList = new ArrayList<>();
+                boolean isAble;
+                tempMap.put(p, aList);
+                bList.add(value);
+                tempMap.put(p, bList);
+                Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
+                Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
+                isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
+                if (isAble) continue;
+                for (FlowRadioButton btn : btnMap.get(p)) {
+                    if (btn.getText().equals(value)) {
+                        btn.setEnable(false);
                     }
                 }
             }
         }
     }
 
-    private void changeBtnClickable(boolean clickable){
+    private void changeBtnClickable(boolean clickable) {
         cutDiscount.setClickable(clickable);
         plusDiscount.setClickable(clickable);
         cutNum.setClickable(clickable);
         plusNum.setClickable(clickable);
         submit.setClickable(clickable);
 
-        if (clickable == false){
+        if (clickable == false) {
             submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.gary_btn));
-        }else {
+        } else {
             submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_submit_match));
         }
 
@@ -303,13 +318,13 @@ public class S11NewTradeFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        if(!QSModel.INSTANCE.loggedin()){
+        if (!QSModel.INSTANCE.loggedin()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             startActivity(new Intent(getActivity(), U07RegisterActivity.class));
             return;
         }
 
-        if(TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)){
+        if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
             startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
             return;
         }
@@ -403,11 +418,11 @@ public class S11NewTradeFragment extends Fragment {
             FlowRadioButton propItem = initPropItem(values.get(i));
             group.addView(propItem, itemParams);
             btnList.add(propItem);
-            if (i == checkIndex[position]) {
-                propItem.setChecked(true);
-                if (onCheckedChangeListener != null)
-                    onCheckedChangeListener.onChanged(key, i);
-            }
+//            if (i == checkIndex[position]) {
+//                propItem.setChecked(true);
+//                if (onCheckedChangeListener != null)
+//                    onCheckedChangeListener.onChanged(key, i);
+//            }
         }
 
         group.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {

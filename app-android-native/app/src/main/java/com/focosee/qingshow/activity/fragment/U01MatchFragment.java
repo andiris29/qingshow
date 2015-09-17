@@ -111,11 +111,11 @@ public class U01MatchFragment extends U01BaseFragment {
                 }
 
                 if (pageNo == 1) {
-                    adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
+                    adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
                     mRefreshLayout.endRefreshing();
                     currentPageN0 = pageNo;
                 }else{
-                    adapter.addData(ShowParser.parseQuery_categoryString(response));
+                    adapter.addData(ShowParser.parseQuery_itemString(response));
                     mRefreshLayout.endLoadingMore();
                 }
                 currentPageN0++;

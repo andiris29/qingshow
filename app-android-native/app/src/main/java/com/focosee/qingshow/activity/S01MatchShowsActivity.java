@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -114,6 +115,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S01MatchShowsActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
                     mRefreshLayout.endLoadingMore();
@@ -121,7 +123,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                     return;
                 }
 
-                List<MongoShow> datas = ShowParser.parseQuery_categoryString(response);
+                List<MongoShow> datas = ShowParser.parseQuery_itemString(response);
                 if (pageNo == 1) {
                     mRefreshLayout.endRefreshing();
                     adapter.addDataAtTop(datas);

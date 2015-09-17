@@ -47,7 +47,6 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
-import com.sina.weibo.sdk.api.share.Base;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
