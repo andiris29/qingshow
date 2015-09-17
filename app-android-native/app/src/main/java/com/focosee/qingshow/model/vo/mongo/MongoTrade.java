@@ -24,7 +24,7 @@ public class MongoTrade implements Serializable {
     public MongoPeople peopleSnapshot;
     public String selectedPeopleReceiverUuid;
     public boolean shareToPay;
-
+    public String hint;
     public int quantity;
     public double actualPrice;
     public double expectedPrice;
