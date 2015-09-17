@@ -112,7 +112,7 @@ people.readExpectableTrade = {
     func : function(req, res){
         var _id = req.body._id;
         async.waterfall([function(callback){
-            TradeHelper.removeExpectalbeItems(_id, req.qsCurrentUserId, function(error){
+            TradeHelper.removeExpectableTrades(_id, req.qsCurrentUserId, function(error){
                 callback(error)
             })
         }],function(error){

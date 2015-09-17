@@ -57,16 +57,15 @@ TradeHelper.notify = function(trade, callback) {
     qsmail.send(subject, content, callback);
 };
 
-TradeHelper.pushNewExpectableItems = function(trade, price, callback){
+TradeHelper.pushNewExpectableTrades = function(tradeId, peopleId, price, callback){
     People.findOne({
-        _id : RequestHelper.parseId(trade.ownerRef)
+        _id : RequestHelper.parseId(peopleId)
     },
     function(error, people){
         people.unread = people.unread || {};
-        people.unread.newExpectableItems = people.unread.newExpectableItems || [];
-        people.unread.newExpectableItems.push({
-            itemRef : trade.itemRef,
-            tradeRef : trade._id,
+        people.unread.newExpectableTrades = people.unread.newExpectableTrades || [];
+        people.unread.newExpectableTrades.push({
+            ref : tradeId,
             price : price
         }); 
         people.save(function(err,people){
@@ -77,13 +76,13 @@ TradeHelper.pushNewExpectableItems = function(trade, price, callback){
     });
 }
 
-TradeHelper.removeExpectalbeItems = function(tradeId, peopleId, callback){
+TradeHelper.removeExpectableTrades = function(tradeId, peopleId, callback){
     People.findOneAndUpdate({
         _id : RequestHelper.parseId(peopleId)
     }, {
         $pull : {
-            'unread.newExpectableItems' : {
-                tradeRef : RequestHelper.parseId(tradeId)
+            'unread.newExpectableTrades' : {
+                ref : RequestHelper.parseId(tradeId)
             }
         }
     }, {

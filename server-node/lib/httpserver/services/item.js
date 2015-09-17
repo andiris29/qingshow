@@ -63,12 +63,12 @@ item.updateExpectablePrice = {
                 });
 
                 trades.forEach(function(trade){
-                    TradeHelper.removeExpectalbeItems(trade, function(err){
+                    TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
                         if (err) {
                             cb(err)
                         }
                     });
-                    TradeHelper.pushNewExpectableItems(trade, param.expectablePrice, function(err){
+                    TradeHelper.pushNewExpectableTrades(trade._id, trade.ownerRef, param.expectablePrice, function(err){
                         if (err) {
                             cb(err)
                         }
@@ -116,7 +116,7 @@ item.removeExpectablePrice = {
             })
         }, function(trades, callback){
             trades.forEach(function(trade){
-                TradeHelper.removeExpectalbeItems(trade._id, trade.ownerRef, function(err){
+                TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
                     callback(err);
                 });
             });

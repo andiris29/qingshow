@@ -94,12 +94,8 @@ peopleSchema = Schema({
         alipayId : String
     }],
     unread : {
-        newExpectableItems : [{
-            itemRef : {
-                type : Schema.Types.ObjectId,
-                ref : 'items'
-            },
-            tradeRef : {
+        newExpectableTrades : [{
+            ref : {
                 type : Schema.Types.ObjectId,
                 ref : 'trades'
             },
