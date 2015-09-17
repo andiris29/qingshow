@@ -116,7 +116,7 @@ item.removeExpectablePrice = {
             })
         }, function(trades, callback){
             trades.forEach(function(trade){
-                TradeHelper.removeExpectalbeItems(trade, function(err){
+                TradeHelper.removeExpectalbeItems(trade._id, trade.ownerRef, function(err){
                     callback(err);
                 });
             });

@@ -77,13 +77,13 @@ TradeHelper.pushNewExpectableItems = function(trade, price, callback){
     });
 }
 
-TradeHelper.removeExpectalbeItems = function(trade, callback){
+TradeHelper.removeExpectalbeItems = function(tradeId, peopleId, callback){
     People.findOneAndUpdate({
-        _id : RequestHelper.parseId(trade.ownerRef)
+        _id : RequestHelper.parseId(peopleId)
     }, {
         $pull : {
             'unread.newExpectableItems' : {
-                tradeRef : trade._id
+                tradeRef : RequestHelper.parseId(tradeId)
             }
         }
     }, {
