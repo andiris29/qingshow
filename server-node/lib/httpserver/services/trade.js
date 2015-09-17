@@ -17,7 +17,7 @@ var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 var request = require('request');
-
+var winston = require('winston');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 var BonusHelper = require('../helpers/BonusHelper');
 
@@ -318,6 +318,9 @@ trade.alipayCallback = {
             }, callback);
         },
         function(trade, callback) {
+            if (!trade) {
+                winston.warn('alipayCallback failed. ' + JSON.stringify(req.body));
+            }
             _validateStatus(trade, newStatus, callback);
         },
         function(trade, callback) {
@@ -368,6 +371,9 @@ trade.wechatCallback = {
             Trade.findOne({
                 '_id' : RequestHelper.parseId(req.body.out_trade_no)
             }).exec(function(error, trade) {
+                if (!trade) {
+                    winston.warn('wechatCallback failed. ' + JSON.stringify(req.body));
+                }
                 if (!error && !trade) {
                     callback(ServerError.TradeNotExist);
                 } else if (error) {
