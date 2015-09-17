@@ -115,7 +115,7 @@
 #pragma mark - Delegate
 - (void)didSelectedCellInCollectionView:(id)sender
 {
-
+    
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:sender];
 //    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
    // vc.menuProvider = self.menuProvider;

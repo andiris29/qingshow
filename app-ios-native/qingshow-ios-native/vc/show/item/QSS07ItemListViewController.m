@@ -155,9 +155,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary* itemDict = self.orderdArray[indexPath.row];
-    if (itemDict) {
-        [self showItemDetailViewController:itemDict];
+    if (self.orderdArray.count > indexPath.row) {
+        NSDictionary* itemDict = self.orderdArray[indexPath.row];
+        if (itemDict) {
+            [self showItemDetailViewController:itemDict];
+        }
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
