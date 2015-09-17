@@ -82,7 +82,7 @@ peopleSchema = Schema({
                 type : Schema.Types.ObjectId,
                 ref : 'peoples'
             },
-            tradeRef : {
+            tradeRef : {    
                 type : Schema.Types.ObjectId,
                 ref : 'trades'
             },
@@ -93,6 +93,19 @@ peopleSchema = Schema({
         },
         alipayId : String
     }],
+    unread : {
+        newExpectableItems : [{
+            itemRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'items'
+            },
+            tradeRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'trades'
+            },
+            price : Number
+        }]
+    },
     create : {
         type : Date,
         'default' : Date.now
