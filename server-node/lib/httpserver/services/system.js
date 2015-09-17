@@ -9,7 +9,7 @@ var system = module.exports;
 
 var productionDeployment = {
 	appServiceRoot : 'http://chingshow.com/services',
-	paymentServiceRoot : 'http://chinshow.com/payment',
+	paymentServiceRoot : 'http://chingshow.com/payment',
 	appWebRoot : 'http://chingshow.com/app-web' 
 }
 
