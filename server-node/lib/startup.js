@@ -29,10 +29,10 @@ new winston.Logger({
 });
 
 // Performance logger
-winston.loggers.add('performance', {
+winston.loggers.add('api', {
     'transports' : [
         new winston.transports.DailyRotateFile({
-            'filename' : path.join(folderLogs, 'winston-performance.log')
+            'filename' : path.join(folderLogs, 'winston-api.log')
         })
     ]
 });

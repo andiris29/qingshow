@@ -40,6 +40,7 @@ var wrapCallback = function (fullpath, callback) {
     return function (req, res) {
         res.qsPerformance = {
             'ip' : req.header('X-Real-IP') || req.connection.remoteAddress,
+            'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
             'fullpath' : fullpath,
             'start' : Date.now()
         };
