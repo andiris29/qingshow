@@ -1,9 +1,12 @@
-package com.focosee.qingshow.widget.Flow;
+package com.focosee.qingshow.widget.flow;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import com.focosee.qingshow.widget.radio.IRadioViewHelper;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/3/13.
@@ -12,6 +15,12 @@ public class FlowRadioGroup extends FlowLayout {
 
     private int lastCheckedIndex;
     private int checkedIndex;
+
+    public List<View> getChildViews() {
+        return childViews;
+    }
+
+    private List<View> childViews = new ArrayList<>();
 
     private OnCheckedChangeListener onCheckedChangeListener;
 
@@ -83,5 +92,9 @@ public class FlowRadioGroup extends FlowLayout {
         return super.onTouchEvent(event);
     }
 
-
+    @Override
+    public void addView(View child) {
+        super.addView(child);
+        childViews.add(child);
+    }
 }
