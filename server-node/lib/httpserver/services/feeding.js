@@ -24,13 +24,6 @@ var _feed = function (req, res, querier, aspectInceptions) {
         'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
             async.series([
                 function(callback) {
-                    // Populate itemRefs
-                    Show.populate(currentPageModels, {
-                        'path' : 'itemRefs',
-                        'model' : 'items'
-                    }, callback);
-                },
-                function(callback) {
                     // Populate ownerRef
                     Show.populate(currentPageModels, {
                         'path' : 'ownerRef',
