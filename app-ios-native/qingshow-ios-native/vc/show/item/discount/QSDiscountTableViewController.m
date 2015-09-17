@@ -133,12 +133,7 @@
 }
 - (NSDictionary*)getResult {
     NSMutableDictionary* retDict = [@{} mutableCopy];
-    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
-    if (peopleId == nil) {
-        peopleId = @"";
-    }
-    retDict[@"promoterRef"] = peopleId;
+    retDict[@"promoterRef"] = self.showId;
     retDict[@"itemSnapshot"] = self.itemDict;
     retDict[@"selectedSkuProperties"] = [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell* cell) {
         return [cell getResult];

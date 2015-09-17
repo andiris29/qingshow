@@ -96,7 +96,12 @@ static char versionUpdateHandlerKey;
 - (void)showItemDetailViewController:(NSDictionary*)itemDict
 {
     UIViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
-
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)showItemDetailViewController:(NSDictionary*)itemDict showId:(NSString *)showId
+{
+    QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict showId:showId];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

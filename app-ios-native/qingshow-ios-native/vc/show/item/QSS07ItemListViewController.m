@@ -155,10 +155,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSString *showId = [QSShowUtil getShowId:self.showDict];
     if (self.orderdArray.count > indexPath.row) {
         NSDictionary* itemDict = self.orderdArray[indexPath.row];
         if (itemDict) {
-            [self showItemDetailViewController:itemDict];
+            [self showItemDetailViewController:itemDict showId:showId];
         }
     }
 }

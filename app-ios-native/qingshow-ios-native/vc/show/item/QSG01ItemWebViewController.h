@@ -11,6 +11,9 @@
 @interface QSG01ItemWebViewController : UIViewController<UIAlertViewDelegate>
 
 - (id)initWithItem:(NSDictionary*)item;
+
+- (id)initWithItem:(NSDictionary*)item showId:(NSString *)showId;
+
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @property (weak, nonatomic) IBOutlet UIButton *discountBtn;
@@ -19,4 +22,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 
 @property (assign,nonatomic)BOOL isDisCountBtnHidden;
+@property (strong, nonatomic)NSString *showId;
 @end

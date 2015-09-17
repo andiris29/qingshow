@@ -54,6 +54,10 @@
     
 }
 
++ (NSString *)getShowId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"_id"];
+}
 + (NSURL *)getFormatterCoverUrl:(NSDictionary *)dict
 {
     if ([QSEntityUtil checkIsNil:dict]) {

@@ -40,7 +40,7 @@
 
 @implementation QSG01ItemWebViewController
 #pragma mark - Init Method
-- (id)initWithItem:(NSDictionary*)item
+- (id)initWithItem:(NSDictionary*)item 
 {
     self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];
     if (self) {
@@ -54,6 +54,17 @@
 {
     if (self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil]) {
         
+    }
+    return self;
+}
+- (id)initWithItem:(NSDictionary*)item showId:(NSString *)showId
+{
+    self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];
+    if (self) {
+        self.itemDict = item;
+        self.discountVc = [[QSDiscountTableViewController alloc] initWithItem:item];
+        self.discountVc.showId = showId;
+        self.hasSyncItem = NO;
     }
     return self;
 }
@@ -234,6 +245,10 @@
         [self.navigationController pushViewController:vc animated:YES];
 
     }
+}
+- (void)backAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)cancelBtnPressed:(id)sender {
     [self closeBtnPressed:nil];

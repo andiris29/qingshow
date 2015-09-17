@@ -12,7 +12,7 @@
 + (NSURL*)getCoverUrl:(NSDictionary*)dict;
 + (NSURL*)getCoverBackgroundUrl:(NSDictionary*)dict;
 + (NSURL*)getCoverForegroundUrl:(NSDictionary*)dict;
-
++ (NSString *)getShowId:(NSDictionary *)dict;
 + (NSURL*)getFormatterCoverUrl:(NSDictionary *)dict;
 + (NSURL*)getFormatterCoVerForegroundUrl:(NSDictionary*)dict;
 
