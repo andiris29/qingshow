@@ -444,6 +444,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         itemList.addAll(showDetailEntity.itemRefs);
         bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
         intent.putExtras(bundle);
+        intent.putExtra(S10ItemDetailActivity.PROMOTRER, showDetailEntity.ownerRef._id);
         startActivity(intent);
     }
 

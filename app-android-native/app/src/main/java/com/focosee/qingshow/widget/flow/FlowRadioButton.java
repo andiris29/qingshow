@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.widget.radio.IRadioViewHelper;
 
@@ -44,16 +45,21 @@ public class FlowRadioButton extends Button implements IRadioViewHelper {
     @Override
     public void setEnable(boolean enable) {
         this.enable = enable;
-        setBackgroundResource(R.drawable.gray_btn);
-        setTextColor(getResources().getColor(R.color.white));
+        if (enable) {
+            setBackgroundResource(R.drawable.gay_btn_ring);
+            setTextColor(getResources().getColor(R.color.gary));
+        } else {
+            setBackgroundResource(R.drawable.s11_gray_btn);
+            setTextColor(getResources().getColor(R.color.white));
+        }
     }
 
     private void onCheckedChanged(boolean isCheck) {
-        if(!isEnable())return;
-        if(isCheck){
+        if (!isEnable()) return;
+        if (isCheck) {
             setBackgroundResource(R.drawable.pink_btn_fall);
             setTextColor(Color.WHITE);
-        }else {
+        } else {
             setBackgroundResource(R.drawable.gay_btn_ring);
             setTextColor(Color.GRAY);
         }

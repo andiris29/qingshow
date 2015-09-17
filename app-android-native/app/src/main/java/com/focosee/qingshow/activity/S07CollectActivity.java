@@ -62,7 +62,7 @@ public class S07CollectActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(S07CollectActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new S07ListAdapter(items, S07CollectActivity.this, R.layout.item_s07_item_list,R.layout.item_s07_text);
+        adapter = new S07ListAdapter(items, S07CollectActivity.this, getIntent().getStringExtra(S10ItemDetailActivity.PROMOTRER),R.layout.item_s07_item_list,R.layout.item_s07_text);
         recyclerView.setAdapter(adapter);
     }
 

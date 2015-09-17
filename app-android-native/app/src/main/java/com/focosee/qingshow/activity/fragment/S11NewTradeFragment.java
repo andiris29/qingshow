@@ -98,6 +98,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private Map<String, List<String>> props;
     private Map<String, List<String>> selectProps;
+    private Map<String, List<FlowRadioButton>> selectRadioButton;
     private List<String> keys_order;
 
     private int num = 1;
@@ -119,6 +120,7 @@ public class S11NewTradeFragment extends Fragment {
         itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S10ItemDetailActivity.OUTPUT_ITEM_ENTITY);
         trade = new MongoTrade();
         selectProps = new HashMap<>();
+        selectRadioButton = new HashMap<>();
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -157,6 +159,9 @@ public class S11NewTradeFragment extends Fragment {
             List<String> values = new ArrayList<>();
             values.add(props.get(key).get(index));
             selectProps.put(key, values);
+            List<FlowRadioButton> btnList = new ArrayList<>();
+            btnList.add(btnMap.get(key).get(index));
+            selectRadioButton.put(key, btnList);
             if (null == itemEntity.skuTable) {
                 changeBtnClickable(false);
                 return;
@@ -199,17 +204,21 @@ public class S11NewTradeFragment extends Fragment {
         aList.add(props.get(prop).get(index));
         tempMap.put(prop, aList);
         for (String p : keys_order) {
-            if (p.equals(prop)) continue;
+            if (p.equals(prop)){
+                for (FlowRadioButton btn : btnMap.get(p)) {
+                    btn.setEnable(true);
+                }
+                continue;
+            }
             if(null == btnMap.get(p))continue;
             for (FlowRadioButton btn : btnMap.get(p)) {
-                if(btn.isChecked())continue;
                 btn.setEnable(true);
             }
+
             for (String value : props.get(p)) {
                 if(null == btnMap.get(p))continue;
                 List<String> bList = new ArrayList<>();
                 boolean isAble;
-                tempMap.put(p, aList);
                 bList.add(value);
                 tempMap.put(p, bList);
                 Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
@@ -223,6 +232,15 @@ public class S11NewTradeFragment extends Fragment {
                 }
             }
         }
+        //设置选中的btn样式
+        for (String p : keys_order) {
+            if(Collections.emptyList() == selectRadioButton)return;
+            if(!selectRadioButton.containsKey(p))return;
+            for (FlowRadioButton btn : selectRadioButton.get(p)) {
+                btn.setChecked(true);
+            }
+        }
+
     }
 
     private void changeBtnClickable(boolean clickable) {
@@ -347,7 +365,8 @@ public class S11NewTradeFragment extends Fragment {
             e.printStackTrace();
         }
         params.put("quantity", trade.quantity);
-        params.put("promoterRef", QSModel.INSTANCE.getUserId());
+        Log.d(S11NewTradeFragment.class.getSimpleName(), "promoterRef:" + getActivity().getIntent().getStringExtra(S10ItemDetailActivity.PROMOTRER));
+        params.put("promoterRef", getActivity().getIntent().getStringExtra(S10ItemDetailActivity.PROMOTRER));
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
