@@ -297,7 +297,7 @@ var _itemPriceChanged = function(trades, price, callback) {
                         registrationIDs.push(target.registrationId);
                     });
                     PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
-                        'command' : PushNotificationHelper.CommandItemPriceChanged,
+                        'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
                         '_id' : trade.itemRef,
                         '_tradeId' : trade._id.toString(),
                         'actualPrice' : price

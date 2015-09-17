@@ -33,7 +33,7 @@ PushNotificationHelper.CommandNewRecommandations= "newRecommandations";
 PushNotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
 PushNotificationHelper.CommandTradeInitialized = "tradeInitialized";
 PushNotificationHelper.CommandTradeShipped = "tradeShipped";
-PushNotificationHelper.CommandItemPriceChanged = "itemPriceChanged";
+PushNotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceUpdated";
 PushNotificationHelper.CommandNewBonus = "newBonus";
 PushNotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
 
