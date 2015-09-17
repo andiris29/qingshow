@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U01BaseFragment;
 import com.focosee.qingshow.activity.fragment.U01CollectionFragment;
@@ -39,6 +40,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
@@ -155,6 +157,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         userNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userNavBtn.setImageResource(R.drawable.nav_btn_menu_n);
                 menuView = new MenuView();
                 menuView.show(getSupportFragmentManager(), U01UserActivity.class.getSimpleName(), container);
             }
@@ -497,6 +500,9 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
             circleTip.setVisibility(View.VISIBLE);
         }
         MobclickAgent.onResume(this);
+        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+            userNavBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -36,6 +38,8 @@ import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.sina.weibo.sdk.api.share.Base;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,6 +62,8 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     private final int TYPE_APPLY = 0;
     private final int TYPE_SUCCESSED = 1;
 
+    @InjectView(R.id.person_activity_back_image_button)
+    ImageButton menu;
     @InjectView(R.id.U09_head_layout)
     LinearLayout u09HeadLayout;
     @InjectView(R.id.u09_tab_all)
@@ -294,6 +300,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.person_activity_back_image_button:
+                menu.setImageResource(R.drawable.nav_btn_menu_n);
                 menuView = new MenuView();
                 menuView.show(getSupportFragmentManager(), U09TradeListActivity.class.getSimpleName(), container);
                 break;

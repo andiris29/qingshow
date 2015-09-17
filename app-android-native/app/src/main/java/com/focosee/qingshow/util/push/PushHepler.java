@@ -2,8 +2,10 @@ package com.focosee.qingshow.util.push;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.PushWebActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S04CommentActivity;
@@ -11,6 +13,7 @@ import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.util.ValueUtil;
 
 /**
  * Created by Administrator on 2015/9/2.
@@ -19,7 +22,12 @@ public class PushHepler {
 
     public static Intent _jumpTo(Context context,Bundle bundle) {
         String command = PushUtil.getCommand(bundle);
-
+        if(command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
+                || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
+            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+            editor.putString(ValueUtil.NEED_GUIDE, ValueUtil.NEED_GUIDE);
+            editor.commit();
+        }
         Intent intent = null;
         if (command.equals(QSPushAPI.NEW_SHOW_COMMENTS)) {
             String id = PushUtil.getExtra(bundle, "id");

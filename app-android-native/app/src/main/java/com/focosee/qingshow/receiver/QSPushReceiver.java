@@ -6,17 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-
-
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.push.PushHepler;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -25,7 +21,6 @@ import cn.jpush.android.api.JPushInterface;
 public class QSPushReceiver extends BroadcastReceiver {
 
     private static final String TAG = "JPush_QS";
-
 
     @Override
     public void onReceive(Context context, Intent intent) {

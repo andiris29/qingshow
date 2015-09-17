@@ -2,10 +2,12 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
@@ -25,6 +28,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.RecyclerViewUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.MenuView;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
@@ -77,6 +81,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n);
                 menuView = new MenuView();
                 menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
             }
@@ -110,7 +115,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
 
         String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, PAGESIZE) : QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
-
+        Log.d("url:", url);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
 
             @Override
@@ -145,6 +150,10 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         if (event.equals("refresh")) {
             mRefreshLayout.beginRefreshing();
         }
+    }
+
+    public void onEventMainThread(){
+
     }
 
     private void initRefreshLayout() {
@@ -209,6 +218,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+            s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }
     }
 
     @Override
