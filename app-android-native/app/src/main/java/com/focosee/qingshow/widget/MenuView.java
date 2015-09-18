@@ -2,6 +2,7 @@ package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -268,6 +269,9 @@ public class MenuView extends Fragment implements View.OnClickListener{
                 break;
             case R.id.navigation_btn_discount:
                 if(getActivity() instanceof U09TradeListActivity)return;
+                SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                editor.remove(ValueUtil.NEED_GUIDE);
+                editor.commit();
                 _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:

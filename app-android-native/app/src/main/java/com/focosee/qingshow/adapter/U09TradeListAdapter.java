@@ -133,6 +133,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 }
             });
             if(null == trade.__context)return;
+            if(null == trade.__context.item)return;
             if(null != trade.__context.item.delist){
                 discountBtn.setVisibility(View.VISIBLE);
                 discountBtn.setBackgroundResource(R.drawable.sold_out_gray);
