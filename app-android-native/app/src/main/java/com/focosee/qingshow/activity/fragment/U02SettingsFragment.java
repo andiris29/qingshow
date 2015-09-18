@@ -49,6 +49,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
@@ -594,6 +595,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
             }
         });
+    }
+
+    public void onEventMainThread(PushGuideEvent event){
+        if(event.unread){
+            backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            backTextView.setImageResource(R.drawable.nav_btn_menu_n);
+        }
     }
 
     @Override

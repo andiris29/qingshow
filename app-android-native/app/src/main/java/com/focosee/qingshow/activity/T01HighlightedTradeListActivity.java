@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.focosee.qingshow.QSApplication;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.*;
@@ -27,8 +28,10 @@ import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -146,8 +149,16 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
         super.onResume();
         MobclickAgent.onPageStart("S20MatcherActivity");
         MobclickAgent.onResume(this);
-        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+        if (!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))) {
             leftBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }
+    }
+
+    public void onEventMainThread(PushGuideEvent event) {
+        if (event.unread) {
+            leftBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            leftBtn.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 }

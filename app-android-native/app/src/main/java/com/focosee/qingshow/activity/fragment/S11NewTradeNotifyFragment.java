@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
@@ -32,9 +34,10 @@ import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.util.push.PushUtil;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.PushEvent;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -197,8 +200,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-
-
     }
 
     @Override
@@ -217,6 +218,10 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.remove(ValueUtil.NEED_GUIDE);
+        editor.commit();
+        EventBus.getDefault().post(new PushGuideEvent(false));
     }
 
     @Override

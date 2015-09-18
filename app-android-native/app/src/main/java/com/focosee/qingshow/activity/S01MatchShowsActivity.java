@@ -27,6 +27,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.MenuView;
@@ -152,8 +153,12 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         }
     }
 
-    public void onEventMainThread(){
-
+    public void onEventMainThread(PushGuideEvent event){
+        if(event.unread){
+            s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n);
+        }
     }
 
     private void initRefreshLayout() {

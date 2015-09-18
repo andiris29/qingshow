@@ -39,6 +39,7 @@ import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
@@ -351,6 +352,14 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         if (null == fragments) return;
         if (fragments.length < POS_COLL) return;
         fragments[POS_COLL].refresh();
+    }
+
+    public void onEventMainThread(PushGuideEvent event){
+        if(event.unread){
+            userNavBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            userNavBtn.setImageResource(R.drawable.nav_btn_menu_n);
+        }
     }
 
     int pos = 0;

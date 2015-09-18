@@ -29,6 +29,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
@@ -505,6 +506,14 @@ public class S20MatcherActivity extends BaseActivity {
                 }
                 getDataFromNet(ref, row, cloum);
             }
+        }
+    }
+
+    public void onEventMainThread(PushGuideEvent event){
+        if(event.unread){
+            ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 

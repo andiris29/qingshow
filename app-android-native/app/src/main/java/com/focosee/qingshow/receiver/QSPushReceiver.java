@@ -3,17 +3,23 @@ package com.focosee.qingshow.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.BaseActivity;
+import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.push.PushHepler;
+import com.focosee.qingshow.util.push.PushUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import cn.jpush.android.api.JPushInterface;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/7/22.
@@ -40,6 +46,16 @@ public class QSPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+            //推送消息指引
+            String command = PushUtil.getCommand(bundle);
+            if(command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
+                    || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
+                SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                editor.putString(ValueUtil.NEED_GUIDE, ValueUtil.NEED_GUIDE);
+                editor.commit();
+                EventBus.getDefault().post(new PushGuideEvent(true));
+            }
+
             if (AppUtil.isRunningForeground(context)){
                 Intent pushIntent = new Intent(BaseActivity.PUSHNOTIFY);
                 pushIntent.putExtras(bundle);
