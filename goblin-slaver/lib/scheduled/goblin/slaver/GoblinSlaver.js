@@ -105,7 +105,7 @@ var _queryNextItem = function (type, callback) {
 
             if (!data) {
                 callback('Goblin Scheduler response empty data');
-            } if (data.metadata && data.metadata.error) {
+            } else if (data.metadata && data.metadata.error) {
                 callback(data.metadata.error);
             } else {
                 var item = data && data.data && data.data.item;
