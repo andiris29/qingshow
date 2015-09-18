@@ -46,6 +46,15 @@ winston.loggers.add('goblin', {
     ]
 });
 
+// Client logger
+winston.loggers.add('client', {
+    'transports' : [
+        new winston.transports.DailyRotateFile({
+            'filename' : path.join(folderLogs, 'winston-client.log')
+        })
+    ]
+});
+
 // ------------------
 // Load & parse config.properties
 // ------------------
