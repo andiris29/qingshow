@@ -55,22 +55,23 @@ system.log = {
 		var log = {
 			'client' : params.client,
 			'level' : params.level,
-			'message' : params.message,
 			'stack' : params.stack,
 			'extra' : params.extra
 		}
 
+		var message =  params.message;
+
 		switch(level){
 			case 'info':
-				clientLogger.info(log);
+				clientLogger.info(message, log);
 			break;
 			
 			case 'error':
-				clientLogger.error(log);
+				clientLogger.error(message, log);
 			break;
 
 			case 'warn':
-				clientLogger.warn(log);
+				clientLogger.warn(message, log);
 			break;
 		}
 
