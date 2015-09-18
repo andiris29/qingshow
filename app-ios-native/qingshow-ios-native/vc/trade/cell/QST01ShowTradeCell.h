@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol QST01ShowTradeCellDelegate <NSObject>
+
+- (void)didtapHeaderInT01VC:(NSDictionary *)peopleDic;
+
+@end
+
 @interface QST01ShowTradeCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *headerImgView;
@@ -22,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UILabel *outOfSaleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *itemImgView;
+
+@property (weak,nonatomic) NSObject<QST01ShowTradeCellDelegate>* delegate;
 
 - (void)bindWithDic:(NSDictionary *)dict;
 @end

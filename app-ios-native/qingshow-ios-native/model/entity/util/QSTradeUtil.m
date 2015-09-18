@@ -105,6 +105,10 @@
     return NO;
 }
 
++ (NSString *)getHint:(NSDictionary *)dict;
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"hint"];
+}
 #pragma mark - Order
 
 + (NSString *)getItemId:(NSDictionary *)dict

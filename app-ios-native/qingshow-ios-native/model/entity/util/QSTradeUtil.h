@@ -21,7 +21,7 @@
 + (NSString*)getTradeLogisticCompany:(NSDictionary*)dict;
 + (NSString*)getTradeLogisticId:(NSDictionary*)dict;
 + (BOOL)getShouldShare:(NSDictionary*)dict;
-
++ (NSString *)getHint:(NSDictionary *)dict;
 
 #pragma mark - Order
 

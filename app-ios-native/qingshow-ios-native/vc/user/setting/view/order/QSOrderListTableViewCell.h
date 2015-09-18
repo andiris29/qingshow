@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define QSOrderListTableViewCellIdentifier @"QSOrderListTableViewCellIdentifier"
-#define QSOrderListTableViewCellHeight 216
+#define QSOrderListTableViewCellHeight 236
 
 @class QSOrderListTableViewCell;
 
@@ -62,8 +62,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *clickToWebpageBtn;
 
-@property (weak, nonatomic) IBOutlet UIView* currentDiscountContainer;
-@property (weak, nonatomic) IBOutlet UILabel* expectableDiscountLabel;
+//@property (weak, nonatomic) IBOutlet UIView* currentDiscountContainer;
+//@property (weak, nonatomic) IBOutlet UILabel* expectableDiscountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hintLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *postDisCountImgView;
 
 - (IBAction)submitBtnPressed:(id)sender;
 - (IBAction)returnBtnPressed:(id)sender;

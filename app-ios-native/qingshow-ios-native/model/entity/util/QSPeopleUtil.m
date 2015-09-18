@@ -310,7 +310,24 @@
 {
     return [dict numberValueForKeyPath:@"measureInfo.shoeSize"].stringValue;
 }
-
+#pragma mark - Unread
++ (NSArray *)getUnreadTrades:(NSDictionary *)dict
+{
+    return [QSEntityUtil getArrayValue:dict keyPath:@"unread.newExpectableTrades"];
+}
++ (NSNumber *)getUnreadPrice:(NSDictionary *)dict
+{
+    return [QSEntityUtil getNumberValue:dict keyPath:@"price"];
+}
++ (NSString *)getUnreadTradId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"ref"];
+}
++ (NSString *)getUnreaditemId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"itemRef"];
+}
+#pragma mark - bonus
 + (NSArray*)getBonusList:(NSDictionary*)dict
 {
     return [dict arrayValueForKeyPath:@"bonuses"];

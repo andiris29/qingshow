@@ -7,7 +7,7 @@
 //
 
 #import "QST01ShowTradeProvider.h"
-#import "QST01ShowTradeCell.h"
+
 #import "QSTradeUtil.h"
 #define T01SHOWTRADECELLHEIGHT (216)
 #define SHOWTRADECELLIDENTIFIER (@"showTradeCellIdentifier")
@@ -32,6 +32,7 @@
     QST01ShowTradeCell *cell = (QST01ShowTradeCell *)[tableView dequeueReusableCellWithIdentifier:SHOWTRADECELLIDENTIFIER forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell bindWithDic:self.resultArray[indexPath.row]];
+    cell.delegate = self;
     return cell;
 }
 
@@ -44,4 +45,10 @@
     }
 }
 
+- (void)didtapHeaderInT01VC:(NSDictionary *)peopleDic
+{
+    if ([self.delegate respondsToSelector:@selector(didTapHeaderInT01Cell:)]) {
+        [self.delegate didTapHeaderInT01Cell:peopleDic];
+    }
+}
 @end

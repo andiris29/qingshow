@@ -12,7 +12,9 @@
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 @implementation QST01ShowTradeCell
-
+{
+    NSDictionary *_peopleDic;
+}
 - (void)awakeFromNib {
     // Initialization code
     self.outOfSaleLabel.layer.masksToBounds = YES;
@@ -20,11 +22,15 @@
     self.outOfSaleLabel.hidden = YES;
     self.headerImgView.layer.masksToBounds = YES;
     self.headerImgView.layer.cornerRadius = self.headerImgView.bounds.size.height/2;
+    UITapGestureRecognizer *ges = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapHeader)];
+    self.headerImgView.userInteractionEnabled = YES;
+    [self.headerImgView addGestureRecognizer: ges];
 }
 
 - (void)bindWithDic:(NSDictionary *)dict
 {
     NSDictionary *peopleDic = [QSTradeUtil getPeopleDic:dict];
+    _peopleDic = peopleDic;
     [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDic type:QSImageNameType100]];
     self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDic];
     self.timeLabel.text = [QSTradeUtil getDayDesc:dict];
@@ -45,6 +51,12 @@
     self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getActualPrice:dict] trade:dict]];
     if ([QSItemUtil getDelist:itemDict]) {
         self.outOfSaleLabel.hidden = NO;
+    }
+}
+- (void)didTapHeader
+{
+    if ([self.delegate respondsToSelector:@selector(didtapHeaderInT01VC:)]) {
+        [self.delegate didtapHeaderInT01VC:_peopleDic];
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -11,6 +11,7 @@
 #import "QSNetworkEngine+TradeService.h"
 #import "QSNetworkEngine+ShowService.h"
 #import "QSG01ItemWebViewController.h"
+#import "QSU01UserDetailViewController.h"
 @interface QST01ShowTradeViewController ()
 
 @property (strong,nonatomic)QST01ShowTradeProvider *provider;
@@ -31,6 +32,9 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = NO;
 }
 - (void)configProvider
 {
@@ -55,6 +59,11 @@
     } onError:^(NSError *error) {
         
     }];
+}
+- (void)didTapHeaderInT01Cell:(NSDictionary *)peopleDic
+{
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDic];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

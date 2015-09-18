@@ -192,6 +192,12 @@
 
 - (void)didClickExpectablePriceBtnOfOrder:(NSDictionary *)orderDict {
     [self showTradeNotiViewOfTradeId:orderDict];
+    __weak QSU09OrderListViewController *weakSelf = self;
+    [SHARE_NW_ENGINE tradeReaded:[QSTradeUtil getTradeId:orderDict] onSucceed:^{
+        [weakSelf.provider reloadData];
+    } onError:^(NSError *error) {
+        
+    }];
 }
 - (void)didClickToWebPage:(NSDictionary *)orderDic
 {

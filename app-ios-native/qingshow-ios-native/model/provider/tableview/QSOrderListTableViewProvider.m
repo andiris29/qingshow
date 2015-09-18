@@ -100,6 +100,7 @@
     } else {
         return nil;
     }
+   
     return self.resultArray[row];
 }
 - (int)getCellTypeWithIndexPath:(NSIndexPath *)indexPath

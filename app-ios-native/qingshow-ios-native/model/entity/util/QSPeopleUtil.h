@@ -49,6 +49,11 @@
 + (NSString*)getHips:(NSDictionary*)dict;
 + (NSString*)getShoeSize:(NSDictionary*)dict;
 
+#pragma mark - Unread
++ (NSArray *)getUnreadTrades:(NSDictionary *)dict;
++ (NSNumber *)getUnreadPrice:(NSDictionary *)dict;
++ (NSString *)getUnreadTradId:(NSDictionary *)dict;
++ (NSString *)getUnreaditemId:(NSDictionary *)dict;
 #pragma mark - Bonus
 + (NSArray*)getBonusList:(NSDictionary*)dict;
 + (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict;

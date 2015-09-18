@@ -14,7 +14,8 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
 #import "QSTradeStatus.h"
-
+#import "QSPeopleUtil.h"
+#import "QSUserManager.h"
 @interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
@@ -33,14 +34,14 @@
     self.saleImgView.hidden = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 //    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
-    self.currentDiscountContainer.layer.cornerRadius = self.currentDiscountContainer.bounds.size.width / 2;
-    self.currentDiscountContainer.layer.masksToBounds = YES;
-    self.currentDiscountContainer.transform = CGAffineTransformMakeRotation(0.3);
-    self.currentDiscountContainer.userInteractionEnabled = YES;
+    self.postDisCountImgView.layer.cornerRadius = self.postDisCountImgView.bounds.size.width / 2;
+    self.postDisCountImgView.layer.masksToBounds = YES;
+    self.postDisCountImgView.transform = CGAffineTransformMakeRotation(0.3);
+    self.postDisCountImgView.userInteractionEnabled = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapExpectablePriceBtn:)];
-    [self.currentDiscountContainer addGestureRecognizer:ges];
+    [self.postDisCountImgView addGestureRecognizer:ges];
     self.clickToWebpageBtn.layer.cornerRadius = self.clickToWebpageBtn.bounds.size.height / 8;
-    self.clickToWebpageBtn.layer.borderColor = [UIColor redColor].CGColor;
+    self.clickToWebpageBtn.layer.borderColor = [UIColor colorWithRed:0.949 green:0.588 blue:0.643 alpha:1.000].CGColor;
     self.clickToWebpageBtn.layer.borderWidth = 1.f;
     self.itemImgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *imgGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapClickToWebViewPage:)];
@@ -85,7 +86,6 @@
     NSString *str = [QSTradeUtil getItemId:tradeDict];
     self.itemId = str;
     self.tradeDict = tradeDict;
-    
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
@@ -105,12 +105,9 @@
         _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
     }
     self.quantityLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:tradeDict]];
-
+    self.hintLabel.text = [QSTradeUtil getHint:tradeDict];
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
-//    if (s == 3) {
-//           NSLog(@"%@",itemDict);
-//    }
     if (s == 0 || s == 1) {
          self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }else
@@ -176,13 +173,47 @@
         }
     }
     NSNumber* expectablePrice = [QSTradeUtil getItemExpectablePrice:tradeDict];
-    if (!expectablePrice) {
-        self.currentDiscountContainer.hidden = YES;
-        self.expectableDiscountLabel.text = nil;
-    } else {
-        self.currentDiscountContainer.hidden = NO;
-        self.expectableDiscountLabel.text = [QSTradeUtil calculateDiscountDescWithPrice:expectablePrice trade:tradeDict];
+    if (s == 0 && expectablePrice) {
+        NSDictionary *peopleDic = [QSTradeUtil getPeopleDic:tradeDict];
+        NSArray *unreadArray = [QSPeopleUtil getUnreadTrades:peopleDic];
+        BOOL isRed = NO;
+        for (NSDictionary *unreadDic in unreadArray) {
+            if ([[QSPeopleUtil getUnreadTradId:unreadDic] isEqualToString:[QSTradeUtil getTradeId:tradeDict]]) {
+                    isRed = YES;
+                }
+          
+        }
+        if (isRed == YES) {
+            self.postDisCountImgView.hidden = NO;
+            self.postDisCountImgView.userInteractionEnabled = YES;
+            [self.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_red"]];
+        }else if(isRed == NO){
+            self.postDisCountImgView.hidden = NO;
+            self.postDisCountImgView.userInteractionEnabled = NO;
+            [self.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_gray"]];
+        }
+      
     }
+        NSString *itemId = [QSTradeUtil getItemId:tradeDict];
+        __weak QSOrderListTableViewCell *weakSelf = self;
+        [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            
+            if (array.count) {
+                NSDictionary *getItem = [array firstObject];
+                NSArray *array = [QSTradeUtil getSkuProperties:tradeDict];
+                NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:array];
+                int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:getItem];
+                if (count < 1 ) {
+                    weakSelf.postDisCountImgView.hidden = NO;
+                    weakSelf.postDisCountImgView.userInteractionEnabled = NO;
+                    [weakSelf.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_outofsale"]];
+                }
+            }
+        } onError:^(NSError *error) {
+            
+        }];
+    
+    
     
 }
 - (void)didTapClickToWebViewPage:(id)sender
