@@ -260,7 +260,9 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                                 } else {
                                     price = parseFloat(priceInfo[key].promotionList[0].price);
                                 }
-
+                            } else if (priceInfo[key].suggestivePromotionList && priceInfo[key].suggestivePromotionList.length) {
+                                var promotion = priceInfo[key].suggestivePromotionList[0];
+                                price = parseFloat(promotion.price);
                             } else {
                                 price = parseFloat(priceInfo[key].price);
                             }
@@ -414,10 +416,13 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
             callback(err);
         } else {
             try {
+                var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+
                 var g_config = {
                     vdata : {}
                 };
-                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
+
+                eval(b);
 
                 var priceBeforeDiscount = parseFloat(g_config.Price);
 //                var stockInfo = g_config.DynamicStock.sku;

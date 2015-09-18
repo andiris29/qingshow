@@ -251,17 +251,18 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
 //                            var stock = stockInfo[key].quantity;
                             var price = null;
 
-
                             // "type": "店铺vip",
                             // "promText": "登录后确认是否享有此优惠",
                             if (priceInfo[key].promotionList && priceInfo[key].promotionList.length) {
                                 var promotion = priceInfo[key].promotionList[0];
-                                if (promotion.promText && promotion.promText.indexOf("登陆") !== -1) {
+                                if (promotion.promText && promotion.promText.indexOf("登录") !== -1) {
                                     price = parseFloat(priceInfo[key].price);
                                 } else {
                                     price = parseFloat(priceInfo[key].promotionList[0].price);
                                 }
-
+                            } else if (priceInfo[key].suggestivePromotionList && priceInfo[key].suggestivePromotionList.length) {
+                                var promotion = priceInfo[key].suggestivePromotionList[0];
+                                price = parseFloat(promotion.price);
                             } else {
                                 price = parseFloat(priceInfo[key].price);
                             }
@@ -415,10 +416,13 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
             callback(err);
         } else {
             try {
+                var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+
                 var g_config = {
                     vdata : {}
                 };
-                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
+
+                eval(b);
 
                 var priceBeforeDiscount = parseFloat(g_config.Price);
 //                var stockInfo = g_config.DynamicStock.sku;
