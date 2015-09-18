@@ -2,6 +2,7 @@ package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S20MatcherActivity;
@@ -39,6 +43,8 @@ import com.focosee.qingshow.activity.fragment.U02SelectExceptionFragment;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.util.ValueUtil;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -263,6 +269,9 @@ public class MenuView extends Fragment implements View.OnClickListener{
                 break;
             case R.id.navigation_btn_discount:
                 if(getActivity() instanceof U09TradeListActivity)return;
+                SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                editor.remove(ValueUtil.NEED_GUIDE);
+                editor.commit();
                 _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:
@@ -299,5 +308,14 @@ public class MenuView extends Fragment implements View.OnClickListener{
         if(null != getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()));
         getActivity().finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getActivity() instanceof U09TradeListActivity) return;
+        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+            navigationBtnDiscount.setBackgroundResource(R.drawable.root_menu_discount_dot);
+        }
     }
 }

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,8 +41,8 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
-import com.focosee.qingshow.widget.Flow.FlowRadioButton;
-import com.focosee.qingshow.widget.Flow.FlowRadioGroup;
+import com.focosee.qingshow.widget.flow.FlowRadioButton;
+import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
@@ -59,7 +58,6 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-
 
 /**
  * Created by Administrator on 2015/3/11.
@@ -98,6 +96,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private Map<String, List<String>> props;
     private Map<String, List<String>> selectProps;
+    private Map<String, List<FlowRadioButton>> selectRadioButton;
     private List<String> keys_order;
 
     private int num = 1;
@@ -119,6 +118,7 @@ public class S11NewTradeFragment extends Fragment {
         itemEntity = (MongoItem) getActivity().getIntent().getExtras().getSerializable(S10ItemDetailActivity.OUTPUT_ITEM_ENTITY);
         trade = new MongoTrade();
         selectProps = new HashMap<>();
+        selectRadioButton = new HashMap<>();
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -149,77 +149,114 @@ public class S11NewTradeFragment extends Fragment {
         return rootView;
     }
 
+    private boolean inited = false;
+
+    private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
+        @Override
+        public void onChanged(String key, int index) {
+            List<String> values = new ArrayList<>();
+            values.add(props.get(key).get(index));
+            selectProps.put(key, values);
+            List<FlowRadioButton> btnList = new ArrayList<>();
+            btnList.add(btnMap.get(key).getChildViews().get(index));
+            selectRadioButton.put(key, btnList);
+            if (null == itemEntity.skuTable) {
+                changeBtnClickable(false);
+                for(String myKey : keys_order){
+                    for(FlowRadioButton btn : btnMap.get(myKey).getChildViews()){
+                        btn.setChecked(false);
+                        btn.setEnable(false);
+                    }
+                }
+                return;
+            }
+
+            stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
+            if (stock < 1) {
+                changeBtnClickable(false);
+            } else {
+                changeBtnClickable(true);
+            }
+            if(!inited){
+                checkNotExistItem(key, 0);
+                inited = true;
+            }else {
+                if (btnMap.get(key).getChildViews().get(index).isEnable())
+                    checkNotExistItem(key, index);
+            }
+        }
+    };
+
     private void initProps() {
         props = SkuUtil.filter(itemEntity.skuProperties);
         keys_order = SkuUtil.getKeyOrder(props);
         checkIndex = new int[props.size()];
         int i = 0;
         for (String key : props.keySet()) {
-            bindItem(key, props.get(key), i, new OnCheckedChangeListener() {
-                @Override
-                public void onChanged(String key, int index) {
-                    List<String> values = new ArrayList<>();
-                    values.add(props.get(key).get(index));
-                    selectProps.put(key, values);
-                    if (null == itemEntity.skuTable){
-                        changeBtnClickable(false);
-                        return;
-                    }
-
-                    stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
-                    if (stock < 1){
-                        changeBtnClickable(false);
-                    }else {
-                        changeBtnClickable(true);
-                    }
-
-                    checkNotExistItem(key, index);
-                }
-            });
+            bindItem(key, props.get(key), i, onCheckedChangeListener);
+            btnMap.get(key).getChildViews().get(0).setChecked(true);
+            onCheckedChangeListener.onChanged(key, 0);
             i++;
         }
     }
 
     //选择属性时，同步更新其他属性的状态。
-    private void checkNotExistItem(String prop, int index){
+    private void checkNotExistItem(String prop, int index) {
+        Log.d(S11NewTradeFragment.class.getSimpleName(), "index:" + index);
+        Map<String, List<String>> tempMap = new HashMap<>();
+        List<String> aList = new ArrayList<>();
+        aList.add(props.get(prop).get(index));
+        tempMap.put(prop, aList);
+        for (String p : keys_order) {
+            if (p.equals(prop)){
+//                for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
+//                    btn.setEnable(true);
+//                }
+                continue;
+            }
+            if(null == btnMap.get(p))continue;
+            for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
+                btn.setEnable(true);
+            }
 
-        for(String b: keys_order) {
-            if (b.equals(prop)) return;
-            for (String p : keys_order) {
-                if (p.equals(b)) return;
-                for (String value : props.get(p)) {
-                    List<String> bList = new ArrayList<>();
-                    boolean isAble;
-                    Map<String, List<String>> tempMap = new HashMap<>();
-                    List<String> aList = new ArrayList<>();
-                    aList.add(props.get(prop).get(index));
-                    tempMap.put(prop, aList);
-                    bList.add(value);
-                    tempMap.put(p, bList);
-                    Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
-                    Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
-                    isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
-                    if (isAble) continue;
-                    for (FlowRadioButton btn : btnMap.get(p)) {
-                        if (btn.getText().equals(value)) {
-                            btn.setEnable(false);
-                        }
+            for (String value : props.get(p)) {
+                if(null == btnMap.get(p))continue;
+                List<String> bList = new ArrayList<>();
+                boolean isAble;
+                bList.add(value);
+                tempMap.put(p, bList);
+                Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
+                Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
+                isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
+                if (isAble) continue;
+                for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
+                    if (btn.getText().equals(value)) {
+                        btn.setEnable(false);
                     }
                 }
             }
         }
+        //设置选中的btn样式
+        for (String p : keys_order) {
+            if(Collections.emptyList() == selectRadioButton)return;
+            if(!selectRadioButton.containsKey(p))return;
+            for (FlowRadioButton btn : selectRadioButton.get(p)) {
+                btn.setChecked(true);
+            }
+        }
+
     }
 
-    private void changeBtnClickable(boolean clickable){
+    private void changeBtnClickable(boolean clickable) {
         cutDiscount.setClickable(clickable);
         plusDiscount.setClickable(clickable);
         cutNum.setClickable(clickable);
         plusNum.setClickable(clickable);
         submit.setClickable(clickable);
 
-        if (clickable == false){
+        if (clickable == false) {
             submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.gary_btn));
-        }else {
+        } else {
             submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_submit_match));
         }
 
@@ -303,13 +340,13 @@ public class S11NewTradeFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        if(!QSModel.INSTANCE.loggedin()){
+        if (!QSModel.INSTANCE.loggedin()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             startActivity(new Intent(getActivity(), U07RegisterActivity.class));
             return;
         }
 
-        if(TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)){
+        if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
             startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
             return;
         }
@@ -332,7 +369,8 @@ public class S11NewTradeFragment extends Fragment {
             e.printStackTrace();
         }
         params.put("quantity", trade.quantity);
-        params.put("promoterRef", QSModel.INSTANCE.getUserId());
+        Log.d(S11NewTradeFragment.class.getSimpleName(), "promoterRef:" + getActivity().getIntent().getStringExtra(S10ItemDetailActivity.PROMOTRER));
+        params.put("promoterRef", getActivity().getIntent().getStringExtra(S10ItemDetailActivity.PROMOTRER));
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeCreateApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -385,7 +423,7 @@ public class S11NewTradeFragment extends Fragment {
         return propItem;
     }
 
-    private Map<String, List<FlowRadioButton>> btnMap = new HashMap<>();
+    private Map<String, FlowRadioGroup> btnMap = new HashMap<>();
 
     private void bindItem(final String key, final List<String> values, final int position, final OnCheckedChangeListener onCheckedChangeListener) {
 
@@ -397,17 +435,14 @@ public class S11NewTradeFragment extends Fragment {
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT);
         itemParams.setMargins(10, 10, 10, 10);
 
-        List<FlowRadioButton> btnList = new ArrayList<>();
-
         for (int i = 0; i < values.size(); i++) {
             FlowRadioButton propItem = initPropItem(values.get(i));
-            group.addView(propItem, itemParams);
-            btnList.add(propItem);
-            if (i == checkIndex[position]) {
-                propItem.setChecked(true);
-                if (onCheckedChangeListener != null)
-                    onCheckedChangeListener.onChanged(key, i);
-            }
+            group.addChildView(propItem, itemParams);
+//            if (i == checkIndex[position]) {
+//                propItem.setChecked(true);
+//                if (onCheckedChangeListener != null)
+//                    onCheckedChangeListener.onChanged(key, i);
+//            }
         }
 
         group.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
@@ -419,7 +454,7 @@ public class S11NewTradeFragment extends Fragment {
             }
         });
         propsLayout.addView(prop);
-        btnMap.put(key, btnList);
+        btnMap.put(key, group);
     }
 
     @Override

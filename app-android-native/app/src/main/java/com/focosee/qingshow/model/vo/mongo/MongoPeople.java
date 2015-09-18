@@ -1,7 +1,6 @@
 package com.focosee.qingshow.model.vo.mongo;
 
 import com.focosee.qingshow.model.vo.context.PeopleContext;
-
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -29,6 +28,7 @@ public class MongoPeople implements Serializable {
     public MeasureInfo measureInfo;
     public List<Bonuses> bonuses;
     public boolean bonusWithdrawRequested;
+    public Unread unread;
 
     //    +modelInfo
     //    +modelInfo.order
@@ -77,5 +77,14 @@ public class MongoPeople implements Serializable {
         public String forgerRef;
         public String tradeRef;
         public String itemRef;
+    }
+
+    public class Unread implements Serializable {
+        public List<NewExpectablePrices> newExpectableTrades;
+    }
+
+    public class NewExpectablePrices implements Serializable {
+        public String ref;
+        public Number price;
     }
 }

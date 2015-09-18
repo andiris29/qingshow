@@ -23,6 +23,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
     private final String TAG = "S07ListAdapter";
 
     private Context context;
+    private String promoterRef;
 
     /**
      * viewType的顺序的layoutId的顺序一致
@@ -31,9 +32,10 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
      * @param context
      * @param layoutId
      */
-    public S07ListAdapter(@NonNull List<MongoItem> datas, Context context, int... layoutId) {
+    public S07ListAdapter(@NonNull List<MongoItem> datas, Context context, String promoterRef, int... layoutId) {
         super(datas, context, layoutId);
         this.context = context;
+        this.promoterRef = promoterRef;
     }
 
     @Override
@@ -74,6 +76,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
         Bundle bundle = new Bundle();
         bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);
         intent.putExtras(bundle);
+        intent.putExtra(S10ItemDetailActivity.PROMOTRER, promoterRef);
         context.startActivity(intent);
     }
 }

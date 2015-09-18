@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -28,7 +29,9 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
@@ -506,8 +509,17 @@ public class S20MatcherActivity extends BaseActivity {
         }
     }
 
+    public void onEventMainThread(PushGuideEvent event){
+        if(event.unread){
+            ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
+        }
+    }
+
     @OnClick(R.id.menu)
     public void menuOpen() {
+        ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
         menuView = new MenuView();
         menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
     }
@@ -643,6 +655,10 @@ public class S20MatcherActivity extends BaseActivity {
 
         MobclickAgent.onPageStart("S20MatcherActivity");
         MobclickAgent.onResume(this);
+
+        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+            ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }
     }
 
     @Override

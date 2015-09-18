@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
@@ -48,8 +49,10 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ToastUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
@@ -504,6 +507,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
                 commitForm();
                 menuView = new MenuView();
                 menuView.show(getActivity().getSupportFragmentManager(), U02SettingsFragment.class.getSimpleName(), container);
@@ -593,6 +597,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         });
     }
 
+    public void onEventMainThread(PushGuideEvent event){
+        if(event.unread){
+            backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            backTextView.setImageResource(R.drawable.nav_btn_menu_n);
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -602,6 +614,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
+        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+            backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }
     }
 
     public void onPause() {

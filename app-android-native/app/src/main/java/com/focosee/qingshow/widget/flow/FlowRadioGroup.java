@@ -1,9 +1,12 @@
-package com.focosee.qingshow.widget.Flow;
+package com.focosee.qingshow.widget.flow;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import com.focosee.qingshow.widget.radio.IRadioViewHelper;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/3/13.
@@ -12,6 +15,12 @@ public class FlowRadioGroup extends FlowLayout {
 
     private int lastCheckedIndex;
     private int checkedIndex;
+
+    public List<FlowRadioButton> getChildViews() {
+        return childViews;
+    }
+
+    private List<FlowRadioButton> childViews = new ArrayList<>();
 
     private OnCheckedChangeListener onCheckedChangeListener;
 
@@ -39,7 +48,6 @@ public class FlowRadioGroup extends FlowLayout {
     public boolean onTouchEvent(MotionEvent event) {
         boolean check[] = new boolean[getChildCount()];
         int checkedCount = 0;
-
         for (int i = 0; i < getChildCount(); i++) {
             IRadioViewHelper item = (IRadioViewHelper) getChildAt(i);
             if(!item.isEnable()){
@@ -65,7 +73,7 @@ public class FlowRadioGroup extends FlowLayout {
             }
         }
 
-        if (2 == checkedCount) {
+        if (1 < checkedCount) {
             for (int i = 0; i < check.length; i++) {
                 IRadioViewHelper item = (IRadioViewHelper) getChildAt(i);
                 if (i == lastCheckedIndex && check[i]) {
@@ -84,4 +92,8 @@ public class FlowRadioGroup extends FlowLayout {
     }
 
 
+    public void addChildView(FlowRadioButton child, LayoutParams layoutParams) {
+        super.addView(child, layoutParams);
+        childViews.add(child);
+    }
 }

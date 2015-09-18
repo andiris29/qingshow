@@ -5,12 +5,14 @@ var _ = require('underscore');
 
 var Items = require('../../model/items');
 var Trade = require('../../model/trades');
+var People = require('../../model/peoples');
 
 var jPushAudiences = require('../../model/jPushAudiences');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var TradeHelper = require('../helpers/TradeHelper');
 var URLParser = require('../../scheduled/goblin/common/URLParser');
 var qsftp = require('../../runtime/qsftp');
 var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");
@@ -44,10 +46,42 @@ item.updateExpectablePrice = {
                 callback(error, item);
             });
         }, function(item, callback) {
-            _itemPriceChanged(item, RequestHelper.parseNumber(param.expectablePrice), function() {
-                // do nothing
-            });
-            callback(null, item);
+            async.waterfall([function(cb){
+                Trade.find({
+                    'itemRef' : item._id,
+                    'status' : 0
+                }).exec(function(error, trades) {
+                    if (error) {
+                        cb(ServerError.TradeNotExist);
+                    }else {
+                        cb(null, trades);
+                    }
+                });
+            },
+            function(trades, cb){
+                _itemPriceChanged(trades, RequestHelper.parseNumber(param.expectablePrice),function(){
+                });
+
+                trades.forEach(function(trade){
+                    TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
+                        if (err) {
+                            cb(err)
+                        }
+                    });
+                    TradeHelper.pushNewExpectableTrades(trade._id, trade.ownerRef, param.expectablePrice, function(err){
+                        if (err) {
+                            cb(err)
+                        }
+                    });
+                });
+                cb(null, trades);
+            }],function(err){
+                if (err) {
+                    callback(err);
+                }else {
+                    callback(null, item);
+                }
+            })
         }], function(error, item) {
             ResponseHelper.response(res, error, {
                 item : item
@@ -62,13 +96,29 @@ item.removeExpectablePrice = {
     'func' : function(req, res) {
         var param = req.body;
         async.waterfall([function(callback) {
-            Items.collection({
+            Items.findOneAndUpdate({
                 _id : RequestHelper.parseId(param._id)
             }, {
                 $unset : { expectablePrice : 0 }
             }, {
             }, function(error) {
                 callback(error);
+            });
+        }, function(callback){
+            Trade.find({
+                'itemRef' : RequestHelper.parseId(param._id)
+            }, function(err, trades){
+                if (err) {
+                    callback(err);
+                }else{
+                    callback(null, trades);
+                }
+            })
+        }, function(trades, callback){
+            trades.forEach(function(trade){
+                TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
+                    callback(err);
+                });
             });
         }, function(callback) {
             Items.findOne({
@@ -230,20 +280,10 @@ item.list = {
     }
 };
 
-var _itemPriceChanged = function(item, price, callback) {
-    async.waterfall([
-    function(callback) {
-        Trade.find({
-            'itemRef' : item._id,
-            'status' : 0
-        }).exec(function(error, trades) {
-            callback(error, trades);
-        });
-    },
-    function(trades, callback) {
-        var tasks = trades.map(function(trade) {
-            return function(cb) {
-                async.waterfall([
+var _itemPriceChanged = function(trades, price, callback) {
+    var tasks = trades.map(function(trade) {
+        return function(cb) {
+            async.waterfall([
                 function(cb2) {
                     jPushAudiences.find({
                         peopleRef : trade.ownerRef
@@ -257,19 +297,18 @@ var _itemPriceChanged = function(item, price, callback) {
                         registrationIDs.push(target.registrationId);
                     });
                     PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
-                        'command' : PushNotificationHelper.CommandItemPriceChanged,
-                        '_id' : item._id.toString(),
+                        'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
+                        '_id' : trade.itemRef,
                         '_tradeId' : trade._id.toString(),
                         'actualPrice' : price
                     }, cb2);
                 }], cb);
-            };
-        });
-        async.parallel(tasks, function(err) {
-            callback();
-        });
-    }], function(err) {
-        callback(err);
+        };
+    });
+    async.parallel(tasks, function(err) {
+        if (err) {
+            callback(err);
+        }
     });
 };
 

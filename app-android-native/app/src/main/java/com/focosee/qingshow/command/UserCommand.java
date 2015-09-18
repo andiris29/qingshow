@@ -109,4 +109,22 @@ public class UserCommand {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
 
     }
+
+    public static void readExpectableTrade(String _id, final Context context, final Callback callback){
+
+        Map<String, String> params = new HashMap<>();
+        params.put("_id", _id);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getReadExpectableTradeApi()
+                , new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(context, MetadataParser.getError(response));
+                    return;
+                }
+                callback.onComplete();
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
 }

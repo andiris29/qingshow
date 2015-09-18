@@ -47,7 +47,6 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
-import com.sina.weibo.sdk.api.share.Base;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
@@ -445,6 +444,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         itemList.addAll(showDetailEntity.itemRefs);
         bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
         intent.putExtras(bundle);
+        intent.putExtra(S10ItemDetailActivity.PROMOTRER, showDetailEntity.ownerRef._id);
         startActivity(intent);
     }
 

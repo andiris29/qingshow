@@ -1,4 +1,5 @@
 var async = require('async');
+var winston = require('winston');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -6,10 +7,11 @@ var ServerError = require('../server-error');
 var VersionUtil = require('../../utils/VersionUtil');
 
 var system = module.exports;
+var clientLogger = winston.loggers.get('client');
 
 var productionDeployment = {
 	appServiceRoot : 'http://chingshow.com/services',
-	paymentServiceRoot : 'http://chinshow.com/payment',
+	paymentServiceRoot : 'http://chingshow.com/payment',
 	appWebRoot : 'http://chingshow.com/app-web' 
 }
 
@@ -40,6 +42,40 @@ system.get = {
 		    ResponseHelper.response(res, error, {
 		    	'deployment' : deployment
 		    });
+		});
+	}
+};
+
+
+system.log = {
+	'method' : 'post',
+	'func' : function(req, res){
+		var params = req.body;
+		var level = params.level;
+		var log = {
+			'client' : params.client,
+			'level' : params.level,
+			'stack' : params.stack,
+			'extra' : params.extra
+		}
+
+		var message =  params.message;
+
+		switch(level){
+			case 'info':
+				clientLogger.info(message, log);
+			break;
+			
+			case 'error':
+				clientLogger.error(message, log);
+			break;
+
+			case 'warn':
+				clientLogger.warn(message, log);
+			break;
+		}
+
+		ResponseHelper.response(res, null, {
 		});
 	}
 };

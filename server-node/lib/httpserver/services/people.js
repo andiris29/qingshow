@@ -10,6 +10,7 @@ var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
+var TradeHelper = require('../helpers/TradeHelper');
 
 var ServerError = require('../server-error');
 
@@ -102,5 +103,21 @@ people.query = {
                 'peoples' : peoples 
             });
         });
+    }
+};
+
+people.readExpectableTrade = {
+    method : 'post',
+    permissionValidators : ['loginValidator'],
+    func : function(req, res){
+        var _id = req.body._id;
+        async.waterfall([function(callback){
+            TradeHelper.removeExpectableTrades(_id, req.qsCurrentUserId, function(error){
+                callback(error)
+            })
+        }],function(error){
+            ResponseHelper.response(res, error, {
+            });
+        })
     }
 };

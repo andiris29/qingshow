@@ -50,6 +50,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
     public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
     public static final String BONUSES_ITEMID = "BONUSES_ITEMID";
+    public static final String PROMOTRER = "promoterRef";
 
     @InjectView(R.id.webview)
     WebView webview;

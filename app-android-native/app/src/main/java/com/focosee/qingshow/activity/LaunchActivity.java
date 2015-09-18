@@ -15,8 +15,10 @@ import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.SystemCommand;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -26,6 +28,9 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.exception.CrashHandler;
+import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +62,8 @@ public class LaunchActivity extends InstrumentedActivity {
             getUser();
         }
 
+        systemLog();
+
         setContentView(R.layout.activity_launch);
     }
 
@@ -76,6 +83,18 @@ public class LaunchActivity extends InstrumentedActivity {
             MongoPeople _user = new MongoPeople();
             _user._id = id;
             QSModel.INSTANCE.setUser(_user);
+        }
+    }
+
+    private void systemLog(){
+        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.CRASH_LOG,""))){
+            Gson gson = QSGsonFactory.create();
+            CrashHandler.CrashModel crashModel = gson.fromJson(QSApplication.instance().getPreferences().getString(ValueUtil.CRASH_LOG, ""), CrashHandler.CrashModel.class);
+            try {
+                SystemCommand.systemLog(new JSONObject(gson.toJson(crashModel)));
+            } catch (JSONException e) {
+                Log.e(LaunchActivity.class.getSimpleName(), "systemLog:" + e.getMessage());
+            }
         }
     }
 

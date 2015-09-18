@@ -91,8 +91,20 @@ public class QSAppWebAPI {
 
     private static String VALIDATE_MOBILE_API = "/user/validateMobile";
 
+    private static String READ_EXPECTABLE_TRADE_API = "/people/readExpectableTrade";
+
+    private static String SYSTEM_LOG_API = "/system/log";
+
+    public static String getSystemLogApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SYSTEM_LOG_API;
+    }
+
+    public static String getReadExpectableTradeApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + READ_EXPECTABLE_TRADE_API;
+    }
+
     public static String getUserLogout() {
-        return USER_LOGOUT;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGOUT;
     }
 
     public static String getLoginServiceUrl() {

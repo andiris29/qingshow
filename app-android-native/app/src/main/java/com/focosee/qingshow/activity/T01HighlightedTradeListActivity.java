@@ -3,11 +3,15 @@ package com.focosee.qingshow.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.focosee.qingshow.QSApplication;
+import com.focosee.qingshow.receiver.PushGuideEvent;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.*;
 import com.android.volley.Response;
@@ -21,9 +25,13 @@ import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.widget.QSTextView;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -60,6 +68,7 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                leftBtn.setImageResource(R.drawable.nav_btn_menu_n);
                 menuView = new MenuView();
                 menuView.show(getSupportFragmentManager(), T01HighlightedTradeListActivity.class.getSimpleName(), contrainer);
             }
@@ -133,5 +142,23 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         doLoadMore();
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S20MatcherActivity");
+        MobclickAgent.onResume(this);
+        if (!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))) {
+            leftBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }
+    }
+
+    public void onEventMainThread(PushGuideEvent event) {
+        if (event.unread) {
+            leftBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+        }else{
+            leftBtn.setImageResource(R.drawable.nav_btn_menu_n);
+        }
     }
 }

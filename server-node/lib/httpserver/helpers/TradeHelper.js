@@ -6,6 +6,7 @@ var Trade = require('../../model/trades');
 
 var qsmail = require('../../runtime/qsmail');
 var winston = require('winston');
+var RequestHelper = require('./RequestHelper');
 
 var TradeHelper = module.exports;
 
@@ -55,6 +56,41 @@ TradeHelper.notify = function(trade, callback) {
 
     qsmail.send(subject, content, callback);
 };
+
+TradeHelper.pushNewExpectableTrades = function(tradeId, peopleId, price, callback){
+    People.findOne({
+        _id : RequestHelper.parseId(peopleId)
+    },
+    function(error, people){
+        people.unread = people.unread || {};
+        people.unread.newExpectableTrades = people.unread.newExpectableTrades || [];
+        people.unread.newExpectableTrades.push({
+            ref : tradeId,
+            price : price
+        }); 
+        people.save(function(err,people){
+            if (err) {
+                callback(err);
+            } 
+        });
+    });
+}
+
+TradeHelper.removeExpectableTrades = function(tradeId, peopleId, callback){
+    People.findOneAndUpdate({
+        _id : RequestHelper.parseId(peopleId)
+    }, {
+        $pull : {
+            'unread.newExpectableTrades' : {
+                ref : RequestHelper.parseId(tradeId)
+            }
+        }
+    }, {
+    }, function(error) {
+        callback(error)
+    });
+}
+
 
 _getStatusName = function(status) {
     switch(status) {
