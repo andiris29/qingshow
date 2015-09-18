@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -41,9 +40,7 @@ import com.focosee.qingshow.wxapi.PushEvent;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;

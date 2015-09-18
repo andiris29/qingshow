@@ -16,11 +16,11 @@ public class FlowRadioGroup extends FlowLayout {
     private int lastCheckedIndex;
     private int checkedIndex;
 
-    public List<View> getChildViews() {
+    public List<FlowRadioButton> getChildViews() {
         return childViews;
     }
 
-    private List<View> childViews = new ArrayList<>();
+    private List<FlowRadioButton> childViews = new ArrayList<>();
 
     private OnCheckedChangeListener onCheckedChangeListener;
 
@@ -48,7 +48,6 @@ public class FlowRadioGroup extends FlowLayout {
     public boolean onTouchEvent(MotionEvent event) {
         boolean check[] = new boolean[getChildCount()];
         int checkedCount = 0;
-
         for (int i = 0; i < getChildCount(); i++) {
             IRadioViewHelper item = (IRadioViewHelper) getChildAt(i);
             if(!item.isEnable()){
@@ -74,7 +73,7 @@ public class FlowRadioGroup extends FlowLayout {
             }
         }
 
-        if (2 == checkedCount) {
+        if (1 < checkedCount) {
             for (int i = 0; i < check.length; i++) {
                 IRadioViewHelper item = (IRadioViewHelper) getChildAt(i);
                 if (i == lastCheckedIndex && check[i]) {
@@ -92,9 +91,9 @@ public class FlowRadioGroup extends FlowLayout {
         return super.onTouchEvent(event);
     }
 
-    @Override
-    public void addView(View child) {
-        super.addView(child);
+
+    public void addChildView(FlowRadioButton child, LayoutParams layoutParams) {
+        super.addView(child, layoutParams);
         childViews.add(child);
     }
 }

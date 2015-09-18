@@ -158,10 +158,16 @@ public class S11NewTradeFragment extends Fragment {
             values.add(props.get(key).get(index));
             selectProps.put(key, values);
             List<FlowRadioButton> btnList = new ArrayList<>();
-            btnList.add((FlowRadioButton)btnMap.get(key).getChildViews().get(index));
+            btnList.add(btnMap.get(key).getChildViews().get(index));
             selectRadioButton.put(key, btnList);
             if (null == itemEntity.skuTable) {
                 changeBtnClickable(false);
+                for(String myKey : keys_order){
+                    for(FlowRadioButton btn : btnMap.get(myKey).getChildViews()){
+                        btn.setChecked(false);
+                        btn.setEnable(false);
+                    }
+                }
                 return;
             }
 
@@ -175,7 +181,7 @@ public class S11NewTradeFragment extends Fragment {
                 checkNotExistItem(key, 0);
                 inited = true;
             }else {
-                if (((FlowRadioButton)btnMap.get(key).getChildViews().get(index)).isEnable())
+                if (btnMap.get(key).getChildViews().get(index).isEnable())
                     checkNotExistItem(key, index);
             }
         }
@@ -188,7 +194,7 @@ public class S11NewTradeFragment extends Fragment {
         int i = 0;
         for (String key : props.keySet()) {
             bindItem(key, props.get(key), i, onCheckedChangeListener);
-            ((FlowRadioButton)btnMap.get(key).getChildViews().get(0)).setChecked(true);
+            btnMap.get(key).getChildViews().get(0).setChecked(true);
             onCheckedChangeListener.onChanged(key, 0);
             i++;
         }
@@ -196,21 +202,21 @@ public class S11NewTradeFragment extends Fragment {
 
     //选择属性时，同步更新其他属性的状态。
     private void checkNotExistItem(String prop, int index) {
-
+        Log.d(S11NewTradeFragment.class.getSimpleName(), "index:" + index);
         Map<String, List<String>> tempMap = new HashMap<>();
         List<String> aList = new ArrayList<>();
         aList.add(props.get(prop).get(index));
         tempMap.put(prop, aList);
         for (String p : keys_order) {
             if (p.equals(prop)){
-                for (View btn : btnMap.get(p).getChildViews()) {
-                    ((FlowRadioButton)btn).setEnable(true);
-                }
+//                for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
+//                    btn.setEnable(true);
+//                }
                 continue;
             }
             if(null == btnMap.get(p))continue;
-            for (View btn : btnMap.get(p).getChildViews()) {
-                ((FlowRadioButton)btn).setEnable(true);
+            for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
+                btn.setEnable(true);
             }
 
             for (String value : props.get(p)) {
@@ -223,9 +229,9 @@ public class S11NewTradeFragment extends Fragment {
                 Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
                 isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
                 if (isAble) continue;
-                for (View btn : btnMap.get(p).getChildViews()) {
-                    if (((FlowRadioButton)btn).getText().equals(value)) {
-                        ((FlowRadioButton)btn).setEnable(false);
+                for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
+                    if (btn.getText().equals(value)) {
+                        btn.setEnable(false);
                     }
                 }
             }
@@ -431,7 +437,7 @@ public class S11NewTradeFragment extends Fragment {
 
         for (int i = 0; i < values.size(); i++) {
             FlowRadioButton propItem = initPropItem(values.get(i));
-            group.addView(propItem, itemParams);
+            group.addChildView(propItem, itemParams);
 //            if (i == checkIndex[position]) {
 //                propItem.setChecked(true);
 //                if (onCheckedChangeListener != null)
