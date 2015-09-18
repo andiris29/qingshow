@@ -61,9 +61,9 @@ var _handlerTimeout = function(itemId) {
 };
 
 var _rollbackAllocatedItem = function (itemId, allocatedArray, sourceArray) {
-    var index = _findItemIndexWithId(itemId, allocatedArray);
+    var index = _findItemIndexWithId(allocatedArray, itemId);
     if (index !== -1) {
-        var item = allocatedArray(index);
+        var item = allocatedArray[index];
         allocatedArray.splice(index, 1);
         sourceArray.unshift(item);   //rollback 回待分配数组的item优先分配
     }
