@@ -16,5 +16,6 @@ public class ValueUtil {
     public static final String SHARE_BONUS = "U15_SHARE_BONUS";
 
     public static final int SHOW_ERROR_TIME = 5000;//显示错误信息的时间
-    public static final String NEED_GUIDE = "NEED_GUIDE_PUSH";
+    public static final String NEED_GUIDE = "NEED_GUIDE_PUSH";//降价指引
+    public static final String CRASH_LOG = "crash_log";//崩溃日志
 }

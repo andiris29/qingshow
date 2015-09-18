@@ -10,6 +10,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
+import com.focosee.qingshow.util.exception.CrashHandler;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
@@ -46,6 +47,8 @@ public class QSApplication extends Application {
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
         configImageLoader();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     public void configImageLoader() {

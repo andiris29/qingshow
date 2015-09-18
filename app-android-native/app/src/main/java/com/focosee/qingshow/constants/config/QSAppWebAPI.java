@@ -93,6 +93,12 @@ public class QSAppWebAPI {
 
     private static String READ_EXPECTABLE_TRADE_API = "/people/readExpectableTrade";
 
+    private static String SYSTEM_LOG_API = "/system/log";
+
+    public static String getSystemLogApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SYSTEM_LOG_API;
+    }
+
     public static String getReadExpectableTradeApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + READ_EXPECTABLE_TRADE_API;
     }
