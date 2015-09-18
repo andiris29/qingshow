@@ -256,7 +256,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                             // "promText": "登录后确认是否享有此优惠",
                             if (priceInfo[key].promotionList && priceInfo[key].promotionList.length) {
                                 var promotion = priceInfo[key].promotionList[0];
-                                if (promotion.promText.indexOf("登陆") !== -1) {
+                                if (promotion.promText && promotion.promText.indexOf("登陆") !== -1) {
                                     price = parseFloat(priceInfo[key].price);
                                 } else {
                                     price = parseFloat(priceInfo[key].promotionList[0].price);
