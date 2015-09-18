@@ -104,18 +104,15 @@
             android:layout_marginTop="5dp"
             android:text="期望价格：" />
 
-        <com.focosee.qingshow.widget.QSButton
+        <com.focosee.qingshow.widget.QSImageButton
             android:id="@+id/item_tradelist_discount"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignBottom="@id/item_tradelist_expectedPrice"
             android:layout_alignParentRight="true"
             android:layout_marginRight="3dp"
-            android:background="@drawable/newest_btn"
-            app:clickGround="@drawable/newest_btn_click_ground"
-            android:text="最新\n折扣"
+            android:background="@null"
             android:textColor="@color/white"
-            android:rotation="30"
             android:visibility="gone"
             android:scaleType="fitCenter" />
     </android.support.percent.PercentRelativeLayout>

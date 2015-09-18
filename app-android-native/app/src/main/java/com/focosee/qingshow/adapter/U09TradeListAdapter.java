@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,6 +23,8 @@ import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -39,6 +42,7 @@ import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
+import com.focosee.qingshow.widget.QSImageButton;
 import com.focosee.qingshow.widget.QSTextView;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -83,7 +87,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         QSButton btn2 = holder.getView(R.id.item_tradelist_btn2);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
-        QSButton discountBtn = holder.getView(R.id.item_tradelist_discount);
+        final QSImageButton discountBtn = holder.getView(R.id.item_tradelist_discount);
         properTextView.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
@@ -136,7 +140,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             if(null == trade.__context.item)return;
             if(null != trade.__context.item.delist){
                 discountBtn.setVisibility(View.VISIBLE);
-                discountBtn.setBackgroundResource(R.drawable.sold_out_gray);
+                discountBtn.setImageResource(R.drawable.sold_out_gray);
                 discountBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -147,25 +151,34 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 });
                 return;
             }
-            if(null == trade.__context.item)return;
-            if(!TextUtils.isEmpty(trade.__context.item.expectablePrice))return;
+            if(TextUtils.isEmpty(trade.__context.item.expectablePrice))return;
             discountBtn.setVisibility(View.VISIBLE);
-            discountBtn.setBackgroundResource(R.drawable.new_discount);
+            discountBtn.setImageResource(R.drawable.new_discount);
             if(null == trade.peopleSnapshot)return;
             if(null == trade.peopleSnapshot.unread)return;
             if(null == trade.peopleSnapshot.unread.newExpectableTrades)return;
+            Log.d(U09TradeListAdapter.class.getSimpleName(), "newExpectableTrades:" + trade.peopleSnapshot.unread.newExpectableTrades.toString());
             for (MongoPeople.NewExpectablePrices newExpectablePrices : trade.peopleSnapshot.unread.newExpectableTrades){
-                if(!newExpectablePrices.ref.equals(trade._id)){
-                    discountBtn.setBackgroundResource(R.drawable.new_discount_gray);
+                if(newExpectablePrices.ref.equals(trade._id)){
+                    discountBtn.setEnabled(true);
+                    discountBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            UserCommand.readExpectableTrade(trade._id, context, new Callback() {
+                                @Override
+                                public void onComplete() {
+                                    discountBtn.setImageResource(R.drawable.new_discount_gray);
+                                    discountBtn.setEnabled(false);
+                                }
+                            });
+                            showNewTradeNotify(trade._id);
+                        }
+                    });
                     return;
                 }
             }
-            discountBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showNewTradeNotify(trade._id);
-                }
-            });
+            discountBtn.setImageResource(R.drawable.new_discount_gray);
+            discountBtn.setEnabled(false);
             return;
         }
         //1-等待付款
