@@ -95,37 +95,37 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (!self.itemListVc) {
-        __weak QSS03ShowDetailViewController* weakSelf = self;
-        if (self.showDict) {
-            [weakSelf bindExceptImageWithDict:self.showDict];
-        }
-        if (!self.showDict) {
-            [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
-                weakSelf.showDict = dict;
-                [weakSelf bindWithDict:dict];
+
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    if (self.showDict) {
+        [weakSelf bindExceptImageWithDict:self.showDict];
+    }
+    
+    if (!self.showDict) {
+        [SHARE_NW_ENGINE queryShowIdDetail:self.showId onSucceed:^(NSDictionary * dict) {
+            weakSelf.showDict = dict;
+            [weakSelf bindWithDict:dict];
+            self.discountContainer.hidden = YES;
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    } else {
+        [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+            weakSelf.showDict = dict;
+            [weakSelf bindExceptImageWithDict:dict];
+            NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+            if (!promotionDict) {
                 self.discountContainer.hidden = YES;
-            } onError:^(NSError *error) {
-                [self showErrorHudWithError:error];
-            }];
-        } else {
-            [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-                weakSelf.showDict = dict;
-                [weakSelf bindExceptImageWithDict:dict];
-                NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
-                if (!promotionDict) {
-                    self.discountContainer.hidden = YES;
+            } else {
+                if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+                    [self showDiscountContainer];
                 } else {
-                    if (![QSPromotionUtil getIsEnabled:promotionDict]) {
-                        [self showDiscountContainer];
-                    } else {
-                        self.discountContainer.hidden = YES;
-                    }
+                    self.discountContainer.hidden = YES;
                 }
-            } onError:^(NSError *error) {
-                
-            }];
-        }
+            }
+        } onError:^(NSError *error) {
+            
+        }];
     }
     [MobClick beginLogPageView:PAGE_ID];
 }
@@ -246,7 +246,7 @@
             }
         }
     }
-    return [NSString stringWithFormat:@"%d",array.count];
+    return [NSString stringWithFormat:@"%@",@(array.count)];
 }
 
 - (void)didReceiveMemoryWarning {
