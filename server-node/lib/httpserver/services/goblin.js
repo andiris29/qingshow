@@ -59,6 +59,8 @@ goblin.crawlItemComplete = {
                 }
             }, function (item, callback) {
                 ItemSyncService.syncItemInfo(item, itemInfo, error, callback);
+            }, function (item, callback) {
+                GoblinScheduler.finishItem(item._id, error, callback);
             }
         ], function (err, item) {
             if (!err) {
