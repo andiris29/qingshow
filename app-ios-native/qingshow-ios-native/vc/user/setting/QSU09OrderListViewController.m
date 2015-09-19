@@ -19,6 +19,7 @@
 #import "QSTradeUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSG01ItemWebViewController.h"
+#import "QSAbstractRootViewController.h"
 #define PAGE_ID @"U09 - 交易一览"
 @interface QSU09OrderListViewController ()
 
@@ -57,6 +58,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.menuProvider hideDotInMenuForType:QSRootMenuItemDiscount];
+    
     self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];
 }

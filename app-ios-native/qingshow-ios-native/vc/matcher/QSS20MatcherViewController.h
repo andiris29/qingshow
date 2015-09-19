@@ -12,14 +12,14 @@
 #import "QSS21CategorySelectorVC.h"
 #import "QSMatcherItemsProvider.h"
 #import "QSS23MatcherPreviewViewController.h"
+#import "QSRootContentViewController.h"
 
 @protocol QSMenuProviderDelegate;
 
-@interface QSS20MatcherViewController : UIViewController <QSMatcherCanvasViewDelegate, QSMatcherItemsProviderDelegate, QSS21CategorySelectorVCDelegate, QSS23MatcherPreviewViewControllerDelegate>
+@interface QSS20MatcherViewController : UIViewController <QSMatcherCanvasViewDelegate, QSMatcherItemsProviderDelegate, QSS21CategorySelectorVCDelegate, QSS23MatcherPreviewViewControllerDelegate, QSIRootContentViewController>
 
 - (instancetype)init;
 
-@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 @property (weak, nonatomic) IBOutlet UIView *itemSelectionContainer;
 @property (weak, nonatomic) IBOutlet UIView *canvasContainer;
 
@@ -27,6 +27,8 @@
 
 - (IBAction)menuBtnPressed:(id)sender;
 - (IBAction)previewButtonPressed:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *menuBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *categorySelectionButton;

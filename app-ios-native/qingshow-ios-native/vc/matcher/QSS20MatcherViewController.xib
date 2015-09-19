@@ -16,6 +16,7 @@
                 <outlet property="canvasContainer" destination="nXP-DQ-iBc" id="xU6-cQ-0St"/>
                 <outlet property="categorySelectionButton" destination="lP0-aE-IHb" id="cjq-FG-ios"/>
                 <outlet property="itemSelectionContainer" destination="IPv-3T-oo4" id="ZB5-bx-xbM"/>
+                <outlet property="menuBtn" destination="eLE-BA-R8G" id="Cxw-OQ-IJs"/>
                 <outlet property="submitButton" destination="Gud-mx-kWh" id="VyE-dd-z4W"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

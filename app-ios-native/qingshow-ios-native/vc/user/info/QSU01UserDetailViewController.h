@@ -10,22 +10,25 @@
 #import "QSDetailBaseViewController.h"
 #import "QSImageCollectionViewProvider.h"
 #import "QSPeopleListTableViewProvider.h"
+#import "QSRootContentViewController.h"
 @protocol QSMenuProviderDelegate;
 
-@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate, QSPeoplelListTableViewProviderDelegate>
+@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate, QSPeoplelListTableViewProviderDelegate,
+QSIRootContentViewController>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *matcherCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendCollectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *favorCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView *followingTableView;
 @property (weak, nonatomic) IBOutlet UITableView *followerTableView;
-@property (weak, nonatomic) IBOutlet UIButton *menuBtn;
+
+@property (strong, nonatomic) IBOutlet UIButton *menuBtn;
+
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;
 
 - (IBAction)topToTopBtnPressed:(id)sender;
 
-@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 - (id)initWithPeople:(NSDictionary*)peopleDict;
 - (id)initWithCurrentUser;
