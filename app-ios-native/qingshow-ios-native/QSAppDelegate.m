@@ -37,6 +37,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [QSHookHelper registerHooker];
+
     //注册第三方登陆、分享平台
     [self registerSharePlatform];
     

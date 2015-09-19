@@ -187,6 +187,7 @@
 		EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */; };
 		EF88D08E1ACEF90C002C4963 /* area.json in Resources */ = {isa = PBXBuildFile; fileRef = EF88D08D1ACEF90C002C4963 /* area.json */; };
 		EF89F9DB1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */; };
+		EF8D053A1BADC3C4004154F3 /* QSHookArray.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8D05391BADC3C4004154F3 /* QSHookArray.m */; };
 		EF8F0EF41A657DA900D1DADE /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8F0EF31A657DA900D1DADE /* UIImage+fixOrientation.m */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
 		EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF921FBB1ACBB11100669124 /* libc++.dylib */; };
@@ -737,6 +738,8 @@
 		EF88D08D1ACEF90C002C4963 /* area.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = area.json; sourceTree = "<group>"; };
 		EF89F9D91B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSVersionUpdateAlertHandler.h; sourceTree = "<group>"; };
 		EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSVersionUpdateAlertHandler.m; sourceTree = "<group>"; };
+		EF8D05381BADC3C4004154F3 /* QSHookArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHookArray.h; sourceTree = "<group>"; };
+		EF8D05391BADC3C4004154F3 /* QSHookArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSHookArray.m; sourceTree = "<group>"; };
 		EF8F0EF01A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8F0EF11A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8F0EF21A657DA900D1DADE /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
@@ -1599,6 +1602,8 @@
 				EF4A57F41BA4633C00677472 /* QSHookDictionary.m */,
 				EF4A57F61BA463BC00677472 /* QSHookHelper.h */,
 				EF4A57F71BA463BC00677472 /* QSHookHelper.m */,
+				EF8D05381BADC3C4004154F3 /* QSHookArray.h */,
+				EF8D05391BADC3C4004154F3 /* QSHookArray.m */,
 			);
 			path = hook;
 			sourceTree = "<group>";
@@ -2936,6 +2941,7 @@
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */,
 				EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */,
+				EF8D053A1BADC3C4004154F3 /* QSHookArray.m in Sources */,
 				EFED348E1AFC734F00F08A0D /* QSU06LoginViewController.m in Sources */,
 				EF6B4CA61B57F92C0060054F /* QSCategoryManager.m in Sources */,
 				8C0A2CF41B20287600F83991 /* QSBackBarItem.m in Sources */,
