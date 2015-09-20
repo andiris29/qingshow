@@ -13,6 +13,7 @@
 #define SHOWTRADECELLIDENTIFIER (@"showTradeCellIdentifier")
 
 @implementation QST01ShowTradeProvider
+@synthesize delegate = _delegate;
 
 - (void)registerCell
 {

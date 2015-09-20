@@ -49,6 +49,8 @@
 @end
 
 @implementation QSU01UserDetailViewController
+
+@synthesize menuProvider = _menuProvider;
 #pragma mark - Init
 - (id)initWithCurrentUser
 {
@@ -325,6 +327,7 @@
     }
 }
 - (IBAction)menuBtnPressed:(id)sender {
+    [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
     if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
         [self.menuProvider didClickMenuBtn];
     }
@@ -400,4 +403,7 @@
     
 }
 
+- (void)showDotAtMenu {
+    [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+}
 @end

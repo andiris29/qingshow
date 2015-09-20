@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 @protocol QSMenuProviderDelegate;
 
-@interface QSRootContentViewController : UIViewController
+@protocol QSIRootContentViewController <NSObject>
 
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
+- (void)showDotAtMenu;
+
+@end
+
+@interface QSRootContentViewController : UIViewController <QSIRootContentViewController>
+
+
 @property (strong, nonatomic) UITapGestureRecognizer* showVersionTapGesture;
 @end

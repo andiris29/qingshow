@@ -7,6 +7,7 @@
 //
 
 #import "QSHookDictionary.h"
+#import "QSNetworkEngine+SystemService.h"
 
 @implementation NSDictionary (QSHookDictionary)
 
@@ -14,8 +15,7 @@
     if (cnt > 0) {
         NSUInteger nilCount = 0;
         for (NSUInteger i = 0; i < cnt; i++) {
-            if (objects[i] == nil) {
-#warning TODO Add network log
+            if (objects[i] == nil || keys[i] == nil) {
                 ++nilCount;
             }
         }
@@ -26,7 +26,7 @@
         __unsafe_unretained id* copyObjects = (__unsafe_unretained id*)malloc(idSize *  count);
         
         for (NSUInteger i = 0, j = 0; i < cnt; i++) {
-            if (objects[i] != nil) {
+            if (objects[i] != nil && keys[i] != nil) {
                 copyKeys[j] = keys[i];
                 copyObjects[j] = objects[i];
                 j++;
@@ -38,6 +38,10 @@
         free(copyObjects);
         copyObjects = NULL;
         
+        if (nilCount) {
+            [SHARE_NW_ENGINE systemLogLevel:@"error" message:@"Dict with nil value" stack:nil extra:[d description] onSuccess:nil onError:nil];
+        }
+        
         return d;
     } else {
         return [self hookDictionaryWithObjects:objects forKeys:keys count:cnt];
@@ -48,8 +52,7 @@
     if (cnt > 0) {
         NSUInteger nilCount = 0;
         for (NSUInteger i = 0; i < cnt; i++) {
-            if (objects[i] == nil) {
-#warning TODO Add network log
+            if (objects[i] == nil || keys[i] == nil) {
                 ++nilCount;
             }
         }
@@ -59,7 +62,7 @@
         __unsafe_unretained id* copyObjects = (__unsafe_unretained id*)malloc(idSize *  count);
         
         for (NSUInteger i = 0, j = 0; i < cnt; i++) {
-            if (objects[i] != nil) {
+            if (objects[i] != nil && keys[i] != nil) {
                 copyKeys[j] = keys[i];
                 copyObjects[j] = objects[i];
                 j++;
@@ -70,6 +73,11 @@
         copyKeys = NULL;
         free(copyObjects);
         copyObjects = NULL;
+        
+        if (nilCount) {
+            [SHARE_NW_ENGINE systemLogLevel:@"error" message:@"Dict with nil value" stack:nil extra:[d description] onSuccess:nil onError:nil];
+        }
+        
         return d;
     } else {
         return [self initHookWithObjects:objects forKeys:keys count:cnt];

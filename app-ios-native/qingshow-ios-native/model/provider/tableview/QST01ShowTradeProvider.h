@@ -8,7 +8,7 @@
 
 #import "QSTableViewBasicProvider.h"
 #import "QST01ShowTradeCell.h"
-@protocol QST01ShowTradeProviderDelegate <NSObject>
+@protocol QST01ShowTradeProviderDelegate <QSAbstractScrollProviderDelegate>
 
 - (void)didTapTradeCell:(NSString *)ItemId;
 - (void)didTapHeaderInT01Cell:(NSDictionary *)peopleDic;

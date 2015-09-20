@@ -18,6 +18,8 @@
 
 @implementation QSRootContentViewController
 
+@synthesize menuProvider = _menuProvider;
+
 #pragma mark - Getter And Setter
 - (UIBarButtonItem*)menuBtn {
     if (!_menuBtn) {
@@ -91,6 +93,10 @@
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     [self showTextHud:[NSString stringWithFormat:@"version: %@", version]];
+}
+
+- (void)showDotAtMenu {
+    self.navigationItem.leftBarButtonItem = self.menuBtnNew;
 }
 
 @end

@@ -469,10 +469,14 @@ _removeReceiver = function(req, res) {
     });
 };
 
-
-var _downloadHeadIcon = function (path, callback) {
+var _generateTempPathForHeadIcon = function (path) {
     var tempName = path.replace(/[\.\/:]/g, '_');
     var tempPath = "/tmp/" + tempName;
+    return tempPath;
+}
+
+var _downloadHeadIcon = function (path, callback) {
+    var tempPath = _generateTempPathForHeadIcon(path);
 
     request(path).pipe(fs.createWriteStream(tempPath))
         .on('close', function () {
@@ -528,66 +532,90 @@ _loginViaWeixin = function(req, res) {
                 'unionid' : data.unionid
             });
         });
-    }, 
-    function (user, callback) {
+    }, function (user, callback) {
         var url = user.headimgurl;
-        //download headIcon
-        _downloadHeadIcon(url, function (err, tempPath) {
-            if (err) {
-                callback(err);
-            } else {
-                //update head icon to ftp
-                var baseName = path.basename(tempPath);
-                qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                    if (err) {
-                        callback(err);
-                    } else {
-                        var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                        user.headimgurl =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                        callback(err, user);
-                    }
-                })
-            }
-        });
-    }, 
-    function(user, callback) {
+
         People.findOne({
             'userInfo.weixin.openid' : user.openid
         }, function(err, people) {
             if (err) {
                 callback(err);
-                return;
-            } else if (people !== null) {
-                callback(null, people);
-                return;
+            } else {
+                var shouldDownload = true;
+                try {
+                    if (people && people.userInfo.weixin.headimgurl === url) {
+                        shouldDownload = false;
+                    }
+                } catch(e) {}
+                callback(null, shouldDownload, user);
+            }
+        });
+
+    },
+    function (shouldDownloadHeadIcon, user, callback) {
+        if (shouldDownloadHeadIcon) {
+            //download headIcon
+            _downloadHeadIcon(user.headimgurl, function (err, tempPath) {
+                if (err) {
+                    callback(err);
+                } else {
+                    //update head icon to ftp
+                    var baseName = path.basename(tempPath);
+                    qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                            var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                            callback(err, user, copyHeadPath);
+                        }
+                    });
+                }
+            });
+        } else {
+            callback(null, user, "");
+        }
+
+    }, 
+    function(weixinUser, copyHeadPath, callback) {
+        People.findOne({
+            'userInfo.weixin.openid' : weixinUser.openid
+        }, function(err, people) {
+            if (err) {
+                callback(err);
+            } else {
+                if (!people) {
+                    people = new People({
+                        nickname : weixinUser.nickname,
+                        userInfo : {
+                            weixin : {
+                                openid : weixinUser.openid,
+                                nickname : weixinUser.nickname,
+                                sex : weixinUser.sex,
+                                province : weixinUser.province,
+                                city : weixinUser.city,
+                                country : weixinUser.country,
+                                headimgurl : weixinUser.headimgurl,
+                                unionid : weixinUser.unionid
+                            }
+                        }
+                    });
+                }
+
+                if (copyHeadPath && copyHeadPath.length) {
+                    people.portrait =copyHeadPath;
+                }
+                people.save(function(err, people) {
+                    if (err) {
+                        callback(err, people);
+                    } else if (!people) {
+                        callback(ServerError.ServerError);
+                    } else {
+                        callback(null, people);
+                    }
+                });
             }
 
-            people = new People({
-                nickname : user.nickname,
-                portrait : user.headimgurl,
-                userInfo : {
-                    weixin : {
-                        openid : user.openid,
-                        nickname : user.nickname,
-                        sex : user.sex,
-                        province : user.province,
-                        city : user.city,
-                        country : user.country,
-                        headimgurl : user.headimgurl,
-                        unionid : user.unionid
-                    }
-                }
-            });
-
-            people.save(function(err, people) {
-                if (err) {
-                    callback(err, people);
-                } else if (!people) {
-                    callback(ServerError.ServerError);
-                } else {
-                    callback(null, people);
-                }
-            });
         });
     }, function(people, callback) {
         req.session.userId = people._id;
@@ -628,62 +656,86 @@ _loginViaWeibo = function(req, res) {
                 avatar_large : data.avatar_large
             });
         });
-    }, function (user, callback) {
-        var url = user.avatar_large;
-        //download headIcon
-        _downloadHeadIcon(url, function (err, tempPath) {
+    }, function (weiboUser, callback) {
+        var url = weiboUser.avatar_large;
+
+        People.findOne({
+            'userInfo.weibo.id' : weiboUser.id
+        }, function(err, people) {
             if (err) {
                 callback(err);
             } else {
-                //update head icon to ftp
-                var baseName = path.basename(tempPath);
-                qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                    if (err) {
-                        callback(err);
-                    } else {
-                        var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                        user.avatar_large =  global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                        callback(err, user);
+                var shouldDownload = true;
+                try {
+                    if (people && people.userInfo.weibo.avatar_large === url) {
+                        shouldDownload = false;
                     }
-                })
+                } catch(e) {}
+                callback(null, shouldDownload, weiboUser);
             }
         });
-    }, function(user, callback) {
+
+    }, function (shouldDownloadHeadIcon, weiboUser, callback) {
+        if (shouldDownloadHeadIcon) {
+            var url = weiboUser.avatar_large;
+            //download headIcon
+            _downloadHeadIcon(url, function (err, tempPath) {
+                if (err) {
+                    callback(err);
+                } else {
+                    //update head icon to ftp
+                    var baseName = path.basename(tempPath);
+                    qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                            var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                            callback(err, weiboUser, copyHeadPath);
+                        }
+                    });
+                }
+            });
+        } else {
+            callback(null, weiboUser, "");
+        }
+    }, function(user, copyHeadPath, callback) {
         People.findOne({
             'userInfo.weibo.id' : user.id
         }, function(err, people) {
             if (err) {
                 callback(err);
-                return;
-            } else if (people !== null) {
-                callback(null, people);
-                return;
-            }
+            } else {
+                if (!people) {
+                    people = new People({
+                        nickname : user.screen_name,
+                        userInfo : {
+                            weibo: {
+                                id : user.id,
+                                screen_name : user.screen_name,
+                                province : user.province,
+                                country : user.country,
+                                gender : user.gender,
+                                avatar_large : user.avatar_large
+                            }
+                        }
+                    });
+                }
 
-            people = new People({
-                nickname : user.screen_name,
-                portrait : user.avatar_large,
-                userInfo : {
-                    weibo: {
-                        id : user.id,
-                        screen_name : user.screen_name,
-                        province : user.province,
-                        country : user.country,
-                        gender : user.gender,
-                        avatar_large : user.avatar_large 
+                if (copyHeadPath && copyHeadPath.length) {
+                    people.portrait = copyHeadPath;
+                }
+
+                people.save(function(err, people) {
+                    if (err) {
+                        callback(err, people);
+                    } else if (!people) {
+                        callback(ServerError.ServerError);
+                    } else {
+                        callback(null, people);
                     }
-                }
-            });
-
-            people.save(function(err, people) {
-                if (err) {
-                    callback(err, people);
-                } else if (!people) {
-                    callback(ServerError.ServerError);
-                } else {
-                    callback(null, people);
-                }
-            });
+                });
+            }
         });
     }, function(people, callback) {
         req.session.userId = people._id;

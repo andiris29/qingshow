@@ -36,7 +36,7 @@
 @end
 
 @implementation QSS20MatcherViewController
-
+@synthesize menuProvider = _menuProvider;
 #pragma mark - Init
 - (instancetype)init {
     self = [super initWithNibName:@"QSS20MatcherViewController" bundle:nil];
@@ -145,6 +145,7 @@
 }
 
 - (IBAction)menuBtnPressed:(id)sender {
+    [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu"] forState:UIControlStateNormal];
     [self.menuProvider didClickMenuBtn];
 }
 
@@ -264,5 +265,9 @@
 #pragma mark - QSS23MatcherPreviewViewControllerDelegate
 - (void)vc:(UIViewController *)vc didCreateNewMatcher:(NSDictionary *)matcherDict {
     self.fShouldReload = YES;
+}
+
+- (void)showDotAtMenu {
+    [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
 }
 @end

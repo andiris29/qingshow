@@ -130,14 +130,11 @@
     }
 }
 
+
+
 - (void)triggerItemTypePressed:(QSRootMenuItemType)type {
-    QSRootMenuItem* item = nil;
-    for (QSRootMenuItem* i in self.itemArray) {
-        if (i.type == type) {
-            item = i;
-            break;
-        }
-    }
+    QSRootMenuItem* item = [self _findItemWithType:type];;
+    
     if (item) {
         [self menuItemPressed:item];
     }
@@ -149,4 +146,19 @@
     }
 }
 
+- (void)showDotIconWithType:(QSRootMenuItemType)type {
+    [[self _findItemWithType:type] showDot];
+}
+- (void)hideDotIconWithType:(QSRootMenuItemType)type {
+    [[self _findItemWithType:type] hideDot];
+}
+
+- (QSRootMenuItem*)_findItemWithType:(QSRootMenuItemType)type {
+    for (QSRootMenuItem* i in self.itemArray) {
+        if (i.type == type) {
+            return i;
+        }
+    }
+    return nil;
+}
 @end

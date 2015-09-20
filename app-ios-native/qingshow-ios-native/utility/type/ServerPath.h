@@ -12,9 +12,9 @@
 //#define HOST_ADDRESS @"192.168.1.102:30001/"
 //#define HOST_ADDRESS @"localhost:30001/"
 //#define HOST_ADDRESS @"121.41.161.239/"
-#define HOST_ADDRESS @"chingshow.com/"
+//#define HOST_ADDRESS @"chingshow.com/"
 //#define HOST_ADDRESS @"192.168.1.110:30001/"
-//#define HOST_ADDRESS @"139.196.32.82/"
+#define HOST_ADDRESS @"139.196.32.82/"
 
 #define HOST_NAME [NSString stringWithFormat:@"%@%@",HOST_ADDRESS, @"services"]
 #define kImageUrlBase [NSString stringWithFormat:@"http://%@%@",HOST_ADDRESS, @"images"]

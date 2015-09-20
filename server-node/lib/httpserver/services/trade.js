@@ -67,6 +67,10 @@ trade.create = {
                 } else if (!item) {
                     callback(ServerError.ItemNotExist);
                 } else {
+                    if (item.expectablePrice) {
+                        TradeHelper.pushNewExpectableTrades(trade._id, trade.ownerRef, item.expectablePrice, function(err){});
+                    };
+
                     if (item.expectablePrice >= trade.expectedPrice) {
                         trade.expectedPrice = item.expectablePrice;
                         TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err) {

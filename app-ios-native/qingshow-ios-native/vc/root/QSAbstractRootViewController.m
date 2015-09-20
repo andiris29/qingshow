@@ -221,4 +221,10 @@
 - (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type {
     return nil;
 }
+- (void)showDotInMenuForType:(QSRootMenuItemType)type {
+    [self.menuView showDotIconWithType:type];
+}
+- (void)hideDotInMenuForType:(QSRootMenuItemType)type {
+    [self.menuView hideDotIconWithType:type];
+}
 @end

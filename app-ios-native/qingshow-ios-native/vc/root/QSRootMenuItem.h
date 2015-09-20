@@ -41,6 +41,7 @@ typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
 + (QSRootMenuItem*)generateItemWithType:(QSRootMenuItemType)type;
 
 - (IBAction)buttonPressed:(id)sender;
-
+- (void)showDot;
+- (void)hideDot;
 
 @end

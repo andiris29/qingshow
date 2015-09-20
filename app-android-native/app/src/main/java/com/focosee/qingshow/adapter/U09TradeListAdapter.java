@@ -94,6 +94,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         statusTV.setVisibility(View.GONE);
         discountBtn.setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
+        Log.d(U09TradeListAdapter.class.getSimpleName(), "hint:" + trade.hint);
+        if(!TextUtils.isEmpty(trade.hint)){
+            holder.setText(R.id.item_tradelist_hint, trade.hint);
+        }
 
         if (null != trade.itemSnapshot) {
             String str = "原价：";

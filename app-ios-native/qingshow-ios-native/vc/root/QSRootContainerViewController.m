@@ -24,11 +24,12 @@
 #import "NSDictionary+QSExtension.h"
 #import "QSBlockAlertView.h"
 #import "QSPnsHelper.h"
+#import "QSRootContentViewController.h"
 
 @interface QSRootContainerViewController ()
 
 @property (strong, nonatomic) UINavigationController* contentNavVc;
-@property (strong, nonatomic) UIViewController* contentVc;
+@property (strong, nonatomic) UIViewController<QSIRootContentViewController>* contentVc;
 
 @end
 
@@ -89,7 +90,7 @@
     [super rootMenuItemPressedType:type oldType:oldType];
     [self hideMenu];
     if (oldType != type) {
-        UIViewController* vc = nil;
+        UIViewController<QSIRootContentViewController>* vc = nil;
         switch (type) {
             case QSRootMenuItemMy: {
                 QSU01UserDetailViewController* u01Vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
@@ -145,7 +146,7 @@
     
 }
 
-- (void)showVc:(UIViewController*)vc{
+- (void)showVc:(UIViewController<QSIRootContentViewController>*)vc{
     if (!vc) {
         return;
     }
@@ -153,16 +154,15 @@
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
     self.contentVc = vc;
-    vc = nav;
     [self.contentNavVc.view removeFromSuperview];
     [self.contentNavVc willMoveToParentViewController:nil];
     [self.contentNavVc removeFromParentViewController];
 
-    [self.view addSubview:vc.view];
-    [self addChildViewController:vc];
+    [self.view addSubview:nav.view];
+    [self addChildViewController:nav];
     
 
-    [vc didMoveToParentViewController:self];    //Call after transition
+    [nav didMoveToParentViewController:self];    //Call after transition
     self.contentNavVc = nav;
 }
 - (UIViewController*)showRegisterVc {
@@ -181,6 +181,8 @@
     [self.menuView triggerItemTypePressed:type];
     return self.contentVc;
 }
+
+
 #pragma mark - Pns
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isKindOfClass:[QSBlockAlertView class]]) {
@@ -259,6 +261,9 @@
 }
 
 - (void)pnsTradeInitial:(NSNotification*)noti {
+    //无论用户是否点击确定，都要显示红点
+    [self _addDotForDiscount];
+    
     [self handlePnsWithHandler:^{
         [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
         if ([self.contentVc isKindOfClass:[QSU09OrderListViewController class]]) {
@@ -267,10 +272,14 @@
             u09VC.headerView.segmentControl.selectedSegmentIndex = 0;
         }
 
+
     } title:@"你申请的折扣已经成功啦，别让宝贝飞了，快快来付款吧！" userInfo:noti.userInfo];
 }
 
 - (void)pnsTradeShipped:(NSNotification*)noti {
+    //无论用户是否点击确定，都要显示红点
+    [self _addDotForDiscount];
+    
     [self handlePnsWithHandler:^{
         [self.menuView triggerItemTypePressed:QSRootMenuItemDiscount];
         if ([self.contentVc isKindOfClass:[QSU09OrderListViewController class]]) {
@@ -280,13 +289,27 @@
         }
     } title:@"你购买的宝贝已经向你狂奔而来，等着接收惊喜呦！" userInfo:noti.userInfo];
 }
+
 - (void)pnsItemPriceChanged:(NSNotification*)noti {
+    //无论用户是否点击确定，都要显示红点
+    [self _addDotForDiscount];
+    
     [self handlePnsWithHandler:^{
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
+
         if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
             QSS01MatchShowsViewController* matchVc = (QSS01MatchShowsViewController*)self.contentVc;
             [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"]];
         }
+
     } title:@"您申请的折扣有最新信息，不要错过哦！" userInfo:noti.userInfo];
 }
+
+- (void)_addDotForDiscount {
+    if ([self.contentVc respondsToSelector:@selector(showDotAtMenu)]) {
+        [self.contentVc showDotAtMenu];
+    }
+    [self.menuView showDotIconWithType:QSRootMenuItemDiscount];
+}
+
 @end
