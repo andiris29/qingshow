@@ -7,7 +7,7 @@
 //
 
 #import "QSHookArray.h"
-
+#import "QSNetworkEngine+SystemService.h"
 @implementation NSArray(Hook)
 + (instancetype)hookArrayWithObjects:(const id [])objects count:(NSUInteger)cnt {
     if (cnt > 0) {
@@ -17,9 +17,7 @@
                 ++zeroCount;
             }
         }
-        if (zeroCount) {
-#warning TODO log in server
-        }
+
         size_t idSize = sizeof(id);
         NSUInteger newCount = cnt - zeroCount;
         __unsafe_unretained id* copyKeys = (__unsafe_unretained id*)malloc(idSize *  newCount);
@@ -31,6 +29,11 @@
         }
         NSArray* ret = [self hookArrayWithObjects:copyKeys count:newCount];
         free(copyKeys);
+        
+        if (zeroCount) {
+            [SHARE_NW_ENGINE systemLogLevel:@"error" message:@"Array with nil value" stack:nil extra:[ret description] onSuccess:nil onError:nil];
+        }
+        
         return ret;
     } else {
         return [self hookArrayWithObjects:objects count:cnt];
@@ -46,9 +49,7 @@
                 ++zeroCount;
             }
         }
-        if (zeroCount) {
-#warning TODO log in server
-        }
+        
         size_t idSize = sizeof(id);
         NSUInteger newCount = cnt - zeroCount;
         __unsafe_unretained id* copyKeys = (__unsafe_unretained id*)malloc(idSize *  newCount);
@@ -60,6 +61,11 @@
         }
         NSArray* ret = [self initHookWithObjects:copyKeys count:newCount];
         free(copyKeys);
+        
+        if (zeroCount) {
+            [SHARE_NW_ENGINE systemLogLevel:@"error" message:@"Array with nil value" stack:nil extra:[ret description] onSuccess:nil onError:nil];
+        }
+        
         return ret;
     } else {
         return [self initHookWithObjects:objects count:cnt];
