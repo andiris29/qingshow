@@ -24,9 +24,13 @@ properties.parse(configPath, {
 process.on('uncaughtException', function(err) {
     GoblinSlaver.continue();
 
-    var path = global.config.server.path + '/services/goblin/crawlItemFailed';
-    var logStr = new Date().toString() + ': uncaughtException\n' + err + '\n'+ '\t' + err.stack;
-    var param = {log : logStr};
+    var path = global.config.server.path + '/services/system/log';
+    var param = {
+        client : 'goblin-slaver',
+        level : 'error',
+        message : 'uncaughtException:' + err,
+        stack : err.stack
+    };
     request.post({
         url: path,
         form: param
