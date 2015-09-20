@@ -100,6 +100,7 @@
 
     self.cellArray = array;
     self.propCellArray = propCells;
+    
 }
 
 - (void)updateTotalPrice {
@@ -117,19 +118,22 @@
 
 - (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex
 {
-//    NSLog(@"%@",[self getResult]);
-    NSDictionary *newTradeDic = [self getResult];
-    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:newTradeDic];
-    NSArray *skuArray = newTradeDic[@"selectedSkuProperties"];
-    NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
-    int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:itemDic];
-//    NSLog(@"count ============ %d",count);
-//    NSLog(@"index = %ld",(long)infoIndex);
-    NSLog(@"cell.co = %lu",(unsigned long)self.propCellArray.count);
-    [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
-//        NSLog(@"cell.btn.co = %lu",(unsigned long)cell.btnArray.count);
-        return [cell getResult];
+    NSDictionary *itemDic = self.itemDict;
+
+    NSArray* filterValue = [[self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
+        NSString* v = [cell getSelectedValue];
+        if (v) {
+            return v;
+        } else {
+            return @"";
+        }
+    }] filteredArrayUsingBlock:^BOOL(NSString* str) {
+        return str.length;
     }];
+    
+    for (QSDiscountTaobaoInfoCell *cell in self.propCellArray) {
+        [cell updateBtnStateWithItem:itemDic selectProps:filterValue];
+    }
 }
 - (NSDictionary*)getResult {
     NSMutableDictionary* retDict = [@{} mutableCopy];

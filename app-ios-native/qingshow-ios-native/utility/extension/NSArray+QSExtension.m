@@ -42,4 +42,13 @@
     }];
     return retArray;
 }
+
+- (BOOL)containsAllObjects:(NSArray*)otherArray {
+    for (id i in otherArray) {
+        if ([self indexOfObject:i] == NSNotFound) {
+            return NO;
+        }
+    }
+    return YES;
+}
 @end

@@ -25,5 +25,8 @@
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UIView* lineView;
 - (NSString*)getResult;
+- (NSString*)getSelectedValue;
+
+- (void)updateBtnStateWithItem:(NSDictionary*)itemDict selectProps:(NSArray*)props;
 
 @end

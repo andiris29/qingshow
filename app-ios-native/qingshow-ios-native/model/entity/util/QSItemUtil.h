@@ -31,4 +31,5 @@
 + (BOOL)getReadOnly:(NSDictionary*)itemDict;
 + (BOOL)getDelist:(NSDictionary *)itemDict;
 + (NSString*)getItemId:(NSDictionary *)itemDict;
++ (NSArray*)getMatchSkuKeysForItem:(NSDictionary*)itemDict skuKeys:(NSArray*)skuKeys;
 @end

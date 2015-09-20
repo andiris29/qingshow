@@ -10,6 +10,7 @@
 #import "UINib+QSExtension.h"
 #import "QSLayoutUtil.h"
 #import "QSItemUtil.h"
+#import "NSArray+QSExtension.h"
 
 #define DELTA_X 8.f
 #define DELTA_Y 5.f
@@ -23,6 +24,7 @@
 
 
 #define COLOR_GRAY [UIColor colorWithRed:112.f/255.f green:112.f/255.f blue:112.f/255.f alpha:1.f]
+#define COLOR_LIGHT_GRAY [UIColor colorWithRed:200.f/255.f green:200.f/255.f blue:200.f/255.f alpha:1.f]
 #define COLOR_PINK [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f]
 
 @interface QSDiscountTaobaoInfoCell ()
@@ -54,6 +56,15 @@
     }
     return str;
 }
+
+- (NSString*)getSelectedValue {
+    if (self.currentSelectIndex >= 0 && self.currentSelectIndex < self.compInfos.count) {
+        return self.compInfos[self.currentSelectIndex];
+    } else {
+        return nil;
+    }
+}
+
 
 - (void)awakeFromNib {
     // Initialization code
@@ -139,6 +150,8 @@
     float height = [self getHeight:itemDict];
     lineRect.origin.y = height - lineRect.size.height;
     self.lineView.frame = lineRect;
+    
+    [self updateBtnStateWithItem:itemDict selectProps:@[]];
 }
 
 - (UIButton*)generateBtn {
@@ -151,6 +164,7 @@
     return btn;
 }
 + (void)setBtn:(UIButton*)btn Hover:(BOOL)f {
+    btn.userInteractionEnabled = true;
     if (f) {
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btn.backgroundColor = COLOR_PINK;
@@ -161,8 +175,22 @@
         btn.layer.borderColor = COLOR_GRAY.CGColor;
     }
 }
++ (void)setBtn:(UIButton*)btn disable:(BOOL)fDisable {
+    btn.userInteractionEnabled = !fDisable;
+    if (fDisable) {
+        [btn setTitleColor:COLOR_GRAY forState:UIControlStateNormal];
+        btn.backgroundColor = COLOR_LIGHT_GRAY;
+        btn.layer.borderColor = COLOR_GRAY.CGColor;
+    } else {
+        [btn setTitleColor:COLOR_GRAY forState:UIControlStateNormal];
+        btn.backgroundColor = [UIColor whiteColor];
+        btn.layer.borderColor = COLOR_GRAY.CGColor;
+    }
+}
+
 - (void)btnPressed:(UIButton*)btn {
-    self.currentSelectIndex = [self.btnArray indexOfObject:btn];
+    NSInteger index = [self.btnArray indexOfObject:btn];
+    self.currentSelectIndex = index == self.currentSelectIndex ? -1 : index;
     for (int i = 0; i < self.btnArray.count; i++) {
         UIButton* btn = self.btnArray[i];
         [QSDiscountTaobaoInfoCell setBtn:btn Hover:i == self.currentSelectIndex];
@@ -212,5 +240,64 @@
         size.width = 35.f;
     }
     return size;
+}
+
+- (void)updateBtnStateWithItem:(NSDictionary*)itemDict selectProps:(NSArray*)props {
+    NSString* v = [self getSelectedValue];
+#warning Move to Util
+    v = [v stringByReplacingOccurrencesOfString:@"." withString:@""];
+    props = [props filteredArrayUsingBlock:^BOOL(NSString* s) {
+        return ![v isEqualToString:s];
+    }];
+    NSDictionary* skuTable = [QSItemUtil getSkuTable:itemDict];
+    
+    
+    for (int i = 0; i < self.btnArray.count; i++) {
+        UIButton* btn = self.btnArray[i];
+        if (i == self.currentSelectIndex) {
+            [QSDiscountTaobaoInfoCell setBtn:btn Hover:true];
+        } else {
+            NSString* comp = self.compInfos[i];
+            comp = [comp stringByReplacingOccurrencesOfString:@"." withString:@""];
+            NSMutableArray* curProps = [props mutableCopy];
+            [curProps addObject:comp];
+            NSArray* retArray = [QSItemUtil getMatchSkuKeysForItem:itemDict skuKeys:curProps];
+            if (!retArray.count) {
+                //没sku信息，不存在商品
+                [QSDiscountTaobaoInfoCell setBtn:btn disable:true];
+            } else {
+                if (retArray.count > 1) {
+                    int sum = 0;
+                    for (NSString* skuKey in retArray) {
+                        NSString* v = skuTable[skuKey];
+                        NSArray* c = [v componentsSeparatedByString:@":"];
+                        if (c.count) {
+                            NSString* quantityStr = [c firstObject];
+                            int n = [quantityStr intValue];
+                            sum += n;
+                        }
+                    }
+                    [QSDiscountTaobaoInfoCell setBtn:btn disable:sum == 0];
+                } else {
+                    NSString* skuKey = retArray[0];
+                    NSString* v = skuTable[skuKey];
+                    NSArray* c = [v componentsSeparatedByString:@":"];
+                    if (c.count) {
+                        NSString* quantityStr = [c firstObject];
+                        int n = [quantityStr intValue];
+                        if (n) {
+                            [QSDiscountTaobaoInfoCell setBtn:btn disable:false];
+                        } else {
+                            [QSDiscountTaobaoInfoCell setBtn:btn disable:true];
+                        }
+                    } else {
+                        //信息不对,disable
+                        [QSDiscountTaobaoInfoCell setBtn:btn disable:true];
+                    }
+                }
+            }
+            
+        }
+    }
 }
 @end

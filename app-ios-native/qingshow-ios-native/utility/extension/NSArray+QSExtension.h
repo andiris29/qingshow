@@ -13,5 +13,5 @@
 - (NSMutableArray*)deepMutableCopy;
 - (NSArray*)mapUsingBlock:(IdBlock)block;
 - (NSArray*)filteredArrayUsingBlock:(FilterBlock)block;
-
+- (BOOL)containsAllObjects:(NSArray*)otherArray;
 @end

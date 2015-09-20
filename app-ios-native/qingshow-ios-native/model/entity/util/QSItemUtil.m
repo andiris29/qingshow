@@ -15,6 +15,7 @@
 #import "QSCategoryUtil.h"
 #import "QSCategoryManager.h"
 #import "NSDictionary+QSExtension.h"
+#import "NSArray+QSExtension.h"
 @implementation QSItemUtil
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
@@ -179,13 +180,39 @@
     if ([QSEntityUtil checkIsNil:itemDict[@"delist"]]) {
         return NO;
     }
-    else
-    {
+    else {
         return YES;
     }
 }
 + (NSString*)getItemId:(NSDictionary *)itemDict
 {
     return [QSEntityUtil getStringValue:itemDict keyPath:@"_id"];
+}
+
++ (NSArray*)getMatchSkuKeysForItem:(NSDictionary*)itemDict skuKeys:(NSArray*)skuKeys {
+    NSDictionary* skuTable = [self getSkuTable:itemDict];
+    NSArray* skuTableKeys = [skuTable allKeys];
+    
+    NSMutableDictionary* skuKeyMap = [@{} mutableCopy];
+    
+#warning TODO cached for skuKeyMap in the future
+    for (NSString* k in skuTableKeys) {
+        NSArray* components = [k componentsSeparatedByString:@":"];
+        components = [components mapUsingBlock:^NSString* (NSString* str) {
+            return [str stringByReplacingOccurrencesOfString:@"." withString:@""];
+        }];
+        skuKeyMap[k] = components;
+    }
+
+    NSMutableArray* matchedKeys = [@[] mutableCopy];
+    
+    for (NSString* k in skuKeyMap) {
+        NSArray* components = skuKeyMap[k];
+        if ([components containsAllObjects:skuKeys]) {
+            [matchedKeys addObject:k];
+        }
+    }
+    
+    return matchedKeys;
 }
 @end
