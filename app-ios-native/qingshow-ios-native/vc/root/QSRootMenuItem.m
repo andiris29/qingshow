@@ -60,13 +60,12 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
 }
 
 UIImage* getIconDotImageFromType(QSRootMenuItemType type) {
-#warning TODO add dot image
     NSArray* titleArray = @[@"root_menu_icon_my",
                             @"root_menu_icon_meida",
                             @"root_menu_icon_myfavor",
                             @"root_menu_icon_setting",
                             @"root_menu_icon_matcher",
-                            @"root_menu_icon_discount",
+                            @"root_menu_icon_discount_dot",
                             @"root_menu_icon_showtrade"];
     if ((NSUInteger)type < titleArray.count) {
         NSString* str = titleArray[type];
