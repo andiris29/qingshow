@@ -126,7 +126,9 @@
 
 - (void)reloadCollectionViewData
 {
+    [self hideNewworkWaitingHud];
     MBProgressHUD* hud = [self showNetworkWaitingHud];
+    [hud hide:YES];
     [self.matchCollectionViewProvider reloadDataOnCompletion:^{
         [hud hide:YES];
     }];

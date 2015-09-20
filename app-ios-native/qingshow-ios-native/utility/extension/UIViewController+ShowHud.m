@@ -78,6 +78,14 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)hideNewworkWaitingHud
+{
+    for (id view in self.view.subviews) {
+        if ([view isKindOfClass:[MBProgressHUD class]]) {
+            [view removeFromSuperview];
+        }
+    }
+}
 - (MBProgressHUD*)showNetworkWaitingHud
 {
     MBProgressHUD *HUD;
