@@ -12,7 +12,7 @@
 #import "QSS01MatchShowsViewController.h"
 #import "QSTableViewBasicProvider.h"
 #import "QSTradeUtil.h"
-
+#import "QSNetworkKit.h"
 #define PAGE_ID @"推荐折扣"
 #define w ([UIScreen mainScreen].bounds.size.width-50)
 #define h ([UIScreen mainScreen].bounds.size.height)
@@ -52,6 +52,11 @@
     } else {
         [self.payBtn setTitle:@"购买" forState:UIControlStateNormal];
     }
+    [SHARE_NW_ENGINE tradeReaded:[QSTradeUtil getTradeId:self.tradeDict] onSucceed:^{
+        
+    } onError:^(NSError *error) {
+        
+    }];
 }
 
 - (void)viewDidLayoutSubviews

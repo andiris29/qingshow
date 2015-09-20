@@ -15,7 +15,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSItemListCell.h"
 #import "QSCategoryManager.h"
-
+#import "QSPeopleUtil.h"
 #define QSItemListCellID @"QSItemListCellID"
 
 #define PAGE_ID @"S07 - 搭配清单"
@@ -155,11 +155,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *showId = [QSShowUtil getShowId:self.showDict];
+    NSDictionary *people = [QSShowUtil getPeopleFromShow:self.showDict];
+    NSString *peopleId = [QSPeopleUtil getPeopleId:people];
     if (self.orderdArray.count > indexPath.row) {
         NSDictionary* itemDict = self.orderdArray[indexPath.row];
         if (itemDict) {
-            [self showItemDetailViewController:itemDict showId:showId];
+            [self showItemDetailViewController:itemDict showId:peopleId];
         }
     }
 }

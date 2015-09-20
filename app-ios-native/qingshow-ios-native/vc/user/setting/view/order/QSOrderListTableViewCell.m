@@ -173,29 +173,34 @@
         }
     }
     NSNumber* expectablePrice = [QSTradeUtil getItemExpectablePrice:tradeDict];
+    __weak QSOrderListTableViewCell *weakSelf = self;
     if (s == 0 && expectablePrice) {
-        NSDictionary *peopleDic = [QSTradeUtil getPeopleDic:tradeDict];
-        NSArray *unreadArray = [QSPeopleUtil getUnreadTrades:peopleDic];
-        BOOL isRed = NO;
-        for (NSDictionary *unreadDic in unreadArray) {
-            if ([[QSPeopleUtil getUnreadTradId:unreadDic] isEqualToString:[QSTradeUtil getTradeId:tradeDict]]) {
+        [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+            NSDictionary *peopleDic  = data;
+            NSArray *unreadArray = [QSPeopleUtil getUnreadTrades:peopleDic];
+            BOOL isRed = NO;
+            for (NSDictionary *unreadDic in unreadArray) {
+                if ([[QSPeopleUtil getUnreadTradId:unreadDic] isEqualToString:[QSTradeUtil getTradeId:tradeDict]]) {
                     isRed = YES;
                 }
-          
-        }
-        if (isRed == YES) {
-            self.postDisCountImgView.hidden = NO;
-            self.postDisCountImgView.userInteractionEnabled = YES;
-            [self.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_red"]];
-        }else if(isRed == NO){
-            self.postDisCountImgView.hidden = NO;
-            self.postDisCountImgView.userInteractionEnabled = NO;
-            [self.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_gray"]];
-        }
-      
+                
+            }
+            if (isRed == YES) {
+                weakSelf.postDisCountImgView.hidden = NO;
+                weakSelf.postDisCountImgView.userInteractionEnabled = YES;
+                [weakSelf.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_red"]];
+            }else if(isRed == NO){
+                weakSelf.postDisCountImgView.hidden = NO;
+                weakSelf.postDisCountImgView.userInteractionEnabled = YES;
+                [weakSelf.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_gray"]];
+            }
+        } onError:^(NSError *error) {
+            
+        }];
+
     }
         NSString *itemId = [QSTradeUtil getItemId:tradeDict];
-        __weak QSOrderListTableViewCell *weakSelf = self;
+    
         [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
             
             if (array.count) {
@@ -203,7 +208,7 @@
                 NSArray *array = [QSTradeUtil getSkuProperties:tradeDict];
                 NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:array];
                 int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:getItem];
-                if (count < 1 ) {
+                if (count < 1 || [QSItemUtil getDelist:getItem] ) {
                     weakSelf.postDisCountImgView.hidden = NO;
                     weakSelf.postDisCountImgView.userInteractionEnabled = NO;
                     [weakSelf.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_outofsale"]];
