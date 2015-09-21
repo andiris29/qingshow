@@ -307,9 +307,7 @@
 }
 
 - (void)_addDotForDiscount {
-    if ([self.contentVc respondsToSelector:@selector(showDotAtMenu)]) {
-        [self.contentVc showDotAtMenu];
-    }
+    [self.contentVc showDotAtMenu];
     [self.menuView showDotIconWithType:QSRootMenuItemDiscount];
 }
 

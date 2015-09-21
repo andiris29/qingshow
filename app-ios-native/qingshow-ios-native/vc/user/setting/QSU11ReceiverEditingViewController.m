@@ -229,8 +229,8 @@
         isDefault = NO;
     }
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    BOOL hasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
-    if (hasMobile == NO) {
+    BOOL isHasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
+    if (isHasMobile == NO) {
         [SHARE_NW_ENGINE MobileNumberAvilable:self.phoneTextField.text code:self.codeTextField.text onSucceed:^(BOOL code) {
             if (code == YES) {
                 [SHARE_NW_ENGINE saveReceiver:uuid
