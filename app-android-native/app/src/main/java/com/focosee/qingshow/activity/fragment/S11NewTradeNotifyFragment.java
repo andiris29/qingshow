@@ -25,6 +25,8 @@ import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.TradeShareCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -39,9 +41,7 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.QSTextView;
-import com.focosee.qingshow.wxapi.PushEvent;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -146,11 +146,11 @@ public class S11NewTradeNotifyFragment extends Fragment {
         ft.commit();
     }
 
-    public void onEventMainThread(PushEvent event) {
-        final BaseResp resp = event.baseResp;
-        if (resp.errCode != SendMessageToWX.Resp.ErrCode.ERR_OK) {
-            return;
-        }
+    public void onEventMainThread(ShareTradeEvent event) {
+
+        if (event.shareByCreateUser)
+            TradeShareCommand.share(trade._id,new Callback(){
+            });
 
         Map<String, Object> prarms = new TreeMap<>();
         LinkedList<MongoTrade.StatusLog> statusLogs = trade.statusLogs;
@@ -179,7 +179,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), System.currentTimeMillis() + "", getActivity(), true);
+        ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
         EventBus.getDefault().post(trade);
     }
 
