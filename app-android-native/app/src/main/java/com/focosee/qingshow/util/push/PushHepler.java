@@ -49,7 +49,7 @@ public class PushHepler {
 
         if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)) {
             intent = new Intent(context, S01MatchShowsActivity.class);
-            String _id = PushUtil.getExtra(bundle, "_tradeId");
+            String _id = PushUtil.getExtra(bundle, "_id");
             intent.putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION,_id);
             intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
         }
