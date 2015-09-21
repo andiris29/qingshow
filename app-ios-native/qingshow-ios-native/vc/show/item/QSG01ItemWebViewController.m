@@ -195,15 +195,15 @@
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请填写收货信息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             [alert show];
         }else{
-//            self.createTradeOp =
-//                [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
-//            [self showSuccessHudAndPop:@"创建成功"];
-//            self.createTradeOp = nil;
-//        } onError:^(NSError *error) {
-//            [self handleError:error];
-//            self.createTradeOp = nil;
-//        }];
-            [self delisthandle];
+            self.createTradeOp =
+                [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+            [self showSuccessHudAndPop:@"创建成功"];
+            self.createTradeOp = nil;
+        } onError:^(NSError *error) {
+            [self handleError:error];
+            self.createTradeOp = nil;
+        }];
+            //[self delisthandle];
         }
     }
 }

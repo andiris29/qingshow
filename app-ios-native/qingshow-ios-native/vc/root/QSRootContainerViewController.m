@@ -291,9 +291,10 @@
 }
 
 - (void)pnsItemPriceChanged:(NSNotification*)noti {
+
     //无论用户是否点击确定，都要显示红点
     [self _addDotForDiscount];
-    
+  
     [self handlePnsWithHandler:^{
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
 
@@ -306,9 +307,7 @@
 }
 
 - (void)_addDotForDiscount {
-    if ([self.contentVc respondsToSelector:@selector(showDotAtMenu)]) {
-        [self.contentVc showDotAtMenu];
-    }
+    [self.contentVc showDotAtMenu];
     [self.menuView showDotIconWithType:QSRootMenuItemDiscount];
 }
 

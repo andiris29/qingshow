@@ -228,31 +228,50 @@
         uuid = [QSReceiverUtil getUuid:self.locationDict];
         isDefault = NO;
     }
-    [SHARE_NW_ENGINE MobileNumberAvilable:self.phoneTextField.text code:self.codeTextField.text onSucceed:^(BOOL code) {
-        if (code == YES) {
-            [SHARE_NW_ENGINE saveReceiver:uuid
-                                     name:self.nameTextField.text
-                                    phone:self.phoneTextField.text
-                                 province:self.selectionLocation
-                                  address:self.detailLocationTextField.text
-                                isDefault:isDefault
-                                onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
-             {
-                 [self showTextHud:@"保存成功"];
-                 [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-             } onError:^(NSError *error) {
-                 [self showErrorHudWithError:error];
-             }];
-            [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.phoneTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
-        }else{
-            [self showTextHud:@"验证码错误"];
-        }
-        
-    } onError:^(NSError *error) {
-        [self showTextHud:@"未能保存，请正确填写信息"];
-    }];
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    BOOL isHasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
+    if (isHasMobile == NO) {
+        [SHARE_NW_ENGINE MobileNumberAvilable:self.phoneTextField.text code:self.codeTextField.text onSucceed:^(BOOL code) {
+            if (code == YES) {
+                [SHARE_NW_ENGINE saveReceiver:uuid
+                                         name:self.nameTextField.text
+                                        phone:self.phoneTextField.text
+                                     province:self.selectionLocation
+                                      address:self.detailLocationTextField.text
+                                    isDefault:isDefault
+                                    onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
+                 {
+                     [self showTextHud:@"保存成功"];
+                     [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+                 } onError:^(NSError *error) {
+                     [self showErrorHudWithError:error];
+                 }];
+                [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.phoneTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
+            }else{
+                [self showTextHud:@"验证码错误"];
+            }
+            
+        } onError:^(NSError *error) {
+            [self showTextHud:@"未能保存，请正确填写信息"];
+        }];
 
+    }else{
+        [SHARE_NW_ENGINE saveReceiver:uuid
+                                 name:self.nameTextField.text
+                                phone:self.phoneTextField.text
+                             province:self.selectionLocation
+                              address:self.detailLocationTextField.text
+                            isDefault:isDefault
+                            onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
+         {
+             [self showTextHud:@"保存成功"];
+             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+         } onError:^(NSError *error) {
+             [self showErrorHudWithError:error];
+         }];
     }
+    
+}
 
 - (void)popBack
 {

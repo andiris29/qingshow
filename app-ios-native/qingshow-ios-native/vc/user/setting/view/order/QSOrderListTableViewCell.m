@@ -37,7 +37,8 @@
     self.postDisCountImgView.layer.cornerRadius = self.postDisCountImgView.bounds.size.width / 2;
     self.postDisCountImgView.layer.masksToBounds = YES;
     self.postDisCountImgView.transform = CGAffineTransformMakeRotation(0.3);
-    self.postDisCountImgView.userInteractionEnabled = YES;
+    self.postDisCountImgView.userInteractionEnabled = NO;
+    self.postDisCountImgView.hidden = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapExpectablePriceBtn:)];
     [self.postDisCountImgView addGestureRecognizer:ges];
     self.clickToWebpageBtn.layer.cornerRadius = self.clickToWebpageBtn.bounds.size.height / 8;
@@ -82,6 +83,8 @@
     [self configBtn:self.submitButton];
     [self.submitButton setImage:nil forState:UIControlStateNormal];
     [self.submitButton setTitle:nil forState:UIControlStateNormal];
+    [self.postDisCountImgView setImage:nil];
+    self.postDisCountImgView.userInteractionEnabled = NO;
     
     NSString *str = [QSTradeUtil getItemId:tradeDict];
     self.itemId = str;
@@ -197,10 +200,9 @@
         } onError:^(NSError *error) {
             
         }];
-
-    }
+        
         NSString *itemId = [QSTradeUtil getItemId:tradeDict];
-    
+        
         [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
             
             if (array.count) {
@@ -217,7 +219,12 @@
         } onError:^(NSError *error) {
             
         }];
-    
+
+
+    }else{
+        self.postDisCountImgView.hidden = YES;
+        self.postDisCountImgView.userInteractionEnabled = NO;
+    }
     
     
 }

@@ -2,23 +2,20 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import com.android.volley.Request;
+
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.TradeShareCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -32,18 +29,15 @@ import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
-import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
-import com.sina.weibo.sdk.api.share.Base;
 import com.umeng.analytics.MobclickAgent;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.util.HashMap;
+import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -176,14 +170,9 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
-        params.put("_id", mAdapter.getItemData(position)._id);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeShareApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+        TradeShareCommand.share(mAdapter.getItemData(position)._id, new Callback() {
             @Override
-            public void onResponse(JSONObject response) {
-                if (MetadataParser.hasError(response)) {
-                    return;
-                }
+            public void onComplete() {
                 mAdapter.getItemData(position).__context.sharedByCurrentUser = true;
                 mAdapter.notifyDataSetChanged();
                 Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
@@ -193,7 +182,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
                 startActivity(intent);
             }
         });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
     }
 
     private int position = Integer.MAX_VALUE;//当前分享并支付的trader的position

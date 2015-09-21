@@ -180,7 +180,7 @@
         self.s11NotiVc.view.frame = self.navigationController.view.bounds;
         [self.navigationController.view addSubview:self.s11NotiVc.view];
     } onError:^(NSError *error) {
-        
+
     }];
 }
 - (void)didClickClose:(QSS11NewTradeNotifyViewController *)vc
