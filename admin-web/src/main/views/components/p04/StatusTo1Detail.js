@@ -11,16 +11,20 @@ define([
     StatusTo1Detail.prototype.render = function() {
         $('.detail', this._ownerViewDom).hide();
         $('.actual', this._ownerViewDom).show();
+        $('.hint', this._ownerViewDom).show();
     };
 
     StatusTo1Detail.prototype.getDetails = function() {
         var actualPrice = $('#actualPrice', this._ownerViewDom).val();
+        var hint = $('#hint', this._ownerViewDom).val();
+
         if (!actualPrice || isNaN(actualPrice)) {
             alertify.error('需要输入实际价格');
             return;
         }
         return {
-            'actualPrice' : parseFloat(actualPrice)
+            'actualPrice' : parseFloat(actualPrice),
+            'hint' : hint
         };
     };
 

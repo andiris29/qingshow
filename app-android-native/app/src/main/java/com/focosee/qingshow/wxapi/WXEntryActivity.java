@@ -68,7 +68,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         if (baseResp instanceof SendMessageToWX.Resp) {
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp) baseResp;
-            EventBus.getDefault().post(new PushEvent(resp));
             //trade
             if (resp.transaction.equals(ValueUtil.SHARE_TRADE)) {
                 if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
