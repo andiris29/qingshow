@@ -62,7 +62,7 @@
     self.scrollView.scrollEnabled = YES;
     self.alipayTextField.delegate = self;
     if (self.alipayId.length > 1) {
-        self.alipayTextField.placeholder = self.alipayId;
+        self.alipayTextField.text = self.alipayId;
     }
    
 }
@@ -99,7 +99,7 @@
 }
 
 - (IBAction)shareToGetBonusBtnPressed:(id)sender {
-    if (![self.alipayTextField.text isEqualToString:@""] ) {
+    if (![self.alipayTextField.text isEqualToString:@""] && (self.alipayTextField.text != nil) ) {
         self.alipayId = self.alipayTextField.text;
     }
     __weak QSU15BonusViewController *weakSelf = self;
