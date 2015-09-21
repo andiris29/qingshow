@@ -195,7 +195,8 @@ public class S11NewTradeFragment extends Fragment {
         for (String key : props.keySet()) {
             bindItem(key, props.get(key), i, onCheckedChangeListener);
             btnMap.get(key).getChildViews().get(0).setChecked(true);
-            onCheckedChangeListener.onChanged(key, 0);
+            if(!inited)
+                onCheckedChangeListener.onChanged(key, 0);
             i++;
         }
     }
