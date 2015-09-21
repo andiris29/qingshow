@@ -27,6 +27,7 @@ import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeShareCommand;
+import com.focosee.qingshow.command.TradeStatusToCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -152,28 +153,22 @@ public class S11NewTradeNotifyFragment extends Fragment {
             TradeShareCommand.share(trade._id,new Callback(){
             });
 
-        Map<String, Object> prarms = new TreeMap<>();
-        LinkedList<MongoTrade.StatusLog> statusLogs = trade.statusLogs;
-        prarms.put("_id", trade._id);
-        prarms.put("status", 1);
-        prarms.put("comment", statusLogs.get(statusLogs.size() - 1));
-        prarms.put("actualPrice", actualPrice);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), new JSONObject(prarms), new Response.Listener<JSONObject>() {
+        TradeStatusToCommand.statusTo(trade,1,actualPrice,new Callback(){
+
             @Override
-            public void onResponse(JSONObject response) {
-                Log.i("tag", response.toString());
-                if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                    return;
-                }
+            public void onError(int errorCode) {
+                ErrorHandler.handle(getActivity(),errorCode);
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
                 trade.actualPrice = Double.parseDouble(actualPrice);
                 Intent intent = new Intent(getActivity(), S17PayActivity.class);
                 intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);
                 getActivity().startActivity(intent);
             }
         });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-
     }
 
 
