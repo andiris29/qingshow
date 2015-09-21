@@ -298,9 +298,7 @@ var _itemPriceChanged = function(trades, price, callback) {
                     });
                     PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
                         'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
-                        '_id' : trade.itemRef,
-                        '_tradeId' : trade._id.toString(),
-                        'actualPrice' : price
+                        '_id' : trade._id
                     }, cb2);
                 }], cb);
         };
