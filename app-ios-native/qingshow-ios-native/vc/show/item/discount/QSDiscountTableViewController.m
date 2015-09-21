@@ -120,7 +120,7 @@
 {
     NSDictionary *itemDic = self.itemDict;
 
-    NSArray* filterValue = [[self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
+    NSArray* filterValue = [[[self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
         NSString* v = [cell getSelectedValue];
         if (v) {
             return v;
@@ -129,6 +129,8 @@
         }
     }] filteredArrayUsingBlock:^BOOL(NSString* str) {
         return str.length;
+    }] mapUsingBlock:^NSString*(NSString* str) {
+        return [str stringByReplacingOccurrencesOfString:@"." withString:@""];
     }];
     
     for (QSDiscountTaobaoInfoCell *cell in self.propCellArray) {
