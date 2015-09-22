@@ -25,6 +25,7 @@ import de.greenrobot.event.EventBus;
  * Created by i068020 on 2/24/15.
  */
 public class UserCommand {
+
     public static void refresh() {
         refresh(new Callback());
     }
@@ -34,13 +35,15 @@ public class UserCommand {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(UserCommand.class.getSimpleName(), "refresh-response:" + response);
-                MongoPeople user = UserParser.parseGet(response);
-                QSModel.INSTANCE.setUser(user);
                 callback.onComplete();
+                MongoPeople user = UserParser.parseGet(response);
+                if(null != user)
+                    QSModel.INSTANCE.setUser(user);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d(UserCommand.class.getSimpleName(), "error");
                 callback.onError();
             }
         });
