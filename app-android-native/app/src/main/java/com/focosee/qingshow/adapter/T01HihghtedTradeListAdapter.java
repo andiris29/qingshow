@@ -61,12 +61,12 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
             holder.getView(R.id.item_t01_delist).setVisibility(View.VISIBLE);
         }
         SpannableString spanStrDis = new SpannableString(disPreText + StringUtil.calculationException(
-                datas.get(position).expectedPrice, datas.get(position).actualPrice));
+                trade.actualPrice, trade.itemSnapshot.promoPrice));
         spanStrDis.setSpan(relativeSizeSpan, disPreText.length(), spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanStrDis.setSpan(styleSpan, 0, spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_discount, spanStrDis);
 
-        SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(String.valueOf(datas.get(position).expectedPrice)));
+        SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(String.valueOf(trade.actualPrice)));
         spanStrPrice.setSpan(relativeSizeSpan, pricePreText.length(), spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanStrPrice.setSpan(styleSpan, 0, spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_price, spanStrPrice);

@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.android.volley.Response;
@@ -84,6 +85,7 @@ public class U12ReturnActivity extends BaseActivity {
                 , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(U12ReturnActivity.class.getSimpleName(), "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(U12ReturnActivity.this, MetadataParser.getError(response));
                     return;

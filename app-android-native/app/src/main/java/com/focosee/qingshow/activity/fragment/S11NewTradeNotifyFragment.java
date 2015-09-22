@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -40,14 +41,18 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -149,15 +154,21 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     public void onEventMainThread(ShareTradeEvent event) {
 
-        if (event.shareByCreateUser)
-            TradeShareCommand.share(trade._id,new Callback(){
-            });
+        if (event.shareByCreateUser) {
+            if(null != trade.__context) {
+                if(!trade.__context.sharedByCurrentUser) {
+                    TradeShareCommand.share(trade._id, new Callback() {
 
-        TradeStatusToCommand.statusTo(trade,1,actualPrice,new Callback(){
+                    });
+                }
+            }
+        }
+
+        TradeStatusToCommand.statusTo(trade, 1, actualPrice, new Callback() {
 
             @Override
             public void onError(int errorCode) {
-                ErrorHandler.handle(getActivity(),errorCode);
+                ErrorHandler.handle(getActivity(), errorCode);
             }
 
             @Override
@@ -174,8 +185,12 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
-        EventBus.getDefault().post(trade);
+        if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
+            ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
+            EventBus.getDefault().post(trade);
+        } else {
+            ToastUtil.showShortToast(getActivity(), getString(R.string.need_install_wx));
+        }
     }
 
     public void getDataFromNet(String _id) {
