@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.stetho.Stetho;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
 import com.focosee.qingshow.util.exception.CrashHandler;
@@ -34,6 +35,9 @@ public class QSApplication extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+
+        Stetho.initializeWithDefaults(this);
+
         wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.APP_ID, true);
         wxApi.registerApp(ShareConfig.APP_ID);
         Fresco.initialize(getApplicationContext(), QSImagePipelineConfigFactory.getInstance(getApplicationContext()).getImagePipelineConfig());
