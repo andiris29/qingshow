@@ -182,10 +182,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void clickLikeShowButton() {
-        if (!QSModel.INSTANCE.loggedin()) {
-            GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-            startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
-        }
         if (null == showDetailEntity.__context) return;
         likeBtn.setClickable(false);
 
@@ -203,6 +199,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
             @Override
             public void onError(int errorCode) {
+                likeBtn.setClickable(true);
                 ErrorHandler.handle(S03SHowActivity.this, errorCode);
             }
         });

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.BaseActivity;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.util.AppUtil;
@@ -54,6 +55,7 @@ public class QSPushReceiver extends BroadcastReceiver {
                 editor.putString(ValueUtil.NEED_GUIDE, ValueUtil.NEED_GUIDE);
                 editor.commit();
                 EventBus.getDefault().post(new PushGuideEvent(true));
+                UserCommand.refresh();
             }
 
             if (AppUtil.isRunningForeground(context)){
