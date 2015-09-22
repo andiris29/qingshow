@@ -1,17 +1,12 @@
 package com.focosee.qingshow;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.preference.PreferenceManager;
-import android.view.Display;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.focosee.qingshow.constants.config.ShareConfig;
-import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
 import com.focosee.qingshow.util.exception.CrashHandler;
-import com.focosee.qingshow.widget.LoadingDialogs;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -23,9 +18,7 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-
 import java.io.File;
-
 import cn.jpush.android.api.JPushInterface;
 
 public class QSApplication extends Application {

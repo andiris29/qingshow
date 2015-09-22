@@ -2,6 +2,8 @@ package com.focosee.qingshow.command;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,6 +47,33 @@ public class SystemCommand {
                     SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
                     editor.putString(ValueUtil.CRASH_LOG, jsonObject.toString());
                     editor.commit();
+                }
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    public static void systemGet(final Handler handler){
+
+        String url = "http://chinshow.com/services/system/get?client=android&version=" + AppUtil.getVersion();
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(LaunchActivity.class.getSimpleName(), "response:" + response);
+                try {
+                    QSAppWebAPI.HOST_ADDRESS_PAYMENT = response.getJSONObject("data").getJSONObject("deployment").getString("paymentServiceRoot");
+                    QSAppWebAPI.HOST_ADDRESS_APPWEB = response.getJSONObject("data").getJSONObject("deployment").getString("appWebRoot");
+                    SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+//                    editor.putString(QSAppWebAPI.host_name, response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot"));
+                    editor.putString(QSAppWebAPI.host_name, "http://192.168.1.110:30001/services");
+                    editor.putString(QSAppWebAPI.host_address_payment, QSAppWebAPI.HOST_ADDRESS_PAYMENT);
+                    editor.putString(QSAppWebAPI.host_address_appweb, QSAppWebAPI.HOST_ADDRESS_APPWEB);
+                    editor.commit();
+                    Message msg = new Message();
+                    msg.arg1 = LaunchActivity.SYSTEM_GET_FINISH;
+                    handler.sendMessage(msg);
+                } catch (JSONException e) {
+
                 }
             }
         });

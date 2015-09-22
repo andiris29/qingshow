@@ -48,7 +48,10 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
             })
     },function(err, res, body){
     	var result = JSON.parse(body);
-    	if (err || result.statusCode !== '000000') {
+
+    	if (result.statusCode === '112314') {
+    		callback(ServerError.SMSlimitedSend);
+    	}else if (err) {
     		callback(ServerError.ServerError);
     	}else {
     		callback(null, body);    			

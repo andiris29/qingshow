@@ -16,6 +16,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeShareCommand;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -128,6 +129,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         RecyclerViewUtil.setBackTop(recyclerView, backTopBtn, mLayoutManager);
         initRefreshLayout();
         doRefresh(currentType);
+        UserCommand.refresh();
         EventBus.getDefault().register(this);
         new EventBus().register(this);
     }

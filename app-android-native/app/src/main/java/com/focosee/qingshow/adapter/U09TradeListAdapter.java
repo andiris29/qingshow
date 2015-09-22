@@ -31,6 +31,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
@@ -172,23 +173,25 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
             if(null == trade.peopleSnapshot.unread)return;
             if(null == trade.peopleSnapshot.unread.newExpectableTrades)return;
             Log.d(U09TradeListAdapter.class.getSimpleName(), "newExpectableTrades:" + trade.peopleSnapshot.unread.newExpectableTrades.toString());
-            for (MongoPeople.NewExpectablePrices newExpectablePrices : trade.peopleSnapshot.unread.newExpectableTrades){
-                if(newExpectablePrices.ref.equals(trade._id)){
-                    discountBtn.setEnabled(true);
-                    discountBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            UserCommand.readExpectableTrade(trade._id, context, new Callback() {
-                                @Override
-                                public void onComplete() {
-                                    discountBtn.setImageResource(R.drawable.new_discount_gray);
-                                    discountBtn.setEnabled(false);
-                                }
-                            });
-                            showNewTradeNotify(trade._id);
-                        }
-                    });
-                    return;
+            if(null != QSModel.INSTANCE.getUser()) {
+                for (MongoPeople.NewExpectablePrices newExpectablePrices : QSModel.INSTANCE.getUser().unread.newExpectableTrades) {
+                    if (newExpectablePrices.ref.equals(trade._id)) {
+                        discountBtn.setEnabled(true);
+                        discountBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UserCommand.readExpectableTrade(trade._id, context, new Callback() {
+                                    @Override
+                                    public void onComplete() {
+                                        discountBtn.setImageResource(R.drawable.new_discount_gray);
+                                        discountBtn.setEnabled(false);
+                                    }
+                                });
+                                showNewTradeNotify(trade._id);
+                            }
+                        });
+                        return;
+                    }
                 }
             }
             discountBtn.setImageResource(R.drawable.new_discount_gray);

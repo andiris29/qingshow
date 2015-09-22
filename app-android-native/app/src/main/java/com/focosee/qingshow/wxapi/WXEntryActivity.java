@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -76,15 +77,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             }
             //bonus
             if (resp.transaction.equals(ValueUtil.SHARE_BONUS)) {
-                if(resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK){
+                if (resp.errCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
                     EventBus.getDefault().post(new ShareBonusEvent(resp.errCode));
-                }else{
+                } else {
                     Toast.makeText(WXEntryActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
             //show
-            if(resp.transaction.equals(ValueUtil.SHARE_SHOW)) {
+            if (resp.transaction.equals(ValueUtil.SHARE_SHOW)) {
                 EventModel<Integer> eventModel;
                 eventModel = new EventModel<>(S03SHowActivity.class.getSimpleName(), resp.errCode);
                 eventModel.from = WXEntryActivity.class.getSimpleName();
@@ -137,7 +138,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 finish();
             }
         });
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(Integer.MAX_VALUE,0,1f));
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(150000, 0, 1f));
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 }
