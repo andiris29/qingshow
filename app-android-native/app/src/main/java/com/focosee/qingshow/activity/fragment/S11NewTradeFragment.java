@@ -108,6 +108,7 @@ public class S11NewTradeFragment extends Fragment {
     private double basePrice;
     private int checkIndex[];
     private float stock;
+    private Map<String, String> skuTable = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,6 +120,8 @@ public class S11NewTradeFragment extends Fragment {
         trade = new MongoTrade();
         selectProps = new HashMap<>();
         selectRadioButton = new HashMap<>();
+
+        initSkuTable();
 
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -147,6 +150,15 @@ public class S11NewTradeFragment extends Fragment {
         checkNum();
 
         return rootView;
+    }
+    //skuTable(没有库存的商品)
+    private void initSkuTable(){
+        for (String key : itemEntity.skuTable.keySet()) {
+            if(SkuHelper.obtainSkuStock(itemEntity.skuTable, key) < 1) {
+                skuTable.put(key, itemEntity.skuTable.get(key));
+            }
+        }
+        Log.d(S11NewTradeFragment.class.getSimpleName(), "skuTable:" + new JSONObject(skuTable).toString());
     }
 
     private boolean inited = false;
@@ -228,8 +240,9 @@ public class S11NewTradeFragment extends Fragment {
                 tempMap.put(p, bList);
                 Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
                 Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
-                isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
-                if (isAble) continue;
+//                isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
+                isAble = skuTable.containsKey(SkuUtil.formetPropsAsTableKey(tempMap));
+                if (!isAble) continue;
                 for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
                     if (btn.getText().equals(value)) {
                         btn.setEnable(false);
