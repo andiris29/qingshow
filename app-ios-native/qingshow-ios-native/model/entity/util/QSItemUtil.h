@@ -21,6 +21,11 @@
 + (NSString*)getReturnInfoAddr:(NSDictionary*)itemDict;
 + (NSString*)getReturnInfoCompany:(NSDictionary*)itemDict;
 + (NSString*)getReturnInfoPhone:(NSDictionary*)itemDict;
+
++ (NSString *)getReturnAddrFromDic:(NSDictionary *)dict;
++ (NSString *)getReturnNameFromDic:(NSDictionary *)dict;
++ (NSString *)getReturnPhoneFromDic:(NSDictionary *)dict;
+
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict;

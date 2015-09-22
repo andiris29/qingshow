@@ -77,9 +77,9 @@
 }
 - (void)bindWithDic:(NSDictionary *)dict
 {
-    self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:dict];
-    self.companyLabel.text = [QSItemUtil getReturnInfoCompany:dict];
-    self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:dict];
+    self.refundAddrLabel.text = [QSItemUtil getReturnAddrFromDic:dict];
+    self.companyLabel.text = [QSItemUtil getReturnNameFromDic:dict];
+    self.phoneLabel.text = [QSItemUtil getReturnPhoneFromDic:dict];
 }
 - (void)getAddrWithOrderDict
 {

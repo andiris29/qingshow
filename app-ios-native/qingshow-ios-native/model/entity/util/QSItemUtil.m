@@ -103,6 +103,27 @@
     }
     return [QSEntityUtil getDictValue:itemDict keyPath:@"returnInfo"];
 }
++ (NSString *)getReturnAddrFromDic:(NSDictionary *)dict
+{
+    if ([QSEntityUtil checkIsNil:dict]) {
+        return @"";
+    }
+    return [QSEntityUtil getStringValue:dict keyPath:@"address"];
+}
++ (NSString *)getReturnNameFromDic:(NSDictionary *)dict
+{
+    if ([QSEntityUtil checkIsNil:dict]) {
+        return @"";
+    }
+    return [QSEntityUtil getStringValue:dict keyPath:@"name"];
+}
++ (NSString *)getReturnPhoneFromDic:(NSDictionary *)dict
+{
+    if ([QSEntityUtil checkIsNil:dict]) {
+        return @"";
+    }
+    return [QSEntityUtil getStringValue:dict keyPath:@"phone"];
+}
 
 + (NSURL*)getThumbnail:(NSDictionary *)itemDict {
     NSString* s = [QSEntityUtil getStringValue:itemDict keyPath:@"thumbnail"];
