@@ -328,7 +328,6 @@
 		EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF1149F1A0D2EEC009B7361 /* MKNetworkEngine.m */; };
 		EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A21A0D2EEC009B7361 /* MKNetworkOperation.m */; };
 		EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A51A0D2EEC009B7361 /* Reachability.m */; };
-		EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */; };
 		EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */; };
 		EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */; };
@@ -994,7 +993,6 @@
 		EFF114A81A0D2EEC009B7361 /* MKNetworkKit-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKNetworkKit-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		EFF114A91A0D2EEC009B7361 /* MKNetworkKit-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "MKNetworkKit-iOS.xcodeproj"; sourceTree = "<group>"; };
 		EFF58B4B1B55DD5D001A9AC8 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
-		EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
 		EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -1036,7 +1034,6 @@
 				EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */,
 				EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */,
 				EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */,
-				EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */,
 				EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */,
 				EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */,
 				EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */,
@@ -2629,7 +2626,6 @@
 			children = (
 				EFF58B4B1B55DD5D001A9AC8 /* APService.h */,
 				8CF625D01BB1475900B11849 /* libPushSDK-1.8.5.a */,
-				EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */,
 			);
 			path = JPush;
 			sourceTree = "<group>";
