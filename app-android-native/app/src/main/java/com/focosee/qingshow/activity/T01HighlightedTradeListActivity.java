@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -106,6 +107,7 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
                 , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(T01HighlightedTradeListActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     mRefreshLayout.endRefreshing();
                     mRefreshLayout.endLoadingMore();
