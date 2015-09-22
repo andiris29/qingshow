@@ -54,6 +54,7 @@ ServerError.UnsupportVersion = 1027;
 ServerError.GoblinError = 1028;
 ServerError.MobileAlreadyExist = 1029;
 ServerError.SMSValidationFail = 1030;
+ServerError.SMSlimitedSend = 1031;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -103,6 +104,8 @@ var _codeToString = function(code) {
             return "MobileAlreadyExist";
         case 1030 :
             return "SMSValidationFail";
+        case 1031 : 
+            return "SMSlimitedSend";
     }
 };
 
