@@ -623,7 +623,7 @@ trade.getReturnReceiver = {
     'func' : function(req, res) {
         async.waterfall([function(callback) {
             Trade.findOne({
-                _id : RequestHelper.parseId(req.body._id)
+                _id : RequestHelper.parseId(req.queryString._id)
             }, function(error, trade) {
                 if (error) {
                     callback(error);
@@ -659,7 +659,7 @@ trade.getReturnReceiver = {
             });
         }, function(people, callback) {
             var defaultReceiver = global.qsConfig.receiver.default;
-            if (people.receivers === nul || people.receivers.length === 0) {
+            if (people.receivers === null || people.receivers.length === 0) {
                 callback(null, defaultReceiver);
                 return;
             }
