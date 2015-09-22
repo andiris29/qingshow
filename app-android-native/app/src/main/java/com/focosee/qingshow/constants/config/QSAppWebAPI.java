@@ -127,8 +127,8 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + VALIDATE_MOBILE_API;
     }
 
-    public static String getItemQueryApi(String _ids) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + ITEM_QUERY_API + "?_ids=" + _ids;
+    public static String getItemQueryApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + ITEM_QUERY_API;
     }
 
     public static String getUserBonusWithdrawApi() {

@@ -162,6 +162,7 @@
     <string name="item_not_exist">商品不存在</string>
     <string name="image_not_exist">商品没有图片</string>
     <string name="get_bonuses_label">佣金：</string>
+    <string name="need_install_wx">请先安装微信</string>
 
     <!-- trade -->
     <string name="title_name_activity_trade">订单管理</string>

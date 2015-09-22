@@ -31,6 +31,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
@@ -57,6 +58,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
 
     private final int CANCEL = 0;
     private SpannableString spannableString;
+    public List<MongoItem> items;
 
     /**
      * viewType的顺序的layoutId的顺序一致
@@ -199,7 +201,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                                 EventBus.getDefault().post(trade);
                                 ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
                             } else
-                                ToastUtil.showShortToast(context.getApplicationContext(), "请先安装微信，然后才能分享");
+                                ToastUtil.showShortToast(context.getApplicationContext(), context.getString(R.string.need_install_wx));
                         }
 
                     });
