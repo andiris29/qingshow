@@ -69,6 +69,8 @@
 		8C9240051B258AB60043561E /* hongxin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240041B258AB60043561E /* hongxin@2x.png */; };
 		8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240061B25A8030043561E /* user_bg_default@2x.jpg */; };
 		8C9240091B25A83C0043561E /* user_head_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240081B25A83C0043561E /* user_head_default@2x.jpg */; };
+		8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625CE1BB13CD400B11849 /* PushKit.framework */; };
+		8CF625D11BB1475900B11849 /* libPushSDK-1.8.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625D01BB1475900B11849 /* libPushSDK-1.8.5.a */; settings = {ASSET_TAGS = (); ATTRIBUTES = (Required, ); }; };
 		A75DF2071B01A6B400A88E36 /* QSHotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A75DF2061B01A6B400A88E36 /* QSHotUtil.m */; };
 		A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */; };
 		A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A665A1AFCB74900AF5559 /* user_personality.png */; };
@@ -326,7 +328,7 @@
 		EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF1149F1A0D2EEC009B7361 /* MKNetworkEngine.m */; };
 		EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A21A0D2EEC009B7361 /* MKNetworkOperation.m */; };
 		EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A51A0D2EEC009B7361 /* Reachability.m */; };
-		EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */; };
+		EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */; };
 		EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */; };
 		EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */; };
@@ -451,6 +453,8 @@
 		8C9240041B258AB60043561E /* hongxin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hongxin@2x.png"; sourceTree = "<group>"; };
 		8C9240061B25A8030043561E /* user_bg_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_bg_default@2x.jpg"; sourceTree = "<group>"; };
 		8C9240081B25A83C0043561E /* user_head_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_head_default@2x.jpg"; sourceTree = "<group>"; };
+		8CF625CE1BB13CD400B11849 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		8CF625D01BB1475900B11849 /* libPushSDK-1.8.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.5.a"; sourceTree = "<group>"; };
 		A75DF2051B01A6B400A88E36 /* QSHotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHotUtil.h; sourceTree = "<group>"; };
 		A75DF2061B01A6B400A88E36 /* QSHotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSHotUtil.m; sourceTree = "<group>"; };
 		A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_regAndlogin_backImage.png; sourceTree = "<group>"; };
@@ -1019,8 +1023,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */,
 				EFF58B561B55DDB1001A9AC8 /* Security.framework in Frameworks */,
 				EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */,
+				8CF625D11BB1475900B11849 /* libPushSDK-1.8.5.a in Frameworks */,
 				EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */,
 				EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */,
 				EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */,
@@ -1919,6 +1925,7 @@
 		EF9A74101A02A82600095F07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8CF625CE1BB13CD400B11849 /* PushKit.framework */,
 				EFF58B551B55DDB1001A9AC8 /* Security.framework */,
 				EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */,
 				EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */,
@@ -2621,6 +2628,7 @@
 			isa = PBXGroup;
 			children = (
 				EFF58B4B1B55DD5D001A9AC8 /* APService.h */,
+				8CF625D01BB1475900B11849 /* libPushSDK-1.8.5.a */,
 				EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */,
 			);
 			path = JPush;
@@ -3233,6 +3241,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK",
@@ -3254,11 +3263,12 @@
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/JPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "cb5a9f5d-940d-4a02-8fa5-13087f0aedd3";
+				PROVISIONING_PROFILE = "d7729689-0516-4b93-90e9-c1aab54d5afa";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -3272,6 +3282,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK",
@@ -3293,6 +3304,7 @@
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/JPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";

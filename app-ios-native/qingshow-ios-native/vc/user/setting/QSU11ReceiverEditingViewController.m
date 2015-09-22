@@ -210,7 +210,11 @@
         [self showTextHud:@"已成功发送验证码"];
         [self setTimer];
     } onError:^(NSError *error) {
-        [self showTextHud:@"手机号码不正确或已被注册"];
+        if (error.code == 1031) {
+            [self showTextHud:@"已超过每日发送次数"];
+        }else{
+            [self showTextHud:@"手机号码不正确或已被注册"];
+        }
     }];
 }
 

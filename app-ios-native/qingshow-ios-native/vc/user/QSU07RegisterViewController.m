@@ -138,7 +138,11 @@
             [self showTextHud:@"已成功发送验证码"];
             [self setTimer];
         } onError:^(NSError *error) {
+            if (error.code == 1031) {
+                [self showTextHud:@"已超过每日发送次数"];
+            }else{
             [self showTextHud:@"手机号码不正确或已被注册"];
+            }
         }];
 }
 - (void)setTimer
@@ -213,6 +217,7 @@
     NSString *passwd = self.passwdText.text;
     NSString *passwdCfm = self.passwdCfmText.text;
     NSString *mailAndPhone = self.mailAndPhoneText.text;
+    NSString *code = self.testTextField.text;
     
     if (nickName.length == 0) {
         [self showErrorHudWithText:@"请输入昵称"];
@@ -262,10 +267,10 @@
             return;
         }
     };
-    [SHARE_NW_ENGINE MobileNumberAvilable:self.mailAndPhoneText.text code:self.testTextField.text onSucceed:^(BOOL code) {
+    [SHARE_NW_ENGINE MobileNumberAvilable:mailAndPhone code:code onSucceed:^(BOOL code) {
         if (code == YES) {
             [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
-            [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.mailAndPhoneText.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
+            [SHARE_NW_ENGINE updatePeople:@{@"mobile":mailAndPhone} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
         }else{
             [self showTextHud:@"验证码错误"];
         }
