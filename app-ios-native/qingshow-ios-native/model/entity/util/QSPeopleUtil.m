@@ -51,7 +51,7 @@
     if (path && path.length) {
         return [NSURL URLWithString:[QSImageNameUtil appendImageName:path type:type]];
     } else {
-        return [[NSBundle mainBundle] URLForResource:@"user_head_default" withExtension:@"png"];
+        return [[NSBundle mainBundle] URLForResource:@"user_head_default@2x" withExtension:@"jpg"];
     }
     
     return nil;
