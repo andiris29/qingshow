@@ -12,6 +12,7 @@
 #import "QSNetworkEngine+ShowService.h"
 #import "QSG01ItemWebViewController.h"
 #import "QSU01UserDetailViewController.h"
+
 @interface QST01ShowTradeViewController ()
 
 @property (strong,nonatomic)QST01ShowTradeProvider *provider;
@@ -32,6 +33,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+
 }
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden = NO;

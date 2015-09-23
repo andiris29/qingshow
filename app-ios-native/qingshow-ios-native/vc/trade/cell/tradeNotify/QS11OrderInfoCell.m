@@ -52,9 +52,8 @@
 //        self.propNameLabel2.text = @"";
 //    }
     self.propNameLabel1.text = [QSTradeUtil getSizeText:tradeDict];
-
-    NSNumber* price = [QSItemUtil getPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
-    int disCount = [QSItemUtil getPromoPrice:itemDict].doubleValue * 100 / price.doubleValue;
+    NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
+    int disCount = [QSTradeUtil getExpectedPrice:tradeDict].doubleValue * 100 / price.doubleValue;
     if (disCount < 10) {
         disCount = 10;
     }else if(disCount > 90)

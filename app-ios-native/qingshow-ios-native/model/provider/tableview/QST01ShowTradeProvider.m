@@ -11,7 +11,8 @@
 #import "QSTradeUtil.h"
 #define T01SHOWTRADECELLHEIGHT (216)
 #define SHOWTRADECELLIDENTIFIER (@"showTradeCellIdentifier")
-
+#define  w ([UIScreen mainScreen].bounds.size.width)
+#define  h ([UIScreen mainScreen].bounds.size.height)
 @implementation QST01ShowTradeProvider
 @synthesize delegate = _delegate;
 
@@ -26,13 +27,14 @@
     return self.resultArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return T01SHOWTRADECELLHEIGHT;
+    return T01SHOWTRADECELLHEIGHT*(w/320.f);
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QST01ShowTradeCell *cell = (QST01ShowTradeCell *)[tableView dequeueReusableCellWithIdentifier:SHOWTRADECELLIDENTIFIER forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell bindWithDic:self.resultArray[indexPath.row]];
+    cell.contentView.transform = CGAffineTransformMakeScale(w/320.f, w/320.f);
     cell.delegate = self;
     return cell;
 }

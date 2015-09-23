@@ -27,6 +27,7 @@
 
 @property (strong, nonatomic) QSS11NewTradeNotifyViewController* s11NotiVc;
 
+
 @end
 
 @implementation QSU09OrderListViewController
@@ -58,7 +59,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.menuProvider hideDotInMenuForType:QSRootMenuItemDiscount];
     
     self.navigationController.navigationBarHidden = NO;
@@ -105,11 +105,14 @@
     __weak QSU09OrderListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:^(NSError *error){
-            if (error.code == 1009 && page == 1) {
-                weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
-                [weakSelf changeValueOfSegment:1];
-            }else(errorBlock(error));
-            
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                if (error.code == 1009 && page == 1 ) {
+                    weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
+                    [weakSelf changeValueOfSegment:1];
+                    
+                }else(errorBlock(error));
+            });
         }];
     };
     self.provider.delegate = self;
@@ -244,7 +247,7 @@
                 }else{
                     [weakSelf showTextHud:@"已取消订单" afterCustomDelay:2.f];
                 }
-                
+                [weakSelf changeValueOfSegment:0];
                 [weakSelf.provider reloadData];
             }onError:nil];
 
