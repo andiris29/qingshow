@@ -61,6 +61,10 @@ public class FlowRadioGroup extends FlowLayout {
             }
         }
 
+        if(!check[lastCheckedIndex]){//取消选中
+            onCheckedChangeListener.checkedChanged(lastCheckedIndex);
+        }
+
         if (1 == checkedCount) {
 
             for (int i = 0; i < check.length; i++) {

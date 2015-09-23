@@ -15,13 +15,13 @@ public enum QSModel {
     private MongoPeople user;
 
     public boolean loggedin() {
-        if (user == null) {
-            String id = QSApplication.instance().getPreferences().getString("id", "");
-            Log.d(QSModel.class.getSimpleName(), "_id:" + id);
-            if (TextUtils.isEmpty(id))
-                return false;
-        }
-        return true;
+//        if (user == null) {
+//            String id = QSApplication.instance().getPreferences().getString("id", "");
+//            Log.d(QSModel.class.getSimpleName(), "_id:" + id);
+//            if (TextUtils.isEmpty(id))
+//                return false;
+//        }
+        return null != user;
     }
 
     public MongoPeople getUser() {

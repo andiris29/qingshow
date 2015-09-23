@@ -9,9 +9,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.CategoriesCommand;
+import com.focosee.qingshow.command.SystemCommand;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
+import org.json.JSONObject;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -33,6 +37,13 @@ public abstract class BaseActivity extends FragmentActivity {
                     dialog.setConfirm("重新连接", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            SystemCommand.systemGet(null, new Callback(){
+                                @Override
+                                public void onComplete(JSONObject response) {
+                                    reconn();
+                                    CategoriesCommand.getCategories();
+                                }
+                            });
                             reconn();
                             dialog.dismiss();
                         }

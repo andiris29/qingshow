@@ -367,12 +367,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     //获得用户信息
     private void initUser() {
-        final LoadingDialogs loading = new LoadingDialogs(getActivity());
-        loading.show();
         UserCommand.refresh(new Callback() {
             @Override
             public void onComplete() {
-                loading.dismiss();
                 super.onComplete();
                 people = QSModel.INSTANCE.getUser();
                 setData();
