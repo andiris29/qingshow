@@ -27,6 +27,8 @@
 
 @property (strong, nonatomic) QSS11NewTradeNotifyViewController* s11NotiVc;
 
+@property (assign,nonatomic)BOOL isFirstLoad;
+
 @end
 
 @implementation QSU09OrderListViewController
@@ -45,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _isFirstLoad = YES;
     [self.provider refreshClickedData];
     [self configProvider];
     [self configView];
@@ -58,7 +61,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.menuProvider hideDotInMenuForType:QSRootMenuItemDiscount];
     
     self.navigationController.navigationBarHidden = NO;
@@ -105,9 +107,10 @@
     __weak QSU09OrderListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:^(NSError *error){
-            if (error.code == 1009 && page == 1) {
+            if (error.code == 1009 && page == 1 && _isFirstLoad == YES) {
                 weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
                 [weakSelf changeValueOfSegment:1];
+                _isFirstLoad = NO;
             }else(errorBlock(error));
             
         }];
