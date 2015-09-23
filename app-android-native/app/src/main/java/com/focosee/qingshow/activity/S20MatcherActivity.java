@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -42,7 +42,6 @@ import com.focosee.qingshow.widget.radio.RadioLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.sina.weibo.sdk.api.share.Base;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -644,6 +643,17 @@ public class S20MatcherActivity extends BaseActivity {
             this.loadDone = loadDone;
             return this;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent home = new Intent(Intent.ACTION_MAIN);
+            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            home.addCategory(Intent.CATEGORY_HOME);
+            startActivity(home);
+        }
+        return true;
     }
 
     @Override
