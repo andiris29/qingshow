@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 
-var People = require('../../models').People;
-var Trade = require('../../models').Trade;
-var jPushAudiences = require('../../models').JPushAudience;
+var People = require('../../dbmodels').People;
+var Trade = require('../../dbmodels').Trade;
+var jPushAudiences = require('../../dbmodels').JPushAudience;
 
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');

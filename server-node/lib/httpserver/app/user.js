@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 var async = require('async');
 var uuid = require('node-uuid');
 var path = require('path');
-var jPushAudiences = require('../../models').JPushAudience;
+var jPushAudiences = require('../../dbmodels').JPushAudience;
 var fs = require('fs');
 var winston = require('winston');
 
-var People = require('../../models').People;
+var People = require('../../dbmodels').People;
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');

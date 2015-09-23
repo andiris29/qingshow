@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 var errors = require('../../errors');
 var RequestHelper = require('../../helpers/RequestHelper');
-var People = require('../../models').People;
+var People = require('../../dbmodels').People;
 var _validatorsMap = {};
 
 var _init = function(services) {

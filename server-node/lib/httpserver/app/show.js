@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 var async = require('async');
 //model
-var Show = require('../../models').Show;
-var Item = require('../../models').Item;
-var ShowComment = require('../../models').ShowComment;
-var RPeopleLikeShow = require('../../models').RPeopleLikeShow;
-var RPeopleShareShow = require('../../models').RPeopleShareShow;
-var People = require('../../models').People;
-var jPushAudiences = require('../../models').JPushAudience;
+var Show = require('../../dbmodels').Show;
+var Item = require('../../dbmodels').Item;
+var ShowComment = require('../../dbmodels').ShowComment;
+var RPeopleLikeShow = require('../../dbmodels').RPeopleLikeShow;
+var RPeopleShareShow = require('../../dbmodels').RPeopleShareShow;
+var People = require('../../dbmodels').People;
+var jPushAudiences = require('../../dbmodels').JPushAudience;
 
 //util
 var MongoHelper = require('../../helpers/MongoHelper');

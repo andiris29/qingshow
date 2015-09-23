@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 
-var Trade = require('../../models').Trade;
-var People = require('../../models').People;
-var Item = require('../../models').Item;
-var RPeopleShareTrade = require('../../models').RPeopleShareTrade;
-var jPushAudiences = require('../../models').JPushAudience;
+var Trade = require('../../dbmodels').Trade;
+var People = require('../../dbmodels').People;
+var Item = require('../../dbmodels').Item;
+var RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
+var jPushAudiences = require('../../dbmodels').JPushAudience;
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');

@@ -20,7 +20,7 @@ admin.find = {
     // 'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         var model = req.queryString.model || _collectionToModel[req.queryString.collection];
-        var Model = require('../../models/' + model);
+        var Model = require('../../dbmodels/' + model);
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             // querier
             var criteria = MongoHelper.querySchema(Model, req.queryString);

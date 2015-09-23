@@ -3,11 +3,11 @@ var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 
-var Items = require('../../models').Item;
-var Trade = require('../../models').Trade;
-var People = require('../../models').People;
+var Items = require('../../dbmodels').Item;
+var Trade = require('../../dbmodels').Trade;
+var People = require('../../dbmodels').People;
 
-var jPushAudiences = require('../../models').JPushAudience;
+var jPushAudiences = require('../../dbmodels').JPushAudience;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
