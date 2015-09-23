@@ -6,9 +6,9 @@ var People = require('../../models').People;
 var Trade = require('../../models').Trade;
 var jPushAudiences = require('../../models').JPushAudience;
 
-var ResponseHelper = require('../helpers/ResponseHelper');
-var RequestHelper = require('../helpers/RequestHelper');
-var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 
 var notify = module.exports;
 

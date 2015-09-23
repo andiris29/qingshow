@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 var async = require('async');
 
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var MongoHelper = require('../helpers/MongoHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var MongoHelper = require('../../helpers/MongoHelper');
 
 var ServerError = require('../server-error');
 

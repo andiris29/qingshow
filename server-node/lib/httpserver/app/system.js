@@ -1,8 +1,8 @@
 var async = require('async');
 var winston = require('winston');
 
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
 var ServerError = require('../server-error'); 
 var VersionUtil = require('../../utils/VersionUtil');
 

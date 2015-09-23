@@ -8,11 +8,11 @@ var Trade = require('../../models').Trade;
 var People = require('../../models').People;
 
 var jPushAudiences = require('../../models').JPushAudience;
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var MongoHelper = require('../helpers/MongoHelper');
-var PushNotificationHelper = require('../helpers/PushNotificationHelper');
-var TradeHelper = require('../helpers/TradeHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var MongoHelper = require('../../helpers/MongoHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var TradeHelper = require('../../helpers/TradeHelper');
 var URLParser = require('../../scheduled/goblin/common/URLParser');
 var qsftp = require('../../runtime').ftp;
 var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");

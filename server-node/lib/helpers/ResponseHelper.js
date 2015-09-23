@@ -2,7 +2,7 @@ var _ = require('underscore');
 var winston = require('winston');
 var apiLogger = winston.loggers.get('api');
 
-var ServerError = require('../server-error');
+var ServerError = require('../httpserver/server-error');
 
 var ResponseHelper = module.exports;
 

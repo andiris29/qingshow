@@ -1,8 +1,8 @@
 
 var async = require('async');
 
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
 var GoblinScheduler = require('../../scheduled/goblin/scheduler/GoblinScheduler');
 var ItemSyncService = require('../../scheduled/goblin/common/ItemSyncService');
 var GoblinError = require('../../scheduled/goblin/common/GoblinError');

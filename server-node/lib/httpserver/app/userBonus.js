@@ -7,10 +7,10 @@ var Trades = require('../../models').Trade;
 var jPushAudiences = require('../../models').JPushAudience;
 var Item = require('../../models').Item;
 
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var PushNotificationHelper = require('../helpers/PushNotificationHelper');
-var BonusHelper = require('../helpers/BonusHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var BonusHelper = require('../../helpers/BonusHelper');
 var ServerError = require('../server-error');
 
 var userBonus = module.exports;

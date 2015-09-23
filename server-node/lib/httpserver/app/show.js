@@ -10,12 +10,12 @@ var People = require('../../models').People;
 var jPushAudiences = require('../../models').JPushAudience;
 
 //util
-var MongoHelper = require('../helpers/MongoHelper');
-var ContextHelper = require('../helpers/ContextHelper');
-var RelationshipHelper = require('../helpers/RelationshipHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var RequestHelper = require('../helpers/RequestHelper');
-var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var MongoHelper = require('../../helpers/MongoHelper');
+var ContextHelper = require('../../helpers/ContextHelper');
+var RelationshipHelper = require('../../helpers/RelationshipHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 
 var ServerError = require('../server-error');
 

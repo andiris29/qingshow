@@ -9,11 +9,11 @@ var Item = require('../../models').Item;
 var Show = require('../../models').Show;
 
 // util
-var ResponseHelper = require('../helpers/ResponseHelper');
-var RequestHelper = require('../helpers/RequestHelper');
-var ServiceHelper = require('../helpers/ServiceHelper');
-var MongoHelper = require('../helpers/MongoHelper.js');
-var RelationshipHelper = require('../helpers/RelationshipHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ServiceHelper = require('../../helpers/ServiceHelper');
+var MongoHelper = require('../../helpers/MongoHelper.js');
+var RelationshipHelper = require('../../helpers/RelationshipHelper');
 
 var ServerError = require('../server-error');
 

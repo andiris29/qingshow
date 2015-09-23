@@ -4,9 +4,9 @@ var async = require('async');
 var Trace = require('../../models').Trace;
 var People = require('../../models').People;
 var jPushAudiences = require('../../models').JPushAudience;
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 
 var ServerError = require('../server-error');
 

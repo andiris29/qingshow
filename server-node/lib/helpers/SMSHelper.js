@@ -2,7 +2,7 @@ var crypto = require('crypto');
 var request = require('request');
 var moment = require('moment');
 
-var ServerError = require('../server-error');
+var ServerError = require('../httpserver/server-error');
 
 var YTX_SID = 'aaf98f894fa5766f014fa72f897102e6';
 var YTX_TOKEN = '999249ff15ad4222aa268c7374430107';

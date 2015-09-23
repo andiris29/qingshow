@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
-var People = require('../../models').People;
-var ServerError = require('../server-error');
+var People = require('../models').People;
+var ServerError = require('../httpserver/server-error');
 var ContextHelper = require('../helpers/ContextHelper');
 
 module.exports.create = function(Model, initiatorRef, targetRef, callback) {

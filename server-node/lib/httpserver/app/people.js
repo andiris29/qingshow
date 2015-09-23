@@ -4,13 +4,13 @@ var async = require('async');
 var People = require('../../models').People;
 var RPeopleFollowPeople = require('../../models').RPeopleFollowPeople;
 //util
-var ServiceHelper = require('../helpers/ServiceHelper');
-var MongoHelper = require('../helpers/MongoHelper');
-var ContextHelper = require('../helpers/ContextHelper');
-var RelationshipHelper = require('../helpers/RelationshipHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var RequestHelper = require('../helpers/RequestHelper');
-var TradeHelper = require('../helpers/TradeHelper');
+var ServiceHelper = require('../../helpers/ServiceHelper');
+var MongoHelper = require('../../helpers/MongoHelper');
+var ContextHelper = require('../../helpers/ContextHelper');
+var RelationshipHelper = require('../../helpers/RelationshipHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var TradeHelper = require('../../helpers/TradeHelper');
 
 var ServerError = require('../server-error');
 

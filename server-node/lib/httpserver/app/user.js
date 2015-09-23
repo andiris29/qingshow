@@ -8,9 +8,9 @@ var winston = require('winston');
 
 var People = require('../../models').People;
 
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var SMSHelper = require('../helpers/SMSHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var SMSHelper = require('../../helpers/SMSHelper');
 
 var ServerError = require('../server-error');
 

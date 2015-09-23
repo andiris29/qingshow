@@ -5,8 +5,8 @@ var _ = require('underscore');
 var Items = require('../../models').Item;
 var Trades = require('../../models').Trade;
 
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
 
 
 var dashboard = module.exports;

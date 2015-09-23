@@ -5,7 +5,7 @@ var ContextHelper = require('../helpers/ContextHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 
-var ServerError = require('../server-error');
+var ServerError = require('../httpserver/server-error');
 
 ServiceHelper = module.exports;
 

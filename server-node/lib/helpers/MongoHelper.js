@@ -1,5 +1,6 @@
 var async = require('async'), _ = require('underscore');
-var ServerError = require('../server-error');
+// TODO Uncomfortable dependency
+var ServerError = require('../httpserver/server-error');
 var RequestHelper = require('./RequestHelper');
 
 var MongoHelper = module.exports;

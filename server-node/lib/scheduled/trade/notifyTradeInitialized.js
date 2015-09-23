@@ -4,7 +4,7 @@ var winston = require('winston');
 var async = require('async');
 var winston = require('winston');
 var _ = require('underscore');
-var PushNotificationHelper = require('../../httpserver/helpers/PushNotificationHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 var Trade = require('../../models').Trade;
 var jPushAudiences = require('../../models').JPushAudience;
 

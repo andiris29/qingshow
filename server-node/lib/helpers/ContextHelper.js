@@ -1,14 +1,14 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
-var Shows = require('../../models').Show;
-var ShowComments = require('../../models').ShowComment;
-var RPeopleLikeShow = require('../../models').RPeopleLikeShow;
-var RPeopleShareShow = require('../../models').RPeopleShareShow;
-var RPeopleFollowPeople = require('../../models').RPeopleFollowPeople;
-var RPeopleShareTrade = require('../../models').RPeopleShareTrade;
-var People = require('../../models').People;
-var Item = require('../../models').Item;
+var Shows = require('../models').Show;
+var ShowComments = require('../models').ShowComment;
+var RPeopleLikeShow = require('../models').RPeopleLikeShow;
+var RPeopleShareShow = require('../models').RPeopleShareShow;
+var RPeopleFollowPeople = require('../models').RPeopleFollowPeople;
+var RPeopleShareTrade = require('../models').RPeopleShareTrade;
+var People = require('../models').People;
+var Item = require('../models').Item;
 
 /**
  * ContextHelper

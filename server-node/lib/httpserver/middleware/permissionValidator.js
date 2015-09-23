@@ -2,7 +2,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var ServerError = require('../server-error');
-var RequestHelper = require('../helpers/RequestHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
 var People = require('../../models').People;
 var _validatorsMap = {};
 

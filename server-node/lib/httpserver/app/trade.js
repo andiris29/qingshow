@@ -8,18 +8,18 @@ var Item = require('../../models').Item;
 var RPeopleShareTrade = require('../../models').RPeopleShareTrade;
 var jPushAudiences = require('../../models').JPushAudience;
 
-var RequestHelper = require('../helpers/RequestHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
-var TradeHelper = require('../helpers/TradeHelper');
-var RelationshipHelper = require('../helpers/RelationshipHelper');
-var MongoHelper = require('../helpers/MongoHelper');
-var ContextHelper = require('../helpers/ContextHelper');
+var RequestHelper = require('../../helpers/RequestHelper');
+var ResponseHelper = require('../../helpers/ResponseHelper');
+var TradeHelper = require('../../helpers/TradeHelper');
+var RelationshipHelper = require('../../helpers/RelationshipHelper');
+var MongoHelper = require('../../helpers/MongoHelper');
+var ContextHelper = require('../../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 var request = require('request');
 var winston = require('winston');
-var PushNotificationHelper = require('../helpers/PushNotificationHelper');
-var BonusHelper = require('../helpers/BonusHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var BonusHelper = require('../../helpers/BonusHelper');
 
 var trade = module.exports;
 
