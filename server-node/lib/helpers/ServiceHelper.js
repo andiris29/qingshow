@@ -5,7 +5,7 @@ var ContextHelper = require('../helpers/ContextHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 
-var ServerError = require('../httpserver/server-error');
+var errors = require('../errors');
 
 ServiceHelper = module.exports;
 
@@ -42,7 +42,7 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
             }
             callback();
         } catch(err) {
-            callback(ServerError.fromError(err));
+            callback(errors.genUnkownError(err));
         }
     },
     function(callback) {
@@ -52,7 +52,7 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
                 callback(err);
             } else {
                 if (currentPageModels.length === 0) {
-                    callback(ServerError.PagingNotExist);
+                    callback(errors.PagingNotExist);
                 } else {
                     if (aspectInceptions.afterQuery) {
                         aspectInceptions.afterQuery(qsParam, currentPageModels, numTotal, function(err) {

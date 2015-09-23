@@ -15,7 +15,7 @@ var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 var request = require('request');
 var winston = require('winston');
 var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
@@ -65,7 +65,7 @@ trade.create = {
                 if (error) {
                     callback(error);
                 } else if (!item) {
-                    callback(ServerError.ItemNotExist);
+                    callback(errors.ItemNotExist);
                 } else {
                     if (item.expectablePrice) {
                         TradeHelper.pushNewExpectableTrades(trade._id, trade.ownerRef, item.expectablePrice, function(err){});
@@ -105,7 +105,7 @@ trade.prepay = {
                 if (err) {
                     callback(err);
                 } else if (!trade) {
-                    callback(ServerError.TradeNotExist);
+                    callback(errors.TradeNotExist);
                 } else {
                     callback(null, trade);
                 }
@@ -185,7 +185,7 @@ var _validateStatus = function(trade, newStatus, callback) {
     if (valid && valid.indexOf(trade.status) !== -1) {
         callback(null, trade);
     } else {
-        callback(ServerError.TradeStatusChangeError);
+        callback(errors.TradeStatusChangeError);
     }
 };
 
@@ -221,7 +221,7 @@ trade.statusTo = {
                 if (err) {
                     callback(err);
                 } else if (!trade) {
-                    callback(ServerError.TradeNotExist);
+                    callback(errors.TradeNotExist);
                 } else {
                     callback(null, trade);
                 }
@@ -261,7 +261,7 @@ trade.statusTo = {
             } else if (newStatus == 2) {
                 // Save the parameters from payment server.
                 // handle at callback interface
-                callback(ServerError.TradeStatusChangeError);
+                callback(errors.TradeStatusChangeError);
             } else if (newStatus == 3 ) {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.company = param.logistic.company;
@@ -379,7 +379,7 @@ trade.wechatCallback = {
                     winston.warn('wechatCallback failed. ' + JSON.stringify(req.body));
                 }
                 if (!error && !trade) {
-                    callback(ServerError.TradeNotExist);
+                    callback(errors.TradeNotExist);
                 } else if (error) {
                     callback(error);
                 } else {
@@ -447,7 +447,7 @@ trade.refreshPaymentStatus = {
                 '_id' : RequestHelper.parseId(req.body._id)
             }).exec(function(error, trade) {
                 if (!error && !trade) {
-                    callback(ServerError.TradeNotExist);
+                    callback(errors.TradeNotExist);
                 } else if (error) {
                     callback(error);
                 } else {
@@ -628,7 +628,7 @@ trade.getReturnReceiver = {
                 if (error) {
                     callback(error);
                 } else if (!trade) {
-                    callback(ServerError.TradeNotExist);
+                    callback(errors.TradeNotExist);
                 } else {
                     callback(null, trade)
                 }
@@ -640,7 +640,7 @@ trade.getReturnReceiver = {
                 if (error) {
                     callback(error);
                 } else if (!item) {
-                    callback(ServerError.ItemNotExist);
+                    callback(errors.ItemNotExist);
                 } else {
                     callback(null, item)
                 }

@@ -15,7 +15,7 @@ var ServiceHelper = require('../../helpers/ServiceHelper');
 var MongoHelper = require('../../helpers/MongoHelper.js');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var matcher = module.exports;
 
@@ -56,7 +56,7 @@ matcher.save = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         if (!req.body.itemRefs || !req.body.itemRefs.length) {
-            ResponseHelper.response(res, ServerError.NotEnoughParam);
+            ResponseHelper.response(res, errors.NotEnoughParam);
             return;
         }
         var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
@@ -91,16 +91,16 @@ matcher.updateCover = {
                 return;
             }
             if (!fields.uuid || !fields.uuid.length) {
-                ResponseHelper.response(res, ServerError.NotEnoughParam);
+                ResponseHelper.response(res, errors.NotEnoughParam);
                 return;
             }
             if (!file) {
-                ResponseHelper.response(res, ServerError.NotEnoughParam);
+                ResponseHelper.response(res, errors.NotEnoughParam);
                 return;
             }
             var show = _matchers[fields.uuid];
             if (!show) {
-                ResponseHelper.response(res, ServerError.NotEnoughParam);
+                ResponseHelper.response(res, errors.NotEnoughParam);
                 return;
             }
             show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
@@ -129,7 +129,7 @@ matcher.hide = {
         },
         function(show, callback) {
             if (show == null) {
-                callback(ServerError.ShowNotExist);
+                callback(errors.ShowNotExist);
                 return;
             }
             show.hideAgainstOwner = true;
@@ -139,7 +139,7 @@ matcher.hide = {
         }],
         function(err, results) {
             if (!results) {
-                ResponseHelper.response(res, ServerError.ShowNotExist);
+                ResponseHelper.response(res, errors.ShowNotExist);
             } else {
                 ResponseHelper.response(res, err);
             }

@@ -26,13 +26,12 @@ properties.parse(configPath, {
 
     // CDN connection
     var qsftp = require('./runtime').ftp;
-    qsftp.connect(config.ftp, function () {});
-    
-    // Startup http server
-    require('./httpserver/startup')(config, qsdb);
-
-    // Startup scheduled
-    require('./scheduled/startup')(config.schedule);
+    qsftp.connect(config.ftp, function () {
+        // Startup http server
+        require('./httpserver/startup')(config, qsdb);
+        // Startup scheduled
+        require('./scheduled/startup')(config.schedule);
+    });
 });
 
 var _initalizeLog = function(dir) {

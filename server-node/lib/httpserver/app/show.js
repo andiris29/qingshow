@@ -17,7 +17,7 @@ var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
 var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var show = module.exports;
 
@@ -32,7 +32,7 @@ show.query = {
                 _ids = RequestHelper.parseIds(req.queryString._ids);
                 callback(null);
             } catch (err) {
-                callback(ServerError.fromError(err));
+                callback(errors.genUnkownError(err));
             }
         },
         function(callback) {
@@ -103,7 +103,7 @@ show.unlike = {
             var targetRef = RequestHelper.parseId(param._id);
             var initiatorRef = req.qsCurrentUserId;
         } catch (e) {
-            ResponseHelper.response(res, ServerError.RequestValidationFail);
+            ResponseHelper.response(res, errors.RequestValidationFail);
             return;
         }
 

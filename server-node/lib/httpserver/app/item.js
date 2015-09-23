@@ -18,7 +18,7 @@ var qsftp = require('../../runtime').ftp;
 var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");
 
 var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 var GoblinError = require('../../scheduled/goblin/common/GoblinError');
 
 var item = module.exports;
@@ -35,7 +35,7 @@ item.updateExpectablePrice = {
                 if (error) {
                     callback(error);
                 } else if (!item) {
-                    callback(ServerError.ItemNotExist);
+                    callback(errors.ItemNotExist);
                 } else {
                     callback(null, item);
                 }
@@ -52,7 +52,7 @@ item.updateExpectablePrice = {
                     'status' : 0
                 }).exec(function(error, trades) {
                     if (error) {
-                        cb(ServerError.TradeNotExist);
+                        cb(errors.TradeNotExist);
                     }else {
                         cb(null, trades);
                     }
@@ -147,11 +147,11 @@ item.sync = {
         ], function (err, item) {
             if (err) {
                 if (err.domain === GoblinError.Domain) {
-                    err = new ServerError(ServerError.GoblinError, err.description, err);
+                    err = errors.genGoblin(err.description, err);
                 }
                 ResponseHelper.response(res, err);
             } else if (!item) {
-                ResponseHelper.response(res, ServerError.ItemNotExist);
+                ResponseHelper.response(res, errors.ItemNotExist);
             } else {
                 ResponseHelper.response(res, null, {
                     'item' : item
@@ -172,7 +172,7 @@ item.delist = {
                 if (error) {
                     callback(error);
                 } else if (!item) {
-                    callback(ServerError.ItemNotExist);
+                    callback(errors.ItemNotExist);
                 } else {
                     callback(null, item);
                 }
@@ -244,7 +244,7 @@ item.list = {
                 if (error) {
                     callback(error);
                 } else if (!item) {
-                    callback(ServerError.ItemNotExist);
+                    callback(errors.ItemNotExist);
                 } else {
                     callback(null, item);
                 }

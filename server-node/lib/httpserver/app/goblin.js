@@ -7,7 +7,7 @@ var GoblinScheduler = require('../../scheduled/goblin/scheduler/GoblinScheduler'
 var ItemSyncService = require('../../scheduled/goblin/common/ItemSyncService');
 var GoblinError = require('../../scheduled/goblin/common/GoblinError');
 var Item = require('../../models').Item;
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var winston = require('winston');
 var goblinLogger = winston.loggers.get('goblin');
@@ -29,7 +29,7 @@ goblin.nextItem = {
         ], function (err, item) {
             if (err && err.domain === GoblinError.Domain && err.errorCode === GoblinError.NoItemShouldBeCrawl) {
                 //TODO refactor
-                err = ServerError.fromCode(ServerError.GoblinError);
+                err = errors.genGoblin('genGoblin', err);
             }
             ResponseHelper.response(res, err, {
                 item : item
@@ -53,7 +53,7 @@ goblin.crawlItemComplete = {
                 }, callback);
             }, function (item, callback) {
                 if (!item) {
-                    callback(ServerError.fromCode(ServerError.ItemNotExist));
+                    callback(errors.ItemNotExist);
                 } else {
                     callback(null, item);
                 }

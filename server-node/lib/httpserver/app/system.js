@@ -3,7 +3,7 @@ var winston = require('winston');
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
-var ServerError = require('../server-error'); 
+var errors = require('../../errors'); 
 var VersionUtil = require('../../utils/VersionUtil');
 
 var system = module.exports;
@@ -29,7 +29,7 @@ system.get = {
 			var versionLimit = global.qsConfig.system.production.maxSupportedVersion;
 			var version = req.queryString.version;
 			if (!version) {
-				callback(ServerError.NotEnoughParam);
+				callback(errors.NotEnoughParam);
 			}else {
 				if (VersionUtil.greater(version, versionLimit)) {
 					deployment = researchDeployment;

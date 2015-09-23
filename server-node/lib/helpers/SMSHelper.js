@@ -2,7 +2,7 @@ var crypto = require('crypto');
 var request = require('request');
 var moment = require('moment');
 
-var ServerError = require('../httpserver/server-error');
+var errors = require('../errors');
 
 var YTX_SID = 'aaf98f894fa5766f014fa72f897102e6';
 var YTX_TOKEN = '999249ff15ad4222aa268c7374430107';
@@ -50,9 +50,9 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
     	var result = JSON.parse(body);
 
     	if (result.statusCode === '112314') {
-    		callback(ServerError.SMSlimitedSend);
+    		callback(errors.SMSlimitedSend);
     	}else if (err) {
-    		callback(ServerError.ServerError);
+    		callback(errors.genUnkownError());
     	}else {
     		callback(null, body);    			
     	}
@@ -64,7 +64,7 @@ SMSHelper.createVerificationCode = function (to, callback){
 	var config = global.qsConfig;
 	if (_verifications.to && 
 		new Date() - _verifications.to.create < config.verification.retry) {
-		callback(ServerError.ServerError);
+		callback(errors.genUnkownError());
 	}else {
 		var code = new Number(Math.random() * Math.pow(10,6)).toFixed(0);
 		_verifications[to] = {
@@ -82,7 +82,7 @@ SMSHelper.checkVerificationCode = function (to, code, callback){
 		new Date() - verification.create < config.verification.expire) {
 		callback(null, true);
 	}else {
-		callback(ServerError.SMSValidationFail, false);
+		callback(errors.SMSValidationFail, false);
 	}
 	_cleanExpiredCode();
 }

@@ -11,7 +11,7 @@ var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 var BonusHelper = require('../../helpers/BonusHelper');
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var userBonus = module.exports;
 
@@ -28,7 +28,7 @@ userBonus.forge = {
                 if (err) {
                     callback(err);
                 } else if (!item) {
-                    callback(ServerError.ItemNotExist);
+                    callback(errors.ItemNotExist);
                 } else {
                     callback(null, item);
                 }
@@ -57,7 +57,7 @@ userBonus.withdraw = {
                 if (error) {
                     callback(error);
                 } else if (!people) {
-                    callback(ServerError.PeopleNotExist);
+                    callback(errors.PeopleNotExist);
                 } else {
                     callback(null, people);
                 }
@@ -75,7 +75,7 @@ userBonus.withdraw = {
                 if (error) {
                     callback(error);
                 } else if (!people) {
-                    callback(ServerError.ServerError);
+                    callback(errors.genUnkownError());
                 } else {
                     callback(error, people);
                 }
@@ -98,7 +98,7 @@ userBonus.withdrawComplete = {
                 if (error) {
                     callback(error);
                 } else if (!people) {
-                    callback(ServerError.PeopleNotExist);
+                    callback(errors.PeopleNotExist);
                 } else {
                     callback(null, people);
                 }
@@ -122,7 +122,7 @@ userBonus.withdrawComplete = {
                 if (error) {
                     callback(error);
                 } else if (!people) {
-                    callback(ServerError.ServerError);
+                    callback(errors.genUnkownError());
                 } else {
                     callback(error, people, sum);
                 }

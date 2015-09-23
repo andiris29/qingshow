@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 // Models
 var People = require('../models').People;
-var ServerError = require('../httpserver/server-error');
+var errors = require('../errors');
 var ContextHelper = require('../helpers/ContextHelper');
 
 module.exports.create = function(Model, initiatorRef, targetRef, callback) {
@@ -16,7 +16,7 @@ module.exports.create = function(Model, initiatorRef, targetRef, callback) {
             if (err) {
                 callbck(err);
             } else if (r) {
-                callbck(ServerError.AlreadyRelated);
+                callbck(errors.AlreadyRelated);
             } else {
                 callbck(null);
             }
@@ -45,7 +45,7 @@ module.exports.remove = function(Model, initiatorRef, targetRef, callback) {
         if (relationship) {
             relationship.remove(callback);
         } else {
-            callback(ServerError.AlreadyUnrelated);
+            callback(errors.AlreadyUnrelated);
         }
     }], callback);
 };

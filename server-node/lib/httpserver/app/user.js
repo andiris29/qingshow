@@ -12,7 +12,7 @@ var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var SMSHelper = require('../../helpers/SMSHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 var moment =require('moment');
@@ -81,7 +81,7 @@ var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackgroun
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
-        callback(req.qsCurrentUserId ? null : ServerError.NeedLogin);
+        callback(req.qsCurrentUserId ? null : errors.NeedLogin);
     },
     function(callback) {
         People.findOne({
@@ -99,7 +99,7 @@ _get = function(req, res) {
                 callback(null, people);
             }
         } else {
-            callback(ServerError.fromCode(ServerError.NeedLogin));
+            callback(errors.NeedLogin);
         }
     },
     function(people, callback) {
@@ -170,7 +170,7 @@ _login = function(req, res) {
             //login fail
             delete req.session.userId;
             delete req.session.loginDate;
-            ResponseHelper.response(res, ServerError.IncorrectMailOrPassword);
+            ResponseHelper.response(res, errors.IncorrectMailOrPassword);
         }
     });
 };
@@ -197,7 +197,7 @@ _register = function(req, res) {
     var nickname = param.nickname;
     //TODO validate id and password
     if (!id || !password || !id.length || !password.length || !nickname) {
-        ResponseHelper.response(res, ServerError.NotEnoughParam);
+        ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
     People.find({
@@ -207,7 +207,7 @@ _register = function(req, res) {
             ResponseHelper.response(res, err);
             return;
         } else if (people.length > 0) {
-            ResponseHelper.response(res, ServerError.EmailAlreadyExist);
+            ResponseHelper.response(res, errors.EmailAlreadyExist);
             return;
         }
 
@@ -223,7 +223,7 @@ _register = function(req, res) {
                 ResponseHelper.response(res, err);
                 return;
             } else if (!people) {
-                ResponseHelper.response(res, ServerError.ServerError);
+                ResponseHelper.response(res, errors.genUnkownError());
                 return;
             } else {
                 req.session.userId = people._id;
@@ -253,7 +253,7 @@ _update = function(req, res) {
             '_id' : req.qsCurrentUserId
         }, function(err, people) {
             if (!err && !people) {
-                callback(ServerError.PeopleNotExist);
+                callback(errors.PeopleNotExist);
             } else {
                 callback(err, people);
             }
@@ -270,7 +270,7 @@ _update = function(req, res) {
                 }]
             }, function(err, people) {
                 if (!err && !people) {
-                    callback(ServerError.InvalidCurrentPassword);
+                    callback(errors.InvalidCurrentPassword);
                 } else {
                     callback(err, people);
                 }
@@ -336,7 +336,7 @@ _saveReceiver = function(req, res) {
             '_id' : req.qsCurrentUserId
         }, function(error, people) {
             if (!error && !people) {
-                callback(ServerError.PeopleNotExist);
+                callback(errors.PeopleNotExist);
             } else {
                 callback(error, people);
             }
@@ -436,7 +436,7 @@ _removeReceiver = function(req, res) {
             '_id' : req.qsCurrentUserId
         }).exec(function(error, people) {
             if (!error && !people) {
-                callback(ServerError.PeopleNotExist);
+                callback(errors.PeopleNotExist);
             } else {
                 callback(error, people);
             }
@@ -492,7 +492,7 @@ _loginViaWeixin = function(req, res) {
     var param = req.body;
     var code = param.code;
     if (!code) {
-        ResponseHelper.response(res, ServerError.NotEnoughParam);
+        ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
     async.waterfall([function(callback) {
@@ -609,7 +609,7 @@ _loginViaWeixin = function(req, res) {
                     if (err) {
                         callback(err, people);
                     } else if (!people) {
-                        callback(ServerError.ServerError);
+                        callback(errors.genUnkownError());
                     } else {
                         callback(null, people);
                     }
@@ -635,7 +635,7 @@ _loginViaWeibo = function(req, res) {
     var token = param.access_token;
     var uid = param.uid;
     if (!token || !uid) {
-        ResponseHelper.response(res, ServerError.NotEnoughParam);
+        ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
     async.waterfall([function(callback) {
@@ -730,7 +730,7 @@ _loginViaWeibo = function(req, res) {
                     if (err) {
                         callback(err, people);
                     } else if (!people) {
-                        callback(ServerError.ServerError);
+                        callback(errors.genUnkownError());
                     } else {
                         callback(null, people);
                     }
@@ -757,7 +757,7 @@ _requestVerificationCode = function(req, res){
             'mobile' : mobile
         },function(err, num){
             if (num > 0) {
-                callback(ServerError.MobileAlreadyExist);
+                callback(errors.MobileAlreadyExist);
             }else {
                 callback(null, mobile);
             }

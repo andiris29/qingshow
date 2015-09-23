@@ -2,7 +2,7 @@ var _ = require('underscore');
 var winston = require('winston');
 var apiLogger = winston.loggers.get('api');
 
-var ServerError = require('../httpserver/server-error');
+var errors = require('../errors');
 
 var ResponseHelper = module.exports;
 
@@ -12,15 +12,6 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
         'metadata' : metadata || {}
     };
     if (err) {
-        if (!( err instanceof ServerError)) {
-            if (_.isNumber(err)) {
-                err = ServerError.fromCode(err);
-            } else if ( err instanceof Error) {
-                err = ServerError.fromError(err);
-            } else {
-                err = ServerError.fromDescription(err);
-            }
-        }
         json.metadata.error = err.errorCode;
         json.metadata.devInfo = err;
     }

@@ -10,7 +10,7 @@ var MongoHelper = require('../../helpers/MongoHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
 var ServiceHelper = require('../../helpers/ServiceHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var _feed = function (req, res, querier, aspectInceptions) {
     aspectInceptions = aspectInceptions || {};
@@ -58,7 +58,7 @@ feeding.recommendation = {
                     Peoples.findOne({'_id' : userid}, callback);
                 }, function (people, callback) {
                     if (!people) {
-                        callback(ServerError.PeopleNotExist);
+                        callback(errors.PeopleNotExist);
                         return;
                     }
                     var rate = 1;

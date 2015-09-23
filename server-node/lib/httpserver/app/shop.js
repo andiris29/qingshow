@@ -10,7 +10,7 @@ var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
 var ServiceHelper = require('../../helpers/ServiceHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var shop = module.exports;
 

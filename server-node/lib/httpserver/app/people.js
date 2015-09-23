@@ -12,7 +12,7 @@ var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
 var TradeHelper = require('../../helpers/TradeHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var people = module.exports;
 
@@ -49,7 +49,7 @@ people.follow = {
                 ResponseHelper.response(res, err);
             });
         } catch (e) {
-            ResponseHelper.response(res, ServerError.PeopleNotExist);
+            ResponseHelper.response(res, errors.PeopleNotExist);
             return;
         }
     }
@@ -68,7 +68,7 @@ people.unfollow = {
                 ResponseHelper.response(res, err);
             });
         } catch (e) {
-            ResponseHelper.response(res, ServerError.PeopleNotExist);
+            ResponseHelper.response(res, errors.PeopleNotExist);
             return;
         }
     }
@@ -85,7 +85,7 @@ people.query = {
                 _ids = RequestHelper.parseIds(req.queryString._ids);
                 callback(null);
             } catch (err) {
-                callback(ServerError.fromError(err));
+                callback(errors.genUnkownError(err));
             }
         },
         function(callback) {

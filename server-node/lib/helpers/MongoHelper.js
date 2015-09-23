@@ -1,6 +1,5 @@
 var async = require('async'), _ = require('underscore');
-// TODO Uncomfortable dependency
-var ServerError = require('../httpserver/server-error');
+var errors = require('../errors');
 var RequestHelper = require('./RequestHelper');
 
 var MongoHelper = module.exports;
@@ -19,10 +18,10 @@ MongoHelper.queryPaging = function(query, queryCount, pageNo, pageSize, callback
         // Count
         queryCount.count(function(err, count) {
             if (err) {
-                callback(ServerError.fromDescription(err));
+                callback(errors.genUnkownError(err));
             } else {
                 if ((pageNo - 1) * pageSize >= count) {
-                    callback(ServerError.fromCode(ServerError.PagingNotExist));
+                    callback(errors.PagingNotExist);
                 } else {
                     callback(null, count);
                 }
@@ -33,7 +32,7 @@ MongoHelper.queryPaging = function(query, queryCount, pageNo, pageSize, callback
         // Query
         query.skip((pageNo - 1) * pageSize).limit(pageSize).exec(function(err, models) {
             if (err) {
-                callback(ServerError.fromDescription(err));
+                callback(errors.genUnkownError(err));
             } else {
                 callback(err, models, count);
             }
@@ -47,10 +46,10 @@ MongoHelper.aggregatePaging =  function(aggregate, pageNo, pageSize, callback) {
             // Count 
             aggregate.exec(function(err, data) {
                 if (err) {
-                    callback(ServerError.fromDescription(err));
+                    callback(errors.genUnkownError(err));
                 } else {
                     if ((pageNo - 1) * pageSize >= data.length) {
-                        callback(ServerError.fromCode(ServerError.PagingNotExist));
+                        callback(errors.PagingNotExist);
                     } else {
                         callback(null, data.length);
                     }
@@ -61,7 +60,7 @@ MongoHelper.aggregatePaging =  function(aggregate, pageNo, pageSize, callback) {
             // Query
             aggregate.skip((pageNo - 1) * pageSize).limit(pageSize).exec(function(err, models) {
                 if (err) {
-                    callback(ServerError.fromDescription(err));
+                    callback(errors.genUnkownError(err));
                 } else {
                     callback(err, models, count);
                 }
@@ -81,7 +80,7 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
         // Count
         queryCount.count(function(err, count) {
             if (err) {
-                callback(ServerError.fromDescription(err));
+                callback(errors.genUnkownError(err));
             } else {
                 callback(null, count);
             }
@@ -101,7 +100,7 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
                 // Query
                 query.skip(skip).limit(1).exec(function(err, models) {
                     if (err) {
-                        callback(ServerError.fromDescription(err));
+                        callback(errors.genUnkownError(err));
                     } else {
                         callback(err, models[0]);
                     }

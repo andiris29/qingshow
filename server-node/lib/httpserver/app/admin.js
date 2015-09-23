@@ -5,7 +5,7 @@ var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var admin = module.exports;
 

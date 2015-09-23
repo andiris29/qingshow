@@ -8,7 +8,7 @@ var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 
-var ServerError = require('../server-error');
+var errors = require('../../errors');
 
 var _channelStore = {};
 
@@ -43,7 +43,7 @@ var _openOrDownload = function(req, res, behavior) {
         if (err) {
             ResponseHelper.response(res, err);
         } else if (!trace) {
-            ResponseHelper.response(res, ServerError.ServerError);
+            ResponseHelper.response(res, errors.genUnkownError());
         } else {
             ResponseHelper.response(res, null, {
                 'trace' : trace
@@ -70,7 +70,7 @@ spread.firstLaunch = {
             if (err) {
                 ResponseHelper.response(res, err);
             } else if (!trace) {
-                ResponseHelper.response(res, ServerError.ServerError);
+                ResponseHelper.response(res, errors.genUnkownError());
             } else {
                 ResponseHelper.response(res, null, {
                     'trace' : trace
