@@ -32,12 +32,26 @@
                           @"请求不合法",
                           @"已经关注",
                           @"已经取消关注",        //20
-                          @"当前密码不正确"];
+                          @"当前密码不正确",
+                          @"",
+                          @"",
+                          @"",
+                          @"",//25
+                          @"",
+                          @"",
+                          @"",
+                          @"手机号已存在",
+                          @"验证码错误",//30
+                          @"已超过每日发送次数",
+                          @""];
+    NSString* desc = @"";
 
-    if (self.code <= 1021 && self.code >= 1000) {
-        return desArray[self.code - 1000];
-    } else {
-        return desArray[0];
+    if (self.code <= 1031 && self.code >= 1000) {
+        desc = desArray[self.code - 1000];
     }
+    if (!desc || !desc.length) {
+        desc = desArray[0];
+    }
+    return desc;
 }
 @end
