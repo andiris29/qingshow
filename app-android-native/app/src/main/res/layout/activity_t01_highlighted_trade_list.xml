@@ -32,11 +32,24 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/t01_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:background="@color/background_color" />
 
             </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
         </android.support.percent.PercentRelativeLayout>
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/backTop_btn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="30dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back_top"
+        android:visibility="visible" />
 </FrameLayout>

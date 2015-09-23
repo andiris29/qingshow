@@ -8,14 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.focosee.qingshow.QSApplication;
-import com.focosee.qingshow.receiver.PushGuideEvent;
-import com.focosee.qingshow.util.ValueUtil;
-import com.focosee.qingshow.widget.MenuView;
-import com.focosee.qingshow.widget.RecyclerView.*;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.T01HihghtedTradeListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -25,7 +20,12 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.receiver.PushGuideEvent;
+import com.focosee.qingshow.util.RecyclerViewUtil;
+import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
+import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -52,6 +52,8 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
     BGARefreshLayout mRefreshLayout;
     @InjectView(R.id.container)
     FrameLayout contrainer;
+    @InjectView(R.id.backTop_btn)
+    ImageButton backTopBtn;
 
     private T01HihghtedTradeListAdapter adapter;
     private int currentPageNo = 1;
@@ -85,6 +87,7 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
         t01Recycler.setAdapter(adapter);
 
         t01Recycler.addItemDecoration(new SpacesItemDecoration(10));
+        RecyclerViewUtil.setBackTop(t01Recycler, backTopBtn, manager);
     }
 
     private void initRefreshLayout() {
@@ -159,7 +162,7 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
     public void onEventMainThread(PushGuideEvent event) {
         if (event.unread) {
             leftBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
-        }else{
+        } else {
             leftBtn.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
