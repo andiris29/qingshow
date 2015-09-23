@@ -651,15 +651,13 @@ trade.getReturnReceiver = {
             }, function(error, people) {
                 if (error) {
                     callback(error);
-                } else if (!people) {
-                    callback(ServerError.PeopleNotExist);
                 } else {
                     callback(null, people)
                 }
             });
         }, function(people, callback) {
             var defaultReceiver = global.qsConfig.receiver.default;
-            if (people.receivers === null || people.receivers.length === 0) {
+            if (!people || people.receivers === null || people.receivers.length === 0) {
                 callback(null, defaultReceiver);
                 return;
             }
