@@ -13,7 +13,7 @@ var _init = function(services) {
         for (var id in module) {
             var validators = _globalValidators.concat(module[id].permissionValidators || []);
             if (validators) {
-                _validatorsMap['/services/' + path + '/' + id] = validators;
+                _validatorsMap['/app/' + path + '/' + id] = validators;
             }
         }
     });

@@ -32,7 +32,7 @@ var servicesNames = [
 var services = servicesNames.map(function (path) {
     return {
         'path' : path,
-        'module' : require('./services/' + path)
+        'module' : require('./app/' + path)
     };
 });
 
