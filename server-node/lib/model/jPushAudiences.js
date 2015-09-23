@@ -13,5 +13,7 @@ var jPushAudiencesSchema = Schema({
     }
 });
 
-var jPushAudiences = mongoose.model('jPushAudiences', jPushAudiencesSchema);
+var jPushAudiences = mongoose.model('jPushAudiences', jPushAudiencesSchema, {
+    collection : 'jPushAudiences'
+});
 module.exports = jPushAudiences;

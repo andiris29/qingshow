@@ -4,7 +4,7 @@ var async = require('async');
 var People = require('../../model/peoples');
 var Trade = require('../../model/trades');
 
-var qsmail = require('../../runtime/qsmail');
+var qsmail = require('../../runtime').mail;
 var winston = require('winston');
 var RequestHelper = require('./RequestHelper');
 

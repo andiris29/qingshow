@@ -14,7 +14,7 @@ var MongoHelper = require('../helpers/MongoHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 var TradeHelper = require('../helpers/TradeHelper');
 var URLParser = require('../../scheduled/goblin/common/URLParser');
-var qsftp = require('../../runtime/qsftp');
+var qsftp = require('../../runtime').ftp;
 var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");
 
 var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");

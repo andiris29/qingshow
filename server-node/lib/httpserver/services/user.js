@@ -24,7 +24,7 @@ var WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
 var WB_APPID = 'wb1213293589';
 var WB_SECRET = '';
 
-var qsftp = require('../../runtime/qsftp');
+var qsftp = require('../../runtime').ftp;
 
 var _encrypt = function(string) {
     var cipher = crypto.createCipher('aes192', _secret);

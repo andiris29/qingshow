@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var _ = require('underscore');
 var winston = require('winston');
-var qsftp = require('../runtime/qsftp');
+var qsftp = require('../runtime').ftp;
 
 //Services Name
 
