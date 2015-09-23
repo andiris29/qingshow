@@ -251,7 +251,10 @@
 {
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
     [cell bindWithDict:self.tradeDict];
-
+    //make receiverCell unable
+    if (indexPath.section == 1 && indexPath.row > 0) {
+        cell.userInteractionEnabled = NO;
+    }
     return cell;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -485,7 +488,7 @@
 }
 
 - (void)keyboardWillShow:(NSNotification *)notif {
-    self.isShowKeyboard = YES;
+    self.isShowKeyboard = NO;
     [self configContentInset:300.f];
 }
 
