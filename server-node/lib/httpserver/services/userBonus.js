@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 
-var People = require('../../model/peoples');
-var Trades = require('../../model/trades');
-var jPushAudiences = require('../../model/jPushAudiences');
-var Item = require('../../model/items');
+var People = require('../../models').People;
+var Trades = require('../../models').Trade;
+var jPushAudiences = require('../../models').JPushAudience;
+var Item = require('../../models').Item;
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');

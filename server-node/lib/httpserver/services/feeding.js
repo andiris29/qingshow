@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 var async = require('async'), _ = require('underscore');
 //model
-var Show = require('../../model/shows');
-var Peoples = require('../../model/peoples');
-var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
+var Show = require('../../models').Show;
+var Peoples = require('../../models').People;
+var RPeopleLikeShow = require('../../models').RPeopleLikeShow;
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');

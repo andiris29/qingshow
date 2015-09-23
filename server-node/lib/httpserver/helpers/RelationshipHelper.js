@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
-var People = require('../../model/peoples');
+var People = require('../../models').People;
 var ServerError = require('../server-error');
 var ContextHelper = require('../helpers/ContextHelper');
 

@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var async = require('async');
 //model
-var Item = require('../../model/items');
-var Trade = require('../../model/trades');
+var Item = require('../../models').Item;
+var Trade = require('../../models').Trade;
 
 //util
 var MongoHelper = require('../helpers/MongoHelper');

@@ -13,7 +13,7 @@ admin.find = {
     'method' : 'get',
     // 'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var Model = require('../../model/' + req.queryString.collection);
+        var Model = require('../../models/' + req.queryString.model);
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             // querier
             var criteria = MongoHelper.querySchema(Model, req.queryString);

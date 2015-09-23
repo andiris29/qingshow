@@ -11,9 +11,9 @@ var jPushAudiencesSchema = Schema({
         type : Date,
         'default' : Date.now
     }
-});
-
-var jPushAudiences = mongoose.model('jPushAudiences', jPushAudiencesSchema, {
+}, {
     collection : 'jPushAudiences'
 });
+
+var jPushAudiences = mongoose.model('jPushAudiences', jPushAudiencesSchema);
 module.exports = jPushAudiences;

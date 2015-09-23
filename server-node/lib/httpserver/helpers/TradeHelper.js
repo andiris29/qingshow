@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var async = require('async');
 
-var People = require('../../model/peoples');
-var Trade = require('../../model/trades');
+var People = require('../../models').People;
+var Trade = require('../../models').Trade;
 
 var qsmail = require('../../runtime').mail;
 var winston = require('winston');

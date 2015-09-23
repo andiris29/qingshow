@@ -6,7 +6,7 @@ var winston = require('winston');
 var _ = require('underscore');
 
 var TradeHelper = require('../../httpserver/helpers/TradeHelper');
-var Trade = require('../../model/trades');
+var Trade = require('../../models').Trade;
 
 var limit = global.qsConfig.schedule.auto.receiving;
 

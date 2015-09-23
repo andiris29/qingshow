@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 var async = require('async');
 
-var Trace = require('../../model/traces');
-var People = require('../../model/peoples');
-var jPushAudiences = require('../../model/jPushAudiences');
+var Trace = require('../../models').Trace;
+var People = require('../../models').People;
+var jPushAudiences = require('../../models').JPushAudience;
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');

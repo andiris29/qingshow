@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Show = require('./shows');
 
 var Schema = mongoose.Schema;
 var peopleSchema;

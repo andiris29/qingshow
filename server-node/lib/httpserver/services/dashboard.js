@@ -2,8 +2,8 @@ var async = require('async');
 var mongoose = require('mongoose');
 var _ = require('underscore');
 
-var Items = require('../../model/items');
-var Trades = require('../../model/trades');
+var Items = require('../../models').Item;
+var Trades = require('../../models').Trade;
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');

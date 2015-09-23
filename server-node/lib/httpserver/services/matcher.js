@@ -4,9 +4,9 @@ var path = require('path');
 var _ = require('underscore');
 
 // model
-var Category = require('../../model/categories');
-var Item = require('../../model/items');
-var Show = require('../../model/shows');
+var Category = require('../../models').Category;
+var Item = require('../../models').Item;
+var Show = require('../../models').Show;
 
 // util
 var ResponseHelper = require('../helpers/ResponseHelper');
