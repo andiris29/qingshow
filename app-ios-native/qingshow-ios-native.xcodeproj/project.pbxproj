@@ -70,7 +70,6 @@
 		8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240061B25A8030043561E /* user_bg_default@2x.jpg */; };
 		8C9240091B25A83C0043561E /* user_head_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240081B25A83C0043561E /* user_head_default@2x.jpg */; };
 		8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625CE1BB13CD400B11849 /* PushKit.framework */; };
-		8CF625D11BB1475900B11849 /* libPushSDK-1.8.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625D01BB1475900B11849 /* libPushSDK-1.8.5.a */; settings = {ASSET_TAGS = (); ATTRIBUTES = (Required, ); }; };
 		A75DF2071B01A6B400A88E36 /* QSHotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A75DF2061B01A6B400A88E36 /* QSHotUtil.m */; };
 		A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */; };
 		A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A665A1AFCB74900AF5559 /* user_personality.png */; };
@@ -225,6 +224,7 @@
 		EF9A743B1A02A82700095F07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF9A74391A02A82700095F07 /* InfoPlist.strings */; };
 		EF9A743D1A02A82700095F07 /* qingshow_ios_nativeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A743C1A02A82700095F07 /* qingshow_ios_nativeTests.m */; };
 		EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74781A02A89900095F07 /* QSNetworkEngine.m */; };
+		EF9B0B1D1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9B0B1C1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a */; settings = {ASSET_TAGS = (); }; };
 		EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */; };
 		EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9BC1EE1AB749AD00391530 /* QSVideoBaseViewController.m */; };
 		EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95261A0FB7B3006A0AE3 /* MBProgressHUD.m */; };
@@ -453,7 +453,6 @@
 		8C9240061B25A8030043561E /* user_bg_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_bg_default@2x.jpg"; sourceTree = "<group>"; };
 		8C9240081B25A83C0043561E /* user_head_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_head_default@2x.jpg"; sourceTree = "<group>"; };
 		8CF625CE1BB13CD400B11849 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
-		8CF625D01BB1475900B11849 /* libPushSDK-1.8.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.5.a"; sourceTree = "<group>"; };
 		A75DF2051B01A6B400A88E36 /* QSHotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHotUtil.h; sourceTree = "<group>"; };
 		A75DF2061B01A6B400A88E36 /* QSHotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSHotUtil.m; sourceTree = "<group>"; };
 		A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_regAndlogin_backImage.png; sourceTree = "<group>"; };
@@ -803,6 +802,7 @@
 		EF9A74771A02A89900095F07 /* QSNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkEngine.h; sourceTree = "<group>"; };
 		EF9A74781A02A89900095F07 /* QSNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkEngine.m; sourceTree = "<group>"; };
 		EF9A747C1A02A8F500095F07 /* QSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSBlock.h; sourceTree = "<group>"; };
+		EF9B0B1C1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
 		EF9BC1E81AB7433F00391530 /* QSNumberPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNumberPageControl.h; sourceTree = "<group>"; };
 		EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNumberPageControl.m; sourceTree = "<group>"; };
 		EF9BC1ED1AB749AD00391530 /* QSVideoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSVideoBaseViewController.h; sourceTree = "<group>"; };
@@ -1024,7 +1024,6 @@
 				8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */,
 				EFF58B561B55DDB1001A9AC8 /* Security.framework in Frameworks */,
 				EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */,
-				8CF625D11BB1475900B11849 /* libPushSDK-1.8.5.a in Frameworks */,
 				EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */,
 				EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */,
 				EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */,
@@ -1037,6 +1036,7 @@
 				EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */,
 				EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */,
 				EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */,
+				EF9B0B1D1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a in Frameworks */,
 				EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */,
 				EF2E0F2E1A2F790400F3A25C /* libWeiboSDK.a in Frameworks */,
 				EF3013371AC3174000568D92 /* libssl.a in Frameworks */,
@@ -2624,8 +2624,8 @@
 		EFF58B4A1B55DD5D001A9AC8 /* JPush */ = {
 			isa = PBXGroup;
 			children = (
+				EF9B0B1C1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a */,
 				EFF58B4B1B55DD5D001A9AC8 /* APService.h */,
-				8CF625D01BB1475900B11849 /* libPushSDK-1.8.5.a */,
 			);
 			path = JPush;
 			sourceTree = "<group>";
