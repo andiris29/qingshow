@@ -23,8 +23,6 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.exception.CrashHandler;
@@ -57,7 +55,7 @@ public class LaunchActivity extends InstrumentedActivity {
             jump();
             return;
         }
-        SystemCommand.systemGet(handler);
+        SystemCommand.systemGet(handler, new Callback());
     }
 
     private void init() {
@@ -69,13 +67,6 @@ public class LaunchActivity extends InstrumentedActivity {
             _class = G02WelcomeActivity.class;
         } else {
             _class = S01MatchShowsActivity.class;
-        }
-
-        String id = QSApplication.instance().getPreferences().getString("id", "");
-        if (TextUtils.isEmpty(id)) {
-            MongoPeople _user = new MongoPeople();
-            _user._id = id;
-            QSModel.INSTANCE.setUser(_user);
         }
     }
 
