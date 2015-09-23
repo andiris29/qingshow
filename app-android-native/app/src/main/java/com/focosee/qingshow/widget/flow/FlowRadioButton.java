@@ -30,7 +30,7 @@ public class FlowRadioButton extends Button implements IRadioViewHelper {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        setChecked(true);
+        setChecked(!check);
         return false;
     }
 

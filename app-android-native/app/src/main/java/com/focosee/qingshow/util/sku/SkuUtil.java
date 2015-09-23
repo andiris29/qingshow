@@ -74,7 +74,8 @@ public class SkuUtil {
         for (List<String> list : selectProps.values()) {
             props += ":" + list.get(0);
         }
-        props = props.substring(1);
+        if(!TextUtils.isEmpty(props))
+            props = props.substring(1);
         return props;
     }
 

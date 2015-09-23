@@ -168,10 +168,18 @@ public class S11NewTradeFragment extends Fragment {
         public void onChanged(String key, int index) {
             List<String> values = new ArrayList<>();
             values.add(props.get(key).get(index));
-            selectProps.put(key, values);
             List<FlowRadioButton> btnList = new ArrayList<>();
             btnList.add(btnMap.get(key).getChildViews().get(index));
-            selectRadioButton.put(key, btnList);
+
+            if(btnMap.get(key).getChildViews().get(index).isChecked()) {
+                selectProps.put(key, values);
+                selectRadioButton.put(key, btnList);
+            }else{
+                selectProps.remove(key);
+                selectRadioButton.remove(key);
+            }
+            Log.d(S11NewTradeFragment.class.getSimpleName(), "selectProps:" + new JSONObject(selectProps).toString());
+            Log.d(S11NewTradeFragment.class.getSimpleName(), "selectRadioButton:" + new JSONObject(selectRadioButton).toString());
             if (null == itemEntity.skuTable) {
                 changeBtnClickable(false);
                 for(String myKey : keys_order){
@@ -206,9 +214,10 @@ public class S11NewTradeFragment extends Fragment {
         int i = 0;
         for (String key : props.keySet()) {
             bindItem(key, props.get(key), i, onCheckedChangeListener);
-            btnMap.get(key).getChildViews().get(0).setChecked(true);
-            if(!inited)
+            if(!inited) {
+                btnMap.get(key).getChildViews().get(0).setChecked(true);
                 onCheckedChangeListener.onChanged(key, 0);
+            }
             i++;
         }
     }
@@ -216,10 +225,7 @@ public class S11NewTradeFragment extends Fragment {
     //选择属性时，同步更新其他属性的状态。
     private void checkNotExistItem(String prop, int index) {
         Log.d(S11NewTradeFragment.class.getSimpleName(), "index:" + index);
-        Map<String, List<String>> tempMap = new HashMap<>();
-        List<String> aList = new ArrayList<>();
-        aList.add(props.get(prop).get(index));
-        tempMap.put(prop, aList);
+        Map<String, List<String>> tempMap = new HashMap<>(selectProps);
         for (String p : keys_order) {
             if (p.equals(prop)){
 //                for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
@@ -253,7 +259,7 @@ public class S11NewTradeFragment extends Fragment {
         //设置选中的btn样式
         for (String p : keys_order) {
             if(Collections.emptyList() == selectRadioButton)return;
-            if(!selectRadioButton.containsKey(p))return;
+            if(!selectRadioButton.containsKey(p)) continue;
             for (FlowRadioButton btn : selectRadioButton.get(p)) {
                 btn.setChecked(true);
             }
