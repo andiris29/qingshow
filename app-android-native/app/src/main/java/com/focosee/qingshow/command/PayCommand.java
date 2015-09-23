@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
+import android.util.Log;
+
 import com.alipay.sdk.app.PayTask;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.constants.config.PaymentConfig;
@@ -12,6 +13,7 @@ import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.MD5;
 import com.focosee.qingshow.util.payment.Alipay.AlipayUtil;
+import com.focosee.qingshow.util.payment.Alipay.PayResult;
 import com.focosee.qingshow.util.payment.Alipay.SignUtils;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import java.io.UnsupportedEncodingException;
@@ -30,13 +32,17 @@ public class PayCommand {
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if (TextUtils.isEmpty(msg.obj.toString())) callback.onError();
+                Log.d(PayCommand.class.getSimpleName(), "msg:" + msg.obj.toString());
+                if (!Boolean.parseBoolean(msg.obj.toString())) {
+                    callback.onError();
+                    return;
+                }
                 callback.onComplete();
             }
         };
 
         String orderInfo = AlipayUtil.getOrderInfo(trade.itemSnapshot.name,
-                trade.itemSnapshot.source, trade.actualPrice + "", trade._id);
+                trade.itemSnapshot.source, trade.actualPrice * trade.quantity + "", trade._id);
 
         String sign = SignUtils.sign(orderInfo, PaymentConfig.RSA_PRIVATE);
         try {
@@ -54,8 +60,10 @@ public class PayCommand {
             public void run() {
                 PayTask alipay = new PayTask((Activity) context);
                 String result = alipay.pay(payInfo);
+                PayResult payResult = new PayResult(result);
                 Message msg = new Message();
-                msg.obj = result;
+                msg.obj = payResult.isSuccessed();
+                Log.d(PayCommand.class.getSimpleName(), "resultStatus:" + payResult.getResultStatus());
                 handler.sendMessage(msg);
             }
         };

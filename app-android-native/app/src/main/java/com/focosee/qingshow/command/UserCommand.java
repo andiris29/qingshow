@@ -125,6 +125,7 @@ public class UserCommand {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
                 }
+                UserCommand.refresh();
                 callback.onComplete();
             }
         });

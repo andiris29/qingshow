@@ -3,13 +3,10 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -20,7 +17,6 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.PayCommand;
 import com.focosee.qingshow.command.TradeRefreshCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
-import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -38,13 +34,10 @@ import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -97,7 +90,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
         submit.setOnClickListener(this);
-        priceTV.setText(StringUtil.FormatPrice(String.valueOf(trade.actualPrice)));
+        priceTV.setText(StringUtil.FormatPrice(String.valueOf(trade.actualPrice * trade.quantity)));
 
     }
 
@@ -127,7 +120,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
     public void onEventMainThread(WXPayEvent event) {
         BaseResp baseResp = event.baseResp;
         submit.setEnabled(true);
-        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX && baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
             if (null != trade) {
                 TradeRefreshCommand.refresh(trade._id, new Callback() {
                     @Override
@@ -204,7 +197,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         params = new HashMap();
-        params.put("totalFee", trade.actualPrice);
+        params.put("totalFee", trade.actualPrice * trade.quantity);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
                 JSONObject jsonObject = new JSONObject();
@@ -247,6 +240,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             PayCommand.alipay(trade, S17PayActivity.this, new Callback() {
                 @Override
                 public void onComplete() {
+                    submit.setEnabled(true);
                     TradeRefreshCommand.refresh(trade._id, new Callback() {
                         @Override
                         public void onComplete(int result) {
@@ -262,7 +256,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
                 @Override
                 public void onError() {
-
+                    submit.setEnabled(true);
                 }
             });
         }
