@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 var ItemSyncService = require('../common/ItemSyncService');
 var ItemSourceUtil = require('../common/ItemSourceUtil');
-var Items = require('../../../model/items');
+var Items = require('../../../models').Item;
 var GoblinError = require('../common/GoblinError');
 
 var GoblinScheduler = module.exports;

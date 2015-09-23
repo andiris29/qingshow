@@ -1,9 +1,9 @@
 var async = require('async');
 var _ = require('underscore');
 
-var ServerError = require('../server-error');
-var RequestHelper = require('../helpers/RequestHelper');
-var People = require('../../model/peoples');
+var errors = require('../../errors');
+var RequestHelper = require('../../helpers/RequestHelper');
+var People = require('../../models').People;
 var _validatorsMap = {};
 
 var _init = function(services) {
@@ -13,7 +13,7 @@ var _init = function(services) {
         for (var id in module) {
             var validators = _globalValidators.concat(module[id].permissionValidators || []);
             if (validators) {
-                _validatorsMap['/services/' + path + '/' + id] = validators;
+                _validatorsMap['/app/' + path + '/' + id] = validators;
             }
         }
     });
@@ -40,7 +40,7 @@ var _validate = function(req, res, next) {
         });
         async.series(tasks, function(err) {
             if (err) {
-                next(new ServerError(err));
+                next(errors.genUnkownError(err));
             } else {
                 next();
             }
@@ -55,7 +55,7 @@ var _builtInValidators = {
         if (req.qsCurrentUserId) {
             callback(null);
         } else {
-            callback(ServerError.NeedLogin);
+            callback(errors.NeedLogin);
         }
     }
 };
@@ -78,7 +78,7 @@ var _versionValidator = function(req, res, callback) {
         version = RequestHelper.parseNumber(req.queryString.version);
     }
     if (version < minSupportedVersion) {
-        callback(ServerError.UnsupportVersion);
+        callback(errors.UnsupportVersion);
     } else {
         callback(null);
     }
