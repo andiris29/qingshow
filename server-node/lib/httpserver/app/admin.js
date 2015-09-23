@@ -9,11 +9,18 @@ var errors = require('../../errors');
 
 var admin = module.exports;
 
+var _collectionToModel = {
+    'items' : 'Item',
+    'shows' : 'Show',
+    'categories' : 'Category'
+};
+
 admin.find = {
     'method' : 'get',
     // 'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var Model = require('../../models/' + req.queryString.model);
+        var model = req.queryString.model || _collectionToModel[req.queryString.collection];
+        var Model = require('../../models/' + model);
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             // querier
             var criteria = MongoHelper.querySchema(Model, req.queryString);
