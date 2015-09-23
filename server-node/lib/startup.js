@@ -44,17 +44,17 @@ var _initalizeLog = function(dir) {
     winston.add(winston.transports.DailyRotateFile, {
         'filename' : path.join(dir, 'winston.log')
     });
-    // winston.remove(winston.transports.Console);
-//     
-    // // Exception logger
-    // new winston.Logger({
-        // 'exceptionHandlers' : [
-            // new winston.transports.DailyRotateFile({
-                // 'filename' : path.join(dir, 'winston-exception.log')
-            // })
-        // ],
-        // 'exitOnError' : false
-    // });
+    winston.remove(winston.transports.Console);
+    
+    // Exception logger
+    new winston.Logger({
+        'exceptionHandlers' : [
+            new winston.transports.DailyRotateFile({
+                'filename' : path.join(dir, 'winston-exception.log')
+            })
+        ],
+        'exitOnError' : false
+    });
     
     // Performance logger
     winston.loggers.add('api', {
