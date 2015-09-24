@@ -594,26 +594,18 @@ trade.queryHighlighted = {
     'method' : 'get',
     'func' : function (req, res){
         ServiceHelper.queryPaging(req, res, function(qsParam, callback){
-            MongoHelper.queryPaging(Trade.where('status').in([2, 3, 5, 7, 9, 10, 15]).sort({'create' : -1}),
+            MongoHelper.queryPaging(Trade.where('status').in([2, 3, 5, 7, 9, 10, 15]).sort({'create' : -1}).populate('itemRef'),
                 Trade.where('status').in([2, 3, 5, 7, 9, 10, 15]),
                 qsParam.pageNo,qsParam.pageSize , callback);
         },function(trades){
             return {
                 'trades' : trades
-            }
-        },{
+            };
+        }, {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                async.series([
-                function(callback) {
-                    Item.populate(currentPageModels, {
-                        'path' : 'itemRef',
-                       'model' : 'items'
-                   }, callback);
-                }, function(callback) {
-                        ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
-                }], callback);
+                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
             }
-        })
+        });
     }
 };
 
