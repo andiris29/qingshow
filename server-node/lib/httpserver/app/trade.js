@@ -542,7 +542,12 @@ trade.query = {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 async.series([
                 function(callback) {
-                    // Append Context
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                        'model' : 'items'
+                    }, callback);
+                }, function(callback) {
+                // Append Context
                     ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
                 }], callback);
             }
@@ -587,6 +592,11 @@ trade.queryByPhase = {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 async.series([
                 function(callback) {
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                       'model' : 'items'
+                   }, callback);
+                }, function(callback) {
                     // Append Context
                     ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
                 }], callback);
@@ -610,6 +620,11 @@ trade.queryHighlighted = {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 async.series([
                 function(callback) {
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                       'model' : 'items'
+                   }, callback);
+                }, function(callback) {
                         ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
                 }], callback);
             }
