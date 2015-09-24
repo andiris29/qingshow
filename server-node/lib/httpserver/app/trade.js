@@ -620,6 +620,11 @@ trade.queryHighlighted = {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 async.series([
                 function(callback) {
+                    Item.populate(currentPageModels, {
+                        'path' : 'itemRef',
+                       'model' : 'items'
+                   }, callback);
+                }, function(callback) {
                         ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
                 }], callback);
             }
