@@ -2,14 +2,12 @@
 define([
     'main/core/model',
     'main/views/View',
-    'main/views/components/p04/StatusTo1Detail',
     'main/views/components/p04/StatusTo3Detail',
     'main/views/components/p04/StatusToEndDetail',
     'main/services/codeMongoService'
 ], function(
     model,
     View,
-    StatusTo1Detail,
     StatusTo3Detail,
     StatusToEndDetail,
     codeMongoService
@@ -46,10 +44,7 @@ define([
     P04EditTrade.prototype._render = function() {
         var status$ = $('#status', this._dom),
             newStatus = parseInt(status$.val());
-
-        if (newStatus === 1) {
-            this._statusToHanlder = new StatusTo1Detail(this);
-        } else if (newStatus === 3) {
+        if (newStatus === 3) {
             this._statusToHanlder = new StatusTo3Detail(this);
         } else {
             this._statusToHanlder = new StatusToEndDetail(this);
@@ -83,7 +78,7 @@ define([
     };
 
     var _statusToMap = {
-        0 : [1, 17],
+        0 : [17],
         1 : [17],
         2 : [3, 17],
         3 : [5, 17],
