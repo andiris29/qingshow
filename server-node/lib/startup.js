@@ -44,7 +44,7 @@ var _initalizeLog = function(dir) {
     winston.add(winston.transports.DailyRotateFile, {
         'filename' : path.join(dir, 'winston.log')
     });
-    winston.remove(winston.transports.Console);
+    // winston.remove(winston.transports.Console);
     
     // Exception logger
     new winston.Logger({
