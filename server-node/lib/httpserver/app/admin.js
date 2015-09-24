@@ -12,7 +12,8 @@ var admin = module.exports;
 var _collectionToModel = {
     'items' : 'Item',
     'shows' : 'Show',
-    'categories' : 'Category'
+    'categories' : 'Category',
+    'trades' : 'Trade'
 };
 
 admin.find = {
