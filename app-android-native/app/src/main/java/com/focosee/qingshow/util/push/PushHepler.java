@@ -2,10 +2,7 @@ package com.focosee.qingshow.util.push;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.PushWebActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S04CommentActivity;
@@ -56,6 +53,7 @@ public class PushHepler {
 
         if(command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
             intent = new Intent(context, U15BonusActivity.class);
+            EventBus.getDefault().post(ValueUtil.BONUES_COMING);
         }
 
         if (intent != null)

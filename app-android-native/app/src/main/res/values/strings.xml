@@ -243,5 +243,5 @@
     <string name="s10_scale_close">"这款商品的活动已结束"</string>
     <string name="s20_notify_load_image_unfinished">不要着急，奋力加载图片中···</string>
 
-    <string name="bonus_share_successed_hint">佣金提取成功 款项将会在48小时内转至您的账户</string>
+    <string name="bonus_share_successed_hint">佣金提取成功款项将会在48小时内转至您的账户</string>
 </resources>
