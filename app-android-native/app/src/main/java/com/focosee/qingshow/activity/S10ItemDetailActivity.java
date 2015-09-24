@@ -78,7 +78,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
                 if (itemEntity != null) {
                     loadWebView(itemEntity.source);
-                    if (itemEntity.readOnly || !TextUtils.isEmpty(itemEntity.delist)) {
+                    if (itemEntity.readOnly || null != itemEntity.delist) {
                         bay.setVisibility(View.GONE);
                     }
                     return;
