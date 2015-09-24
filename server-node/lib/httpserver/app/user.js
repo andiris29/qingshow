@@ -750,9 +750,34 @@ _loginViaWeibo = function(req, res) {
 };
 
 _requestVerificationCode = function(req, res){
-
+    var mobile = req.body.mobileNumber;
     async.waterfall([function(callback){
-        var mobile = req.body.mobileNumber;
+        SMSHelper.createVerificationCode(mobile, function(err, code){
+            if (err) {
+                callback(err);
+            }else {
+                callback(null, code);
+            }
+        })
+    },function(code, callback){
+        var expire = global.qsConfig.verification.expire;
+        SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
+            if (err) {
+                callback(err);
+            }else {
+                callback(null, code);
+            }
+        });
+    }],function(error, code) {
+        ResponseHelper.response(res, error, {
+        });
+    })
+};
+
+_validateMobile = function(req, res){
+    var params = req.body;
+    var mobile = params.mobileNumber;
+    async.series([function(callback){
         People.count({
             'mobile' : mobile
         },function(err, num){
@@ -762,33 +787,7 @@ _requestVerificationCode = function(req, res){
                 callback(null, mobile);
             }
         })
-    },function(mobile, callback){
-        SMSHelper.createVerificationCode(mobile, function(err, code){
-            if (err) {
-                callback(err);
-            }else {
-                callback(null, mobile, code);
-            }
-        })
-    },function(mobile, code, callback){
-        var expire = global.qsConfig.verification.expire;
-        SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
-            if (err) {
-                callback(err);
-            }else {
-                callback(null, mobile);
-            }
-        });
-    }],function(error, mobile) {
-        ResponseHelper.response(res, error, {
-        });
-    })
-};
-
-_validateMobile = function(req, res){
-    var params = req.body;
-    async.series([function(callback){
-        var mobile = params.mobileNumber;
+    },function(callback){
         var code = params.verificationCode;
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             callback(err, success);
