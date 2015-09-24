@@ -12,12 +12,17 @@ itemSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'peoples'
     },
+    expectable : {
+        price : Number,
+        messageForPay : String,
+        messageForBuy : String,
+        expired : Boolean
+    },
     thumbnail : String,
     name : String,
     price: Number,
     promoPrice : Number,
     minExpectedPrice : Number,
-    expectablePrice : Number,
     skuProperties : [String],
     skuTable : {},
     source : String,
