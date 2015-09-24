@@ -518,23 +518,14 @@ trade.query = {
                     '$in' : RequestHelper.parseIds(qsParam._ids)
                 };
             }
-            MongoHelper.queryPaging(Trade.find(criteria), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryPaging(Trade.find(criteria).populate('itemRef'), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
             return {
                 'trades' : trades 
             };
         }, {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                async.series([
-                function(callback) {
-                    Item.populate(currentPageModels, {
-                        'path' : 'itemRef',
-                        'model' : 'items'
-                    }, callback);
-                }, function(callback) {
-                // Append Context
-                    ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
-                }], callback);
+                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
             }
         });
     }
@@ -568,23 +559,14 @@ trade.queryByPhase = {
             MongoHelper.queryPaging(Trade.find(criteria).sort({
                 'statusOrder' : 1, 
                 'create' : -1
-            }), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            }).populate('itemRef'), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
             return {
                 'trades' : trades 
             };
         }, {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                async.series([
-                function(callback) {
-                    Item.populate(currentPageModels, {
-                        'path' : 'itemRef',
-                       'model' : 'items'
-                   }, callback);
-                }, function(callback) {
-                    // Append Context
-                    ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
-                }], callback);
+                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
             }
         });
     }
