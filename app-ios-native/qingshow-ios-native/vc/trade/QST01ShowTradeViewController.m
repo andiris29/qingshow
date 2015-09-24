@@ -12,7 +12,7 @@
 #import "QSNetworkEngine+ShowService.h"
 #import "QSG01ItemWebViewController.h"
 #import "QSU01UserDetailViewController.h"
-
+#import "QSItemUtil.h"
 @interface QST01ShowTradeViewController ()
 
 @property (strong,nonatomic)QST01ShowTradeProvider *provider;
@@ -56,6 +56,9 @@
         if (array.count) {
             NSDictionary *ItemDic = [array firstObject];
             QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:ItemDic];
+            if ([QSItemUtil getDelist:ItemDic] == YES) {
+                 vc.isDisCountBtnHidden = YES;
+            }
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }
     } onError:^(NSError *error) {

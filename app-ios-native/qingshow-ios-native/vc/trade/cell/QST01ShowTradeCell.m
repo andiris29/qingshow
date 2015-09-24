@@ -49,8 +49,10 @@
 
     self.countLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:dict]];
     self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getActualPrice:dict] trade:dict]];
-    if ([QSItemUtil getDelist:itemDict]) {
+    if ([QSItemUtil getDelist:itemDict] == YES) {
         self.outOfSaleLabel.hidden = NO;
+    }else{
+        self.outOfSaleLabel.hidden = YES;
     }
 }
 - (void)didTapHeader
