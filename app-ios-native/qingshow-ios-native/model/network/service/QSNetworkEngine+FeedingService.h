@@ -61,4 +61,8 @@
                                       page:(int)page
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)getfeedingMatchFeatured:(NSDictionary *)peopleDict
+                                           page:(int)page
+                                      onSucceed:(ArraySuccessBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock;
 @end
