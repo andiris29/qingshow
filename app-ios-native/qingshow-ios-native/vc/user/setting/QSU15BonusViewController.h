@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU15BonusViewController : UIViewController<UIScrollViewDelegate,UITextFieldDelegate>
+@interface QSU15BonusViewController : UIViewController<UIScrollViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *alipayTextField;
 @property (weak, nonatomic) IBOutlet UILabel *allBonusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currBonusLabel;
