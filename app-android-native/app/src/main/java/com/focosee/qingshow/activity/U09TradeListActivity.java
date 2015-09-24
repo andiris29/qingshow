@@ -11,12 +11,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeShareCommand;
+import com.focosee.qingshow.command.TradeStatusToCommand;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -34,12 +34,9 @@ import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -53,7 +50,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     public static final String FROM_WHERE = "FROM_WHEN";
-    private final String CURRENT_POSITION = "CURRENT_POSITION";
     public static final String PUSH_NOTIFICATION = "PUSH_NOTIFICATION";
     private final int TYPE_APPLY = 0;
     private final int TYPE_SUCCESSED = 1;
@@ -85,8 +81,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     private String fromWhere;
     private MenuView menuView;
-
-    private boolean notity_showable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +166,8 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         if (position == Integer.MAX_VALUE) {
             return;
         }
+
+        TradeStatusToCommand.statusTo(mAdapter.getItemData(position), 1, new Callback());
 
         TradeShareCommand.share(mAdapter.getItemData(position)._id, new Callback() {
             @Override

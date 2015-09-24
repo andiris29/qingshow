@@ -4,8 +4,8 @@ var async = require('async');
 var _ = require('underscore');
 var GoblinError = require('./GoblinError');
 
-var Item = require('../../../model/items');
-var People = require('../../../model/peoples');
+var Item = require('../../../dbmodels').Item;
+var People = require('../../../dbmodels').People;
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 

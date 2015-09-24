@@ -65,7 +65,7 @@
    
     [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
     _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE getfeedingMatchFeatured:nil page:page onSucceed:succeedBlock onError:errorBlock];
     };
     //NSLog(@" new count == %@",self.matchCollectionViewProvider.resultArray);
     [_matchCollectionViewProvider fetchDataOfPage:1];
@@ -75,8 +75,8 @@
 - (void)configNav
 {
     
-    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新"]];
-    _segmentControl.frame = CGRectMake(0, 0, 140, 25);
+    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"达人",@"最热",@"最新"]];
+    _segmentControl.frame = CGRectMake(0, 0, 180, 25);
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
     [_segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
@@ -91,9 +91,8 @@
 - (void)changeEvents
 {
     _segIndex = _segmentControl.selectedSegmentIndex;
-    if(_segIndex ==  1)
+    if(_segIndex ==  2)
     {
-        
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
@@ -101,7 +100,7 @@
         [self reloadCollectionViewData];
         
     }
-    else if(_segIndex == 0)
+    else if(_segIndex == 1)
     {
         [self.matchCollectionViewProvider.resultArray removeAllObjects];
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
@@ -110,12 +109,20 @@
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
        
+    }else if(_segIndex == 0)
+    {
+        [self.matchCollectionViewProvider.resultArray removeAllObjects];
+        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+            return [SHARE_NW_ENGINE getfeedingMatchFeatured:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        };
+        [_matchCollectionViewProvider fetchDataOfPage:1];
+        [self reloadCollectionViewData];
+
     }
 }
 #pragma mark - Delegate
 - (void)didSelectedCellInCollectionView:(id)sender
 {
-    
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:sender];
 //    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
    // vc.menuProvider = self.menuProvider;

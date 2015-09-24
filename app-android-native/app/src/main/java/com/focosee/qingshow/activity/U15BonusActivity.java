@@ -21,6 +21,7 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
@@ -68,7 +69,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         ButterKnife.inject(this);
         dialogs = new LoadingDialogs(U15BonusActivity.this);
         EventBus.getDefault().register(this);
-        getUser();
+        reconn();
         matchUI();
     }
 
@@ -107,7 +108,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void reconn() {
-
+        getUser();
     }
 
     public void onEventMainThread(ShareBonusEvent event) {
@@ -120,14 +121,32 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                     , QSAppWebAPI.getUserBonusWithdrawApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
+                    Log.d(U15BonusActivity.class.getSimpleName(), "response:" + response);
                     if (MetadataParser.hasError(response)) {
                         ToastUtil.showShortToast(getApplicationContext(), "提现失败，请重试");
+                        return;
                     }
-                    ToastUtil.showShortToast(getApplicationContext(), "已发送提现申请");
-                    finish();
+                    UserCommand.refresh();
+                    final ConfirmDialog dialog = new ConfirmDialog(U15BonusActivity.this);
+                    dialog.setTitle(getString(R.string.bonus_share_successed_hint));
+                    dialog.setConfirm(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+                    dialog.show();
+                    dialog.hideCancel();
                 }
             });
             RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+        }
+    }
+
+    public void onEventMainThread(String event){
+        if(ValueUtil.BONUES_COMING.equals(event)){
+            reconn();
         }
     }
 

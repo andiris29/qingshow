@@ -1,14 +1,9 @@
 package com.focosee.qingshow.model.vo.mongo;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-
-import static com.focosee.qingshow.util.StringUtil.FormatPrice;
 
 /**
  * Created by i068020 on 2/8/15.
@@ -25,16 +20,16 @@ public class MongoItem implements Serializable {
     public String promoPrice;
     public String minExpectedPrice;
     public List<String> skuProperties;
-    public HashMap<String,String> skuTable;
+    public HashMap<String, String> skuTable;
     public GregorianCalendar create;
-    public String delist;
+    public GregorianCalendar delist;
+    public GregorianCalendar list;
+    public boolean syncEnabled;
     public boolean readOnly;
+    public GregorianCalendar sync;
     public ReturnInfo returnInfo;
-
-    public class Image implements Serializable {
-        public String url;
-        public String description;
-    }
+    public String expectablePrice;
+    public Expectable expectable;
 
     public class ReturnInfo implements Serializable {
         public String name;
@@ -43,12 +38,12 @@ public class MongoItem implements Serializable {
         public String address;
     }
 
-    public String getItemName() {
-        return name;
-    }
+    public class Expectable implements Serializable {
+        public boolean expired;
+        public Number price;
+        public String messageForPay;
+        public String messageForBuy;
 
-    public String getSource() {
-        return source;
     }
 
 }

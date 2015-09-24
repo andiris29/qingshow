@@ -47,7 +47,7 @@ public class LaunchActivity extends InstrumentedActivity {
         getWindow().setFormat(PixelFormat.RGBA_8888);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
         //友盟接口
-//        MobclickAgent.updateOnlineConfig(this);
+        MobclickAgent.updateOnlineConfig(this);
 
         setContentView(R.layout.activity_launch);
         init();

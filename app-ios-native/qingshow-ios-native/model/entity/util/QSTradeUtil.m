@@ -115,6 +115,10 @@
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"itemRef"];
 }
++ (NSDictionary *)getItemDic:(NSDictionary *)dict
+{
+    return [QSEntityUtil getDictValue:dict keyPath:@"itemRef"];
+}
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict
 {
     if (![QSEntityUtil checkIsDict:dict]) {

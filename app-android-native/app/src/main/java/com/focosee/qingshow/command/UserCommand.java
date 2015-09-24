@@ -35,10 +35,11 @@ public class UserCommand {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(UserCommand.class.getSimpleName(), "refresh-response:" + response);
-                callback.onComplete();
                 MongoPeople user = UserParser.parseGet(response);
-                if(null != user)
+                if(null != user) {
                     QSModel.INSTANCE.setUser(user);
+                }
+                callback.onComplete();
             }
         }, new Response.ErrorListener() {
             @Override

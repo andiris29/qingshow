@@ -4,9 +4,9 @@ var winston = require('winston');
 var async = require('async');
 var winston = require('winston');
 var _ = require('underscore');
-var PushNotificationHelper = require('../../httpserver/helpers/PushNotificationHelper');
-var Trade = require('../../model/trades');
-var jPushAudiences = require('../../model/jPushAudiences');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var Trade = require('../../dbmodels').Trade;
+var jPushAudiences = require('../../dbmodels').JPushAudience;
 
 var _next = function(today) {
     async.waterfall([

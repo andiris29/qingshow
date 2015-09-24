@@ -110,6 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/item_tradelist_expectedPrice"
             android:layout_marginTop="5dp"
+            android:textColor="@color/master_pink"
             android:text="" />
 
         <com.focosee.qingshow.widget.QSImageButton

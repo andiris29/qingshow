@@ -24,7 +24,7 @@
 + (NSString *)getHint:(NSDictionary *)dict;
 
 #pragma mark - Order
-
++ (NSDictionary *)getItemDic:(NSDictionary *)dict;
 + (NSString *)getItemId:(NSDictionary *)dict;
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
 + (NSArray*)getSkuProperties:(NSDictionary*)dict;

@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -44,17 +43,14 @@ import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -159,6 +155,7 @@ public class S11NewTradeFragment extends Fragment {
             }
         }
         Log.d(S11NewTradeFragment.class.getSimpleName(), "skuTable:" + new JSONObject(skuTable).toString());
+        Log.d(S11NewTradeFragment.class.getSimpleName(), "item.skuTable:" + new JSONObject(itemEntity.skuTable).toString());
     }
 
     private boolean inited = false;
@@ -191,8 +188,7 @@ public class S11NewTradeFragment extends Fragment {
                 return;
             }
 
-            stock = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps));
-            if (stock < 1) {
+            if (skuTable.containsKey(SkuUtil.formetPropsAsTableKey(selectProps))) {
                 changeBtnClickable(false);
             } else {
                 changeBtnClickable(true);

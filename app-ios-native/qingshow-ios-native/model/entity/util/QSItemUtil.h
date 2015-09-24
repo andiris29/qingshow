@@ -26,6 +26,7 @@
 + (NSString *)getReturnNameFromDic:(NSDictionary *)dict;
 + (NSString *)getReturnPhoneFromDic:(NSDictionary *)dict;
 
++ (NSNumber *)getExpectablePrice:(NSDictionary *)dict;
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;
 + (NSArray*)getSkuProperties:(NSDictionary*)itemDict;

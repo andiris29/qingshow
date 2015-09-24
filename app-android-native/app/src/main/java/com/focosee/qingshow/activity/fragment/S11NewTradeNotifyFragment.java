@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
@@ -12,11 +13,14 @@ import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -41,11 +45,15 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.widget.QSImageButton;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -76,8 +84,8 @@ public class S11NewTradeNotifyFragment extends Fragment {
     TextView nowDiscount;
     @InjectView(R.id.nowPrice)
     TextView nowPrice;
-    @InjectView(R.id.poster)
-    TextView poster;
+    @InjectView(R.id.hint)
+    TextView hint;
 
     private MongoTrade trade;
     String _id;
@@ -111,7 +119,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     private void initDes() {
 
-        actualPrice = trade.__context.item.expectablePrice;
+        actualPrice = trade.itemRef.expectablePrice;
 
         img.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         itemName.setText(trade.itemSnapshot.name);
@@ -127,15 +135,17 @@ public class S11NewTradeNotifyFragment extends Fragment {
         expectedPrice.append(StringUtil.FormatPrice(trade.expectedPrice + ""));
         expectedDiscount.append(StringUtil.formatDiscount(trade.expectedPrice + "", trade.itemSnapshot.promoPrice));
 
-        spannableString = new SpannableString(StringUtil.FormatPrice(actualPrice + ""));
+        spannableString = new SpannableString(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new UnderlineSpan(), 1, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         nowPrice.append(spannableString);
 
-        nowDiscount.append(StringUtil.formatDiscount(actualPrice + "", trade.itemSnapshot.promoPrice));
+        nowDiscount.append(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
 
-        spannableString = new SpannableString(getActivity().getResources().getString(R.string.s11_poster));
-        poster.setText(spannableString);
+        if(!TextUtils.isEmpty(trade.itemRef.expectable.messageForBuy)) {
+            spannableString = new SpannableString("● " + trade.itemRef.expectable.messageForBuy);
+            hint.setText(spannableString);
+        }
     }
 
     @OnClick(R.id.close)
@@ -149,16 +159,15 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onEventMainThread(ShareTradeEvent event) {
 
         if (event.shareByCreateUser) {
-            if(null != trade.__context) {
-                if(!trade.__context.sharedByCurrentUser) {
+            if (null != trade.__context) {
+                if (!trade.__context.sharedByCurrentUser) {
                     TradeShareCommand.share(trade._id, new Callback() {
-
                     });
                 }
             }
         }
 
-        TradeStatusToCommand.statusTo(trade, 1, actualPrice, new Callback() {
+        TradeStatusToCommand.statusTo(trade, 1, new Callback() {
 
             @Override
             public void onError(int errorCode) {
@@ -191,6 +200,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeApi(_id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S11NewTradeFragment.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;

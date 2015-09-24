@@ -69,7 +69,7 @@
 		8C9240051B258AB60043561E /* hongxin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240041B258AB60043561E /* hongxin@2x.png */; };
 		8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240061B25A8030043561E /* user_bg_default@2x.jpg */; };
 		8C9240091B25A83C0043561E /* user_head_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240081B25A83C0043561E /* user_head_default@2x.jpg */; };
-		8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625CE1BB13CD400B11849 /* PushKit.framework */; };
+		8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625CE1BB13CD400B11849 /* PushKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A75DF2071B01A6B400A88E36 /* QSHotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A75DF2061B01A6B400A88E36 /* QSHotUtil.m */; };
 		A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */; };
 		A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A665A1AFCB74900AF5559 /* user_personality.png */; };
@@ -224,7 +224,7 @@
 		EF9A743B1A02A82700095F07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF9A74391A02A82700095F07 /* InfoPlist.strings */; };
 		EF9A743D1A02A82700095F07 /* qingshow_ios_nativeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A743C1A02A82700095F07 /* qingshow_ios_nativeTests.m */; };
 		EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74781A02A89900095F07 /* QSNetworkEngine.m */; };
-		EF9B0B1D1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9B0B1C1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a */; settings = {ASSET_TAGS = (); }; };
+		EF9B0B1D1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9B0B1C1BB2C8FA00C34F33 /* libPushSDK-1.8.3.a */; };
 		EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */; };
 		EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9BC1EE1AB749AD00391530 /* QSVideoBaseViewController.m */; };
 		EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95261A0FB7B3006A0AE3 /* MBProgressHUD.m */; };
