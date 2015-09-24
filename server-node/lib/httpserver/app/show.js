@@ -184,7 +184,7 @@ show.comment = {
                                 });
 
                                 PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewShowComment, {
-                                    'id' : param._id,
+                                    '_id' : param._id,
                                     'command' : PushNotificationHelper.CommandNewShowComments
                                 }, null);
                             }
