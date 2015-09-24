@@ -133,7 +133,7 @@
                     android:layout_height="0dp"
                     android:layout_below="@id/line"
                     android:orientation="vertical"
-                    app:layout_heightPercent="33%">
+                    app:layout_heightPercent="25%">
 
                     <LinearLayout
                         android:id="@+id/dis_text"
@@ -170,14 +170,13 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/dis_text"
                         android:orientation="vertical"
-                        app:layout_marginLeftPercent="7%"
+                        app:layout_marginLeftPercent="15%"
                         app:layout_marginTopPercent="15%">
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/price_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/dis_text"
                             android:gravity="center"
                             android:text="目前折扣价"
                             android:textSize="30dp" />
@@ -194,39 +193,34 @@
                             android:textSize="45sp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/poster"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/dis_text"
-                        android:text=""
-                        android:textColor="@color/gary" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/poster"
-                        android:text="  告诉你得朋友一起来产假折扣活动。"
-                        android:textColor="@color/gary" />
-
                 </android.support.percent.PercentRelativeLayout>
 
+                <TextView
+                    app:layout_marginTopPercent="2%"
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dis_text"
+                    android:layout_alignLeft="@id/dis_text"
+                    android:layout_alignTop="@+id/submitBtn"
+                    app:layout_marginLeftPercent="3%"
+                    android:text=""/>
 
-                <com.focosee.qingshow.widget.QSButton
+                <com.focosee.qingshow.widget.QSImageButton
                     android:id="@+id/submitBtn"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/bg_submit_match"
-                    android:gravity="center"
-                    android:text="分享后购买"
+                    app:layout_widthPercent="35%"
+                    app:layout_heightPercent="15%"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/nowDes"
+                    android:layout_marginRight="3dp"
+                    android:background="@null"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:clickGround="@drawable/round_btn_background"
-                    app:layout_heightPercent="10%"
-                    app:layout_marginBottomPercent="6%"
-                    app:layout_widthPercent="45%" />
+                    android:src="@drawable/new_discount"
+                    android:layout_alignParentBottom="true"
+                    app:layout_marginBottomPercent="5%"
+                    android:scaleType="fitCenter" />
 
 
             </android.support.percent.PercentRelativeLayout>

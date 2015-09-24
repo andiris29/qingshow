@@ -11,10 +11,6 @@ import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
@@ -24,16 +20,10 @@ import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.TradeStatusToCommand;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
-import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
@@ -46,16 +36,13 @@ import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSImageButton;
 import com.focosee.qingshow.widget.QSTextView;
-import org.json.JSONObject;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/16.
  */
-public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener {
+public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
 
     private final int CANCEL = 0;
     private SpannableString spannableString;
@@ -98,9 +85,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         discountBtn.setVisibility(View.GONE);
         holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
         Log.d(U09TradeListAdapter.class.getSimpleName(), "hint:" + trade.hint);
-        if(!TextUtils.isEmpty(trade.hint)){
-            holder.setText(R.id.item_tradelist_hint, trade.hint);
-        }
 
         if (null != trade.itemSnapshot) {
             String str = "原价：";
@@ -151,9 +135,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                     onClickCancelTrade(trade, 18, CANCEL, position, "确定要取消申请？");
                 }
             });
-            if(null == trade.__context)return;
-            if(null == trade.__context.item)return;
-            if(null != trade.__context.item.delist){
+            //new discount
+            if (null == trade.itemRef) return;
+            if (null == trade.itemRef.expectable) return;
+            if (trade.itemRef.expectable.expired) {
                 discountBtn.setVisibility(View.VISIBLE);
                 discountBtn.setImageResource(R.drawable.sold_out_gray);
                 discountBtn.setOnClickListener(new View.OnClickListener() {
@@ -166,73 +151,59 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
                 });
                 return;
             }
-            if(TextUtils.isEmpty(trade.__context.item.expectablePrice))return;
             discountBtn.setVisibility(View.VISIBLE);
             discountBtn.setImageResource(R.drawable.new_discount);
-            if(null == trade.peopleSnapshot)return;
-            if(null == trade.peopleSnapshot.unread)return;
-            if(null == trade.peopleSnapshot.unread.newExpectableTrades)return;
-            Log.d(U09TradeListAdapter.class.getSimpleName(), "newExpectableTrades:" + trade.peopleSnapshot.unread.newExpectableTrades.toString());
-            if(null != QSModel.INSTANCE.getUser()) {
-                for (MongoPeople.NewExpectablePrices newExpectablePrices : QSModel.INSTANCE.getUser().unread.newExpectableTrades) {
-                    if (newExpectablePrices.ref.equals(trade._id)) {
-                        discountBtn.setEnabled(true);
+            if (trade.itemRef.expectable.price.doubleValue() > trade.expectedPrice) {
+                discountBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UserCommand.readExpectableTrade(trade._id, context, new Callback() {
+                            @Override
+                            public void onComplete() {
+                                discountBtn.setImageResource(R.drawable.new_discount_gray);
+                            }
+                        });
+                        showNewTradeNotify(trade._id);
+                    }
+                });
+                return;
+            } else {
+                if (null != trade.__context) {
+                    if (!trade.__context.sharedByCurrentUser && trade.shareToPay) {
+                        discountBtn.setImageResource(R.drawable.new_discount_read);
                         discountBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                UserCommand.readExpectableTrade(trade._id, context, new Callback() {
-                                    @Override
-                                    public void onComplete() {
-                                        discountBtn.setImageResource(R.drawable.new_discount_gray);
-                                        discountBtn.setEnabled(false);
-                                    }
-                                });
-                                showNewTradeNotify(trade._id);
+                                if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
+                                    EventBus.getDefault().post(trade);
+                                    ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
+                                } else
+                                    ToastUtil.showShortToast(context.getApplicationContext(), context.getString(R.string.need_install_wx));
                             }
                         });
-                        return;
+                    } else {
+                        holder.setText(R.id.item_tradelist_hint, trade.hint);
+                        discountBtn.setImageResource(R.drawable.new_discount_gray);
+                        discountBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, S17PayActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            }
+                        });
                     }
                 }
             }
-            discountBtn.setImageResource(R.drawable.new_discount_gray);
-            discountBtn.setEnabled(false);
             return;
         }
         //1-等待付款
         if (trade.status == StatusCode.APPLY_SUCCESSED) {
             btn1.setVisibility(View.VISIBLE);
-            if (null != trade.__context) {
-                if (!trade.__context.sharedByCurrentUser && trade.shareToPay) {
-                    holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.VISIBLE);
-                    btn1.setText("分享后付款");
-                    btn1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
-                                EventBus.getDefault().post(trade);
-                                ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
-                            } else
-                                ToastUtil.showShortToast(context.getApplicationContext(), context.getString(R.string.need_install_wx));
-                        }
-
-                    });
-                } else {
-                    btn1.setText("立即付款");
-                    btn1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, S17PayActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
-                        }
-                    });
-                }
-            }
-            btn2.setVisibility(View.VISIBLE);
-            btn2.setText("取消订单");
-            btn2.setOnClickListener(new View.OnClickListener() {
+            btn1.setText("取消订单");
+            btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onClickCancelTrade(trade, StatusCode.TRADE_CANCEL, CANCEL, position, "确定要取消订单？");
@@ -284,12 +255,12 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     }
 
     private void showNewTradeNotify(String _id) {
-        if(!(context instanceof U09TradeListActivity))return;
-            ((U09TradeListActivity)context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
-            FragmentTransaction fragmentTransaction = ((U09TradeListActivity)context).getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "u09_notify");
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commitAllowingStateLoss();
+        if (!(context instanceof U09TradeListActivity)) return;
+        ((U09TradeListActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
+        FragmentTransaction fragmentTransaction = ((U09TradeListActivity) context).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "u09_notify");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg) {
@@ -298,8 +269,14 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         dialog.setConfirm(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                statusTo(trade, status, position);
                 dialog.dismiss();
+                TradeStatusToCommand.statusTo(trade, status, new Callback(){
+                    @Override
+                    public void onComplete() {
+                        datas.remove(position - 1);
+                        notifyDataSetChanged();
+                    }
+                });
             }
         });
         dialog.show();
@@ -319,62 +296,5 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
     @Override
     public int getItemCount() {
         return null == datas ? 1 : datas.size() + 1;
-    }
-
-    public void statusTo(MongoTrade trade, final int status, final int position) {//取消
-
-        JSONObject jsonObject = getStatusJSONObjcet(trade, status);
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(context, MetadataParser.getError(response));
-                    return;
-                }
-                datas.remove(position - 1);
-                notifyDataSetChanged();
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jor);
-    }
-
-
-    private JSONObject getStatusJSONObjcet(MongoTrade trade, int status) {
-
-        Map params = new HashMap();
-        Map orders = new HashMap();
-        Map taobaoInfo = new HashMap();
-        Map logistic = new HashMap();
-        Map returnLogistic = new HashMap();
-        params.put("_id", trade._id);
-        params.put("status", status);
-        params.put("comment", (trade.statusLogs.get(trade.statusLogs.size() - 1)).comment);
-
-        switch (status) {
-            case 1:
-                taobaoInfo.put("tradeID", trade.taobaoInfo.tradeID);
-                taobaoInfo.put("userNick", trade.taobaoInfo.userNick);
-                params.put("orders", orders);
-                break;
-            case 3:
-                logistic.put("company", trade.logistic.company);
-                logistic.put("trackingID", trade.logistic.trackingId);
-                params.put("logistic", logistic);
-                break;
-            case 7:
-                logistic.put("company", trade.returnlogistic.company);
-                logistic.put("trackingID", trade.returnlogistic.trackingID);
-                params.put("returnLogistic", returnLogistic);
-                break;
-        }
-
-        return new JSONObject(params);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }
