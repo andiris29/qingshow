@@ -32,7 +32,7 @@ item.updateExpectable = {
         async.waterfall([function(callback) {
             expectable = {
                 'price' : RequestHelper.parseNumber(param.price),
-                'expired' : param.expired || false,
+                'expired' : param.expired === true,
                 'messageForPay' : param.messageForPay,
                 'messageForBuy' : param.messageForBuy
             }
@@ -72,7 +72,7 @@ item.updateExpectable = {
                 });
             },
             function(trades, cb){
-                _itemPriceChanged(trades, RequestHelper.parseNumber(param.expectablePrice),function(){
+                _itemPriceChanged(trades, expectable,function(){
                 });
 
                 trades.forEach(function(trade){
@@ -297,7 +297,7 @@ item.list = {
     }
 };
 
-var _itemPriceChanged = function(trades, price, callback) {
+var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
             async.waterfall([
@@ -313,10 +313,19 @@ var _itemPriceChanged = function(trades, price, callback) {
                     infos.forEach(function(target) {
                         registrationIDs.push(target.registrationId);
                     });
-                    PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
+                    if (!expectable.expired && expectable.price <= trade.expectedPrice) {
+                        PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageTradeInitialized, {
+                            'id' : trade._id,
+                            'command' : PushNotificationHelper.CommandTradeInitialized
+                        }, cb2);
+                    };
+
+                    if (!expectable.expired && expectable.price > trade.expectedPrice) {
+                      PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
                         'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
                         '_id' : trade._id
-                    }, cb2);
+                    }, cb2); 
+                  };
                 }], cb);
         };
     });

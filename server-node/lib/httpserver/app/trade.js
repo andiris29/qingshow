@@ -240,21 +240,7 @@ trade.statusTo = {
                     if (trade._id.toString() != req.qsCurrentUserId) {
                         jPushAudiences.find({
                             'peopleRef' : trade.ownerRef
-                        }).exec(function(err, infos) {
-                            if (infos.length > 0) {
-                                var targets = [];
-                                infos.forEach(function(element) {
-                                    if (element.registrationId && element.registrationId.length > 0) {
-                                        targets.push(element.registrationId);
-                                    }
-                                });
-
-                                PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
-                                    'id' : param._id,
-                                    'command' : PushNotificationHelper.CommandTradeInitialized
-                                }, null);
-                            }
-                        });
+                        }).exec(function(err, infos) {});
                     }
                 });
             } else if (newStatus == 2) {
