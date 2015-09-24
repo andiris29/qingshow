@@ -1,15 +1,10 @@
 package com.focosee.qingshow.util;
 
 import android.text.TextUtils;
-
-import org.w3c.dom.Text;
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2015/3/19.

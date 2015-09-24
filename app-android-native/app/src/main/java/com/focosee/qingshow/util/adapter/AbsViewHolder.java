@@ -24,7 +24,7 @@ public class AbsViewHolder extends RecyclerView.ViewHolder {
     public AbsViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
-        views = new SparseArray<View>();
+        views = new SparseArray<>();
     }
 
     public <T extends View> T getView(int id) {

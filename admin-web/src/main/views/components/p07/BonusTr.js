@@ -18,7 +18,8 @@ define([
         td$.eq(2).text(people.nickname);
         td$.eq(3).text(people.count);
         td$.eq(4).text(people.sum);
-        td$.eq(5).on('click', this._submit.bind(this));
+        td$.eq(5).text(people.alipayId);
+        td$.eq(6).on('click', this._submit.bind(this));
 
     };
 

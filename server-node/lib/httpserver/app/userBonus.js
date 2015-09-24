@@ -66,9 +66,9 @@ userBonus.withdraw = {
         function(people, callback) {
             people.bonuses = people.bonuses || [];
             for (var i = 0; i < people.bonuses.length; i++) {
+                people.bonuses[i].alipayId = req.body.alipayId;
                 if (people.bonuses[i].status === 0) {
                     people.bonuses[i].status = 1;
-                    people.bonuses[i].alipayId = req.body.alipayId;
                 }
             }
             people.save(function(error, people) {
@@ -159,10 +159,12 @@ userBonus.queryWithdrawRequested = {
         var mapReduce = {
             map : function() {
                 var sum = 0,
-                    count = 0;
+                    count = 0,
+                    alipayId;
                 (this.bonuses || []).forEach(function(bonus) {
                     if (bonus.status === 1) {
                         sum += bonus.money;
+                        alipayId = bonus.alipayId;
                         count++;
                     }
                 });
@@ -171,7 +173,8 @@ userBonus.queryWithdrawRequested = {
                         'id' : this.userInfo.id,
                         'nickname' : this.nickname,
                         'sum' : sum,
-                        'count' : count
+                        'count' : count,
+                        'alipayId' : alipayId
                     });
                 }
             }, 
@@ -199,7 +202,8 @@ userBonus.queryWithdrawRequested = {
                     id : n.value.id,
                     nickname : n.value.nickname,
                     sum : n.value.sum,
-                    count : n.value.count
+                    count : n.value.count,
+                    alipayId : n.value.alipayId
                 };
             });
             ResponseHelper.response(res, null, {

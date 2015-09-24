@@ -59,7 +59,7 @@ public abstract class BaseActivity extends FragmentActivity {
         public void onReceive(final Context context, Intent intent) {
             final ConfirmDialog dialog = new ConfirmDialog(context);
             final Bundle bundle = intent.getExtras();
-            dialog.setTitle(bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE));
+            dialog.setTitle(bundle.getString(JPushInterface.EXTRA_ALERT));
             dialog.setConfirm(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
