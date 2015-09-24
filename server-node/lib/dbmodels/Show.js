@@ -8,6 +8,7 @@ showSchema = Schema({
     cover : String,
     coverForeground : String,
     video : String,
+    featuredRank : Number,
     posters : [String],
     numLike : {
         type : Number,

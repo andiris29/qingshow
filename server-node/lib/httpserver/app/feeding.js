@@ -186,3 +186,20 @@ feeding.matchCreatedBy = {
         });
     }
 };
+
+feeding.featured = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function (qsParam, outCallback){
+            async.waterfall([
+            function(callback) {
+                var criteria = {
+                    'featuredRank' : {$exists: true}
+                };
+                MongoHelper.queryPaging(Show.find(criteria).sort({
+                    'featuredRank' : -1
+                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
+            }], outCallback);
+        });
+    }
+};
