@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/U09_head_layout"
     android:layout_width="fill_parent"
     android:layout_height="120dp"
@@ -56,6 +57,7 @@
                 android:layout_centerHorizontal="true"
                 android:textSize="@dimen/text_size"
                 android:textColor="@color/white"
+                app:clickGround="@color/transparent"
                 android:onClick="onClick"
                 android:background="@drawable/s01_tab_btn1"/>
 
@@ -71,6 +73,7 @@
                 android:textColor="@color/master_pink"
                 android:layout_marginLeft="-10dp"
                 android:onClick="onClick"
+                app:clickGround="@color/transparent"
                 android:background="@drawable/s01_tab_border1"/>
         </LinearLayout>
 
