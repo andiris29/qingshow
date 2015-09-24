@@ -7,7 +7,7 @@
 //
 
 #import "QST01ShowTradeProvider.h"
-
+#import "QSItemUtil.h"
 #import "QSTradeUtil.h"
 #define T01SHOWTRADECELLHEIGHT (216)
 #define SHOWTRADECELLIDENTIFIER (@"showTradeCellIdentifier")
@@ -42,7 +42,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *tradeDic = self.resultArray[indexPath.row];
-    NSString *itemId = [QSTradeUtil getItemId:tradeDic];
+    NSDictionary *itemDic = [QSTradeUtil getItemDic:tradeDic];
+    NSString *itemId = [QSItemUtil getItemId:itemDic];
     if ([self.delegate respondsToSelector:@selector(didTapTradeCell:)]) {
         [self.delegate didTapTradeCell:itemId];
     }

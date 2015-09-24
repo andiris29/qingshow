@@ -75,7 +75,7 @@
 - (void)configNav
 {
     
-    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"精选",@"最新",@"最热"]];
+    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"达人",@"最热",@"最新"]];
     _segmentControl.frame = CGRectMake(0, 0, 180, 25);
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
@@ -93,7 +93,6 @@
     _segIndex = _segmentControl.selectedSegmentIndex;
     if(_segIndex ==  2)
     {
-        
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
@@ -124,7 +123,6 @@
 #pragma mark - Delegate
 - (void)didSelectedCellInCollectionView:(id)sender
 {
-    
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:sender];
 //    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
    // vc.menuProvider = self.menuProvider;
