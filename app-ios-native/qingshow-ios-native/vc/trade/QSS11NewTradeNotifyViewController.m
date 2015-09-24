@@ -13,6 +13,7 @@
 #import "QSTableViewBasicProvider.h"
 #import "QSTradeUtil.h"
 #import "QSNetworkKit.h"
+#import "QSItemUtil.h"
 #define PAGE_ID @"推荐折扣"
 #define w ([UIScreen mainScreen].bounds.size.width-50)
 #define h ([UIScreen mainScreen].bounds.size.height)
@@ -32,7 +33,7 @@
     self = [super initWithNibName:@"QSS11NewTradeNotifyViewController" bundle:nil];
     if (self) {
         self.tradeDict = tradeDict;
-        self.expectablePrice = [QSTradeUtil getItemExpectablePrice:tradeDict];
+        self.expectablePrice = [QSItemUtil getExpectablePrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     }
     return self;
 }

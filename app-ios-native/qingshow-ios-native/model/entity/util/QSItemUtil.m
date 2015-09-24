@@ -133,6 +133,19 @@
         return nil;
     }
 }
++ (NSNumber *)getExpectablePrice:(NSDictionary *)dict
+{
+    NSNumber* n = [dict numberValueForKeyPath:@"expectable.price"];
+    if (!n) {
+        NSString* s = [dict stringValueForKeyPath:@"expectable.price"];
+        if (s) {
+            n = @(s.doubleValue);
+        }
+        
+    }
+    return n;
+}
+
 
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict {
     return [QSEntityUtil getDictValue:itemDict keyPath:@"categoryRef"];
