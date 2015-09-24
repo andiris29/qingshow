@@ -3,8 +3,8 @@ define([
 ], function(
 ) {
 // @formatter:on
-    var P02ShareShow = function(dom, initOptions) {
-        P02ShareShow.superclass.constructor.apply(this, arguments);
+    var P03ShareTrade = function(dom, initOptions) {
+        P03ShareTrade.superclass.constructor.apply(this, arguments);
 
         __services.httpService.request('/spread/open', 'get', {
             'entry' : violet.url.search.entry || "",
@@ -40,7 +40,7 @@ define([
         $('.p03-download', this._dom).on('click', __services.downloadService.download);
         $('.p03-success', this._dom).on('click', __services.downloadService.download);
     };
-    violet.oo.extend(P02ShareShow, violet.ui.ViewBase);
+    violet.oo.extend(P03ShareTrade, violet.ui.ViewBase);
 
-    return P02ShareShow;
+    return P03ShareTrade;
 });

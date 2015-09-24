@@ -27,6 +27,7 @@
 #define PATH_FEEDING_MATCH_CREATE_BY @"feeding/matchCreatedBy"
 #define PATH_FEEDING_MATCH_HOT @"feeding/matchHot"
 #define PATH_FEEDING_MATCH_NEW @"feeding/matchNew"
+#define PATH_FEEDING_MATCH_FEATURED @"feeding/featured"
 #define PATH_FEEDING_OWNERREF @"feeding/"
 
 
@@ -184,5 +185,12 @@
                                    onError:(ErrorBlock)errorBlock
 {
     return [self getFeedingPath:PATH_FEEDING_MATCH_NEW otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+}
+- (MKNetworkOperation *)getfeedingMatchFeatured:(NSDictionary *)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock
+{
+    return [self getFeedingPath:PATH_FEEDING_MATCH_FEATURED otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 @end

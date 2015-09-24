@@ -175,6 +175,7 @@
             break;
         }
     }
+    //NSLog(@"trade = %@",tradeDict);
     NSNumber* expectablePrice = [QSTradeUtil getItemExpectablePrice:tradeDict];
     __weak QSOrderListTableViewCell *weakSelf = self;
     if (s == 0 && expectablePrice) {

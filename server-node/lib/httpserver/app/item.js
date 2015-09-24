@@ -23,12 +23,25 @@ var GoblinError = require('../../scheduled/goblin/common/GoblinError');
 
 var item = module.exports;
 
-item.updateExpectablePrice = {
+item.updateExpectable = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         var param = req.body;
+        var expectable = {};
         async.waterfall([function(callback) {
+            expectable = {
+                'price' : RequestHelper.parseNumber(param.price),
+                'expired' : param.expired === true,
+                'messageForPay' : param.messageForPay,
+                'messageForBuy' : param.messageForBuy
+            }
+            if (!expectable.expired && !param.price) {
+                callback(errors.NotEnoughParam);
+            }else{
+                callback();
+            }
+        }, function(callback) {
             Items.findOne({
                 _id : RequestHelper.parseId(param._id)
             }, function(error, item) {
@@ -41,7 +54,7 @@ item.updateExpectablePrice = {
                 }
             });
         }, function(item, callback) {
-            item.expectablePrice = RequestHelper.parseNumber(param.expectablePrice);
+            item.expectable = expectable;
             item.save(function(error, item) {
                 callback(error, item);
             });
@@ -59,7 +72,7 @@ item.updateExpectablePrice = {
                 });
             },
             function(trades, cb){
-                _itemPriceChanged(trades, RequestHelper.parseNumber(param.expectablePrice),function(){
+                _itemPriceChanged(trades, expectable,function(){
                 });
 
                 trades.forEach(function(trade){
@@ -90,7 +103,7 @@ item.updateExpectablePrice = {
     }
 };
 
-item.removeExpectablePrice = {
+item.removeExpectable = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
@@ -99,7 +112,7 @@ item.removeExpectablePrice = {
             Items.findOneAndUpdate({
                 _id : RequestHelper.parseId(param._id)
             }, {
-                $unset : { expectablePrice : 0 }
+                $unset : { 'expectable' : -1 }
             }, {
             }, function(error) {
                 callback(error);
@@ -115,11 +128,15 @@ item.removeExpectablePrice = {
                 }
             })
         }, function(trades, callback){
-            trades.forEach(function(trade){
-                TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
-                    callback(err);
+            if (!trades || trades.length === 0) {
+                callback();
+            }else{
+                trades.forEach(function(trade){
+                    TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
+                        callback(err);
+                    });
                 });
-            });
+            }
         }, function(callback) {
             Items.findOne({
                 _id : RequestHelper.parseId(param._id)
@@ -280,7 +297,7 @@ item.list = {
     }
 };
 
-var _itemPriceChanged = function(trades, price, callback) {
+var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
             async.waterfall([
@@ -296,10 +313,19 @@ var _itemPriceChanged = function(trades, price, callback) {
                     infos.forEach(function(target) {
                         registrationIDs.push(target.registrationId);
                     });
-                    PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
+                    if (!expectable.expired && expectable.price <= trade.expectedPrice) {
+                        PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageTradeInitialized, {
+                            'id' : trade._id,
+                            'command' : PushNotificationHelper.CommandTradeInitialized
+                        }, cb2);
+                    };
+
+                    if (!expectable.expired && expectable.price > trade.expectedPrice) {
+                      PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
                         'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
                         '_id' : trade._id
-                    }, cb2);
+                    }, cb2); 
+                  };
                 }], cb);
         };
     });

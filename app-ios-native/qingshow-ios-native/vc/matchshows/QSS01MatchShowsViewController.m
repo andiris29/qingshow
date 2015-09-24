@@ -75,8 +75,8 @@
 - (void)configNav
 {
     
-    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新"]];
-    _segmentControl.frame = CGRectMake(0, 0, 140, 25);
+    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新",@"精选"]];
+    _segmentControl.frame = CGRectMake(0, 0, 180, 25);
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
     [_segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
@@ -110,6 +110,15 @@
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
        
+    }else if(_segIndex == 2)
+    {
+        [self.matchCollectionViewProvider.resultArray removeAllObjects];
+        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+            return [SHARE_NW_ENGINE getfeedingMatchFeatured:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        };
+        [_matchCollectionViewProvider fetchDataOfPage:1];
+        [self reloadCollectionViewData];
+
     }
 }
 #pragma mark - Delegate
