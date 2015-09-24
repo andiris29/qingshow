@@ -57,7 +57,7 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
         if (null == datas || datas.size() == 0) return;
         final MongoTrade trade = datas.get(position);
         if (null == trade) return;
-        if (!TextUtils.isEmpty(trade.itemSnapshot.delist)) {
+        if (null != trade.itemSnapshot.delist) {
             holder.getView(R.id.item_t01_delist).setVisibility(View.VISIBLE);
         }
         SpannableString spanStrDis = new SpannableString(disPreText + StringUtil.calculationException(

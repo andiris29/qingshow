@@ -410,7 +410,7 @@ public class S20MatcherActivity extends BaseActivity {
                     @Override
                     public <T> boolean filtrate(T t) {
                         MongoItem item = (MongoItem) t;
-                        if (!TextUtils.isEmpty(item.delist))
+                        if (null != item.delist)
                             return true;
                         return false;
                     }

@@ -249,7 +249,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 @Override
                 public <T> boolean filtrate(T t) {
                     MongoItem item = (MongoItem) t;
-                    if (!TextUtils.isEmpty(item.delist))
+                    if (null != item.delist)
                         return true;
                     return false;
                 }
