@@ -33,7 +33,7 @@
     userInfoDict[@"fromBackground"] = @(fFromBackground);
     
     if ([command isEqualToString:kPnsCommandNewShowComments]) {
-        NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"id"];
+        NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"_id"];
         if (showId) {
             userInfoDict[@"showId"] = showId;
         }
