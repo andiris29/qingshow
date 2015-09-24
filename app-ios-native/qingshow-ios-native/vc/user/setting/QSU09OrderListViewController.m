@@ -214,7 +214,6 @@
         if (array.count) {
             NSDictionary *item = [array firstObject];
             QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item];
-            vc.isDisCountBtnHidden = YES;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }
     } onError:^(NSError *error) {

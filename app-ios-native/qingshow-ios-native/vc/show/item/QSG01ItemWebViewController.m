@@ -105,7 +105,9 @@
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [self.webView setScalesPageToFit:YES];
+    
     [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
@@ -126,31 +128,36 @@
     self.cancelBtn.layer.cornerRadius = 5.f;
     self.cancelBtn.layer.masksToBounds = YES;
     
+    [self bindWithItem:self.itemDict];
     
     [SHARE_NW_ENGINE itemSync:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
         
         self.hasSyncItem = YES;
         self.itemDict = data;
-        self.discountVc.itemDict = self.itemDict;
-        [self.discountVc refresh];
-        
+        [self bindWithItem:self.itemDict];
         if (self.hud) {
             [self.hud hide:YES];
             self.hud = nil;
             self.discountLayerContainer.hidden = NO;
+        }
+        if ([QSItemUtil getDelist:self.itemDict] && self.hud) {
+            [self showErrorHudWithText:@"活动结束"];
         }
         
     } onError:^(NSError *error) {
         if (self.hud) {
             [self.hud hide:YES];
             self.hud = nil;
-            [self showErrorHudWithText:@"活动结束"];
+            [self handleError:error];
         }
         self.discountBtn.hidden = YES;
     }];
-    if (self.isDisCountBtnHidden == YES) {
-        self.discountBtn.hidden = YES;
-    }
+}
+
+- (void)bindWithItem:(NSDictionary*)itemDict {
+    self.discountVc.itemDict = itemDict;
+    [self.discountVc refresh];
+    self.discountBtn.hidden = [QSItemUtil getDelist:itemDict];
 }
 
 - (void)didReceiveMemoryWarning {
