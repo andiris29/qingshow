@@ -258,7 +258,7 @@
 
 + (NSString*)calculateDiscountDescWithPrice:(NSNumber*)targetPrice trade:(NSDictionary*)trade {
     
-    NSNumber* price = [QSItemUtil getPromoPrice:[self getItemSnapshot:trade]];
+    NSNumber* price = [QSItemUtil getPromoPrice:[self getItemDic:trade]];
     int disCount = targetPrice.doubleValue * 100 / price.doubleValue;
     if (disCount < 10) {
         disCount = 10;
