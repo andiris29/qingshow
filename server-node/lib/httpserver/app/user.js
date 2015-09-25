@@ -753,7 +753,7 @@ _loginViaWeibo = function(req, res) {
 };
 
 _requestVerificationCode = function(req, res){
-    var mobile = req.body.mobileNumber;
+    var mobile = req.body.mobile;
     async.waterfall([function(callback){
         SMSHelper.createVerificationCode(mobile, function(err, code){
             if (err) {
