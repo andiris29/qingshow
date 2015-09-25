@@ -77,7 +77,7 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     });
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -209,7 +209,7 @@ _register = function(req, res) {
 
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             if (!success || err) {
-                ResponseHelper.response(res, errors.SMSValidationFail);
+                ResponseHelper.response(res, err);
                 return;
             }
         });
@@ -792,6 +792,35 @@ _validateMobile = function(req, res){
     })
 };
 
+_resetPassword = function(req, res){
+    var params = req.body;
+    var mobile = params.mobile;
+    var code = params.verificationCode;
+    async.waterfall([function(callback){
+        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+            if (err) {
+                callback(err);
+            }else{
+                callback(null, success);
+            }
+        });
+    }, function(success, callback){
+        People.findOneAndUpdate({
+            _id : RequestHelper.parseId(req.qsCurrentUserId)
+        }, {
+            $unset : { 
+                'userInfo.encryptedPassword' : -1,
+                'userInfo.password' : -1
+             }
+        }, {
+        }, function(error) {
+            callback(error);
+        });
+    }],function(error, people) {
+        ResponseHelper.response(res, error, {});
+    })
+}
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -851,5 +880,10 @@ module.exports = {
     'validateMobile' : {
         method : 'post',
         func : _validateMobile
+    },
+    'resetPassword' : {
+        method : 'post',
+        func : _resetPassword,
+        permissionValidators : ['loginValidator']
     }
 };
