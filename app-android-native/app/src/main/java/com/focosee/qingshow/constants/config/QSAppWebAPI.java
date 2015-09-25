@@ -95,6 +95,12 @@ public class QSAppWebAPI {
 
     private static String SYSTEM_LOG_API = "/system/log";
 
+    private static String RESET_PASSWORD = "user/resetPassword";
+
+    public static String getResetPassword() {
+        return RESET_PASSWORD;
+    }
+
     public static String getSystemLogApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SYSTEM_LOG_API;
     }

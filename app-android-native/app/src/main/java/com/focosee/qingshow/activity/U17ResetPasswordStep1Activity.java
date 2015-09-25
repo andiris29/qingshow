@@ -2,14 +2,12 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.percent.PercentRelativeLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.VerificationHelper;
@@ -78,7 +76,7 @@ public class U17ResetPasswordStep1Activity extends BaseActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("mobileNumber", phoneEditText.getText().toString());
                 params.put("verificationCode", verificationCode.getText().toString());
-                VerificationHelper.validateMobile(params, new Callback(){
+                UserCommand.resetPassword(params, new Callback() {
                     @Override
                     public void onComplete(JSONObject response) {
                         if (MetadataParser.hasError(response)) {
