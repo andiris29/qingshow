@@ -55,6 +55,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
+    private int TYPE_FEATURED = 2;
     private final int PAGESIZE = 30;
 
     @InjectView(R.id.s01_menu_btn)
@@ -112,8 +113,19 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     public void getDatasFromNet(int type, final int pageNo) {
 
+        String url = "";
+        switch (type){
+            case 0:
+                url = QSAppWebAPI.getMatchHotApi(pageNo, PAGESIZE);
+                break;
+            case 1:
+                url =  QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
+                break;
+            case 2:
+                url = QSAppWebAPI.getFeedingFeaturedApi(pageNo, PAGESIZE);
+                break;
+        }
 
-        String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, PAGESIZE) : QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
         Log.d("url:", url);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
 
@@ -186,6 +198,16 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
             s01TabNew.setTextColor(getResources().getColor(R.color.white));
             return;
         }
+        if(v.getId() == R.id.s01_tab_feature){
+            currentType = TYPE_FEATURED;
+            mRefreshLayout.beginRefreshing();
+
+        }
+    }
+
+    private void unCheckTabBtn(Button button){
+        button.setBackgroundResource(R.drawable.s01_tab_border2);
+        button.setTextColor(getResources().getColor(R.color.master_pink));
     }
 
 
