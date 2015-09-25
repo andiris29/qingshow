@@ -11,6 +11,7 @@
 #import "QSLayoutUtil.h"
 #import "QSItemUtil.h"
 #import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 
 #define DELTA_X 8.f
 #define DELTA_Y 5.f
@@ -269,7 +270,8 @@
                 if (retArray.count > 1) {
                     int sum = 0;
                     for (NSString* skuKey in retArray) {
-                        NSString* v = skuTable[skuKey];
+                        
+                        NSString* v = [skuTable stringValueForKeyPath:skuKey];
                         NSArray* c = [v componentsSeparatedByString:@":"];
                         if (c.count) {
                             NSString* quantityStr = [c firstObject];
@@ -280,7 +282,8 @@
                     [QSDiscountTaobaoInfoCell setBtn:btn disable:sum == 0];
                 } else {
                     NSString* skuKey = retArray[0];
-                    NSString* v = skuTable[skuKey];
+                    NSString* v = [skuTable stringValueForKeyPath:skuKey];
+                    
                     NSArray* c = [v componentsSeparatedByString:@":"];
                     if (c.count) {
                         NSString* quantityStr = [c firstObject];

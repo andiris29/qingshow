@@ -10,6 +10,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,14 +19,10 @@ import java.util.TreeMap;
  * Created by Administrator on 2015/9/21.
  */
 public class TradeStatusToCommand {
-    public static void statusTo(MongoTrade trade, int status, String actualPrice, final Callback callback){
-        Map<String, Object> prarms = new TreeMap<>();
-        LinkedList<MongoTrade.StatusLog> statusLogs = trade.statusLogs;
-        prarms.put("_id", trade._id);
-        prarms.put("status", status);
-        prarms.put("comment", statusLogs.get(statusLogs.size() - 1));
-        prarms.put("actualPrice", actualPrice);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), new JSONObject(prarms), new Response.Listener<JSONObject>() {
+
+    public static void statusTo(MongoTrade trade, int status, final Callback callback){
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeStatustoApi(), getStatusJSONObjcet(trade, status), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
@@ -36,5 +33,33 @@ public class TradeStatusToCommand {
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
+    }
+
+    private static JSONObject getStatusJSONObjcet(MongoTrade trade, int status) {
+
+        Map params = new HashMap();
+        Map taobaoInfo = new HashMap();
+        Map logistic = new HashMap();
+        params.put("_id", trade._id);
+        params.put("status", status);
+        params.put("comment", (trade.statusLogs.get(trade.statusLogs.size() - 1)).comment);
+
+        switch (status) {
+            case 1:
+                taobaoInfo.put("actualPrice", trade.itemRef.expectablePrice);
+                break;
+            case 3:
+                logistic.put("company", trade.logistic.company);
+                logistic.put("trackingID", trade.logistic.trackingId);
+                break;
+            case 7:
+                logistic.put("company", trade.returnlogistic.company);
+                logistic.put("trackingID", trade.returnlogistic.trackingID);
+                break;
+        }
+
+        return new JSONObject(params);
+
     }
 }
