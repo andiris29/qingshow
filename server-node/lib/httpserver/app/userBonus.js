@@ -129,22 +129,10 @@ userBonus.withdrawComplete = {
             });
         },
         function(people, total, callback) {
-            jPushAudiences.find({
-                'peopleRef' : people._id
-            }).exec(function(err, infos) {
-                if (infos.length > 0) {
-                    var targets = [];
-                    infos.forEach(function(element) {
-                        if (element.registrationId && element.registrationId.length > 0) {
-                            targets.push(element.registrationId);
-                        }
-                    });
-                    var message = PushNotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, total);
-                    PushNotificationHelper.push([people], targets, message, {
-                        'command' : PushNotificationHelper.CommandBonusWithdrawComplete
-                    }, null);
-                }
-            });
+            var message = PushNotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, total);
+            PushNotificationHelper.notify([people._id], message, {
+                'command' : PushNotificationHelper.CommandBonusWithdrawComplete
+            }, null);
             callback(null, people);
         }], function(error, people) {
             ResponseHelper.response(res, error);

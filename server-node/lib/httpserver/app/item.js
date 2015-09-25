@@ -282,41 +282,20 @@ item.list = {
 var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
-            async.waterfall([
-                function(cb2) {
-                    jPushAudiences.find({
-                        peopleRef : trade.ownerRef
-                    }).exec(function(err, infos) {
-                        cb2(err, infos);
-                    });
-                },
-                function(infos, cb2) {
-                    People.findOne({
-                        _id : trade.ownerRef
-                    }, function(error, people){
-                        cb2(error, people, infos)
-                    })
-                },
-                function(people, infos, cb2) {
-                    var registrationIDs = [];
-                    infos.forEach(function(target) {
-                        registrationIDs.push(target.registrationId);
-                    });
-                    if (!expectable.expired && expectable.price <= trade.expectedPrice) {
-                        PushNotificationHelper.push([people], registrationIDs, PushNotificationHelper.MessageTradeInitialized, {
-                            'id' : trade._id,
-                            'command' : PushNotificationHelper.CommandTradeInitialized
-                        }, cb2);
-                    };
+            if (!expectable.expired && expectable.price <= trade.expectedPrice) {
+                PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeInitialized, {
+                    'id' : trade._id,
+                    'command' : PushNotificationHelper.CommandTradeInitialized
+                }, cb);
+            };
 
-                    if (!expectable.expired && expectable.price > trade.expectedPrice) {
-                      PushNotificationHelper.push([people], registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
-                        'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
-                        '_id' : trade._id
-                    }, cb2); 
-                  };
-                }], cb);
-        };
+            if (!expectable.expired && expectable.price > trade.expectedPrice) {
+              PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageItemPriceChanged, {
+                'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
+                '_id' : trade._id
+                }, cb); 
+            };
+        }
     });
     async.parallel(tasks, function(err) {
         if (err) {

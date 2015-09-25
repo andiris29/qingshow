@@ -172,23 +172,10 @@ show.comment = {
             }).populate('ownerRef').exec(function(err, show) {
                 if (show && show.ownerRef) {
                     if (show.ownerRef._id.toString() != req.qsCurrentUserId.toString()) {
-                        jPushAudiences.find({
-                            'peopleRef' : show.ownerRef
-                        }).exec(function(err, infos) {
-                            if (infos.length > 0) {
-                                var targets = [];
-                                infos.forEach(function(element) {
-                                    if (element.registrationId && element.registrationId.length > 0) {
-                                        targets.push(element.registrationId);
-                                    }
-                                });
-
-                                PushNotificationHelper.push(null, targets, PushNotificationHelper.MessageNewShowComment, {
-                                    '_id' : param._id,
-                                    'command' : PushNotificationHelper.CommandNewShowComments
-                                }, null);
-                            }
-                        });
+                       PushNotificationHelper._push([show.ownerRef], PushNotificationHelper.MessageNewShowComment, {
+                            '_id' : param._id,
+                            'command' : PushNotificationHelper.CommandNewShowComments
+                        }, null);
                     }
                 }
             }); 

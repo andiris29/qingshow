@@ -44,20 +44,7 @@ notify.newRecommandations = {
             targets.forEach(function(target) {
                 ids.push(target._id);
             });
-            jPushAudiences.find({
-                peopleRef : {
-                    '$in' : ids
-                }
-            }).exec(function(err, infos) {
-                callback(err, infos, targets);
-            });
-        },
-        function(infos, targets, callback) {
-            var registrationIDs = [];
-            infos.forEach(function(info) {
-                registrationIDs.push(info.registrationId);
-            });
-            PushNotificationHelper.push(targets, registrationIDs, PushNotificationHelper.MessageNewRecommandations, {
+            PushNotificationHelper.notify(ids, PushNotificationHelper.MessageNewRecommandations, {
                 'command' : PushNotificationHelper.CommandNewRecommandations
             }, callback);
         }], function(err) {

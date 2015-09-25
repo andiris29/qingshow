@@ -35,22 +35,9 @@ BonusHelper.createBonusViaTrade = function(trade, item, callback){
         });
     },
     function(people, callback) {
-        jPushAudiences.find({
-            'peopleRef' : people._id
-        }).exec(function(err, infos) {
-            if (infos.length > 0) {
-                var targets = [];
-                infos.forEach(function(element) {
-                    if (element.registrationId && element.registrationId.length > 0) {
-                        targets.push(element.registrationId);
-                    }
-                });
-
-                PushNotificationHelper.push([people], targets, PushNotificationHelper.MessageNewBonus, {
+        PushNotificationHelper.notify([people._id], PushNotificationHelper.MessageNewBonus, {
                     'command' : PushNotificationHelper.CommandNewBonus
                 }, null);
-            }
-        });
         callback(null, people);
     }],function(error, people){
     callback(error, people);
@@ -83,22 +70,9 @@ BonusHelper.createBonusViaForger = function(forger, promoterRef, item, callback)
         });
     },
     function(people, callback) {
-        jPushAudiences.find({
-            'peopleRef' : people._id
-        }).exec(function(err, infos) {
-            if (infos.length > 0) {
-                var targets = [];
-                infos.forEach(function(element) {
-                    if (element.registrationId && element.registrationId.length > 0) {
-                        targets.push(element.registrationId);
-                    }
-                });
-
-                PushNotificationHelper.push([people], targets, PushNotificationHelper.MessageNewBonus, {
-                    'command' : PushNotificationHelper.CommandNewBonus
-                }, null);
-            }
-        });
+        PushNotificationHelper.notify([people._id], PushNotificationHelper.MessageNewBonus, {
+            'command' : PushNotificationHelper.CommandNewBonus
+        }, null);
         callback(null, people);
     }],function(error, people){
     callback(error, people);

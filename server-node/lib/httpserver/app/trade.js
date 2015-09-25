@@ -251,26 +251,10 @@ trade.statusTo = {
                     _weixinDeliveryNotify(trade);
                 }
                 // Push Notification
-                jPushAudiences.find({
-                    'peopleRef' : trade.ownerRef
-                }).exec(function(err, infos) {
-                    if (infos.length > 0) {
-                        var targets = [];
-                        infos.forEach(function(element) {
-                            if (element.registrationId && element.registrationId.length > 0) {
-                                targets.push(element.registrationId);
-                            }
-                        });
-                        People.findOne({
-                            '_id' : trade.ownerRef
-                        }, function(error, people){       
-                            PushNotificationHelper.push([people], targets, PushNotificationHelper.MessageTradeShipped, {
-                                'id' : param._id,
-                                'command' : PushNotificationHelper.CommandTradeShipped
-                            }, null); 
-                        })
-                    }
-                });
+                PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeShipped, {
+                    'id' : param._id,
+                    'command' : PushNotificationHelper.CommandTradeShipped
+                }, null); 
                 callback(null, trade);
             } else if (newStatus == 7) {
                 trade.returnLogistic = trade.returnLogistic || {};
