@@ -185,21 +185,34 @@ _register = function(req, res) {
     id = param.id;
     password = param.password;
     var nickname = param.nickname;
+    var mobile = param.mobile;
+    var code = param.verificationCode;
     //TODO validate id and password
     if (!id || !password || !id.length || !password.length || !nickname) {
         ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
     People.find({
-        '$or': [{'userInfo.id' : id}, {'nickname': nickname}]
+        '$or': [{'userInfo.id' : id}, {'nickname': nickname}, {'mobile': mobile}]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
         } else if (people.length > 0) {
-            ResponseHelper.response(res, errors.EmailAlreadyExist);
+            if (people.mobile === mobile) {
+                ResponseHelper.response(res, errors.MobileAlreadyExist); 
+            }else{
+                ResponseHelper.response(res, errors.EmailAlreadyExist);
+            }
             return;
         }
+
+        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+            if (!success || err) {
+                ResponseHelper.response(res, errors.SMSValidationFail);
+                return;
+            }
+        });
 
         var people = new People({
             nickname: nickname,
@@ -766,18 +779,8 @@ _requestVerificationCode = function(req, res){
 
 _validateMobile = function(req, res){
     var params = req.body;
-    var mobile = params.mobileNumber;
+    var mobile = params.mobile;
     async.series([function(callback){
-        People.count({
-            'mobile' : mobile
-        },function(err, num){
-            if (num > 0) {
-                callback(errors.MobileAlreadyExist);
-            }else {
-                callback(null, mobile);
-            }
-        })
-    },function(callback){
         var code = params.verificationCode;
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             callback(err, success);
