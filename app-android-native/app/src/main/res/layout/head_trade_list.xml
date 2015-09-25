@@ -74,7 +74,7 @@
                 android:layout_marginLeft="-10dp"
                 android:onClick="onClick"
                 app:clickGround="@color/transparent"
-                android:background="@drawable/s01_tab_border1"/>
+                android:background="@drawable/s01_tab_new_btn_border"/>
         </LinearLayout>
 
 

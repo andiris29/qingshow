@@ -48,6 +48,7 @@
                     android:onClick="onClick"
                     android:text="精选"
                     android:textColor="@color/white"
+                    android:layout_marginRight="-1dp"
                     android:textSize="@dimen/text_size"
                     app:clickGround="@color/transparent" />
 
@@ -56,10 +57,10 @@
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/s01_tab_btn1"
+                    android:background="@drawable/square_btn_border"
                     android:onClick="onClick"
                     android:text="最热"
-                    android:textColor="@color/white"
+                    android:textColor="@color/master_pink"
                     android:textSize="@dimen/text_size"
                     app:clickGround="@color/transparent" />
 
@@ -71,7 +72,8 @@
                     android:layout_alignTop="@+id/s01_menu_btn"
                     android:layout_centerHorizontal="true"
                     android:layout_toRightOf="@+id/s01_tab_hot"
-                    android:background="@drawable/s01_tab_border1"
+                    android:background="@drawable/s01_tab_new_btn_border"
+                    android:layout_marginLeft="-1dp"
                     android:onClick="onClick"
                     android:text="最新"
                     android:textColor="@color/master_pink"

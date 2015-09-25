@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
@@ -29,17 +30,21 @@ import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.MenuView;
+import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import de.greenrobot.event.EventBus;
 
-public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener{
+public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener {
 
     public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
     public static final String S1_INPUT_TRADEID_NOTIFICATION = "S1_INPUT_TRADEID_NOTIFICATION";
@@ -52,6 +57,8 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     RecyclerView recyclerView;
     @InjectView(R.id.container)
     FrameLayout container;
+    @InjectView(R.id.s01_tab_feature)
+    QSButton s01TabFeature;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -67,7 +74,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     private S01ItemAdapter adapter;
     private int currentPageNo = 1;
-    private int currentType = TYPE_HOT;
+    private int currentType = TYPE_FEATURED;
 
     private MenuView menuView;
 
@@ -114,15 +121,15 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     public void getDatasFromNet(int type, final int pageNo) {
 
         String url = "";
-        switch (type){
+        switch (type) {
             case 0:
                 url = QSAppWebAPI.getMatchHotApi(pageNo, PAGESIZE);
                 break;
             case 1:
-                url =  QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
+                url = QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
                 break;
             case 2:
-                url = QSAppWebAPI.getFeedingFeaturedApi(pageNo, PAGESIZE);
+                url = QSAppWebAPI.getFeedingFeatured(pageNo, PAGESIZE);
                 break;
         }
 
@@ -163,10 +170,10 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         }
     }
 
-    public void onEventMainThread(PushGuideEvent event){
-        if(event.unread){
+    public void onEventMainThread(PushGuideEvent event) {
+        if (event.unread) {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
-        }else{
+        } else {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
@@ -183,29 +190,38 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         if (v.getId() == R.id.s01_tab_hot) {
             currentType = TYPE_HOT;
             mRefreshLayout.beginRefreshing();
-            s01TabHot.setBackgroundResource(R.drawable.s01_tab_btn1);
+            s01TabHot.setBackgroundResource(R.drawable.square_pink_btn);
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
-            s01TabNew.setBackgroundResource(R.drawable.s01_tab_border1);
+            s01TabNew.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
             s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
+            s01TabFeature.setBackgroundResource(R.drawable.s01_tab_border2);
+            s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
             return;
         }
         if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
             mRefreshLayout.beginRefreshing();
-            s01TabHot.setBackgroundResource(R.drawable.s01_tab_border2);
+            s01TabHot.setBackgroundResource(R.drawable.square_btn_border);
             s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
             s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);
             s01TabNew.setTextColor(getResources().getColor(R.color.white));
+            s01TabFeature.setBackgroundResource(R.drawable.s01_tab_border2);
+            s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
             return;
         }
-        if(v.getId() == R.id.s01_tab_feature){
+        if (v.getId() == R.id.s01_tab_feature) {
             currentType = TYPE_FEATURED;
             mRefreshLayout.beginRefreshing();
-
+            s01TabHot.setBackgroundResource(R.drawable.square_btn_border);
+            s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
+            s01TabNew.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
+            s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
+            s01TabFeature.setBackgroundResource(R.drawable.s01_tab_btn1);
+            s01TabFeature.setTextColor(getResources().getColor(R.color.white));
         }
     }
 
-    private void unCheckTabBtn(Button button){
+    private void unCheckTabBtn(Button button) {
         button.setBackgroundResource(R.drawable.s01_tab_border2);
         button.setTextColor(getResources().getColor(R.color.master_pink));
     }
@@ -243,7 +259,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+        if (!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))) {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
         }
     }
