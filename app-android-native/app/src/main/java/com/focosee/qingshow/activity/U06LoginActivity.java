@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,38 +20,47 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
-import com.focosee.qingshow.model.PushModel;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
+import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class U06LoginActivity extends BaseActivity {
 
     public static String LOGIN_SUCCESS = "logined";
+    @InjectView(R.id.forget_password_btn)
+    QSButton forgetPasswordBtn;
     private EditText accountEditText;
     private EditText passwordEditText;
     private Context context;
     private RequestQueue requestQueue;
     private LoadingDialogs pDialog;
     private int[] portraits = {R.drawable.default_head_1, R.drawable.default_head_2, R.drawable.default_head_3, R.drawable.default_head_4
-                                ,R.drawable.default_head_5, R.drawable.default_head_6};
+            , R.drawable.default_head_5, R.drawable.default_head_6};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.inject(this);
 
         findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +115,7 @@ public class U06LoginActivity extends BaseActivity {
                                         intent.putExtras(bundle);
                                         startActivity(intent);
                                         GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-                                        if(TextUtils.isEmpty(user.portrait)){
+                                        if (TextUtils.isEmpty(user.portrait)) {
                                             uploadImage();
                                         }
                                     }
@@ -123,6 +132,13 @@ public class U06LoginActivity extends BaseActivity {
                 requestQueue.add(stringRequest);
             }
         });
+
+        forgetPasswordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(U06LoginActivity.this, U17ResetPasswordStep1Activity.class));
+            }
+        });
     }
 
     private void uploadImage() {
@@ -131,7 +147,7 @@ public class U06LoginActivity extends BaseActivity {
                 QSAppWebAPI.getUserUpdateportrait(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response))return;
+                if (MetadataParser.hasError(response)) return;
                 MongoPeople user = UserParser._parsePeople(response);
                 if (user != null) {
                     UserCommand.refresh();
@@ -145,7 +161,7 @@ public class U06LoginActivity extends BaseActivity {
             }
         });
 
-        int i = (int)Math.random() * 5;
+        int i = (int) Math.random() * 5;
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addBinaryPart("portrait", BitMapUtil.bmpToByteArray(BitmapFactory.decodeResource(getResources(), portraits[i]), false, Bitmap.CompressFormat.JPEG));
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);

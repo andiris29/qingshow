@@ -105,38 +105,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
     }
 
-    private void validateMobile() {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("mobileNumber", phoneEditText.getText().toString());
-        params.put("verificationCode", verificationCode.getText().toString());
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getValidateMobileApi()
-                , new JSONObject(params), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(U07RegisterActivity.class.getSimpleName(), "response:" + response);
-                if (MetadataParser.hasError(response)) {
-                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                    return;
-                }
-
-                try {
-                    if (response.getJSONObject("data").getBoolean("success")) {
-                        register();
-                    } else {
-                        ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                        return;
-                    }
-                } catch (JSONException e) {
-                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                }
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
-    }
-
     private void register() {
 
         QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.getRegisterServiceUrl(), new Response.Listener<String>() {
@@ -212,7 +180,30 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-        validateMobile();
+        Map<String, String> params = new HashMap<>();
+        params.put("mobileNumber", phoneEditText.getText().toString());
+        params.put("verificationCode", verificationCode.getText().toString());
+
+        VerificationHelper.validateMobile(params, new Callback(){
+            @Override
+            public void onComplete(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
+                    return;
+                }
+
+                try {
+                    if (response.getJSONObject("data").getBoolean("success")) {
+                        register();
+                    } else {
+                        ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
+                        return;
+                    }
+                } catch (JSONException e) {
+                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
+                }
+            }
+        });
 
     }
 

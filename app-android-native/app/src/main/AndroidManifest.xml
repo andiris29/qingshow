@@ -153,8 +153,8 @@
         <activity
             android:name=".activity.S10ItemDetailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.S17PayActivity"
@@ -202,8 +202,8 @@
             android:name=".activity.U15BonusActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_u15_bonus"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.S03SHowActivity"
@@ -290,6 +290,16 @@
         <activity
             android:name=".activity.T01HighlightedTradeListActivity"
             android:label="@string/title_activity_t01_highlighted_trade_list" >
+        </activity>
+        <activity
+            android:name=".activity.U17ResetPasswordStep1Activity"
+            android:label="@string/title_activity_u17_reset_password_step1"
+            android:parentActivityName=".activity.U06LoginActivity" >
+        </activity>
+        <activity
+            android:name=".activity.U18ResetPasswordStep2"
+            android:parentActivityName=".activity.U17ResetPasswordStep1Activity"
+            android:label="@string/title_activity_u18_reset_password_step2" >
         </activity>
     </application>
 
