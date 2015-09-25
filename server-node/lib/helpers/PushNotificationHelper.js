@@ -1,6 +1,7 @@
 var JPush = require('jpush-sdk');
 var winston = require('winston');
 var _ = require('underscore');
+var async = require('async');
 
 // APP_KEY,Master_Key 
 var JPushConfig = {
@@ -37,7 +38,31 @@ PushNotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceU
 PushNotificationHelper.CommandNewBonus = "newBonus";
 PushNotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
 
-PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
+PushNotificationHelper.push = function(peoples, registrationIDs, message, extras, cb) {
+    async.series([function(callback){
+        pushNotification(registrationIDs, message, extras, function(err){
+            callback(err)
+        });
+    }, function(callback){
+        if (peoples && peoples.length > 0) {
+            var addition = {};
+            for(var element in extras){
+                if (element !== 'command') {
+                    addition[element] = extras[element]
+                }
+            }
+            peoples.forEach(function(people){
+                pushUnread(extras.command, addition, people, function(err){
+                    callback(err)
+                })
+            })   
+        }else {
+            callback()
+        }
+    }], cb);
+};
+
+var pushNotification = function(registrationIDs, message, extras, callback) {
     var sendTargets = _.filter(registrationIDs, function(registrationId) {
         return (registrationId && (registrationId.length > 0));
     });
@@ -59,4 +84,19 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
     } else {
         callback();
     }
-};
+}
+
+var pushUnread = function(cmd, addition, people, callback) {
+    people.unreadNotifications = people.unreadNotifications || [];
+    var extra = {};
+    for(var element in addition){
+        extra[element] = addition[element]
+    }
+    extra['cmd'] = cmd;
+    people.unreadNotifications.push({
+        'extra' : extra
+    });
+    people.save(function(error, people){
+        callback(error);
+    });
+}

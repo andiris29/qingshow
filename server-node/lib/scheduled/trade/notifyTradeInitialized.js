@@ -7,6 +7,7 @@ var _ = require('underscore');
 var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 var Trade = require('../../dbmodels').Trade;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
+var People = require('../../dbmodels').People;
 
 var _next = function(today) {
     async.waterfall([
@@ -27,11 +28,14 @@ var _next = function(today) {
                             targets.push(element.registrationId);
                         }
                     });
-
-                    PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
-                        'id' : trade._id.toString(),
-                        'command' : PushNotificationHelper.CommandTradeInitialized
-                    }, null);
+                    People.findOne({
+                        '_id' : trade.ownerRef
+                    }, function(err, people){
+                        PushNotificationHelper.push([people], targets, PushNotificationHelper.MessageTradeInitialized, {
+                            'id' : trade._id.toString(),
+                            'command' : PushNotificationHelper.CommandTradeInitialized
+                        }, null);  
+                    })
                 }
             });
         });

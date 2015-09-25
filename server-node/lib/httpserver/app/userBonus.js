@@ -140,7 +140,7 @@ userBonus.withdrawComplete = {
                         }
                     });
                     var message = PushNotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, total);
-                    PushNotificationHelper.push(targets, message, {
+                    PushNotificationHelper.push([people], targets, message, {
                         'command' : PushNotificationHelper.CommandBonusWithdrawComplete
                     }, null);
                 }

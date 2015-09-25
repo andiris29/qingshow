@@ -37,28 +37,27 @@ notify.newRecommandations = {
 
                 return type == group;
             });
-
+            callback(null, targets);
+        },
+        function(targets, callback) {
             var ids = [];
             targets.forEach(function(target) {
                 ids.push(target._id);
             });
-            callback(null, ids);
-        },
-        function(ids, callback) {
             jPushAudiences.find({
                 peopleRef : {
                     '$in' : ids
                 }
             }).exec(function(err, infos) {
-                callback(err, infos);
+                callback(err, infos, targets);
             });
         },
-        function(targets, callback) {
+        function(infos, targets, callback) {
             var registrationIDs = [];
-            targets.forEach(function(target) {
-                registrationIDs.push(target.registrationId);
+            infos.forEach(function(info) {
+                registrationIDs.push(info.registrationId);
             });
-            PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageNewRecommandations, {
+            PushNotificationHelper.push(targets, registrationIDs, PushNotificationHelper.MessageNewRecommandations, {
                 'command' : PushNotificationHelper.CommandNewRecommandations
             }, callback);
         }], function(err) {

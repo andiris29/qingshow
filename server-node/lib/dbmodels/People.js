@@ -92,15 +92,13 @@ peopleSchema = Schema({
         },
         alipayId : String
     }],
-    unread : {
-        newExpectableTrades : [{
-            ref : {
-                type : Schema.Types.ObjectId,
-                ref : 'trades'
-            },
-            price : Number
-        }]
-    },
+    unreadNotifications : [{
+        create : {
+            type : Date,
+            'default' : Date.now
+        },
+        extra : Object
+    }],
     create : {
         type : Date,
         'default' : Date.now

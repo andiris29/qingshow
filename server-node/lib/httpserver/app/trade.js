@@ -67,10 +67,6 @@ trade.create = {
                 } else if (!item) {
                     callback(errors.ItemNotExist);
                 } else {
-                    if (item.expectablePrice) {
-                        TradeHelper.pushNewExpectableTrades(trade._id, trade.ownerRef, item.expectablePrice, function(err){});
-                    };
-
                     if (item.expectablePrice >= trade.expectedPrice) {
                         trade.expectedPrice = item.expectablePrice;
                         TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err) {
@@ -265,10 +261,14 @@ trade.statusTo = {
                                 targets.push(element.registrationId);
                             }
                         });
-                        PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeShipped, {
-                            'id' : param._id,
-                            'command' : PushNotificationHelper.CommandTradeShipped
-                        }, null);
+                        People.findOne({
+                            '_id' : trade.ownerRef
+                        }, function(error, people){       
+                            PushNotificationHelper.push([people], targets, PushNotificationHelper.MessageTradeShipped, {
+                                'id' : param._id,
+                                'command' : PushNotificationHelper.CommandTradeShipped
+                            }, null); 
+                        })
                     }
                 });
                 callback(null, trade);

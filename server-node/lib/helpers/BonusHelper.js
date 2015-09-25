@@ -46,7 +46,7 @@ BonusHelper.createBonusViaTrade = function(trade, item, callback){
                     }
                 });
 
-                PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewBonus, {
+                PushNotificationHelper.push([people], targets, PushNotificationHelper.MessageNewBonus, {
                     'command' : PushNotificationHelper.CommandNewBonus
                 }, null);
             }
@@ -94,7 +94,7 @@ BonusHelper.createBonusViaForger = function(forger, promoterRef, item, callback)
                     }
                 });
 
-                PushNotificationHelper.push(targets, PushNotificationHelper.MessageNewBonus, {
+                PushNotificationHelper.push([people], targets, PushNotificationHelper.MessageNewBonus, {
                     'command' : PushNotificationHelper.CommandNewBonus
                 }, null);
             }
