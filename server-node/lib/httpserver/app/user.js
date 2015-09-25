@@ -149,22 +149,12 @@ _login = function(req, res) {
             req.session.userId = people._id;
             req.session.loginDate = new Date();
 
-            people.jPushInfo = _addRegistrationId(people._id, param.registrationId);
+            _addRegistrationId(people._id, param.registrationId);
 
-            people.save(function(err, people) {
-                if (err) {
-                    ResponseHelper.response(res, err);
-                } else {
-                    var retData = {
-                        metadata : {
-                            "invalidateTime" : 3600000
-                        },
-                        data : {
-                            people : people
-                        }
-                    };
-                    res.json(retData);
-                }
+            ResponseHelper.response(res, null, {
+                people : people
+            }, {
+                "invalidateTime" : 3600000
             });
         } else {
             //login fail
