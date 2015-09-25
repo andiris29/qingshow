@@ -30,6 +30,7 @@ public enum QSModel {
 
     public void setUser(MongoPeople _user) {
         this.user = _user;
+        saveUser(_user._id);
     }
 
     public void saveUser(String id){

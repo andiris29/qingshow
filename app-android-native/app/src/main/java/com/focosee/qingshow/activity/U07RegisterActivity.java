@@ -110,13 +110,18 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.getRegisterServiceUrl(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d(U07RegisterActivity.class.getSimpleName(), "register_response:" + response);
                 MongoPeople user = UserParser.parseRegister(response);
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
+                    return;
                 } else {
                     FileUtil.uploadDefaultPortrait(U07RegisterActivity.this);
                     updateUser_phone();
                 }
+                QSModel.INSTANCE.setUser(user);
+                startActivity(new Intent(U07RegisterActivity.this, U13PersonalizeActivity.class));
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -193,7 +198,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 }
 
                 try {
-                    if (response.getJSONObject("data").getBoolean("success")) {
+                    if (response.getJSONObject("data").has("success")) {
                         register();
                     } else {
                         ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");

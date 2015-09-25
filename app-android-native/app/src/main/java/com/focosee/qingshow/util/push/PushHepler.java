@@ -3,6 +3,10 @@ package com.focosee.qingshow.util.push;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.SparseArray;
+
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.PushWebActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S04CommentActivity;
@@ -11,6 +15,9 @@ import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.util.ValueUtil;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.greenrobot.event.EventBus;
 

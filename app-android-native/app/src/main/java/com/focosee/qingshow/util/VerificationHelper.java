@@ -39,7 +39,7 @@ public class VerificationHelper {
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(ValidatorHandler.class.getSimpleName(), "response:" + response);
+                Log.d(ValidatorHandler.class.getSimpleName(), "validate_response:" + response);
                 callback.onComplete(response);
             }
         });

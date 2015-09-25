@@ -113,7 +113,7 @@
             android:textColor="@color/master_pink"
             android:text="" />
 
-        <com.focosee.qingshow.widget.QSImageButton
+        <ImageButton
             android:id="@+id/item_tradelist_discount"
             android:layout_width="80dp"
             android:layout_height="80dp"

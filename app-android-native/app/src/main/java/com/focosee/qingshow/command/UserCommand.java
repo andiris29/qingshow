@@ -138,7 +138,7 @@ public class UserCommand {
 
     public static void resetPassword(Map params, final Callback callback){
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getValidateMobileApi()
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getResetPassword()
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

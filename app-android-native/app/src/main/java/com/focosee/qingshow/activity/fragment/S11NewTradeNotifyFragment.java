@@ -235,7 +235,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
         editor.remove(ValueUtil.NEED_GUIDE);
         editor.commit();
-        EventBus.getDefault().post(new PushGuideEvent(false));
+        EventBus.getDefault().post(new PushGuideEvent(false, ""));
     }
 
     @Override

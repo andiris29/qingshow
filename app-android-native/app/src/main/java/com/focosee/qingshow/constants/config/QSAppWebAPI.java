@@ -97,8 +97,14 @@ public class QSAppWebAPI {
 
     private static String RESET_PASSWORD = "user/resetPassword";
 
+    private static String FEEDING_FEATURED = "/feeding/featured";
+
+    public static String getFeedingFeatured(int pageNo, int pageSize) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_FEATURED + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
+
     public static String getResetPassword() {
-        return RESET_PASSWORD;
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + RESET_PASSWORD;
     }
 
     public static String getSystemLogApi() {

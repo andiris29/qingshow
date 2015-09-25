@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
@@ -34,7 +36,6 @@ import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
-import com.focosee.qingshow.widget.QSImageButton;
 import com.focosee.qingshow.widget.QSTextView;
 import java.util.List;
 import de.greenrobot.event.EventBus;
@@ -77,13 +78,14 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         QSButton btn2 = holder.getView(R.id.item_tradelist_btn2);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
-        final QSImageButton discountBtn = holder.getView(R.id.item_tradelist_discount);
+        final ImageButton discountBtn = holder.getView(R.id.item_tradelist_discount);
+        final View circleTip = holder.getView(R.id.item_tradelist_btn2_topImg);
         properTextView.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
         statusTV.setVisibility(View.GONE);
         discountBtn.setVisibility(View.GONE);
-        holder.getView(R.id.item_tradelist_btn1_topImg).setVisibility(View.GONE);
+        circleTip.setVisibility(View.INVISIBLE);
         Log.d(U09TradeListAdapter.class.getSimpleName(), "hint:" + trade.hint);
 
         if (null != trade.itemSnapshot) {
@@ -160,7 +162,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                         UserCommand.readExpectableTrade(trade._id, context, new Callback() {
                             @Override
                             public void onComplete() {
-                                discountBtn.setImageResource(R.drawable.new_discount_gray);
+                                discountBtn.setImageResource(R.drawable.new_discount);
                             }
                         });
                         showNewTradeNotify(trade._id);
@@ -217,9 +219,18 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             btn2.setVisibility(View.VISIBLE);
             btn1.setText("申请退货");
             btn2.setText("物流信息");
+            //push guide
+            if(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE_ID, "").equals(trade._id))
+                circleTip.setVisibility(View.VISIBLE);
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //push guide
+                    circleTip.setVisibility(View.INVISIBLE);
+                    SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                    editor.putString(ValueUtil.NEED_GUIDE_ID, "");
+                    editor.commit();
+
                     String msg = "暂无物流信息";
                     if (null != trade.logistic) {
                         msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingId == null ? "" : trade.logistic.trackingId);

@@ -19,6 +19,9 @@ public class ValueUtil {
     public static final String CRASH_LOG = "crash_log";//崩溃日志
     //sharePreference
     public static final String NEED_GUIDE = "NEED_GUIDE_PUSH";//降价指引
+    public static final String NEED_GUIDE_ID = "NEED_GUIDE_ID";//推送消息携带的ID
+    public static final String itemExpectablePriceUpdated_id = "NEED_GUIDE_ID";//推送消息携带的ID
+    public static final String tradeInitialized_id = "NEED_GUIDE_ID";//推送消息携带的ID
 
     //EventBus
     public static final String EVENT_NEED_GUIDE = "event_need_guide";

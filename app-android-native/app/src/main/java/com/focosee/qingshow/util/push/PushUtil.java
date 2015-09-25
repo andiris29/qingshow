@@ -21,6 +21,10 @@ public class PushUtil {
         return getExtra(bundle,QSPushAPI.COMMAND);
     }
 
+    public static String getId(Bundle bundle){
+        return getExtra(bundle, QSPushAPI.ID);
+    }
+
     public static String getExtra(Bundle bundle, String key) {
 
         String value = "";

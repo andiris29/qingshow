@@ -75,6 +75,16 @@
                 android:onClick="onClick"
                 app:clickGround="@color/transparent"
                 android:background="@drawable/s01_tab_new_btn_border"/>
+
+            <View
+                android:id="@+id/circle_tip"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_tip"
+                android:layout_marginLeft="-7dp"
+                android:layout_marginTop="-17dp"
+                android:visibility="gone" />
+
         </LinearLayout>
 
 
