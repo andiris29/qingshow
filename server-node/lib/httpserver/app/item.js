@@ -284,7 +284,7 @@ var _itemPriceChanged = function(trades, expectable, callback) {
         return function(cb) {
             if (!expectable.expired && expectable.price <= trade.expectedPrice) {
                 PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeInitialized, {
-                    'id' : trade._id,
+                    '_id' : trade._id,
                     'command' : PushNotificationHelper.CommandTradeInitialized
                 }, cb);
             };

@@ -19,7 +19,7 @@ var _next = function(today) {
     function(trades, callback) {
         trades.forEach(function(trade, index) {
             PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeInitialized, {
-                'id' : trade._id.toString(),
+                '_id' : trade._id,
                 'command' : PushNotificationHelper.CommandTradeInitialized
             }, null);  
         });

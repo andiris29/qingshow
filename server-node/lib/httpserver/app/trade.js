@@ -252,7 +252,7 @@ trade.statusTo = {
                 }
                 // Push Notification
                 PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeShipped, {
-                    'id' : param._id,
+                    '_id' : param._id,
                     'command' : PushNotificationHelper.CommandTradeShipped
                 }, null); 
                 callback(null, trade);
