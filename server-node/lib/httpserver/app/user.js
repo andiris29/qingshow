@@ -48,7 +48,7 @@ var _decrypt = function(string) {
 };
 
 var _addRegistrationId = function(peopleId, registrationId) {
-    if (!registrationId || registrationId.length == 0) {
+    if (!registrationId || registrationId.length === 0) {
         return;
     }
 
@@ -68,7 +68,7 @@ var _addRegistrationId = function(peopleId, registrationId) {
 };
 
 var _removeRegistrationId = function(peopleId, registrationId) {
-    if (!registrationId || registrationId.length == 0) {
+    if (!registrationId || registrationId.length === 0) {
         return;
     }
     jPushAudiences.remove({
@@ -210,7 +210,6 @@ _register = function(req, res) {
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             if (!success || err) {
                 ResponseHelper.response(res, err);
-                return;
             }
         });
 
@@ -224,10 +223,8 @@ _register = function(req, res) {
         people.save(function(err, people) {
             if (err) {
                 ResponseHelper.response(res, err);
-                return;
             } else if (!people) {
                 ResponseHelper.response(res, errors.genUnkownError());
-                return;
             } else {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
@@ -352,7 +349,7 @@ _saveReceiver = function(req, res) {
         if (!receiver.isDefault) {
             receiver.isDefault = false;
         }
-        if (people.receivers == null || people.receivers.length == 0) {
+        if (people.receivers === null || people.receivers.length === 0) {
             people.receivers = [];
             receiver.isDefault = true;
             if (!receiver.uuid) {
@@ -761,7 +758,7 @@ _requestVerificationCode = function(req, res){
             }else {
                 callback(null, code);
             }
-        })
+        });
     },function(code, callback){
         var expire = global.qsConfig.verification.expire;
         SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
@@ -774,7 +771,7 @@ _requestVerificationCode = function(req, res){
     }],function(error, code) {
         ResponseHelper.response(res, error, {
         });
-    })
+    });
 };
 
 _validateMobile = function(req, res){
@@ -789,7 +786,7 @@ _validateMobile = function(req, res){
         ResponseHelper.response(res, error, {            
             'success' : success[0]
         });
-    })
+    });
 };
 
 _resetPassword = function(req, res){
@@ -818,8 +815,48 @@ _resetPassword = function(req, res){
         });
     }],function(error, people) {
         ResponseHelper.response(res, error, {});
-    })
+    });
 }
+
+
+var _readNotification = function(req, res) {
+    var params = req.body;
+    var criteria = {};
+
+    if (Object.keys(params).length === 1 && params.cmd) {
+        criteria = {
+            $pull : {
+                'unreadNotifications' : {
+                    'extra.cmd' : params.cmd
+                }
+            }
+        };
+    }
+
+    if (Object.keys(params).length > 1) {
+        var extra = {};
+        for(var element in params){
+            element === '_id' ? extra._id = RequestHelper.parseId(params._id) :
+                extra[element] = params[element];
+        }
+        criteria = {
+            $pull : {
+                'unreadNotifications' : {
+                    'extra' : extra
+                }
+            }
+        };
+    }
+
+    People.findOneAndUpdate({
+        _id : RequestHelper.parseId(req.qsCurrentUserId)
+    }, criteria, {
+    }, function(error) {
+        ResponseHelper.response(res, error, {});
+    });
+
+};
+
 
 module.exports = {
     'get' : {
@@ -885,5 +922,10 @@ module.exports = {
         method : 'post',
         func : _resetPassword,
         permissionValidators : ['loginValidator']
+    },
+    'readNotification' : {
+        method : 'post',
+        permissionValidators : ['loginValidator'],
+        func : _readNotification
     }
 };

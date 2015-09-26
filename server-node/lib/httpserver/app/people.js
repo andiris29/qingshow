@@ -106,44 +106,4 @@ people.query = {
     }
 };
 
-people.readNotification = {
-    method : 'post',
-    permissionValidators : ['loginValidator'],
-    func : function(req, res) {
-        var params = req.body;
-        var criteria = {};
 
-        if (Object.keys(params).length === 1 && params.cmd) {
-            criteria = {
-                $pull : {
-                    'unreadNotifications' : {
-                        'extra.cmd' : params.cmd
-                    }
-                }
-            }
-        }
-
-        if (Object.keys(params).length > 1) {
-            var extra = {};
-            for(var element in params){
-                element == '_id' ? extra._id = RequestHelper.parseId(params._id) : 
-                extra[element] = params[element];
-            }
-            criteria = {
-                $pull : {
-                    'unreadNotifications' : {
-                        'extra' : extra
-                    }
-                }
-            }
-        }
-
-        People.findOneAndUpdate({
-            _id : RequestHelper.parseId(req.qsCurrentUserId)
-        }, criteria, {
-        }, function(error) {
-             ResponseHelper.response(res, error, {});
-        });
-
-    }
-}
