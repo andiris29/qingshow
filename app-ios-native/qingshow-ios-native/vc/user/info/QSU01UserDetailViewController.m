@@ -30,6 +30,7 @@
 #import "QSUnreadManager.h"
 
 #import "QSDateUtil.h"
+#import "QSUnreadManager.h"
 
 
 #define PAGE_ID @"U01 - 个人"
@@ -409,6 +410,13 @@
         [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
     } else {
         [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)btnGroup:(QSBadgeBtnGroup*)btnGroup didSelectType:(QSBadgeButtonType)type {
+    [super btnGroup:btnGroup didSelectType:type];
+    if (type == QSBadgeButtonTypeRecommend) {
+        [[QSUnreadManager getInstance] clearRecommandUnread];
     }
 }
 @end

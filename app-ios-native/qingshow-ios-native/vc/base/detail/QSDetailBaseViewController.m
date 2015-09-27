@@ -7,13 +7,14 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-
+#import "QSBadgeButton.h"
 #import "QSDetailBaseViewController.h"
 #import "QSBadgeView.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSS03ShowDetailViewController.h"
 #import "UIViewController+QSExtension.h"
+#import "QSUnreadManager.h"
 
 
 @interface QSDetailBaseViewController ()
@@ -51,6 +52,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self updateDot];
     self.navigationController.navigationBarHidden = YES;
 }
 - (void)viewDidLoad
@@ -278,5 +280,13 @@
 #pragma mark -
 - (void)btnGroup:(QSBadgeBtnGroup*)btnGroup didSelectType:(QSBadgeButtonType)type {
     [self changeToSection:type];
+    [self updateDot];
+}
+
+- (void)updateDot {
+     QSBadgeButton* btn = [self.badgeView.btnGroup findBtnOfType:QSBadgeButtonTypeRecommend];
+    if (btn) {
+        btn.hasDot = [[QSUnreadManager getInstance] shouldShowRecommandUnread];
+    }
 }
 @end

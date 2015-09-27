@@ -14,9 +14,10 @@
 @end
 
 NSString* getTitleFromType(QSRootMenuItemType type) {
-    NSArray* titleArray = @[@"我的搭配",
+    NSArray* titleArray = @[
+                            @"",
+                            @"我的搭配",
                             @"美搭榜单",
-                            @"我的收藏",
                             @"个人设置",
                             @"百搭秀场",
                             @"我的折扣",
