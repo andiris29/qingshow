@@ -13,7 +13,7 @@
 @protocol QSIRootContentViewController <NSObject>
 
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
-- (void)showDotAtMenu;
+- (void)updateMenuDot;
 
 @end
 

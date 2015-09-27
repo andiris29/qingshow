@@ -10,6 +10,7 @@
 #import "QSRootContainerViewController.h"
 #import "QSUserManager.h"
 #import "UIViewController+ShowHud.h"
+#import "QSUnreadManager.h"
 
 @interface QSRootContentViewController ()
 @property (strong, nonatomic) UIBarButtonItem* menuBtn;
@@ -50,6 +51,11 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self updateMenuDot];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -67,13 +73,18 @@
     tapGes.numberOfTapsRequired = 5;
     [navBar addGestureRecognizer:tapGes];
     
-
+    self.navigationItem.leftBarButtonItem = self.menuBtn;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
-
+- (void)menuButtonPressed
+{
+    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
+        [self.menuProvider didClickMenuBtn];
+    }
+}
 - (void)didTapRootTitle
 {
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
@@ -81,8 +92,12 @@
     [self showTextHud:[NSString stringWithFormat:@"version: %@", version]];
 }
 
-- (void)showDotAtMenu {
-    self.navigationItem.leftBarButtonItem = self.menuBtnNew;
+- (void)updateMenuDot {
+    if ([[QSUnreadManager getInstance] shouldShowDotAtMenu]) {
+        self.navigationItem.leftBarButtonItem = self.menuBtnNew;
+    } else {
+        self.navigationItem.leftBarButtonItem = self.menuBtn;
+    }
 }
 
 @end

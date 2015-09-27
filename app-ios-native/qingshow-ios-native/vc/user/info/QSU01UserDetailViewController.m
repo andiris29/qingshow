@@ -27,6 +27,7 @@
 #import "QSMatchCollectionViewProvider.h"
 #import "QSS03ShowDetailViewController.h"
 
+#import "QSUnreadManager.h"
 
 #import "QSDateUtil.h"
 
@@ -157,6 +158,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self updateMenuDot];
     self.navigationController.navigationBarHidden = YES;
     [self updateViewWithList];
     [MobClick beginLogPageView:PAGE_ID];
@@ -327,7 +329,6 @@
     }
 }
 - (IBAction)menuBtnPressed:(id)sender {
-    [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
     if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
         [self.menuProvider didClickMenuBtn];
     }
@@ -403,7 +404,11 @@
     
 }
 
-- (void)showDotAtMenu {
-    [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+- (void)updateMenuDot {
+    if ([[QSUnreadManager getInstance] shouldShowDotAtMenu]) {
+        [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+    } else {
+        [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
+    }
 }
 @end
