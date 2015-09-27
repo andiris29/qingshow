@@ -91,7 +91,7 @@ public class QSAppWebAPI {
 
     private static String VALIDATE_MOBILE_API = "/user/validateMobile";
 
-    private static String READ_EXPECTABLE_TRADE_API = "/people/readExpectableTrade";
+    private static String READ_EXPECTABLE_TRADE_API = "/user/readNotification";
 
     private static String SYSTEM_LOG_API = "/system/log";
 
@@ -111,7 +111,7 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SYSTEM_LOG_API;
     }
 
-    public static String getReadExpectableTradeApi() {
+    public static String getReadNotificationTradeApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + READ_EXPECTABLE_TRADE_API;
     }
 

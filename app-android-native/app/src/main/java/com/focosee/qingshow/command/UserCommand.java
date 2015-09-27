@@ -117,11 +117,11 @@ public class UserCommand {
 
     }
 
-    public static void readExpectableTrade(String _id, final Context context, final Callback callback){
+    public static void readNotification(String _id, final Context context, final Callback callback){
 
         Map<String, String> params = new HashMap<>();
         params.put("_id", _id);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getReadExpectableTradeApi()
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getReadNotificationTradeApi()
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

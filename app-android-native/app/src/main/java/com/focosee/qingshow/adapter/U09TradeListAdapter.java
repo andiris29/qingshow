@@ -159,7 +159,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 discountBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UserCommand.readExpectableTrade(trade._id, context, new Callback() {
+                        UserCommand.readNotification(trade._id, context, new Callback() {
                             @Override
                             public void onComplete() {
                                 discountBtn.setImageResource(R.drawable.new_discount);
