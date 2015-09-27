@@ -28,8 +28,7 @@
 #define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
 #define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
 #define PATH_MOBILE_VALIDATE @"user/validateMobile"
-
-
+#define PATH_MOBILE_RESET_PASSWORD @"user/resetPassword"
 
 @implementation QSNetworkEngine(UserService)
 
@@ -484,6 +483,21 @@
         NSDictionary *retDic = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock((BOOL)retDic[@"data"][@"success"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+- (MKNetworkOperation *)resetPassWord:(NSString *)mobileNum
+                                 coed:(NSString *)code
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_MOBILE_RESET_PASSWORD method:@"POST" paramers:@{@"mobile":mobileNum, @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

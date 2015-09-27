@@ -11,6 +11,7 @@
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -132,6 +133,20 @@
                     <attributedString key="attributedText"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZyK-Oq-S1g">
+                    <rect key="frame" x="228" y="210" width="60" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="sc9-xb-TNV"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
+                    <state key="normal" title="忘记密码">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="forgetPswBtnPressed:" destination="-1" eventType="touchUpInside" id="Pla-WQ-ndl"/>
+                    </connections>
+                </button>
             </subviews>
             <gestureRecognizers/>
             <constraints>
@@ -139,6 +154,7 @@
                 <constraint firstItem="rMd-37-2CO" firstAttribute="leading" secondItem="U29-r6-HME" secondAttribute="leading" id="2Ue-Yh-GtW"/>
                 <constraint firstItem="gDc-h8-6Ln" firstAttribute="width" secondItem="GHB-x5-Sck" secondAttribute="width" id="2lG-33-Mvl"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="width" secondItem="rMd-37-2CO" secondAttribute="width" id="37z-yS-QRs"/>
+                <constraint firstItem="cVr-g0-gMn" firstAttribute="top" secondItem="ZyK-Oq-S1g" secondAttribute="bottom" constant="3" id="4fp-lK-rgs"/>
                 <constraint firstItem="cVr-g0-gMn" firstAttribute="leading" secondItem="wpf-Ue-aeI" secondAttribute="leading" constant="72" id="6bi-Mg-Vnt"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="top" secondItem="aWK-Fb-8cM" secondAttribute="top" constant="-40" id="8xg-Nm-jRo"/>
                 <constraint firstItem="wpf-Ue-aeI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="C6V-fq-1as"/>
@@ -166,6 +182,7 @@
                 <constraint firstAttribute="trailing" secondItem="w5l-0e-MyN" secondAttribute="trailing" constant="10" id="mpi-EY-kgb"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="leading" constant="-25" id="nak-1u-u4Z"/>
                 <constraint firstItem="GHB-x5-Sck" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="trailing" constant="10" id="nfL-wE-47Y"/>
+                <constraint firstAttribute="trailing" secondItem="ZyK-Oq-S1g" secondAttribute="trailing" constant="32" id="oVK-9P-hX4"/>
                 <constraint firstItem="wpf-Ue-aeI" firstAttribute="leading" secondItem="Q8J-EI-SBu" secondAttribute="leading" constant="-20" id="qai-FF-vV8"/>
                 <constraint firstItem="tp3-BB-btG" firstAttribute="top" secondItem="U29-r6-HME" secondAttribute="top" constant="16" id="rLv-4y-Ef4"/>
                 <constraint firstItem="rMd-37-2CO" firstAttribute="width" secondItem="U29-r6-HME" secondAttribute="width" id="rgn-4L-WGU"/>
@@ -174,6 +191,7 @@
                 <constraint firstItem="d76-ww-Mcn" firstAttribute="top" secondItem="U29-r6-HME" secondAttribute="bottom" id="wJn-xC-18D"/>
                 <constraint firstItem="wpf-Ue-aeI" firstAttribute="top" secondItem="Q8J-EI-SBu" secondAttribute="top" constant="-30" id="x0c-Tk-SGv"/>
                 <constraint firstItem="gDc-h8-6Ln" firstAttribute="leading" secondItem="tp3-BB-btG" secondAttribute="trailing" constant="7" id="xJD-qY-kAu"/>
+                <constraint firstItem="ZyK-Oq-S1g" firstAttribute="top" secondItem="d76-ww-Mcn" secondAttribute="bottom" constant="8" symbolic="YES" id="y4d-FK-lrY"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>

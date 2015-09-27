@@ -13,6 +13,7 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 #import "QSEntityUtil.h"
+#import "QSU17ResetPswStep1ViewController.h"
 #define PAGE_ID @"U06 - 登录"
 
 @interface QSU06LoginViewController ()
@@ -108,6 +109,13 @@
 }
 - (IBAction)back:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)forgetPswBtnPressed:(id)sender {
+    QSU17ResetPswStep1ViewController *vc = [[QSU17ResetPswStep1ViewController alloc]init];
+//    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+//    vc.navigationItem.leftBarButtonItem = backItem;
+//    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)login:(id)sender {

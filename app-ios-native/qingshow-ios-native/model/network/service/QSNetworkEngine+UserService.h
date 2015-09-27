@@ -86,5 +86,8 @@
                                        code:(NSString*)code
                                   onSucceed:(BoolBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation *)resetPassWord:(NSString *)mobileNum
+                                 coed:(NSString *)code
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 @end
