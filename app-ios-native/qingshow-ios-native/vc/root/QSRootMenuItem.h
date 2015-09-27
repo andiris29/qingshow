@@ -24,7 +24,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton* button;
 @property (strong, nonatomic) IBOutlet UILabel* label;
-@property (strong, nonatomic) IBOutlet UIImageView* dotImageView;
+@property (strong, nonatomic) IBOutlet UIImageView* dotView;
 @property (readonly, nonatomic) int type;
 
 @property (weak, nonatomic) NSObject<QSRootMenuItemDelegate>* delegate;

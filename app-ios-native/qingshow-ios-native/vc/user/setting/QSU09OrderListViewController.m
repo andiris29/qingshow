@@ -59,7 +59,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.menuProvider hideDotInMenuForType:QSRootMenuItemDiscount];
     
     self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];

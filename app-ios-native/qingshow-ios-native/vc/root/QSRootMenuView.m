@@ -11,6 +11,7 @@
 #import "UIImage+BlurryImage.h"
 #import "UIView+ScreenShot.h"
 #import "UINib+QSExtension.h"
+#import "QSUnreadManager.h"
 
 @interface QSRootMenuView ()
 @property (strong, nonatomic) NSMutableArray* itemArray;
@@ -30,6 +31,7 @@
 #pragma mark - Animation
 - (void)showMenuAnimationComple:(VoidBlock)block
 {
+    [self updateItemDot];
     self.bgImageView.hidden = YES;
     UIImage *img = [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window makeScreenShot];
     self.bgImageView.image = [img blurryImageWithBlurLevel:5.f];
@@ -146,12 +148,6 @@
     }
 }
 
-- (void)showDotIconWithType:(QSRootMenuItemType)type {
-    [[self _findItemWithType:type] showDot];
-}
-- (void)hideDotIconWithType:(QSRootMenuItemType)type {
-    [[self _findItemWithType:type] hideDot];
-}
 
 - (QSRootMenuItem*)_findItemWithType:(QSRootMenuItemType)type {
     for (QSRootMenuItem* i in self.itemArray) {
@@ -160,5 +156,16 @@
         }
     }
     return nil;
+}
+
+- (void)updateItemDot {
+    for (QSRootMenuItem* i in self.itemArray) {
+        if ([[QSUnreadManager getInstance] shouldShowDotAtMenuItem:i.type]) {
+            [i showDot];
+        } else {
+            [i hideDot];
+        }
+
+    }
 }
 @end

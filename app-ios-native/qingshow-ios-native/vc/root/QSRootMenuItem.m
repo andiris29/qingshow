@@ -29,9 +29,10 @@ NSString* getTitleFromType(QSRootMenuItemType type) {
 }
 
 UIImage* getIconImageFromType(QSRootMenuItemType type) {
-    NSArray* titleArray = @[@"root_menu_icon_my",
+    NSArray* titleArray = @[
+                            @"",
+                            @"root_menu_icon_my",
                             @"root_menu_icon_meida",
-                            @"root_menu_icon_myfavor",
                             @"root_menu_icon_setting",
                             @"root_menu_icon_matcher",
                             @"root_menu_icon_discount",
@@ -45,9 +46,10 @@ UIImage* getIconImageFromType(QSRootMenuItemType type) {
 }
 
 UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
-    NSArray* titleArray = @[@"root_menu_icon_my_hover",
+    NSArray* titleArray = @[
+                            @"",
+                            @"root_menu_icon_my_hover",
                             @"root_menu_icon_meida_hover",
-                            @"root_menu_icon_myfavor_hover",
                             @"root_menu_icon_setting_hover",
                             @"root_menu_icon_matcher_hover",
                             @"root_menu_icon_discount_hover",
@@ -83,9 +85,17 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
 
 
 #pragma mark - Life Cycle
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     self.button.layer.cornerRadius = self.button.frame.size.width / 2;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CGFloat radius = self.button.bounds.size.width / 2;
+    radius = radius / sqrt(2.0) * 0.75;
+    CGPoint center = self.button.center;
+    center.x += radius;
+    center.y -= radius;
+    self.dotView.center = center;
 }
 
 #pragma mark - Init
@@ -105,11 +115,12 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
     }
 }
 
+#pragma mark - Dot
 - (void)showDot {
-    self.dotImageView.hidden = NO;
+    self.dotView.hidden = NO;
 }
 - (void)hideDot {
-    [self.button setImage:getIconImageFromType(self.type) forState:UIControlStateNormal];
+    self.dotView.hidden = YES;
 }
 
 @end

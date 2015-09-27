@@ -32,7 +32,7 @@
 - (IBAction)didTapView:(id)sender;
 
 - (void)triggerItemTypePressed:(QSRootMenuItemType)type;
-- (void)showDotIconWithType:(QSRootMenuItemType)type;
-- (void)hideDotIconWithType:(QSRootMenuItemType)type;
+
+- (void)updateItemDot;
 
 @end
