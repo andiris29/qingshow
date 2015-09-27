@@ -67,26 +67,12 @@
     tapGes.numberOfTapsRequired = 5;
     [navBar addGestureRecognizer:tapGes];
     
-    NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
-    if (!lastClickMenuDate || [[NSDate date] timeIntervalSinceDate:lastClickMenuDate] >= 24 * 60 * 60) {
-        self.navigationItem.leftBarButtonItem = self.menuBtnNew;
-    } else {
-        self.navigationItem.leftBarButtonItem = self.menuBtn;
-    }
-    
+
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
-- (void)menuButtonPressed
-{
-    self.navigationItem.leftBarButtonItem = self.menuBtn;
-    [QSUserManager shareUserManager].lastClickMenuDate = [NSDate date];
-    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
-        [self.menuProvider didClickMenuBtn];
-    }
-}
 
 - (void)didTapRootTitle
 {

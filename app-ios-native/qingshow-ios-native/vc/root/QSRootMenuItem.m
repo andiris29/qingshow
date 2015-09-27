@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 @interface QSRootMenuItem ()
 
+
 @end
 
 NSString* getTitleFromType(QSRootMenuItemType type) {
@@ -59,21 +60,7 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
     }
 }
 
-UIImage* getIconDotImageFromType(QSRootMenuItemType type) {
-    NSArray* titleArray = @[@"root_menu_icon_my",
-                            @"root_menu_icon_meida",
-                            @"root_menu_icon_myfavor",
-                            @"root_menu_icon_setting",
-                            @"root_menu_icon_matcher",
-                            @"root_menu_icon_discount_dot",
-                            @"root_menu_icon_showtrade"];
-    if ((NSUInteger)type < titleArray.count) {
-        NSString* str = titleArray[type];
-        return [UIImage imageNamed:str];
-    } else {
-        return nil;
-    }
-}
+
 
 
 @implementation QSRootMenuItem
@@ -119,7 +106,7 @@ UIImage* getIconDotImageFromType(QSRootMenuItemType type) {
 }
 
 - (void)showDot {
-    [self.button setImage:getIconDotImageFromType(self.type) forState:UIControlStateNormal];
+    self.dotImageView.hidden = NO;
 }
 - (void)hideDot {
     [self.button setImage:getIconImageFromType(self.type) forState:UIControlStateNormal];

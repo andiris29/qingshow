@@ -20,5 +20,5 @@
 
 @property (weak, nonatomic) IBOutlet UIPickerView *picker;
 @property (weak, nonatomic) IBOutlet UITableView* tableView;
-
+- (void)showBonuesVC;
 @end

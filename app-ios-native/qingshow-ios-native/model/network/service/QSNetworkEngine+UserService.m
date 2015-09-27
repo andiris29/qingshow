@@ -11,6 +11,7 @@
 #import "MKNetworkEngine+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSReceiverUtil.h"
+#import "QSUnreadManager.h"
 
 //Path
 #define PATH_USER_LOGIN @"user/login"
@@ -233,6 +234,9 @@
                 retDict = [retDict deepMutableCopy];
                 manager.fIsLogined = YES;
                 manager.userInfo = retDict[@"data"][@"people"];
+                
+                [[QSUnreadManager getInstance] updateUnreadState:[manager.userInfo arrayValueForKeyPath:@"unread"]];
+                
                 if (succeedBlock) {
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }

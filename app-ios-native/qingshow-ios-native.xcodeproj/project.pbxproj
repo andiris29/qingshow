@@ -304,6 +304,8 @@
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
+		EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */; settings = {ASSET_TAGS = (); }; };
+		EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */; settings = {ASSET_TAGS = (); }; };
 		EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */; };
 		EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */; };
 		EFED348E1AFC734F00F08A0D /* QSU06LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34891AFC734F00F08A0D /* QSU06LoginViewController.m */; };
@@ -946,6 +948,12 @@
 		EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSProvinceSelectionTableViewController.m; sourceTree = "<group>"; };
 		EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeUtil.h; sourceTree = "<group>"; };
 		EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeUtil.m; sourceTree = "<group>"; };
+		EFECFE921BB6DAD600146BD7 /* QSIRootContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSIRootContentViewController.h; sourceTree = "<group>"; };
+		EFECFF361BB6DC0D00146BD7 /* QSPnsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsHandler.h; sourceTree = "<group>"; };
+		EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPnsHandler.m; sourceTree = "<group>"; };
+		EFECFF391BB6DD2500146BD7 /* QSUnreadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUnreadManager.h; sourceTree = "<group>"; };
+		EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUnreadManager.m; sourceTree = "<group>"; };
+		EFECFF3C1BB6EBD500146BD7 /* QSRootMenuItemType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSRootMenuItemType.h; sourceTree = "<group>"; };
 		EFED34831AFC69C000F08A0D /* QSG02WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSG02WelcomeViewController.h; sourceTree = "<group>"; };
 		EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSG02WelcomeViewController.m; sourceTree = "<group>"; };
 		EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSG02WelcomeViewController.xib; sourceTree = "<group>"; };
@@ -1371,18 +1379,14 @@
 		EF1A591A1A06761800001AE0 /* root */ = {
 			isa = PBXGroup;
 			children = (
+				EFECFF3D1BB6EBFC00146BD7 /* item */,
 				EF4985961AC875F900F70811 /* QSAbstractRootViewController.h */,
 				EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */,
 				EFFABD661B0C80F900298BD1 /* QSRootContainerViewController.h */,
 				EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */,
-				EFFE672D1A0676CB001F4CA1 /* QSRootMenuView.xib */,
-				EFFE67241A067699001F4CA1 /* QSRootMenuItem.h */,
-				EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */,
-				EFFE672B1A0676BE001F4CA1 /* QSRootMenuItem.xib */,
-				EFFE67281A0676A4001F4CA1 /* QSRootMenuView.h */,
-				EFFE67291A0676A4001F4CA1 /* QSRootMenuView.m */,
 				EFFABD691B0C9CD700298BD1 /* QSRootContentViewController.h */,
 				EFFABD6A1B0C9CD800298BD1 /* QSRootContentViewController.m */,
+				EFECFE921BB6DAD600146BD7 /* QSIRootContentViewController.h */,
 			);
 			path = root;
 			sourceTree = "<group>";
@@ -1947,7 +1951,6 @@
 		EF9A74171A02A82600095F07 /* qingshow-ios-native */ = {
 			isa = PBXGroup;
 			children = (
-				EFF58B571B55DE18001A9AC8 /* pns */,
 				EF7826A41A4EB4F200C69460 /* resource */,
 				EFF1148C1A0D2EEC009B7361 /* libs */,
 				EF1A59191A06761800001AE0 /* vc */,
@@ -1998,6 +2001,8 @@
 		EF9A74461A02A87900095F07 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				EFF58B571B55DE18001A9AC8 /* pns */,
+				EFECFF351BB6DB9800146BD7 /* unread */,
 				EF4CEC461B765529002865DE /* share */,
 				EF6B4CA21B57F91C0060054F /* category */,
 				EFAB9C381B346FE5008A4EF5 /* provider */,
@@ -2428,6 +2433,29 @@
 			path = user;
 			sourceTree = "<group>";
 		};
+		EFECFF351BB6DB9800146BD7 /* unread */ = {
+			isa = PBXGroup;
+			children = (
+				EFECFF391BB6DD2500146BD7 /* QSUnreadManager.h */,
+				EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */,
+			);
+			path = unread;
+			sourceTree = "<group>";
+		};
+		EFECFF3D1BB6EBFC00146BD7 /* item */ = {
+			isa = PBXGroup;
+			children = (
+				EFECFF3C1BB6EBD500146BD7 /* QSRootMenuItemType.h */,
+				EFFE67241A067699001F4CA1 /* QSRootMenuItem.h */,
+				EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */,
+				EFFE672B1A0676BE001F4CA1 /* QSRootMenuItem.xib */,
+				EFFE67281A0676A4001F4CA1 /* QSRootMenuView.h */,
+				EFFE67291A0676A4001F4CA1 /* QSRootMenuView.m */,
+				EFFE672D1A0676CB001F4CA1 /* QSRootMenuView.xib */,
+			);
+			name = item;
+			sourceTree = "<group>";
+		};
 		EFED34811AFC69A000F08A0D /* welcome */ = {
 			isa = PBXGroup;
 			children = (
@@ -2637,8 +2665,11 @@
 				EFA785BC1B5AB59700CC227C /* QSPnsNotificationName.h */,
 				EFA785BE1B5AB5BC00CC227C /* QSPnsHelper.h */,
 				EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */,
+				EFECFF361BB6DC0D00146BD7 /* QSPnsHandler.h */,
+				EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */,
 			);
-			path = pns;
+			name = pns;
+			path = ../pns;
 			sourceTree = "<group>";
 		};
 		EFF5B9061A3F2F220048E634 /* item */ = {
@@ -2909,6 +2940,7 @@
 				82F4E27B1A17475A007A90B4 /* UIViewController+Utility.m in Sources */,
 				8C1DB5471B93FECD00D21D0C /* QSU16BonusListViewController.m in Sources */,
 				EFAB9C6F1B346FE5008A4EF5 /* QSTableViewBasicProvider.m in Sources */,
+				EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */,
 				EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */,
 				EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */,
 				68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */,
@@ -3090,6 +3122,7 @@
 				EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */,
 				EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */,
 				8C44759B1B74ABF800DF36E2 /* QS11TextCell.m in Sources */,
+				EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				68DE6A981B40EB19001B829C /* QSS21ItemView.m in Sources */,
 				EFAB9C2F1B34300D008A4EF5 /* QSBadgeBtnGroup.m in Sources */,
@@ -3266,7 +3299,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "d7729689-0516-4b93-90e9-c1aab54d5afa";
+				PROVISIONING_PROFILE = "7a30939e-1a04-4cdb-9b94-b1f778ef67e5";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -3306,7 +3339,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "d7729689-0516-4b93-90e9-c1aab54d5afa";
+				PROVISIONING_PROFILE = "7a30939e-1a04-4cdb-9b94-b1f778ef67e5";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;

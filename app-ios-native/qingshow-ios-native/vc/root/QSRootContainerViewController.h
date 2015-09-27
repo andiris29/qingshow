@@ -7,7 +7,9 @@
 //
 
 #import "QSAbstractRootViewController.h"
+#import "QSIRootContentViewController.h"
 
 @interface QSRootContainerViewController : QSAbstractRootViewController <UIAlertViewDelegate>
-
+@property (strong, nonatomic) UINavigationController* contentNavVc;
+@property (strong, nonatomic) UIViewController<QSIRootContentViewController>* contentVc;
 @end

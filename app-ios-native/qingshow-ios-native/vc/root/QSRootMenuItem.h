@@ -7,19 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSRootMenuItemType.h"
 #define QSRootMenuItemWidth 65.f
 #define QSRootMenuItemHeight 90.f
-
-typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
-    
-    QSRootMenuItemMy = 0,
-    QSRootMenuItemMeida = 1,
-//    QSRootMenuItemMyFavor = 2,
-    QSRootMenuItemSetting = 3,
-    QSRootMenuItemMatcher = 4,
-    QSRootMenuItemDiscount = 5,
-    QSRootMenuItemShowTrade = 6,
-};
 
 
 @class QSRootMenuItem;
@@ -34,6 +24,7 @@ typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
 
 @property (strong, nonatomic) IBOutlet UIButton* button;
 @property (strong, nonatomic) IBOutlet UILabel* label;
+@property (strong, nonatomic) IBOutlet UIImageView* dotImageView;
 @property (readonly, nonatomic) int type;
 
 @property (weak, nonatomic) NSObject<QSRootMenuItemDelegate>* delegate;
