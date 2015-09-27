@@ -8,6 +8,7 @@
 
 #import "QSBadgeBtnGroup.h"
 
+
 @interface QSBadgeBtnGroup ()
 
 @property (strong, nonatomic) NSArray* types;
@@ -73,17 +74,13 @@
 
 
 - (void)triggerSelectType:(QSBadgeButtonType)type {
-    QSBadgeButton* btn = [self _findBtnOfType:type];;
+    QSBadgeButton* btn = [self findBtnOfType:type];;
     [self didClickBtn:btn];
 
 }
 
-- (void)addDotWithType:(QSBadgeButtonType)type {
-    QSBadgeButton* btn = [self _findBtnOfType:type];;
-    btn.hasDot = YES;
-}
 
-- (QSBadgeButton*)_findBtnOfType:(QSBadgeButtonType)type {
+- (QSBadgeButton*)findBtnOfType:(QSBadgeButtonType)type {
     NSUInteger index = 0;
     for (index = 0; index < self.types.count; index++) {
         NSNumber* n = self.types[index];

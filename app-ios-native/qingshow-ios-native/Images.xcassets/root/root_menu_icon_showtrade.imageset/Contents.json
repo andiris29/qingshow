@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "showtrade65.png"
+      "filename" : "root_menu_icon_showtrade.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "sharetrade.png"
+      "filename" : "root_menu_icon_showtrade@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

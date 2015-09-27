@@ -16,11 +16,8 @@
 @protocol QSOrderListTableViewCellDelegate <NSObject>
 
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
-//- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
 
 - (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
-
-- (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell;
 
 - (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
 
@@ -39,38 +36,38 @@
 @property (weak, nonatomic) IBOutlet UIImageView* itemImgView;
 
 @property (weak, nonatomic) IBOutlet UILabel* sizeLabel;
-@property (weak, nonatomic) IBOutlet UILabel* sizeTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
-@property (weak, nonatomic) IBOutlet UILabel* quantityTextLabel;
-@property (weak, nonatomic) IBOutlet UILabel* colorLabel;
-@property (weak, nonatomic) IBOutlet UILabel* colorTextLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel* priceLabel;
-@property (weak, nonatomic) IBOutlet UILabel* priceTextLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel* dateStartTextLabel;
-@property (weak, nonatomic) IBOutlet UILabel* dateStartLabel;
-@property (weak, nonatomic) IBOutlet UILabel* dateEndTextLabel;
-@property (weak, nonatomic) IBOutlet UILabel* dateEndLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton* submitButton;
-@property (weak, nonatomic) IBOutlet UIButton *exchangeButton;
-@property (weak, nonatomic) IBOutlet UIButton *returnButton;
-@property (weak, nonatomic) IBOutlet UIImageView *saleImgView;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
+
 @property (weak, nonatomic) IBOutlet UIButton *clickToWebpageBtn;
 
-//@property (weak, nonatomic) IBOutlet UIView* currentDiscountContainer;
-//@property (weak, nonatomic) IBOutlet UILabel* expectableDiscountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *hintLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView *postDisCountImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *circleBtnImageView;
 
+
+//确认收货
+@property (strong, nonatomic) IBOutlet UIButton* submitButton;
 - (IBAction)submitBtnPressed:(id)sender;
-- (IBAction)returnBtnPressed:(id)sender;
-- (IBAction)exchangeBtnPressed:(id)sender;
+//申请退货
+@property (strong, nonatomic) IBOutlet UIButton *refundButton;
+- (IBAction)refundBtnPressed:(id)sender;
+//物流信息
+@property (strong, nonatomic) IBOutlet UIButton* logisticsButton;
+- (IBAction)logisticsBtnPressed:(id)sender;
+//取消申请
+@property (strong, nonatomic) IBOutlet UIButton* cancelButton;
+- (IBAction)cancelBtnPressed:(id)sender;
+
+
+
 - (IBAction)clickToWebpageBtnPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;

@@ -15,5 +15,9 @@ typedef NS_ENUM(NSInteger, U02SectionOtherRow) {
 };
 
 @interface QSU02OtherCell : QSU02AbstractTableViewCell
+
 + (QSU02AbstractTableViewCell*)generateCellWithRowType:(NSInteger)rowType;
+- (void)showDot;
+- (void)hideDot;
+
 @end

@@ -83,7 +83,15 @@ static NSString* s_paymentHost = nil;
         NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
         
         [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:nil image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareTrade&_id=%@&initiatorRef=%@",[QSShareService getShareHost],tradeId,peopleId] onSucceed:^{
-            [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:succeedBlock onError:errorBlock];
+            
+            [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:^{
+                [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:nil onSucceed:^(NSDictionary *d) {
+                    if (succeedBlock) {
+                        succeedBlock();
+                    }
+                } onError:errorBlock];
+            } onError:errorBlock];
+            
         } onError:errorBlock];
     } else {
         succeedBlock();

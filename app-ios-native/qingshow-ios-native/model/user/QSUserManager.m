@@ -8,7 +8,6 @@
 
 #import "QSUserManager.h"
 
-#define kLastClickMenuDateKey @"kLastClickMenuDateKey"
 #define kGlobalFirstLaunchShowDueDate @"kGlobalFirstLaunchShowDueDate"
 #define kGlobalFirstLaunchShowTitle @"kGlobalFirstLaunchShowTitle"
 @interface QSUserManager ()
@@ -19,7 +18,6 @@
 
 @implementation QSUserManager
 
-@synthesize lastClickMenuDate = _lastClickMenuDate;
 @synthesize globalFirstLaunchShowDueDate = _globalFirstLaunchShowDueDate;
 @synthesize globalFirstLaunchTitle = _globalFirstLaunchTitle;
 
@@ -42,22 +40,6 @@
     return s_userManager;
 }
 
-- (NSDate*)lastClickMenuDate
-{
-    if (!_lastClickMenuDate) {
-        double d = [self.userDefault doubleForKey:kLastClickMenuDateKey];
-        
-        _lastClickMenuDate = [[NSDate alloc] initWithTimeIntervalSince1970:d];;
-    }
-    return _lastClickMenuDate;
-}
-- (void)setLastClickMenuDate:(NSDate *)lastClickMenuDate
-{
-    
-    _lastClickMenuDate = lastClickMenuDate;
-    [self.userDefault setDouble:[lastClickMenuDate timeIntervalSince1970] forKey:kLastClickMenuDateKey];
-    [self.userDefault synchronize];
-}
 
 - (NSDate*)globalFirstLaunchShowDueDate {
     if (!_globalFirstLaunchShowDueDate) {

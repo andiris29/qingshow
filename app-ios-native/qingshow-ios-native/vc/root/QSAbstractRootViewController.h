@@ -16,8 +16,6 @@
 - (UIViewController*)showRegisterVc;
 - (UIViewController*)showDefaultVc;
 - (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type;
-- (void)showDotInMenuForType:(QSRootMenuItemType)type;
-- (void)hideDotInMenuForType:(QSRootMenuItemType)type;
 
 @end
 

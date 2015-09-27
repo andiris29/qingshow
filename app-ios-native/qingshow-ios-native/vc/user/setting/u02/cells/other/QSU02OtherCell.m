@@ -7,10 +7,16 @@
 //
 
 #import "QSU02OtherCell.h"
-
+#import "QSUnreadManager.h"
 NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
     return @[@"更改密码",@"佣金账户"][type];
 }
+
+@interface QSU02OtherCell ()
+
+@property (strong, nonatomic) UIImageView* dotImageView;
+
+@end
 
 @implementation QSU02OtherCell
 + (QSU02AbstractTableViewCell*)generateCellWithRowType:(NSInteger)rowType{
@@ -22,8 +28,16 @@ NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
         self.textLabel.font = NEWFONT;
         self.textLabel.frame = CGRectMake(8, 8, 50, 30);
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.dotImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"root_menu_item_dot"]];
+        [self.dotImageView sizeToFit];
+        self.dotImageView.hidden = YES;
+        [self.contentView addSubview:self.dotImageView];
     }
     return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.dotImageView.center = CGPointMake(90, 20);
 }
 
 
@@ -39,6 +53,14 @@ NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
 
 - (void)bindWithUser:(NSDictionary *)userDict {
     self.textLabel.text = u02OtherTypeToTitle(self.rowType);
+    if (self.rowType == U02SectionOtherRowBonus) {
+        if ([[QSUnreadManager getInstance] shouldShowBonuUnread]) {
+            [self showDot];
+        } else {
+            [self hideDot];
+        }
+    }
+    
 }
 - (void)cellDidClicked {
     if (self.rowType == U02SectionOtherRowPasswd) {
@@ -48,5 +70,12 @@ NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
     {
         [self.delegate  showBonuesVC];
     }
+}
+
+- (void)showDot {
+    self.dotImageView.hidden = NO;
+}
+- (void)hideDot {
+    self.dotImageView.hidden = YES;
 }
 @end

@@ -79,6 +79,9 @@ public class ErrorHandler {
                 ToastUtil.showShortToast(context.getApplicationContext(), "手机已注册");
             case ErrorCode.MobileVerifyFailed:
                 ToastUtil.showShortToast(context.getApplicationContext(), "验证失败");
+            case ErrorCode.SMSlimitedSend:
+                ToastUtil.showShortToast(context.getApplicationContext(), "验证失败");
+                Log.d(ErrorHandler.class.getSimpleName(), "error: 获取验证码次数超过限制");
                 break;
         }
     }

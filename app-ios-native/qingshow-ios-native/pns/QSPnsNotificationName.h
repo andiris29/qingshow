@@ -11,10 +11,11 @@
 
 #define kPnsNewShowCommentsNotification @"kPnsNewShowCommentsNotification"
 #define kPnsNewRecommandationNotification @"kPnsNewRecommandationNotification"
-#define kPnsQuestSharingProgressNotification @"kPnsQuestSharingProgressNotification"
-#define kPnsQuestSharingCompleteNotification @"kPnsQuestSharingCompleteNotification"
+#define kPnsItemExpectablePriceUpdatedNotification @"kPnsItemExpectablePriceUpdatedNotification"
 #define kPnsTradeInitialNotification @"kPnsTradeInitialNotification"
 #define kPnsTradeShippedNotification @"kPnsTradeShippedNotification"
-#define kPnsItemExpectablePriceUpdatedNotification @"kPnsItemExpectablePriceUpdatedNotification"
+#define kPnsNewBonusNotification @"kPnsNewBonusNotification"
+#define kPnsBonusWithdrawCompleteNotification @"kPnsBonusWithdrawCompleteNotification"
+
 
 #endif

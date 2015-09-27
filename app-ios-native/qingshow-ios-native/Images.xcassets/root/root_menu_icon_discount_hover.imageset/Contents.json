@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "root_menu_icon_discount_hover.png"
+      "filename" : "root_menu_icon_discount_hover.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "zhekou_gray.png"
+      "filename" : "root_menu_icon_discount_hover@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

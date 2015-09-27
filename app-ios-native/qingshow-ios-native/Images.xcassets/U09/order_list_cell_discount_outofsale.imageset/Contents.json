@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "order_list_cell_discount_outofsale.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "售罄.png"
+      "filename" : "order_list_cell_discount_outofsale@2x.png"
     },
     {
       "idiom" : "universal",

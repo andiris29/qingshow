@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "root_menu_icon_setting.png"
+      "filename" : "root_menu_icon_setting.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "dapei.png"
+      "filename" : "root_menu_icon_setting@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

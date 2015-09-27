@@ -27,8 +27,10 @@
 #import "QSMatchCollectionViewProvider.h"
 #import "QSS03ShowDetailViewController.h"
 
+#import "QSUnreadManager.h"
 
 #import "QSDateUtil.h"
+#import "QSUnreadManager.h"
 
 
 #define PAGE_ID @"U01 - 个人"
@@ -157,6 +159,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self updateMenuDot];
     self.navigationController.navigationBarHidden = YES;
     [self updateViewWithList];
     [MobClick beginLogPageView:PAGE_ID];
@@ -327,7 +330,6 @@
     }
 }
 - (IBAction)menuBtnPressed:(id)sender {
-    [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
     if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
         [self.menuProvider didClickMenuBtn];
     }
@@ -403,7 +405,18 @@
     
 }
 
-- (void)showDotAtMenu {
-    [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+- (void)updateMenuDot {
+    if ([[QSUnreadManager getInstance] shouldShowDotAtMenu]) {
+        [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+    } else {
+        [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)btnGroup:(QSBadgeBtnGroup*)btnGroup didSelectType:(QSBadgeButtonType)type {
+    [super btnGroup:btnGroup didSelectType:type];
+    if (type == QSBadgeButtonTypeRecommend) {
+        [[QSUnreadManager getInstance] clearRecommandUnread];
+    }
 }
 @end

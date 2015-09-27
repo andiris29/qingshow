@@ -14,6 +14,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
+#import "QSUnreadManager.h"
 @interface QSU15BonusViewController ()
 
 @end
@@ -38,6 +39,11 @@
     [self configNav];
     [self configUI];
     [self bindVCWithArray:_bonusArray];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[QSUnreadManager getInstance] clearBonuUnread];
 }
 
 - (void)bindVCWithArray:(NSArray*)bonusArray;

@@ -38,4 +38,7 @@
 + (BOOL)getDelist:(NSDictionary *)itemDict;
 + (NSString*)getItemId:(NSDictionary *)itemDict;
 + (NSArray*)getMatchSkuKeysForItem:(NSDictionary*)itemDict skuKeys:(NSArray*)skuKeys;
+
++ (BOOL)getExpectableIsExpire:(NSDictionary *)dict;
++ (NSDictionary*)getExpectableDict:(NSDictionary*)dict;
 @end

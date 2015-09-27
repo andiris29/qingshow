@@ -10,14 +10,16 @@
 #import "QSEntityUtil.h"
 #import "QSPnsNotificationName.h"
 #import "NSDictionary+QSExtension.h"
+#import "QSUnreadManager.h"
 
 #define kPnsCommandNewShowComments @"newShowComments"
 #define kPnsCommandNewRecommandations @"newRecommandations"
-#define kPnsCommandQuestSharingProgress @"questSharingProgress"
-#define kPnsCommandQuestSharingComplete @"questSharingComplete"
+#define kPnsCommandItemExpectablePriceUpdated @"itemExpectablePriceUpdated"
 #define kPnsCommandTradeInitialized @"tradeInitialized"
 #define kPnsCommandTradeShipped @"tradeShipped"
-#define kPnsCommandItemExpectablePriceUpdated @"itemExpectablePriceUpdated"
+#define kPnsCommandNewBonus @"newBonus"
+#define kPnsCommandBonusWithdrawComplete @"bonusWithdrawComplete"
+
 
 @implementation QSPnsHelper
 + (BOOL)isFromBackground:(NSDictionary*)userInfo {
@@ -27,6 +29,8 @@
 
 + (void)handlePnsData:(NSDictionary*)userInfo fromBackground:(BOOL)fFromBackground {
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+    [[QSUnreadManager getInstance] addUnread:userInfo];
+    
     NSString* command = [QSEntityUtil getStringValue:userInfo keyPath:@"command"];
     
     NSMutableDictionary* userInfoDict = [@{} mutableCopy];
@@ -45,13 +49,6 @@
         //新推荐
         [center postNotificationName:kPnsNewRecommandationNotification object:nil userInfo:userInfoDict];
         
-    } else if ([command isEqualToString:kPnsCommandQuestSharingProgress]) {
-        //搭配活动进行中
-        [center postNotificationName:kPnsQuestSharingProgressNotification object:nil userInfo:userInfoDict];
-        
-    } else if ([command isEqualToString:kPnsCommandQuestSharingComplete]) {
-        //搭配活动完成
-        [center postNotificationName:kPnsQuestSharingCompleteNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandTradeInitialized]) {
         //折扣申请成功
         [center postNotificationName:kPnsTradeInitialNotification object:nil userInfo:userInfoDict];
@@ -65,6 +62,10 @@
             userInfoDict[@"tradeId"] = tradeId;
         }
         [center postNotificationName:kPnsItemExpectablePriceUpdatedNotification object:nil userInfo:userInfoDict];
+    } else if ([command isEqualToString:kPnsCommandNewBonus]) {
+        [center postNotificationName:kPnsNewBonusNotification object:nil];
+    } else if ([command isEqualToString:kPnsCommandBonusWithdrawComplete]) {
+        [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:nil];
     }
 }
 @end

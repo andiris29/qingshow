@@ -22,6 +22,7 @@
 #import "QSMatcherItemScrollSelectionView.h"
 
 #import "NSArray+QSExtension.h"
+#import "QSUnreadManager.h"
 
 @interface QSS20MatcherViewController ()
 
@@ -77,6 +78,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self updateMenuDot];
     self.navigationController.navigationBarHidden = YES;
     if (self.fShouldReload) {
         self.fShouldReload = NO;
@@ -145,7 +147,6 @@
 }
 
 - (IBAction)menuBtnPressed:(id)sender {
-    [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu"] forState:UIControlStateNormal];
     [self.menuProvider didClickMenuBtn];
 }
 
@@ -267,7 +268,12 @@
     self.fShouldReload = YES;
 }
 
-- (void)showDotAtMenu {
-    [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+
+- (void)updateMenuDot {
+    if ([[QSUnreadManager getInstance] shouldShowDotAtMenu]) {
+        [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+    } else {
+        [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu"] forState:UIControlStateNormal];
+    }
 }
 @end
