@@ -137,7 +137,8 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 map.put("nickname", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
-
+                map.put("mobile", phoneEditText.getText().toString());
+                map.put("verificationCode", verificationCode.getText().toString());
                 return map;
             }
         };
@@ -185,31 +186,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
-        params.put("mobileNumber", phoneEditText.getText().toString());
-        params.put("verificationCode", verificationCode.getText().toString());
-
-        VerificationHelper.validateMobile(params, new Callback(){
-            @Override
-            public void onComplete(JSONObject response) {
-                if (MetadataParser.hasError(response)) {
-                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                    return;
-                }
-
-                try {
-                    if (response.getJSONObject("data").has("success")) {
-                        register();
-                    } else {
-                        ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                        return;
-                    }
-                } catch (JSONException e) {
-                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                }
-            }
-        });
-
+        register();
     }
 
     public void weiChatLogin() {
