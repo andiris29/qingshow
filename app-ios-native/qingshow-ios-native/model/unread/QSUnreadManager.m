@@ -9,6 +9,7 @@
 #import "QSUnreadManager.h"
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
+#import "QSNetworkKit.h"
 #define _typeToStr(type) @(type).stringValue
 
 NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
@@ -90,7 +91,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 }
 
 - (void)removeUnread:(NSDictionary*)unreadDict {
-#warning TODO network
+    [SHARE_NW_ENGINE userReadNotification:unreadDict onSucceed:nil onError:nil];
     [self.unreadNotis removeObject:unreadDict];
 }
 

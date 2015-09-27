@@ -86,5 +86,7 @@
                                        code:(NSString*)code
                                   onSucceed:(BoolBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
+                                  onSucceed:(VoidBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock;
 @end

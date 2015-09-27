@@ -29,6 +29,7 @@
 #define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
 #define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
 #define PATH_MOBILE_VALIDATE @"user/validateMobile"
+#define PATH_USER_READ_NOTIFICATION @"user/readNotification"
 
 
 
@@ -488,6 +489,20 @@
         NSDictionary *retDic = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock((BOOL)retDic[@"data"][@"success"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
+                                  onSucceed:(VoidBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_USER_READ_NOTIFICATION method:@"POST" paramers:noti onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
