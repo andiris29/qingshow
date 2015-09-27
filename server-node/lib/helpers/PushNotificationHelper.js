@@ -1,6 +1,10 @@
 var JPush = require('jpush-sdk');
 var winston = require('winston');
 var _ = require('underscore');
+var async = require('async');
+
+var People = require('../dbmodels').People;
+var jPushAudiences = require('../dbmodels').JPushAudience;
 
 // APP_KEY,Master_Key 
 var JPushConfig = {
@@ -37,12 +41,43 @@ PushNotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceU
 PushNotificationHelper.CommandNewBonus = "newBonus";
 PushNotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
 
-PushNotificationHelper.push = function(registrationIDs, message, extras, callback) {
-    var sendTargets = _.filter(registrationIDs, function(registrationId) {
-        return (registrationId && (registrationId.length > 0));
-    });
-    if (sendTargets.length) {
-        client.push().setPlatform('ios', 'android')
+PushNotificationHelper.notify = function(peoplesIds, message, extras, cb) {
+    async.series([function(callback){
+        PushNotificationHelper._push(peoplesIds, message, extras, function(err, res){
+            callback(err, res);
+        })
+    }, function(callback){
+        var addition = {};
+        for(var element in extras){
+            if (element !== 'command') {
+                addition[element] = extras[element]
+            }
+        }
+        PushNotificationHelper._saveAsUnread(peoplesIds, extras.command, addition, function(err){
+            callback(err);
+        })
+    }], cb);
+}
+
+PushNotificationHelper._push = function(peoplesIds, message, extras, cb) {
+    async.waterfall([function(callback){
+        jPushAudiences.find({
+            peopleRef : {
+                '$in' : peoplesIds
+            }
+        }).exec(function(err, infos) {
+            callback(err, infos);
+        });
+    }, function(infos, callback){
+        var registrationIDs = [];
+        infos.forEach(function(info) {
+            registrationIDs.push(info.registrationId);
+        });
+        var sendTargets = _.filter(registrationIDs, function(registrationId) {
+            return (registrationId && (registrationId.length > 0));
+        });
+        if (sendTargets.length) {
+            client.push().setPlatform('ios', 'android')
             .setAudience(JPush.registration_id(sendTargets))
             .setNotification(JPush.ios(message, 'default', null, false, extras), JPush.android(message, message, null, extras))
             .setOptions(null, null, null, true, null)
@@ -56,7 +91,39 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
                     callback(err, res);
                 }
             });
-    } else {
-        callback();
-    }
-};
+        } else {
+            callback();
+        }
+    }], cb)
+}
+
+PushNotificationHelper._saveAsUnread = function(peoplesIds, cmd, addition, cb) {
+    async.waterfall([function(callback){
+        People.find({
+            _id : {
+                '$in' : peoplesIds
+            }
+        }).exec(function(err, peoples){
+            callback(err, peoples)
+        })
+    }, function(peoples, callback){
+        if (peoples && peoples.length > 0) {
+            peoples.forEach(function(people){
+                people.unreadNotifications = people.unreadNotifications || [];
+                var extra = {};
+                for(var element in addition){
+                    extra[element] = addition[element]
+                }
+                extra['cmd'] = cmd;
+                people.unreadNotifications.push({
+                    'extra' : extra
+                });
+                people.save(function(error, people){
+                    callback(error);
+                });
+            });   
+        }else {
+            callback()
+        }
+    }], cb)
+}

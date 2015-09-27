@@ -105,50 +105,23 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
     }
 
-    private void validateMobile() {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("mobileNumber", phoneEditText.getText().toString());
-        params.put("verificationCode", verificationCode.getText().toString());
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getValidateMobileApi()
-                , new JSONObject(params), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(U07RegisterActivity.class.getSimpleName(), "response:" + response);
-                if (MetadataParser.hasError(response)) {
-                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                    return;
-                }
-
-                try {
-                    if (response.getJSONObject("data").getBoolean("success")) {
-                        register();
-                    } else {
-                        ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                        return;
-                    }
-                } catch (JSONException e) {
-                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
-                }
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
-    }
-
     private void register() {
 
         QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.getRegisterServiceUrl(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d(U07RegisterActivity.class.getSimpleName(), "register_response:" + response);
                 MongoPeople user = UserParser.parseRegister(response);
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
+                    return;
                 } else {
                     FileUtil.uploadDefaultPortrait(U07RegisterActivity.this);
                     updateUser_phone();
                 }
+                QSModel.INSTANCE.setUser(user);
+                startActivity(new Intent(U07RegisterActivity.this, U13PersonalizeActivity.class));
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -212,7 +185,30 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-        validateMobile();
+        Map<String, String> params = new HashMap<>();
+        params.put("mobileNumber", phoneEditText.getText().toString());
+        params.put("verificationCode", verificationCode.getText().toString());
+
+        VerificationHelper.validateMobile(params, new Callback(){
+            @Override
+            public void onComplete(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
+                    return;
+                }
+
+                try {
+                    if (response.getJSONObject("data").has("success")) {
+                        register();
+                    } else {
+                        ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
+                        return;
+                    }
+                } catch (JSONException e) {
+                    ToastUtil.showShortToast(U07RegisterActivity.this, "验证失败，请重试");
+                }
+            }
+        });
 
     }
 

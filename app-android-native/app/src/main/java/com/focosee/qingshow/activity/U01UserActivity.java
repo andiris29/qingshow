@@ -30,6 +30,7 @@ import com.focosee.qingshow.activity.fragment.U01RecommFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -504,13 +505,12 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
             if (null != getIntent().getExtras().get("user"))
                 user = (MongoPeople) getIntent().getExtras().get("user");
         }
-        boolean hasNew = getIntent().getBooleanExtra(NEW_RECOMMANDATIONS, false);
-        if (hasNew) {
-            circleTip.setVisibility(View.VISIBLE);
-        }
         MobclickAgent.onResume(this);
         if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
             userNavBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+            if(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.NEW_RECOMMANDATIONS)){
+                circleTip.setVisibility(View.VISIBLE);
+            }
         }
     }
 

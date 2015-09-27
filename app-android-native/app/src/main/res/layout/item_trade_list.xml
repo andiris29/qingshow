@@ -51,14 +51,14 @@
             app:clickGround="@drawable/round_btn_background" />
 
         <View
-            android:id="@+id/item_tradelist_btn1_topImg"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignLeft="@+id/item_tradelist_btn1"
-            android:layout_alignTop="@+id/item_tradelist_btn1"
-            android:layout_marginLeft="-10dp"
+            android:id="@+id/item_tradelist_btn2_topImg"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/item_tradelist_btn2"
+            android:layout_alignTop="@+id/item_tradelist_btn2"
+            android:layout_marginLeft="-5dp"
             android:layout_marginTop="-5dp"
-            android:background="@drawable/s11_payment_hover"
+            android:background="@drawable/circle_tip"
             android:visibility="gone" />
 
         <com.focosee.qingshow.widget.QSButton

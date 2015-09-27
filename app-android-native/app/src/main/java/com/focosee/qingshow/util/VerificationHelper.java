@@ -6,17 +6,23 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.widget.QSButton;
+import com.squareup.okhttp.Call;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.xml.validation.ValidatorHandler;
 
 /**
  * Created by Administrator on 2015/9/11.
@@ -26,6 +32,20 @@ public class VerificationHelper {
     private QSButton veri_btn;
     private Context context;
     private int color = Integer.MAX_VALUE;
+
+    public static void validateMobile(Map params, final Callback callback){
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getValidateMobileApi()
+                , new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(ValidatorHandler.class.getSimpleName(), "validate_response:" + response);
+                callback.onComplete(response);
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
 
     public void getVerification(String mobileNumber, QSButton veri_btn, final Context context){
         veri_btn.setEnabled(false);

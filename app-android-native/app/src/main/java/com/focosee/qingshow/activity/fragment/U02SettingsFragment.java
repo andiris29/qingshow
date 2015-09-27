@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -36,6 +37,7 @@ import com.focosee.qingshow.activity.UserUpdatedEvent;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
@@ -59,6 +61,7 @@ import com.focosee.qingshow.widget.MenuView;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -111,6 +114,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private TextView changePwText;
     private FrameLayout container;
     private MenuView menuView;
+    private View bonusTip;
     public static U02SettingsFragment instance;
 
     private MongoPeople people;
@@ -129,7 +133,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        dialog = new LoadingDialogs(getActivity(),R.style.dialog);
+        dialog = new LoadingDialogs(getActivity(), R.style.dialog);
         if (null != savedInstanceState) {
             people = (MongoPeople) savedInstanceState.getSerializable("people");
         }
@@ -232,15 +236,15 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
                 dialog.dismiss();
-                if(MetadataParser.hasError(response)){
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;
                 }
                 MongoPeople user = UserParser._parsePeople(response);
                 if (user != null) {
-                    if(TYPE_PORTRAIT == type){
+                    if (TYPE_PORTRAIT == type) {
                         portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE)));
-                    }else{
+                    } else {
                         backgroundImageView.setImageURI(Uri.parse(user.background));
                     }
                     UserCommand.refresh();
@@ -260,7 +264,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 
-    private void matchUI(View view){
+    private void matchUI(View view) {
         backTextView = (ImageView) view.findViewById(R.id.backTextView);
         ageEditText = (EditText) view.findViewById(R.id.ageEditText);
         quitButton = (Button) view.findViewById(R.id.quitButton);
@@ -286,7 +290,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
         changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
         container = (FrameLayout) view.findViewById(R.id.container);
-
+        bonusTip = view.findViewById(R.id.u02_bonus_tip);
     }
 
     //进入页面时，给字段赋值
@@ -308,17 +312,17 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 heightEditText.setText(String.valueOf(people.height));
             if (null != people.weight)
                 weightEditText.setText(String.valueOf(people.weight));
-            if(null != people.measureInfo){
-                if(null != people.measureInfo.bust){
+            if (null != people.measureInfo) {
+                if (null != people.measureInfo.bust) {
                     bustEditText.setText(String.valueOf(people.measureInfo.bust));
                 }
-                if(null != people.measureInfo.shoulder){
+                if (null != people.measureInfo.shoulder) {
                     shoulderEditText.setText(String.valueOf(people.measureInfo.shoulder));
                 }
-                if(null != people.measureInfo.waist){
+                if (null != people.measureInfo.waist) {
                     waistlineEditText.setText(String.valueOf(people.measureInfo.waist));
                 }
-                if(null != people.measureInfo.hips){
+                if (null != people.measureInfo.hips) {
                     hiplineEditText.setText(String.valueOf(people.measureInfo.hips));
                 }
             }
@@ -332,7 +336,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         }
     }
 
-    private void setEffectEditText(int[] args){
+    private void setEffectEditText(int[] args) {
         String effectStr = "";
         for (int index : args) {
             effectStr += expectations[index] + " ";
@@ -343,8 +347,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         effectEditText.setTag(expectations);
     }
 
-    public void onEventMainThread(UserUpdatedEvent event){
-        if(null != event.user && null != effectEditText){
+    public void onEventMainThread(UserUpdatedEvent event) {
+        if (null != event.user && null != effectEditText) {
             setEffectEditText(event.user.expectations);
             initUser();
         }
@@ -358,8 +362,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if(v.getId() == R.id.quitButton){
-            if(v.isFocused())return;
+        if (v.getId() == R.id.quitButton) {
+            if (v.isFocused()) return;
         }
         commitForm();
         UserCommand.refresh();
@@ -511,16 +515,16 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-        personalRelativeLayout.setOnClickListener(new View.OnClickListener(){
-              @Override
-              public void onClick(View view) {
-                  Intent intent = new Intent();
-                  intent.setType("image/*");
-                  intent.setAction(Intent.ACTION_GET_CONTENT);
-                  startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
-              }
+        personalRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
+            }
         });
-        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener(){
+        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
@@ -530,22 +534,22 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-        bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener(){
-              @Override
-              public void onClick(View view) {
-                  getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                  showActionSheet(TAG_BODYTYPE);
-              }
+        bodyTypeRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_BODYTYPE);
+            }
         });
 
-        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener(){
+        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 U02ChangePasswordFragment fragment;
-                if(null == getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName())) {
+                if (null == getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName())) {
                     fragment = new U02ChangePasswordFragment();
-                }else{
-                    fragment = (U02ChangePasswordFragment)getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName());
+                } else {
+                    fragment = (U02ChangePasswordFragment) getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName());
                 }
                 getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_left_out, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
@@ -556,17 +560,18 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         bonusRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bonusTip.setVisibility(View.GONE);
                 getActivity().startActivity(new Intent(getActivity(), U15BonusActivity.class));
             }
         });
 
-        addresslistRelativeLayout.setOnClickListener(new View.OnClickListener(){
-             @Override
-             public void onClick(View v) {
-                 Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
-                 startActivity(intent);
-             }
-         });
+        addresslistRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
+                startActivity(intent);
+            }
+        });
 
         dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -594,10 +599,13 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         });
     }
 
-    public void onEventMainThread(PushGuideEvent event){
-        if(event.unread){
+    public void onEventMainThread(PushGuideEvent event) {
+        if (event.unread) {
             backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
-        }else{
+            if (event.command.equals(QSPushAPI.NEW_BONUSES) || event.command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
+                bonusTip.setVisibility(View.VISIBLE);
+            }
+        } else {
             backTextView.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
@@ -611,8 +619,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
-        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+        if (!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))) {
             backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
+            if(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.NEW_BONUSES)
+                    || QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
+                bonusTip.setVisibility(View.VISIBLE);
+            }
         }
     }
 

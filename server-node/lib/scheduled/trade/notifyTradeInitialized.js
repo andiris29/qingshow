@@ -7,6 +7,7 @@ var _ = require('underscore');
 var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 var Trade = require('../../dbmodels').Trade;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
+var People = require('../../dbmodels').People;
 
 var _next = function(today) {
     async.waterfall([
@@ -17,23 +18,10 @@ var _next = function(today) {
     },
     function(trades, callback) {
         trades.forEach(function(trade, index) {
-            jPushAudiences.find({
-                'peopleRef' : trade.ownerRef
-            }).exec(function(err, infos) {
-                if (infos.length > 0) {
-                    var targets = [];
-                    infos.forEach(function(element) {
-                        if (element.registrationId && element.registrationId.length > 0) {
-                            targets.push(element.registrationId);
-                        }
-                    });
-
-                    PushNotificationHelper.push(targets, PushNotificationHelper.MessageTradeInitialized, {
-                        'id' : trade._id.toString(),
-                        'command' : PushNotificationHelper.CommandTradeInitialized
-                    }, null);
-                }
-            });
+            PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeInitialized, {
+                '_id' : trade._id,
+                'command' : PushNotificationHelper.CommandTradeInitialized
+            }, null);  
         });
     }],
     function(err, trades) {

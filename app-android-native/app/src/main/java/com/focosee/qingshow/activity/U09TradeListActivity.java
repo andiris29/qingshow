@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.command.Callback;
@@ -19,6 +22,7 @@ import com.focosee.qingshow.command.TradeShareCommand;
 import com.focosee.qingshow.command.TradeStatusToCommand;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -27,6 +31,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
@@ -34,9 +39,12 @@ import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -46,7 +54,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class U09TradeListActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener{
+public class U09TradeListActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener {
 
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     public static final String FROM_WHERE = "FROM_WHEN";
@@ -70,6 +78,8 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     BGARefreshLayout mRefreshLayout;
     @InjectView(R.id.container)
     FrameLayout container;
+    @InjectView(R.id.circle_tip)
+    View circleTip;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private String peopleId;
@@ -186,7 +196,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     private int position = Integer.MAX_VALUE;//当前分享并支付的trader的position
 
-
     public void onEventMainThread(MongoTrade trade) {
         if (mAdapter.indexOf(trade) > -1)
             this.position = mAdapter.indexOf(trade) + 1;
@@ -194,8 +203,18 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     public void onEventMainThread(U12ReturnEvent event) {
         doRefresh(currentType);
-        if(recyclerView.getAdapter().getItemCount() - 1 < position)return;
+        if (recyclerView.getAdapter().getItemCount() - 1 < position) return;
         recyclerView.scrollToPosition(event.position);
+    }
+
+    public void onEventMainThread(PushGuideEvent event) {
+        if (event.unread) {
+            if (event.command.equals(QSPushAPI.TRADE_SHIPPED)){
+                mAdapter.notifyDataSetChanged();
+                if(currentType == TYPE_SUCCESSED)return;
+                circleTip.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -242,7 +261,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
                 }
                 if (MetadataParser.hasError(response)) {
                     if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
-                        if(pageNo == 1){
+                        if (pageNo == 1) {
                             mAdapter.clearData();
                             mAdapter.notifyDataSetChanged();
                         }
@@ -313,7 +332,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     private void clickTabApply() {
         u09TabAll.setBackgroundResource(R.drawable.s01_tab_btn1);
         u09TabAll.setTextColor(getResources().getColor(R.color.white));
-        u09TabRunning.setBackgroundResource(R.drawable.s01_tab_border1);
+        u09TabRunning.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
         u09TabRunning.setTextColor(getResources().getColor(R.color.master_pink));
     }
 
@@ -322,6 +341,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         u09TabAll.setTextColor(getResources().getColor(R.color.master_pink));
         u09TabRunning.setBackgroundResource(R.drawable.s01_tab_btn2);
         u09TabRunning.setTextColor(getResources().getColor(R.color.white));
+        circleTip.setVisibility(View.GONE);
     }
 
     @Override
@@ -340,6 +360,14 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         super.onResume();
         MobclickAgent.onPageStart("U09TradeListActivity");
         MobclickAgent.onResume(this);
+        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+            menu.setImageResource(R.drawable.nav_btn_menu_n_dot);
+            if(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.TRADE_SHIPPED)){
+                mAdapter.notifyDataSetChanged();
+                if(currentType == TYPE_SUCCESSED)return;
+                circleTip.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override

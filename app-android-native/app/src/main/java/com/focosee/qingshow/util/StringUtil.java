@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2015/3/19.
@@ -72,6 +74,13 @@ public class StringUtil {
 
     public static String ignoreDot(String str){
         return str.replace(".","");
+    }
+
+    public static boolean matchNum(String str){
+        String pattern = "[0-9]+(.[0-9]+)?";
+        // 对()的用法总结：将()中的表达式作为一个整体进行处理，必须满足他的整体结构才可以。
+        // (.[0-9]+)? ：表示()中的整体出现一次或一次也不出现
+        return Pattern.compile(pattern).matcher(str).matches();
     }
 
 }

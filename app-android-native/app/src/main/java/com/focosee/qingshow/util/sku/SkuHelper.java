@@ -16,6 +16,9 @@ public class SkuHelper {
             return -1;
         String values = skuTable.get(props);
         String stock = TextUtils.split(values,":")[0];
+        if(!StringUtil.matchNum(stock)){
+            return -1;
+        }
         if (TextUtils.isEmpty(stock))
             return -1;
         return Float.parseFloat(stock);

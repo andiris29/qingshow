@@ -48,7 +48,7 @@ var _decrypt = function(string) {
 };
 
 var _addRegistrationId = function(peopleId, registrationId) {
-    if (!registrationId || registrationId.length == 0) {
+    if (!registrationId || registrationId.length === 0) {
         return;
     }
 
@@ -68,7 +68,7 @@ var _addRegistrationId = function(peopleId, registrationId) {
 };
 
 var _removeRegistrationId = function(peopleId, registrationId) {
-    if (!registrationId || registrationId.length == 0) {
+    if (!registrationId || registrationId.length === 0) {
         return;
     }
     jPushAudiences.remove({
@@ -77,7 +77,7 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     });
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -149,22 +149,12 @@ _login = function(req, res) {
             req.session.userId = people._id;
             req.session.loginDate = new Date();
 
-            people.jPushInfo = _addRegistrationId(people._id, param.registrationId);
+            _addRegistrationId(people._id, param.registrationId);
 
-            people.save(function(err, people) {
-                if (err) {
-                    ResponseHelper.response(res, err);
-                } else {
-                    var retData = {
-                        metadata : {
-                            "invalidateTime" : 3600000
-                        },
-                        data : {
-                            people : people
-                        }
-                    };
-                    res.json(retData);
-                }
+            ResponseHelper.response(res, null, {
+                people : people
+            }, {
+                "invalidateTime" : 3600000
             });
         } else {
             //login fail
@@ -195,21 +185,33 @@ _register = function(req, res) {
     id = param.id;
     password = param.password;
     var nickname = param.nickname;
+    var mobile = param.mobile;
+    var code = param.verificationCode;
     //TODO validate id and password
     if (!id || !password || !id.length || !password.length || !nickname) {
         ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
     People.find({
-        '$or': [{'userInfo.id' : id}, {'nickname': nickname}]
+        '$or': [{'userInfo.id' : id}, {'nickname': nickname}, {'mobile': mobile}]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
         } else if (people.length > 0) {
-            ResponseHelper.response(res, errors.EmailAlreadyExist);
+            if (people.mobile === mobile) {
+                ResponseHelper.response(res, errors.MobileAlreadyExist); 
+            }else{
+                ResponseHelper.response(res, errors.EmailAlreadyExist);
+            }
             return;
         }
+
+        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+            if (!success || err) {
+                ResponseHelper.response(res, err);
+            }
+        });
 
         var people = new People({
             nickname: nickname,
@@ -221,10 +223,8 @@ _register = function(req, res) {
         people.save(function(err, people) {
             if (err) {
                 ResponseHelper.response(res, err);
-                return;
             } else if (!people) {
                 ResponseHelper.response(res, errors.genUnkownError());
-                return;
             } else {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
@@ -349,7 +349,7 @@ _saveReceiver = function(req, res) {
         if (!receiver.isDefault) {
             receiver.isDefault = false;
         }
-        if (people.receivers == null || people.receivers.length == 0) {
+        if (people.receivers === null || people.receivers.length === 0) {
             people.receivers = [];
             receiver.isDefault = true;
             if (!receiver.uuid) {
@@ -750,7 +750,7 @@ _loginViaWeibo = function(req, res) {
 };
 
 _requestVerificationCode = function(req, res){
-    var mobile = req.body.mobileNumber;
+    var mobile = req.body.mobile;
     async.waterfall([function(callback){
         SMSHelper.createVerificationCode(mobile, function(err, code){
             if (err) {
@@ -758,7 +758,7 @@ _requestVerificationCode = function(req, res){
             }else {
                 callback(null, code);
             }
-        })
+        });
     },function(code, callback){
         var expire = global.qsConfig.verification.expire;
         SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
@@ -771,23 +771,13 @@ _requestVerificationCode = function(req, res){
     }],function(error, code) {
         ResponseHelper.response(res, error, {
         });
-    })
+    });
 };
 
 _validateMobile = function(req, res){
     var params = req.body;
-    var mobile = params.mobileNumber;
+    var mobile = params.mobile;
     async.series([function(callback){
-        People.count({
-            'mobile' : mobile
-        },function(err, num){
-            if (num > 0) {
-                callback(errors.MobileAlreadyExist);
-            }else {
-                callback(null, mobile);
-            }
-        })
-    },function(callback){
         var code = params.verificationCode;
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             callback(err, success);
@@ -796,8 +786,77 @@ _validateMobile = function(req, res){
         ResponseHelper.response(res, error, {            
             'success' : success[0]
         });
-    })
+    });
 };
+
+_resetPassword = function(req, res){
+    var params = req.body;
+    var mobile = params.mobile;
+    var code = params.verificationCode;
+    async.waterfall([function(callback){
+        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+            if (err) {
+                callback(err);
+            }else{
+                callback(null, success);
+            }
+        });
+    }, function(success, callback){
+        People.findOneAndUpdate({
+            _id : RequestHelper.parseId(req.qsCurrentUserId)
+        }, {
+            $unset : { 
+                'userInfo.encryptedPassword' : -1,
+                'userInfo.password' : -1
+             }
+        }, {
+        }, function(error) {
+            callback(error);
+        });
+    }],function(error, people) {
+        ResponseHelper.response(res, error, {});
+    });
+}
+
+
+var _readNotification = function(req, res) {
+    var params = req.body;
+    var criteria = {};
+
+    if (Object.keys(params).length === 1 && params.cmd) {
+        criteria = {
+            $pull : {
+                'unreadNotifications' : {
+                    'extra.cmd' : params.cmd
+                }
+            }
+        };
+    }
+
+    if (Object.keys(params).length > 1) {
+        var extra = {};
+        for(var element in params){
+            element === '_id' ? extra._id = RequestHelper.parseId(params._id) :
+                extra[element] = params[element];
+        }
+        criteria = {
+            $pull : {
+                'unreadNotifications' : {
+                    'extra' : extra
+                }
+            }
+        };
+    }
+
+    People.findOneAndUpdate({
+        _id : RequestHelper.parseId(req.qsCurrentUserId)
+    }, criteria, {
+    }, function(error) {
+        ResponseHelper.response(res, error, {});
+    });
+
+};
+
 
 module.exports = {
     'get' : {
@@ -858,5 +917,15 @@ module.exports = {
     'validateMobile' : {
         method : 'post',
         func : _validateMobile
+    },
+    'resetPassword' : {
+        method : 'post',
+        func : _resetPassword,
+        permissionValidators : ['loginValidator']
+    },
+    'readNotification' : {
+        method : 'post',
+        permissionValidators : ['loginValidator'],
+        func : _readNotification
     }
 };

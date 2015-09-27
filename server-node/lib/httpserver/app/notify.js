@@ -37,28 +37,14 @@ notify.newRecommandations = {
 
                 return type == group;
             });
-
+            callback(null, targets);
+        },
+        function(targets, callback) {
             var ids = [];
             targets.forEach(function(target) {
                 ids.push(target._id);
             });
-            callback(null, ids);
-        },
-        function(ids, callback) {
-            jPushAudiences.find({
-                peopleRef : {
-                    '$in' : ids
-                }
-            }).exec(function(err, infos) {
-                callback(err, infos);
-            });
-        },
-        function(targets, callback) {
-            var registrationIDs = [];
-            targets.forEach(function(target) {
-                registrationIDs.push(target.registrationId);
-            });
-            PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageNewRecommandations, {
+            PushNotificationHelper.notify(ids, PushNotificationHelper.MessageNewRecommandations, {
                 'command' : PushNotificationHelper.CommandNewRecommandations
             }, callback);
         }], function(err) {

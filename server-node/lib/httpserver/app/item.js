@@ -74,19 +74,6 @@ item.updateExpectable = {
             function(trades, cb){
                 _itemPriceChanged(trades, expectable,function(){
                 });
-
-                trades.forEach(function(trade){
-                    TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
-                        if (err) {
-                            cb(err)
-                        }
-                    });
-                    TradeHelper.pushNewExpectableTrades(trade._id, trade.ownerRef, param.expectablePrice, function(err){
-                        if (err) {
-                            cb(err)
-                        }
-                    });
-                });
                 cb(null, trades);
             }],function(err){
                 if (err) {
@@ -131,11 +118,6 @@ item.removeExpectable = {
             if (!trades || trades.length === 0) {
                 callback();
             }else{
-                trades.forEach(function(trade){
-                    TradeHelper.removeExpectableTrades(trade._id, trade.ownerRef, function(err){
-                        callback(err);
-                    });
-                });
             }
         }, function(callback) {
             Items.findOne({
@@ -300,34 +282,20 @@ item.list = {
 var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
-            async.waterfall([
-                function(cb2) {
-                    jPushAudiences.find({
-                        peopleRef : trade.ownerRef
-                    }).exec(function(err, infos) {
-                        cb2(err, infos);
-                    });
-                },
-                function(infos, cb2) {
-                    var registrationIDs = [];
-                    infos.forEach(function(target) {
-                        registrationIDs.push(target.registrationId);
-                    });
-                    if (!expectable.expired && expectable.price <= trade.expectedPrice) {
-                        PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageTradeInitialized, {
-                            'id' : trade._id,
-                            'command' : PushNotificationHelper.CommandTradeInitialized
-                        }, cb2);
-                    };
+            if (!expectable.expired && expectable.price <= trade.expectedPrice) {
+                PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeInitialized, {
+                    '_id' : trade._id,
+                    'command' : PushNotificationHelper.CommandTradeInitialized
+                }, cb);
+            };
 
-                    if (!expectable.expired && expectable.price > trade.expectedPrice) {
-                      PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageItemPriceChanged, {
-                        'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
-                        '_id' : trade._id
-                    }, cb2); 
-                  };
-                }], cb);
-        };
+            if (!expectable.expired && expectable.price > trade.expectedPrice) {
+              PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageItemPriceChanged, {
+                'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
+                '_id' : trade._id
+                }, cb); 
+            };
+        }
     });
     async.parallel(tasks, function(err) {
         if (err) {

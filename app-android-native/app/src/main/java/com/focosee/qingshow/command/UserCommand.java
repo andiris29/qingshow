@@ -19,6 +19,9 @@ import com.focosee.qingshow.model.QSModel;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.validation.ValidatorHandler;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -130,6 +133,20 @@ public class UserCommand {
                 callback.onComplete();
             }
         });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    public static void resetPassword(Map params, final Callback callback){
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getResetPassword()
+                , new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(ValidatorHandler.class.getSimpleName(), "response:" + response);
+                callback.onComplete(response);
+            }
+        });
+
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 }

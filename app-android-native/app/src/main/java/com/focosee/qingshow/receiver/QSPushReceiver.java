@@ -19,6 +19,10 @@ import com.focosee.qingshow.util.push.PushUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
@@ -49,12 +53,17 @@ public class QSPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
             //推送消息指引
             String command = PushUtil.getCommand(bundle);
+            String _id = PushUtil.getId(bundle);
             if(command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
-                    || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
+                    || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.NEW_RECOMMANDATIONS)
+                    || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
                 SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-                editor.putString(ValueUtil.NEED_GUIDE, ValueUtil.NEED_GUIDE);
+                editor.putString(ValueUtil.NEED_GUIDE, command);
+                Set _ids = QSApplication.instance().getPreferences().getStringSet(command, new HashSet<String>());
+                _ids.add(_id);
+                editor.putStringSet(command, _ids);
                 editor.commit();
-                EventBus.getDefault().post(new PushGuideEvent(true));
+                EventBus.getDefault().post(new PushGuideEvent(true, command));
                 UserCommand.refresh();
             }
 

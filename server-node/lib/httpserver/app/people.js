@@ -106,18 +106,4 @@ people.query = {
     }
 };
 
-people.readExpectableTrade = {
-    method : 'post',
-    permissionValidators : ['loginValidator'],
-    func : function(req, res){
-        var _id = req.body._id;
-        async.waterfall([function(callback){
-            TradeHelper.removeExpectableTrades(_id, req.qsCurrentUserId, function(error){
-                callback(error)
-            })
-        }],function(error){
-            ResponseHelper.response(res, error, {
-            });
-        })
-    }
-};
+

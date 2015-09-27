@@ -145,6 +145,7 @@
     <string name="title_activity_s05_item">S05ItemActivity</string>
     <string name="title_activity_s08_trend">S08TrendActivity</string>
     <string name="title_activity_launch">倾秀</string>
+    <string name="the_next_step">下一步</string>
 
     <!-- S01Home Activity -->
     <string name="menu_open">open</string>
@@ -153,6 +154,7 @@
     <!-- title -->
     <string name="s02_title_name">潮流单品</string>
     <string name="s17_title_name">美搭榜单</string>
+    <string name="u17_title_name">找回密码</string>
 
     <!-- comm -->
     <string name="no_more_data">没有更多数据了！</string>
@@ -163,6 +165,7 @@
     <string name="image_not_exist">商品没有图片</string>
     <string name="get_bonuses_label">佣金：</string>
     <string name="need_install_wx">请先安装微信</string>
+    <string name="forget_password">忘记密码</string>
 
     <!-- trade -->
     <string name="title_name_activity_trade">订单管理</string>
@@ -244,4 +247,10 @@
     <string name="s20_notify_load_image_unfinished">不要着急，奋力加载图片中···</string>
 
     <string name="bonus_share_successed_hint">佣金提取成功款项将会在48小时内转至您的账户</string>
+    <string name="title_activity_u17_reset_password_step1">U17ResetPasswordStep1Activity</string>
+
+    <!-- errorText -->
+    <string name="need_input_phone">*请正确输入手机号码</string>
+    <string name="need_input_verification">*请正确输入验证码</string>
+    <string name="title_activity_u18_reset_password_step2">U18ResetPasswordStep2</string>
 </resources>
