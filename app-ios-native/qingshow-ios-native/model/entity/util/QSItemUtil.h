@@ -25,7 +25,7 @@
 + (NSString *)getReturnAddrFromDic:(NSDictionary *)dict;
 + (NSString *)getReturnNameFromDic:(NSDictionary *)dict;
 + (NSString *)getReturnPhoneFromDic:(NSDictionary *)dict;
-
++ (NSMutableAttributedString *)getAttrbuteStr:(NSString *)str;
 + (NSNumber *)getExpectablePrice:(NSDictionary *)dict;
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
 + (NSString*)getCategoryStr:(NSDictionary*)itemDict;

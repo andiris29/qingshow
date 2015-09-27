@@ -303,6 +303,41 @@
             ];
   
 }
+- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
+                                  Password:(NSString *)passwd
+                                        Id:(NSString *)pid
+                                    mobile:(NSString *)mobileNum
+                                      code:(NSString *)code
+                               onSucceessd:(EntitySuccessBlock)successdBlock
+                                   onErrer:(ErrorBlock)errorBlock
+{
+    NSMutableDictionary* paramDict = [@{@"nickname" : nickName, @"password": passwd, @"id":pid
+                                        ,@"mobile":mobileNum,@"verificationCode":code} mutableCopy];
+    if ([QSUserManager shareUserManager].JPushRegistrationID) {
+        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
+    }
+    
+    return [self startOperationWithPath:PATH_USER_REGISTER
+                                 method:@"POST"
+                               paramers:paramDict
+                            onSucceeded:
+            ^(MKNetworkOperation *completeOperation) {
+                NSDictionary *retDict = completeOperation.responseJSON;
+                [QSUserManager shareUserManager].fIsLogined = YES;
+                [QSUserManager shareUserManager].userInfo = retDict[@"data"][@"people"];
+                if (successdBlock) {
+                    successdBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                }
+            }
+                                onError:
+            ^(MKNetworkOperation *completedOperation, NSError *error) {
+                if(errorBlock) {
+                    errorBlock(error);
+                }
+            }
+            ];
+
+}
 
 - (MKNetworkOperation *)updatePeople:(NSDictionary *)people
                            onSuccess:(EntitySuccessBlock)succeedBlock
@@ -445,7 +480,7 @@
                                   onSucceed:(BoolBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_MOBILE_VALIDATE method:@"POST" paramers:@{@"mobileNumber":mobileNum,   @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_MOBILE_VALIDATE method:@"POST" paramers:@{@"mobile":mobileNum,   @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary *retDic = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock((BOOL)retDic[@"data"][@"success"]);
