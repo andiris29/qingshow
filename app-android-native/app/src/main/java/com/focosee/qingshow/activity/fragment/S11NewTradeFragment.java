@@ -188,7 +188,7 @@ public class S11NewTradeFragment extends Fragment {
                 return;
             }
 
-            if (skuTable.containsKey(SkuUtil.formetPropsAsTableKey(selectProps))) {
+            if (skuTable.containsKey(SkuUtil.formetPropsAsTableKey(selectProps)) || props.size() > selectProps.size()) {
                 changeBtnClickable(false);
             } else {
                 changeBtnClickable(true);
@@ -213,6 +213,7 @@ public class S11NewTradeFragment extends Fragment {
             if(!inited) {
                 btnMap.get(key).getChildViews().get(0).setChecked(true);
                 onCheckedChangeListener.onChanged(key, 0);
+                changeBtnClickable(false);
             }
             i++;
         }
