@@ -267,24 +267,9 @@
             return;
         }
     };
-    [SHARE_NW_ENGINE MobileNumberAvilable:mailAndPhone code:code onSucceed:^(BOOL code) {
-        if (code == YES) {
-            [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
-            [SHARE_NW_ENGINE updatePeople:@{@"mobile":mailAndPhone} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
-        }else{
-            [self showTextHud:@"验证码错误"];
-        }
-        
-    } onError:^(NSError *error) {
-        [self showTextHud:@"注册失败，请重新核对信息"];
-    }];
+    [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
     
-
 }
-
-
-
-
 
 #pragma mark - Keyboard
 - (void)registerForKeyboardNotifications
@@ -303,7 +288,6 @@
     NSDictionary *info = [notif userInfo];
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
-    
     self.containerScrollView.contentInset = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
 }
 - (void)keyboardWasHidden:(NSNotification *) notif

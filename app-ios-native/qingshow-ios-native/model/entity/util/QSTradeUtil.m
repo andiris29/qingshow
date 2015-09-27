@@ -131,27 +131,7 @@
 }
 + (NSString *)getSizeText:(NSDictionary *)dict
 {
-//    NSArray *array = [self getSkuProperties:dict];
-//    if (!array.count) {
-//        return nil;
-//    }
-//    NSString *str = nil;
-//    if (array.count == 1) {
-//        str = array[0];
-//        NSArray *strArray = [str componentsSeparatedByString:str];
-// 
-//    }
-//    else {
-//        str = [array objectAtIndex:array.count-2];
-//    }
-//    if ([str hasSuffix:@":"]) {
-//        str = [str substringToIndex:str.length-1];
-//    }
-//    if ([str containsString:@"尺码"]) {
-//        return str;
-//    }else{
-//        return [NSString stringWithFormat:@"规格%@",str];
-//    }
+
     NSArray *array = [self getSkuProperties:dict];
     NSMutableString *arrayStr = [[NSMutableString alloc]init];;
     for (int i = 0; i < array.count; i++) {

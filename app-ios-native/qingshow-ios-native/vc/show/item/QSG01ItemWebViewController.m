@@ -152,12 +152,15 @@
         }
         self.discountBtn.hidden = YES;
     }];
-}
+    }
 
 - (void)bindWithItem:(NSDictionary*)itemDict {
     self.discountVc.itemDict = itemDict;
     [self.discountVc refresh];
     self.discountBtn.hidden = [QSItemUtil getDelist:itemDict];
+    if (self.isDisCountBtnHidden == YES) {
+        self.discountBtn.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

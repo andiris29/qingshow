@@ -74,7 +74,7 @@ public class U17ResetPasswordStep1Activity extends BaseActivity {
                 }
 
                 Map<String, String> params = new HashMap<>();
-                params.put("mobileNumber", phoneEditText.getText().toString());
+                params.put("mobile", phoneEditText.getText().toString());
                 params.put("verificationCode", verificationCode.getText().toString());
                 UserCommand.resetPassword(params, new Callback() {
                     @Override
