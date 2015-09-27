@@ -47,13 +47,7 @@ PushNotificationHelper.notify = function(peoplesIds, message, extras, cb) {
             callback(err, res);
         })
     }, function(callback){
-        var addition = {};
-        for(var element in extras){
-            if (element !== 'command') {
-                addition[element] = extras[element]
-            }
-        }
-        PushNotificationHelper._saveAsUnread(peoplesIds, extras.command, addition, function(err){
+        PushNotificationHelper._saveAsUnread(peoplesIds, extras, function(err){
             callback(err);
         })
     }], cb);
@@ -97,7 +91,7 @@ PushNotificationHelper._push = function(peoplesIds, message, extras, cb) {
     }], cb)
 }
 
-PushNotificationHelper._saveAsUnread = function(peoplesIds, cmd, addition, cb) {
+PushNotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
     async.waterfall([function(callback){
         People.find({
             _id : {
@@ -110,13 +104,8 @@ PushNotificationHelper._saveAsUnread = function(peoplesIds, cmd, addition, cb) {
         if (peoples && peoples.length > 0) {
             peoples.forEach(function(people){
                 people.unreadNotifications = people.unreadNotifications || [];
-                var extra = {};
-                for(var element in addition){
-                    extra[element] = addition[element]
-                }
-                extra['cmd'] = cmd;
                 people.unreadNotifications.push({
-                    'extra' : extra
+                    'extra' : extras
                 });
                 people.save(function(error, people){
                     callback(error);
