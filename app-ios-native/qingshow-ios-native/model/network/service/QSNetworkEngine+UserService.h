@@ -36,6 +36,13 @@
                                         Id:(NSString *)pid
                                onSucceessd:(EntitySuccessBlock)successdBlock
                                    onErrer:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
+                                  Password:(NSString *)passwd
+                                        Id:(NSString *)pid
+                                    mobile:(NSString *)mobileNum
+                                      code:(NSString *)code
+                               onSucceessd:(EntitySuccessBlock)successdBlock
+                                   onErrer:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation *)updatePeople:(NSDictionary *)people
                            onSuccess:(EntitySuccessBlock)succeedBlock
