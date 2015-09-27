@@ -142,7 +142,7 @@ public class UserCommand {
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(ValidatorHandler.class.getSimpleName(), "response:" + response);
+                Log.d(UserCommand.class.getSimpleName(), "response:" + response);
                 callback.onComplete(response);
             }
         });

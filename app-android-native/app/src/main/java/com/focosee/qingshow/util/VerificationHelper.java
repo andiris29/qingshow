@@ -58,7 +58,7 @@ public class VerificationHelper {
         timer.scheduleAtFixedRate(new VerificationTime(), 0, 1000);
 
         Map<String, String> params = new HashMap<>();
-        params.put("mobileNumber", mobileNumber);
+        params.put("mobile", mobileNumber);
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getRequestVerificationCodeApi()
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
