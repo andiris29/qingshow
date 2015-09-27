@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "order_list_cell_discount_dot.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "sale.png"
+      "filename" : "order_list_cell_discount_dot@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

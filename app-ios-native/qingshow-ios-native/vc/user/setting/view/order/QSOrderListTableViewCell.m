@@ -16,12 +16,26 @@
 #import "QSTradeStatus.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
+#import "QSUnreadManager.h"
+
+
+typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
+    QSOrderListCellCircleTypeNone = 0,
+    QSOrderListCellCircleTypeNewDiscount = 1,
+    QSOrderListCellCircleTypePay = 2,
+    QSOrderListCellCircleTypeShareToPay = 3,
+    QSOrderListCellCircleTypeSaleOut = 4
+};
+
 @interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
 @property (strong, nonatomic) NSString *itemId;
 @property (assign, nonatomic) float skuLabelBaseY;
 @property (assign, nonatomic) float actualPrice;
+@property (strong, nonatomic) NSArray* topRightBtns;
+
+@property (assign, nonatomic) QSOrderListCellCircleType circleType;
 @end
 
 @implementation QSOrderListTableViewCell
@@ -30,24 +44,106 @@
 - (void)awakeFromNib {
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    [self configBtn:self.submitButton];
-    [self configBtn:self.exchangeButton];
+
     
-    self.postDisCountImgView.layer.cornerRadius = self.postDisCountImgView.bounds.size.width / 2;
-    self.postDisCountImgView.layer.masksToBounds = YES;
-    self.postDisCountImgView.transform = CGAffineTransformMakeRotation(0.3);
-    self.postDisCountImgView.userInteractionEnabled = NO;
-    self.postDisCountImgView.hidden = YES;
-    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapExpectablePriceBtn:)];
-    [self.postDisCountImgView addGestureRecognizer:ges];
+    //Circle Btn
+    self.circleBtnImageView.layer.cornerRadius = self.circleBtnImageView.bounds.size.width / 2;
+    self.circleBtnImageView.layer.masksToBounds = YES;
+    self.circleBtnImageView.transform = CGAffineTransformMakeRotation(0.3);
+    self.circleBtnImageView.userInteractionEnabled = NO;
+    self.circleBtnImageView.hidden = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapCircleBtn:)];
+    [self.circleBtnImageView addGestureRecognizer:ges];
+    self.circleType = QSOrderListCellCircleTypeNone;
+    self.circleBtnImageView.userInteractionEnabled = YES;
     
+    //Web Page
     self.clickToWebpageBtn.layer.cornerRadius = self.clickToWebpageBtn.bounds.size.height / 8;
     self.clickToWebpageBtn.layer.borderColor = [UIColor colorWithRed:0.949 green:0.588 blue:0.643 alpha:1.000].CGColor;
     self.clickToWebpageBtn.layer.borderWidth = 1.f;
     self.itemImgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *imgGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapClickToWebViewPage:)];
     [self.itemImgView addGestureRecognizer:imgGes];
+    
+    //Top Right Btns
+    self.topRightBtns = @[
+                          self.submitButton,
+                          self.refundButton,
+                          self.logisticsButton,
+                          self.cancelButton
+                          ];
+    for (UIButton* btn in self.topRightBtns) {
+        [self configBtn:btn];
+    }
+    
+    [self removeAllTopRightBtn];
+    
+    
 }
+
+#pragma mark - Top Right
+- (void)removeAllTopRightBtn {
+    for (UIView* v in self.topRightBtns) {
+        [v removeFromSuperview];
+    }
+}
+- (void)showTopRightBtns:(NSArray*)btns {
+    [self removeAllTopRightBtn];
+    CGFloat right = [UIScreen mainScreen].bounds.size.width;
+    CGFloat borderWidth = 10.0;
+    for (int i = (int)btns.count - 1; i >= 0; i--) {
+        UIButton* btn = btns[i];
+        right -= borderWidth;
+        btn.center = CGPointMake(right - btn.bounds.size.width / 2, 20.0);
+        right -= btn.bounds.size.width;
+        [self.contentView addSubview:btn];
+    }
+}
+
+#pragma mark - Circle Btn
+- (void)updateCircleBtn {
+    self.circleBtnImageView.hidden = NO;
+    if (self.circleType == QSOrderListCellCircleTypeNone) {
+        self.circleBtnImageView.hidden = YES;
+    } else if (self.circleType == QSOrderListCellCircleTypeNewDiscount) {
+#warning handle unread
+        if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
+            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_dot"];
+        } else {
+            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount"];
+        }
+
+    } else if (self.circleType == QSOrderListCellCircleTypeShareToPay) {
+        if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
+#warning @mhy 变成带点的分享并付款
+            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_share_to_pay"];
+        } else {
+            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_share_to_pay"];
+        }
+
+    } else if (self.circleType == QSOrderListCellCircleTypePay) {
+        self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_pay"];
+    } else if (self.circleType == QSOrderListCellCircleTypeSaleOut) {
+        self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_outofsale"];
+    }
+}
+
+- (void)didTapCircleBtn:(UIGestureRecognizer*)ges {
+    if (self.circleType == QSOrderListCellCircleTypeNone) {
+    } else if (self.circleType == QSOrderListCellCircleTypeNewDiscount) {
+        [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
+        [self didTapExpectablePriceBtn:ges];
+    } else if (self.circleType == QSOrderListCellCircleTypeShareToPay) {
+        [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
+        [self.delegate didClickPayBtnForCell:self];
+    } else if (self.circleType == QSOrderListCellCircleTypePay) {
+        [self.delegate didClickPayBtnForCell:self];
+    } else if (self.circleType == QSOrderListCellCircleTypeSaleOut) {
+        
+    }
+    [self updateCircleBtn];
+}
+
 - (void)configBtn:(UIButton*)btn
 {
     UIColor* color = btn.titleLabel.textColor;
@@ -59,7 +155,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -81,10 +177,7 @@
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
     [self configBtn:self.submitButton];
-    [self.submitButton setImage:nil forState:UIControlStateNormal];
-    [self.submitButton setTitle:nil forState:UIControlStateNormal];
-    [self.postDisCountImgView setImage:nil];
-    self.postDisCountImgView.userInteractionEnabled = NO;
+    [self.circleBtnImageView setImage:nil];
     
     
     //itemUtil
@@ -95,7 +188,7 @@
     [self.originPriceLabel setAttributedText:[QSItemUtil getAttrbuteStr:oldPrice]];
     self.nowPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     
-
+    
     //tradeUtil
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     if ([QSTradeUtil getActualPrice:tradeDict]) {
@@ -117,112 +210,65 @@
     {
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
     }
-    BOOL shouldShare = [QSTradeUtil getShouldShare:tradeDict];
     
     switch (s) {
         case 0:
         {
-            self.submitButton.hidden = NO;
             self.stateLabel.hidden = YES;
-            self.exchangeButton.hidden = YES;
-            self.saleImgView.hidden = YES;
-            [self.submitButton setTitle:@"取消申请" forState:UIControlStateNormal];
-            
+            [self showTopRightBtns:@[self.cancelButton]];
+            NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
+            if (![QSItemUtil getExpectableDict:itemDict]) {
+                self.circleType = QSOrderListCellCircleTypeNone;
+            } else {
+                if ([QSItemUtil getExpectableIsExpire:itemDict]) {
+                    self.circleType = QSOrderListCellCircleTypeSaleOut;
+                } else {
+                    NSNumber* price = [QSItemUtil getExpectablePrice:itemDict];
+                    NSNumber* tradeExpPrice = [QSTradeUtil getExpectedPrice:tradeDict];
+                    if (price.doubleValue > tradeExpPrice.doubleValue) {
+                        self.circleType = QSOrderListCellCircleTypeNewDiscount;
+                    } else {
+                        if ([QSTradeUtil getShouldShare:tradeDict]) {
+                            self.circleType = QSOrderListCellCircleTypeShareToPay;
+                        } else {
+                            self.circleType = QSOrderListCellCircleTypePay;
+                        }
+                    }
+                }
+            }
             
             break;
         }
         case 1:{
-            self.submitButton.hidden = NO;
-            self.exchangeButton.hidden = NO;
+
             self.stateLabel.hidden = YES;
-            self.saleImgView.hidden = YES;
-            [self configBtn:self.exchangeButton];
-            [self.exchangeButton setTitle:@"取消订单" forState:UIControlStateNormal];
-            [self.submitButton setTitle:@"立即付款" forState:UIControlStateNormal];
+            [self showTopRightBtns:@[self.cancelButton]];
+            self.circleType = QSOrderListCellCircleTypePay;
             break;
         }
         case 3: {
-            self.submitButton.hidden = NO;
-            self.exchangeButton.hidden = NO;
-            self.saleImgView.hidden = YES;
             self.stateLabel.hidden = YES;
-            [self configBtn:self.submitButton];
-            [self configBtn:self.exchangeButton];
-            [self.exchangeButton setTitle:@"物流信息" forState:UIControlStateNormal];
-            [self.submitButton setTitle:@"申请退货" forState:UIControlStateNormal];
+
+
+            if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
+#warning TODO @mhy 物流信息按钮变成带点图
+            } else {
+#warning TODO @mhy 物流信息按钮变成不带点图
+            }
+            
+            [self showTopRightBtns:@[self.logisticsButton, self.refundButton]];
             break;
         }
         default: {
-            self.submitButton.hidden = YES;
-            self.exchangeButton.hidden = YES;
-            self.saleImgView.hidden = YES;
             self.stateLabel.hidden = NO;
             break;
         }
     }
-
-    
-    
-    
-    NSNumber *expectablePrice = [QSItemUtil getExpectablePrice:itemDict];
-    __weak QSOrderListTableViewCell *weakSelf = self;
-    if (s == 0 && expectablePrice) {
-        [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
-            NSDictionary *peopleDic  = data;
-            NSArray *unreadArray = [QSPeopleUtil getUnreadTrades:peopleDic];
-            BOOL isRed = NO;
-            for (NSDictionary *unreadDic in unreadArray) {
-                if ([[QSPeopleUtil getUnreadTradId:unreadDic] isEqualToString:[QSTradeUtil getTradeId:tradeDict]]) {
-                    isRed = YES;
-                }
-                
-            }
-            if (isRed == YES) {
-                weakSelf.postDisCountImgView.hidden = NO;
-                weakSelf.postDisCountImgView.userInteractionEnabled = YES;
-                [weakSelf.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_red"]];
-            }else if(isRed == NO){
-                weakSelf.postDisCountImgView.hidden = NO;
-                weakSelf.postDisCountImgView.userInteractionEnabled = YES;
-                [weakSelf.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_gray"]];
-            }
-        } onError:^(NSError *error) {
-            
-        }];
-        
-        NSString *itemId = [QSTradeUtil getItemId:tradeDict];
-        
-        [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            
-            if (array.count) {
-                NSDictionary *getItem = [array firstObject];
-                NSArray *array = [QSTradeUtil getSkuProperties:tradeDict];
-                NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:array];
-                int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:getItem];
-                if (count < 1 || [QSItemUtil getDelist:getItem] ) {
-                    weakSelf.postDisCountImgView.hidden = NO;
-                    weakSelf.postDisCountImgView.userInteractionEnabled = NO;
-                    [weakSelf.postDisCountImgView setImage:[UIImage imageNamed:@"order_list_cell_discount_outofsale"]];
-                }
-            }
-        } onError:^(NSError *error) {
-            
-        }];
-
-
-    }else{
-        self.postDisCountImgView.hidden = YES;
-        self.postDisCountImgView.userInteractionEnabled = NO;
-    }
-}
-- (void)didTapClickToWebViewPage:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(didClickToWebPageForCell:)]) {
-        [self.delegate didClickToWebPageForCell:self];
-    }
+    [self updateCircleBtn];
 }
 
-#pragma mark - IBAction
+
+#pragma mark - Top Right 4 btns
 - (IBAction)refundBtnPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(didClickRefundBtnForCell:)]) {
@@ -231,56 +277,35 @@
 }
 - (IBAction)submitBtnPressed:(id)sender
 {
-    int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
-    if (status == 1) {
-        [self payBtnPressed];
-    } else if (status  == 3) {
-        if ([self.delegate respondsToSelector:@selector(didClickRefundBtnForCell:)]) {
-            [self.delegate didClickRefundBtnForCell:self];
-        }
-    }
-    else if(status == 0)
-    {
-        if ([self.delegate respondsToSelector:@selector(didClickCancelBtnForCell:)]) {
-            [self.delegate didClickCancelBtnForCell:self];
-        }
+    if ([self.delegate respondsToSelector:@selector(didClickReceiveBtnForCell:)]) {
+        [self.delegate didClickReceiveBtnForCell:self];
     }
 }
 
-- (IBAction)returnBtnPressed:(id)sender {
-    int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
-    if ( status == 1 ) {
-            [self.delegate didClickCancelBtnForCell:self];
-    }
-    else if(status == 3)
-    {
-        [self refundBtnPressed:sender];
+- (IBAction)cancelBtnPressed:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(didClickCancelBtnForCell:)]) {
+        [self.delegate didClickCancelBtnForCell:self];
     }
 }
 
-- (IBAction)exchangeBtnPressed:(id)sender {
-      int status = [QSTradeUtil getStatus:self.tradeDict].intValue;
-    if (status == 1) {
-        if ([self.delegate respondsToSelector:@selector(didClickCancelBtnForCell:)]) {
-            [self.delegate didClickCancelBtnForCell:self];
-        }
-    }else{
-    if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnForCell:)]) {
-        [self.delegate didClickExchangeBtnForCell:self];
-    }
-    }
+- (IBAction)logisticsBtnPressed:(id)sender {
+#warning @mhy 处理物流按钮
+    [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
 }
 
+#pragma mark - Web Page
 - (IBAction)clickToWebpageBtnPressed:(id)sender {
     [self didTapClickToWebViewPage:self];
 }
-
-- (void)payBtnPressed
+- (void)didTapClickToWebViewPage:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {
-        [self.delegate didClickPayBtnForCell:self];
+    if ([self.delegate respondsToSelector:@selector(didClickToWebPageForCell:)]) {
+        [self.delegate didClickToWebPageForCell:self];
     }
 }
+
+
+
 - (void)didTapExpectablePriceBtn:(UIGestureRecognizer*)ges {
     if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnForCell:)]) {
         [self.delegate didClickExpectablePriceBtnForCell:self];

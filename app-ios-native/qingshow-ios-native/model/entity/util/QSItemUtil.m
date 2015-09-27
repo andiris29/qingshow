@@ -140,6 +140,19 @@
         return nil;
     }
 }
+
++ (NSDictionary*)getExpectableDict:(NSDictionary*)dict {
+    return [dict dictValueForKeyPath:@"expectable"];
+}
++ (BOOL)getExpectableIsExpire:(NSDictionary *)dict {
+    NSNumber* n = [dict numberValueForKeyPath:@"expectable.expired"];
+    if (n) {
+        return n.boolValue;
+    }
+    return NO;
+    
+}
+
 + (NSNumber *)getExpectablePrice:(NSDictionary *)dict
 {
     NSNumber* n = [dict numberValueForKeyPath:@"expectable.price"];

@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "category_shangyi.png"
+      "filename" : "order_list_cell_discount_share_to_pay.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "category_shangyi@2x.png"
+      "filename" : "order_list_cell_discount_share_to_pay@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
