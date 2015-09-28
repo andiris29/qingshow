@@ -158,27 +158,15 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
 
-                QSModel.INSTANCE.removeUser();
-
-                Map map = new HashMap();
-                Log.i("JPush_QS", "logout" + PushModel.INSTANCE.getRegId());
-                map.put("registrationId", PushModel.INSTANCE.getRegId());
-                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getUserLogout(), new JSONObject(map), new Response.Listener<JSONObject>() {
+                UserCommand.logOut(new Callback() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        if (MetadataParser.hasError(response)) {
-                            ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
-                            return;
-                        }
-                        CookieSerializer.INSTANCE.saveCookie("");
+                    public void onComplete() {
+                        ToastUtil.showShortToast(QSApplication.instance().getApplicationContext(), "已退出登录");
+                        Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
                     }
                 });
-                RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-                ToastUtil.showShortToast(getActivity().getApplicationContext(), "已退出登录");
-                Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
-                startActivity(intent);
-                GoToWhereAfterLoginModel.INSTANCE.set_class(U01UserActivity.class);
-                getActivity().finish();
             }
         });
     }
