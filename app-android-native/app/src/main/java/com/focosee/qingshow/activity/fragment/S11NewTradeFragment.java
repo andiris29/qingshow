@@ -213,7 +213,8 @@ public class S11NewTradeFragment extends Fragment {
             if(!inited) {
                 btnMap.get(key).getChildViews().get(0).setChecked(true);
                 onCheckedChangeListener.onChanged(key, 0);
-                changeBtnClickable(false);
+                if(keys_order.size() > 1)
+                    changeBtnClickable(false);
             }
             i++;
         }
