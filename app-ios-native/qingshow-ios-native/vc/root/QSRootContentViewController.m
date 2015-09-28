@@ -48,6 +48,8 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
     [self configNavBar];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnreadChange:) name:kQSUnreadChangeNotificationName object:nil];
 
 }
 
@@ -59,6 +61,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Configure View
@@ -98,6 +104,9 @@
     } else {
         self.navigationItem.leftBarButtonItem = self.menuBtn;
     }
+}
+- (void)handleUnreadChange:(NSNotification*)noti {
+    [self updateMenuDot];
 }
 
 @end

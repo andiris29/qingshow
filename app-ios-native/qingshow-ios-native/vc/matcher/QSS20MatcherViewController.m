@@ -72,6 +72,7 @@
     
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnreadChange:) name:kQSUnreadChangeNotificationName object:nil];
 }
 
 
@@ -134,6 +135,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - IBAction
@@ -275,5 +280,8 @@
     } else {
         [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu"] forState:UIControlStateNormal];
     }
+}
+- (void)handleUnreadChange:(NSNotification*)noti {
+    [self updateMenuDot];
 }
 @end

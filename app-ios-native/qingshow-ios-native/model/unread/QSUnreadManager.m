@@ -95,19 +95,27 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
     self.unreadNotis = [[unreadArray filteredArrayUsingBlock:^BOOL(NSDictionary* dict) {
         return ![self _shouldIgnoreUnread:dict];
     }] mutableCopy];
+    [self _postUnreadChangeNotification];
 }
 
-- (void)addUnread:(NSDictionary*)unreadDict {
+- (void)_addUnreadWithoutNotification:(NSDictionary*)unreadDict {
     if (![self _shouldIgnoreUnread:unreadDict]) {
         [self.unreadNotis addObject:@{
                                       @"extra" : unreadDict
                                       }];
     }
+
+}
+
+- (void)addUnread:(NSDictionary*)unreadDict {
+    [self _addUnreadWithoutNotification:unreadDict];
+    [self _postUnreadChangeNotification];
 }
 
 - (void)removeUnread:(NSDictionary*)unreadDict {
-    [SHARE_NW_ENGINE userReadNotification:unreadDict onSucceed:nil onError:nil];
+    [SHARE_NW_ENGINE userReadNotification:[unreadDict dictValueForKeyPath:@"extra"] onSucceed:nil onError:nil];
     [self.unreadNotis removeObject:unreadDict];
+    [self _postUnreadChangeNotification];
 }
 
 - (NSArray*)getUnreadOfCommand:(NSString*)command {
@@ -138,6 +146,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 
 - (void)clearRecommandUnread {
     [self _clearUnreadOfCommand:@[@"newRecommandations"]];
+    [self _postUnreadChangeNotification];
 }
 
 #pragma mark Trade Dot
@@ -164,6 +173,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
     for (NSDictionary* noti in removeArray) {
         [self removeUnread:noti];
     }
+    [self _postUnreadChangeNotification];
 }
 
 #pragma mark Bonu Dot
@@ -173,6 +183,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 
 - (void)clearBonuUnread {
     [self _clearUnreadOfCommand:self.bonuDotCommands];
+    [self _postUnreadChangeNotification];
 }
 
 #pragma mark - Private
@@ -205,4 +216,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
     return NO;
 }
 
+- (void)_postUnreadChangeNotification {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kQSUnreadChangeNotificationName object:nil];
+}
 @end

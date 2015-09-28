@@ -153,6 +153,7 @@
     [self.badgeView.btnGroup triggerSelectType:QSBadgeButtonTypeMatcher];
     self.badgeView.followBtn.hidden = self.isCurrentUser;
     [self.badgeView.followBtn addTarget:self action:@selector(followBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnreadChange:) name:kQSUnreadChangeNotificationName object:nil];
 }
 
 
@@ -411,6 +412,9 @@
     } else {
         [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
     }
+}
+- (void)handleUnreadChange:(NSNotification*)noti {
+    [self updateMenuDot];
 }
 
 - (void)btnGroup:(QSBadgeBtnGroup*)btnGroup didSelectType:(QSBadgeButtonType)type {

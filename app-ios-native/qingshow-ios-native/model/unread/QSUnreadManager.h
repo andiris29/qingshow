@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "QSRootMenuItemType.h"
 
-#define kUnreadAdditionKeyNewRecommandations @"kUnreadAdditionKeyNewRecommandations"
+#define kQSUnreadChangeNotificationName @"kQSUnreadChangeNotificationName"
 
 typedef NS_ENUM(NSUInteger, QSUnreadTradeType) {
     QSUnreadTradeTypeExpectablePriceUpdated = 0,
