@@ -835,15 +835,16 @@ _resetPassword = function(req, res){
             if (error) {
                 callback(errors.genUnkownError);
             }else {
-             callback(null, tempPassword); 
+                callback(null, people.userInfo.id, tempPassword); 
             }
         });
-    }],function(error, tempPassword) {
+    }],function(error, id, tempPassword) {
         ResponseHelper.response(res, error, {
+            'id' : id,
             'password' : tempPassword
         });
     });
-}
+};
 
 
 var _readNotification = function(req, res) {
