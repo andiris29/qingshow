@@ -293,5 +293,8 @@
         [vc handleError:error];
     }];
 }
-    
+- (void)handleUnreadChange:(NSNotification*)not {
+    [super handleUnreadChange:not];
+    [self.provider.view reloadData];
+}
 @end

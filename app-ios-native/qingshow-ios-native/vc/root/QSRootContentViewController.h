@@ -11,6 +11,7 @@
 
 @interface QSRootContentViewController : UIViewController <QSIRootContentViewController>
 
+- (void)handleUnreadChange:(NSNotification*)noti;
 @property (strong, nonatomic) UITapGestureRecognizer* showVersionTapGesture;
 
 @end
