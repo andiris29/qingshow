@@ -822,27 +822,23 @@ _resetPassword = function(req, res){
 var _readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
-
-    if (Object.keys(params).length === 1 && params.cmd) {
+    console.log(params);
+    if (Object.keys(params).length === 1 && params.command ) {
         criteria = {
             $pull : {
                 'unreadNotifications' : {
-                    'extra.cmd' : params.cmd
+                    'extra.command' : params.command
                 }
             }
         };
     }
 
     if (Object.keys(params).length > 1) {
-        var extra = {};
-        for(var element in params){
-            element === '_id' ? extra._id = RequestHelper.parseId(params._id) :
-                extra[element] = params[element];
-        }
         criteria = {
             $pull : {
                 'unreadNotifications' : {
-                    'extra' : extra
+                    'extra.command' : params.command,
+                    'extra._id' :  RequestHelper.parseId(params._id)
                 }
             }
         };
