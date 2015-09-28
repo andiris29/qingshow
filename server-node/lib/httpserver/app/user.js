@@ -822,7 +822,6 @@ _resetPassword = function(req, res){
 var _readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
-    console.log(params);
     if (Object.keys(params).length === 1 && params.command ) {
         criteria = {
             $pull : {
@@ -834,12 +833,15 @@ var _readNotification = function(req, res) {
     }
 
     if (Object.keys(params).length > 1) {
+        var unreadNotifications = {};
+        for(var element in params){
+            var key = 'extra.' + element;
+            element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(params._id) :
+                unreadNotifications[key] = params[element];
+        }
         criteria = {
             $pull : {
-                'unreadNotifications' : {
-                    'extra.command' : params.command,
-                    'extra._id' :  RequestHelper.parseId(params._id)
-                }
+                'unreadNotifications' : unreadNotifications
             }
         };
     }
