@@ -95,6 +95,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         ButterKnife.inject(this, rootView);
         EventBus.getDefault().register(this);
         _id = getActivity().getIntent().getStringExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION);
+        UnreadHelper.userReadNotificationId(_id);
         if (!TextUtils.isEmpty(_id))
             getDataFromNet(_id);
         rootView.setOnTouchListener(new View.OnTouchListener() {
@@ -113,21 +114,21 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     private void initDes() {
 
-        actualPrice = trade.itemRef.expectablePrice;
+        actualPrice = String.valueOf(trade.itemRef.expectable.price);
 
         img.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         itemName.setText(trade.itemSnapshot.name);
 
         promoPrice.append(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
-        num.append(trade.quantity + "");
+        num.append(String.valueOf(trade.quantity));
 
         String price = StringUtil.FormatPrice(trade.itemSnapshot.price);
         SpannableString spannableString = new SpannableString(price);
         spannableString.setSpan(new StrikethroughSpan(), 1, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.price.append(spannableString);
 
-        expectedPrice.append(StringUtil.FormatPrice(trade.expectedPrice + ""));
-        expectedDiscount.append(StringUtil.formatDiscount(trade.expectedPrice + "", trade.itemSnapshot.promoPrice));
+        expectedPrice.append(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
+        expectedDiscount.append(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
 
         spannableString = new SpannableString(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -226,7 +227,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
-        UnreadHelper.userReadNotificationId(_id);
     }
 
     @Override
