@@ -33,7 +33,7 @@
     self = [super initWithNibName:@"QSS11NewTradeNotifyViewController" bundle:nil];
     if (self) {
         self.tradeDict = tradeDict;
-        self.expectablePrice = [QSItemUtil getExpectablePrice:[QSTradeUtil getItemSnapshot:tradeDict]];
+        self.expectablePrice = [QSItemUtil getExpectablePrice:[QSTradeUtil getItemDic:tradeDict]];
     }
     return self;
 }
