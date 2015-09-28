@@ -50,13 +50,7 @@
     }
     return self;
 }
-- (id)initWithItemId:(NSString*)itemId
-{
-    if (self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil]) {
-        
-    }
-    return self;
-}
+
 - (id)initWithItem:(NSDictionary*)item showId:(NSString *)showId
 {
     self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];

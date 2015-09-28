@@ -75,8 +75,10 @@ static NSString* s_paymentHost = nil;
 
 #pragma mark - Payment Api
 - (void)sharedForTrade:(NSDictionary*)tradeDict
-             onSucceed:(VoidBlock)succeedBlock
+             onSucceed:(DicBlock)succeedBlock
                onError:(ErrorBlock)errorBlock {
+    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
+    NSNumber* price = [QSItemUtil getExpectablePrice:itemDict];
     if ([QSTradeUtil getShouldShare:tradeDict]) {
         //分享
         NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
@@ -85,18 +87,21 @@ static NSString* s_paymentHost = nil;
         [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:nil image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareTrade&_id=%@&initiatorRef=%@",[QSShareService getShareHost],tradeId,peopleId] onSucceed:^{
             
             [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:^{
-                NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
-                NSNumber* price = [QSItemUtil getExpectablePrice:itemDict];
+
                 [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:@{@"actualPrice" : price} onSucceed:^(NSDictionary *d) {
                     if (succeedBlock) {
-                        succeedBlock();
+                        succeedBlock(d);
                     }
                 } onError:errorBlock];
             } onError:errorBlock];
             
         } onError:errorBlock];
     } else {
-        succeedBlock();
+        [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:@{@"actualPrice" : price} onSucceed:^(NSDictionary *d) {
+            if (succeedBlock) {
+                succeedBlock(d);
+            }
+        } onError:errorBlock];
     }
 }
 

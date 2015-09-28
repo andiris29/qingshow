@@ -203,17 +203,14 @@
     if (actualPrice) {
         paramDict = @{@"actualPrice" : vc.expectablePrice};
     }
-    [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:paramDict onSucceed:^(NSDictionary* dict){
-        [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
-            [self didClickClose:vc];
-            QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:dict];
-            v.menuProvider = self.menuProvider;
-            [self.navigationController pushViewController:v animated:YES];
-        } onError:^(NSError *error) {
-            [vc handleError:error];
-        }];
+    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
+        [self didClickClose:vc];
+        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
+        v.menuProvider = self.menuProvider;
+        [self.navigationController pushViewController:v animated:YES];
     } onError:^(NSError *error) {
         [vc handleError:error];
     }];
+
 }
 @end

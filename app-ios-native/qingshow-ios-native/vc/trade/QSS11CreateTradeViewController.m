@@ -81,13 +81,7 @@
     [self updateAllCell];
 
     NSDictionary* tradeDict = self.tradeDict;
-    NSDictionary *itemDict = [QSTradeUtil getItemDic:self.tradeDict];
-    NSNumber* price = nil;
-    if ([QSItemUtil getExpectablePrice:itemDict]) {
-        price = [QSItemUtil getExpectablePrice:itemDict];
-    } else {
-        price = [QSTradeUtil getExpectedPrice:tradeDict];
-    }
+    NSNumber* price = [QSTradeUtil getActualPrice:tradeDict];
     NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
     NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
     [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
@@ -393,7 +387,7 @@
     }
     
     NSDictionary* tradeDict = self.tradeDict;
-    
+    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
     NSNumber* price = [QSTradeUtil getActualPrice:tradeDict];
     NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
     NSNumber* totalPrice = @(quantity.doubleValue * price.doubleValue);

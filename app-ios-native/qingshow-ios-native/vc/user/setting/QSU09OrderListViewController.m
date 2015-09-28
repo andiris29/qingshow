@@ -150,9 +150,9 @@
 
 - (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict
 {
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
         [self.provider reloadData];
-        QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
+        QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:d];
         QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
         vc.navigationItem.leftBarButtonItem = backItem;
         vc.menuProvider = self.menuProvider;
@@ -272,14 +272,10 @@
 }
 - (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
     NSDictionary* tradeDict = vc.tradeDict;
-    NSNumber* actualPrice = vc.expectablePrice;
-    NSDictionary* paramDict = nil;
-    if (actualPrice) {
-        paramDict = @{@"actualPrice" : vc.expectablePrice};
-    }
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+
+    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
         [self didClickClose:vc];
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
+        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
         v.menuProvider = self.menuProvider;
         [self.navigationController pushViewController:v animated:YES];
     } onError:^(NSError *error) {
