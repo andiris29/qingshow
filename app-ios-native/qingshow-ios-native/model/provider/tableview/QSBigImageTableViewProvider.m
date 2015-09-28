@@ -78,7 +78,7 @@
 }
 - (void)clickDetailBtn:(QSBigImageTableViewCell *)cell
 {
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForRowAtPoint:cell.center];;
     NSDictionary* dict = self.resultArray[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(clickDetailOfDict:type:)]) {
         [self.delegate clickDetailOfDict:dict type:self.type];
@@ -86,7 +86,7 @@
 }
 - (void)clickLikeBtn:(QSBigImageTableViewCell *)cell
 {
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForRowAtPoint:cell.center];
     NSDictionary* dict = self.resultArray[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(clickLikeOfDict:type:)]) {
         [self.delegate clickLikeOfDict:dict type:self.type];

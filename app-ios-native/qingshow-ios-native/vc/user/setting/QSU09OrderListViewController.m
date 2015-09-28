@@ -46,7 +46,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self.provider refreshClickedData];
     [self configProvider];
     [self configView];
     [self.navigationController.navigationBar setTitleTextAttributes:
@@ -59,7 +58,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self.provider reloadData];
     self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];
 }
@@ -115,8 +114,6 @@
         }];
     };
     self.provider.delegate = self;
-    [self.provider fetchDataOfPage:1];
-    [self.provider reloadData];
 }
 
 #pragma mark - QSOrderListHeaderViewDelegate
@@ -280,18 +277,15 @@
     if (actualPrice) {
         paramDict = @{@"actualPrice" : vc.expectablePrice};
     }
-    [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:paramDict onSucceed:^(NSDictionary* dict){
-        [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
-            [self didClickClose:vc];
-            QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:dict];
-            v.menuProvider = self.menuProvider;
-            [self.navigationController pushViewController:v animated:YES];
-        } onError:^(NSError *error) {
-            [vc handleError:error];
-        }];
+    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^{
+        [self didClickClose:vc];
+        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:tradeDict];
+        v.menuProvider = self.menuProvider;
+        [self.navigationController pushViewController:v animated:YES];
     } onError:^(NSError *error) {
         [vc handleError:error];
     }];
+    
 }
 - (void)handleUnreadChange:(NSNotification*)not {
     [super handleUnreadChange:not];

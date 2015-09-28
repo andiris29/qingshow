@@ -173,7 +173,7 @@
 
 - (NSDictionary*)receiverDictForCell:(UITableViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.tableView indexPathForRowAtPoint:cell.center];
     return [self receiverDictForIndexPath:indexPath];
 }
 
@@ -181,7 +181,7 @@
     
     UITableViewCell* cell = self.toRemoveCell;
     self.toRemoveCell = nil;
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.tableView indexPathForRowAtPoint:cell.center];;
     NSDictionary* locationDict = [self receiverDictForCell:cell];
     
     if (buttonIndex != alertView.cancelButtonIndex) {

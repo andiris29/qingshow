@@ -88,7 +88,8 @@
 #pragma mark - Private
 - (NSDictionary*)orderForCell:(UITableViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    
+    NSIndexPath* indexPath = [self.view indexPathForRowAtPoint:cell.center];
     return [self orderForIndexPath:indexPath];
 }
 

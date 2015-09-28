@@ -180,7 +180,7 @@
 #pragma QSShowCollectionViewCellDelegate
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForItemAtPoint:cell.center];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(addFavorShow:provider:)]) {
@@ -190,7 +190,7 @@
 
 - (void)playBtnPressed:(QSShowCollectionViewCell *)cell
 {
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForItemAtPoint:cell.center];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(didClickPlayButtonOfShow: provider:)]) {

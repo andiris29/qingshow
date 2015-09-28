@@ -60,7 +60,7 @@
 #pragma mark - QSModelListTableViewCellDelegate
 - (void)favorBtnPressed:(QSPeopleListTableViewCell *)cell
 {
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForRowAtPoint:cell.center];
     if ([self.delegate respondsToSelector:@selector(followBtnPressed:)]) {
         [self.delegate followBtnPressed:self.resultArray[indexPath.row]];
     }
