@@ -29,27 +29,64 @@ JamyWebItem.getSkus = function(source, callback) {
                     return;
                 }
 
+                var code = '';
+                var idRegx = /product\/([A-Z0-9]+)/;
+                var idComp = source.match(idRegx);
+
+                if (idComp && idComp.length > 1) {
+                    code = idComp[1];
+                }
                 var price = $('.prc-area-cny').text().split("￥");
                 jamyInfo.promo_price = price[price.length - 1];
                 jamyInfo.price = jamyInfo.promo_price;
 
                 var skuProperties = [];
-                var retStr = "颜色";
+                var colorProperties = [];
                 $('select').first().children('option').each(function(i, elm) {
-                    retStr = retStr + ":" + $(this).text();
+                    colorProperties.push($(this).text());
                 });
 
-                skuProperties.push(retStr);
 
-                retStr = "尺码";
+                var sizeProperties = [];
                 $('select').last().children('option').each(function(i, elm) {
-                    retStr = retStr + ":" + $(this).text();
+                    sizeProperties.push($(this).text());
                 });
 
-                skuProperties.push(retStr);
+                var codes = [];
+                var index = 1;
+                for(var i = 0; i < colorProperties.length; i++) {
+                    for (var j = 0; j < sizeProperties.length; j++) {
+                        var offset = '0000' + index;
+                        offset = offset.substr(-4);
+                        codes.push(code + offset);
+                    }
+                }
 
-                jamyInfo.skuProperties = skuProperties;
-                callback(null, jamyInfo);
+                var skuTable = {};
+
+                var jamyUrl = 'http://www.thejamy.com/common/discount/getPriceByProductItemCodes/' + codes.join('');
+                request.get(jamyUrl, function(error, response, body) {
+                    var datas = JSON.parse(body);
+
+                    for(var i = 0; i < colorProperties.length; i++) {
+                        for (var j = 0; j < sizeProperties.length; j++) {
+                            var offset = '0000' + index;
+                            offset = offset.substr(-4);
+                            var newCode = code + offset;
+                            skuTable[colorProperties[i] + ':' + sizeProperties[j]] = '1:' + datas['response'][newCode].prc.sum.cny + '';
+                        }
+                    }
+
+                    colorProperties = ['颜色'].concat(colorProperties);
+                    sizeProperties = ['尺寸'].concat(sizeProperties);
+
+                    skuProperties.push(colorProperties.join(':'));
+                    skuProperties.push(sizeProperties.join(':'));
+
+                    jamyInfo.skuProperties = skuProperties;
+                    jamyInfo.skuTable = skuTable;
+                    callback(null, jamyInfo);
+                });
             }
         });
     }], function(error, jamyInfo) {

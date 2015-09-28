@@ -3,7 +3,6 @@ var async = require('async');
 var Iconv = require('iconv-lite');
 var request = require('request');
 var cheerio = require('cheerio');
-
 var URLParser = require('../../URLParser');
 
 var sizePrefixs = ["20509", "20518", "20549"];
@@ -57,7 +56,31 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
             callback(err);
         } else {
             var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+
+            var shopIdRegex = /shopId=(\d+)/;
+            var matchResult = b.match(shopIdRegex);
+            var shopId = null;
+            if (matchResult && matchResult.length) {
+                shopId = matchResult[1];
+            }
+
             var $ = cheerio.load(b);
+            var shopName = null;
+            var shopTags = $('.tb-shop-info a');
+            shopTags.each(function () {
+                var t = cheerio(this).text();
+                if (!shopName || !shopName.length) {
+                    shopName = t;
+                }
+            });
+            if (shopName) {
+                shopName = shopName.trim();
+            }
+            var shopInfo = {
+                shopId : shopId,
+                shopName : shopName
+            };
+
             var scriptTags = $('script');
             var hubConfigScript = null;
             scriptTags.each(function () {
@@ -97,7 +120,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                 } else {
                     var skus = _generateSkus(webSkus, skuMap, propertyMap);
                     var taobaoInfo = generateTaobaoInfoFromSkus(skus);
-
+                    taobaoInfo.shopInfo = shopInfo;
 
                     callback(null, taobaoInfo);
                 }
@@ -143,13 +166,25 @@ var generateTaobaoInfoFromSkus = function (skus){
                     names.push(n[i]);
                     retStr = retStr + ':' + n[i];
                 }
-            })
+            });
             skuProperties.push(retStr);
         }
+        var skuTable = {};
+        for (var j = 0; j < skus.length; j++) {
+            var price = skus[j].promo_price;
+            if (!price) {
+                price = skus[j].price;
+            }
+            var stock = skus[j].stock;
+            var key = skus[j].properties_name;
+            key = key.replace(/;/g, ':');
+            skuTable[key] = stock + ':' + price;
+        }
         taobaoInfo.skuProperties = skuProperties;
+        taobaoInfo.skuTable = skuTable;
     }
     return taobaoInfo;
-}
+};
 
 // Tmall
 var _parseTmallWebPage = function (source, webSkus, callback) {
@@ -163,7 +198,21 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
             callback(err);
         } else {
             var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+            var shopIdRegex = /shopId=(\d+)/;
+            var matchResult = b.match(shopIdRegex);
+            var shopId = null;
+            if (matchResult && matchResult.length) {
+                shopId = matchResult[1];
+            }
+
             var $ = cheerio.load(b);
+            var shopTag = $('.slogo-shopname');
+            var shopName = shopTag.text();
+
+            var shopInfo = {
+                shopId : shopId,
+                shopName : shopName
+            };
 
             var scriptTags = $('script');
             var tshopSetupScript = null;
@@ -201,6 +250,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                     });
 
                     var taobaoInfo = generateTaobaoInfoFromSkus(skus);
+                    taobaoInfo.shopInfo = shopInfo;
                     callback(null, taobaoInfo);
                 }
             };
