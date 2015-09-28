@@ -10,6 +10,8 @@
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
 #import "QSNetworkKit.h"
+#import "QSPeopleUtil.h"
+
 #define _typeToStr(type) @(type).stringValue
 
 NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
@@ -48,6 +50,12 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 @end
 
 @implementation QSUnreadManager
+
+- (void)didReceiveUserInfoUpdateNoti:(NSNotification*)noti {
+    NSDictionary* userInfo = noti.userInfo;
+    [self updateUnreadState:[QSPeopleUtil getUnreadNotifications:userInfo]];
+    
+}
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -63,8 +71,13 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
         }
         self.menuDotCommands = commands;
         self.bonuDotCommands = @[@"newBonus", @"bonusWithdrawComplete"];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveUserInfoUpdateNoti:) name:kUserInfoUpdateNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 + (QSUnreadManager*)getInstance {
     static QSUnreadManager* s_mgr = nil;
@@ -86,7 +99,9 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 
 - (void)addUnread:(NSDictionary*)unreadDict {
     if (![self _shouldIgnoreUnread:unreadDict]) {
-        [self.unreadNotis addObject:unreadDict];
+        [self.unreadNotis addObject:@{
+                                      @"extra" : unreadDict
+                                      }];
     }
 }
 
@@ -101,7 +116,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 
 - (NSArray*)getUnreadOfCommands:(NSArray*)commands {
     return [self.unreadNotis filteredArrayUsingBlock:^BOOL(NSDictionary* dict) {
-        return [commands indexOfObject:[dict stringValueForKeyPath:@"command"]] != NSNotFound;
+        return [commands indexOfObject:[dict stringValueForKeyPath:@"extra.command"]] != NSNotFound;
     }];
 }
 
@@ -130,7 +145,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
     NSString* command = unreadTradeTypeToCommand(type);
     NSArray* notis = [self getUnreadOfCommand:command];
     for (NSDictionary* noti in notis) {
-        if ([[noti stringValueForKeyPath:@"_id"] isEqualToString:tradeId]) {
+        if ([[noti stringValueForKeyPath:@"extra._id"] isEqualToString:tradeId]) {
             return YES;
         }
     }
@@ -142,7 +157,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
     NSArray* notis = [self getUnreadOfCommand:command];
     NSMutableArray* removeArray = [@[] mutableCopy];
     for (NSDictionary* noti in notis) {
-        if ([[noti stringValueForKeyPath:@"_id"] isEqualToString:tradeId]) {
+        if ([[noti stringValueForKeyPath:@"extra._id"] isEqualToString:tradeId]) {
             [removeArray addObject:noti];
         }
     }
@@ -166,7 +181,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
         return NO;
     }
     for (NSDictionary* c in self.unreadNotis) {
-        NSString* command = [c stringValueForKeyPath:@"command"];
+        NSString* command = [c stringValueForKeyPath:@"extra.command"];
         if ([commands indexOfObject:command] != NSNotFound) {
             return YES;
         }
@@ -183,7 +198,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 
 - (BOOL)_shouldIgnoreUnread:(NSDictionary*)dict {
     NSArray* commandIgnoreUnread = @[@"newShowComments"];
-    NSString* command = [dict stringValueForKeyPath:@"command"];
+    NSString* command = [dict stringValueForKeyPath:@"extra.command"];
     if ([commandIgnoreUnread indexOfObject:command] != NSNotFound) {
         return YES;
     }

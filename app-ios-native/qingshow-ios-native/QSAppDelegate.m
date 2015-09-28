@@ -23,6 +23,7 @@
 #import "QSEntityUtil.h"
 #import "QSNetworkHelper.h"
 #import "QSHookHelper.h"
+#import "QSUnreadManager.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -38,6 +39,7 @@
 {
     [QSHookHelper registerHooker];
 
+    [QSUnreadManager getInstance];
     //注册第三方登陆、分享平台
     [self registerSharePlatform];
     

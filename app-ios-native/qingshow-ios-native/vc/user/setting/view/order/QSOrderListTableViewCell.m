@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 
 @interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
-@property (strong, nonatomic) NSDictionary* tradeDict;
+@property (weak, nonatomic) NSDictionary* tradeDict;
 @property (strong, nonatomic) NSString *itemId;
 @property (assign, nonatomic) float skuLabelBaseY;
 @property (assign, nonatomic) float actualPrice;
@@ -44,12 +44,8 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 - (void)awakeFromNib {
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-
     
     //Circle Btn
-    self.circleBtnImageView.layer.cornerRadius = self.circleBtnImageView.bounds.size.width / 2;
-    self.circleBtnImageView.layer.masksToBounds = YES;
-    self.circleBtnImageView.transform = CGAffineTransformMakeRotation(0.3);
     self.circleBtnImageView.userInteractionEnabled = NO;
     self.circleBtnImageView.hidden = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapCircleBtn:)];
@@ -106,7 +102,6 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     if (self.circleType == QSOrderListCellCircleTypeNone) {
         self.circleBtnImageView.hidden = YES;
     } else if (self.circleType == QSOrderListCellCircleTypeNewDiscount) {
-#warning handle unread
         if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_dot"];
         } else {
@@ -115,7 +110,6 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 
     } else if (self.circleType == QSOrderListCellCircleTypeShareToPay) {
         if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
-#warning @mhy 变成带点的分享并付款
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_sharetopay_dot"];
         } else {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_share_to_pay"];
@@ -176,9 +170,9 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
+    self.tradeDict = tradeDict;
     [self configBtn:self.submitButton];
     [self.circleBtnImageView setImage:nil];
-    
     
     //itemUtil
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
@@ -251,11 +245,9 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 
 
             if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
-#warning TODO @mhy 物流信息按钮变成带点图
                 [self.logisticsButton setImage:nil forState:UIControlStateNormal];
                 [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_dot"] forState:UIControlStateNormal];
             } else {
-#warning TODO @mhy 物流信息按钮变成不带点图
                 [self.logisticsButton setImage:nil forState:UIControlStateNormal];
                 [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_normal"] forState:UIControlStateNormal];
             }

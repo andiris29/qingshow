@@ -236,7 +236,7 @@
                 if (succeedBlock) {
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
-                [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:manager.userInfo];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:nil userInfo:manager.userInfo];
             }
                                 onError:
             ^(MKNetworkOperation *completedOperation, NSError *error) {
