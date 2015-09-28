@@ -34,6 +34,7 @@
     self = [super init];
     if (self) {
         self.rootVc = rootVc;
+        [self registerForPnsNotifications];
     }
     return self;
 }
