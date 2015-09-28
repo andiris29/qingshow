@@ -95,7 +95,8 @@ static char versionUpdateHandlerKey;
 
 - (void)showItemDetailViewController:(NSDictionary*)itemDict
 {
-    UIViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
+#warning peopleId === nil?
+    UIViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict peopleId:nil];
     
     [self.navigationController pushViewController:vc animated:YES];
 }

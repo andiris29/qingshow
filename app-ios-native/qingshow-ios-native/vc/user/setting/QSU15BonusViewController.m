@@ -40,6 +40,8 @@
     [self configNav];
     [self configUI];
     [self bindVCWithArray:_bonusArray];
+    [self.scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapScrollView:)]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -141,6 +143,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)didTapScrollView:(UIGestureRecognizer*)ges {
+    [self.alipayTextField resignFirstResponder];
 }
 
 /*
