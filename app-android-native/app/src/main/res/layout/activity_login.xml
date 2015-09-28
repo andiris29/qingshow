@@ -124,18 +124,36 @@
             android:layout_marginRight="10dp"
             android:background="@color/gray_background" />
 
-        <com.focosee.qingshow.widget.QSButton
-            android:id="@+id/forget_password_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="@string/forget_password"
-            android:background="@null"
-            android:drawablePadding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="25dp"
-            android:textColor="@color/white"
-            android:drawableStart="@drawable/fans"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/forget_password_btn"
+                android:layout_alignTop="@+id/forget_password_btn"
+                android:layout_alignBottom="@+id/forget_password_btn"
+                android:src="@drawable/forget_password"/>
+
+            <com.focosee.qingshow.widget.QSButton
+                android:id="@+id/forget_password_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/forget_password"
+                android:layout_alignParentRight="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@null"
+                app:clickGround="@color/transparent"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:textColor="@color/white"/>
+
+        </RelativeLayout>
 
         <android.support.percent.PercentRelativeLayout
             android:id="@+id/submitRelativeLayout"
