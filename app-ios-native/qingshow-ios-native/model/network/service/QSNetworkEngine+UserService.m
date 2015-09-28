@@ -510,7 +510,7 @@
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_USER_READ_NOTIFICATION method:@"POST" paramers:noti onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPathNoVersion:PATH_USER_READ_NOTIFICATION method:@"POST" paramers:noti onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }
