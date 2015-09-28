@@ -190,7 +190,7 @@
                             android:layout_below="@id/price_text"
                             android:gravity="center"
                             android:textColor="@color/red"
-                            android:textSize="40sp" />
+                            android:textSize="44sp" />
                     </LinearLayout>
 
                 </android.support.percent.PercentRelativeLayout>

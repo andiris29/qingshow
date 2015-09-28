@@ -315,6 +315,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
     }
 
     private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg) {
+        UnreadHelper.userReadNotificationId(trade._id);
         final ConfirmDialog dialog = new ConfirmDialog(context);
         dialog.setTitle(msg);
         dialog.setConfirm(new View.OnClickListener() {
