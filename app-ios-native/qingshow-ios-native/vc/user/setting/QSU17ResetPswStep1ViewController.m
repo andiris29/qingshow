@@ -30,8 +30,8 @@
 - (void)configUI
 {
     //self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.588 blue:0.643 alpha:1.000];
-    self.nextStepBtn.layer.cornerRadius = self.nextStepBtn.bounds.size.width / 8;
-    self.getCodeBtn.layer.cornerRadius  =self.getCodeBtn.bounds.size.width / 8;
+    self.nextStepBtn.layer.cornerRadius = self.nextStepBtn.bounds.size.height / 8;
+    self.getCodeBtn.layer.cornerRadius  =self.getCodeBtn.bounds.size.height / 8;
 
 }
 - (IBAction)getCodeBtnPressed:(id)sender {
@@ -78,14 +78,22 @@
 - (IBAction)nextStepBtnPressed:(id)sender {
     NSString *PhoneStr = self.phoneTextField.text;
     NSString *codeStr = self.codeTextField.text;
+    if (PhoneStr == nil) {
+        PhoneStr = @"";
+    }
+    if (codeStr == nil) {
+        codeStr = @"";
+    }
     __weak QSU17ResetPswStep1ViewController *weakSelf = self;
-    [SHARE_NW_ENGINE resetPassWord:PhoneStr coed:codeStr onSucceed:^{
+    [SHARE_NW_ENGINE resetPassWord:PhoneStr coed:codeStr onSucceed:^(NSString *psw) {
         QSU18ResetPswStep2ViewController *vc = [[QSU18ResetPswStep2ViewController alloc]init];
         vc.mobile = PhoneStr;
-        [self.navigationController pushViewController:vc animated:YES];
+        vc.password = psw;
+        [weakSelf.navigationController pushViewController:vc animated:YES];
     } onError:^(NSError *error) {
         [weakSelf showTextHud:@"验证码或者手机号不正确"];
     }];
+    
 }
 
 - (IBAction)backBtnPressed:(id)sender {

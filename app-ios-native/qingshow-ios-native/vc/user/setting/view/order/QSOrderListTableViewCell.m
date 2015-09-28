@@ -116,7 +116,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     } else if (self.circleType == QSOrderListCellCircleTypeShareToPay) {
         if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
 #warning @mhy 变成带点的分享并付款
-            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_share_to_pay"];
+            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_sharetopay_dot"];
         } else {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_share_to_pay"];
         }
@@ -252,8 +252,12 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 
             if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
 #warning TODO @mhy 物流信息按钮变成带点图
+                [self.logisticsButton setImage:nil forState:UIControlStateNormal];
+                [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_dot"] forState:UIControlStateNormal];
             } else {
 #warning TODO @mhy 物流信息按钮变成不带点图
+                [self.logisticsButton setImage:nil forState:UIControlStateNormal];
+                [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_normal"] forState:UIControlStateNormal];
             }
             
             [self showTopRightBtns:@[self.logisticsButton, self.refundButton]];

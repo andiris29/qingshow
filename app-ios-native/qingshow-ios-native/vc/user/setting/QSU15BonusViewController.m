@@ -23,6 +23,7 @@
 {
     NSArray *_bonusArray;
     NSString *_alipayStr;
+    float _currMoney;
 }
 
 
@@ -49,15 +50,15 @@
 - (void)bindVCWithArray:(NSArray*)bonusArray;
 {
     if (bonusArray.count) {
-        float currMoney = 0;
+         _currMoney = 0;
         float money = 0;
         for (NSDictionary *dic in bonusArray) {
             money += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
             if ([QSPeopleUtil getStatusFromBonusDict:dic].integerValue == 0) {
-                currMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
+                _currMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
             }
         }
-        self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",currMoney];
+        self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",_currMoney];
         self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",money];
     }
 }
@@ -105,25 +106,29 @@
 }
 
 - (IBAction)shareToGetBonusBtnPressed:(id)sender {
-    
-    if (![self.alipayTextField.text isEqualToString:@""] && (self.alipayTextField.text != nil) ) {
-        self.alipayId = self.alipayTextField.text;
-        __weak QSU15BonusViewController *weakSelf = self;
+
+    if (_currMoney != 0) {
+        if (![self.alipayTextField.text isEqualToString:@""] && (self.alipayTextField.text != nil) ) {
+            self.alipayId = self.alipayTextField.text;
+            __weak QSU15BonusViewController *weakSelf = self;
 #warning TODO Refactor
-        [[QSShareService shareService]shareWithWechatMoment:@"原来玩搭配还能赚钱，我觉得我快要发财了..." desc:@"只要其他用户通过你的美搭购买了其中的单品,丰厚佣金即刻转账至您的账户" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareBonus&initiatorRef=%@",[QSShareService getShareHost],self.peopleId] onSucceed:^{
-            [SHARE_NW_ENGINE getBonusWithAlipayId:self.alipayId OnSusscee:^{
-                NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-                NSArray *bonusArray = [QSPeopleUtil getBonusList:peopleDic];
-                [weakSelf bindVCWithArray:bonusArray];
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"佣金提取成功 款项将会在48小时内转至您的账户" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                alert.tag = 345;
-                [alert show];
-            } onError:^(NSError *error) {
-                
-            }];
-        } onError:nil];
+            [[QSShareService shareService]shareWithWechatMoment:@"原来玩搭配还能赚钱，我觉得我快要发财了..." desc:@"只要其他用户通过你的美搭购买了其中的单品,丰厚佣金即刻转账至您的账户" image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareBonus&initiatorRef=%@",[QSShareService getShareHost],self.peopleId] onSucceed:^{
+                [SHARE_NW_ENGINE getBonusWithAlipayId:self.alipayId OnSusscee:^{
+                    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+                    NSArray *bonusArray = [QSPeopleUtil getBonusList:peopleDic];
+                    [weakSelf bindVCWithArray:bonusArray];
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"佣金提取成功 款项将会在48小时内转至您的账户" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    alert.tag = 345;
+                    [alert show];
+                } onError:^(NSError *error) {
+                    
+                }];
+            } onError:nil];
+        }else{
+            [self showTextHud:@"请填写支付宝账号!"];
+        }
     }else{
-        [self showTextHud:@"请填写支付宝账号!"];
+        [self showTextHud:@"您还未获得可以提现的佣金"];
     }
 }
 

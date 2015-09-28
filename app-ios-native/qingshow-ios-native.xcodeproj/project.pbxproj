@@ -308,8 +308,8 @@
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
-		EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */; settings = {ASSET_TAGS = (); }; };
-		EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */; settings = {ASSET_TAGS = (); }; };
+		EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */; };
+		EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */; };
 		EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */; };
 		EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */; };
 		EFED348E1AFC734F00F08A0D /* QSU06LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34891AFC734F00F08A0D /* QSU06LoginViewController.m */; };
@@ -3319,7 +3319,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "7a30939e-1a04-4cdb-9b94-b1f778ef67e5";
+				PROVISIONING_PROFILE = "d7729689-0516-4b93-90e9-c1aab54d5afa";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -3359,7 +3359,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "7a30939e-1a04-4cdb-9b94-b1f778ef67e5";
+				PROVISIONING_PROFILE = "d7729689-0516-4b93-90e9-c1aab54d5afa";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;

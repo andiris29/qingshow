@@ -11,5 +11,5 @@
 @interface QSU18ResetPswStep2ViewController : UIViewController
 
 @property(strong, nonatomic)NSString *mobile;
-- (instancetype)init;
+@property(strong, nonatomic)NSString *password;
 @end
