@@ -26,13 +26,12 @@
 - (void)bindWithDict:(NSDictionary*)dict
 {
     NSDictionary* tradeDict = dict;
-    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
+    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
-    
     if ([QSTradeUtil getActualPrice:tradeDict]) {
         self.priceAfterDiscountLabel.text = [QSTradeUtil getActualPriceDesc:tradeDict];
     } else {
-        self.priceAfterDiscountLabel.text = [QSTradeUtil getExpectedPriceDesc:tradeDict];
+        self.priceAfterDiscountLabel.text = [NSString stringWithFormat:@"%@",[QSItemUtil getExpectablePrice:itemDict]];
     }
     
     self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];

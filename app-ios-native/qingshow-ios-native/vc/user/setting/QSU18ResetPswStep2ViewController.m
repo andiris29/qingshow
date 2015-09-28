@@ -41,7 +41,7 @@
     else
     {
         [SHARE_NW_ENGINE loginWithName:self.mobile password:self.password onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
-            [SHARE_NW_ENGINE updatePeople:@{@"id":self.mobile ,@"password":self.passWordAgainTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+            [SHARE_NW_ENGINE updatePeople:@{@"id":self.mobile ,@"currentPassword":self.password, @"password":self.passWordAgainTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
                 [self showTextHud:@"修改密码成功！"];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             } onError:^(NSError *error) {

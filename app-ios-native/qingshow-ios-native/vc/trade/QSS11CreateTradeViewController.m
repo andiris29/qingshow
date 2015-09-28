@@ -81,9 +81,10 @@
     [self updateAllCell];
 
     NSDictionary* tradeDict = self.tradeDict;
+    NSDictionary *itemDict = [QSTradeUtil getItemDic:self.tradeDict];
     NSNumber* price = nil;
-    if ([QSTradeUtil getActualPrice:tradeDict]) {
-        price = [QSTradeUtil getActualPrice:tradeDict];
+    if ([QSItemUtil getExpectablePrice:itemDict]) {
+        price = [QSItemUtil getExpectablePrice:itemDict];
     } else {
         price = [QSTradeUtil getExpectedPrice:tradeDict];
     }
