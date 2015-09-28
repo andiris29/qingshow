@@ -20,6 +20,7 @@ userBonus.forge = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         var param = req.body;
+        var fakeTrade = param.fakeTrade;
         async.waterfall([
         function(callback) {
             Item.findOne({
@@ -35,8 +36,11 @@ userBonus.forge = {
             });
         },
         function(item, callback) {
-            BonusHelper.createBonusViaForger(req.qsCurrentUserId, RequestHelper.parseId(param.promoterRef), 
-             item, callback);
+            if (fakeTrade.actualPrice > item.promoPrice) {
+                callback(errors.NotEnoughParam);
+            }else {
+                BonusHelper.createBonusViaForger(req.qsCurrentUserId, fakeTrade, item, callback); 
+            }
         }], function(error, people) {
             ResponseHelper.response(res, error, {
                 'people' : people

@@ -77,6 +77,13 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     });
 };
 
+var _decryptMD5 = function (string){
+    return crypto.createHash('md5')
+    .update(string)
+    .digest('hex')
+    .toUpperCase();
+}
+
 var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword;
 _get = function(req, res) {
     async.waterfall([
@@ -802,19 +809,39 @@ _resetPassword = function(req, res){
             }
         });
     }, function(success, callback){
+        People.find({
+            'userInfo.id' : mobile
+        }, function(err, peoples) {
+            if (peoples.length > 1) {
+                callback(errors.genUnkownError);
+            }else {
+                callback(null , peoples);
+            }
+        })
+    }, function(people, callback) {
+        var code = new Number(Math.random() * Math.pow(10,6)).toFixed(0);
+        var tempPassword = _decryptMD5(code);
         People.findOneAndUpdate({
-            _id : RequestHelper.parseId(req.qsCurrentUserId)
+            'userInfo.id' : mobile
         }, {
             $unset : { 
-                'userInfo.encryptedPassword' : -1,
-                'userInfo.password' : -1
+                'userInfo.encryptedPassword' : -1
+             },
+             $set : {
+                'userInfo.password' : tempPassword
              }
         }, {
-        }, function(error) {
-            callback(error);
+        }, function(error, people) {
+            if (error) {
+                callback(errors.genUnkownError);
+            }else {
+             callback(null, tempPassword); 
+            }
         });
-    }],function(error, people) {
-        ResponseHelper.response(res, error, {});
+    }],function(error, tempPassword) {
+        ResponseHelper.response(res, error, {
+            'password' : tempPassword
+        });
     });
 }
 
@@ -822,28 +849,26 @@ _resetPassword = function(req, res){
 var _readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
-
-    if (Object.keys(params).length === 1 && params.cmd) {
+    if (Object.keys(params).length === 1 && params.command ) {
         criteria = {
             $pull : {
                 'unreadNotifications' : {
-                    'extra.cmd' : params.cmd
+                    'extra.command' : params.command
                 }
             }
         };
     }
 
     if (Object.keys(params).length > 1) {
-        var extra = {};
+        var unreadNotifications = {};
         for(var element in params){
-            element === '_id' ? extra._id = RequestHelper.parseId(params._id) :
-                extra[element] = params[element];
+            var key = 'extra.' + element;
+            element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(params._id) :
+                unreadNotifications[key] = params[element];
         }
         criteria = {
             $pull : {
-                'unreadNotifications' : {
-                    'extra' : extra
-                }
+                'unreadNotifications' : unreadNotifications
             }
         };
     }
@@ -920,8 +945,7 @@ module.exports = {
     },
     'resetPassword' : {
         method : 'post',
-        func : _resetPassword,
-        permissionValidators : ['loginValidator']
+        func : _resetPassword
     },
     'readNotification' : {
         method : 'post',

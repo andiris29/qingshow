@@ -44,11 +44,11 @@ BonusHelper.createBonusViaTrade = function(trade, item, callback){
     });
 };
 
-BonusHelper.createBonusViaForger = function(forger, promoterRef, item, callback){
+BonusHelper.createBonusViaForger = function(forger, fakeTrade, item, callback){
     async.waterfall([
     function(callback){
         People.findOne({
-            _id : promoterRef
+            _id : RequestHelper.parseId(fakeTrade.promoterRef)
         }).exec(function(err, people) {
             callback(err, people);
         });
@@ -57,7 +57,7 @@ BonusHelper.createBonusViaForger = function(forger, promoterRef, item, callback)
         people.bonuses = people.bonuses || [];
         people.bonuses.push({
             status : 0,
-            money : ((item.promoPrice * 0.9) * global.qsConfig.bonus.rate).toFixed(2),
+            money : (fakeTrade.actualPrice * global.qsConfig.bonus.rate).toFixed(2),
             notes : '来自' + item.name + '的佣金',
             icon : item.thumbnail,
             trigger : {
