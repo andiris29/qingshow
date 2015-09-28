@@ -10,6 +10,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.adapter.U01MatchFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -18,6 +19,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;

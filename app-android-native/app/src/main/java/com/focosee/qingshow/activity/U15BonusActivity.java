@@ -12,6 +12,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -21,6 +22,7 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
@@ -28,6 +30,8 @@ import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareBonusEvent;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -189,6 +193,24 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
             }
         }, ValueUtil.SHOW_ERROR_TIME);
         return;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U13PersonalizeActivity");
+        MobclickAgent.onResume(this);
+        if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES))
+            UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_BONUSES);
+        if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE))
+            UnreadHelper.userReadNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U13PersonalizeActivity");
+        MobclickAgent.onPause(this);
     }
 
     @Override

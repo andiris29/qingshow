@@ -9,14 +9,12 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -31,9 +29,9 @@ import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSCanvasView;
@@ -512,7 +510,8 @@ public class S20MatcherActivity extends BaseActivity {
         if(event.unread){
             ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n_dot);
         }else{
-            ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
+            if(!UnreadHelper.hasUnread())
+                ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 
@@ -666,7 +665,7 @@ public class S20MatcherActivity extends BaseActivity {
         MobclickAgent.onPageStart("S20MatcherActivity");
         MobclickAgent.onResume(this);
 
-        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+        if(UnreadHelper.hasUnread()){
             ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n_dot);
         }
     }

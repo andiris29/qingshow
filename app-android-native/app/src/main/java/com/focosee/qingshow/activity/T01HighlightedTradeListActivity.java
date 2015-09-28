@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.T01HihghtedTradeListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -24,7 +22,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
-import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
@@ -156,7 +154,7 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
         super.onResume();
         MobclickAgent.onPageStart("S20MatcherActivity");
         MobclickAgent.onResume(this);
-        if (!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))) {
+        if (UnreadHelper.hasUnread()) {
             leftBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
         }
     }
@@ -165,7 +163,8 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
         if (event.unread) {
             leftBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
         } else {
-            leftBtn.setImageResource(R.drawable.nav_btn_menu_n);
+            if(!UnreadHelper.hasUnread())
+                leftBtn.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 

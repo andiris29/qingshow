@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U01BaseFragment;
 import com.focosee.qingshow.activity.fragment.U01CollectionFragment;
@@ -42,8 +41,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.StringUtil;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.focosee.qingshow.widget.MenuView;
@@ -359,7 +358,8 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         if(event.unread){
             userNavBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
         }else{
-            userNavBtn.setImageResource(R.drawable.nav_btn_menu_n);
+            if(!UnreadHelper.hasUnread())
+                userNavBtn.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 
@@ -372,6 +372,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
                 tabOnclick(POS_MATCH);
                 return;
             case R.id.user_recomm_layout:
+                UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS);
                 tabOnclick(POS_RECOMM);
                 circleTip.setVisibility(View.GONE);
                 return;
@@ -506,9 +507,9 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
                 user = (MongoPeople) getIntent().getExtras().get("user");
         }
         MobclickAgent.onResume(this);
-        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+        if(UnreadHelper.hasUnread()){
             userNavBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
-            if(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.NEW_RECOMMANDATIONS)){
+            if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS)) {
                 circleTip.setVisibility(View.VISIBLE);
             }
         }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
@@ -28,7 +26,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
-import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
@@ -174,7 +172,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         if (event.unread) {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
         } else {
-            s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n);
+            if(!UnreadHelper.hasUnread()){
+                s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n);
+            }
         }
     }
 
@@ -259,7 +259,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        if (!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))) {
+        if (UnreadHelper.hasUnread()) {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
         }
     }

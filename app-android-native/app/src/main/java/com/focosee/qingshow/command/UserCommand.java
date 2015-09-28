@@ -117,20 +117,24 @@ public class UserCommand {
 
     }
 
-    public static void readNotification(String _id, final Context context, final Callback callback){
+    public static void readNotification(Map params, final Context context, final Callback callback){
 
-        Map<String, String> params = new HashMap<>();
-        params.put("_id", _id);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getReadNotificationTradeApi()
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(UserCommand.class.getSimpleName(), "readNotification-response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
                 }
-                UserCommand.refresh();
-                callback.onComplete();
+                UserCommand.refresh(new Callback(){
+                    @Override
+                    public void onComplete() {
+                        callback.onComplete();
+                    }
+                });
+
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

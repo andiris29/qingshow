@@ -1,7 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,7 +27,6 @@ import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeShareCommand;
 import com.focosee.qingshow.command.TradeStatusToCommand;
-import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -38,11 +36,11 @@ import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
@@ -105,7 +103,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
                 return true;
             }
         });
-        UserCommand.readNotification(_id, getActivity(), new Callback());
         return rootView;
     }
 
@@ -229,10 +226,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
-        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-        editor.remove(ValueUtil.NEED_GUIDE);
-        editor.commit();
-        EventBus.getDefault().post(new PushGuideEvent(false, ""));
+        UnreadHelper.userReadNotificationId(_id);
     }
 
     @Override

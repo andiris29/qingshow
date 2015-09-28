@@ -55,6 +55,7 @@ import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
@@ -606,7 +607,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 bonusTip.setVisibility(View.VISIBLE);
             }
         } else {
-            backTextView.setImageResource(R.drawable.nav_btn_menu_n);
+            if(!UnreadHelper.hasUnread())
+                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 
@@ -619,10 +621,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
-        if (!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))) {
+        if (UnreadHelper.hasUnread()) {
             backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
-            if(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.NEW_BONUSES)
-                    || QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
+            if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)
+                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)){
                 bonusTip.setVisibility(View.VISIBLE);
             }
         }

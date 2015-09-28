@@ -41,9 +41,11 @@ import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.fragment.U02ChangePasswordFragment;
 import com.focosee.qingshow.activity.fragment.U02SelectExceptionFragment;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
+import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.user.UnreadHelper;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,7 +53,7 @@ import butterknife.InjectView;
 /**
  * Created by Administrator on 2015/9/14.
  */
-public class MenuView extends Fragment implements View.OnClickListener{
+public class MenuView extends Fragment implements View.OnClickListener {
 
     @InjectView(R.id.navigation_btn_match)
     ImageButton navigationBtnMatch;
@@ -121,7 +123,7 @@ public class MenuView extends Fragment implements View.OnClickListener{
             public void run() {
                 blurView.setDrawingCacheEnabled(true);
                 blurView.buildDrawingCache();
-                blurBitmap = convertToBlur(blurView.getDrawingCache(),getActivity());
+                blurBitmap = convertToBlur(blurView.getDrawingCache(), getActivity());
                 Message message = new Message();
                 message.obj = blurBitmap;
                 handler.sendMessage(message);
@@ -137,11 +139,11 @@ public class MenuView extends Fragment implements View.OnClickListener{
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.obj instanceof Bitmap){
-                menuBlur.setImageBitmap((Bitmap)msg.obj);
+            if (msg.obj instanceof Bitmap) {
+                menuBlur.setImageBitmap((Bitmap) msg.obj);
             }
         }
     };
@@ -174,29 +176,38 @@ public class MenuView extends Fragment implements View.OnClickListener{
         s17Settting.setOnClickListener(this);
     }
 
-    private void initBtnColor(){
-        if(getActivity() instanceof S01MatchShowsActivity){
+    private void initBtnColor() {
+        if (getActivity() instanceof S01MatchShowsActivity) {
             navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
             navigationBtnMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
-        if(getActivity() instanceof S20MatcherActivity){
+        if (getActivity() instanceof S20MatcherActivity) {
             navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_match_gray);
             navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
-        if(getActivity() instanceof U09TradeListActivity){
-            navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
+        if (getActivity() instanceof U09TradeListActivity) {
+            if (UnreadHelper.hasUnread())
+                navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray_dot);
+            else
+                navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
             navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
-        if(getActivity() instanceof T01HighlightedTradeListActivity){
+        if (getActivity() instanceof T01HighlightedTradeListActivity) {
             u01BonusList.setImageResource(R.drawable.root_menu_highted_gray);
             u01BonusListTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
-        if(getActivity() instanceof U01UserActivity){
-            u01People.setImageResource(R.drawable.root_menu_flash_gray);
+        if (getActivity() instanceof U01UserActivity) {
+            if (UnreadHelper.hasUnread())
+                u01People.setImageResource(R.drawable.root_menu_flash_gray);
+            else
+                u01People.setImageResource(R.drawable.root_menu_flash_gray_dot);
             u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
-        if(getActivity() instanceof U02SettingsActivity){
-            s17Settting.setImageResource(R.drawable.root_menu_setting_gray);
+        if (getActivity() instanceof U02SettingsActivity) {
+            if (UnreadHelper.hasUnread())
+                s17Settting.setImageResource(R.drawable.root_menu_setting_gray_dot);
+            else
+                s17Settting.setImageResource(R.drawable.root_menu_setting_gray);
             s17SetttingTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
     }
@@ -244,7 +255,7 @@ public class MenuView extends Fragment implements View.OnClickListener{
         dismiss();
 
         if (v.getId() == R.id.navigation_btn_match) {
-            if(getActivity() instanceof S01MatchShowsActivity){
+            if (getActivity() instanceof S01MatchShowsActivity) {
                 return;
             }
             startActivity(new Intent(getActivity(), S01MatchShowsActivity.class));
@@ -252,8 +263,8 @@ public class MenuView extends Fragment implements View.OnClickListener{
             return;
         }
 
-        if(v.getId() == R.id.u01_bonusList){
-            if(getActivity() instanceof T01HighlightedTradeListActivity){
+        if (v.getId() == R.id.u01_bonusList) {
+            if (getActivity() instanceof T01HighlightedTradeListActivity) {
                 return;
             }
             startActivity(new Intent(getActivity(), T01HighlightedTradeListActivity.class));
@@ -264,22 +275,19 @@ public class MenuView extends Fragment implements View.OnClickListener{
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
-                if(getActivity() instanceof S20MatcherActivity)return;
+                if (getActivity() instanceof S20MatcherActivity) return;
                 _class = S20MatcherActivity.class;
                 break;
             case R.id.navigation_btn_discount:
-                if(getActivity() instanceof U09TradeListActivity)return;
-                SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-                editor.remove(ValueUtil.NEED_GUIDE);
-                editor.commit();
+                if (getActivity() instanceof U09TradeListActivity) return;
                 _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:
-                if(getActivity() instanceof U01UserActivity)return;
+                if (getActivity() instanceof U01UserActivity) return;
                 _class = U01UserActivity.class;
                 break;
             case R.id.s17_settting:
-                if(getActivity() instanceof U02SettingsActivity)return;
+                if (getActivity() instanceof U02SettingsActivity) return;
                 _class = U02SettingsActivity.class;
                 break;
         }
@@ -290,7 +298,7 @@ public class MenuView extends Fragment implements View.OnClickListener{
             return;
         }
 
-        if(null == _class)return;
+        if (null == _class) return;
 
         Intent intent = new Intent(getActivity(), _class);
 
@@ -301,11 +309,11 @@ public class MenuView extends Fragment implements View.OnClickListener{
         }
 
         startActivity(intent);
-        if(null != getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()))
+        if (null != getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()))
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()));
-        if(null != getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()))
+        if (null != getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()))
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()));
-        if(null != getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
+        if (null != getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()));
         getActivity().finish();
     }
@@ -313,9 +321,20 @@ public class MenuView extends Fragment implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        if(getActivity() instanceof U09TradeListActivity) return;
-        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
-            navigationBtnDiscount.setBackgroundResource(R.drawable.root_menu_discount_dot);
+        if (getActivity() instanceof U09TradeListActivity) return;
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS)) {
+            u01People.setImageResource(R.drawable.root_menu_flash_tip);
+        }
+
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)
+                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)
+                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
+            navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_dot);
+        }
+
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)
+                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
+            s17Settting.setImageResource(R.drawable.root_menu_setting_tip);
         }
     }
 }

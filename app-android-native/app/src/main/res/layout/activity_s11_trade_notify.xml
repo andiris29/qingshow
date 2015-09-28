@@ -217,7 +217,7 @@
                     android:layout_marginRight="3dp"
                     android:background="@null"
                     android:textColor="@color/white"
-                    android:src="@drawable/new_discount"
+                    android:src="@drawable/share_and_pay"
                     android:layout_alignParentBottom="true"
                     app:layout_marginBottomPercent="5%"
                     android:scaleType="fitCenter" />

@@ -28,7 +28,7 @@ public class MongoPeople implements Serializable {
     public MeasureInfo measureInfo;
     public List<Bonuses> bonuses;
     public boolean bonusWithdrawRequested;
-    public Unread unread;
+    public List<UnreadNotification> unreadNotifications;
 
     //    +modelInfo
     //    +modelInfo.order
@@ -79,12 +79,13 @@ public class MongoPeople implements Serializable {
         public String itemRef;
     }
 
-    public class Unread implements Serializable {
-        public List<NewExpectablePrices> newExpectableTrades;
+    public class UnreadNotification implements Serializable {
+        public GregorianCalendar create;
+        public Extra extra;
     }
 
-    public class NewExpectablePrices implements Serializable {
-        public String ref;
-        public Number price;
+    public class Extra implements Serializable{
+        public String _id;
+        public String command;
     }
 }

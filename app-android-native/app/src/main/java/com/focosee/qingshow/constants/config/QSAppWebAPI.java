@@ -95,7 +95,7 @@ public class QSAppWebAPI {
 
     private static String SYSTEM_LOG_API = "/system/log";
 
-    private static String RESET_PASSWORD = "user/resetPassword";
+    private static String RESET_PASSWORD = "/user/resetPassword";
 
     private static String FEEDING_FEATURED = "/feeding/featured";
 

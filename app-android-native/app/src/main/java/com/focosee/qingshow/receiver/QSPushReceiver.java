@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.BaseActivity;
+import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.PushModel;
@@ -52,19 +53,17 @@ public class QSPushReceiver extends BroadcastReceiver {
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
             //推送消息指引
-            String command = PushUtil.getCommand(bundle);
-            String _id = PushUtil.getId(bundle);
+            final String command = PushUtil.getCommand(bundle);
             if(command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
                     || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.NEW_RECOMMANDATIONS)
                     || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
-                SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-                editor.putString(ValueUtil.NEED_GUIDE, command);
-                Set _ids = QSApplication.instance().getPreferences().getStringSet(command, new HashSet<String>());
-                _ids.add(_id);
-                editor.putStringSet(command, _ids);
-                editor.commit();
-                EventBus.getDefault().post(new PushGuideEvent(true, command));
-                UserCommand.refresh();
+                UserCommand.refresh(new Callback() {
+                    @Override
+                    public void onComplete() {
+                        EventBus.getDefault().post(new PushGuideEvent(true, command));
+                    }
+                });
+
             }
 
             if (AppUtil.isRunningForeground(context)){

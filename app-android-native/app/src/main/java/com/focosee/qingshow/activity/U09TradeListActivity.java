@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,6 +33,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
@@ -183,6 +183,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
             @Override
             public void onComplete() {
                 mAdapter.getItemData(position).__context.sharedByCurrentUser = true;
+                mAdapter.getItemData(position).status = 1;
                 mAdapter.notifyDataSetChanged();
                 Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
                 Bundle bundle = new Bundle();
@@ -209,10 +210,18 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     public void onEventMainThread(PushGuideEvent event) {
         if (event.unread) {
-            if (event.command.equals(QSPushAPI.TRADE_SHIPPED)){
-                mAdapter.notifyDataSetChanged();
-                if(currentType == TYPE_SUCCESSED)return;
-                circleTip.setVisibility(View.VISIBLE);
+            if (event.command.equals(QSPushAPI.TRADE_SHIPPED)
+                    || event.command.equals(QSPushAPI.TRADE_INITIALIZED)
+                    || event.command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
+                reconn();
+                if(event.command.equals(QSPushAPI.TRADE_SHIPPED)) {
+                    if (currentType == TYPE_SUCCESSED) return;
+                    circleTip.setVisibility(View.VISIBLE);
+                }
+            }
+        }else{
+            if(!UnreadHelper.hasUnread()){
+                menu.setImageResource(R.drawable.nav_btn_menu_n);
             }
         }
     }
@@ -360,12 +369,14 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         super.onResume();
         MobclickAgent.onPageStart("U09TradeListActivity");
         MobclickAgent.onResume(this);
-        if(!TextUtils.isEmpty(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, ""))){
+        if(UnreadHelper.hasUnread()){
             menu.setImageResource(R.drawable.nav_btn_menu_n_dot);
-            if(QSApplication.instance().getPreferences().getString(ValueUtil.NEED_GUIDE, "").equals(QSPushAPI.TRADE_SHIPPED)){
-                mAdapter.notifyDataSetChanged();
-                if(currentType == TYPE_SUCCESSED)return;
-                circleTip.setVisibility(View.VISIBLE);
+            if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)
+                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)){
+                if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
+                    if (currentType == TYPE_SUCCESSED) return;
+                    circleTip.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
