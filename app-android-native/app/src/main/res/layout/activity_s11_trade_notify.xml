@@ -206,7 +206,7 @@
                     app:layout_marginLeftPercent="3%"
                     android:text=""/>
 
-                <com.focosee.qingshow.widget.QSImageButton
+                <ImageButton
                     android:id="@+id/submitBtn"
                     android:layout_width="0dp"
                     android:layout_height="0dp"

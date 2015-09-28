@@ -157,6 +157,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             //push guide
             if(UnreadHelper.hasMyNotificationId(trade._id)){
                 String command = UnreadHelper.getCommand(trade._id);
+                Log.d(U09TradeListAdapter.class.getSimpleName(), "command:" + command);
                 if(!TextUtils.isEmpty(command)){
                     if(command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
                         discountBtn.setImageResource(R.drawable.new_discount_replay);
@@ -175,6 +176,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                         discountBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                UnreadHelper.userReadNotificationId(trade._id);
                                 if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
                                     EventBus.getDefault().post(trade);
                                     ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
