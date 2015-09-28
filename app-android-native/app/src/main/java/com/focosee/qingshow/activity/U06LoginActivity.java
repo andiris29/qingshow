@@ -137,6 +137,7 @@ public class U06LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(U06LoginActivity.this, U17ResetPasswordStep1Activity.class));
+                finish();
             }
         });
     }

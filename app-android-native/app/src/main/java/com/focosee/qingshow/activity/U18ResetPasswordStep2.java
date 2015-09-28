@@ -1,13 +1,17 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -20,6 +24,7 @@ import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
+import com.umeng.analytics.MobclickAgent;
 import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,6 +42,8 @@ public class U18ResetPasswordStep2 extends BaseActivity {
     @InjectView(R.id.submitButton)
     QSButton submitButton;
 
+    private String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,8 @@ public class U18ResetPasswordStep2 extends BaseActivity {
                 finish();
             }
         });
+
+        password = getIntent().getStringExtra("password");
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,20 +78,25 @@ public class U18ResetPasswordStep2 extends BaseActivity {
                 }
 
                 HashMap<String, String> params = new HashMap<>();
+                params.put("currentPassword", password);
                 params.put("password", passwordEditText.getText().toString());
 
                 QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d(U18ResetPasswordStep2.class.getSimpleName(), "response:" + response);
                         MongoPeople user = UserParser.parseUpdate(response);
                         if (user == null) {
                             ErrorHandler.handle(U18ResetPasswordStep2.this, MetadataParser.getError(response));
                         } else {
-                            QSModel.INSTANCE.setUser(user);
-                            if(null == getParent())return;
-                            if(null == getParent().getParent())return;
-                            getParent().getParent().finish();
-                            getParent().finish();
+                            ToastUtil.showShortToast(U18ResetPasswordStep2.this, "密码修改成功");
+                            UserCommand.logOut(new Callback() {
+                                @Override
+                                public void onComplete() {
+                                    startActivity(new Intent(U18ResetPasswordStep2.this, U06LoginActivity.class));
+                                    finish();
+                                }
+                            });
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -109,5 +123,19 @@ public class U18ResetPasswordStep2 extends BaseActivity {
                 errorText.setText("");
             }
         }, 5000);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U13PersonalizeActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U13PersonalizeActivity");
+        MobclickAgent.onPause(this);
     }
 }

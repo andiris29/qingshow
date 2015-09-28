@@ -28,7 +28,6 @@ public class MongoItem implements Serializable {
     public boolean readOnly;
     public GregorianCalendar sync;
     public ReturnInfo returnInfo;
-    public String expectablePrice;
     public Expectable expectable;
 
     public class ReturnInfo implements Serializable {

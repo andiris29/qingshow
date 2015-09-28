@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -197,7 +198,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         params = new HashMap();
-        params.put("totalFee", trade.actualPrice * trade.quantity);
+        params.put("totalFee", trade.itemRef.expectable.price.doubleValue() * trade.quantity);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
                 JSONObject jsonObject = new JSONObject();
@@ -220,6 +221,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                 QSAppWebAPI.getPayApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S17PayActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S17PayActivity.this, MetadataParser.getError(response));
                     return;

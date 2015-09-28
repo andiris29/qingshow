@@ -2,20 +2,27 @@ package com.focosee.qingshow.command;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.UserUpdatedEvent;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.persist.CookieSerializer;
+import com.focosee.qingshow.util.ToastUtil;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -151,6 +158,27 @@ public class UserCommand {
             }
         });
 
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    public static void logOut(final Callback callback){
+
+        QSModel.INSTANCE.removeUser();
+
+        Map map = new HashMap();
+        Log.i("JPush_QS", "logout" + PushModel.INSTANCE.getRegId());
+        map.put("registrationId", PushModel.INSTANCE.getRegId());
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getUserLogout(), new JSONObject(map), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(QSApplication.instance(), MetadataParser.getError(response));
+                    return;
+                }
+                CookieSerializer.INSTANCE.saveCookie("");
+                callback.onComplete();
+            }
+        });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 }

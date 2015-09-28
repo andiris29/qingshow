@@ -42,7 +42,7 @@ public class PayCommand {
         };
 
         String orderInfo = AlipayUtil.getOrderInfo(trade.itemSnapshot.name,
-                trade.itemSnapshot.source, trade.actualPrice * trade.quantity + "", trade._id);
+                trade.itemSnapshot.source, String.valueOf(trade.totalFee), trade._id);
 
         String sign = SignUtils.sign(orderInfo, PaymentConfig.RSA_PRIVATE);
         try {

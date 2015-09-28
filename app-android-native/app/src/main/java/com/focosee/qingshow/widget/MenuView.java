@@ -186,7 +186,9 @@ public class MenuView extends Fragment implements View.OnClickListener {
             navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
         if (getActivity() instanceof U09TradeListActivity) {
-            if (UnreadHelper.hasUnread())
+            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)
+                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)
+                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED))
                 navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray_dot);
             else
                 navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
@@ -197,14 +199,15 @@ public class MenuView extends Fragment implements View.OnClickListener {
             u01BonusListTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
         if (getActivity() instanceof U01UserActivity) {
-            if (UnreadHelper.hasUnread())
-                u01People.setImageResource(R.drawable.root_menu_flash_gray);
-            else
+            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS))
                 u01People.setImageResource(R.drawable.root_menu_flash_gray_dot);
+            else
+                u01People.setImageResource(R.drawable.root_menu_flash_gray);
             u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
         if (getActivity() instanceof U02SettingsActivity) {
-            if (UnreadHelper.hasUnread())
+            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)
+                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE))
                 s17Settting.setImageResource(R.drawable.root_menu_setting_gray_dot);
             else
                 s17Settting.setImageResource(R.drawable.root_menu_setting_gray);
