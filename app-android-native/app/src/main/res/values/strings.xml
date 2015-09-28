@@ -166,6 +166,7 @@
     <string name="get_bonuses_label">佣金：</string>
     <string name="need_install_wx">请先安装微信</string>
     <string name="forget_password">忘记密码</string>
+    <string name="good_remark">商品备注:</string>
 
     <!-- trade -->
     <string name="title_name_activity_trade">订单管理</string>

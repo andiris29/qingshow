@@ -204,7 +204,7 @@
             android:label="@string/title_activity_u15_bonus"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
