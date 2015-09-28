@@ -18,6 +18,7 @@ define([
     P06BonusForge.prototype._submit = function(){
         var peopleRef = $('#peopleRef', this._dom).val();
         var itemRef = $('#itemRef', this._dom).val();
+        var actualPrice = $('#actualPrice', this._dom).val();
 
         if (!peopleRef) {
             alertify.error('请输入用户id');
@@ -29,15 +30,33 @@ define([
             return;
         }
 
+        if (!actualPrice) {
+            alertify.error('请输入价格');
+            return;
+        }
+
         this.request('/userBonus/forge','post',{
-            'promoterRef' : peopleRef,
-            'itemRef' : itemRef
+            'itemRef' : itemRef,
+            'fakeTrade' : {
+                'promoterRef' : peopleRef,
+                'actualPrice' : actualPrice
+            }
         }, function(err, metadata, data){
             if(err){
                 alertify.error('提交失败');
-            }else{
-                alertify.success('提交成功');
+                return;
             }
+            if(metadata.error){
+                if(metadata.error == '1008'){
+                    alertify.error('价格超出原价');
+                }else {
+                    alertify.error('提交失败');
+                }
+                return;
+            }
+
+            alertify.success('提交成功');
+
         }.bind(this));
     };
 
