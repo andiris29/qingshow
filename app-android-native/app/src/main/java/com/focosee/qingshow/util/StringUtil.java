@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -31,6 +30,7 @@ public class StringUtil {
     }
 
     public static String formatPriceWithoutSign(String price){
+        if(TextUtils.isEmpty(price)) return "0.00";
         return new DecimalFormat("0.00").format(new BigDecimal(price));
     }
 
