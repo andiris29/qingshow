@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,6 +10,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -86,9 +89,14 @@ public class U18ResetPasswordStep2 extends BaseActivity {
                         if (user == null) {
                             ErrorHandler.handle(U18ResetPasswordStep2.this, MetadataParser.getError(response));
                         } else {
-                            QSModel.INSTANCE.setUser(user);
                             ToastUtil.showShortToast(U18ResetPasswordStep2.this, "密码修改成功");
-                            finish();
+                            UserCommand.logOut(new Callback() {
+                                @Override
+                                public void onComplete() {
+                                    startActivity(new Intent(U18ResetPasswordStep2.this, U06LoginActivity.class));
+                                    finish();
+                                }
+                            });
                         }
                     }
                 }, new Response.ErrorListener() {
