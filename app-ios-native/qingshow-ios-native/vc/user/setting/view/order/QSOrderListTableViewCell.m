@@ -257,6 +257,8 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
         }
         default: {
             self.stateLabel.hidden = NO;
+            [self removeAllTopRightBtn];
+            self.circleType = QSOrderListCellCircleTypeNone;
             break;
         }
     }
