@@ -47,7 +47,7 @@ public class TradeStatusToCommand {
 
         switch (status) {
             case 1:
-                taobaoInfo.put("actualPrice", trade.itemRef.expectablePrice);
+                taobaoInfo.put("actualPrice", trade.itemRef.expectable.price);
                 break;
             case 3:
                 logistic.put("company", trade.logistic.company);
