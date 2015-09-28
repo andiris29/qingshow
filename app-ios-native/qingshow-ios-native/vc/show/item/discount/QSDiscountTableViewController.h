@@ -13,7 +13,7 @@
 @interface QSDiscountTableViewController : UITableViewController<QSDiscountTableViewCellDelegate,QSDiscountTaobaoInfoCellDelegate>
 
 @property (strong, nonatomic) NSDictionary* itemDict;
-@property (strong, nonatomic)NSString *showId;
+@property (strong, nonatomic)NSString *peopleId;
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
 
 - (BOOL)checkComplete;

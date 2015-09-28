@@ -10,9 +10,7 @@
 
 @interface QSG01ItemWebViewController : UIViewController<UIAlertViewDelegate>
 
-- (id)initWithItem:(NSDictionary*)item;
-
-- (id)initWithItem:(NSDictionary*)item showId:(NSString *)showId;
+- (id)initWithItem:(NSDictionary*)item peopleId:(NSString *)peopleId;
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 

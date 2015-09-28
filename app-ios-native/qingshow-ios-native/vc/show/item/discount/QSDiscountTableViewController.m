@@ -139,7 +139,9 @@
 }
 - (NSDictionary*)getResult {
     NSMutableDictionary* retDict = [@{} mutableCopy];
-    retDict[@"promoterRef"] = self.showId;
+    if (self.peopleId) {
+        retDict[@"promoterRef"] = self.peopleId;
+    }
     retDict[@"itemSnapshot"] = self.itemDict;
     retDict[@"selectedSkuProperties"] = [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell* cell) {
         return [cell getResult];

@@ -51,10 +51,10 @@
     NSDictionary *dic = _listArray[indexPath.row];
     NSString *itemId = [QSPeopleUtil getItemIdFromeBonusDict:dic];
     __weak QSU16BonusListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
-        if (array.count) {
-            NSDictionary  *itemDic = [array firstObject];
-            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:itemDic];
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDic, NSDictionary *metadata) {
+        if (itemDic) {
+#warning peopleId === nil?
+            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDic peopleId:nil];
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }
     } onError:^(NSError *error) {

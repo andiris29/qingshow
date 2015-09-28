@@ -11,6 +11,10 @@
 
 @interface QSNetworkEngine(ItemService)
 
+- (MKNetworkOperation*)getItemWithId:(NSString*)itemId
+                           onSucceed:(EntitySuccessBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)itemSync:(NSString*)itemId
                       onSucceed:(EntitySuccessBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock;

@@ -40,24 +40,13 @@
 
 @implementation QSG01ItemWebViewController
 #pragma mark - Init Method
-- (id)initWithItem:(NSDictionary*)item 
+- (id)initWithItem:(NSDictionary*)item peopleId:(NSString *)peopleId;
 {
     self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];
     if (self) {
         self.itemDict = item;
         self.discountVc = [[QSDiscountTableViewController alloc] initWithItem:item];
-        self.hasSyncItem = NO;
-    }
-    return self;
-}
-
-- (id)initWithItem:(NSDictionary*)item showId:(NSString *)showId
-{
-    self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];
-    if (self) {
-        self.itemDict = item;
-        self.discountVc = [[QSDiscountTableViewController alloc] initWithItem:item];
-        self.discountVc.showId = showId;
+        self.discountVc.peopleId = peopleId;
         self.hasSyncItem = NO;
     }
     return self;
@@ -218,8 +207,7 @@
     NSString *itemId = [QSItemUtil getItemId:itemDic];
     NSArray *skuArray = newTradeDic[@"selectedSkuProperties"];
     NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
-    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
-        NSDictionary *dic = [array firstObject];
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *dic, NSDictionary *metadata) {
         int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:dic];
         if (count < 1) {
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这个规格的已经卖完啦！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil,nil];

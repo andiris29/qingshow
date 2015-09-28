@@ -19,9 +19,9 @@ util.inherits(ServerError, Error);
 module.exports = {
     'genUnkownError' : function(err) {
         if ( err instanceof Error) {
-            new ServerError(1000, 'UnkownError', err);
+            return new ServerError(1000, 'UnkownError', err);
         } else {
-            new ServerError(1000, err || 'UnkownError');
+            return new ServerError(1000, err || 'UnkownError');
         }
     },
     // TODO

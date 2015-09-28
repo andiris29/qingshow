@@ -42,10 +42,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *tradeDic = self.resultArray[indexPath.row];
-    NSDictionary *itemDic = [QSTradeUtil getItemDic:tradeDic];
-    NSString *itemId = [QSItemUtil getItemId:itemDic];
     if ([self.delegate respondsToSelector:@selector(didTapTradeCell:)]) {
-        [self.delegate didTapTradeCell:itemId];
+        [self.delegate didTapTradeCell:tradeDic];
     }
 }
 

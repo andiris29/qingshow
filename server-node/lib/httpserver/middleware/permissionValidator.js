@@ -13,7 +13,7 @@ var _init = function(services) {
         for (var id in module) {
             var validators = _globalValidators.concat(module[id].permissionValidators || []);
             if (validators) {
-                _validatorsMap['/app/' + path + '/' + id] = validators;
+                _validatorsMap['/services/' + path + '/' + id] = validators;
             }
         }
     });
@@ -40,7 +40,7 @@ var _validate = function(req, res, next) {
         });
         async.series(tasks, function(err) {
             if (err) {
-                next(errors.genUnkownError(err));
+                next(err);
             } else {
                 next();
             }
@@ -59,10 +59,6 @@ var _builtInValidators = {
         }
     }
 };
-
-var _globalValidators = [
-    _versionValidator
-];
 
 var _versionValidator = function(req, res, callback) {
     var minSupportedVersion = 2.0;
@@ -83,5 +79,9 @@ var _versionValidator = function(req, res, callback) {
         callback(null);
     }
 };
+
+var _globalValidators = [
+    _versionValidator
+];
 
 module.exports = _init;

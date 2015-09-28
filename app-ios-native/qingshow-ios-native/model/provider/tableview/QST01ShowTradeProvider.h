@@ -10,7 +10,7 @@
 #import "QST01ShowTradeCell.h"
 @protocol QST01ShowTradeProviderDelegate <QSAbstractScrollProviderDelegate>
 
-- (void)didTapTradeCell:(NSString *)ItemId;
+- (void)didTapTradeCell:(NSDictionary*)tradeDict;
 - (void)didTapHeaderInT01Cell:(NSDictionary *)peopleDic;
 
 @end

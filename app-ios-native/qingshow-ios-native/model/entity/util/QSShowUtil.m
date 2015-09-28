@@ -166,15 +166,14 @@
         if ([QSEntityUtil checkIsDict:item]) {
             [returnArray addObject:item];
         }else{
-            
-            [SHARE_NW_ENGINE getItemWithId:item onSucceed:^(NSArray *array, NSDictionary *metadata) {
-                if (array.count) {
-                    [returnArray addObject:[array firstObject]];
+#warning 并不能work
+            [SHARE_NW_ENGINE getItemWithId:item onSucceed:^(NSDictionary *item, NSDictionary *metadata) {
+                if (item) {
+                    [returnArray addObject:item];
                 }
             } onError:^(NSError *error) {
                 
             }];
-            
         }
     }
     return returnArray;

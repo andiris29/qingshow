@@ -207,10 +207,9 @@
     NSDictionary *itemDic = [QSTradeUtil getItemDic:orderDic];
     NSString *itemId = [QSItemUtil getItemId:itemDic];
     __weak QSU09OrderListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
-        if (array.count) {
-            NSDictionary *item = [array firstObject];
-            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item];
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *item, NSDictionary *metadata) {
+        if (item) {
+            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item peopleId:nil];
             vc.isDisCountBtnHidden = YES;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }

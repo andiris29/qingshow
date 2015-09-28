@@ -13,6 +13,7 @@
 #import "QSG01ItemWebViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSItemUtil.h"
+#import "QSTradeUtil.h"
 @interface QST01ShowTradeViewController ()
 
 @property (strong,nonatomic)QST01ShowTradeProvider *provider;
@@ -50,14 +51,16 @@
     [self.provider fetchDataOfPage:1];
     [self.provider reloadData];
 }
-- (void)didTapTradeCell:(NSString *)ItemId
+- (void)didTapTradeCell:(NSDictionary *)tradeDict
 {
     __weak QST01ShowTradeViewController *weakSelf = self;
-    [SHARE_NW_ENGINE getItemWithId:ItemId onSucceed:^(NSArray *array, NSDictionary *metadata) {
-        if (array.count) {
-            NSDictionary *ItemDic = [array firstObject];
-            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:ItemDic];
-            if ([QSItemUtil getDelist:ItemDic] == YES) {
+    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
+    NSDictionary* peopleDict = [QSTradeUtil getPeopleDic:tradeDict];
+    [SHARE_NW_ENGINE getItemWithId:[QSEntityUtil getIdOrEmptyStr:itemDict] onSucceed:^(NSDictionary *itemDic, NSDictionary *metadata) {
+        if (itemDic) {
+#warning TODO
+            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDic peopleId:[QSEntityUtil getIdOrEmptyStr:peopleDict]];
+            if ([QSItemUtil getDelist:itemDic] == YES) {
                 vc.isDisCountBtnHidden = YES;
             }
             [weakSelf.navigationController pushViewController:vc animated:YES];

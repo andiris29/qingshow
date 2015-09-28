@@ -76,21 +76,30 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.locationProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.locationPicker];
+    
+
     [self configCellArray];
     [self configView];
-    [self updateAllCell];
+    
+    [self bindWithDict:self.tradeDict];
 
-    NSDictionary* tradeDict = self.tradeDict;
-    NSNumber* price = [QSTradeUtil getActualPrice:tradeDict];
-    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
-    NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
-    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
+    [SHARE_NW_ENGINE queryTradeDetail:[QSEntityUtil getIdOrEmptyStr:self.tradeDict] onSucceed:^(NSDictionary *d) {
+        self.tradeDict = d;
+        [self bindWithDict:self.tradeDict];
+    } onError:nil];
     
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
+- (void)bindWithDict:(NSDictionary*)tradeDict {
+    [self updateAllCell];
+    NSNumber* price = [QSTradeUtil getActualPrice:tradeDict];
+    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
+    NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
+    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
+}
 
 - (void)receiverConfig
 {

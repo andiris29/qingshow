@@ -63,8 +63,5 @@
 
 - (MKNetworkOperation*)getTestShowsOnSucceed:(ArraySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
-#pragma mark - Item
-- (MKNetworkOperation*)getItemWithId:(NSString*)itemId
-                           onSucceed:(ArraySuccessBlock)succeedBlock
-                             onError:(ErrorBlock)errorBlock;
+
 @end

@@ -160,7 +160,7 @@
     if (self.orderdArray.count > indexPath.row) {
         NSDictionary* itemDict = self.orderdArray[indexPath.row];
         if (itemDict) {
-            [self showItemDetailViewController:itemDict showId:peopleId];
+            [self showItemDetailViewController:itemDict peopleId:peopleId];
         }
     }
 }

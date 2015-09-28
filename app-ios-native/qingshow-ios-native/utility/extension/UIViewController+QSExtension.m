@@ -99,9 +99,9 @@ static char versionUpdateHandlerKey;
     
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)showItemDetailViewController:(NSDictionary*)itemDict showId:(NSString *)showId
+- (void)showItemDetailViewController:(NSDictionary*)itemDict peopleId:(NSString *)peopleId
 {
-    QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict showId:showId];
+    QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict peopleId:peopleId];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
