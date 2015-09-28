@@ -155,7 +155,7 @@
                         [QSUserManager shareUserManager].userInfo = nil;
                         [QSUserManager shareUserManager].fIsLogined = NO;
                     }
-
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:nil userInfo:nil];
                     succeedBlock();
                 }
             }
