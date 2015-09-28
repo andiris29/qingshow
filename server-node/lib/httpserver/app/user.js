@@ -11,6 +11,7 @@ var People = require('../../dbmodels').People;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var SMSHelper = require('../../helpers/SMSHelper');
+var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
 
 var errors = require('../../errors');
 
