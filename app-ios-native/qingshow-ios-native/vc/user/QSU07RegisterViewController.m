@@ -139,9 +139,12 @@
             [self setTimer];
         } onError:^(NSError *error) {
             if (error.code == 1031) {
-                [self showTextHud:@"已超过每日发送次数"];
-            }else{
-            [self showTextHud:@"手机号码不正确或已被注册"];
+                [self showErrorHudWithText:@"已超过每日发送次数"];
+            }else if (error.code == 1032){
+                [self showErrorHudWithText:@"请求短信频率过高，请稍候再试"];
+            }
+            else{
+            [self showErrorHudWithText:@"手机号码不正确或已被注册"];
             }
         }];
 }
