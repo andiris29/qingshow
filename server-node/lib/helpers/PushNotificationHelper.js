@@ -3,6 +3,8 @@ var winston = require('winston');
 var _ = require('underscore');
 var async = require('async');
 
+var RequestHelper = require('../helpers/RequestHelper');
+
 var People = require('../dbmodels').People;
 var jPushAudiences = require('../dbmodels').JPushAudience;
 
@@ -93,26 +95,50 @@ PushNotificationHelper._push = function(peoplesIds, message, extras, cb) {
 
 PushNotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
     async.waterfall([function(callback){
-        People.find({
-            _id : {
+        var unreadNotifications = {};
+        switch(extras.command){
+            case PushNotificationHelper.CommandTradeInitialized :
+            case PushNotificationHelper.CommandItemExpectablePriceUpdated :
+            unreadNotifications = {
+                'extra._id' : RequestHelper.parseId(extras._id)
+            }
+            break;
+            default :
+            for (var element in extras) {
+                var key = 'extra.' + element;
+                element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(extras._id) :
+                unreadNotifications[key] = extras[element];
+            }
+            break;
+        }
+        People.update({
+            '_id' : {
                 '$in' : peoplesIds
             }
-        }).exec(function(err, peoples){
-            callback(err, peoples)
+        }, {
+            $pull : {
+                'unreadNotifications' : unreadNotifications
+            }
+        }, {
+            multi : true
+        }, function(err, peoples){
+          callback(err, peoples);  
         })
     }, function(peoples, callback){
-        if (peoples && peoples.length > 0) {
-            peoples.forEach(function(people){
-                people.unreadNotifications = people.unreadNotifications || [];
-                people.unreadNotifications.push({
+        People.update({
+            '_id' : {
+                '$in' : peoplesIds
+            }
+        }, {
+            $push : {
+                'unreadNotifications' : {
                     'extra' : extras
-                });
-                people.save(function(error, people){
-                    callback(error);
-                });
-            });   
-        }else {
-            callback()
-        }
+                }
+            }
+        }, {
+            multi : true
+        }, function(err, peoples){
+            callback(err, peoples);
+        })
     }], cb)
 }

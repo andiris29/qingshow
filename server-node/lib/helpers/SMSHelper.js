@@ -48,7 +48,8 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
             })
     },function(err, res, body){
     	var result = JSON.parse(body);
-
+    	//error code by yuntongxun 
+    	//send beyond astrict. 10 times a day
     	if (result.statusCode === '112314') {
     		callback(errors.SMSlimitedSend);
     	}else if (err) {

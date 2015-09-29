@@ -852,52 +852,20 @@ _resetPassword = function(req, res){
 
 var _readNotification = function(req, res) {
     var params = req.body;
-    var criteria = {};
-    if (Object.keys(params).length === 1 && params.command ) {
-        criteria = {
-            $pull : {
-                'unreadNotifications' : {
-                    'extra.command' : params.command
-                }
-            }
-        };
-    }
-
-    if (Object.keys(params).length > 1) {
-        switch(params.command){
-            case PushNotificationHelper.CommandTradeInitialized :
-            case PushNotificationHelper.CommandItemExpectablePriceUpdated :
-            if (!params._id) {
-                return;
-            }
-            criteria = {
-                $pull: {
-                    'unreadNotifications' : {
-                        'extra._id' : RequestHelper.parseId(params._id)
-                    }
-                }
-            }
-            break;
-
-            default :
-            var unreadNotifications = {};
-            for (var element in params) {
-                var key = 'extra.' + element;
-                element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(params._id) :
-                    unreadNotifications[key] = params[element];
-            }
-            criteria = {
-                $pull: {
-                    'unreadNotifications': unreadNotifications
-                }
-            };
-            break;
-        }
+    var unreadNotifications = {};
+    for (var element in params) {
+        var key = 'extra.' + element;
+        element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(params._id) :
+        unreadNotifications[key] = params[element];
     }
 
     People.findOneAndUpdate({
         _id : RequestHelper.parseId(req.qsCurrentUserId)
-    }, criteria, {
+    }, {
+        $pull : {
+            'unreadNotifications': unreadNotifications
+        }
+    }, {
     }, function(error) {
         ResponseHelper.response(res, error, {});
     });
