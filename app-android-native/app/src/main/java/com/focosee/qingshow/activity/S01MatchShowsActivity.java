@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
@@ -30,12 +29,9 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -247,12 +243,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     private void showNewTradeNotify(Intent intent) {
         boolean showable = intent.getBooleanExtra(S1_INPUT_SHOWABLE, false);
-        if (showable) {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "newTradeNotify" + System.currentTimeMillis());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commitAllowingStateLoss();
-        }
+        if(!showable) return;
+        S11NewTradeNotifyFragment fragment = new S11NewTradeNotifyFragment();
+        fragment.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName());
     }
 
     @Override

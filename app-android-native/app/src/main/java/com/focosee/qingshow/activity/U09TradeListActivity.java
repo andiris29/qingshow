@@ -11,9 +11,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.command.Callback;
@@ -39,12 +37,9 @@ import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -173,6 +168,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         if (!event.shareByCreateUser) {
             return;
         }
+
         if (position == Integer.MAX_VALUE) {
             return;
         }
@@ -212,15 +208,16 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         if (event.unread) {
             if (event.command.equals(QSPushAPI.TRADE_SHIPPED)
                     || event.command.equals(QSPushAPI.TRADE_INITIALIZED)
-                    || event.command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
+                    || event.command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)) {
                 reconn();
-                if(event.command.equals(QSPushAPI.TRADE_SHIPPED)) {
+                if (event.command.equals(QSPushAPI.TRADE_SHIPPED)) {
                     if (currentType == TYPE_SUCCESSED) return;
                     circleTip.setVisibility(View.VISIBLE);
                 }
             }
-        }else{
-            if(!UnreadHelper.hasUnread()){
+        } else {
+            reconn();
+            if (!UnreadHelper.hasUnread()) {
                 menu.setImageResource(R.drawable.nav_btn_menu_n);
             }
         }
@@ -369,11 +366,11 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         super.onResume();
         MobclickAgent.onPageStart("U09TradeListActivity");
         MobclickAgent.onResume(this);
-        if(UnreadHelper.hasUnread()){
+        if (UnreadHelper.hasUnread()) {
             menu.setImageResource(R.drawable.nav_btn_menu_n_dot);
-            if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)
-                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)){
-                if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
+            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)
+                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)) {
+                if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
                     if (currentType == TYPE_SUCCESSED) return;
                     circleTip.setVisibility(View.VISIBLE);
                 }
