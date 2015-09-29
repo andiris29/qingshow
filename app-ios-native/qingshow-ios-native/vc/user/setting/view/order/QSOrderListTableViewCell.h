@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define QSOrderListTableViewCellIdentifier @"QSOrderListTableViewCellIdentifier"
-#define QSOrderListTableViewCellHeight 236
+#define QSOrderListTableViewCellHeight 263
 
 @class QSOrderListTableViewCell;
 
@@ -74,4 +74,5 @@
 
 @property (weak, nonatomic) NSObject<QSOrderListTableViewCellDelegate>* delegate;
 @property (assign,nonatomic) int type;
+@property (weak, nonatomic) IBOutlet UILabel* messageLabel;
 @end

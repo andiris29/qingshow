@@ -254,4 +254,6 @@
     disCount = disCount/10;
     return [NSString stringWithFormat:@"%d折", disCount];
 }
+
+
 @end

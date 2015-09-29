@@ -270,6 +270,18 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
         }
     }
     [self updateCircleBtn];
+    
+    if (s == 0 && ![QSItemUtil getExpectableIsExpire:itemDict]) {
+        NSString* msg = [QSItemUtil getMessageForPay:itemDict];
+        if (msg && msg.length) {
+            self.messageLabel.text = [NSString stringWithFormat:@"商品备注:%@", msg];
+        } else {
+            self.messageLabel.text = @"";
+        }
+    } else {
+        self.messageLabel.text = @"";
+    }
+    
 }
 
 

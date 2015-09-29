@@ -52,7 +52,7 @@
     [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
     [self.actualPriceLabel setAttributedText:attri];
 
-//    self.messageLabel.text = [QSTradeUtil get]
+    self.messageLabel.text = [QSItemUtil getMessageForBuy:[QSTradeUtil getItemDic:tradeDict]];
 }
 
 - (IBAction)shareToBuyBtnPressed:(id)sender {

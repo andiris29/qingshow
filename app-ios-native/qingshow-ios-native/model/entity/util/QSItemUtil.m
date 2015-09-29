@@ -269,4 +269,11 @@
     
     return matchedKeys;
 }
+
++ (NSString*)getMessageForBuy:(NSDictionary*)dict {
+    return [dict stringValueForKeyPath:@"expectable.messageForBuy"];
+}
++ (NSString*)getMessageForPay:(NSDictionary*)dict {
+    return [dict stringValueForKeyPath:@"expectable.messageForPay"];
+}
 @end
