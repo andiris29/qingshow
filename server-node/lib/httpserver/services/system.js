@@ -14,9 +14,9 @@ var productionDeployment = {
 }
 
 var researchDeployment = {
-	appServiceRoot : 'http://139.196.32.82/services',
-	paymentServiceRoot : 'http://139.196.32.82/payment',
-	appWebRoot : 'http://139.196.32.82/app-web' 
+	appServiceRoot : 'http://dev.chingshow.com/services',
+	paymentServiceRoot : 'http://dev.chingshow.com/payment',
+	appWebRoot : 'http://chingshow.com/app-web' 
 }
 
 system.get = {
