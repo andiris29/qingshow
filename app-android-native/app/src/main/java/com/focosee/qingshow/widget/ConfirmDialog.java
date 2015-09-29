@@ -50,6 +50,7 @@ public class ConfirmDialog extends Dialog {
     @Override
     public void show() {
         super.show();
+        setCanceledOnTouchOutside(false);
     }
 
     @Override
@@ -104,6 +105,7 @@ public class ConfirmDialog extends Dialog {
     }
 
     public ConfirmDialog setCancel(View.OnClickListener onClickListener) {
+        this.cancelOnClickListener = onClickListener;
         if (null != this.dialogCancel) {
             this.dialogCancel.setText(cancelStr);
             this.dialogConfirm.setOnClickListener(onClickListener);
@@ -113,6 +115,7 @@ public class ConfirmDialog extends Dialog {
 
     public ConfirmDialog setCancel(String cancel, View.OnClickListener onClickListener) {
         this.cancelStr = cancel;
+        this.cancelOnClickListener = onClickListener;
         if (null != this.dialogCancel) {
             this.dialogCancel.setText(cancel);
             this.dialogConfirm.setOnClickListener(onClickListener);

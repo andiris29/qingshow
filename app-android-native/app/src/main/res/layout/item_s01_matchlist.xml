@@ -71,7 +71,6 @@
                     android:layout_toLeftOf="@+id/item_s01_likeNum"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="fdsafdsa"
                     android:textColor="@color/darker_gray"
                     android:textSize="12sp" />
 
@@ -91,7 +90,6 @@
                     android:layout_alignTop="@+id/item_s01_clock"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/item_s01_clock"
-                    android:text="fdsafdsafdsa"
                     android:textColor="@color/darker_gray"
                     android:textSize="12sp" />
 

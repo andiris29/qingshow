@@ -34,6 +34,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    self.backToTopBtn.hidden = YES;
 
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -74,6 +75,27 @@
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDic];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.tableView.contentOffset.y != 0) {
+        _backToTopBtn.hidden = NO;
+    }
+    else
+    {
+        _backToTopBtn.hidden = YES;
+    }
+}
+- (IBAction)backToTopBtnPressed:(id)sender {
+    CGPoint p = [self.tableView contentOffset];
+    p.y = 0;
+    [self.tableView setContentOffset:p animated:YES];
+    _backToTopBtn.hidden = YES;
+}
+
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

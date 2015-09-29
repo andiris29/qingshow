@@ -39,10 +39,6 @@ public class QSAppWebAPI {
 
     private static String QUERY_PEOPLE_FOLLOWER_API = "/people/queryFollowers";
 
-    private static String PREVIEW_QUERYCOMMENTS_API = "/preview/queryComments";
-    private static String PREVIEW_COMMENT_POST_API = "/preview/comment";
-    private static String PREVIEW_COMMENT_DEL_API = "/preview/deleteComment";
-
     private static String USER_UPDATEPORTRAIT = "/user/updatePortrait";
     private static String USER_UPDATEBACKGROUND = "/user/updateBackground";
 
@@ -269,10 +265,6 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + GET_SERVICE_URL;
     }
 
-    public static String getPreviewQuerycommentsApi(String _id, int pageIndex, int pageSize) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PREVIEW_QUERYCOMMENTS_API + "?_id=" + _id + "&pageNo=" + pageIndex + "&pageSize=" + pageSize;
-    }
-
     public static String getFeedingLikeApi(String _id, int pageNo, int pageSize) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
@@ -285,17 +277,11 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo=" + pageIndex + "pageSize=" + pageSize;
     }
 
-    public static String getCommentPostApi(int API_TYPE) {
-        if (API_TYPE == 1) {//preview
-            return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PREVIEW_COMMENT_POST_API;
-        }
+    public static String getCommentPostApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + COMMENT_POST_API;
     }
 
-    public static String getCommentDeleteApi(int API_TYPE) {
-        if (API_TYPE == 1) {
-            return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PREVIEW_COMMENT_DEL_API;
-        }
+    public static String getCommentDeleteApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + COMMENT_DELETE_API;
     }
 

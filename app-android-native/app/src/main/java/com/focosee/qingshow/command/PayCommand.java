@@ -10,12 +10,17 @@ import com.alipay.sdk.app.PayTask;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.constants.config.PaymentConfig;
 import com.focosee.qingshow.constants.config.ShareConfig;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.MD5;
 import com.focosee.qingshow.util.payment.Alipay.AlipayUtil;
 import com.focosee.qingshow.util.payment.Alipay.PayResult;
 import com.focosee.qingshow.util.payment.Alipay.SignUtils;
 import com.tencent.mm.sdk.modelpay.PayReq;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;

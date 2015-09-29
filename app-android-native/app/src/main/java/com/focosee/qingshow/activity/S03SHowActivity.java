@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -170,6 +171,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
             @Override
             public void onResponse(JSONObject response) {
                 dialogs.dismiss();
+                Log.d(S03SHowActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;

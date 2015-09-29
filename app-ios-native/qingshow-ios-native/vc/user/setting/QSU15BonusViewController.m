@@ -63,6 +63,14 @@
         self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",_currMoney];
         self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",money];
     }
+    else
+    {
+        self.shareToGetBtn.backgroundColor = [UIColor grayColor];
+        self.shareToGetBtn.userInteractionEnabled = NO;
+        self.alipayTextField.backgroundColor = [UIColor lightTextColor];
+        self.alipayTextField.userInteractionEnabled = NO;
+        self.navigationItem.rightBarButtonItem.action = nil;
+    }
 }
 - (void)configUI
 {
