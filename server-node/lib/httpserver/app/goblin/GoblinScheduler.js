@@ -178,7 +178,7 @@ GoblinScheduler.registerItem = function (item, callback) {
         //item不再队列中，加入队列
         requestedItems.push(item);
         //trigger goblin main slaver，令其主动爬取item
-        require('../slaver/GoblinMainSlaver').trigger(item);
+        require('../goblin/GoblinMainSlaver').trigger(item);
 
     }
     //记录handler
