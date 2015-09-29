@@ -5,7 +5,7 @@ var People = require('../dbmodels').People;
 var jPushAudiences = require('../dbmodels').JPushAudience;
 
 var RequestHelper = require('../helpers/RequestHelper');
-var PushNotificationHelper = require('../helpers/PushNotificationHelper');
+var NotificationHelper = require('../helpers/NotificationHelper');
 
 var BonusHelper = module.exports;
 
@@ -35,8 +35,8 @@ BonusHelper.createBonusViaTrade = function(trade, item, callback){
         });
     },
     function(people, callback) {
-        PushNotificationHelper.notify([people._id], PushNotificationHelper.MessageNewBonus, {
-                    'command' : PushNotificationHelper.CommandNewBonus
+        NotificationHelper.notify([people._id], NotificationHelper.MessageNewBonus, {
+                    'command' : NotificationHelper.CommandNewBonus
                 }, null);
         callback(null, people);
     }],function(error, people){
@@ -70,8 +70,8 @@ BonusHelper.createBonusViaForger = function(forger, fakeTrade, item, callback){
         });
     },
     function(people, callback) {
-        PushNotificationHelper.notify([people._id], PushNotificationHelper.MessageNewBonus, {
-            'command' : PushNotificationHelper.CommandNewBonus
+        NotificationHelper.notify([people._id], NotificationHelper.MessageNewBonus, {
+            'command' : NotificationHelper.CommandNewBonus
         }, null);
         callback(null, people);
     }],function(error, people){

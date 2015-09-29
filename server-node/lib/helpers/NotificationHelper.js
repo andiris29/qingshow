@@ -19,41 +19,41 @@ var JPushConfig = {
 };
 var client = JPush.buildClient(JPushConfig.Release.AppKey, JPushConfig.Release.MasterKey);
 
-var PushNotificationHelper = module.exports;
+var NotificationHelper = module.exports;
 
-PushNotificationHelper.MessageQuestSharingObjectiveComplete = "恭喜您！完成倾秀夏日季搭配活动任务！点击此处领奖吧～";
-PushNotificationHelper.MessageNewShowComment = "您的搭配有新评论！";
-PushNotificationHelper.MessageNewRecommandations = "最新的搭配已经推送给您，美丽怎能忍心被忽略，去看看吧！";
-PushNotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！";
-PushNotificationHelper.MessageTradeInitialized = "您申请的折扣已经成功啦，别让宝贝飞了，快来付款吧！";
-PushNotificationHelper.MessageTradeShipped = "您购买的宝贝已经向您狂奔而来，等着接收惊喜哟！";
-PushNotificationHelper.MessageItemPriceChanged = "您申请的折扣有最新信息，不要错过哦！";
-PushNotificationHelper.MessageNewBonus = "您有一笔佣金入账啦，立即查看！";
-PushNotificationHelper.MessageBonusWithdrawComplete = "您的账户成功提现{0}，请注意查看账户！";
+NotificationHelper.MessageQuestSharingObjectiveComplete = "恭喜您！完成倾秀夏日季搭配活动任务！点击此处领奖吧～";
+NotificationHelper.MessageNewShowComment = "您的搭配有新评论！";
+NotificationHelper.MessageNewRecommandations = "最新的搭配已经推送给您，美丽怎能忍心被忽略，去看看吧！";
+NotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！";
+NotificationHelper.MessageTradeInitialized = "您申请的折扣已经成功啦，别让宝贝飞了，快来付款吧！";
+NotificationHelper.MessageTradeShipped = "您购买的宝贝已经向您狂奔而来，等着接收惊喜哟！";
+NotificationHelper.MessageItemPriceChanged = "您申请的折扣有最新信息，不要错过哦！";
+NotificationHelper.MessageNewBonus = "您有一笔佣金入账啦，立即查看！";
+NotificationHelper.MessageBonusWithdrawComplete = "您的账户成功提现{0}，请注意查看账户！";
 
-PushNotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
-PushNotificationHelper.CommandNewShowComments = "newShowComments";
-PushNotificationHelper.CommandNewRecommandations= "newRecommandations";
-PushNotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
-PushNotificationHelper.CommandTradeInitialized = "tradeInitialized";
-PushNotificationHelper.CommandTradeShipped = "tradeShipped";
-PushNotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceUpdated";
-PushNotificationHelper.CommandNewBonus = "newBonus";
-PushNotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
+NotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
+NotificationHelper.CommandNewShowComments = "newShowComments";
+NotificationHelper.CommandNewRecommandations= "newRecommandations";
+NotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
+NotificationHelper.CommandTradeInitialized = "tradeInitialized";
+NotificationHelper.CommandTradeShipped = "tradeShipped";
+NotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceUpdated";
+NotificationHelper.CommandNewBonus = "newBonus";
+NotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
 
-PushNotificationHelper.notify = function(peoplesIds, message, extras, cb) {
+NotificationHelper.notify = function(peoplesIds, message, extras, cb) {
     async.series([function(callback){
-        PushNotificationHelper._push(peoplesIds, message, extras, function(err, res){
+        NotificationHelper._push(peoplesIds, message, extras, function(err, res){
             callback(err, res);
         })
     }, function(callback){
-        PushNotificationHelper._saveAsUnread(peoplesIds, extras, function(err){
+        NotificationHelper._saveAsUnread(peoplesIds, extras, function(err){
             callback(err);
         })
     }], cb);
 }
 
-PushNotificationHelper._push = function(peoplesIds, message, extras, cb) {
+NotificationHelper._push = function(peoplesIds, message, extras, cb) {
     async.waterfall([function(callback){
         jPushAudiences.find({
             peopleRef : {
@@ -91,12 +91,12 @@ PushNotificationHelper._push = function(peoplesIds, message, extras, cb) {
     }], cb)
 }
 
-PushNotificationHelper.read = function(peoplesIds, criteria, callback) {
-    if (criteria.command === PushNotificationHelper.CommandTradeInitialized ||
-        criteria.command === PushNotificationHelper.CommandItemExpectablePriceUpdated) {
+NotificationHelper.read = function(peoplesIds, criteria, callback) {
+    if (criteria.command === NotificationHelper.CommandTradeInitialized ||
+        criteria.command === NotificationHelper.CommandItemExpectablePriceUpdated) {
         criteria.command = {
-            '$or' : [PushNotificationHelper.CommandTradeInitialized, 
-                PushNotificationHelper.CommandItemExpectablePriceUpdated]
+            '$or' : [NotificationHelper.CommandTradeInitialized,
+                NotificationHelper.CommandItemExpectablePriceUpdated]
         };
     }
     People.update({
@@ -114,14 +114,17 @@ PushNotificationHelper.read = function(peoplesIds, criteria, callback) {
     })
 };
 
-PushNotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
+NotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
     async.waterfall([function(callback){
         var criteria = {};
         for (var element in extras) {
             criteria['extra.' + element] = extras[element];
         }
-        PushNotificationHelper.read(peoplesIds, criteria, cb);
+        NotificationHelper.read(peoplesIds, criteria, function(err, peoples){
+            callback(err, peoples);
+        });
     }, function(peoples, callback){
+        console.log(extras);
         People.update({
             '_id' : {
                 '$in' : peoplesIds
@@ -135,6 +138,7 @@ PushNotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
         }, {
             multi : true
         }, function(err, peoples){
+            console.log(peoples);
             callback(err, peoples);
         })
     }], cb)

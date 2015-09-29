@@ -11,7 +11,7 @@ var People = require('../../dbmodels').People;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var SMSHelper = require('../../helpers/SMSHelper');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 
 var errors = require('../../errors');
 
@@ -858,8 +858,8 @@ var _readNotification = function(req, res) {
         element === '_id' ? criteria[key] = RequestHelper.parseId(params._id) :
         criteria[key] = params[element];
     }
-    // TODO Rename PushNotificationHelper to NotificationHelper
-    PushNotificationHelper.read([req.qsCurrentUserId], criteria, function(error) {
+
+    NotificationHelper.read([req.qsCurrentUserId], criteria, function(error) {
         ResponseHelper.response(res, error, {});
     });
 };

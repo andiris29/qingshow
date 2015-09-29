@@ -4,7 +4,7 @@ var winston = require('winston');
 var async = require('async');
 var winston = require('winston');
 var _ = require('underscore');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 var Trade = require('../../dbmodels').Trade;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
 var People = require('../../dbmodels').People;
@@ -18,9 +18,9 @@ var _next = function(today) {
     },
     function(trades, callback) {
         trades.forEach(function(trade, index) {
-            PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeInitialized, {
+            NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
                 '_id' : trade._id,
-                'command' : PushNotificationHelper.CommandTradeInitialized
+                'command' : NotificationHelper.CommandTradeInitialized
             }, null);  
         });
     }],
