@@ -142,6 +142,8 @@ _login = function(req, res) {
                 "userInfo.id" : idOrNickName
             }, {
                 "nickname" : idOrNickName
+            }, {
+                "mobile" : idOrNickName
             }]}, {
             "$or" : [{
                 "userInfo.password" : password
@@ -836,12 +838,11 @@ _resetPassword = function(req, res){
             if (error) {
                 callback(errors.genUnkownError);
             }else {
-                callback(null, people.userInfo.id, tempPassword); 
+                callback(null, tempPassword); 
             }
         });
     }],function(error, id, tempPassword) {
         ResponseHelper.response(res, error, {
-            'id' : id,
             'password' : tempPassword
         });
     });
