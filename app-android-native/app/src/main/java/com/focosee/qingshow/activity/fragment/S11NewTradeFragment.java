@@ -116,6 +116,7 @@ public class S11NewTradeFragment extends Fragment {
         selectProps = new HashMap<>();
         selectRadioButton = new HashMap<>();
 
+        if(Collections.emptyList().equals(itemEntity.skuTable)) return rootView;
         initSkuTable();
 
         rootView.setOnTouchListener(new View.OnTouchListener() {

@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import com.focosee.qingshow.widget.QSTextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U16BonusListActivity extends Activity {
+public class U16BonusListActivity extends BaseActivity {
 
     @InjectView(R.id.left_btn)
     ImageButton leftBtn;
@@ -37,6 +36,11 @@ public class U16BonusListActivity extends Activity {
         ButterKnife.inject(this);
         initUser();
         matchUI();
+    }
+
+    @Override
+    public void reconn() {
+
     }
 
     public void initUser(){
