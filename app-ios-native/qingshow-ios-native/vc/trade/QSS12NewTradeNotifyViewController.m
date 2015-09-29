@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSS11NewTradeNotifyViewController.h"
-#import "QS11OrderInfoCell.h"
-#import "QS11TextCell.h"
+#import "QSS12NewTradeNotifyViewController.h"
+#import "QSS12OrderInfoCell.h"
+
 #import "QSS01MatchShowsViewController.h"
 #import "QSTableViewBasicProvider.h"
 #import "QSTradeUtil.h"
@@ -17,20 +17,20 @@
 #define PAGE_ID @"推荐折扣"
 #define w ([UIScreen mainScreen].bounds.size.width-50)
 #define h ([UIScreen mainScreen].bounds.size.height)
-@interface QSS11NewTradeNotifyViewController ()
+@interface QSS12NewTradeNotifyViewController ()
 
-@property (strong, nonatomic) QS11OrderInfoCell* orderInfoCell;
-@property (strong, nonatomic) QS11TextCell* textCell;
+@property (strong, nonatomic) QSS12OrderInfoCell* orderInfoCell;
+@property (strong, nonatomic) QSS12TextCell* textCell;
 
 
 @end
 
 
-@implementation QSS11NewTradeNotifyViewController
+@implementation QSS12NewTradeNotifyViewController
 
 #pragma mark - Init
 - (instancetype)initWithDict:(NSDictionary*)tradeDict {
-    self = [super initWithNibName:@"QSS11NewTradeNotifyViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS12NewTradeNotifyViewController" bundle:nil];
     if (self) {
         self.tradeDict = tradeDict;
         self.expectablePrice = [QSItemUtil getExpectablePrice:[QSTradeUtil getItemDic:tradeDict]];
@@ -46,37 +46,20 @@
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
     self.backgroundImgView.image = img;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.orderInfoCell = [QS11OrderInfoCell generateView];
-    self.textCell = [QS11TextCell generateView];
-    if ([QSTradeUtil getShouldShare:self.tradeDict]) {
-        [self.payBtn setTitle:@"分享后购买" forState:UIControlStateNormal];
-    } else {
-        [self.payBtn setTitle:@"购买" forState:UIControlStateNormal];
-    }
-    [SHARE_NW_ENGINE tradeReaded:[QSTradeUtil getTradeId:self.tradeDict] onSucceed:^{
-        
-    } onError:^(NSError *error) {
-        
-    }];
+    self.orderInfoCell = [QSS12OrderInfoCell generateView];
+    self.textCell = [QSS12TextCell generateView];
+    self.textCell.delegate = self;
 }
 
 - (void)viewDidLayoutSubviews
 {
-    if (h > 480 ) {
-        CGRect frame = self.payBtn.frame;
-        frame.origin.y -= 20;
-        self.payBtn.frame = frame;
-    }
     CGRect frame = self.titleLabel.frame;
     frame.origin.x = [UIScreen mainScreen].bounds.size.width/2-40;
     self.titleLabel.frame = frame;
-    
-    self.payBtn.layer.cornerRadius = 4;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
 }
 
 
@@ -89,11 +72,6 @@
 - (IBAction)closeNotifyViewController:(id)sender {
     if ([self.delelgate respondsToSelector:@selector(didClickClose:)]) {
         [self.delelgate didClickClose:self];
-    }
-}
-- (IBAction)shareAndBuyBtnPressed:(id)sender {
-    if ([self.delelgate respondsToSelector:@selector(didClickPay:)]) {
-        [self.delelgate didClickPay:self];
     }
 }
 
@@ -125,7 +103,12 @@
     if (indexPath.row == 0) {
         return 213*(w/270);
     } else {
-        return 152*(w/270);
+        return 200*(w/270);
+    }
+}
+- (void)didClickShareToPayOfCell:(UITableViewCell*)cell {
+    if ([self.delelgate respondsToSelector:@selector(didClickPay:)]) {
+        [self.delelgate didClickPay:self];
     }
 }
 @end

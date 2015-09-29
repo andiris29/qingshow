@@ -27,7 +27,7 @@
 @property (nonatomic,strong) UISegmentedControl *segmentControl;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
 
-@property (strong, nonatomic) QSS11NewTradeNotifyViewController* s11NotiVc;
+@property (strong, nonatomic) QSS12NewTradeNotifyViewController* s11NotiVc;
 
 
 @end
@@ -182,7 +182,7 @@
 
 - (void)showTradeNotiViewOfTradeId:(NSString*)tradeId{
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:dict];
+        self.s11NotiVc = [[QSS12NewTradeNotifyViewController alloc] initWithDict:dict];
         self.s11NotiVc.delelgate = self;
         self.s11NotiVc.view.frame = self.navigationController.view.bounds;
         [self.navigationController.view addSubview:self.s11NotiVc.view];
@@ -190,13 +190,13 @@
 
     }];
 }
-- (void)didClickClose:(QSS11NewTradeNotifyViewController *)vc
+- (void)didClickClose:(QSS12NewTradeNotifyViewController *)vc
 {
     [self.s11NotiVc.view removeFromSuperview];
     self.s11NotiVc = nil;
 }
 
-- (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
+- (void)didClickPay:(QSS12NewTradeNotifyViewController*)vc {
     NSDictionary* tradeDict = vc.tradeDict;
     NSNumber* actualPrice = vc.expectablePrice;
     NSDictionary* paramDict = nil;

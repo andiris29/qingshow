@@ -25,7 +25,7 @@
 
 @property (strong,nonatomic) NSDictionary *oderDic;
 
-@property (strong, nonatomic) QSS11NewTradeNotifyViewController* s11NotiVc;
+@property (strong, nonatomic) QSS12NewTradeNotifyViewController* s11NotiVc;
 
 
 @end
@@ -195,12 +195,6 @@
 
 - (void)didClickExpectablePriceBtnOfOrder:(NSDictionary *)orderDict {
     [self showTradeNotiViewOfTradeId:orderDict];
-    __weak QSU09OrderListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE tradeReaded:[QSTradeUtil getTradeId:orderDict] onSucceed:^{
-        [weakSelf.provider reloadData];
-    } onError:^(NSError *error) {
-        
-    }];
 }
 - (void)didClickToWebPage:(NSDictionary *)orderDic
 {
@@ -259,17 +253,17 @@
 #pragma mark -
 - (void)showTradeNotiViewOfTradeId:(NSDictionary*)tradeDict
 {
-    self.s11NotiVc = [[QSS11NewTradeNotifyViewController alloc] initWithDict:tradeDict];
+    self.s11NotiVc = [[QSS12NewTradeNotifyViewController alloc] initWithDict:tradeDict];
     self.s11NotiVc.delelgate = self;
     self.s11NotiVc.view.frame = self.navigationController.view.bounds;
     [self.navigationController.view addSubview:self.s11NotiVc.view];
 }
     
-- (void)didClickClose:(QSS11NewTradeNotifyViewController*)vc {
+- (void)didClickClose:(QSS12NewTradeNotifyViewController*)vc {
     [self.s11NotiVc.view removeFromSuperview];
     self.s11NotiVc = nil;
 }
-- (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc {
+- (void)didClickPay:(QSS12NewTradeNotifyViewController*)vc {
     NSDictionary* tradeDict = vc.tradeDict;
 
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){

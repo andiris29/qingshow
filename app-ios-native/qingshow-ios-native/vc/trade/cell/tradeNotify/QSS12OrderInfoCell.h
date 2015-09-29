@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QS11OrderInfoCell : UITableViewCell
+@interface QSS12OrderInfoCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView* itemImgView;
 @property (weak, nonatomic) IBOutlet UILabel* itemNameLabel;

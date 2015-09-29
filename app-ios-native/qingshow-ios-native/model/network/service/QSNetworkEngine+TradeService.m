@@ -23,7 +23,6 @@
 #define PATH_TRADE_QUERY_PHASES @"trade/queryByPhase"
 #define PATH_TRADE_QUERY_HIGILIGHTED @"trade/queryHighlighted"
 #define PATH_TRADE_RECEIVER @"trade/getReturnReceiver"
-#define PATH_TRADE_PEOPLE_READ @"people/readExpectableTrade"
 @implementation QSNetworkEngine(TradeService)
 
 #pragma mark - Create
@@ -251,20 +250,6 @@
                                     succeedBlock([retDict deepMutableCopy]);
                                 }
                          
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
-- (MKNetworkOperation*)tradeReaded:(NSString *)tradeId
-                         onSucceed:(VoidBlock)succeedBlock
-                           onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_TRADE_PEOPLE_READ method:@"POST" paramers:@{@"_id":tradeId} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            succeedBlock();
-        }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
             errorBlock(error);

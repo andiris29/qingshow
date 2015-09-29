@@ -6,15 +6,15 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QS11TextCell.h"
+#import "QSS12TextCell.h"
 #import "UINib+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
 
-@implementation QS11TextCell
+@implementation QSS12TextCell
 
 + (instancetype)generateView {
-    return [UINib generateViewWithNibName:@"QS11TextCell"];
+    return [UINib generateViewWithNibName:@"QSS12TextCell"];
 }
 
 - (void)awakeFromNib {
@@ -52,5 +52,12 @@
     [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
     [self.actualPriceLabel setAttributedText:attri];
 
+//    self.messageLabel.text = [QSTradeUtil get]
+}
+
+- (IBAction)shareToBuyBtnPressed:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(didClickShareToPayOfCell:)]) {
+        [self.delegate didClickShareToPayOfCell:self];
+    }
 }
 @end
