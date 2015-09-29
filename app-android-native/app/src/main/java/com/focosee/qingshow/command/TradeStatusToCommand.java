@@ -7,13 +7,9 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by Administrator on 2015/9/21.

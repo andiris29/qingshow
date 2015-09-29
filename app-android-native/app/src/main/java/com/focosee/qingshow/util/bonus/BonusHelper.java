@@ -40,14 +40,8 @@ public class BonusHelper {
     }
 
     public static String getBonusesMoneySign(MongoPeople.Bonuses bonuses){
-        if(null == bonuses)return "+ 0.00";
-        String sign;
-        if(bonuses.status.intValue() == NOT_WITHDRAW){
-            sign = "+ ";
-        }else{
-            sign = "- ";
-        }
-        return sign + StringUtil.formatPriceWithoutSign(String.valueOf(bonuses.money));
+        if(null == bonuses)return "¥0.00";
+        return "¥" + StringUtil.formatPriceWithoutSign(String.valueOf(bonuses.money));
     }
 
     public static void bonusSort(List<MongoPeople.Bonuses> bonusesList){
