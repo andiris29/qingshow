@@ -54,5 +54,6 @@ module.exports = {
     'GoblinError' : new ServerError(1028, 'GoblinError'),
     'MobileAlreadyExist' : new ServerError(1029, 'MobileAlreadyExist'),
     'SMSValidationFail' : new ServerError(1030, 'SMSValidationFail'),
-    'SMSlimitedSend' : new ServerError(1031, 'SMSlimitedSend')
+    'SMSlimitedSend' : new ServerError(1031, 'SMSlimitedSend'),
+    'SMSFrequentlyRequest' : new ServerError(1032, 'SMSFrequentlyRequest')
 };
