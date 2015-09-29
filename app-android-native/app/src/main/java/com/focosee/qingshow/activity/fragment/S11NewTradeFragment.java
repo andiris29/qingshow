@@ -103,7 +103,6 @@ public class S11NewTradeFragment extends Fragment {
     private int discountOnline;
     private double basePrice;
     private int checkIndex[];
-    private float stock;
     private Map<String, String> skuTable = new HashMap<>();
 
     @Override
@@ -226,9 +225,6 @@ public class S11NewTradeFragment extends Fragment {
         Map<String, List<String>> tempMap = new HashMap<>(selectProps);
         for (String p : keys_order) {
             if (p.equals(prop)){
-//                for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
-//                    btn.setEnable(true);
-//                }
                 continue;
             }
             if(null == btnMap.get(p))continue;
@@ -244,7 +240,6 @@ public class S11NewTradeFragment extends Fragment {
                 tempMap.put(p, bList);
                 Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
                 Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
-//                isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap)) < 1 ? false : true;
                 isAble = skuTable.containsKey(SkuUtil.formetPropsAsTableKey(tempMap));
                 if (!isAble) continue;
                 for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
@@ -456,11 +451,6 @@ public class S11NewTradeFragment extends Fragment {
         for (int i = 0; i < values.size(); i++) {
             FlowRadioButton propItem = initPropItem(values.get(i));
             group.addChildView(propItem, itemParams);
-//            if (i == checkIndex[position]) {
-//                propItem.setChecked(true);
-//                if (onCheckedChangeListener != null)
-//                    onCheckedChangeListener.onChanged(key, i);
-//            }
         }
 
         group.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
