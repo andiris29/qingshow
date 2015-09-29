@@ -17,6 +17,7 @@
 
 @interface QSDiscountTaobaoInfoCell : QSAbstractDiscountTableViewCell
 
+@property (strong, nonatomic) NSString* title;
 @property (assign, nonatomic) int infoIndex;
 @property (strong, nonatomic) NSArray* btnArray;
 

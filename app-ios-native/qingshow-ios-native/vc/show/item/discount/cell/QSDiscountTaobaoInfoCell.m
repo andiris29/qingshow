@@ -30,7 +30,7 @@
 
 @interface QSDiscountTaobaoInfoCell ()
 
-@property (strong, nonatomic) NSString* title;
+
 @property (strong, nonatomic) NSArray* compInfos;
 
 @property (assign, nonatomic) NSInteger currentSelectIndex;

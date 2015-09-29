@@ -20,7 +20,7 @@
 #define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSU07RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nickNameText;
-@property (weak, nonatomic) IBOutlet UITextField *passwdText;
+//@property (weak, nonatomic) IBOutlet UITextField *passwdText;
 @property (weak, nonatomic) IBOutlet UITextField *passwdCfmText;
 @property (weak, nonatomic) IBOutlet UITextField *mailAndPhoneText;
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
@@ -68,16 +68,16 @@
     [self.containerView addSubview:self.contentView];
     self.nickNameText.delegate = self;
     self.passwdCfmText.delegate = self;
-    self.passwdText.delegate = self;
+//    self.passwdText.delegate = self;
     self.mailAndPhoneText.delegate = self;
     [self.nickNameText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self.passwdText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+//    [self.passwdText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.passwdCfmText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.mailAndPhoneText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.testTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
     self.nickNameText.tintColor = [UIColor whiteColor];
-    self.passwdText.tintColor = [UIColor whiteColor];
+//    self.passwdText.tintColor = [UIColor whiteColor];
     self.passwdCfmText.tintColor = [UIColor whiteColor];
     self.mailAndPhoneText.tintColor = [UIColor whiteColor];
     self.testTextField.tintColor = [UIColor whiteColor];
@@ -207,14 +207,14 @@
 }
 - (void)hideKeyboard
 {
-    for (UITextField* t in @[self.nickNameText, self.passwdText, self.passwdCfmText, self.mailAndPhoneText,self.testTextField]) {
+    for (UITextField* t in @[self.nickNameText, self.passwdCfmText, self.mailAndPhoneText,self.testTextField]) {
         [t resignFirstResponder];
     }
 }
 
 - (IBAction)registers:(id)sender {
     NSString *nickName = self.nickNameText.text;
-    NSString *passwd = self.passwdText.text;
+//    NSString *passwd = self.passwdText.text;
     NSString *passwdCfm = self.passwdCfmText.text;
     NSString *mailAndPhone = self.mailAndPhoneText.text;
     NSString *code = self.testTextField.text;
@@ -224,27 +224,27 @@
         return;
     }
     
-    if (passwd.length == 0) {
+    if (passwdCfm.length == 0) {
         [self showErrorHudWithText:@"请输入密码"];
         return;
     }
     
-    if (passwdCfm.length == 0) {
-        [self showErrorHudWithText:@"请再次输入密码"];
-        return;
-    }
+//    if (passwdCfm.length == 0) {
+//        [self showErrorHudWithText:@"请再次输入密码"];
+//        return;
+//    }
     
     if([self checkEmail:mailAndPhone] != YES && [self checkMobile:mailAndPhone] != YES){
             [self showErrorHudWithText:@"请输入正确的邮箱或手机号"];
             return;
         }
     
-    if ([passwd compare:passwdCfm] != NSOrderedSame) {
-        [self showErrorHudWithText:@"密码不一致请重新输入"];
-        return;
-    }
+//    if ([passwd compare:passwdCfm] != NSOrderedSame) {
+//        [self showErrorHudWithText:@"密码不一致请重新输入"];
+//        return;
+//    }
     
-    if ([self checkPasswd:passwd] != YES) {
+    if ([self checkPasswd:passwdCfm] != YES) {
         [self showErrorHudWithText:@"请输入6位以上英文或数字密码"];
         return;
     }
@@ -267,7 +267,7 @@
             return;
         }
     };
-    [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
+    [SHARE_NW_ENGINE registerByNickname:nickName Password:passwdCfm Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
     
 }
 
