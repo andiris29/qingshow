@@ -271,17 +271,26 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 }
 
 - (void)actionLogout {
-    [QSUserManager shareUserManager].userInfo = nil;
-    [QSUserManager shareUserManager].fIsLogined = NO;
-    CATransition* tran = [[CATransition alloc] init];
-    tran.type = kCATransitionFade;
-    tran.duration = 0.5f;
-    [self.navigationController.parentViewController.view.layer addAnimation:tran forKey:@"tran"];
-    [self.menuProvider showDefaultVc];
-
-    [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确认退出？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.delegate = self;
+    [alert show];
+    
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [QSUserManager shareUserManager].userInfo = nil;
+        [QSUserManager shareUserManager].fIsLogined = NO;
+        CATransition* tran = [[CATransition alloc] init];
+        tran.type = kCATransitionFade;
+        tran.duration = 0.5f;
+        [self.navigationController.parentViewController.view.layer addAnimation:tran forKey:@"tran"];
+        [self.menuProvider showDefaultVc];
+        
+        [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
+    }
+}
 #pragma mark - Text Field
 - (void)updateUserInfoKey:(NSString*)key value:(NSString*)value{
     if (!key || !value || !key.length || !value.length) {

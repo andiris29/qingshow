@@ -22,11 +22,7 @@
     NSString *dateStr = [QSPeopleUtil getCreateFromBonusDict:dict];
     NSDate *date = [QSDateUtil buildDateFromResponseString:dateStr];
     self.dateLabel.text = [QSDateUtil buildStringFromDate:date];
-    if ([QSPeopleUtil getStatusFromBonusDict:dict] == [NSNumber numberWithInt:2]) {
-        self.priceLabel.text = [NSString stringWithFormat:@"-%@",[QSPeopleUtil getMoneyFromBonusDict:dict]];
-    }else{
-        self.priceLabel.text = [NSString stringWithFormat:@"+%@",[QSPeopleUtil getMoneyFromBonusDict:dict]];
-    }
+    self.priceLabel.text = [NSString stringWithFormat:@"￥%@",[QSPeopleUtil getMoneyFromBonusDict:dict]];
     [self.headerImgView setImageFromURL:[NSURL URLWithString:[QSPeopleUtil getIconFromBonusDict:dict]]];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

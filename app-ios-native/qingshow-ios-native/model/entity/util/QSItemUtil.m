@@ -128,7 +128,7 @@
 {
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc]initWithString:str];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, str.length)];
-    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.800 alpha:1.000] range:NSMakeRange(0, str.length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor darkTextColor] range:NSMakeRange(0, str.length)];
     return attri;
 }
 

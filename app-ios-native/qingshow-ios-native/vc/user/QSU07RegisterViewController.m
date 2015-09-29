@@ -218,7 +218,6 @@
     NSString *passwdCfm = self.passwdCfmText.text;
     NSString *mailAndPhone = self.mailAndPhoneText.text;
     NSString *code = self.testTextField.text;
-    
     if (nickName.length == 0) {
         [self showErrorHudWithText:@"请输入昵称"];
         return;
@@ -238,7 +237,10 @@
             [self showErrorHudWithText:@"请输入正确的邮箱或手机号"];
             return;
         }
-    
+    if (code.length == 0) {
+        [self showErrorHudWithText:@"请填写验证码"];
+        return;
+    }
 //    if ([passwd compare:passwdCfm] != NSOrderedSame) {
 //        [self showErrorHudWithText:@"密码不一致请重新输入"];
 //        return;
