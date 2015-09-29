@@ -203,17 +203,18 @@ _register = function(req, res) {
         return;
     }
     People.find({
-        '$or': [{'userInfo.id' : id}, {'nickname': nickname}, {'mobile': mobile}]
+        '$or': [
+            {'userInfo.id' : id}, 
+            {'userInfo.id' : mobile}, 
+            {'nickname': nickname}, 
+            {'mobile': mobile}
+        ]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
         } else if (people.length > 0) {
-            if (people.mobile === mobile) {
-                ResponseHelper.response(res, errors.MobileAlreadyExist); 
-            }else{
-                ResponseHelper.response(res, errors.EmailAlreadyExist);
-            }
+            ResponseHelper.response(res, errors.MobileAlreadyExist); 
             return;
         }
 
