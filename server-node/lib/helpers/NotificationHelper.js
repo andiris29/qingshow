@@ -124,7 +124,6 @@ NotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
             callback(err, peoples);
         });
     }, function(peoples, callback){
-        console.log(extras);
         People.update({
             '_id' : {
                 '$in' : peoplesIds
@@ -138,7 +137,6 @@ NotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
         }, {
             multi : true
         }, function(err, peoples){
-            console.log(peoples);
             callback(err, peoples);
         })
     }], cb)
