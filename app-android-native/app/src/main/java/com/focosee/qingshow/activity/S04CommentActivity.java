@@ -83,8 +83,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
     private int position;
 
-    private int API_TYPE = 0;//0是show, 1是preview
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,10 +99,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         title.setText("评论");
         Intent intent = getIntent();
 
-        if (!TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
-            id = intent.getStringExtra(INPUT_SHOW_ID);
-            API_TYPE = 0;
+        if (TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
+            return;
         }
+
+        id = intent.getStringExtra(INPUT_SHOW_ID);
+
         position = intent.getIntExtra("s08_position", 0);
 
         s04Input.addTextChangedListener(new TextWatcher() {
@@ -169,7 +169,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         super.onNewIntent(intent);
         if (!TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
             id = intent.getStringExtra(INPUT_SHOW_ID);
-            API_TYPE = 0;
         }
     }
 
@@ -179,20 +178,16 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     private void doLoadMoreTask() {
-        String api;
-        if (API_TYPE == 0)
-            api = QSAppWebAPI.getShowCommentsListApi(id, currentPage + 1, numbersPerPage);
-        else
-            api = QSAppWebAPI.getPreviewQuerycommentsApi(id, currentPage + 1, numbersPerPage);
-        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(id, currentPage + 1, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S04CommentActivity.class.getSimpleName(), "load_response:" + response);
                 if (MetadataParser.hasError(response)) {
                     mRefreshLayout.endLoadingMore();
                     return;
                 }
                 currentPage++;
-                adapter.addData(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
+                adapter.addData(S04CommentActivity.getCommentsFromJsonObject(response));
                 adapter.notifyDataSetChanged();
                 mRefreshLayout.endLoadingMore();
             }
@@ -201,14 +196,11 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     private void doRefreshTask() {
-        String api;
-        if (API_TYPE == 0)
-            api = QSAppWebAPI.getShowCommentsListApi(id, 0, numbersPerPage);
-        else
-            api = QSAppWebAPI.getPreviewQuerycommentsApi(id, 0, numbersPerPage);
-        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
+
+        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(id, 0, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S04CommentActivity.class.getSimpleName(), "refresh_response:" + response);
                 mRefreshLayout.endRefreshing();
                 if (MetadataParser.hasError(response)) {
                     if(MetadataParser.getError(response) == ErrorCode.PagingNotExist){
@@ -218,7 +210,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
                     }
                 }
                 currentPage = 1;
-                adapter.addDataAtTop(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
+                adapter.addDataAtTop(S04CommentActivity.getCommentsFromJsonObject(response));
                 adapter.notifyDataSetChanged();
             }
         });
@@ -243,7 +235,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         map.put("_atId", replyUserId);
         map.put("comment", comment);
         JSONObject jsonObject = new JSONObject(map);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
@@ -264,7 +256,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         Map<String, String> map = new HashMap<>();
         map.put("_id", adapter.getItemData(clickCommentIndex).getId());
         JSONObject jsonObject = new JSONObject(map);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){
@@ -280,18 +272,10 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private String formatDateTime(long time) {
-        if (0 == time) {
-            return "";
-        }
-
-        return new SimpleDateFormat("MM-dd HH:mm").format(new Date(time));
-    }
-
-    private static ArrayList<MongoComment> getCommentsFromJsonObject(JSONObject response, int API_TYPE) {
+    private static ArrayList<MongoComment> getCommentsFromJsonObject(JSONObject response) {
         String jsonString = "";
         String arrayName = "showComments";
-        if (API_TYPE == 1) arrayName = "previewComments";
+        Log.d(S04CommentActivity.class.getSimpleName(), "response:" + response);
         try {
             jsonString = response.getJSONObject("data").getJSONArray(arrayName).toString();
         } catch (JSONException e) {
