@@ -238,7 +238,13 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 
             self.stateLabel.hidden = YES;
             [self showTopRightBtns:@[self.cancelButton]];
-            self.circleType = QSOrderListCellCircleTypePay;
+            
+            if ([QSItemUtil getExpectableIsExpire:itemDict]) {
+                self.circleType = QSOrderListCellCircleTypeSaleOut;
+            } else {
+                self.circleType = QSOrderListCellCircleTypePay;
+            }
+
             break;
         }
         case 3: {
