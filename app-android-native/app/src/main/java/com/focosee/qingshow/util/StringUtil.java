@@ -30,7 +30,7 @@ public class StringUtil {
     }
 
     public static String formatPriceWithoutSign(String price){
-        if(TextUtils.isEmpty(price)) return "0.00";
+        if(TextUtils.isEmpty(price)) return "";
         return new DecimalFormat("0.00").format(new BigDecimal(price));
     }
 

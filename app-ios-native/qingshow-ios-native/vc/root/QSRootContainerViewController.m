@@ -129,7 +129,7 @@
         }
         [self showVc:vc];
         
-        if (![vc isKindOfClass:[QSS01MatchShowsViewController class]]) {
+        if ((![vc isKindOfClass:[QSS01MatchShowsViewController class]]) && (![vc isKindOfClass:[QST01ShowTradeViewController class]])) {
             [self showRegisterVc];
         }
     } else {

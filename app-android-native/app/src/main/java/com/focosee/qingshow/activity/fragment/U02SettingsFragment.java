@@ -57,6 +57,7 @@ import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ActionSheet;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.umeng.analytics.MobclickAgent;
@@ -157,16 +158,23 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                UserCommand.logOut(new Callback() {
+                ConfirmDialog dialog = new ConfirmDialog(getActivity());
+                dialog.setTitle("确定退出登陆？");
+                dialog.setConfirm(new View.OnClickListener() {
                     @Override
-                    public void onComplete() {
-                        ToastUtil.showShortToast(QSApplication.instance().getApplicationContext(), "已退出登录");
-                        Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
+                    public void onClick(View v) {
+                        UserCommand.logOut(new Callback() {
+                            @Override
+                            public void onComplete() {
+                                ToastUtil.showShortToast(QSApplication.instance().getApplicationContext(), "已退出登录");
+                                Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+                        });
                     }
                 });
+                dialog.show();
             }
         });
     }

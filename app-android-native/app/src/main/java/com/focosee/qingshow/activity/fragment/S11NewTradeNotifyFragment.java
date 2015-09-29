@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -17,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -44,11 +44,8 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -87,6 +84,19 @@ public class S11NewTradeNotifyFragment extends Fragment {
     String actualPrice;
 
     private View rootView;
+    private boolean mDismissed = true;
+    private ViewGroup mGroup;
+
+    public void show(FragmentManager manager, String tag) {
+        if (!mDismissed) {
+            return;
+        }
+        mDismissed = false;
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +114,10 @@ public class S11NewTradeNotifyFragment extends Fragment {
                 return true;
             }
         });
-        return rootView;
+
+        mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
+        mGroup.addView(rootView);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void initProps() {
@@ -145,6 +158,10 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     @OnClick(R.id.close)
     public void close() {
+        if (mDismissed) {
+            return;
+        }
+        mDismissed = true;
         getFragmentManager().popBackStack();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
@@ -215,6 +232,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+        mGroup.removeView(rootView);
     }
 
     @Override

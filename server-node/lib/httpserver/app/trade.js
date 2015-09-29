@@ -18,7 +18,7 @@ var ContextHelper = require('../../helpers/ContextHelper');
 var errors = require('../../errors');
 var request = require('request');
 var winston = require('winston');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 var BonusHelper = require('../../helpers/BonusHelper');
 
 var trade = module.exports;
@@ -251,9 +251,9 @@ trade.statusTo = {
                     _weixinDeliveryNotify(trade);
                 }
                 // Push Notification
-                PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeShipped, {
-                    '_id' : param._id,
-                    'command' : PushNotificationHelper.CommandTradeShipped
+                NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeShipped, {
+                    '_id' : RequestHelper.parseId(param._id),
+                    'command' : NotificationHelper.CommandTradeShipped
                 }, null); 
                 callback(null, trade);
             } else if (newStatus == 7) {

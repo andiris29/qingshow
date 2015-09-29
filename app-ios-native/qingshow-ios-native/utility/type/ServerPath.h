@@ -9,6 +9,5 @@
 #ifndef qingshow_ios_native_ServerPath_h
 #define qingshow_ios_native_ServerPath_h
 
-
 #define kDefaultHeaderImgBase @"http://trial01.focosee.com/img//user/"
 #endif

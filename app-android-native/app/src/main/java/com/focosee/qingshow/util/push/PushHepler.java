@@ -3,10 +3,7 @@ package com.focosee.qingshow.util.push;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.SparseArray;
-
-import com.focosee.qingshow.QSApplication;
+import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.activity.PushWebActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S04CommentActivity;
@@ -15,10 +12,7 @@ import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.util.ValueUtil;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -26,7 +20,7 @@ import de.greenrobot.event.EventBus;
  */
 public class PushHepler {
 
-    public static Intent _jumpTo(Context context,Bundle bundle) {
+    public static Intent _jumpTo(Context context,Bundle bundle, String action) {
         String command = PushUtil.getCommand(bundle);
         Intent intent = null;
         if (command.equals(QSPushAPI.NEW_SHOW_COMMENTS)) {
@@ -52,10 +46,19 @@ public class PushHepler {
         }
 
         if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)) {
-            intent = new Intent(context, S01MatchShowsActivity.class);
             String _id = PushUtil.getExtra(bundle, "_id");
-            intent.putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION,_id);
-            intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
+            if(action.equals(JPushInterface.ACTION_NOTIFICATION_OPENED)) {
+                intent = new Intent(context, S01MatchShowsActivity.class);
+                intent.putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
+                intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
+            }
+
+            if(action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
+                ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
+                ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
+                ((BaseActivity) context).showNewTradeNotify();
+                return null;
+            }
         }
 
         if(command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){

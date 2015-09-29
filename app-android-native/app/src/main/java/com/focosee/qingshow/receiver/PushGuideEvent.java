@@ -7,6 +7,7 @@ public class PushGuideEvent {
 
     public boolean unread = true;
     public String command;
+    public String id;
 
     public PushGuideEvent(boolean unread, String command){
         this.unread = unread;

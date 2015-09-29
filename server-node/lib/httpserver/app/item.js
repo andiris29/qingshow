@@ -11,15 +11,15 @@ var jPushAudiences = require('../../dbmodels').JPushAudience;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 var TradeHelper = require('../../helpers/TradeHelper');
-var URLParser = require('../../scheduled/goblin/common/URLParser');
+var URLParser = require('../../goblin-slave/URLParser');
 var qsftp = require('../../runtime').ftp;
-var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");
+var GoblinScheduler = require("./goblin/GoblinScheduler");
 
-var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
+var ItemSyncService = require("../../goblin-slave/ItemSyncService");
 var errors = require('../../errors');
-var GoblinError = require('../../scheduled/goblin/common/GoblinError');
+var GoblinError = require('../../goblin-slave/GoblinError');
 
 var item = module.exports;
 
@@ -283,15 +283,15 @@ var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
             if (!expectable.expired && expectable.price <= trade.expectedPrice) {
-                PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageTradeInitialized, {
+                NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
                     '_id' : trade._id,
-                    'command' : PushNotificationHelper.CommandTradeInitialized
+                    'command' : NotificationHelper.CommandTradeInitialized
                 }, cb);
             };
 
             if (!expectable.expired && expectable.price > trade.expectedPrice) {
-              PushNotificationHelper.notify([trade.ownerRef], PushNotificationHelper.MessageItemPriceChanged, {
-                'command' : PushNotificationHelper.CommandItemExpectablePriceUpdated,
+              NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
+                'command' : NotificationHelper.CommandItemExpectablePriceUpdated,
                 '_id' : trade._id
                 }, cb); 
             };

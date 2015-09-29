@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.CityActivity;
 import com.focosee.qingshow.activity.CityEvent;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-
 import de.greenrobot.event.EventBus;
 
 /**

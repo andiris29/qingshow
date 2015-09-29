@@ -15,7 +15,7 @@ var ContextHelper = require('../../helpers/ContextHelper');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 
 var errors = require('../../errors');
 
@@ -172,9 +172,9 @@ show.comment = {
             }).populate('ownerRef').exec(function(err, show) {
                 if (show && show.ownerRef) {
                     if (show.ownerRef._id.toString() != req.qsCurrentUserId.toString()) {
-                       PushNotificationHelper._push([show.ownerRef], PushNotificationHelper.MessageNewShowComment, {
+                       NotificationHelper._push([show.ownerRef], NotificationHelper.MessageNewShowComment, {
                             '_id' : param._id,
-                            'command' : PushNotificationHelper.CommandNewShowComments
+                            'command' : NotificationHelper.CommandNewShowComments
                         }, null);
                     }
                 }

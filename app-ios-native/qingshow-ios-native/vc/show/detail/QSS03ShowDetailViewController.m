@@ -294,7 +294,7 @@
             
         } else {
             [self showSuccessHudWithText:@"取消收藏"];
-            [self.favorBtn setTitleColor:[UIColor colorWithRed:67 green:67 blue:67 alpha:1.0f] forState:UIControlStateNormal];
+            [self.favorBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         }
         [self bindExceptImageWithDict:showDict];
         

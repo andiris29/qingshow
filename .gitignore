@@ -47,3 +47,4 @@ server-pay/payment/target/
 winston.log.*
 server-node/projectFilesBackup/.idea
 goblin-slaver/.idea
+app-android-native/app/app.iml

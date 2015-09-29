@@ -29,6 +29,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.wxapi.WXPayEvent;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -53,14 +54,11 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
     private S17PaymentFragment paymentFragment;
     private S17ReceiptFragment receiptFragment;
     private View dialog;
-
     private MongoPeople.Receiver receiver;
-
     private Map params;
     private MongoTrade trade;
-
     private String selectedPeopleReceiverUuid;
-
+    private double totalFee;
 
     @Override
     public void reconn() {
@@ -75,8 +73,30 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         EventBus.getDefault().register(this);
 
         trade = (MongoTrade) getIntent().getSerializableExtra(INPUT_ITEM_ENTITY);
-        init();
 
+        getTradeFromNet();
+    }
+
+    private void getTradeFromNet(){
+
+        final LoadingDialogs dialogs = new LoadingDialogs(S17PayActivity.this);
+        dialogs.show();
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeApi(trade._id), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dialogs.dismiss();
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(S17PayActivity.this, MetadataParser.getError(response));
+                    trade = null;
+                    return;
+                }
+                trade = TradeParser.parseQuery(response).get(0);
+                totalFee = trade.itemRef.expectable.price.doubleValue() * trade.quantity;
+                init();
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void init() {
@@ -110,6 +130,10 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.s11_submit_button:
+                if(null == trade){
+                    getTradeFromNet();
+                    return;
+                }
                 submitTrade();
                 break;
             default:
@@ -198,7 +222,8 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         params = new HashMap();
-        params.put("totalFee", trade.itemRef.expectable.price.doubleValue() * trade.quantity);
+        Log.d(S17PayActivity.class.getSimpleName(), "totalFee:" + totalFee);
+        params.put("totalFee", totalFee);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
                 JSONObject jsonObject = new JSONObject();

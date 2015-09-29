@@ -3,9 +3,9 @@ var async = require('async');
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
-var GoblinScheduler = require('../../scheduled/goblin/scheduler/GoblinScheduler');
-var ItemSyncService = require('../../scheduled/goblin/common/ItemSyncService');
-var GoblinError = require('../../scheduled/goblin/common/GoblinError');
+var GoblinScheduler = require('./goblin/GoblinScheduler');
+var ItemSyncService = require('../../goblin-slave/ItemSyncService');
+var GoblinError = require('../../goblin-slave/GoblinError');
 var Item = require('../../dbmodels').Item;
 var errors = require('../../errors');
 
@@ -86,3 +86,7 @@ goblin.crawlItemFailed = {
         ResponseHelper.response(res, null, {});
     }
 };
+
+require('./goblin/GoblinScheduler').start(global.qsConfig.schedule.goblinScheduler);
+require('./goblin/GoblinMainSlaver').start(global.qsConfig.schedule.goblinMainSlaver);
+    

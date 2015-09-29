@@ -11,6 +11,7 @@ var People = require('../../dbmodels').People;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var SMSHelper = require('../../helpers/SMSHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 
 var errors = require('../../errors');
 
@@ -141,6 +142,8 @@ _login = function(req, res) {
                 "userInfo.id" : idOrNickName
             }, {
                 "nickname" : idOrNickName
+            }, {
+                "mobile" : idOrNickName
             }]}, {
             "$or" : [{
                 "userInfo.password" : password
@@ -200,17 +203,18 @@ _register = function(req, res) {
         return;
     }
     People.find({
-        '$or': [{'userInfo.id' : id}, {'nickname': nickname}, {'mobile': mobile}]
+        '$or': [
+            {'userInfo.id' : id}, 
+            {'userInfo.id' : mobile}, 
+            {'nickname': nickname}, 
+            {'mobile': mobile}
+        ]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
         } else if (people.length > 0) {
-            if (people.mobile === mobile) {
-                ResponseHelper.response(res, errors.MobileAlreadyExist); 
-            }else{
-                ResponseHelper.response(res, errors.EmailAlreadyExist);
-            }
+            ResponseHelper.response(res, errors.MobileAlreadyExist); 
             return;
         }
 
@@ -835,12 +839,11 @@ _resetPassword = function(req, res){
             if (error) {
                 callback(errors.genUnkownError);
             }else {
-                callback(null, people.userInfo.id, tempPassword); 
+                callback(null, tempPassword); 
             }
         });
-    }],function(error, id, tempPassword) {
+    }],function(error, tempPassword) {
         ResponseHelper.response(res, error, {
-            'id' : id,
             'password' : tempPassword
         });
     });
@@ -850,37 +853,15 @@ _resetPassword = function(req, res){
 var _readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
-    if (Object.keys(params).length === 1 && params.command ) {
-        criteria = {
-            $pull : {
-                'unreadNotifications' : {
-                    'extra.command' : params.command
-                }
-            }
-        };
+    for (var element in params) {
+        var key = 'extra.' + element;
+        element === '_id' ? criteria[key] = RequestHelper.parseId(params._id) :
+        criteria[key] = params[element];
     }
 
-    if (Object.keys(params).length > 1) {
-        var unreadNotifications = {};
-        for(var element in params){
-            var key = 'extra.' + element;
-            element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(params._id) :
-                unreadNotifications[key] = params[element];
-        }
-        criteria = {
-            $pull : {
-                'unreadNotifications' : unreadNotifications
-            }
-        };
-    }
-
-    People.findOneAndUpdate({
-        _id : RequestHelper.parseId(req.qsCurrentUserId)
-    }, criteria, {
-    }, function(error) {
+    NotificationHelper.read([req.qsCurrentUserId], criteria, function(error) {
         ResponseHelper.response(res, error, {});
     });
-
 };
 
 

@@ -9,7 +9,7 @@ var Item = require('../../dbmodels').Item;
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 var BonusHelper = require('../../helpers/BonusHelper');
 var errors = require('../../errors');
 
@@ -133,9 +133,9 @@ userBonus.withdrawComplete = {
             });
         },
         function(people, total, callback) {
-            var message = PushNotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, total);
-            PushNotificationHelper.notify([people._id], message, {
-                'command' : PushNotificationHelper.CommandBonusWithdrawComplete
+            var message = NotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, total);
+            NotificationHelper.notify([people._id], message, {
+                'command' : NotificationHelper.CommandBonusWithdrawComplete
             }, null);
             callback(null, people);
         }], function(error, people) {

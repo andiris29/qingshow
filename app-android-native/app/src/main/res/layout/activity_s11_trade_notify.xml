@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="15dp"
         app:cardUseCompatPadding="true">
@@ -152,16 +152,16 @@
                             android:paddingRight="7dp"
                             android:text="SALE"
                             android:textColor="@color/white"
-                            android:textSize="26dp"
+                            android:textSize="26sp"
                             android:textStyle="bold" />
 
-                        <com.focosee.qingshow.widget.QSTextView
+                        <TextView
                             android:id="@+id/nowDiscount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:textColor="@color/red"
-                            android:textSize="50sp"
+                            android:textSize="45sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -170,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/dis_text"
                         android:orientation="vertical"
-                        app:layout_marginLeftPercent="15%"
+                        app:layout_marginLeftPercent="10%"
                         app:layout_marginTopPercent="15%">
 
                         <com.focosee.qingshow.widget.QSTextView
@@ -179,7 +179,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="目前折扣价"
-                            android:textSize="30dp" />
+                            android:textSize="28sp" />
 
                         <TextView
                             android:layout_gravity="center"
@@ -190,7 +190,9 @@
                             android:layout_below="@id/price_text"
                             android:gravity="center"
                             android:textColor="@color/red"
-                            android:textSize="44sp" />
+                            android:layout_marginTop="10dp"
+                            android:textStyle="bold"
+                            android:textSize="35sp" />
                     </LinearLayout>
 
                 </android.support.percent.PercentRelativeLayout>
@@ -203,8 +205,7 @@
                     android:layout_below="@id/dis_text"
                     android:layout_alignLeft="@id/dis_text"
                     android:layout_alignTop="@+id/submitBtn"
-                    app:layout_marginLeftPercent="3%"
-                    android:text=""/>
+                    app:layout_marginLeftPercent="3%"/>
 
                 <ImageButton
                     android:id="@+id/submitBtn"

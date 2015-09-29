@@ -35,8 +35,6 @@ public class U18ResetPasswordStep2 extends BaseActivity {
     ImageButton backTextView;
     @InjectView(R.id.passwordEditText)
     QSEditText passwordEditText;
-    @InjectView(R.id.reConfirmEditText)
-    QSEditText reConfirmEditText;
     @InjectView(R.id.error_text)
     QSTextView errorText;
     @InjectView(R.id.submitButton)
@@ -62,17 +60,12 @@ public class U18ResetPasswordStep2 extends BaseActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(passwordEditText.getText().toString()) ||
-                        TextUtils.isEmpty(reConfirmEditText.getText().toString())) {
-                    showError("请输入正确的内容");
-                    return;
-                }
-                if (!passwordEditText.getText().toString().equals(reConfirmEditText.getText().toString())) {
-                    showError("请确认两次输入密码是否一致");
+                if (TextUtils.isEmpty(passwordEditText.getText().toString())) {
+                    showError("请输入密码");
                     return;
                 }
 
-                if(reConfirmEditText.getText().toString().length() > 20){
+                if(passwordEditText.getText().toString().length() > 20){
                     showError("密码长度应小于20位");
                     return;
                 }

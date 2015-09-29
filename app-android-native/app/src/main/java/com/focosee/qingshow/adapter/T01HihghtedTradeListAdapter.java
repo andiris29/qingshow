@@ -66,7 +66,7 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
         spanStrDis.setSpan(styleSpan, 0, spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_discount, spanStrDis);
 
-        SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(String.valueOf(trade.actualPrice)));
+        SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(String.valueOf(trade.totalFee)));
         spanStrPrice.setSpan(relativeSizeSpan, pricePreText.length(), spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanStrPrice.setSpan(styleSpan, 0, spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_price, spanStrPrice);

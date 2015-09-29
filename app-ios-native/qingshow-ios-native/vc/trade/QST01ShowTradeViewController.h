@@ -9,7 +9,8 @@
 #import "QSRootContentViewController.h"
 #import "QST01ShowTradeProvider.h"
 
-@interface QST01ShowTradeViewController : QSRootContentViewController<QSAbstractScrollProviderDelegate,QST01ShowTradeProviderDelegate>
+@interface QST01ShowTradeViewController : QSRootContentViewController<QSAbstractScrollProviderDelegate,QST01ShowTradeProviderDelegate,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;
 
 @end

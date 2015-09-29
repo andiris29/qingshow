@@ -9,13 +9,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+
+import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.CategoriesCommand;
 import com.focosee.qingshow.command.SystemCommand;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
+
 import org.json.JSONObject;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -26,6 +30,8 @@ public abstract class BaseActivity extends FragmentActivity {
     public static String NOTNET = "not_net";
     public static String PUSHNOTIFY = "PUSHNOTIFY";
     public static String UPDATE_APP = "UPDATE_APP";
+    private boolean isTop = true;
+
 
     BroadcastReceiver netReceiver = new BroadcastReceiver() {
         @Override
@@ -37,7 +43,7 @@ public abstract class BaseActivity extends FragmentActivity {
                     dialog.setConfirm("重新连接", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            SystemCommand.systemGet(null, new Callback(){
+                            SystemCommand.systemGet(null, new Callback() {
                                 @Override
                                 public void onComplete(JSONObject response) {
                                     reconn();
@@ -57,14 +63,17 @@ public abstract class BaseActivity extends FragmentActivity {
     BroadcastReceiver pushReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
+            if (!isTop) return;
             final ConfirmDialog dialog = new ConfirmDialog(context);
             final Bundle bundle = intent.getExtras();
             dialog.setTitle(bundle.getString(JPushInterface.EXTRA_ALERT));
             dialog.setConfirm(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = PushHepler._jumpTo(context,bundle);
-                    context.startActivity(i);
+                    Intent i = PushHepler._jumpTo(context, bundle, JPushInterface.ACTION_NOTIFICATION_RECEIVED);
+                    if(null != i) {
+                        context.startActivity(i);
+                    }
                     dialog.dismiss();
                 }
             }).setCancel(new View.OnClickListener() {
@@ -85,9 +94,9 @@ public abstract class BaseActivity extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    Uri uri= Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow");
+                    Uri uri = Uri.parse("http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow");
 //                    Uri uri= Uri.parse("http://dd.myapp.com/16891/C033480CED9F6141C9A55D94AD285F29.apk?fsname=com.focosee.qingshow_2.0.0_8.apk");
-                    Intent intent=new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }
             });
@@ -107,6 +116,18 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        isTop = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isTop = false;
+    }
+
+    @Override
     protected void onDestroy() {
         unregisterReceiver(netReceiver);
         unregisterReceiver(pushReceiver);
@@ -115,5 +136,10 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public abstract void reconn();
+
+    public void showNewTradeNotify() {
+        S11NewTradeNotifyFragment fragment = new S11NewTradeNotifyFragment();
+        fragment.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName());
+    }
 
 }
