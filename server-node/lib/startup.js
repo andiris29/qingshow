@@ -17,6 +17,7 @@ properties.parse(configPath, {
         console.error(err);
         return;
     }
+    global.qsConfig = config;
     // Initialize logger
     _initalizeLog(config.logging.dir);
 
@@ -27,10 +28,21 @@ properties.parse(configPath, {
     // CDN connection
     var qsftp = require('./runtime').ftp;
     qsftp.connect(config.ftp, function () {
-        // Startup http server
-        require('./httpserver/startup')(config, qsdb);
-        // Startup scheduled
-        require('./scheduled/startup')(config.schedule);
+        try {
+            // Startup http server
+            require('./httpserver/startup')(config, qsdb);
+        } catch (err) {
+        }
+        try {
+            // Startup scheduled
+            require('./scheduled/startup')(config.schedule);
+        } catch (err) {
+        }
+        try {
+            // Startup goblin overseer
+            require('./goblin-overseer/startup')();
+        } catch (err) {
+        }
     });
 });
 

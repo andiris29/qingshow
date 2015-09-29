@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
@@ -241,6 +242,23 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 }
             });
 
+            //new discount
+            if (null == trade.itemRef) return;
+            if (null == trade.itemRef.expectable) return;
+            if (trade.itemRef.expectable.expired) {
+                discountBtn.setVisibility(View.VISIBLE);
+                discountBtn.setImageResource(R.drawable.sold_out_gray);
+                discountBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, S10ItemDetailActivity.class);
+                        intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, trade.itemSnapshot._id);
+                        context.startActivity(intent);
+                    }
+                });
+                return;
+            }
+
             discountBtn.setVisibility(View.VISIBLE);
             discountBtn.setImageResource(R.drawable.pay);
             discountBtn.setOnClickListener(new View.OnClickListener() {
@@ -302,16 +320,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         }
         statusTV.setVisibility(View.VISIBLE);
         statusTV.setText(StatusCode.getStatusText(trade.status));
-
     }
 
-    private void showNewTradeNotify(String _id) {
+    public void showNewTradeNotify(String _id) {
         if (!(context instanceof U09TradeListActivity)) return;
         ((U09TradeListActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
-        FragmentTransaction fragmentTransaction = ((U09TradeListActivity) context).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, new S11NewTradeNotifyFragment(), "u09_notify");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commitAllowingStateLoss();
+        S11NewTradeNotifyFragment fragment = new S11NewTradeNotifyFragment();
+        fragment.show(((BaseActivity) context).getSupportFragmentManager(), U09TradeListActivity.class.getSimpleName());
     }
 
     private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg) {

@@ -158,7 +158,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         userNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userNavBtn.setImageResource(R.drawable.nav_btn_menu_n);
+                userNavBtn.setImageResource(R.drawable.menu_gray);
                 menuView = new MenuView();
                 menuView.show(getSupportFragmentManager(), U01UserActivity.class.getSimpleName(), container);
             }
@@ -356,10 +356,10 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
 
     public void onEventMainThread(PushGuideEvent event){
         if(event.unread){
-            userNavBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+            userNavBtn.setImageResource(R.drawable.menu_gray_dot);
         }else{
             if(!UnreadHelper.hasUnread())
-                userNavBtn.setImageResource(R.drawable.nav_btn_menu_n);
+                userNavBtn.setImageResource(R.drawable.menu_gray);
         }
     }
 
@@ -508,7 +508,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         }
         MobclickAgent.onResume(this);
         if(UnreadHelper.hasUnread()){
-            userNavBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
+            userNavBtn.setImageResource(R.drawable.menu_gray_dot);
             if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS)) {
                 circleTip.setVisibility(View.VISIBLE);
             }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -83,6 +84,19 @@ public class S11NewTradeNotifyFragment extends Fragment {
     String actualPrice;
 
     private View rootView;
+    private boolean mDismissed = true;
+    private ViewGroup mGroup;
+
+    public void show(FragmentManager manager, String tag) {
+        if (!mDismissed) {
+            return;
+        }
+        mDismissed = false;
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,7 +114,10 @@ public class S11NewTradeNotifyFragment extends Fragment {
                 return true;
             }
         });
-        return rootView;
+
+        mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
+        mGroup.addView(rootView);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void initProps() {
@@ -141,6 +158,10 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     @OnClick(R.id.close)
     public void close() {
+        if (mDismissed) {
+            return;
+        }
+        mDismissed = true;
         getFragmentManager().popBackStack();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
@@ -211,6 +232,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+        mGroup.removeView(rootView);
     }
 
     @Override

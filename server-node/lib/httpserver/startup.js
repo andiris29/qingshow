@@ -63,7 +63,6 @@ var mkdirUploads = function (config) {
 
 module.exports = function (config, qsdb) {
     var app = express();
-    global.qsConfig = config;
     // GZip
     app.use(connect.compress());
     

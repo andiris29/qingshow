@@ -54,7 +54,6 @@
 
     
     [self showLaunchImage];
-    
     [QSNetworkHelper querySystemPathOnSucceed:^{
         
         QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
@@ -63,7 +62,6 @@
         
         nav.navigationBar.translucent = NO;
         self.window.rootViewController = nav;
-        [self.window makeKeyAndVisible];
         
         //标记第一次载入
         [self rememberFirstLaunch];
@@ -254,7 +252,7 @@
     UIImageView* lauchImgView = [[UIImageView alloc] initWithImage:launchImg];
     lauchImgView.frame = mainScreen.bounds;
     [self.window addSubview:lauchImgView];
-    
+    [self.window makeKeyAndVisible];
     self.launchImageView = lauchImgView;
 }
 - (void)hideLaunchImageAfterDelay:(float)delay

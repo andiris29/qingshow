@@ -14,16 +14,10 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.util.push.PushUtil;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
@@ -63,7 +57,6 @@ public class QSPushReceiver extends BroadcastReceiver {
                         EventBus.getDefault().post(new PushGuideEvent(true, command));
                     }
                 });
-
             }
 
             if (AppUtil.isRunningForeground(context)){
@@ -74,7 +67,7 @@ public class QSPushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             //打开自定义的Activity
-            Intent i = PushHepler._jumpTo(context,bundle);
+            Intent i = PushHepler._jumpTo(context,bundle, JPushInterface.ACTION_NOTIFICATION_OPENED);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
 
