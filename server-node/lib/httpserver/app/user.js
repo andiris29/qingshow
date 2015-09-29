@@ -852,24 +852,16 @@ _resetPassword = function(req, res){
 
 var _readNotification = function(req, res) {
     var params = req.body;
-    var unreadNotifications = {};
+    var criteria = {};
     for (var element in params) {
         var key = 'extra.' + element;
-        element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(params._id) :
-        unreadNotifications[key] = params[element];
+        element === '_id' ? criteria[key] = RequestHelper.parseId(params._id) :
+        criteria[key] = params[element];
     }
-
-    People.findOneAndUpdate({
-        _id : RequestHelper.parseId(req.qsCurrentUserId)
-    }, {
-        $pull : {
-            'unreadNotifications': unreadNotifications
-        }
-    }, {
-    }, function(error) {
+    // TODO Rename PushNotificationHelper to NotificationHelper
+    PushNotificationHelper.read([req.qsCurrentUserId], criteria, function(error) {
         ResponseHelper.response(res, error, {});
     });
-
 };
 
 

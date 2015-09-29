@@ -3,8 +3,6 @@ var winston = require('winston');
 var _ = require('underscore');
 var async = require('async');
 
-var RequestHelper = require('../helpers/RequestHelper');
-
 var People = require('../dbmodels').People;
 var jPushAudiences = require('../dbmodels').JPushAudience;
 
@@ -93,37 +91,36 @@ PushNotificationHelper._push = function(peoplesIds, message, extras, cb) {
     }], cb)
 }
 
+PushNotificationHelper.read = function(peoplesIds, criteria, callback) {
+    if (criteria.command === PushNotificationHelper.CommandTradeInitialized ||
+        criteria.command === PushNotificationHelper.CommandItemExpectablePriceUpdated) {
+        criteria.command = {
+            '$or' : [PushNotificationHelper.CommandTradeInitialized, 
+                PushNotificationHelper.CommandItemExpectablePriceUpdated]
+        };
+    }
+    People.update({
+        '_id' : {
+            '$in' : peoplesIds
+        }
+    }, {
+        '$pull' : {
+            'unreadNotifications' : criteria
+        }
+    }, {
+        multi : true
+    }, function(err, peoples){
+        callback(err, peoples);  
+    })
+};
+
 PushNotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
     async.waterfall([function(callback){
-        var unreadNotifications = {};
-        switch(extras.command){
-            case PushNotificationHelper.CommandTradeInitialized :
-            case PushNotificationHelper.CommandItemExpectablePriceUpdated :
-            unreadNotifications = {
-                'extra._id' : RequestHelper.parseId(extras._id)
-            }
-            break;
-            default :
-            for (var element in extras) {
-                var key = 'extra.' + element;
-                element === '_id' ? unreadNotifications[key] = RequestHelper.parseId(extras._id) :
-                unreadNotifications[key] = extras[element];
-            }
-            break;
+        var criteria = {};
+        for (var element in extras) {
+            criteria['extra.' + element] = extras[element];
         }
-        People.update({
-            '_id' : {
-                '$in' : peoplesIds
-            }
-        }, {
-            $pull : {
-                'unreadNotifications' : unreadNotifications
-            }
-        }, {
-            multi : true
-        }, function(err, peoples){
-          callback(err, peoples);  
-        })
+        PushNotificationHelper.read(peoplesIds, criteria, cb);
     }, function(peoples, callback){
         People.update({
             '_id' : {
