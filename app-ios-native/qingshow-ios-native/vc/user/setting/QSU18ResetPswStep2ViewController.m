@@ -13,7 +13,7 @@
 @interface QSU18ResetPswStep2ViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *passWordTextField;
-@property (weak, nonatomic) IBOutlet UITextField *passWordAgainTextField;
+//@property (weak, nonatomic) IBOutlet UITextField *passWordAgainTextField;
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 
 @end
@@ -34,14 +34,14 @@
 }
 - (IBAction)reSetPasswordBtnPressed:(id)sender {
     NSString *psw = self.passWordTextField.text;
-    NSString *pswAgain = self.passWordAgainTextField.text;
-    if (![psw isEqualToString:pswAgain]) {
-        [self showTextHud:@"两次输入的密码不一致！"];
+//    NSString *pswAgain = self.passWordAgainTextField.text;
+    if (!psw.length) {
+        [self showTextHud:@"请输入密码"];
     }
     else
     {
         [SHARE_NW_ENGINE loginWithName:self.mobile password:self.password onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
-            [SHARE_NW_ENGINE updatePeople:@{@"id":self.mobile ,@"currentPassword":self.password, @"password":self.passWordAgainTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+            [SHARE_NW_ENGINE updatePeople:@{@"id":self.mobile ,@"currentPassword":self.password, @"password":self.passWordTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
                 [self showTextHud:@"修改密码成功！"];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             } onError:^(NSError *error) {
