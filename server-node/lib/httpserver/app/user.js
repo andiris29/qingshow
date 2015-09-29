@@ -842,7 +842,7 @@ _resetPassword = function(req, res){
                 callback(null, tempPassword); 
             }
         });
-    }],function(error, id, tempPassword) {
+    }],function(error, tempPassword) {
         ResponseHelper.response(res, error, {
             'password' : tempPassword
         });
