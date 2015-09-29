@@ -97,11 +97,15 @@ static NSString* s_paymentHost = nil;
             
         } onError:errorBlock];
     } else {
-        [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:@{@"actualPrice" : price} onSucceed:^(NSDictionary *d) {
-            if (succeedBlock) {
-                succeedBlock(d);
-            }
-        } onError:errorBlock];
+        if ([QSTradeUtil getStatus:tradeDict].intValue == 0) {
+            [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:@{@"actualPrice" : price} onSucceed:^(NSDictionary *d) {
+                if (succeedBlock) {
+                    succeedBlock(d);
+                }
+            } onError:errorBlock];
+        } else {
+            succeedBlock(tradeDict);
+        }
     }
 }
 
