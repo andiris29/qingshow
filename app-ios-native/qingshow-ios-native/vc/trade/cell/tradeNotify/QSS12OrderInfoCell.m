@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QS11OrderInfoCell.h"
+#import "QSS12OrderInfoCell.h"
 #import "UINib+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-@implementation QS11OrderInfoCell
+@implementation QSS12OrderInfoCell
 + (instancetype)generateView {
-    return [UINib generateViewWithNibName:@"QS11OrderInfoCell"];
+    return [UINib generateViewWithNibName:@"QSS12OrderInfoCell"];
 }
 
 - (void)awakeFromNib {

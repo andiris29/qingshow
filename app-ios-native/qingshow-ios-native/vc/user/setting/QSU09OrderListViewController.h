@@ -10,9 +10,9 @@
 #import "QSOrderListTableViewProvider.h"
 #import "QSRootContentViewController.h"
 #import "QSOrderListHeaderView.h"
-#import "QSS11NewTradeNotifyViewController.h"
+#import "QSS12NewTradeNotifyViewController.h"
 
-@interface QSU09OrderListViewController : QSRootContentViewController <QSOrderListTableViewProviderDelegate,UIAlertViewDelegate,QSOrderListHeaderViewDelegate,UIAlertViewDelegate, QSS11NewTradeNotifyViewControllerDelegate>
+@interface QSU09OrderListViewController : QSRootContentViewController <QSOrderListTableViewProviderDelegate,UIAlertViewDelegate,QSOrderListHeaderViewDelegate,UIAlertViewDelegate, QSS12NewTradeNotifyViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong,nonatomic) QSOrderListHeaderView *headerView;
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;

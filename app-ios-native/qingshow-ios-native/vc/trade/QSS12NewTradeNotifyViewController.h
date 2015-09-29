@@ -7,22 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSS12TextCell.h"
 
-@class QSS11NewTradeNotifyViewController;
-@protocol QSS11NewTradeNotifyViewControllerDelegate <NSObject>
+@class QSS12NewTradeNotifyViewController;
+@protocol QSS12NewTradeNotifyViewControllerDelegate <NSObject>
 
-- (void)didClickClose:(QSS11NewTradeNotifyViewController*)vc;
-- (void)didClickPay:(QSS11NewTradeNotifyViewController*)vc;
+- (void)didClickClose:(QSS12NewTradeNotifyViewController*)vc;
+- (void)didClickPay:(QSS12NewTradeNotifyViewController*)vc;
 @end
 
-@interface QSS11NewTradeNotifyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface QSS12NewTradeNotifyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSS12TextCellDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImgView;
-@property (weak, nonatomic) NSObject<QSS11NewTradeNotifyViewControllerDelegate>* delelgate;
+@property (weak, nonatomic) NSObject<QSS12NewTradeNotifyViewControllerDelegate>* delelgate;
 @property (strong, nonatomic) NSDictionary* tradeDict;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @property (strong, nonatomic) NSNumber *expectablePrice;
 
 - (instancetype)initWithDict:(NSDictionary*)tradeDict;

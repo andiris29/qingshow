@@ -10,10 +10,9 @@
         </mutableArray>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS11NewTradeNotifyViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS12NewTradeNotifyViewController">
             <connections>
                 <outlet property="backgroundImgView" destination="96U-uZ-35n" id="XS5-EX-Vv0"/>
-                <outlet property="payBtn" destination="JeW-gy-VS1" id="6LW-h6-FDG"/>
                 <outlet property="tableView" destination="4eU-WF-9Mc" id="qua-j1-YS4"/>
                 <outlet property="titleLabel" destination="7g8-Fr-vx6" id="BJ8-v4-xpB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -41,27 +40,13 @@
                     </connections>
                 </button>
                 <tableView clipsSubviews="YES" alpha="0.94999999999999996" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4eU-WF-9Mc">
-                    <rect key="frame" x="25" y="74" width="270" height="425"/>
+                    <rect key="frame" x="25" y="74" width="270" height="468"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="x2N-GB-pdU"/>
                         <outlet property="delegate" destination="-1" id="aTd-BM-bac"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JeW-gy-VS1">
-                    <rect key="frame" x="105" y="513" width="111" height="34"/>
-                    <color key="backgroundColor" red="0.94117647059999998" green="0.58431372550000005" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="34" id="F9r-TT-gkf"/>
-                    </constraints>
-                    <state key="normal" title="分享后购买">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="shareAndBuyBtnPressed:" destination="-1" eventType="touchUpInside" id="bF8-ov-tUM"/>
-                    </connections>
-                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="折扣推荐" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7g8-Fr-vx6">
                     <rect key="frame" x="126" y="44" width="68" height="20"/>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="17"/>
@@ -75,18 +60,15 @@
                 <constraint firstItem="YG4-I0-crI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="41" id="8ka-Wa-SEv"/>
                 <constraint firstItem="7g8-Fr-vx6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="126" id="9xx-ga-ubM"/>
                 <constraint firstItem="96U-uZ-35n" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Dwg-lz-L93"/>
-                <constraint firstItem="JeW-gy-VS1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="105" id="FDB-P1-JKw"/>
-                <constraint firstAttribute="bottom" secondItem="JeW-gy-VS1" secondAttribute="bottom" constant="21" id="IR7-U1-Bvh"/>
                 <constraint firstAttribute="trailing" secondItem="4eU-WF-9Mc" secondAttribute="trailing" constant="25" id="PSm-iO-zYv"/>
                 <constraint firstItem="7g8-Fr-vx6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="QMq-HW-Zkh"/>
-                <constraint firstItem="JeW-gy-VS1" firstAttribute="top" secondItem="4eU-WF-9Mc" secondAttribute="bottom" constant="14" id="S7F-qe-4Cv"/>
                 <constraint firstItem="96U-uZ-35n" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="18" id="S90-Y7-pCN"/>
                 <constraint firstAttribute="trailing" secondItem="96U-uZ-35n" secondAttribute="trailing" constant="8" id="fb9-Mr-Ynq"/>
                 <constraint firstItem="4eU-WF-9Mc" firstAttribute="top" secondItem="YG4-I0-crI" secondAttribute="bottom" constant="8" id="fnz-kM-q9J"/>
                 <constraint firstAttribute="bottom" secondItem="96U-uZ-35n" secondAttribute="bottom" constant="8" id="i0r-M4-UVb"/>
-                <constraint firstAttribute="trailing" secondItem="JeW-gy-VS1" secondAttribute="trailing" constant="104" id="ivM-PR-sGI"/>
                 <constraint firstAttribute="trailing" secondItem="YG4-I0-crI" secondAttribute="trailing" constant="39" id="sSg-gi-WTn"/>
                 <constraint firstItem="4eU-WF-9Mc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="vDh-aS-srt"/>
+                <constraint firstAttribute="bottom" secondItem="4eU-WF-9Mc" secondAttribute="bottom" constant="26" id="ymR-Un-PPc"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <point key="canvasLocation" x="243" y="269"/>

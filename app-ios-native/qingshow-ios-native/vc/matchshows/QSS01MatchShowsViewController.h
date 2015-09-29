@@ -7,10 +7,10 @@
 //
 
 #import "QSRootContentViewController.h"
-#import "QSS11NewTradeNotifyViewController.h"
+#import "QSS12NewTradeNotifyViewController.h"
 #import <UIKit/UIKit.h>
 
-@interface QSS01MatchShowsViewController : QSRootContentViewController <QSS11NewTradeNotifyViewControllerDelegate>
+@interface QSS01MatchShowsViewController : QSRootContentViewController <QSS12NewTradeNotifyViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
