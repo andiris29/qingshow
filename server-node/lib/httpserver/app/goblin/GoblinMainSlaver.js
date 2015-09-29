@@ -1,10 +1,10 @@
 var async = require('async');
 var _ = require('underscore');
 
-var GoblinScheduler = require('../scheduler/GoblinScheduler');
-var ItemSyncService = require('../common/ItemSyncService');
-var ItemSourceType = require('../common/ItemSourceType');
-var GoblinError = require('../common/GoblinError');
+var GoblinScheduler = require('./GoblinScheduler');
+var ItemSyncService = require('../../../goblin-slave/ItemSyncService');
+var ItemSourceType = require('../../../goblin-slave/ItemSourceType');
+var GoblinError = require('../../../goblin-slave/GoblinError');
 
 var GoblinMainSlaver = module.exports;
 

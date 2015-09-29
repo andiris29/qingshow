@@ -3,10 +3,10 @@ var _ = require('underscore');
 var request = require('request');
 
 
-var ItemSourceType = require('../common/ItemSourceType');
-var GoblinError = require('../common/GoblinError');
+var ItemSourceType = require('../goblin-slave/ItemSourceType');
+var GoblinError = require('../goblin-slave/GoblinError');
 
-var GoblinCrawler = require('../common/crawler/GoblinCrawler');
+var GoblinCrawler = require('../goblin-slave/crawler/GoblinCrawler');
 
 var GoblinMainSlaver = module.exports;
 

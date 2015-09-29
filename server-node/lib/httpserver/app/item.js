@@ -13,13 +13,13 @@ var ResponseHelper = require('../../helpers/ResponseHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
 var TradeHelper = require('../../helpers/TradeHelper');
-var URLParser = require('../../scheduled/goblin/common/URLParser');
+var URLParser = require('../../goblin-slave/URLParser');
 var qsftp = require('../../runtime').ftp;
-var GoblinScheduler = require("../../scheduled/goblin/scheduler/GoblinScheduler");
+var GoblinScheduler = require("./goblin/GoblinScheduler");
 
-var ItemSyncService = require("../../scheduled/goblin/common/ItemSyncService");
+var ItemSyncService = require("../../goblin-slave/ItemSyncService");
 var errors = require('../../errors');
-var GoblinError = require('../../scheduled/goblin/common/GoblinError');
+var GoblinError = require('../../goblin-slave/GoblinError');
 
 var item = module.exports;
 
