@@ -33,6 +33,12 @@
 - (void)bindWithUser:(NSDictionary *)peopleDict
 {
     self.typeLabel.text = u02InfoTypeToTitle(self.rowType);
+    if (self.rowType == U02SectionInfoRowName) {
+        self.infoTextField.keyboardType = UIKeyboardTypeDefault;
+    } else {
+        self.infoTextField.keyboardType = UIKeyboardTypeNumberPad;
+    }
+    
     switch (self.rowType) {
         case U02SectionInfoRowName: {
             self.infoTextField.placeholder = @"请填写昵称";
