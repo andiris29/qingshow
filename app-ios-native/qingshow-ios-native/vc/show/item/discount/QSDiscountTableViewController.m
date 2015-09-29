@@ -164,7 +164,8 @@
         return [cell getResult];
     }];
     retDict[@"quantity"] = @(self.quantityCell.quantity);
-    retDict[@"expectedPrice"] = [self.resultCell getSinglePrice];
+    int singlePrice = [[self.resultCell getSinglePrice] intValue];
+    retDict[@"expectedPrice"] = [NSNumber numberWithInt:(singlePrice * self.quantityCell.quantity)];
     return retDict;
 }
 - (void)refresh {
