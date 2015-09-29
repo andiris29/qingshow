@@ -198,7 +198,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         params = new HashMap();
-        params.put("totalFee", trade.itemRef.expectable.price.doubleValue() * trade.quantity);
+        params.put("totalFee", trade.totalFee);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
                 JSONObject jsonObject = new JSONObject();

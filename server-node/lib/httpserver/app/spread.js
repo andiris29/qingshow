@@ -6,7 +6,7 @@ var People = require('../../dbmodels').People;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 
 var errors = require('../../errors');
 

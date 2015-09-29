@@ -8,7 +8,7 @@ var jPushAudiences = require('../../dbmodels').JPushAudience;
 
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
-var PushNotificationHelper = require('../../helpers/PushNotificationHelper');
+var NotificationHelper = require('../../helpers/NotificationHelper');
 
 var notify = module.exports;
 
@@ -44,8 +44,8 @@ notify.newRecommandations = {
             targets.forEach(function(target) {
                 ids.push(target._id);
             });
-            PushNotificationHelper.notify(ids, PushNotificationHelper.MessageNewRecommandations, {
-                'command' : PushNotificationHelper.CommandNewRecommandations
+            NotificationHelper.notify(ids, NotificationHelper.MessageNewRecommandations, {
+                'command' : NotificationHelper.CommandNewRecommandations
             }, callback);
         }], function(err) {
             ResponseHelper.response(res, err, null);

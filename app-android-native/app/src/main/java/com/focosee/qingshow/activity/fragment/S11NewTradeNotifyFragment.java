@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -44,11 +43,8 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;

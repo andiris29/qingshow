@@ -61,8 +61,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
     EditText accountEditText;
     @InjectView(R.id.passwordEditText)
     EditText passwordEditText;
-    @InjectView(R.id.reConfirmEditText)
-    EditText reConfirmEditText;
     @InjectView(R.id.phoneEditText)
     EditText phoneEditText;
     @InjectView(R.id.verification_code)
@@ -81,9 +79,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
      * 注意：SsoHandler 仅当 SDK 支持 SSO 时有效
      */
     private SsoHandler mSsoHandler;
-
-    private boolean isGetVerification = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,10 +169,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
         }
         if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
             ToastUtil.showShortToast(getApplicationContext(), "手机不能为空");
-            return;
-        }
-        if (!passwordEditText.getText().toString().equals(reConfirmEditText.getText().toString())) {
-            ToastUtil.showShortToast(getApplicationContext(), "请确认两次密码是否一致");
             return;
         }
 
