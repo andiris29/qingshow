@@ -346,6 +346,7 @@
 - (void)followBtnPressed:(id)sender {
     [SHARE_NW_ENGINE handleFollowModel:self.userInfo onSucceed:^(BOOL f) {
         self.badgeView.followBtn.selected = f;
+        [self.followerProvider reloadData];
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
         if (error.code == 1019) {

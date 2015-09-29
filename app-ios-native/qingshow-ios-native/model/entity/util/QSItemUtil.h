@@ -41,4 +41,6 @@
 
 + (BOOL)getExpectableIsExpire:(NSDictionary *)dict;
 + (NSDictionary*)getExpectableDict:(NSDictionary*)dict;
++ (NSString*)getMessageForBuy:(NSDictionary*)dict;
++ (NSString*)getMessageForPay:(NSDictionary*)dict;
 @end
