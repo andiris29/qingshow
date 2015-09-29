@@ -180,6 +180,9 @@
 }
 */
 - (IBAction)submitBtnPressed:(id)sender {
+    if (self.createTradeOp) {
+        return;
+    }
     if (![self.discountVc checkComplete]) {
         [self showErrorHudWithText:@"信息不完整"];
     } else {
@@ -189,13 +192,13 @@
             [alert show];
         }else{
             self.createTradeOp =
-                [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
-            [self showSuccessHudAndPop:@"创建成功"];
-            self.createTradeOp = nil;
-        } onError:^(NSError *error) {
-            [self handleError:error];
-            self.createTradeOp = nil;
-        }];
+            [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
+                [self showSuccessHudAndPop:@"创建成功"];
+                self.createTradeOp = nil;
+            } onError:^(NSError *error) {
+                [self handleError:error];
+                self.createTradeOp = nil;
+            }];
             //[self delisthandle];
         }
     }
