@@ -150,40 +150,6 @@
                 android:layout_marginRight="10dp"
                 android:background="@color/gray_background" />
 
-            <RelativeLayout
-                android:id="@+id/reConfirmRelativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <ImageView
-                    android:id="@+id/reConfirmTextView"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/login_password" />
-
-                <com.focosee.qingshow.widget.QSEditText
-                    android:id="@+id/reConfirmEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toRightOf="@id/reConfirmTextView"
-                    android:background="@null"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/confirm_activity_register"
-                    android:inputType="textPassword"
-                    android:textColor="@color/white"
-                    android:singleLine="true"
-                    android:textColorHint="@color/white" />
-            </RelativeLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
