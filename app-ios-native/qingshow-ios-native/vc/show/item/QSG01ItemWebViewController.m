@@ -184,7 +184,8 @@
         return;
     }
     if (![self.discountVc checkComplete]) {
-        [self showErrorHudWithText:@"信息不完整"];
+        
+        [self showErrorHudWithText:[self.discountVc getIncompleteMessage]];
     } else {
         NSDictionary *people = [QSUserManager shareUserManager].userInfo;
         if (people && ([QSPeopleUtil checkMobileExist:people] == NO)) {

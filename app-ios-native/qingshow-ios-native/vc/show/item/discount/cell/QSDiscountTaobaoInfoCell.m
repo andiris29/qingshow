@@ -38,6 +38,7 @@
 @end
 
 @implementation QSDiscountTaobaoInfoCell
+@synthesize delegate = _delegate;
 - (BOOL)checkComplete {
     if (self.currentSelectIndex < 0) {
         return NO;

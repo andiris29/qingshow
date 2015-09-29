@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QSAbstractDiscountTableViewCell.h"
 
-@protocol QSDiscountTaobaoInfoCellDelegate <NSObject>
+@protocol QSDiscountTaobaoInfoCellDelegate <QSDiscountTableViewCellDelegate>
 
 - (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex;
 

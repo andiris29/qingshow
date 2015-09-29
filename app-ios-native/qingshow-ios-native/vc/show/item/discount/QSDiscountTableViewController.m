@@ -115,7 +115,24 @@
     }
     return YES;
 }
+- (NSString*)getIncompleteMessage {
 
+    NSMutableString* m = [@"" mutableCopy];
+    [self.propCellArray enumerateObjectsUsingBlock:^(QSDiscountTaobaoInfoCell* cell, NSUInteger idx, BOOL *stop) {
+        if (![cell checkComplete] && cell.title.length) {
+            if (m.length) {
+                [m appendFormat:@"、%@", cell.title];
+            } else {
+                [m appendFormat:@"%@", cell.title];
+            }
+        }
+    }];
+    if (!m.length) {
+        [m appendString:@"规格"];
+    }
+
+    return [NSString stringWithFormat:@"请选择%@",m];
+}
 - (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex
 {
     NSDictionary *itemDic = self.itemDict;

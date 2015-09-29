@@ -17,6 +17,7 @@
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
 
 - (BOOL)checkComplete;
+- (NSString*)getIncompleteMessage;
 - (NSDictionary*)getResult;
 - (void)refresh;
 @end
