@@ -94,8 +94,9 @@
 - (void)didTapRootTitle
 {
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString* v = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     
-    [self showTextHud:[NSString stringWithFormat:@"version: %@", version]];
+    [self showTextHud:[NSString stringWithFormat:@"version: %@ - %@", version, v]];
 }
 
 - (void)updateMenuDot {
