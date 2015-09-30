@@ -2,12 +2,16 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -93,6 +97,29 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         rightBtn.setVisibility(View.VISIBLE);
         rightBtn.setText(getText(R.string.u15_title_right_btn));
         rightBtn.setOnClickListener(this);
+
+        u15AlipayAccount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(u15AlipayAccount.getText()) && isCanWithDrwa) {
+                    withDrawBtn.setBackgroundResource(R.drawable.u15_pink_btn);
+                    withDrawBtn.setEnabled(true);
+                } else {
+                    withDrawBtn.setBackgroundResource(R.drawable.u15_gray_btn);
+                    withDrawBtn.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void setData() {
@@ -101,10 +128,16 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         u15Balance.setText(BonusHelper.getBonusesNotWithDraw(people.bonuses));
         u15Total.setText(BonusHelper.getTotalBonusesString(people.bonuses));
         Log.d(U15BonusActivity.class.getSimpleName(), "bonus:" + people.bonuses.size());
-        if (!(null == people.bonuses || people.bonuses.size() == 0))
+        if (!(null == people.bonuses || people.bonuses.size() == 0)) {
             u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
+            withDrawBtn.setBackgroundResource(R.drawable.u15_pink_btn);
+            withDrawBtn.setEnabled(true);
+        }
         if (BonusHelper.getBonusesWithFloat(people.bonuses) > 0) {
             isCanWithDrwa = true;
+        }else{
+            withDrawBtn.setBackgroundResource(R.drawable.u15_gray_btn);
+            withDrawBtn.setEnabled(false);
         }
         //灰色页面
         if (BonusHelper.getTotalBonusesFloat(people.bonuses) <= 0) {
@@ -149,6 +182,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onResponse(JSONObject response) {
                     Log.d(U15BonusActivity.class.getSimpleName(), "response:" + response);
+                    withDrawBtn.setEnabled(true);
                     if (MetadataParser.hasError(response)) {
                         ToastUtil.showShortToast(getApplicationContext(), "提现失败，请重试");
                         return;
@@ -196,6 +230,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                     showError(getString(R.string.u15_hint_edit));
                     return;
                 }
+                withDrawBtn.setEnabled(false);
                 ShareUtil.shareBonusToWX(QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_BONUS
                         , U15BonusActivity.this, true);
                 break;
