@@ -1,6 +1,8 @@
 var crypto = require('crypto');
 var request = require('request');
 var moment = require('moment');
+var winston = require('winston');
+var SMSLogger = winston.loggers.get('SMS');
 
 var errors = require('../errors');
 
@@ -48,6 +50,9 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
             })
     },function(err, res, body){
     	var result = JSON.parse(body);
+    	//add logger
+    	SMSLogger.info(result);
+
     	//error code by yuntongxun 
     	//send beyond astrict. 10 times a day
     	if (result.statusCode === '112314') {
