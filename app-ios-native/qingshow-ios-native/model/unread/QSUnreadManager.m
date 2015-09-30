@@ -168,6 +168,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
                               @"tradeShipped"
                               ];
     NSArray* notis = [self getUnreadOfCommands:commandArray];
+    NSMutableArray* removeArray = [@[] mutableCopy];
     for (NSDictionary* noti in notis) {
         if ([[noti stringValueForKeyPath:@"extra._id"] isEqualToString:tradeId]) {
             [removeArray addObject:noti];
