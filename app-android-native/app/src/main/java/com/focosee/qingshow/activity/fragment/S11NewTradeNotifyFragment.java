@@ -26,7 +26,6 @@ import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S17PayActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeShareCommand;
 import com.focosee.qingshow.command.TradeStatusToCommand;
@@ -86,6 +85,8 @@ public class S11NewTradeNotifyFragment extends Fragment {
     TextView hint;
     @InjectView(R.id.submitBtn)
     ImageButton submitBtn;
+    @InjectView(R.id.selectPropValue)
+    QSTextView selectPropValue;
 
     private MongoTrade trade;
     String _id;
@@ -127,7 +128,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
     }
 
     private void initProps() {
-        selectProp.setText("规格：" + StringUtil.formatSKUProperties(trade.selectedSkuProperties));
+        selectPropValue.setText(StringUtil.formatSKUProperties(trade.selectedSkuProperties));
     }
 
 
@@ -143,7 +144,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
         String price = StringUtil.FormatPrice(trade.itemSnapshot.price);
         SpannableString spannableString = new SpannableString("原价：" + price);
-        spannableString.setSpan(new StrikethroughSpan(), 1, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new StrikethroughSpan(), 3, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.price.setText(spannableString);
 
         expectedPrice.setText("期望价格：" + StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
@@ -161,8 +162,8 @@ public class S11NewTradeNotifyFragment extends Fragment {
             hint.setText(spannableString);
         }
 
-        if(null != trade.__context){
-            if(trade.__context.sharedByCurrentUser){
+        if (null != trade.__context) {
+            if (trade.__context.sharedByCurrentUser) {
                 submitBtn.setImageResource(R.drawable.pay);
             }
         }

@@ -93,11 +93,23 @@
                             style="@style/s11_notify_des_text"
                             android:text="现价：" />
 
-                        <com.focosee.qingshow.widget.QSTextView
-                            android:id="@+id/selectProp"
-                            style="@style/s11_notify_des_text"
-                            android:text="规格："
-                            android:textColor="@color/gary" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <com.focosee.qingshow.widget.QSTextView
+                                android:id="@+id/selectProp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="规格："
+                                android:textColor="@color/gary" />
+
+                            <com.focosee.qingshow.widget.QSTextView
+                                android:id="@+id/selectPropValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gary"/>
+                        </LinearLayout>
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/num"
