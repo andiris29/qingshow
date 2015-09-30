@@ -11,6 +11,7 @@ import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.BaseActivity;
@@ -37,7 +38,9 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
+
 import java.util.List;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -130,10 +133,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
         holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
 
-        if(null != trade.itemRef){
-            if(null != trade.itemRef.expectable){
-                if(null != trade.itemRef.expectable){
-                    if(!TextUtils.isEmpty(trade.itemRef.expectable.messageForPay))
+        if (null != trade.itemRef) {
+            if (null != trade.itemRef.expectable) {
+                if (null != trade.itemRef.expectable) {
+                    if (!TextUtils.isEmpty(trade.itemRef.expectable.messageForPay))
                         holder.setText(R.id.item_tradelist_hint, context.getString(R.string.good_remark) + trade.itemRef.expectable.messageForPay);
                 }
             }
@@ -146,91 +149,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onClickCancelTrade(trade, 18, CANCEL, position, "确定要取消申请？");
+                    onClickCancelTrade(trade, StatusCode.TRADE_CANCEL, CANCEL, position, "确定要取消申请？");
                 }
             });
-
-            //push guide
-            if(UnreadHelper.hasMyNotificationId(trade._id)){
-                String command = UnreadHelper.getCommand(trade._id);
-                Log.d(U09TradeListAdapter.class.getSimpleName(), "command:" + command);
-                if(!TextUtils.isEmpty(command)){
-                    if(command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
-                        discountBtn.setVisibility(View.VISIBLE);
-                        discountBtn.setImageResource(R.drawable.new_discount_replay);
-                        discountBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                discountBtn.setImageResource(R.drawable.new_discount_read);
-                                EventBus.getDefault().post(trade);
-                                showNewTradeNotify(trade._id);
-                            }
-                        });
-                        return;
-                    }
-
-                    if(command.equals(QSPushAPI.TRADE_INITIALIZED)){
-                        discountBtn.setVisibility(View.VISIBLE);
-                        discountBtn.setImageResource(R.drawable.share_and_pay);
-                        discountBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                UnreadHelper.userReadNotificationId(trade._id);
-                                if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
-                                    EventBus.getDefault().post(trade);
-                                    ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
-                                } else
-                                    ToastUtil.showShortToast(context.getApplicationContext(), context.getString(R.string.need_install_wx));
-                            }
-                        });
-                        return;
-                    }
-                }
-            }
-
-            //new discount
-            if (null == trade.itemRef) return;
-            if (null == trade.itemRef.expectable) return;
-            if (trade.itemRef.expectable.expired) {
-                discountBtn.setVisibility(View.VISIBLE);
-                discountBtn.setImageResource(R.drawable.sold_out_gray);
-                discountBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, S10ItemDetailActivity.class);
-                        intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, trade.itemSnapshot._id);
-                        context.startActivity(intent);
-                    }
-                });
-                return;
-            }
-
-            if (trade.itemRef.expectable.price.doubleValue() > trade.expectedPrice) {
-                discountBtn.setVisibility(View.VISIBLE);
-                discountBtn.setImageResource(R.drawable.new_discount_read);
-                discountBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        EventBus.getDefault().post(trade);
-                        showNewTradeNotify(trade._id);
-                    }
-                });
-                return;
-            }else{
-                discountBtn.setVisibility(View.VISIBLE);
-                discountBtn.setImageResource(R.drawable.share_and_pay);
-                discountBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
-                            EventBus.getDefault().post(trade);
-                            ShareUtil.shareTradeToWX(trade._id, trade.peopleSnapshot._id, ValueUtil.SHARE_TRADE, context, true);
-                        } else
-                            ToastUtil.showShortToast(context.getApplicationContext(), context.getString(R.string.need_install_wx));
-                    }
-                });
-                return;
-            }
+            return;
         }
         //1-等待付款
         if (trade.status == StatusCode.APPLY_SUCCESSED) {
@@ -260,18 +182,40 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 return;
             }
 
-            discountBtn.setVisibility(View.VISIBLE);
-            discountBtn.setImageResource(R.drawable.pay);
-            discountBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, S17PayActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
+            //push guide
+            if (UnreadHelper.hasMyNotificationId(trade._id)) {
+                String command = UnreadHelper.getCommand(trade._id);
+                Log.d(U09TradeListAdapter.class.getSimpleName(), "command:" + command);
+                if (!TextUtils.isEmpty(command)) {
+                    if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.TRADE_INITIALIZED)) {
+                        discountBtn.setVisibility(View.VISIBLE);
+                        discountBtn.setImageResource(R.drawable.new_discount_replay);
+                        discountBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                discountBtn.setImageResource(R.drawable.new_discount_read);
+                                EventBus.getDefault().post(trade);
+                                showNewTradeNotify(trade._id);
+                            }
+                        });
+                        return;
+                    }
                 }
-            });
+            }
+
+            if (trade.itemRef.expectable.price.doubleValue() > trade.expectedPrice) {
+                discountBtn.setVisibility(View.VISIBLE);
+                discountBtn.setImageResource(R.drawable.new_discount_read);
+                discountBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EventBus.getDefault().post(trade);
+                        showNewTradeNotify(trade._id);
+                    }
+                });
+                return;
+            }
+
             return;
         }
         //3-已发货
@@ -281,7 +225,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             btn1.setText("申请退货");
             btn2.setText("物流信息");
             //push guide
-            if(UnreadHelper.hasMyNotificationId(trade._id))
+            if (UnreadHelper.hasMyNotificationId(trade._id))
                 circleTip.setVisibility(View.VISIBLE);
             btn2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -338,7 +282,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                TradeStatusToCommand.statusTo(trade, status, new Callback(){
+                TradeStatusToCommand.statusTo(trade, status, new Callback() {
                     @Override
                     public void onComplete() {
                         datas.remove(position - 1);

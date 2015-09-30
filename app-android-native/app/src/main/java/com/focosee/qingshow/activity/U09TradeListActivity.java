@@ -172,32 +172,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         }
     }
 
-    public void onEventMainThread(ShareTradeEvent event) {
-        if (!event.shareByCreateUser) {
-            return;
-        }
-
-        if (position == Integer.MAX_VALUE) {
-            return;
-        }
-
-        TradeStatusToCommand.statusTo(mAdapter.getItemData(position), 1, new Callback());
-
-        TradeShareCommand.share(mAdapter.getItemData(position)._id, new Callback() {
-            @Override
-            public void onComplete() {
-                mAdapter.getItemData(position).__context.sharedByCurrentUser = true;
-                mAdapter.getItemData(position).status = 1;
-                mAdapter.notifyDataSetChanged();
-                Intent intent = new Intent(U09TradeListActivity.this, S17PayActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, mAdapter.getItemData(position));
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-    }
-
     private int position = Integer.MAX_VALUE;//当前分享并支付的trader的position
 
     public void onEventMainThread(MongoTrade trade) {

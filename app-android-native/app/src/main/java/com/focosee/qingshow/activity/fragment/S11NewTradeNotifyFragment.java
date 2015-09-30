@@ -114,6 +114,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         ButterKnife.inject(this, rootView);
         EventBus.getDefault().register(this);
         _id = getActivity().getIntent().getStringExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION);
+        getDataFromNet(_id);
         UnreadHelper.userReadNotificationId(_id);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -121,7 +122,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
                 return true;
             }
         });
-
         mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
         mGroup.addView(rootView);
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -186,49 +186,30 @@ public class S11NewTradeNotifyFragment extends Fragment {
         if (event.shareByCreateUser) {
             if (null != trade.__context) {
                 if (!trade.__context.sharedByCurrentUser) {
-                    TradeShareCommand.share(trade._id, new Callback());
+                    TradeShareCommand.share(trade._id, new Callback(){
+                        @Override
+                        public void onComplete() {
+                            Intent intent = new Intent(getActivity(), S17PayActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                            intent.putExtras(bundle);
+                            getActivity().startActivity(intent);
+                        }
+                    });
                 }
             }
         }
-
-        TradeStatusToCommand.statusTo(trade, 1, new Callback() {
-
-            @Override
-            public void onError(int errorCode) {
-                ErrorHandler.handle(getActivity(), errorCode);
-            }
-
-            @Override
-            public void onComplete() {
-                submitBtn.setImageResource(R.drawable.pay);
-                trade.actualPrice = Double.parseDouble(actualPrice);
-                Intent intent = new Intent(getActivity(), S17PayActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-                intent.putExtras(bundle);
-                getActivity().startActivity(intent);
-            }
-        });
     }
 
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        if (trade.__context.sharedByCurrentUser) {
-            Intent intent = new Intent(getActivity(), S17PayActivity.class);
-            Bundle bundle = new Bundle();
-            Log.d(S11NewTradeNotifyFragment.class.getSimpleName(), "trade:" + trade);
-            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-            intent.putExtras(bundle);
-            getActivity().startActivity(intent);
+        submitBtn.setEnabled(false);
+        if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
+            ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
+            EventBus.getDefault().post(trade);
         } else {
-            submitBtn.setEnabled(false);
-            if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
-                ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
-                EventBus.getDefault().post(trade);
-            } else {
-                ToastUtil.showShortToast(getActivity(), getString(R.string.need_install_wx));
-            }
+            ToastUtil.showShortToast(getActivity(), getString(R.string.need_install_wx));
         }
     }
 
@@ -271,7 +252,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
-        getDataFromNet(_id);
     }
 
     @Override
