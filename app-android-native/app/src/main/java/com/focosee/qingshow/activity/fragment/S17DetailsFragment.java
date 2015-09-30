@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity.fragment;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,9 @@ public class S17DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_s17_details, container, false);
         ButterKnife.inject(this, rootView);
-        trade = (MongoTrade) getActivity().getIntent().getExtras().getSerializable(S17PayActivity.INPUT_ITEM_ENTITY);
+        Log.d(S17DetailsFragment.class.getSimpleName(), "intent:" + getActivity().getIntent());
+        trade = (MongoTrade) getActivity().getIntent().getSerializableExtra(S17PayActivity.INPUT_ITEM_ENTITY);
+        Log.d(S17DetailsFragment.class.getSimpleName(), "trade:" + trade);
         initDes();
         initProp();
 

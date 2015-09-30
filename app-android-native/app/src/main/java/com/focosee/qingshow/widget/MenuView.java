@@ -210,6 +210,26 @@ public class MenuView extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void initUnread(){
+        if (getActivity() instanceof U09TradeListActivity
+                || getActivity() instanceof U01UserActivity
+                || getActivity() instanceof U02SettingsActivity) return;
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS)) {
+            u01People.setImageResource(R.drawable.root_menu_flash_tip);
+        }
+
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)
+                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)
+                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
+            navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_dot);
+        }
+
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)
+                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
+            s17Settting.setImageResource(R.drawable.root_menu_setting_tip);
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -317,20 +337,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() instanceof U09TradeListActivity) return;
-        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS)) {
-            u01People.setImageResource(R.drawable.root_menu_flash_tip);
-        }
-
-        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)
-                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)
-                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
-            navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_dot);
-        }
-
-        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)
-                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
-            s17Settting.setImageResource(R.drawable.root_menu_setting_tip);
-        }
+        initUnread();
     }
 }

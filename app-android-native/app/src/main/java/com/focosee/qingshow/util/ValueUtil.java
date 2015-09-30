@@ -26,4 +26,5 @@ public class ValueUtil {
     //EventBus
     public static final String EVENT_NEED_GUIDE = "event_need_guide";
     public static final String BONUES_COMING = "bonues_coming";//收到佣金推送
+    public static final String SUBMIT_TRADE_SUCCESSED = "S11NewTradeFragment页面下单成功";
 }

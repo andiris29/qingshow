@@ -75,10 +75,13 @@ public class ErrorHandler {
                 break;
             case ErrorCode.NoNetWork:
                 ToastUtil.showShortToast(context.getApplicationContext(), "请检查网络");
+                break;
             case ErrorCode.MobileAlreadyExist:
                 ToastUtil.showShortToast(context.getApplicationContext(), "手机已注册");
+                break;
             case ErrorCode.MobileVerifyFailed:
                 ToastUtil.showShortToast(context.getApplicationContext(), "验证失败");
+                break;
             case ErrorCode.SMSlimitedSend:
                 ToastUtil.showShortToast(context.getApplicationContext(), "验证失败");
                 Log.d(ErrorHandler.class.getSimpleName(), "error: 获取验证码次数超过限制");

@@ -73,6 +73,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         EventBus.getDefault().register(this);
 
         trade = (MongoTrade) getIntent().getSerializableExtra(INPUT_ITEM_ENTITY);
+        Log.d(S17PayActivity.class.getSimpleName(), "trade:" + trade);
 
         getTradeFromNet();
     }

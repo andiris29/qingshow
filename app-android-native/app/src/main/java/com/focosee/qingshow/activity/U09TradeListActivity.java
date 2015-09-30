@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -161,7 +162,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     }
 
     public void onEventMainThread(String event) {
-        if (responseToStatusToSuccessed.equals(event)) doRefresh(currentType);
+        if (responseToStatusToSuccessed.equals(event) || ValueUtil.SUBMIT_TRADE_SUCCESSED.equals(event)) doRefresh(currentType);
     }
 
     public void onEventMainThread(ShareTradeEvent event) {
@@ -188,7 +189,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
                 startActivity(intent);
             }
         });
-
     }
 
     private int position = Integer.MAX_VALUE;//当前分享并支付的trader的position

@@ -37,6 +37,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSTextView;
@@ -54,6 +55,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/11.
@@ -398,6 +400,7 @@ public class S11NewTradeFragment extends Fragment {
                     return;
                 }
                 Toast.makeText(getActivity(), R.string.toast_activity_discount_successed, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(ValueUtil.SUBMIT_TRADE_SUCCESSED);
                 getActivity().finish();
             }
         }, new Response.ErrorListener() {

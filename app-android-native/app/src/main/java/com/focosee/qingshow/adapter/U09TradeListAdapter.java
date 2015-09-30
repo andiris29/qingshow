@@ -210,6 +210,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 discountBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        EventBus.getDefault().post(trade);
                         showNewTradeNotify(trade._id);
                     }
                 });

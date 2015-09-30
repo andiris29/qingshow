@@ -17,7 +17,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -44,8 +46,11 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -78,6 +83,10 @@ public class S11NewTradeNotifyFragment extends Fragment {
     TextView nowPrice;
     @InjectView(R.id.hint)
     TextView hint;
+    @InjectView(R.id.submitBtn)
+    ImageButton submitBtn;
+    @InjectView(R.id.selectPropValue)
+    QSTextView selectPropValue;
 
     private MongoTrade trade;
     String _id;
@@ -106,8 +115,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
         EventBus.getDefault().register(this);
         _id = getActivity().getIntent().getStringExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION);
         UnreadHelper.userReadNotificationId(_id);
-        if (!TextUtils.isEmpty(_id))
-            getDataFromNet(_id);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -121,7 +128,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
     }
 
     private void initProps() {
-        selectProp.append(StringUtil.formatSKUProperties(trade.selectedSkuProperties));
+        selectPropValue.setText(StringUtil.formatSKUProperties(trade.selectedSkuProperties));
     }
 
 
@@ -132,27 +139,33 @@ public class S11NewTradeNotifyFragment extends Fragment {
         img.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         itemName.setText(trade.itemSnapshot.name);
 
-        promoPrice.append(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
-        num.append(String.valueOf(trade.quantity));
+        promoPrice.setText("现价：" + StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+        num.setText("数量：" + String.valueOf(trade.quantity));
 
         String price = StringUtil.FormatPrice(trade.itemSnapshot.price);
-        SpannableString spannableString = new SpannableString(price);
-        spannableString.setSpan(new StrikethroughSpan(), 1, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        this.price.append(spannableString);
+        SpannableString spannableString = new SpannableString("原价：" + price);
+        spannableString.setSpan(new StrikethroughSpan(), 3, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        this.price.setText(spannableString);
 
-        expectedPrice.append(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
-        expectedDiscount.append(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
+        expectedPrice.setText("期望价格：" + StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
+        expectedDiscount.setText("期望折扣：" + StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
 
         spannableString = new SpannableString(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new UnderlineSpan(), 1, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        nowPrice.append(spannableString);
+        nowPrice.setText(spannableString);
 
-        nowDiscount.append(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
+        nowDiscount.setText(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
 
-        if(!TextUtils.isEmpty(trade.itemRef.expectable.messageForBuy)) {
+        if (!TextUtils.isEmpty(trade.itemRef.expectable.messageForBuy)) {
             spannableString = new SpannableString("● " + trade.itemRef.expectable.messageForBuy);
             hint.setText(spannableString);
+        }
+
+        if (null != trade.__context) {
+            if (trade.__context.sharedByCurrentUser) {
+                submitBtn.setImageResource(R.drawable.pay);
+            }
         }
     }
 
@@ -173,8 +186,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
         if (event.shareByCreateUser) {
             if (null != trade.__context) {
                 if (!trade.__context.sharedByCurrentUser) {
-                    TradeShareCommand.share(trade._id, new Callback() {
-                    });
+                    TradeShareCommand.share(trade._id, new Callback());
                 }
             }
         }
@@ -188,10 +200,12 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
             @Override
             public void onComplete() {
-                super.onComplete();
+                submitBtn.setImageResource(R.drawable.pay);
                 trade.actualPrice = Double.parseDouble(actualPrice);
                 Intent intent = new Intent(getActivity(), S17PayActivity.class);
-                intent.putExtra(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
         });
@@ -200,11 +214,21 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
-            ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
-            EventBus.getDefault().post(trade);
+        if (trade.__context.sharedByCurrentUser) {
+            Intent intent = new Intent(getActivity(), S17PayActivity.class);
+            Bundle bundle = new Bundle();
+            Log.d(S11NewTradeNotifyFragment.class.getSimpleName(), "trade:" + trade);
+            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+            intent.putExtras(bundle);
+            getActivity().startActivity(intent);
         } else {
-            ToastUtil.showShortToast(getActivity(), getString(R.string.need_install_wx));
+            submitBtn.setEnabled(false);
+            if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
+                ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
+                EventBus.getDefault().post(trade);
+            } else {
+                ToastUtil.showShortToast(getActivity(), getString(R.string.need_install_wx));
+            }
         }
     }
 
@@ -213,12 +237,14 @@ public class S11NewTradeNotifyFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(S11NewTradeFragment.class.getSimpleName(), "response:" + response);
+                submitBtn.setEnabled(true);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;
                 }
                 LinkedList<MongoTrade> trades = TradeParser.parseQuery(QSGsonFactory.cateGoryBuilder().create(), response);
                 trade = trades.get(0);
+
                 if (null != trade) {
                     initProps();
                     initDes();
@@ -245,6 +271,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
+        getDataFromNet(_id);
     }
 
     @Override
