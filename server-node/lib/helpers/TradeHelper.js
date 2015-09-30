@@ -4,6 +4,7 @@ var async = require('async');
 var qsmail = require('../runtime/').mail;
 var winston = require('winston');
 var RequestHelper = require('./RequestHelper');
+var NotificationHelper = require('./NotificationHelper');
 
 var TradeHelper = module.exports;
 
@@ -29,6 +30,21 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
         'peopleRef' : peopleId,
         'date' : Date.now
     };
+
+    if (newStatus == 2 || newStatus == 18) {
+        NotificationHelper.read([trade.ownerRef], {
+            'extra.command' : NotificationHelper.CommandTradeInitialized,
+            'extra._id' : trade._id
+        }, function(err){})
+    };
+
+    if (newStatus == 5 || newStatus == 15 || newStatus == 7) {
+        NotificationHelper.read([trade.ownerRef], {
+            'extra.command' : NotificationHelper.CommandTradeShipped,
+            'extra._id' : trade._id
+        }, function(err){})
+    };
+
     trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
