@@ -70,9 +70,11 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         QSButton btn2 = holder.getView(R.id.item_tradelist_btn2);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
+        QSTextView properTab = holder.getView(R.id.item_tradelist_skuProperties_tab);
         final ImageButton discountBtn = holder.getView(R.id.item_tradelist_discount);
         final View circleTip = holder.getView(R.id.item_tradelist_btn2_topImg);
         properTextView.setVisibility(View.GONE);
+        properTab.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
         statusTV.setVisibility(View.GONE);
@@ -122,7 +124,8 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
         if (!TextUtils.isEmpty(properties)) {
             properTextView.setVisibility(View.VISIBLE);
-            properTextView.setText("规格：" + properties);
+            properTab.setVisibility(View.VISIBLE);
+            properTextView.setText(properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
         holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
