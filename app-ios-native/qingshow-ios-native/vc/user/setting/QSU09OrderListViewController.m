@@ -246,6 +246,7 @@
         if (buttonIndex == 1) {
             __weak QSU09OrderListViewController *weakSelf = self;
             [SHARE_NW_ENGINE changeTrade:_oderDic status:18 info:nil onSucceed:^(NSDictionary* dict){
+                [[QSUnreadManager getInstance] clearTradeUnreadId:[QSEntityUtil getIdOrEmptyStr:_oderDic]];
                 if ([QSTradeUtil getStatus:_oderDic].intValue == 0) {
                     [weakSelf showTextHud:@"已取消订单"];
                 }else{
