@@ -90,20 +90,26 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@color/white"
+        android:gravity="center_vertical"
         android:layout_below="@+id/u15_balance_layout">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/u15_alipay_image"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="5dp"
             android:src="@drawable/alipay"/>
 
         <com.focosee.qingshow.widget.QSEditText
             android:id="@+id/u15_alipay_account"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:hint="@string/u15_hint_edit"
-            android:background="@null"/>
+            android:layout_weight="4"
+            android:layout_margin="10dp"
+            android:paddingLeft="25dp"
+            android:background="@null"
+            android:hint="@string/u15_hint_edit"/>
 
     </LinearLayout>
 
@@ -131,12 +137,12 @@
         android:id="@+id/u15_withDrawBtn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="10%"
+        app:layout_heightPercent="8%"
         android:background="@drawable/u15_pink_btn"
-        app:clickGround="@drawable/round_btn_background"
+        app:clickGround="@drawable/u15_pink_btn"
         app:layout_marginTopPercent="10%"
-        app:layout_marginLeftPercent="20%"
-        app:layout_marginRightPercent="20%"
+        app:layout_marginLeftPercent="15%"
+        app:layout_marginRightPercent="15%"
         android:text="@string/u15_btn_text"
         android:textSize="20sp"
         android:textColor="@color/white"

@@ -260,6 +260,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
             }
             
             [self showTopRightBtns:@[self.logisticsButton, self.refundButton]];
+            self.circleType = QSOrderListCellCircleTypeNone;
             break;
         }
         default: {
