@@ -17,7 +17,9 @@ var _next = function(today) {
         }).exec(callback);
     },
     function(trades, callback) {
-        trades.forEach(function(trade, index) {
+        trades.filter(function(trade){
+            return new Date() - trade.update > 24 * 3600 
+        }).forEach(function(trade, index) {
             NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
                 '_id' : trade._id,
                 'command' : NotificationHelper.CommandTradeInitialized
@@ -38,7 +40,6 @@ var _run = function() {
 
 module.exports = function () {
     var rule = new schedule.RecurrenceRule();
-    rule.hour = 9;
     rule.minute = 0;
     schedule.scheduleJob(rule, function () {
         _run();
