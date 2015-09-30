@@ -229,15 +229,7 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
-                trade.save(function(err, trade) {
-                    callback(err, trade);
-                    // Push Notification
-                    if (trade._id.toString() != req.qsCurrentUserId) {
-                        jPushAudiences.find({
-                            'peopleRef' : trade.ownerRef
-                        }).exec(function(err, infos) {});
-                    }
-                });
+                callback(errors.TradeStatusChangeError);
             } else if (newStatus == 2) {
                 // Save the parameters from payment server.
                 // handle at callback interface

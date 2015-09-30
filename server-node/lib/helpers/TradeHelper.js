@@ -29,6 +29,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
         'peopleRef' : peopleId,
         'date' : Date.now
     };
+    newStatus = Number.parseInt(newStatus);
 
     if (newStatus === 2 || newStatus === 18) {
         NotificationHelper.read([trade.ownerRef], {
@@ -48,7 +49,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
     trade.statusOrder= _statusOrderMap[newStatus] || '';
-    trade.update = Date.now;
+    trade.update = Date.now();
     trade.save(function(err) {
         callback(err, trade);
     });
