@@ -228,7 +228,8 @@ _register = function(req, res) {
             nickname: nickname,
             userInfo : {
                 id : id,
-                encryptedPassword : _encrypt(password)
+                encryptedPassword : _encrypt(password),
+                mobile : mobile
             }
         });
         people.save(function(err, people) {

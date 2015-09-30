@@ -2,7 +2,6 @@ package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S20MatcherActivity;
@@ -38,13 +35,11 @@ import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
-import com.focosee.qingshow.activity.fragment.U02ChangePasswordFragment;
 import com.focosee.qingshow.activity.fragment.U02SelectExceptionFragment;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 
 import butterknife.ButterKnife;
@@ -314,8 +309,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
         startActivity(intent);
         if (null != getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()))
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SettingsFragment.class.getSimpleName()));
-        if (null != getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()))
-            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()));
         if (null != getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()))
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(U02SelectExceptionFragment.class.getSimpleName()));
         getActivity().finish();

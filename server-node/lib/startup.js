@@ -94,5 +94,14 @@ var _initalizeLog = function(dir) {
             })
         ]
     });
+
+    // SMS logger
+    winston.loggers.add('SMS', {
+        'transports' : [
+            new winston.transports.DailyRotateFile({
+                'filename' : path.join(dir, 'winston-SMS.log')
+            })
+        ]
+    });
 };
 
