@@ -36,7 +36,7 @@ userBonus.forge = {
             });
         },
         function(item, callback) {
-            if (fakeTrade.actualPrice > item.promoPrice) {
+            if (fakeTrade.totalFee > item.promoPrice) {
                 callback(errors.NotEnoughParam);
             }else {
                 BonusHelper.createBonusViaForger(req.qsCurrentUserId, fakeTrade, item, callback); 
