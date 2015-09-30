@@ -8,7 +8,6 @@ var tradeSchema = Schema({
     totalFee : Number,
     quantity : Number,
     expectedPrice : Number,
-    actualPrice : Number,
     itemSnapshot : Object,
     selectedSkuProperties : [String],
     peopleSnapshot : Object,

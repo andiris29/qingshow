@@ -55,21 +55,6 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     });
 };
 
-TradeHelper.notify = function(trade, callback) {
-    // @formatter:off
-    var subject = "[" + _getStatusName(trade.status) + "]" + 
-        trade.itemSnapshot.name + "*" + trade.quantity + "=" + (trade.actualPrice ? trade.actualPrice : trade.expectedPrice);
-        
-    var content = 
-        "交易：\n" + 
-        JSON.stringify(trade, null, 4) + 
-        "用户：\n" + 
-        JSON.stringify(trade.peopleSnapshot, null, 4);
-    // @formatter:on
-
-    qsmail.send(subject, content, callback);
-};
-
 _getStatusName = function(status) {
     switch(status) {
         case 0:

@@ -82,9 +82,6 @@ trade.create = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!error) {
-                TradeHelper.notify(trade);
-            }
         });
     }
 };
@@ -264,9 +261,6 @@ trade.statusTo = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!error) {
-                TradeHelper.notify(trade);
-            }
         });
     }
 };
@@ -319,9 +313,6 @@ trade.alipayCallback = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!error) {
-                TradeHelper.notify(trade);
-            }
         });
     }
 };
@@ -388,9 +379,6 @@ trade.wechatCallback = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
-            if (!error) {
-                TradeHelper.notify(trade);
-            }
         });
     }
 };
