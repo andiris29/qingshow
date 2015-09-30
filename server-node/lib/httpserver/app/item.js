@@ -72,7 +72,7 @@ item.updateExpectable = {
                 });
             },
             function(trades, cb){
-                _itemPriceChanged(trades, expectable,function(){
+                _itemPriceChanged(req.qsCurrentUserId, trades, expectable,function(){
                 });
                 cb(null, trades);
             }],function(err){
@@ -279,7 +279,7 @@ item.list = {
     }
 };
 
-var _itemPriceChanged = function(trades, expectable, callback) {
+var _itemPriceChanged = function(forger, trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
             if (!expectable.expired && expectable.price <= trade.expectedPrice) {
@@ -295,7 +295,7 @@ var _itemPriceChanged = function(trades, expectable, callback) {
                 '_id' : trade._id
                 }, cb); 
             };
-            TradeHelper.updateStatus(trade, 1, 'status to 1', trade.ownerRef, cb)
+            TradeHelper.updateStatus(trade, 1, null, forger, cb)
         }
     });
     async.parallel(tasks, function(err) {
