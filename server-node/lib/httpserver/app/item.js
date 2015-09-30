@@ -295,6 +295,7 @@ var _itemPriceChanged = function(trades, expectable, callback) {
                 '_id' : trade._id
                 }, cb); 
             };
+            TradeHelper.updateStatus(trade, 1, 'status to 1', trade.ownerRef, cb)
         }
     });
     async.parallel(tasks, function(err) {

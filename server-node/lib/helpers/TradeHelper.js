@@ -9,7 +9,6 @@ var NotificationHelper = require('./NotificationHelper');
 var TradeHelper = module.exports;
 
 var _statusOrderMap = {
-    0 : '01',
     1 : '00',
     2 : '10',
     3 : '10',
@@ -48,7 +47,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
-    trade.statusOrder= _statusOrderMap[newStatus];
+    trade.statusOrder= _statusOrderMap[newStatus] || '';
 
     trade.save(function(err) {
         callback(err, trade);
