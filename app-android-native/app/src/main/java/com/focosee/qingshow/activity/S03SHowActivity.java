@@ -273,7 +273,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
         if(null != showDetailEntity.ownerRef){
             if(null != showDetailEntity.ownerRef.bonuses){
-                s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonuses(showDetailEntity.ownerRef.bonuses));
+                s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(showDetailEntity.ownerRef.bonuses));
             }
         }
     }

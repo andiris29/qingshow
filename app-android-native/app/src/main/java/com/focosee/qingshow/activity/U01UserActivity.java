@@ -267,7 +267,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
 
         userName.setText(user.nickname);
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
-        userBonuses.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonuses(user.bonuses));
+        userBonuses.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(user.bonuses));
         if (!TextUtils.isEmpty(user.portrait))
             userHead.setImageURI(Uri.parse(user.portrait));
         if (!TextUtils.isEmpty(user.background))

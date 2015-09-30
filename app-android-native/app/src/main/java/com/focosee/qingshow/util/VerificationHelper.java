@@ -30,7 +30,7 @@ public class VerificationHelper {
 
     public void getVerification(String mobileNumber, final QSButton veri_btn, final Context cont){
 
-
+        veri_btn.setEnabled(false);
         Map<String, String> params = new HashMap<>();
         params.put("mobile", mobileNumber);
 
@@ -42,10 +42,10 @@ public class VerificationHelper {
 
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(QSApplication.instance(), MetadataParser.getError(response));
+                    veri_btn.setEnabled(true);
                     return;
                 }
 
-                veri_btn.setEnabled(false);
                 if(color == Integer.MAX_VALUE)
                     color = veri_btn.getCurrentTextColor();
                 veri_btn.setTextColor(cont.getResources().getColor(R.color.gary));
