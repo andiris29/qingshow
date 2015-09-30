@@ -2,10 +2,8 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -24,7 +22,6 @@ import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeStatusToCommand;
-import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -40,9 +37,6 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
 import de.greenrobot.event.EventBus;
 
@@ -68,18 +62,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, final int position) {
-        if (position == StatusCode.APPLYING) {
+        if (position == 0) {
             holder.getView(R.id.U09_head_layout).setVisibility(View.INVISIBLE);
             return;
         }
-        if (null == getItemData(position)) return;
-        final MongoTrade trade = getItemData(position);
-        if (null == trade) return;
-        String dateStr = "付款日期：" + TimeUtil.parseDateString(trade.update);
-        if (trade.status == StatusCode.APPLYING || trade.status == StatusCode.APPLY_SUCCESSED) {
-            dateStr = "申请日期：" + TimeUtil.parseDateString(trade.update);
-        }
-        holder.setText(R.id.item_tradelist_payTime, dateStr);
         final QSButton btn1 = holder.getView(R.id.item_tradelist_btn1);
         QSButton btn2 = holder.getView(R.id.item_tradelist_btn2);
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
@@ -92,7 +78,15 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         statusTV.setVisibility(View.GONE);
         discountBtn.setVisibility(View.GONE);
         circleTip.setVisibility(View.INVISIBLE);
-        Log.d(U09TradeListAdapter.class.getSimpleName(), "hint:" + trade.hint);
+        if (null == getItemData(position)) return;
+        final MongoTrade trade = getItemData(position);
+        if (null == trade) return;
+        String dateStr = "付款日期：" + TimeUtil.parseDateString(trade.update);
+        if (trade.status == StatusCode.APPLYING || trade.status == StatusCode.APPLY_SUCCESSED) {
+            dateStr = "申请日期：" + TimeUtil.parseDateString(trade.update);
+        }
+        holder.setText(R.id.item_tradelist_payTime, dateStr);
+
 
         if (null != trade.itemSnapshot) {
             String str = "原价：";
@@ -153,14 +147,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 }
             });
 
-            discountBtn.setVisibility(View.VISIBLE);
-
             //push guide
             if(UnreadHelper.hasMyNotificationId(trade._id)){
                 String command = UnreadHelper.getCommand(trade._id);
                 Log.d(U09TradeListAdapter.class.getSimpleName(), "command:" + command);
                 if(!TextUtils.isEmpty(command)){
                     if(command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
+                        discountBtn.setVisibility(View.VISIBLE);
                         discountBtn.setImageResource(R.drawable.new_discount_replay);
                         discountBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -173,6 +166,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                     }
 
                     if(command.equals(QSPushAPI.TRADE_INITIALIZED)){
+                        discountBtn.setVisibility(View.VISIBLE);
                         discountBtn.setImageResource(R.drawable.share_and_pay);
                         discountBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -208,6 +202,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             }
 
             if (trade.itemRef.expectable.price.doubleValue() > trade.expectedPrice) {
+                discountBtn.setVisibility(View.VISIBLE);
                 discountBtn.setImageResource(R.drawable.new_discount_read);
                 discountBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -217,6 +212,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 });
                 return;
             }else{
+                discountBtn.setVisibility(View.VISIBLE);
                 discountBtn.setImageResource(R.drawable.share_and_pay);
                 discountBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
