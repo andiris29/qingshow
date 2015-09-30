@@ -34,6 +34,14 @@
     self.getCodeBtn.layer.cornerRadius  =self.getCodeBtn.bounds.size.height / 8;
 
 }
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (id textfield in self.view.subviews) {
+        if ([textfield isKindOfClass:[UITextField class]]) {
+            [textfield resignFirstResponder];
+        }
+    }
+}
 - (IBAction)getCodeBtnPressed:(id)sender {
     NSString *phoneStr = self.phoneTextField.text;
     if (phoneStr.length == 11) {
