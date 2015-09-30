@@ -57,18 +57,11 @@
     __weak QST01ShowTradeViewController *weakSelf = self;
     NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
     NSDictionary* peopleDict = [QSTradeUtil getPeopleDic:tradeDict];
-    [SHARE_NW_ENGINE getItemWithId:[QSEntityUtil getIdOrEmptyStr:itemDict] onSucceed:^(NSDictionary *itemDic, NSDictionary *metadata) {
-        if (itemDic) {
-#warning TODO
-            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDic peopleId:[QSEntityUtil getIdOrEmptyStr:peopleDict]];
-            if ([QSItemUtil getDelist:itemDic] == YES) {
-                vc.isDisCountBtnHidden = YES;
-            }
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-        }
-    } onError:^(NSError *error) {
-        
-    }];
+    QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDic peopleId:[QSEntityUtil getIdOrEmptyStr:peopleDict]];
+    if ([QSItemUtil getDelist:itemDic] == YES) {
+        vc.isDisCountBtnHidden = YES;
+    }
+    [weakSelf.navigationController pushViewController:vc animated:YES];
 }
 - (void)didTapHeaderInT01Cell:(NSDictionary *)peopleDic
 {
