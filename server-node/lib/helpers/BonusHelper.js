@@ -57,7 +57,7 @@ BonusHelper.createBonusViaForger = function(forger, fakeTrade, item, callback){
         people.bonuses = people.bonuses || [];
         people.bonuses.push({
             status : 0,
-            money : fakeTrade.actualPrice * global.qsConfig.bonus.rate,
+            money : fakeTrade.totalFee * global.qsConfig.bonus.rate,
             notes : '来自' + item.name + '的佣金',
             icon : item.thumbnail,
             trigger : {

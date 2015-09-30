@@ -290,7 +290,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         if (null == showDetailEntity.ownerRef) return;
         s03Portrait.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.ownerRef.portrait, ImgUtil.PORTRAIT_LARGE)));
         s03Nickname.setText(showDetailEntity.ownerRef.nickname);
-
+        s03Bonus.setVisibility(View.VISIBLE);
     }
 
     public void pauseVideo() {

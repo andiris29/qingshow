@@ -162,6 +162,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                             @Override
                             public void onClick(View v) {
                                 discountBtn.setImageResource(R.drawable.new_discount_read);
+                                EventBus.getDefault().post(trade);
                                 showNewTradeNotify(trade._id);
                             }
                         });

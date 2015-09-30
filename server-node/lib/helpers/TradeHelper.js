@@ -4,11 +4,11 @@ var async = require('async');
 var qsmail = require('../runtime/').mail;
 var winston = require('winston');
 var RequestHelper = require('./RequestHelper');
+var NotificationHelper = require('./NotificationHelper');
 
 var TradeHelper = module.exports;
 
 var _statusOrderMap = {
-    0 : '01',
     1 : '00',
     2 : '10',
     3 : '10',
@@ -29,11 +29,27 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
         'peopleRef' : peopleId,
         'date' : Date.now
     };
+    newStatus = Number.parseInt(newStatus);
+
+    if (newStatus === 2 || newStatus === 18) {
+        NotificationHelper.read([trade.ownerRef], {
+            'extra.command' : NotificationHelper.CommandTradeInitialized,
+            'extra._id' : trade._id
+        }, function(err){})
+    };
+
+    if (newStatus === 5 || newStatus === 15 || newStatus === 7) {
+        NotificationHelper.read([trade.ownerRef], {
+            'extra.command' : NotificationHelper.CommandTradeShipped,
+            'extra._id' : trade._id
+        }, function(err){})
+    };
+
     trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
-    trade.statusOrder= _statusOrderMap[newStatus];
-
+    trade.statusOrder= _statusOrderMap[newStatus] || '';
+    trade.update = Date.now();
     trade.save(function(err) {
         callback(err, trade);
     });

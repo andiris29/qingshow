@@ -2,6 +2,7 @@ var JPush = require('jpush-sdk');
 var winston = require('winston');
 var _ = require('underscore');
 var async = require('async');
+var extend = require('util')._extend;
 
 var People = require('../dbmodels').People;
 var jPushAudiences = require('../dbmodels').JPushAudience;
@@ -92,11 +93,14 @@ NotificationHelper._push = function(peoplesIds, message, extras, cb) {
 }
 
 NotificationHelper.read = function(peoplesIds, criteria, callback) {
-    if (criteria.command === NotificationHelper.CommandTradeInitialized ||
-        criteria.command === NotificationHelper.CommandItemExpectablePriceUpdated) {
-        criteria.command = {
-            '$or' : [NotificationHelper.CommandTradeInitialized,
-                NotificationHelper.CommandItemExpectablePriceUpdated]
+    if (criteria['extra.command'] === NotificationHelper.CommandTradeInitialized ||
+        criteria['extra.command'] === NotificationHelper.CommandItemExpectablePriceUpdated) {
+        var criteriaA = extend({}, criteria);
+        var criteriaB = extend({}, criteria);
+        criteriaA['extra.command'] = NotificationHelper.CommandTradeInitialized;
+        criteriaB['extra.command'] = NotificationHelper.CommandItemExpectablePriceUpdated;
+        criteria = {
+            '$or' : [criteriaA, criteriaB]
         };
     }
     People.update({
@@ -109,8 +113,8 @@ NotificationHelper.read = function(peoplesIds, criteria, callback) {
         }
     }, {
         multi : true
-    }, function(err, peoples){
-        callback(err, peoples);  
+    }, function(err, doc){
+        callback(err, doc);  
     })
 };
 
@@ -136,8 +140,8 @@ NotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
             }
         }, {
             multi : true
-        }, function(err, peoples){
-            callback(err, peoples);
+        }, function(err, doc){
+            callback(err, doc);
         })
     }], cb)
 }

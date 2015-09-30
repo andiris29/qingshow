@@ -210,13 +210,15 @@
                 </android.support.percent.PercentRelativeLayout>
 
                 <TextView
-                    app:layout_marginTopPercent="2%"
+                    app:layout_marginTopPercent="4%"
                     android:id="@+id/hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dis_text"
                     android:layout_alignLeft="@id/dis_text"
                     android:layout_alignTop="@+id/submitBtn"
+                    android:layout_toLeftOf="@+id/submitBtn"
+                    app:layout_marginRightPercent="7%"
                     app:layout_marginLeftPercent="3%"/>
 
                 <ImageButton

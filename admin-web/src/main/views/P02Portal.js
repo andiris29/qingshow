@@ -6,8 +6,7 @@ define([
 ) {
     violet.ui.factory.registerDependencies('main/views/P02Portal', [
         'main/views/components/p02/TradeStatusLi', 
-        'main/views/components/p02/ItemCategoryLi', 
-        'main/views/components/p02/NewRecommandationsLi', 
+        'main/views/components/p02/ItemCategoryLi',
         'main/views/components/p02/ItemPriceChangedLi',
         'main/views/components/p02/BonusSummaryLi',
         'main/views/components/p02/BonusForgeLi']);
@@ -17,8 +16,6 @@ define([
 
         this._initManagerTrades();
         this._initManagerItems();
-        this._initManagerPush();
-        this._initBonus();
     };
 
     P02Portal.prototype._initManagerTrades = function() {
@@ -30,6 +27,11 @@ define([
                 'status' : status
             }, ul$, this);
         }.bind(this));
+
+        violet.ui.factory.createUi('main/views/components/p02/BonusForgeLi', {
+        }, ul$, this);
+        violet.ui.factory.createUi('main/views/components/p02/BonusSummaryLi', {
+        }, ul$, this);
     };
 
     P02Portal.prototype._initManagerItems = function() {
@@ -49,26 +51,6 @@ define([
                 }, ul$, this);
             }.bind(this));
         }.bind(this));
-    };
-
-    P02Portal.prototype._initManagerPush = function() {
-        var ul$ = $('#managerPush', this._dom);
-
-        ['A1', 'A2', 'A3', 'A4'].forEach( function(group) {
-            violet.ui.factory.createUi('main/views/components/p02/NewRecommandationsLi', {
-                'group' : group
-            }, ul$, this);
-        }.bind(this));
-    };
-
-    P02Portal.prototype._initBonus = function () {
-        var ul$ = $('#managerBonus', this._dom);
-
-        violet.ui.factory.createUi('main/views/components/p02/BonusForgeLi', {
-        }, ul$, this);
-        violet.ui.factory.createUi('main/views/components/p02/BonusSummaryLi', {
-        }, ul$, this);
-
     };
 
     violet.oo.extend(P02Portal, View);

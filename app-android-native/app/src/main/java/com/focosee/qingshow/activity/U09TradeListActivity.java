@@ -163,6 +163,13 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     public void onEventMainThread(String event) {
         if (responseToStatusToSuccessed.equals(event) || ValueUtil.SUBMIT_TRADE_SUCCESSED.equals(event)) doRefresh(currentType);
+
+        if (position == Integer.MAX_VALUE || position >= mAdapter.getItemCount()) {
+            return;
+        }
+        if(mAdapter.getItemData(position)._id.equals(event)){
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     public void onEventMainThread(ShareTradeEvent event) {
@@ -216,7 +223,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
                 }
             }
         } else {
-            reconn();
             if (!UnreadHelper.hasUnread()) {
                 menu.setImageResource(R.drawable.nav_btn_menu_n);
             }
