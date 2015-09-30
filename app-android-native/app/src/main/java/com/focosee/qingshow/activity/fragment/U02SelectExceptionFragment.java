@@ -77,10 +77,7 @@ public class U02SelectExceptionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 U02SettingsFragment settingsFragment;
-                if (null == getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName()))
-                    settingsFragment = new U02SettingsFragment();
-                else
-                    settingsFragment = (U02SettingsFragment) getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName());
+                settingsFragment = new U02SettingsFragment();
                 getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, 0, 0).
                         replace(R.id.settingsScrollView, settingsFragment).commit();
             }

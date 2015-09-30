@@ -88,15 +88,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private ImageView backTextView;
     private EditText ageEditText;
     private Button quitButton;
-    private ImageButton navigationBtnMatch;
-    private ImageButton navigationBtnGoodMatch;
-    private ImageButton navigationBtnDiscount;
-    private ImageButton navigationBtnBonus;
-    private ImageButton u01People;
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout bodyTypeRelativeLayout;
-    private RelativeLayout changePasswordRelativeLayout;
     private RelativeLayout bonusRelativeLayout;
     private RelativeLayout addresslistRelativeLayout;
     private RelativeLayout dressStyleRelativeLayout;
@@ -113,7 +107,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private TextView bodyTypeTextView;
     private TextView dressStyleEditText;
     private TextView effectEditText;
-    private TextView changePwText;
     private FrameLayout container;
     private MenuView menuView;
     private View bonusTip;
@@ -268,7 +261,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
         bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
-        changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
         bonusRelativeLayout = (RelativeLayout) view.findViewById(R.id.bonusRelativeLayout);
         addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
         dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
@@ -285,7 +277,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         bodyTypeTextView = (TextView) view.findViewById(R.id.bodyTypeTextView);
         dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
-        changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
         container = (FrameLayout) view.findViewById(R.id.container);
         bonusTip = view.findViewById(R.id.u02_bonus_tip);
     }
@@ -536,21 +527,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             public void onClick(View view) {
                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
                 showActionSheet(TAG_BODYTYPE);
-            }
-        });
-
-        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02ChangePasswordFragment fragment;
-                if (null == getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName())) {
-                    fragment = new U02ChangePasswordFragment();
-                } else {
-                    fragment = (U02ChangePasswordFragment) getFragmentManager().findFragmentByTag(U02ChangePasswordFragment.class.getSimpleName());
-                }
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, R.anim.push_left_out, 0).
-                        replace(R.id.settingsScrollView, fragment).commit();
-                U02Model.INSTANCE.set_class(U02ChangePasswordFragment.class);
             }
         });
 
