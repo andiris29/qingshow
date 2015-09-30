@@ -29,14 +29,18 @@ public class BonusHelper {
         return total;
     }
 
-    public static String getTotalBonuses(List<MongoPeople.Bonuses> bonuses) {
+    public static String getTotalBonusesString(List<MongoPeople.Bonuses> bonuses) {
+        return StringUtil.FormatPrice(String.valueOf(getTotalBonusesFloat(bonuses)));
+    }
+
+    public static float getTotalBonusesFloat(List<MongoPeople.Bonuses> bonuses){
         float total = 0;
         if(null != bonuses){
             for (MongoPeople.Bonuses bonus : bonuses){
                 total += bonus.money.floatValue();
             }
         }
-        return StringUtil.FormatPrice(String.valueOf(total));
+        return total;
     }
 
     public static String getBonusesMoneySign(MongoPeople.Bonuses bonuses){

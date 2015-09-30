@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -29,12 +32,15 @@ import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareBonusEvent;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -61,6 +67,10 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     QSTextView u15ErrorText;
     @InjectView(R.id.u15_withDrawBtn)
     QSButton withDrawBtn;
+    @InjectView(R.id.u15_input_layout)
+    LinearLayout u15InputLayout;
+    @InjectView(R.id.u15_alipay_image)
+    ImageView u15AlipayImage;
 
     private MongoPeople people;
     private boolean isCanWithDrwa = false;
@@ -89,13 +99,26 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         if (null == people) return;
         if (null == people.bonuses) return;
         u15Balance.setText(BonusHelper.getBonusesNotWithDraw(people.bonuses));
-        u15Total.setText(BonusHelper.getTotalBonuses(people.bonuses));
+        u15Total.setText(BonusHelper.getTotalBonusesString(people.bonuses));
         Log.d(U15BonusActivity.class.getSimpleName(), "bonus:" + people.bonuses.size());
-        if(!(null == people.bonuses || people.bonuses.size() == 0))
+        if (!(null == people.bonuses || people.bonuses.size() == 0))
             u15AlipayAccount.setText(people.bonuses.get(0).alipayId);
-        if(BonusHelper.getBonusesWithFloat(people.bonuses) > 0){
+        if (BonusHelper.getBonusesWithFloat(people.bonuses) > 0) {
             isCanWithDrwa = true;
         }
+        //灰色页面
+        if (BonusHelper.getTotalBonusesFloat(people.bonuses) <= 0) {
+            rightBtn.setTextColor(getResources().getColor(R.color.background_color));
+            rightBtn.setEnabled(false);
+            withDrawBtn.setBackgroundResource(R.drawable.u15_gray_btn);
+            withDrawBtn.setEnabled(false);
+            u15InputLayout.setBackgroundResource(R.color.white);
+            u15HintText.setTextColor(getResources().getColor(R.color.darker_gray));
+            u15AlipayImage.setImageResource(R.drawable.alipay_gray);
+            u15AlipayAccount.setEnabled(false);
+            u15AlipayAccount.setBackgroundResource(R.drawable.gray_btn_ring);
+        }
+
     }
 
     private void getUser() {
@@ -116,7 +139,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void onEventMainThread(ShareBonusEvent event) {
-        if (event.errorCode == SendMessageToWX.Resp.ErrCode.ERR_OK) {
+        if (event.errorCode == SendAuth.Resp.ErrCode.ERR_OK) {
 
             Map<String, String> params = new HashMap<>();
             params.put("alipayId", u15AlipayAccount.getText().toString());
@@ -148,8 +171,8 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    public void onEventMainThread(String event){
-        if(ValueUtil.BONUES_COMING.equals(event)){
+    public void onEventMainThread(String event) {
+        if (ValueUtil.BONUES_COMING.equals(event)) {
             reconn();
         }
     }
@@ -164,8 +187,8 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(U15BonusActivity.this, U16BonusListActivity.class));
                 break;
             case R.id.u15_withDrawBtn:
-                if(!isCanWithDrwa){
-                    if(u15ErrorText.isShown())return;
+                if (!isCanWithDrwa) {
+                    if (u15ErrorText.isShown()) return;
                     showError("您没有可提现的佣金");
                     return;
                 }
@@ -179,8 +202,8 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void showError(String msg){
-        if(!TextUtils.isEmpty(msg)){
+    private void showError(String msg) {
+        if (!TextUtils.isEmpty(msg)) {
             u15ErrorText.setText(msg);
             withDrawBtn.setEnabled(false);
         }
@@ -200,9 +223,9 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         super.onResume();
         MobclickAgent.onPageStart("U13PersonalizeActivity");
         MobclickAgent.onResume(this);
-        if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES))
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES))
             UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_BONUSES);
-        if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE))
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE))
             UnreadHelper.userReadNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE);
     }
 
