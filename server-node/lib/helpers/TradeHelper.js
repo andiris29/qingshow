@@ -48,7 +48,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     trade.statusLogs = trade.statusLogs || [];
     trade.statusLogs.push(statusLog);
     trade.statusOrder= _statusOrderMap[newStatus] || '';
-
+    trade.update = Date.now;
     trade.save(function(err) {
         callback(err, trade);
     });

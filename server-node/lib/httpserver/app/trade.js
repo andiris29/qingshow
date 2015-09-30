@@ -229,7 +229,6 @@ trade.statusTo = {
         function(trade, callback) {
             // update trade
             if (newStatus == 1) {
-                trade.actualPrice = req.body.actualPrice;
                 trade.save(function(err, trade) {
                     callback(err, trade);
                     // Push Notification
