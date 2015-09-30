@@ -179,23 +179,23 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    NSString *oldPrice = [NSString stringWithFormat:@"原价:￥%@",[QSItemUtil getPriceDesc:itemDict]];
     [self.originPriceLabel setAttributedText:[QSItemUtil getAttrbuteStr:oldPrice]];
-    self.nowPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+    self.nowPriceLabel.text = [NSString stringWithFormat:@"现价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     
     
     //tradeUtil
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     if ([QSTradeUtil getActualPrice:tradeDict]) {
-        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSTradeUtil getActualPriceDesc:tradeDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"期望价格: ￥%@",[QSTradeUtil getActualPriceDesc:tradeDict]];
         _actualPrice = [QSTradeUtil getActualPriceDesc:tradeDict].floatValue;
     } else {
-        self.priceLabel.text = [NSString stringWithFormat:@"期望价格：￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"期望价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
         _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
     }
     self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
-    self.quantityLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:tradeDict]];
-    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
+    self.quantityLabel.text = [NSString stringWithFormat:@"数量: %@",[QSTradeUtil getQuantityDesc:tradeDict]];
+    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     self.hintLabel.text = [QSTradeUtil getHint:tradeDict];
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
