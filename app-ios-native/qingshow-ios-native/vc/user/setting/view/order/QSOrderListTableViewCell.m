@@ -308,6 +308,9 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 
 - (IBAction)logisticsBtnPressed:(id)sender {
 #warning @mhy 处理物流按钮
+    if ([self.delegate respondsToSelector:@selector(didClickLogisticForCell:)]) {
+        [self.delegate didClickLogisticForCell:self];
+    }
     [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
 }
 
