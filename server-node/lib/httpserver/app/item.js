@@ -28,10 +28,11 @@ item.updateExpectable = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         var param = req.body;
+        var price = RequestHelper.parseNumber(param.price);
         var expectable = {};
         async.waterfall([function(callback) {
             expectable = {
-                'price' : RequestHelper.parseNumber(param.price),
+                'price' : price,
                 'expired' : param.expired === true,
                 'messageForPay' : param.messageForPay,
                 'messageForBuy' : param.messageForBuy
@@ -67,13 +68,17 @@ item.updateExpectable = {
                     if (error) {
                         cb(errors.TradeNotExist);
                     }else {
-                        cb(null, trades);
+                        cb(null, trades, item);
                     }
                 });
             },
-            function(trades, cb){
-                _itemPriceChanged(req.qsCurrentUserId, trades, expectable,function(){
-                });
+            function(trades, item, cb){
+                trades.forEach(function(trade){   
+                    TradeHelper.updateStatus(trade, 1, null, forger, function(err){})
+                })
+                if (price !== item.expectable.price) {
+                    _itemPriceChanged(req.qsCurrentUserId, trades, expectable,function(){});  
+                }
                 cb(null, trades);
             }],function(err){
                 if (err) {
@@ -295,7 +300,6 @@ var _itemPriceChanged = function(forger, trades, expectable, callback) {
                 '_id' : trade._id
                 }, cb); 
             };
-            TradeHelper.updateStatus(trade, 1, null, forger, cb)
         }
     });
     async.parallel(tasks, function(err) {
