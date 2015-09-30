@@ -9,7 +9,7 @@
 #import "QSU18ResetPswStep2ViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-
+#import "QSU06LoginViewController.h"
 @interface QSU18ResetPswStep2ViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *passWordTextField;
@@ -43,7 +43,11 @@
         [SHARE_NW_ENGINE loginWithName:self.mobile password:self.password onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
             [SHARE_NW_ENGINE updatePeople:@{@"id":self.mobile ,@"currentPassword":self.password, @"password":self.passWordTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
                 [self showTextHud:@"修改密码成功！"];
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [SHARE_NW_ENGINE logoutOnSucceed:^{
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    QSU06LoginViewController *vc = [[QSU06LoginViewController alloc]init];
+                    [self.navigationController pushViewController:vc animated:YES];
+                } onError:nil];
             } onError:^(NSError *error) {
                 [self showTextHud:@"修改密码失败，请重新核对信息"];
             }];
