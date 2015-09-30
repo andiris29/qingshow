@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, QSUnreadTradeType) {
 //Trade Dot
 - (BOOL)shouldShowTradeUnreadOfType:(QSUnreadTradeType)type id:(NSString*)tradeId;
 - (void)clearTradeUnreadOfType:(QSUnreadTradeType)type id:(NSString*)tradeId;
+- (void)clearTradeUnreadId:(NSString*)tradeId;
 //Bonu Dot
 - (BOOL)shouldShowBonuUnread;
 - (void)clearBonuUnread;

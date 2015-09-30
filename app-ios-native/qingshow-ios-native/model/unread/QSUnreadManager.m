@@ -161,6 +161,24 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
     return NO;
 }
 
+- (void)clearTradeUnreadId:(NSString*)tradeId {
+    NSArray* commandArray = @[
+                              @"itemExpectablePriceUpdated",
+                              @"tradeInitialized",
+                              @"tradeShipped"
+                              ];
+    NSArray* notis = [self getUnreadOfCommands:commandArray];
+    for (NSDictionary* noti in notis) {
+        if ([[noti stringValueForKeyPath:@"extra._id"] isEqualToString:tradeId]) {
+            [removeArray addObject:noti];
+        }
+    }
+    for (NSDictionary* noti in removeArray) {
+        [self removeUnread:noti];
+    }
+    [self _postUnreadChangeNotification];
+}
+
 - (void)clearTradeUnreadOfType:(QSUnreadTradeType)type id:(NSString*)tradeId {
     NSString* command = unreadTradeTypeToCommand(type);
     NSArray* notis = [self getUnreadOfCommand:command];

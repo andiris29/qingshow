@@ -17,7 +17,7 @@
 #import "QSPaymentService.h"
 #import "UIViewController+QSExtension.h"
 #import "QSS11CreateTradeViewController.h"
-
+#import "QSUnreadManager.h"
 
 #define PAGE_ID @"新美搭榜单"
 
@@ -182,6 +182,7 @@
 
 - (void)showTradeNotiViewOfTradeId:(NSString*)tradeId{
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
+        [[QSUnreadManager getInstance] clearTradeUnreadId:tradeId];
         self.s11NotiVc = [[QSS12NewTradeNotifyViewController alloc] initWithDict:dict];
         self.s11NotiVc.delelgate = self;
         self.s11NotiVc.view.frame = self.navigationController.view.bounds;

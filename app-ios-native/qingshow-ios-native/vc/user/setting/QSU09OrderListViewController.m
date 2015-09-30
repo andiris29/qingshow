@@ -20,6 +20,8 @@
 #import "QSPeopleUtil.h"
 #import "QSG01ItemWebViewController.h"
 #import "QSAbstractRootViewController.h"
+#import "QSUnreadManager.h"
+
 #define PAGE_ID @"U09 - 交易一览"
 @interface QSU09OrderListViewController ()
 
@@ -265,6 +267,7 @@
 #pragma mark -
 - (void)showTradeNotiViewOfTradeId:(NSDictionary*)tradeDict
 {
+    [[QSUnreadManager getInstance] clearTradeUnreadId:[QSEntityUtil getIdOrEmptyStr:tradeDict]];
     self.s11NotiVc = [[QSS12NewTradeNotifyViewController alloc] initWithDict:tradeDict];
     self.s11NotiVc.delelgate = self;
     self.s11NotiVc.view.frame = self.navigationController.view.bounds;
