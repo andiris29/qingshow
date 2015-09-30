@@ -155,8 +155,12 @@
         NSRange range = [resultStr rangeOfString:@"尺码"];
         [resultStr deleteCharactersInRange:range];
     }
+    if ([resultStr rangeOfString:@"尺寸"].location != NSNotFound) {
+        NSRange range = [resultStr rangeOfString:@"尺寸"];
+        [resultStr deleteCharactersInRange:range];
+    }
     if (resultStr.length) {
-        return [NSString stringWithFormat:@"规格:%@",resultStr];
+        return [NSString stringWithFormat:@"规格: %@",resultStr];
     }
     else
     {

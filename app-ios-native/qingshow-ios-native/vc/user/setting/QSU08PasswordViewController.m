@@ -64,7 +64,7 @@
     
     NSString *nowPasswd = self.nowPasswdText.text;
     NSString *newPasswd = self.passwdText.text;
-    NSString *confirmPasswd = self.confirmPasswdText.text;
+//    NSString *confirmPasswd = self.confirmPasswdText.text;
     
     if (nowPasswd.length == 0) {
         [self showErrorHudWithText:@"请输入当前密码"];
@@ -74,10 +74,10 @@
         [self showErrorHudWithText:@"请输入新密码"];
         return;
     }
-    if ([confirmPasswd compare:newPasswd] != NSOrderedSame) {
-        [self showErrorHudWithText:@"两次密码输入不一致"];
-        return;
-    }
+//    if ([confirmPasswd compare:newPasswd] != NSOrderedSame) {
+//        [self showErrorHudWithText:@"两次密码输入不一致"];
+//        return;
+//    }
     
     
     [SHARE_NW_ENGINE updatePeople:@{@"password":newPasswd, @"currentPassword": nowPasswd} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {

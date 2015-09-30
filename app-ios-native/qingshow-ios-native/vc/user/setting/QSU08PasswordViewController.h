@@ -10,7 +10,7 @@
 
 @interface QSU08PasswordViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *nowPasswdText;
-@property (weak, nonatomic) IBOutlet UITextField *confirmPasswdText;
+//@property (weak, nonatomic) IBOutlet UITextField *confirmPasswdText;
 @property (weak, nonatomic) IBOutlet UITextField *passwdText;
 
 @end

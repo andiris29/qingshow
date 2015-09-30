@@ -71,11 +71,14 @@
 }
 - (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell
 {
+    
+}
+- (void)didClickLogisticForCell:(QSOrderListTableViewCell *)cell
+{
     if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnOfOrder:)]) {
         [self.delegate didClickExchangeBtnOfOrder:[self orderForCell:cell]];
     }
 }
-
 - (void)didClickExpectablePriceBtnForCell:(QSOrderListTableViewCell *)cell {
     if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnOfOrder:)]) {
         [self.delegate didClickExpectablePriceBtnOfOrder:[self orderForCell:cell]];

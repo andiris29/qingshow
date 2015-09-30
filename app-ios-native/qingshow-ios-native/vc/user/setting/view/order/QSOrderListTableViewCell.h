@@ -27,6 +27,8 @@
 
 - (void)didClickToWebPageForCell:(QSOrderListTableViewCell *)cell;
 
+- (void)didClickLogisticForCell:(QSOrderListTableViewCell *)cell;
+
 @end
 
 @interface QSOrderListTableViewCell : UITableViewCell
