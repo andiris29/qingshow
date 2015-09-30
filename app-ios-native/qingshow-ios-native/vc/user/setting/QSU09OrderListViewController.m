@@ -54,6 +54,7 @@
     if ([UIScreen mainScreen].bounds.size.width == 414) {
         self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -72,6 +73,17 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (void)handleWillEnterForeground:(NSNotification*)noti {
+    [self.provider reloadData];
+}
+- (void)handleUnreadChange:(NSNotification*)noti {
+    [super handleUnreadChange:noti];
+    [self.provider.view reloadData];
+}
+
 - (void)willPresentAlertView:(UIAlertView *)alertView
 {
     for (UIView *view in alertView.subviews) {
@@ -276,8 +288,5 @@
     }];
     
 }
-- (void)handleUnreadChange:(NSNotification*)not {
-    [super handleUnreadChange:not];
-    [self.provider.view reloadData];
-}
+
 @end
