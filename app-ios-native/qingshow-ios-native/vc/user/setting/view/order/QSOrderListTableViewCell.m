@@ -103,7 +103,11 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     if (self.circleType == QSOrderListCellCircleTypeNone) {
         self.circleBtnImageView.hidden = YES;
     } else if (self.circleType == QSOrderListCellCircleTypeNewDiscount) {
-        if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
+        
+        if (
+            [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]] ||
+            [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]
+            ) {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_dot"];
         } else {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount"];
@@ -127,6 +131,8 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     if (self.circleType == QSOrderListCellCircleTypeNone) {
     } else if (self.circleType == QSOrderListCellCircleTypeNewDiscount) {
         [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
+        [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
+        
         [self didTapExpectablePriceBtn:ges];
     } else if (self.circleType == QSOrderListCellCircleTypeShareToPay) {
         [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
@@ -186,13 +192,10 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     
     //tradeUtil
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
-    if ([QSTradeUtil getActualPrice:tradeDict]) {
-        self.priceLabel.text = [NSString stringWithFormat:@"期望价格: ￥%@",[QSTradeUtil getActualPriceDesc:tradeDict]];
-        _actualPrice = [QSTradeUtil getActualPriceDesc:tradeDict].floatValue;
-    } else {
-        self.priceLabel.text = [NSString stringWithFormat:@"期望价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
-        _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
-    }
+
+    self.priceLabel.text = [NSString stringWithFormat:@"期望价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
+    _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
+
     self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
     self.quantityLabel.text = [NSString stringWithFormat:@"数量: %@",[QSTradeUtil getQuantityDesc:tradeDict]];
     self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
@@ -211,27 +214,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
         {
             self.stateLabel.hidden = YES;
             [self showTopRightBtns:@[self.cancelButton]];
-            NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
-            if (![QSItemUtil getExpectableDict:itemDict]) {
-                self.circleType = QSOrderListCellCircleTypeNone;
-            } else {
-                if ([QSItemUtil getExpectableIsExpire:itemDict]) {
-                    self.circleType = QSOrderListCellCircleTypeSaleOut;
-                } else {
-                    NSNumber* price = [QSItemUtil getExpectablePrice:itemDict];
-                    NSNumber* tradeExpPrice = [QSTradeUtil getExpectedPrice:tradeDict];
-                    if (price.doubleValue > tradeExpPrice.doubleValue) {
-                        self.circleType = QSOrderListCellCircleTypeNewDiscount;
-                    } else {
-                        if ([QSTradeUtil getShouldShare:tradeDict]) {
-                            self.circleType = QSOrderListCellCircleTypeShareToPay;
-                        } else {
-                            self.circleType = QSOrderListCellCircleTypePay;
-                        }
-                    }
-                }
-            }
-            
+            self.circleType = QSOrderListCellCircleTypeNone;
             break;
         }
         case 1:{
@@ -242,7 +225,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
             if ([QSItemUtil getExpectableIsExpire:itemDict]) {
                 self.circleType = QSOrderListCellCircleTypeSaleOut;
             } else {
-                self.circleType = QSOrderListCellCircleTypePay;
+                self.circleType = QSOrderListCellCircleTypeNewDiscount;
             }
 
             break;

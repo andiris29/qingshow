@@ -77,36 +77,17 @@ static NSString* s_paymentHost = nil;
 - (void)sharedForTrade:(NSDictionary*)tradeDict
              onSucceed:(DicBlock)succeedBlock
                onError:(ErrorBlock)errorBlock {
-    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
-    NSNumber* price = [QSItemUtil getExpectablePrice:itemDict];
-    if ([QSTradeUtil getShouldShare:tradeDict]) {
-        //分享
-        NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
-        NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
-        
-        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:nil image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareTrade&_id=%@&initiatorRef=%@",[QSShareService getShareHost],tradeId,peopleId] onSucceed:^{
-            
-            [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:^{
-
-                [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:@{@"actualPrice" : price} onSucceed:^(NSDictionary *d) {
-                    if (succeedBlock) {
-                        succeedBlock(d);
-                    }
-                } onError:errorBlock];
-            } onError:errorBlock];
-            
-        } onError:errorBlock];
-    } else {
-        if ([QSTradeUtil getStatus:tradeDict].intValue == 0) {
-            [SHARE_NW_ENGINE changeTrade:tradeDict status:1 info:@{@"actualPrice" : price} onSucceed:^(NSDictionary *d) {
-                if (succeedBlock) {
-                    succeedBlock(d);
-                }
-            } onError:errorBlock];
-        } else {
+    //分享
+    NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
+    NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
+    
+    [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:nil image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?entry=shareTrade&_id=%@&initiatorRef=%@",[QSShareService getShareHost],tradeId,peopleId] onSucceed:^{
+        [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:^{
             succeedBlock(tradeDict);
-        }
-    }
+        } onError:errorBlock];
+        
+    } onError:errorBlock];
+    
 }
 
 - (void)payForTrade:(NSDictionary*)tradeDict

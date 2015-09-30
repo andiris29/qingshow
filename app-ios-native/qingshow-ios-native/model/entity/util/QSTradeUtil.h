@@ -20,7 +20,6 @@
 
 + (NSString*)getTradeLogisticCompany:(NSDictionary*)dict;
 + (NSString*)getTradeLogisticId:(NSDictionary*)dict;
-+ (BOOL)getShouldShare:(NSDictionary*)dict;
 + (NSString *)getHint:(NSDictionary *)dict;
 
 #pragma mark - Order
@@ -32,8 +31,6 @@
 + (NSString *)getColorText:(NSDictionary *)dict;
 + (NSNumber*)getExpectedPrice:(NSDictionary*)dict;
 + (NSString*)getExpectedPriceDesc:(NSDictionary*)dict;
-+ (NSNumber*)getActualPrice:(NSDictionary*)dict;
-+ (NSString*)getActualPriceDesc:(NSDictionary*)dict;
 + (NSNumber*)getQuantity:(NSDictionary*)dict;
 + (NSString*)getQuantityDesc:(NSDictionary*)dict;
 + (NSNumber*)getTotalFee:(NSDictionary*)dict;

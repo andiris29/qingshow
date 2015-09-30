@@ -79,15 +79,6 @@
     return [dict stringValueForKeyPath:@"logistic.trackingId"];
 }
 
-+ (BOOL)getShouldShare:(NSDictionary*)dict {
-    BOOL shareToPay = [self getShareToPay:dict];
-    if (shareToPay) {
-        BOOL hasShared = [self getTradeSharedByCurrentUser:dict];
-        return !hasShared;
-    }
-    return NO;
-}
-
 + (BOOL)getShareToPay:(NSDictionary*)dict {
     NSNumber* n = [dict numberValueForKeyPath:@"shareToPay"];
     if (n) {
@@ -196,14 +187,7 @@
     return [dict numberValueForKeyPath:@"expectedPrice"];
 }
 
-+ (NSString*)getActualPriceDesc:(NSDictionary*)dict {
-    NSNumber* price = [self getActualPrice:dict];
-    return [NSString stringWithFormat:@"%.2f", price.doubleValue];
-}
 
-+ (NSNumber*)getActualPrice:(NSDictionary*)dict {
-    return [dict numberValueForKeyPath:@"actualPrice"];
-}
 
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 {
@@ -221,7 +205,7 @@
     return quantity.stringValue;
 }
 + (NSNumber*)getTotalFee:(NSDictionary*)dict {
-    NSNumber* price = [self getActualPrice:dict];
+    NSNumber* price = [self getExpectedPrice:dict];
     if (!price) {
         price = [self getExpectedPrice:dict];
     }

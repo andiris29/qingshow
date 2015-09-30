@@ -34,7 +34,7 @@
     [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDic type:QSImageNameType100]];
     self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDic];
     self.timeLabel.text = [QSTradeUtil getDayDesc:dict];
-    self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSTradeUtil getActualPriceDesc:dict]];
+    self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSTradeUtil getExpectedPriceDesc:dict]];
     
     NSDictionary *itemDict = [QSTradeUtil getItemDic:dict];
     self.clothNameLabel.text = [QSItemUtil getItemName:itemDict];
@@ -48,7 +48,7 @@
     self.infoLabel.text = [QSTradeUtil getSizeText:dict];
 
     self.countLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:dict]];
-    self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getActualPrice:dict] trade:dict]];
+    self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getExpectedPrice:dict] trade:dict]];
     if ([QSItemUtil getDelist:itemDict] == YES) {
         self.outOfSaleLabel.hidden = NO;
     }else{
