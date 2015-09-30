@@ -114,6 +114,7 @@
                                 android:padding="5dp"
                                 android:text="获得佣金：￥0.00"
                                 android:textColor="@color/white"
+                                android:visibility="gone"
                                 android:textSize="13sp" />
 
                             <ImageButton
