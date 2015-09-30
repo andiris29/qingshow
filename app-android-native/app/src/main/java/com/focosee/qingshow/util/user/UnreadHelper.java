@@ -8,6 +8,8 @@ import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.receiver.PushGuideEvent;
+import com.focosee.qingshow.util.ValueUtil;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +37,7 @@ public class UnreadHelper {
         return false;
     }
 
-    public static void userReadNotificationCommand(String command, String _id) {
+    public static void userReadNotificationCommand(String command, final String _id) {
 
         Map<String, String> params = new HashMap<>();
         if (TextUtils.isEmpty(_id)) {
@@ -50,6 +52,9 @@ public class UnreadHelper {
             public void onComplete() {
                 if (!UnreadHelper.hasUnread()) {
                     EventBus.getDefault().post(new PushGuideEvent(false, ""));
+                    if (!TextUtils.isEmpty(_id)) {
+                        EventBus.getDefault().post(_id);
+                    }
                 }
             }
         });
