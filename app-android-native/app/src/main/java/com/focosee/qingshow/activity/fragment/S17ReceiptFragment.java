@@ -98,9 +98,6 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
                 intent.putExtra(TO_U10,TO_U10);
                 startActivity(intent);
                 break;
-            case R.id.s11_receipt_province_layout:
-                getActivity().startActivity(new Intent(getActivity(), CityActivity.class));
-                break;
         }
     }
 

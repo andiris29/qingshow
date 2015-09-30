@@ -69,6 +69,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:editable="false"
                 android:background="@null" />
 
         </LinearLayout>
@@ -102,6 +103,7 @@
                 android:numeric="integer"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:editable="false"
                 android:background="@null" />
 
         </LinearLayout>
@@ -116,7 +118,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/u02_relativelayout_background"
             android:padding="10dp">
 
             <com.focosee.qingshow.widget.QSTextView
@@ -153,6 +154,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@null"
                 android:hint="请输入详细地址"
+                android:editable="false"
                 />
 
         </LinearLayout>
