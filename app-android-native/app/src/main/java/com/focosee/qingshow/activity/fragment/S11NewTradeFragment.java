@@ -268,10 +268,6 @@ public class S11NewTradeFragment extends Fragment {
     }
 
     private void changeBtnClickable(boolean clickable) {
-        cutDiscount.setClickable(clickable);
-        plusDiscount.setClickable(clickable);
-        cutNum.setClickable(clickable);
-        plusNum.setClickable(clickable);
         submit.setClickable(clickable);
 
         if (clickable == false) {
