@@ -31,6 +31,7 @@ NotificationHelper.MessageTradeShipped = "您购买的宝贝已经向您狂奔�
 NotificationHelper.MessageItemPriceChanged = "您申请的折扣有最新信息，不要错过哦！";
 NotificationHelper.MessageNewBonus = "您有一笔佣金入账啦，立即查看！";
 NotificationHelper.MessageBonusWithdrawComplete = "您的账户成功提现{0}，请注意查看账户！";
+NotificationHelper.MessageTradeRefundComplete = "款项已经退回您的支付账号，请查收。";
 
 NotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjectiveComplete";
 NotificationHelper.CommandNewShowComments = "newShowComments";
@@ -41,6 +42,7 @@ NotificationHelper.CommandTradeShipped = "tradeShipped";
 NotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceUpdated";
 NotificationHelper.CommandNewBonus = "newBonus";
 NotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
+NotificationHelper.CommandTradeRefundComplete = "tradeRefundComplete";
 
 NotificationHelper.notify = function(peoplesIds, message, extras, cb) {
     async.series([function(callback){
