@@ -111,8 +111,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
 
         setListener();
 
-        initBtnColor();
-
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -211,9 +209,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
     }
 
     private void initUnread(){
-        if (getActivity() instanceof U09TradeListActivity
-                || getActivity() instanceof U01UserActivity
-                || getActivity() instanceof U02SettingsActivity) return;
         if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS)) {
             u01People.setImageResource(R.drawable.root_menu_flash_tip);
         }
@@ -338,5 +333,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         initUnread();
+        initBtnColor();
     }
 }

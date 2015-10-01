@@ -147,8 +147,8 @@ public class S11NewTradeNotifyFragment extends Fragment {
         spannableString.setSpan(new StrikethroughSpan(), 3, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.price.setText(spannableString);
 
-        expectedPrice.setText(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
-        expectedDiscount.setText(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
+        expectedPrice.setText(StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
+        expectedDiscount.setText(StringUtil.formatDiscount(String.valueOf(trade.expectedPrice), trade.itemSnapshot.promoPrice));
 
         spannableString = new SpannableString(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

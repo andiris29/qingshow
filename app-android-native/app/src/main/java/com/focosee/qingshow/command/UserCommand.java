@@ -165,18 +165,19 @@ public class UserCommand {
 
     public static void logOut(final Callback callback){
 
-        QSModel.INSTANCE.removeUser();
-
         Map map = new HashMap();
         Log.i("JPush_QS", "logout" + PushModel.INSTANCE.getRegId());
         map.put("registrationId", PushModel.INSTANCE.getRegId());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getUserLogout(), new JSONObject(map), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(UserCommand.class.getSimpleName(), "logout_response:" + response);
+                Log.d(UserCommand.class.getSimpleName(), "api:" + QSAppWebAPI.getUserLogout());
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(QSApplication.instance(), MetadataParser.getError(response));
                     return;
                 }
+                QSModel.INSTANCE.removeUser();
                 CookieSerializer.INSTANCE.saveCookie("");
                 callback.onComplete();
             }

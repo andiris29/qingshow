@@ -3,6 +3,8 @@ package com.focosee.qingshow.util.push;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.activity.PushWebActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
@@ -22,6 +24,7 @@ public class PushHepler {
 
     public static Intent _jumpTo(Context context,Bundle bundle, String action) {
         String command = PushUtil.getCommand(bundle);
+        Log.d(PushHepler.class.getSimpleName(), "command:" + command);
         Intent intent = null;
         if (command.equals(QSPushAPI.NEW_SHOW_COMMENTS)) {
             String id = PushUtil.getExtra(bundle, "id");
