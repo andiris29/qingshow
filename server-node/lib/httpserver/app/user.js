@@ -72,10 +72,11 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     if (!registrationId || registrationId.length === 0) {
         return;
     }
+
     jPushAudiences.remove({
         'peopleRef' : peopleId,
         'registrationId' : registrationId
-    });
+    }, function(err) {});
 };
 
 var _decryptMD5 = function (string){
@@ -176,7 +177,7 @@ _login = function(req, res) {
 };
 
 _logout = function(req, res) {
-    var id = req.qsCurrentUserId;
+    var id = RequestHelper.parseId(req.qsCurrentUserId);
     _removeRegistrationId(id, req.body.registrationId);
     delete req.session.userId;
     delete req.session.loginDate;
