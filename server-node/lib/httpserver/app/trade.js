@@ -255,10 +255,11 @@ trade.statusTo = {
                 trade.returnLogistic.trackingId = param.returnLogistic.trackingId;
                 callback(null, trade);
             } else if (newStatus == 9) {
-                NotificationHelper._push(trade.ownerRef, NotificationHelper.MessageTradeRefundComplete, {
+                NotificationHelper._push([trade.ownerRef], NotificationHelper.MessageTradeRefundComplete, {
                     '_id' : trade._id,
                     'command' : NotificationHelper.CommandTradeRefundComplete
                 }, null)
+                callback(null, trade)
             } else {
                 callback(null, trade);
             }
