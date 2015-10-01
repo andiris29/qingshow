@@ -29,6 +29,7 @@
 
 @property (strong, nonatomic) QSS12NewTradeNotifyViewController* s11NotiVc;
 
+@property (assign, nonatomic)BOOL isFirstLoad;
 
 @end
 
@@ -47,6 +48,7 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _isFirstLoad = YES;
     // Do any additional setup after loading the view from its nib.
     [self configProvider];
     [self configView];
@@ -117,16 +119,13 @@
     __weak QSU09OrderListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:^(NSError *error){
-            static dispatch_once_t onceToken;
-            dispatch_once(&onceToken, ^{
-                if (error.code == 1009 && page == 1 ) {
+                if (error.code == 1009 && page == 1  && _isFirstLoad == YES) {
                     weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
                     [weakSelf changeValueOfSegment:1];
-                    
                 }else(errorBlock(error));
-            });
         }];
     };
+    _isFirstLoad = NO;
     self.provider.delegate = self;
 }
 
@@ -137,7 +136,6 @@
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryPhase:page phases:@"1,2" onSucceed:succeedBlock onError:errorBlock];
         };
-        [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
     }
     else if(value == 0)
@@ -145,7 +143,6 @@
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:errorBlock];
         };
-        [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
     }
 }
@@ -218,7 +215,7 @@
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *item, NSDictionary *metadata) {
         if (item) {
             QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item peopleId:nil];
-            vc.isDisCountBtnHidden = YES;
+//            vc.isDisCountBtnHidden = YES;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }
     } onError:^(NSError *error) {
@@ -291,6 +288,11 @@
         [vc handleError:error];
     }];
     
+}
+
+- (void)triggerChangeToSegmentIndex:(int)index {
+    self.headerView.segmentControl.selectedSegmentIndex = index;
+    [self changeValueOfSegment:index];
 }
 
 @end

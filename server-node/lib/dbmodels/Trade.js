@@ -86,6 +86,7 @@ var tradeSchema = Schema({
         type: Date,
         'default' : Date.now
     },
+    // Ref to #1629, this field does not act as an order. Play as an helper field for trade/queryByPhase
     statusOrder : String,
     itemRef : {
         type : Schema.Types.ObjectId,

@@ -95,10 +95,7 @@
 
 - (void)bindWithDict:(NSDictionary*)tradeDict {
     [self updateAllCell];
-    NSNumber* price = [QSTradeUtil getExpectedPrice:tradeDict];
-    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
-    NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
-    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
+    [self.totalCell updateWithPrice:[QSTradeUtil getTotalFeeDesc:tradeDict]];
 }
 
 - (void)receiverConfig
@@ -394,15 +391,8 @@
     } else if (self.payInfoWechatCell.isSelect) {
         paymentType = PaymentTypeWechat;
     }
-    
     NSDictionary* tradeDict = self.tradeDict;
-    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
-    NSNumber* price = [QSTradeUtil getExpectedPrice:tradeDict];
-    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
-    NSNumber* totalPrice = @(quantity.doubleValue * price.doubleValue);
-
-
-    [self.totalCell updateWithPrice:totalPrice.stringValue];
+    [self.totalCell updateWithPrice:[QSTradeUtil getTotalFeeDesc:tradeDict]];
     
     __weak QSS11CreateTradeViewController* weakSelf = self;
     self.prepayOp = [SHARE_NW_ENGINE prepayTrade:self.tradeDict type:paymentType receiverUuid:uuid onSucceed:^(NSDictionary *tradeDict) {
@@ -522,8 +512,7 @@
         UIViewController* vc = [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
         if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
             QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
-            [u09Vc changeValueOfSegment:1];
-            u09Vc.headerView.segmentControl.selectedSegmentIndex = 1;
+            [u09Vc triggerChangeToSegmentIndex:1];
         }
     }
     }

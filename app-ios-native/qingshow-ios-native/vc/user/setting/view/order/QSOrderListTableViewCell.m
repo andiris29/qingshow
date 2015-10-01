@@ -193,20 +193,25 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     //tradeUtil
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
 
-    self.priceLabel.text = [NSString stringWithFormat:@"期望价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
+    
+    
     _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
 
     self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
     self.quantityLabel.text = [NSString stringWithFormat:@"数量: %@",[QSTradeUtil getQuantityDesc:tradeDict]];
-    self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
+    
     self.hintLabel.text = [QSTradeUtil getHint:tradeDict];
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
     if (s == 0 || s == 1) {
         self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"期望价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
+        self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     }else
     {
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"购买价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
+        self.exDiscountLabel.text = [NSString stringWithFormat:@"成功折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     }
     
     switch (s) {
@@ -255,7 +260,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     }
     [self updateCircleBtn];
     
-    if (s == 0 && ![QSItemUtil getExpectableIsExpire:itemDict]) {
+    if (s == 1 && ![QSItemUtil getExpectableIsExpire:itemDict]) {
         NSString* msg = [QSItemUtil getMessageForPay:itemDict];
         if (msg && msg.length) {
             self.messageLabel.text = [NSString stringWithFormat:@"商品备注:%@", msg];
@@ -290,7 +295,6 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 }
 
 - (IBAction)logisticsBtnPressed:(id)sender {
-#warning @mhy 处理物流按钮
     if ([self.delegate respondsToSelector:@selector(didClickLogisticForCell:)]) {
         [self.delegate didClickLogisticForCell:self];
     }

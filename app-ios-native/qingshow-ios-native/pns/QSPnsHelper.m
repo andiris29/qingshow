@@ -19,6 +19,7 @@
 #define kPnsCommandTradeShipped @"tradeShipped"
 #define kPnsCommandNewBonus @"newBonus"
 #define kPnsCommandBonusWithdrawComplete @"bonusWithdrawComplete"
+#define kPnsTradeRefundComplete @"tradeRefundComplete"
 
 
 @implementation QSPnsHelper
@@ -66,6 +67,8 @@
         [center postNotificationName:kPnsNewBonusNotification object:nil];
     } else if ([command isEqualToString:kPnsCommandBonusWithdrawComplete]) {
         [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:nil];
+    } else if ([command isEqual:kPnsTradeRefundComplete]) {
+        [center postNotificationName:kPnsTradeRefundCompleteNotification object:nil];
     }
 }
 @end

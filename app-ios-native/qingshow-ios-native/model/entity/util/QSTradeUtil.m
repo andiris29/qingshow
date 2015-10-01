@@ -62,14 +62,7 @@
     return [dict stringValueForKeyPath:@"pay.weixin.prepayid"];
 }
 
-+ (NSString*)getTotalFeeDesc:(NSDictionary*)dict {
-    NSNumber* num = [QSEntityUtil getNumberValue:dict keyPath:@"totalFee"];;
-    if (num) {
-        return num.stringValue;
-    } else {
-        return @"";
-    }
-}
+
 + (NSString*)getTradeLogisticCompany:(NSDictionary*)dict
 {
     return [dict stringValueForKeyPath:@"logistic.company"];
@@ -204,24 +197,18 @@
     NSNumber* quantity = [self getQuantity:dict];
     return quantity.stringValue;
 }
-+ (NSNumber*)getTotalFee:(NSDictionary*)dict {
-    NSNumber* price = [self getExpectedPrice:dict];
-    if (!price) {
-        price = [self getExpectedPrice:dict];
-    }
-    NSNumber* quantity = [self getQuantity:dict];
-    return @(price.doubleValue * quantity.intValue);
-}
-+ (NSNumber*)getItemExpectablePrice:(NSDictionary*)dict {
-    NSNumber* n = [dict numberValueForKeyPath:@"__context.item.expectablePrice"];
-    if (!n) {
-        NSString* s = [dict stringValueForKeyPath:@"__context.item.expectablePrice"];
-        if (s) {
-            n = @(s.doubleValue);
-        }
 
++ (NSString*)getTotalFeeDesc:(NSDictionary*)dict {
+    NSNumber* num = [QSEntityUtil getNumberValue:dict keyPath:@"totalFee"];
+    if (num) {
+        return [NSString stringWithFormat:@"%.2f", num.doubleValue];
+    } else {
+        return @"";
     }
-    return n;
+}
+
++ (NSNumber*)getTotalFee:(NSDictionary*)dict {
+    return [QSEntityUtil getNumberValue:dict keyPath:@"totalFee"];;
 }
 
 + (NSString*)calculateDiscountDescWithPrice:(NSNumber*)targetPrice trade:(NSDictionary*)trade {

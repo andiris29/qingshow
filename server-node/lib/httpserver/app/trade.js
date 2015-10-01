@@ -110,7 +110,6 @@ trade.prepay = {
             });
         },
         function(trade, callback) {
-            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
             trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
             trade.pay = {};
 
@@ -531,7 +530,6 @@ trade.queryByPhase = {
             }
             criteria.ownerRef = req.qsCurrentUserId;
             MongoHelper.queryPaging(Trade.find(criteria).sort({
-                'statusOrder' : 1, 
                 'create' : -1
             }).populate('itemRef'), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
