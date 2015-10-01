@@ -55,38 +55,39 @@ item.updateExpectable = {
                 }
             });
         }, function(item, callback) {
+                Trade.find({
+                    $or : [{
+                        'itemRef' : item._id,
+                        'status' : 0
+                    }, {
+                        'itemRef' : item._id,
+                        'status' : 1
+                    }]
+                }).exec(function(error, trades) {
+                    if (error) {
+                        callback(errors.TradeNotExist);
+                    }else {
+                        callback(null, trades, item);
+                    }
+                });
+        }, function(trades, item, callback){
+            var target = [];
+            trades.forEach(function(trade){
+                if (trade.status === 1 && price !== item.expectable.price) {
+                    target.push(trade);  
+                }
+                if (trade.status === 0) {
+                    TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){});
+                    target.push(trade);
+                }
+            })
+            _itemPriceChanged(target, expectable, function(){});  
+            callback(null, item)
+        }, function(item, callback){
             item.expectable = expectable;
             item.save(function(error, item) {
                 callback(error, item);
             });
-        }, function(item, callback) {
-            async.waterfall([function(cb){
-                Trade.find({
-                    'itemRef' : item._id,
-                    'status' : 0
-                }).exec(function(error, trades) {
-                    if (error) {
-                        cb(errors.TradeNotExist);
-                    }else {
-                        cb(null, trades, item);
-                    }
-                });
-            },
-            function(trades, item, cb){
-                trades.forEach(function(trade){   
-                    TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){})
-                })
-                if (price !== item.expectable.price) {
-                    _itemPriceChanged(trades, expectable,function(){});  
-                }
-                cb(null, trades);
-            }],function(err){
-                if (err) {
-                    callback(err);
-                }else {
-                    callback(null, item);
-                }
-            })
         }], function(error, item) {
             ResponseHelper.response(res, error, {
                 item : item
