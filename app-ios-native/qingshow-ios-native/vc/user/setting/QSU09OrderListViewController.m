@@ -218,7 +218,7 @@
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *item, NSDictionary *metadata) {
         if (item) {
             QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item peopleId:nil];
-            vc.isDisCountBtnHidden = YES;
+//            vc.isDisCountBtnHidden = YES;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }
     } onError:^(NSError *error) {
