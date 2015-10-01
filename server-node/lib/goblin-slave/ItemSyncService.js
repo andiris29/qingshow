@@ -63,7 +63,7 @@ ItemSyncService.syncItem = function (item, callback) {
                                 }
                             }).save(callback);
                         } else {
-                            callback(null, people);
+                            callback(null, people, 0);
                         }
                     }, function (people, number, callback) {
                         item.shopRef = people._id;
