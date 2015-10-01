@@ -67,7 +67,7 @@
     }
     disCount = disCount/10;
     
-    self.expectDiscountLabel.text = [NSString stringWithFormat:@"期望折扣：%d折",disCount];
-    self.expectedPriceLabel.text = [NSString stringWithFormat:@"期望价格 :%@", [QSTradeUtil getExpectedPriceDesc:tradeDict]];
+    self.expectDiscountLabel.text = [NSString stringWithFormat:@"申请折扣：%d折",disCount];
+    self.expectedPriceLabel.text = [NSString stringWithFormat:@"申请价格 :%@", [QSTradeUtil getExpectedPriceDesc:tradeDict]];
 }
 @end
