@@ -177,7 +177,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     public void onEventMainThread(ShareTradeEvent event) {
 
-        System.out.println("s11");
+        submitBtn.setEnabled(true);
         if (event.shareByCreateUser) {
             TradeShareCommand.share(trade._id, new Callback() {
                 @Override

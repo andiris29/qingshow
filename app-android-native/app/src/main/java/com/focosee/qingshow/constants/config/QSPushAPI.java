@@ -15,4 +15,5 @@ public class QSPushAPI {
     public static final String ITEM_EXPECTABLE_PRICEUPDATED = "itemExpectablePriceUpdated";
     public static final String NEW_BONUSES = "newBonus";
     public static final String BONUS_WITHDRAW_COMPLETE = "bonusWithdrawComplete";
+    public static final String TRADE_REFUND_COMPLETE = "tradeRefundComplete";
 }

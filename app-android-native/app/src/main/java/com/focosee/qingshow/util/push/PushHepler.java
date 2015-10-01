@@ -39,9 +39,10 @@ public class PushHepler {
         }
 
 
-        if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)) {
+        if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
+                || command.equals(QSPushAPI.TRADE_REFUND_COMPLETE)) {
             intent = new Intent(context, U09TradeListActivity.class);
-            if(command.equals(QSPushAPI.TRADE_SHIPPED))
+            if(command.equals(QSPushAPI.TRADE_SHIPPED) || command.equals(QSPushAPI.TRADE_REFUND_COMPLETE))
                 intent.putExtra(U09TradeListActivity.FROM_WHERE, U09TradeListActivity.PUSH_NOTIFICATION);
         }
 
