@@ -85,12 +85,14 @@
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/price"
                             style="@style/s11_notify_des_text"
+                            app:preText="原价："
                             android:text="原价："
                             android:textColor="@color/gary" />
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/promoPrice"
                             style="@style/s11_notify_des_text"
+                            app:preText="现价："
                             android:text="现价：" />
 
                         <LinearLayout
@@ -101,6 +103,7 @@
                                 android:id="@+id/selectProp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                app:preText="规格："
                                 android:text="规格："
                                 android:textColor="@color/gary" />
 
@@ -114,18 +117,21 @@
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/num"
                             style="@style/s11_notify_des_text"
+                            app:preText="数量："
                             android:text="数量："
                             android:textColor="@color/gary" />
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/expectedDiscount"
                             style="@style/s11_notify_des_text"
-                            android:text="期望折扣：" />
+                            app:preText="申请折扣："
+                            android:text="申请折扣：" />
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/expectedPrice"
                             style="@style/s11_notify_des_text"
-                            android:text="期望价格：" />
+                            app:preText="申请价格："
+                            android:text="申请价格：" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -190,7 +196,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="目前折扣价"
+                            android:text="最新折扣价"
                             android:textSize="28sp" />
 
                         <TextView

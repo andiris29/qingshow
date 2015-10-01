@@ -1,5 +1,7 @@
 package com.focosee.qingshow.command;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -22,6 +24,7 @@ public class TradeShareCommand {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getTradeShareApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(TradeShareCommand.class.getSimpleName(), "share_response:" + response);
                 if (MetadataParser.hasError(response)) {
                     callback.onError(MetadataParser.getError(response));
                     return;

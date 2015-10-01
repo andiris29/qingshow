@@ -139,16 +139,16 @@ public class S11NewTradeNotifyFragment extends Fragment {
         img.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         itemName.setText(trade.itemSnapshot.name);
 
-        promoPrice.setText("现价：" + StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
-        num.setText("数量：" + String.valueOf(trade.quantity));
+        promoPrice.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+        num.setText(String.valueOf(trade.quantity));
 
         String price = StringUtil.FormatPrice(trade.itemSnapshot.price);
-        SpannableString spannableString = new SpannableString("原价：" + price);
+        SpannableString spannableString = new SpannableString(price);
         spannableString.setSpan(new StrikethroughSpan(), 3, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.price.setText(spannableString);
 
-        expectedPrice.setText("期望价格：" + StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
-        expectedDiscount.setText("期望折扣：" + StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
+        expectedPrice.setText(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
+        expectedDiscount.setText(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
 
         spannableString = new SpannableString(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -160,12 +160,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
         if (!TextUtils.isEmpty(trade.itemRef.expectable.messageForBuy)) {
             spannableString = new SpannableString("● " + trade.itemRef.expectable.messageForBuy);
             hint.setText(spannableString);
-        }
-
-        if (null != trade.__context) {
-            if (trade.__context.sharedByCurrentUser) {
-                submitBtn.setImageResource(R.drawable.pay);
-            }
         }
     }
 
@@ -183,21 +177,18 @@ public class S11NewTradeNotifyFragment extends Fragment {
 
     public void onEventMainThread(ShareTradeEvent event) {
 
+        System.out.println("s11");
         if (event.shareByCreateUser) {
-            if (null != trade.__context) {
-                if (!trade.__context.sharedByCurrentUser) {
-                    TradeShareCommand.share(trade._id, new Callback(){
-                        @Override
-                        public void onComplete() {
-                            Intent intent = new Intent(getActivity(), S17PayActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
-                            intent.putExtras(bundle);
-                            getActivity().startActivity(intent);
-                        }
-                    });
+            TradeShareCommand.share(trade._id, new Callback() {
+                @Override
+                public void onComplete() {
+                    Intent intent = new Intent(getActivity(), S17PayActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(S17PayActivity.INPUT_ITEM_ENTITY, trade);
+                    intent.putExtras(bundle);
+                    getActivity().startActivity(intent);
                 }
-            }
+            });
         }
     }
 
