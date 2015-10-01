@@ -77,13 +77,13 @@ item.updateExpectable = {
                     target.push(trade);  
                 }
                 if (trade.status === 0) {
-                    trade.totalFee = price * trade.quantity;
+                    trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
                     TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){});
                     target.push(trade);
                 }
-            })
+            });
             _itemPriceChanged(target, expectable, function(){});  
-            callback(null, item)
+            callback(null, item);
         }, function(item, callback){
             item.expectable = expectable;
             item.save(function(error, item) {
