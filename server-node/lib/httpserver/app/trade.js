@@ -531,7 +531,6 @@ trade.queryByPhase = {
             }
             criteria.ownerRef = req.qsCurrentUserId;
             MongoHelper.queryPaging(Trade.find(criteria).sort({
-                'statusOrder' : 1, 
                 'create' : -1
             }).populate('itemRef'), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
