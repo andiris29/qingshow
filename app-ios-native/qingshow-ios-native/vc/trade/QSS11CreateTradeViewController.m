@@ -95,11 +95,7 @@
 
 - (void)bindWithDict:(NSDictionary*)tradeDict {
     [self updateAllCell];
-    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
-    NSNumber* price = [QSItemUtil getExpectablePrice:itemDict];
-    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
-    NSNumber* totalPrice = @(price.doubleValue * quantity.integerValue);
-    [self.totalCell updateWithPrice:[NSString stringWithFormat:@"%.2f", totalPrice.doubleValue]];
+    [self.totalCell updateWithPrice:[QSTradeUtil getTotalFeeDesc:tradeDict]];
 }
 
 - (void)receiverConfig
@@ -395,15 +391,8 @@
     } else if (self.payInfoWechatCell.isSelect) {
         paymentType = PaymentTypeWechat;
     }
-    
     NSDictionary* tradeDict = self.tradeDict;
-    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
-    NSNumber* price = [QSItemUtil getExpectablePrice:itemDict];
-    NSNumber* quantity = [QSTradeUtil getQuantity:tradeDict];
-    NSNumber* totalPrice = @(quantity.doubleValue * price.doubleValue);
-
-
-    [self.totalCell updateWithPrice:totalPrice.stringValue];
+    [self.totalCell updateWithPrice:[QSTradeUtil getTotalFeeDesc:tradeDict]];
     
     __weak QSS11CreateTradeViewController* weakSelf = self;
     self.prepayOp = [SHARE_NW_ENGINE prepayTrade:self.tradeDict type:paymentType receiverUuid:uuid onSucceed:^(NSDictionary *tradeDict) {
