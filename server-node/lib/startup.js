@@ -94,5 +94,14 @@ var _initalizeLog = function(dir) {
             })
         ]
     });
+
+    //trade-skuProperties-track 
+    winston.loggers.add('trade-skuProperties-track', {
+        'transports' : [
+            new winston.transports.File({
+                'filename' : path.join(dir, 'winston-trade-skuProperties-track.log')
+            })
+        ]
+    });
 };
 
