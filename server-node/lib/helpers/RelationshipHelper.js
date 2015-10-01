@@ -31,6 +31,17 @@ module.exports.create = function(Model, initiatorRef, targetRef, callback) {
     }], callback);
 };
 
+module.exports.append = function(Model, initiatorRef, targetRef, callback) {
+    async.waterfall([
+    function(callback) {
+        // Create relationship
+        new Model({
+            'initiatorRef' : initiatorRef,
+            'targetRef' : targetRef
+        }).save(callback);
+    }], callback);
+};
+
 module.exports.remove = function(Model, initiatorRef, targetRef, callback) {
     async.waterfall([
     function(callback) {

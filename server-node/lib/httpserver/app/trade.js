@@ -471,7 +471,7 @@ trade.share = {
         },
         function(callback) {
             // Share
-            RelationshipHelper.create(RPeopleShareTrade, initiatorRef, targetRef, function(err, relationship) {
+            RelationshipHelper.append(RPeopleShareTrade, initiatorRef, targetRef, function(err, relationship) {
                 callback(err);
             });
         }], function(err) {
