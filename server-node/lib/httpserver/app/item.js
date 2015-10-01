@@ -77,6 +77,7 @@ item.updateExpectable = {
                     target.push(trade);  
                 }
                 if (trade.status === 0) {
+                    trade.totalFee = price * trade.quantity;
                     TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){});
                     target.push(trade);
                 }
