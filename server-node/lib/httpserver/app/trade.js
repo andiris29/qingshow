@@ -110,7 +110,6 @@ trade.prepay = {
             });
         },
         function(trade, callback) {
-            trade.totalFee = Math.max(0.01, RequestHelper.parseNumber(req.body.totalFee)).toFixed(2);
             trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
             trade.pay = {};
 

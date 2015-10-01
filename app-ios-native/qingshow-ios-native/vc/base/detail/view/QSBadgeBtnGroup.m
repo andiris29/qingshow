@@ -44,7 +44,7 @@
     if (self.buttons.count) {
         CGRect selfFrame = self.frame;
         CGFloat y = selfFrame.size.height / 2;
-        float btnWidth = 35.f;
+        float btnWidth = 38.f;
         float leftBorder = 15.f;
         CGFloat x = (selfFrame.size.width - 2 * leftBorder - self.buttons.count * btnWidth) / (self.buttons.count - 1);
         for (NSUInteger i = 0; i < self.buttons.count; i++) {

@@ -53,6 +53,9 @@
     [self.actualPriceLabel setAttributedText:attri];
 
     self.messageLabel.text = [QSItemUtil getMessageForBuy:[QSTradeUtil getItemDic:tradeDict]];
+    if (![QSItemUtil getMessageForBuy:[QSTradeUtil getItemDic:tradeDict]].length) {
+        self.dotView.hidden = YES;
+    }
 }
 
 - (IBAction)shareToBuyBtnPressed:(id)sender {
