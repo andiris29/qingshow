@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
+var logger = require('winston').loggers.get('trade-skuProperties-track');
 
 var Trade = require('../../dbmodels').Trade;
 var People = require('../../dbmodels').People;
@@ -51,6 +52,10 @@ trade.create = {
             trade.save(function(err) {
                 callback(err, trade);
             });
+            logger.info({
+                'selectedSkuProperties' : trade.selectedSkuProperties,
+                '_id' : trade._id.toString()
+            })
         },
         function(trade, callback) {
             // Update trade status

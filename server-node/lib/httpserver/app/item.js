@@ -74,10 +74,10 @@ item.updateExpectable = {
             },
             function(trades, item, cb){
                 trades.forEach(function(trade){   
-                    TradeHelper.updateStatus(trade, 1, null, forger, function(err){})
+                    TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){})
                 })
                 if (price !== item.expectable.price) {
-                    _itemPriceChanged(req.qsCurrentUserId, trades, expectable,function(){});  
+                    _itemPriceChanged(trades, expectable,function(){});  
                 }
                 cb(null, trades);
             }],function(err){
@@ -284,7 +284,7 @@ item.list = {
     }
 };
 
-var _itemPriceChanged = function(forger, trades, expectable, callback) {
+var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
             if (!expectable.expired && expectable.price <= trade.expectedPrice) {
