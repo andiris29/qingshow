@@ -294,7 +294,15 @@ var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
             if (expectable.expired) {
-                // TODO #1637
+                NotificationHelper.read([trade.ownerRef], {
+                    'extra.command' : NotificationHelper.CommandTradeInitialized,
+                    'extra._id' : trade._id
+                }, function(err){});
+                NotificationHelper.read([trade.ownerRef], {
+                    'extra.command' : NotificationHelper.MessageItemPriceChanged,
+                    'extra._id' : trade._id
+                }, function(err){});
+                cb();
             } else {
                 if (expectable.price <= trade.expectedPrice) {
                     NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
