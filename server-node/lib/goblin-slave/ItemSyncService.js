@@ -46,7 +46,7 @@ ItemSyncService.syncItem = function (item, callback) {
                 async.waterfall([
                     function (callback) {
                         People.findOne({
-                            'shopInfo.taobao.sid' : shopInfo.shopId
+                            'shopInfo.taobao.sid' : shopId
                         }, callback);
                     }, function (people, callback) {
                         if (!people) {
@@ -55,6 +55,11 @@ ItemSyncService.syncItem = function (item, callback) {
                                 userInfo : {
                                     id : shopId,
                                     encryptedPassword : _encrypt(shopId)
+                                },
+                                shopInfo : {
+                                    taobao : {
+                                        sid : shopId
+                                    }
                                 }
                             }).save(callback);
                         } else {
