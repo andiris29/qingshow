@@ -22,6 +22,7 @@
 #import "QSS04CommentListViewController.h"
 #import "QSS01MatchShowsViewController.h"
 #import "QSU02UserSettingViewController.h"
+#import "QSU09OrderListViewController.h"
 
 @interface QSPnsHandler (Private)
 
@@ -52,6 +53,7 @@
     [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemExpectablePriceUpdatedNotification object:nil];
     [center addObserver:self selector:@selector(pnsNewBonus:) name:kPnsNewBonusNotification object:nil];
     [center addObserver:self selector:@selector(pnsBonusWithdrawComplete:) name:kPnsBonusWithdrawCompleteNotification object:nil];
+    [center addObserver:self selector:@selector(pnsTradeRefundComplete:) name:kPnsTradeRefundCompleteNotification object:nil];
 }
 
 #pragma mark - Private
@@ -131,8 +133,23 @@
 
 - (void)pnsTradeShipped:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
+        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
+        if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
+            QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
+            [u09Vc triggerChangeToSegmentIndex:1];
+        }
+        
     } title:@"你购买的宝贝已经向你狂奔而来，等着接收惊喜呦！" userInfo:noti.userInfo];
+}
+- (void)pnsTradeRefundComplete:(NSNotification*)noti {
+    [self handlePnsWithHandler:^{
+        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
+        if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
+            QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
+            [u09Vc triggerChangeToSegmentIndex:1];
+        }
+        
+    } title:@"款项已经退回您的支付账号，请查收。" userInfo:noti.userInfo];
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
@@ -143,6 +160,7 @@
         }
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
+
 - (void)pnsBonusWithdrawComplete:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
         UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemSetting];

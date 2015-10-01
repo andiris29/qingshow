@@ -16,6 +16,6 @@
 #define kPnsTradeShippedNotification @"kPnsTradeShippedNotification"
 #define kPnsNewBonusNotification @"kPnsNewBonusNotification"
 #define kPnsBonusWithdrawCompleteNotification @"kPnsBonusWithdrawCompleteNotification"
-
+#define kPnsTradeRefundCompleteNotification @"kPnsTradeRefundCompleteNotification"
 
 #endif

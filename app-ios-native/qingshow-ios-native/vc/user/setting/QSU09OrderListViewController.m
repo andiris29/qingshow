@@ -136,7 +136,6 @@
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryPhase:page phases:@"1,2" onSucceed:succeedBlock onError:errorBlock];
         };
-        [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
     }
     else if(value == 0)
@@ -144,7 +143,6 @@
         self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:errorBlock];
         };
-        [self.provider fetchDataOfPage:1];
         [self.provider reloadData];
     }
 }
@@ -290,6 +288,11 @@
         [vc handleError:error];
     }];
     
+}
+
+- (void)triggerChangeToSegmentIndex:(int)index {
+    self.headerView.segmentControl.selectedSegmentIndex = index;
+    [self changeValueOfSegment:index];
 }
 
 @end

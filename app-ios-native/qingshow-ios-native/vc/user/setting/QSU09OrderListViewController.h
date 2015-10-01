@@ -18,5 +18,5 @@
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
 
 - (instancetype)init;
-
+- (void)triggerChangeToSegmentIndex:(int)index;
 @end

@@ -512,8 +512,7 @@
         UIViewController* vc = [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
         if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
             QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
-            [u09Vc changeValueOfSegment:1];
-            u09Vc.headerView.segmentControl.selectedSegmentIndex = 1;
+            [u09Vc triggerChangeToSegmentIndex:1];
         }
     }
     }
