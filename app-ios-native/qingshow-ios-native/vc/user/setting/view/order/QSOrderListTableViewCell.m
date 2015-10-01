@@ -154,6 +154,16 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     btn.layer.masksToBounds = YES;
 }
 
+- (void)clearBtn:(UIButton*)btn
+{
+    UIColor* color = [UIColor clearColor];
+    btn.layer.borderColor = color.CGColor;
+    btn.layer.borderWidth = 0.f;
+    btn.layer.cornerRadius = 4.f;
+    btn.layer.masksToBounds = YES;
+}
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
@@ -241,9 +251,11 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 
             if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
                 [self.logisticsButton setImage:nil forState:UIControlStateNormal];
+                [self clearBtn:self.logisticsButton];
                 [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_dot"] forState:UIControlStateNormal];
             } else {
                 [self.logisticsButton setImage:nil forState:UIControlStateNormal];
+                [self clearBtn:self.logisticsButton];
                 [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_normal"] forState:UIControlStateNormal];
             }
             
