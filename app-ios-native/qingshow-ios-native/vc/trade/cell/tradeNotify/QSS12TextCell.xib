@@ -30,7 +30,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0E-9h-dbI">
-                                <rect key="frame" x="172" y="104" width="68" height="68"/>
+                                <rect key="frame" x="162" y="100" width="90" height="90"/>
                                 <state key="normal" image="order_list_cell_discount_share_to_pay">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
