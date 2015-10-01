@@ -74,11 +74,15 @@ item.updateExpectable = {
             var target = [];
             trades.forEach(function(trade){
                 if (trade.status === 1 && price !== item.expectable.price) {
+                    trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
+                    trade.save(function(){});
+                    
                     target.push(trade);  
                 }
                 if (trade.status === 0) {
                     trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
                     TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){});
+                    
                     target.push(trade);
                 }
             });
@@ -289,20 +293,22 @@ item.list = {
 var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
-            if (!expectable.expired && expectable.price <= trade.expectedPrice) {
-                NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
-                    '_id' : trade._id,
-                    'command' : NotificationHelper.CommandTradeInitialized
-                }, cb);
-            };
-
-            if (!expectable.expired && expectable.price > trade.expectedPrice) {
-              NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
-                'command' : NotificationHelper.CommandItemExpectablePriceUpdated,
-                '_id' : trade._id
-                }, cb); 
-            };
-        }
+            if (expectable.expired) {
+                // TODO #1637
+            } else {
+                if (expectable.price <= trade.expectedPrice) {
+                    NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
+                        '_id' : trade._id,
+                        'command' : NotificationHelper.CommandTradeInitialized
+                    }, cb);
+                } else {
+                  NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
+                    'command' : NotificationHelper.CommandItemExpectablePriceUpdated,
+                    '_id' : trade._id
+                    }, cb); 
+                };
+            }
+        };
     });
     async.parallel(tasks, function(err) {
         if (err) {
