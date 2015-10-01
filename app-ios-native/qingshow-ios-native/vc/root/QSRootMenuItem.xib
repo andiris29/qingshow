@@ -30,7 +30,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="root_menu_item_dot" id="5it-Ul-tZc">
-                    <rect key="frame" x="15" y="0.0" width="7" height="7"/>
+                    <rect key="frame" x="15" y="0.0" width="10" height="10"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
             </subviews>
@@ -45,7 +45,7 @@
         </view>
     </objects>
     <resources>
-        <image name="root_menu_item_dot" width="7" height="7"/>
+        <image name="root_menu_item_dot" width="11" height="11"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
