@@ -22,7 +22,7 @@ BonusHelper.createBonusViaTrade = function(trade, item, callback){
         people.bonuses = people.bonuses || [];
         people.bonuses.push({
             status : 0,
-            money : trade.totalFee * global.qsConfig.bonus.rate,
+            money : Math.round(Math.max(0.01, trade.totalFee * global.qsConfig.bonus.rate) * 100) / 100,
             notes : '来自' + item.name + '的佣金',
             icon : item.thumbnail,
             trigger : {
