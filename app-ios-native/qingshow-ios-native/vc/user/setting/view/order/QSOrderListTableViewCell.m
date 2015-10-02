@@ -219,8 +219,9 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
         self.exDiscountLabel.text = [NSString stringWithFormat:@"期望折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     }else
     {
+        _actualPrice = [QSTradeUtil getPrice:tradeDict].floatValue;
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
-        self.priceLabel.text = [NSString stringWithFormat:@"购买价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"购买价格: ￥%@",[QSTradeUtil getPriceDesc:tradeDict]];
         self.exDiscountLabel.text = [NSString stringWithFormat:@"成功折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     }
     
