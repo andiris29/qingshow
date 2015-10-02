@@ -209,7 +209,6 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         }
-        finish();
     }
 
     @Override
@@ -290,6 +289,9 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(null != dialogs && resultCode != -1){
+            if(dialogs.isShowing()) dialogs.dismiss();
+        }
         mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -323,6 +325,9 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                     public void onResponse(JSONObject response) {
                         if (MetadataParser.hasError(response)) {
                             ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
+                            if(null != dialogs){
+                                if(dialogs.isShowing()) dialogs.dismiss();
+                            }
                             return;
                         }
 
@@ -345,6 +350,9 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 // 1. 当您未在平台上注册的应用程序的包名与签名时；
                 // 2. 当您注册的应用程序包名与签名不正确时；
                 // 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
+                if(null != dialogs){
+                    if(dialogs.isShowing()) dialogs.dismiss();
+                }
                 String code = values.getString("code");
                 String message = "微博登录出错";
                 if (!TextUtils.isEmpty(code)) {
