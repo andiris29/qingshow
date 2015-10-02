@@ -49,7 +49,7 @@
     self.infoLabel.text = [QSTradeUtil getSizeText:dict];
 
     self.countLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:dict]];
-    self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getExpectedPrice:dict] trade:dict]];
+    self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSItemUtil getExpectablePrice:itemDict] trade:dict]];
     if ([QSItemUtil getDelist:itemSnapshotDict] == YES) {
         self.outOfSaleLabel.hidden = NO;
     }else{
