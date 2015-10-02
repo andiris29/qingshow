@@ -160,9 +160,10 @@
     }
     else
     {
-        weakSelf.menuView.hidden = NO;
+
         [self.menuView showMenuAnimationComple:^{
         }];
+        weakSelf.menuView.hidden = NO;
     }
     self.fIsShowMenu = !self.fIsShowMenu;
 }

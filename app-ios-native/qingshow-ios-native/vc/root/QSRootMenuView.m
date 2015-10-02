@@ -24,7 +24,7 @@
     QSRootMenuView* v = [UINib generateViewWithNibName:@"QSRootMenuView"];
     CGRect rect = [UIScreen mainScreen].bounds;
     v.frame = rect;
-    v.bgImageView.backgroundColor = [UIColor lightGrayColor];
+
     return v;
 }
 
@@ -34,9 +34,10 @@
     [self updateItemDot];
     self.bgImageView.hidden = YES;
     UIImage *img = [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window makeScreenShot];
+    self.bgImageView.alpha = 0.f;
     self.bgImageView.image = [img blurryImageWithBlurLevel:5.f];
     
-    self.bgImageView.alpha = 0.f;
+
     self.bgImageView.hidden = NO;
     self.containerView.layer.transform = CATransform3DMakeTranslation(-self.containerView.frame.size.width, 0, 0);
     [UIView animateWithDuration:0.2 animations:^{
