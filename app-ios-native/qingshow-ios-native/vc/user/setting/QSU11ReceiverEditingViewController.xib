@@ -126,7 +126,7 @@
                             <constraint firstAttribute="height" constant="15" id="baQ-KY-tmk"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
-                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                        <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="next"/>
                     </textField>
                 </subviews>
                 <constraints>
@@ -229,7 +229,7 @@
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机验证码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="75n-0h-g8J">
                         <rect key="frame" x="8" y="8" width="188" height="30"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cKh-W8-olS">
                         <rect key="frame" x="204" y="8" width="103" height="30"/>

@@ -191,9 +191,9 @@
     
     self.receiverInfoCellArray = @[self.receiverInfoTitleCell,
                                    self.receiverInfoNameCell,
-                                   self.receiverInfoPhoneCell,
                                    self.receiverInfoLocationCell,
-                                   self.receiverInfoDetailLocationCell];
+                                   self.receiverInfoDetailLocationCell,
+                                   self.receiverInfoPhoneCell];
     
     self.payWayCellArray = @[self.payInfoTitleCell,
                              self.payInfoWechatCell,
