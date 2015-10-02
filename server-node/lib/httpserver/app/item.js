@@ -307,7 +307,7 @@ var _itemPriceChanged = function(trades, expectable, callback) {
                     'extra._id' : trade._id
                 }, function(err){});
                 NotificationHelper.read([trade.ownerRef], {
-                    'extra.command' : NotificationHelper.MessageItemPriceChanged,
+                    'extra.command' : NotificationHelper.CommandItemExpectablePriceUpdated,
                     'extra._id' : trade._id
                 }, function(err){});
                 cb();
