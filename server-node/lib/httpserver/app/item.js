@@ -36,6 +36,9 @@ item.updateExpectable = {
                 'expired' : param.expired === true,
                 'messageForPay' : param.messageForPay,
                 'messageForBuy' : param.messageForBuy
+            };
+            if (expectable.expired) {
+                expectable.price = -1;
             }
             if (!expectable.expired && !param.price) {
                 callback(errors.NotEnoughParam);
@@ -70,23 +73,28 @@ item.updateExpectable = {
                         callback(null, trades, item);
                     }
                 });
-        }, function(trades, item, callback){
-            var target = [];
-            trades.forEach(function(trade){
-                if (trade.status === 1 && price !== item.expectable.price) {
-                    trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
-                    trade.save(function(){});
-                    
-                    target.push(trade);  
-                }
-                if (trade.status === 0) {
-                    trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
-                    TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){});
-                    
-                    target.push(trade);
-                }
-            });
-            _itemPriceChanged(target, expectable, function(){});  
+        }, function(trades, item, callback) {
+            var targetTrades;
+            if (expectable.expired) {
+                targetTrades = trades;
+            } else {
+                targetTrades = [];
+                trades.forEach(function(trade){
+                    if (trade.status === 1 && price !== item.expectable.price) {
+                        trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
+                        trade.save(function(){});
+                        
+                        targetTrades.push(trade);  
+                    }
+                    if (trade.status === 0) {
+                        trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
+                        TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){});
+                        
+                        targetTrades.push(trade);
+                    }
+                });
+            }
+            _itemPriceChanged(targetTrades, expectable, function(){});
             callback(null, item);
         }, function(item, callback){
             item.expectable = expectable;
