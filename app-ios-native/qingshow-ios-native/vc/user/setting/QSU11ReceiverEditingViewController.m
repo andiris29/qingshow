@@ -224,6 +224,7 @@
 
 - (void)didSelectSaveBtn
 {
+    [self hideKeyboardAndPicker];
     if (!self.nameTextField.text.length || !self.phoneTextField.text.length || !self.detailLocationTextField.text.length) {
         [self showErrorHudWithText:@"请填写完整信息"];
         return;
