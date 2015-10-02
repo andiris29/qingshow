@@ -130,8 +130,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [self configCells];
     self.tableView.tableFooterView = self.footerView;
     [self pickerProviderInit];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
+
 //    [self.tableView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
 }
 
@@ -141,13 +140,17 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     self.navigationController.navigationBarHidden = NO;
     [self refreshData];
     [MobClick beginLogPageView:PAGE_ID];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
     
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:PAGE_ID];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -155,7 +158,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 }
 
 #pragma mark - Config View
@@ -503,16 +506,23 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     if (self.picker.hidden) {
         return;
     }
+    [self hidePickerWithoutInset];
+    UIEdgeInsets inset = self.tableView.contentInset;
+    inset.bottom = 0.f;
+    self.tableView.contentInset = inset;
+}
+- (void)hidePickerWithoutInset {
+    if (self.picker.hidden) {
+        return;
+    }
     self.picker.hidden = YES;
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
     tran.subtype = kCATransitionFromBottom;
     tran.duration = 0.2f;
     [self.picker.layer addAnimation:tran forKey:@"ShowAnimation"];
-    UIEdgeInsets inset = self.tableView.contentInset;
-    inset.bottom = 0.f;
-    self.tableView.contentInset = inset;
 }
+
 - (void)provider:(QSSinglePickerProvider*)provider didSelectRow:(int)row value:(NSString*)value {
     NSString* key = nil;
     if (provider == self.bodyTypePickerProvider) {
@@ -531,6 +541,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 }
 #pragma mark - Handle Keyboard
 - (void)handleKeyboardWillShowNotification:(NSNotification*)noti {
+    [self hidePickerWithoutInset];
     UIEdgeInsets inset = self.tableView.contentInset;
     inset.bottom = 250.f;
     self.tableView.contentInset = inset;
