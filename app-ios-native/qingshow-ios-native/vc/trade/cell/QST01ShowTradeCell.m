@@ -34,23 +34,23 @@
     [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDic type:QSImageNameType100]];
     self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDic];
     self.timeLabel.text = [QSTradeUtil getDayDesc:dict];
-    NSDictionary *itemDict = [QSTradeUtil getItemDic:dict];
-    
+    NSDictionary *itemSnapshotDict = [QSTradeUtil getItemSnapshot:dict];
+    NSDictionary* itemDict = [QSTradeUtil getItemDic:dict];
     self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getExpectablePriceDesc:itemDict]];
 
-    self.clothNameLabel.text = [QSItemUtil getItemName:itemDict];
-    [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    self.clothNameLabel.text = [QSItemUtil getItemName:itemSnapshotDict];
+    [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemSnapshotDict]];
+    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemSnapshotDict]];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.400 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
     [self.priceLabel setAttributedText:attri];
-    self.promoPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+    self.promoPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemSnapshotDict]];
     self.infoLabel.text = [QSTradeUtil getSizeText:dict];
 
     self.countLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:dict]];
     self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getExpectedPrice:dict] trade:dict]];
-    if ([QSItemUtil getDelist:itemDict] == YES) {
+    if ([QSItemUtil getDelist:itemSnapshotDict] == YES) {
         self.outOfSaleLabel.hidden = NO;
     }else{
         self.outOfSaleLabel.hidden = YES;
