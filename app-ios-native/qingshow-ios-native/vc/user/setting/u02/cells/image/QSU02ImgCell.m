@@ -53,7 +53,8 @@ NSURL* imgRowTypeToImgUrl(U02SectionImageRow type, NSDictionary* peopleDict) {
     self.titleLabel.text = imgRowTypeToTitle(self.rowType);
     [self.headImgView setImageFromURL:imgRowTypeToImgUrl(self.rowType, peopleDic) placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"]];
 }
-- (void)cellDidClicked {
+- (BOOL)cellDidClicked {
     [self.delegate prompToChangeImage:self.rowType];
+    return YES;
 }
 @end

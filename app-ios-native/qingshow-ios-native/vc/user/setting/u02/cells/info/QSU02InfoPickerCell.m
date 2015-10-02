@@ -39,7 +39,8 @@
 
     // Configure the view for the selected state
 }
-- (void)cellDidClicked {
+- (BOOL)cellDidClicked {
     [self.delegate showPickerWithType:self.rowType];
+    return YES;
 }
 @end

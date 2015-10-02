@@ -130,6 +130,9 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [self configCells];
     self.tableView.tableFooterView = self.footerView;
     [self pickerProviderInit];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
+//    [self.tableView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -151,7 +154,9 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 #pragma mark - Config View
 
@@ -242,19 +247,23 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 #pragma mark - Action
 - (void)showAddressList {
+    [self hideKeyboardAndPicker];
     [self.navigationController pushViewController:[[QSU10ReceiverListViewController alloc] init] animated:YES];
 }
 - (void)showExpectationVc {
+    [self hideKeyboardAndPicker];
     QSU02UserChangeDressEffectViewController *vc = [[QSU02UserChangeDressEffectViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)showChangePasswordVc {
+    [self hideKeyboardAndPicker];
     QSU08PasswordViewController *vc = [[QSU08PasswordViewController alloc]initWithNibName:@"QSU08PasswordViewController" bundle:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)showBonuesVC
 {
+    [self hideKeyboardAndPicker];
     NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
     NSArray *bonusArray = [QSPeopleUtil getBonusList:dic];
     QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:bonusArray];
@@ -265,9 +274,12 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     QSU02AbstractTableViewCell* cell = [self getCellWithIndexPath:indexPath];
-    [cell cellDidClicked];
+    if (![cell cellDidClicked]) {
+        [self hideKeyboardAndPicker];
+    }
 }
 
 - (void)actionLogout {
@@ -427,14 +439,17 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 #pragma mark - Keyboard
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self hideKeyboardAndPicker];
+//    [self hideKeyboardAndPicker];
 }
 
-- (void)hideKeyboardAndPicker {
+- (void)hideKeyboard {
     [self visitAllCell:^BOOL(QSU02AbstractTableViewCell *cell) {
         [cell resignKeyboardAndPicker];
         return YES;
     }];
+}
+- (void)hideKeyboardAndPicker {
+    [self hideKeyboard];
     [self hidePicker];
 }
 
@@ -461,17 +476,28 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     }
 }
 - (void)showPicker {
+
     if (!self.picker.hidden){
         return;
     }
-    
     self.picker.hidden = NO;
-    self.picker.hidden = NO;
+    [self hideKeyboard];
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
     tran.subtype = kCATransitionFromTop;
     tran.duration = 0.2f;
     [self.picker.layer addAnimation:tran forKey:@"ShowAnimation"];
+    UIEdgeInsets inset = self.tableView.contentInset;
+    float delta = 250.f - inset.bottom;
+    
+    inset.bottom = 250.f;
+    self.tableView.contentInset = inset;
+    CGPoint p = self.tableView.contentOffset;
+    if (delta > 0) {
+        p.y += self.picker.bounds.size.height;
+    }
+
+    [self.tableView setContentOffset:p animated:YES];
 }
 - (void)hidePicker {
     if (self.picker.hidden) {
@@ -483,6 +509,9 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     tran.subtype = kCATransitionFromBottom;
     tran.duration = 0.2f;
     [self.picker.layer addAnimation:tran forKey:@"ShowAnimation"];
+    UIEdgeInsets inset = self.tableView.contentInset;
+    inset.bottom = 0.f;
+    self.tableView.contentInset = inset;
 }
 - (void)provider:(QSSinglePickerProvider*)provider didSelectRow:(int)row value:(NSString*)value {
     NSString* key = nil;
@@ -500,5 +529,25 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     } onError:nil];
     
 }
+#pragma mark - Handle Keyboard
+- (void)handleKeyboardWillShowNotification:(NSNotification*)noti {
+    UIEdgeInsets inset = self.tableView.contentInset;
+    inset.bottom = 250.f;
+    self.tableView.contentInset = inset;
+}
+- (void)handleKeyboardWillHideNotification:(NSNotification*)onti {
+    if (self.picker.hidden) {
+        UIEdgeInsets inset = self.tableView.contentInset;
+        inset.bottom = 0.f;
+        self.tableView.contentInset = inset;
+    }
+
+}
+//- (void)didTapBlank:(UITapGestureRecognizer*)ges {
+//    CGPoint p = [ges locationInView:ges.view];
+//    p.y += self.tableView.contentOffset.y;
+//    NSIndexPath* path = [self.tableView indexPathForRowAtPoint:p];
+//    [self hideKeyboardAndPicker];
+//}
 
 @end
