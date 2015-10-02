@@ -323,7 +323,8 @@
         }
         case QSImageCollectionModelTypeItem:
         {
-            [self showItemDetailViewController:model.data];
+#warning 此情况现在不会使用
+            [self showItemDetailViewController:model.data peopleId:nil];
             break;
         }
         default:

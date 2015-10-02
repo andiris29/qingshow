@@ -230,5 +230,8 @@
     return [NSString stringWithFormat:@"%d折", disCount];
 }
 
++ (NSString*)getPromoterId:(NSDictionary*)dict {
+    return [dict stringValueForKeyPath:@"promoterRef"];
+}
 
 @end
