@@ -44,11 +44,12 @@
                           @"手机号已存在",
                           @"验证码错误",//30
                           @"已超过每日发送次数",
-                          @"请求短信频率过高，请稍候再试"];
+                          @"请求短信频率过高，请稍候再试",
+                          @"昵称已存在"];
 
     NSString* desc = @"";
 
-    if (self.code <= 1031 && self.code >= 1000) {
+    if (self.code <= 1033 && self.code >= 1000) {
         desc = desArray[self.code - 1000];
     }
     if (!desc || !desc.length) {
