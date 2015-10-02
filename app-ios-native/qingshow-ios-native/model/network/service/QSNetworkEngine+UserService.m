@@ -143,19 +143,17 @@
     if ([QSUserManager shareUserManager].JPushRegistrationID) {
         paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
     }
+//    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
+    [QSUserManager shareUserManager].userInfo = nil;
+    [QSUserManager shareUserManager].fIsLogined = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:nil userInfo:nil];
     
     return [self startOperationWithPath:PATH_USER_LOGOUT
                                  method:@"POST"
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
                 if (succeedBlock) {
-                    if (userInfo && [QSUserManager shareUserManager].userInfo == userInfo) {
-                        [QSUserManager shareUserManager].userInfo = nil;
-                        [QSUserManager shareUserManager].fIsLogined = NO;
-                    }
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:nil userInfo:nil];
                     succeedBlock();
                 }
             }
