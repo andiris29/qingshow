@@ -134,7 +134,7 @@
                         <constraint firstAttribute="width" constant="39" id="b32-WZ-UZ8"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal" image="nav_btn_back">
+                    <state key="normal" image="back_shadow">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -161,7 +161,7 @@
     </objects>
     <resources>
         <image name="backToTopBtnImg_black" width="35" height="35"/>
-        <image name="nav_btn_back" width="28" height="28"/>
+        <image name="back_shadow" width="35" height="35"/>
         <image name="nav_menu_u01" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
