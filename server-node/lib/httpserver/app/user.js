@@ -234,12 +234,13 @@ _register = function(req, res) {
 
         var people = new People({
             nickname: nickname,
+            mobile : mobile,
             userInfo : {
                 id : id,
-                encryptedPassword : _encrypt(password),
-                mobile : mobile
+                encryptedPassword : _encrypt(password)
             }
         });
+
         people.save(function(err, people) {
             if (err) {
                 ResponseHelper.response(res, err);
