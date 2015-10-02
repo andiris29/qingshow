@@ -140,7 +140,15 @@ trade.prepay = {
                 var orderName = trade.itemSnapshot.name;
                 var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
-                    var jsonObject = JSON.parse(body);
+                    var jsonObject;
+                    try {
+                        jsonObject = JSON.parse(body);
+                    } catch (err) {
+                        winston.error('wechat/prepay failed.');
+                        winston.error('url = ' + url);
+                        winston.error('body = ' + body);
+                        throw err;
+                    }
                     if (jsonObject.metadata) {
                         callback(jsonObject.metadata, trade);
                     } else {
