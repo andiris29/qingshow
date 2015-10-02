@@ -34,5 +34,5 @@
 - (IBAction)buttonPressed:(id)sender;
 - (void)showDot;
 - (void)hideDot;
-
+- (void)setHover:(BOOL)fHover;
 @end

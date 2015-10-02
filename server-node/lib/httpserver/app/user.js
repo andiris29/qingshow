@@ -199,7 +199,7 @@ _register = function(req, res) {
     var mobile = param.mobile;
     var code = param.verificationCode;
     //TODO validate id and password
-    if (!id || !password || !id.length || !password.length || !nickname) {
+    if (!id || !password || !id.length || !password.length || !nickname || !mobile) {
         ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
@@ -210,12 +210,19 @@ _register = function(req, res) {
             {'nickname': nickname}, 
             {'mobile': mobile}
         ]
-    }, function(err, people) {
+    }, function(err, peoples) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
-        } else if (people.length > 0) {
-            ResponseHelper.response(res, errors.MobileAlreadyExist); 
+        } else if (peoples.length > 0) {
+            var verify = peoples.some(function(people){
+                return people.nickname === nickname
+            })
+            if (verify) {
+                 ResponseHelper.response(res, errors.NickNameAlreadyExist);   
+            }else {
+                ResponseHelper.response(res, errors.MobileAlreadyExist); 
+            }
             return;
         }
 

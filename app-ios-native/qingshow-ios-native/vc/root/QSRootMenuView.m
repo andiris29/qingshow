@@ -124,7 +124,8 @@
     QSRootMenuItemType oldType = self.currentType;
     self.currentType = item.type;
     for (QSRootMenuItem* i in self.itemArray) {
-        [i.button setSelected:(i == item)];
+        [i setHover:(i == item)];
+
     }
     
     if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:oldType:)]) {

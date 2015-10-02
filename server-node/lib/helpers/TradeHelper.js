@@ -36,14 +36,14 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
         NotificationHelper.read([trade.ownerRef], {
             'extra.command' : NotificationHelper.CommandTradeInitialized,
             'extra._id' : trade._id
-        }, function(err){})
+        }, function(err){});
     };
 
     if (newStatus === 5 || newStatus === 15 || newStatus === 7) {
         NotificationHelper.read([trade.ownerRef], {
             'extra.command' : NotificationHelper.CommandTradeShipped,
             'extra._id' : trade._id
-        }, function(err){})
+        }, function(err){});
     };
 
     trade.set('status', newStatus);

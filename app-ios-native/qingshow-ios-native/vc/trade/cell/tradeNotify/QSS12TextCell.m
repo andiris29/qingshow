@@ -10,6 +10,8 @@
 #import "UINib+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
+#import "QSLayoutUtil.h"
+
 
 @implementation QSS12TextCell
 
@@ -55,6 +57,12 @@
     self.messageLabel.text = [QSItemUtil getMessageForBuy:[QSTradeUtil getItemDic:tradeDict]];
     if (![QSItemUtil getMessageForBuy:[QSTradeUtil getItemDic:tradeDict]].length) {
         self.dotView.hidden = YES;
+    } else {
+        self.dotView.hidden = NO;
+        CGSize size = [QSLayoutUtil sizeForString:self.messageLabel.text withMaxWidth:self.messageLabel.bounds.size.width height:INFINITY font:self.messageLabel.font];
+        CGRect bound = self.messageLabel.frame;
+        bound.size.height = size.height;
+        self.messageLabel.frame = bound;
     }
 }
 

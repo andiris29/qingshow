@@ -124,4 +124,14 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
     self.dotView.hidden = YES;
 }
 
+
+- (void)setHover:(BOOL)fHover {
+    [self.button setSelected:fHover];
+    
+    if (fHover) {
+        self.label.textColor = [UIColor colorWithRed:120.f/255.f green:120.f/255.f blue:120.f/255.f alpha:1.f];
+    } else {
+        self.label.textColor = [UIColor whiteColor];
+    }
+}
 @end

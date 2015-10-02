@@ -18,10 +18,10 @@
                         <outletCollection property="gestureRecognizers" destination="SBz-eU-cfZ" appends="YES" id="DPL-cS-1I4"/>
                     </connections>
                 </imageView>
-                <view alpha="0.44999999999999962" contentMode="scaleToFill" id="RCD-Qd-dZX">
+                <view contentMode="scaleToFill" id="RCD-Qd-dZX">
                     <rect key="frame" x="0.0" y="0.0" width="114" height="568"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.30" colorSpace="calibratedRGB"/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="xJ5-Pj-GeJ" appends="YES" id="XoP-CP-YBN"/>
                     </connections>
