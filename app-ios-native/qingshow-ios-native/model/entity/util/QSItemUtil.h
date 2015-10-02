@@ -38,7 +38,7 @@
 + (BOOL)getDelist:(NSDictionary *)itemDict;
 + (NSString*)getItemId:(NSDictionary *)itemDict;
 + (NSArray*)getMatchSkuKeysForItem:(NSDictionary*)itemDict skuKeys:(NSArray*)skuKeys;
-
++ (NSString*)getExpectablePriceDesc:(NSDictionary*)dict;
 + (BOOL)getExpectableIsExpire:(NSDictionary *)dict;
 + (NSDictionary*)getExpectableDict:(NSDictionary*)dict;
 + (NSString*)getMessageForBuy:(NSDictionary*)dict;

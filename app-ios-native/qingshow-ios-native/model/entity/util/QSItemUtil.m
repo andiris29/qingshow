@@ -153,6 +153,15 @@
     
 }
 
++ (NSString*)getExpectablePriceDesc:(NSDictionary*)dict {
+    NSNumber* n = [self getExpectablePrice:dict];
+    if (!n) {
+        return nil;
+    } else {
+        return [NSString stringWithFormat:@"%.2f", n.doubleValue];
+    }
+}
+
 + (NSNumber *)getExpectablePrice:(NSDictionary *)dict
 {
     NSNumber* n = [dict numberValueForKeyPath:@"expectable.price"];

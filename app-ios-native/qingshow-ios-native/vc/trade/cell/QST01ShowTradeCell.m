@@ -34,9 +34,10 @@
     [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDic type:QSImageNameType100]];
     self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDic];
     self.timeLabel.text = [QSTradeUtil getDayDesc:dict];
-    self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSTradeUtil getExpectedPriceDesc:dict]];
-    
     NSDictionary *itemDict = [QSTradeUtil getItemDic:dict];
+    
+    self.actualPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getExpectablePriceDesc:itemDict]];
+
     self.clothNameLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
