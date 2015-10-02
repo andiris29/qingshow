@@ -171,14 +171,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             if (trade.itemRef.expectable.expired) {
                 discountBtn.setVisibility(View.VISIBLE);
                 discountBtn.setImageResource(R.drawable.sold_out_gray);
-                discountBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, S10ItemDetailActivity.class);
-                        intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, trade.itemSnapshot._id);
-                        context.startActivity(intent);
-                    }
-                });
+                discountBtn.setClickable(false);
                 return;
             }
 
