@@ -33,6 +33,8 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (IBAction)reSetPasswordBtnPressed:(id)sender {
+    [self.passWordTextField resignFirstResponder];
+    
     NSString *psw = self.passWordTextField.text;
 //    NSString *pswAgain = self.passWordAgainTextField.text;
     if (!psw.length) {
