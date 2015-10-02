@@ -55,5 +55,6 @@ module.exports = {
     'MobileAlreadyExist' : new ServerError(1029, 'MobileAlreadyExist'),
     'SMSValidationFail' : new ServerError(1030, 'SMSValidationFail'),
     'SMSlimitedSend' : new ServerError(1031, 'SMSlimitedSend'),
-    'SMSFrequentlyRequest' : new ServerError(1032, 'SMSFrequentlyRequest')
+    'FrequentlyRequest' : new ServerError(1032, 'FrequentlyRequest'),
+    'NickNameAlreadyExist' : new ServerError(1033, 'NickNameAlreadyExist')
 };
