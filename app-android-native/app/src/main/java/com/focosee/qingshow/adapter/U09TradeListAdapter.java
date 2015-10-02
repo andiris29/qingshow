@@ -76,6 +76,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         QSTextView properTab = holder.getView(R.id.item_tradelist_skuProperties_tab);
         final ImageButton discountBtn = holder.getView(R.id.item_tradelist_discount);
         final View circleTip = holder.getView(R.id.item_tradelist_btn2_topImg);
+        final View newDiscountCircleTip = holder.getView(R.id.circle_tip);
         properTextView.setVisibility(View.GONE);
         properTab.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
@@ -83,6 +84,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         statusTV.setVisibility(View.GONE);
         discountBtn.setVisibility(View.GONE);
         circleTip.setVisibility(View.INVISIBLE);
+        newDiscountCircleTip.setVisibility(View.GONE);
         if (null == getItemData(position)) return;
         final MongoTrade trade = getItemData(position);
         if (null == trade) return;
@@ -182,11 +184,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 if (!TextUtils.isEmpty(command)) {
                     if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.TRADE_INITIALIZED)) {
                         discountBtn.setVisibility(View.VISIBLE);
-                        discountBtn.setImageResource(R.drawable.new_discount_replay);
+                        newDiscountCircleTip.setVisibility(View.VISIBLE);
+                        discountBtn.setImageResource(R.drawable.new_discount);
                         discountBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 discountBtn.setImageResource(R.drawable.new_discount_read);
+                                newDiscountCircleTip.setVisibility(View.GONE);
                                 EventBus.getDefault().post(trade);
                                 showNewTradeNotify(trade._id);
                             }
