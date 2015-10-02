@@ -66,7 +66,7 @@ SMSHelper.createVerificationCode = function (to, callback){
 	var config = global.qsConfig;
 	if (_verifications[to] && 
 		new Date() - _verifications[to].create < config.verification.retry) {
-		callback(errors.SMSFrequentlyRequest);
+		callback(errors.FrequentlyRequest);
 	}else {
 		var code = new Number(Math.random() * Math.pow(10,6)).toFixed(0);
 		_verifications[to] = {
