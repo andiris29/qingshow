@@ -192,7 +192,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     [self.circleBtnImageView setImage:nil];
     
     //itemUtil
-    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
+    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     NSString *oldPrice = [NSString stringWithFormat:@"原价:￥%@",[QSItemUtil getPriceDesc:itemDict]];
