@@ -22,7 +22,6 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -266,7 +265,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private void validateMobile(final Map pa) {
 
         Map<String, String> params = new HashMap<>();
-        params.put("mobileNumber", consigeePhoneET.getText().toString());
+        params.put("mobile", consigeePhoneET.getText().toString());
         params.put("verificationCode", consigee_verificationCode.getText().toString());
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getValidateMobileApi()
