@@ -210,8 +210,11 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 }
             });
             return;
-
         }
+
+        holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.totalFee.doubleValue() / trade.quantity, trade.itemSnapshot.promoPrice));
+        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.totalFee.doubleValue() / trade.quantity)));
+
         //3-已发货
         if (trade.status == StatusCode.SENDED) {
             btn1.setVisibility(View.VISIBLE);
