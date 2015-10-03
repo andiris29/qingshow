@@ -256,12 +256,14 @@
 #pragma mark - Launch Image
 - (void)showLaunchImage
 {
+    
     UIScreen* mainScreen = [UIScreen mainScreen];
     NSString* launchImgName = [NSString stringWithFormat:@"launch_%d-%d", (int)mainScreen.bounds.size.width, (int)mainScreen.bounds.size.height];
     UIImage* launchImg = [UIImage imageNamed:launchImgName];
     UIImageView* lauchImgView = [[UIImageView alloc] initWithImage:launchImg];
     lauchImgView.frame = mainScreen.bounds;
     [self.window addSubview:lauchImgView];
+    self.window.rootViewController = [[UIViewController alloc] init];
     [self.window makeKeyAndVisible];
     self.launchImageView = lauchImgView;
 }
