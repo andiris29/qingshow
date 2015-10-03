@@ -24,6 +24,7 @@
 #import "QSNetworkHelper.h"
 #import "QSHookHelper.h"
 #import "QSUnreadManager.h"
+#import "UIViewController+QSExtension.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -55,13 +56,8 @@
     
     [self showLaunchImage];
     [QSNetworkHelper querySystemPathOnSucceed:^{
-        
-        QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
-        self.rootVc = vc;
-        UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
-        
-        nav.navigationBar.translucent = NO;
-        self.window.rootViewController = nav;
+        [self _configRootVc];
+        QSRootContainerViewController* vc = (QSRootContainerViewController*)self.rootVc;
         
         //标记第一次载入
         [self rememberFirstLaunch];
@@ -91,10 +87,23 @@
             }
         }];
     } onError:^(NSError *error) {
-#warning handle error
+        [self _configRootVc];
+        [self hideLaunchImageAfterDelay:0.f];
+        QSRootContainerViewController* vc = (QSRootContainerViewController*)self.rootVc;
+        [vc showDefaultVc];
+        [self.rootVc handleError:error];
     }];
     
     return YES;
+}
+
+- (void)_configRootVc {
+    QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
+    self.rootVc = vc;
+    UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
+    
+    nav.navigationBar.translucent = NO;
+    self.window.rootViewController = nav;
 }
 
 
