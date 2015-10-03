@@ -150,6 +150,11 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
 }
 
 #pragma mark Trade Dot
+- (BOOL)shouldShowTradeUnreadOfType:(QSUnreadTradeType)type {
+    NSString* command = unreadTradeTypeToCommand(type);
+    NSArray* notis = [self getUnreadOfCommand:command];
+    return notis.count != 0;
+}
 - (BOOL)shouldShowTradeUnreadOfType:(QSUnreadTradeType)type id:(NSString*)tradeId {
     NSString* command = unreadTradeTypeToCommand(type);
     NSArray* notis = [self getUnreadOfCommand:command];

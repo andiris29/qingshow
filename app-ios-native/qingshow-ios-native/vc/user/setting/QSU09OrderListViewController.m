@@ -59,6 +59,11 @@
         self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeShipped]) {
+        [self triggerChangeToSegmentIndex:1];
+    }
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
