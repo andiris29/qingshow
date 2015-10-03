@@ -1,6 +1,7 @@
 package com.focosee.qingshow.util.user;
 
 import android.text.TextUtils;
+
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -13,6 +14,7 @@ import com.focosee.qingshow.util.ValueUtil;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -30,8 +32,8 @@ public class UnreadHelper {
         MongoPeople user = QSModel.INSTANCE.getUser();
         if (Collections.emptyList().equals(user.unreadNotifications)) return false;
 
-        for (MongoPeople.UnreadNotification unreadNotification : user.unreadNotifications){
-            if(unreadNotification.extra.command.equals(QSPushAPI.NEW_SHOW_COMMENTS)) continue;
+        for (MongoPeople.UnreadNotification unreadNotification : user.unreadNotifications) {
+            if (unreadNotification.extra.command.equals(QSPushAPI.NEW_SHOW_COMMENTS)) continue;
             return true;
         }
         return false;
@@ -42,7 +44,7 @@ public class UnreadHelper {
         Map<String, String> params = new HashMap<>();
         if (TextUtils.isEmpty(_id)) {
             params.put("command", command);
-        }else{
+        } else {
             params.put("command", getCommand(_id));
             params.put("_id", _id);
         }
@@ -82,27 +84,30 @@ public class UnreadHelper {
 
     /**
      * 判断某个功能是否有未读的推送
+     *
      * @param command
      * @return
      */
-    private static boolean hasMyNotification(String command, String _id){
+    private static boolean hasMyNotification(String command, String _id) {
 
-        if(!hasUnread()) return false;
+        if (!hasUnread()) return false;
 
-        for (MongoPeople.UnreadNotification unreadNotification : QSModel.INSTANCE.getUser().unreadNotifications){
-            if(TextUtils.isEmpty(_id))
-                if(unreadNotification.extra.command.equals(command)) return true;
-            if(TextUtils.isEmpty(command))
-                if(unreadNotification.extra._id.equals(_id)) return true;
+        for (MongoPeople.UnreadNotification unreadNotification : QSModel.INSTANCE.getUser().unreadNotifications) {
+            if (null == unreadNotification) continue;
+            if (null == unreadNotification.extra) continue;
+            if (TextUtils.isEmpty(_id))
+                if (unreadNotification.extra.command.equals(command)) return true;
+            if (TextUtils.isEmpty(command))
+                if (_id.equals(unreadNotification.extra._id)) return true;
         }
         return false;
     }
 
-    public static boolean hasMyNotificationCommand(String command){
+    public static boolean hasMyNotificationCommand(String command) {
         return hasMyNotification(command, null);
     }
 
-    public static boolean hasMyNotificationId(String _id){
+    public static boolean hasMyNotificationId(String _id) {
         return hasMyNotification(null, _id);
     }
 }
