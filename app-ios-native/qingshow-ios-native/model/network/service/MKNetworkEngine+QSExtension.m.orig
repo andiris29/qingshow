@@ -19,11 +19,17 @@
 {
     MKNetworkOperation* op = nil;
     NSMutableDictionary* p = [paramDict mutableCopy];
+<<<<<<< HEAD
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    op = [self operationWithPath:path params:p httpMethod:method ];
+    [op setHeader:@"version" withValue:version];
+=======
     op = [self operationWithPath:path params:p httpMethod:method ];
     NSDictionary* headers = [QSNetworkHelper generateHeader];
     for (NSString* key in headers) {
         [op setHeader:key withValue:headers[key]];
     }
+>>>>>>> 1812f35... ios: handle header for version and device info
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     op.postDataEncoding = MKNKPostDataEncodingTypeJSON;
     [self enqueueOperation:op];
@@ -53,6 +59,13 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
+<<<<<<< HEAD
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    MKNetworkOperation *op = nil;
+    op = [self operationWithPath:path params:p httpMethod:method];
+    [op addData:image forKey:fileKey];
+    [op setHeader:@"version" withValue:version];
+=======
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey];
@@ -60,6 +73,7 @@
     for (NSString* key in headers) {
         [op setHeader:key withValue:headers[key]];
     }
+>>>>>>> 1812f35... ios: handle header for version and device info
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
     return op;
@@ -74,12 +88,19 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
+<<<<<<< HEAD
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    MKNetworkOperation *op = nil;
+    op = [self operationWithPath:path params:p httpMethod:method];
+    [op setHeader:@"version" withValue:version];
+=======
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     NSDictionary* headers = [QSNetworkHelper generateHeader];
     for (NSString* key in headers) {
         [op setHeader:key withValue:headers[key]];
     }
+>>>>>>> 1812f35... ios: handle header for version and device info
     [op addData:image forKey:fileKey mimeType:@"application/octet-stream" fileName:fileName];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
