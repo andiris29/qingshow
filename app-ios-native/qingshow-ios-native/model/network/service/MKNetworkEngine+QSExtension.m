@@ -7,6 +7,7 @@
 //
 
 #import "MKNetworkEngine+QSExtension.h"
+#import "QSNetworkHelper.h"
 
 @implementation MKNetworkEngine (QSExtension)
 
@@ -18,9 +19,11 @@
 {
     MKNetworkOperation* op = nil;
     NSMutableDictionary* p = [paramDict mutableCopy];
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    p[@"version"] = version;
     op = [self operationWithPath:path params:p httpMethod:method ];
+    NSDictionary* headers = [QSNetworkHelper generateHeader];
+    for (NSString* key in headers) {
+        [op setHeader:key withValue:headers[key]];
+    }
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     op.postDataEncoding = MKNKPostDataEncodingTypeJSON;
     [self enqueueOperation:op];
@@ -34,8 +37,7 @@
 {
     MKNetworkOperation* op = nil;
     NSMutableDictionary* p = [paramDict mutableCopy];
-   // NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    //p[@"version"] = version;
+
     op = [self operationWithPath:path params:p httpMethod:method ];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     op.postDataEncoding = MKNKPostDataEncodingTypeJSON;
@@ -51,12 +53,13 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    p[@"version"] = version;
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey];
-    //    [op setFreezable:YES];
+    NSDictionary* headers = [QSNetworkHelper generateHeader];
+    for (NSString* key in headers) {
+        [op setHeader:key withValue:headers[key]];
+    }
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
     return op;
@@ -71,10 +74,12 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    p[@"version"] = version;
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
+    NSDictionary* headers = [QSNetworkHelper generateHeader];
+    for (NSString* key in headers) {
+        [op setHeader:key withValue:headers[key]];
+    }
     [op addData:image forKey:fileKey mimeType:@"application/octet-stream" fileName:fileName];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];

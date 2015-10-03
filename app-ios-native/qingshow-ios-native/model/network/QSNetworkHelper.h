@@ -12,4 +12,5 @@
 @interface QSNetworkHelper : NSObject
 
 + (MKNetworkOperation*)querySystemPathOnSucceed:(VoidBlock)succeedBlock onError:(ErrorBlock)errorBlock;
++ (NSDictionary*)generateHeader;
 @end

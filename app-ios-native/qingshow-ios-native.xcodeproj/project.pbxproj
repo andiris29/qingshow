@@ -81,6 +81,7 @@
 		A7F852981AF8D559002EC71D /* QSU13PersonalizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F852961AF8D559002EC71D /* QSU13PersonalizeViewController.m */; };
 		A7F852991AF8D559002EC71D /* QSU13PersonalizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F852971AF8D559002EC71D /* QSU13PersonalizeViewController.xib */; };
 		EF002F751BAE6755004C8C25 /* QSNetworkEngine+SystemService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF002F741BAE6755004C8C25 /* QSNetworkEngine+SystemService.m */; };
+		EF029C251BC0234C008E66D0 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = EF029C241BC0234C008E66D0 /* UIDevice-Hardware.m */; settings = {ASSET_TAGS = (); }; };
 		EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF037EA01B43520A004E2723 /* QSRandomUtil.m */; };
 		EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */; };
 		EF0C63FF1B2186360079B22E /* UINib+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C63FE1B2186360079B22E /* UINib+QSExtension.m */; };
@@ -475,6 +476,8 @@
 		A7F852971AF8D559002EC71D /* QSU13PersonalizeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU13PersonalizeViewController.xib; sourceTree = "<group>"; };
 		EF002F731BAE6755004C8C25 /* QSNetworkEngine+SystemService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+SystemService.h"; sourceTree = "<group>"; };
 		EF002F741BAE6755004C8C25 /* QSNetworkEngine+SystemService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+SystemService.m"; sourceTree = "<group>"; };
+		EF029C231BC0234C008E66D0 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
+		EF029C241BC0234C008E66D0 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		EF037E9F1B43520A004E2723 /* QSRandomUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRandomUtil.h; sourceTree = "<group>"; };
 		EF037EA01B43520A004E2723 /* QSRandomUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRandomUtil.m; sourceTree = "<group>"; };
 		EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
@@ -1266,6 +1269,15 @@
 				8C53453D1B4D61180062D638 /* 6p */,
 			);
 			path = welcomeImg;
+			sourceTree = "<group>";
+		};
+		EF029C221BC0234C008E66D0 /* hardware */ = {
+			isa = PBXGroup;
+			children = (
+				EF029C231BC0234C008E66D0 /* UIDevice-Hardware.h */,
+				EF029C241BC0234C008E66D0 /* UIDevice-Hardware.m */,
+			);
+			path = hardware;
 			sourceTree = "<group>";
 		};
 		EF05E9401A7928DC00A58F72 /* umeng */ = {
@@ -2574,6 +2586,7 @@
 		EFF1148C1A0D2EEC009B7361 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				EF029C221BC0234C008E66D0 /* hardware */,
 				EF4A57ED1BA45CFC00677472 /* Aspect */,
 				EFF58B4A1B55DD5D001A9AC8 /* JPush */,
 				EF3012CE1AC3174000568D92 /* AlipaySDK */,
@@ -3062,6 +3075,7 @@
 				EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */,
 				EFEDA3771B4A01F90036B0EE /* QSRectUtil.m in Sources */,
 				EF0C642F1B21AAC20079B22E /* QSU02ManagerCell.m in Sources */,
+				EF029C251BC0234C008E66D0 /* UIDevice-Hardware.m in Sources */,
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m in Sources */,
 				8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */,
