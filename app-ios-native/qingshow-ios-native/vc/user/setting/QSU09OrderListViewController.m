@@ -151,6 +151,14 @@
         [self.provider reloadData];
     }
 }
+- (void)didTapPhone:(NSString*)phoneNumber {
+    if (!phoneNumber.length) {
+        return;
+    }
+    NSString* str = [[NSString alloc] initWithFormat:@"telprompt://%@",phoneNumber];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+}
+
 #pragma mark - QSOrderListTableViewProviderDelegate
 - (void)didClickOrder:(NSDictionary *)orderDict {
 }

@@ -49,14 +49,7 @@
     // Do any additional setup after loading the view from its nib.
     [self setPageType];
     [self getAddrWithOrderDict];
-//    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.orderDict];
-//    if ([QSEntityUtil getDictValue:itemDic keyPath:@"returnInfo"]) {
-//        self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:itemDic];
-//        self.companyLabel.text = [QSItemUtil getReturnInfoCompany:itemDic];
-//        self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:itemDic];
-//    }
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
-//    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
     [self.scrollView addGestureRecognizer:ges];
     [self setCurrentSelectedDate:[NSDate date]];
@@ -64,10 +57,11 @@
     UITapGestureRecognizer* tapDate = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTextField)];
     [self.sendDateTextField addGestureRecognizer:tapDate];
     [self.navigationController.navigationBar setTitleTextAttributes:
-     
      @{NSFontAttributeName:NAVNEWFONT,
-       
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    UITapGestureRecognizer* tapGes= [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapPhone:)];
+    [self.phoneLabel addGestureRecognizer:tapGes];
     
 }
 - (void)didTapTextField
@@ -245,5 +239,18 @@
 - (void)setCurrentSelectedDate:(NSDate*)date
 {
     self.sendDateTextField.text = [QSDateUtil buildDateStringFromDate:date];
+}
+
+- (void)didTapPhone:(UITapGestureRecognizer*)ges {
+    if (!self.receiverDict) {
+        return;
+    }
+    NSString* phone = [QSItemUtil getReturnPhoneFromDic:self.receiverDict];
+    if (!phone || !phone.length) {
+        return;
+    }
+    NSString* str = [[NSString alloc] initWithFormat:@"telprompt://%@",phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    
 }
 @end

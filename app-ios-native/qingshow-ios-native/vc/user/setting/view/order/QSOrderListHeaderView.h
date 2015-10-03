@@ -11,7 +11,7 @@
 @protocol QSOrderListHeaderViewDelegate <NSObject>
 
 - (void)changeValueOfSegment:(NSInteger)value;
-
+- (void)didTapPhone:(NSString*)phoneNumber;
 @end
 
 @interface QSOrderListHeaderView : UIView
@@ -20,9 +20,11 @@
 @property (weak, nonatomic) IBOutlet UILabel* label1;
 @property (weak, nonatomic) IBOutlet UILabel* label2;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer* tapPhoneGes;
 @property (assign,nonatomic) NSObject<QSOrderListHeaderViewDelegate>* delegate;
 
-- (IBAction)changeSegmentValue:(id)sender;
 + (instancetype)makeView;
 
+- (IBAction)changeSegmentValue:(id)sender;
+- (IBAction)didTapPhone:(UITapGestureRecognizer*)ges;
 @end
