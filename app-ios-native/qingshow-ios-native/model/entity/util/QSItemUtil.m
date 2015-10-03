@@ -56,7 +56,12 @@
 }
 
 + (NSNumber*)getPrice:(NSDictionary*)itemDict {
-    return [itemDict numberValueForKeyPath:@"price"];
+    NSNumber* n = [itemDict numberValueForKeyPath:@"price"];
+    if (!n) {
+        NSString* s= [itemDict stringValueForKeyPath:@"price"];
+        n = @(s.doubleValue);
+    }
+    return n;
 }
 + (NSString*)getPriceDesc:(NSDictionary*)itemDict
 {
@@ -66,7 +71,12 @@
     return [NSString stringWithFormat:@"%.2f", [self getPrice:itemDict].doubleValue];
 }
 + (NSNumber*)getPromoPrice:(NSDictionary*)itemDict {
-    return [itemDict numberValueForKeyPath:@"promoPrice"];
+    NSNumber* n = [itemDict numberValueForKeyPath:@"promoPrice"];
+    if (!n) {
+        NSString* s = [itemDict stringValueForKeyPath:@"promoPrice"];
+        n = @(s.doubleValue);
+    }
+    return n;
 }
 + (NSString*)getPromoPriceDesc:(NSDictionary*)itemDict
 {
