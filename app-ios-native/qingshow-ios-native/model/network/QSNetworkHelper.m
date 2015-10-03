@@ -26,9 +26,9 @@
     NSMutableDictionary* p = [paramDict mutableCopy];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     p[@"version"] = version;
-    
     MKNetworkEngine* engine = [[MKNetworkEngine alloc] init];
     MKNetworkOperation* op = [[MKNetworkOperation alloc] initWithURLString:PATH_SYSTEM_GET_SERVER params:p httpMethod:@"GET"];
+    [op setHeader:@"version" withValue:version];
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         NSDictionary* dict = completedOperation.responseJSON;
         dict = [dict dictValueForKeyPath:@"data.deployment"];
