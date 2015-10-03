@@ -32,12 +32,14 @@ NSString* managerCellTypeToTitle(U02SectionManagerRow type)
     self.textLabel.text = managerCellTypeToTitle(self.rowType);
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
-- (void)cellDidClicked {
+- (BOOL)cellDidClicked {
     switch (self.rowType) {
         case U02SectionManagerRowAddress:{
             [self.delegate showAddressList];
+            return YES;
             break;
         }
     }
+    return NO;
 }
 @end

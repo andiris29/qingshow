@@ -138,14 +138,7 @@
             [self showTextHud:@"已成功发送验证码"];
             [self setTimer];
         } onError:^(NSError *error) {
-            if (error.code == 1031) {
-                [self showErrorHudWithText:@"已超过每日发送次数"];
-            }else if (error.code == 1032){
-                [self showErrorHudWithText:@"请求短信频率过高，请稍候再试"];
-            }
-            else{
-            [self showErrorHudWithText:@"手机号码不正确或已被注册"];
-            }
+            [self showErrorHudWithError:error];
         }];
 }
 - (void)setTimer
@@ -260,17 +253,7 @@
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {
-        NSDictionary *userInfo = error.userInfo;
-        NSNumber *errorCode = [QSEntityUtil getNumberValue:userInfo keyPath:@"error"];
-        if (errorCode == nil) {
-            [self showErrorHudWithText:@"网络连接失败"];
-            return;
-        }
-        
-        if (errorCode.longValue == 1010) {
-            [self showErrorHudWithText:@"该账号已被注册"];
-            return;
-        }
+        [self showErrorHudWithError:error];
     };
     [SHARE_NW_ENGINE registerByNickname:nickName Password:passwdCfm Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
     
@@ -308,7 +291,7 @@
         [self popToPreviousVc];
 
     } onError:^(NSError *error) {
-        [self showErrorHudWithText:@"微信登陆失败"];
+        [self showErrorHudWithError:error];
     }];
 }
 
@@ -317,7 +300,7 @@
     [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
         [self popToPreviousVc];
     } onError:^(NSError *error) {
-        [self showErrorHudWithText:@"微博登陆失败"];
+        [self showErrorHudWithError:error];
     }];
 }
 @end

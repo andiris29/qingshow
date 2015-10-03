@@ -46,7 +46,7 @@ trade.create = {
             trade.itemSnapshot = req.body.itemSnapshot;
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
             trade.itemRef = RequestHelper.parseId(req.body.itemSnapshot._id);
-            if (req.body.promoterRef !== null && req.body.promoterRef.length > 0) {
+            if (req.body.promoterRef && req.body.promoterRef.length > 0) {
                 trade.promoterRef = RequestHelper.parseId(req.body.promoterRef);
             }
             trade.save(function(err) {
@@ -140,7 +140,15 @@ trade.prepay = {
                 var orderName = trade.itemSnapshot.name;
                 var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
-                    var jsonObject = JSON.parse(body);
+                    var jsonObject;
+                    try {
+                        jsonObject = JSON.parse(body);
+                    } catch (err) {
+                        winston.error('wechat/prepay failed.');
+                        winston.error('url = ' + url);
+                        winston.error('body = ' + body);
+                        throw err;
+                    }
                     if (jsonObject.metadata) {
                         callback(jsonObject.metadata, trade);
                     } else {

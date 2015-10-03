@@ -148,11 +148,7 @@
     UIAlertView* v =  [[UIAlertView alloc] initWithTitle:@"确认删除" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [v show];
 }
-- (void)didClickSelectedIndicatorOfCell:(QSUserLocationTableViewCell*)cell
-{
-    UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:[self receiverDictForCell:cell]];
-    [self.navigationController pushViewController:vc animated:YES];
-}
+
 
 #pragma mark - Private
 - (void)newLocationBtnPressed

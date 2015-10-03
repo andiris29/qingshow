@@ -17,7 +17,6 @@
 
 - (void)didClickEditButtonOfCell:(QSUserLocationTableViewCell*)cell;
 - (void)didClickDeleteButtonOfCell:(QSUserLocationTableViewCell*)cell;
-- (void)didClickSelectedIndicatorOfCell:(QSUserLocationTableViewCell*)cell;
 
 @end
 

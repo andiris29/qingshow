@@ -36,10 +36,11 @@
     }
 
 }
-- (void)cellDidClicked {
+- (BOOL)cellDidClicked {
     if (self.rowType == U02SectionInfoRowExpectation) {
         [self.delegate showExpectationVc];
     }
+    return YES;
 }
 
 @end

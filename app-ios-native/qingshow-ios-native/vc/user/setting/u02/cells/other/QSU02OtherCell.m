@@ -62,14 +62,17 @@ NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
     }
     
 }
-- (void)cellDidClicked {
+- (BOOL)cellDidClicked {
     if (self.rowType == U02SectionOtherRowPasswd) {
         [self.delegate showChangePasswordVc];
+        return YES;
     }
     else if (self.rowType == U02SectionOtherRowBonus)
     {
         [self.delegate  showBonuesVC];
+        return YES;
     }
+    return NO;
 }
 
 - (void)showDot {

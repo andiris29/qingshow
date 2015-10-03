@@ -59,12 +59,6 @@
         [self.delegate didClickDeleteButtonOfCell:self];
     }
 }
-- (IBAction)selectedIndicatorPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(didClickSelectedIndicatorOfCell:)]) {
-        [self.delegate didClickSelectedIndicatorOfCell:self];
-    }
-}
 
 + (float)getHeightWithDict:(NSDictionary*)dict {
     float width = [UIScreen mainScreen].bounds.size.width - 60.f;

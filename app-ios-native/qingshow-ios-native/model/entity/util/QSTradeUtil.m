@@ -211,9 +211,23 @@
     return [QSEntityUtil getNumberValue:dict keyPath:@"totalFee"];;
 }
 
++ (NSNumber*)getPrice:(NSDictionary*)dict {
+    NSNumber* totalFee = [self getTotalFee:dict];
+    NSNumber* quantity = [self getQuantity:dict];
+    return [NSNumber numberWithDouble:totalFee.doubleValue / quantity.doubleValue];
+}
++ (NSString*)getPriceDesc:(NSDictionary*)dict {
+    NSNumber* num = [self getPrice:dict];
+    if (num) {
+        return [NSString stringWithFormat:@"%.2f", num.doubleValue];
+    } else {
+        return @"";
+    }
+}
+
 + (NSString*)calculateDiscountDescWithPrice:(NSNumber*)targetPrice trade:(NSDictionary*)trade {
     
-    NSNumber* price = [QSItemUtil getPromoPrice:[self getItemDic:trade]];
+    NSNumber* price = [QSItemUtil getPromoPrice:[self getItemSnapshot:trade]];
     int disCount = targetPrice.doubleValue * 100 / price.doubleValue;
     if (disCount < 10) {
         disCount = 10;
@@ -230,5 +244,8 @@
     return [NSString stringWithFormat:@"%d折", disCount];
 }
 
++ (NSString*)getPromoterId:(NSDictionary*)dict {
+    return [dict stringValueForKeyPath:@"promoterRef"];
+}
 
 @end

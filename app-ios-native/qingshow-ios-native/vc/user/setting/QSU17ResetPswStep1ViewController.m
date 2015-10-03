@@ -84,6 +84,9 @@
     
 }
 - (IBAction)nextStepBtnPressed:(id)sender {
+    [self.phoneTextField resignFirstResponder];
+    [self.codeTextField resignFirstResponder];
+    
     NSString *PhoneStr = self.phoneTextField.text;
     NSString *codeStr = self.codeTextField.text;
     if (PhoneStr == nil) {

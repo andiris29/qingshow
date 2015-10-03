@@ -37,6 +37,6 @@ NSString* u02SectionToTitle(U02Section sec);
 + (QSU02AbstractTableViewCell*)generateCellWithSectionType:(U02Section)sectionType rowType:(NSInteger)rowType;
 
 - (void)bindWithUser:(NSDictionary*)userDict;
-- (void)cellDidClicked;
+- (BOOL)cellDidClicked;
 - (void)resignKeyboardAndPicker;
 @end

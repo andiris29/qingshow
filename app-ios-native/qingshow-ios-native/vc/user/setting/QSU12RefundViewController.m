@@ -202,7 +202,8 @@
                            @"returnLogistic" : @{
                                    @"company" : self.companyTextField.text,
                                    @"trackingId" : self.expressOrderTextField.text
-                                   }
+                                   },
+                           @"comment" : self.resonTextField.text
                            };
     
     if (self.type == 1) {

@@ -31,12 +31,12 @@
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDict];
 
-    NSString *oldPrice = [NSString stringWithFormat:@"原价：￥%@",[QSItemUtil getPriceDesc:itemDict]];
+    NSString *oldPrice = [NSString stringWithFormat:@"原价: %@",[QSItemUtil getPriceDesc:itemDict]];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, oldPrice.length)];
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.353 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
     [self.priceLabel setAttributedText:attri];
-    self.prompPriceLabel.text = [NSString stringWithFormat:@"现价：%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+    self.prompPriceLabel.text = [NSString stringWithFormat:@"现价: %@",[QSItemUtil getPromoPriceDesc:itemDict]];
     
 //    NSArray* prop = [QSTradeUtil getSkuProperties:tradeDict];
 //    if (prop.count > 0) {
@@ -67,7 +67,7 @@
     }
     disCount = disCount/10;
     
-    self.expectDiscountLabel.text = [NSString stringWithFormat:@"申请折扣：%d折",disCount];
-    self.expectedPriceLabel.text = [NSString stringWithFormat:@"申请价格 :%@", [QSTradeUtil getExpectedPriceDesc:tradeDict]];
+    self.expectDiscountLabel.text = [NSString stringWithFormat:@"申请折扣: %d折",disCount];
+    self.expectedPriceLabel.text = [NSString stringWithFormat:@"申请价格: %@", [QSTradeUtil getExpectedPriceDesc:tradeDict]];
 }
 @end

@@ -48,7 +48,7 @@
     disCount = disCount/10;
   
     self.actualDiscountLabel.text = [NSString stringWithFormat:@"%d折", disCount];
-    NSString *nowPrice = [NSString stringWithFormat:@"￥%@",actualPrice];
+    NSString *nowPrice = [NSString stringWithFormat:@"￥%.2f",actualPrice.doubleValue];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:nowPrice];
     NSRange contentRange = {0,[attri length]};
     [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];

@@ -70,7 +70,7 @@
                         <color key="textColor" red="0.26274509800000001" green="0.26274509800000001" blue="0.26274509800000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2I-nw-amr">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2I-nw-amr">
                         <rect key="frame" x="15" y="25" width="20" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <state key="normal" image="location_cell_unselect_icon">
@@ -79,9 +79,6 @@
                         </state>
                         <state key="selected" image="location_cell_select_icon"/>
                         <state key="highlighted" image="location_cell_select_icon"/>
-                        <connections>
-                            <action selector="selectedIndicatorPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9qz-6T-mIk"/>
-                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvA-Lg-mdl">
                         <rect key="frame" x="207" y="25" width="45" height="20"/>

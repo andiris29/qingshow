@@ -60,8 +60,8 @@ NSString* u02SectionToTitle(U02Section sec){
     cell.rowType = rowType;
     return cell;
 }
-- (void)cellDidClicked {
-
+- (BOOL)cellDidClicked {
+    return NO;
 }
 - (void)resignKeyboardAndPicker {
     
