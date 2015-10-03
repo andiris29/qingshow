@@ -81,10 +81,9 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
 
         if (null != trade.itemSnapshot) {
             String str = "原价：";
-            int start = str.length() + 1;
             String priceStr = str + StringUtil.FormatPrice(trade.itemSnapshot.price);
             SpannableString spannableString = new SpannableString(priceStr);
-            spannableString.setSpan(new StrikethroughSpan(), start, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new StrikethroughSpan(), 0, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.setText(R.id.item_tradelist_sourcePrice, spannableString);
 
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
