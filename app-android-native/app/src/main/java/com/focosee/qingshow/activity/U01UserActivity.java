@@ -109,8 +109,6 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     View circleTip;
     @InjectView(R.id.u01_backTop_btn)
     ImageButton u01BackTopBtn;
-    @InjectView(R.id.user_back_btn)
-    ImageButton userBackBtn;
     @InjectView(R.id.user_bonuses)
     QSTextView userBonuses;
     @InjectView(R.id.container)
@@ -182,8 +180,9 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void others() {
-        userBackBtn.setVisibility(View.VISIBLE);
-        userBackBtn.setOnClickListener(new View.OnClickListener() {
+        userNavBtn.setVisibility(View.VISIBLE);
+        userNavBtn.setImageResource(R.drawable.back_gray);
+        userNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -192,9 +191,6 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         btnListener = new BackBtnListener() {
             @Override
             public boolean onKeyDown(int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_MENU) {
-                    menuView.show(getSupportFragmentManager(), U01UserActivity.class.getSimpleName(), container);
-                }
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     finish();
                 }
