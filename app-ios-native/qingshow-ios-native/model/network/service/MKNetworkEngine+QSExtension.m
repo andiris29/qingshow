@@ -19,8 +19,8 @@
     MKNetworkOperation* op = nil;
     NSMutableDictionary* p = [paramDict mutableCopy];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    p[@"version"] = version;
     op = [self operationWithPath:path params:p httpMethod:method ];
+    [op setHeader:@"version" withValue:version];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     op.postDataEncoding = MKNKPostDataEncodingTypeJSON;
     [self enqueueOperation:op];
@@ -52,11 +52,10 @@
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    p[@"version"] = version;
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey];
-    //    [op setFreezable:YES];
+    [op setHeader:@"version" withValue:version];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
     return op;
@@ -72,9 +71,9 @@
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    p[@"version"] = version;
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
+    [op setHeader:@"version" withValue:version];
     [op addData:image forKey:fileKey mimeType:@"application/octet-stream" fileName:fileName];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
