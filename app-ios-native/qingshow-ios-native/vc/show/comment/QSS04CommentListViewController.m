@@ -89,6 +89,9 @@
         [self.headIcon setImageFromURL:url];
     }
     
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    self.navigationItem.leftBarButtonItem = backItem;
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

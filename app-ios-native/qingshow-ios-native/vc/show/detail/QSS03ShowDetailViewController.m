@@ -274,8 +274,6 @@
 - (IBAction)commentBtnPressed:(id)sender {
     [self hideSharePanel];
     UIViewController* vc =[[QSS04CommentListViewController alloc] initWithShow:self.showDict];
-    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
-    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
