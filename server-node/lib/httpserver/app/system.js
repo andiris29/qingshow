@@ -7,19 +7,19 @@ var errors = require('../../errors');
 var VersionUtil = require('../../utils/VersionUtil');
 
 var system = module.exports;
-var clientLogger = winston.loggers.get('client');
+var logger = require('../../runtime').loggers.get('client');
 
 var productionDeployment = {
 	appServiceRoot : 'http://chingshow.com/services',
 	paymentServiceRoot : 'http://chingshow.com/payment',
 	appWebRoot : 'http://chingshow.com/app-web' 
-}
+};
 
 var researchDeployment = {
 	appServiceRoot : 'http://dev.chingshow.com/services',
 	paymentServiceRoot : 'http://dev.chingshow.com/payment',
 	appWebRoot : 'http://chingshow.com/app-web' 
-}
+};
 
 system.get = {
 	'method' : 'get',

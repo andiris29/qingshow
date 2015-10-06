@@ -10,7 +10,7 @@ var Item = require('../../dbmodels').Item;
 var errors = require('../../errors');
 
 var winston = require('winston');
-var goblinLogger = winston.loggers.get('goblin');
+var logger = require('../../runtime').loggers.get('goblin');
 
 var goblin = module.exports;
 
@@ -64,7 +64,7 @@ goblin.crawlItemComplete = {
             }
         ], function (err, item) {
             if (!err) {
-                goblinLogger.info({
+                logger.info({
                     'ip' : RequestHelper.getIp(req),
                     'nextItem' : item._id ? item._id.toString() : ''
                 });
@@ -82,7 +82,7 @@ goblin.crawlItemFailed = {
     func : function (req, res) {
         var param = req.body;
         var log = param.log;
-        goblinLogger.info('Slaver Exception:\n' + log);
+        logger.info('Slaver Exception:\n' + log);
         ResponseHelper.response(res, null, {});
     }
 };

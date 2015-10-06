@@ -1,8 +1,6 @@
 var async = require('async');
-var fs = require('fs');
 var path = require('path');
 var properties = require("properties");
-
 
 // ------------------
 // Load & parse config.properties
@@ -19,7 +17,7 @@ properties.parse(configPath, {
     }
     global.qsConfig = config;
     // Initialize logger
-    _initalizeLog(config.logging.dir);
+    require('./runtime').loggers.init(config.logging.dir);
 
     //Database Connection
     var qsdb = require('./runtime').db;
@@ -45,63 +43,3 @@ properties.parse(configPath, {
         }
     });
 });
-
-var _initalizeLog = function(dir) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    }
-    
-    var winston = require('winston');
-    // Default logger
-    winston.add(winston.transports.DailyRotateFile, {
-        'filename' : path.join(dir, 'winston.log')
-    });
-    // winston.remove(winston.transports.Console);
-    
-    // Exception logger
-    new winston.Logger({
-        'exceptionHandlers' : [
-            new winston.transports.DailyRotateFile({
-                'filename' : path.join(dir, 'winston-exception.log')
-            })
-        ],
-        'exitOnError' : false
-    });
-    
-    // Performance logger
-    winston.loggers.add('api', {
-        'transports' : [
-            new winston.transports.DailyRotateFile({
-                'filename' : path.join(dir, 'winston-api.log')
-            })
-        ]
-    });
-    
-    // Goblin logger
-    winston.loggers.add('goblin', {
-        'transports' : [
-            new winston.transports.DailyRotateFile({
-                'filename' : path.join(dir, 'winston-goblin.log')
-            })
-        ]
-    });
-    
-    // Client logger
-    winston.loggers.add('client', {
-        'transports' : [
-            new winston.transports.DailyRotateFile({
-                'filename' : path.join(dir, 'winston-client.log')
-            })
-        ]
-    });
-
-    //trade-skuProperties-track 
-    winston.loggers.add('trade-skuProperties-track', {
-        'transports' : [
-            new winston.transports.File({
-                'filename' : path.join(dir, 'winston-trade-skuProperties-track.log')
-            })
-        ]
-    });
-};
-

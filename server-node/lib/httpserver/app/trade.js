@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
-var logger = require('winston').loggers.get('trade-skuProperties-track');
+var logger = require('../../runtime').loggers.get('trade-skuProperties-track');
 
 var Trade = require('../../dbmodels').Trade;
 var People = require('../../dbmodels').People;
