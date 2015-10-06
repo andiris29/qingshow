@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
  * Created by Administrator on 2015/3/19.
  */
 public class StringUtil {
-    public static String formatDiscount(String current, String original) {
-        if(TextUtils.isEmpty(current) || TextUtils.isEmpty(original))return "";
+    public static String formatDiscount(Number current, Number original) {
+        if(null == current || null == original)return "";
         String str = "";
-        double dis = Double.parseDouble(current) / Double.parseDouble(original);
+        double dis = current.doubleValue() / original.doubleValue();
         if (dis < 0.1) {
             str = "1";
         } else if (dis > 0.9) {
@@ -25,8 +25,8 @@ public class StringUtil {
         return str + "折";
     }
 
-    public static String FormatPrice(String price) {
-        return "¥" + formatPriceWithoutSign(price);
+    public static String FormatPrice(Number price) {
+        return "¥" + formatPriceWithoutSign(String.valueOf(price));
     }
 
     public static String formatPriceWithoutSign(String price){
@@ -57,7 +57,7 @@ public class StringUtil {
     public static String formatPriceDigits(double price, int which) {//取小数点后两位
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(which);
-        return String.valueOf(nf.format(price));
+        return nf.format(price);
     }
 
     public static String calculationException(double expectedPrice, String promoPrice) {

@@ -147,15 +147,15 @@ public class S11NewTradeNotifyFragment extends Fragment {
         spannableString.setSpan(new StrikethroughSpan(), 0, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.price.setText(spannableString);
 
-        expectedPrice.setText(StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
-        expectedDiscount.setText(StringUtil.formatDiscount(String.valueOf(trade.expectedPrice), trade.itemSnapshot.promoPrice));
+        expectedPrice.setText(StringUtil.FormatPrice(trade.expectedPrice));
+        expectedDiscount.setText(StringUtil.formatDiscount(trade.expectedPrice, trade.itemSnapshot.promoPrice));
 
-        spannableString = new SpannableString(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price)));
+        spannableString = new SpannableString(StringUtil.FormatPrice(trade.itemRef.expectable.price));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new UnderlineSpan(), 1, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         nowPrice.setText(spannableString);
 
-        nowDiscount.setText(StringUtil.formatDiscount(String.valueOf(trade.itemRef.expectable.price), trade.itemSnapshot.promoPrice));
+        nowDiscount.setText(StringUtil.formatDiscount(trade.itemRef.expectable.price, trade.itemSnapshot.promoPrice));
 
         if (!TextUtils.isEmpty(trade.itemRef.expectable.messageForBuy)) {
             spannableString = new SpannableString("● " + trade.itemRef.expectable.messageForBuy);

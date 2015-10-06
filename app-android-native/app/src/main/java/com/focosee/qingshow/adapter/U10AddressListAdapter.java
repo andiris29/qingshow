@@ -3,6 +3,7 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -167,6 +168,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
 
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(U10AddressListAdapter.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;

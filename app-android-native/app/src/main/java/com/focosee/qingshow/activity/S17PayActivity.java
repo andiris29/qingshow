@@ -112,7 +112,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
         submit.setOnClickListener(this);
-        priceTV.setText(StringUtil.FormatPrice(String.valueOf(trade.itemRef.expectable.price.doubleValue() * trade.quantity)));
+        priceTV.setText(StringUtil.FormatPrice(trade.itemRef.expectable.price.doubleValue() * trade.quantity));
 
     }
 

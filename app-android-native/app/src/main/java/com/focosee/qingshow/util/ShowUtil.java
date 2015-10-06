@@ -41,6 +41,7 @@ public class ShowUtil {
     public static List<MongoShow> cleanHidedShow(List<MongoShow> data){
         List<MongoShow> result = new ArrayList<>();
         for (MongoShow show : data) {
+            if(null == show) continue;
             if(!show.hideAgainstOwner){
                 result.add(show);
             }

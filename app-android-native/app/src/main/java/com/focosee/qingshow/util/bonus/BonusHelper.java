@@ -16,7 +16,7 @@ public class BonusHelper {
     private static final int WITHDRAWED = 2;
 
     public static String getBonusesNotWithDraw(List<MongoPeople.Bonuses> bonuses) {
-        return StringUtil.FormatPrice(String.valueOf(getBonusesWithFloat(bonuses)));
+        return StringUtil.FormatPrice(getBonusesWithFloat(bonuses));
     }
 
     public static float getBonusesWithFloat(List<MongoPeople.Bonuses> bonuses) {
@@ -30,7 +30,7 @@ public class BonusHelper {
     }
 
     public static String getTotalBonusesString(List<MongoPeople.Bonuses> bonuses) {
-        return StringUtil.FormatPrice(String.valueOf(getTotalBonusesFloat(bonuses)));
+        return StringUtil.FormatPrice(getTotalBonusesFloat(bonuses));
     }
 
     public static float getTotalBonusesFloat(List<MongoPeople.Bonuses> bonuses){
