@@ -30,4 +30,6 @@ public class ErrorCode {
     public static final int MobileAlreadyExist = 1029;
     public static final int MobileVerifyFailed = 1030;
     public static final int SMSlimitedSend = 1031;
+    public static final int FrequentlyRequest = 1032;
+    public static final int NickNameAlredyExist = 1033;
 }
