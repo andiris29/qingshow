@@ -154,7 +154,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         area_layout.setTag(ViewName.AREA);
 
-        if (people.mobile == null) {
+        if (TextUtils.isEmpty(people.mobile)) {
             verificationBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -229,12 +229,11 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             return;
         }
 
-        if (people.mobile == null) {
+        if (TextUtils.isEmpty(people.mobile)) {
             validateMobile(params);
         } else {
             commit(params);
         }
-
     }
 
     private void commit(final Map params) {
@@ -272,7 +271,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(U07RegisterActivity.class.getSimpleName(), "response:" + response);
+                Log.d(U11AddressEditFragment.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     saveBtn.setEnabled(true);

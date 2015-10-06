@@ -68,6 +68,7 @@ public class UserCommand {
     }
 
     public static void update(JSONObject jsonObject,final Callback callback){
+        Log.d(UserCommand.class.getSimpleName(), "jsonObject:" + jsonObject.toString());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

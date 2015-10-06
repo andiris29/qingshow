@@ -46,7 +46,7 @@
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/s01_tab_btn1"
                     android:onClick="onClick"
-                    android:text="精选"
+                    android:text="达人"
                     android:textColor="@color/white"
                     android:layout_marginRight="-1dp"
                     android:textSize="@dimen/text_size"

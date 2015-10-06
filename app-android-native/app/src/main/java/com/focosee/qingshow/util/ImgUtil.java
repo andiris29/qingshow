@@ -64,6 +64,7 @@ public class ImgUtil {
         }
         if(url.substring(url.length() - 1).equals("."))
             url = url.substring(0, url.length() - 1);
+        Log.d(ImgUtil.class.getSimpleName(), "url:" + url);
         return url + "_" + scale + "." + type;
     }
 

@@ -25,6 +25,8 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -362,17 +364,22 @@ public class S11NewTradeFragment extends Fragment {
             return;
         }
 
-        if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
-            startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
-            return;
-        }
+        UserCommand.refresh(new Callback() {
+            @Override
+            public void onComplete() {
+                if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
+                    startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
+                    return;
+                }
 
-        submit.setClickable(false);
-        trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
-        trade.expectedPrice = basePrice * discountNum / 10;
-        trade.itemSnapshot = itemEntity;
-        trade.quantity = num;
-        submitToNet(trade);
+                submit.setClickable(false);
+                trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
+                trade.expectedPrice = basePrice * discountNum / 10;
+                trade.itemSnapshot = itemEntity;
+                trade.quantity = num;
+                submitToNet(trade);
+            }
+        });
     }
 
     private void submitToNet(MongoTrade trade) {
