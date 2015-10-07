@@ -10,6 +10,21 @@ RequestHelper.getIp = function (req) {
     return req.header('X-Real-IP') || req.connection.remoteAddress;
 };
 
+RequestHelper.getVersion = function (req) {
+    return req.header('qs-version') || req.queryString.version;
+};
+
+RequestHelper.getClientInfo = function (req) {
+    return {
+        'qs-device-model' : req.header('qs-device-model'),
+        'qs-device-uid' : req.header('qs-device-uid'),
+        'qs-os-type' : req.header('qs-os-type'),
+        'qs-type' : req.header('qs-type'),
+        'qs-version' : req.header('qs-version'),
+        'qs-version-code' : req.header('qs-version-code')
+    };
+};
+
 RequestHelper.parse = function (raw, specifiedParsers) {
     var qsParam = {};
     specifiedParsers = specifiedParsers || {};

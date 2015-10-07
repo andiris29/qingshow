@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
-var logger = require('winston').loggers.get('trade-skuProperties-track');
+var loggers = require('../../runtime').loggers;
 
 var Trade = require('../../dbmodels').Trade;
 var People = require('../../dbmodels').People;
@@ -52,10 +52,6 @@ trade.create = {
             trade.save(function(err) {
                 callback(err, trade);
             });
-            logger.info({
-                'selectedSkuProperties' : trade.selectedSkuProperties,
-                '_id' : trade._id.toString()
-            })
         },
         function(trade, callback) {
             // Update trade status
@@ -87,6 +83,11 @@ trade.create = {
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
+            // Log
+            loggers.get('trade-creation').info(_.extend(RequestHelper.getClientInfo(req), {
+                '_id' : trade._id.toString(),
+                'selectedSkuProperties' : trade.selectedSkuProperties
+            }));
         });
     }
 };
