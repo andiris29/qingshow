@@ -38,22 +38,22 @@ VersionUtil.compare = function(left, right) {
     return 0;
 };
 
-VersionUtil.lower = function(left, right) {
+VersionUtil.lt = function(left, right) {
     var result = VersionUtil.compare(left, right);
     return result === -1;
 };
 
-VersionUtil.lowerOrEqual = function(left, right) {
+VersionUtil.lte = function(left, right) {
     var result = VersionUtil.compare(left, right);
     return result === -1 || result === 0;
 };
 
-VersionUtil.greater = function(left, right) {
+VersionUtil.gt = function(left, right) {
     var result = VersionUtil.compare(left, right);
     return result === 1;
 };
 
-VersionUtil.greaterOrEqual = function(left, right) {
+VersionUtil.gte = function(left, right) {
     var result = VersionUtil.compare(left, right);
     return result === 1 || result === 0;
 };
