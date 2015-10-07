@@ -163,17 +163,9 @@
     NSArray* itemArray = showDict[@"itemRefs"];
     NSMutableArray* returnArray = [@[] mutableCopy];
     for (id item in itemArray) {
+        //Ignore dict that hasn't been populated
         if ([QSEntityUtil checkIsDict:item]) {
             [returnArray addObject:item];
-        }else{
-#warning 并不能work
-            [SHARE_NW_ENGINE getItemWithId:item onSucceed:^(NSDictionary *item, NSDictionary *metadata) {
-                if (item) {
-                    [returnArray addObject:item];
-                }
-            } onError:^(NSError *error) {
-                
-            }];
         }
     }
     return returnArray;

@@ -24,7 +24,7 @@
 + (NSString*)getMonthDesc:(NSDate*)date;
 + (NSString*)getYearDesc:(NSDate*)date;
 + (NSString*)getWeekdayDesc:(NSDate*)date;
-+ (int)getWeekdayIndex:(NSDate*)date;
++ (NSInteger)getWeekdayIndex:(NSDate*)date;
 
 //获取日期
 + (NSString*)getMonthAndDate:(NSDate*)date;

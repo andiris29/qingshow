@@ -151,7 +151,7 @@
 {
     NSMutableString* str = [@"" mutableCopy];
     for (int i = 0; i < 3; i++) {
-        int row = [self.picker selectedRowInComponent:i];
+        NSInteger row = [self.picker selectedRowInComponent:i];
         NSString* v = [self valueForRow:row forComponent:i];
         [str appendString:v];
         [str appendString:@" "];
