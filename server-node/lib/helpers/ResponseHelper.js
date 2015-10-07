@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var winston = require('winston');
-var apiLogger = winston.loggers.get('api');
+
+var logger = require('../runtime').loggers.get('api');
 
 var errors = require('../errors');
 
@@ -27,11 +28,11 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
             'path' : res.qsPerformance.fullpath
         };
         if (log.cost > 1000) {
-            apiLogger.error(log);
+            logger.error(log);
         } else if (log.cost > 100) {
-            apiLogger.warn(log);
+            logger.warn(log);
         } else {
-            apiLogger.info(log);
+            logger.info(log);
         }
     }
     res.json(json);

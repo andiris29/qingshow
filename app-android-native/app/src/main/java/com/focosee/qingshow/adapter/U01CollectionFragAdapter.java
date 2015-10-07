@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
+import com.focosee.qingshow.activity.fragment.U01CollectionFragment;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
@@ -76,22 +79,25 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
         holder.getView(R.id.item_s01_bottom_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null == show.ownerRef) return;
-                Intent intent = new Intent(context, U01UserActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", show.ownerRef);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                if (null != show.ownerRef) {
+                    Intent intent = new Intent(context, U01UserActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", show.ownerRef);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
             }
         });
-        holder.setImgeByUrl(R.id.item_s01_preground, ImgUtil.getImgSrc(show.coverForeground, ImgUtil.LARGE), ValueUtil.pre_img_AspectRatio);
-        holder.setImgeByUrl(R.id.item_s01_img, ImgUtil.getImgSrc(show.cover, ImgUtil.LARGE), ValueUtil.match_img_AspectRatio);
+        Log.d(U01CollectionFragment.class.getSimpleName(), "coverForeground:" + show.coverForeground);
+        Log.d(U01CollectionFragment.class.getSimpleName(), "cover:" + show.cover);
+        holder.setImgeByController(R.id.item_s01_preground, show.coverForeground, ValueUtil.pre_img_AspectRatio);
+        holder.setImgeByController(R.id.item_s01_img, show.cover, ValueUtil.match_img_AspectRatio);
         MongoPeople user = new MongoPeople();
         if(null != show.ownerRef){
             user = show.ownerRef;
         }
 
-        if(null != user.portrait || "".equals(user.portrait))
+        if(TextUtils.isEmpty(user.portrait))
             holder.setImgeByUrl(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
 
         holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" :TimeUtil.formatDateTime_CN_Pre(show.create) + "前");

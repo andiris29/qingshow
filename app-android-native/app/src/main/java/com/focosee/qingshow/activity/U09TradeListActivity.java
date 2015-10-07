@@ -36,7 +36,6 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
-import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.LinkedList;

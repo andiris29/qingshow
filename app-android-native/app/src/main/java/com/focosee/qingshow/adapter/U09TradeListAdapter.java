@@ -103,7 +103,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             holder.setText(R.id.item_tradelist_sourcePrice, spannableString);
 
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
-            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
+            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
             holder.getView(R.id.item_tradelist_image).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,7 +132,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             properTextView.setText(properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
-        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
+        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.expectedPrice));
 
         if (null != trade.itemRef) {
             if (null != trade.itemRef.expectable) {
@@ -211,8 +211,8 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             return;
         }
 
-        holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.totalFee.doubleValue() / trade.quantity, trade.itemSnapshot.promoPrice));
-        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.totalFee.doubleValue() / trade.quantity)));
+        holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.totalFee.doubleValue() / trade.quantity, trade.itemSnapshot.promoPrice.doubleValue()));
+        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.totalFee.doubleValue() / trade.quantity));
 
         //3-已发货
         if (trade.status == StatusCode.SENDED) {

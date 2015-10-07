@@ -8,6 +8,7 @@ var Category = require('../../dbmodels').Category;
 var Item = require('../../dbmodels').Item;
 var Show = require('../../dbmodels').Show;
 
+var loggers = require('../../runtime').loggers;
 // util
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
@@ -108,6 +109,10 @@ matcher.updateCover = {
                 ResponseHelper.response(res, err, {
                     'show' : show
                 });
+                // Log
+                loggers.get('show-creation').info(_.extend(RequestHelper.getClientInfo(req), {
+                    '_id' : show._id.toString()
+                }));
             });
             delete _matchers[fields.uuid];
         });

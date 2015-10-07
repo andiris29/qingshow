@@ -60,28 +60,7 @@ var _builtInValidators = {
     }
 };
 
-var _versionValidator = function(req, res, callback) {
-    var minSupportedVersion = 2.0;
-    if (req.body.version === null && req.queryString.version === null) {
-        callback(null);
-        return;
-    }
-
-    var version = 0;
-    if (req.body.version !== null) {
-        version = RequestHelper.parseNumber(req.body.version);
-    } else {
-        version = RequestHelper.parseNumber(req.queryString.version);
-    }
-    if (version < minSupportedVersion) {
-        callback(errors.UnsupportVersion);
-    } else {
-        callback(null);
-    }
-};
-
 var _globalValidators = [
-    _versionValidator
 ];
 
 module.exports = _init;
