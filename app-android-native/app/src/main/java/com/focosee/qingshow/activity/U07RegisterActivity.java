@@ -20,7 +20,6 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
-import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -38,7 +37,6 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.wxapi.WxLoginedEvent;
-import com.google.gson.Gson;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -47,7 +45,6 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.umeng.analytics.MobclickAgent;
-import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -209,6 +206,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         }
+        finish();
     }
 
     @Override
@@ -277,6 +275,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.weiboLoginButton:
                 weiBoLogin();
+                break;
             case R.id.verification_code_btn:
                 if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
                     ToastUtil.showShortToast(U07RegisterActivity.this, "请输入手机号码");
@@ -334,11 +333,13 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                         ToastUtil.showShortToast(U07RegisterActivity.this, getString(R.string.login_successed));
                         MongoPeople user = UserParser._parsePeople(response);
                         QSModel.INSTANCE.login(user);
-                        Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("user", user);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
+                            Intent intent = new Intent(U07RegisterActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user", user);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
                         finish();
                         return;
                     }
