@@ -102,16 +102,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/item_tradelist_quantity"
             android:layout_marginTop="5dp"
-            android:text="成功折扣：" />
+            android:text="申请折扣：" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_expectedPrice"
-            app:preText="购买价格："
+            app:preText="申请价格："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_tradelist_exception"
             android:layout_marginTop="5dp"
-            android:text="购买价格：" />
+            android:text="申请价格：" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_hint"
