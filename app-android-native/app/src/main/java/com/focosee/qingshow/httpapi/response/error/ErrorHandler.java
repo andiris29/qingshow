@@ -3,8 +3,6 @@ package com.focosee.qingshow.httpapi.response.error;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.util.ToastUtil;
 

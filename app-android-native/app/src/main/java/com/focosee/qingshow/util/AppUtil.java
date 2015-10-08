@@ -40,6 +40,17 @@ public class AppUtil {
         }
     }
 
+    public static String getVersionCode(){
+        try {
+            Context context = QSApplication.instance();
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return String.valueOf(pi.versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "1";
+        }
+    }
+
     public static DisplayImageOptions getShowDisplayOptions() {
         if (null == showDisplayOptions) {
             showDisplayOptions = new DisplayImageOptions.Builder()
