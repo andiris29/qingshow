@@ -61,12 +61,12 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
             holder.getView(R.id.item_t01_delist).setVisibility(View.VISIBLE);
         }
         SpannableString spanStrDis = new SpannableString(disPreText + StringUtil.calculationException(
-                trade.itemRef.expectable.price.doubleValue(), trade.itemSnapshot.promoPrice));
+                trade.totalFee.doubleValue() / trade.quantity, trade.itemSnapshot.promoPrice.doubleValue()));
         spanStrDis.setSpan(relativeSizeSpan, disPreText.length(), spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanStrDis.setSpan(styleSpan, 0, spanStrDis.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_discount, spanStrDis);
 
-        SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(String.valueOf(trade.totalFee)));
+        SpannableString spanStrPrice = new SpannableString(pricePreText + StringUtil.FormatPrice(trade.totalFee.doubleValue() / trade.quantity));
         spanStrPrice.setSpan(relativeSizeSpan, pricePreText.length(), spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanStrPrice.setSpan(styleSpan, 0, spanStrPrice.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.item_t01_price, spanStrPrice);
@@ -81,16 +81,15 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
 
         if (null != trade.itemSnapshot) {
             String str = "原价：";
-            int start = str.length() + 1;
             String priceStr = str + StringUtil.FormatPrice(trade.itemSnapshot.price);
             SpannableString spannableString = new SpannableString(priceStr);
-            spannableString.setSpan(new StrikethroughSpan(), start, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new StrikethroughSpan(), 0, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.setText(R.id.item_tradelist_sourcePrice, spannableString);
 
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
-            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
+            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
-            holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(String.valueOf(trade.itemSnapshot.promoPrice)));
+            holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
         }
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
         if (!TextUtils.isEmpty(properties)) {

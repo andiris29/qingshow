@@ -14,7 +14,6 @@
 #warning TODO 解除对RootcontainerVC与QSUserManager的依赖
 #import "QSRootContainerViewController.h"
 #import "QSUserManager.h"
-#import "QSUnreadManager.h"
 
 #import "QSBlockAlertView.h"
 #import "QSU01UserDetailViewController.h"
@@ -103,9 +102,7 @@
         if ([QSUserManager shareUserManager].userInfo) {
             UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemMy];
             if ([vc isKindOfClass:[QSU01UserDetailViewController class]]) {
-#warning user other method
-                QSU01UserDetailViewController* myVc = (QSU01UserDetailViewController*)vc;
-#warning TODO 跳转到recommend
+//                QSU01UserDetailViewController* myVc = (QSU01UserDetailViewController*)vc;
 //                [myVc.badgeView.btnGroup addDotWithType:QSBadgeButtonTypeRecommend];
             }
         }

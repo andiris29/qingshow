@@ -63,15 +63,15 @@ system.log = {
 
         switch(level) {
             case 'info':
-                clientLogger.info(message, log);
+                logger.info(message, log);
                 break;
 
             case 'error':
-                clientLogger.error(message, log);
+                logger.error(message, log);
                 break;
 
             case 'warn':
-                clientLogger.warn(message, log);
+                logger.warn(message, log);
                 break;
         }
 

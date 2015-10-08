@@ -10,7 +10,7 @@
 
 @interface QSHorizontalCollectionViewLayout ()
 
-@property (assign, nonatomic) int cellCount;
+@property (assign, nonatomic) NSInteger cellCount;
 @property (assign, nonatomic) CGFloat verticalSpace;
 @end
 

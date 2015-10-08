@@ -64,11 +64,11 @@
         }
         [center postNotificationName:kPnsItemExpectablePriceUpdatedNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandNewBonus]) {
-        [center postNotificationName:kPnsNewBonusNotification object:nil];
+        [center postNotificationName:kPnsNewBonusNotification object:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandBonusWithdrawComplete]) {
-        [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:nil];
+        [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:userInfoDict];
     } else if ([command isEqual:kPnsTradeRefundComplete]) {
-        [center postNotificationName:kPnsTradeRefundCompleteNotification object:nil];
+        [center postNotificationName:kPnsTradeRefundCompleteNotification object:userInfoDict];
     }
 }
 @end

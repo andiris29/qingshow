@@ -37,7 +37,7 @@
                                       [UIColor colorWithRed:137.f/255.f green:140.f/255.f blue:194.f/255.f alpha:1.f],//898cc2
                                       [UIColor colorWithRed:214.f/255.f green:149.f/255.f blue:187.f/255.f alpha:1.f]//d695bb
                                       ];
-    int index = [QSDateUtil  getWeekdayIndex:date];
+    NSInteger index = [QSDateUtil  getWeekdayIndex:date];
     if (index > 0 && index < backgroundColorArray.count) {
         UIColor* c = backgroundColorArray[index];
         self.backgroundColor = c;

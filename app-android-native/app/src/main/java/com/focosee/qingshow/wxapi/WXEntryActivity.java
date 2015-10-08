@@ -128,11 +128,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
                 }
                 QSModel.INSTANCE.login(user);
-                Intent intent = new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", user);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
+                    Intent intent = new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
                 EventBus.getDefault().post(new WxLoginedEvent(null));
                 finish();
             }

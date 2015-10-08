@@ -1,5 +1,8 @@
 package com.focosee.qingshow.httpapi.request;
 
+import android.os.Build;
+
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.AppUtil;
 
@@ -13,7 +16,12 @@ import java.util.Map;
  */
 public class RequestHelper {
     private static final String VERSION_KEY_REQ = "qs-version";
-
+    private static final String VERSION_CODE_REQ = "qs-version-code";
+    private static final String TYPE_REQ = "qs-type";
+    private static final String DEVICE_UID_REQ = "qs-device-uid";
+    private static final String DEVICE_MODEL_REQ = "qs-device-model";
+    private static final String OS_TYPE_ERQ = "qs-os-type";
+    private static final String OS_VERSION_REQ = "qs-os-version";
     private static final String COOKIE_KEY_REQ = "Cookie";
     private static final String COOKIE_KEY_RES = "Set-Cookie";
 
@@ -50,5 +58,11 @@ public class RequestHelper {
 
     private static void _appendVersion(Map<String, String> headers) {
         headers.put(VERSION_KEY_REQ, AppUtil.getVersion());
+        headers.put(VERSION_CODE_REQ, AppUtil.getVersionCode());
+        headers.put(TYPE_REQ, "app-android");
+        headers.put(DEVICE_UID_REQ, QSApplication.instance().getDeviceUid());
+        headers.put(DEVICE_MODEL_REQ, Build.MODEL);
+        headers.put(OS_TYPE_ERQ, "android");
+        headers.put(OS_VERSION_REQ, Build.VERSION.RELEASE);
     }
 }

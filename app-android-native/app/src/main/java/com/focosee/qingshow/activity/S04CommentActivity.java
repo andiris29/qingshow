@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -33,7 +32,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.ConfirmDialog;
@@ -41,9 +39,7 @@ import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -129,13 +125,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
             }
         });
-
-        if (QSModel.INSTANCE.loggedin()) {
-            if (null != QSModel.INSTANCE.getUser()) {
-                S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
-                S04UserImage.setAspectRatio(1f);
-            }
-        }
 
         s04SendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,6 +341,12 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         super.onResume();
         MobclickAgent.onPageStart("S04CommentList");
         MobclickAgent.onResume(this);
+        if (QSModel.INSTANCE.loggedin()) {
+            if (null != QSModel.INSTANCE.getUser()) {
+                S04UserImage.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+                S04UserImage.setAspectRatio(1f);
+            }
+        }
     }
 
     @Override

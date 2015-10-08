@@ -35,7 +35,7 @@
 
 - (IBAction)editBtnPressed:(id)sender;
 - (IBAction)deleteBtnPressed:(id)sender;
-- (IBAction)selectedIndicatorPressed:(id)sender;
+
 
 - (void)bindWithDict:(NSDictionary*)dict;
 + (float)getHeightWithDict:(NSDictionary*)dict;

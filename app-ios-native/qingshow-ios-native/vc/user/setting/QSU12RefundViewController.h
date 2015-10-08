@@ -26,8 +26,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *phoneLabel;
 @property (weak, nonatomic) IBOutlet UILabel *companyLabel;
 
-@property(nonatomic,assign)NSInteger type;
-
 - (IBAction)submitBtnPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;

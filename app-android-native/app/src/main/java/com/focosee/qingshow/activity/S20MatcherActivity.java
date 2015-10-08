@@ -660,6 +660,9 @@ public class S20MatcherActivity extends BaseActivity {
         super.onResume();
         if (canvas.views.size() != 0) {
             canvas.reselectView();
+        }else {
+            adapter.clearData();
+            adapter.notifyDataSetChanged();
         }
 
         MobclickAgent.onPageStart("S20MatcherActivity");

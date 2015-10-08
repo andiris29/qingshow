@@ -84,59 +84,55 @@
 {
     [super rootMenuItemPressedType:type oldType:oldType];
     [self hideMenu];
-    if (oldType != type) {
-        UIViewController<QSIRootContentViewController>* vc = nil;
-        switch (type) {
-            case QSRootMenuItemMy: {
-                QSU01UserDetailViewController* u01Vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
-                u01Vc.menuProvider = self;
-                vc = u01Vc;
-                break;
-            }
-            case QSRootMenuItemMeida: {
-                QSS01MatchShowsViewController * matcherShowVc = [[QSS01MatchShowsViewController alloc] init];
-                matcherShowVc.menuProvider = self;
-                vc = matcherShowVc;
-                break;
-            }
-            case QSRootMenuItemSetting: {
-                QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
-                settingVc.menuProvider = self;
-                vc = settingVc;
-                break;
-            }
-            case QSRootMenuItemMatcher: {
-                QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
-                matcherVc.menuProvider = self;
-                vc = matcherVc;
-                break;
-            }
-            case QSRootMenuItemDiscount: {
-                QSU09OrderListViewController* orderListVc = [[QSU09OrderListViewController alloc] init];
-                orderListVc.menuProvider = self;
-                vc = orderListVc;
-                break;
-            }
-            case QSRootMenuItemShowTrade:{
-                QST01ShowTradeViewController *t01VC = [[QST01ShowTradeViewController alloc]init];
-                t01VC.menuProvider = self;
-                vc = t01VC;
-                break;
-            }
-            default:{
-                break;
-            }
+    
+    UIViewController<QSIRootContentViewController>* vc = nil;
+    switch (type) {
+        case QSRootMenuItemMy: {
+            QSU01UserDetailViewController* u01Vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
+            u01Vc.menuProvider = self;
+            vc = u01Vc;
+            break;
         }
-        [self showVc:vc];
-        
-        if ((![vc isKindOfClass:[QSS01MatchShowsViewController class]]) && (![vc isKindOfClass:[QST01ShowTradeViewController class]])) {
-            [self showRegisterVc];
+        case QSRootMenuItemMeida: {
+            QSS01MatchShowsViewController * matcherShowVc = [[QSS01MatchShowsViewController alloc] init];
+            matcherShowVc.menuProvider = self;
+            vc = matcherShowVc;
+            break;
         }
-    } else {
-        if ([self.contentNavVc isKindOfClass:[UINavigationController class]]) {
-            [((UINavigationController*)self.contentNavVc) popToRootViewControllerAnimated:NO];
+        case QSRootMenuItemSetting: {
+            QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
+            settingVc.menuProvider = self;
+            vc = settingVc;
+            break;
+        }
+        case QSRootMenuItemMatcher: {
+            QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
+            matcherVc.menuProvider = self;
+            vc = matcherVc;
+            break;
+        }
+        case QSRootMenuItemDiscount: {
+            QSU09OrderListViewController* orderListVc = [[QSU09OrderListViewController alloc] init];
+            orderListVc.menuProvider = self;
+            vc = orderListVc;
+            break;
+        }
+        case QSRootMenuItemShowTrade:{
+            QST01ShowTradeViewController *t01VC = [[QST01ShowTradeViewController alloc]init];
+            t01VC.menuProvider = self;
+            vc = t01VC;
+            break;
+        }
+        default:{
+            break;
         }
     }
+    [self showVc:vc];
+    
+    if ((![vc isKindOfClass:[QSS01MatchShowsViewController class]]) && (![vc isKindOfClass:[QST01ShowTradeViewController class]])) {
+        [self showRegisterVc];
+    }
+    
     
     
 }

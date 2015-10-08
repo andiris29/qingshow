@@ -18,12 +18,28 @@ var _next = function(today) {
     },
     function(trades, callback) {
         trades.filter(function(trade){
-            return new Date() - trade.update > 24 * 3600 
+            return today - trade.update > 24 * 3600 
         }).forEach(function(trade, index) {
-            NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
-                '_id' : trade._id,
-                'command' : NotificationHelper.CommandTradeInitialized
-            }, null);  
+            async.waterfall([function(cb){
+                People.findOne({
+                    '_id' : trade.ownerRef
+                }).exec(cb);
+            }, function(people, cb){
+                var verify = people.unreadNotifications.forEach(function(unread){
+                    var extra = unread.extra;
+                    var verify = (extra._id.toString() === trade._id.toString()) && (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated 
+                        || extra.command === NotificationHelper.CommandTradeInitialized);
+                    if(verify){
+                        NotificationHelper.notify([trade.ownerRef], extra.command, {
+                            '_id' : trade._id,
+                            'command' : NotificationHelper.CommandTradeInitialized
+                        }, null);   
+                    };
+                });
+                cb(null, trade);
+            }], function(err, trade){
+                callback(err, trade);
+            })
         });
     }],
     function(err, trades) {

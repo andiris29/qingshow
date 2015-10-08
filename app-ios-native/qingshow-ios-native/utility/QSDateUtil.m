@@ -222,7 +222,7 @@
     NSDateComponents* c = [calendar components:(NSCalendarUnitYear) fromDate:date];
     return @(c.year).stringValue;
 }
-+ (int)getWeekdayIndex:(NSDate*)date
++ (NSInteger)getWeekdayIndex:(NSDate*)date
 {
     if ([QSEntityUtil checkIsNil:date]) {
         return 0;

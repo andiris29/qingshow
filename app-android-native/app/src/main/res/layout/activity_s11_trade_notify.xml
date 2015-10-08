@@ -85,7 +85,6 @@
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/price"
                             style="@style/s11_notify_des_text"
-                            app:preText="原价："
                             android:text="原价："
                             android:textColor="@color/gary" />
 

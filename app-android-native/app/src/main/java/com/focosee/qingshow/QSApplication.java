@@ -1,8 +1,12 @@
 package com.focosee.qingshow;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
+
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.focosee.qingshow.constants.config.ShareConfig;
@@ -78,6 +82,10 @@ public class QSApplication extends Application {
 
     public SharedPreferences getPreferences(){
         return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    }
+
+    public String getDeviceUid(){
+        return ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
     }
 
 }

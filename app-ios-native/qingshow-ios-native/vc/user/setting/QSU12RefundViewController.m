@@ -49,14 +49,7 @@
     // Do any additional setup after loading the view from its nib.
     [self setPageType];
     [self getAddrWithOrderDict];
-//    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:self.orderDict];
-//    if ([QSEntityUtil getDictValue:itemDic keyPath:@"returnInfo"]) {
-//        self.refundAddrLabel.text = [QSItemUtil getReturnInfoAddr:itemDic];
-//        self.companyLabel.text = [QSItemUtil getReturnInfoCompany:itemDic];
-//        self.phoneLabel.text = [QSItemUtil getReturnInfoPhone:itemDic];
-//    }
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
-//    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
     [self.scrollView addGestureRecognizer:ges];
     [self setCurrentSelectedDate:[NSDate date]];
@@ -64,10 +57,11 @@
     UITapGestureRecognizer* tapDate = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTextField)];
     [self.sendDateTextField addGestureRecognizer:tapDate];
     [self.navigationController.navigationBar setTitleTextAttributes:
-     
      @{NSFontAttributeName:NAVNEWFONT,
-       
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    UITapGestureRecognizer* tapGes= [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapPhone:)];
+    [self.phoneLabel addGestureRecognizer:tapGes];
     
 }
 - (void)didTapTextField
@@ -96,19 +90,10 @@
 
 - (void)setPageType
 {
-    if (self.type == 1) {
-        self.title  = @"退货方式";
-        self.typeAddrLabel.text = @"退货地址:";
-        self.typeReceiverLabel.text = @"退货收件人:";
-        [self.submitBtn setTitle:@"申请退货" forState:UIControlStateNormal];
-    }
-    else if(self.type == 2)
-    {
-        self.title = @"换货方式";
-        self.typeAddrLabel.text = @"换货地址:";
-        self.typeReceiverLabel.text = @"换货收件人:";
-        [self.submitBtn setTitle:@"申请换货" forState:UIControlStateNormal];
-    }
+    self.title  = @"退货方式";
+    self.typeAddrLabel.text = @"退货地址:";
+    self.typeReceiverLabel.text = @"退货收件人:";
+    [self.submitBtn setTitle:@"申请退货" forState:UIControlStateNormal];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -206,41 +191,15 @@
                            @"comment" : self.resonTextField.text
                            };
     
-    if (self.type == 1) {
-        __weak QSU12RefundViewController* weakSelf = self;
-        [self hideKeyboardAndPicker];
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^(NSDictionary* dict){
-            [self showTextHud:@"申请成功"];
-            [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-        } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
-        }];
-        
-    }
-    else if (self.type == 2)
-    {
-        __weak QSU12RefundViewController* weakSelf = self;
-        [self hideKeyboardAndPicker];
-        int statusCurrent = [[QSTradeUtil getStatus:weakSelf.orderDict] intValue];
-        if (statusCurrent == 14) {
-            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:16 info:dict onSucceed:^(NSDictionary* dict){
-                [self showTextHud:@"申请二次换货成功"];
-                [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-            } onError:^(NSError *error) {
-                [self showErrorHudWithError:error];
-            }];
-
-        }
-        else
-        {
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:11 info:dict onSucceed:^(NSDictionary* dict){
-            [self showTextHud:@"申请退换货成功"];
-            [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-        } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
-        }];
-        }
-    }
+    __weak QSU12RefundViewController* weakSelf = self;
+    [self hideKeyboardAndPicker];
+    [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^(NSDictionary* dict){
+        [self showTextHud:@"申请成功"];
+        [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
+    
 }
 - (void)popBack
 {
@@ -280,5 +239,18 @@
 - (void)setCurrentSelectedDate:(NSDate*)date
 {
     self.sendDateTextField.text = [QSDateUtil buildDateStringFromDate:date];
+}
+
+- (void)didTapPhone:(UITapGestureRecognizer*)ges {
+    if (!self.receiverDict) {
+        return;
+    }
+    NSString* phone = [QSItemUtil getReturnPhoneFromDic:self.receiverDict];
+    if (!phone || !phone.length) {
+        return;
+    }
+    NSString* str = [[NSString alloc] initWithFormat:@"telprompt://%@",phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    
 }
 @end

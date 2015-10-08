@@ -59,6 +59,11 @@
         self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeShipped]) {
+        [self triggerChangeToSegmentIndex:1];
+    }
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -146,6 +151,14 @@
         [self.provider reloadData];
     }
 }
+- (void)didTapPhone:(NSString*)phoneNumber {
+    if (!phoneNumber.length) {
+        return;
+    }
+    NSString* str = [[NSString alloc] initWithFormat:@"telprompt://%@",phoneNumber];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+}
+
 #pragma mark - QSOrderListTableViewProviderDelegate
 - (void)didClickOrder:(NSDictionary *)orderDict {
 }
@@ -153,7 +166,6 @@
 {
     
     QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:tradeDict actionVC:self];
-    vc.type = 1;
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];

@@ -97,14 +97,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
 
         if (null != trade.itemSnapshot) {
             String str = "原价：";
-            int start = str.length() + 1;
             String priceStr = str + StringUtil.FormatPrice(trade.itemSnapshot.price);
             spannableString = new SpannableString(priceStr);
-            spannableString.setSpan(new StrikethroughSpan(), start, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new StrikethroughSpan(), 0, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.setText(R.id.item_tradelist_sourcePrice, spannableString);
 
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
-            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice));
+            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
             holder.getView(R.id.item_tradelist_image).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,7 +132,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             properTextView.setText(properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
-        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(String.valueOf(trade.expectedPrice)));
+        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.expectedPrice));
 
         if (null != trade.itemRef) {
             if (null != trade.itemRef.expectable) {
@@ -210,8 +209,13 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 }
             });
             return;
-
         }
+
+        if(trade.status >= 2){
+            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.totalFee.doubleValue() / trade.quantity, trade.itemSnapshot.promoPrice.doubleValue()));
+            holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.totalFee.doubleValue() / trade.quantity));
+        }
+
         //3-已发货
         if (trade.status == StatusCode.SENDED) {
             btn1.setVisibility(View.VISIBLE);

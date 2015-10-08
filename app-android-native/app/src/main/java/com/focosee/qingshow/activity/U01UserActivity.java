@@ -109,8 +109,6 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     View circleTip;
     @InjectView(R.id.u01_backTop_btn)
     ImageButton u01BackTopBtn;
-    @InjectView(R.id.user_back_btn)
-    ImageButton userBackBtn;
     @InjectView(R.id.user_bonuses)
     QSTextView userBonuses;
     @InjectView(R.id.container)
@@ -123,6 +121,8 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
 
     private BackBtnListener btnListener;
     private MenuView menuView;
+
+    private boolean isMyself = true;
 
     public void reconn() {
 
@@ -140,6 +140,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
             mySelf();
         } else {
+            isMyself = false;
             others();
         }
         eventBus = EventBus.getDefault();
@@ -182,8 +183,9 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void others() {
-        userBackBtn.setVisibility(View.VISIBLE);
-        userBackBtn.setOnClickListener(new View.OnClickListener() {
+        userNavBtn.setVisibility(View.VISIBLE);
+        userNavBtn.setImageResource(R.drawable.back_gray);
+        userNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -192,9 +194,6 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         btnListener = new BackBtnListener() {
             @Override
             public boolean onKeyDown(int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_MENU) {
-                    menuView.show(getSupportFragmentManager(), U01UserActivity.class.getSimpleName(), container);
-                }
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     finish();
                 }
@@ -372,9 +371,10 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
                 tabOnclick(POS_MATCH);
                 return;
             case R.id.user_recomm_layout:
-                UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS);
-                tabOnclick(POS_RECOMM);
+                if(isMyself)
+                    UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS);
                 circleTip.setVisibility(View.GONE);
+                tabOnclick(POS_RECOMM);
                 return;
             case R.id.user_collection_layout:
                 tabOnclick(POS_COLL);
@@ -507,7 +507,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
                 user = (MongoPeople) getIntent().getExtras().get("user");
         }
         MobclickAgent.onResume(this);
-        if(UnreadHelper.hasUnread()){
+        if(UnreadHelper.hasUnread() && isMyself){
             userNavBtn.setImageResource(R.drawable.menu_gray_dot);
             if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS)) {
                 circleTip.setVisibility(View.VISIBLE);

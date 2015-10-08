@@ -25,6 +25,8 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -47,6 +49,9 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -132,11 +137,11 @@ public class S11NewTradeFragment extends Fragment {
             }
         });
 
-        basePrice = Double.parseDouble(itemEntity.promoPrice);
+        basePrice = itemEntity.promoPrice.doubleValue();
         if (itemEntity.minExpectedPrice == null) {
             discountOffline = 5;
         } else
-            discountOffline = Math.min(5, ((Double) (Double.parseDouble(itemEntity.minExpectedPrice) / basePrice)).intValue());
+            discountOffline = Math.min(5, ((Double) (itemEntity.minExpectedPrice.doubleValue() / basePrice)).intValue());
         discountNum = discountOnline = 9;
         if (discountNum == 10)
             discountNum = discountOnline = 9;
@@ -282,7 +287,7 @@ public class S11NewTradeFragment extends Fragment {
     private void initDes() {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
-        price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
+        price.setText(StringUtil.FormatPrice(itemEntity.price));
     }
 
     @OnClick({R.id.cut_num, R.id.plus_num})
@@ -328,7 +333,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private void checkDiscount() {
         discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
-        total.setText(StringUtil.FormatPrice(String.valueOf(basePrice / 10f * discountNum)));
+        total.setText(StringUtil.FormatPrice(basePrice / 10f * discountNum));
         if (discountNum >= discountOnline) {
             plusDiscount.setClickable(false);
             plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
@@ -362,21 +367,26 @@ public class S11NewTradeFragment extends Fragment {
             return;
         }
 
-        if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
-            startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
-            return;
-        }
+        UserCommand.refresh(new Callback() {
+            @Override
+            public void onComplete() {
+                if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
+                    startActivity(new Intent(getActivity(), U11EditAddressActivity.class));
+                    return;
+                }
 
-        submit.setClickable(false);
-        trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
-        trade.expectedPrice = basePrice * discountNum / 10;
-        trade.itemSnapshot = itemEntity;
-        trade.quantity = num;
-        submitToNet(trade);
+                submit.setClickable(false);
+                trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
+                trade.expectedPrice = new BigDecimal(basePrice * discountNum * 0.1).setScale(2, RoundingMode.HALF_UP).floatValue();
+                trade.itemSnapshot = itemEntity;
+                trade.quantity = num;
+                submitToNet(trade);
+            }
+        });
     }
 
     private void submitToNet(MongoTrade trade) {
-        Map<String, Object> params = new HashMap<>();
+        Map params = new HashMap();
         params.put("expectedPrice", trade.expectedPrice);
         try {
             params.put("selectedSkuProperties", new JSONArray(QSGsonFactory.create().toJson(trade.selectedSkuProperties)));

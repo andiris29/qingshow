@@ -25,7 +25,7 @@
 - (instancetype)initWithCategory:(NSDictionary*)categoryDict;
 
 @property (strong, nonatomic) NSDictionary* categoryDict;
-@property (assign, nonatomic) int selectIndex;
+@property (assign, nonatomic) NSUInteger selectIndex;
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (weak, nonatomic) NSObject<QSMatcherItemsProviderDelegate>* delegate;
 @property (assign, nonatomic) BOOL fIsFirst;

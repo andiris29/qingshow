@@ -2,6 +2,7 @@ package com.focosee.qingshow.util;
 
 import android.text.TextUtils;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.regex.Pattern;
  * Created by Administrator on 2015/3/19.
  */
 public class StringUtil {
-    public static String formatDiscount(String current, String original) {
-        if(TextUtils.isEmpty(current) || TextUtils.isEmpty(original))return "";
+    public static String formatDiscount(Number current, Number original) {
+        if(null == current || null == original)return "";
         String str = "";
-        double dis = Double.parseDouble(current) / Double.parseDouble(original);
+        double dis = current.doubleValue() / original.doubleValue();
         if (dis < 0.1) {
             str = "1";
         } else if (dis > 0.9) {
@@ -25,8 +26,8 @@ public class StringUtil {
         return str + "折";
     }
 
-    public static String FormatPrice(String price) {
-        return "¥" + formatPriceWithoutSign(price);
+    public static String FormatPrice(Number price) {
+        return "¥" + formatPriceWithoutSign(String.valueOf(price));
     }
 
     public static String formatPriceWithoutSign(String price){
@@ -57,7 +58,7 @@ public class StringUtil {
     public static String formatPriceDigits(double price, int which) {//取小数点后两位
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(which);
-        return String.valueOf(nf.format(price));
+        return nf.format(price);
     }
 
     public static String calculationException(double expectedPrice, String promoPrice) {
@@ -66,7 +67,7 @@ public class StringUtil {
 
     public static String calculationException(double expectedPrice, double promoPrice) {
         if(promoPrice <= 0)return "";
-        int result = (int)(expectedPrice * 10 / promoPrice);
+        int result = new BigDecimal(expectedPrice * 10 / promoPrice).setScale(0, RoundingMode.HALF_UP).intValue();
         if (result < 1) result = 1;
         if (result > 9) result = 9;
         return String.valueOf(result) + "折";

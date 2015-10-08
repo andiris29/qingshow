@@ -4,6 +4,7 @@ import com.focosee.qingshow.httpapi.gson.deserializer.MongoCategoryIdDeserialize
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoItemIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoParentCategoryIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoPeopleDeserializer;
+import com.focosee.qingshow.httpapi.gson.deserializer.PriceDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.UTCDeserializer;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -32,12 +33,14 @@ public class QSGsonFactory {
 
     public static GsonBuilder itemBuilder() {
         GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
         builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
         return builder;
     }
 
     public static GsonBuilder cateGoryBuilder() {
         GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
         builder.registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer());
         return builder;
     }
@@ -56,12 +59,14 @@ public class QSGsonFactory {
 
     public static GsonBuilder peopleAndItemBuilder() {
         GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
         builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer()).registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
         return builder;
     }
 
     public static GsonBuilder tradeBudiler(){
         GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
         builder.registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer());
         builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
         return builder;

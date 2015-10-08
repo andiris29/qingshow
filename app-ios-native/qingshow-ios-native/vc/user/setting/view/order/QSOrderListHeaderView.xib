@@ -20,6 +20,9 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="8Mu-4b-bpd" appends="YES" id="HaF-6y-dMh"/>
+                    </connections>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4007-501-010" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fAe-yQ-Ge4">
                     <rect key="frame" x="135" y="17" width="134" height="23"/>
@@ -62,9 +65,15 @@
                 <outlet property="label1" destination="noy-jL-iPj" id="SBN-pY-hPx"/>
                 <outlet property="label2" destination="fAe-yQ-Ge4" id="iYI-PV-Xt2"/>
                 <outlet property="segmentControl" destination="W26-Pc-VRm" id="SZP-WH-lQ2"/>
+                <outlet property="tapPhoneGes" destination="8Mu-4b-bpd" id="tfa-pr-jQn"/>
             </connections>
             <point key="canvasLocation" x="455" y="596"/>
         </view>
+        <tapGestureRecognizer id="8Mu-4b-bpd">
+            <connections>
+                <action selector="didTapPhone:" destination="iN0-l3-epB" id="bRg-60-Jmk"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

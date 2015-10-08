@@ -3,8 +3,6 @@ package com.focosee.qingshow.httpapi.response.error;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.util.ToastUtil;
 
@@ -85,6 +83,12 @@ public class ErrorHandler {
             case ErrorCode.SMSlimitedSend:
                 ToastUtil.showShortToast(context.getApplicationContext(), "验证失败");
                 Log.d(ErrorHandler.class.getSimpleName(), "error: 获取验证码次数超过限制");
+                break;
+            case ErrorCode.FrequentlyRequest:
+                ToastUtil.showShortToast(context.getApplicationContext(), "请求太过频繁");
+                break;
+            case ErrorCode.NickNameAlredyExist:
+                ToastUtil.showShortToast(context.getApplicationContext(), "昵称已存在");
                 break;
         }
     }
