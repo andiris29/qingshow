@@ -301,6 +301,19 @@ _update = function(req, res) {
         }
     },
     function(people, callback) {
+        if (qsParam.mobile) {
+            People.find({
+                'mobile' : qsParam.mobile
+            }, function(err, peoples){
+                if (peoples.length > 0) {
+                    callback(errors.MobileAlreadyExist);
+                }else {
+                    callback(null, people);
+                }
+            })
+        }
+    },
+    function(people, callback) {
         if (qsParam.password) {
             people.set('userInfo.password', undefined);
             people.set('userInfo.encryptedPassword', _encrypt(qsParam.password));
