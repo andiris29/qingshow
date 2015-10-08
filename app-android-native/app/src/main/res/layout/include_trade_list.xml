@@ -50,8 +50,7 @@
             android:layout_below="@id/item_tradelist_description"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/item_tradelist_sourcePriceTextView"
-            android:text="原价："
-            android:textColor="@color/gary" />
+            android:text="原价："/>
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_actualPrice"
@@ -60,8 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/item_tradelist_sourcePrice"
             android:layout_marginTop="5dp"
-            android:text="现价："
-            android:textColor="@color/gary" />
+            android:text="现价："/>
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_skuProperties_tab"
@@ -71,7 +69,6 @@
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="5dp"
             android:text="规格："
-            android:textColor="@color/gary"
             android:visibility="gone"/>
 
         <com.focosee.qingshow.widget.QSTextView
@@ -82,7 +79,6 @@
             android:layout_below="@id/item_tradelist_actualPrice"
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="5dp"
-            android:textColor="@color/gary"
             android:visibility="gone"/>
 
         <com.focosee.qingshow.widget.QSTextView
@@ -92,8 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/item_tradelist_skuProperties"
             android:layout_marginTop="5dp"
-            android:text="@string/trade_count"
-            android:textColor="@color/gary" />
+            android:text="@string/trade_count"/>
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_exception"
