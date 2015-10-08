@@ -2,6 +2,7 @@ package com.focosee.qingshow.util;
 
 import android.text.TextUtils;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
@@ -66,7 +67,7 @@ public class StringUtil {
 
     public static String calculationException(double expectedPrice, double promoPrice) {
         if(promoPrice <= 0)return "";
-        int result = (int)(expectedPrice * 10 / promoPrice);
+        int result = new BigDecimal(expectedPrice * 10 / promoPrice).setScale(0, RoundingMode.HALF_UP).intValue();
         if (result < 1) result = 1;
         if (result > 9) result = 9;
         return String.valueOf(result) + "折";
