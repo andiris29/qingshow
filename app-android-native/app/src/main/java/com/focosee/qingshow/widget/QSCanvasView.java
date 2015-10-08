@@ -168,6 +168,7 @@ public class QSCanvasView extends FrameLayout {
             QSImageView view = views.get(checkedIndex);
             view.fristChecked();
             view.callOnClick();
+            notifyCheckedChange();
         }
     }
 
