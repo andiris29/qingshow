@@ -8,8 +8,7 @@ define([
         'main/views/components/p02/TradeStatusLi', 
         'main/views/components/p02/ItemCategoryLi',
         'main/views/components/p02/ItemPriceChangedLi',
-        'main/views/components/p02/BonusSummaryLi',
-        'main/views/components/p02/BonusForgeLi']);
+        'main/views/components/p02/BonusSummaryLi']);
 // @formatter:on
     var P02Portal = function(dom, initOptions) {
         P02Portal.superclass.constructor.apply(this, arguments);
@@ -28,8 +27,6 @@ define([
             }, ul$, this);
         }.bind(this));
 
-        violet.ui.factory.createUi('main/views/components/p02/BonusForgeLi', {
-        }, ul$, this);
         violet.ui.factory.createUi('main/views/components/p02/BonusSummaryLi', {
         }, ul$, this);
     };
