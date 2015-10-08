@@ -97,7 +97,7 @@
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_exception"
-            app:preText="成功折扣："
+            app:preText="申请折扣："
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_tradelist_quantity"

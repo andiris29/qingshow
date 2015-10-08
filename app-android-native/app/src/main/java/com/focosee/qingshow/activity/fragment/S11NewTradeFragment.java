@@ -287,7 +287,7 @@ public class S11NewTradeFragment extends Fragment {
     private void initDes() {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
-        price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
+        price.setText(StringUtil.FormatPrice(itemEntity.price));
     }
 
     @OnClick({R.id.cut_num, R.id.plus_num})
@@ -387,7 +387,6 @@ public class S11NewTradeFragment extends Fragment {
 
     private void submitToNet(MongoTrade trade) {
         Map params = new HashMap();
-        System.out.println("expectedPrice" + trade.expectedPrice);
         params.put("expectedPrice", trade.expectedPrice);
         try {
             params.put("selectedSkuProperties", new JSONArray(QSGsonFactory.create().toJson(trade.selectedSkuProperties)));
