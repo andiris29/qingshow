@@ -145,17 +145,6 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
 
         datas.get(i).isDefault = true;
 
-        Gson gson = new Gson();
-        gson.toJson(datas.get(i));
-
-        JSONObject jsonObject = null;
-
-        try {
-            jsonObject = new JSONObject(new Gson().toJson(datas.get(i)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         Map params1 = new HashMap();
         params1.put("uuid", datas.get(i).uuid);
         params1.put("name", datas.get(i).name);
@@ -164,7 +153,7 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
         params1.put("address", datas.get(i).address);
         params1.put("isDefault", datas.get(i).isDefault);
 
-        QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params1), new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -177,6 +166,8 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 notifyDataSetChanged();
             }
         });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jor1);
 
         if (default_posion == Integer.MAX_VALUE) {
             default_posion = i;
@@ -203,8 +194,6 @@ public class U10AddressListAdapter extends AbsAdapter<MongoPeople.Receiver> {
                 notifyDataSetChanged();
             }
         });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jor1);
 
         RequestQueueManager.INSTANCE.getQueue().add(jor2);
     }
