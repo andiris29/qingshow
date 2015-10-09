@@ -41,15 +41,14 @@ public class PushHepler {
             intent = new Intent(context, PushWebActivity.class);
         }
 
-
-        if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
+        if (command.equals(QSPushAPI.TRADE_SHIPPED)
                 || command.equals(QSPushAPI.TRADE_REFUND_COMPLETE)) {
             intent = new Intent(context, U09TradeListActivity.class);
             if(command.equals(QSPushAPI.TRADE_SHIPPED) || command.equals(QSPushAPI.TRADE_REFUND_COMPLETE))
                 intent.putExtra(U09TradeListActivity.FROM_WHERE, U09TradeListActivity.PUSH_NOTIFICATION);
         }
 
-        if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)) {
+        if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.TRADE_INITIALIZED)) {
             String _id = PushUtil.getExtra(bundle, "_id");
             if(action.equals(JPushInterface.ACTION_NOTIFICATION_OPENED)) {
                 intent = new Intent(context, S01MatchShowsActivity.class);
