@@ -9,7 +9,7 @@ var NotificationHelper = require('../helpers/NotificationHelper');
 
 var BonusHelper = module.exports;
 
-BonusHelper.createBonusViaTrade = function(trade, item, callback){
+BonusHelper.createBonus = function(trade, item, callback){
     async.waterfall([
     function(callback){
         People.findOne({
@@ -38,41 +38,6 @@ BonusHelper.createBonusViaTrade = function(trade, item, callback){
         NotificationHelper.notify([people._id], NotificationHelper.MessageNewBonus, {
                     'command' : NotificationHelper.CommandNewBonus
                 }, null);
-        callback(null, people);
-    }],function(error, people){
-    callback(error, people);
-    });
-};
-
-BonusHelper.createBonusViaForger = function(forger, trade, item, callback){
-    async.waterfall([
-    function(callback){
-        People.findOne({
-            _id : trade.promoterRef
-        }).exec(function(err, people) {
-            callback(err, people);
-        });
-    },
-    function(people, callback) {
-        people.bonuses = people.bonuses || [];
-        people.bonuses.push({
-            status : 0,
-            money : trade.totalFee * global.qsConfig.bonus.rate,
-            notes : '来自' + item.name + '的佣金',
-            icon : item.thumbnail,
-            trigger : {
-                itemRef : item._id,
-                forgerRef : forger
-            }
-        });
-        people.save(function(err, people) {
-            callback(err, people);
-        });
-    },
-    function(people, callback) {
-        NotificationHelper.notify([people._id], NotificationHelper.MessageNewBonus, {
-            'command' : NotificationHelper.CommandNewBonus
-        }, null);
         callback(null, people);
     }],function(error, people){
     callback(error, people);

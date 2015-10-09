@@ -10,7 +10,6 @@ var Item = require('../../dbmodels').Item;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
-var BonusHelper = require('../../helpers/BonusHelper');
 var errors = require('../../errors');
 
 var userBonus = module.exports;

@@ -8,7 +8,6 @@ var People = require('../../dbmodels').People;
 var Item = require('../../dbmodels').Item;
 var RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
-var RPeopleCreateTrade = require('../../dbmodels').RPeopleCreateTrade;
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
@@ -22,7 +21,6 @@ var errors = require('../../errors');
 var request = require('request');
 var winston = require('winston');
 var NotificationHelper = require('../../helpers/NotificationHelper');
-var BonusHelper = require('../../helpers/BonusHelper');
 
 var trade = module.exports;
 
@@ -327,7 +325,7 @@ trade.alipayCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.createBonusViaTrade(trade, trade.itemSnapshot, function(error, people) {
+            BonusHelper.createBonus(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {
@@ -390,7 +388,7 @@ trade.wechatCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.createBonusViaTrade(trade, trade.itemSnapshot, function(error, people) {
+            BonusHelper.createBonus(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {
@@ -686,20 +684,12 @@ trade.forge = {
                 callback(err, trade, item);
             });
         }, function(trade, item, callback){
-            BonusHelper.createBonusViaForger(req.qsCurrentUserId, trade, item, function(err){
+            BonusHelper.createBonus(trade, item, function(err){
                 callback(err, trade);
             }); 
-        }, function(trade, callback){
-            var rPeopleCreateTrade = new RPeopleCreateTrade();
-            rPeopleCreateTrade.initiatorRef = trade.ownerRef;
-            rPeopleCreateTrade.targetRef = trade._id;
-            rPeopleCreateTrade.save(function(err){
-                callback(err, trade, rPeopleCreateTrade);
-            });
-        }], function(err, trade, rPeopleCreateTrade){
+        }], function(err, trade){
             ResponseHelper.response(res, err, {
-                'trade' : trade,
-                'rPeopleCreateTrade' : rPeopleCreateTrade
+                'trade' : trade
             });
         })
     }
