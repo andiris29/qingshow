@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.CityActivity;
 import com.focosee.qingshow.activity.CityEvent;
@@ -273,7 +274,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             public void onResponse(JSONObject response) {
                 Log.d(U11AddressEditFragment.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    ErrorHandler.handle(QSApplication.instance(), MetadataParser.getError(response));
                     saveBtn.setEnabled(true);
                     return;
                 }
