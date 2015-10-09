@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -130,7 +129,7 @@ public class U12ReturnActivity extends BaseActivity {
 
 
         returnLogistic.put("company", company.getText().toString());
-        returnLogistic.put("trackingID", returnNo.getText().toString());
+        returnLogistic.put("trackingId", returnNo.getText().toString());
         params.put("returnLogistic", returnLogistic);
 
         QSJsonObjectRequest jor2 = new QSJsonObjectRequest(QSAppWebAPI.getTradeStatustoApi(), new JSONObject(params), new Response.Listener<JSONObject>() {

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
@@ -37,9 +38,12 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -161,13 +165,18 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     }
 
     public void onEventMainThread(String event) {
-        if (responseToStatusToSuccessed.equals(event) || ValueUtil.SUBMIT_TRADE_SUCCESSED.equals(event)) doRefresh(currentType);
+        if (responseToStatusToSuccessed.equals(event) || ValueUtil.SUBMIT_TRADE_SUCCESSED.equals(event))
+            doRefresh(currentType);
 
         if (position == Integer.MAX_VALUE || position >= mAdapter.getItemCount()) {
             return;
         }
-        if(mAdapter.getItemData(position)._id.equals(event)){
+        if (mAdapter.getItemData(position)._id.equals(event)) {
             mAdapter.notifyDataSetChanged();
+            return;
+        }
+        if (ValueUtil.PAY_FINISHED.equals(event)) {
+            reconn();
         }
     }
 

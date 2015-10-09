@@ -28,6 +28,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ToastUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.wxapi.WXPayEvent;
@@ -300,6 +301,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         dialog.setCancel("继续逛逛", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventBus.getDefault().post(ValueUtil.PAY_FINISHED);
                 S17PayActivity.this.finish();
             }
         });
