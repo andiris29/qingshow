@@ -100,7 +100,7 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
         if(TextUtils.isEmpty(user.portrait))
             holder.setImgeByUrl(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
 
-        holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" :TimeUtil.formatDateTime_CN_Pre(show.create) + "前");
+        holder.setText(R.id.item_s01_time, TimeUtil.formatDateTime_CN_Pre(show.create));
         holder.setText(R.id.item_s01_nikename, user.nickname);
         holder.setText(R.id.item_s01_likeNum, String.valueOf(show.numLike));
     }

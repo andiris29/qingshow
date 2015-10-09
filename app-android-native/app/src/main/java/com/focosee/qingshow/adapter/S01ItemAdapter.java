@@ -75,7 +75,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
         if(!TextUtils.isEmpty(show.cover))
             holder.setImgeByController(R.id.item_s01_img, ImgUtil.getImgSrc(show.cover, ImgUtil.LARGE), ValueUtil.match_img_AspectRatio);
         holder.setText(R.id.item_s01_likeNum, String.valueOf(show.numLike));
-        holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" :TimeUtil.formatDateTime_CN_Pre(show.create) + "前");
+        holder.setText(R.id.item_s01_time, TimeUtil.formatDateTime_CN_Pre(show.create));
         if(null == show.ownerRef)return;
 
         MongoPeople user = show.ownerRef;

@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 public class TimeUtil {
@@ -110,36 +109,34 @@ public class TimeUtil {
         return formatDateTime(time.getTime().getTime(), _mDateFormat);
     }
 
-    public static String formatDateTime(GregorianCalendar time){
-        SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM- dd HH:mm");
-        return formatDateTime(time, _mDateFormat);
+    public static String formatDateTimeUS(GregorianCalendar time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time.getTimeInMillis());
+        String result = formatManthInfo(calendar.get(Calendar.MONTH)) + "." + calendar.get(Calendar.DAY_OF_MONTH);
+        return result;
     }
 
     public static String formatDateTime_CN_Pre(GregorianCalendar time){
         if(null == time){
-            return null;
+            return "1m";
         }
 
         int timeI = (int)Math.abs(time.getTimeInMillis() - System.currentTimeMillis()) / 1000;//s
         int m = timeI / 60;//m
+        if(m == 0) return "1m";
         if(m < 0){
             m = Math.abs(m);
         }
         if(m < 60){
-            return String.valueOf(m + "分钟");
+            return String.valueOf(m + "m");
         }else{
             m = m / 60;//h
         }
         if(m < 24){
-            return String.valueOf(m + "小时");
-        }else{
-            m = m / 24;//d
+            return String.valueOf(m + "h");
         }
-        if(m < 30){
-            return String.valueOf(m + "天");
-        }else{
-            return String.valueOf(m / 30 + "月");//month
-        }
+
+        return formatDateTimeUS(time);//month
     }
 
     public static String formatDateTime_CN(GregorianCalendar time){
