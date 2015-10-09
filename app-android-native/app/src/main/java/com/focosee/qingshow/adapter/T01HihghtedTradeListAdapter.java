@@ -17,6 +17,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.ValueUtil;
@@ -74,7 +75,7 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
         holder.setText(R.id.item_t01_time, TimeUtil.parseDateString(trade.create));
         if (null != trade.peopleSnapshot) {
             if(!TextUtils.isEmpty(trade.peopleSnapshot.portrait)) {
-                holder.setImgeByController(R.id.item_t01_portrait, trade.peopleSnapshot.portrait, ValueUtil.pre_img_AspectRatio);
+                holder.setImgeByController(R.id.item_t01_portrait, ImgUtil.getImgSrc(trade.peopleSnapshot.portrait, ImgUtil.PORTRAIT_LARGE), ValueUtil.pre_img_AspectRatio);
                 holder.setText(R.id.item_t01_username, trade.peopleSnapshot.nickname);
             }
         }
