@@ -23,6 +23,7 @@ import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeStatusToCommand;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -173,6 +174,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 discountBtn.setVisibility(View.VISIBLE);
                 discountBtn.setImageResource(R.drawable.sold_out_gray);
                 discountBtn.setClickable(false);
+                if(UnreadHelper.hasMyNotificationId(trade._id)){
+                    UnreadHelper.userReadNotificationId(trade._id);
+                }
                 return;
             }
 
