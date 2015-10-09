@@ -89,7 +89,6 @@ module.exports = function (config, qsdb) {
             'qs-device-model', 
             'qs-os-type', 
             'qs-os-version']);
-        console.log(req.headers);
         next();
     });
 
