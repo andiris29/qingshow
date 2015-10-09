@@ -659,6 +659,7 @@ trade.forge = {
             var trade = new Trade();
             //hardcode status 2
             trade.status = 2;
+            trade.statusOrder = '20';
             trade.ownerRef = req.qsCurrentUserId;
             trade.peopleSnapshot = people;
             trade.shareToPay = true;
