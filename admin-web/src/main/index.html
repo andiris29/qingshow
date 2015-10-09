@@ -53,8 +53,6 @@
 
                 window.appConfig = {
                     'VERSION' : '2.1.0',
-//                    'appServiceRoot' : 'http://121.41.161.239/services'
-                    //'appServiceRoot' : 'http://127.0.0.1:30001/services'
                     'appServiceRoot' : ''
                 };
 
@@ -70,6 +68,7 @@
 
                 $.ajax(settings).done(function(json){
                     window.appConfig.appServiceRoot = json.data.deployment.appServiceRoot;
+//                    window.appConfig.appServiceRoot = 'http://127.0.0.1:30001/services';
                 });
 
                 $(function() {

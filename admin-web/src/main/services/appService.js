@@ -12,7 +12,6 @@ define([
             data = null;
         }
         data = data || {};
-        data.version = window.appConfig.VERSION;
         // Transform data to requestable
         if (method === 'get') {
             for (var key in data) {
@@ -30,6 +29,11 @@ define([
             'cache' : false,
             'xhrFields' : {
                 'withCredentials' : true
+            },
+            'headers' : {
+                'qs-version' : window.appConfig.VERSION,
+                'qs-type' : 'admin-web',
+                'qs-device-model' : navigator.userAgent
             }
         };
 
