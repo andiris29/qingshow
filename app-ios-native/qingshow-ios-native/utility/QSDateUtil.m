@@ -110,19 +110,19 @@
 //    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date];
     if (seconds >= 24*60*60) {
-        return [NSString stringWithFormat:@"%d天之前",(int)seconds/(24*60*60)];
+        return [NSString stringWithFormat:@"%@.%@",[self getMonthDesc:date],[self getDayDesc:date]];
     }
     else if(seconds >= 60*60)
     {
-        return [NSString stringWithFormat:@"%d小时之前",(int)seconds/(60*60)];
+        return [NSString stringWithFormat:@"%dh",(int)seconds/(60*60)];
     }
     else if (seconds >= 60)
     {
-        return [NSString stringWithFormat:@"%d分钟之前",(int)seconds/60];
+        return [NSString stringWithFormat:@"%dmin",(int)seconds/60];
     }
     else
     {
-        return [NSString stringWithFormat:@"%d秒之前",(int)seconds];
+        return [NSString stringWithFormat:@"%ds",(int)seconds];
     }
     return nil;
     
