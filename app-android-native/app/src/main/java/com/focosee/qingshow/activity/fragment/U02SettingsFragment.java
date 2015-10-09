@@ -472,7 +472,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onError(int errorCode) {
                 super.onError(errorCode);
-                ErrorHandler.handle(getActivity(), errorCode);
+                ErrorHandler.handle(QSApplication.instance(), errorCode);
             }
 
             @Override
