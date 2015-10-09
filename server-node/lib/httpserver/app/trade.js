@@ -671,6 +671,10 @@ trade.forge = {
                     data : Date.now()
                 }
             };
+            if (item.delist) {
+                callback(errors.InvalidItem);
+                return;
+            }
             if (item.skuProperties && item.skuProperties.length > 0) {
                 trade.selectedSkuProperties = item.skuProperties.map(function(skuProp){
                     var strs = skuProp.split(':');
