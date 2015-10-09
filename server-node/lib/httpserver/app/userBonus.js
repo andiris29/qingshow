@@ -15,40 +15,6 @@ var errors = require('../../errors');
 
 var userBonus = module.exports;
 
-userBonus.forge = {
-    'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var param = req.body;
-        var fakeTrade = param.fakeTrade;
-        async.waterfall([
-        function(callback) {
-            Item.findOne({
-                _id : RequestHelper.parseId(param.itemRef)
-            }).exec(function(err, item) {
-                if (err) {
-                    callback(err);
-                } else if (!item) {
-                    callback(errors.ItemNotExist);
-                } else {
-                    callback(null, item);
-                }
-            });
-        },
-        function(item, callback) {
-            if (fakeTrade.totalFee > item.promoPrice) {
-                callback(errors.NotEnoughParam);
-            }else {
-                BonusHelper.createBonusViaForger(req.qsCurrentUserId, fakeTrade, item, callback); 
-            }
-        }], function(error, people) {
-            ResponseHelper.response(res, error, {
-                'people' : people
-            });
-        });
-    }
-};
-
 userBonus.withdraw = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],

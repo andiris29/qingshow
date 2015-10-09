@@ -8,6 +8,7 @@ var People = require('../../dbmodels').People;
 var Item = require('../../dbmodels').Item;
 var RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
+var RPeopleCreateTrade = require('../../dbmodels').RPeopleCreateTrade;
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
@@ -15,6 +16,7 @@ var TradeHelper = require('../../helpers/TradeHelper');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
+var BonusHelper = require('../../helpers/BonusHelper');
 
 var errors = require('../../errors');
 var request = require('request');
@@ -632,4 +634,73 @@ trade.getReturnReceiver = {
         });
     }
 };
+
+trade.forge = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function (req, res) {
+        var params = req.body;
+        async.waterfall([function(callback) {
+            People.findOne({
+                '_id' : req.qsCurrentUserId
+            }, callback);
+        }, function(people, callback){
+            if (!params.itemRef || !params.promoterRef || !params.totalFee || !params.quantity) {
+                callback(errors.NotEnoughParam);
+                return;
+            }
+            Item.findOne({
+                '_id' : params.itemRef
+            }, function(err, item){
+                callback(err, people, item);
+            });
+        }, function(people, item, callback) {
+            // Save trade
+            var trade = new Trade();
+            //hardcode status 2
+            trade.status = 2;
+            trade.ownerRef = req.qsCurrentUserId;
+            trade.peopleSnapshot = people;
+            trade.shareToPay = true;
+            trade.itemSnapshot = item;
+            trade.itemRef = item._id;
+            trade.promoterRef = RequestHelper.parseId(params.promoterRef);
+            trade.quantity = params.quantity;
+            trade.totalFee = params.totalFee;
+            trade.pay = {
+                'forge' : {
+                    data : Date.now()
+                }
+            };
+            if (item.skuProperties && item.skuProperties.length > 0) {
+                trade.selectedSkuProperties = item.skuProperties.map(function(skuProp){
+                    var strs = skuProp.split(':');
+                    return strs[0] + ':' + (strs[1] || '');
+                });
+            }else {
+                callback(errors.InvalidItem);
+                return;
+            }
+            trade.save(function(err) {
+                callback(err, trade, item);
+            });
+        }, function(trade, item, callback){
+            BonusHelper.createBonusViaForger(req.qsCurrentUserId, trade, item, function(err){
+                callback(err, trade);
+            }); 
+        }, function(trade, callback){
+            var rPeopleCreateTrade = new RPeopleCreateTrade();
+            rPeopleCreateTrade.initiatorRef = trade.ownerRef;
+            rPeopleCreateTrade.targetRef = trade._id;
+            rPeopleCreateTrade.save(function(err){
+                callback(err, trade, rPeopleCreateTrade);
+            });
+        }], function(err, trade, rPeopleCreateTrade){
+            ResponseHelper.response(res, err, {
+                'trade' : trade,
+                'rPeopleCreateTrade' : rPeopleCreateTrade
+            });
+        })
+    }
+}
 
