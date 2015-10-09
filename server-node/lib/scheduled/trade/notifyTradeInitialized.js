@@ -27,13 +27,18 @@ var _next = function(today) {
             }, function(people, cb){
                 var verify = people.unreadNotifications.forEach(function(unread){
                     var extra = unread.extra;
-                    var verify = (extra._id.toString() === trade._id.toString()) && (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated 
-                        || extra.command === NotificationHelper.CommandTradeInitialized);
-                    if(verify){
-                        NotificationHelper.notify([trade.ownerRef], extra.command, {
-                            '_id' : trade._id,
-                            'command' : NotificationHelper.CommandTradeInitialized
-                        }, null);   
+                    if(extra._id.toString() === trade._id.toString()){
+                        if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated) {
+                            NotificationHelper.notify([trade.ownerRef], extra.command, {
+                                '_id' : trade._id,
+                                'command' : NotificationHelper.MessageItemPriceChanged
+                            }, null);   
+                        } else if(extra.command === NotificationHelper.CommandTradeInitialized){
+                            NotificationHelper.notify([trade.ownerRef], extra.command, {
+                                '_id' : trade._id,
+                                'command' : NotificationHelper.MessageTradeInitialized
+                            }, null); 
+                        }
                     };
                 });
                 cb(null, trade);
