@@ -29,14 +29,14 @@ var _next = function(today) {
                     var extra = unread.extra;
                     if(extra._id.toString() === trade._id.toString()){
                         if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated) {
-                            NotificationHelper.notify([trade.ownerRef], extra.command, {
+                            NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
                                 '_id' : trade._id,
-                                'command' : NotificationHelper.MessageItemPriceChanged
+                                'command' : extra.command
                             }, null);   
                         } else if(extra.command === NotificationHelper.CommandTradeInitialized){
-                            NotificationHelper.notify([trade.ownerRef], extra.command, {
+                            NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
                                 '_id' : trade._id,
-                                'command' : NotificationHelper.MessageTradeInitialized
+                                'command' : extra.command
                             }, null); 
                         }
                     };
