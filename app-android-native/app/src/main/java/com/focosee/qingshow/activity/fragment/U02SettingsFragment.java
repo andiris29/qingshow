@@ -476,9 +476,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
 
             @Override
-            public void onError() {
-                super.onError();
-                ToastUtil.showShortToast(getActivity().getApplicationContext(), "请检查网络");
+            public void onError() {               super.onError();
+                ToastUtil.showShortToast(QSApplication.instance().getApplicationContext(), "请检查网络");
             }
         });
     }
