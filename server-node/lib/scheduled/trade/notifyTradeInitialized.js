@@ -18,7 +18,7 @@ var _next = function(today) {
     },
     function(trades, callback) {
         var notifiyTasks = trades.filter(function(trade){
-            return today - trade.update > 24 * 3600 
+            return today - trade.update > 24 * 3600 * 1000
         }).map(function(trade, index) {
             return function(cb2){
                 async.waterfall([function(cb){
