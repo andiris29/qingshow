@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.CityActivity;
 import com.focosee.qingshow.activity.CityEvent;
@@ -299,7 +300,12 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private void udpatePeople(){
         Map<String, String> params = new HashMap<>();
         params.put("mobile", consigeePhoneET.getText().toString());
-        UserCommand.update(params, new Callback());
+        UserCommand.update(params, new Callback(){
+            @Override
+            public void onError(int errorCode) {
+                ErrorHandler.handle(QSApplication.instance(), errorCode);
+            }
+        });
     }
 
     public void onEventMainThread(CityEvent event) {
