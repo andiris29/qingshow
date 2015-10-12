@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -46,6 +47,7 @@ import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +59,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -127,9 +130,6 @@ public class S11NewTradeFragment extends Fragment {
         Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
         Log.d(S11NewTradeFragment.class.getSimpleName(), "skuTable:" + itemEntity.skuTable);
 
-        if(null == itemEntity.skuTable || Collections.emptyList().equals(itemEntity.skuTable)) return rootView;
-        initSkuTable();
-
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -146,22 +146,25 @@ public class S11NewTradeFragment extends Fragment {
         if (discountNum == 10)
             discountNum = discountOnline = 9;
 
-
-        if (itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
-            initProps();
-        }
-
         initDes();
+        if (null != itemEntity.skuTable && !Collections.emptyList().equals(itemEntity.skuTable)
+                && itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
+            initProps();
+            initSkuTable();
+        } else {
+            changeBtnClickable(false);
+        }
 
         checkDiscount();
         checkNum();
 
         return rootView;
     }
+
     //skuTable(没有库存的商品)
-    private void initSkuTable(){
+    private void initSkuTable() {
         for (String key : itemEntity.skuTable.keySet()) {
-            if(SkuHelper.obtainSkuStock(itemEntity.skuTable, key) < 1) {
+            if (SkuHelper.obtainSkuStock(itemEntity.skuTable, key) < 1) {
                 skuTable.put(key, itemEntity.skuTable.get(key));
             }
         }
@@ -179,10 +182,10 @@ public class S11NewTradeFragment extends Fragment {
             List<FlowRadioButton> btnList = new ArrayList<>();
             btnList.add(btnMap.get(key).getChildViews().get(index));
 
-            if(btnMap.get(key).getChildViews().get(index).isChecked()) {
+            if (btnMap.get(key).getChildViews().get(index).isChecked()) {
                 selectProps.put(key, values);
                 selectRadioButton.put(key, btnList);
-            }else{
+            } else {
                 selectProps.remove(key);
                 selectRadioButton.remove(key);
             }
@@ -190,8 +193,8 @@ public class S11NewTradeFragment extends Fragment {
             Log.d(S11NewTradeFragment.class.getSimpleName(), "selectRadioButton:" + new JSONObject(selectRadioButton).toString());
             if (null == itemEntity.skuTable) {
                 changeBtnClickable(false);
-                for(String myKey : keys_order){
-                    for(FlowRadioButton btn : btnMap.get(myKey).getChildViews()){
+                for (String myKey : keys_order) {
+                    for (FlowRadioButton btn : btnMap.get(myKey).getChildViews()) {
                         btn.setChecked(false);
                         btn.setEnable(false);
                     }
@@ -204,10 +207,10 @@ public class S11NewTradeFragment extends Fragment {
             } else {
                 changeBtnClickable(true);
             }
-            if(!inited){
+            if (!inited) {
                 checkNotExistItem(key, 0);
                 inited = true;
-            }else {
+            } else {
                 if (btnMap.get(key).getChildViews().get(index).isEnable())
                     checkNotExistItem(key, index);
             }
@@ -221,10 +224,10 @@ public class S11NewTradeFragment extends Fragment {
         int i = 0;
         for (String key : props.keySet()) {
             bindItem(key, props.get(key), i, onCheckedChangeListener);
-            if(!inited) {
+            if (!inited) {
                 btnMap.get(key).getChildViews().get(0).setChecked(true);
                 onCheckedChangeListener.onChanged(key, 0);
-                if(keys_order.size() > 1)
+                if (keys_order.size() > 1)
                     changeBtnClickable(false);
             }
             i++;
@@ -236,16 +239,16 @@ public class S11NewTradeFragment extends Fragment {
         Log.d(S11NewTradeFragment.class.getSimpleName(), "index:" + index);
         Map<String, List<String>> tempMap = new HashMap<>(selectProps);
         for (String p : keys_order) {
-            if (p.equals(prop)){
+            if (p.equals(prop)) {
                 continue;
             }
-            if(null == btnMap.get(p))continue;
+            if (null == btnMap.get(p)) continue;
             for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
                 btn.setEnable(true);
             }
 
             for (String value : props.get(p)) {
-                if(null == btnMap.get(p))continue;
+                if (null == btnMap.get(p)) continue;
                 List<String> bList = new ArrayList<>();
                 boolean isAble;
                 bList.add(value);
@@ -263,8 +266,8 @@ public class S11NewTradeFragment extends Fragment {
         }
         //设置选中的btn样式
         for (String p : keys_order) {
-            if(Collections.emptyList() == selectRadioButton)return;
-            if(!selectRadioButton.containsKey(p)) continue;
+            if (Collections.emptyList() == selectRadioButton) return;
+            if (!selectRadioButton.containsKey(p)) continue;
             for (FlowRadioButton btn : selectRadioButton.get(p)) {
                 btn.setChecked(true);
             }

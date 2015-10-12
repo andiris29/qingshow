@@ -305,12 +305,14 @@ _update = function(req, res) {
             People.find({
                 'mobile' : qsParam.mobile
             }, function(err, peoples){
-                if (peoples.length > 0) {
+                if (peoples && peoples.length > 0) {
                     callback(errors.MobileAlreadyExist);
                 }else {
                     callback(null, people);
                 }
             })
+        } else {
+            callback(null, people);
         }
     },
     function(people, callback) {

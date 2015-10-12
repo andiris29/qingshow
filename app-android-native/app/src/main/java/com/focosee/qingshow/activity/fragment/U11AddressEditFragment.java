@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.CityActivity;
 import com.focosee.qingshow.activity.CityEvent;
@@ -280,8 +281,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
                 try {
                     if (response.getJSONObject("data").getBoolean("success")) {
-                        udpatePeople();
-                        commit(pa);
+                        udpatePeople(pa);
                     } else {
                         ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
                         saveBtn.setEnabled(true);
@@ -296,10 +296,21 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void udpatePeople(){
+    private void udpatePeople(final Map pa){
         Map<String, String> params = new HashMap<>();
         params.put("mobile", consigeePhoneET.getText().toString());
-        UserCommand.update(params, new Callback());
+        UserCommand.update(params, new Callback(){
+            @Override
+            public void onError(int errorCode) {
+                saveBtn.setEnabled(true);
+                ErrorHandler.handle(QSApplication.instance(), errorCode);
+            }
+
+            @Override
+            public void onComplete() {
+                commit(pa);
+            }
+        });
     }
 
     public void onEventMainThread(CityEvent event) {
