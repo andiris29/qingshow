@@ -301,12 +301,23 @@ _update = function(req, res) {
         }
     },
     function(people, callback) {
-        if (qsParam.mobile) {
+        if (qsParam.mobile || qsParam.nickname) {
             People.find({
-                'mobile' : qsParam.mobile
+                '$or' : [{
+                    'mobile' : qsParam.mobile
+                },{
+                    'nickname' : qsParam.nickname
+                }]
             }, function(err, peoples){
                 if (peoples && peoples.length > 0) {
-                    callback(errors.MobileAlreadyExist);
+                    var verify = peoples.some(function(people){
+                        return people.nickname === qsParam.nickname
+                    });
+                    if (verify) {
+                        callback(errors.NickNameAlreadyExist);   
+                    }else {
+                        callback(errors.MobileAlreadyExist); 
+                    }
                 }else {
                     callback(null, people);
                 }
