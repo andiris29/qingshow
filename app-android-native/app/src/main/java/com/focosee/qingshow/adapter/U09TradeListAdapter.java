@@ -215,7 +215,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             return;
         }
 
-        if(trade.status >= 2){
+        if(trade.status == 17){
+            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));
+            holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.expectedPrice));
+        }else if(trade.status >= 2){
             holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.totalFee.doubleValue() / trade.quantity, trade.itemSnapshot.promoPrice.doubleValue()));
             holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.totalFee.doubleValue() / trade.quantity));
         }
