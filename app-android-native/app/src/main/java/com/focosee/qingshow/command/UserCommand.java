@@ -72,10 +72,11 @@ public class UserCommand {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                MongoPeople user = UserParser._parsePeople(response);
-                if (user == null) {
+                Log.d(UserCommand.class.getSimpleName(), "response:" + response);
+                if (MetadataParser.hasError(response)) {
                     callback.onError(MetadataParser.getError(response));
                 } else {
+                    MongoPeople user = UserParser._parsePeople(response);
                     QSModel.INSTANCE.setUser(user);
                     EventBus.getDefault().post(new UserUpdatedEvent(user));
                     callback.onComplete();

@@ -300,7 +300,12 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private void udpatePeople(){
         Map<String, String> params = new HashMap<>();
         params.put("mobile", consigeePhoneET.getText().toString());
-        UserCommand.update(params, new Callback());
+        UserCommand.update(params, new Callback(){
+            @Override
+            public void onError(int errorCode) {
+                ErrorHandler.handle(QSApplication.instance(), errorCode);
+            }
+        });
     }
 
     public void onEventMainThread(CityEvent event) {
