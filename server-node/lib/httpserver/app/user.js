@@ -86,7 +86,7 @@ var _decryptMD5 = function (string){
     .toUpperCase();
 }
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -900,6 +900,39 @@ var _readNotification = function(req, res) {
     });
 };
 
+_loginAsGuest = function(req, res){
+    var params = req.body;
+    async.waterfall([function(callback){
+        var nickname = '';
+        var codeEnable = false;
+        async.whilst(function() {
+            return codeEnable;
+        }, function(cb) {
+            var code = (Math.random() * Math.pow(10, 6)).toFixed(0);
+            nickname = 'u' + code;
+            People.find({
+                'nickname': nickname
+            }, function(err, peoples) {
+                if (err) {
+                    cb(err);
+                }else {
+                   codeEnable = !(peoples && peoples.length > 0) ? true : false; 
+                }
+            })
+        }, function(err) {
+            err ? callback(errors.genUnkownError()) : callback(null, nickname);
+        });
+    }, function(nickname, callback){
+        var people = new People();
+        people.nickname = nickname;
+        people.role = 'guest';
+        people.save(callback);
+    }],function(err, people){
+        ResponseHelper.response(res, err, {
+            'people' : people
+        });
+    });
+}
 
 module.exports = {
     'get' : {
@@ -969,5 +1002,9 @@ module.exports = {
         method : 'post',
         permissionValidators : ['loginValidator'],
         func : _readNotification
+    },
+    '_loginAsGuest' : {
+        method : 'post',
+        func : _loginAsGuest
     }
 };
