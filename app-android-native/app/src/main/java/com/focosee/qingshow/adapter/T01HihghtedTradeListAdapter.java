@@ -76,8 +76,10 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
         if (null != trade.peopleSnapshot) {
             if(!TextUtils.isEmpty(trade.peopleSnapshot.portrait)) {
                 holder.setImgeByController(R.id.item_t01_portrait, ImgUtil.getImgSrc(trade.peopleSnapshot.portrait, ImgUtil.PORTRAIT_LARGE), ValueUtil.pre_img_AspectRatio);
-                holder.setText(R.id.item_t01_username, trade.peopleSnapshot.nickname);
+            }else{
+                holder.setImgeByRes(R.id.item_t01_portrait, R.drawable.root_cell_placehold_head);
             }
+            holder.setText(R.id.item_t01_username, trade.peopleSnapshot.nickname);
         }
 
         if (null != trade.itemSnapshot) {
