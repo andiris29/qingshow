@@ -32,7 +32,7 @@ share.createShow = {
 			}, callback);
 		}], function(err, shareObject){
 			ResponseHelper.response(res, err, {
-                'shareObject' : shareObject 
+                'sharedObject' : shareObject 
             });
 		});
     }
@@ -62,7 +62,7 @@ share.createTrade = {
 			}, callback);
 		}], function(err, shareObject){
 			ResponseHelper.response(res, err, {
-                'shareObject' : shareObject 
+                'sharedObject' : shareObject 
             });
 		});
 	}
@@ -98,7 +98,7 @@ share.createBonus = {
 			}, callback);
 		}], function(err, shareObject){
 			ResponseHelper.response(res, err, {
-                'shareObject' : shareObject 
+                'sharedObject' : shareObject 
             });
 		});
 	}
