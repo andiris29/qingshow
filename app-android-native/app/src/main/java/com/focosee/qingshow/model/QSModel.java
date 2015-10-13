@@ -15,17 +15,17 @@ public enum QSModel {
     private MongoPeople user;
 
     public boolean loggedin() {
-//        if (user == null) {
-//            String id = QSApplication.instance().getPreferences().getString("id", "");
-//            Log.d(QSModel.class.getSimpleName(), "_id:" + id);
-//            if (TextUtils.isEmpty(id))
-//                return false;
-//        }
         return null != user;
     }
 
     public MongoPeople getUser() {
         return user;
+    }
+
+    public boolean isGuest(){
+        if(null == user) return true;
+        if(user.role == MongoPeople.GUEST) return true;
+        return false;
     }
 
     public void setUser(MongoPeople _user) {

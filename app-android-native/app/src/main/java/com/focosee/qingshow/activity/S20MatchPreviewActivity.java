@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -150,6 +152,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 QSAppWebAPI.getUpdateMatchCoverApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S20MatchPreviewActivity.class.getSimpleName(), "uploadImage_response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S20MatchPreviewActivity.this, MetadataParser.getError(response));
                     allowClick();
@@ -157,7 +160,13 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 }
                 show = ShowParser.parsePeopleAndItemString(response);
                 allowClick();
-                Intent intent = new Intent(S20MatchPreviewActivity.this, S03SHowActivity.class);
+                Class _class = S03SHowActivity.class;
+                Intent intent = new Intent();
+                if(QSModel.INSTANCE.isGuest()){
+                    _class = S01MatchShowsActivity.class;
+                }
+                intent.setClass(S20MatchPreviewActivity.this, _class);
+                intent.putExtra(S01MatchShowsActivity.INTENT_CURRENT_TYPE, 1);
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
                 intent.putExtra(S03SHowActivity.CLASS_NAME, S20MatchPreviewActivity.class.getSimpleName());
                 S20MatchPreviewActivity.this.startActivity(intent);

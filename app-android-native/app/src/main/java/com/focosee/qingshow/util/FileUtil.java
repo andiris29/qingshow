@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -17,6 +18,7 @@ import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 import org.json.JSONObject;
@@ -46,10 +48,11 @@ public class FileUtil {
                 QSAppWebAPI.getUserUpdateportrait(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(FileUtil.class.getSimpleName(), "uploadPortrait-response:" + response);
                 if(MetadataParser.hasError(response))return;
                 MongoPeople user = UserParser._parsePeople(response);
                 if (user != null) {
-                    UserCommand.refresh();
+                    QSModel.INSTANCE.setUser(user);
                 }
             }
         }, new Response.ErrorListener() {

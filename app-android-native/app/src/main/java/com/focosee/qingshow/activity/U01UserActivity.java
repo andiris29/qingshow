@@ -41,6 +41,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
@@ -124,6 +125,8 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
 
     private boolean isMyself = true;
 
+    private LoadingDialogs dialogs;
+
     public void reconn() {
 
     }
@@ -133,6 +136,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
+        dialogs = new LoadingDialogs(this);
         userMatchText.setActivated(true);
         userMatch.setActivated(true);
         user = (MongoPeople) getIntent().getExtras().get("user");
@@ -243,12 +247,12 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void getUserFromNet(String uId) {
-        final LoadingDialogs loading = new LoadingDialogs(U01UserActivity.this);
-        loading.show();
+        if(null != dialogs)
+            if(!dialogs.isShowing())
+                dialogs.show();
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(uId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                loading.dismiss();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
                     return;
@@ -359,6 +363,12 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         }else{
             if(!UnreadHelper.hasUnread())
                 userNavBtn.setImageResource(R.drawable.menu_gray);
+        }
+    }
+
+    public void onEventMainThread(String event){
+        if(ValueUtil.U01_LOADING_FINISH.equals(event)){
+            if(dialogs.isShowing()) dialogs.dismiss();
         }
     }
 

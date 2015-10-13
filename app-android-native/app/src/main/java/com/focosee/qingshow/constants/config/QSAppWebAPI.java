@@ -95,6 +95,12 @@ public class QSAppWebAPI {
 
     private static String FEEDING_FEATURED = "/feeding/featured";
 
+    private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
+
+    public static String getUserLoginasguestApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGINASGUEST_API;
+    }
+
     public static String getFeedingFeatured(int pageNo, int pageSize) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_FEATURED + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }

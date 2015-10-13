@@ -117,7 +117,7 @@ public class U17ResetPasswordStep1Activity extends BaseActivity {
                                                 return;
                                             }
 
-                                            Intent intent = new Intent(U17ResetPasswordStep1Activity.this, U18ResetPasswordStep2.class);
+                                            Intent intent = new Intent(U17ResetPasswordStep1Activity.this, U18ResetPasswordStep2Activity.class);
                                             intent.putExtra("password", password);
                                             startActivity(intent);
                                             finish();
