@@ -301,28 +301,32 @@ _update = function(req, res) {
         }
     },
     function(people, callback) {
-        if (qsParam.mobile || qsParam.nickname) {
+        if (qsParam.mobile) {
             People.find({
-                '$or' : [{
-                    'mobile' : qsParam.mobile
-                },{
-                    'nickname' : qsParam.nickname
-                }]
+                'mobile' : qsParam.mobile
             }, function(err, peoples){
                 if (peoples && peoples.length > 0) {
-                    var verify = peoples.some(function(people){
-                        return people.nickname === qsParam.nickname
-                    });
-                    if (verify) {
-                        callback(errors.NickNameAlreadyExist);   
-                    }else {
-                        callback(errors.MobileAlreadyExist); 
-                    }
+                    callback(errors.MobileAlreadyExist);
                 }else {
                     callback(null, people);
                 }
-            })
-        } else {
+            });
+        }else {
+            callback(null, people);
+        }
+    },
+    function(people, callback) {
+        if (qsParam.nickname) {
+            People.find({
+                'nickname' : qsParam.nickname
+            }, function(err, peoples){
+                if (peoples && peoples.length > 0) {
+                    callback(errors.NickNameAlreadyExist);
+                }else {
+                    callback(null, people);
+                }
+            });
+        }else {
             callback(null, people);
         }
     },
