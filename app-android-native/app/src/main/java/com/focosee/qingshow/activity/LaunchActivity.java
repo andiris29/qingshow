@@ -62,9 +62,10 @@ public class LaunchActivity extends InstrumentedActivity {
     private void init() {
         QSAppWebAPI.HOST_ADDRESS_PAYMENT = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_payment, "");
         QSAppWebAPI.HOST_ADDRESS_APPWEB = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_appweb, "");
-        String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
-        if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())) {
-            userFollow();
+        if (QSApplication.instance().getPreferences().getBoolean("isFirstLaunch", true)) {
+            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+            editor.putBoolean("isFirstLaunch", false);
+            editor.commit();
             _class = G02WelcomeActivity.class;
         } else {
             _class = S01MatchShowsActivity.class;
@@ -118,28 +119,6 @@ public class LaunchActivity extends InstrumentedActivity {
             return true;
         }
     });
-
-    private void userFollow() {
-        Map params = new HashMap();
-        params.put("version", AppUtil.getVersion());
-        params.put("deviceUid", ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId());
-        params.put("osType", 1);
-        params.put("osVersion", android.os.Build.VERSION.RELEASE);
-        JSONObject jsonObject = new JSONObject(params);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getSpreadFirstlanuchApi(), jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (!MetadataParser.hasError(response)) {
-                    SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-                    editor.putString("deviceUid",
-                            ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId());
-                    editor.commit();
-                }
-
-            }
-        });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
 
     private void getUser() {
         if(TextUtils.isEmpty(QSApplication.instance().getPreferences().getString("id", "")))return;
