@@ -197,7 +197,7 @@ public class S11NewTradeNotifyFragment extends Fragment {
     public void submit() {
         submitBtn.setEnabled(false);
         if (QSApplication.instance().getWxApi().isWXAppInstalled()) {
-            ShareUtil.shareTradeToWX(_id, QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_TRADE, getActivity(), true);
+            ShareUtil.shareTradeToWX(_id, ValueUtil.SHARE_TRADE, getActivity(), true);
             EventBus.getDefault().post(trade);
         } else {
             ToastUtil.showShortToast(getActivity(), getString(R.string.need_install_wx));

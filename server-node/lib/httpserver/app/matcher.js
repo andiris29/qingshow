@@ -15,6 +15,7 @@ var RequestHelper = require('../../helpers/RequestHelper');
 var ServiceHelper = require('../../helpers/ServiceHelper');
 var MongoHelper = require('../../helpers/MongoHelper.js');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var errors = require('../../errors');
 
@@ -120,9 +121,9 @@ matcher.updateCover = {
                     'show' : show
                 });
                 // Log
-                loggers.get('show-creation').info(_.extend(RequestHelper.getClientInfo(req), {
+                TraceHelper.trace('show-creation', req, {
                     '_id' : show._id.toString()
-                }));
+                });
             });
             delete _matchers[fields.uuid];
         });

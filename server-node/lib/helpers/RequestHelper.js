@@ -21,7 +21,8 @@ RequestHelper.getClientInfo = function (req) {
         'qs-os-type' : req.header('qs-os-type'),
         'qs-type' : req.header('qs-type'),
         'qs-version' : req.header('qs-version'),
-        'qs-version-code' : req.header('qs-version-code')
+        'qs-version-code' : req.header('qs-version-code'),
+        'qs-client-ip' : RequestHelper.getIp(req)
     };
 };
 

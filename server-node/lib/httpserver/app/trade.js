@@ -16,6 +16,7 @@ var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
 var BonusHelper = require('../../helpers/BonusHelper');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var errors = require('../../errors');
 var request = require('request');
@@ -84,10 +85,10 @@ trade.create = {
                 'trade' : trade
             });
             // Log
-            loggers.get('trade-creation').info(_.extend(RequestHelper.getClientInfo(req), {
+            TraceHelper.trace('trade-creation', req, {
                 '_id' : trade._id.toString(),
                 'selectedSkuProperties' : trade.selectedSkuProperties
-            }));
+            });
         });
     }
 };
