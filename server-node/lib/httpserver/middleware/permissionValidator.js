@@ -57,6 +57,21 @@ var _builtInValidators = {
         } else {
             callback(errors.NeedLogin);
         }
+    },
+    'roleUserValidator' : function(req, res, callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }).exec(function(err, people){
+            if (people) {
+                if (people.role === 'user') {
+                    callback(null);
+                }else {
+                    callback(errors.NotEnoughAccess);
+                }
+            }else {
+                callback(errors.NeedLogin);
+            }
+        });
     }
 };
 

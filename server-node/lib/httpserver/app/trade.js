@@ -26,7 +26,7 @@ var trade = module.exports;
 
 trade.create = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
@@ -94,7 +94,7 @@ trade.create = {
 
 trade.prepay = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
@@ -214,7 +214,7 @@ var _weixinDeliveryNotify = function(trade) {
 
 trade.statusTo = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         var param = req.body,
             newStatus = param.status;
@@ -405,7 +405,7 @@ trade.wechatCallback = {
 
 trade.refreshPaymentStatus = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
@@ -464,7 +464,7 @@ trade.refreshPaymentStatus = {
 
 trade.share = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         var targetRef, initiatorRef;
         async.waterfall([
@@ -515,7 +515,7 @@ trade.query = {
 
 trade.queryByPhase = {
     'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         var phaseMap = {
             '0' : ['00', '01'],
@@ -574,7 +574,7 @@ trade.queryHighlighted = {
 
 trade.getReturnReceiver = {
     'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([function(callback) {
             Trade.findOne({
@@ -635,7 +635,7 @@ trade.getReturnReceiver = {
 
 trade.forge = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function (req, res) {
         var params = req.body;
         async.waterfall([function(callback) {
