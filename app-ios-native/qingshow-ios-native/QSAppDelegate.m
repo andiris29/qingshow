@@ -64,7 +64,6 @@
         
         //Init Matcher Categories List
         [QSCategoryManager getInstance];
-        
         [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];

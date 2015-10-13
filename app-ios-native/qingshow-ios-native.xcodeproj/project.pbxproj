@@ -69,6 +69,7 @@
 		8C9240051B258AB60043561E /* hongxin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240041B258AB60043561E /* hongxin@2x.png */; };
 		8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240061B25A8030043561E /* user_bg_default@2x.jpg */; };
 		8C9240091B25A83C0043561E /* user_head_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240081B25A83C0043561E /* user_head_default@2x.jpg */; };
+		8CB93A961BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB93A951BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m */; };
 		8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625CE1BB13CD400B11849 /* PushKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8CFC56941BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CFC56921BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.m */; };
 		8CFC56951BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CFC56931BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.xib */; };
@@ -459,6 +460,8 @@
 		8C9240041B258AB60043561E /* hongxin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hongxin@2x.png"; sourceTree = "<group>"; };
 		8C9240061B25A8030043561E /* user_bg_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_bg_default@2x.jpg"; sourceTree = "<group>"; };
 		8C9240081B25A83C0043561E /* user_head_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_head_default@2x.jpg"; sourceTree = "<group>"; };
+		8CB93A941BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ShareService.h"; sourceTree = "<group>"; };
+		8CB93A951BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ShareService.m"; sourceTree = "<group>"; };
 		8CF625CE1BB13CD400B11849 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		8CFC56911BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU17ResetPswStep1ViewController.h; sourceTree = "<group>"; };
 		8CFC56921BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU17ResetPswStep1ViewController.m; sourceTree = "<group>"; };
@@ -1743,6 +1746,8 @@
 				EF9D096B1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m */,
 				EF002F731BAE6755004C8C25 /* QSNetworkEngine+SystemService.h */,
 				EF002F741BAE6755004C8C25 /* QSNetworkEngine+SystemService.m */,
+				8CB93A941BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.h */,
+				8CB93A951BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -3103,6 +3108,7 @@
 				82B696831A19123200518EE5 /* QSU08PasswordViewController.m in Sources */,
 				82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */,
 				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,
+				8CB93A961BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m in Sources */,
 				EF002F751BAE6755004C8C25 /* QSNetworkEngine+SystemService.m in Sources */,
 				EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */,
 				EF4CEC451B765011002865DE /* QSBlockAlertView.m in Sources */,
@@ -3333,7 +3339,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "f407cf47-d862-43ed-b796-c574231a3ce2";
+				PROVISIONING_PROFILE = "8615d090-e4b9-4ffa-974a-260bee63ce54";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -3373,7 +3379,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "f407cf47-d862-43ed-b796-c574231a3ce2";
+				PROVISIONING_PROFILE = "8615d090-e4b9-4ffa-974a-260bee63ce54";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;

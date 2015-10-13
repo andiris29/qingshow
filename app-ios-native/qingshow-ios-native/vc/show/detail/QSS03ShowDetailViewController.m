@@ -19,6 +19,7 @@
 #import "QSImageNameUtil.h"
 #import "QSPromotionUtil.h"
 #import "QSShareService.h"
+#import "QSNetworkEngine+ShareService.h"
 
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
@@ -374,11 +375,20 @@
     NSString* showId = [QSEntityUtil getIdOrEmptyStr:self.showDict];
     
     //获取userID
-    QSUserManager *um = [QSUserManager shareUserManager];
-    NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
+   // QSUserManager *um = [QSUserManager shareUserManager];
+   // NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
+    __weak QSS03ShowDetailViewController *weakSelf = self;
+    [SHARE_NW_ENGINE shareCreateShow:showId onSucceed:^(NSString *shareIdentify) {
+        if (shareIdentify) {
+            NSString *urlStr = [NSString stringWithFormat:@"%@?_id=%@", [QSShareService getShareHost],shareIdentify];
+            [weakSelf.shareVc showSharePanelWithTitle:@"来倾秀玩转搭配，show出你的范儿！" desc:@"随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算" url:urlStr];
+        }
+       
+    } onError:^(NSError *error) {
+        
+    }];
     
-    NSString *urlStr = [NSString stringWithFormat:@"%@?entry=shareShow&_id=%@&initiatorRef=%@", [QSShareService getShareHost],showId,peopleID];
-    [self.shareVc showSharePanelWithTitle:@"来倾秀玩转搭配，show出你的范儿！" desc:@"随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算" url:urlStr];
+    
 }
 - (void)hideSharePanel
 {
