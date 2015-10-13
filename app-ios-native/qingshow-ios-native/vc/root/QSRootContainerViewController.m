@@ -22,6 +22,7 @@
 
 #import "QSRootContentViewController.h"
 #import "QSPnsHandler.h"
+#import "QSPeopleUtil.h"
 
 @interface QSRootContainerViewController ()
 
@@ -128,13 +129,17 @@
         }
     }
     [self showVc:vc];
+
     
     if ((![vc isKindOfClass:[QSS01MatchShowsViewController class]]) && (![vc isKindOfClass:[QST01ShowTradeViewController class]])) {
-        [self showRegisterVc];
+        NSDictionary* u = [QSUserManager shareUserManager].userInfo;
+        if (!u) {
+            [self showRegisterVc];
+        } else if ([QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest &&
+                   [vc isKindOfClass:[QSU09OrderListViewController class]]) {
+            [self showRegisterVc];
+        }
     }
-    
-    
-    
 }
 
 - (void)showVc:(UIViewController<QSIRootContentViewController>*)vc{
@@ -158,7 +163,8 @@
 }
 - (UIViewController*)showRegisterVc {
     UIViewController* vc = nil;
-    if (![QSUserManager shareUserManager].userInfo) {
+    NSDictionary* u = [QSUserManager shareUserManager].userInfo;
+    if (!u || [QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest) {
         vc = [[QSU07RegisterViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -168,7 +174,14 @@
     [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
     return self.contentVc;
 }
-
+- (UIViewController*)showGuestVc {
+    [self.menuView triggerItemTypePressed:QSRootMenuItemMatcher];
+    if ([self.contentVc isKindOfClass:[QSS20MatcherViewController class]]) {
+        QSS20MatcherViewController* vc = (QSS20MatcherViewController*)self.contentVc;
+        [vc hideMenuBtn];
+    }
+    return self.contentVc;
+}
 - (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type {
     [self.menuView triggerItemTypePressed:type];
     return self.contentVc;

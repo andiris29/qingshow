@@ -17,7 +17,6 @@
 #import "QSNavigationController.h"
 #import "QSNetworkKit.h"
 #import "QSRootContainerViewController.h"
-#import "QSNetworkKit.h"
 #import "APService.h"
 #import "QSPnsHelper.h"
 #import "QSEntityUtil.h"
@@ -25,6 +24,8 @@
 #import "QSHookHelper.h"
 #import "QSUnreadManager.h"
 #import "UIViewController+QSExtension.h"
+#import "QSPeopleUtil.h"
+#import "QSError.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -38,6 +39,7 @@
 #pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
     [QSHookHelper registerHooker];
 
     [QSUnreadManager getInstance];
@@ -56,38 +58,96 @@
     
     [self showLaunchImage];
     [QSNetworkHelper querySystemPathOnSucceed:^{
-        [self _configRootVc];
+        [self _RootVcInit];
         QSRootContainerViewController* vc = (QSRootContainerViewController*)self.rootVc;
         
         //标记第一次载入
-        [self rememberFirstLaunch];
+        VoidBlock guestHandler = ^(){
+            vc.hasFetchUserLogin = YES;
+            [vc handleCurrentUser];
+            [vc showGuestVc];
+            [self hideLaunchImageAfterDelay:0.f];
+            //Romote Notification
+            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
+            }
+        };
+        VoidBlock guestErrorHandler = ^(){
+            vc.hasFetchUserLogin = YES;
+            [vc handleCurrentUser];
+            [vc showDefaultVc];
+            [self hideLaunchImageAfterDelay:0.f];
+            //Romote Notification
+            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
+            }
+        };
+        VoidBlock normalUserHandler = ^(){
+            vc.hasFetchUserLogin = YES;
+            [vc handleCurrentUser];
+            [self hideLaunchImageAfterDelay:0.f];
+            [vc showDefaultVc];
+            //Romote Notification
+            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
+            }
+        };
+        VoidBlock normalUserErrorHandler = ^(){
+            vc.hasFetchUserLogin = YES;
+            [vc handleCurrentUser];
+            [self hideLaunchImageAfterDelay:0.f];
+            [vc showDefaultVc];
+            //Romote Notification
+            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
+                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
+            }
+        };
         
         //Init Matcher Categories List
         [QSCategoryManager getInstance];
+        if ([self isFirstLaunch]) {
+            //Login as guest
+            [SHARE_NW_ENGINE loginAsGuestOnSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+                guestHandler();
+                
+            } onError:^(NSError *error) {
+                guestErrorHandler();
+            }];
+        } else {
+            //Normal workflow
+            [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+                QSPeopleRole r = [QSPeopleUtil getPeopleRole:data];
+                if (r == QSPeopleRoleGuest) {
+                    [SHARE_NW_ENGINE feedingMatchCreateBy:data page:1 onSucceed:^(NSArray *array, NSDictionary *metadata) {
+                        normalUserHandler();
+                    } onError:^(NSError *error) {
+                        if ([error isKindOfClass:[QSError class]]) {
+                            QSError* e = (QSError*)error;
+                            if (e.code == 1009) {
+                                //PAGE_NOT_EXIST
+                                guestHandler();
+                            } else {
+                                guestErrorHandler();
+                            }
+                        } else {
+                            guestErrorHandler();
+                        }
+                    }];
+                } else {
+                    normalUserHandler();
+                }
+            } onError:^(NSError *error) {
+                normalUserErrorHandler();
+            }];
+        }
         
-        [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
-            vc.hasFetchUserLogin = YES;
-            [vc handleCurrentUser];
-            [self hideLaunchImageAfterDelay:0.f];
-            [vc showDefaultVc];
-            //Romote Notification
-            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
-                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
-            }
-        } onError:^(NSError *error) {
-            vc.hasFetchUserLogin = YES;
-            [vc handleCurrentUser];
-            [self hideLaunchImageAfterDelay:0.f];
-            [vc showDefaultVc];
-            //Romote Notification
-            if (![QSEntityUtil checkIsNil:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]]) {
-                NSDictionary* pnsUserInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-                [QSPnsHelper handlePnsData:pnsUserInfo fromBackground:YES];
-            }
-        }];
+        [self rememberFirstLaunch];
     } onError:^(NSError *error) {
-        [self _configRootVc];
+        [self _RootVcInit];
         [self hideLaunchImageAfterDelay:0.f];
         QSRootContainerViewController* vc = (QSRootContainerViewController*)self.rootVc;
         [vc showDefaultVc];
@@ -97,14 +157,24 @@
     return YES;
 }
 
-- (void)_configRootVc {
+- (void)_RootVcInit {
+    [self.launchImageView removeFromSuperview];
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
     self.rootVc = vc;
+    [self _configRootVc];
+    UIImageView* launchImageView = [self generateLaunchImageView];
+    [self.window addSubview:launchImageView];
+    self.launchImageView = launchImageView;
+
+}
+- (void)_configRootVc {
+    QSRootContainerViewController* vc = (QSRootContainerViewController*)self.rootVc;
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
     
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;
 }
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -256,17 +326,21 @@
 #pragma mark - Launch Image
 - (void)showLaunchImage
 {
-    
+    self.window.rootViewController = [[UIViewController alloc] init];
+    [self.window makeKeyAndVisible];
+    UIImageView* lauchImgView = [self generateLaunchImageView];
+    [self.window addSubview:lauchImgView];
+    self.launchImageView = lauchImgView;
+}
+- (UIImageView*)generateLaunchImageView {
     UIScreen* mainScreen = [UIScreen mainScreen];
     NSString* launchImgName = [NSString stringWithFormat:@"launch_%d-%d", (int)mainScreen.bounds.size.width, (int)mainScreen.bounds.size.height];
     UIImage* launchImg = [UIImage imageNamed:launchImgName];
     UIImageView* lauchImgView = [[UIImageView alloc] initWithImage:launchImg];
     lauchImgView.frame = mainScreen.bounds;
-    [self.window addSubview:lauchImgView];
-    self.window.rootViewController = [[UIViewController alloc] init];
-    [self.window makeKeyAndVisible];
-    self.launchImageView = lauchImgView;
+    return lauchImgView;
 }
+
 - (void)hideLaunchImageAfterDelay:(float)delay
 {
     [self performSelector:@selector(hideLaunchImage) withObject:nil afterDelay:delay];
@@ -319,14 +393,20 @@
     }];
 }
 
+- (BOOL)isFirstLaunch {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return ![userDefaults boolForKey:kTraceLogFirstLaunch];
+}
 //标记第一次载入软件
 - (void)rememberFirstLaunch
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-#warning 应该少个判断 
-    [self logTraceFirstLaunch];
-    [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
-    [userDefaults synchronize];
+    if ([self isFirstLaunch]) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [self logTraceFirstLaunch];
+        [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
+        [userDefaults synchronize];
+    }
+
 }
 
 #pragma mark - Push Notification

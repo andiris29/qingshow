@@ -21,6 +21,7 @@
 #import "QSG01ItemWebViewController.h"
 #import "QSAbstractRootViewController.h"
 #import "QSUnreadManager.h"
+#import "QSUserManager.h"
 
 #define PAGE_ID @"U09 - 交易一览"
 @interface QSU09OrderListViewController ()
@@ -71,6 +72,12 @@
     [self.provider reloadData];
     self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];
+
+    NSDictionary* u = [QSUserManager shareUserManager].userInfo;
+    if (!u || [QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest) {
+        [self.menuProvider triggerToShowVc:QSRootMenuItemMeida];
+    }
+    
 }
 - (void)viewDidDisappear:(BOOL)animated
 {

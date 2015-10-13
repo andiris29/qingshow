@@ -26,6 +26,8 @@
 
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)loginAsGuestOnSucceed:(EntitySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock;
 
 //- (MKNetworkOperation *)registerById:(NSString *)pid
 //                            Password:(NSString *)passwd

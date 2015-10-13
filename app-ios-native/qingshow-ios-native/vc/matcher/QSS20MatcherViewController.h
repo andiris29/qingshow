@@ -33,5 +33,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *categorySelectionButton;
 
-
+- (void)hideMenuBtn;
 @end

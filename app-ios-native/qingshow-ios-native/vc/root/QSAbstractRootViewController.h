@@ -15,6 +15,7 @@
 - (void)didClickMenuBtn;
 - (UIViewController*)showRegisterVc;
 - (UIViewController*)showDefaultVc;
+- (UIViewController*)showGuestVc;
 - (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type;
 
 @end

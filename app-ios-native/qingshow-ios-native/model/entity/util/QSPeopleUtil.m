@@ -310,6 +310,16 @@
 {
     return [dict numberValueForKeyPath:@"measureInfo.shoeSize"].stringValue;
 }
+
++ (QSPeopleRole)getPeopleRole:(NSDictionary*)dict {
+    NSNumber* r = [dict numberValueForKeyPath:@"role"];
+    if (r && r.intValue == 0) {
+        return QSPeopleRoleGuest;
+    } else {
+        return QSPeopleRoleUser;
+    }
+}
+
 #pragma mark - Unread
 + (NSArray*)getUnreadNotifications:(NSDictionary*)peopleDict {
     return [peopleDict arrayValueForKeyPath:@"unreadNotifications"];
