@@ -14,6 +14,10 @@ public class Callback {
 
     }
 
+    public void onComplete(String result) {
+
+    }
+
     public void onComplete(int result) {
 
     }
