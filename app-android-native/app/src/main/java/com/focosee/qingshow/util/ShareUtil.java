@@ -27,17 +27,17 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 public class ShareUtil {
 
     public static void shareShowToWX(String showId, String transaction, Context context, boolean isTimelineCb){
-        shareToWX(ShareConfig.SHARE_SHOW_URL + showId, transaction, context, isTimelineCb
+        shareToWX(ShareConfig.SHARE_URL + showId, transaction, context, isTimelineCb
                 , ShareConfig.IMG, ShareConfig.SHARE_SHOW_TITLE, ShareConfig.SHARE_SHOW_DESCRIPTION);
     }
 
-    public static void shareTradeToWX(String tradeId, String peopleId, String transaction, Context context, boolean isTimelineCb){
-        shareToWX(ShareConfig.getShareTradeUrl(tradeId, peopleId), transaction, context, isTimelineCb
+    public static void shareTradeToWX(String tradeId, String transaction, Context context, boolean isTimelineCb){
+        shareToWX(ShareConfig.SHARE_URL + tradeId, transaction, context, isTimelineCb
                 , ShareConfig.IMG, ShareConfig.SHARE_TRADE_TITLE, ShareConfig.SHARRE_TRADE_DESCRIPTION);
     }
 
     public static void shareBonusToWX(String peopleId, String transaction, Context context, boolean isTimelineCb){
-        shareToWX(ShareConfig.SHARE_BONUS_URL + peopleId, transaction, context, isTimelineCb
+        shareToWX(ShareConfig.SHARE_URL + peopleId, transaction, context, isTimelineCb
             , ShareConfig.IMG, ShareConfig.SHARE_BONUS_TITLE, ShareConfig.SHARE_BONUS_DESCRIPTION);
     }
 
@@ -70,7 +70,7 @@ public class ShareUtil {
         mediaObject.title = ShareConfig.SHARE_SHOW_TITLE;
         mediaObject.description = ShareConfig.SHARE_SHOW_DESCRIPTION;
         mediaObject.setThumbImage(BitmapFactory.decodeResource(context.getResources(), ShareConfig.IMG));
-        mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showId;
+        mediaObject.actionUrl = ShareConfig.SHARE_URL + showId;
         mediaObject.defaultText = ShareConfig.SHARE_SHOW_DESCRIPTION;
 
         weiboMessage.mediaObject = mediaObject;
