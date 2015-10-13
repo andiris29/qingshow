@@ -27,7 +27,8 @@ var servicesNames = [
 'item', 
 'dashboard', 
 'goblin', 
-'system'
+'system',
+'share'
 ];
 var services = servicesNames.map(function (path) {
     return {
