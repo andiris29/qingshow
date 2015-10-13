@@ -63,7 +63,7 @@ var _builtInValidators = {
             '_id' : req.qsCurrentUserId
         }).exec(function(err, people){
             if (people) {
-                if (people.role === 'user') {
+                if (people.role === 1) {
                     callback(null);
                 }else {
                     callback(errors.NotEnoughAccess);

@@ -15,7 +15,7 @@ peopleSchema = Schema({
     bodyType : Number,
     dressStyle : Number,
     expectations : [Number],
-    role : String,
+    role : Number,
     measureInfo : {
         shoulder : Number,
         bust : Number,
