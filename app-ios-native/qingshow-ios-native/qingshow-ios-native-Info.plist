@@ -85,5 +85,16 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>alipayauth</string>
+        <string>alipay</string>
+        <string>weixin</string>
+        <string>wechat</string>
+        <string>weibosdk2.5</string>
+        <string>weibosdk</string>
+        <string>sinaweibohd</string>
+        <string>sinaweibo</string>
+    </array>
 </dict>
 </plist>
