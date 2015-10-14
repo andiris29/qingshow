@@ -482,6 +482,8 @@
 #pragma mark - JPush
 - (void)didReceiveJPushRegistrionId:(NSNotification*)notification {
     [QSUserManager shareUserManager].JPushRegistrationID = [APService registrationID];
+    [SHARE_NW_ENGINE userUpdateJpushId:[QSUserManager shareUserManager].JPushRegistrationID onSucceed:nil onError:nil];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
 }
 

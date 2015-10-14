@@ -31,6 +31,7 @@
 #define PATH_MOBILE_VALIDATE @"user/validateMobile"
 #define PATH_MOBILE_RESET_PASSWORD @"user/resetPassword"
 #define PATH_USER_READ_NOTIFICATION @"user/readNotification"
+#define PATH_UPDATE_JPUSH_REGISTRATION_ID @"user/updateRegistrationId"
 
 @implementation QSNetworkEngine(UserService)
 
@@ -546,6 +547,18 @@
     }];
 }
 
-
+- (MKNetworkOperation*)userUpdateJpushId:(NSString*)jpushId
+                              onSucceed:(VoidBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_UPDATE_JPUSH_REGISTRATION_ID method:@"POST" paramers:@{@"registrationId" : jpushId } onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 
 @end

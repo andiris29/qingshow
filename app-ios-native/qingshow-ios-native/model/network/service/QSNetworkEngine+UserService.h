@@ -95,5 +95,7 @@
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation*)userUpdateJpushId:(NSString*)jpushId
+                               onSucceed:(VoidBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
 @end
