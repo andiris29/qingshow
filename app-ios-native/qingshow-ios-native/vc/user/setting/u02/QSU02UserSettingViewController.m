@@ -455,6 +455,8 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 - (void)refreshData {
     [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
         [self.tableView reloadData];
+        _footerView = nil;
+        self.tableView.tableFooterView = [self footerView];
     } onError:nil];
 }
 
