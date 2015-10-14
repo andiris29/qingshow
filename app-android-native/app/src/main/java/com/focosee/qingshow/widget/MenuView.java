@@ -110,19 +110,19 @@ public class MenuView extends Fragment implements View.OnClickListener {
         mGroup.addView(mView);
 
         setListener();
-
+        blurView.setDrawingCacheEnabled(true);
+        blurView.buildDrawingCache();
+        blurBitmap = blurView.getDrawingCache();
         Thread thread = new Thread() {
             @Override
             public void run() {
-                blurView.setDrawingCacheEnabled(true);
-                blurView.buildDrawingCache();
-                blurBitmap = convertToBlur(blurView.getDrawingCache(), getActivity());
+                blurBitmap = convertToBlur(blurBitmap, getActivity());
                 Message message = new Message();
                 message.obj = blurBitmap;
                 handler.sendMessage(message);
             }
         };
-        thread.run();
+        thread.start();
 
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.push_left_in);
 
