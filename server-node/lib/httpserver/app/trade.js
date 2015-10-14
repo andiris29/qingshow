@@ -668,7 +668,7 @@ trade.forge = {
             trade.totalFee = params.totalFee;
             trade.pay = {
                 'forge' : {
-                    data : Date.now()
+                    date : Date.now()
                 }
             };
             if (item.delist) {
