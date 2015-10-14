@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,7 +11,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -31,18 +29,14 @@ import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.FileUtil;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.exception.CrashHandler;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import cn.jpush.android.api.InstrumentedActivity;
 
 public class LaunchActivity extends InstrumentedActivity {

@@ -284,7 +284,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
-            if(people.role == MongoPeople.GUEST){
+            if(QSModel.INSTANCE.isGuest()){
                 quitButton.setVisibility(View.GONE);
             }
             if (null != people.portrait) {
