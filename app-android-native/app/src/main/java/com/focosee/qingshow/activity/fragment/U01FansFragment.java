@@ -19,6 +19,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ValueUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -33,7 +34,6 @@ import de.greenrobot.event.EventBus;
  * to handle interaction events.
  */
 public class U01FansFragment extends U01BaseFragment {
-
 
     private U01FansFragAdapter adapter;
 
@@ -87,6 +87,7 @@ public class U01FansFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryPeopleFollowerApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                EventBus.getDefault().post(ValueUtil.U01_LOADING_FINISH);
                 if(MetadataParser.hasError(response)){
                     if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));

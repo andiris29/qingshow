@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "QSImageNameUtil.h"
 
+typedef NS_ENUM(NSInteger, QSPeopleRole) {
+    QSPeopleRoleGuest = 0,
+    QSPeopleRoleUser = 1
+};
+
 @interface QSPeopleUtil : NSObject
 
 + (NSString *)getPeopleId:(NSDictionary *)peopleDict;
@@ -48,6 +53,7 @@
 + (NSString*)getWaist:(NSDictionary*)dict;
 + (NSString*)getHips:(NSDictionary*)dict;
 + (NSString*)getShoeSize:(NSDictionary*)dict;
++ (QSPeopleRole)getPeopleRole:(NSDictionary*)dict;
 
 #pragma mark - Unread
 + (NSArray*)getUnreadNotifications:(NSDictionary*)peopleDict;

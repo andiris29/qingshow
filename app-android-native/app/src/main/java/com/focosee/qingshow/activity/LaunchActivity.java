@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +11,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
@@ -24,7 +24,11 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.model.PushModel;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.FileUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.exception.CrashHandler;
 import com.google.gson.Gson;
@@ -51,8 +55,7 @@ public class LaunchActivity extends InstrumentedActivity {
         MobclickAgent.updateOnlineConfig(this);
 
         setContentView(R.layout.activity_launch);
-        init();
-        if(!AppUtil.checkNetWork(LaunchActivity.this)){//not net
+        if (!AppUtil.checkNetWork(LaunchActivity.this)) {//not net
             jump();
             return;
         }
@@ -62,10 +65,10 @@ public class LaunchActivity extends InstrumentedActivity {
     private void init() {
         QSAppWebAPI.HOST_ADDRESS_PAYMENT = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_payment, "");
         QSAppWebAPI.HOST_ADDRESS_APPWEB = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_appweb, "");
-        if (QSApplication.instance().getPreferences().getBoolean("isFirstLaunch", true)) {
-            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-            editor.putBoolean("isFirstLaunch", false);
-            editor.commit();
+        String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
+        if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())) {
+            userFollow();
+            userLoginAsGuest();
             _class = G02WelcomeActivity.class;
         } else {
             _class = S01MatchShowsActivity.class;
@@ -83,7 +86,6 @@ public class LaunchActivity extends InstrumentedActivity {
             }
         }
     }
-
 
 
     public void jump() {
@@ -105,12 +107,13 @@ public class LaunchActivity extends InstrumentedActivity {
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if(msg.arg1 == JUMP) {
+            if (msg.arg1 == JUMP) {
                 Intent mainIntent = new Intent(LaunchActivity.this, _class);
                 LaunchActivity.this.startActivity(mainIntent);
                 LaunchActivity.this.finish();
             }
-            if(msg.arg1 == SYSTEM_GET_FINISH){
+            if (msg.arg1 == SYSTEM_GET_FINISH) {
+                init();
                 getUser();
                 CategoriesCommand.getCategories();
                 systemLog();

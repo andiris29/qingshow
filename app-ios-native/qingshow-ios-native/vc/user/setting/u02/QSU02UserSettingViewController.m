@@ -73,21 +73,36 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 - (UIView*)footerView{
     if (!_footerView) {
         _footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
-        UIButton *logOutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        logOutBtn.titleLabel.font = NEWFONT;
-        [logOutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-        [logOutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [logOutBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
-        [logOutBtn setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
-        logOutBtn.frame = CGRectMake(10, 25, w-20, 50);
-        logOutBtn.layer.cornerRadius = logOutBtn.bounds.size.height/8;
-        logOutBtn.layer.masksToBounds = YES;
+        
         CGRect frame = CGRectMake(20, _footerView.frame.origin.y+1, [UIScreen mainScreen].bounds.size.width, 1);
-        UIImageView *view = [[UIImageView alloc]init];
+        UIView *view = [[UIView alloc]init];
         view.backgroundColor = [UIColor colorWithWhite:0.856 alpha:1.000];
         view.frame = frame;
         [_footerView addSubview:view];
-        [_footerView addSubview:logOutBtn];
+        
+        if ([QSPeopleUtil getPeopleRole:[QSUserManager shareUserManager].userInfo] == QSPeopleRoleGuest) {
+            UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            loginBtn.titleLabel.font = NEWFONT;
+            [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+            [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [loginBtn addTarget:self action:@selector(actionLogin) forControlEvents:UIControlEventTouchUpInside];
+            [loginBtn setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+            loginBtn.frame = CGRectMake(10, 25, w-20, 50);
+            loginBtn.layer.cornerRadius = loginBtn.bounds.size.height/8;
+            loginBtn.layer.masksToBounds = YES;
+            [_footerView addSubview:loginBtn];
+        } else {
+            UIButton *logOutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            logOutBtn.titleLabel.font = NEWFONT;
+            [logOutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+            [logOutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [logOutBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
+            [logOutBtn setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+            logOutBtn.frame = CGRectMake(10, 25, w-20, 50);
+            logOutBtn.layer.cornerRadius = logOutBtn.bounds.size.height/8;
+            logOutBtn.layer.masksToBounds = YES;
+            [_footerView addSubview:logOutBtn];
+        }
     }
     return _footerView;
 }
@@ -291,6 +306,9 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [alert show];
     
 }
+- (void)actionLogin {
+    [self.menuProvider showRegisterVc];
+}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -437,6 +455,8 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 - (void)refreshData {
     [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
         [self.tableView reloadData];
+        _footerView = nil;
+        self.tableView.tableFooterView = [self footerView];
     } onError:nil];
 }
 

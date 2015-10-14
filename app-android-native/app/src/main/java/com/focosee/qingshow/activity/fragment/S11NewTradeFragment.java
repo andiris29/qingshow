@@ -364,7 +364,7 @@ public class S11NewTradeFragment extends Fragment {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        if (!QSModel.INSTANCE.loggedin()) {
+        if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             startActivity(new Intent(getActivity(), U07RegisterActivity.class));
             return;

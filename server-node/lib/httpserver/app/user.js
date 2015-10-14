@@ -203,67 +203,59 @@ _register = function(req, res) {
         ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
-    People.find({
-        '$or': [
+    async.waterfall([function(callback){
+        People.find({
+            '$or': [
             {'userInfo.id' : id}, 
             {'userInfo.id' : mobile}, 
             {'nickname': nickname}, 
             {'mobile': mobile}
-        ]
-    }, function(err, peoples) {
+            ]
+        }, callback);
+    }, function(peoples, callback){
         if (err) {
-            ResponseHelper.response(res, err);
-            return;
-        } else if (peoples.length > 0) {
-            var verify = peoples.some(function(people){
-                return people.nickname === nickname
-            })
-            if (verify) {
-                 ResponseHelper.response(res, errors.NickNameAlreadyExist);   
-            }else {
-                ResponseHelper.response(res, errors.MobileAlreadyExist); 
+            callback(errors.genUnkownError());
+        }else if (peoples.length > 0) {
+            for (var i = peoples.length - 1; i >= 0; i--) {
+                var people = peoples[i];
+                 if (people.nickname === nickname) {
+                    people.role === 0 ? callback(null, people) : callback(errors.NickNameAlreadyExist);
+                    break;
+                }
             }
-            return;
+            callback(errors.MobileAlreadyExist);
+        }else {
+            callback(null, new People());
         }
-
+    }, function(people, callback){
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             if (!success || err) {
-                ResponseHelper.response(res, err);
+                callback(err);
             }
         });
-
-        var people = new People({
-            nickname: nickname,
-            mobile : mobile,
-            userInfo : {
-                id : id,
-                encryptedPassword : _encrypt(password)
-            }
-        });
-
+        people.nickname =  nickname;
+        people.mobile = mobile;
+        people.userInfo = {
+            id : id,
+            encryptedPassword : _encrypt(password)
+        };
         people.save(function(err, people) {
-            if (err) {
-                ResponseHelper.response(res, err);
-            } else if (!people) {
-                ResponseHelper.response(res, errors.genUnkownError());
+            if (!people || err) {
+                callback(errors.genUnkownError());
             } else {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
 
                 _addRegistrationId(people._id, req.body.registrationId);
-
-                var retData = {
-                    metadata : {
-                    },
-                    data : {
-                        people : people
-                    }
-                };
-                res.json(retData);
+                callback(null, people);
             }
         });
+    }], function(err, people){
+        ResponseHelper.response(res, err, {
+            'people' : people
+        });
     });
-};
+}
 
 _update = function(req, res) {
     var qsParam;
@@ -909,7 +901,7 @@ _loginAsGuest = function(req, res){
     async.waterfall([function(callback){
         var nickname = '';
         var codeEnable = false;
-        async.whilst(function() {
+        async.until(function() {
             return codeEnable;
         }, function(cb) {
             var code = (Math.random() * Math.pow(10, 6)).toFixed(0);
@@ -920,17 +912,23 @@ _loginAsGuest = function(req, res){
                 if (err) {
                     cb(err);
                 }else {
-                   codeEnable = !(peoples && peoples.length > 0) ? true : false; 
+                   codeEnable = !(peoples && peoples.length > 0) ? true : false;
+                   cb();
                 }
-            })
+            });
         }, function(err) {
             err ? callback(errors.genUnkownError()) : callback(null, nickname);
         });
     }, function(nickname, callback){
         var people = new People();
         people.nickname = nickname;
-        people.role = 'guest';
-        people.save(callback);
+        people.role = 0;
+        people.save(function(err, people){
+            _addRegistrationId(people._id, params.registrationId);
+            req.session.userId = people._id;
+            req.session.loginDate = new Date();
+            callback(null, people);
+        });
     }],function(err, people){
         ResponseHelper.response(res, err, {
             'people' : people
@@ -1007,7 +1005,6 @@ module.exports = {
         permissionValidators : ['loginValidator'],
         func : _readNotification
     },
-    '_loginAsGuest' : {
         method : 'post',
         func : _loginAsGuest
     }

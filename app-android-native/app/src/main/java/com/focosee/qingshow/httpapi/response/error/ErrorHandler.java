@@ -49,7 +49,9 @@ public class ErrorHandler {
                 Log.d(TAG, "AlreadyLikeShow");
                 break;
             case ErrorCode.NeedLogin:
-                context.startActivity(new Intent(context, U07RegisterActivity.class));
+                Intent intent = new Intent(context, U07RegisterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
                 break;
             case ErrorCode.AlreadyFollowPeople:
                 Log.d(TAG, "AlreadyFollowPeople");

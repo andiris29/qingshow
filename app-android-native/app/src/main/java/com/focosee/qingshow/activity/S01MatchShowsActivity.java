@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
@@ -29,9 +30,12 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -42,6 +46,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     public static final String S1_INPUT_SHOWABLE = "INPUT_SHOWABLE";
     public static final String S1_INPUT_TRADEID_NOTIFICATION = "S1_INPUT_TRADEID_NOTIFICATION";
+    public static final String INTENT_CURRENT_TYPE = "intent_current_type";
 
     @InjectView(R.id.s01_backTop_btn)
     ImageButton s01BackTopBtn;
@@ -78,6 +83,10 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         setContentView(R.layout.activity_s01_match_shows);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
+        if (null != getIntent()) {
+            currentType = getIntent().getIntExtra(INTENT_CURRENT_TYPE, TYPE_FEATURED);
+            if (currentType == TYPE_NEW) clickTabNew();
+        }
         initRefreshLayout();
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +177,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         if (event.unread) {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);
         } else {
-            if(!UnreadHelper.hasUnread()){
+            if (!UnreadHelper.hasUnread()) {
                 s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n);
             }
         }
@@ -195,14 +204,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
             return;
         }
         if (v.getId() == R.id.s01_tab_new) {
-            currentType = TYPE_NEW;
-            mRefreshLayout.beginRefreshing();
-            s01TabHot.setBackgroundResource(R.drawable.square_btn_border);
-            s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
-            s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);
-            s01TabNew.setTextColor(getResources().getColor(R.color.white));
-            s01TabFeature.setBackgroundResource(R.drawable.s01_tab_border2);
-            s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
+            clickTabNew();
             return;
         }
         if (v.getId() == R.id.s01_tab_feature) {
@@ -217,11 +219,16 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         }
     }
 
-    private void unCheckTabBtn(Button button) {
-        button.setBackgroundResource(R.drawable.s01_tab_border2);
-        button.setTextColor(getResources().getColor(R.color.master_pink));
+    private void clickTabNew() {
+        currentType = TYPE_NEW;
+        mRefreshLayout.beginRefreshing();
+        s01TabHot.setBackgroundResource(R.drawable.square_btn_border);
+        s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
+        s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);
+        s01TabNew.setTextColor(getResources().getColor(R.color.white));
+        s01TabFeature.setBackgroundResource(R.drawable.s01_tab_border2);
+        s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
     }
-
 
     @Override
     protected void onDestroy() {
@@ -243,7 +250,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     private void showNewTradeNotify(Intent intent) {
         boolean showable = intent.getBooleanExtra(S1_INPUT_SHOWABLE, false);
-        if(!showable) return;
+        if (!showable) return;
         S11NewTradeNotifyFragment fragment = new S11NewTradeNotifyFragment();
         fragment.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName());
     }

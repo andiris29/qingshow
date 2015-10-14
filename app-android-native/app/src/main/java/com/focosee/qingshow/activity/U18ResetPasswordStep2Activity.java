@@ -18,7 +18,6 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.QSButton;
@@ -29,7 +28,7 @@ import java.util.HashMap;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U18ResetPasswordStep2 extends BaseActivity {
+public class U18ResetPasswordStep2Activity extends BaseActivity {
 
     @InjectView(R.id.backTextView)
     ImageButton backTextView;
@@ -77,16 +76,16 @@ public class U18ResetPasswordStep2 extends BaseActivity {
                 QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(U18ResetPasswordStep2.class.getSimpleName(), "response:" + response);
+                        Log.d(U18ResetPasswordStep2Activity.class.getSimpleName(), "response:" + response);
                         MongoPeople user = UserParser.parseUpdate(response);
                         if (user == null) {
-                            ErrorHandler.handle(U18ResetPasswordStep2.this, MetadataParser.getError(response));
+                            ErrorHandler.handle(U18ResetPasswordStep2Activity.this, MetadataParser.getError(response));
                         } else {
-                            ToastUtil.showShortToast(U18ResetPasswordStep2.this, "密码修改成功");
+                            ToastUtil.showShortToast(U18ResetPasswordStep2Activity.this, "密码修改成功");
                             UserCommand.logOut(new Callback() {
                                 @Override
                                 public void onComplete() {
-                                    startActivity(new Intent(U18ResetPasswordStep2.this, U06LoginActivity.class));
+                                    startActivity(new Intent(U18ResetPasswordStep2Activity.this, U06LoginActivity.class));
                                     finish();
                                 }
                             });
@@ -95,7 +94,7 @@ public class U18ResetPasswordStep2 extends BaseActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        ToastUtil.showShortToast(U18ResetPasswordStep2.this.getApplicationContext(), "请检查网络");
+                        ToastUtil.showShortToast(U18ResetPasswordStep2Activity.this.getApplicationContext(), "请检查网络");
                     }
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(qxStringRequest);

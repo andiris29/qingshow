@@ -293,6 +293,10 @@ public class MenuView extends Fragment implements View.OnClickListener {
                 break;
             case R.id.navigation_btn_discount:
                 if (getActivity() instanceof U09TradeListActivity) return;
+                if(QSModel.INSTANCE.isGuest()){
+                    startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+                    return;
+                }
                 _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:

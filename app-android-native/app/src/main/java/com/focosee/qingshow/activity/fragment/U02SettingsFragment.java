@@ -284,6 +284,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
+            if(QSModel.INSTANCE.isGuest()){
+                quitButton.setVisibility(View.GONE);
+            }
             if (null != people.portrait) {
                 portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(people.portrait, ImgUtil.PORTRAIT_LARGE)));
                 portraitImageView.setAlpha(1f);
@@ -467,17 +470,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onComplete() {
                 super.onComplete();
-            }
-
-            @Override
-            public void onError(int errorCode) {
-                super.onError(errorCode);
-                ErrorHandler.handle(QSApplication.instance(), errorCode);
-            }
-
-            @Override
-            public void onError() {               super.onError();
-                ToastUtil.showShortToast(QSApplication.instance().getApplicationContext(), "请检查网络");
             }
         });
     }

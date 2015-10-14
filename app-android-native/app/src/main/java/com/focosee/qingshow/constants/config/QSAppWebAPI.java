@@ -103,6 +103,8 @@ public class QSAppWebAPI {
 
     private static String SHARE_CREATE_BONUS_API = "/share/createBonus";
 
+    private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
+
     public static String getShareCreateShowApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHARE_CREATE_SHOW_API;
     }
@@ -117,6 +119,10 @@ public class QSAppWebAPI {
 
     public static String getShareQueryApi(String _id) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHARE_QUERY_API + "?_ids=" + _id;
+    }
+
+    public static String getUserLoginasguestApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGINASGUEST_API;
     }
 
     public static String getFeedingFeatured(int pageNo, int pageSize) {

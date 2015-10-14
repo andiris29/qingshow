@@ -8,11 +8,13 @@ import java.util.List;
 
 public class MongoPeople implements Serializable {
     public static final String DEBUG_TAG = "MongoPeople";
+    public static final int GUEST = 0;
+    public static final int USER = 1;
 
     public String _id;
 
     public String nickname;
-    public int[] roles;
+    public int role;
     public String name;
     public String portrait;
     public String background;

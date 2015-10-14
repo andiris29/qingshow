@@ -75,4 +75,12 @@
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/nav_btn_menu_n" />
+
+    <ImageView
+        android:id="@+id/s20_guide_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:src="@drawable/s20_guide_imge"/>
 </FrameLayout>
