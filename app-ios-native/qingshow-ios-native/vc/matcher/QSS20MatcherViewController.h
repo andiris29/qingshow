@@ -29,9 +29,11 @@
 - (IBAction)previewButtonPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *menuBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *maskingView;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *categorySelectionButton;
 
+@property (assign, nonatomic)BOOL isGuestFirstLoad;
 - (void)hideMenuBtn;
 @end

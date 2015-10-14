@@ -24,6 +24,8 @@
 #import "NSArray+QSExtension.h"
 #import "QSUnreadManager.h"
 
+#import "QSPeopleUtil.h"
+#import "QSUserManager.h"
 @interface QSS20MatcherViewController ()
 
 @property (strong, nonatomic) UIView<QSMatcherItemSelectionViewProtocol>* itemSelectionView;
@@ -75,9 +77,23 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnreadChange:) name:kQSUnreadChangeNotificationName object:nil];
     self.menuBtn.hidden = self.fRemoveMenuBtn;
+    
+    //masking tap
+    QSPeopleRole r = [QSPeopleUtil getPeopleRole:[QSUserManager shareUserManager].userInfo];
+    if (r == QSPeopleRoleGuest && _isGuestFirstLoad == YES) {
+        self.maskingView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *maskingTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideMaskingView:)];
+        [self.maskingView addGestureRecognizer:maskingTap];
+    }else{
+        self.maskingView.hidden = YES;
+    }
+    
 }
 
-
+- (void)hideMaskingView:(UITapGestureRecognizer *)ges
+{
+    [ges.view removeFromSuperview];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

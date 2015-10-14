@@ -178,10 +178,12 @@
     [self.menuView triggerItemTypePressed:QSRootMenuItemMatcher];
     if ([self.contentVc isKindOfClass:[QSS20MatcherViewController class]]) {
         QSS20MatcherViewController* vc = (QSS20MatcherViewController*)self.contentVc;
+        vc.isGuestFirstLoad = YES;
         [vc hideMenuBtn];
     }
     return self.contentVc;
 }
+
 - (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type {
     [self.menuView triggerItemTypePressed:type];
     return self.contentVc;
