@@ -1,8 +1,6 @@
 package com.focosee.qingshow.model;
 
 import android.content.SharedPreferences;
-import android.text.TextUtils;
-import android.util.Log;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 

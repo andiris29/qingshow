@@ -3,18 +3,24 @@ package com.focosee.qingshow.activity;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -29,8 +35,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.filter.Filter;
-import com.focosee.qingshow.util.filter.FilterHepler;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.MenuView;
@@ -41,13 +46,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -67,6 +75,8 @@ public class S20MatcherActivity extends BaseActivity {
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
     @InjectView(R.id.container)
     FrameLayout container;
+    @InjectView(R.id.s20_guide_imageview)
+    ImageView s20GuideImageview;
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -98,6 +108,19 @@ public class S20MatcherActivity extends BaseActivity {
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
+
+        if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.S20_FIRST_INT, true)) {
+            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+            editor.putBoolean(ValueUtil.S20_FIRST_INT, false);
+            editor.commit();
+            s20GuideImageview.setVisibility(View.VISIBLE);
+            s20GuideImageview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    s20GuideImageview.setVisibility(View.GONE);
+                }
+            });
+        }
 
         initSelectRV();
         initCanvas();
@@ -396,23 +419,13 @@ public class S20MatcherActivity extends BaseActivity {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryItems(pageNo, pageSize, categoryRef), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S20MatcherActivity.class.getSimpleName(), "items-response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
                 }
 
                 datas = ItemFeedingParser.parse(response);
-
-                FilterHepler.filterList(datas, new Filter() {
-
-                    @Override
-                    public <T> boolean filtrate(T t) {
-                        MongoItem item = (MongoItem) t;
-                        if (null != item.delist)
-                            return true;
-                        return false;
-                    }
-                });
 
                 adapter.addDataAtLast(datas);
 
@@ -506,11 +519,11 @@ public class S20MatcherActivity extends BaseActivity {
         }
     }
 
-    public void onEventMainThread(PushGuideEvent event){
-        if(event.unread){
+    public void onEventMainThread(PushGuideEvent event) {
+        if (event.unread) {
             ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n_dot);
-        }else{
-            if(!UnreadHelper.hasUnread())
+        } else {
+            if (!UnreadHelper.hasUnread())
                 ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
@@ -660,7 +673,7 @@ public class S20MatcherActivity extends BaseActivity {
         super.onResume();
         if (canvas.views.size() != 0) {
             canvas.reselectView();
-        }else {
+        } else {
             adapter.clearData();
             adapter.notifyDataSetChanged();
         }
@@ -668,7 +681,7 @@ public class S20MatcherActivity extends BaseActivity {
         MobclickAgent.onPageStart("S20MatcherActivity");
         MobclickAgent.onResume(this);
 
-        if(UnreadHelper.hasUnread()){
+        if (UnreadHelper.hasUnread()) {
             ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n_dot);
         }
     }
