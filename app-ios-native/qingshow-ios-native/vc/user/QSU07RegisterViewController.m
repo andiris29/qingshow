@@ -288,6 +288,7 @@
 - (IBAction)loginWechatBtnPressed:(id)sender {
     [self hideKeyboard];
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
+        [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
         [self popToPreviousVc];
 
     } onError:^(NSError *error) {
@@ -298,6 +299,7 @@
 - (IBAction)loginWeiboBtnPressed:(id)sender {
     [self hideKeyboard];
     [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
+        [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
         [self popToPreviousVc];
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
