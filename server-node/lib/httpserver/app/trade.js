@@ -682,8 +682,7 @@ trade.forge = {
                     return strs[0] + ':' + (strs[1] || '');
                 });
             }else {
-                callback(errors.InvalidItem);
-                return;
+                trade.selectedSkuProperties = '';
             }
             trade.save(function(err) {
                 callback(err, trade, item);
@@ -698,5 +697,5 @@ trade.forge = {
             });
         })
     }
-}
+};
 
