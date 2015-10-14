@@ -63,10 +63,10 @@ var _builtInValidators = {
             '_id' : req.qsCurrentUserId
         }).exec(function(err, people){
             if (people) {
-                if (people.role === 1) {
-                    callback(null);
+                if (people.role === 0) {
+                    callback(errors.NeedLogin);
                 }else {
-                    callback(errors.NotEnoughAccess);
+                    callback(null);
                 }
             }else {
                 callback(errors.NeedLogin);
