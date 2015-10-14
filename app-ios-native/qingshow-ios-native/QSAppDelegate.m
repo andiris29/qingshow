@@ -64,7 +64,6 @@
         
         //Init Matcher Categories List
         [QSCategoryManager getInstance];
-        
         [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
@@ -286,45 +285,45 @@
     
 }
 
-#pragma mark -- rememberFirstLaunch
-- (void)logTraceFirstLaunch
-{
-    //获取倾秀版本
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    //获取设备号
-    NSUUID *uidID= [UIDevice currentDevice].identifierForVendor;
-    NSString *uidIDStr = [NSString stringWithFormat:@"%@",uidID];
-    NSRange range = [uidIDStr rangeOfString:@"> "];
-    
-    NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
-    if (range.length) {
-        int loc = (int)(range.location + range.length);
-        NSString *uidStr = [uidIDStr substringFromIndex:loc];
-        parametes[@"deviceUid"] = uidStr;
-    }
-        //获取iOS版本号
-    NSString *osVersion = [UIDevice currentDevice].systemVersion;
-    
-
-    parametes[@"version"] = appVersion;
-
-//    parametes[@"deviceUid"] = @111;
-    parametes[@"osVersion"] = osVersion;
-    parametes[@"osType"] = @(0);
-    
-    [SHARE_NW_ENGINE logTraceWithParametes:parametes onSucceed:^(BOOL f) {
-        
-    } onError:^(NSError *error) {
-        
-    }];
-}
+//#pragma mark -- rememberFirstLaunch
+//- (void)logTraceFirstLaunch
+//{
+//    //获取倾秀版本
+//    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+//    //获取设备号
+//    NSUUID *uidID= [UIDevice currentDevice].identifierForVendor;
+//    NSString *uidIDStr = [NSString stringWithFormat:@"%@",uidID];
+//    NSRange range = [uidIDStr rangeOfString:@"> "];
+//    
+//    NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
+//    if (range.length) {
+//        int loc = (int)(range.location + range.length);
+//        NSString *uidStr = [uidIDStr substringFromIndex:loc];
+//        parametes[@"deviceUid"] = uidStr;
+//    }
+//        //获取iOS版本号
+//    NSString *osVersion = [UIDevice currentDevice].systemVersion;
+//    
+//
+//    parametes[@"version"] = appVersion;
+//
+////    parametes[@"deviceUid"] = @111;
+//    parametes[@"osVersion"] = osVersion;
+//    parametes[@"osType"] = @(0);
+//    
+//    [SHARE_NW_ENGINE logTraceWithParametes:parametes onSucceed:^(BOOL f) {
+//        
+//    } onError:^(NSError *error) {
+//        
+//    }];
+//}
 
 //标记第一次载入软件
 - (void)rememberFirstLaunch
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 #warning 应该少个判断 
-    [self logTraceFirstLaunch];
+    //[self logTraceFirstLaunch];
     [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
     [userDefaults synchronize];
 }

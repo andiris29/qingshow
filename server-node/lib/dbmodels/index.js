@@ -9,6 +9,6 @@ module.exports = {
     'RPeopleShareTrade' : require('./RPeopleShareTrade'),
     'ShowComment' : require('./ShowComment'),
     'Show' : require('./Show'),
-    'Trace' : require('./Trace'),
-    'Trade' : require('./Trade')
+    'Trade' : require('./Trade'),
+    'SharedObject' : require('./SharedObject')
 };
