@@ -213,9 +213,7 @@ _register = function(req, res) {
             ]
         }, callback);
     }, function(peoples, callback){
-        if (err) {
-            callback(errors.genUnkownError());
-        }else if (peoples.length > 0) {
+        if (peoples.length > 0) {
             for (var i = peoples.length - 1; i >= 0; i--) {
                 var people = peoples[i];
                  if (people.nickname === nickname) {
@@ -228,6 +226,7 @@ _register = function(req, res) {
             callback(null, new People());
         }
     }, function(people, callback){
+        console.log('1');
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             if (!success || err) {
                 callback(err);
@@ -1005,7 +1004,8 @@ module.exports = {
         permissionValidators : ['loginValidator'],
         func : _readNotification
     },
+    'loginAsGuest' : {
         method : 'post',
         func : _loginAsGuest
     }
-};
+}
