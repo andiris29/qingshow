@@ -214,14 +214,20 @@ _register = function(req, res) {
         }, callback);
     }, function(peoples, callback){
         if (peoples.length > 0) {
-            for (var i = peoples.length - 1; i >= 0; i--) {
-                var people = peoples[i];
-                 if (people.nickname === nickname) {
-                    people.role === 0 ? callback(null, people) : callback(errors.NickNameAlreadyExist);
-                    break;
+            var check = peoples.some(function(people) {
+                return people.nickname === nickname;
+            });
+            if (check) {
+                for (var i = peoples.length - 1; i >= 0; i--) {
+                    var people = peoples[i];
+                    if (people.nickname === nickname) {
+                        people.role === 0 ? callback(null, people) : callback(errors.NickNameAlreadyExist);
+                        break;
+                    }
                 }
+            } else {
+                callback(errors.MobileAlreadyExist);
             }
-            callback(errors.MobileAlreadyExist);
         }else {
             callback(null, new People());
         }
@@ -229,6 +235,7 @@ _register = function(req, res) {
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             if (!success || err) {
                 callback(err);
+                return;
             }
         });
         people.nickname =  nickname;
