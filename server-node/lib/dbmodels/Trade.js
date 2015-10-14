@@ -54,10 +54,7 @@ var tradeSchema = Schema({
             }],
         },
         forge : {
-            date : {
-                type : Date,
-                'default' : Date.now
-            }
+            date : Date
         }
     },
     logistic : {
