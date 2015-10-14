@@ -63,6 +63,7 @@
         
         //标记第一次载入
         VoidBlock guestHandler = ^(){
+            [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
             [vc showGuestVc];
@@ -74,6 +75,7 @@
             }
         };
         VoidBlock guestErrorHandler = ^(){
+            [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
             [vc showDefaultVc];
@@ -85,6 +87,7 @@
             }
         };
         VoidBlock normalUserHandler = ^(){
+            [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
             [self hideLaunchImageAfterDelay:0.f];
@@ -96,6 +99,7 @@
             }
         };
         VoidBlock normalUserErrorHandler = ^(){
+            [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
             [self hideLaunchImageAfterDelay:0.f];
@@ -108,7 +112,7 @@
         };
         
         //Init Matcher Categories List
-        [QSCategoryManager getInstance];
+
         if ([self isFirstLaunch]) {
             //Login as guest
             [SHARE_NW_ENGINE loginAsGuestOnSucceed:^(NSDictionary *data, NSDictionary *metadata) {
