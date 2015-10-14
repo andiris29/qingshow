@@ -86,7 +86,7 @@ var _decryptMD5 = function (string){
     .toUpperCase();
 }
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -226,7 +226,6 @@ _register = function(req, res) {
             callback(null, new People());
         }
     }, function(people, callback){
-        console.log('1');
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             if (!success || err) {
                 callback(err);
@@ -935,6 +934,19 @@ _loginAsGuest = function(req, res){
     });
 }
 
+_updateRegistrationId = function(req, res){
+    var params = req.body;
+    var registrationId = params.registrationId;
+    People.findOne({
+        '_id': req.qsCurrentUserId
+    }, function(err, people) {
+        _addRegistrationId(people._id, registrationId)
+        ResponseHelper.response(res, err, {
+            'people' : people
+        });
+    });
+}
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -1007,5 +1019,10 @@ module.exports = {
     'loginAsGuest' : {
         method : 'post',
         func : _loginAsGuest
+    },
+    'updateRegistrationId' : {
+        method : 'post',
+        permissionValidators : ['loginValidator'],
+        func : _updateRegistrationId
     }
 }
