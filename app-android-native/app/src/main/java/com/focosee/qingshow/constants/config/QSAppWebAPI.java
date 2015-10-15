@@ -105,6 +105,12 @@ public class QSAppWebAPI {
 
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
+    private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
+
+    public static String getUserUpdateregistrationidApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEREGISTRATIONID_API;
+    }
+
     public static String getShareCreateShowApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHARE_CREATE_SHOW_API;
     }
