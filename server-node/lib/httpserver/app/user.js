@@ -204,6 +204,7 @@ _register = function(req, res) {
         return;
     }
     async.waterfall([function(callback){
+        // Validate whether the id/mobile/nickname is already existed
         People.find({
             '$or': [
             {'userInfo.id' : id}, 
@@ -214,22 +215,34 @@ _register = function(req, res) {
         }, callback);
     }, function(peoples, callback){
         if (peoples.length > 0) {
+            // Error when duplicated id/mobile/nickname
             var check = peoples.some(function(people) {
                 return people.nickname === nickname;
             });
             if (check) {
-                for (var i = peoples.length - 1; i >= 0; i--) {
-                    var people = peoples[i];
-                    if (people.nickname === nickname) {
-                        people.role === 0 ? callback(null, people) : callback(errors.NickNameAlreadyExist);
-                        break;
-                    }
-                }
+                callback(errors.NickNameAlreadyExist);
             } else {
                 callback(errors.MobileAlreadyExist);
             }
-        }else {
-            callback(null, new People());
+        } else {
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id' : req.qsCurrentUserId
+                }, function(err, people) {
+                    if (people) {
+                        if (people.role === 0) {
+                            people.role = 1;
+                            callback(null, people);
+                        } else {
+                            callback(errors.genUnkownError());
+                        }
+                    } else {
+                        callback(null, new People());
+                    }
+                });
+            } else {
+                callback(null, new People());
+            }
         }
     }, function(people, callback){
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
