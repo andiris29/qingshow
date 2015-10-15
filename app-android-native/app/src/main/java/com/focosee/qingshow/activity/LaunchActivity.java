@@ -66,8 +66,7 @@ public class LaunchActivity extends InstrumentedActivity {
         QSAppWebAPI.HOST_ADDRESS_PAYMENT = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_payment, "");
         QSAppWebAPI.HOST_ADDRESS_APPWEB = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_appweb, "");
         String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
-        if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())) {
-            userFollow();
+        if ("".equals(deviceUid)) {
             userLoginAsGuest();
             _class = G02WelcomeActivity.class;
         } else {
@@ -122,6 +121,27 @@ public class LaunchActivity extends InstrumentedActivity {
             return true;
         }
     });
+
+    private void userLoginAsGuest() {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("registrationId", PushModel.INSTANCE.getRegId());
+
+        Log.d("userLoginAsGuest:", QSAppWebAPI.getUserLoginasguestApi());
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginasguestApi()
+                , new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(LaunchActivity.class.getSimpleName(), "response-userLoginAsGuest:" + response);
+                if(!MetadataParser.hasError(response)){
+                    QSModel.INSTANCE.setUser(UserParser._parsePeople(response));
+                    FileUtil.uploadDefaultPortrait(LaunchActivity.this);
+                }
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
 
     private void getUser() {
         if(TextUtils.isEmpty(QSApplication.instance().getPreferences().getString("id", "")))return;
