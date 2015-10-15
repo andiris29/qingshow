@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,12 +33,9 @@ import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
