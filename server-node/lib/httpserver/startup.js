@@ -107,7 +107,7 @@ module.exports = function (config, qsdb) {
             maxAge : 365 * 24 * 60 * 60 * 1000
         },
         resave : false,
-        saveUninitialized : true,
+        saveUninitialized : false,
         secret : credentials.sessionSecret
     });
     app.use(session);
