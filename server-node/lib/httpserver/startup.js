@@ -9,7 +9,7 @@ var path = require('path');
 var _ = require('underscore');
 var winston = require('winston');
 var qsftp = require('../runtime').ftp;
-
+var TraceHelper = require('../helpers/TraceHelper');
 //Services Name
 
 var servicesNames = [
@@ -39,6 +39,9 @@ var services = servicesNames.map(function (path) {
 
 var wrapCallback = function (fullpath, callback) {
     return function (req, res) {
+        TraceHelper.trace('api-request', req, {
+            'fullpath' : fullpath
+        });
         res.qsPerformance = {
             'ip' : req.header('X-Real-IP') || req.connection.remoteAddress,
             'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
