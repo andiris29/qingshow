@@ -204,6 +204,7 @@ _register = function(req, res) {
         return;
     }
     async.waterfall([function(callback){
+        // Validate whether the id/mobile/nickname is already existed
         People.find({
             '$or': [
             {'userInfo.id' : id}, 
@@ -213,28 +214,33 @@ _register = function(req, res) {
             ]
         }, callback);
     }, function(peoples, callback){
-        if (req.qsCurrentUserId) {
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }, function(err, people){
-                if (people.role === 0) {
-                    people.role = 1;
-                    callback(null, people)
-                }else {
-                    callback(errors.genUnkownError());
-                }
+        if (peoples.length > 0) {
+            // Error when duplicated id/mobile/nickname
+            var check = peoples.some(function(people) {
+                return people.nickname === nickname;
             });
-        }else {
-            if (peoples.length > 0) {
-                var check = peoples.some(function(people) {
-                    return people.nickname === nickname;
+            if (check) {
+                callback(errors.NickNameAlreadyExist);
+            } else {
+                callback(errors.MobileAlreadyExist);
+            }
+        } else {
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id' : req.qsCurrentUserId
+                }, function(err, people) {
+                    if (people) {
+                        if (people.role === 0) {
+                            people.role = 1;
+                            callback(null, people);
+                        } else {
+                            callback(errors.genUnkownError());
+                        }
+                    } else {
+                        callback(null, new People());
+                    }
                 });
-                if (check) {
-                    callback(errors.NickNameAlreadyExist);
-                } else {
-                    callback(errors.MobileAlreadyExist);
-                }
-            }else {
+            } else {
                 callback(null, new People());
             }
         }
