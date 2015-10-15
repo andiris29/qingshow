@@ -214,19 +214,21 @@ _register = function(req, res) {
         }, callback);
     }, function(peoples, callback){
         if (peoples.length > 0) {
-            var check = peoples.some(function(people) {
-                return people.nickname === nickname;
-            });
-            if (check) {
-                for (var i = peoples.length - 1; i >= 0; i--) {
-                    var people = peoples[i];
-                    if (people.nickname === nickname) {
-                        people.role === 0 ? callback(null, people) : callback(errors.NickNameAlreadyExist);
-                        break;
-                    }
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id' : req.qsCurrentUserId
+                }, function(err, people){
+                    people.role === 0 ? callback(null, people);
+                });
+            }else {
+                var check = peoples.some(function(people) {
+                    return people.nickname === nickname;
+                });
+                if (check) {
+                    callback(errors.NickNameAlreadyExist);
+                } else {
+                    callback(errors.MobileAlreadyExist);
                 }
-            } else {
-                callback(errors.MobileAlreadyExist);
             }
         }else {
             callback(null, new People());
