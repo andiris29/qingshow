@@ -23,6 +23,7 @@ public class ValueUtil {
     public static final String itemExpectablePriceUpdated_id = "NEED_GUIDE_ID";//推送消息携带的ID
     public static final String tradeInitialized_id = "NEED_GUIDE_ID";//推送消息携带的ID
     public static final String S20_FIRST_INT = "第一次进入到搭配页面";
+    public static final String IS_FIRST_OPEN_APP = "第一次打开应用";
 
     //EventBus
     public static final String EVENT_NEED_GUIDE = "event_need_guide";

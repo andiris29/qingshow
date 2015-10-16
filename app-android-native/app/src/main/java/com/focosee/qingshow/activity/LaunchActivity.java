@@ -65,8 +65,11 @@ public class LaunchActivity extends InstrumentedActivity {
     private void init() {
         QSAppWebAPI.HOST_ADDRESS_PAYMENT = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_payment, "");
         QSAppWebAPI.HOST_ADDRESS_APPWEB = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_appweb, "");
-        String deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
-        if ("".equals(deviceUid)) {
+
+        if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.IS_FIRST_OPEN_APP, true)) {
+            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+            editor.putBoolean(ValueUtil.IS_FIRST_OPEN_APP, false);
+            editor.commit();
             userLoginAsGuest();
             _class = G02WelcomeActivity.class;
         } else {
