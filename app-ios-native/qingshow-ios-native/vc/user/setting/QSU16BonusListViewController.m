@@ -48,7 +48,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dic = _listArray[indexPath.row];
+    NSDictionary *dic = _listArray[_listArray.count - 1 - indexPath.row];
     NSString *itemId = [QSPeopleUtil getItemIdFromeBonusDict:dic];
     __weak QSU16BonusListViewController *weakSelf = self;
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDic, NSDictionary *metadata) {

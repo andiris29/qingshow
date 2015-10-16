@@ -15,18 +15,19 @@ var TradeHelper = require('../../helpers/TradeHelper');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
+var BonusHelper = require('../../helpers/BonusHelper');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var errors = require('../../errors');
 var request = require('request');
 var winston = require('winston');
 var NotificationHelper = require('../../helpers/NotificationHelper');
-var BonusHelper = require('../../helpers/BonusHelper');
 
 var trade = module.exports;
 
 trade.create = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
@@ -84,17 +85,17 @@ trade.create = {
                 'trade' : trade
             });
             // Log
-            loggers.get('trade-creation').info(_.extend(RequestHelper.getClientInfo(req), {
+            TraceHelper.trace('trade-creation', req, {
                 '_id' : trade._id.toString(),
                 'selectedSkuProperties' : trade.selectedSkuProperties
-            }));
+            });
         });
     }
 };
 
 trade.prepay = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
@@ -214,7 +215,7 @@ var _weixinDeliveryNotify = function(trade) {
 
 trade.statusTo = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         var param = req.body,
             newStatus = param.status;
@@ -325,7 +326,7 @@ trade.alipayCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.createBonusViaTrade(trade, trade.itemSnapshot, function(error, people) {
+            BonusHelper.createBonus(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {
@@ -388,7 +389,7 @@ trade.wechatCallback = {
             TradeHelper.updateStatus(trade, newStatus, null, null, callback);
         },
         function(trade, callback) {
-            BonusHelper.createBonusViaTrade(trade, trade.itemSnapshot, function(error, people) {
+            BonusHelper.createBonus(trade, trade.itemSnapshot, function(error, people) {
                 callback(error, trade);
             });
         }], function(error, trade) {
@@ -405,7 +406,7 @@ trade.wechatCallback = {
 
 trade.refreshPaymentStatus = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([
         function(callback) {
@@ -464,7 +465,7 @@ trade.refreshPaymentStatus = {
 
 trade.share = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         var targetRef, initiatorRef;
         async.waterfall([
@@ -515,7 +516,7 @@ trade.query = {
 
 trade.queryByPhase = {
     'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         var phaseMap = {
             '0' : ['00', '01'],
@@ -574,7 +575,7 @@ trade.queryHighlighted = {
 
 trade.getReturnReceiver = {
     'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         async.waterfall([function(callback) {
             Trade.findOne({
@@ -630,6 +631,71 @@ trade.getReturnReceiver = {
                 receiver : receiver
             });
         });
+    }
+};
+
+trade.forge = {
+    'method' : 'post',
+    'permissionValidators' : ['roleUserValidator'],
+    'func' : function (req, res) {
+        var params = req.body;
+        async.waterfall([function(callback) {
+            People.findOne({
+                '_id' : req.qsCurrentUserId
+            }, callback);
+        }, function(people, callback){
+            if (!params.itemRef || !params.promoterRef || !params.totalFee || !params.quantity) {
+                callback(errors.NotEnoughParam);
+                return;
+            }
+            Item.findOne({
+                '_id' : params.itemRef
+            }, function(err, item){
+                callback(err, people, item);
+            });
+        }, function(people, item, callback) {
+            // Save trade
+            var trade = new Trade();
+            //hardcode status 2
+            trade.status = 2;
+            trade.statusOrder = '20';
+            trade.ownerRef = req.qsCurrentUserId;
+            trade.peopleSnapshot = people;
+            trade.shareToPay = true;
+            trade.itemSnapshot = item;
+            trade.itemRef = item._id;
+            trade.promoterRef = RequestHelper.parseId(params.promoterRef);
+            trade.quantity = params.quantity;
+            trade.totalFee = params.totalFee;
+            trade.pay = {
+                'forge' : {
+                    date : Date.now()
+                }
+            };
+            if (item.delist) {
+                callback(errors.InvalidItem);
+                return;
+            }
+            if (item.skuProperties && item.skuProperties.length > 0) {
+                trade.selectedSkuProperties = item.skuProperties.map(function(skuProp){
+                    var strs = skuProp.split(':');
+                    return strs[0] + ':' + (strs[1] || '');
+                });
+            }else {
+                trade.selectedSkuProperties = '';
+            }
+            trade.save(function(err) {
+                callback(err, trade, item);
+            });
+        }, function(trade, item, callback){
+            BonusHelper.createBonus(trade, item, function(err){
+                callback(err, trade);
+            }); 
+        }], function(err, trade){
+            ResponseHelper.response(res, err, {
+                'trade' : trade
+            });
+        })
     }
 };
 

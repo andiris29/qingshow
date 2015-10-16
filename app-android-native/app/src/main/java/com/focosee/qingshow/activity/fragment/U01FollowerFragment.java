@@ -3,7 +3,6 @@ package com.focosee.qingshow.activity.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -24,6 +24,8 @@
 #import "NSArray+QSExtension.h"
 #import "QSUnreadManager.h"
 
+#import "QSPeopleUtil.h"
+#import "QSUserManager.h"
 @interface QSS20MatcherViewController ()
 
 @property (strong, nonatomic) UIView<QSMatcherItemSelectionViewProtocol>* itemSelectionView;
@@ -34,6 +36,7 @@
 @property (strong, nonatomic) NSString* selectedCateId;
 @property (strong, nonatomic) NSArray* allCategories;
 @property (assign, nonatomic) BOOL fShouldReload;
+@property (assign, nonatomic) BOOL fRemoveMenuBtn;
 @end
 
 @implementation QSS20MatcherViewController
@@ -73,9 +76,24 @@
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnreadChange:) name:kQSUnreadChangeNotificationName object:nil];
+    self.menuBtn.hidden = self.fRemoveMenuBtn;
+    
+    //masking tap
+    QSPeopleRole r = [QSPeopleUtil getPeopleRole:[QSUserManager shareUserManager].userInfo];
+    if (r == QSPeopleRoleGuest && _isGuestFirstLoad == YES) {
+        self.maskingView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *maskingTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideMaskingView:)];
+        [self.maskingView addGestureRecognizer:maskingTap];
+    }else{
+        self.maskingView.hidden = YES;
+    }
+    
 }
 
-
+- (void)hideMaskingView:(UITapGestureRecognizer *)ges
+{
+    [ges.view removeFromSuperview];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -283,5 +301,9 @@
 }
 - (void)handleUnreadChange:(NSNotification*)noti {
     [self updateMenuDot];
+}
+- (void)hideMenuBtn {
+    self.menuBtn.hidden = YES;
+    self.fRemoveMenuBtn = YES;
 }
 @end

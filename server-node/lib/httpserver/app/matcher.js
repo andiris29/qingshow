@@ -15,6 +15,7 @@ var RequestHelper = require('../../helpers/RequestHelper');
 var ServiceHelper = require('../../helpers/ServiceHelper');
 var MongoHelper = require('../../helpers/MongoHelper.js');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var errors = require('../../errors');
 
@@ -34,19 +35,29 @@ matcher.queryCategories = {
 matcher.queryItems = {
     'method' : 'get',
     'func' : function(req, res) {
-        var qsParam = req.body;
-
-        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            var criteria = {
-                'categoryRef' : RequestHelper.parseId(qsParam.categoryRef),
+        var qsParam = req.queryString;
+        async.waterfall([function(callback){
+            Category.findOne({
+                '_id' : RequestHelper.parseId(qsParam.categoryRef)
+            }, callback);
+        }], function(err, category){
+            var criteria = category.matchInfo.excludeDelistBefore ? {
+                'categoryRef' : category._id,
+                '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}, {
+                    'delist' : {'$gte' : category.matchInfo.excludeDelistBefore}
+                }]
+            } : {
+                'categoryRef' : category._id,
                 '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}]
             };
-            MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
-        }, function(items) {
-            return {
-                'items' : items
-            };
-        }, {});
+            ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+                MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
+            }, function(items) {
+                return {
+                    'items' : items
+                };
+            }, {});
+        })
     }
 };
 
@@ -110,9 +121,9 @@ matcher.updateCover = {
                     'show' : show
                 });
                 // Log
-                loggers.get('show-creation').info(_.extend(RequestHelper.getClientInfo(req), {
+                TraceHelper.trace('show-creation', req, {
                     '_id' : show._id.toString()
-                }));
+                });
             });
             delete _matchers[fields.uuid];
         });

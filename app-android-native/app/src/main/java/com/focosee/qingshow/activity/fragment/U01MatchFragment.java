@@ -20,6 +20,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.widget.LoadingDialogs;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.umeng.analytics.MobclickAgent;
 

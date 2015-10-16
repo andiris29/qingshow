@@ -127,7 +127,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             }
         });
 
-        if (null == id) {
+        if (null == receiver) {
             ((TextView) view.findViewById(R.id.U11_title_tv)).setText(getResources().getString(R.string.title_name_activity_addaddress));
         } else {
             ((TextView) view.findViewById(R.id.U11_title_tv)).setText(getResources().getString(R.string.title_name_activity_editaddress));
@@ -155,7 +155,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         area_layout.setTag(ViewName.AREA);
 
-        if (TextUtils.isEmpty(people.mobile)) {
+        if (TextUtils.isEmpty(people.mobile) && null == receiver) {
             verificationBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -230,7 +230,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             return;
         }
 
-        if (TextUtils.isEmpty(people.mobile)) {
+        if (TextUtils.isEmpty(people.mobile) && null == receiver) {
             validateMobile(params);
         } else {
             commit(params);

@@ -10,7 +10,8 @@ var categorySchema = {
         enabled : Boolean,
         defaultOnCanvas : Boolean,
         row : Number,
-        column : Number
+        column : Number,
+        excludeDelistBefore : Date
     },
     parentRef : {
         type : Schema.Types.ObjectId,

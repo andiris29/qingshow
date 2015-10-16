@@ -242,23 +242,29 @@
     BOOL isHasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
     if (isHasMobile == NO) {
         [SHARE_NW_ENGINE MobileNumberAvilable:self.phoneTextField.text code:self.codeTextField.text onSucceed:^(BOOL code) {
-            [SHARE_NW_ENGINE saveReceiver:uuid
-                                     name:self.nameTextField.text
-                                    phone:self.phoneTextField.text
-                                 province:self.selectionLocation
-                                  address:self.detailLocationTextField.text
-                                isDefault:isDefault
-                                onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
-             {
-                 [self showTextHud:@"保存成功"];
-                 [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-             } onError:^(NSError *error) {
-                 [self handleError:error];
-             }];
-            [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.phoneTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {} onError:nil];
-            
-            
-        } onError:^(NSError *error) {
+            if (code == YES) {
+                [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.phoneTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+                    [self showTextHud:@"保存成功"];
+                    [SHARE_NW_ENGINE saveReceiver:uuid
+                                             name:self.nameTextField.text
+                                            phone:self.phoneTextField.text
+                                         province:self.selectionLocation
+                                          address:self.detailLocationTextField.text
+                                        isDefault:isDefault
+                                        onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
+                     {
+                         
+                         [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+                     } onError:^(NSError *error) {
+                         [self handleError:error];
+                     }];
+                } onError:^(NSError *error){
+                    [self showTextHud:@"手机号已被使用"];
+                }];
+            }else{
+                [self showTextHud:@"手机号已被使用"];
+            }
+            } onError:^(NSError *error) {
             [self handleError:error];
         }];
     }else{

@@ -139,6 +139,7 @@
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         self.fRemoveLoginAndRegisterVc = YES;
         [self showSuccessHudWithText:@"登陆成功"];
+        [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
         [self popToPreviousVc];
     };
     

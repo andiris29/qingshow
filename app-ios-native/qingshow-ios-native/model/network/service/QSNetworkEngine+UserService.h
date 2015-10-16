@@ -26,6 +26,8 @@
 
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)loginAsGuestOnSucceed:(EntitySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock;
 
 //- (MKNetworkOperation *)registerById:(NSString *)pid
 //                            Password:(NSString *)passwd
@@ -93,5 +95,7 @@
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation*)userUpdateJpushId:(NSString*)jpushId
+                               onSucceed:(VoidBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
 @end

@@ -17,32 +17,37 @@ var _next = function(today) {
         }).exec(callback);
     },
     function(trades, callback) {
-        trades.filter(function(trade){
-            return today - trade.update > 24 * 3600 
-        }).forEach(function(trade, index) {
-            async.waterfall([function(cb){
-                People.findOne({
-                    '_id' : trade.ownerRef
-                }).exec(cb);
-            }, function(people, cb){
-                var verify = people.unreadNotifications.forEach(function(unread){
-                    var extra = unread.extra;
-                    var verify = (extra._id.toString() === trade._id.toString()) && (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated 
-                        || extra.command === NotificationHelper.CommandTradeInitialized);
-                    if(verify){
-                        NotificationHelper.notify([trade.ownerRef], extra.command, {
-                            '_id' : trade._id,
-                            'command' : NotificationHelper.CommandTradeInitialized
-                        }, null);   
-                    };
-                });
-                cb(null, trade);
-            }], function(err, trade){
-                callback(err, trade);
-            })
+        var notifiyTasks = trades.filter(function(trade){
+            return today - trade.update > 24 * 3600 * 1000
+        }).map(function(trade, index) {
+            return function(cb2){
+                async.waterfall([function(cb){
+                    People.findOne({
+                        '_id' : trade.ownerRef
+                    }).exec(cb);
+                }, function(people, cb){
+                    people.unreadNotifications.forEach(function(unread){
+                        var extra = unread.extra;
+                        if(extra._id.toString() === trade._id.toString()){
+                            if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated) {
+                                NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
+                                    '_id' : trade._id,
+                                    'command' : extra.command
+                                }, cb);   
+                            } else if(extra.command === NotificationHelper.CommandTradeInitialized){
+                                NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
+                                    '_id' : trade._id,
+                                    'command' : extra.command
+                                }, cb); 
+                            }
+                        };
+                    })
+                }], cb2);
+            }
         });
+        async.parallel(notifiyTasks, callback);
     }],
-    function(err, trades) {
+    function(err, result) {
         winston.info('Trade-autoReceiving complete');
     });
 };

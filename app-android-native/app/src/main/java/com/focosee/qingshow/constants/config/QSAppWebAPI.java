@@ -95,6 +95,42 @@ public class QSAppWebAPI {
 
     private static String FEEDING_FEATURED = "/feeding/featured";
 
+    private static String SHARE_QUERY_API = "/share/query";
+
+    private static String SHARE_CREATE_SHOW_API = "/share/createShow";
+
+    private static String SHARE_CREATE_TRADE_API = "/share/createTrade";
+
+    private static String SHARE_CREATE_BONUS_API = "/share/createBonus";
+
+    private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
+
+    private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
+
+    public static String getUserUpdateregistrationidApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEREGISTRATIONID_API;
+    }
+
+    public static String getShareCreateShowApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHARE_CREATE_SHOW_API;
+    }
+
+    public static String getShareCreateTradeApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHARE_CREATE_TRADE_API;
+    }
+
+    public static String getShareCreateBonusApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHARE_CREATE_BONUS_API;
+    }
+
+    public static String getShareQueryApi(String _id) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHARE_QUERY_API + "?_ids=" + _id;
+    }
+
+    public static String getUserLoginasguestApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGINASGUEST_API;
+    }
+
     public static String getFeedingFeatured(int pageNo, int pageSize) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_FEATURED + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }

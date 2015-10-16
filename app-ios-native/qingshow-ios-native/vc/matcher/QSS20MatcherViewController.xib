@@ -16,6 +16,7 @@
                 <outlet property="canvasContainer" destination="nXP-DQ-iBc" id="xU6-cQ-0St"/>
                 <outlet property="categorySelectionButton" destination="lP0-aE-IHb" id="cjq-FG-ios"/>
                 <outlet property="itemSelectionContainer" destination="IPv-3T-oo4" id="ZB5-bx-xbM"/>
+                <outlet property="maskingView" destination="utQ-tX-ieQ" id="x9k-B8-rhW"/>
                 <outlet property="menuBtn" destination="eLE-BA-R8G" id="Cxw-OQ-IJs"/>
                 <outlet property="submitButton" destination="Gud-mx-kWh" id="VyE-dd-z4W"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -90,26 +91,34 @@
                         <constraint firstAttribute="height" constant="87" id="lmD-Hj-Orh"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_masking_leading" translatesAutoresizingMaskIntoConstraints="NO" id="utQ-tX-ieQ">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="29K-Lw-qhy"/>
                 <constraint firstAttribute="trailing" secondItem="IPv-3T-oo4" secondAttribute="trailing" id="BQP-dL-hp8"/>
+                <constraint firstAttribute="bottom" secondItem="utQ-tX-ieQ" secondAttribute="bottom" id="CCQ-Vc-HJ8"/>
                 <constraint firstItem="nXP-DQ-iBc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="Gm4-3q-Izp"/>
                 <constraint firstItem="nXP-DQ-iBc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NMp-Vt-9C0"/>
                 <constraint firstItem="IPv-3T-oo4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NtX-kZ-lQl"/>
+                <constraint firstAttribute="trailing" secondItem="utQ-tX-ieQ" secondAttribute="trailing" id="UhN-0r-PUE"/>
                 <constraint firstAttribute="bottom" secondItem="sV4-f5-KsD" secondAttribute="bottom" id="VcR-qQ-ynu"/>
                 <constraint firstItem="sV4-f5-KsD" firstAttribute="top" secondItem="IPv-3T-oo4" secondAttribute="bottom" id="amL-Li-eHr"/>
                 <constraint firstAttribute="trailing" secondItem="sV4-f5-KsD" secondAttribute="trailing" id="ciY-qN-zmc"/>
                 <constraint firstAttribute="trailing" secondItem="nXP-DQ-iBc" secondAttribute="trailing" id="nna-rp-NMr"/>
                 <constraint firstItem="sV4-f5-KsD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pWd-9S-OhI"/>
                 <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="tks-Qz-8KH"/>
+                <constraint firstItem="utQ-tX-ieQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xzj-B1-odW"/>
                 <constraint firstItem="IPv-3T-oo4" firstAttribute="top" secondItem="nXP-DQ-iBc" secondAttribute="bottom" id="y8H-eB-28m"/>
+                <constraint firstItem="utQ-tX-ieQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="yhW-tx-m2d"/>
             </constraints>
             <point key="canvasLocation" x="462" y="417"/>
         </view>
     </objects>
     <resources>
+        <image name="image_masking_leading" width="621" height="1104"/>
         <image name="nav_btn_menu" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

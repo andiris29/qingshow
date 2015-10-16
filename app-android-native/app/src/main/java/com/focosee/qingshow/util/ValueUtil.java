@@ -22,6 +22,7 @@ public class ValueUtil {
     public static final String NEED_GUIDE_ID = "NEED_GUIDE_ID";//推送消息携带的ID
     public static final String itemExpectablePriceUpdated_id = "NEED_GUIDE_ID";//推送消息携带的ID
     public static final String tradeInitialized_id = "NEED_GUIDE_ID";//推送消息携带的ID
+    public static final String S20_FIRST_INT = "第一次进入到搭配页面";
 
     //EventBus
     public static final String EVENT_NEED_GUIDE = "event_need_guide";
@@ -29,4 +30,5 @@ public class ValueUtil {
     public static final String SUBMIT_TRADE_SUCCESSED = "S11NewTradeFragment页面下单成功";
     public static final String TRADE_REFUND_COMPLETE = "退款成功的通知消息";
     public static final String PAY_FINISHED = "付完款点击继续逛逛";
+    public static final String U01_LOADING_FINISH = "u01的所有网络请求完成";
 }

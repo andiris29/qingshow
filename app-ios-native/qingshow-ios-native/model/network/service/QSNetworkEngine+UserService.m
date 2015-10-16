@@ -16,6 +16,7 @@
 #define PATH_USER_LOGIN @"user/login"
 #define PATH_USER_LOGIN_WEIBO @"user/loginViaWeibo"
 #define PATH_USER_LOGIN_WECHAT @"user/loginViaWeixin"
+#define PATH_USER_LOGIN_AS_GUEST @"user/loginAsGuest"
 
 #define PATH_USER_LOGOUT @"user/logout"
 #define PATH_USER_GET @"user/get"
@@ -30,6 +31,7 @@
 #define PATH_MOBILE_VALIDATE @"user/validateMobile"
 #define PATH_MOBILE_RESET_PASSWORD @"user/resetPassword"
 #define PATH_USER_READ_NOTIFICATION @"user/readNotification"
+#define PATH_UPDATE_JPUSH_REGISTRATION_ID @"user/updateRegistrationId"
 
 @implementation QSNetworkEngine(UserService)
 
@@ -53,10 +55,10 @@
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
+                NSDictionary *reDict = completedOperation.responseJSON;
+                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
+                [QSUserManager shareUserManager].fIsLogined = YES;
                 if (succeedBlock) {
-                    NSDictionary *reDict = completedOperation.responseJSON;
-                    [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                    [QSUserManager shareUserManager].fIsLogined = YES;
                     succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
                 }
             }
@@ -68,6 +70,32 @@
             }];
 }
 
+- (MKNetworkOperation*)loginAsGuestOnSucceed:(EntitySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock {
+    NSMutableDictionary* paramDict = [@{} mutableCopy];
+    if ([QSUserManager shareUserManager].JPushRegistrationID) {
+        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
+    }
+    
+    return [self startOperationWithPath:PATH_USER_LOGIN_AS_GUEST
+                                 method:@"POST"
+                               paramers:paramDict
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                NSDictionary *reDict = completedOperation.responseJSON;
+                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
+                [QSUserManager shareUserManager].fIsLogined = YES;
+                if (succeedBlock) {
+                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
 
 - (MKNetworkOperation*)loginViaWeiboAccessToken:(NSString*)accessToken
                                             uid:(NSString*)uid
@@ -88,10 +116,10 @@
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
+                NSDictionary *reDict = completedOperation.responseJSON;
+                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
+                [QSUserManager shareUserManager].fIsLogined = YES;
                 if (succeedBlock) {
-                    NSDictionary *reDict = completedOperation.responseJSON;
-                    [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                    [QSUserManager shareUserManager].fIsLogined = YES;
                     succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
                 }
             }
@@ -120,10 +148,10 @@
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
+                NSDictionary *reDict = completedOperation.responseJSON;
+                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
+                [QSUserManager shareUserManager].fIsLogined = YES;
                 if (succeedBlock) {
-                    NSDictionary *reDict = completedOperation.responseJSON;
-                    [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                    [QSUserManager shareUserManager].fIsLogined = YES;
                     succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
                 }
             }
@@ -519,6 +547,18 @@
     }];
 }
 
-
+- (MKNetworkOperation*)userUpdateJpushId:(NSString*)jpushId
+                              onSucceed:(VoidBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_UPDATE_JPUSH_REGISTRATION_ID method:@"POST" paramers:@{@"registrationId" : jpushId } onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 
 @end

@@ -22,8 +22,17 @@
     // Initialization code
     _infoTextField.textColor = [UIColor grayColor];
     _infoTextField.delegate = self;
+
 }
 
+- (void)layoutSubviews
+{
+    if (self.rowType == U02SectionInfoRowName) {
+        CGRect frame = self.infoTextField.frame;
+        frame.size.width = 150;
+        self.infoTextField.frame = frame;
+    }
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
@@ -35,8 +44,10 @@
     self.typeLabel.text = u02InfoTypeToTitle(self.rowType);
     if (self.rowType == U02SectionInfoRowName) {
         self.infoTextField.keyboardType = UIKeyboardTypeDefault;
+        
     } else {
         self.infoTextField.keyboardType = UIKeyboardTypeNumberPad;
+        
     }
     
     switch (self.rowType) {

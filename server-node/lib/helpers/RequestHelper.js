@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var async = require('async');
-var qsftp = require('../runtime/').ftp;
+var qsftp = require('../runtime/').ftp,
+    loggers = require('../runtime/loggers');
 var path = require('path');
 
 var RequestHelper = module.exports;
@@ -21,7 +22,8 @@ RequestHelper.getClientInfo = function (req) {
         'qs-os-type' : req.header('qs-os-type'),
         'qs-type' : req.header('qs-type'),
         'qs-version' : req.header('qs-version'),
-        'qs-version-code' : req.header('qs-version-code')
+        'qs-version-code' : req.header('qs-version-code'),
+        'qs-client-ip' : RequestHelper.getIp(req)
     };
 };
 
@@ -96,7 +98,19 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
 
     var form = new formidable.IncomingForm();
     form.keepExtensions = true;
+    
+    var logRandom = _.random(100000, 999999);
+    var s = new Date().getTime();
+    loggers.get('performance-image-upload').info({
+        'step' : 'parse',
+        'parseFile.logRandom' : logRandom,
+        'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : ''
+    }); 
     form.parse(req, function(err, fields, files) {
+        loggers.get('performance-image-upload').info({
+            'step' : 'parse-complete',
+            'parseFile.logRandom' : logRandom
+        }); 
         if (err) {
             callback(err);
         }
@@ -111,6 +125,16 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
         qsftp.uploadWithResize(file.path, savedName, uploadPath, resizeOptions, function (err) {
             file.path = fullPath;
             callback(err, fields, file);
+            var cost = new Date().getTime() - s;
+            loggers.get('performance-image-upload').info({
+                'step' : 'uploadWithResize-complete',
+                'parseFile.logRandom' : logRandom,
+                'fullPath' : fullPath,
+                'cost' : cost,
+                'slow' : cost > 3000,
+                'fast' : cost <= 1000,
+                'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : ''
+            });
         });
     });
 };

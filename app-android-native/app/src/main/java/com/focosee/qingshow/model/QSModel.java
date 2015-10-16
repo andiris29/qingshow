@@ -1,10 +1,13 @@
 package com.focosee.qingshow.model;
 
 import android.content.SharedPreferences;
-import android.text.TextUtils;
-import android.util.Log;
 import com.focosee.qingshow.QSApplication;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by i068020 on 2/21/15.
@@ -15,17 +18,17 @@ public enum QSModel {
     private MongoPeople user;
 
     public boolean loggedin() {
-//        if (user == null) {
-//            String id = QSApplication.instance().getPreferences().getString("id", "");
-//            Log.d(QSModel.class.getSimpleName(), "_id:" + id);
-//            if (TextUtils.isEmpty(id))
-//                return false;
-//        }
         return null != user;
     }
 
     public MongoPeople getUser() {
         return user;
+    }
+
+    public boolean isGuest(){
+        if(null == user) return true;
+        if(user.role == MongoPeople.GUEST) return true;
+        return false;
     }
 
     public void setUser(MongoPeople _user) {
@@ -42,6 +45,11 @@ public enum QSModel {
     public void login(MongoPeople _user){
         setUser(_user);
         saveUser(_user._id);
+        if(isGuest()) {
+            Map<String, Integer> params = new HashMap<>();
+            params.put("role", 1);
+            UserCommand.update(params, new Callback());
+        }
     }
 
     public void removeUser(){

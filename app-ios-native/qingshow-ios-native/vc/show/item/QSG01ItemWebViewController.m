@@ -18,6 +18,7 @@
 #import "QSU07RegisterViewController.h"
 #import "QSPeopleUtil.h"
 #import "QSU11ReceiverEditingViewController.h"
+#import "QSU07RegisterViewController.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
@@ -157,14 +158,19 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)discountBtnPressed:(id)sender {
+    QSPeopleRole r = [QSPeopleUtil getPeopleRole:[QSUserManager shareUserManager].userInfo];
+    if (r == QSPeopleRoleGuest) {
+        QSU07RegisterViewController *registVC = [[QSU07RegisterViewController alloc]init];
+        [self.navigationController pushViewController:registVC animated:YES];
+    }else{
     if (self.hasSyncItem) {
         self.discountLayerContainer.hidden = NO;
     } else {
         if (!self.hud) {
             self.hud = [self showNetworkWaitingHud];
+            }
         }
     }
-
 }
 - (IBAction)closeBtnPressed:(id)sender {
     self.discountLayerContainer.hidden = YES;

@@ -52,6 +52,9 @@ var tradeSchema = Schema({
                     'default' : Date.now
                 }
             }],
+        },
+        forge : {
+            date : Date
         }
     },
     logistic : {

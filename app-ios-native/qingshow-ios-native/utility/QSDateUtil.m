@@ -110,7 +110,7 @@
 //    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date];
     if (seconds >= 24*60*60) {
-        return [self getMonthAndDate:date];
+        return [NSString stringWithFormat:@"%@.%@",[self getMonthDesc:date],[self getDayDesc:date]];
     }
     else if(seconds >= 60*60)
     {

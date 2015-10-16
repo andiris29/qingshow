@@ -9,7 +9,7 @@ var path = require('path');
 var _ = require('underscore');
 var winston = require('winston');
 var qsftp = require('../runtime').ftp;
-
+var TraceHelper = require('../helpers/TraceHelper');
 //Services Name
 
 var servicesNames = [
@@ -17,8 +17,7 @@ var servicesNames = [
 'user', 
 'show', 
 'admin', 
-'trade', 
-'spread', 
+'trade',  
 'people', 
 'matcher', 
 'notify', 
@@ -27,7 +26,9 @@ var servicesNames = [
 'item', 
 'dashboard', 
 'goblin', 
-'system'
+'system',
+'share',
+'trace'
 ];
 var services = servicesNames.map(function (path) {
     return {
@@ -38,6 +39,9 @@ var services = servicesNames.map(function (path) {
 
 var wrapCallback = function (fullpath, callback) {
     return function (req, res) {
+        TraceHelper.trace('api-request', req, {
+            'fullpath' : fullpath
+        });
         res.qsPerformance = {
             'ip' : req.header('X-Real-IP') || req.connection.remoteAddress,
             'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
@@ -77,7 +81,18 @@ module.exports = function (config, qsdb) {
         res.header('Access-Control-Allow-Credentials', true);
         res.header('Access-Control-Allow-Origin', req.headers.origin);
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+        res.header('Access-Control-Allow-Headers', [
+            'X-Requested-With', 
+            'X-HTTP-Method-Override', 
+            'Content-Type', 
+            'Accept',
+            'qs-version', 
+            'qs-version-code', 
+            'qs-type', 
+            'qs-device-uid', 
+            'qs-device-model', 
+            'qs-os-type', 
+            'qs-os-version']);
         next();
     });
 
@@ -95,7 +110,7 @@ module.exports = function (config, qsdb) {
             maxAge : 365 * 24 * 60 * 60 * 1000
         },
         resave : false,
-        saveUninitialized : true,
+        saveUninitialized : false,
         secret : credentials.sessionSecret
     });
     app.use(session);

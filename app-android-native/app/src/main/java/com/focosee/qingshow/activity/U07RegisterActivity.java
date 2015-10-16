@@ -111,7 +111,7 @@ public class U07RegisterActivity extends BaseActivity implements View.OnClickLis
                     FileUtil.uploadDefaultPortrait(U07RegisterActivity.this);
                     updateUser_phone();
                 }
-                QSModel.INSTANCE.setUser(user);
+                QSModel.INSTANCE.login(user);
                 startActivity(new Intent(U07RegisterActivity.this, U13PersonalizeActivity.class));
                 finish();
             }

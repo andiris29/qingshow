@@ -152,6 +152,11 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s10_bay:
+                if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
+                    GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+                    startActivity(new Intent(S10ItemDetailActivity.this, U07RegisterActivity.class));
+                    return;
+                }
                 dialog.show();
                 showble = true;
                 getItemFormNet(itemEntity._id);

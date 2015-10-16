@@ -110,19 +110,19 @@ public class MenuView extends Fragment implements View.OnClickListener {
         mGroup.addView(mView);
 
         setListener();
-
+        blurView.setDrawingCacheEnabled(true);
+        blurView.buildDrawingCache();
+        blurBitmap = blurView.getDrawingCache();
         Thread thread = new Thread() {
             @Override
             public void run() {
-                blurView.setDrawingCacheEnabled(true);
-                blurView.buildDrawingCache();
-                blurBitmap = convertToBlur(blurView.getDrawingCache(), getActivity());
+                blurBitmap = convertToBlur(blurBitmap, getActivity());
                 Message message = new Message();
                 message.obj = blurBitmap;
                 handler.sendMessage(message);
             }
         };
-        thread.run();
+        thread.start();
 
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.push_left_in);
 
@@ -293,6 +293,10 @@ public class MenuView extends Fragment implements View.OnClickListener {
                 break;
             case R.id.navigation_btn_discount:
                 if (getActivity() instanceof U09TradeListActivity) return;
+                if(QSModel.INSTANCE.isGuest()){
+                    startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+                    return;
+                }
                 _class = U09TradeListActivity.class;
                 break;
             case R.id.u01_people:

@@ -3,21 +3,32 @@ package com.focosee.qingshow.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.PushModel;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.util.push.PushUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
@@ -35,6 +46,18 @@ public class QSPushReceiver extends BroadcastReceiver {
         String registrationId = JPushInterface.getRegistrationID(context);
         if (!TextUtils.isEmpty(registrationId)) {
             PushModel.INSTANCE.setRegId(registrationId);
+            if (QSModel.INSTANCE.loggedin()) {
+                Map<String, String> params = new HashMap<>();
+                params.put("registrationId", registrationId);
+                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserUpdateregistrationidApi()
+                        , new JSONObject(params), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                });
+                RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+            }
         }
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
@@ -48,9 +71,9 @@ public class QSPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
             //推送消息指引
             final String command = PushUtil.getCommand(bundle);
-            if(command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
+            if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
                     || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.NEW_RECOMMANDATIONS)
-                    || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
+                    || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
                 UserCommand.refresh(new Callback() {
                     @Override
                     public void onComplete() {
@@ -59,7 +82,7 @@ public class QSPushReceiver extends BroadcastReceiver {
                 });
             }
 
-            if (AppUtil.isRunningForeground(context)){
+            if (AppUtil.isRunningForeground(context)) {
                 Intent pushIntent = new Intent(BaseActivity.PUSHNOTIFY);
                 pushIntent.putExtras(bundle);
                 QSApplication.instance().sendBroadcast(pushIntent);
@@ -67,7 +90,7 @@ public class QSPushReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             //打开自定义的Activity
-            Intent i = PushHepler._jumpTo(context,bundle, JPushInterface.ACTION_NOTIFICATION_OPENED);
+            Intent i = PushHepler._jumpTo(context, bundle, JPushInterface.ACTION_NOTIFICATION_OPENED);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
 
