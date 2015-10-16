@@ -235,12 +235,13 @@ _register = function(req, res) {
                             callback(null, people);
                         } else {
                             callback(errors.genUnkownError());
+                            return;
                         }
                     } else {
                         callback(null, new People());
                     }
                 });
-            } else {
+            }else{
                 callback(null, new People());
             }
         }
@@ -248,9 +249,11 @@ _register = function(req, res) {
         SMSHelper.checkVerificationCode(mobile, code, function(err, success){
             if (!success || err) {
                 callback(err);
-                return;
+            }else {
+                callback(null, people);
             }
         });
+    }, function(people, callback){
         people.nickname =  nickname;
         people.mobile = mobile;
         people.userInfo = {
