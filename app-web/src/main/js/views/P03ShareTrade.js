@@ -7,7 +7,7 @@ define([
         P03ShareTrade.superclass.constructor.apply(this, arguments);
 
         __services.httpService.request('/trade/query', 'get', {
-            '_ids' : [initOptions._id]
+            '_ids' : [initOptions.entity._id]
         }, function(err, metadata, data) {
             if (data) {
                 var trade = data.trades[0];

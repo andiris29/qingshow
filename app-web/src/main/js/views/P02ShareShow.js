@@ -7,10 +7,10 @@ define([
         P02ShareShow.superclass.constructor.apply(this, arguments);
 
         var imageArray = [''];
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_2.jpg");
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_3.jpg");
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_4.jpg");
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_5.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a3.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a4.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a1.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a2.jpg");
 
         var $doms = $('.p02-image-slider-block-image', this._dom);
         for (var index = 1; index < $doms.size(); index++) {
@@ -18,31 +18,28 @@ define([
             $(dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
         }
 
+        var show = initOptions.entity;
+        var $dom = $($('.p02-image-slider-block-image', this._dom)[0]);
+        $dom.css('background-image', violet.string.substitute('url({0})', show.cover));
+        $dom.attr('src', show.coverForeground);
+
         $(window).resize( function() {
             this._resizeHandler();
         }.bind(this));
 
-        __services.httpService.request('/show/query', 'get', {
-            '_ids' : [initOptions._id]
-        }, function(err, metadata, data) {
-            if (data) {
-                var show = data.shows[0];
-                var $dom = $($('.p02-image-slider-block-image', this._dom)[0]);
-                $dom.css('background-image', violet.string.substitute('url({0})', show.cover));
-                $dom.attr('src', show.coverForeground);
-
-                $('.p02-image-slider', this._dom).slick({
-                    'infinite' : true,
-                    'centerMode' : true,
-                    'slidesToShow' : 1,
-                    'centerPadding' : '15%'
-                });
-                $('.p02-image-slider-block-content', this._dom).show();
-                this._resizeHandler();
-            }
-        }.bind(this));
         $('.p02-image-slider-block-content', this._dom).hide();
         $('.p02-download', this._dom).on('click', __services.downloadService.download);
+
+        setTimeout(function () {
+            $('.p02-image-slider', this._dom).slick({
+                'infinite' : true,
+                'centerMode' : true,
+                'slidesToShow' : 1,
+                'centerPadding' : '15%'
+            });
+            $('.p02-image-slider-block-content', this._dom).show();
+            this._resizeHandler();
+        }.bind(this), 0);
     };
     violet.oo.extend(P02ShareShow, violet.ui.ViewBase);
 
