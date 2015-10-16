@@ -197,7 +197,8 @@ feeding.featured = {
                     'featuredRank' : {$exists: true}
                 };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'featuredRank' : -1
+                    'featuredRank' : -1,
+                    'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
             }], outCallback);
         });
