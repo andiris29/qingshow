@@ -12,6 +12,7 @@ var tradeSchema = Schema({
     selectedSkuProperties : [String],
     peopleSnapshot : Object,
     selectedPeopleReceiverUuid : String,
+    highlight : Date,
     pay : {
         weixin : {
             prepayid : String,

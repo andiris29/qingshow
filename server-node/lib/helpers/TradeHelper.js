@@ -32,19 +32,27 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     };
     newStatus = Number.parseInt(newStatus);
 
+    if (newStatus === 2) {
+        trade.highlight = Date.now();
+    }
+
     if (newStatus === 2 || newStatus === 18) {
         NotificationHelper.read([trade.ownerRef], {
             'extra.command' : NotificationHelper.CommandTradeInitialized,
             'extra._id' : trade._id
         }, function(err){});
-    };
+    }
 
     if (newStatus === 5 || newStatus === 15 || newStatus === 7) {
         NotificationHelper.read([trade.ownerRef], {
             'extra.command' : NotificationHelper.CommandTradeShipped,
             'extra._id' : trade._id
         }, function(err){});
-    };
+    }
+
+    if (newStatus === 7 || newStatus === 17) {
+        trade.highlight = null;
+    }
 
     trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];

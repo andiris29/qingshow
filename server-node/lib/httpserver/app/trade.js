@@ -24,7 +24,7 @@ var winston = require('winston');
 var NotificationHelper = require('../../helpers/NotificationHelper');
 
 var trade = module.exports;
-
+ 
 trade.create = {
     'method' : 'post',
     'permissionValidators' : ['roleUserValidator'],
@@ -558,8 +558,16 @@ trade.queryHighlighted = {
     'method' : 'get',
     'func' : function (req, res){
         ServiceHelper.queryPaging(req, res, function(qsParam, callback){
-            MongoHelper.queryPaging(Trade.where('status').in([2, 3, 5, 7, 9, 10, 15]).sort({'create' : -1}).populate('itemRef'),
-                Trade.where('status').in([2, 3, 5, 7, 9, 10, 15]),
+            var criteria = {
+                'highlight' : {
+                    '$ne' : null
+                },
+                'highlight' : {
+                    '$exists' : true
+                }
+            }
+            MongoHelper.queryPaging(Trade.find(criteria).sort({'create' : -1}).populate('itemRef'),
+                Trade.find(criteria),
                 qsParam.pageNo,qsParam.pageSize , callback);
         },function(trades){
             return {
