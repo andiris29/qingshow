@@ -6,12 +6,6 @@ define([
     var P04ShareBonus = function(dom, initOptions) {
         P04ShareBonus.superclass.constructor.apply(this, arguments);
 
-        __services.httpService.request('/spread/open', 'get', {
-            'entry' : violet.url.search.entry || "",
-            'initiatorRef' : violet.url.search.initiatorRef || ""
-        }, function(err, metadata, data) {
-        });
-
         var imageArray = [];
         imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_5.jpg");
         imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_2.jpg");

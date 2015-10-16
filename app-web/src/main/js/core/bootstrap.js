@@ -32,6 +32,11 @@ define([
 
     // Bootstrap first page
     var search = violet.url.search;
+
+    httpService.request('/trace/openShare', 'post', {
+        '_id' : search._id
+    }, function(err, metadata, data) {});
+
     var entry = search.entry || search.action;
     if (entry === 'shareShow') {
         navigationService.push('qs/views/P02ShareShow', {

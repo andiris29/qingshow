@@ -6,12 +6,6 @@ define([
     var P03ShareTrade = function(dom, initOptions) {
         P03ShareTrade.superclass.constructor.apply(this, arguments);
 
-        __services.httpService.request('/spread/open', 'get', {
-            'entry' : violet.url.search.entry || "",
-            'initiatorRef' : violet.url.search.initiatorRef || "",
-            'targetRef' : violet.url.search.targetRef || ""
-        }, function(err, metadata, data) {});
-
         __services.httpService.request('/trade/query', 'get', {
             '_ids' : [initOptions._id]
         }, function(err, metadata, data) {
