@@ -31,7 +31,7 @@ define([
 
         var originPrice = parseFloat(trade.itemSnapshot.promoPrice).toFixed(2);
         var actualPrice = (parseFloat(trade.totalFee) / parseFloat(trade.quantity)).toFixed(2);
-        var discount = parseInt(actualPrice * 10 / originPrice);
+        var discount = parseInt(actualPrice * 10 / originPrice + 0.5);
         discount = discount < 1 ? 1 : discount;
         discount = discount > 9 ? 9 : discount;
 
