@@ -7,10 +7,10 @@ define([
         P04ShareBonus.superclass.constructor.apply(this, arguments);
 
         var imageArray = [];
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_5.jpg");
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_2.jpg");
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_3.jpg");
-        imageArray.push(__config.image.root + "/assets/slicing/p02/share_show_4.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/p02/share_bonu_bg.png");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a1.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a3.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a4.jpg");
 
         var $doms = $('.p02-image-slider-block-image', this._dom);
         for (var index = 0; index < $doms.size(); index++) {
@@ -22,6 +22,15 @@ define([
             this._resizeHandler();
         }.bind(this));
 
+        $('.p02-image-slider-block-content', this._dom).hide();
+        $('.p02-download', this._dom).on('click', __services.downloadService.download);
+
+        var bonus = initOptions.entity;
+        var totalBonus = bonus.total;
+        var withdrawBonus = bonus.withdrawTotal
+        $('.p02-bonus-total-text-number', this._dom)[0].innerText = '￥' + totalBonus;
+        $('.p02-bonus-current-text-number', this._dom)[0].innerText = '￥' + withdrawBonus;
+
         setTimeout(function() {
             $('.p02-image-slider', this._dom).slick({
                 'infinite' : true,
@@ -30,12 +39,10 @@ define([
                 'centerPadding' : '15%'
             });
             $('.p02-image-slider-block-content', this._dom).show();
-        
+
             this._resizeHandler();
         }.bind(this), 0);
-                
-        $('.p02-image-slider-block-content', this._dom).hide();
-        $('.p02-download', this._dom).on('click', __services.downloadService.download);
+
     };
     violet.oo.extend(P04ShareBonus, violet.ui.ViewBase);
 

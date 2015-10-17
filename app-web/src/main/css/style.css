@@ -109,7 +109,25 @@ body {
     background-repeat: no-repeat;
     border-radius: 10px;
 }
-
+.p02-bonus-total-text {
+    text-align: center;
+    font-size: 14px;
+    font-family: "Lantinghei SC";
+    padding-top: 130%;
+    width: 100%;
+}
+.p02-bonus-total-text-number {
+    font-size: 20px;
+}
+.p02-bonus-current-text {
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    font-family: "Lantinghei SC";
+}
+.p02-bonus-current-text-number {
+    font-size: 20px;
+}
 .p02-image-slider-block-text {
     margin-top: 6%;
     font-size: 20px;
