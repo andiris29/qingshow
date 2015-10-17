@@ -15,7 +15,7 @@ body {
 
 .p02-background {
     position: absolute;
-    background-image: url(../assets/slicing/p02/background.jpg);
+    background-image: url(http://trial01.focosee.com/img/app-web/assets/slicing/p02/background.jpg);
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
@@ -53,7 +53,7 @@ body {
 
 .p02-download {
     position: absolute;
-    background-image: url(../assets/slicing/p02/download.png?2015-08-24);
+    background-image: url(http://trial01.focosee.com/img/app-web/assets/slicing/p02/download.png?2015-08-24);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 0% 100%;
@@ -141,7 +141,7 @@ body {
 
 .p03-background {
     position: absolute;
-    background-image: url(../assets/slicing/p03/background.jpg);
+    background-image: url(http://trial01.focosee.com/img/app-web/assets/slicing/p03/background.jpg);
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
@@ -149,7 +149,7 @@ body {
 
 .p03-download {
     position: absolute;
-    background-image: url(../assets/slicing/p02/download.png);
+    background-image: url(http://trial01.focosee.com/img/app-web/assets/slicing/p02/download.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 0% 100%;
