@@ -161,13 +161,14 @@
     QSPeopleRole r = [QSPeopleUtil getPeopleRole:[QSUserManager shareUserManager].userInfo];
     if (r == QSPeopleRoleGuest) {
         QSU07RegisterViewController *registVC = [[QSU07RegisterViewController alloc]init];
+        registVC.previousVc = self;
         [self.navigationController pushViewController:registVC animated:YES];
     }else{
-    if (self.hasSyncItem) {
-        self.discountLayerContainer.hidden = NO;
-    } else {
-        if (!self.hud) {
-            self.hud = [self showNetworkWaitingHud];
+        if (self.hasSyncItem) {
+            self.discountLayerContainer.hidden = NO;
+        } else {
+            if (!self.hud) {
+                self.hud = [self showNetworkWaitingHud];
             }
         }
     }

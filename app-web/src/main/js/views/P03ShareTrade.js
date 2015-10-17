@@ -6,41 +6,72 @@ define([
     var P03ShareTrade = function(dom, initOptions) {
         P03ShareTrade.superclass.constructor.apply(this, arguments);
 
-        __services.httpService.request('/spread/open', 'get', {
-            'entry' : violet.url.search.entry || "",
-            'initiatorRef' : violet.url.search.initiatorRef || "",
-            'targetRef' : violet.url.search.targetRef || ""
-        }, function(err, metadata, data) {});
+        var imageArray = [];
+        imageArray.push(__config.image.root + "/assets/slicing/p02/share_bonu_bg.png");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a1.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a3.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a4.jpg");
+
+        var $doms = $('.p03-image-slider-block-image', this._dom);
+        for (var index = 1; index < $doms.size(); index++) {
+            var dom = $doms[index];
+            $(dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
+        }
+        $('.p03-trade-item-actual-price-content', this._dom).css('background-image', violet.string.substitute('url({0})', __config.image.root + '/assets/slicing/p03/p03_trade_item_actual_price_container_bg.png'));
+
+        $(window).resize( function() {
+            this._resizeHandler();
+        }.bind(this));
+
+        $('.p03-image-slider-block-content', this._dom).hide();
+        $('.p03-download', this._dom).on('click', __services.downloadService.download);
+
+
+        var trade = initOptions.entity;
+
+        var originPrice = parseFloat(trade.itemSnapshot.promoPrice).toFixed(2);
+        var actualPrice = (parseFloat(trade.totalFee) / parseFloat(trade.quantity)).toFixed(2);
+        var discount = parseInt(actualPrice * 10 / originPrice + 0.5);
+        discount = discount < 1 ? 1 : discount;
+        discount = discount > 9 ? 9 : discount;
+
+        $('.p03-trade-item-title', this._dom)[0].innerText = trade.itemSnapshot.name;
+        $('.p03-trade-item-price-number', this._dom)[0].innerText = '￥' + originPrice;
+        $('.p03-trade-item-actual-price-number', this._dom)[0].innerText = '￥' + actualPrice;
+        $('.p03-trade-item-discount-number', this._dom)[0].innerText = discount + "折";
+        $('.p03-trade-item-tmall-price-block', this._dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
 
         __services.httpService.request('/trade/query', 'get', {
-            '_ids' : [initOptions._id]
+            '_ids' : [initOptions.entity._id]
         }, function(err, metadata, data) {
-            if (data) {
-                var trade = data.trades[0];
-                var item = trade.itemSnapshot;
-
-                $('.p03-trade-item-cover', this._dom).css('background-image', violet.string.substitute('url({0})', item.thumbnail));
-                $('.p03-trade-item-title', this._dom)[0].innerText = item.name;
-                $('.p03-trade-item-price-number', this._dom)[0].innerText = '￥' + parseFloat(item.price).toFixed(2);
-                $('.p03-trade-item-tmall-price-number', this._dom)[0].innerText = '￥' + parseFloat(item.promoPrice).toFixed(2);
-
-                //p03-trade-item-qingshow-discount-number
-                //p03-trade-item-qingshow-price-number
-                if (trade.actualPrice) {
-                    var priceBefore = parseFloat(item.promoPrice || item.price);
-                    var actualPrice = parseFloat(trade.actualPrice);
-                    var discount = actualPrice * 100 / priceBefore;
-                    $('.p03-trade-item-qingshow-discount-number', this._dom)[0].innerText = discount.toFixed(2) + '%';
-                    $('.p03-trade-item-qingshow-price-number', this._dom)[0].innerText = '￥' + parseInt(actualPrice);
-                }
-
+            if (data && data.trades && data.trades[0]) {
+                var t = data.trades[0];
+                var c = t.itemRef && t.itemRef.thumbnail;
+                $('.p03-trade-item-tmall-price-block', this._dom).css('background-image', violet.string.substitute('url({0})', c));
             }
         }.bind(this));
 
-        $('.p03-download', this._dom).on('click', __services.downloadService.download);
-        $('.p03-success', this._dom).on('click', __services.downloadService.download);
+
+        setTimeout(function() {
+            $('.p03-image-slider', this._dom).slick({
+                'infinite' : true,
+                'centerMode' : true,
+                'slidesToShow' : 1,
+                'centerPadding' : '15%'
+            });
+            $('.p03-image-slider-block-content', this._dom).show();
+
+            this._resizeHandler();
+        }.bind(this), 0);
     };
     violet.oo.extend(P03ShareTrade, violet.ui.ViewBase);
+
+
+    P03ShareTrade.prototype._resizeHandler = function() {
+        $('.p03-image-slider-block-image', this._dom).css({
+            'height' : $('.slick-center', this._dom).width() / 9 * 16 + 'px'
+        });
+    };
 
     return P03ShareTrade;
 });

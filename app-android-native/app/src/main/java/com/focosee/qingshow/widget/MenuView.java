@@ -136,7 +136,8 @@ public class MenuView extends Fragment implements View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             if (msg.obj instanceof Bitmap) {
-                menuBlur.setImageBitmap((Bitmap) msg.obj);
+                if(!dismissed)
+                    menuBlur.setImageBitmap((Bitmap) msg.obj);
             }
         }
     };

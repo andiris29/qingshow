@@ -6,10 +6,8 @@ define([
 
     downloadService.download = function() {
 
-        __services.httpService.request('/spread/download', 'get', {
-            'entry' : violet.url.search.entity || "",
-            'initiatorRef' : violet.url.search.initiatorRef || "",
-            'targetRef' : violet.url.search.targetRef || ""
+        __services.httpService.request('/trace/downloadViaShare', 'post', {
+            '_id' : violet.url.search._id || ""
         }, function(err, metadata, data) {});
 
         if (window.WeixinJSBridge || navigator.userAgent.indexOf('Android') !== -1) {

@@ -32,20 +32,36 @@ define([
 
     // Bootstrap first page
     var search = violet.url.search;
-    var entry = search.entry || search.action;
-    if (entry === 'shareShow') {
-        navigationService.push('qs/views/P02ShareShow', {
-            '_id' : search._id
-        });
-    } else if (entry === 'shareTrade') {
-        navigationService.push('qs/views/P03ShareTrade', {
-            '_id' : search._id
-        });
-    } else if (entry === 'shareBonus') {
-        navigationService.push('qs/views/P04ShareBonus', {
-        });
-    } else {
-        navigationService.push('qs/views/P01NotFound');
-    }
 
+    httpService.request('/trace/openShare', 'post', {
+        '_id' : search._id
+    }, function(err, metadata, data) {});
+
+    httpService.request('/share/query', 'get', {
+        '_ids' : [search._id]
+    }, function(err, metadata, data) {
+        var shareObj = data && data.sharedObjects && data.sharedObjects[0];
+        if (err || !shareObj) {
+            navigationService.push('qs/views/P01NotFound');
+        } else {
+            if (shareObj.type === 0) {
+                //show
+                navigationService.push('qs/views/P02ShareShow', {
+                    'entity' : shareObj.targetInfo.show
+                });
+            } else if (shareObj.type === 1) {
+                //trade
+                navigationService.push('qs/views/P03ShareTrade', {
+                    'entity' : shareObj.targetInfo.trade
+                });
+            } else if (shareObj.type === 2) {
+                //bonus
+                navigationService.push('qs/views/P04ShareBonus', {
+                    'entity' : shareObj.targetInfo.bonus
+                });
+            } else {
+                navigationService.push('qs/views/P01NotFound');
+            }
+        }
+    });
 });

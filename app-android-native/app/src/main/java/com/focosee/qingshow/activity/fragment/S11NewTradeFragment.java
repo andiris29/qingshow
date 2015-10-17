@@ -290,7 +290,7 @@ public class S11NewTradeFragment extends Fragment {
     private void initDes() {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
-        price.setText(StringUtil.FormatPrice(itemEntity.price));
+        price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
     }
 
     @OnClick({R.id.cut_num, R.id.plus_num})

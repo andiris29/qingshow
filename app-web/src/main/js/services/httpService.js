@@ -36,8 +36,17 @@ define([
             'cache' : false,
             'xhrFields' : {
                 'withCredentials' : true
+            },
+            headers: {
+                'qs-version' : '2.1.0',
+                'qs-version-code' : '1',
+                'qs-type' : 'app-web'
             }
         };
+        //qs-device-uid string
+        //qs-device-model string=iphone5|iphone5s|...
+        //qs-os-type string=ios|android
+        //qs-os-version string
 
         $.ajax(settings).done(function(json) {
             console.log('api done: ' + path, data, json);

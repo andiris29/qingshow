@@ -7,6 +7,7 @@ var _ = require('underscore');
 var Category = require('../../dbmodels').Category;
 var Item = require('../../dbmodels').Item;
 var Show = require('../../dbmodels').Show;
+var People = require('../../dbmodels').People;
 
 var loggers = require('../../runtime').loggers;
 // util
@@ -20,6 +21,21 @@ var TraceHelper = require('../../helpers/TraceHelper');
 var errors = require('../../errors');
 
 var matcher = module.exports;
+
+var _isFake = function(people){
+    for(var i = 400; i < 500; i++){
+        if (i.toString() === people.userInfo.id) {
+            return true;
+        }
+    }
+
+    for (var i = 601; i < 700; i++) {
+        if (i.toString() === people.userInfo.id) {
+           return true; 
+        }   
+    }
+    return false;
+}
 
 matcher.queryCategories = {
     'method' : 'get',
@@ -67,26 +83,42 @@ matcher.save = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        if (!req.body.itemRefs || !req.body.itemRefs.length) {
-            ResponseHelper.response(res, errors.NotEnoughParam);
-            return;
-        }
-        var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
+        async.waterfall([function(callback){
+            People.findOne({
+                '_id' : req.qsCurrentUserId
+            }, callback);
+        }, function(people, callback) {
+            if (!req.body.itemRefs || !req.body.itemRefs.length) {
+                ResponseHelper.response(res, errors.NotEnoughParam);
+                return;
+            }
+            var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
 
-        var coverUrl = global.qsConfig.show.coverForeground.template;
-        coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
-        var show = new Show({
-            'itemRefs' : itemRefs, 
-            'ownerRef' : req.qsCurrentUserId,
-            'coverForeground' : coverUrl
-        });
+            var coverUrl = global.qsConfig.show.coverForeground.template;
+            coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
 
-        var uuid = require('node-uuid').v1();
-        _matchers[uuid] = show;
-        
-        ResponseHelper.response(res, null, {
-            'uuid' : uuid
-        });
+            if (_isFake(people)) {
+                var show = new Show({
+                    'itemRefs' : itemRefs, 
+                    'ownerRef' : req.qsCurrentUserId,
+                    'coverForeground' : coverUrl,
+                    'featuredRank' : 1
+                }); 
+            }else {
+                var show = new Show({
+                    'itemRefs' : itemRefs, 
+                    'ownerRef' : req.qsCurrentUserId,
+                    'coverForeground' : coverUrl
+                });
+            }
+            var uuid = require('node-uuid').v1();
+            _matchers[uuid] = show;
+            callback(null, uuid);
+        }], function(err, uuid) {
+            ResponseHelper.response(res, null, {
+                'uuid' : uuid
+            });
+        })
     }
 };
 

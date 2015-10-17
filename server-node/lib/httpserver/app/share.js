@@ -82,11 +82,11 @@ share.createBonus = {
 			var withdrawTotal = 0;
 			if (people.bonuses && people.bonuses.length > 0) {
 				people.bonuses.forEach(function(bonus){
-					if (bonus.status === 1) {
+					if (bonus.status === 0) {
 						withdrawTotal += bonus.money;
 					}
 					total += bonus.money;
-				})
+				});
 			}
 
 			ShareHelper.create(req.qsCurrentUserId, 2, {

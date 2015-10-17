@@ -21,7 +21,7 @@ public class StringUtil {
         } else if (dis > 0.9) {
             str = "9";
         } else {
-            str = String.valueOf((int)Math.floor((dis * 10)));
+            str = String.valueOf((int)Math.rint((dis * 10)));
         }
         return str + "折";
     }
