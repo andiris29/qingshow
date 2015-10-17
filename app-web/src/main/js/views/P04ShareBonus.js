@@ -26,8 +26,8 @@ define([
         $('.p02-download', this._dom).on('click', __services.downloadService.download);
 
         var bonus = initOptions.entity;
-        var totalBonus = bonus.total;
-        var withdrawBonus = bonus.withdrawTotal
+        var totalBonus = parseFloat(bonus.total).toFixed(2);
+        var withdrawBonus = parseFloat(bonus.withdrawTotal).toFixed(2);
         $('.p02-bonus-total-text-number', this._dom)[0].innerText = '￥' + totalBonus;
         $('.p02-bonus-current-text-number', this._dom)[0].innerText = '￥' + withdrawBonus;
 

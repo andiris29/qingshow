@@ -86,7 +86,7 @@ share.createBonus = {
 						withdrawTotal += bonus.money;
 					}
 					total += bonus.money;
-				})
+				});
 			}
 
 			ShareHelper.create(req.qsCurrentUserId, 2, {
