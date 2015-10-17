@@ -50,26 +50,6 @@ body {
     height: 100%;
 }
 
-.p02-ribbon {
-    position: absolute;
-    background-image: url(../assets/slicing/p02/ribbon.png);
-    background-size: 50%;
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100%;
-}
-
-.p02-sale {
-    position: absolute;
-    background-image: url(../assets/slicing/p02/sale.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: 0% 100%;
-    width: 28%;
-    height: 20%;
-    right: 5%;
-    bottom: 7%;
-}
 
 .p02-download {
     position: absolute;
