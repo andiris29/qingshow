@@ -8,7 +8,7 @@ define([
 
         var imageArray = [];
         imageArray.push(__config.image.root + "/assets/slicing/p02/share_bonu_bg.png");
-        imageArray.push(__config.image.root + "/assets/slicing/common/a1.jpg");
+        imageArray.push(__config.image.root + "/assets/slicing/common/a2.jpg");
         imageArray.push(__config.image.root + "/assets/slicing/common/a3.jpg");
         imageArray.push(__config.image.root + "/assets/slicing/common/a4.jpg");
 
