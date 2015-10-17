@@ -37,13 +37,12 @@ define([
         '_id' : search._id
     }, function(err, metadata, data) {});
 
-
     httpService.request('/share/query', 'get', {
         '_ids' : [search._id]
     }, function(err, metadata, data) {
         var shareObj = data && data.sharedObjects && data.sharedObjects[0];
         if (err || !shareObj) {
-
+            navigationService.push('qs/views/P01NotFound');
         } else {
             if (shareObj.type === 0) {
                 //show
