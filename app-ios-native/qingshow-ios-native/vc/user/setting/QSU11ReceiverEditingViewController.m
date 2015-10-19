@@ -206,6 +206,9 @@
 #pragma mark - IBAction
 - (IBAction)getCodeBtnPressed:(id)sender {
     NSString *mobileNum = self.phoneTextField.text;
+    if (!mobileNum.length) {
+        [self showErrorHudWithText:@"请输入手机号！"];
+    }else{
     [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
         [self showTextHud:@"已成功发送验证码"];
         [self setTimer];
@@ -220,6 +223,7 @@
         }
 
     }];
+    }
 }
 
 - (void)didSelectSaveBtn
