@@ -67,7 +67,7 @@
     </style>
 
     <style name="navigation_btn">
-        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_width">60dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitCenter</item>
@@ -79,7 +79,7 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#ffffffff</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
     
     <style name="s11_notify_des_text">

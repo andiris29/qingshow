@@ -149,7 +149,6 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
             u15HintText.setTextColor(getResources().getColor(R.color.darker_gray));
             u15AlipayImage.setImageResource(R.drawable.alipay_gray);
             u15AlipayAccount.setEnabled(false);
-            u15AlipayAccount.setBackgroundResource(R.drawable.gray_btn_ring);
         }
 
     }

@@ -85,8 +85,7 @@
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/price"
                             style="@style/s11_notify_des_text"
-                            android:text="原价："
-                            android:textColor="@color/gary" />
+                            android:text="原价："/>
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/promoPrice"
@@ -103,8 +102,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:preText="规格："
-                                android:text="规格："
-                                android:textColor="@color/gary" />
+                                android:text="规格："/>
 
                             <com.focosee.qingshow.widget.QSTextView
                                 android:id="@+id/selectPropValue"
@@ -117,8 +115,7 @@
                             android:id="@+id/num"
                             style="@style/s11_notify_des_text"
                             app:preText="数量："
-                            android:text="数量："
-                            android:textColor="@color/gary" />
+                            android:text="数量："/>
 
                         <com.focosee.qingshow.widget.QSTextView
                             android:id="@+id/expectedDiscount"
@@ -214,7 +211,7 @@
 
                 </android.support.percent.PercentRelativeLayout>
 
-                <TextView
+                <com.focosee.qingshow.widget.QSTextView
                     app:layout_marginTopPercent="4%"
                     android:id="@+id/hint"
                     android:layout_width="wrap_content"
