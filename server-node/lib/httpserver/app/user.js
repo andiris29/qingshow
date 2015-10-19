@@ -653,13 +653,13 @@ _loginViaWeixin = function(req, res) {
                 People.findOne({
                     '_id': req.qsCurrentUserId
                 }, function(err, target){
-                    callback(target, weixinUser, copyHeadPath);
+                    callback(null, target, weixinUser, copyHeadPath);
                 })
             }else{
-                callback(new People(), weixinUser, copyHeadPath);
+                callback(null, new People(), weixinUser, copyHeadPath);
             }
         }else {
-            callback(people, weixinUser, copyHeadPath);
+            callback(null, people, weixinUser, copyHeadPath);
         }
     },function(people, weixinUser, copyHeadPath, callback){
         people.nickname = weixinUser.nickname;
@@ -674,7 +674,9 @@ _loginViaWeixin = function(req, res) {
                 headimgurl: weixinUser.headimgurl,
                 unionid: weixinUser.unionid
             }
-        }
+        };
+        people.role = 1;
+        
         if (copyHeadPath && copyHeadPath.length) {
             people.portrait = copyHeadPath;
         }
@@ -773,7 +775,7 @@ _loginViaWeibo = function(req, res) {
         People.findOne({
             'userInfo.weibo.id' : user.id
         }, function(err, people) {
-            callback(people, user, copyHeadPath);
+            callback(null, people, user, copyHeadPath);
         });
     }, function(people, user, copyHeadPath, callback){
         if (!people) {
@@ -781,13 +783,13 @@ _loginViaWeibo = function(req, res) {
                 People.findOne({
                     '_id' : req.qsCurrentUserId
                 }, function(err, target){
-                    callback(target, user, copyHeadPath);
+                    callback(null, target, user, copyHeadPath);
                 })
             }else{
-                callback(new People(), user, copyHeadPath);
+                callback(null, new People(), user, copyHeadPath);
             }   
         }else {
-            callback(people, user, copyHeadPath);
+            callback(null, people, user, copyHeadPath);
         }
     }, function(people, user, copyHeadPath, callback){
         people.nickname = user.screen_name;
@@ -801,6 +803,7 @@ _loginViaWeibo = function(req, res) {
                 avatar_large: user.avatar_large
             }
         };
+        people.role = 1;
         
         if (copyHeadPath && copyHeadPath.length) {
             people.portrait = copyHeadPath;
