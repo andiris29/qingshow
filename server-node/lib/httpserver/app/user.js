@@ -773,46 +773,38 @@ _loginViaWeibo = function(req, res) {
         People.findOne({
             'userInfo.weibo.id' : user.id
         }, function(err, people) {
-            callback(people, user, copyHeadPath);
-        });
-    }, function(people, user, copyHeadPath, callback){
-        if (!people) {
-            if (req.qsCurrentUserId) {
-                People.findOne({
-                    '_id' : req.qsCurrentUserId
-                }, function(err, target){
-                    callback(target, user, copyHeadPath);
-                })
-            }else{
-                callback(new People(), user, copyHeadPath);
-            }   
-        }else {
-            callback(people, user, copyHeadPath);
-        }
-    }, function(people, user, copyHeadPath, callback){
-        people.nickname = user.screen_name;
-        people.userInfo = {
-            weibo: {
-                id: user.id,
-                screen_name: user.screen_name,
-                province: user.province,
-                country: user.country,
-                gender: user.gender,
-                avatar_large: user.avatar_large
-            }
-        };
-        
-        if (copyHeadPath && copyHeadPath.length) {
-            people.portrait = copyHeadPath;
-        }
-
-        people.save(function(err, people) {
             if (err) {
-                callback(err, people);
-            } else if (!people) {
-                callback(errors.genUnkownError());
+                callback(err);
             } else {
-                callback(null, people);
+                if (!people) {
+                    people = new People({
+                        nickname : user.screen_name,
+                        userInfo : {
+                            weibo: {
+                                id : user.id,
+                                screen_name : user.screen_name,
+                                province : user.province,
+                                country : user.country,
+                                gender : user.gender,
+                                avatar_large : user.avatar_large
+                            }
+                        }
+                    });
+                }
+
+                if (copyHeadPath && copyHeadPath.length) {
+                    people.portrait = copyHeadPath;
+                }
+
+                people.save(function(err, people) {
+                    if (err) {
+                        callback(err, people);
+                    } else if (!people) {
+                        callback(errors.genUnkownError());
+                    } else {
+                        callback(null, people);
+                    }
+                });
             }
         });
     }, function(people, callback) {
