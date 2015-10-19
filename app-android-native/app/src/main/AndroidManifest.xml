@@ -267,6 +267,8 @@
 
         <activity
             android:name=".activity.G02WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_g02_welcome" />
         <activity android:name=".activity.S21CategoryActivity" />
         <activity
@@ -276,28 +278,34 @@
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_s01_match_shows" />
         <activity
             android:name=".activity.PushWebActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.CityActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_city" />
         <activity
             android:name=".activity.U16BonusListActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_u16_bonus_list" >
         </activity>
         <activity
             android:name=".activity.T01HighlightedTradeListActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_t01_highlighted_trade_list" >
         </activity>
         <activity
             android:name=".activity.U17ResetPasswordStep1Activity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_u17_reset_password_step1"
             android:parentActivityName=".activity.U06LoginActivity" >
         </activity>
         <activity
             android:name=".activity.U18ResetPasswordStep2Activity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.U17ResetPasswordStep1Activity"
             android:label="@string/title_activity_u18_reset_password_step2" >
         </activity>

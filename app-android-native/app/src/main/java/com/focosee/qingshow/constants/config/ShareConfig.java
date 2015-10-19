@@ -16,6 +16,7 @@
 
 package com.focosee.qingshow.constants.config;
 
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 
 public class ShareConfig {
@@ -30,7 +31,7 @@ public class ShareConfig {
                     + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
                     + "follow_app_official_microblog," + "invitation_write";
 
-    public static final String SHARE_URL = QSAppWebAPI.HOST_ADDRESS_APPWEB + "?_id=";
+    public static final String SHARE_URL = QSApplication.instance().getPreferences().getString("appWebRoot", "http://chingshow.com/app-web") + "?_id=";
 
     //show
     public static final String SHARE_SHOW_TITLE = "来倾秀玩转搭配，show出你的范儿！";

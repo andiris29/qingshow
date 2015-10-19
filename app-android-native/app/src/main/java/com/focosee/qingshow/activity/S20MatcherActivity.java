@@ -77,6 +77,8 @@ public class S20MatcherActivity extends BaseActivity {
     FrameLayout container;
     @InjectView(R.id.s20_guide_imageview)
     ImageView s20GuideImageview;
+    @InjectView(R.id.menu)
+    ImageButton menu;
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -110,9 +112,7 @@ public class S20MatcherActivity extends BaseActivity {
         lastCategoryRefs = new ArrayList<>();
 
         if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.S20_FIRST_INT, true)) {
-            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-            editor.putBoolean(ValueUtil.S20_FIRST_INT, false);
-            editor.commit();
+            menu.setVisibility(View.GONE);
             s20GuideImageview.setVisibility(View.VISIBLE);
             s20GuideImageview.setOnClickListener(new View.OnClickListener() {
                 @Override

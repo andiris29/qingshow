@@ -14,7 +14,7 @@ public class MongoPeople implements Serializable {
     public String _id;
 
     public String nickname;
-    public int role;
+    public Number role;
     public String name;
     public String portrait;
     public String background;

@@ -1,16 +1,17 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
@@ -26,17 +27,15 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -128,6 +127,11 @@ public class S20MatchPreviewActivity extends BaseActivity {
                     ErrorHandler.handle(S20MatchPreviewActivity.this, MetadataParser.getError(response));
                     allowClick();
                     return;
+                }
+                if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.S20_FIRST_INT, true)) {
+                    SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                    editor.putBoolean(ValueUtil.S20_FIRST_INT, false);
+                    editor.commit();
                 }
                 try {
                     uuid = response.getJSONObject("data").getString("uuid");

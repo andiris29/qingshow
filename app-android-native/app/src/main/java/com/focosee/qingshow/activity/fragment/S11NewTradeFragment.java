@@ -445,7 +445,7 @@ public class S11NewTradeFragment extends Fragment {
         propItem.setBackgroundResource(R.drawable.gay_btn_ring);
         propItem.setTextColor(getActivity().getResources().getColor(R.color.gary));
         propItem.setGravity(Gravity.CENTER);
-        propItem.setPadding(2, 2, 2, 2);
+        propItem.setPadding(5, 25, 5, 25);
         propItem.setTextSize(13);
         if (!TextUtils.isEmpty(text)) {
             propItem.setText(text);
