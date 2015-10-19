@@ -146,7 +146,11 @@ feeding.matchNew = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = {};
+                var criteria = {
+                    'featuredRank' : {
+                        $exists : false
+                    }
+                };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
