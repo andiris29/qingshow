@@ -61,16 +61,18 @@
                 _currMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
             }
         }
+        if (_currMoney  ==  0) {
+            self.shareToGetBtn.backgroundColor = [UIColor lightGrayColor];
+            self.shareToGetBtn.userInteractionEnabled = NO;
+            self.alipayTextField.backgroundColor = [UIColor lightTextColor];
+            self.alipayTextField.textColor = [UIColor lightGrayColor];
+            self.alipayTextField.userInteractionEnabled = NO;
+            self.navigationItem.rightBarButtonItem.action = nil;
+            [self.alipayIconImgView setImage:[UIImage imageNamed:@"pay_alipay_icon_gray"]];
+            [self.descTextLabel setTextColor:[UIColor lightGrayColor]];
+        }
         self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",_currMoney];
         self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",money];
-    }
-    else
-    {
-        self.shareToGetBtn.backgroundColor = [UIColor grayColor];
-        self.shareToGetBtn.userInteractionEnabled = NO;
-        self.alipayTextField.backgroundColor = [UIColor lightTextColor];
-        self.alipayTextField.userInteractionEnabled = NO;
-        self.navigationItem.rightBarButtonItem.action = nil;
     }
 }
 - (void)configUI

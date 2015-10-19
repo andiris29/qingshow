@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *currBonusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareToGetBtn;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *alipayIconImgView;
+@property (weak, nonatomic) IBOutlet UILabel *descTextLabel;
 
 
 @property (strong,nonatomic)NSString *peopleId;
