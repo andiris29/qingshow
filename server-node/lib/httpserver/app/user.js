@@ -641,45 +641,51 @@ _loginViaWeixin = function(req, res) {
         }
 
     }, 
-    function(weixinUser, copyHeadPath, callback) {
-        People.findOne({
+    function(weixinUser, copyHeadPath, callback){
+         People.findOne({
             'userInfo.weixin.openid' : weixinUser.openid
         }, function(err, people) {
-            if (err) {
-                callback(err);
-            } else {
-                if (!people) {
-                    people = new People({
-                        nickname : weixinUser.nickname,
-                        userInfo : {
-                            weixin : {
-                                openid : weixinUser.openid,
-                                nickname : weixinUser.nickname,
-                                sex : weixinUser.sex,
-                                province : weixinUser.province,
-                                city : weixinUser.city,
-                                country : weixinUser.country,
-                                headimgurl : weixinUser.headimgurl,
-                                unionid : weixinUser.unionid
-                            }
-                        }
-                    });
-                }
-
-                if (copyHeadPath && copyHeadPath.length) {
-                    people.portrait =copyHeadPath;
-                }
-                people.save(function(err, people) {
-                    if (err) {
-                        callback(err, people);
-                    } else if (!people) {
-                        callback(errors.genUnkownError());
-                    } else {
-                        callback(null, people);
-                    }
-                });
+            callback(null, people, weixinUser, copyHeadPath);
+        });
+    }, function(people, weixinUser, copyHeadPath, callback){
+        if (!people) {
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id': req.qsCurrentUserId
+                }, function(err, target){
+                    callback(target, weixinUser, copyHeadPath);
+                })
+            }else{
+                callback(new People(), weixinUser, copyHeadPath);
             }
-
+        }else {
+            callback(people, weixinUser, copyHeadPath);
+        }
+    },function(people, weixinUser, copyHeadPath, callback){
+        people.nickname = weixinUser.nickname;
+        people.userInfo = {
+            weixin: {
+                openid: weixinUser.openid,
+                nickname: weixinUser.nickname,
+                sex: weixinUser.sex,
+                province: weixinUser.province,
+                city: weixinUser.city,
+                country: weixinUser.country,
+                headimgurl: weixinUser.headimgurl,
+                unionid: weixinUser.unionid
+            }
+        }
+        if (copyHeadPath && copyHeadPath.length) {
+            people.portrait = copyHeadPath;
+        }
+        people.save(function(err, people) {
+            if (err) {
+                callback(err, people);
+            } else if (!people) {
+                callback(errors.genUnkownError());
+            } else {
+                callback(null, people);
+            }
         });
     }, function(people, callback) {
         req.session.userId = people._id;
