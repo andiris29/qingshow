@@ -561,12 +561,9 @@ trade.queryHighlighted = {
             var criteria = {
                 'highlight' : {
                     '$ne' : null
-                },
-                'highlight' : {
-                    '$exists' : true
                 }
             }
-            MongoHelper.queryPaging(Trade.find(criteria).sort({'create' : -1}).populate('itemRef'),
+            MongoHelper.queryPaging(Trade.find(criteria).sort({'highlight' : -1}).populate('itemRef'),
                 Trade.find(criteria),
                 qsParam.pageNo,qsParam.pageSize , callback);
         },function(trades){
