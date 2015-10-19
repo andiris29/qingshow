@@ -7,12 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.WelComeFragment;
 
@@ -90,7 +87,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
                 break;
             case ViewPager.SCROLL_STATE_IDLE:
                 if (mViewPager.getCurrentItem() == indicatorCount - 1 && !misScrolled) {
-                    startActivity(new Intent(this, S01MatchShowsActivity.class));
+                    startActivity(new Intent(this, S20MatcherActivity.class));
                     G02WelcomeActivity.this.finish();
                 }
                 misScrolled = true;
