@@ -25,14 +25,6 @@
 
 }
 
-- (void)layoutSubviews
-{
-    if (self.rowType == U02SectionInfoRowName) {
-        CGRect frame = self.infoTextField.frame;
-        frame.size.width = 150;
-        self.infoTextField.frame = frame;
-    }
-}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

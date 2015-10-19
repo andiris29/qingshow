@@ -21,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入信息" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YZI-iH-UEj">
-                        <rect key="frame" x="100" y="8" width="75" height="30"/>
+                        <rect key="frame" x="100" y="8" width="117" height="30"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
