@@ -33,15 +33,5 @@ public class ShareConfig {
 
     public static final String SHARE_URL = QSApplication.instance().getPreferences().getString("appWebRoot", "http://chingshow.com/app-web") + "?_id=";
 
-    //show
-    public static final String SHARE_SHOW_TITLE = "来倾秀玩转搭配，show出你的范儿！";
-    public static final String SHARE_SHOW_DESCRIPTION = "随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算";
-    //trade
-    public static final String SHARE_TRADE_TITLE = "正品折扣，在倾秀动动手指即刻拥有";
-    public static final String SHARRE_TRADE_DESCRIPTION = "服装行业的最佳竞拍人，只要点击“我要折扣”，就可以以你心目中的价格轻松拥有心爱的宝贝哦！";
-    //bonus
-    public static final String SHARE_BONUS_TITLE = "原来玩搭配还能赚钱，我觉得我快要发财了...";
-    public static final String SHARE_BONUS_DESCRIPTION = "只要其他用户通过你的美搭购买了其中的单品,丰厚佣金即刻转账至您的账户";
-
     public static final int IMG = R.drawable.wx_share_trade;
 }
