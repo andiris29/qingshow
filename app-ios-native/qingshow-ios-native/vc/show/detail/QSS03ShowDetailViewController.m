@@ -20,6 +20,7 @@
 #import "QSPromotionUtil.h"
 #import "QSShareService.h"
 #import "QSNetworkEngine+ShareService.h"
+#import "QSShareUtil.h"
 
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
@@ -378,10 +379,10 @@
    // QSUserManager *um = [QSUserManager shareUserManager];
    // NSString* peopleID = [QSEntityUtil getIdOrEmptyStr:um.userInfo];
     __weak QSS03ShowDetailViewController *weakSelf = self;
-    [SHARE_NW_ENGINE shareCreateShow:showId onSucceed:^(NSString *shareIdentify) {
-        if (shareIdentify) {
-            NSString *urlStr = [NSString stringWithFormat:@"%@?_id=%@", [QSShareService getShareHost],shareIdentify];
-            [weakSelf.shareVc showSharePanelWithTitle:@"来倾秀玩转搭配，show出你的范儿！" desc:@"随心所欲尽情搭配品牌美衣，淘宝天猫当季服装的折扣中心，最重要的是折扣你说了算" url:urlStr];
+    [SHARE_NW_ENGINE shareCreateShow:showId onSucceed:^(NSDictionary *shareDic) {
+        if (shareDic) {
+            NSLog(@"sharedic = %@",shareDic);
+            [weakSelf.shareVc showSharePanelWithTitle:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] url:[QSShareUtil getshareUrl:shareDic]];
         }
        
     } onError:^(NSError *error) {
