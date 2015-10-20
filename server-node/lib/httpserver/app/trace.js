@@ -14,7 +14,7 @@ trace.openShare = {
 			'_id' : RequestHelper.parseId(params._id)
 		}).exec(function(err, sharedObject){
 			TraceHelper.trace('behavior-openShare', req, {
-				'_id' : sharedObject._id.toString()
+				'_sharedObjectId' : sharedObject._id.toString()
 			});
 			ResponseHelper.response(res, err, {});
 		})
@@ -29,7 +29,7 @@ trace.downloadViaShare = {
 			'_id' : RequestHelper.parseId(params._id)
 		}).exec(function(err, sharedObject){
 			TraceHelper.trace('behavior-downloadViaShare', req, {
-				'_id' : sharedObject._id.toString()
+				'_sharedObjectId' : sharedObject._id.toString()
 			});
 			ResponseHelper.response(res, err, {});
 		})
