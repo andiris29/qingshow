@@ -957,8 +957,7 @@ _loginAsGuest = function(req, res){
         });
 
         TraceHelper.trace('behavior-loginAsGuest', req, {
-            '_id' : trade._id.toString(),
-            'selectedSkuProperties' : trade.selectedSkuProperties
+            '_id' : people._id
         });
     });
 }
