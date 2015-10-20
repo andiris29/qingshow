@@ -6,11 +6,10 @@ define([
              View
 ) {
 // @formatter:on
-    var people = {};
     var BonusTr = function (dom, initOptions) {
         BonusTr.superclass.constructor.apply(this, arguments);
 
-        people = initOptions.people;
+        var people = initOptions.people;
         var td$ = $('td', this._dom);
 
         td$.eq(0).text(people._id);
@@ -19,7 +18,7 @@ define([
         td$.eq(3).text(people.count);
         td$.eq(4).text(people.sum);
         td$.eq(5).text(people.alipayId);
-        td$.eq(6).on('click', this._submit.bind(this));
+        td$.eq(6).on('click', this._submit);
 
     };
 
