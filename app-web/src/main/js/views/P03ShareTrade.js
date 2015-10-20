@@ -20,8 +20,14 @@ define([
         $('.p03-trade-item-actual-price-content', this._dom).css('background-image', violet.string.substitute('url({0})', __config.image.root + '/assets/slicing/p03/p03_trade_item_actual_price_container_bg.png'));
 
         $(window).resize( function() {
-            this._resizeHandler();
+            //TODO workaround
+            setTimeout(function (){
+                this._resizeHandler();
+            }.bind(this), 100);
+
         }.bind(this));
+
+
 
         $('.p03-image-slider-block-content', this._dom).hide();
         $('.p03-download', this._dom).on('click', __services.downloadService.download);
@@ -50,6 +56,10 @@ define([
                 'centerPadding' : '15%'
             });
             $('.p03-image-slider-block-content', this._dom).show();
+
+            $('.slick-center', this._dom).resize(function () {
+                console.log('eeeaaa');
+            });
 
             this._resizeHandler();
         }.bind(this), 0);
