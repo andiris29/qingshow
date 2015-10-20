@@ -40,17 +40,7 @@ define([
         $('.p03-trade-item-actual-price-number', this._dom)[0].innerText = '￥' + actualPrice;
         $('.p03-trade-item-discount-number', this._dom)[0].innerText = discount + "折";
         $('.p03-trade-item-tmall-price-block', this._dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
-
-        __services.httpService.request('/trade/query', 'get', {
-            '_ids' : [initOptions.entity._id]
-        }, function(err, metadata, data) {
-            if (data && data.trades && data.trades[0]) {
-                var t = data.trades[0];
-                var c = t.itemRef && t.itemRef.thumbnail;
-                $('.p03-trade-item-tmall-price-block', this._dom).css('background-image', violet.string.substitute('url({0})', c));
-            }
-        }.bind(this));
-
+        $('.p03-trade-item-tmall-price-block', this._dom).css('background-image', violet.string.substitute('url({0})', trade.itemSnapshot.thumbnail));
 
         setTimeout(function() {
             $('.p03-image-slider', this._dom).slick({
