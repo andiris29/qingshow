@@ -5,6 +5,7 @@ var path = require('path');
 var jPushAudiences = require('../../dbmodels').JPushAudience;
 var fs = require('fs');
 var winston = require('winston');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var People = require('../../dbmodels').People;
 
@@ -953,6 +954,11 @@ _loginAsGuest = function(req, res){
     }],function(err, people){
         ResponseHelper.response(res, err, {
             'people' : people
+        });
+
+        TraceHelper.trace('behavior-loginAsGuest', req, {
+            '_id' : trade._id.toString(),
+            'selectedSkuProperties' : trade.selectedSkuProperties
         });
     });
 }

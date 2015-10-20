@@ -147,7 +147,7 @@ matcher.updateCover = {
                     'show' : show
                 });
                 // Log
-                TraceHelper.trace('show-creation', req, {
+                TraceHelper.trace('behavior-show-creation', req, {
                     '_id' : show._id.toString()
                 });
             });
