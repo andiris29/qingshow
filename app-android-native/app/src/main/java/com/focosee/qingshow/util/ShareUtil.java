@@ -3,6 +3,7 @@ package com.focosee.qingshow.util;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import com.android.volley.Request;
@@ -48,8 +49,8 @@ public class ShareUtil {
         getShareObject(TYPE_SHOW, showId, context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToWX(sharedObjects.url + sharedObjects._id, transaction, context, isTimelineCb
-                        , sharedObjects.icon, sharedObjects.title, sharedObjects.description);
+                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
+                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
         });
     }
@@ -58,8 +59,8 @@ public class ShareUtil {
         getShareObject(TYPE_TRADE, tradeId, context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToWX(sharedObjects.url + sharedObjects._id, transaction, context, isTimelineCb
-                        , sharedObjects.icon, sharedObjects.title, sharedObjects.description);
+                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
+                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
         });
     }
@@ -68,8 +69,8 @@ public class ShareUtil {
         getShareObject(TYPE_BONUS, peopleId, context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToWX(sharedObjects.url + sharedObjects._id, transaction, context, isTimelineCb
-                        , sharedObjects.icon, sharedObjects.title, sharedObjects.description);
+                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
+                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
         });
     }
@@ -112,13 +113,13 @@ public class ShareUtil {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb, String img, String title, String description) {
+    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb, int img, String title, String description) {
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
         webpage.webpageUrl = url;
         msg = new WXMediaMessage();
         msg.mediaObject = webpage;
-        Bitmap bitmap = ImageLoader.getInstance().loadImageSync(img);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), img);
         msg.thumbData = BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.PNG);
         msg.setThumbImage(bitmap);
         msg.title = title;
@@ -142,16 +143,16 @@ public class ShareUtil {
 
     }
 
-    private static void shareToSina(MongoSharedObjects sharedObjectId, final Context context, IWeiboShareAPI weiboShareAPI) {
+    private static void shareToSina(MongoSharedObjects sharedObject, final Context context, IWeiboShareAPI weiboShareAPI) {
 
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         WebpageObject mediaObject = new WebpageObject();
         mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = sharedObjectId.title;
-        mediaObject.description = sharedObjectId.description;
-        mediaObject.setThumbImage(ImageLoader.getInstance().loadImageSync(sharedObjectId.url));
-        mediaObject.actionUrl = sharedObjectId.url + sharedObjectId._id;
-        mediaObject.defaultText = sharedObjectId.description;
+        mediaObject.title = sharedObject.title;
+        mediaObject.description = sharedObject.description;
+        mediaObject.setThumbImage(BitmapFactory.decodeResource(context.getResources(), ShareConfig.IMG));
+        mediaObject.actionUrl = sharedObject.url+ "?_id=" + sharedObject._id;
+        mediaObject.defaultText = sharedObject.description;
 
         weiboMessage.mediaObject = mediaObject;
 
