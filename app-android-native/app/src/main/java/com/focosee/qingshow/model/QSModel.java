@@ -3,6 +3,7 @@ package com.focosee.qingshow.model;
 import android.content.SharedPreferences;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ValueUtil;
 
 /**
  * Created by i068020 on 2/21/15.
@@ -52,6 +53,15 @@ public enum QSModel {
 
     public String getUserId(){
         return QSApplication.instance().getPreferences().getString("id", "");
+    }
+
+    public void setUserStatus(int status){
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.putInt(ValueUtil.USER_STATUS, status);
+    }
+
+    public int getUserStatus(){
+        return QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 0);
     }
 
 }
