@@ -1,6 +1,7 @@
 var winston = require('winston'),
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    moment = require('moment');
 
 var _root;
 
@@ -10,14 +11,20 @@ var init = function(dir) {
 
     // Default logger
     winston.add(winston.transports.DailyRotateFile, {
-        'filename' : path.join(dir, 'winston.log')
+        'filename' : path.join(dir, 'winston.log'),
+        'timestamp' : function(){
+            return moment()._d.toString();
+        }
     });
     // winston.remove(winston.transports.Console);
 
     // Exception logger
     new winston.Logger({
         'exceptionHandlers' : [new winston.transports.DailyRotateFile({
-            'filename' : path.join(dir, 'winston-exception.log')
+            'filename' : path.join(dir, 'winston-exception.log'),
+            'timestamp' : function(){
+                return moment()._d.toString();
+            }
         })],
         'exitOnError' : false
     });
@@ -32,7 +39,10 @@ var get = function(category) {
         _mkdir(path.join(_root, category));
         winston.loggers.add(category, {
             'transports' : [new winston.transports.DailyRotateFile({
-                'filename' : path.join(_root, category, 'winston-' + category + '.log')
+                'filename' : path.join(_root, category, 'winston-' + category + '.log'),
+                'timestamp' : function(){
+                    return moment()._d.toString();
+                }
             })]
         });
     }
