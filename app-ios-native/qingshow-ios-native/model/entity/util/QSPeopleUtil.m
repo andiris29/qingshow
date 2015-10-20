@@ -357,6 +357,21 @@
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"trigger.itemRef"];
 }
+
++ (NSString *)getWechatLoginId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.weixin.openid"];
+}
++ (NSString *)getWeiboLoginId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.weibo.id"];
+}
++ (NSString *)getNameAndPswLoginId:(NSDictionary *)dict
+{
+    return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.id"];
+}
+
+
 + (BOOL)checkMobileExist:(NSDictionary *)dict
 {
     if (![QSEntityUtil getStringValue:dict keyPath:@"mobile"]) {

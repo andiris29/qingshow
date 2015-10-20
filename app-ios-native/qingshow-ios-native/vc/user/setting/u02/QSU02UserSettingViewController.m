@@ -119,28 +119,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                @(U02SectionManager),
                                @(U02SectionOther),
                                @(U02SectionInfo)];
-    self.rowModelArray = @[@[
-                               @(U02SectionImageRowHead),
-                               @(U02SectionImageRowBackground)
-                               ],
-                           @[@(U02SectionManagerRowAddress)],
-                           @[@(U02SectionOtherRowPasswd),
-                             @(U02SectionOtherRowBonus)],
-                           
-                           @[
-                               @(U02SectionInfoRowName),
-                               @(U02SectionInfoRowAge),
-                               @(U02SectionInfoRowHeight),
-                               @(U02SectionInfoRowWeight),
-                               @(U02SectionInfoRowBust),
-                               @(U02SectionInfoRowShouler),
-                               @(U02SectionInfoRowWaist),
-                               @(U02SectionInfoRowHips),
-                               @(U02SectionInfoRowBodyType),
-                               @(U02SectionInfoRowDressStyle),
-                               @(U02SectionInfoRowExpectation)
-                               ],
-                           ];
+    [self getCellArrayWithPeople];
     [self configSections];
     [self configCells];
     self.tableView.tableFooterView = self.footerView;
@@ -149,6 +128,17 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 //    [self.tableView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
 }
 
+- (void)u02sectionAndCellRefresh
+{
+    self.sectionModelArray = @[@(U02SectionImage),
+                               @(U02SectionManager),
+                               @(U02SectionOther),
+                               @(U02SectionInfo)];
+    [self getCellArrayWithPeople];
+    [self configSections];
+    [self configCells];
+
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -178,6 +168,58 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 #pragma mark - Config View
 
+- (void)getCellArrayWithPeople
+{
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    if ([QSPeopleUtil getWechatLoginId:peopleDic] || [QSPeopleUtil getWeiboLoginId:peopleDic]) {
+        self.rowModelArray = @[@[
+                                   @(U02SectionImageRowHead),
+                                   @(U02SectionImageRowBackground)
+                                   ],
+                               @[@(U02SectionManagerRowAddress)],
+                               @[@(U02SectionOtherRowBonus)],
+                               
+                               @[
+                                   @(U02SectionInfoRowName),
+                                   @(U02SectionInfoRowAge),
+                                   @(U02SectionInfoRowHeight),
+                                   @(U02SectionInfoRowWeight),
+                                   @(U02SectionInfoRowBust),
+                                   @(U02SectionInfoRowShouler),
+                                   @(U02SectionInfoRowWaist),
+                                   @(U02SectionInfoRowHips),
+                                   @(U02SectionInfoRowBodyType),
+                                   @(U02SectionInfoRowDressStyle),
+                                   @(U02SectionInfoRowExpectation)
+                                   ],
+                               ];
+        
+    }else{
+        self.rowModelArray = @[@[
+                                   @(U02SectionImageRowHead),
+                                   @(U02SectionImageRowBackground)
+                                   ],
+                               @[@(U02SectionManagerRowAddress)],
+                               @[@(U02SectionOtherRowPasswd),
+                                 @(U02SectionOtherRowBonus)],
+                               
+                               @[
+                                   @(U02SectionInfoRowName),
+                                   @(U02SectionInfoRowAge),
+                                   @(U02SectionInfoRowHeight),
+                                   @(U02SectionInfoRowWeight),
+                                   @(U02SectionInfoRowBust),
+                                   @(U02SectionInfoRowShouler),
+                                   @(U02SectionInfoRowWaist),
+                                   @(U02SectionInfoRowHips),
+                                   @(U02SectionInfoRowBodyType),
+                                   @(U02SectionInfoRowDressStyle),
+                                   @(U02SectionInfoRowExpectation)
+                                   ],
+                               ];
+    }
+
+}
 - (void)configSections {
     NSMutableArray* headers = [@[] mutableCopy];
     for (NSNumber* n in self.sectionModelArray) {
@@ -454,9 +496,10 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 - (void)refreshData {
     [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
-        [self.tableView reloadData];
+        [self u02sectionAndCellRefresh];
         _footerView = nil;
         self.tableView.tableFooterView = [self footerView];
+         [self.tableView reloadData];
     } onError:nil];
 }
 
