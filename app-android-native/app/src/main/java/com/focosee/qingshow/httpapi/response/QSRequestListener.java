@@ -1,17 +1,9 @@
 package com.focosee.qingshow.httpapi.response;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.BaseActivity;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.widget.ConfirmDialog;
-
 import org.json.JSONObject;
 
 /**

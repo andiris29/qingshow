@@ -85,7 +85,7 @@ trade.create = {
                 'trade' : trade
             });
             // Log
-            TraceHelper.trace('trade-creation', req, {
+            TraceHelper.trace('behavior-trade-creation', req, {
                 '_id' : trade._id.toString(),
                 'selectedSkuProperties' : trade.selectedSkuProperties
             });

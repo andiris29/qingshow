@@ -86,7 +86,7 @@ public class T01HighlightedTradeListActivity extends BaseActivity implements BGA
 
         t01Recycler.setAdapter(adapter);
 
-        t01Recycler.addItemDecoration(new SpacesItemDecoration(10));
+        t01Recycler.addItemDecoration(new SpacesItemDecoration(5));
         RecyclerViewUtil.setBackTop(t01Recycler, backTopBtn, manager);
     }
 

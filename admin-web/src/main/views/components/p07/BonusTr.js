@@ -6,11 +6,10 @@ define([
              View
 ) {
 // @formatter:on
-    var people = {};
     var BonusTr = function (dom, initOptions) {
         BonusTr.superclass.constructor.apply(this, arguments);
 
-        people = initOptions.people;
+        var people = this._people = initOptions.people;
         var td$ = $('td', this._dom);
 
         td$.eq(0).text(people._id);
@@ -24,6 +23,7 @@ define([
     };
 
     BonusTr.prototype._submit = function () {
+        var people = this._people;
         this.request('/userBonus/withdrawComplete', 'post', {
             '_id' : people._id,
             'count' : people.count,
@@ -34,7 +34,7 @@ define([
             } else {
                 alertify.success('提交成功');
             }
-        })
+        });
     };
 
     violet.oo.extend(BonusTr, View);

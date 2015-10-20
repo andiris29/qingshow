@@ -25,6 +25,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.FileUtil;
 import com.focosee.qingshow.util.ValueUtil;
@@ -112,7 +113,8 @@ public class LaunchActivity extends InstrumentedActivity {
                 LaunchActivity.this.finish();
             }
             if (msg.arg1 == SYSTEM_GET_FINISH) {
-                userLoginAsGuest();
+                if (QSModel.INSTANCE.getUserStatus() == MongoPeople.FIRST_OPEN_APP)
+                    userLoginAsGuest();
                 getUser();
                 CategoriesCommand.getCategories();
                 systemLog();
@@ -137,6 +139,7 @@ public class LaunchActivity extends InstrumentedActivity {
                 if(!MetadataParser.hasError(response)){
                     QSModel.INSTANCE.setUser(UserParser._parsePeople(response));
                     FileUtil.uploadDefaultPortrait(LaunchActivity.this);
+                    QSModel.INSTANCE.setUserStatus(MongoPeople.GET_GUEST_USER);
                 }
             }
         });

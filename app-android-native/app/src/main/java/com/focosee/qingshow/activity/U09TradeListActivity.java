@@ -1,8 +1,8 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,13 +12,11 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
-import com.focosee.qingshow.command.Callback;
-import com.focosee.qingshow.command.TradeShareCommand;
-import com.focosee.qingshow.command.TradeStatusToCommand;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
@@ -79,6 +77,8 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     FrameLayout container;
     @InjectView(R.id.circle_tip)
     View circleTip;
+    @InjectView(R.id.tel_relative)
+    RelativeLayout telRelative;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private String peopleId;
@@ -136,6 +136,13 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         UserCommand.refresh();
         EventBus.getDefault().register(this);
         new EventBus().register(this);
+
+        telRelative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:4007501010")));
+            }
+        });
     }
 
     private void initCurrentType() {
