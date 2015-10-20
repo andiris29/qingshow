@@ -19,7 +19,7 @@
 
 
 - (MKNetworkOperation *)shareCreateShow:(NSString *)showId
-                              onSucceed:(StringBlock)succeedBlock
+                              onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_SHARE_CREATE_SHOW method:@"POST" paramers:@{@"_id":showId} onSucceeded:^(MKNetworkOperation *completedOperation) {
@@ -27,8 +27,7 @@
         if (succeedBlock) {
             NSDictionary *retDict = completedOperation.responseJSON;
             NSDictionary *shareDict = [QSEntityUtil getDictValue:retDict keyPath:@"data.sharedObject"];
-            NSString *shareId = [QSEntityUtil getStringValue:shareDict keyPath:@"_id"];
-            succeedBlock(shareId);
+            succeedBlock(shareDict);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -39,15 +38,14 @@
 }
 
 - (MKNetworkOperation *)shareCreateTrade:(NSString *)tradeId
-                               onSucceed:(StringBlock)succeedBlock
+                               onSucceed:(DicBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_SHARE_CREATE_TRADE method:@"POST" paramers:@{@"_id":tradeId} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary *retDict = completedOperation.responseJSON;
             NSDictionary *shareDict = [QSEntityUtil getDictValue:retDict keyPath:@"data.sharedObject"];
-            NSString *shareId = [QSEntityUtil getStringValue:shareDict keyPath:@"_id"];
-            succeedBlock(shareId);
+            succeedBlock(shareDict);
 
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
@@ -59,15 +57,14 @@
 }
 
 - (MKNetworkOperation *)shareCreateBonus:(NSString *)peopleId
-                               onSucceed:(StringBlock)succeedBlock
+                               onSucceed:(DicBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_SHARE_CREATE_BONUS method:@"POST" paramers:@{@"_id":peopleId} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary *retDict = completedOperation.responseJSON;
             NSDictionary *shareDict = [QSEntityUtil getDictValue:retDict keyPath:@"data.sharedObject"];
-            NSString *shareId = [QSEntityUtil getStringValue:shareDict keyPath:@"_id"];
-            succeedBlock(shareId);
+            succeedBlock(shareDict);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

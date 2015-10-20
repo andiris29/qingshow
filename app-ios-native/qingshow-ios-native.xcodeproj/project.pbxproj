@@ -69,6 +69,7 @@
 		8C9240051B258AB60043561E /* hongxin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240041B258AB60043561E /* hongxin@2x.png */; };
 		8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240061B25A8030043561E /* user_bg_default@2x.jpg */; };
 		8C9240091B25A83C0043561E /* user_head_default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240081B25A83C0043561E /* user_head_default@2x.jpg */; };
+		8C9864261BD61F2F00597867 /* QSShareUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C9864251BD61F2F00597867 /* QSShareUtil.m */; };
 		8CB93A961BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB93A951BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m */; };
 		8CF625CF1BB13CD400B11849 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CF625CE1BB13CD400B11849 /* PushKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8CFC56941BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CFC56921BB7B1C300A0E649 /* QSU17ResetPswStep1ViewController.m */; };
@@ -460,6 +461,8 @@
 		8C9240041B258AB60043561E /* hongxin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hongxin@2x.png"; sourceTree = "<group>"; };
 		8C9240061B25A8030043561E /* user_bg_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_bg_default@2x.jpg"; sourceTree = "<group>"; };
 		8C9240081B25A83C0043561E /* user_head_default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user_head_default@2x.jpg"; sourceTree = "<group>"; };
+		8C9864241BD61F2F00597867 /* QSShareUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareUtil.h; sourceTree = "<group>"; };
+		8C9864251BD61F2F00597867 /* QSShareUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShareUtil.m; sourceTree = "<group>"; };
 		8CB93A941BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ShareService.h"; sourceTree = "<group>"; };
 		8CB93A951BCCEF5700C6F8F0 /* QSNetworkEngine+ShareService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ShareService.m"; sourceTree = "<group>"; };
 		8CF625CE1BB13CD400B11849 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
@@ -2202,6 +2205,8 @@
 			children = (
 				EFA98A801A38923300A8BFC7 /* QSEntityUtil.h */,
 				EFA98A811A38923300A8BFC7 /* QSEntityUtil.m */,
+				8C9864241BD61F2F00597867 /* QSShareUtil.h */,
+				8C9864251BD61F2F00597867 /* QSShareUtil.m */,
 				EFAB90C01A20F88D00C69E42 /* QSPeopleUtil.h */,
 				EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */,
 				EF55730C1A21B20000C3BC23 /* QSShowUtil.h */,
@@ -2987,6 +2992,7 @@
 				EF0C64311B21AAC20079B22E /* QSU02AbstractTableViewCell.m in Sources */,
 				EFF5B90B1A3F2F640048E634 /* QSS07ItemListViewController.m in Sources */,
 				EFAB9C6C1B346FE5008A4EF5 /* QSPeopleListTableViewProvider.m in Sources */,
+				8C9864261BD61F2F00597867 /* QSShareUtil.m in Sources */,
 				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
 				EF30133C1AC3174000568D92 /* NSDataEx.m in Sources */,
 				EF4A57F81BA463BC00677472 /* QSHookHelper.m in Sources */,
