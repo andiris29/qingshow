@@ -58,10 +58,11 @@ public enum QSModel {
     public void setUserStatus(int status){
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
         editor.putInt(ValueUtil.USER_STATUS, status);
+        editor.commit();
     }
 
     public int getUserStatus(){
-        return QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 0);
+        return QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 1);
     }
 
 }

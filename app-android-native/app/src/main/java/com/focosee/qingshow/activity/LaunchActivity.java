@@ -138,8 +138,8 @@ public class LaunchActivity extends InstrumentedActivity {
                 Log.d(LaunchActivity.class.getSimpleName(), "response-userLoginAsGuest:" + response);
                 if(!MetadataParser.hasError(response)){
                     QSModel.INSTANCE.setUser(UserParser._parsePeople(response));
-                    FileUtil.uploadDefaultPortrait(LaunchActivity.this);
                     QSModel.INSTANCE.setUserStatus(MongoPeople.GET_GUEST_USER);
+                    FileUtil.uploadDefaultPortrait(LaunchActivity.this);
                 }
             }
         });

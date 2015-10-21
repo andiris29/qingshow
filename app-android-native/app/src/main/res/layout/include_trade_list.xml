@@ -78,7 +78,8 @@
             android:layout_toRightOf="@id/item_tradelist_skuProperties_tab"
             android:layout_below="@id/item_tradelist_actualPrice"
             android:layout_marginTop="5dp"
-            android:lineSpacingExtra="5dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:visibility="gone"/>
 
         <com.focosee.qingshow.widget.QSTextView
