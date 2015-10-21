@@ -2,12 +2,8 @@ package com.focosee.qingshow.model;
 
 import android.content.SharedPreferences;
 import com.focosee.qingshow.QSApplication;
-import com.focosee.qingshow.command.Callback;
-import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.focosee.qingshow.util.ValueUtil;
 
 /**
  * Created by i068020 on 2/21/15.
@@ -27,7 +23,8 @@ public enum QSModel {
 
     public boolean isGuest(){
         if(null == user) return true;
-        if(user.role == MongoPeople.GUEST) return true;
+        if(user.role == null) return false;
+        if(user.role.intValue() == 0) return true;
         return false;
     }
 
@@ -45,11 +42,6 @@ public enum QSModel {
     public void login(MongoPeople _user){
         setUser(_user);
         saveUser(_user._id);
-        if(isGuest()) {
-            Map<String, Integer> params = new HashMap<>();
-            params.put("role", 1);
-            UserCommand.update(params, new Callback());
-        }
     }
 
     public void removeUser(){
@@ -61,6 +53,20 @@ public enum QSModel {
 
     public String getUserId(){
         return QSApplication.instance().getPreferences().getString("id", "");
+    }
+
+    public void setUserStatus(int status){
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.putInt(ValueUtil.USER_STATUS, status);
+        editor.commit();
+    }
+
+    public int getUserStatus(){
+        return QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 0);
+    }
+
+    public boolean isFinished(int status){
+        return getUserStatus() >= status;
     }
 
 }

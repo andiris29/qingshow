@@ -56,7 +56,8 @@ share.createTrade = {
 					quantity : trade.quantity,
 					itemSnapshot : {
 						name : trade.itemSnapshot.name,
-						promoPrice : trade.itemSnapshot.promoPrice
+						promoPrice : trade.itemSnapshot.promoPrice,
+						thumbnail : trade.itemSnapshot.thumbnail
 					}
 				}
 			}, callback);

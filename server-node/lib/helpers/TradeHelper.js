@@ -34,6 +34,8 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
 
     if (newStatus === 2) {
         trade.highlight = Date.now();
+    }else if (newStatus === 7 || newStatus === 17) {
+        trade.highlight = null;
     }
 
     if (newStatus === 2 || newStatus === 18) {
@@ -50,9 +52,6 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
         }, function(err){});
     }
 
-    if (newStatus === 7 || newStatus === 17) {
-        trade.highlight = null;
-    }
 
     trade.set('status', newStatus);
     trade.statusLogs = trade.statusLogs || [];

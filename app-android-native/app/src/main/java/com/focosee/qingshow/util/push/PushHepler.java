@@ -27,7 +27,7 @@ public class PushHepler {
         Log.d(PushHepler.class.getSimpleName(), "command:" + command);
         Intent intent = null;
         if (command.equals(QSPushAPI.NEW_SHOW_COMMENTS)) {
-            String id = PushUtil.getExtra(bundle, "id");
+            String id = PushUtil.getExtra(bundle, "_id");
             intent = new Intent(context, S04CommentActivity.class);
             intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, id);
         }

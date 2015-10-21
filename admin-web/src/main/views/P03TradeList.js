@@ -32,7 +32,7 @@ define([
 
         this.request('/admin/find', 'get', {
             'collection' : 'trades',
-            'pageSize' : 100,
+            'pageSize' : 1000,
             'status' : status
         }, function(err, metadata, data) {
             if (err || metadata.error) {

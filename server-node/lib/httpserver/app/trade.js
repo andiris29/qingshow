@@ -85,8 +85,8 @@ trade.create = {
                 'trade' : trade
             });
             // Log
-            TraceHelper.trace('trade-creation', req, {
-                '_id' : trade._id.toString(),
+            TraceHelper.trace('behavior-trade-creation', req, {
+                '_tradeId' : trade._id.toString(),
                 'selectedSkuProperties' : trade.selectedSkuProperties
             });
         });
@@ -561,12 +561,9 @@ trade.queryHighlighted = {
             var criteria = {
                 'highlight' : {
                     '$ne' : null
-                },
-                'highlight' : {
-                    '$exists' : true
                 }
             }
-            MongoHelper.queryPaging(Trade.find(criteria).sort({'create' : -1}).populate('itemRef'),
+            MongoHelper.queryPaging(Trade.find(criteria).sort({'highlight' : -1}).populate('itemRef'),
                 Trade.find(criteria),
                 qsParam.pageNo,qsParam.pageSize , callback);
         },function(trades){
@@ -664,9 +661,6 @@ trade.forge = {
         }, function(people, item, callback) {
             // Save trade
             var trade = new Trade();
-            //hardcode status 2
-            trade.status = 2;
-            trade.statusOrder = '20';
             trade.ownerRef = req.qsCurrentUserId;
             trade.peopleSnapshot = people;
             trade.shareToPay = true;
@@ -696,6 +690,7 @@ trade.forge = {
                 callback(err, trade, item);
             });
         }, function(trade, item, callback){
+            TradeHelper.updateStatus(trade, 2, null, req.qsCurrentUserId, function(){});
             BonusHelper.createBonus(trade, item, function(err){
                 callback(err, trade);
             }); 

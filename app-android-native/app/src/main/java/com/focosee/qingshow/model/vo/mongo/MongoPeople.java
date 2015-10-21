@@ -10,11 +10,14 @@ public class MongoPeople implements Serializable {
     public static final String DEBUG_TAG = "MongoPeople";
     public static final int GUEST = 0;
     public static final int USER = 1;
+    public static final int FIRST_OPEN_APP = 1;
+    public static final int GET_GUEST_USER = 2;
+    public static final int MATCH_FINISHED = 3;
 
     public String _id;
 
     public String nickname;
-    public int role;
+    public Number role;
     public String name;
     public String portrait;
     public String background;

@@ -23,18 +23,12 @@ var errors = require('../../errors');
 var matcher = module.exports;
 
 var _isFake = function(people){
-    for(var i = 400; i < 500; i++){
-        if (i.toString() === people.userInfo.id) {
-            return true;
-        }
+    if(isNaN(people.userInfo.id)) {
+        return false
+    } else {
+        var n = parseInt(people.userInfo.id);
+        return (n >= 400 && n < 500) || (n > 600 && n < 700);
     }
-
-    for (var i = 601; i < 700; i++) {
-        if (i.toString() === people.userInfo.id) {
-           return true; 
-        }   
-    }
-    return false;
 }
 
 matcher.queryCategories = {
@@ -153,8 +147,8 @@ matcher.updateCover = {
                     'show' : show
                 });
                 // Log
-                TraceHelper.trace('show-creation', req, {
-                    '_id' : show._id.toString()
+                TraceHelper.trace('behavior-show-creation', req, {
+                    '_showId' : show._id.toString()
                 });
             });
             delete _matchers[fields.uuid];

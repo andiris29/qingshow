@@ -1,13 +1,11 @@
 package com.focosee.qingshow.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
@@ -27,6 +25,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.FileUtil;
 import com.focosee.qingshow.util.ValueUtil;
@@ -43,7 +42,7 @@ public class LaunchActivity extends InstrumentedActivity {
 
     public static final int JUMP = 1;
     public static final int SYSTEM_GET_FINISH = 2;
-    private Class _class;
+    private Class _class = S01MatchShowsActivity.class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,7 @@ public class LaunchActivity extends InstrumentedActivity {
         MobclickAgent.updateOnlineConfig(this);
 
         setContentView(R.layout.activity_launch);
+        init();
         if (!AppUtil.checkNetWork(LaunchActivity.this)) {//not net
             jump();
             return;
@@ -63,15 +63,11 @@ public class LaunchActivity extends InstrumentedActivity {
     }
 
     private void init() {
-        QSAppWebAPI.HOST_ADDRESS_PAYMENT = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_payment, "");
-        QSAppWebAPI.HOST_ADDRESS_APPWEB = QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_address_appweb, "");
-
-        if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.IS_FIRST_OPEN_APP, true)) {
-            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-            editor.putBoolean(ValueUtil.IS_FIRST_OPEN_APP, false);
-            editor.commit();
-            userLoginAsGuest();
+        if (!QSModel.INSTANCE.isFinished(MongoPeople.FIRST_OPEN_APP)) {
+            QSModel.INSTANCE.setUserStatus(MongoPeople.FIRST_OPEN_APP);
             _class = G02WelcomeActivity.class;
+        } else if(!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)){
+            _class = S20MatcherActivity.class;
         } else {
             _class = S01MatchShowsActivity.class;
         }
@@ -115,7 +111,8 @@ public class LaunchActivity extends InstrumentedActivity {
                 LaunchActivity.this.finish();
             }
             if (msg.arg1 == SYSTEM_GET_FINISH) {
-                init();
+                if (!QSModel.INSTANCE.isFinished(MongoPeople.GET_GUEST_USER))
+                    userLoginAsGuest();
                 getUser();
                 CategoriesCommand.getCategories();
                 systemLog();
@@ -139,6 +136,7 @@ public class LaunchActivity extends InstrumentedActivity {
                 Log.d(LaunchActivity.class.getSimpleName(), "response-userLoginAsGuest:" + response);
                 if(!MetadataParser.hasError(response)){
                     QSModel.INSTANCE.setUser(UserParser._parsePeople(response));
+                    QSModel.INSTANCE.setUserStatus(MongoPeople.GET_GUEST_USER);
                     FileUtil.uploadDefaultPortrait(LaunchActivity.this);
                 }
             }

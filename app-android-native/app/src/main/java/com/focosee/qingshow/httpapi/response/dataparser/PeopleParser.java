@@ -16,13 +16,7 @@ import java.util.ArrayList;
 public class PeopleParser {
     // Public interface
 
-    public static ArrayList<MongoPeople> parseQueryModels(JSONObject response) {
-        return _parsePeoples(response);
-    }
     public static ArrayList<MongoPeople> parseQueryFollowers(JSONObject response) {
-        return _parsePeoples(response);
-    }
-    public static ArrayList<MongoPeople> parseQueryFollowed(JSONObject response) {
         return _parsePeoples(response);
     }
 

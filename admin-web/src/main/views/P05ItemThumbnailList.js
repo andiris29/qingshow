@@ -18,16 +18,22 @@ define([
 
         this.request('/admin/find', 'get', {
             'collection' : 'items',
-            'pageSize' : 1000,
-            'categoryRef' : category._id,
-            'delist' : null
+            'pageSize' : 10000,
+            'categoryRef' : category._id
         }, function(err, metadata, data) {
             if (err || metadata.error) {
                 alertify.error(violet.string.substitute('不存在分类为{0}的商品', category.name));
                 return;
             }
             var parent$ = $('ul', this._dom);
-            data.models.forEach( function(item) {
+            data.models.filter(function(item){
+                category.matchInfo = category.matchInfo || {};
+                if(category.matchInfo.excludeDelistBefore){
+                    return item.delist ? item.delist > category.matchInfo.excludeDelistBefore : true;
+                }else {
+                    return !item.delist;
+                }
+            }).forEach( function(item) {
                 violet.ui.factory.createUi('main/views/components/p05/ItemThumbnail', {
                     'item' : item
                 }, parent$, this);

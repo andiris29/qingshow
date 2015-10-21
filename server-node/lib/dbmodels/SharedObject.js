@@ -33,6 +33,7 @@ var sharedObjectSchema = {
 			itemSnapshot : {
 				name : String,
 				promoPrice : String,
+				thumbnail : String
 			},
 			totalFee : Number,
 			quantity : Number

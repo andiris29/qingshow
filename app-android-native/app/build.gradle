@@ -8,8 +8,8 @@ android {
         applicationId "com.focosee.qingshow"
         minSdkVersion 15
         targetSdkVersion 15
-        versionCode 97
-        versionName "2.1.1-dev"
+        versionCode 99
+        versionName "2.1.2"
     }
     signingConfigs {
         release {
@@ -40,6 +40,12 @@ android {
         }
         _yingyongbao {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_yingyongbao"]
+        }
+        _360 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_360"]
+        }
+        _huawei {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_huawei"]
         }
     }
 

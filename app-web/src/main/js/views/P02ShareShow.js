@@ -24,7 +24,10 @@ define([
         $dom.attr('src', show.coverForeground);
 
         $(window).resize( function() {
-            this._resizeHandler();
+            //TODO workaround
+            setTimeout(function (){
+                this._resizeHandler();
+            }.bind(this), 100);
         }.bind(this));
 
         $('.p02-image-slider-block-content', this._dom).hide();

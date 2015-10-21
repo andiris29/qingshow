@@ -95,10 +95,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         title.setText("评论");
         Intent intent = getIntent();
 
-        if (TextUtils.isEmpty(intent.getStringExtra(INPUT_SHOW_ID))) {
-            return;
-        }
-
         id = intent.getStringExtra(INPUT_SHOW_ID);
 
         position = intent.getIntExtra("s08_position", 0);

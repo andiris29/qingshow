@@ -31,6 +31,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
+import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.activity.UserUpdatedEvent;
@@ -147,29 +148,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         super.onActivityCreated(savedInstanceState);
         initUser();
         setJumpListener();
-
-        quitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ConfirmDialog dialog = new ConfirmDialog(getActivity());
-                dialog.setTitle("确定退出登陆？");
-                dialog.setConfirm(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        UserCommand.logOut(new Callback() {
-                            @Override
-                            public void onComplete() {
-                                ToastUtil.showShortToast(QSApplication.instance().getApplicationContext(), "已退出登录");
-                                Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
-                                startActivity(intent);
-                                getActivity().finish();
-                            }
-                        });
-                    }
-                });
-                dialog.show();
-            }
-        });
     }
 
     @Override
@@ -284,8 +262,38 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
-            if(QSModel.INSTANCE.isGuest()){
-                quitButton.setVisibility(View.GONE);
+            if (QSModel.INSTANCE.isGuest()) {
+                quitButton.setText(R.string.title_bar_activity_login);
+                quitButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+                    }
+                });
+            } else {
+                quitButton.setText(R.string.quit_activity_settings);
+                quitButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ConfirmDialog dialog = new ConfirmDialog(getActivity());
+                        dialog.setTitle("确定退出登陆？");
+                        dialog.setConfirm(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UserCommand.logOut(new Callback() {
+                                    @Override
+                                    public void onComplete() {
+                                        ToastUtil.showShortToast(QSApplication.instance().getApplicationContext(), "已退出登录");
+                                        Intent intent = new Intent(getActivity(), S01MatchShowsActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                    }
+                                });
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
             }
             if (null != people.portrait) {
                 portraitImageView.setImageURI(Uri.parse(ImgUtil.getImgSrc(people.portrait, ImgUtil.PORTRAIT_LARGE)));
@@ -570,7 +578,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 bonusTip.setVisibility(View.VISIBLE);
             }
         } else {
-            if(!UnreadHelper.hasUnread())
+            if (!UnreadHelper.hasUnread())
                 backTextView.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
@@ -586,11 +594,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
         if (UnreadHelper.hasUnread()) {
             backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
-            if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)
-                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)){
+            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)
+                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)) {
                 bonusTip.setVisibility(View.VISIBLE);
             }
         }
+        initUser();
     }
 
     public void onPause() {
