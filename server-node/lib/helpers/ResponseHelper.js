@@ -20,13 +20,13 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
         json = beforeEndResponse(json);
     }
 
-    if (res.qsPerformance) {
-        var log = {
-            'ip' : res.qsPerformance.ip,
-            'qsCurrentUserId' :res.qsPerformance.qsCurrentUserId, 
-            'cost' : Date.now() - res.qsPerformance.start,
-            'path' : res.qsPerformance.fullpath
-        };
+    if (res.locals) {
+        var log = _.extend(res.locals.clientInfo, {
+            'cost' : Date.now() - res.locals.time,
+            'fullpath' : res.locals.fullpath
+        }, {
+            'qsCurrentUserId' : res.locals.qsCurrentUserId ? res.locals.qsCurrentUserId.toString() : ''
+        });
         if (log.cost > 1000) {
             logger.error(log);
         } else if (log.cost > 100) {
