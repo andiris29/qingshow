@@ -74,6 +74,9 @@ JamyWebItem.getSkus = function(source, callback) {
                             offset = offset.substr(-4);
                             var newCode = code + offset;
                             skuTable[colorProperties[i] + ':' + sizeProperties[j]] = '1:' + datas['response'][newCode].prc.sum.cny + '';
+                            if (i === 0 && j === 0) {
+                                jamyInfo.promo_price = datas['response'][newCode].prc.sum.cny + '';
+                            }
                         }
                     }
 
