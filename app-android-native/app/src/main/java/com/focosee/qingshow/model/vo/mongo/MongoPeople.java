@@ -12,6 +12,7 @@ public class MongoPeople implements Serializable {
     public static final int USER = 1;
     public static final int FIRST_OPEN_APP = 1;
     public static final int GET_GUEST_USER = 2;
+    public static final int MATCH_FINISHED = 3;
 
     public String _id;
 
