@@ -30,9 +30,11 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ValueUtil;
@@ -111,7 +113,7 @@ public class S20MatcherActivity extends BaseActivity {
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
 
-        if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.S20_FIRST_INT, true)) {
+        if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
             menu.setVisibility(View.GONE);
             s20GuideImageview.setVisibility(View.VISIBLE);
             s20GuideImageview.setOnClickListener(new View.OnClickListener() {

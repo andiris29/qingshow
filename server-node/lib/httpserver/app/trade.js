@@ -86,7 +86,7 @@ trade.create = {
             });
             // Log
             TraceHelper.trace('behavior-trade-creation', req, {
-                '_id' : trade._id.toString(),
+                '_tradeId' : trade._id.toString(),
                 'selectedSkuProperties' : trade.selectedSkuProperties
             });
         });

@@ -148,7 +148,7 @@ matcher.updateCover = {
                 });
                 // Log
                 TraceHelper.trace('behavior-show-creation', req, {
-                    '_id' : show._id.toString()
+                    '_showId' : show._id.toString()
                 });
             });
             delete _matchers[fields.uuid];

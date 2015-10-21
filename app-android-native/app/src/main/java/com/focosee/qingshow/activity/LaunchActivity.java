@@ -63,12 +63,10 @@ public class LaunchActivity extends InstrumentedActivity {
     }
 
     private void init() {
-        if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.IS_FIRST_OPEN_APP, true)) {
-            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-            editor.putBoolean(ValueUtil.IS_FIRST_OPEN_APP, false);
-            editor.commit();
+        if (!QSModel.INSTANCE.isFinished(MongoPeople.FIRST_OPEN_APP)) {
+            QSModel.INSTANCE.setUserStatus(MongoPeople.FIRST_OPEN_APP);
             _class = G02WelcomeActivity.class;
-        } else if(QSApplication.instance().getPreferences().getBoolean(ValueUtil.S20_FIRST_INT, true)){
+        } else if(!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)){
             _class = S20MatcherActivity.class;
         } else {
             _class = S01MatchShowsActivity.class;
@@ -113,7 +111,7 @@ public class LaunchActivity extends InstrumentedActivity {
                 LaunchActivity.this.finish();
             }
             if (msg.arg1 == SYSTEM_GET_FINISH) {
-                if (QSModel.INSTANCE.getUserStatus() == MongoPeople.FIRST_OPEN_APP)
+                if (!QSModel.INSTANCE.isFinished(MongoPeople.GET_GUEST_USER))
                     userLoginAsGuest();
                 getUser();
                 CategoriesCommand.getCategories();
@@ -138,8 +136,8 @@ public class LaunchActivity extends InstrumentedActivity {
                 Log.d(LaunchActivity.class.getSimpleName(), "response-userLoginAsGuest:" + response);
                 if(!MetadataParser.hasError(response)){
                     QSModel.INSTANCE.setUser(UserParser._parsePeople(response));
-                    FileUtil.uploadDefaultPortrait(LaunchActivity.this);
                     QSModel.INSTANCE.setUserStatus(MongoPeople.GET_GUEST_USER);
+                    FileUtil.uploadDefaultPortrait(LaunchActivity.this);
                 }
             }
         });

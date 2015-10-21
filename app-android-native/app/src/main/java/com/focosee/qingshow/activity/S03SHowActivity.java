@@ -196,7 +196,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 setLikedImageButtonBackgroundImage();
                 likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
                 likeBtn.setClickable(true);
-                EventBus.getDefault().post(new ShowCollectionEvent(showDetailEntity.__context.likedByCurrentUser));
+                EventBus.getDefault().post(new ShowCollectionEvent(showDetailEntity));
             }
 
             @Override

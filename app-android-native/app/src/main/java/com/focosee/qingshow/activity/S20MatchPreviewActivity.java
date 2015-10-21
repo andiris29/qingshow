@@ -25,6 +25,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S20Bitmap;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ValueUtil;
@@ -128,10 +129,8 @@ public class S20MatchPreviewActivity extends BaseActivity {
                     allowClick();
                     return;
                 }
-                if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.S20_FIRST_INT, true)) {
-                    SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-                    editor.putBoolean(ValueUtil.S20_FIRST_INT, false);
-                    editor.commit();
+                if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
+                    QSModel.INSTANCE.setUserStatus(MongoPeople.MATCH_FINISHED);
                 }
                 try {
                     uuid = response.getJSONObject("data").getString("uuid");
