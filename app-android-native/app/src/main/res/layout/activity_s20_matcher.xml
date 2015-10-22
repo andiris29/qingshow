@@ -55,7 +55,7 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/bg_submit_match"
                 android:gravity="center"
-                android:text="预览搭配"
+                android:text="下一步"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:clickGround="@drawable/round_btn_background"
