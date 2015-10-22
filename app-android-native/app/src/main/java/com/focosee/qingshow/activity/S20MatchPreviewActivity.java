@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -146,6 +148,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 allowClick();
             }
         });
+
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
@@ -185,6 +188,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addBinaryPart("cover", BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.JPEG));
         multipartEntity.addStringPart("uuid", uuid);
+        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(150000, 0, 1f));
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 
