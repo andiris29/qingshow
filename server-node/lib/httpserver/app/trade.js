@@ -297,9 +297,12 @@ trade.alipayCallback = {
         },
         function(trade, callback) {
             if (!trade) {
-                winston.warn('alipayCallback failed. ' + JSON.stringify(req.body));
+                winston.warn('alipayCallback failed: ' + req.body.out_trade_no);
+                winston.warn(req.body);
+                callback(errors.genUnkownError());
+            } else {
+                _validateStatus(trade, newStatus, callback);
             }
-            _validateStatus(trade, newStatus, callback);
         },
         function(trade, callback) {
             trade.pay.alipay['trade_no'] = req.body['trade_no'];
