@@ -284,7 +284,9 @@
     if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
         NSMutableDictionary* s = (NSMutableDictionary*)showDict;
         long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
-        s[@"numLike"] = @(preNumlike + num);
+        preNumlike += num;
+        preNumlike = preNumlike >= 0 ? preNumlike : 0;
+        s[@"numLike"] = @(preNumlike);
     }
 }
 
