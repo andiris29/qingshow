@@ -286,10 +286,6 @@
     }
 }
 
-
-
-
-
 - (void)updateHighlightView:(UIView*)highlightView {
     NSArray* viewArray = [self.categoryIdToView allValues];
     for (QSCanvasImageView* imgView in viewArray) {
@@ -300,18 +296,17 @@
     }
 }
 
-
-- (BOOL)checkLoadAtLeastOneImage {
+- (BOOL)checkLoadAllImages {
     NSArray* subviews = self.subviews;
     for (QSCanvasImageView* imgView in subviews) {
         if (![imgView isKindOfClass:[QSCanvasImageView class]]) {
             continue;
         }
-        if (imgView.imgView.image) {
-            return YES;
+        if (!imgView.imgView.image) {
+            return NO;
         }
     }
-    return NO;
+    return YES;
 }
 
 

@@ -175,7 +175,7 @@
 
 - (IBAction)previewButtonPressed:(id)sender {
     //防止因为图标未下载完提交白图
-    if (![self.canvasView checkLoadAtLeastOneImage]) {
+    if (![self.canvasView checkLoadAllImages]) {
         [self showErrorHudWithText:@"请等待图片下载完成"];
     }
     
