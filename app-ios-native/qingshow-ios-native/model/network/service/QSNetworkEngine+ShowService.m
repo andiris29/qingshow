@@ -240,7 +240,8 @@
 {
     return [self startOperationWithPath:PATH_SHOW_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [QSShowUtil setIsLike:NO show:showDict];
-        [QSShowUtil addNumberLike:-1ll forShow:showDict];
+        //取消收藏时暂时不-1
+//        [QSShowUtil addNumberLike:-1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
         }

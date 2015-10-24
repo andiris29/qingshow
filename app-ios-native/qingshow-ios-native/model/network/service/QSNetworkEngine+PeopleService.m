@@ -154,7 +154,8 @@
     if ([QSPeopleUtil getPeopleIsFollowed:model]) {
         return [self unfollowPeople:modelId onSucceed:^{
             [QSPeopleUtil setPeople:model isFollowed:NO];
-            [QSPeopleUtil addNumFollower:-1ll forPeople:model];
+            //取消关注时暂时不-1
+//            [QSPeopleUtil addNumFollower:-1ll forPeople:model];
             if (succeedBlock) {
                 succeedBlock(NO);
             }
