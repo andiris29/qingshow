@@ -7,4 +7,8 @@ import java.io.Serializable;
  */
 public class MongoSharedObjects implements Serializable {
     public String _id;
+    public String title;
+    public String description;
+    public String icon;
+    public String url;
 }

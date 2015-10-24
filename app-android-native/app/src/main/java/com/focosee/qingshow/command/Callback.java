@@ -1,5 +1,7 @@
 package com.focosee.qingshow.command;
 
+import com.focosee.qingshow.model.vo.mongo.MongoSharedObjects;
+
 import org.json.JSONObject;
 
 /**
@@ -19,6 +21,10 @@ public class Callback {
     }
 
     public void onComplete(int result) {
+
+    }
+
+    public void onComplete(MongoSharedObjects sharedObjects){
 
     }
 
