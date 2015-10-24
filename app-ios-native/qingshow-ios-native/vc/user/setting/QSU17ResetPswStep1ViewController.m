@@ -26,6 +26,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self configUI];
+    
+    [self.phoneTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.codeTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 }
 - (void)configUI
 {
@@ -108,7 +111,10 @@
 }
 
 - (IBAction)backBtnPressed:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)didReceiveMemoryWarning {

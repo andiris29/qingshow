@@ -308,6 +308,8 @@
 		EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CF61AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib */; };
 		EFD28CFD1AB41CBE00991ADD /* QSU12RefundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */; };
 		EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */; };
+		EFE7A27A1BDBF5F200E2168A /* QSU19LoginGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A2781BDBF5F200E2168A /* QSU19LoginGuideViewController.m */; settings = {ASSET_TAGS = (); }; };
+		EFE7A27B1BDBF5F200E2168A /* QSU19LoginGuideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFE7A2791BDBF5F200E2168A /* QSU19LoginGuideViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
@@ -962,6 +964,9 @@
 		EFD28CFA1AB41CBE00991ADD /* QSU12RefundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU12RefundViewController.h; sourceTree = "<group>"; };
 		EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU12RefundViewController.m; sourceTree = "<group>"; };
 		EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU12RefundViewController.xib; sourceTree = "<group>"; };
+		EFE7A2771BDBF5F200E2168A /* QSU19LoginGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU19LoginGuideViewController.h; sourceTree = "<group>"; };
+		EFE7A2781BDBF5F200E2168A /* QSU19LoginGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU19LoginGuideViewController.m; sourceTree = "<group>"; };
+		EFE7A2791BDBF5F200E2168A /* QSU19LoginGuideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU19LoginGuideViewController.xib; sourceTree = "<group>"; };
 		EFEBAAE31ABEB0000000FEEE /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
 		EFEBAAE61ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSProvinceSelectionTableViewController.h; sourceTree = "<group>"; };
 		EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSProvinceSelectionTableViewController.m; sourceTree = "<group>"; };
@@ -2538,6 +2543,9 @@
 		EFF114851A0D2EDD009B7361 /* user */ = {
 			isa = PBXGroup;
 			children = (
+				EFE7A2771BDBF5F200E2168A /* QSU19LoginGuideViewController.h */,
+				EFE7A2781BDBF5F200E2168A /* QSU19LoginGuideViewController.m */,
+				EFE7A2791BDBF5F200E2168A /* QSU19LoginGuideViewController.xib */,
 				EFED34881AFC734F00F08A0D /* QSU06LoginViewController.h */,
 				EFED34891AFC734F00F08A0D /* QSU06LoginViewController.m */,
 				EFED348A1AFC734F00F08A0D /* QSU06LoginViewController.xib */,
@@ -2889,6 +2897,7 @@
 				8C53454B1B4D61180062D638 /* welcome2_736@3x.png in Resources */,
 				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,
+				EFE7A27B1BDBF5F200E2168A /* QSU19LoginGuideViewController.xib in Resources */,
 				686B73ED1B1D987000E229B9 /* 2.jpg in Resources */,
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
 				A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */,
@@ -3104,6 +3113,7 @@
 				EF9D096C1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m in Sources */,
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF0C642E1B21AAC20079B22E /* QSU02InfoTitleCell.m in Sources */,
+				EFE7A27A1BDBF5F200E2168A /* QSU19LoginGuideViewController.m in Sources */,
 				EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */,
 				A7F852981AF8D559002EC71D /* QSU13PersonalizeViewController.m in Sources */,
 				EFA98A821A38923300A8BFC7 /* QSEntityUtil.m in Sources */,

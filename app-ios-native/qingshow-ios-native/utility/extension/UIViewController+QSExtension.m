@@ -98,5 +98,10 @@ static char versionUpdateHandlerKey;
     QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict peopleId:peopleId];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
+- (void)showLoginPrompVc {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowLoginPrompVcNotificationName object:nil];
+}
+- (void)hideLoginPrompVc {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHideLoginPrompVcNotificationName object:nil];
+}
 @end

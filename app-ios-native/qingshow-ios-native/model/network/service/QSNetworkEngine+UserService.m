@@ -337,8 +337,12 @@
                                onSucceessd:(EntitySuccessBlock)successdBlock
                                    onErrer:(ErrorBlock)errorBlock
 {
-    NSMutableDictionary* paramDict = [@{@"nickname" : nickName, @"password": passwd, @"id":pid
+    NSMutableDictionary* paramDict = [@{@"password": passwd, @"id":pid
                                         ,@"mobile":mobileNum,@"verificationCode":code} mutableCopy];
+    if (nickName) {
+        paramDict[@"nickname"] = nickName;
+    }
+    
     if ([QSUserManager shareUserManager].JPushRegistrationID) {
         paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
     }

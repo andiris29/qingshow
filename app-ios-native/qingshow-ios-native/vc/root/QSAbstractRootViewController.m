@@ -15,7 +15,6 @@
 #import "QSU02UserSettingViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
-#import "QSU07RegisterViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
@@ -189,25 +188,7 @@
         [vc.view removeFromSuperview];
     }];
 }
-- (void)presentRegisterVC:(QSG02WelcomeViewController *)vc
-{
-    QSU07RegisterViewController *regVC = [[QSU07RegisterViewController alloc]init];
-    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:vc];
-    regVC.navigationItem.leftBarButtonItem = item;
-    [self.navigationController pushViewController:regVC
-                                         animated:YES];
-    [self dismissWelcomePage:vc];
-}
 
-- (void)presentLoginVC:(QSG02WelcomeViewController *)vc
-{
-    QSU06LoginViewController *logVC = [[QSU06LoginViewController alloc]init];
-    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:vc];
-    logVC.navigationItem.leftBarButtonItem = item;
-    [self.navigationController pushViewController:logVC
-                                         animated:YES];
-    [self dismissWelcomePage:vc];
-}
 #pragma mark - QSMenuProviderDelegate
 - (void)didClickMenuBtn
 {

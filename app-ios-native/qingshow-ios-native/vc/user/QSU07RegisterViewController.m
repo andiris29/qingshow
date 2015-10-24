@@ -13,21 +13,15 @@
 #import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
 #import "QSU13PersonalizeViewController.h"
-#import "QSThirdPartLoginService.h"
+
 #import "QSEntityUtil.h"
-#import "WXApi.h"
+
 #define PAGE_ID @"U07 - 注册"
 #define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSU07RegisterViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *nickNameText;
-//@property (weak, nonatomic) IBOutlet UITextField *passwdText;
 @property (weak, nonatomic) IBOutlet UITextField *passwdCfmText;
 @property (weak, nonatomic) IBOutlet UITextField *mailAndPhoneText;
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
-@property (weak, nonatomic) IBOutlet UIButton *weixinButton;
-@property (weak, nonatomic) IBOutlet UIButton *weiboButton;
-@property (weak, nonatomic) IBOutlet UIImageView *weixinIconImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *weiboIconImageView;
 @property (weak, nonatomic) IBOutlet UITextField *testTextField;
 @property (weak, nonatomic) IBOutlet UIButton *geTestNumBtn;
 
@@ -40,11 +34,7 @@
 @implementation QSU07RegisterViewController
 
 - (void)popToPreviousVc {
-    if (self.previousVc) {
-        [self.navigationController popToViewController:self.previousVc animated:YES];
-    } else {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
+    [self hideLoginPrompVc];
 }
 
 - (void)configScrollView
@@ -63,69 +53,31 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self registerForKeyboardNotifications];
     [self configScrollView];
-    [self.containerView addSubview:self.contentView];
-    self.nickNameText.delegate = self;
+    [self.containerScrollView addSubview:self.contentView];
     self.passwdCfmText.delegate = self;
-//    self.passwdText.delegate = self;
     self.mailAndPhoneText.delegate = self;
-    [self.nickNameText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-//    [self.passwdText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.passwdCfmText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.mailAndPhoneText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     [self.testTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
-    self.nickNameText.tintColor = [UIColor whiteColor];
-//    self.passwdText.tintColor = [UIColor whiteColor];
     self.passwdCfmText.tintColor = [UIColor whiteColor];
     self.mailAndPhoneText.tintColor = [UIColor whiteColor];
     self.testTextField.tintColor = [UIColor whiteColor];
     
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
-    self.registerButton.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0f];
     
     self.geTestNumBtn.layer.cornerRadius = self.geTestNumBtn.frame.size.height / 8;
-    self.geTestNumBtn.backgroundColor = [UIColor whiteColor];
-    
-    self.weixinButton.layer.cornerRadius = self.weixinButton.frame.size.height / 8;
-    self.weixinButton.layer.masksToBounds = YES;
-    [self.weixinButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
-    self.weiboButton.layer.cornerRadius = self.weiboButton.frame.size.height / 8;
-    [self.weiboButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
-    self.weiboButton.layer.masksToBounds = YES;
     
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
     self.view.userInteractionEnabled = YES;
     [self.view addGestureRecognizer:ges];
-    
-    
-}
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    if (![WXApi isWXAppInstalled]) {
-        self.weixinButton.hidden = YES;
-        self.weixinIconImageView.hidden = YES;
-        self.weiboButton.frame = self.weixinButton.frame;
-        self.weiboIconImageView.frame = self.weixinIconImageView.frame;
-    }
-    if (w == 414) {
-        CGRect frame = self.navtextImageView.frame;
-        frame.origin.x += 25;
-        self.navtextImageView.frame = frame;
-        CGRect frame01 = self.orLabel.frame;
-        frame01.origin.x += 25;
-        self.orLabel.frame = frame01;
-        CGRect frame03 = self.leftLine.frame;
-        frame03.size.width += 15;
-        self.leftLine.frame = frame03;
-        CGRect frame04 = self.rightLine.frame;
-        frame04.origin.x +=20;
-        frame04.size.width -= 10;
-        self.rightLine.frame = frame04;
-    }
+
+
     
 }
 - (void)dealloc
@@ -150,6 +102,7 @@
 }
 - (void)timerRun
 {
+#warning remove static
     static int num = 60;
     [self.geTestNumBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
     num -= 1;
@@ -157,19 +110,16 @@
         [_timer invalidate];
         _timer = nil;
         num = 60;
-        [self.geTestNumBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [self.geTestNumBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
         self.geTestNumBtn.userInteractionEnabled = YES;
     }
     
 }
-- (IBAction)login:(id)sender {
-    [self resignOnTap:nil];
-    QSU06LoginViewController *vc = [[QSU06LoginViewController alloc] init];
-    vc.previousVc = self.previousVc;
-    [self.navigationController pushViewController:vc animated:YES];
-}
 - (IBAction)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -203,31 +153,21 @@
 }
 - (void)hideKeyboard
 {
-    for (UITextField* t in @[self.nickNameText, self.passwdCfmText, self.mailAndPhoneText,self.testTextField]) {
+    for (UITextField* t in @[self.passwdCfmText, self.mailAndPhoneText,self.testTextField]) {
         [t resignFirstResponder];
     }
 }
 
 - (IBAction)registers:(id)sender {
-    NSString *nickName = self.nickNameText.text;
-//    NSString *passwd = self.passwdText.text;
     NSString *passwdCfm = self.passwdCfmText.text;
     NSString *mailAndPhone = self.mailAndPhoneText.text;
     NSString *code = self.testTextField.text;
-    if (nickName.length == 0) {
-        [self showErrorHudWithText:@"请输入昵称"];
-        return;
-    }
     
     if (passwdCfm.length == 0) {
         [self showErrorHudWithText:@"请输入密码"];
         return;
     }
     
-//    if (passwdCfm.length == 0) {
-//        [self showErrorHudWithText:@"请再次输入密码"];
-//        return;
-//    }
     
     if([self checkEmail:mailAndPhone] != YES && [self checkMobile:mailAndPhone] != YES){
             [self showErrorHudWithText:@"请输入正确的邮箱或手机号"];
@@ -237,10 +177,6 @@
         [self showErrorHudWithText:@"请填写验证码"];
         return;
     }
-//    if ([passwd compare:passwdCfm] != NSOrderedSame) {
-//        [self showErrorHudWithText:@"密码不一致请重新输入"];
-//        return;
-//    }
     
     if ([self checkPasswd:passwdCfm] != YES) {
         [self showErrorHudWithText:@"请输入6位以上英文或数字密码"];
@@ -255,8 +191,7 @@
     ErrorBlock errorBlock = ^(NSError *error) {
         [self showErrorHudWithError:error];
     };
-    [SHARE_NW_ENGINE registerByNickname:nickName Password:passwdCfm Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
-    
+    [SHARE_NW_ENGINE registerByNickname:nil Password:passwdCfm Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
 }
 
 #pragma mark - Keyboard
@@ -285,24 +220,4 @@
     }];
 }
 
-- (IBAction)loginWechatBtnPressed:(id)sender {
-    [self hideKeyboard];
-    [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
-        [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
-        [self popToPreviousVc];
-
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
-}
-
-- (IBAction)loginWeiboBtnPressed:(id)sender {
-    [self hideKeyboard];
-    [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
-        [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
-        [self popToPreviousVc];
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
-}
 @end

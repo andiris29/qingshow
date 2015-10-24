@@ -13,7 +13,6 @@
 @interface QSU18ResetPswStep2ViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *passWordTextField;
-//@property (weak, nonatomic) IBOutlet UITextField *passWordAgainTextField;
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 
 @end
@@ -22,12 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     [self configUI];
+
 }
 - (void)configUI
 {
     self.submitBtn.layer.cornerRadius = self.submitBtn.bounds.size.height / 8;
+    [self.password setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 }
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -47,8 +47,23 @@
                 [self showTextHud:@"修改密码成功！"];
                 [SHARE_NW_ENGINE logoutOnSucceed:^{
                     [self.navigationController popToRootViewControllerAnimated:YES];
-                    QSU06LoginViewController *vc = [[QSU06LoginViewController alloc]init];
-                    [self.navigationController pushViewController:vc animated:YES];
+                    BOOL f = true;
+                    NSArray* vcs = self.navigationController.viewControllers;
+                    for (UIViewController* vc in vcs) {
+                        if ([vc isKindOfClass:[QSU06LoginViewController class]]) {
+                            [self.navigationController popToViewController:vc animated:NO];
+                            f = false;
+                            break;
+                        }
+                    }
+                    if (f) {
+                        [self.navigationController popToRootViewControllerAnimated:NO];
+                    }
+                    CATransition* tran = [[CATransition alloc] init];
+                    tran.type = kCATransitionFade;
+                    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+                    [self.navigationController popViewControllerAnimated:NO];
+                    
                 } onError:nil];
             } onError:^(NSError *error) {
                 [self showTextHud:@"修改密码失败，请重新核对信息"];

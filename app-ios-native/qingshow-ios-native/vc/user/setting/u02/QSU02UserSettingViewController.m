@@ -12,8 +12,6 @@
 #import "QSU09OrderListViewController.h"
 #import "QSU10ReceiverListViewController.h"
 #import "QSU15BonusViewController.h"
-#import "QSU07RegisterViewController.h"
-
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"

@@ -2,14 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "loginguide_wechat.png",
       "scale" : "1x"
-      ,
-      "filename" : "register_weibo_pink.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "register_weibo_pink@2x.png"
+      "filename" : "loginguide_wechat@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

@@ -15,10 +15,8 @@
 #import "UIViewController+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSUserManager.h"
-#import "QSU07RegisterViewController.h"
 #import "QSPeopleUtil.h"
 #import "QSU11ReceiverEditingViewController.h"
-#import "QSU07RegisterViewController.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
@@ -160,9 +158,7 @@
 - (IBAction)discountBtnPressed:(id)sender {
     QSPeopleRole r = [QSPeopleUtil getPeopleRole:[QSUserManager shareUserManager].userInfo];
     if (r == QSPeopleRoleGuest) {
-        QSU07RegisterViewController *registVC = [[QSU07RegisterViewController alloc]init];
-        registVC.previousVc = self;
-        [self.navigationController pushViewController:registVC animated:YES];
+        [self showLoginPrompVc];
     }else{
         if (self.hasSyncItem) {
             self.discountLayerContainer.hidden = NO;

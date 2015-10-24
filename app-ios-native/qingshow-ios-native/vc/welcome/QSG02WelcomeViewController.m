@@ -31,7 +31,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.frame = [UIScreen mainScreen].bounds;
-    self.loginAndRegisterView.hidden = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
@@ -54,9 +53,6 @@
     _pageControl.currentPage = 0;
     _pageControl.userInteractionEnabled = NO;
    // _pageControl.transform = CGAffineTransformMakeScale(1.3, 1.3);
-    
-    _loginBtn.hidden = YES;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -72,16 +68,9 @@
 
 - (void)viewDidLayoutSubviews
 {
-//    _loginBtn.frame = CGRectMake(w/10*7, h/10*9, 100, 30);
-    _loginBtn.center = CGPointMake(w / 5 * 4, h / 10 * 8.5);
-
+    [super viewDidLayoutSubviews];
     _pageControl.center = CGPointMake(w / 2, h / 10 * 8.5);
 }
-
-//- (void)dealloc
-//{
-//    NSLog(@"%s dealloc", __func__);
-//}
 
 - (void)addPhotosToSVC
 {
@@ -152,12 +141,6 @@
 #define ISFIRSTLOGIN @"isFirstLogin"
 #pragma mark - IBAction
 - (IBAction)skipBtnPressed:(id)sender {
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    [defaults setObject:@"YES" forKey:ISFIRSTLOGIN];
-//    [defaults synchronize];
-//    
-//    QSAppDelegate *delegate = (QSAppDelegate *)[UIApplication sharedApplication].delegate;
-    
     if ([self.delegate respondsToSelector:@selector(dismissWelcomePage:)]) {
         [self.delegate dismissWelcomePage:self];
     }
@@ -169,22 +152,8 @@
     _pageControl.currentPage = pageNum;
     //NSLog(@"offset  =  %f",_welcomeSCV.contentOffset.x);
     if (_welcomeSCV.contentOffset.x == w*3) {
-        //[_loginBtn setTitle:@"进入中。。" forState:UIControlStateNormal];
-        _loginBtn.hidden = YES;
         [self skipBtnPressed:self];
     }
-}
-- (IBAction)loginBtnPressed:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(presentLoginVC:)]) {
-        [self.delegate presentLoginVC:self];
-    }
-    
-}
-- (IBAction)registeBtnPressed:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(presentRegisterVC:)]) {
-        [self.delegate presentRegisterVC:self];
-    }
-   
 }
 
 #pragma mark - Third Part

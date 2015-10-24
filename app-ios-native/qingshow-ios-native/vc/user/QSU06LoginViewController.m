@@ -7,7 +7,6 @@
 //
 
 #import "QSU06LoginViewController.h"
-#import "QSU07RegisterViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+ShowHud.h"
@@ -26,11 +25,7 @@
 
 @implementation QSU06LoginViewController
 - (void)popToPreviousVc {
-    if (self.previousVc) {
-        [self.navigationController popToViewController:self.previousVc animated:YES];
-    } else {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
+    [self hideLoginPrompVc];
 }
 #pragma mark - Init
 - (instancetype)init
@@ -54,11 +49,8 @@
     [self.userText setTintColor:[UIColor whiteColor]];
     [self.passwordText setTintColor:[UIColor whiteColor]];
     
-    
-
     self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height / 8;
     self.loginButton.layer.masksToBounds = YES;
-    [self.loginButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
     
     // tap Setting
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
@@ -109,15 +101,18 @@
     [self.currentResponder resignFirstResponder];
 }
 - (IBAction)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 - (IBAction)forgetPswBtnPressed:(id)sender {
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+    
     QSU17ResetPswStep1ViewController *vc = [[QSU17ResetPswStep1ViewController alloc]init];
-//    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
-//    vc.navigationItem.leftBarButtonItem = backItem;
-//    self.navigationController.navigationBarHidden = NO;
-//    QSU18ResetPswStep2ViewController *vc = [[QSU18ResetPswStep2ViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 
 - (IBAction)login:(id)sender {
@@ -153,13 +148,5 @@
                            onError:error];
 
 }
-
-#pragma mark - Callback
-
-- (void)gotoRegister {
-    UIViewController *vc = [[QSU07RegisterViewController alloc]initWithNibName:@"QSU07RegisterViewController" bundle:nil];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 
 @end

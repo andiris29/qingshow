@@ -11,14 +11,16 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
 #import "QSNavigationController.h"
-#import "QSU07RegisterViewController.h"
 #import "QSUserManager.h"
 #import "QSS20MatcherViewController.h"
 #import "QSS01MatchShowsViewController.h"
 
 #import "QSU09OrderListViewController.h"
+#import "QSU19LoginGuideViewController.h"
+
 #import "QST01ShowTradeViewController.h"
 #import "NSDictionary+QSExtension.h"
+#import "UIViewController+QSExtension.h"
 
 #import "QSRootContentViewController.h"
 #import "QSPnsHandler.h"
@@ -28,7 +30,7 @@
 
 
 @property (strong, nonatomic) QSPnsHandler* pnsHandler;
-
+@property (strong, nonatomic) UINavigationController* loginGuideNavVc;
 @end
 
 @implementation QSRootContainerViewController
@@ -52,6 +54,8 @@
                               NSForegroundColorAttributeName:[UIColor blackColor]
                               }];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePrompToLoginNotification:) name:kShowLoginPrompVcNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHidePrompToLoginNotification:) name:kHideLoginPrompVcNotificationName object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -73,6 +77,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 
 
@@ -85,6 +92,18 @@
 {
     [super rootMenuItemPressedType:type oldType:oldType];
     [self hideMenu];
+    
+    if (type != QSRootMenuItemMeida && type != QSRootMenuItemShowTrade) {
+        NSDictionary* u = [QSUserManager shareUserManager].userInfo;
+        if (!u) {
+            [self showRegisterVc];
+            return;
+        } else if ([QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest &&
+                   type == QSRootMenuItemDiscount) {
+            [self showRegisterVc];
+            return;
+        }
+    }
     
     UIViewController<QSIRootContentViewController>* vc = nil;
     switch (type) {
@@ -128,18 +147,9 @@
             break;
         }
     }
+    
     [self showVc:vc];
 
-    
-    if ((![vc isKindOfClass:[QSS01MatchShowsViewController class]]) && (![vc isKindOfClass:[QST01ShowTradeViewController class]])) {
-        NSDictionary* u = [QSUserManager shareUserManager].userInfo;
-        if (!u) {
-            [self showRegisterVc];
-        } else if ([QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest &&
-                   [vc isKindOfClass:[QSU09OrderListViewController class]]) {
-            [self showRegisterVc];
-        }
-    }
 }
 
 - (void)showVc:(UIViewController<QSIRootContentViewController>*)vc{
@@ -162,11 +172,20 @@
     self.contentNavVc = nav;
 }
 - (UIViewController*)showRegisterVc {
-    UIViewController* vc = nil;
+    if (self.loginGuideNavVc) {
+        return self.loginGuideNavVc;
+    }
+    UINavigationController* vc = nil;
     NSDictionary* u = [QSUserManager shareUserManager].userInfo;
     if (!u || [QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest) {
-        vc = [[QSU07RegisterViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+#warning TODO animation
+        vc = [[UINavigationController alloc] initWithRootViewController: [[QSU19LoginGuideViewController alloc] init]];
+        vc.view.backgroundColor = [UIColor clearColor];
+        vc.navigationBarHidden = YES;
+        vc.view.frame = self.view.bounds;
+        [self addChildViewController:vc];
+        [self.view addSubview:vc.view];
+        self.loginGuideNavVc = vc;
     }
     return vc;
 }
@@ -189,4 +208,14 @@
     return self.contentVc;
 }
 
+#pragma mark - Notification
+- (void)didReceivePrompToLoginNotification:(NSNotification*)noti {
+    [self showRegisterVc];
+}
+- (void)didReceiveHidePrompToLoginNotification:(NSNotification*)noti {
+#warning TODO animation
+    [self.loginGuideNavVc removeFromParentViewController];
+    [self.loginGuideNavVc.view removeFromSuperview];
+    self.loginGuideNavVc = nil;
+}
 @end
