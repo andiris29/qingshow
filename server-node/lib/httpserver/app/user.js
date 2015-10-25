@@ -623,6 +623,10 @@ _loginViaWeixin = function(req, res) {
             _downloadHeadIcon(user.headimgurl, function (err, tempPath) {
                 if (err) {
                     callback(err);
+                    try {
+                        fs.unlinkSync(tempPath);
+                    } catch (e) {
+                    };
                 } else {
                     //update head icon to ftp
                     var baseName = path.basename(tempPath);
@@ -634,8 +638,14 @@ _loginViaWeixin = function(req, res) {
                             var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
                             callback(err, user, copyHeadPath);
                         }
+                        try {
+                            fs.unlinkSync(tempPath);
+                        } catch (e) {
+                        }
                     });
                 }
+
+
             });
         } else {
             callback(null, user, "");
@@ -747,6 +757,10 @@ _loginViaWeibo = function(req, res) {
             _downloadHeadIcon(url, function (err, tempPath) {
                 if (err) {
                     callback(err);
+                    try {
+                        fs.unlinkSync(tempPath);
+                    } catch (e) {
+                    }
                 } else {
                     //update head icon to ftp
                     var baseName = path.basename(tempPath);
@@ -757,6 +771,10 @@ _loginViaWeibo = function(req, res) {
                             var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
                             var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
                             callback(err, weiboUser, copyHeadPath);
+                        }
+                        try {
+                            fs.unlinkSync(tempPath);
+                        } catch (e) {
                         }
                     });
                 }

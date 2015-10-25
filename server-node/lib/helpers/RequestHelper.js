@@ -4,6 +4,7 @@ var async = require('async');
 var qsftp = require('../runtime/').ftp,
     loggers = require('../runtime/loggers');
 var path = require('path');
+var fs = require('fs');
 
 var RequestHelper = module.exports;
 
@@ -105,7 +106,7 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
         'step' : 'parse',
         'parseFile.logRandom' : logRandom,
         'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : ''
-    }); 
+    });
     form.parse(req, function(err, fields, files) {
         loggers.get('performance-image-upload').info({
             'step' : 'parse-complete',
@@ -121,7 +122,7 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
 
         var savedName = path.basename(file.path);
         var fullPath = path.join(uploadPath, savedName);
-
+        var oldPath = file.path;
         qsftp.uploadWithResize(file.path, savedName, uploadPath, resizeOptions, function (err) {
             file.path = fullPath;
             callback(err, fields, file);
@@ -135,6 +136,11 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
                 'fast' : cost <= 1000,
                 'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : ''
             });
+
+            try {
+                fs.unlinkSync(oldPath);
+            } catch (e) {
+            }
         });
     });
 };
