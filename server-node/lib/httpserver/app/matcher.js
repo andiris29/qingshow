@@ -105,7 +105,7 @@ matcher.save = {
                     'coverForeground' : coverUrl
                 });
             }
-            var uuid = require('node-uuid').v1();
+            var uuid = req.qsCurrentUserId.toString();
             _matchers[uuid] = show;
             callback(null, uuid);
         }], function(err, uuid) {
