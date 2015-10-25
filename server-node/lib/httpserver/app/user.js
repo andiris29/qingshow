@@ -624,9 +624,9 @@ _loginViaWeixin = function(req, res) {
                 if (err) {
                     callback(err);
                     try {
-                        fs.unlinkSync(tempPath);
+                        fs.unlink(tempPath, function(){});
                     } catch (e) {
-                    };
+                    }
                 } else {
                     //update head icon to ftp
                     var baseName = path.basename(tempPath);
@@ -639,7 +639,7 @@ _loginViaWeixin = function(req, res) {
                             callback(err, user, copyHeadPath);
                         }
                         try {
-                            fs.unlinkSync(tempPath);
+                            fs.unlink(tempPath, function() {});
                         } catch (e) {
                         }
                     });
@@ -758,7 +758,7 @@ _loginViaWeibo = function(req, res) {
                 if (err) {
                     callback(err);
                     try {
-                        fs.unlinkSync(tempPath);
+                        fs.unlink(tempPath, function () {});
                     } catch (e) {
                     }
                 } else {
@@ -773,7 +773,7 @@ _loginViaWeibo = function(req, res) {
                             callback(err, weiboUser, copyHeadPath);
                         }
                         try {
-                            fs.unlinkSync(tempPath);
+                            fs.unlink(tempPath, function() {});
                         } catch (e) {
                         }
                     });

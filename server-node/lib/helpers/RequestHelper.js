@@ -138,7 +138,7 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
             });
 
             try {
-                fs.unlinkSync(oldPath);
+                fs.unlink(oldPath, function (){});
             } catch (e) {
             }
         });

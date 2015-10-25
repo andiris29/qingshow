@@ -148,7 +148,10 @@ var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, ca
 
                     upload(newPath, fullPath, function (err) {
                         innerCallback (err);
-                        fs.unlinkSync(newPath);
+                        try {
+                            fs.unlink(newPath, function(){});
+                        } catch(e){}
+
                     });
                 }
             });
