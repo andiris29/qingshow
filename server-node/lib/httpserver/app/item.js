@@ -275,7 +275,7 @@ item.list = {
                 item.categoryRef = RequestHelper.parseId(param.categoryRef);
             }
             item.list = new Date();
-            RequestHelper.parseFile(req, global.qsConfig.uploads.item.thumbnail.ftpPath, [
+            RequestHelper.parseFile(req, global.qsConfig.uploads.item.thumbnail.ftpPath, item._id.toString(), [
                 {'suffix' : '_s', 'rate' : 0.5},
                 {'suffix' : '_xs', 'rate' : 0.25}
             ], function(err, fields, file) {
