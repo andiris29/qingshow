@@ -48,3 +48,11 @@ ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, b
     }
     ResponseHelper.response(res, err, data, metadata, beforeEndResponse);
 };
+
+ResponseHelper.responseAsMiddleware = function(res, err, data, metadata) {
+    res.locals.out = {
+        'err' : err,
+        'data' : data,
+        'metadata' : metadata
+    };
+};

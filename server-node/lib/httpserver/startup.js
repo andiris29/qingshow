@@ -122,7 +122,7 @@ module.exports = function (config, qsdb) {
             if (_.isArray(func)) {
                 middlewares = middlewares.concat(func);
                 func = function(req, res) {
-                    ResponseHelper.response(res, res.locals.err, res.locals.data, res.locals.metadata);
+                    ResponseHelper.response(res, res.locals.out.err, res.locals.out.data, res.locals.out.metadata);
                 };
             }
             middlewares.push(_errMiddleware);

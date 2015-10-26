@@ -14,6 +14,8 @@ var ResponseHelper = require('../../helpers/ResponseHelper');
 var SMSHelper = require('../../helpers/SMSHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
 
+var VersionUtil = require('../../utils/VersionUtil');
+
 var errors = require('../../errors');
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
@@ -133,19 +135,28 @@ _get = function(req, res) {
     });
 };
 
-_login = function(req, res) {
-    var param, idOrNickName, password;
-    param = req.body;
-    idOrNickName = param.idOrNickName || '';
-    password = param.password || '';
+_login = [function(req, res, next) {
+    // Upgrade the req
+    var v = RequestHelper.getVersion(req);
+    if (VersionUtil.lt(v, '2.2.0')) {
+        req.body.id = req.body.idOrNickName;
+        req.body.nickname = req.body.idOrNickName;
+    }
+    next();
+}, function(req, res, next) {
+    // Implementation
+    var param = req.body,
+        id = param.id || '',
+        password = param.password || '',
+        nickname = param.nickname || '';
     People.findOne({
         "$and" : [{
             "$or" : [{
-                "userInfo.id" : idOrNickName
+                "userInfo.id" : id
             }, {
-                "nickname" : idOrNickName
+                "nickname" : nickname
             }, {
-                "mobile" : idOrNickName
+                "mobile" : id
             }]}, {
             "$or" : [{
                 "userInfo.password" : password
@@ -155,7 +166,7 @@ _login = function(req, res) {
         ]
     }).exec(function(err, people) {
         if (err) {
-            ResponseHelper.response(res, err);
+            ResponseHelper.responseAsMiddleware(res, err);
         } else if (people) {
             //login succeed
             req.session.userId = people._id;
@@ -163,7 +174,7 @@ _login = function(req, res) {
 
             _addRegistrationId(people._id, param.registrationId);
 
-            ResponseHelper.response(res, null, {
+            ResponseHelper.responseAsMiddleware(res, null, {
                 people : people
             }, {
                 "invalidateTime" : 3600000
@@ -172,10 +183,11 @@ _login = function(req, res) {
             //login fail
             delete req.session.userId;
             delete req.session.loginDate;
-            ResponseHelper.response(res, errors.IncorrectMailOrPassword);
+            ResponseHelper.responseAsMiddleware(res, errors.IncorrectMailOrPassword);
         }
+        next();
     });
-};
+}];
 
 _logout = function(req, res) {
     var id = RequestHelper.parseId(req.qsCurrentUserId);
