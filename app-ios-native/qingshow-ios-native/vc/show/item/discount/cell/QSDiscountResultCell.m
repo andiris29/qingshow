@@ -87,7 +87,7 @@
     NSNumber* promoPrice = [QSItemUtil getPromoPrice:self.itemDict];
     NSNumber* minExpectionPrice = [QSItemUtil getMinExpectionPrice:self.itemDict];
     if (minExpectionPrice) {
-        self.minDiscount = (int) (minExpectionPrice.doubleValue * 10 / promoPrice.doubleValue);
+        self.minDiscount = (int) (minExpectionPrice.doubleValue * 10 / promoPrice.doubleValue + 0.5);
     } else {
         self.minDiscount = 7;
     }

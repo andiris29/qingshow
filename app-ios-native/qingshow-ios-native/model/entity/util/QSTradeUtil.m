@@ -226,21 +226,10 @@
 }
 
 + (NSString*)calculateDiscountDescWithPrice:(NSNumber*)targetPrice trade:(NSDictionary*)trade {
-    
     NSNumber* price = [QSItemUtil getPromoPrice:[self getItemSnapshot:trade]];
-    int disCount = targetPrice.doubleValue * 100 / price.doubleValue;
-    if (disCount < 10) {
-        disCount = 10;
-    }else if(disCount > 90)
-    {
-        disCount = 90;
-    }else
-    {
-        if (disCount%10 > 5) {
-            disCount = (disCount/10+1)*10;
-        }
-    }
-    disCount = disCount/10;
+    int disCount = (int)(targetPrice.doubleValue * 10 / price.doubleValue + 0.5);
+    disCount = disCount < 1 ? 1 : disCount;
+    disCount = disCount > 9 ? 9 : disCount;
     return [NSString stringWithFormat:@"%d折", disCount];
 }
 
