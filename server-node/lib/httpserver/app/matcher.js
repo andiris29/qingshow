@@ -153,7 +153,9 @@ matcher.updateCover = {
                 }
             }, function(err, duplicatedShow) {
                 if (err || duplicatedShow) {
-                    ResponseHelper.response(res, errors.genUnkownError('Cannot publish duplicated shows.'));
+                    ResponseHelper.response(res, err, {
+                        'show' : duplicatedShow
+                    });
                 } else {
                     show.save(function(err, show) {
                         ResponseHelper.response(res, err, {
