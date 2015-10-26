@@ -140,9 +140,9 @@ public class S11NewTradeFragment extends Fragment {
 
         basePrice = itemEntity.promoPrice.doubleValue();
         if (itemEntity.minExpectedPrice == null) {
-            discountOffline = 5;
+            discountOffline = 7;
         } else
-            discountOffline = Math.min(5, ((Double) (itemEntity.minExpectedPrice.doubleValue() / basePrice)).intValue());
+            discountOffline = (int)Math.rint((itemEntity.minExpectedPrice.doubleValue() / basePrice * 10));
         discountNum = discountOnline = 9;
         if (discountNum == 10)
             discountNum = discountOnline = 9;
