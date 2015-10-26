@@ -197,6 +197,12 @@
         return ![QSEntityUtil checkIsNil:itemDict];
     }];
     
+    if (items.count < 4) {
+        [self showTextHud:@"单品太少了会不好看哦，\n点击选择分类按钮，\n上万件单品可以选哦！" afterCustomDelay:1.f];
+        return;
+    }
+    
+    
     UIImage* snapshot = [self.canvasView submitView];
     
     QSS23MatcherPreviewViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items coverImages:snapshot menuProvider:self.menuProvider];
