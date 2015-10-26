@@ -64,9 +64,7 @@
         cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
         return (UICollectionViewCell *)cell;
-    }
-    else
-    {
+    } else {
         QSU01MatchCollectionViewCell *cell = (QSU01MatchCollectionViewCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:U01MATCHCELL forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU01MatchCollectionViewCell" owner:nil options:nil]lastObject];
@@ -95,12 +93,35 @@
 {
     if ([self.delegate respondsToSelector:@selector(didClickHeaderImgView:)]) {
         [self.delegate didClickHeaderImgView:sender];
+        self.clickedData = sender;
     }
 }
 - (void)matchImgViewPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)]) {
         [self.delegate  didSelectedCellInCollectionView:sender];
+        self.clickedData = sender;
+    }
+}
+
+- (void)refreshClickedData
+{
+    if (self.clickedData) {
+        
+        NSUInteger i = [self.resultArray indexOfObject:self.clickedData];
+        if (i != NSNotFound) {
+            NSIndexPath* indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+            if (_type == 1) {
+                QSMatchShowsCell* cell = (QSMatchShowsCell*)[self.view cellForItemAtIndexPath:indexPath];
+                [cell bindWithDic:self.clickedData withIndex:(int)indexPath.item];
+                
+            } else {
+                QSU01MatchCollectionViewCell *cell = (QSU01MatchCollectionViewCell *)[self.view cellForItemAtIndexPath:indexPath];
+                [cell bindWithDic:self.clickedData];
+            }
+        }
+        
+        self.clickedData = nil;
     }
 }
 

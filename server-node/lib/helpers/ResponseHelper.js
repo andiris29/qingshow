@@ -20,7 +20,7 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
         json = beforeEndResponse(json);
     }
 
-    if (res.locals) {
+    if (res.locals && res.locals.clientInfo) {
         var log = _.extend(res.locals.clientInfo, {
             'cost' : Date.now() - res.locals.time,
             'fullpath' : res.locals.fullpath

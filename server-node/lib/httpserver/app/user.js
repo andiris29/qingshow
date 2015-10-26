@@ -469,29 +469,26 @@ _saveReceiver = function(req, res) {
 };
 
 var _upload = function(req, res, config, keyword, resizeOptions) {
-    RequestHelper.parseFile(req, config.ftpPath, resizeOptions, function(err, fields, file) {
-        if (err) {
-            ResponseHelper.response(res, err);
-            return;
-        }
+    async.waterfall([function(callback){
         People.findOne({
             '_id' : req.qsCurrentUserId
-        }, function(err, people) {
+        }, callback);
+    }, function(people, callback){
+        RequestHelper.parseFile(req, config.ftpPath, people._id.toString(), resizeOptions, function(err, fields, file) {
+            if (err) {
+                callback(err);
+                return;
+            }
             people.set(keyword, config.exposeToUrl + '/' + path.relative(config.ftpPath, file.path));
-            people.save(function(err) {
-                if (err) {
-                    ResponseHelper.response(res, err);
-                    return;
-                }
-                res.json({
-                    data : {
-                        people : people
-                    }
-                });
+            people.save(function(err, people) {
+                callback(err, people);
             });
         });
+    }], function(err, people){
+        ResponseHelper.response(res, err, {
+            people : people
+        });
     });
-    return;
 };
 
 _removeReceiver = function(req, res) {
@@ -612,12 +609,12 @@ _loginViaWeixin = function(req, res) {
                         shouldDownload = false;
                     }
                 } catch(e) {}
-                callback(null, shouldDownload, user);
+                callback(null, shouldDownload, user, people);
             }
         });
 
     },
-    function (shouldDownloadHeadIcon, user, callback) {
+    function (shouldDownloadHeadIcon, user, people, callback) {
         if (shouldDownloadHeadIcon) {
             //download headIcon
             _downloadHeadIcon(user.headimgurl, function (err, tempPath) {
@@ -625,7 +622,7 @@ _loginViaWeixin = function(req, res) {
                     callback(err);
                 } else {
                     //update head icon to ftp
-                    var baseName = path.basename(tempPath);
+                    var baseName = people._id.toString();
                     qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
                         if (err) {
                             callback(err);
@@ -736,11 +733,11 @@ _loginViaWeibo = function(req, res) {
                         shouldDownload = false;
                     }
                 } catch(e) {}
-                callback(null, shouldDownload, weiboUser);
+                callback(null, shouldDownload, weiboUser, people);
             }
         });
 
-    }, function (shouldDownloadHeadIcon, weiboUser, callback) {
+    }, function (shouldDownloadHeadIcon, weiboUser, people, callback) {
         if (shouldDownloadHeadIcon) {
             var url = weiboUser.avatar_large;
             //download headIcon
@@ -749,7 +746,7 @@ _loginViaWeibo = function(req, res) {
                     callback(err);
                 } else {
                     //update head icon to ftp
-                    var baseName = path.basename(tempPath);
+                    var baseName = people._id.toString();
                     qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
                         if (err) {
                             callback(err);

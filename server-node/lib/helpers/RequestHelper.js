@@ -93,7 +93,7 @@ RequestHelper.parseNumbers =  function (string) {
     });
 };
 
-RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
+RequestHelper.parseFile = function (req, uploadPath, savedName, resizeOptions, callback) {
     var formidable = require('formidable');
 
     var form = new formidable.IncomingForm();
@@ -119,9 +119,7 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
             file = files[key];
         }
 
-        var savedName = path.basename(file.path);
         var fullPath = path.join(uploadPath, savedName);
-
         qsftp.uploadWithResize(file.path, savedName, uploadPath, resizeOptions, function (err) {
             file.path = fullPath;
             callback(err, fields, file);

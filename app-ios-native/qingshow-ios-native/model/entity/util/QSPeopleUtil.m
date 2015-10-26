@@ -106,7 +106,10 @@
     NSMutableDictionary* context = [peopleDict[@"__context"] mutableCopy];
     if (context) {
         NSNumber* f = [context numberValueForKeyPath:@"numFollowers"];
-        context[@"numFollowers"] = @(f.longLongValue + num);
+        long long n = f.longLongValue;
+        n += num;
+        n = n >= 0? n : 0;
+        context[@"numFollowers"] = @(n);
         p[@"__context"] = context;
     }
     
