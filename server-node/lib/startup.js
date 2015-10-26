@@ -17,7 +17,7 @@ properties.parse(configPath, {
     }
     global.qsConfig = config;
     // Initialize logger
-    require('./runtime').loggers.init(config.logging.dir);
+    require('./runtime').loggers.init(config.logging, config.mongodb);
 
     //Database Connection
     var qsdb = require('./runtime').db;
