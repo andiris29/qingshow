@@ -11,9 +11,6 @@ define([
         var trade = initOptions.trade;
 
         var td$ = $('td', this._dom);
-        if(!trade.pay.forge){
-            td$.css("color","red");
-        }
         td$.eq(0).text(trade._id);
         td$.eq(1).text(trade.itemSnapshot.name);
         td$.eq(2).text(trade.quantity);

@@ -39,7 +39,24 @@ define([
                 alertify.error(violet.string.substitute('不存在{0}的交易', codeMongoService.toNameWithCode('trade.status', status)));
                 return;
             }
-            data.models.forEach( function(trade) {
+            var models = [];
+            if(status === 2){
+                models = data.models.filter(function(trade) {
+                    return !trade.pay.forge;
+                }).sort(function(a, b){
+                    if(b.highlight > a.highlight){
+                        return 1;
+                    }else if(b.highlight < a.highlight){
+                        return -1;
+                    }else{
+                        return 0;
+                    }
+                });
+            }else {
+                models = data.models;
+            }
+
+            models.forEach( function(trade) {
                 violet.ui.factory.createUi('main/views/components/p03/TradeTr', {
                     'trade' : trade
                 }, parent$, this);
