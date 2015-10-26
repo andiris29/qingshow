@@ -1,6 +1,8 @@
 package com.focosee.qingshow.util.sku;
 
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,8 +15,8 @@ import java.util.Map;
  */
 public class SkuUtil {
 
-    public static Map<String, List<String>> filter(List<String> skuProp) {
-        Map<String, List<String>> result = new HashMap<>();
+    public static ArrayMap<String, List<String>> filter(List<String> skuProp) {
+        ArrayMap<String, List<String>> result = new ArrayMap<>();
         int i = 1;
         for (String prop : skuProp) {
             if (result.containsKey(getPropName(prop))) {
@@ -26,10 +28,29 @@ public class SkuUtil {
         return result;
     }
 
-    public static List<String> getKeyOrder(Map<String, List<String>> skuMap){
+    public static ArrayMap<String, List<String>> filter(List<String> skuProp, List<String> keys_order) {
+        ArrayMap<String, List<String>> result = new ArrayMap<>();
+        int i = 1;
+        for(String key : keys_order){
+            if(result.containsKey(key)){
+                result.put("_" + i, getValues(skuProp.get(keys_order.indexOf(key))));
+                i++;
+            }
+            result.put(key, getValues(skuProp.get(keys_order.indexOf(key))));
+        }
+
+        return result;
+    }
+
+    public static List<String> getKeyOrder(List<String> skuProp){
         List<String> keys = new ArrayList<>();
-        for(String key : skuMap.keySet()){
-            keys.add(key);
+        int i = 1;
+        for (String prop : skuProp) {
+            if (keys.indexOf(getPropName(prop)) > -1) {
+                keys.add("_" + i);
+                i++;
+            }
+            keys.add(getPropName(prop));
         }
         return keys;
     }
@@ -69,10 +90,19 @@ public class SkuUtil {
         return sb.toString();
     }
 
-    public static String formetPropsAsTableKey(Map<String, List<String>> selectProps){
+    /**
+     * 引入keys_order是为了排序
+     * @param selectProps
+     * @param keys_order
+     * @return
+     */
+    public static String formetPropsAsTableKey(Map<String, List<String>> selectProps, List<String> keys_order){
         String props = "";
-        for (List<String> list : selectProps.values()) {
-            props += ":" + list.get(0);
+
+        for(String key : keys_order){
+            if(selectProps.containsKey(key)){
+                props += ":" + selectProps.get(key).get(0);
+            }
         }
         if(!TextUtils.isEmpty(props))
             props = props.substring(1);

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -100,7 +101,7 @@ public class S11NewTradeFragment extends Fragment {
 
     private View rootView;
 
-    private Map<String, List<String>> props;
+    private ArrayMap<String, List<String>> props;
     private Map<String, List<String>> selectProps;
     private Map<String, List<FlowRadioButton>> selectRadioButton;
     private List<String> keys_order;
@@ -168,6 +169,7 @@ public class S11NewTradeFragment extends Fragment {
                 skuTable.put(key, itemEntity.skuTable.get(key));
             }
         }
+
         Log.d(S11NewTradeFragment.class.getSimpleName(), "skuTable:" + new JSONObject(skuTable).toString());
         Log.d(S11NewTradeFragment.class.getSimpleName(), "item.skuTable:" + new JSONObject(itemEntity.skuTable).toString());
     }
@@ -202,7 +204,7 @@ public class S11NewTradeFragment extends Fragment {
                 return;
             }
 
-            if (skuTable.containsKey(SkuUtil.formetPropsAsTableKey(selectProps)) || props.size() > selectProps.size()) {
+            if (SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(selectProps, keys_order)) < 1) {
                 changeBtnClickable(false);
             } else {
                 changeBtnClickable(true);
@@ -218,18 +220,12 @@ public class S11NewTradeFragment extends Fragment {
     };
 
     private void initProps() {
-        props = SkuUtil.filter(itemEntity.skuProperties);
-        keys_order = SkuUtil.getKeyOrder(props);
+        keys_order = SkuUtil.getKeyOrder(itemEntity.skuProperties);
+        props = SkuUtil.filter(itemEntity.skuProperties, keys_order);
         checkIndex = new int[props.size()];
         int i = 0;
         for (String key : props.keySet()) {
             bindItem(key, props.get(key), i, onCheckedChangeListener);
-            if (!inited) {
-                btnMap.get(key).getChildViews().get(0).setChecked(true);
-                onCheckedChangeListener.onChanged(key, 0);
-                if (keys_order.size() > 1)
-                    changeBtnClickable(false);
-            }
             i++;
         }
     }
@@ -253,13 +249,15 @@ public class S11NewTradeFragment extends Fragment {
                 boolean isAble;
                 bList.add(value);
                 tempMap.put(p, bList);
-                Log.d(S11NewTradeFragment.class.getSimpleName(), "temMap:" + new JSONObject(tempMap).toString());
-                Log.d(S11NewTradeFragment.class.getSimpleName(), "itemEntity:" + itemEntity);
-                isAble = skuTable.containsKey(SkuUtil.formetPropsAsTableKey(tempMap));
-                if (!isAble) continue;
-                for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
-                    if (btn.getText().equals(value)) {
-                        btn.setEnable(false);
+                Log.d(S11NewTradeFragment.class.getSimpleName(), "tempMap:" + SkuUtil.formetPropsAsTableKey(tempMap, keys_order));
+                if(tempMap.keySet().size() == props.size()) {
+                    isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap, keys_order)) >= 1;
+                    if (isAble) continue;
+
+                    for (FlowRadioButton btn : btnMap.get(p).getChildViews()) {
+                        if (btn.getText().equals(value)) {
+                            btn.setEnable(false);
+                        }
                     }
                 }
             }
