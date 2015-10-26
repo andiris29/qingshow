@@ -3,7 +3,6 @@ package com.focosee.qingshow.activity;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -16,11 +15,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -37,7 +32,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.MenuView;
@@ -48,16 +43,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -94,7 +86,6 @@ public class S20MatcherActivity extends BaseActivity {
     private int pagaSize = 10;
     private int rows[] = new int[]{1, 2};
     private boolean hasDraw = false;
-    private Toast toast = null;
 
     private MenuView menuView;
 
@@ -555,10 +546,14 @@ public class S20MatcherActivity extends BaseActivity {
         } else {
             onSubmit = true;
         }
+        if (allSelect.size() < 4){
+            ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_item_less));
+            onSubmit = false;
+            return;
+        }
         for (String key : allSelect.keySet()) {
             if (!allSelect.get(key).loadDone) {
-                toast = Toast.makeText(getApplicationContext(), R.string.s20_notify_load_image_unfinished, Toast.LENGTH_SHORT);
-                toast.show();
+                ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_notify_load_image_unfinished));
                 onSubmit = false;
                 return;
             }
@@ -566,8 +561,7 @@ public class S20MatcherActivity extends BaseActivity {
 
 
         if (!checkOverlap(0.7f)) {
-            toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.s20_notify_more), Toast.LENGTH_SHORT);
-            toast.show();
+            ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_notify_more));
             onSubmit = false;
             return;
         }
