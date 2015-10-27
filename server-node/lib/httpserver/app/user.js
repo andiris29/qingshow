@@ -259,7 +259,7 @@ _register = function(req, res) {
             }
         }
     }, function(people, callback){
-        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
             if (!success || err) {
                 callback(err);
             }else {
@@ -826,7 +826,8 @@ _loginViaWeibo = function(req, res) {
 _requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
     async.waterfall([function(callback){
-        SMSHelper.createVerificationCode(mobile, function(err, code){
+        console.log(req);
+        SMSHelper.createVerificationCode(req, mobile, function(err, code){
             if (err) {
                 callback(err);
             }else {
@@ -835,7 +836,7 @@ _requestVerificationCode = function(req, res){
         });
     },function(code, callback){
         var expire = global.qsConfig.verification.expire;
-        SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
+        SMSHelper.sendTemplateSMS(req, mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
             if (err) {
                 callback(err);
             }else {
@@ -853,7 +854,7 @@ _validateMobile = function(req, res){
     var mobile = params.mobile;
     async.series([function(callback){
         var code = params.verificationCode;
-        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
             callback(err, success);
         });
     }],function(error, success) {
@@ -868,7 +869,7 @@ _resetPassword = function(req, res){
     var mobile = params.mobile;
     var code = params.verificationCode;
     async.waterfall([function(callback){
-        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
             if (err) {
                 callback(err);
             }else{

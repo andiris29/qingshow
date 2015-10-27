@@ -11,8 +11,6 @@ var APP_ID = '8a48b5514fb1a66a014fb545362305a1';
 
 var TEMPLATE_ID = '36286';
 
-var _verifications = {};
-
 var SMSHelper = module.exports;
 
 _decryptMD5 = function (string){
@@ -26,7 +24,7 @@ _base64Encoder = function(string){
 	return new Buffer(string).toString('base64');
 }
 
-SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
+SMSHelper.sendTemplateSMS = function (req, to, datas, templateId, callback){
 	var timestamp = moment(new Date()).format('YYYYMMDDHHmmss');
 
 	var sig = _decryptMD5(YTX_SID + YTX_TOKEN + timestamp);
@@ -58,12 +56,13 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
     	}else {
     		callback(null, body);    			
     	}
-    	_cleanExpiredCode();
+    	_cleanExpiredCode(req);
     });
 }
 
-SMSHelper.createVerificationCode = function (to, callback){
+SMSHelper.createVerificationCode = function (req, to, callback){
 	var config = global.qsConfig;
+	var _verifications = req.session.verifications || {};
 	if (_verifications[to] && 
 		new Date() - _verifications[to].create < config.verification.retry) {
 		callback(errors.FrequentlyRequest);
@@ -73,29 +72,33 @@ SMSHelper.createVerificationCode = function (to, callback){
 			'verificationCode' : code,
 			'create' : new Date()
 		}
+		req.session.verifications = _verifications;
 		callback(null, _verifications[to].verificationCode);
 	}
 }
 
-SMSHelper.checkVerificationCode = function (to, code, callback){
-	var config = global.qsConfig;		
+SMSHelper.checkVerificationCode = function (req, to, code, callback){
+	var config = global.qsConfig;
+	var _verifications = req.session.verifications || {};		
 	var verification = _verifications[to];
-	if (verification && code == verification.verificationCode && 
-		new Date() - verification.create < config.verification.expire) {
+	if (_verifications[to] && code == _verifications[to].verificationCode && 
+		new Date() - _verifications[to].create < config.verification.expire) {
 		callback(null, true);
 	}else {
 		callback(errors.SMSValidationFail, false);
 	}
-	_cleanExpiredCode();
+	_cleanExpiredCode(req);
 }
 
-var _cleanExpiredCode = function (){
-	var config = global.qsConfig;	
+var _cleanExpiredCode = function (req){
+	var config = global.qsConfig;
+	var _verifications = req.session.verifications || {};	
 	for(var to in _verifications){
 		if (new Date() - _verifications[to].create > config.verification.expire) {
 			_verifications[to] = {};
 		}
 	}
+	req.session.verifications = _verifications;
 }
 
 
