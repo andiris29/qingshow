@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 
 #define QSTradeListTableViewCellIdentifier @"QSTradeListTableViewCellIdentifier"
-#define QSTradeListTableViewCellHeight 263
+#define QSTradeListTableViewCellHeight 213
+
+#define QSTradeListTableViewCellCompleteIdentifier @"QSTradeListTableViewCellCompleteIdentifier"
+#define QSTradeListTableViewCellCompleteHeight 213
 
 @class QSTradeListTableViewCell;
 
@@ -31,6 +34,11 @@
 
 @end
 
+typedef NS_ENUM(NSUInteger, QSTradeListTableViewCellType) {
+    QSTradeListTableViewCellNormal,
+    QSTradeListTableViewCellComplete
+};
+
 @interface QSTradeListTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel* stateLabel;
@@ -39,21 +47,16 @@
 
 @property (weak, nonatomic) IBOutlet UILabel* sizeLabel;
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
-
 @property (weak, nonatomic) IBOutlet UILabel* priceLabel;
-
-
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *clickToWebpageBtn;
-
-@property (weak, nonatomic) IBOutlet UILabel *hintLabel;
+@property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *circleBtnImageView;
-
+@property (assign, nonatomic) QSTradeListTableViewCellType cellType;
 
 //确认收货
 @property (strong, nonatomic) IBOutlet UIButton* submitButton;
@@ -75,6 +78,6 @@
 - (void)bindWithDict:(NSDictionary*)dict;
 
 @property (weak, nonatomic) NSObject<QSTradeListTableViewCellDelegate>* delegate;
-@property (assign,nonatomic) int type;
+//@property (assign,nonatomic) int type;
 @property (weak, nonatomic) IBOutlet UILabel* messageLabel;
 @end

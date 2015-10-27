@@ -19,12 +19,13 @@
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QSTradeListTableViewCellIdentifier" rowHeight="213" id="KGk-i7-Jjw" customClass="QSTradeListTableViewCell">
+        <tableViewCell autoresizesSubviews="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QSTradeListTableViewCellCompleteIdentifier" rowHeight="213" id="KGk-i7-Jjw" customClass="QSTradeListTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="213"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -63,7 +64,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="数量：1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1xK-R1-Ulq">
-                        <rect key="frame" x="112" y="140" width="105" height="14"/>
+                        <rect key="frame" x="112" y="144" width="198" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -90,14 +91,28 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="现价：￥150.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2zm-dz-QDO">
-                        <rect key="frame" x="112" y="98" width="105" height="14"/>
+                        <rect key="frame" x="112" y="98" width="198" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="成功申请折扣：8折" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vGC-id-sxo">
+                        <rect key="frame" x="112" y="166" width="198" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原价：￥150.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="muR-o9-xYo">
-                        <rect key="frame" x="112" y="76" width="105" height="14"/>
+                        <rect key="frame" x="112" y="76" width="198" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购买价格：￥0.01" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Zo-1X-lqA">
+                        <rect key="frame" x="112" y="188" width="198" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -115,12 +130,8 @@
                             <action selector="clickToWebpageBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Tz1-JS-4gT"/>
                         </connections>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="mJL-Pk-6tZ">
-                        <rect key="frame" x="236" y="73" width="68" height="68"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ejT-rl-Zrj">
-                        <rect key="frame" x="110" y="12" width="76" height="27"/>
+                        <rect key="frame" x="228" y="36" width="76" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
                         <state key="normal" title="取消申请">
@@ -144,7 +155,7 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P7z-TR-0Y4">
-                        <rect key="frame" x="194" y="12" width="76" height="27"/>
+                        <rect key="frame" x="101" y="11" width="76" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
                         <state key="normal" title="确认收货">
@@ -155,13 +166,6 @@
                             <action selector="submitBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Sog-MU-1HV"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O6l-Az-a5N">
-                        <rect key="frame" x="110" y="159" width="202" height="40"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
-                        <color key="textColor" red="0.97254901959999995" green="0.24313725489999999" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <view contentMode="scaleToFill" id="7d8-dP-1tT">
                         <rect key="frame" x="0.0" y="207" width="320" height="5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -171,14 +175,14 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="cancelButton" destination="ejT-rl-Zrj" id="qLD-kI-Bzi"/>
-                <outlet property="circleBtnImageView" destination="mJL-Pk-6tZ" id="XRc-pF-PBp"/>
                 <outlet property="clickToWebpageBtn" destination="Ztt-q0-Qh1" id="jVd-pp-ce5"/>
                 <outlet property="dateLabel" destination="zoQ-B7-uaB" id="IVY-DV-Vf4"/>
+                <outlet property="exDiscountLabel" destination="vGC-id-sxo" id="tom-as-6XB"/>
                 <outlet property="itemImgView" destination="v5b-Zo-lnU" id="YEc-dC-beU"/>
                 <outlet property="logisticsButton" destination="DHm-Pe-qd6" id="Ahb-3d-3BS"/>
-                <outlet property="messageLabel" destination="O6l-Az-a5N" id="PdH-33-XqY"/>
                 <outlet property="nowPriceLabel" destination="2zm-dz-QDO" id="wY0-YY-Yhj"/>
                 <outlet property="originPriceLabel" destination="muR-o9-xYo" id="fOF-Rr-X66"/>
+                <outlet property="priceLabel" destination="4Zo-1X-lqA" id="YRp-fr-X36"/>
                 <outlet property="quantityLabel" destination="1xK-R1-Ulq" id="70D-MN-7Xm"/>
                 <outlet property="refundButton" destination="Xzv-6A-2ZF" id="Trp-l4-s3w"/>
                 <outlet property="sizeLabel" destination="4ba-04-Wqp" id="dAt-xj-GZw"/>

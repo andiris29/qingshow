@@ -20,7 +20,6 @@
 
 + (NSString*)getTradeLogisticCompany:(NSDictionary*)dict;
 + (NSString*)getTradeLogisticId:(NSDictionary*)dict;
-+ (NSString *)getHint:(NSDictionary *)dict;
 + (NSNumber*)getPrice:(NSDictionary*)dict;
 + (NSNumber*)getPriceDesc:(NSDictionary*)dict;
 
@@ -29,7 +28,8 @@
 + (NSString *)getItemId:(NSDictionary *)dict;
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
 + (NSArray*)getSkuProperties:(NSDictionary*)dict;
-+ (NSString *)getSizeText:(NSDictionary *)dict;
++ (NSString *)getPropertiesDesc:(NSDictionary *)dict;
++ (NSString *)getPropertiesFullDesc:(NSDictionary *)dict;
 + (NSString *)getColorText:(NSDictionary *)dict;
 + (NSNumber*)getExpectedPrice:(NSDictionary*)dict;
 + (NSString*)getExpectedPriceDesc:(NSDictionary*)dict;

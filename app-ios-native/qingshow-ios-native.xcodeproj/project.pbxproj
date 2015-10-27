@@ -331,6 +331,7 @@
 		EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF1149F1A0D2EEC009B7361 /* MKNetworkEngine.m */; };
 		EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A21A0D2EEC009B7361 /* MKNetworkOperation.m */; };
 		EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A51A0D2EEC009B7361 /* Reachability.m */; };
+		EFF299801BDFD0BF0046EFF9 /* QSTradeListTableViewCellComplete.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF2997F1BDFD0BF0046EFF9 /* QSTradeListTableViewCellComplete.xib */; };
 		EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */; };
 		EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */; };
 		EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */; };
@@ -1004,6 +1005,7 @@
 		EFF114A51A0D2EEC009B7361 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		EFF114A81A0D2EEC009B7361 /* MKNetworkKit-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKNetworkKit-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		EFF114A91A0D2EEC009B7361 /* MKNetworkKit-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "MKNetworkKit-iOS.xcodeproj"; sourceTree = "<group>"; };
+		EFF2997F1BDFD0BF0046EFF9 /* QSTradeListTableViewCellComplete.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTradeListTableViewCellComplete.xib; sourceTree = "<group>"; };
 		EFF58B4B1B55DD5D001A9AC8 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -1684,6 +1686,7 @@
 				EF78E34E1AAF4CB900665EDD /* QSTradeListTableViewCell.h */,
 				EF78E34F1AAF4CB900665EDD /* QSTradeListTableViewCell.m */,
 				EF78E3501AAF4CB900665EDD /* QSTradeListTableViewCell.xib */,
+				EFF2997F1BDFD0BF0046EFF9 /* QSTradeListTableViewCellComplete.xib */,
 				8C1DB5491B945D4400D21D0C /* QSU15BonusListTableViewCell.h */,
 				8C1DB54A1B945D4400D21D0C /* QSU15BonusListTableViewCell.m */,
 				8C1DB54B1B945D4400D21D0C /* QSU15BonusListTableViewCell.xib */,
@@ -2863,6 +2866,7 @@
 				8C44759C1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib in Resources */,
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
 				EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */,
+				EFF299801BDFD0BF0046EFF9 /* QSTradeListTableViewCellComplete.xib in Resources */,
 				8C53454A1B4D61180062D638 /* welcome1_736@3x.png in Resources */,
 				EFED348F1AFC734F00F08A0D /* QSU06LoginViewController.xib in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */,

@@ -89,10 +89,6 @@
     return NO;
 }
 
-+ (NSString *)getHint:(NSDictionary *)dict;
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"hint"];
-}
 #pragma mark - Order
 
 + (NSString *)getItemId:(NSDictionary *)dict
@@ -113,9 +109,8 @@
 + (NSArray*)getSkuProperties:(NSDictionary*)dict {
     return [dict arrayValueForKeyPath:@"selectedSkuProperties"];
 }
-+ (NSString *)getSizeText:(NSDictionary *)dict
-{
 
++ (NSString *)getPropertiesFullDesc:(NSDictionary *)dict {
     NSArray *array = [self getSkuProperties:dict];
     NSMutableString *arrayStr = [[NSMutableString alloc]init];;
     for (int i = 0; i < array.count; i++) {
@@ -130,6 +125,12 @@
         [resultStr appendString:string];
         [resultStr appendString:@" "];
     }
+    return resultStr;
+}
++ (NSString *)getPropertiesDesc:(NSDictionary *)dict
+{
+    NSMutableString *resultStr = [[self getPropertiesFullDesc:dict] mutableCopy];
+    
 
     if ([resultStr rangeOfString:@"颜色"].location != NSNotFound) {
         NSRange range = [resultStr rangeOfString:@"颜色"];

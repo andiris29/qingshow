@@ -15,15 +15,21 @@
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSTradeListTableViewCell" bundle:nil] forCellReuseIdentifier:QSTradeListTableViewCellIdentifier];
+    [self.view registerNib:[UINib nibWithNibName:@"QSTradeListTableViewCellComplete" bundle:nil] forCellReuseIdentifier:QSTradeListTableViewCellCompleteIdentifier];
 }
 
 
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSTradeListTableViewCell* cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellIdentifier forIndexPath:indexPath];
+    QSTradeListTableViewCell* cell = nil;
+    if (self.cellType == QSTradeListTableViewCellNormal) {
+        cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellIdentifier forIndexPath:indexPath];
+    } else {
+        cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellCompleteIdentifier forIndexPath:indexPath];
+    }
+    cell.cellType = self.cellType;
     cell.delegate = self;
-    cell.type = [self getCellTypeWithIndexPath:indexPath];
     [cell bindWithDict:[self orderForIndexPath:indexPath]];
     return cell;
 }
@@ -106,13 +112,5 @@
     }
    
     return self.resultArray[row];
-}
-- (int)getCellTypeWithIndexPath:(NSIndexPath *)indexPath
-{
-    NSDictionary *dic = [self orderForIndexPath:indexPath];
-    if (![QSTradeUtil getSizeText:dic]) {
-        return 0;
-    }
-    return 1;
 }
 @end

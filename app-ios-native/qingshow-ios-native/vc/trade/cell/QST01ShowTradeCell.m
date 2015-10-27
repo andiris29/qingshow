@@ -46,7 +46,7 @@
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.400 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
     [self.priceLabel setAttributedText:attri];
     self.promoPriceLabel.text = [NSString stringWithFormat:@"现价：￥%@",[QSItemUtil getPromoPriceDesc:itemSnapshotDict]];
-    self.infoLabel.text = [QSTradeUtil getSizeText:dict];
+    self.infoLabel.text = [QSTradeUtil getPropertiesDesc:dict];
 
     self.countLabel.text = [NSString stringWithFormat:@"数量：%@",[QSTradeUtil getQuantityDesc:dict]];
     self.disCountLabel.text = [NSString stringWithFormat:@"%@", [QSTradeUtil calculateDiscountDescWithPrice:[QSTradeUtil getPrice:dict] trade:dict]];

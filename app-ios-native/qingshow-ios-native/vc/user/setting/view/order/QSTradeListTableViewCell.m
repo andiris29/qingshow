@@ -173,15 +173,6 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    if (self.type == 0) {
-        self.quantityLabel.frame = CGRectMake(112, 120, 190, 14);
-        self.exDiscountLabel.frame = CGRectMake(112, 142, 190, 14);
-        self.priceLabel.frame = CGRectMake(112, 164, 190, 14);
-    }else{
-        self.quantityLabel.frame = CGRectMake(112, 142, 190, 14);
-        self.priceLabel.frame = CGRectMake(112, 186, 190, 14);
-        self.exDiscountLabel.frame = CGRectMake(112, 164, 190, 14);
-    }
 }
 
 #pragma mark - Binding
@@ -199,30 +190,29 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
     [self.originPriceLabel setAttributedText:[QSItemUtil getAttrbuteStr:oldPrice]];
     self.nowPriceLabel.text = [NSString stringWithFormat:@"现价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     
-    
     //tradeUtil
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
 
-    
-    
     _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
 
-    self.sizeLabel.text = [QSTradeUtil getSizeText:tradeDict];
+    if (self.cellType == QSTradeListTableViewCellNormal) {
+        self.sizeLabel.text = [QSTradeUtil getPropertiesDesc:tradeDict];
+    } else {
+        self.sizeLabel.text = [QSTradeUtil getPropertiesFullDesc:tradeDict];
+    }
+
     self.quantityLabel.text = [NSString stringWithFormat:@"数量: %@",[QSTradeUtil getQuantityDesc:tradeDict]];
-    
-    self.hintLabel.text = [QSTradeUtil getHint:tradeDict];
+
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     QSTradeStatus s = status.integerValue;
     if (s == 0 || s == 1) {
         self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
-        self.priceLabel.text = [NSString stringWithFormat:@"申请价格: ￥%@",[QSTradeUtil getExpectedPriceDesc:tradeDict]];
-        self.exDiscountLabel.text = [NSString stringWithFormat:@"申请折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     }else
     {
         _actualPrice = [QSTradeUtil getPrice:tradeDict].floatValue;
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
         self.priceLabel.text = [NSString stringWithFormat:@"购买价格: ￥%@",[QSTradeUtil getPriceDesc:tradeDict]];
-        self.exDiscountLabel.text = [NSString stringWithFormat:@"成功折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
+        self.exDiscountLabel.text = [NSString stringWithFormat:@"成功申请折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     }
     
     switch (s) {
@@ -324,8 +314,6 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
         [self.delegate didClickToWebPageForCell:self];
     }
 }
-
-
 
 - (void)didTapExpectablePriceBtn:(UIGestureRecognizer*)ges {
     if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnForCell:)]) {

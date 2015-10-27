@@ -38,7 +38,7 @@
     [self.priceLabel setAttributedText:attri];
     self.prompPriceLabel.text = [NSString stringWithFormat:@"现价: %@",[QSItemUtil getPromoPriceDesc:itemDict]];
 
-    self.propNameLabel1.text = [QSTradeUtil getSizeText:tradeDict];
+    self.propNameLabel1.text = [QSTradeUtil getPropertiesDesc:tradeDict];
     NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     int disCount = [QSTradeUtil getExpectedPrice:tradeDict].doubleValue * 100 / price.doubleValue;
     if (disCount < 10) {
