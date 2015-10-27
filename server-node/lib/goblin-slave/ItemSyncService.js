@@ -129,7 +129,7 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
                     discount = 0.7;
                 }
             } else if (sourceType === ItemSourceType.Hm) {
-                discount = 0.6;
+                discount = 0.7;
             } else if (sourceType === ItemSourceType.Jamy) {
                 discount = 0.6;
             }
