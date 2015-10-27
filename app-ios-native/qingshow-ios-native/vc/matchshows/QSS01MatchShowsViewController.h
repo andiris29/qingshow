@@ -7,7 +7,7 @@
 //
 
 #import "QSRootContentViewController.h"
-#import "QSS12NewTradeNotifyViewController.h"
+#import "QSS12NewTradeExpectableViewController.h"
 #import <UIKit/UIKit.h>
 
 @interface QSS01MatchShowsViewController : QSRootContentViewController <QSS12NewTradeNotifyViewControllerDelegate>

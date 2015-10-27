@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSS12OrderInfoCell.h"
+#import "QSS12TradeInfoCell.h"
 #import "UINib+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-@implementation QSS12OrderInfoCell
+@implementation QSS12TradeInfoCell
 + (instancetype)generateView {
-    return [UINib generateViewWithNibName:@"QSS12OrderInfoCell"];
+    return [UINib generateViewWithNibName:@"QSS12TradeInfoCell"];
 }
 
 - (void)awakeFromNib {
@@ -37,20 +37,7 @@
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor colorWithWhite:0.353 alpha:1.000] range:NSMakeRange(0, oldPrice.length)];
     [self.priceLabel setAttributedText:attri];
     self.prompPriceLabel.text = [NSString stringWithFormat:@"现价: %@",[QSItemUtil getPromoPriceDesc:itemDict]];
-    
-//    NSArray* prop = [QSTradeUtil getSkuProperties:tradeDict];
-//    if (prop.count > 0) {
-//        NSString* p = prop[0];
-//        self.propNameLabel1.text = p;
-//    }else {
-//        self.propNameLabel1.text = @"";
-//    }
-//    if (prop.count > 1) {
-//        NSString* p = prop[1];
-//        self.propNameLabel2.text = p;
-//    }else {
-//        self.propNameLabel2.text = @"";
-//    }
+
     self.propNameLabel1.text = [QSTradeUtil getSizeText:tradeDict];
     NSNumber* price = [QSItemUtil getPromoPrice:[QSTradeUtil getItemSnapshot:tradeDict]];
     int disCount = [QSTradeUtil getExpectedPrice:tradeDict].doubleValue * 100 / price.doubleValue;
@@ -66,8 +53,9 @@
         }
     }
     disCount = disCount/10;
-    
-    self.expectDiscountLabel.text = [NSString stringWithFormat:@"申请折扣: %d折",disCount];
-    self.expectedPriceLabel.text = [NSString stringWithFormat:@"申请价格: %@", [QSTradeUtil getExpectedPriceDesc:tradeDict]];
+}
+
++ (CGFloat)cellHeight {
+    return 155.f;
 }
 @end

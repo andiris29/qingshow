@@ -28,7 +28,7 @@
 
 @property (strong,nonatomic) NSDictionary *oderDic;
 
-@property (strong, nonatomic) QSS12NewTradeNotifyViewController* s11NotiVc;
+@property (strong, nonatomic) QSS12NewTradeExpectableViewController* s11NotiVc;
 
 @property (assign, nonatomic)BOOL isFirstLoad;
 
@@ -285,17 +285,17 @@
 - (void)showTradeNotiViewOfTradeId:(NSDictionary*)tradeDict
 {
     [[QSUnreadManager getInstance] clearTradeUnreadId:[QSEntityUtil getIdOrEmptyStr:tradeDict]];
-    self.s11NotiVc = [[QSS12NewTradeNotifyViewController alloc] initWithDict:tradeDict];
+    self.s11NotiVc = [[QSS12NewTradeExpectableViewController alloc] initWithDict:tradeDict];
     self.s11NotiVc.delelgate = self;
     self.s11NotiVc.view.frame = self.navigationController.view.bounds;
     [self.navigationController.view addSubview:self.s11NotiVc.view];
 }
     
-- (void)didClickClose:(QSS12NewTradeNotifyViewController*)vc {
+- (void)didClickClose:(QSS12NewTradeExpectableViewController*)vc {
     [self.s11NotiVc.view removeFromSuperview];
     self.s11NotiVc = nil;
 }
-- (void)didClickPay:(QSS12NewTradeNotifyViewController*)vc {
+- (void)didClickPay:(QSS12NewTradeExpectableViewController*)vc {
     NSDictionary* tradeDict = vc.tradeDict;
 
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){

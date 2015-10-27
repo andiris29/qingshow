@@ -14,7 +14,7 @@
 
 @end
 
-@interface QSS12TextCell : UITableViewCell
+@interface QSS12TradeDiscountCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel* actualPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel* actualDiscountLabel;
@@ -27,4 +27,5 @@
 + (instancetype)generateView;
 - (void)bindWithDict:(NSDictionary*)tradeDict actualPrice:(NSNumber *)actualPrice;
 - (IBAction)shareToBuyBtnPressed:(id)sender;
++ (CGFloat)cellHeight;
 @end

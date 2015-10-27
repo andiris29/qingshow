@@ -6,17 +6,17 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSS12TextCell.h"
+#import "QSS12TradeDiscountCell.h"
 #import "UINib+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
 #import "QSLayoutUtil.h"
 
 
-@implementation QSS12TextCell
+@implementation QSS12TradeDiscountCell
 
 + (instancetype)generateView {
-    return [UINib generateViewWithNibName:@"QSS12TextCell"];
+    return [UINib generateViewWithNibName:@"QSS12TradeDiscountCell"];
 }
 
 - (void)awakeFromNib {
@@ -70,5 +70,9 @@
     if ([self.delegate respondsToSelector:@selector(didClickShareToPayOfCell:)]) {
         [self.delegate didClickShareToPayOfCell:self];
     }
+}
+
++ (CGFloat)cellHeight {
+    return 155.f;
 }
 @end

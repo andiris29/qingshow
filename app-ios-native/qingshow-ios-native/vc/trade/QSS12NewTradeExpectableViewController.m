@@ -6,10 +6,9 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSS12NewTradeNotifyViewController.h"
-#import "QSS12OrderInfoCell.h"
+#import "QSS12NewTradeExpectableViewController.h"
+#import "QSS12TradeInfoCell.h"
 
-#import "QSS01MatchShowsViewController.h"
 #import "QSTableViewBasicProvider.h"
 #import "QSTradeUtil.h"
 #import "QSNetworkKit.h"
@@ -17,20 +16,20 @@
 #define PAGE_ID @"推荐折扣"
 #define w ([UIScreen mainScreen].bounds.size.width-50)
 #define h ([UIScreen mainScreen].bounds.size.height)
-@interface QSS12NewTradeNotifyViewController ()
+@interface QSS12NewTradeExpectableViewController ()
 
-@property (strong, nonatomic) QSS12OrderInfoCell* orderInfoCell;
-@property (strong, nonatomic) QSS12TextCell* textCell;
+@property (strong, nonatomic) QSS12TradeInfoCell* orderInfoCell;
+@property (strong, nonatomic) QSS12TradeDiscountCell* textCell;
 
 
 @end
 
 
-@implementation QSS12NewTradeNotifyViewController
+@implementation QSS12NewTradeExpectableViewController
 
 #pragma mark - Init
 - (instancetype)initWithDict:(NSDictionary*)tradeDict {
-    self = [super initWithNibName:@"QSS12NewTradeNotifyViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS12NewTradeExpectableViewController" bundle:nil];
     if (self) {
         self.tradeDict = tradeDict;
         self.expectablePrice = [QSItemUtil getExpectablePrice:[QSTradeUtil getItemDic:tradeDict]];
@@ -46,8 +45,8 @@
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
     self.backgroundImgView.image = img;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.orderInfoCell = [QSS12OrderInfoCell generateView];
-    self.textCell = [QSS12TextCell generateView];
+    self.orderInfoCell = [QSS12TradeInfoCell generateView];
+    self.textCell = [QSS12TradeDiscountCell generateView];
     self.textCell.delegate = self;
 }
 
@@ -101,9 +100,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return 213*(w/270);
+        return [QSS12TradeInfoCell cellHeight] * (w/270);
     } else {
-        return 200*(w/270);
+        return [QSS12TradeDiscountCell cellHeight] * (w/270);
     }
 }
 - (void)didClickShareToPayOfCell:(UITableViewCell*)cell {
