@@ -46,7 +46,7 @@
                         <rect key="frame" x="8" y="282" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="match_hongxin" id="P0P-Sn-2vO">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="view_num_icon" id="P0P-Sn-2vO">
                         <rect key="frame" x="126" y="283" width="17" height="13"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -86,9 +86,9 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="match_hongxin" width="23" height="17"/>
         <image name="match_item_clock" width="10" height="10"/>
         <image name="matchcell_bg_square" width="152" height="310"/>
+        <image name="view_num_icon" width="16" height="12"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

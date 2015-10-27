@@ -236,6 +236,12 @@
     return ((NSNumber*)showDict[@"numLike"]).kmbtStringValue;
 }
 
++ (NSString*)getNumberViewDesc:(NSDictionary*)showDict {
+    NSNumber* n = [showDict numberValueForKeyPath:@"numView"];
+    n = n ? n : @0;
+    return n.kmbtStringValue;
+}
+
 + (NSString*)getNumberItemDescription:(NSDictionary*)showDict
 {
     if ([QSEntityUtil checkIsNil:showDict]) {
