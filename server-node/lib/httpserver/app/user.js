@@ -693,7 +693,7 @@ _loginViaWeixin = function(req, res) {
                 unionid: weixinUser.unionid
             }
         };
-        people.role = 1;
+        people.role = 0;
         
         if (copyHeadPath && copyHeadPath.length) {
             people.portrait = copyHeadPath;
@@ -829,7 +829,7 @@ _loginViaWeibo = function(req, res) {
                 avatar_large: user.avatar_large
             }
         };
-        people.role = 1;
+        people.role = 0;
         
         if (copyHeadPath && copyHeadPath.length) {
             people.portrait = copyHeadPath;
