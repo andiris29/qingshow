@@ -11,7 +11,6 @@
 #import "QSS03ShowDetailViewController.h"
 
 #define S01MATCHCELL @"matchShowsForS01CellId"
-#define U01MATCHCELL @"matchShowsForU01CellId"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
 #define h ([UIScreen mainScreen].bounds.size.height)
@@ -21,13 +20,7 @@
 
 - (void)registerCell
 {
-    if (_type == 1) {
-        [self.view registerNib:[UINib nibWithNibName:@"QSMatchShowsCell" bundle:nil] forCellWithReuseIdentifier:S01MATCHCELL];
-    }
-    else
-    {
-        [self.view registerNib:[UINib nibWithNibName:@"QSU01MatchCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:U01MATCHCELL];
-    }
+    [self.view registerNib:[UINib nibWithNibName:@"QSMatchShowsCell" bundle:nil] forCellWithReuseIdentifier:S01MATCHCELL];
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -39,43 +32,25 @@
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_type == 1) {
-        QSMatchShowsCell *cell = (QSMatchShowsCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:S01MATCHCELL forIndexPath:indexPath];
-        if (!cell) {
-            cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
-        }
-//        if (indexPath.item == 1) {
-//            NSLog(@"result Array = %@",self.resultArray[indexPath.item]);
-//        }
-//        
-        //NSLog(@"count === %d",self.resultArray.count);
-        if(self.resultArray.count)
-        {
-            [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
-        }
-        if (w == 414) {
-            cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));
-        }
-        else
-        {
-            cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
-        }
-        
-        cell.backgroundColor = [UIColor whiteColor];
-        cell.delegate = self;
-        return (UICollectionViewCell *)cell;
-    } else {
-        QSU01MatchCollectionViewCell *cell = (QSU01MatchCollectionViewCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:U01MATCHCELL forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU01MatchCollectionViewCell" owner:nil options:nil]lastObject];
-        }
-        if (self.resultArray.count) {
-             [cell bindWithDic:self.resultArray[indexPath.item]];
-        }
-        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
-        cell.backgroundColor = [UIColor whiteColor];
-        return (UICollectionViewCell *)cell;
+    QSMatchShowsCell *cell = (QSMatchShowsCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:S01MATCHCELL forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
     }
+    if(self.resultArray.count)
+    {
+        [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
+    }
+    if (w == 414) {
+        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));
+    }
+    else
+    {
+        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
+    }
+    
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.delegate = self;
+    return (UICollectionViewCell *)cell;
     
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -111,14 +86,8 @@
         NSUInteger i = [self.resultArray indexOfObject:self.clickedData];
         if (i != NSNotFound) {
             NSIndexPath* indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-            if (_type == 1) {
-                QSMatchShowsCell* cell = (QSMatchShowsCell*)[self.view cellForItemAtIndexPath:indexPath];
-                [cell bindWithDic:self.clickedData withIndex:(int)indexPath.item];
-                
-            } else {
-                QSU01MatchCollectionViewCell *cell = (QSU01MatchCollectionViewCell *)[self.view cellForItemAtIndexPath:indexPath];
-                [cell bindWithDic:self.clickedData];
-            }
+            QSMatchShowsCell* cell = (QSMatchShowsCell*)[self.view cellForItemAtIndexPath:indexPath];
+            [cell bindWithDic:self.clickedData withIndex:(int)indexPath.item];
         }
         
         self.clickedData = nil;

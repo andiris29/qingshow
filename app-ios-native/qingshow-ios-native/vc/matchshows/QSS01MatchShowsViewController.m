@@ -47,7 +47,6 @@
     // Do any additional setup after loading the view from its nib
     _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
     _matchCollectionViewProvider.delegate = self;
-    _matchCollectionViewProvider.type = 1;
     _matchCollectionViewProvider.hasRefreshControl = YES;
     _backToTopbtn.hidden = YES;
     [self configNav];
