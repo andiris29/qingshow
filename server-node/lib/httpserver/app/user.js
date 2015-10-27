@@ -620,6 +620,10 @@ _loginViaWeixin = function(req, res) {
             _downloadHeadIcon(user.headimgurl, function (err, tempPath) {
                 if (err) {
                     callback(err);
+                    try {
+                        fs.unlink(tempPath, function(){});
+                    } catch (e) {
+                    }
                 } else {
                     //update head icon to ftp
                     var baseName = people._id.toString();
@@ -631,6 +635,10 @@ _loginViaWeixin = function(req, res) {
                             var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
                             callback(err, user, copyHeadPath);
                         }
+                        try {
+                            fs.unlink(tempPath, function() {});
+                        } catch (e) {
+                        }
                     });
                 }
             });
@@ -639,45 +647,53 @@ _loginViaWeixin = function(req, res) {
         }
 
     }, 
-    function(weixinUser, copyHeadPath, callback) {
-        People.findOne({
+    function(weixinUser, copyHeadPath, callback){
+         People.findOne({
             'userInfo.weixin.openid' : weixinUser.openid
         }, function(err, people) {
-            if (err) {
-                callback(err);
-            } else {
-                if (!people) {
-                    people = new People({
-                        nickname : weixinUser.nickname,
-                        userInfo : {
-                            weixin : {
-                                openid : weixinUser.openid,
-                                nickname : weixinUser.nickname,
-                                sex : weixinUser.sex,
-                                province : weixinUser.province,
-                                city : weixinUser.city,
-                                country : weixinUser.country,
-                                headimgurl : weixinUser.headimgurl,
-                                unionid : weixinUser.unionid
-                            }
-                        }
-                    });
-                }
-
-                if (copyHeadPath && copyHeadPath.length) {
-                    people.portrait =copyHeadPath;
-                }
-                people.save(function(err, people) {
-                    if (err) {
-                        callback(err, people);
-                    } else if (!people) {
-                        callback(errors.genUnkownError());
-                    } else {
-                        callback(null, people);
-                    }
-                });
+            callback(null, people, weixinUser, copyHeadPath);
+        });
+    }, function(people, weixinUser, copyHeadPath, callback){
+        if (!people) {
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id': req.qsCurrentUserId
+                }, function(err, target){
+                    callback(null, target, weixinUser, copyHeadPath);
+                })
+            }else{
+                callback(null, new People(), weixinUser, copyHeadPath);
             }
-
+        }else {
+            callback(null, people, weixinUser, copyHeadPath);
+        }
+    },function(people, weixinUser, copyHeadPath, callback){
+        people.nickname = weixinUser.nickname;
+        people.userInfo = {
+            weixin: {
+                openid: weixinUser.openid,
+                nickname: weixinUser.nickname,
+                sex: weixinUser.sex,
+                province: weixinUser.province,
+                city: weixinUser.city,
+                country: weixinUser.country,
+                headimgurl: weixinUser.headimgurl,
+                unionid: weixinUser.unionid
+            }
+        };
+        people.role = 1;
+        
+        if (copyHeadPath && copyHeadPath.length) {
+            people.portrait = copyHeadPath;
+        }
+        people.save(function(err, people) {
+            if (err) {
+                callback(err, people);
+            } else if (!people) {
+                callback(errors.genUnkownError());
+            } else {
+                callback(null, people);
+            }
         });
     }, function(people, callback) {
         req.session.userId = people._id;
@@ -744,6 +760,10 @@ _loginViaWeibo = function(req, res) {
             _downloadHeadIcon(url, function (err, tempPath) {
                 if (err) {
                     callback(err);
+                    try {
+                        fs.unlink(tempPath, function () {});
+                    } catch (e) {
+                    }
                 } else {
                     //update head icon to ftp
                     var baseName = people._id.toString();
@@ -755,6 +775,10 @@ _loginViaWeibo = function(req, res) {
                             var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
                             callback(err, weiboUser, copyHeadPath);
                         }
+                        try {
+                            fs.unlink(tempPath, function() {});
+                        } catch (e) {
+                        }
                     });
                 }
             });
@@ -765,38 +789,47 @@ _loginViaWeibo = function(req, res) {
         People.findOne({
             'userInfo.weibo.id' : user.id
         }, function(err, people) {
+            callback(null, people, user, copyHeadPath);
+        });
+    }, function(people, user, copyHeadPath, callback){
+        if (!people) {
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id' : req.qsCurrentUserId
+                }, function(err, target){
+                    callback(null, target, user, copyHeadPath);
+                })
+            }else{
+                callback(null, new People(), user, copyHeadPath);
+            }   
+        }else {
+            callback(null, people, user, copyHeadPath);
+        }
+    }, function(people, user, copyHeadPath, callback){
+        people.nickname = user.screen_name;
+        people.userInfo = {
+            weibo: {
+                id: user.id,
+                screen_name: user.screen_name,
+                province: user.province,
+                country: user.country,
+                gender: user.gender,
+                avatar_large: user.avatar_large
+            }
+        };
+        people.role = 1;
+        
+        if (copyHeadPath && copyHeadPath.length) {
+            people.portrait = copyHeadPath;
+        }
+
+        people.save(function(err, people) {
             if (err) {
-                callback(err);
+                callback(err, people);
+            } else if (!people) {
+                callback(errors.genUnkownError());
             } else {
-                if (!people) {
-                    people = new People({
-                        nickname : user.screen_name,
-                        userInfo : {
-                            weibo: {
-                                id : user.id,
-                                screen_name : user.screen_name,
-                                province : user.province,
-                                country : user.country,
-                                gender : user.gender,
-                                avatar_large : user.avatar_large
-                            }
-                        }
-                    });
-                }
-
-                if (copyHeadPath && copyHeadPath.length) {
-                    people.portrait = copyHeadPath;
-                }
-
-                people.save(function(err, people) {
-                    if (err) {
-                        callback(err, people);
-                    } else if (!people) {
-                        callback(errors.genUnkownError());
-                    } else {
-                        callback(null, people);
-                    }
-                });
+                callback(null, people);
             }
         });
     }, function(people, callback) {

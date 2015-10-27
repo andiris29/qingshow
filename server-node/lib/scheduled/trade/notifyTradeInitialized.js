@@ -28,6 +28,15 @@ var _next = function(today) {
                 }, function(people, cb){
                     people.unreadNotifications.forEach(function(unread){
                         var extra = unread.extra;
+                        if (extra == null) {
+                            cb();
+                            return;
+                        }
+
+                        if (extra._id == null || extra._id.length === 0) {
+                            cb();
+                            return;
+                        }
                         if(extra._id.toString() === trade._id.toString()){
                             if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated) {
                                 NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {

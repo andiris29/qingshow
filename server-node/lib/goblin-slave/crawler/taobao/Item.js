@@ -301,9 +301,12 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
 //                            var stock = stockInfo[key].quantity;
                             var price = null;
 
-                            // "type": "店铺vip",
-                            // "promText": "登录后确认是否享有此优惠",
-                            if (priceInfo[key].promotionList && priceInfo[key].promotionList.length) {
+                            if (priceInfo[key].wrtInfo) {
+                                //双十一预售
+                                price = parseFloat(priceInfo[key].wrtInfo.finalPayment) / 100.0 + parseFloat(priceInfo[key].wrtInfo.price) / 100.0;
+                            } else if (priceInfo[key].promotionList && priceInfo[key].promotionList.length) {
+                                // "type": "店铺vip",
+                                // "promText": "登录后确认是否享有此优惠",
                                 var promotion = priceInfo[key].promotionList[0];
                                 if (promotion.promText && promotion.promText.indexOf("登录") !== -1) {
                                     price = parseFloat(priceInfo[key].price);
