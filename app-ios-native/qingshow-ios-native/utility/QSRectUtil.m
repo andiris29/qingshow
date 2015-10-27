@@ -36,14 +36,14 @@
     }
     
     
-    if (newRect.origin.x + newRect.size.width > right) {
+    if (newRect.origin.x + newRect.size.width > right && newRect.size.width > 0) {
         CGFloat newWidth = right - newRect.origin.x;
         CGFloat newHeight = newWidth * newRect.size.height / newRect.size.width;
         newRect.size.width = newWidth;
         newRect.size.height = newHeight;
     }
     
-    if (newRect.origin.y + newRect.size.height > bottom) {
+    if (newRect.origin.y + newRect.size.height > bottom && newRect.size.height > 0) {
         CGFloat newHeight = bottom - newRect.origin.y;
         CGFloat newWidth = newHeight * newRect.size.width / newRect.size.height;
         newRect.size.width = newWidth;
@@ -147,11 +147,15 @@
 }
 
 + (CGSize)scaleSize:(CGSize)fromSize toFitSize:(CGSize)toSize {
-    CGSize retSize = CGSizeZero;
-    float scaleX = toSize.width / fromSize.width;
-    float scaleY = toSize.height / fromSize.height;
-    float s = scaleX < scaleY ? scaleX : scaleY;
-    retSize = CGSizeMake(fromSize.width * s, fromSize.height * s);
-    return retSize;
+    if (fromSize.width > 0 && fromSize.height > 0) {
+        CGSize retSize = CGSizeZero;
+        float scaleX = toSize.width / fromSize.width;
+        float scaleY = toSize.height / fromSize.height;
+        float s = scaleX < scaleY ? scaleX : scaleY;
+        retSize = CGSizeMake(fromSize.width * s, fromSize.height * s);
+        return retSize;
+    } else {
+        return fromSize;
+    }
 }
 @end
