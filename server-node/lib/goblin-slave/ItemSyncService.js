@@ -9,6 +9,9 @@ var People = require('../dbmodels').People;
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 
+var ItemSourceUtil = require('./ItemSourceUtil');
+var ItemSourceType = require('./ItemSourceType');
+
 
 var ItemSyncService = {};
 
@@ -111,6 +114,30 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
             }
         }
         item.skuTable = skuTable;
+
+        //minExpectedPrice
+        var price = item.promoPrice || item.price;
+        var sourceType = ItemSourceUtil.getType(item.source);
+        if (price) {
+            var discount;
+            if (sourceType === ItemSourceType.Taobao || sourceType === ItemSourceType.Tmall)  {
+                if (price <= 100) {
+                    discount = 0.5;
+                } else if (price <= 180) {
+                    discount = 0.6;
+                } else {
+                    discount = 0.7;
+                }
+            } else if (sourceType === ItemSourceType.Hm) {
+                discount = 0.6;
+            } else if (sourceType === ItemSourceType.Jamy) {
+                discount = 0.6;
+            }
+            if (discount) {
+                item.minExpectedPrice = price * discount;
+            }
+        }
+
         _logItem('item success', item);
     }
     item.sync = new Date();

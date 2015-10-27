@@ -17,6 +17,10 @@ var goblin = module.exports;
 goblin.nextItem = {
     method : 'post',
     func : function (req, res) {
+        // TODO https://github.com/andiris29/com.focosee.qingshow/issues/1812
+        ResponseHelper.response(res, errors.genUnkownError('TODO #1812'));
+        return;
+        
         var param = req.body;
         var type;
         if (param.type) {
