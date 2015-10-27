@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSU09OrderListViewController.h"
+#import "QSU09TradeListViewController.h"
 
 @interface QSU12RefundViewController : UIViewController
 
-- (instancetype)initWithDict:(NSDictionary*)orderDict actionVC:(QSU09OrderListViewController *)actionVC;
+- (instancetype)initWithDict:(NSDictionary*)orderDict actionVC:(QSU09TradeListViewController *)actionVC;
 //@property (strong, nonatomic) UIScrollView* view;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthCon;
 

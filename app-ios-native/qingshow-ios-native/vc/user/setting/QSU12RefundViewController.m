@@ -22,14 +22,14 @@
 
 @property (strong, nonatomic) NSDictionary* orderDict;
 @property (strong, nonatomic) NSDictionary* receiverDict;
-@property (strong, nonatomic) QSU09OrderListViewController *actionVC;
+@property (strong, nonatomic) QSU09TradeListViewController *actionVC;
 
 @end
 
 @implementation QSU12RefundViewController
 
 #pragma mark - Init
-- (instancetype)initWithDict:(NSDictionary*)orderDict actionVC:(QSU09OrderListViewController *)actionVC
+- (instancetype)initWithDict:(NSDictionary*)orderDict actionVC:(QSU09TradeListViewController *)actionVC
 {
     self = [super initWithNibName:@"QSU12RefundViewController" bundle:nil];
     

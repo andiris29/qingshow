@@ -1,5 +1,5 @@
 //
-//  QSOrderListTableViewProvider.h
+//  QSTradeListTableViewProvider.h
 //  qingshow-ios-native
 //
 //  Created by wxy325 on 3/13/15.
@@ -7,9 +7,9 @@
 //
 
 #import "QSTableViewBasicProvider.h"
-#import "QSOrderListTableViewCell.h"
+#import "QSTradeListTableViewCell.h"
 
-@protocol QSOrderListTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
+@protocol QSTradeListTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 @optional
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict;
@@ -26,10 +26,10 @@
 - (void)didClickToWebPage:(NSDictionary *)orderDic;
 @end
 
-@interface QSOrderListTableViewProvider : QSTableViewBasicProvider <QSOrderListTableViewCellDelegate>
+@interface QSTradeListTableViewProvider : QSTableViewBasicProvider <QSTradeListTableViewCellDelegate>
 
 @property (assign, nonatomic) CGFloat headerHeight;
 
-@property (weak, nonatomic) NSObject<QSOrderListTableViewProviderDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSTradeListTableViewProviderDelegate>* delegate;
 
 @end

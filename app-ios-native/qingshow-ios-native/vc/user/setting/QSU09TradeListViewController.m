@@ -1,12 +1,12 @@
 //
-//  QSU09OrderListViewController.m
+//  QSU09TradeListViewController.m
 //  qingshow-ios-native
 //
 //  Created by wxy325 on 3/10/15.
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSU09OrderListViewController.h"
+#import "QSU09TradeListViewController.h"
 #import "QSU12RefundViewController.h"
 #import "QSS11CreateTradeViewController.h"
 #import "QSNetworkKit.h"
@@ -24,22 +24,23 @@
 #import "QSUserManager.h"
 
 #define PAGE_ID @"U09 - 交易一览"
-@interface QSU09OrderListViewController ()
+@interface QSU09TradeListViewController ()
 
-@property (strong,nonatomic) NSDictionary *oderDic;
+@property (strong,nonatomic) NSDictionary *tradeDict;
 
 @property (strong, nonatomic) QSS12NewTradeExpectableViewController* s11NotiVc;
 
 @property (assign, nonatomic)BOOL isFirstLoad;
 
+
 @end
 
-@implementation QSU09OrderListViewController
+@implementation QSU09TradeListViewController
 
 #pragma mark - Init
 - (instancetype)init
 {
-    self = [super initWithNibName:@"QSU09OrderListViewController" bundle:nil];
+    self = [super initWithNibName:@"QSU09TradeListViewController" bundle:nil];
     if (self) {
         
     }
@@ -115,7 +116,7 @@
 - (void)configView {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"我的订单";
-    _headerView = [QSOrderListHeaderView makeView];
+    _headerView = [QSTradeListHeaderView makeView];
     _headerView.delegate = self;
 //    headerView.segmentControl.selectedSegmentIndex = 1;
 //    [self changeValueOfSegment:1];
@@ -126,9 +127,9 @@
 }
 - (void)configProvider
 {
-    self.provider = [[QSOrderListTableViewProvider alloc] init];
+    self.provider = [[QSTradeListTableViewProvider alloc] init];
     [self.provider bindWithTableView:self.tableView];
-    __weak QSU09OrderListViewController *weakSelf = self;
+    __weak QSU09TradeListViewController *weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryPhase:page phases:@"0" onSucceed:succeedBlock onError:^(NSError *error){
                 if (error.code == 1009 && page == 1  && _isFirstLoad == YES) {
@@ -141,7 +142,7 @@
     self.provider.delegate = self;
 }
 
-#pragma mark - QSOrderListHeaderViewDelegate
+#pragma mark - QSTradeListHeaderViewDelegate
 - (void)changeValueOfSegment:(NSInteger)value
 {
     if (value == 1) {
@@ -166,7 +167,7 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
 
-#pragma mark - QSOrderListTableViewProviderDelegate
+#pragma mark - QSTradeListTableViewProviderDelegate
 - (void)didClickOrder:(NSDictionary *)orderDict {
 }
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)tradeDict
@@ -201,7 +202,7 @@
 }
 - (void)didClickReceiveBtnOfOrder:(NSDictionary *)tradeDict
 {
-    _oderDic = tradeDict;
+    _tradeDict = tradeDict;
     NSDictionary *dic = tradeDict;
 
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:dic];
@@ -216,7 +217,7 @@
 }
 - (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic
 {
-    _oderDic = orderDic;
+    _tradeDict = orderDic;
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确认取消订单？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     alert.delegate = self;
     alert.tag = 102;
@@ -230,7 +231,7 @@
 {
     NSDictionary *itemDic = [QSTradeUtil getItemDic:orderDic];
     NSString *itemId = [QSItemUtil getItemId:itemDic];
-    __weak QSU09OrderListViewController *weakSelf = self;
+    __weak QSU09TradeListViewController *weakSelf = self;
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *item, NSDictionary *metadata) {
         if (item) {
             QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item peopleId:[QSTradeUtil getPromoterId:orderDic]];
@@ -247,8 +248,8 @@
 {
     if (alertView.tag == 101) {
         if (buttonIndex == 1) {
-            __weak QSU09OrderListViewController *weakSelf = self;
-            [SHARE_NW_ENGINE changeTrade:_oderDic status:5 info:nil onSucceed:^(NSDictionary* tradeDict){
+            __weak QSU09TradeListViewController *weakSelf = self;
+            [SHARE_NW_ENGINE changeTrade:_tradeDict status:5 info:nil onSucceed:^(NSDictionary* tradeDict){
                 [weakSelf showTextHud:@"收货成功！"];
             } onError:nil];
         }
@@ -260,10 +261,10 @@
     }
     else if(alertView.tag == 102){
         if (buttonIndex == 1) {
-            __weak QSU09OrderListViewController *weakSelf = self;
-            [SHARE_NW_ENGINE changeTrade:_oderDic status:18 info:nil onSucceed:^(NSDictionary* dict){
-                [[QSUnreadManager getInstance] clearTradeUnreadId:[QSEntityUtil getIdOrEmptyStr:_oderDic]];
-                if ([QSTradeUtil getStatus:_oderDic].intValue == 0) {
+            __weak QSU09TradeListViewController *weakSelf = self;
+            [SHARE_NW_ENGINE changeTrade:_tradeDict status:18 info:nil onSucceed:^(NSDictionary* dict){
+                [[QSUnreadManager getInstance] clearTradeUnreadId:[QSEntityUtil getIdOrEmptyStr:_tradeDict]];
+                if ([QSTradeUtil getStatus:_tradeDict].intValue == 0) {
                     [weakSelf showTextHud:@"已取消订单"];
                 }else{
                     [weakSelf showTextHud:@"已取消订单" afterCustomDelay:2.f];

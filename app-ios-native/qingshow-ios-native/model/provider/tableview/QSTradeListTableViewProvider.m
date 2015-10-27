@@ -1,27 +1,27 @@
 //
-//  QSOrderListTableViewProvider.m
+//  QSTradeListTableViewProvider.m
 //  qingshow-ios-native
 //
 //  Created by wxy325 on 3/13/15.
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSOrderListTableViewProvider.h"
+#import "QSTradeListTableViewProvider.h"
 #import "QSTradeUtil.h"
 
-@implementation QSOrderListTableViewProvider
+@implementation QSTradeListTableViewProvider
 @dynamic delegate;
 #pragma mark - Override
 - (void)registerCell
 {
-    [self.view registerNib:[UINib nibWithNibName:@"QSOrderListTableViewCell" bundle:nil] forCellReuseIdentifier:QSOrderListTableViewCellIdentifier];
+    [self.view registerNib:[UINib nibWithNibName:@"QSTradeListTableViewCell" bundle:nil] forCellReuseIdentifier:QSTradeListTableViewCellIdentifier];
 }
 
 
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSOrderListTableViewCell* cell = (QSOrderListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSOrderListTableViewCellIdentifier forIndexPath:indexPath];
+    QSTradeListTableViewCell* cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     cell.type = [self getCellTypeWithIndexPath:indexPath];
     [cell bindWithDict:[self orderForIndexPath:indexPath]];
@@ -38,53 +38,53 @@
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QSOrderListTableViewCellHeight;
+    return QSTradeListTableViewCellHeight;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(didClickOrder:)]) {
         [self.delegate didClickOrder:[self orderForIndexPath:indexPath]];
     }
 }
-#pragma mark - QSOrderListTableViewCellDelegate
-- (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell
+#pragma mark - QSTradeListTableViewCellDelegate
+- (void)didClickRefundBtnForCell:(QSTradeListTableViewCell*)cell
 {
     if ([self.delegate respondsToSelector:@selector(didClickRefundBtnOfOrder:)]) {
         [self.delegate didClickRefundBtnOfOrder:[self orderForCell:cell]];
     }
 }
 
-- (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickCancelBtnForCell:(QSTradeListTableViewCell *)cell
 {
         [self.delegate didClickCancelBtnOfOrder:[self orderForCell:cell]];
 }
-- (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickPayBtnForCell:(QSTradeListTableViewCell *)cell
 {
     if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
         [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickReceiveBtnForCell:(QSTradeListTableViewCell *)cell
 {
     if ([self.delegate respondsToSelector:@selector(didClickReceiveBtnOfOrder:)]) {
         [self.delegate didClickReceiveBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickExchangeBtnForCell:(QSTradeListTableViewCell *)cell
 {
     
 }
-- (void)didClickLogisticForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickLogisticForCell:(QSTradeListTableViewCell *)cell
 {
     if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnOfOrder:)]) {
         [self.delegate didClickExchangeBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickExpectablePriceBtnForCell:(QSOrderListTableViewCell *)cell {
+- (void)didClickExpectablePriceBtnForCell:(QSTradeListTableViewCell *)cell {
     if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnOfOrder:)]) {
         [self.delegate didClickExpectablePriceBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickToWebPageForCell:(QSOrderListTableViewCell *)cell
+- (void)didClickToWebPageForCell:(QSTradeListTableViewCell *)cell
 {
     [self.delegate didClickToWebPage:[self orderForCell:cell]];
 }

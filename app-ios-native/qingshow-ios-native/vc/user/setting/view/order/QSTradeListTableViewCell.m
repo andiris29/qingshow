@@ -1,12 +1,12 @@
 //
-//  QSOrderListTableViewCell.m
+//  QSTradeListTableViewCell.m
 //  qingshow-ios-native
 //
 //  Created by wxy325 on 3/11/15.
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSOrderListTableViewCell.h"
+#import "QSTradeListTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSTradeUtil.h"
 #import "QSItemUtil.h"
@@ -19,15 +19,15 @@
 #import "QSUnreadManager.h"
 
 
-typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
-    QSOrderListCellCircleTypeNone = 0,
-    QSOrderListCellCircleTypeNewDiscount = 1,
-    QSOrderListCellCircleTypePay = 2,
-    QSOrderListCellCircleTypeShareToPay = 3,
-    QSOrderListCellCircleTypeSaleOut = 4
+typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
+    QSTradeListCellCircleTypeNone = 0,
+    QSTradeListCellCircleTypeNewDiscount = 1,
+    QSTradeListCellCircleTypePay = 2,
+    QSTradeListCellCircleTypeShareToPay = 3,
+    QSTradeListCellCircleTypeSaleOut = 4
 };
 
-@interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
+@interface QSTradeListTableViewCell ()<UIAlertViewDelegate>
 
 @property (weak, nonatomic) NSDictionary* tradeDict;
 @property (strong, nonatomic) NSString *itemId;
@@ -35,10 +35,10 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 @property (assign, nonatomic) float actualPrice;
 @property (strong, nonatomic) NSArray* topRightBtns;
 
-@property (assign, nonatomic) QSOrderListCellCircleType circleType;
+@property (assign, nonatomic) QSTradeListCellCircleType circleType;
 @end
 
-@implementation QSOrderListTableViewCell
+@implementation QSTradeListTableViewCell
 
 #pragma mark - Init Config
 - (void)awakeFromNib {
@@ -50,7 +50,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
     self.circleBtnImageView.hidden = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapCircleBtn:)];
     [self.circleBtnImageView addGestureRecognizer:ges];
-    self.circleType = QSOrderListCellCircleTypeNone;
+    self.circleType = QSTradeListCellCircleTypeNone;
     self.circleBtnImageView.userInteractionEnabled = YES;
     
     //Web Page
@@ -100,9 +100,9 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
 #pragma mark - Circle Btn
 - (void)updateCircleBtn {
     self.circleBtnImageView.hidden = NO;
-    if (self.circleType == QSOrderListCellCircleTypeNone) {
+    if (self.circleType == QSTradeListCellCircleTypeNone) {
         self.circleBtnImageView.hidden = YES;
-    } else if (self.circleType == QSOrderListCellCircleTypeNewDiscount) {
+    } else if (self.circleType == QSTradeListCellCircleTypeNewDiscount) {
         
         if (
             [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]] ||
@@ -113,33 +113,33 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount"];
         }
 
-    } else if (self.circleType == QSOrderListCellCircleTypeShareToPay) {
+    } else if (self.circleType == QSTradeListCellCircleTypeShareToPay) {
         if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_sharetopay_dot"];
         } else {
             self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_share_to_pay"];
         }
 
-    } else if (self.circleType == QSOrderListCellCircleTypePay) {
+    } else if (self.circleType == QSTradeListCellCircleTypePay) {
         self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_pay"];
-    } else if (self.circleType == QSOrderListCellCircleTypeSaleOut) {
+    } else if (self.circleType == QSTradeListCellCircleTypeSaleOut) {
         self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_outofsale"];
     }
 }
 
 - (void)didTapCircleBtn:(UIGestureRecognizer*)ges {
-    if (self.circleType == QSOrderListCellCircleTypeNone) {
-    } else if (self.circleType == QSOrderListCellCircleTypeNewDiscount) {
+    if (self.circleType == QSTradeListCellCircleTypeNone) {
+    } else if (self.circleType == QSTradeListCellCircleTypeNewDiscount) {
         [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
         [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
         
         [self didTapExpectablePriceBtn:ges];
-    } else if (self.circleType == QSOrderListCellCircleTypeShareToPay) {
+    } else if (self.circleType == QSTradeListCellCircleTypeShareToPay) {
         [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
         [self.delegate didClickPayBtnForCell:self];
-    } else if (self.circleType == QSOrderListCellCircleTypePay) {
+    } else if (self.circleType == QSTradeListCellCircleTypePay) {
         [self.delegate didClickPayBtnForCell:self];
-    } else if (self.circleType == QSOrderListCellCircleTypeSaleOut) {
+    } else if (self.circleType == QSTradeListCellCircleTypeSaleOut) {
         
     }
     [self updateCircleBtn];
@@ -230,7 +230,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
         {
             self.stateLabel.hidden = YES;
             [self showTopRightBtns:@[self.cancelButton]];
-            self.circleType = QSOrderListCellCircleTypeNone;
+            self.circleType = QSTradeListCellCircleTypeNone;
             break;
         }
         case 1:{
@@ -239,9 +239,9 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
             [self showTopRightBtns:@[self.cancelButton]];
             
             if ([QSItemUtil getExpectableIsExpire:itemDict]) {
-                self.circleType = QSOrderListCellCircleTypeSaleOut;
+                self.circleType = QSTradeListCellCircleTypeSaleOut;
             } else {
-                self.circleType = QSOrderListCellCircleTypeNewDiscount;
+                self.circleType = QSTradeListCellCircleTypeNewDiscount;
             }
 
             break;
@@ -261,13 +261,13 @@ typedef NS_ENUM(NSUInteger, QSOrderListCellCircleType) {
             }
             
             [self showTopRightBtns:@[self.logisticsButton, self.refundButton]];
-            self.circleType = QSOrderListCellCircleTypeNone;
+            self.circleType = QSTradeListCellCircleTypeNone;
             break;
         }
         default: {
             self.stateLabel.hidden = NO;
             [self removeAllTopRightBtn];
-            self.circleType = QSOrderListCellCircleTypeNone;
+            self.circleType = QSTradeListCellCircleTypeNone;
             break;
         }
     }

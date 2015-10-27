@@ -1,5 +1,5 @@
 //
-//  QSOrderListTableViewCell.h
+//  QSTradeListTableViewCell.h
 //  qingshow-ios-native
 //
 //  Created by wxy325 on 3/11/15.
@@ -8,30 +8,30 @@
 
 #import <UIKit/UIKit.h>
 
-#define QSOrderListTableViewCellIdentifier @"QSOrderListTableViewCellIdentifier"
-#define QSOrderListTableViewCellHeight 263
+#define QSTradeListTableViewCellIdentifier @"QSTradeListTableViewCellIdentifier"
+#define QSTradeListTableViewCellHeight 263
 
-@class QSOrderListTableViewCell;
+@class QSTradeListTableViewCell;
 
-@protocol QSOrderListTableViewCellDelegate <NSObject>
+@protocol QSTradeListTableViewCellDelegate <NSObject>
 
-- (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
+- (void)didClickRefundBtnForCell:(QSTradeListTableViewCell*)cell;
 
-- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
+- (void)didClickPayBtnForCell:(QSTradeListTableViewCell*)cell;
 
-- (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
+- (void)didClickReceiveBtnForCell:(QSTradeListTableViewCell *)cell;
 
-- (void)didClickCancelBtnForCell:(QSOrderListTableViewCell *)cell;
+- (void)didClickCancelBtnForCell:(QSTradeListTableViewCell *)cell;
 
-- (void)didClickExpectablePriceBtnForCell:(QSOrderListTableViewCell *)cell;
+- (void)didClickExpectablePriceBtnForCell:(QSTradeListTableViewCell *)cell;
 
-- (void)didClickToWebPageForCell:(QSOrderListTableViewCell *)cell;
+- (void)didClickToWebPageForCell:(QSTradeListTableViewCell *)cell;
 
-- (void)didClickLogisticForCell:(QSOrderListTableViewCell *)cell;
+- (void)didClickLogisticForCell:(QSTradeListTableViewCell *)cell;
 
 @end
 
-@interface QSOrderListTableViewCell : UITableViewCell
+@interface QSTradeListTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel* stateLabel;
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
@@ -74,7 +74,7 @@
 
 - (void)bindWithDict:(NSDictionary*)dict;
 
-@property (weak, nonatomic) NSObject<QSOrderListTableViewCellDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSTradeListTableViewCellDelegate>* delegate;
 @property (assign,nonatomic) int type;
 @property (weak, nonatomic) IBOutlet UILabel* messageLabel;
 @end

@@ -21,7 +21,7 @@
 #import "QSS04CommentListViewController.h"
 #import "QSS01MatchShowsViewController.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSU09OrderListViewController.h"
+#import "QSU09TradeListViewController.h"
 
 @interface QSPnsHandler (Private)
 
@@ -125,8 +125,8 @@
 - (void)pnsTradeShipped:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
         UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
-        if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
-            QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
+        if ([vc isKindOfClass:[QSU09TradeListViewController class]]) {
+            QSU09TradeListViewController* u09Vc = (QSU09TradeListViewController*)vc;
             [u09Vc triggerChangeToSegmentIndex:1];
         }
         
@@ -135,8 +135,8 @@
 - (void)pnsTradeRefundComplete:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
         UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
-        if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
-            QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
+        if ([vc isKindOfClass:[QSU09TradeListViewController class]]) {
+            QSU09TradeListViewController* u09Vc = (QSU09TradeListViewController*)vc;
             [u09Vc triggerChangeToSegmentIndex:1];
         }
         

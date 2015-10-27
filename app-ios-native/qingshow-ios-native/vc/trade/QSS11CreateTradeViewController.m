@@ -23,7 +23,7 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
-#import "QSU09OrderListViewController.h"
+#import "QSU09TradeListViewController.h"
 #define PAGE_ID @"S11 - 交易生成"
 
 #import "QSAbstractRootViewController.h"
@@ -510,8 +510,8 @@
         //查看订单
         [self.navigationController popToRootViewControllerAnimated:YES];
         UIViewController* vc = [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
-        if ([vc isKindOfClass:[QSU09OrderListViewController class]]) {
-            QSU09OrderListViewController* u09Vc = (QSU09OrderListViewController*)vc;
+        if ([vc isKindOfClass:[QSU09TradeListViewController class]]) {
+            QSU09TradeListViewController* u09Vc = (QSU09TradeListViewController*)vc;
             [u09Vc triggerChangeToSegmentIndex:1];
         }
     }

@@ -15,7 +15,7 @@
 #import "QSS20MatcherViewController.h"
 #import "QSS01MatchShowsViewController.h"
 
-#import "QSU09OrderListViewController.h"
+#import "QSU09TradeListViewController.h"
 #import "QSU19LoginGuideViewController.h"
 
 #import "QST01ShowTradeViewController.h"
@@ -132,9 +132,9 @@
             break;
         }
         case QSRootMenuItemDiscount: {
-            QSU09OrderListViewController* orderListVc = [[QSU09OrderListViewController alloc] init];
-            orderListVc.menuProvider = self;
-            vc = orderListVc;
+            QSU09TradeListViewController* tradeListVc = [[QSU09TradeListViewController alloc] init];
+            tradeListVc.menuProvider = self;
+            vc = tradeListVc;
             break;
         }
         case QSRootMenuItemShowTrade:{
