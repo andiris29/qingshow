@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,16 +88,15 @@ public class U01RecommFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Message message = new Message();
+                message.arg1 = ERROR;
+                handler.sendMessage(message);
                 if(MetadataParser.hasError(response)){
                     if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     }
-                    mRefreshLayout.endLoadingMore();
-                    mRefreshLayout.endRefreshing();
                     return;
                 }
-                mRefreshLayout.endLoadingMore();
-                mRefreshLayout.endRefreshing();
                 adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
                 adapter.notifyDataSetChanged();
             }

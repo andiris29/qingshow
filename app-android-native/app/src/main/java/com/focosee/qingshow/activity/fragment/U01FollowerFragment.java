@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -84,6 +85,7 @@ public class U01FollowerFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryFollowPeoplesApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Message message = new Message();
                 if(MetadataParser.hasError(response)){
                     if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
@@ -92,20 +94,21 @@ public class U01FollowerFragment extends U01BaseFragment {
                         adapter.clearData();
                         adapter.notifyDataSetChanged();
                     }
-                    mRefreshLayout.endLoadingMore();
-                    mRefreshLayout.endRefreshing();
+                    message.arg1 = ERROR;
+                    handler.sendMessage(message);
                     return;
                 }
 
                 ArrayList<MongoPeople> peoples = PeopleParser.parseQueryFollowers(response);
                 if(pageNo == 1) {
                     adapter.addDataAtTop(peoples);
-                    mRefreshLayout.endRefreshing();
+                    message.arg1 = REFRESH_FINISH;
                     currentPageN0 = pageNo;
                 }else{
                     adapter.addData(peoples);
-                    mRefreshLayout.endLoadingMore();
+                    message.arg1 = LOAD_FINISH;
                 }
+                handler.sendMessage(message);
                 adapter.notifyDataSetChanged();
                 currentPageN0++;
             }
