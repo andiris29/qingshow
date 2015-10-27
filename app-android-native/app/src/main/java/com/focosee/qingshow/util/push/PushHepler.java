@@ -9,10 +9,13 @@ import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.activity.PushWebActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S04CommentActivity;
+import com.focosee.qingshow.activity.S20MatcherActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ValueUtil;
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
@@ -26,6 +29,9 @@ public class PushHepler {
         String command = PushUtil.getCommand(bundle);
         Log.d(PushHepler.class.getSimpleName(), "command:" + command);
         Intent intent = null;
+        if(QSModel.INSTANCE.getUserStatus() < MongoPeople.MATCH_FINISHED) {
+            intent = new Intent(context, S20MatcherActivity.class);
+        }
         if (command.equals(QSPushAPI.NEW_SHOW_COMMENTS)) {
             String id = PushUtil.getExtra(bundle, "_id");
             intent = new Intent(context, S04CommentActivity.class);
