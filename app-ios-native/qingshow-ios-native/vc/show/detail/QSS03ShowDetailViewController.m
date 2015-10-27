@@ -91,7 +91,7 @@
     self.bonusLabel.layer.borderColor = [UIColor whiteColor].CGColor;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
     
-    
+    [SHARE_NW_ENGINE viewShow:self.showDict onSucceed:nil onError:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

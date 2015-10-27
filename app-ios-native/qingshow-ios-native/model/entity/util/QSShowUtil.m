@@ -296,6 +296,20 @@
     }
 }
 
++ (void)addNumberView:(long long)num forShow:(NSDictionary*)showDict {
+#warning Refactor
+    if ([QSEntityUtil checkIsNil:showDict]) {
+        return;
+    }
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
+        long long preNumlike = ((NSNumber*)s[@"numView"]).longLongValue;
+        preNumlike += num;
+        preNumlike = preNumlike >= 0 ? preNumlike : 0;
+        s[@"numView"] = @(preNumlike);
+    }
+}
+
 + (NSDate*)getRecommendDate:(NSDictionary*)showDict
 {
     if (![QSEntityUtil checkIsDict:showDict]) {
