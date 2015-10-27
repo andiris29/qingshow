@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -77,10 +77,10 @@
                 <outlet property="bgImgView" destination="Vxf-Q3-EHu" id="vYh-LI-PVb"/>
                 <outlet property="headerImageTapView" destination="72z-ct-BgZ" id="VEp-hj-hm7"/>
                 <outlet property="headerImgView" destination="q1F-Hf-8Wm" id="N2K-TK-ezw"/>
-                <outlet property="likeNumlabel" destination="a9K-In-K1C" id="Tx5-GU-V2V"/>
                 <outlet property="matchShowImgview" destination="dp9-gc-uNq" id="fqC-dK-oLy"/>
                 <outlet property="timeLabel" destination="S76-wp-gu0" id="Ymd-id-Wfi"/>
                 <outlet property="userNameLabel" destination="4I4-W0-OJO" id="JcY-r4-niW"/>
+                <outlet property="viewNumlabel" destination="a9K-In-K1C" id="SMQ-aT-PJU"/>
             </connections>
             <point key="canvasLocation" x="244" y="245"/>
         </tableViewCell>

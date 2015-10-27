@@ -75,7 +75,7 @@
 
     NSDate *createDate = [QSShowUtil getCreatedDate:dict];
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];
-    self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
+    self.viewNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:dict];
     self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
 }

@@ -42,7 +42,6 @@
 
 #pragma mark Provider
 @property (strong,nonatomic) QSShowCollectionViewProvider *matchProvider;
-//@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
 @property (strong,nonatomic) QSShowCollectionViewProvider *recommendProvider;
 @property (strong, nonatomic) QSShowCollectionViewProvider *favorProvider;
 @property (strong, nonatomic) QSPeopleListTableViewProvider* followingProvider;
@@ -85,51 +84,11 @@
 //    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
 
     self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
-    self.matchProvider.type = 2;
     //Recommend
     self.recommendProvider  = [[QSShowCollectionViewProvider alloc] init];
-    self.recommendProvider.type = 2;
-//    self.recommendProvider.networkDataFinalHandlerBlock = ^(){
-//        NSMutableArray* resultArray = weakSelf.recommendProvider.resultArray;
-//        if (resultArray.count == 0) {
-//            return;
-//        }
-//        for (int i = 0; i + 1 < resultArray.count || i == 0; i++) {
-//            QSImageCollectionModel* currentModel = resultArray[i];
-//            QSImageCollectionModel* nextModel = nil;
-//            if (resultArray.count > 1) {
-//                nextModel = resultArray[i + 1];
-//            }
-//            
-//            if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
-//                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-//                m.type = QSImageCollectionModelTypeDate;
-//                QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
-//                dateModel.date = [QSShowUtil getRecommendDate:currentModel.data];
-//                dateModel.desc = [QSShowUtil getRecommentDesc:currentModel.data];
-//                m.data = dateModel;
-//                [resultArray insertObject:m atIndex:0];
-//                continue;
-//            }
-//            if (currentModel.type == QSImageCollectionModelTypeShow && nextModel.type == QSImageCollectionModelTypeShow) {
-//                NSDate* curDate = [QSShowUtil getRecommendDate:currentModel.data];
-//                NSDate* nextDate = [QSShowUtil getRecommendDate:nextModel.data];
-//                if (curDate && nextDate && ![QSDateUtil date:curDate isTheSameDayWith:nextDate]) {
-//                    QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-//                    m.type = QSImageCollectionModelTypeDate;
-//                    QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
-//                    dateModel.date = nextDate;
-//                    dateModel.desc = [QSShowUtil getRecommentDesc:nextModel.data];
-//                    m.data = dateModel;
-//                    [resultArray insertObject:m atIndex:i + 1];
-//                }
-//            }
-//        }
-//    };
     
     //Favor
     self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
-    self.favorProvider.type = 2;
     //Following
     self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
     //Follower
@@ -310,27 +269,6 @@
 
 }
 
-#pragma mark - QSImageCollectionViewProviderDelegate
-- (void)didClickModel:(QSImageCollectionModel*)model
-             provider:(QSImageCollectionViewProvider*)provider
-{
-
-    switch (model.type) {
-        case QSImageCollectionModelTypeShow:
-        {
-            [self showShowDetailViewController:model.data];
-            break;
-        }
-        case QSImageCollectionModelTypeItem:
-        {
-#warning 此情况现在不会使用
-            [self showItemDetailViewController:model.data peopleId:nil];
-            break;
-        }
-        default:
-            break;
-    }
-}
 - (IBAction)menuBtnPressed:(id)sender {
     if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
         [self.menuProvider didClickMenuBtn];
