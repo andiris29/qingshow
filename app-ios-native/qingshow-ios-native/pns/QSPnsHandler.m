@@ -47,7 +47,6 @@
     
     [center addObserver:self selector:@selector(pnsDidReceiveNewShowComment:) name:kPnsNewShowCommentsNotification object:nil];
     [center addObserver:self selector:@selector(pnsDidNewRecommandation:) name:kPnsNewRecommandationNotification object:nil];
-    [center addObserver:self selector:@selector(pnsTradeInitial:) name:kPnsTradeInitialNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeShipped:) name:kPnsTradeShippedNotification object:nil];
     [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemExpectablePriceUpdatedNotification object:nil];
     [center addObserver:self selector:@selector(pnsNewBonus:) name:kPnsNewBonusNotification object:nil];
@@ -122,11 +121,6 @@
     } title:@"您申请的折扣有最新信息，不要错过哦！" userInfo:noti.userInfo];
 }
 
-- (void)pnsTradeInitial:(NSNotification*)noti {
-    [self handlePnsWithHandler:^{
-        [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
-    } title:@"你申请的折扣已经成功啦，别让宝贝飞了，快快来付款吧！" userInfo:noti.userInfo];
-}
 
 - (void)pnsTradeShipped:(NSNotification*)noti {
     [self handlePnsWithHandler:^{

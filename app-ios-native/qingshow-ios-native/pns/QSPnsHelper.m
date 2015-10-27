@@ -15,7 +15,6 @@
 #define kPnsCommandNewShowComments @"newShowComments"
 #define kPnsCommandNewRecommandations @"newRecommandations"
 #define kPnsCommandItemExpectablePriceUpdated @"itemExpectablePriceUpdated"
-#define kPnsCommandTradeInitialized @"tradeInitialized"
 #define kPnsCommandTradeShipped @"tradeShipped"
 #define kPnsCommandNewBonus @"newBonus"
 #define kPnsCommandBonusWithdrawComplete @"bonusWithdrawComplete"
@@ -50,9 +49,6 @@
         //新推荐
         [center postNotificationName:kPnsNewRecommandationNotification object:nil userInfo:userInfoDict];
         
-    } else if ([command isEqualToString:kPnsCommandTradeInitialized]) {
-        //折扣申请成功
-        [center postNotificationName:kPnsTradeInitialNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandTradeShipped]) {
         //订单发货
         [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:userInfoDict];
