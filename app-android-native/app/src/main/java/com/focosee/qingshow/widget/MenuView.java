@@ -91,11 +91,11 @@ public class MenuView extends Fragment implements View.OnClickListener {
     public void show(FragmentManager manager, String tag, View blurView) {
         if (dismissed) {
             dismissed = false;
+            this.blurView = blurView.getRootView();
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
             fragmentTransaction.add(this, tag);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-            this.blurView = blurView.getRootView();
         }
     }
 

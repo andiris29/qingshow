@@ -1,0 +1,1 @@
+db.getCollection('peoples').update({"mobile" : {$exists: false}}, {$set : {"role" : 0}}, false, true)

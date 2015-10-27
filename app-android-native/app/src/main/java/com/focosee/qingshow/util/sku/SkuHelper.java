@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.focosee.qingshow.util.StringUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +25,5 @@ public class SkuHelper {
             return -1;
         return Float.parseFloat(stock);
     }
+
 }

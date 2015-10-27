@@ -4,6 +4,9 @@ var Schema = mongoose.Schema;
 
 var sharedObjectSchema = {
 	type : Number,
+	title : String,
+	description : String,
+	url : String,
 	initiatorRef : {
 		type : Schema.Types.ObjectId,
 		ref : 'peoples'

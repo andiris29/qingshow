@@ -9,6 +9,7 @@ var imageMagick = gm.subClass({
 });
 var path = require('path');
 var async = require('async');
+var fs = require('fs');
 var ftpConnection;
 
 var loggers = require('./loggers');
@@ -143,7 +144,15 @@ var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, ca
                     });
                     var savedName = path.basename(newPath);
                     var fullPath = path.join(uploadPath, savedName);
-                    upload(newPath, fullPath, innerCallback);
+
+
+                    upload(newPath, fullPath, function (err) {
+                        innerCallback (err);
+                        try {
+                            fs.unlink(newPath, function(){});
+                        } catch(e){}
+
+                    });
                 }
             });
         });

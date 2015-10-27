@@ -170,7 +170,7 @@ show.comment = {
             Show.findOne({
                 '_id' : targetRef
             }).populate('ownerRef').exec(function(err, show) {
-                if (show && show.ownerRef) {
+                if (show && show.ownerRef && !show.hideAgainstOwner) {
                     if (show.ownerRef._id.toString() != req.qsCurrentUserId.toString()) {
                        NotificationHelper._push([show.ownerRef], NotificationHelper.MessageNewShowComment, {
                             '_id' : param._id,

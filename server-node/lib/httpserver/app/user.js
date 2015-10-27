@@ -208,35 +208,26 @@ _register = function(req, res) {
     param = req.body;
     id = param.id;
     password = param.password;
-    var nickname = param.nickname;
     var mobile = param.mobile;
     var code = param.verificationCode;
     //TODO validate id and password
-    if (!id || !password || !id.length || !password.length || !nickname || !mobile) {
+    if (!id || !password || !id.length || !password.length || !mobile) {
         ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
     async.waterfall([function(callback){
-        // Validate whether the id/mobile/nickname is already existed
+        // Validate whether the id/mobile is already existed
         People.find({
             '$or': [
             {'userInfo.id' : id}, 
             {'userInfo.id' : mobile}, 
-            {'nickname': nickname}, 
             {'mobile': mobile}
             ]
         }, callback);
     }, function(peoples, callback){
         if (peoples.length > 0) {
-            // Error when duplicated id/mobile/nickname
-            var check = peoples.some(function(people) {
-                return people.nickname === nickname;
-            });
-            if (check) {
-                callback(errors.NickNameAlreadyExist);
-            } else {
-                callback(errors.MobileAlreadyExist);
-            }
+            // Error when duplicated id/mobile
+            callback(errors.MobileAlreadyExist);
         } else {
             if (req.qsCurrentUserId) {
                 People.findOne({
@@ -259,7 +250,7 @@ _register = function(req, res) {
             }
         }
     }, function(people, callback){
-        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
             if (!success || err) {
                 callback(err);
             }else {
@@ -267,7 +258,6 @@ _register = function(req, res) {
             }
         });
     }, function(people, callback){
-        people.nickname =  nickname;
         people.mobile = mobile;
         people.userInfo = {
             id : id,
@@ -632,6 +622,10 @@ _loginViaWeixin = function(req, res) {
             _downloadHeadIcon(user.headimgurl, function (err, tempPath) {
                 if (err) {
                     callback(err);
+                    try {
+                        fs.unlink(tempPath, function(){});
+                    } catch (e) {
+                    }
                 } else {
                     //update head icon to ftp
                     var baseName = people._id.toString();
@@ -643,6 +637,10 @@ _loginViaWeixin = function(req, res) {
                             var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
                             callback(err, user, copyHeadPath);
                         }
+                        try {
+                            fs.unlink(tempPath, function() {});
+                        } catch (e) {
+                        }
                     });
                 }
             });
@@ -651,45 +649,53 @@ _loginViaWeixin = function(req, res) {
         }
 
     }, 
-    function(weixinUser, copyHeadPath, callback) {
-        People.findOne({
+    function(weixinUser, copyHeadPath, callback){
+         People.findOne({
             'userInfo.weixin.openid' : weixinUser.openid
         }, function(err, people) {
-            if (err) {
-                callback(err);
-            } else {
-                if (!people) {
-                    people = new People({
-                        nickname : weixinUser.nickname,
-                        userInfo : {
-                            weixin : {
-                                openid : weixinUser.openid,
-                                nickname : weixinUser.nickname,
-                                sex : weixinUser.sex,
-                                province : weixinUser.province,
-                                city : weixinUser.city,
-                                country : weixinUser.country,
-                                headimgurl : weixinUser.headimgurl,
-                                unionid : weixinUser.unionid
-                            }
-                        }
-                    });
-                }
-
-                if (copyHeadPath && copyHeadPath.length) {
-                    people.portrait =copyHeadPath;
-                }
-                people.save(function(err, people) {
-                    if (err) {
-                        callback(err, people);
-                    } else if (!people) {
-                        callback(errors.genUnkownError());
-                    } else {
-                        callback(null, people);
-                    }
-                });
+            callback(null, people, weixinUser, copyHeadPath);
+        });
+    }, function(people, weixinUser, copyHeadPath, callback){
+        if (!people) {
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id': req.qsCurrentUserId
+                }, function(err, target){
+                    callback(null, target, weixinUser, copyHeadPath);
+                })
+            }else{
+                callback(null, new People(), weixinUser, copyHeadPath);
             }
-
+        }else {
+            callback(null, people, weixinUser, copyHeadPath);
+        }
+    },function(people, weixinUser, copyHeadPath, callback){
+        people.nickname = weixinUser.nickname;
+        people.userInfo = {
+            weixin: {
+                openid: weixinUser.openid,
+                nickname: weixinUser.nickname,
+                sex: weixinUser.sex,
+                province: weixinUser.province,
+                city: weixinUser.city,
+                country: weixinUser.country,
+                headimgurl: weixinUser.headimgurl,
+                unionid: weixinUser.unionid
+            }
+        };
+        people.role = 0;
+        
+        if (copyHeadPath && copyHeadPath.length) {
+            people.portrait = copyHeadPath;
+        }
+        people.save(function(err, people) {
+            if (err) {
+                callback(err, people);
+            } else if (!people) {
+                callback(errors.genUnkownError());
+            } else {
+                callback(null, people);
+            }
         });
     }, function(people, callback) {
         req.session.userId = people._id;
@@ -756,6 +762,10 @@ _loginViaWeibo = function(req, res) {
             _downloadHeadIcon(url, function (err, tempPath) {
                 if (err) {
                     callback(err);
+                    try {
+                        fs.unlink(tempPath, function () {});
+                    } catch (e) {
+                    }
                 } else {
                     //update head icon to ftp
                     var baseName = people._id.toString();
@@ -767,6 +777,10 @@ _loginViaWeibo = function(req, res) {
                             var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
                             callback(err, weiboUser, copyHeadPath);
                         }
+                        try {
+                            fs.unlink(tempPath, function() {});
+                        } catch (e) {
+                        }
                     });
                 }
             });
@@ -777,38 +791,47 @@ _loginViaWeibo = function(req, res) {
         People.findOne({
             'userInfo.weibo.id' : user.id
         }, function(err, people) {
+            callback(null, people, user, copyHeadPath);
+        });
+    }, function(people, user, copyHeadPath, callback){
+        if (!people) {
+            if (req.qsCurrentUserId) {
+                People.findOne({
+                    '_id' : req.qsCurrentUserId
+                }, function(err, target){
+                    callback(null, target, user, copyHeadPath);
+                })
+            }else{
+                callback(null, new People(), user, copyHeadPath);
+            }   
+        }else {
+            callback(null, people, user, copyHeadPath);
+        }
+    }, function(people, user, copyHeadPath, callback){
+        people.nickname = user.screen_name;
+        people.userInfo = {
+            weibo: {
+                id: user.id,
+                screen_name: user.screen_name,
+                province: user.province,
+                country: user.country,
+                gender: user.gender,
+                avatar_large: user.avatar_large
+            }
+        };
+        people.role = 0;
+        
+        if (copyHeadPath && copyHeadPath.length) {
+            people.portrait = copyHeadPath;
+        }
+
+        people.save(function(err, people) {
             if (err) {
-                callback(err);
+                callback(err, people);
+            } else if (!people) {
+                callback(errors.genUnkownError());
             } else {
-                if (!people) {
-                    people = new People({
-                        nickname : user.screen_name,
-                        userInfo : {
-                            weibo: {
-                                id : user.id,
-                                screen_name : user.screen_name,
-                                province : user.province,
-                                country : user.country,
-                                gender : user.gender,
-                                avatar_large : user.avatar_large
-                            }
-                        }
-                    });
-                }
-
-                if (copyHeadPath && copyHeadPath.length) {
-                    people.portrait = copyHeadPath;
-                }
-
-                people.save(function(err, people) {
-                    if (err) {
-                        callback(err, people);
-                    } else if (!people) {
-                        callback(errors.genUnkownError());
-                    } else {
-                        callback(null, people);
-                    }
-                });
+                callback(null, people);
             }
         });
     }, function(people, callback) {
@@ -826,7 +849,8 @@ _loginViaWeibo = function(req, res) {
 _requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
     async.waterfall([function(callback){
-        SMSHelper.createVerificationCode(mobile, function(err, code){
+        console.log(req);
+        SMSHelper.createVerificationCode(req, mobile, function(err, code){
             if (err) {
                 callback(err);
             }else {
@@ -835,7 +859,7 @@ _requestVerificationCode = function(req, res){
         });
     },function(code, callback){
         var expire = global.qsConfig.verification.expire;
-        SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
+        SMSHelper.sendTemplateSMS(req, mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
             if (err) {
                 callback(err);
             }else {
@@ -853,7 +877,7 @@ _validateMobile = function(req, res){
     var mobile = params.mobile;
     async.series([function(callback){
         var code = params.verificationCode;
-        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
             callback(err, success);
         });
     }],function(error, success) {
@@ -868,7 +892,7 @@ _resetPassword = function(req, res){
     var mobile = params.mobile;
     var code = params.verificationCode;
     async.waterfall([function(callback){
-        SMSHelper.checkVerificationCode(mobile, code, function(err, success){
+        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
             if (err) {
                 callback(err);
             }else{

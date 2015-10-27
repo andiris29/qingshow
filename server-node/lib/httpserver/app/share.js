@@ -23,7 +23,7 @@ share.createShow = {
     			'_id' : RequestHelper.parseId(params._id)
     		}, callback);
 		}, function(show, callback){
-			ShareHelper.create(req.qsCurrentUserId, 0, {
+			ShareHelper.create(req.qsCurrentUserId, 0, ShareHelper.shareShowTitle ,{
 				'show' : {
 					_id : show._id,
 					cover : show.cover,
@@ -49,7 +49,7 @@ share.createTrade = {
     			'_id' : RequestHelper.parseId(params._id)
     		}, callback);
 		}, function(trade, callback){
-			ShareHelper.create(req.qsCurrentUserId, 1, {
+			ShareHelper.create(req.qsCurrentUserId, 1, ShareHelper.shareTradeTitle, {
 				'trade' : {
 					_id : trade._id,
 					totalFee : trade.totalFee,
@@ -90,7 +90,7 @@ share.createBonus = {
 				});
 			}
 
-			ShareHelper.create(req.qsCurrentUserId, 2, {
+			ShareHelper.create(req.qsCurrentUserId, 2, ShareHelper.shareBonusTitle, {
 				'bonus' : {
 					ownerRef : people._id,
 					total : total,
