@@ -208,35 +208,26 @@ _register = function(req, res) {
     param = req.body;
     id = param.id;
     password = param.password;
-    var nickname = param.nickname;
     var mobile = param.mobile;
     var code = param.verificationCode;
     //TODO validate id and password
-    if (!id || !password || !id.length || !password.length || !nickname || !mobile) {
+    if (!id || !password || !id.length || !password.length || !mobile) {
         ResponseHelper.response(res, errors.NotEnoughParam);
         return;
     }
     async.waterfall([function(callback){
-        // Validate whether the id/mobile/nickname is already existed
+        // Validate whether the id/mobile is already existed
         People.find({
             '$or': [
             {'userInfo.id' : id}, 
             {'userInfo.id' : mobile}, 
-            {'nickname': nickname}, 
             {'mobile': mobile}
             ]
         }, callback);
     }, function(peoples, callback){
         if (peoples.length > 0) {
-            // Error when duplicated id/mobile/nickname
-            var check = peoples.some(function(people) {
-                return people.nickname === nickname;
-            });
-            if (check) {
-                callback(errors.NickNameAlreadyExist);
-            } else {
-                callback(errors.MobileAlreadyExist);
-            }
+            // Error when duplicated id/mobile
+            callback(errors.MobileAlreadyExist);
         } else {
             if (req.qsCurrentUserId) {
                 People.findOne({
@@ -267,7 +258,6 @@ _register = function(req, res) {
             }
         });
     }, function(people, callback){
-        people.nickname =  nickname;
         people.mobile = mobile;
         people.userInfo = {
             id : id,
