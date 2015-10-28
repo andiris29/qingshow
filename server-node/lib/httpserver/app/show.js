@@ -8,6 +8,7 @@ var RPeopleLikeShow = require('../../dbmodels').RPeopleLikeShow;
 var RPeopleShareShow = require('../../dbmodels').RPeopleShareShow;
 var People = require('../../dbmodels').People;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
+var RPeopleViewShow = require('../../dbmodels').RPeopleViewShow;
 
 //util
 var MongoHelper = require('../../helpers/MongoHelper');
@@ -245,5 +246,38 @@ show.share= {
             ResponseHelper.response(res, err);
         });
 
+    }
+};
+
+show.view = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res){
+        var params = req.body;
+        var targetRef;
+        async.series([function(callback){
+            if (!params._id) {
+                callback(errors.NotEnoughParam);
+            }else {
+                targetRef = RequestHelper.parseId(params._id);
+                callback();
+            }
+        }, function(callback){
+            RelationshipHelper.create(RPeopleViewShow, req.qsCurrentUserId, targetRef, function(err){
+                callback(err);
+            });
+        }, function(callback){
+            Show.update({
+                '_id' : targetRef
+            }, {
+                '$inc' : {
+                    'numView' : 1
+                }
+            }, function(err, numUpdated) {
+                callback(err);
+            });
+        }], function(err) {
+            ResponseHelper.response(res, err);
+        });
     }
 };

@@ -10,6 +10,7 @@ showSchema = Schema({
     video : String,
     featuredRank : Number,
     posters : [String],
+    numView : Number,
     numLike : {
         type : Number,
         'default' : 0
