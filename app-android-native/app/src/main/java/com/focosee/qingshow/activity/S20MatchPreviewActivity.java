@@ -194,8 +194,10 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if (!bitmap.isRecycled()) {
-            bitmap.recycle();
+        if(bitmap != null) {
+            if (!bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
         }
         super.onDestroy();
     }
