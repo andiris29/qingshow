@@ -137,7 +137,7 @@ feeding.matchHot = {
                     }
                 };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'numLike' : -1
+                    'numView' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
             }], outCallback);
         });
