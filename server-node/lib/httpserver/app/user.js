@@ -89,7 +89,7 @@ var _decryptMD5 = function (string){
     .toUpperCase();
 }
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId, _loginAsViewer;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -1011,6 +1011,36 @@ _updateRegistrationId = function(req, res){
     });
 }
 
+_loginAsViewer = function(req, res){
+    var params = req.body;
+    async.waterfall([function(callback){
+        People.findOne({
+            'userInfo.id' : RequestHelper.getIp(req)
+        }, callback);
+    }, function(people, callback){
+        if (people) {
+            callback(null, people);
+        }else{
+            var people = new People({
+                'role' : 2,
+                'userInfo.id' : RequestHelper.getIp(req)
+            });
+            req.initiatorRef = people.initiatorRef = params.initiatorRef;
+            people.save(function(err, people){
+                if (err) {
+                    callback(errors.genUnkownError);
+                }else{
+                    callback(null, people);
+                }
+            })
+        }
+    }], function(err, people){
+        ResponseHelper.response(res, err, {
+            'people' : people
+        });
+    })
+}
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -1088,5 +1118,9 @@ module.exports = {
         method : 'post',
         permissionValidators : ['loginValidator'],
         func : _updateRegistrationId
+    },
+    'loginAsViewer' : {
+        method : 'post',
+        func : _loginAsViewer
     }
 }

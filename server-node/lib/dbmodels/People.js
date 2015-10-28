@@ -16,6 +16,10 @@ peopleSchema = Schema({
     dressStyle : Number,
     expectations : [Number],
     role : Number,
+    initiatorRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
     measureInfo : {
         shoulder : Number,
         bust : Number,
