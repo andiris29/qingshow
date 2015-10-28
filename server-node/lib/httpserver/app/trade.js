@@ -43,7 +43,6 @@ trade.create = {
             trade.peopleSnapshot = people;
             trade.shareToPay = true;
             trade.quantity = req.body.quantity;
-            trade.expectedPrice = req.body.expectedPrice;
             trade.itemSnapshot = req.body.itemSnapshot;
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
             trade.itemRef = RequestHelper.parseId(req.body.itemSnapshot._id);
@@ -69,14 +68,7 @@ trade.create = {
                 } else if (!item) {
                     callback(errors.ItemNotExist);
                 } else {
-                    if (item.expectablePrice >= trade.expectedPrice) {
-                        trade.expectedPrice = item.expectablePrice;
-                        TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err) {
-                            callback(error, trade);
-                        });
-                    } else {
-                        callback(null, trade);
-                    }
+                    callback(null, trade);
                 }
             });
         }], function(error, trade) {

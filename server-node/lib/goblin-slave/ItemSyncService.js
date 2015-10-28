@@ -133,9 +133,6 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
             } else if (sourceType === ItemSourceType.Jamy) {
                 discount = 0.6;
             }
-            if (discount) {
-                item.minExpectedPrice = price * discount;
-            }
         }
 
         _logItem('item success', item);

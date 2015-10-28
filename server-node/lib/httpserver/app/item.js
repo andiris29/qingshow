@@ -303,28 +303,17 @@ var _itemPriceChanged = function(trades, expectable, callback) {
         return function(cb) {
             if (expectable.expired) {
                 NotificationHelper.read([trade.ownerRef], {
-                    'extra.command' : NotificationHelper.CommandTradeInitialized,
-                    'extra._id' : trade._id
-                }, function(err){});
-                NotificationHelper.read([trade.ownerRef], {
                     'extra.command' : NotificationHelper.CommandItemExpectablePriceUpdated,
                     'extra._id' : trade._id
                 }, function(err){});
                 cb();
             } else {
-                if (expectable.price <= trade.expectedPrice) {
-                    NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
-                        '_id' : trade._id,
-                        'command' : NotificationHelper.CommandTradeInitialized
-                    }, cb);
-                } else {
-                  NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
-                    'command' : NotificationHelper.CommandItemExpectablePriceUpdated,
-                    '_id' : trade._id
-                    }, cb); 
-                };
-            }
-        };
+              NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
+                'command' : NotificationHelper.CommandItemExpectablePriceUpdated,
+                '_id' : trade._id
+            }, cb); 
+          }
+      };
     });
     async.parallel(tasks, function(err) {
         if (err) {
