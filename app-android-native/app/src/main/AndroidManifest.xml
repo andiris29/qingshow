@@ -165,11 +165,13 @@
         <activity
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U06LoginActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
         <activity

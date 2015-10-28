@@ -69,13 +69,14 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_bar_activity_login">登录</string>
     <string name="register_activity_login">注册</string>
-    <string name="account_hint_activity_login">输入昵称或手机号码</string>
+    <string name="account_hint_activity_login">输入手机号码</string>
     <string name="account_activity_login">账号</string>
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
-    <string name="login_activity_login">登录倾秀账号</string>
+    <string name="login_activity_login">立即登录</string>
     <string name="register1_activity_login">注册倾秀账号</string>
     <string name="login_successed">登录成功</string>
+    <string name="mobile_login">手机登录</string>
 
     <!-- Personal Activity -->
     <string name="title_activity_personal">PersonalActivity</string>
