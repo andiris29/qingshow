@@ -774,6 +774,7 @@
 		EF8FD0541A063AA60081F8EB /* DatabaseConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DatabaseConstant.h; sourceTree = "<group>"; };
 		EF8FD0551A064D470081F8EB /* ServerPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServerPath.h; sourceTree = "<group>"; };
 		EF8FD0561A064DC30081F8EB /* PupblicResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PupblicResource.h; sourceTree = "<group>"; };
+		EF90A6141BE0FD9900DBD573 /* QSIImageLoadingCancelable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIImageLoadingCancelable.h; sourceTree = "<group>"; };
 		EF921FBB1ACBB11100669124 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		EF92B7231A3C9F6A00A08F08 /* QSBigImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBigImageTableViewCell.h; sourceTree = "<group>"; };
 		EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBigImageTableViewCell.m; sourceTree = "<group>"; };
@@ -1886,6 +1887,14 @@
 			path = totalPrice;
 			sourceTree = "<group>";
 		};
+		EF90A6121BE0FD7500DBD573 /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+				EF90A6141BE0FD9900DBD573 /* QSIImageLoadingCancelable.h */,
+			);
+			name = protocol;
+			sourceTree = "<group>";
+		};
 		EF92B7211A3C9F4F00A08F08 /* show */ = {
 			isa = PBXGroup;
 			children = (
@@ -2361,6 +2370,7 @@
 		EFC5434D1A1750AD001B2C49 /* base */ = {
 			isa = PBXGroup;
 			children = (
+				EF90A6121BE0FD7500DBD573 /* protocol */,
 				EFC5434E1A1750AD001B2C49 /* detail */,
 			);
 			path = base;

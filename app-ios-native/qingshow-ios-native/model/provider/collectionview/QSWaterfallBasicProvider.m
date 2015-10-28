@@ -12,6 +12,7 @@
 #import "NSNumber+QSExtension.h"
 #import "QSAbstractListViewProvider+Protect.h"
 #import "UIViewController+ShowHud.h"
+#import "QSIImageLoadingCancelable.h"
 @interface QSWaterfallBasicProvider ()
 
 @end
@@ -19,6 +20,14 @@
 
 @implementation QSWaterfallBasicProvider
 @dynamic view;
+#pragma mark - Getter And Setter
+- (void)setView:(UICollectionView *)view {
+    if (view != self.view) {
+        [self cancelImageLoading];
+    }
+    [super setView:view];
+}
+
 #pragma mark - Method To Be Override
 - (void)registerCell
 {
@@ -113,6 +122,17 @@
 {
     return self.resultArray.count;
 }
-
+- (void)cancelImageLoading {
+    NSArray* cells = [self.view visibleCells];
+    for (NSObject* c in cells) {
+        if ([c conformsToProtocol:@protocol(QSIImageLoadingCancelable)]) {
+            NSObject<QSIImageLoadingCancelable>* i = (NSObject<QSIImageLoadingCancelable>*)c;
+            [i cancelImageLoading];
+        }
+    }
+}
+- (void)refreshVisibleData {
+    [self.view reloadData];
+}
 @end
 

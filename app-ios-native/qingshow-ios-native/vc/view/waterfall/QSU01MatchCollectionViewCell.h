@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSIImageLoadingCancelable.h"
 
-@interface QSU01MatchCollectionViewCell : UICollectionViewCell
+@interface QSU01MatchCollectionViewCell : UICollectionViewCell <QSIImageLoadingCancelable>
 
 @property (weak, nonatomic) IBOutlet UIImageView *matchImgView;
 @property (weak, nonatomic) IBOutlet UILabel *likeNumLabel;
 
 
 - (void)bindWithDic:(NSDictionary *)dict;
+- (void)cancelImageLoading;
 @end
