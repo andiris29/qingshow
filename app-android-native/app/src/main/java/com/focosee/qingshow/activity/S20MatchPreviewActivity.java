@@ -139,7 +139,9 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                uploadImage();
+                if(null != bitmap)
+                    if(!bitmap.isRecycled())
+                        uploadImage();
             }
         }, new QSResponseErrorListener() {
             @Override
