@@ -43,11 +43,6 @@ var _next = function(today) {
                                     '_id' : trade._id,
                                     'command' : extra.command
                                 }, cb);   
-                            } else if(extra.command === NotificationHelper.CommandTradeInitialized){
-                                NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
-                                    '_id' : trade._id,
-                                    'command' : extra.command
-                                }, cb); 
                             }
                         };
                     })

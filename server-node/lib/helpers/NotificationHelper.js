@@ -26,7 +26,6 @@ NotificationHelper.MessageQuestSharingObjectiveComplete = "恭喜您！完成倾
 NotificationHelper.MessageNewShowComment = "您的搭配有新评论！";
 NotificationHelper.MessageNewRecommandations = "最新的搭配已经推送给您，美丽怎能忍心被忽略，去看看吧！";
 NotificationHelper.MessageQuestSharingProgress = "您还需要{0}个小伙伴助力即可获取大奖，继续加油吧！";
-NotificationHelper.MessageTradeInitialized = "您申请的折扣已经成功啦，别让宝贝飞了，快来付款吧！";
 NotificationHelper.MessageTradeShipped = "您购买的宝贝已经向您狂奔而来，等着接收惊喜哟！";
 NotificationHelper.MessageItemPriceChanged = "您申请的折扣有最新信息，不要错过哦！";
 NotificationHelper.MessageNewBonus = "您有一笔佣金入账啦，立即查看！";
@@ -37,7 +36,6 @@ NotificationHelper.CommandQuestSharingObjectiveComplete = "questSharingObjective
 NotificationHelper.CommandNewShowComments = "newShowComments";
 NotificationHelper.CommandNewRecommandations= "newRecommandations";
 NotificationHelper.CommandQuestSharingProgress = "questSharingProgress";
-NotificationHelper.CommandTradeInitialized = "tradeInitialized";
 NotificationHelper.CommandTradeShipped = "tradeShipped";
 NotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceUpdated";
 NotificationHelper.CommandNewBonus = "newBonus";
@@ -95,14 +93,9 @@ NotificationHelper._push = function(peoplesIds, message, extras, cb) {
 }
 
 NotificationHelper.read = function(peoplesIds, criteria, callback) {
-    if (criteria['extra.command'] === NotificationHelper.CommandTradeInitialized ||
-        criteria['extra.command'] === NotificationHelper.CommandItemExpectablePriceUpdated) {
-        var criteriaA = extend({}, criteria);
-        var criteriaB = extend({}, criteria);
-        criteriaA['extra.command'] = NotificationHelper.CommandTradeInitialized;
-        criteriaB['extra.command'] = NotificationHelper.CommandItemExpectablePriceUpdated;
+    if (criteria['extra.command'] === NotificationHelper.CommandItemExpectablePriceUpdated) {
         criteria = {
-            '$or' : [criteriaA, criteriaB]
+            'extra.command' : NotificationHelper.CommandItemExpectablePriceUpdated
         };
     }
     People.update({

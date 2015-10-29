@@ -40,7 +40,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
 
     if (newStatus === 2 || newStatus === 18) {
         NotificationHelper.read([trade.ownerRef], {
-            'extra.command' : NotificationHelper.CommandTradeInitialized,
+            'extra.command' : NotificationHelper.CommandItemExpectablePriceUpdated,
             'extra._id' : trade._id
         }, function(err){});
     }
