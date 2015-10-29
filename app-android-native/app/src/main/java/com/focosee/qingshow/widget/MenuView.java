@@ -237,6 +237,8 @@ public class MenuView extends Fragment implements View.OnClickListener {
             public void run() {
                 mView.setVisibility(View.GONE);
                 blurView.destroyDrawingCache();
+                if(null != blurBitmap)
+                    blurBitmap.recycle();
                 mGroup.removeView(mView);
             }
         }, duration);
@@ -245,7 +247,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
 
     public static Bitmap convertToBlur(Bitmap bmp, Context context) {
         final int radius = 20;
-        if (Build.VERSION.SDK_INT > 16) {
+        if (Build.VERSION.SDK_INT > 18) {
             Log.d(MenuView.class.getSimpleName(), "VERSION.SDK_INT " + Build.VERSION.SDK_INT);
             Bitmap bitmap = bmp.copy(bmp.getConfig(), true);
 
