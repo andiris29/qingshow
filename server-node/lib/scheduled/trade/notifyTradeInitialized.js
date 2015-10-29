@@ -38,10 +38,10 @@ var _next = function(today) {
                             return;
                         }
                         if(extra._id.toString() === trade._id.toString()){
-                            if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated) {
+                            if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated || || extra.command === NotificationHelper.CommandTradeInitialized) {
                                 NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
                                     '_id' : trade._id,
-                                    'command' : extra.command
+                                    'command' : NotificationHelper.CommandItemExpectablePriceUpdated
                                 }, cb);   
                             }
                         };
