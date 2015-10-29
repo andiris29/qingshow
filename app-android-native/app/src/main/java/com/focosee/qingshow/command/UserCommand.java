@@ -50,8 +50,10 @@ public class UserCommand {
                 MongoPeople user = UserParser.parseGet(response);
                 if(null != user) {
                     QSModel.INSTANCE.setUser(user);
+                    callback.onComplete();
+                    return;
                 }
-                callback.onComplete();
+                callback.onError();
             }
         }, new Response.ErrorListener() {
             @Override
