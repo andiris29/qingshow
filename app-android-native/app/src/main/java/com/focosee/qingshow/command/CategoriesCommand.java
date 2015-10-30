@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class CategoriesCommand {
 
-    public static void getCategories() {
+    public static void getCategories(final Callback callback) {
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
             @Override
@@ -30,6 +30,7 @@ public class CategoriesCommand {
                         categoriesMap.put(categories._id, categories);
                     }
                     CategoriesModel.INSTANCE.setCategories(categoriesMap);
+                    callback.onComplete();
                 }
             }
         });

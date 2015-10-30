@@ -19,4 +19,5 @@
 
 @property(nonatomic,assign)NSObject<QSMatchCollectionViewProviderDelegate>* delegate;
 
+
 @end

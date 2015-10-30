@@ -9,6 +9,7 @@
 #import "QSMatchCollectionViewProvider.h"
 
 #import "QSS03ShowDetailViewController.h"
+#import "QSIImageLoadingCancelable.h"
 
 #define S01MATCHCELL @"matchShowsForS01CellId"
 
@@ -93,5 +94,4 @@
         self.clickedData = nil;
     }
 }
-
 @end

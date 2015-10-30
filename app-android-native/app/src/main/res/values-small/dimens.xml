@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="text_size">13sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_lsmall">11sp</dimen>
+</resources>

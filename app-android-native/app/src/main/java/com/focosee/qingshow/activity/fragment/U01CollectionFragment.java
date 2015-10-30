@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -97,6 +98,7 @@ public class U01CollectionFragment extends U01BaseFragment {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(U01CollectionFragment.class.getSimpleName(), "response:" + response);
+                Message message = new Message();
                 if(MetadataParser.hasError(response)){
                     if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
@@ -105,8 +107,8 @@ public class U01CollectionFragment extends U01BaseFragment {
                         adapter.clearData();
                         adapter.notifyDataSetChanged();
                     }
-                    mRefreshLayout.endRefreshing();
-                    mRefreshLayout.endLoadingMore();
+                    message.arg1 = ERROR;
+                    handler.sendMessage(message);
                     return;
                 }
 
@@ -114,12 +116,13 @@ public class U01CollectionFragment extends U01BaseFragment {
 
                 if(pageNo == 1) {
                      adapter.addDataAtTop(datas);
-                    mRefreshLayout.endRefreshing();
+                    message.arg1 = REFRESH_FINISH;
                     currentPageN0 = pageNo;
                 }else{
                     adapter.addData(datas);
-                    mRefreshLayout.endLoadingMore();
+                    message.arg1 = LOAD_FINISH;
                 }
+                handler.sendMessage(message);
                 currentPageN0++;
                 adapter.notifyDataSetChanged();
             }

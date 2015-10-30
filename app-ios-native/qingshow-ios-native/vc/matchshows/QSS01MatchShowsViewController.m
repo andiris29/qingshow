@@ -57,7 +57,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self.matchCollectionViewProvider refreshClickedData];
+    [self.matchCollectionViewProvider refreshVisibleData];
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.matchCollectionViewProvider cancelImageLoading];
 }
 
 - (void)configProvider

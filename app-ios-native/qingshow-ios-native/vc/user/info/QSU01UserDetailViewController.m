@@ -138,12 +138,9 @@
 
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
-    [self.matchProvider reloadData];
-    [self.recommendProvider reloadData];
-    [self.favorProvider reloadData];
-    [self.followingProvider reloadData];
-    [self.followerProvider reloadData];
-    
+    for (QSAbstractListViewProvider* provider in @[self.matchProvider, self.recommendProvider, self.favorProvider, self.followingProvider, self.followerProvider]) {
+        [provider reloadData];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -155,6 +152,9 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    for (QSAbstractListViewProvider* provider in @[self.matchProvider, self.recommendProvider, self.favorProvider, self.followingProvider, self.followerProvider]) {
+        [provider cancelImageLoading];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

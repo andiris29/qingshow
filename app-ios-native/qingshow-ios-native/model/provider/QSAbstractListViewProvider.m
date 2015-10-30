@@ -242,4 +242,7 @@
 {
 
 }
+- (void)cancelImageLoading {
+
+}
 @end

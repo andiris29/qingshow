@@ -177,5 +177,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
     return self.imageFetchOperation;
     
 }
-
+- (void)cancelImageLoadingOperation {
+    if (self.imageFetchOperation) {
+        [self.imageFetchOperation cancel];
+        self.imageFetchOperation = nil;
+    }
+}
 @end

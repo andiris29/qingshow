@@ -212,6 +212,7 @@
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s03_show"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -69,6 +71,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String CLASS_NAME = "class_name";
+    private final int LOADING_FINISH = 0x1;
     @InjectView(R.id.S03_image_preground)
     SimpleDraweeView s03ImagePreground;
     @InjectView(R.id.S03_describe)
@@ -115,6 +118,20 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String className;
 
     private MenuView menuView;
+    private LoadingDialogs dialogs;
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(msg.what == LOADING_FINISH){
+                if(null == dialogs)return false;
+                if(dialogs.isShowing()){
+                    dialogs.dismiss();
+                    return true;
+                }
+            }
+            return false;
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +139,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
+        dialogs = new LoadingDialogs(S03SHowActivity.this);
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
         } else showId = "";
@@ -165,12 +183,12 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void getShowDetailFromNet() {
-        final LoadingDialogs dialogs = new LoadingDialogs(S03SHowActivity.this);
+
         dialogs.show();
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                dialogs.dismiss();
+                handler.sendEmptyMessage(LOADING_FINISH);
                 Log.d(S03SHowActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
@@ -373,10 +391,9 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
         switch (v.getId()) {
             case R.id.S03_item_btn://搭配清单
-                if(null == CategoriesModel.INSTANCE.getCategories()){
-                    getCategories();
-                    return;
-                }
+                jumpToS07();
+                return;
+            case R.id.S03_image:
                 jumpToS07();
                 return;
             case R.id.S03_comment_btn://评论
@@ -436,6 +453,10 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void jumpToS07(){
+        if(null == CategoriesModel.INSTANCE.getCategories()){
+            getCategories();
+            return;
+        }
         if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
         Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
         Bundle bundle = new Bundle();

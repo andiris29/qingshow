@@ -46,6 +46,8 @@
 - (NSString*)getTotalCountDesc;
 
 - (void)refreshClickedData;
+- (void)refreshVisibleData;
+- (void)cancelImageLoading;
 
 #pragma mark - Refresh Control
 - (void)addRefreshControl;
