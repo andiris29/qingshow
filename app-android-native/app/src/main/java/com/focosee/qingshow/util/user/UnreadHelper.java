@@ -75,6 +75,7 @@ public class UnreadHelper {
         if (null == user) return null;
 
         for (MongoPeople.UnreadNotification unreadNotification : user.unreadNotifications) {
+            if(TextUtils.isEmpty(unreadNotification.extra._id)) continue;
             if (unreadNotification.extra._id.equals(_id)) return unreadNotification.extra.command;
         }
 

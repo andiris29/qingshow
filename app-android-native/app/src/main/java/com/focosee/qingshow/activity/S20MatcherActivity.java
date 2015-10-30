@@ -431,13 +431,12 @@ public class S20MatcherActivity extends BaseActivity {
 
                 adapter.addDataAtLast(datas);
 
-                List<MongoItem> mongoItems = allSelect.get(categoryRef).data;
-                mongoItems.addAll(datas);
-
                 if (allSelect.containsKey(categoryRef)) {
+                    List<MongoItem> mongoItems = allSelect.get(categoryRef).data;
+                    mongoItems.addAll(datas);
                     allSelect.put(categoryRef, allSelect.get(categoryRef).setData(mongoItems));
                 } else {
-                    allSelect.put(categoryRef, new Select().setData(mongoItems));
+                    allSelect.put(categoryRef, new Select().setData(datas));
                 }
                 adapter.notifyDataSetChanged();
             }

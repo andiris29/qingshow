@@ -35,6 +35,7 @@
                     app:layout_marginTopPercent="18%"
                     app:layout_widthPercent="90%"
                     fresco:actualImageScaleType="fitCenter"
+                    android:onClick="onClick"
                     fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
 
                 <com.facebook.drawee.view.SimpleDraweeView

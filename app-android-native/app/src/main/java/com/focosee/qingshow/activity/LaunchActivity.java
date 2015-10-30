@@ -114,7 +114,7 @@ public class LaunchActivity extends InstrumentedActivity {
                 if (!QSModel.INSTANCE.isFinished(MongoPeople.GET_GUEST_USER))
                     userLoginAsGuest();
                 getUser();
-                CategoriesCommand.getCategories();
+                CategoriesCommand.getCategories(new Callback());
                 systemLog();
                 jump();
             }

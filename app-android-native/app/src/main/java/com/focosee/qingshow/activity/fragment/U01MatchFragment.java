@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -98,6 +99,7 @@ public class U01MatchFragment extends U01BaseFragment {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchCreatedbyApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Message message = new Message();
                 if(MetadataParser.hasError(response)){
                     if(MetadataParser.getError(response) != ErrorCode.PagingNotExist) {
                         ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
@@ -106,19 +108,21 @@ public class U01MatchFragment extends U01BaseFragment {
                         adapter.clearData();
                         adapter.notifyDataSetChanged();
                     }
-                    mRefreshLayout.endLoadingMore();
-                    mRefreshLayout.endRefreshing();
+
+                    message.arg1 = ERROR;
+                    handler.sendMessage(message);
                     return;
                 }
 
                 if (pageNo == 1) {
                     adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
-                    mRefreshLayout.endRefreshing();
+                    message.arg1 = REFRESH_FINISH;
                     currentPageN0 = pageNo;
                 }else{
                     adapter.addData(ShowParser.parseQuery_itemString(response));
-                    mRefreshLayout.endLoadingMore();
+                    message.arg1 = LOAD_FINISH;
                 }
+                handler.sendMessage(message);
                 currentPageN0++;
                 adapter.notifyDataSetChanged();
             }

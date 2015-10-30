@@ -76,7 +76,7 @@
             return c && c.intValue == i;
         }];
         [mCates removeObjectsInArray:cates];
-        [self _addCategories:cates maxRow:cates.count - 1 maxColumn:self.maxColumn];
+        [self _addCategories:cates maxRow:(int)(cates.count - 1) maxColumn:self.maxColumn];
     }
     
     if (mCates.count) {
@@ -228,7 +228,13 @@
     } else if (ges.state == UIGestureRecognizerStateChanged) {
         float newScale = ges.scale;
         CGRect preBound = self.currentFocusView.bounds;
-        self.currentFocusView.bounds = CGRectMake(0, 0, preBound.size.width * newScale / self.prePinchScale, preBound.size.height * newScale / self.prePinchScale);
+        CGRect newBound = CGRectMake(0, 0, preBound.size.width * newScale / self.prePinchScale, preBound.size.height * newScale / self.prePinchScale);
+
+        if (newBound.size.width > 10 && newBound.size.height > 10) {
+            //防止被缩太小
+            self.currentFocusView.bounds = newBound;
+        }
+
         if (!CGRectContainsRect(self.bounds, self.currentFocusView.frame)) {
             //不移出画布
             self.currentFocusView.bounds = preBound;

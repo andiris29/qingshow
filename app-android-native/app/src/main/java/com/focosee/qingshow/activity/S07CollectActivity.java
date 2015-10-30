@@ -1,14 +1,17 @@
 package com.focosee.qingshow.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.CategoriesCommand;
+import com.focosee.qingshow.model.CategoriesModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.ComparatorList;
 import com.focosee.qingshow.util.filter.Filter;
@@ -21,6 +24,8 @@ import butterknife.InjectView;
 
 public class S07CollectActivity extends BaseActivity {
 
+    private final int GET_CATEGORIES = 0x1;
+
     public static final String INPUT_ITEMS = "S07CollectActivity_input_items";
     public static boolean isOpened = false;
     @InjectView(R.id.s07_back_icon)
@@ -32,12 +37,35 @@ public class S07CollectActivity extends BaseActivity {
 
     private ArrayList<MongoItem> items;
 
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == GET_CATEGORIES) {
+                init();
+            }
+            return false;
+        }
+    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s07_collect);
         ButterKnife.inject(this);
 
+        if (null == CategoriesModel.INSTANCE.getCategories()) {
+            CategoriesCommand.getCategories(new Callback() {
+                @Override
+                public void onComplete() {
+                    handler.sendEmptyMessage(GET_CATEGORIES);
+                }
+            });
+        } else {
+            init();
+        }
+    }
+
+    private void init() {
         s07BackIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,8 +73,7 @@ public class S07CollectActivity extends BaseActivity {
             }
         });
 
-        Intent intent = getIntent();
-        final Bundle bundle = intent.getExtras();
+        final Bundle bundle = getIntent().getExtras();
         items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
         Collections.sort(items, ComparatorList.itemComparator());
         FilterHepler.filterList(items, new Filter() {
@@ -62,10 +89,9 @@ public class S07CollectActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(S07CollectActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new S07ListAdapter(items, S07CollectActivity.this, getIntent().getStringExtra(S10ItemDetailActivity.PROMOTRER),R.layout.item_s07_item_list,R.layout.item_s07_text);
+        adapter = new S07ListAdapter(items, S07CollectActivity.this, getIntent().getStringExtra(S10ItemDetailActivity.PROMOTRER), R.layout.item_s07_item_list, R.layout.item_s07_text);
         recyclerView.setAdapter(adapter);
     }
-
 
 
     @Override

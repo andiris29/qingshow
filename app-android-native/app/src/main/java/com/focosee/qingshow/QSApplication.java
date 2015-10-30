@@ -11,6 +11,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.exception.CrashHandler;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
@@ -21,6 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import java.io.File;
@@ -50,6 +52,9 @@ public class QSApplication extends Application {
         configImageLoader();
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
+        if(AppUtil.isApkInDebug(this)){
+            LeakCanary.install(this);
+        }
     }
 
     public void configImageLoader() {

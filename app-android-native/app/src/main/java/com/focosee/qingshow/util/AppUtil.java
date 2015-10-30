@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -40,7 +41,7 @@ public class AppUtil {
         }
     }
 
-    public static String getVersionCode(){
+    public static String getVersionCode() {
         try {
             Context context = QSApplication.instance();
             PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -108,5 +109,14 @@ public class AppUtil {
             return true;
         }
         return false;
+    }
+
+    public static boolean isApkInDebug(Context context) {
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

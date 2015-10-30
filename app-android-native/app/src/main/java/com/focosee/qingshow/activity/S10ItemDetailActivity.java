@@ -3,6 +3,8 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
@@ -47,6 +49,8 @@ import butterknife.InjectView;
  */
 public class S10ItemDetailActivity extends BaseActivity implements View.OnClickListener {
 
+    private final int LOADING_FINISH = 0x1;
+    private final int LOADING_START = 0x2;
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
     public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
     public static final String BONUSES_ITEMID = "BONUSES_ITEMID";
@@ -65,6 +69,26 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     private LoadingDialogs dialog;
 
     private boolean showble = false;
+
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what){
+                case LOADING_START:
+                    if(!dialog.isShowing())
+                        dialog.show();
+                    return true;
+                case LOADING_FINISH:
+                    if(null != dialog){
+                        if(dialog.isShowing()){
+                            dialog.dismiss();
+                        }
+                    }
+                    return true;
+            }
+            return false;
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,15 +158,13 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if(dialog.isShowing())
-                    dialog.dismiss();
+                handler.sendEmptyMessage(LOADING_FINISH);
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                if(!dialog.isShowing())
-                    dialog.show();
+                handler.sendEmptyMessage(LOADING_START);
             }
         });
         webview.loadUrl(url);
@@ -177,7 +199,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             public void onResponse(JSONObject response) {
 
                 Log.i("S10ItemDetailActivity",response.toString());
-                dialog.dismiss();
+                handler.sendEmptyMessage(LOADING_FINISH);
                 if (MetadataParser.hasError(response)) {
                     final ConfirmDialog confirmDialog = new ConfirmDialog(S10ItemDetailActivity.this);
                     confirmDialog.setTitle(getResources().getString(R.string.s10_scale_close));
@@ -207,7 +229,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
+                handler.sendEmptyMessage(LOADING_FINISH);
             }
         });
 

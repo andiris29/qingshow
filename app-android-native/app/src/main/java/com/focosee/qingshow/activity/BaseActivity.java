@@ -47,7 +47,7 @@ public abstract class BaseActivity extends FragmentActivity {
                                 @Override
                                 public void onComplete(JSONObject response) {
                                     reconn();
-                                    CategoriesCommand.getCategories();
+                                    CategoriesCommand.getCategories(new Callback());
                                 }
                             });
                             reconn();

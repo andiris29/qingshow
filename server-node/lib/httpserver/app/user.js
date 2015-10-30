@@ -332,7 +332,10 @@ _update = function(req, res) {
     function(people, callback) {
         if (qsParam.nickname) {
             People.find({
-                'nickname' : qsParam.nickname
+                'nickname' : qsParam.nickname,
+                '_id' : {
+                    '$ne' : req.qsCurrentUserId
+                }
             }, function(err, peoples){
                 if (peoples && peoples.length > 0) {
                     callback(errors.NickNameAlreadyExist);

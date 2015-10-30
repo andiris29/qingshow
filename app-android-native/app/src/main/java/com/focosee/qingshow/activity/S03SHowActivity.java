@@ -391,10 +391,9 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
         switch (v.getId()) {
             case R.id.S03_item_btn://搭配清单
-                if(null == CategoriesModel.INSTANCE.getCategories()){
-                    getCategories();
-                    return;
-                }
+                jumpToS07();
+                return;
+            case R.id.S03_image:
                 jumpToS07();
                 return;
             case R.id.S03_comment_btn://评论
@@ -454,6 +453,10 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void jumpToS07(){
+        if(null == CategoriesModel.INSTANCE.getCategories()){
+            getCategories();
+            return;
+        }
         if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
         Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
         Bundle bundle = new Bundle();

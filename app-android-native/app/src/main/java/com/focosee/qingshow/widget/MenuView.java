@@ -50,6 +50,8 @@ import butterknife.InjectView;
  */
 public class MenuView extends Fragment implements View.OnClickListener {
 
+    private static final int SDK_INT = 18;
+
     @InjectView(R.id.navigation_btn_match)
     ImageButton navigationBtnMatch;
     @InjectView(R.id.navigation_btn_match_tv)
@@ -110,19 +112,21 @@ public class MenuView extends Fragment implements View.OnClickListener {
         mGroup.addView(mView);
 
         setListener();
-        blurView.setDrawingCacheEnabled(true);
-        blurView.buildDrawingCache();
-        blurBitmap = blurView.getDrawingCache();
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                blurBitmap = convertToBlur(blurBitmap, getActivity());
-                Message message = new Message();
-                message.obj = blurBitmap;
-                handler.sendMessage(message);
-            }
-        };
-        thread.start();
+        if(Build.VERSION.SDK_INT >= SDK_INT) {
+            blurView.setDrawingCacheEnabled(true);
+            blurView.buildDrawingCache();
+            blurBitmap = blurView.getDrawingCache();
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    blurBitmap = convertToBlur(blurBitmap, getActivity());
+                    Message message = new Message();
+                    message.obj = blurBitmap;
+                    handler.sendMessage(message);
+                }
+            };
+            thread.start();
+        }
 
         Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.push_left_in);
 
@@ -237,6 +241,8 @@ public class MenuView extends Fragment implements View.OnClickListener {
             public void run() {
                 mView.setVisibility(View.GONE);
                 blurView.destroyDrawingCache();
+                if(null != blurBitmap)
+                    blurBitmap.recycle();
                 mGroup.removeView(mView);
             }
         }, duration);
@@ -245,7 +251,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
 
     public static Bitmap convertToBlur(Bitmap bmp, Context context) {
         final int radius = 20;
-        if (Build.VERSION.SDK_INT > 16) {
+        if (Build.VERSION.SDK_INT >= SDK_INT) {
             Log.d(MenuView.class.getSimpleName(), "VERSION.SDK_INT " + Build.VERSION.SDK_INT);
             Bitmap bitmap = bmp.copy(bmp.getConfig(), true);
 
