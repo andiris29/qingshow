@@ -75,6 +75,15 @@ admin.queryItemByNickName = {
     }
 };
 
+var _isFake = function(people){
+    if(isNaN(people.userInfo.id)) {
+        return false
+    } else {
+        var n = parseInt(people.userInfo.id);
+        return n >=0 && n < 9000;
+    }
+}
+
 
 admin.getRealShow = {
     'method' : 'post',
@@ -102,7 +111,7 @@ admin.getRealShow = {
                     }).exec(function(err, people){
                         if (people) {
                             var temp = parseInt(people.userInfo.id);
-                            if(temp > 0 && temp < 7580){
+                            if(_isFake(people)){
                             }else{
                                 if (target.indexOf(people.nickname) === -1) {
                                     target.push(people.nickname);
