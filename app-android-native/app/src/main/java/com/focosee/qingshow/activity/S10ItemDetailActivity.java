@@ -24,17 +24,14 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
-import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -154,7 +151,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.s10_bay:
                 if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
                     GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-                    startActivity(new Intent(S10ItemDetailActivity.this, U06LoginActivity.class));
+                    startActivity(new Intent(S10ItemDetailActivity.this, U19LoginGuideActivity.class));
                     return;
                 }
                 dialog.show();

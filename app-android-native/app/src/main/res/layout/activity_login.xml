@@ -6,7 +6,7 @@
     android:background="@color/login_background"
     android:alpha="0.95"
     android:orientation="vertical"
-    tools:context="com.focosee.qingshow.activity.U06MobileLoginActivity">
+    tools:context="com.focosee.qingshow.activity.U06LoginActivity">
 
     <ImageButton
         android:id="@+id/backImageView"

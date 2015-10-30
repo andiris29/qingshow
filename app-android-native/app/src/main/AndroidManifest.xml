@@ -169,7 +169,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".activity.U06MobileLoginActivity"
+            android:name=".activity.U06LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
@@ -304,7 +304,7 @@
             android:name=".activity.U17ResetPasswordStep1Activity"
             android:label="@string/title_activity_u17_reset_password_step1"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:parentActivityName=".activity.U06MobileLoginActivity"
+            android:parentActivityName=".activity.U06LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -315,7 +315,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.U06LoginActivity"
+            android:name=".activity.U19LoginGuideActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_u06_login" >

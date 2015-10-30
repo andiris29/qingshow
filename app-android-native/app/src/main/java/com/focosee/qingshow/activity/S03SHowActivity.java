@@ -393,7 +393,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
             case R.id.S03_share_btn://分享
                 if (!QSModel.INSTANCE.loggedin()) {
                     GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-                    startActivity(new Intent(S03SHowActivity.this, U06LoginActivity.class));
+                    startActivity(new Intent(S03SHowActivity.this, U19LoginGuideActivity.class));
                 }
                 sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener(S03SHowActivity.this));
                 sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);

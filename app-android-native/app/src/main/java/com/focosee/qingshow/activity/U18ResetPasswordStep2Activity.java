@@ -85,7 +85,7 @@ public class U18ResetPasswordStep2Activity extends BaseActivity {
                             UserCommand.logOut(new Callback() {
                                 @Override
                                 public void onComplete() {
-                                    startActivity(new Intent(U18ResetPasswordStep2Activity.this, U06LoginActivity.class));
+                                    startActivity(new Intent(U18ResetPasswordStep2Activity.this, U19LoginGuideActivity.class));
                                     finish();
                                 }
                             });

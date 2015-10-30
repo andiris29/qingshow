@@ -1,218 +1,190 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-
+import android.widget.Button;
+import android.widget.EditText;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
+import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.constants.config.ShareConfig;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
+import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
+import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
-import com.focosee.qingshow.widget.QSTextView;
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuthListener;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-
+import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U06LoginActivity extends Activity implements View.OnClickListener{
+public class U06LoginActivity extends BaseActivity {
 
-    @InjectView(R.id.close)
-    ImageView close;
-    @InjectView(R.id.u06_mobile_login)
-    ImageView u06MobileLogin;
-    @InjectView(R.id.u06_mobile_login_text)
-    QSTextView u06MobileLoginText;
-    @InjectView(R.id.u06_weixin_login)
-    ImageView u06WeixinLogin;
-    @InjectView(R.id.u06_weixin_login_text)
-    QSTextView u06WeixinLoginText;
-    @InjectView(R.id.u06_weibo_login)
-    ImageView u06WeiboLogin;
-    @InjectView(R.id.u06_weibo_login_text)
-    QSTextView u06WeiboLoginText;
-    @InjectView(R.id.u06_loging_register_btn)
-    QSButton u06LogingRegisterBtn;
-
-    private LoadingDialogs dialogs;
-
-    private IWXAPI wxApi;
-    private AuthInfo mAuthInfo;
-    /**
-     * 注意：SsoHandler 仅当 SDK 支持 SSO 时有效
-     */
-    private SsoHandler mSsoHandler;
+    public static String LOGIN_SUCCESS = "logined";
+    @InjectView(R.id.forget_password_btn)
+    QSButton forgetPasswordBtn;
+    private EditText accountEditText;
+    private EditText passwordEditText;
+    private Context context;
+    private RequestQueue requestQueue;
+    private LoadingDialogs pDialog;
+    private int[] portraits = {R.drawable.default_head_1, R.drawable.default_head_2, R.drawable.default_head_3, R.drawable.default_head_4
+            , R.drawable.default_head_5, R.drawable.default_head_6};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_u06_login);
+        setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
 
-        wxApi = QSApplication.instance().getWxApi();
-        dialogs = new LoadingDialogs(this);
-
-        // 创建微博实例
-        //mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-        // 快速授权时，请不要传入 SCOPE，否则可能会授权不成功
-        mAuthInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
-        mSsoHandler = new SsoHandler(U06LoginActivity.this, mAuthInfo);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.u06_mobile_login:
-                startActivity(new Intent(U06LoginActivity.this, U06MobileLoginActivity.class));
+        findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
-                break;
-            case R.id.u06_weixin_login:
-                weiChatLogin();
-                break;
-            case R.id.u06_weibo_login:
-                weiBoLogin();
-                break;
-            case R.id.u06_loging_register_btn:
-                startActivity(new Intent(U06LoginActivity.this, U07RegisterActivity.class));
-                finish();
-                break;
-            case R.id.close:
-                finish();
-                break;
-        }
-    }
+            }
+        });
 
-    public void weiChatLogin() {
-        // send oauth request
-        if (!wxApi.isWXAppInstalled()) {
-            //提醒用户没有按照微信
-            ToastUtil.showShortToast(getApplicationContext(), "您还没有安装微信，请先安装微信");
-            return;
-        }
+        context = getApplicationContext();
 
-        final SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "qingshow_wxlogin";
-        wxApi.sendReq(req);
+        Button submitButton;
+        pDialog = new LoadingDialogs(this, R.style.dialog);
 
-        dialogs.show();
-    }
+        submitButton = (Button) findViewById(R.id.submitButton);
+        accountEditText = (EditText) findViewById(R.id.accountEditText);
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
-    public void weiBoLogin() {
-        mSsoHandler.authorize(new AuthListener());
-        dialogs.show();
-    }
+        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(null != dialogs && resultCode != -1){
-            if(dialogs.isShowing()) dialogs.dismiss();
-        }
-        mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    /**
-     * 微博认证授权回调类。
-     * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
-     *    该回调才会被执行。
-     * 2. 非 SSO 授权时，当授权结束后，该回调就会被执行。
-     * 当授权成功后，请保存该 access_token、expires_in、uid 等信息到 SharedPreferences 中。
-     */
+                pDialog.show();
 
-    /**
-     * 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能
-     */
-    private Oauth2AccessToken mAccessToken;
-
-    class AuthListener implements WeiboAuthListener {
-
-        @Override
-        public void onComplete(Bundle values) {
-            // 从 Bundle 中解析 Token
-            mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-            if (mAccessToken.isSessionValid()) {
                 Map<String, String> map = new HashMap<>();
-                map.put("access_token", mAccessToken.getToken());
-                map.put("uid", mAccessToken.getUid());
+                map.put("idOrNickName", accountEditText.getText().toString());
+                map.put("password", passwordEditText.getText().toString());
+                Log.i("JPush_QS", "login" + PushModel.INSTANCE.getRegId());
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
-                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWbApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        if (MetadataParser.hasError(response)) {
-                            ErrorHandler.handle(U06LoginActivity.this, MetadataParser.getError(response));
-                            if(null != dialogs){
-                                if(dialogs.isShowing()) dialogs.dismiss();
-                            }
-                            return;
-                        }
 
-                        ToastUtil.showShortToast(U06LoginActivity.this, getString(R.string.login_successed));
-                        MongoPeople user = UserParser._parsePeople(response);
-                        QSModel.INSTANCE.login(user);
-                        if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
-                            Intent intent = new Intent(U06LoginActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("user", user);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                        finish();
-                        return;
+                QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
+                        QSAppWebAPI.getLoginServiceUrl(),
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                pDialog.dismiss();
+
+                                MongoPeople user = UserParser.parseLogin(response);
+                                if (user == null) {
+                                    if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {
+                                        ToastUtil.showShortToast(getApplicationContext(), "账号或密码错误");
+                                    } else {
+                                        ToastUtil.showShortToast(getApplicationContext(), "请重试");
+                                    }
+                                } else {
+                                    QSModel.INSTANCE.login(user);
+                                    if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
+                                        Intent intent = new Intent(U06LoginActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable("user", user);
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                        GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+                                        if (TextUtils.isEmpty(user.portrait)) {
+                                            uploadImage();
+                                        }
+                                    }
+                                    sendBroadcast(new Intent(LOGIN_SUCCESS));
+                                    finish();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("TAG", error.getMessage(), error);
                     }
                 });
-
-                RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-            } else {
-                // 以下几种情况，您会收到 Code：
-                // 1. 当您未在平台上注册的应用程序的包名与签名时；
-                // 2. 当您注册的应用程序包名与签名不正确时；
-                // 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
-                if(null != dialogs){
-                    if(dialogs.isShowing()) dialogs.dismiss();
-                }
-                String code = values.getString("code");
-                String message = "微博登录出错";
-                if (!TextUtils.isEmpty(code)) {
-                    message = message + "\nObtained the code: " + code;
-                }
-                ToastUtil.showShortToast(getApplicationContext(), message);
+                requestQueue.add(stringRequest);
             }
-        }
+        });
 
-        @Override
-        public void onCancel() {
-        }
+        forgetPasswordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(U06LoginActivity.this, U17ResetPasswordStep1Activity.class));
+                finish();
+            }
+        });
+    }
 
-        @Override
-        public void onWeiboException(WeiboException e) {
-        }
+    private void uploadImage() {
+
+        QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
+                QSAppWebAPI.getUserUpdateportrait(), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) return;
+                MongoPeople user = UserParser._parsePeople(response);
+                if (user != null) {
+                    UserCommand.refresh();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        int i = (int) Math.random() * 5;
+        QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
+        multipartEntity.addBinaryPart("portrait", BitMapUtil.bmpToByteArray(BitmapFactory.decodeResource(getResources(), portraits[i]), false, Bitmap.CompressFormat.JPEG));
+        RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
+    }
+
+    @Override
+    public void reconn() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U06Login"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U06Login"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

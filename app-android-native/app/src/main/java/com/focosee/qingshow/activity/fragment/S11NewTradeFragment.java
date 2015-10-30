@@ -25,7 +25,7 @@ import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
-import com.focosee.qingshow.activity.U06LoginActivity;
+import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -53,8 +53,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -309,7 +307,7 @@ public class S11NewTradeFragment extends Fragment {
     public void submit() {
         if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-            startActivity(new Intent(getActivity(), U06LoginActivity.class));
+            startActivity(new Intent(getActivity(), U19LoginGuideActivity.class));
             return;
         }
 
