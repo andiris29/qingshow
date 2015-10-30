@@ -154,7 +154,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.s10_bay:
                 if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
                     GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-                    startActivity(new Intent(S10ItemDetailActivity.this, U07RegisterActivity.class));
+                    startActivity(new Intent(S10ItemDetailActivity.this, U06LoginActivity.class));
                     return;
                 }
                 dialog.show();

@@ -33,7 +33,7 @@ import com.focosee.qingshow.activity.S20MatcherActivity;
 import com.focosee.qingshow.activity.T01HighlightedTradeListActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
-import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.fragment.U02SelectExceptionFragment;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
@@ -295,7 +295,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
             case R.id.navigation_btn_discount:
                 if (getActivity() instanceof U09TradeListActivity) return;
                 if(QSModel.INSTANCE.isGuest()){
-                    startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+                    startActivity(new Intent(getActivity(), U06LoginActivity.class));
                     return;
                 }
                 _class = U09TradeListActivity.class;
@@ -312,7 +312,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
 
         if (!QSModel.INSTANCE.loggedin()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
-            startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+            startActivity(new Intent(getActivity(), U06LoginActivity.class));
             return;
         }
 

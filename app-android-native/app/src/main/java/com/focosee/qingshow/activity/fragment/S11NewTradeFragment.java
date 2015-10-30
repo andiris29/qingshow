@@ -25,7 +25,7 @@ import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
-import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -79,18 +79,10 @@ public class S11NewTradeFragment extends Fragment {
     QSTextView price;
     @InjectView(R.id.num)
     QSTextView numText;
-    @InjectView(R.id.discount)
-    TextView discountText;
-    @InjectView(R.id.total)
-    TextView total;
     @InjectView(R.id.cut_num)
     ImageView cutNum;
     @InjectView(R.id.plus_num)
     ImageView plusNum;
-    @InjectView(R.id.cut_discount)
-    ImageView cutDiscount;
-    @InjectView(R.id.plus_discount)
-    ImageView plusDiscount;
     @InjectView(R.id.submitBtn)
     Button submit;
     @InjectView(R.id.props)
@@ -108,10 +100,6 @@ public class S11NewTradeFragment extends Fragment {
 
     private int num = 1;
     private int numOffline = 1;
-
-    private int discountNum;
-    private int discountOffline;
-    private int discountOnline;
     private double basePrice;
     private int checkIndex[];
     private Map<String, String> skuTable = new HashMap<>();
@@ -139,14 +127,6 @@ public class S11NewTradeFragment extends Fragment {
         });
 
         basePrice = itemEntity.promoPrice.doubleValue();
-        if (itemEntity.minExpectedPrice == null) {
-            discountOffline = 7;
-        } else
-            discountOffline = (int)Math.rint((itemEntity.minExpectedPrice.doubleValue() / basePrice * 10));
-        discountNum = discountOnline = 9;
-        if (discountNum == 10)
-            discountNum = discountOnline = 9;
-
         initDes();
         if (null != itemEntity.skuTable && !Collections.emptyList().equals(itemEntity.skuTable)
                 && itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
@@ -156,7 +136,6 @@ public class S11NewTradeFragment extends Fragment {
             changeBtnClickable(false);
         }
 
-        checkDiscount();
         checkNum();
 
         return rootView;
@@ -318,40 +297,6 @@ public class S11NewTradeFragment extends Fragment {
         }
     }
 
-    @OnClick({R.id.cut_discount, R.id.plus_discount})
-    public void clickDiscount(ImageView v) {
-        switch (v.getId()) {
-            case R.id.cut_discount:
-                discountNum--;
-                checkDiscount();
-                break;
-            case R.id.plus_discount:
-                discountNum++;
-                checkDiscount();
-                break;
-        }
-    }
-
-    private void checkDiscount() {
-        discountText.setText(String.valueOf(discountNum) + getResources().getString(R.string.s11_discount));
-        total.setText(StringUtil.FormatPrice(basePrice / 10f * discountNum));
-        if (discountNum >= discountOnline) {
-            plusDiscount.setClickable(false);
-            plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus_hover));
-        } else {
-            plusDiscount.setClickable(true);
-            plusDiscount.setImageDrawable(getResources().getDrawable(R.drawable.plus));
-        }
-
-        if (discountNum <= discountOffline) {
-            cutDiscount.setClickable(false);
-            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut_hover));
-        } else {
-            cutDiscount.setClickable(true);
-            cutDiscount.setImageDrawable(getResources().getDrawable(R.drawable.cut));
-        }
-    }
-
     @OnClick({R.id.close, R.id.cancel})
     public void close() {
         getFragmentManager().popBackStack();
@@ -364,7 +309,7 @@ public class S11NewTradeFragment extends Fragment {
     public void submit() {
         if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-            startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+            startActivity(new Intent(getActivity(), U06LoginActivity.class));
             return;
         }
 
@@ -378,7 +323,6 @@ public class S11NewTradeFragment extends Fragment {
 
                 submit.setClickable(false);
                 trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
-                trade.expectedPrice = new BigDecimal(basePrice * discountNum * 0.1).setScale(2, RoundingMode.HALF_UP).floatValue();
                 trade.itemSnapshot = itemEntity;
                 trade.quantity = num;
                 submitToNet(trade);

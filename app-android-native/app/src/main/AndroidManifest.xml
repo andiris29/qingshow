@@ -8,7 +8,7 @@
         android:protectionLevel="signature" />
 
     <!-- Required  一些系统要求的权限，如访问网络等 -->
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.focosee.qingshow.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -165,15 +165,15 @@
         <activity
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/title_activity_register"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".activity.U06LoginActivity"
+            android:name=".activity.U06MobileLoginActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.U09TradeListActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -271,8 +271,8 @@
         <activity
             android:name=".activity.G02WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_g02_welcome" />
+            android:label="@string/title_activity_g02_welcome"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.S21CategoryActivity" />
         <activity
             android:name=".activity.S20MatcherActivity"
@@ -281,36 +281,42 @@
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_s01_match_shows" />
+            android:label="@string/title_activity_s01_match_shows"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PushWebActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.CityActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_city" />
+            android:label="@string/title_activity_city"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U16BonusListActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_u16_bonus_list" >
+            android:label="@string/title_activity_u16_bonus_list"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.T01HighlightedTradeListActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_t01_highlighted_trade_list" >
+            android:label="@string/title_activity_t01_highlighted_trade_list"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.U17ResetPasswordStep1Activity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_u17_reset_password_step1"
-            android:parentActivityName=".activity.U06LoginActivity" >
+            android:parentActivityName=".activity.U06MobileLoginActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.U18ResetPasswordStep2Activity"
-            android:screenOrientation="portrait"
+            android:label="@string/title_activity_u18_reset_password_step2"
             android:parentActivityName=".activity.U17ResetPasswordStep1Activity"
-            android:label="@string/title_activity_u18_reset_password_step2" >
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.U06LoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_u06_login" >
         </activity>
     </application>
 

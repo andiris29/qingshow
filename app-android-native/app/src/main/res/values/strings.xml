@@ -59,7 +59,7 @@
     <string name="confirm_activity_register">再次输入密码</string>
     <string name="submit_activity_register">注册倾秀账号</string>
     <string name="phone_email_activity_register">输入手机号码</string>
-    <string name="verification_code_activity_register">输入验证码</string>
+    <string name="verification_code_activity_register">输入手机验证码</string>
     <string name="or_activity_register">or</string>
     <string name="weixin_login_activity_register">微信登录</string>
     <string name="weibologin_activity_register">微博登录</string>
@@ -74,9 +74,11 @@
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
     <string name="login_activity_login">立即登录</string>
-    <string name="register1_activity_login">注册倾秀账号</string>
+    <string name="register1_activity_login">注册</string>
     <string name="login_successed">登录成功</string>
     <string name="mobile_login">手机登录</string>
+    <string name="mobile_register">手机注册</string>
+    <string name="goto_register">还没账号，立即注册</string>
 
     <!-- Personal Activity -->
     <string name="title_activity_personal">PersonalActivity</string>
@@ -256,4 +258,5 @@
     <string name="need_input_phone">*请正确输入手机号码</string>
     <string name="need_input_verification">*请正确输入验证码</string>
     <string name="title_activity_u18_reset_password_step2">U18ResetPasswordStep2</string>
+    <string name="title_activity_u06_login">U06LoginActivity</string>
 </resources>

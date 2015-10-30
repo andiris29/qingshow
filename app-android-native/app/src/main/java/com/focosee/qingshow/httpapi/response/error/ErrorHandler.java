@@ -3,7 +3,7 @@ package com.focosee.qingshow.httpapi.response.error;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.util.ToastUtil;
 
 /**
@@ -49,7 +49,7 @@ public class ErrorHandler {
                 Log.d(TAG, "AlreadyLikeShow");
                 break;
             case ErrorCode.NeedLogin:
-                Intent intent = new Intent(context, U07RegisterActivity.class);
+                Intent intent = new Intent(context, U06LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 break;
