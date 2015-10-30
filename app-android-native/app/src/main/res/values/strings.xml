@@ -56,6 +56,7 @@
     <string name="account_hint_activity_register">输入昵称</string>
     <string name="password_activity_register">密码</string>
     <string name="password_hint_activity_register">输入密码</string>
+    <string name="reinput_password">重新输入密码</string>
     <string name="confirm_activity_register">再次输入密码</string>
     <string name="submit_activity_register">注册倾秀账号</string>
     <string name="phone_email_activity_register">输入手机号码</string>
@@ -158,6 +159,7 @@
     <string name="s02_title_name">潮流单品</string>
     <string name="s17_title_name">美搭榜单</string>
     <string name="u17_title_name">找回密码</string>
+    <string name="u18_title_name">重置密码</string>
 
     <!-- comm -->
     <string name="no_more_data">没有更多数据了！</string>

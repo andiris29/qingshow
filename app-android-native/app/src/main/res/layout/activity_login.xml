@@ -19,16 +19,11 @@
         android:src="@drawable/nav_btn_back_white" />
 
     <LinearLayout
-        android:id="@+id/u06_login_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/white_btn_ring"
+        style="@style/login_linearlayout"
+        app:layout_heightPercent="50%"
         app:layout_marginLeftPercent="5%"
         app:layout_marginRightPercent="5%"
-        app:layout_marginTopPercent="25%"
-        android:alpha="1"
-        android:orientation="vertical">
+        app:layout_marginTopPercent="25%">
 
         <RelativeLayout
             android:id="@+id/accountRelativeLayout"
@@ -141,27 +136,16 @@
 
         </RelativeLayout>
         <android.support.percent.PercentRelativeLayout
-            android:id="@+id/submitRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/bg_activity_settings"
-            android:gravity="center">
+            style="@style/login_percent_relative">
 
             <com.focosee.qingshow.widget.QSButton
                 android:id="@+id/submitButton"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                app:layout_marginTopPercent="15%"
-                app:layout_marginBottomPercent="25%"
-                android:background="@drawable/pink_deep_btn"
-                android:text="@string/login_activity_login"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:alpha="15"
-                app:clickGround="@drawable/round_btn_background"
                 app:layout_marginLeftPercent="15%"
-                app:layout_marginRightPercent="15%" />
+                app:layout_marginRightPercent="15%"
+                app:layout_marginBottomPercent="15%"
+                app:clickGround="@drawable/round_btn_background"
+                style="@style/login_submit_btn"
+                android:text="@string/login_activity_login"/>
         </android.support.percent.PercentRelativeLayout>
     </LinearLayout>
 
