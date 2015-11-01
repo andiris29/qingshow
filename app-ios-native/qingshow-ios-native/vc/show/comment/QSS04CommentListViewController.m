@@ -149,7 +149,10 @@
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
+    NSDictionary* comment = nil;
+    if (self.clickIndex >= 0 && self.clickIndex < self.delegateObj.resultArray.count) {
+        comment = self.delegateObj.resultArray[self.clickIndex];
+    }
 
     //0 查看个人主页
     
@@ -157,7 +160,7 @@
         //删除评论
         int index = self.clickIndex;
         self.clickIndex = -1;
-        if (self.showDict) {
+        if (self.showDict && comment) {
             [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
                 [self.delegateObj.resultArray removeObjectAtIndex:index];
                 [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
