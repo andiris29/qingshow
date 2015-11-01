@@ -86,11 +86,9 @@
                 [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
             }
             
-            if ([[UIView class] respondsToSelector:@selector(performWithoutAnimation:)]) {
-                [UIView performWithoutAnimation:^{
-                    [self.view insertItemsAtIndexPaths:indexPaths];
-                }];
-            }
+            [self.view performBatchUpdates:^{
+                [self.view insertItemsAtIndexPaths:indexPaths];
+            } completion:nil];
         }
     } completion:block];
 }
@@ -113,6 +111,5 @@
 {
     return self.resultArray.count;
 }
-
 @end
 
