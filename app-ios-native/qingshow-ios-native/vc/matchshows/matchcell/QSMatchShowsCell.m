@@ -94,7 +94,7 @@
 }
 
 - (void)cancelImageLoading {
-    for (UIImageView* imgView in @[self.headerImgView, self.bodyTypeImgView, self.matchShowImgview, self.bgImgView]) {
+    for (UIImageView* imgView in @[self.headerImgView, self.matchShowImgview, self.bgImgView]) {
         [imgView cancelImageLoadingOperation];
     }
 }
