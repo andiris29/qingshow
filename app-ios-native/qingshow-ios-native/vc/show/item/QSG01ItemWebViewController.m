@@ -68,6 +68,8 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    self.discountLayerContainer.frame = CGRectMake(5, 20, self.view.bounds.size.width - 10, self.view.bounds.size.height - 40);
+    self.discountVc.view.frame = self.discountTableViewContainer.bounds;
     if ([UIScreen mainScreen].bounds.size.width == 320 && [UIScreen mainScreen].bounds.size.height == 480) {
         CGRect submitFrame = CGRectMake(165, 420, 115, 33);
         CGRect cancelFrame = CGRectMake(10, 420, 115, 33);
@@ -95,13 +97,14 @@
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     [self.view addSubview:self.discountLayerContainer];
-    self.discountLayerContainer.frame = CGRectMake(10, 20, self.discountLayerContainer.bounds.size.width - 20, self.discountLayerContainer.bounds.size.height - 40);
+
     self.discountLayerContainer.hidden = YES;
     UIImage* img = [UIImage imageNamed:@"discount_container_bg"];
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
     self.discountBackgroundView.image = img;
     
     self.discountVc.view.frame = self.discountTableViewContainer.bounds;
+    [self addChildViewController:self.discountVc];
     [self.discountTableViewContainer addSubview:self.discountVc.view];
 
     

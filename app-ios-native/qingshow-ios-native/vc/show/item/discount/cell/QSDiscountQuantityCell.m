@@ -61,7 +61,7 @@
     }
 }
 - (CGFloat)getHeight:(NSDictionary*)itemDict {
-    return 80.f;
+    return 100.f;
 }
 - (int)quantity {
     return self.quantityLabel.text.intValue;

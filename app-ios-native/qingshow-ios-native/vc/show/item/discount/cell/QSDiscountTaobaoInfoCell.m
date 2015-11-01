@@ -19,7 +19,10 @@
 #define BTN_PADDING_X 5.f
 #define BTN_PADDING_Y 5.f
 
-#define ORIGIN_Y 8.f
+#define ORIGIN_Y 20.f
+#define LABEL_BTN_PADDING_Y 10.f
+#define CELL_BOTTOM_PADDING_Y 15.f
+
 #define LABEL_HEIGHT 13.f
 #define BTN_FONT [UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:12]
 
@@ -108,7 +111,7 @@
     if (self.title && self.title.length) {
         self.titleLabel.hidden = NO;
         self.titleLabel.text = self.title;
-        baseY = self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + ORIGIN_Y;
+        baseY = self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + LABEL_BTN_PADDING_Y;
     } else {
         self.titleLabel.hidden = YES;
         baseY = ORIGIN_Y;
@@ -210,7 +213,7 @@
     NSArray* compInfos = [comps subarrayWithRange:NSMakeRange(1, comps.count - 1)];
     float baseY = 0;
     if (title && title.length) {
-        baseY = ORIGIN_Y + LABEL_HEIGHT + ORIGIN_Y;
+        baseY = ORIGIN_Y + LABEL_HEIGHT + LABEL_BTN_PADDING_Y;
     } else {
         baseY = ORIGIN_Y;
     }
@@ -231,7 +234,7 @@
         
         oneSize = size;
     }
-    return baseY + oneSize.height + ORIGIN_Y;
+    return baseY + oneSize.height + CELL_BOTTOM_PADDING_Y;
 }
 
 - (CGSize)getBtnSize:(NSString*)str {

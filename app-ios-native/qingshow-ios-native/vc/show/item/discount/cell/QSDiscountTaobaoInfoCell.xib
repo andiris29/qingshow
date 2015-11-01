@@ -16,11 +16,11 @@
             <rect key="frame" x="0.0" y="0.0" width="270" height="70"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fzx-d8-Yl7" id="zJK-4S-fbr">
-                <rect key="frame" x="0.0" y="0.0" width="270" height="69.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="270" height="69"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m7V-3b-nk1">
-                        <rect key="frame" x="0.0" y="8" width="270" height="13"/>
+                        <rect key="frame" x="0.0" y="20" width="270" height="13"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

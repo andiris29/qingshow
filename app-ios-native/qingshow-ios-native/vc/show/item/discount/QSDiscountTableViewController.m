@@ -23,7 +23,7 @@
 @property (strong, nonatomic) NSArray* cellArray;
 
 @property (strong, nonatomic) QSDiscountQuantityCell* quantityCell;
-@property (strong, nonatomic) QSDiscountResultCell* resultCell;
+//@property (strong, nonatomic) QSDiscountResultCell* resultCell;
 @property (strong, nonatomic) NSArray* propCellArray;
 
 @end
@@ -83,9 +83,9 @@
     cell = [QSDiscountInfoCell generateCell];
     cell.delegate = self;
     [array addObject:cell];
-    self.resultCell = [QSDiscountResultCell generateCell];
-    self.resultCell.delegate = self;
-    [array addObject:self.resultCell];
+//    self.resultCell = [QSDiscountResultCell generateCell];
+//    self.resultCell.delegate = self;
+//    [array addObject:self.resultCell];
     NSArray* props = [QSItemUtil getSkuProperties:self.itemDict];
     for (int i = 0; i < props.count; i++) {
         QSDiscountTaobaoInfoCell* taobaoInfoCell = [QSDiscountTaobaoInfoCell generateCell];
@@ -104,7 +104,7 @@
 }
 
 - (void)updateTotalPrice {
-    self.resultCell.quantity = self.quantityCell.quantity;
+//    self.resultCell.quantity = self.quantityCell.quantity;
 }
 
 - (BOOL)checkComplete {
@@ -164,8 +164,8 @@
         return [cell getResult];
     }];
     retDict[@"quantity"] = @(self.quantityCell.quantity);
-    int singlePrice = [[self.resultCell getSinglePrice] intValue];
-    retDict[@"expectedPrice"] = [NSNumber numberWithInt:(singlePrice * self.quantityCell.quantity)];
+//    int singlePrice = [[self.resultCell getSinglePrice] intValue];
+//    retDict[@"expectedPrice"] = [NSNumber numberWithInt:(singlePrice * self.quantityCell.quantity)];
     return retDict;
 }
 - (void)refresh {

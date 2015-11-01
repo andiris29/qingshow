@@ -17,8 +17,6 @@
     // Initialization code
         [super awakeFromNib];
     self.priceLabel.isWithStrikeThrough = YES;
-    self.priceNameLabel.hidden = YES;
-    self.priceLabel.hidden = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -28,20 +26,18 @@
 }
 
 - (CGFloat)getHeight:(NSDictionary*)itemDict {
-    return 72.f;
+    return 124.f;
 }
 
 - (void)bindWithData:(NSDictionary*)itemDict {
     [self.iconImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
     if ([QSItemUtil getPromoPrice:itemDict]) {
-
-        self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];
-        self.promPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     } else {
-
-        self.promPriceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     }
+    [self.priceLabel sizeToFit];
 }
 
 + (instancetype)generateCell {
