@@ -115,16 +115,10 @@
        
     }
     
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
     
     // Do any additional setup after loading the view from its nib.
@@ -221,7 +215,7 @@
 }
 
 - (IBAction)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 //点击期望
 - (IBAction)selectMacth:(id)sender {
@@ -362,8 +356,6 @@
         [self showErrorHudWithText:@"请选择搭配期望"];
         return;
     }
-//    UIViewController *vc = [[QSS15ChosenViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
     self.age = [NSString stringWithFormat:@"%.0f", self.ageSlider.value];
     self.hight = [NSString stringWithFormat:@"%.0f", self.hightSlider.value];
     self.weight = [NSString stringWithFormat:@"%.0f", self.weightSlider.value];
@@ -375,7 +367,7 @@
                                     @"dressStyle" : @(self.dressStyle),
                                     @"expectations" : self.expectations}
                         onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
-                            [self.navigationController popViewControllerAnimated:YES];
+                            [self dismissViewControllerAnimated:YES completion:nil];
                         } onError:^(NSError *error) {
                             [self handleError:error];
                         }];

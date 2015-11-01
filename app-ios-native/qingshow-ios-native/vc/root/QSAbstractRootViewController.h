@@ -22,6 +22,12 @@
 
 @interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate, QSMenuProviderDelegate>
 
+@property (strong, nonatomic) UIView* contentContainerView;
+@property (strong, nonatomic) UIView* menuContainerView;
+@property (strong, nonatomic) UIView* popOverContainerView;
+
+
+
 - (void)hideMenu;
 
 @property (assign, nonatomic) BOOL hasFetchUserLogin;

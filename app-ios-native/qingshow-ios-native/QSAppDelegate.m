@@ -14,7 +14,6 @@
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "QSPaymentConst.h"
-#import "QSNavigationController.h"
 #import "QSNetworkKit.h"
 #import "QSRootContainerViewController.h"
 #import "APService.h"
@@ -172,11 +171,7 @@
 
 }
 - (void)_configRootVc {
-    QSRootContainerViewController* vc = (QSRootContainerViewController*)self.rootVc;
-    UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
-    
-    nav.navigationBar.translucent = NO;
-    self.window.rootViewController = nav;
+    self.window.rootViewController = self.rootVc;
 }
 
 

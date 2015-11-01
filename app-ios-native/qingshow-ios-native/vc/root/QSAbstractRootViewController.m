@@ -54,37 +54,22 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self configNavBar];
-    QSRootMenuView* menuView = [QSRootMenuView generateView];
     
-    //    [self.navigationController.view addSubview:menuView];
-    [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:menuView];
-    self.menuView = menuView;
-    self.fIsShowMenu = NO;
-    menuView.delegate = self;
-    
-    [self hideNaviBackBtnTitle];
-    
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    }
+    [self _initContainerViews];
+    [self _initMenuView];
     
     self.fIsFirstLoad = YES;
     
     self.welcomeVc = [[QSG02WelcomeViewController alloc] init];
     self.welcomeVc.delegate = self;
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
+#warning Somewhere to remove child view controller
+    [self addChildViewController:self.welcomeVc];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
     self.menuView.hidden = !self.fIsShowMenu;
     
     if (self.fIsFirstLoad) {
@@ -94,7 +79,7 @@
 //        userDefault valueFor
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         if (![[userDefault valueForKey:kWelcomePageVersionKey] isEqualToString:version]) {
-            [self.navigationController.view addSubview:self.welcomeVc.view];
+            [self.contentContainerView addSubview:self.welcomeVc.view];
             [userDefault setValue:version forKey:kWelcomePageVersionKey];
             [userDefault synchronize];
         }
@@ -106,13 +91,6 @@
 
 }
 
-- (void)handleCurrentUser
-{
-    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
-    if (userInfo && [QSPeopleUtil getPeopleRole:userInfo] == QSPeopleRoleUser && ![QSPeopleUtil hasPersonalizeData:userInfo]) {
-        [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
-    }
-}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -121,19 +99,57 @@
     
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self _layoutContainerViews];
+    self.menuView.frame = self.menuContainerView.bounds;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Configure View
-- (void)configNavBar
+
+#pragma mark -
+
+- (void)handleCurrentUser
 {
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
-    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
-    titleImageView.userInteractionEnabled = YES;
+    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
+    if (userInfo && [QSPeopleUtil getPeopleRole:userInfo] == QSPeopleRoleUser && ![QSPeopleUtil hasPersonalizeData:userInfo]) {
+#warning MOVE TO POPOVER CONTAINER
+        [self presentViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES completion:nil];
+    }
+}
+#pragma mark - Configure View
+- (void)_initContainerViews {
+    self.contentContainerView = [[UIView alloc] init];
+    [self.view addSubview:self.contentContainerView];
+    self.contentContainerView.hidden = NO;
+    self.menuContainerView = [[UIView alloc] init];
+    [self.view addSubview:self.menuContainerView];
     
-    self.navigationItem.titleView = titleImageView;
+    self.menuContainerView.hidden = YES;
+    self.popOverContainerView = [[UIView alloc] init];
+    [self.view addSubview:self.popOverContainerView];
+    self.popOverContainerView.hidden = YES;
+}
+- (void)_initMenuView {
+    QSRootMenuView* menuView = [QSRootMenuView generateView];
+    [self.menuContainerView addSubview:menuView];
+    self.menuView = menuView;
+    self.fIsShowMenu = NO;
+    menuView.delegate = self;
+
+}
+
+#pragma mark Layout
+
+- (void)_layoutContainerViews {
+    CGRect r = self.view.bounds;
+    self.contentContainerView.frame = r;
+    self.menuContainerView.frame = r;
+    self.popOverContainerView.frame = r;
 }
 
 #pragma mark - QSRootMenuViewDelegate
@@ -155,6 +171,7 @@
     {
         [self.menuView hideMenuAnimationComple:^{
             weakSelf.menuView.hidden = YES;
+            weakSelf.menuContainerView.hidden = YES;
         }];
     }
     else
@@ -163,6 +180,7 @@
         [self.menuView showMenuAnimationComple:^{
         }];
         weakSelf.menuView.hidden = NO;
+        weakSelf.menuContainerView.hidden = NO;
     }
     self.fIsShowMenu = !self.fIsShowMenu;
 }
@@ -174,6 +192,7 @@
         __weak QSAbstractRootViewController* weakSelf = self;
         [self.menuView hideMenuAnimationComple:^{
             weakSelf.menuView.hidden = YES;
+            weakSelf.menuContainerView.hidden = YES;
         }];
         self.fIsShowMenu = NO;
     }
@@ -205,5 +224,16 @@
 }
 - (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type {
     return nil;
+}
+
+#pragma mark - Rotation
+-(BOOL)shouldAutorotate {
+    return YES;
+}
+-(NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
 }
 @end

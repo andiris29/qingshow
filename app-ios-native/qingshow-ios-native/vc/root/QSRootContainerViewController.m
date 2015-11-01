@@ -10,11 +10,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSNavigationController.h"
 #import "QSUserManager.h"
 #import "QSS20MatcherViewController.h"
 #import "QSS01MatchShowsViewController.h"
-
+#import "QSNavigationController.h"
 #import "QSU09TradeListViewController.h"
 #import "QSU19LoginGuideViewController.h"
 
@@ -47,13 +46,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-    [self.navigationController.navigationBar
-     setTitleTextAttributes:@{
-                              NSFontAttributeName:NAVNEWFONT,
-                              NSForegroundColorAttributeName:[UIColor blackColor]
-                              }];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePrompToLoginNotification:) name:kShowLoginPrompVcNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHidePrompToLoginNotification:) name:kHideLoginPrompVcNotificationName object:nil];
 }
@@ -61,8 +53,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-    
     if (![QSUserManager shareUserManager].userInfo) {
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
     }
@@ -164,7 +154,7 @@
     [self.contentNavVc willMoveToParentViewController:nil];
     [self.contentNavVc removeFromParentViewController];
 
-    [self.view addSubview:nav.view];
+    [self.contentContainerView addSubview:nav.view];
     [self addChildViewController:nav];
     
 
@@ -182,10 +172,11 @@
         vc = [[UINavigationController alloc] initWithRootViewController: [[QSU19LoginGuideViewController alloc] init]];
         vc.view.backgroundColor = [UIColor clearColor];
         vc.navigationBarHidden = YES;
-        vc.view.frame = self.view.bounds;
+        vc.view.frame = self.popOverContainerView.bounds;
         [self addChildViewController:vc];
-        [self.view addSubview:vc.view];
+        [self.popOverContainerView addSubview:vc.view];
         self.loginGuideNavVc = vc;
+        self.popOverContainerView.hidden = NO;
     }
     return vc;
 }
@@ -217,5 +208,6 @@
     [self.loginGuideNavVc removeFromParentViewController];
     [self.loginGuideNavVc.view removeFromSuperview];
     self.loginGuideNavVc = nil;
+    self.popOverContainerView.hidden = YES;
 }
 @end
