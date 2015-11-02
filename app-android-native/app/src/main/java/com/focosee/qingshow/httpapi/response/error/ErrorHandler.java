@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.focosee.qingshow.activity.LaunchActivity;
+import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.ToastUtil;
@@ -53,11 +53,11 @@ public class ErrorHandler {
                 Log.d(TAG, "AlreadyLikeShow");
                 break;
             case ErrorCode.NeedLogin:
-                Class _class = U07RegisterActivity.class;
+                Class _class = U19LoginGuideActivity.class;
                 if(!TextUtils.isEmpty(QSModel.INSTANCE.getUserId())){
                     _class = LaunchActivity.class;
                 }
-                Intent intent = new Intent(context, U07RegisterActivity.class);
+                Intent intent = new Intent(context, _class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 break;
