@@ -1,19 +1,16 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
@@ -30,7 +27,6 @@ import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONArray;
@@ -194,8 +190,10 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if (!bitmap.isRecycled()) {
-            bitmap.recycle();
+        if(null != bitmap) {
+            if (!bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
         }
         super.onDestroy();
     }
