@@ -112,7 +112,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
         mGroup.addView(mView);
 
         setListener();
-        if(Build.VERSION.SDK_INT >= SDK_INT) {
+        if(Build.VERSION.SDK_INT >= SDK_INT && blurView != null) {
             blurView.setDrawingCacheEnabled(true);
             blurView.buildDrawingCache();
             blurBitmap = blurView.getDrawingCache();

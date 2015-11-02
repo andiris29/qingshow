@@ -132,6 +132,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         }
 
         Log.d("url:", url);
+        if(pageNo == 1){
+            adapter.clearData();
+        }
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
 
             @Override
@@ -141,6 +144,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                     ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
                     mRefreshLayout.endLoadingMore();
                     mRefreshLayout.endRefreshing();
+                    adapter.notifyDataSetChanged();
                     return;
                 }
 
