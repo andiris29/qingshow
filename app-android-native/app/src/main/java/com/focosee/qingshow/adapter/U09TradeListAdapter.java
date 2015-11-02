@@ -86,6 +86,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         discountBtn.setVisibility(View.GONE);
         circleTip.setVisibility(View.INVISIBLE);
         newDiscountCircleTip.setVisibility(View.GONE);
+
+        holder.getView(R.id.item_tradelist_exception).setVisibility(View.GONE);
+        holder.getView(R.id.item_tradelist_expectedPrice).setVisibility(View.GONE);
         if (null == getItemData(position)) return;
         final MongoTrade trade = getItemData(position);
         if (null == trade) return;
@@ -214,6 +217,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             });
             return;
         }
+
+        //成功栏
+        holder.getView(R.id.item_tradelist_exception).setVisibility(View.VISIBLE);
+        holder.getView(R.id.item_tradelist_expectedPrice).setVisibility(View.VISIBLE);
 
         if(trade.status == 17){
             holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));

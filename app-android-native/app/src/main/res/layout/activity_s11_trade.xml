@@ -108,7 +108,7 @@
                     android:id="@+id/numRl"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_below="@id/des"
+                    android:layout_below="@id/props"
                     android:orientation="horizontal"
                     app:layout_heightPercent="11%">
 

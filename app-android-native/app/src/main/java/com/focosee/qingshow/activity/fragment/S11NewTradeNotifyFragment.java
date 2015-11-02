@@ -73,10 +73,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
     QSTextView selectProp;
     @InjectView(R.id.num)
     QSTextView num;
-    @InjectView(R.id.expectedDiscount)
-    QSTextView expectedDiscount;
-    @InjectView(R.id.expectedPrice)
-    QSTextView expectedPrice;
     @InjectView(R.id.nowDiscount)
     TextView nowDiscount;
     @InjectView(R.id.nowPrice)
@@ -146,9 +142,6 @@ public class S11NewTradeNotifyFragment extends Fragment {
         SpannableString spannableString = new SpannableString(priceStr);
         spannableString.setSpan(new StrikethroughSpan(), 0, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         this.price.setText(spannableString);
-
-        expectedPrice.setText(StringUtil.FormatPrice(trade.expectedPrice));
-        expectedDiscount.setText(StringUtil.formatDiscount(trade.expectedPrice, trade.itemSnapshot.promoPrice));
 
         spannableString = new SpannableString(StringUtil.FormatPrice(trade.itemRef.expectable.price));
         spannableString.setSpan(new RelativeSizeSpan(0.5f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

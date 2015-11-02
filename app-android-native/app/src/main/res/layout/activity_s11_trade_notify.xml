@@ -115,19 +115,6 @@
                             style="@style/s11_notify_des_text"
                             app:preText="数量："
                             android:text="数量："/>
-
-                        <com.focosee.qingshow.widget.QSTextView
-                            android:id="@+id/expectedDiscount"
-                            style="@style/s11_notify_des_text"
-                            app:preText="申请折扣："
-                            android:text="申请折扣：" />
-
-                        <com.focosee.qingshow.widget.QSTextView
-                            android:id="@+id/expectedPrice"
-                            style="@style/s11_notify_des_text"
-                            app:preText="申请价格："
-                            android:text="申请价格：" />
-
                     </LinearLayout>
                 </LinearLayout>
 
