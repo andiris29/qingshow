@@ -132,9 +132,7 @@ feeding.matchHot = {
             async.waterfall([
             function(callback) {
                 var criteria = {
-                    'featuredRank' : {
-                        $exists : false
-                    }
+                    'featuredRank' : 2
                 };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'numLike' : -1
@@ -202,10 +200,9 @@ feeding.featured = {
             async.waterfall([
             function(callback) {
                 var criteria = {
-                    'featuredRank' : {$exists: true}
+                    'featuredRank' : 1
                 };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'featuredRank' : -1,
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
             }], outCallback);
