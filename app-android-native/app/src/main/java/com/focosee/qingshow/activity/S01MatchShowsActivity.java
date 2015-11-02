@@ -21,6 +21,8 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
@@ -31,6 +33,9 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -101,7 +106,6 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         mRefreshLayout.beginRefreshing();
         showNewTradeNotify(getIntent());
     }
-
 
     @Override
     public void reconn() {

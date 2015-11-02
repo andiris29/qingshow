@@ -14,11 +14,16 @@ import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.CategoriesCommand;
 import com.focosee.qingshow.command.SystemCommand;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
 
 import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -31,6 +36,7 @@ public abstract class BaseActivity extends FragmentActivity {
     public static String PUSHNOTIFY = "PUSHNOTIFY";
     public static String UPDATE_APP = "UPDATE_APP";
     private boolean isTop = true;
+    private final int TIME_LOGIN = 15000;
 
 
     BroadcastReceiver netReceiver = new BroadcastReceiver() {
@@ -105,6 +111,20 @@ public abstract class BaseActivity extends FragmentActivity {
         }
     };
 
+    private void showLoginGuide(){
+        if(QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED
+                || (QSModel.INSTANCE.getUserStatus() == MongoPeople.LOGIN_GUIDE_FINISHED && QSModel.INSTANCE.isGuest())) {
+            Timer timer = new Timer(true);
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(BaseActivity.this, U19LoginGuideActivity.class));
+                }
+            };
+            timer.schedule(timerTask, TIME_LOGIN);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +133,7 @@ public abstract class BaseActivity extends FragmentActivity {
         registerReceiver(updateAppReceiver, new IntentFilter(UPDATE_APP));
         getWindow().setBackgroundDrawable(null);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        showLoginGuide();
     }
 
     @Override

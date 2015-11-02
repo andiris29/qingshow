@@ -84,6 +84,10 @@ public class U19LoginGuideActivity extends Activity implements View.OnClickListe
         // 快速授权时，请不要传入 SCOPE，否则可能会授权不成功
         mAuthInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
         mSsoHandler = new SsoHandler(U19LoginGuideActivity.this, mAuthInfo);
+
+        if(QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED){
+            QSModel.INSTANCE.setUserStatus(MongoPeople.LOGIN_GUIDE_FINISHED);
+        }
     }
 
     @Override
@@ -177,6 +181,11 @@ public class U19LoginGuideActivity extends Activity implements View.OnClickListe
                         ToastUtil.showShortToast(U19LoginGuideActivity.this, getString(R.string.login_successed));
                         MongoPeople user = UserParser._parsePeople(response);
                         QSModel.INSTANCE.login(user);
+                        if(QSModel.INSTANCE.isGuest()){
+                            startActivity(new Intent(U19LoginGuideActivity.this, U07RegisterActivity.class));
+                            finish();
+                            return;
+                        }
                         if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
                             Intent intent = new Intent(U19LoginGuideActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
                             Bundle bundle = new Bundle();
