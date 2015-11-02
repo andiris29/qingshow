@@ -1,20 +1,14 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.widget.QSTextView;
-import com.focosee.qingshow.widget.flow.FlowRadioGroup;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -22,22 +16,8 @@ public class U20NewBonus extends Activity {
 
     @InjectView(R.id.close)
     ImageView close;
-    @InjectView(R.id.u20_item_image)
-    SimpleDraweeView u20ItemImage;
-    @InjectView(R.id.u20_user_head)
-    SimpleDraweeView u20UserHead;
-    @InjectView(R.id.u20_nickname)
-    QSTextView u20Nickname;
-    @InjectView(R.id.u20_msg_line1)
-    TextView u20MsgLine1;
-    @InjectView(R.id.u20_msg_line2)
-    TextView u20MsgLine2;
     @InjectView(R.id.u20_submit_btn)
     Button u20SubmitBtn;
-    @InjectView(R.id.u20_msg3)
-    TextView u20Msg3;
-    @InjectView(R.id.u20_msg3_layout)
-    LinearLayout u20Msg3Layout;
     @InjectView(R.id.u20_heads)
     LinearLayout u20Heads;
 
@@ -48,6 +28,21 @@ public class U20NewBonus extends Activity {
         ButterKnife.inject(this);
 
         showUserHeads();
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        u20SubmitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(U20NewBonus.this, U15BonusActivity.class));
+                finish();
+            }
+        });
     }
 
     private void showUserHeads() {
@@ -75,5 +70,4 @@ public class U20NewBonus extends Activity {
             u20Heads.addView(linearLayout);
         }
     }
-
 }

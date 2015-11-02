@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.BonusCommand;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -173,34 +174,12 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     public void onEventMainThread(ShareBonusEvent event) {
         if (event.errorCode == SendAuth.Resp.ErrCode.ERR_OK) {
 
-            Map<String, String> params = new HashMap<>();
-            params.put("alipayId", u15AlipayAccount.getText().toString());
-
-            QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST
-                    , QSAppWebAPI.getUserBonusWithdrawApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+            BonusCommand.bonusWithDraw(u15AlipayAccount.getText().toString(), U15BonusActivity.this, new Callback(){
                 @Override
-                public void onResponse(JSONObject response) {
-                    Log.d(U15BonusActivity.class.getSimpleName(), "response:" + response);
+                public void onComplete() {
                     withDrawBtn.setEnabled(true);
-                    if (MetadataParser.hasError(response)) {
-                        ToastUtil.showShortToast(getApplicationContext(), "提现失败，请重试");
-                        return;
-                    }
-                    UserCommand.refresh();
-                    final ConfirmDialog dialog = new ConfirmDialog(U15BonusActivity.this);
-                    dialog.setTitle(getString(R.string.bonus_share_successed_hint));
-                    dialog.setConfirm(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-                    dialog.show();
-                    dialog.hideCancel();
                 }
             });
-            RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
         }
     }
 
@@ -230,8 +209,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 withDrawBtn.setEnabled(false);
-                ShareUtil.shareBonusToWX(QSModel.INSTANCE.getUserId(), ValueUtil.SHARE_BONUS
-                        , U15BonusActivity.this, true);
+                ShareUtil.shareBonusToWX(U15BonusActivity.this);
                 break;
         }
     }

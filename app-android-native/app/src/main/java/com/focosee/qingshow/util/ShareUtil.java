@@ -17,6 +17,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.SharedObjectParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoSharedObjects;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -65,11 +66,11 @@ public class ShareUtil {
         });
     }
 
-    public static void shareBonusToWX(final String peopleId, final String transaction, final Context context, final boolean isTimelineCb) {
-        getShareObject(TYPE_BONUS, peopleId, context, new Callback() {
+    public static void shareBonusToWX(final Context context) {
+        getShareObject(TYPE_BONUS, QSModel.INSTANCE.getUserId(), context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
+                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, ValueUtil.SHARE_BONUS, context, true
                         , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
         });
