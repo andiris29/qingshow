@@ -247,3 +247,25 @@ show.share= {
 
     }
 };
+
+show.updateFeaturedRank = {
+    'method' : 'post',
+    'func' : function(req, res){
+        var qsParam = req.body;
+        async.waterfall([function(callback){
+            var criteria = {};
+            if (qsParam._id) {
+                criteria = {
+                    '_id' : RequestHelper.parseId(qsParam._id)
+                }
+            }else if(qsParam.ownerRef){
+                'ownerRef' : RequestHelper.parseId(qsParam.ownerRef)
+            }
+            Show.find(criteria).exec(callback);
+        }], function(err, shows){
+            ResponseHelper.response(res, err, {
+                'shows' : shows
+            });
+        })
+    }
+}

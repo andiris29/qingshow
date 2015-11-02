@@ -110,7 +110,7 @@ matcher.save = {
                     $exists: true
                 }
             }, function(err, shows){
-                if (shows) {
+                if (shows && shows.length > 0) {
                     featuredRank = shows[0].featuredRank;
                 }
                 callback(null, people, featuredRank);
