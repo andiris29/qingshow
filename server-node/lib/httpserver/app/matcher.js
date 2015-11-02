@@ -5,7 +5,7 @@ var _ = require('underscore');
 
 // model
 var Category = require('../../dbmodels').Category;
-var Item = require('../../dbmodels').Item;
+var Items = require('../../dbmodels').Item;
 var Show = require('../../dbmodels').Show;
 var People = require('../../dbmodels').People;
 
@@ -64,19 +64,19 @@ matcher.queryItems = {
             var queryItems = req.session.queryItems || {};
             var pageNo;
             if (queryItems[category._id.toString()]) {
-                pageNo = queryItems[category._id.toString()];
+                pageNo = parseInt(queryItems[category._id.toString()]);
             }
-            pageNo = pageNo? qsParam.pageNo + pageNo + 1 : qsParam.pageNo;
+            pageNo = pageNo? parseInt(qsParam.pageNo) + pageNo + 1 : parseInt(qsParam.pageNo);
             ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
                 MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, 
                     qsParam.pageSize, function(err, models, count){
-                        if (count < qsParam.pageSize && pageNo != 0) {
+                        if ((!count || count < qsParam.pageSize) && pageNo != 0) {
                             pageNo = 0;
                             MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
-                                queryItems[category._id.toString()] = pageNo;
-                                req.session.queryItems = queryItems;
-                                callback(err, models.concat(fillingModels), qsParam.pageSize);
-                            })
+                                callback(err, models ? models.concat(fillingModels) : fillingModels, qsParam.pageSize);
+                            });
+                            queryItems[category._id.toString()] = pageNo;
+                            req.session.queryItems = queryItems;
                         }else {
                             queryItems[category._id.toString()] = pageNo;
                             req.session.queryItems = queryItems;
