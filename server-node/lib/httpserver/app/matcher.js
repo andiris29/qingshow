@@ -60,8 +60,29 @@ matcher.queryItems = {
                 'categoryRef' : category._id,
                 '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}]
             };
+
+            var queryItems = req.session.queryItems || {};
+            var pageNo;
+            if (queryItems[category._id.toString()]) {
+                pageNo = queryItems[category._id.toString()];
+            }
+            pageNo = pageNo? qsParam.pageNo + pageNo + 1 : qsParam.pageNo;
             ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-                MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
+                MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, 
+                    qsParam.pageSize, function(err, models, count){
+                        if (count < qsParam.pageSize && pageNo != 0) {
+                            pageNo = 0;
+                            MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
+                                queryItems[category._id.toString()] = pageNo;
+                                req.session.queryItems = queryItems;
+                                callback(err, models.concat(fillingModels), qsParam.pageSize);
+                            })
+                        }else {
+                            queryItems[category._id.toString()] = pageNo;
+                            req.session.queryItems = queryItems;
+                            callback(err, models, count);
+                        }
+                    });
             }, function(items) {
                 return {
                     'items' : items
