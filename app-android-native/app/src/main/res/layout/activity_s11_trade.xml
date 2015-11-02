@@ -171,8 +171,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/numRl"
                     android:layout_marginTop="10dp"
-                    android:text="•该商品折扣成功系统将会通知您购买。"
-                    android:textColor="@color/gary"
+                    android:text="•系统将在24小时内通知您相关折扣信息。"
+                    android:textColor="@color/red"
                     android:textSize="16sp" />
 
                 <android.support.percent.PercentRelativeLayout

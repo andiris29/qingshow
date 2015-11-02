@@ -105,6 +105,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
         showNewTradeNotify(getIntent());
+
     }
 
     @Override
