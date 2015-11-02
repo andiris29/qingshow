@@ -166,15 +166,15 @@
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_register"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.U06LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.U09TradeListActivity"
@@ -306,23 +306,30 @@
         <activity
             android:name=".activity.U17ResetPasswordStep1Activity"
             android:label="@string/title_activity_u17_reset_password_step1"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:parentActivityName=".activity.U06LoginActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
             android:name=".activity.U18ResetPasswordStep2Activity"
             android:label="@string/title_activity_u18_reset_password_step2"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:parentActivityName=".activity.U17ResetPasswordStep1Activity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
             android:name=".activity.U19LoginGuideActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait"
+            android:label="@string/title_activity_u06_login"
             android:launchMode="singleTask"
-            android:label="@string/title_activity_u06_login" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".activity.U20NewBonus"
+            android:label="@string/title_activity_u20_new_bonus"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
     </application>
 

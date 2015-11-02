@@ -17,7 +17,7 @@
         android:id="@+id/close"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="5dp"
+        android:padding="10dp"
         android:layout_alignParentRight="true"
         android:layout_gravity="right"
         app:layout_marginPercent="2%"

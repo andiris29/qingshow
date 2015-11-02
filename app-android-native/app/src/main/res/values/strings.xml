@@ -261,4 +261,10 @@
     <string name="need_input_verification">*请正确输入验证码</string>
     <string name="title_activity_u18_reset_password_step2">U18ResetPasswordStep2</string>
     <string name="title_activity_u06_login">U06LoginActivity</string>
+    <string name="title_activity_u20_new_bonus">U20NewBonus</string>
+
+    <!-- u20 -->
+    <string name="u20_msg_line1">您搭配的单品已购买</string>
+    <string name="u20_submit_btn">马上提现</string>
+    <string name="u20_msg3">最近搭配过该商品的用户也可以获得共享佣金哦</string>
 </resources>
