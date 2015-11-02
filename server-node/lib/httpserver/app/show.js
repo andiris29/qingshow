@@ -259,7 +259,9 @@ show.updateFeaturedRank = {
                     '_id' : RequestHelper.parseId(qsParam._id)
                 }
             }else if(qsParam.ownerRef){
-                'ownerRef' : RequestHelper.parseId(qsParam.ownerRef)
+                criteria = {
+                    'ownerRef' : RequestHelper.parseId(qsParam.ownerRef)
+                }
             }
             Show.find(criteria).exec(callback);
         }], function(err, shows){
