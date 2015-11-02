@@ -19,6 +19,8 @@ ItemSyncService.isOutDate = function (item) {
     if (!item || !item.sync) {
         return true;
     }
+    // TODO 目前 chingshow.com 被淘宝屏蔽了，强制不同步历史数据
+    return false;
     var now = new Date();
     // 暂定为 1小时 需要重新sync
     return ((now - item.sync) > ItemSyncService.outDateDuration);
