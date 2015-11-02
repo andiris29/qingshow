@@ -120,14 +120,14 @@ public class U18ResetPasswordStep2Activity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("U13PersonalizeActivity");
+        MobclickAgent.onPageStart("U18ResetPasswordStep2Activity");
         MobclickAgent.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("U13PersonalizeActivity");
+        MobclickAgent.onPageEnd("U18ResetPasswordStep2Activity");
         MobclickAgent.onPause(this);
     }
 }

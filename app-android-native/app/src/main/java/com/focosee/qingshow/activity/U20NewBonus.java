@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.util.user.UnreadHelper;
+import com.umeng.analytics.MobclickAgent;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -65,9 +68,23 @@ public class U20NewBonus extends Activity {
                 linearLayout.addView(imageView, itemParams);
             }
             linearLayout.setLayoutParams(parentParams);
-
-
             u20Heads.addView(linearLayout);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U20NewBonus");
+        MobclickAgent.onResume(this);
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES))
+            UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_BONUSES);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U20NewBonus");
+        MobclickAgent.onPause(this);
     }
 }

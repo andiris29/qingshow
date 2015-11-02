@@ -33,6 +33,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -223,5 +224,19 @@ public class U19LoginGuideActivity extends Activity implements View.OnClickListe
         @Override
         public void onWeiboException(WeiboException e) {
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U19LoginGuideActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U19LoginGuideActivity");
+        MobclickAgent.onPause(this);
     }
 }

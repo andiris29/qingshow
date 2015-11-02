@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.widget.QSTextView;
-
+import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.util.user.UnreadHelper;
+import com.umeng.analytics.MobclickAgent;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -43,4 +41,19 @@ public class U21NewParticipantBonus extends Activity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U21NewParticipantBonus");
+        MobclickAgent.onResume(this);
+        if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_PARTICIPANT_BONUS))
+            UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_PARTICIPANT_BONUS);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U21NewParticipantBonus");
+        MobclickAgent.onPause(this);
+    }
 }
