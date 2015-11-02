@@ -135,7 +135,7 @@ feeding.matchHot = {
                     'featuredRank' : 2
                 };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'numLike' : -1
+                    'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
             }], outCallback);
         });
