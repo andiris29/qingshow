@@ -77,11 +77,24 @@ matcher.save = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var featuredRank;
         async.waterfall([function(callback){
             People.findOne({
                 '_id' : req.qsCurrentUserId
             }, callback);
-        }, function(people, callback) {
+        }, function(people, callback){
+            Show.find({
+                'ownerRef' : people._id,
+                'featuredRank' : {
+                    $exists: true
+                }
+            }, function(err, shows){
+                if (shows) {
+                    featuredRank = shows[0].featuredRank;
+                }
+                callback(null, people, featuredRank);
+            })
+        }, function(people, featuredRank, callback) {
             if (!req.body.itemRefs || !req.body.itemRefs.length) {
                 ResponseHelper.response(res, errors.NotEnoughParam);
                 return;
@@ -105,6 +118,11 @@ matcher.save = {
                     'coverForeground' : coverUrl
                 });
             }
+
+            if (featuredRank) {
+                show.featuredRank = featuredRank;
+            }
+
             var uuid = require('node-uuid').v1();
             _matchers[uuid] = show;
             callback(null, uuid);
