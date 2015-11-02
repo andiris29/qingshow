@@ -1025,7 +1025,7 @@ _loginAsViewer = function(req, res){
                 'role' : 2,
                 'userInfo.id' : RequestHelper.getIp(req)
             });
-            req.initiatorRef = people.initiatorRef = params.initiatorRef;
+            req.invitorRef = people.invitorRef = params.invitorRef;
             people.save(function(err, people){
                 if (err) {
                     callback(errors.genUnkownError);
