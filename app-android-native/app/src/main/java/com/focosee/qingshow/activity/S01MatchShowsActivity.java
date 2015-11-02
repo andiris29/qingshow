@@ -107,7 +107,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         showNewTradeNotify(getIntent());
 
         //-------------test
-        startActivity(new Intent(S01MatchShowsActivity.this, U20NewBonus.class));
+        startActivity(new Intent(S01MatchShowsActivity.this, U21NewParticipantBonus.class));
     }
 
     @Override
