@@ -1,23 +1,31 @@
 var winston = require('winston'),
-    _ = require('underscore'),
-    MongoDB = require('winston-mongodb').MongoDB;
+    fs = require('fs'),
+    path = require('path'),
+    moment = require('moment');
 
-var _winstonDbOptions = {}
+var _root;
 
-var init = function(logging, dbConfig) {
-    _winstonDbOptions = {
-        db : 'mongodb://' + dbConfig.url + ':' + dbConfig.port + '/' + logging.db.schema,
-        username : dbConfig.username,
-        password : dbConfig.password
-    }
+var init = function(dir) {
+    _root = dir;
+    _mkdir(_root);
+
     // Default logger
-    winston.add(MongoDB, _winstonDbOptions);
+    winston.add(winston.transports.DailyRotateFile, {
+        'filename' : path.join(dir, 'winston.log'),
+        'timestamp' : function(){
+            return moment()._d.toString();
+        }
+    });
+    // winston.remove(winston.transports.Console);
 
     // Exception logger
     new winston.Logger({
-        'exceptionHandlers' : [new MongoDB(_.extend(_winstonDbOptions, {
-            collection : 'winston-exception'
-        }))],
+        'exceptionHandlers' : [new winston.transports.DailyRotateFile({
+            'filename' : path.join(dir, 'winston-exception.log'),
+            'timestamp' : function(){
+                return moment()._d.toString();
+            }
+        })],
         'exitOnError' : false
     });
 };
@@ -28,13 +36,23 @@ var get = function(category) {
     if (!_registry[category]) {
         _registry[category] = true;
 
+        _mkdir(path.join(_root, category));
         winston.loggers.add(category, {
-            'transports' : [new MongoDB(_.extend(_winstonDbOptions, {
-                collection : category
-            }))]
+            'transports' : [new winston.transports.DailyRotateFile({
+                'filename' : path.join(_root, category, 'winston-' + category + '.log'),
+                'timestamp' : function(){
+                    return moment()._d.toString();
+                }
+            })]
         });
     }
     return winston.loggers.get(category);
+};
+
+var _mkdir = function(dir) {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
 };
 
 module.exports = {
