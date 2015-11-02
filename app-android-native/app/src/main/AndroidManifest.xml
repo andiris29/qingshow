@@ -167,12 +167,14 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.U06LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.U09TradeListActivity"
@@ -319,6 +321,7 @@
             android:name=".activity.U19LoginGuideActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_u06_login" >
         </activity>
     </application>
