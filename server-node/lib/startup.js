@@ -30,16 +30,19 @@ properties.parse(configPath, {
             // Startup http server
             require('./httpserver/startup')(config, qsdb);
         } catch (err) {
+            console.log(err);
         }
         try {
             // Startup scheduled
             require('./scheduled/startup')(config.schedule);
         } catch (err) {
+            console.log(err);
         }
         try {
             // Startup goblin overseer
             require('./goblin-overseer/startup')();
         } catch (err) {
+            console.log(err);
         }
     });
 });

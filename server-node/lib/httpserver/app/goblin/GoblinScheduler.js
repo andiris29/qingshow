@@ -2,11 +2,14 @@ var async = require('async');
 var _ = require('underscore');
 var mongoose = require('mongoose');
 
-var ItemSyncService = require('../../../goblin-slave/ItemSyncService');
-var ItemSourceUtil = require('../../../goblin-slave/ItemSourceUtil');
-var Items = require('../../../dbmodels').Item;
-var GoblinError = require('../../../goblin-slave/GoblinError');
+var ItemSyncService = require('./ItemSyncService'),
+    GoblinLogger = require('./GoblinLogger');
 
+var ItemSourceUtil = require('../../../goblin-slave/ItemSourceUtil'),
+    GoblinError = require('../../../goblin-slave/GoblinError');
+
+var Items = require('../../../dbmodels').Item;
+    
 var GoblinScheduler = module.exports;
 
 
@@ -29,7 +32,7 @@ var itemIdToAllocatedDate = {}; // itemId<String> => Date, 记录item分配出�
 
 
 var schedulerConfig = null;
-GoblinScheduler.start = function (config) {
+var _start = function (config) {
     schedulerConfig = config;
     _checkToQueryNewItems();
     _timeoutScheduler();
@@ -58,6 +61,9 @@ var _handlerTimeout = function(itemId) {
     _rollbackAllocatedItem(itemId, allocatedRequestedItems, requestedItems);
     _rollbackAllocatedItem(itemId, allocatedSecondaryItems, secondaryItems);
     delete itemIdToAllocatedDate[itemId];
+    
+    GoblinLogger.timeout(itemId);
+    _invokeHandlerForItem(itemId, null, function(){});
 };
 
 var _rollbackAllocatedItem = function (itemId, allocatedArray, sourceArray) {
@@ -78,10 +84,6 @@ var _rollbackAllocatedItem = function (itemId, allocatedArray, sourceArray) {
 GoblinScheduler.nextItem = function (type, callback) {
     var allItems = requestedItems.concat(secondaryItems);
     _fetchNextItem(allItems, type, callback);
-};
-
-GoblinScheduler.nextRequestedItem = function (type, callback) {
-    _fetchNextItem(requestedItems, type, callback);
 };
 
 var _fetchNextItem = function (scope, type, callback) {
@@ -134,20 +136,13 @@ GoblinScheduler.registerItemWithId = function (itemId, callback) {
         if (err) {
             callback(err, item);
         } else {
-            GoblinScheduler.registerItem(i, callback);
+            _registerItem(i, callback);
         }
 
     });
 };
 
-var _handleNotSupportItem = function (item, callback) {
-    item.sync = new Date();
-    item.save(function () {
-        callback(GoblinError.fromCode(GoblinError.NotSupportItemSource), item);
-    });
-};
-
-GoblinScheduler.registerItem = function (item, callback) {
+var _registerItem = function (item, callback) {
     if (!ItemSyncService.isOutDate(item)) {
         // 该Item最近已经爬过，不需要再爬，直接执行callback
         callback(null, item);
@@ -158,6 +153,7 @@ GoblinScheduler.registerItem = function (item, callback) {
         _handleNotSupportItem(item, callback);
         return;
     }
+    GoblinLogger.register(item);
 
 
     //检查item是否已经在队列
@@ -177,9 +173,6 @@ GoblinScheduler.registerItem = function (item, callback) {
     } else {
         //item不再队列中，加入队列
         requestedItems.push(item);
-        //trigger goblin main slaver，令其主动爬取item
-        require('./GoblinMainSlaver').trigger(item);
-
     }
     //记录handler
     var handlerArray = itemIdToHandlers[itemIdStr] || [];
@@ -203,6 +196,14 @@ GoblinScheduler.finishItem = function (itemId, err, callback) {
 };
 
 
+var _handleNotSupportItem = function (item, callback) {
+    item.sync = new Date();
+    item.save(function () {
+        callback(GoblinError.fromCode(GoblinError.NotSupportItemSource), item);
+    });
+    
+    GoblinLogger.unsupported(item);
+};
 
 
 
@@ -372,4 +373,4 @@ var _queryItemWithId = function (itemId, callback) {
 };
 ///////
 
-
+_start(global.qsConfig.schedule.goblinScheduler);

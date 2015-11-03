@@ -3,23 +3,24 @@ var async = require('async');
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
-var GoblinScheduler = require('./goblin/GoblinScheduler');
-var ItemSyncService = require('../../goblin-slave/ItemSyncService');
+var GoblinScheduler = require('./goblin/GoblinScheduler'),
+    ItemSyncService = require('./goblin/ItemSyncService'),
+    GoblinLogger = require('./goblin/GoblinLogger');
 var GoblinError = require('../../goblin-slave/GoblinError');
 var Item = require('../../dbmodels').Item;
 var errors = require('../../errors');
 
 var winston = require('winston');
-var logger = require('../../runtime').loggers.get('goblin');
 
 var goblin = module.exports;
 
 goblin.nextItem = {
     method : 'post',
     func : function (req, res) {
-        // TODO https://github.com/andiris29/com.focosee.qingshow/issues/1812
-        ResponseHelper.response(res, errors.GoblinSlaveDisabled);
-        return;
+        if (req.body.version !== global.qsConfig.goblin.overseer.supportedVersion) {
+            ResponseHelper.response(res, errors.GoblinSlaveDisabled);
+            return;
+        }
         
         var param = req.body;
         var type;
@@ -38,6 +39,9 @@ goblin.nextItem = {
             ResponseHelper.response(res, err, {
                 item : item
             });
+            if (item) {
+                GoblinLogger.assign(item, req);
+            }
         });
     }
 };
@@ -68,10 +72,9 @@ goblin.crawlItemComplete = {
             }
         ], function (err, item) {
             if (!err) {
-                logger.info({
-                    'ip' : RequestHelper.getIp(req),
-                    'nextItem' : item._id ? item._id.toString() : ''
-                });
+                GoblinLogger.complete(item, req);
+            } else {
+                GoblinLogger.error(item, req, err);
             }
             ResponseHelper.response(res, err, {
                 item : item
@@ -84,13 +87,8 @@ goblin.crawlItemComplete = {
 goblin.crawlItemFailed = {
     method : 'post',
     func : function (req, res) {
-        var param = req.body;
-        var log = param.log;
-        logger.info('Slaver Exception:\n' + log);
+        GoblinLogger.error(item, req, req.body.log);
+        
         ResponseHelper.response(res, null, {});
     }
 };
-
-require('./goblin/GoblinScheduler').start(global.qsConfig.schedule.goblinScheduler);
-require('./goblin/GoblinMainSlaver').start(global.qsConfig.schedule.goblinMainSlaver);
-    
