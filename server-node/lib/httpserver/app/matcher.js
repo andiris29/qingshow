@@ -65,8 +65,10 @@ matcher.queryItems = {
             var pageNo;
             if (queryItems[category._id.toString()]) {
                 pageNo = parseInt(queryItems[category._id.toString()]);
+            }else {
+                pageNo = new Number(Math.random() * 10).toFixed(0);
             }
-            pageNo = pageNo? parseInt(qsParam.pageNo) + pageNo + 1 : parseInt(qsParam.pageNo);
+            pageNo = parseInt(qsParam.pageNo) + pageNo + 1;
             ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
                 MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, 
                     qsParam.pageSize, function(err, models, count){
