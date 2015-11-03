@@ -61,7 +61,8 @@ var _createViaTrade = function(trade, money, participants, cb){
         });
     },
     function(people, callback) {
-        NotificationHelper.notify([people._id], NotificationHelper.MessageNewBonus, {
+        var message = NotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, money);
+        NotificationHelper.notify([people._id], message, {
                     'command' : NotificationHelper.CommandNewBonus
                 }, null);
         callback(null, people);
@@ -92,7 +93,8 @@ var _createViaItem = function(peopleRefs, item, money, cb){
             multi: true 
         }, callback);
     }, function(doc, callback){
-        NotificationHelper.notify(peopleRefs, NotificationHelper.MessageNewBonus, {
+        var message = NotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, money);
+        NotificationHelper.notify(peopleRefs, message, {
             'command' : NotificationHelper.CommandNewBonus
         }, null);
         callback(null, doc);
