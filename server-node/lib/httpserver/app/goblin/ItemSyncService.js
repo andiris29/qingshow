@@ -29,10 +29,12 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
         err = GoblinError.fromDescription(err);
     }
 
-    if (err || !itemInfo) {
+    if (err) {
+        callback(err, item);
+    } else if (!itemInfo) {
         item.delist = new Date();
-        item.save(function (innerErr) {
-            callback(innerErr || err, item);
+        item.save(function (err) {
+            callback(err, item);
         });
     } else {
         async.waterfall([

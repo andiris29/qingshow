@@ -14,7 +14,8 @@ var MongoHelper = require('../../helpers/MongoHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
 var TradeHelper = require('../../helpers/TradeHelper');
 var URLParser = require('../../goblin-slave/URLParser');
-var qsftp = require('../../runtime').ftp;
+var qsftp = require('../../runtime').ftp,
+    syncLogger = require('../../runtime/loggers').get('item-sync');
 var GoblinScheduler = require('./goblin/GoblinScheduler');
 
 var errors = require('../../errors');
@@ -163,16 +164,21 @@ item.sync = {
                 _.delay(function() {
                     if (!invoke) {
                         invoke = true;
-                        Items.findOne({
-                            _id : itemId
-                        }, callback);
+                        syncLogger.info({'result' : 'miss', '_id' : req.body._id});
+                        Items.findOne({_id : itemId}, callback);
                     }
                 }, global.qsConfig.item.sync.timeout || 10000);
                 
                 GoblinScheduler.registerItemWithId(itemId, function(err, item) {
                     if (!invoke) {
                         invoke = true;
-                        callback(err, item);
+                        if (!err) {
+                            syncLogger.info({'result' : 'hit', '_id' : req.body._id});
+                            callback(err, item);
+                        } else {
+                            syncLogger.info({'result' : 'error', '_id' : req.body._id, 'error' : err});
+                            Items.findOne({_id : itemId}, callback);
+                        }
                     }
                 });
             }
