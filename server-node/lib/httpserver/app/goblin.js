@@ -52,7 +52,7 @@ goblin.crawlItemComplete = {
         var param = req.body;
         var itemIdStr = param.itemId;
         var itemInfo = param.itemInfo;
-        var error = error;
+        var error = param.error;
 
         async.waterfall([
             function (callback) {
@@ -67,10 +67,9 @@ goblin.crawlItemComplete = {
                 }
             }, function (item, callback) {
                 ItemSyncService.syncItemInfo(item, itemInfo, error, callback);
-            }, function (item, callback) {
-                GoblinScheduler.finishItem(item._id, error, callback);
             }
         ], function (err, item) {
+            GoblinScheduler.finishItem(item._id, error || err, function(){});
             if (!err) {
                 GoblinLogger.complete(item, req);
             } else {

@@ -138,7 +138,6 @@ GoblinScheduler.registerItemWithId = function (itemId, callback) {
         } else {
             _registerItem(i, callback);
         }
-
     });
 };
 
@@ -310,7 +309,7 @@ var _invokeHandlerForItem = function (itemId, err, callback) {
         var tasks = [];
         handlers.forEach(function (h) {
             var task = function (callback) {
-                h(innerErr, item);
+                h(innerErr || err, item);
                 callback();
             };
             tasks.push(task);
