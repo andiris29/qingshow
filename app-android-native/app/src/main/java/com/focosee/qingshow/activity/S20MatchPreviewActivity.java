@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -150,6 +151,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
 
 
     private void uploadImage() {
+
         QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
                 QSAppWebAPI.getUpdateMatchCoverApi(), null, new Response.Listener<JSONObject>() {
             @Override
@@ -201,6 +203,9 @@ public class S20MatchPreviewActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (null == bitmap){
+            finish();
+        }
         MobclickAgent.onPageStart("S20MatcherPreviewActivity");
         MobclickAgent.onResume(this);
     }
