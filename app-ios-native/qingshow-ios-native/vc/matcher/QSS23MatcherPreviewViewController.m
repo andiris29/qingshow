@@ -10,6 +10,8 @@
 #import "QSNetworkKit.h"
 #import "QSS03ShowDetailViewController.h"
 #import "UIViewController+ShowHud.h"
+#import "QSUserManager.h"
+#import "QSNotificationHelper.h"
 @interface QSS23MatcherPreviewViewController ()
 
 @property (strong, nonatomic) NSArray* itemArray;
@@ -69,6 +71,13 @@
             if ([self.delegate respondsToSelector:@selector(vc:didCreateNewMatcher:)]) {
                 [self.delegate vc:self didCreateNewMatcher:d];
             }
+            
+            if ([QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher) {
+                [QSNotificationHelper postScheduleToShowLoginGuideNoti];
+                [QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher = NO;
+            }
+            
+            
             
             QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc]initWithShowId:[QSEntityUtil getStringValue:d keyPath:@"_id"]];
             vc.showBackBtn = YES;

@@ -15,6 +15,8 @@
 @property (strong, nonatomic) NSDictionary* userInfo;
 @property (assign, nonatomic) BOOL fIsLogined;
 
+@property (assign, nonatomic) BOOL fShouldShowLoginGuideAfterCreateMatcher;
+
 @property (strong, nonatomic) NSString* weiboAccessToken;
 @property (strong, nonatomic) NSString* weiboUserId;
 

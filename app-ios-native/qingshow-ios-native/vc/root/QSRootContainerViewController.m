@@ -24,6 +24,7 @@
 #import "QSRootContentViewController.h"
 #import "QSPnsHandler.h"
 #import "QSPeopleUtil.h"
+#import "QSNotificationHelper.h"
 
 @interface QSRootContainerViewController ()
 
@@ -48,6 +49,7 @@
     // Do any additional setup after loading the view.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePrompToLoginNotification:) name:kShowLoginPrompVcNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHidePrompToLoginNotification:) name:kHideLoginPrompVcNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveScheduleToShowLoginGuideNotification:) name:kScheduleToShowLoginGuideNotificationName object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -87,10 +89,12 @@
         NSDictionary* u = [QSUserManager shareUserManager].userInfo;
         if (!u) {
             [self showRegisterVc];
+#warning TODO HOVER OLD MENU ITEM
             return;
         } else if ([QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest &&
                    type == QSRootMenuItemDiscount) {
             [self showRegisterVc];
+#warning TODO HOVER OLD MENU ITEM
             return;
         }
     }
@@ -209,5 +213,11 @@
     [self.loginGuideNavVc.view removeFromSuperview];
     self.loginGuideNavVc = nil;
     self.popOverContainerView.hidden = YES;
+}
+- (void)didReceiveScheduleToShowLoginGuideNotification:(NSNotification*)noti {
+    [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];
+}
+- (void)_didFinishScheduleToShowLoginGuide {
+    [self showRegisterVc];
 }
 @end

@@ -187,6 +187,7 @@
 - (void)showTradeNotiViewOfTradeId:(NSString*)tradeId{
     [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
         [[QSUnreadManager getInstance] clearTradeUnreadId:tradeId];
+#warning MOVE TO POPOVER LAYER OF ROOT CONTAINER VC
         self.s11NotiVc = [[QSS12NewTradeExpectableViewController alloc] initWithDict:dict];
         self.s11NotiVc.delelgate = self;
         self.s11NotiVc.view.frame = self.navigationController.view.bounds;

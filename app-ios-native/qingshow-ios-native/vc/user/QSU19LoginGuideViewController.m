@@ -69,7 +69,8 @@
 - (IBAction)wechatLoginPressed:(id)sender {
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
         [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
-        [self popToPreviousVc];
+        
+        [self registerBtnPressed:nil];
         
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
@@ -78,7 +79,7 @@
 - (IBAction)weiboLoginPressed:(id)sender {
     [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
         [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
-        [self popToPreviousVc];
+        [self registerBtnPressed:nil];
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
     }];

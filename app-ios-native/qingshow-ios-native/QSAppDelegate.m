@@ -25,6 +25,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSPeopleUtil.h"
 #import "QSError.h"
+#import "QSNotificationHelper.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -62,6 +63,7 @@
         
         //标记第一次载入
         VoidBlock guestHandler = ^(){
+            [QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher = YES;
             [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
@@ -86,6 +88,7 @@
             }
         };
         VoidBlock normalUserHandler = ^(){
+            [QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher = NO;
             [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
@@ -127,6 +130,7 @@
                 if (r == QSPeopleRoleGuest) {
                     [SHARE_NW_ENGINE feedingMatchCreateBy:data page:1 onSucceed:^(NSArray *array, NSDictionary *metadata) {
                         normalUserHandler();
+                        [QSNotificationHelper postScheduleToShowLoginGuideNoti];
                     } onError:^(NSError *error) {
                         if ([error isKindOfClass:[QSError class]]) {
                             QSError* e = (QSError*)error;
