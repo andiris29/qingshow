@@ -50,6 +50,7 @@
     [center addObserver:self selector:@selector(pnsTradeShipped:) name:kPnsTradeShippedNotification object:nil];
     [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemExpectablePriceUpdatedNotification object:nil];
     [center addObserver:self selector:@selector(pnsNewBonus:) name:kPnsNewBonusNotification object:nil];
+    [center addObserver:self selector:@selector(pnsNewParticipantBonus:) name:kPnsNewParticipantBonusNotification object:nil];
     [center addObserver:self selector:@selector(pnsBonusWithdrawComplete:) name:kPnsBonusWithdrawCompleteNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeRefundComplete:) name:kPnsTradeRefundCompleteNotification object:nil];
 }
@@ -143,6 +144,7 @@
     } title:@"款项已经退回您的支付账号，请查收。" userInfo:noti.userInfo];
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
+#warning TODO Adjust Handler
     [self handlePnsWithHandler:^{
         UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemSetting];
         if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
@@ -150,6 +152,10 @@
             [u02Vc showBonuesVC];
         }
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
+}
+
+- (void)pnsNewParticipantBonus:(NSNotification*)noti {
+#warning TODO ADD HANDLER
 }
 
 - (void)pnsBonusWithdrawComplete:(NSNotification*)noti {

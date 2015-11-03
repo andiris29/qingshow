@@ -17,6 +17,7 @@
 #define kPnsCommandItemExpectablePriceUpdated @"itemExpectablePriceUpdated"
 #define kPnsCommandTradeShipped @"tradeShipped"
 #define kPnsCommandNewBonus @"newBonus"
+#define kPnsCommandNewParticipantBonus @"newParticipantBonus"
 #define kPnsCommandBonusWithdrawComplete @"bonusWithdrawComplete"
 #define kPnsTradeRefundComplete @"tradeRefundComplete"
 
@@ -61,6 +62,8 @@
         [center postNotificationName:kPnsItemExpectablePriceUpdatedNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandNewBonus]) {
         [center postNotificationName:kPnsNewBonusNotification object:userInfoDict];
+    } else if ([command isEqualToString:kPnsCommandNewParticipantBonus]) {
+        [center postNotificationName:kPnsNewParticipantBonusNotification object:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandBonusWithdrawComplete]) {
         [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:userInfoDict];
     } else if ([command isEqual:kPnsTradeRefundComplete]) {
