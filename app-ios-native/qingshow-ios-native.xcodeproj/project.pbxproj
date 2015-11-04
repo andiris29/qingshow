@@ -83,7 +83,7 @@
 		EF002F751BAE6755004C8C25 /* QSNetworkEngine+SystemService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF002F741BAE6755004C8C25 /* QSNetworkEngine+SystemService.m */; };
 		EF029C251BC0234C008E66D0 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = EF029C241BC0234C008E66D0 /* UIDevice-Hardware.m */; };
 		EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF037EA01B43520A004E2723 /* QSRandomUtil.m */; };
-		EF04D8711BE93460000DACF1 /* QSNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF04D8701BE93460000DACF1 /* QSNotificationHelper.m */; settings = {ASSET_TAGS = (); }; };
+		EF04D8711BE93460000DACF1 /* QSNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF04D8701BE93460000DACF1 /* QSNotificationHelper.m */; };
 		EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */; };
 		EF0C63FF1B2186360079B22E /* UINib+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C63FE1B2186360079B22E /* UINib+QSExtension.m */; };
 		EF0C64271B21AAC20079B22E /* QSU02ImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C640A1B21AAC20079B22E /* QSU02ImgCell.m */; };
@@ -348,6 +348,7 @@
 		EFF5B9111A3F2F950048E634 /* QSItemListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9101A3F2F950048E634 /* QSItemListHeaderView.xib */; };
 		EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */; };
 		EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD6A1B0C9CD800298BD1 /* QSRootContentViewController.m */; };
+		EFFC58921BEA512C0098FD01 /* QSBonusUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFC58911BEA512C0098FD01 /* QSBonusUtil.m */; };
 		EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */; };
 		EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE67291A0676A4001F4CA1 /* QSRootMenuView.m */; };
 		EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFFE672B1A0676BE001F4CA1 /* QSRootMenuItem.xib */; };
@@ -1036,6 +1037,8 @@
 		EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootContainerViewController.m; sourceTree = "<group>"; };
 		EFFABD691B0C9CD700298BD1 /* QSRootContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootContentViewController.h; sourceTree = "<group>"; };
 		EFFABD6A1B0C9CD800298BD1 /* QSRootContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootContentViewController.m; sourceTree = "<group>"; };
+		EFFC58901BEA512C0098FD01 /* QSBonusUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBonusUtil.h; sourceTree = "<group>"; };
+		EFFC58911BEA512C0098FD01 /* QSBonusUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBonusUtil.m; sourceTree = "<group>"; };
 		EFFE67241A067699001F4CA1 /* QSRootMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootMenuItem.h; sourceTree = "<group>"; };
 		EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootMenuItem.m; sourceTree = "<group>"; };
 		EFFE67281A0676A4001F4CA1 /* QSRootMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootMenuView.h; sourceTree = "<group>"; };
@@ -2239,6 +2242,8 @@
 				8C8658EC1B3403E2004DF14F /* QSMatchShowUtil.m */,
 				EFAD756E1B3A456400565DED /* QSCategoryUtil.h */,
 				EFAD756F1B3A456400565DED /* QSCategoryUtil.m */,
+				EFFC58901BEA512C0098FD01 /* QSBonusUtil.h */,
+				EFFC58911BEA512C0098FD01 /* QSBonusUtil.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -3130,6 +3135,7 @@
 				EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */,
 				8C1DB54C1B945D4400D21D0C /* QSU15BonusListTableViewCell.m in Sources */,
 				EF0C642A1B21AAC20079B22E /* QSU02InfoPickerCell.m in Sources */,
+				EFFC58921BEA512C0098FD01 /* QSBonusUtil.m in Sources */,
 				EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */,
 				EF994D9F1B693CB900715B0E /* QSDiscountQuantityCell.m in Sources */,
 				EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */,

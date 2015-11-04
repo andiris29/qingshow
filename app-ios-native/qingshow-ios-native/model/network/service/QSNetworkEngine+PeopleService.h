@@ -18,6 +18,9 @@
 - (MKNetworkOperation*)queryPeopleDetail:(NSString*)peopleId
                                onSucceed:(DicBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryPeoplesDetail:(NSArray*)peopleIds
+                                onSucceed:(InputArrayBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Follow
 - (MKNetworkOperation*)peopleQueryFollower:(NSDictionary*)peopleDict

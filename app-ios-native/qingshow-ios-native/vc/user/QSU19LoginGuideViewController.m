@@ -50,6 +50,7 @@
     self.registerBtn.layer.borderColor = [UIColor whiteColor].CGColor;
     self.registerBtn.layer.borderWidth = 1.f;
     self.registerBtn.layer.cornerRadius = self.registerBtn.bounds.size.height / 2;
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {

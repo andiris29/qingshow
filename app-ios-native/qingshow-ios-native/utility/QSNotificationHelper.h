@@ -9,8 +9,22 @@
 #import <Foundation/Foundation.h>
 
 #define kScheduleToShowLoginGuideNotificationName @"kScheduleToShowLoginGuideNotificationName"
+
+#define kShowNewBonusVcNotificationName @"kShowNewBonusVcNotificationName"
+#define kHideNewBonusVcNotificationName @"kHideNewBonusVcNotificationName"
+#define kShowNewParticipantBonusVcNotificationName @"kShowNewParticipantBonusVcNotificationName"
+#define kHideNewParticipantBonusVcNotificationName @"kHideNewParticipantBonusVcNotificationName"
+
+#define kShowBonusListVcNotificatinName @"kShowBonusListVcNotificatinName"
+
 @interface QSNotificationHelper : NSObject
 
 + (void)postScheduleToShowLoginGuideNoti;
 
++ (void)postShowNewBonusVcNoti;
++ (void)postHideNewBonusVcNoti;
++ (void)postShowNewParticipantBonusVcNoti;
++ (void)postHideNewParticipantBonusVcNoti;
+
++ (void)postShowBonusListVcNotificationName;
 @end

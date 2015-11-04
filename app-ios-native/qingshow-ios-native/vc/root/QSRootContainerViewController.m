@@ -26,11 +26,18 @@
 #import "QSPeopleUtil.h"
 #import "QSNotificationHelper.h"
 
+#import "QSU20NewBonusViewController.h"
+#import "QSU21NewParticipantBonusViewController.h"
+
 @interface QSRootContainerViewController ()
 
 
 @property (strong, nonatomic) QSPnsHandler* pnsHandler;
 @property (strong, nonatomic) UINavigationController* loginGuideNavVc;
+
+@property (strong, nonatomic) QSU20NewBonusViewController* u20NewBonusVc;
+@property (strong, nonatomic) QSU21NewParticipantBonusViewController* u21NewParticipantBonusVc;
+
 @end
 
 @implementation QSRootContainerViewController
@@ -50,6 +57,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePrompToLoginNotification:) name:kShowLoginPrompVcNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHidePrompToLoginNotification:) name:kHideLoginPrompVcNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveScheduleToShowLoginGuideNotification:) name:kScheduleToShowLoginGuideNotificationName object:nil];
+
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowNewBonusVcNoti:) name:kShowNewBonusVcNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideNewBonusVcNoti:) name:kHideNewBonusVcNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowNewParticipantBonusVcNoti:) name:kShowNewParticipantBonusVcNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideNewParticipantBonusVcNoti:) name:kHideNewParticipantBonusVcNotificationName object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowBonusListVcNoti:) name:kShowBonusListVcNotificatinName object:nil];
+//    [self didReceiveShowNewParticipantBonusVcNoti:nil];
+//    [self didReceiveShowNewBonusVcNoti:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -172,15 +189,10 @@
     UINavigationController* vc = nil;
     NSDictionary* u = [QSUserManager shareUserManager].userInfo;
     if (!u || [QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest) {
-#warning TODO animation
         vc = [[UINavigationController alloc] initWithRootViewController: [[QSU19LoginGuideViewController alloc] init]];
-        vc.view.backgroundColor = [UIColor clearColor];
-        vc.navigationBarHidden = YES;
-        vc.view.frame = self.popOverContainerView.bounds;
-        [self addChildViewController:vc];
-        [self.popOverContainerView addSubview:vc.view];
+        [self _showVcInPopoverContainer:vc];
         self.loginGuideNavVc = vc;
-        self.popOverContainerView.hidden = NO;
+
     }
     return vc;
 }
@@ -209,15 +221,66 @@
 }
 - (void)didReceiveHidePrompToLoginNotification:(NSNotification*)noti {
 #warning TODO animation
-    [self.loginGuideNavVc removeFromParentViewController];
-    [self.loginGuideNavVc.view removeFromSuperview];
+    [self _hideVcInPopoverContainer:self.loginGuideNavVc];
+
     self.loginGuideNavVc = nil;
-    self.popOverContainerView.hidden = YES;
+
 }
 - (void)didReceiveScheduleToShowLoginGuideNotification:(NSNotification*)noti {
     [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];
 }
 - (void)_didFinishScheduleToShowLoginGuide {
     [self showRegisterVc];
+}
+
+- (void)didReceiveShowNewBonusVcNoti:(NSNotification*)noti {
+    if (self.u20NewBonusVc) {
+        return;
+    }
+    
+    self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] init];
+    [self _showVcInPopoverContainer:self.u20NewBonusVc];
+}
+
+- (void)didReceiveHideNewBonusVcNoti:(NSNotification*)noti {
+    [self _hideVcInPopoverContainer:self.u20NewBonusVc];
+    self.u20NewBonusVc = nil;
+}
+
+- (void)didReceiveShowNewParticipantBonusVcNoti:(NSNotification*)noti {
+    if (self.u21NewParticipantBonusVc) {
+        return;
+    }
+    self.u21NewParticipantBonusVc = [[QSU21NewParticipantBonusViewController alloc] init];
+    [self _showVcInPopoverContainer:self.u21NewParticipantBonusVc];
+}
+
+- (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {
+    [self _hideVcInPopoverContainer:self.u21NewParticipantBonusVc];
+    self.u21NewParticipantBonusVc = nil;
+}
+
+
+- (void)didReceiveShowBonusListVcNoti:(NSNotification*)noti {
+    UIViewController* vc = [self triggerToShowVc:QSRootMenuItemSetting];
+    if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
+        QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
+        [u02Vc showBonuesVC];
+    }
+}
+
+
+- (void)_showVcInPopoverContainer:(UIViewController*)vc {
+#warning TODO animation
+    vc.view.frame = self.popOverContainerView.bounds;
+    [self addChildViewController:vc];
+    [self.popOverContainerView addSubview:vc.view];
+    self.popOverContainerView.hidden = NO;
+}
+- (void)_hideVcInPopoverContainer:(UIViewController*)vc {
+#warning TODO animation
+    [vc removeFromParentViewController];
+    [vc.view removeFromSuperview];
+    self.popOverContainerView.hidden = YES;
 }
 @end

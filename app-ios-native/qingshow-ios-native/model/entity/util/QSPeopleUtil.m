@@ -332,6 +332,11 @@
 {
     return [dict arrayValueForKeyPath:@"bonuses"];
 }
++ (NSDictionary*)getLatestBonus:(NSDictionary*)dict {
+    return [[self getBonusList:dict] lastObject];
+}
+
+#warning TODO MOVE TO QSBONUS UTIL
 + (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict
 {
     return [QSEntityUtil getNumberValue:dict keyPath:@"money"];

@@ -22,6 +22,7 @@
 #import "QSS01MatchShowsViewController.h"
 #import "QSU02UserSettingViewController.h"
 #import "QSU09TradeListViewController.h"
+#import "QSNotificationHelper.h"
 
 @interface QSPnsHandler (Private)
 
@@ -146,11 +147,7 @@
 - (void)pnsNewBonus:(NSNotification*)noti {
 #warning TODO Adjust Handler
     [self handlePnsWithHandler:^{
-        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemSetting];
-        if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
-            QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
-            [u02Vc showBonuesVC];
-        }
+        [QSNotificationHelper postShowNewBonusVcNoti];
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 

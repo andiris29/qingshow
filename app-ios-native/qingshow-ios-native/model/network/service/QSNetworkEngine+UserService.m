@@ -43,7 +43,7 @@
                              onError:(ErrorBlock)errorBlock
 {
     NSMutableDictionary* paramDict = [@{
-                                        @"id" : userName,
+                                        @"idOrNickName" : userName,
                                         @"password" : password
                                         } mutableCopy];
     if ([QSUserManager shareUserManager].JPushRegistrationID) {
