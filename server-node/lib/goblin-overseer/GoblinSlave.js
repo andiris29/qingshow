@@ -134,8 +134,8 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
     console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ' ' + item._id);
     console.log('    ' + item.source);
     if (err) {
-        if (err.errorCode === GoblinError.Delist) {
-            console.log('    delist');
+        if (err.errorCode === InvalidItemSource || err.errorCode === GoblinError.Delist) {
+            console.log('    delist: ' + err.errorCode);
         } else {
             param.error = err;
             console.log('    err: ' + err);
