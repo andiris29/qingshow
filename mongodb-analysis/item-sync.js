@@ -1,29 +1,33 @@
 /**
- * never/outdate/total @ time
- * 474/14543/16757 @ 2015/11/03 20:00
- * 32/9526/16553 @ 2015/11/04 13:00
+ * never/outdate/total/delist @ time
+ * 474/14543/16757/--- @ 2015/11/03 20:00
+ * 32/9526/16553/--- @ 2015/11/04 13:00
  */
-var valid = new Date();
-valid.setDate(valid.getDate() - 1);
 
-db.getCollection('items').find({
-    'syncEnabled' : {
-        '$ne' : false
-    },
+var never = db.getCollection('items').find({
+    'syncEnabled' : {'$ne' : false},
     'sync' : null
 }).count();
 
-db.getCollection('items').find({
-    'syncEnabled' : {
-        '$ne' : false
-    },
-    'sync' : {
-        '$lt' : valid
-    }
+var date = new Date();
+var x = date.setDate(date.getDate() - 1);
+var outdate = db.getCollection('items').find({
+    'syncEnabled' : {'$ne' : false},
+    'sync' : {'$lt' : date}
 }).count();
 
-db.getCollection('items').find({
-    'syncEnabled' : {
-        '$ne' : false
-    }
+var total = db.getCollection('items').find({
+    'syncEnabled' : {'$ne' : false}
 }).count();
+
+var delist = db.getCollection('items').find({
+    'syncEnabled' : {'$ne' : false},
+    'delist' : {'$ne' : null}
+}).count();
+
+print([
+    'never: ' + never,
+    'outdate: ' + outdate,
+    'total: ' + total,
+    'delist: ' + delist
+]);
