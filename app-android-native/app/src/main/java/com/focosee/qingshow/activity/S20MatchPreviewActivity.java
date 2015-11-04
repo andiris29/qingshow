@@ -131,11 +131,7 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
                     QSModel.INSTANCE.setUserStatus(MongoPeople.MATCH_FINISHED);
                 }
-                try {
-                    uuid = response.getJSONObject("data").getString("uuid");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                
                 if(null != bitmap)
                     if(!bitmap.isRecycled())
                         uploadImage();
@@ -187,7 +183,6 @@ public class S20MatchPreviewActivity extends BaseActivity {
         });
         QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addBinaryPart("cover", BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.JPEG));
-        multipartEntity.addStringPart("uuid", uuid);
         multipartRequest.setRetryPolicy(new DefaultRetryPolicy(150000, 0, 1f));
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
