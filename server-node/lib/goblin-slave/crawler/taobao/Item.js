@@ -332,7 +332,13 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                     }
                     callback(null, webSkus);
                 };
-                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
+                var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
+                try {
+                    eval(b);
+                } catch (err) {
+                    console.log(b);
+                    throw err;
+                }
 
                 if (!isSetMdskipInvoke) {
                     winston.info('Parse item :' + tbItemId + ' Error' );

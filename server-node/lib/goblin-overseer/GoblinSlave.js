@@ -2,6 +2,7 @@ var async = require('async');
 var _ = require('underscore');
 var request = require('request');
 
+var moment = require('moment');
 
 var ItemSourceType = require('../goblin-slave/ItemSourceType');
 var GoblinError = require('../goblin-slave/GoblinError');
@@ -130,7 +131,8 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         param.itemInfo = itemInfo;
     }
 
-    console.log(item._id + ' - ' + item.source);
+    console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ' ' + item._id);
+    console.log('    ' + item.source);
     if (err) {
         if (err.errorCode === GoblinError.Delist) {
             console.log('    delist');
