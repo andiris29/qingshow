@@ -29,12 +29,9 @@ var _next = function(today) {
                     people.unreadNotifications.forEach(function(unread){
                         var extra = unread.extra;
                         if (extra == null) {
-                            cb();
                             return;
                         }
-
                         if (extra._id == null || extra._id.length === 0) {
-                            cb();
                             return;
                         }
                         if(extra._id.toString() === trade._id.toString()){
@@ -42,15 +39,16 @@ var _next = function(today) {
                                 NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
                                     '_id' : trade._id,
                                     'command' : extra.command
-                                }, cb);   
+                                }, function(){});   
                             } else if(extra.command === NotificationHelper.CommandTradeInitialized){
                                 NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeInitialized, {
                                     '_id' : trade._id,
                                     'command' : extra.command
-                                }, cb); 
+                                }, function(){}); 
                             }
                         };
-                    })
+                    });
+                    cb();
                 }], cb2);
             }
         });
