@@ -71,7 +71,11 @@ goblin.crawlItemComplete = {
         ], function (err, item) {
             GoblinScheduler.finishItem(item._id, error || err, function(){});
             if (!err) {
-                GoblinLogger.complete(item, req);
+                if (itemInfo) {
+                    GoblinLogger.complete(item, req);
+                } else {
+                    GoblinLogger.delist(item, req);
+                }
             } else {
                 GoblinLogger.error(item, req, err);
             }

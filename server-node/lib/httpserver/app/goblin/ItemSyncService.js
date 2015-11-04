@@ -33,6 +33,7 @@ ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
         callback(err, item);
     } else if (!itemInfo) {
         item.delist = new Date();
+        item.sync = new Date();
         item.save(function (err) {
             callback(err, item);
         });

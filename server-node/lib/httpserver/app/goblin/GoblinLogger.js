@@ -26,6 +26,12 @@ GoblinLogger.complete = function(item, req) {
     });
 };
 
+GoblinLogger.delist = function(item, req) {
+    _step('delist', item, {
+        'slaveIp' : RequestHelper.getIp(req)
+    });
+};
+
 GoblinLogger.failed = function(item, req, reason) {
     _step('failed', item, {
         'reason' : reason,

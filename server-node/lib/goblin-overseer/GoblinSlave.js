@@ -130,8 +130,16 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         param.itemInfo = itemInfo;
     }
 
+    console.log(item._id + ' - ' + item.source);
     if (err) {
-        param.error = err;
+        if (err.errorCode === GoblinError.Delist) {
+            console.log('    delist');
+        } else {
+            param.error = err;
+            console.log('    err: ' + err);
+        }
+    } else {
+        console.log('    complete');
     }
 
     var path = slaverModel.config.server.path + '/services/goblin/crawlItemComplete';
@@ -140,7 +148,6 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         url: path,
         form: param
     }, function(err, httpResponse, body){
-        console.log(item._id + ':' + item.source );
         callback();
     });
 };
