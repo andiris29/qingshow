@@ -272,5 +272,6 @@
     <!-- u21 -->
     <string name="u21_msg_line1">她与你搭配了同一款单品，当她得到佣金时</string>
     <string name="u21_msg_line2">你也可以得到一份共享佣金</string>
+    <string name="title_activity_trade_notify">TradeNotifyActivity</string>
 
 </resources>
