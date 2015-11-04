@@ -57,5 +57,6 @@ module.exports = {
     'SMSlimitedSend' : new ServerError(1031, 'SMSlimitedSend'),
     'FrequentlyRequest' : new ServerError(1032, 'FrequentlyRequest'),
     'NickNameAlreadyExist' : new ServerError(1033, 'NickNameAlreadyExist'),
-    'InvalidItem' : new ServerError(1034, 'InvalidItem')
+    'InvalidItem' : new ServerError(1034, 'InvalidItem'),
+    'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled')
 };

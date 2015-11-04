@@ -482,8 +482,8 @@ public class S20MatcherActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     public void onEventMainThread(S21CategoryEvent event) {

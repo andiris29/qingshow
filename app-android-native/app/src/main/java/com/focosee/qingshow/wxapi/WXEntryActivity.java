@@ -112,7 +112,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         map.put("code", code);
         map.put("registrationId", PushModel.INSTANCE.getRegId());
         JSONObject jsonObject = new JSONObject(map);
-        Log.d("tag", code);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWxApi(), jsonObject, new Response.Listener<JSONObject>() {
 
             @Override

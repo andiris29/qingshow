@@ -18,7 +18,7 @@ var _next = function(today) {
     },
     function(trades, callback) {
         var notifiyTasks = trades.filter(function(trade){
-            return today - trade.update > 24 * 3600 * 1000
+            return today - trade.update > 24 * 3600 * 1000;
         }).map(function(trade, index) {
             return function(cb2){
                 async.waterfall([function(cb){
@@ -29,25 +29,23 @@ var _next = function(today) {
                     people.unreadNotifications.forEach(function(unread){
                         var extra = unread.extra;
                         if (extra == null) {
-                            cb();
                             return;
                         }
-
                         if (extra._id == null || extra._id.length === 0) {
-                            cb();
                             return;
                         }
                         if(extra._id.toString() === trade._id.toString()){
-                            if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated || || extra.command === NotificationHelper.CommandTradeInitialized) {
+                            if (extra.command === NotificationHelper.CommandItemExpectablePriceUpdated || extra.command === NotificationHelper.CommandTradeInitialized) {
                                 NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
                                     '_id' : trade._id,
-                                    'command' : NotificationHelper.CommandItemExpectablePriceUpdated
-                                }, cb);   
+                                    'command' : extra.command
+                                }, function(){});
                             }
                         };
-                    })
+                    });
+                    cb();
                 }], cb2);
-            }
+            };
         });
         async.parallel(notifiyTasks, callback);
     }],
