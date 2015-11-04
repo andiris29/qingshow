@@ -31,6 +31,19 @@ var _isFake = function(people){
     }
 }
 
+var _shuffle = function (array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 matcher.queryCategories = {
     'method' : 'get',
     'func' : function(req, res) {
@@ -66,7 +79,7 @@ matcher.queryItems = {
             if (queryItems[category._id.toString()]) {
                 pageNo = parseInt(queryItems[category._id.toString()]);
             }else {
-                pageNo = new Number(Math.random() * 10).toFixed(0);
+                pageNo = parseInt(new Number(Math.random() * 10).toFixed(0));
             }
             pageNo = parseInt(qsParam.pageNo) + pageNo + 1;
             ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
@@ -87,7 +100,7 @@ matcher.queryItems = {
                     });
             }, function(items) {
                 return {
-                    'items' : items
+                    'items' : _shuffle(items)
                 };
             }, {});
         })
