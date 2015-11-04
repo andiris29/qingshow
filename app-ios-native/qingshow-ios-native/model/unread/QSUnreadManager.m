@@ -62,7 +62,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
         self.typeToDotCommands = @{
             _typeToStr(QSRootMenuItemMy) : @[@"newRecommandations"],
             _typeToStr(QSRootMenuItemDiscount) : @[@"itemExpectablePriceUpdated", @"tradeInitialized", @"tradeShipped"],
-            _typeToStr(QSRootMenuItemSetting) : @[@"newBonus", @"bonusWithdrawComplete"]
+            _typeToStr(QSRootMenuItemSetting) : @[@"newBonus", @"newParticipantBonus", @"bonusWithdrawComplete"]
         };
         
         NSMutableArray* commands = [@[] mutableCopy];
@@ -70,7 +70,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
             [commands addObjectsFromArray:a];
         }
         self.menuDotCommands = commands;
-        self.bonuDotCommands = @[@"newBonus", @"bonusWithdrawComplete"];
+        self.bonuDotCommands = @[@"newBonus", @"newParticipantBonus", @"bonusWithdrawComplete"];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveUserInfoUpdateNoti:) name:kUserInfoUpdateNotification object:nil];
     }
     return self;

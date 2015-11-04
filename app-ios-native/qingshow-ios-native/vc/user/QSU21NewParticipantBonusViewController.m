@@ -10,7 +10,7 @@
 #import "QSNotificationHelper.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-
+#import "QSUnreadManager.h"
 #import "QSPeopleUtil.h"
 #import "QSBonusUtil.h"
 #import "QSTradeUtil.h"
@@ -48,6 +48,10 @@
     [self _configUi];
     [self _bindInfo];
 
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[QSUnreadManager getInstance] clearBonuUnread];
 }
 
 - (void)didReceiveMemoryWarning {

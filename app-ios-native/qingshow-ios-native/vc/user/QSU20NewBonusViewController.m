@@ -10,6 +10,7 @@
 #import "QSNotificationHelper.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
+#import "QSUnreadManager.h"
 
 #import "QSPeopleUtil.h"
 #import "QSBonusUtil.h"
@@ -49,6 +50,10 @@
     // Do any additional setup after loading the view from its nib.
     [self _configUi];
     [self _bindInfo];
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[QSUnreadManager getInstance] clearBonuUnread];
 }
 - (void)_configUi {
     self.itemImageView.layer.cornerRadius = 10.f;
