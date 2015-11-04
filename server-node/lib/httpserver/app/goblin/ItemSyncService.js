@@ -22,7 +22,7 @@ ItemSyncService.isOutDate = function (item) {
     return ((now - item.sync) > ItemSyncService.outDateDuration);
 };
 
-ItemSyncService.outDateDuration = 1000 * 60 * 60 * 24 * 30;
+ItemSyncService.outDateDuration = 1000 * 60 * 60 * 24 * 3;
 
 ItemSyncService.syncItemInfo = function(item, itemInfo, err, callback) {
     if (err && _.isString(err)) {
