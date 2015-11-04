@@ -21,7 +21,7 @@ var TraceHelper = require('../../helpers/TraceHelper');
 var errors = require('../../errors');
 
 var matcher = module.exports;
-
+ 
 var _isFake = function(people){
     if(isNaN(people.userInfo.id)) {
         return false
@@ -107,8 +107,6 @@ matcher.queryItems = {
     }
 };
 
-var _matchers = {};
-
 matcher.save = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
@@ -158,14 +156,10 @@ matcher.save = {
             if (featuredRank) {
                 show.featuredRank = featuredRank;
             }
-
-            var uuid = require('node-uuid').v1();
-            _matchers[uuid] = show;
-            callback(null, uuid);
-        }], function(err, uuid) {
-            ResponseHelper.response(res, null, {
-                'uuid' : uuid
-            });
+            req.session._matcher = show;
+            callback(null, show);
+        }], function(err, show) {
+            ResponseHelper.response(res, null, {});
         })
     }
 };
@@ -174,57 +168,61 @@ matcher.updateCover = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        async.waterfall([function(callback){
+            var show = req.session._matcher;
+            if (show) {
+                show.save(function(err, show){
+                    delete req.session._matcher;
+                    callback(null, show);
+                });
+            }else{
+                callback(errors.NotEnoughParam);
+            }
+        }, function(show, callback){
+            RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.ftpPath, show._id.toString(), [
+                {'suffix' : '_s', 'rate' : 0.5},
+                {'suffix' : '_xs', 'rate' : 0.25}
+                ], function (err, fields, file) {
+                    if (err) {
+                        ResponseHelper.response(res, err);
+                        return;
+                    }
+                    if (!fields.uuid || !fields.uuid.length) {
+                        ResponseHelper.response(res, errors.NotEnoughParam);
+                        return;
+                    }
+                    if (!file) {
+                        ResponseHelper.response(res, errors.NotEnoughParam);
+                        return;
+                    }
+                    show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
 
-        var show = _matchers[fields.uuid];
-        if (!show) {
-            ResponseHelper.response(res, errors.NotEnoughParam);
-            return;
-        }
-        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.ftpPath, show._id.toString(), [
-            {'suffix' : '_s', 'rate' : 0.5},
-            {'suffix' : '_xs', 'rate' : 0.25}
-        ], function (err, fields, file) {
-            if (err) {
-                ResponseHelper.response(res, err);
-                return;
-            }
-            if (!fields.uuid || !fields.uuid.length) {
-                ResponseHelper.response(res, errors.NotEnoughParam);
-                return;
-            }
-            if (!file) {
-                ResponseHelper.response(res, errors.NotEnoughParam);
-                return;
-            }
-            show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
-            
-            var date = new Date();
-            date.setMinutes(date.getMinutes() - 10);
-            Show.findOne({
-                'ownerRef' : show.ownerRef,
-                'itemRefs' : show.itemRefs,
-                'create' : {
-                    '$gt' : date
-                }
-            }, function(err, duplicatedShow) {
-                if (err || duplicatedShow) {
-                    ResponseHelper.response(res, err, {
-                        'show' : duplicatedShow
+                    var date = new Date();
+                    date.setMinutes(date.getMinutes() - 10);
+                    Show.findOne({
+                        'ownerRef' : show.ownerRef,
+                        'itemRefs' : show.itemRefs,
+                        'create' : {
+                            '$gt' : date
+                        }
+                    }, function(err, duplicatedShow) {
+                        if (err || duplicatedShow) {
+                            callback(null, duplicatedShow);
+                        } else {
+                            show.save(function(err, show) {
+                                callback(null, show);
+                            });
+                        }
                     });
-                } else {
-                    show.save(function(err, show) {
-                        ResponseHelper.response(res, err, {
-                            'show' : show
-                        });
-                        // Log
-                        TraceHelper.trace('behavior-show-creation', req, {
-                            '_showId' : show._id.toString()
-                        });
-                    });
-                }
+                });
+        }], function(err, show){
+            ResponseHelper.response(res, err, {
+                'show' : show
             });
-            
-            delete _matchers[fields.uuid];
+            // Log
+            TraceHelper.trace('behavior-show-creation', req, {
+                '_showId' : show._id.toString()
+            });
         });
     }
 };
