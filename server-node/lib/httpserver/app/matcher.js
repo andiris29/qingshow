@@ -138,25 +138,27 @@ matcher.save = {
             var coverUrl = global.qsConfig.show.coverForeground.template;
             coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
 
-            if (_isFake(people)) {
-                var show = new Show({
-                    'itemRefs' : itemRefs, 
-                    'ownerRef' : req.qsCurrentUserId,
-                    'coverForeground' : coverUrl,
-                    'featuredRank' : 1
-                }); 
-            }else {
-                var show = new Show({
-                    'itemRefs' : itemRefs, 
-                    'ownerRef' : req.qsCurrentUserId,
-                    'coverForeground' : coverUrl
-                });
-            }
+            var show = {};
 
             if (featuredRank) {
                 show.featuredRank = featuredRank;
             }
-            req.session._matcher = show;
+
+            if (_isFake(people)) {
+                show = {
+                    'itemRefs' : itemRefs, 
+                    'ownerRef' : req.qsCurrentUserId,
+                    'coverForeground' : coverUrl,
+                    'featuredRank' : 1
+                }; 
+            }else {
+                show = {
+                    'itemRefs' : itemRefs, 
+                    'ownerRef' : req.qsCurrentUserId,
+                    'coverForeground' : coverUrl
+                };
+            }
+            req.session.matcher = show;
             callback(null, show);
         }], function(err, show) {
             ResponseHelper.response(res, null, {});
@@ -169,10 +171,9 @@ matcher.updateCover = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         async.waterfall([function(callback){
-            var show = req.session._matcher;
+            var show = req.session.matcher;
             if (show) {
-                show.save(function(err, show){
-                    delete req.session._matcher;
+                new Show(show).save(function(err, show){
                     callback(null, show);
                 });
             }else{
@@ -184,15 +185,11 @@ matcher.updateCover = {
                 {'suffix' : '_xs', 'rate' : 0.25}
                 ], function (err, fields, file) {
                     if (err) {
-                        ResponseHelper.response(res, err);
-                        return;
-                    }
-                    if (!fields.uuid || !fields.uuid.length) {
-                        ResponseHelper.response(res, errors.NotEnoughParam);
+                        callback(err);
                         return;
                     }
                     if (!file) {
-                        ResponseHelper.response(res, errors.NotEnoughParam);
+                        callback(errors.NotEnoughParam);
                         return;
                     }
                     show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
@@ -216,6 +213,7 @@ matcher.updateCover = {
                     });
                 });
         }], function(err, show){
+            delete req.session.matcher;
             ResponseHelper.response(res, err, {
                 'show' : show
             });
