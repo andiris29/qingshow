@@ -151,7 +151,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        if (S20MatchPreviewActivity.class.getSimpleName().equals(className)) {
+        if (S22MatchPreviewActivity.class.getSimpleName().equals(className)) {
             s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -561,7 +561,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (className.equals(S20MatchPreviewActivity.class.getSimpleName())) {
+        if (className.equals(S22MatchPreviewActivity.class.getSimpleName())) {
             if (keyCode == KeyEvent.KEYCODE_MENU) {
                 menuView = new MenuView();
                 menuView.show(getSupportFragmentManager(), S03SHowActivity.class.getSimpleName(), container);

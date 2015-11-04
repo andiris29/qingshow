@@ -575,7 +575,7 @@ public class S20MatcherActivity extends BaseActivity {
         S20Bitmap.INSTANCE.setBitmap(bitmap);
         hasDraw = true;
 
-        Intent intent = new Intent(S20MatcherActivity.this, S20MatchPreviewActivity.class);
+        Intent intent = new Intent(S20MatcherActivity.this, S22MatchPreviewActivity.class);
         ArrayList<String> itemRefs = new ArrayList<>();
         for (String s : allSelect.keySet()) {
             itemRefs.add(allSelect.get(s).item._id);

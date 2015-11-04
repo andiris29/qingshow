@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +42,7 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2015/7/9.
  */
-public class S20MatchPreviewActivity extends BaseActivity {
+public class S22MatchPreviewActivity extends BaseActivity {
 
     @InjectView(R.id.image)
     ImageView image;
@@ -124,14 +123,14 @@ public class S20MatchPreviewActivity extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(S20MatchPreviewActivity.this, MetadataParser.getError(response));
+                    ErrorHandler.handle(S22MatchPreviewActivity.this, MetadataParser.getError(response));
                     allowClick();
                     return;
                 }
                 if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
                     QSModel.INSTANCE.setUserStatus(MongoPeople.MATCH_FINISHED);
                 }
-                
+
                 if(null != bitmap)
                     if(!bitmap.isRecycled())
                         uploadImage();
@@ -154,9 +153,9 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 QSAppWebAPI.getUpdateMatchCoverApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(S20MatchPreviewActivity.class.getSimpleName(), "uploadImage_response:" + response);
+                Log.d(S22MatchPreviewActivity.class.getSimpleName(), "uploadImage_response:" + response);
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(S20MatchPreviewActivity.this, MetadataParser.getError(response));
+                    ErrorHandler.handle(S22MatchPreviewActivity.this, MetadataParser.getError(response));
                     allowClick();
                     return;
                 }
@@ -167,12 +166,12 @@ public class S20MatchPreviewActivity extends BaseActivity {
                 if(QSModel.INSTANCE.isGuest()){
                     _class = S01MatchShowsActivity.class;
                 }
-                intent.setClass(S20MatchPreviewActivity.this, _class);
+                intent.setClass(S22MatchPreviewActivity.this, _class);
                 intent.putExtra(S01MatchShowsActivity.INTENT_CURRENT_TYPE, 1);
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
-                intent.putExtra(S03SHowActivity.CLASS_NAME, S20MatchPreviewActivity.class.getSimpleName());
-                S20MatchPreviewActivity.this.startActivity(intent);
-                S20MatchPreviewActivity.this.finish();
+                intent.putExtra(S03SHowActivity.CLASS_NAME, S22MatchPreviewActivity.class.getSimpleName());
+                S22MatchPreviewActivity.this.startActivity(intent);
+                S22MatchPreviewActivity.this.finish();
             }
         }, new QSResponseErrorListener() {
             @Override
@@ -203,14 +202,14 @@ public class S20MatchPreviewActivity extends BaseActivity {
         if (null == bitmap){
             finish();
         }
-        MobclickAgent.onPageStart("S20MatcherPreviewActivity");
+        MobclickAgent.onPageStart("S22MatcherPreviewActivity");
         MobclickAgent.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("S20MatcherPreviewActivity");
+        MobclickAgent.onPageEnd("S22MatcherPreviewActivity");
         MobclickAgent.onPause(this);
     }
 }
