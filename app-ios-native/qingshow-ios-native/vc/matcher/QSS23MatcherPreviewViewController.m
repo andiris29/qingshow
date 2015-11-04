@@ -62,10 +62,10 @@
     MBProgressHUD* hud = [self showNetworkWaitingHud];
     
     self.createMatcherOp =
-    [SHARE_NW_ENGINE matcherSave:self.itemArray onSucceed:^(NSString *uuid) {
+    [SHARE_NW_ENGINE matcherSave:self.itemArray onSucceed:^() {
         self.createMatcherOp = nil;
         self.updateCoverOp =
-        [SHARE_NW_ENGINE matcherUuid:uuid updateCover:self.coverImage  onSucceed:^(NSDictionary *d) {
+        [SHARE_NW_ENGINE matcherUpdateCover:self.coverImage  onSucceed:^(NSDictionary *d) {
             self.updateCoverOp = nil;
             
             if ([self.delegate respondsToSelector:@selector(vc:didCreateNewMatcher:)]) {

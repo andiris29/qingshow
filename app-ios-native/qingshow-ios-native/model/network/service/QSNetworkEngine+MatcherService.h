@@ -20,13 +20,12 @@
                                          onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
-                         onSucceed:(StringBlock)succeedBlock
+                         onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)matcherUuid:(NSString*)uuid
-                       updateCover:(UIImage*)cover
-                         onSucceed:(DicBlock)succeedBlock
-                           onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)matcherUpdateCover:(UIImage*)cover
+                                onSucceed:(DicBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)matcherHide:(NSDictionary*)matcherDict
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;

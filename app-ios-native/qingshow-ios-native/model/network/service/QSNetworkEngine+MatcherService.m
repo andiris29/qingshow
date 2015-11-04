@@ -78,7 +78,7 @@
     }];
 }
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
-                         onSucceed:(StringBlock)succeedBlock
+                         onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
     NSMutableArray* idArray = [@[] mutableCopy];
     for (NSDictionary* itemDict in itemArray) {
@@ -87,10 +87,8 @@
     
     
     return [self startOperationWithPath:PATH_MATCHER_SAVE method:@"POST" paramers:@{@"itemRefs" : idArray} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        NSDictionary* responseDict = completedOperation.responseJSON;
-        
         if (succeedBlock) {
-            succeedBlock([responseDict stringValueForKeyPath:@"data.uuid"]);
+            succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -99,16 +97,12 @@
     }];
 }
 
-- (MKNetworkOperation*)matcherUuid:(NSString*)uuid
-                       updateCover:(UIImage*)cover
+- (MKNetworkOperation*)matcherUpdateCover:(UIImage*)cover
                          onSucceed:(DicBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
-    if (!uuid) {
-        uuid = @"";
-    }
     return [self startOperationWithPath:PATH_MATCHER_UPDATE_COVER
                                  method:@"POST"
-                               paramers:@{@"uuid" : uuid}
+                               paramers:@{}
                                 fileKey:@"cover"
                                fileName:@"cover.jpeg"
                                   image:UIImageJPEGRepresentation(cover, 0.7)
