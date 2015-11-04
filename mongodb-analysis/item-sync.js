@@ -21,4 +21,8 @@ db.getCollection('items').find({
     }
 }).count();
 
-db.getCollection('items').find({}).count();
+db.getCollection('items').find({
+    'syncEnabled' : {
+        '$ne' : false
+    }
+}).count();
