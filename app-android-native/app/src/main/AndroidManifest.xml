@@ -275,8 +275,10 @@
         <activity android:name=".activity.S21CategoryActivity" />
         <activity
             android:name=".activity.S20MatcherActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="behind" />
-        <activity android:name=".activity.S20MatchPreviewActivity" />
+        <activity android:name=".activity.S20MatchPreviewActivity"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

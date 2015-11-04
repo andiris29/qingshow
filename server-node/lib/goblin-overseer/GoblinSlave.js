@@ -2,13 +2,14 @@ var async = require('async');
 var _ = require('underscore');
 var request = require('request');
 
+var moment = require('moment');
 
 var ItemSourceType = require('../goblin-slave/ItemSourceType');
 var GoblinError = require('../goblin-slave/GoblinError');
 
 var GoblinCrawler = require('../goblin-slave/crawler/GoblinCrawler');
 
-var GoblinMainSlaver = module.exports;
+var GoblinSlave = module.exports;
 
 
 var supportTypes = [
@@ -23,7 +24,7 @@ var supportTypes = [
  */
 var slaverModel = null;
 
-GoblinMainSlaver.start = function (config) {
+GoblinSlave.start = function (config) {
     slaverModel = {
         config : config,
         running : true,
@@ -34,7 +35,7 @@ GoblinMainSlaver.start = function (config) {
     });
 };
 
-GoblinMainSlaver.continue = function () {
+GoblinSlave.continue = function () {
     if (!slaverModel || !slaverModel.running) {
         return;
     }
@@ -45,7 +46,7 @@ GoblinMainSlaver.continue = function () {
     });
 }
 
-GoblinMainSlaver.stop = function () {
+GoblinSlave.stop = function () {
     slaverModel.running = false;
     slaverModel = null;
 };
@@ -92,7 +93,8 @@ var _queryNextItem = function (type, callback) {
     request.post({
         url: path,
         form: {
-            type : type
+            type : type,
+            'version' : slaverModel.config.version
         }
     }, function(err, httpResponse, body){
         if (err) {
@@ -129,8 +131,17 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         param.itemInfo = itemInfo;
     }
 
+    console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ' ' + item._id);
+    console.log('    ' + item.source);
     if (err) {
-        param.error = err;
+        if (err.errorCode === GoblinError.InvalidItemSource || err.errorCode === GoblinError.Delist) {
+            console.log('    delist: ' + err.errorCode);
+        } else {
+            param.error = err;
+            console.log('    err: ' + err);
+        }
+    } else {
+        console.log('    complete');
     }
 
     var path = slaverModel.config.server.path + '/services/goblin/crawlItemComplete';
@@ -139,7 +150,6 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         url: path,
         form: param
     }, function(err, httpResponse, body){
-        console.log(item._id + ':' + item.source );
         callback();
     });
 };

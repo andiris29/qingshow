@@ -112,7 +112,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
         mGroup.addView(mView);
 
         setListener();
-        if(Build.VERSION.SDK_INT >= SDK_INT) {
+        if(Build.VERSION.SDK_INT >= SDK_INT && blurView != null) {
             blurView.setDrawingCacheEnabled(true);
             blurView.buildDrawingCache();
             blurBitmap = blurView.getDrawingCache();
@@ -253,8 +253,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
         final int radius = 20;
         if (Build.VERSION.SDK_INT >= SDK_INT) {
             Log.d(MenuView.class.getSimpleName(), "VERSION.SDK_INT " + Build.VERSION.SDK_INT);
-            Bitmap bitmap = bmp.copy(bmp.getConfig(), true);
-
             final RenderScript rs = RenderScript.create(context);
             final Allocation input = Allocation.createFromBitmap(rs, bmp, Allocation.MipmapControl.MIPMAP_NONE,
                     Allocation.USAGE_SCRIPT);
@@ -263,8 +261,8 @@ public class MenuView extends Fragment implements View.OnClickListener {
             script.setRadius(radius /* e.g. 3.f */);
             script.setInput(input);
             script.forEach(output);
-            output.copyTo(bitmap);
-            return bitmap;
+            output.copyTo(bmp);
+            return bmp;
         }
         return bmp;
     }

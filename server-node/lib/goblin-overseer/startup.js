@@ -1,8 +1,9 @@
-
-var GoblinSlaver = require('./GoblinSlaver');
 var path = require('path');
 var properties = require("properties");
-var request = require('request');
+var request = require('request'),
+    winston = require('winston');
+
+var GoblinSlave = require('./GoblinSlave');
 
 var configPath = path.join(__dirname, 'config.properties');
 
@@ -15,13 +16,15 @@ module.exports = function () {
         variables : true
     }, function(error, config) {
         _config = config;
-        GoblinSlaver.start(_config);
+        GoblinSlave.start(_config);
     });
+    
+    winston.info('Startup goblin-overseer success');
 };
 
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
-    GoblinSlaver.continue();
+    GoblinSlave.continue();
 
     var path = _config.server.path + '/services/system/log';
     var param = {

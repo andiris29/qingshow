@@ -38,14 +38,6 @@ GoblinCrawler.crawl = function (sourceUrl, callback) {
     _crawlItemWebInfo(sourceUrl, callback);
 };
 
-
-GoblinCrawler.canParseItemSource = function (itemSouceStr) {
-    if (!itemSouceStr) {
-        return false;
-    }
-    return !!_getCrawlerWithSource(itemSouceStr);
-};
-
 var _getCrawlerWithSource = function (source) {
     if (!source) {
         return;
@@ -57,7 +49,7 @@ var _getCrawlerWithSource = function (source) {
     return typeToCrawler[sourceType];
 };
 
-/**]
+/**
  *
  * @param source
  * @param callback

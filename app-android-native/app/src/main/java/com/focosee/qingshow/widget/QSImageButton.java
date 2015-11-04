@@ -40,6 +40,9 @@ public class QSImageButton extends ImageButton{
                getBackground());
         drawable.addState(new int[]{android.R.attr.state_pressed},
                 context.getResources().getDrawable(clickGround));
-        setBackground(drawable);
+        if(Build.VERSION.SDK_INT >= 16)
+            setBackground(drawable);
+        else
+            setBackgroundDrawable(drawable);
     }
 }
