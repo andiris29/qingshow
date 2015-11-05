@@ -40,7 +40,7 @@ TaobaoWebItem.getSkus = function (source, callback) {
             }
         }
     ], function (err, taobaoInfo) {
-        callback(null, taobaoInfo);
+        callback(err, taobaoInfo);
     });
     //
 };
