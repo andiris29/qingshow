@@ -158,6 +158,10 @@ item.sync = {
     func : function (req, res) {
         async.waterfall([
             function (callback) {
+            if (RequestHelper.getVersion(req) && RequestHelper.getVersion(req) === '2.1.4') {
+                callback(errors.TextSupportVersionFlag);
+                return;
+            }
                 var itemId = RequestHelper.parseId(req.body._id);
                 var invoke = false;
                 
