@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSG01ItemWebViewController : UIViewController<UIAlertViewDelegate>
+@interface QSG01ItemWebViewController : UIViewController<UIAlertViewDelegate, UIWebViewDelegate>
 
 - (id)initWithItem:(NSDictionary*)item peopleId:(NSString *)peopleId;
 
