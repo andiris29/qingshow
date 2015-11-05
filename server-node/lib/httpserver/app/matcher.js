@@ -5,7 +5,7 @@ var _ = require('underscore');
 
 // model
 var Category = require('../../dbmodels').Category;
-var Item = require('../../dbmodels').Item;
+var Items = require('../../dbmodels').Item;
 var Show = require('../../dbmodels').Show;
 var People = require('../../dbmodels').People;
 
@@ -29,6 +29,19 @@ var _isFake = function(people){
         var n = parseInt(people.userInfo.id);
         return (n >= 400 && n < 500) || (n > 600 && n < 700);
     }
+}
+
+var _shuffle = function (array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
 
 matcher.queryCategories = {
@@ -60,11 +73,34 @@ matcher.queryItems = {
                 'categoryRef' : category._id,
                 '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}]
             };
+
+            var queryItems = req.session.queryItems || {};
+            var pageNo;
+            if (queryItems[category._id.toString()]) {
+                pageNo = parseInt(queryItems[category._id.toString()]);
+            }else {
+                pageNo = parseInt(new Number(Math.random() * 10).toFixed(0));
+            }
+            pageNo = parseInt(qsParam.pageNo) + pageNo + 1;
             ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-                MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
+                MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, 
+                    qsParam.pageSize, function(err, models, count){
+                        if ((!count || count < qsParam.pageSize) && pageNo != 0) {
+                            pageNo = 0;
+                            MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
+                                callback(err, models ? models.concat(fillingModels) : fillingModels, qsParam.pageSize);
+                            });
+                            queryItems[category._id.toString()] = pageNo;
+                            req.session.queryItems = queryItems;
+                        }else {
+                            queryItems[category._id.toString()] = pageNo;
+                            req.session.queryItems = queryItems;
+                            callback(err, models, count);
+                        }
+                    });
             }, function(items) {
                 return {
-                    'items' : items
+                    'items' : _shuffle(items)
                 };
             }, {});
         })
@@ -77,11 +113,24 @@ matcher.save = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var featuredRank;
         async.waterfall([function(callback){
             People.findOne({
                 '_id' : req.qsCurrentUserId
             }, callback);
-        }, function(people, callback) {
+        }, function(people, callback){
+            Show.find({
+                'ownerRef' : people._id,
+                'featuredRank' : {
+                    $exists: true
+                }
+            }, function(err, shows){
+                if (shows && shows.length > 0) {
+                    featuredRank = shows[0].featuredRank;
+                }
+                callback(null, people, featuredRank);
+            })
+        }, function(people, featuredRank, callback) {
             if (!req.body.itemRefs || !req.body.itemRefs.length) {
                 ResponseHelper.response(res, errors.NotEnoughParam);
                 return;
@@ -105,6 +154,11 @@ matcher.save = {
                     'coverForeground' : coverUrl
                 });
             }
+
+            if (featuredRank) {
+                show.featuredRank = featuredRank;
+            }
+
             var uuid = require('node-uuid').v1();
             _matchers[uuid] = show;
             callback(null, uuid);

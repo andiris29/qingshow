@@ -14,10 +14,10 @@ var MongoHelper = require('../../helpers/MongoHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
 var TradeHelper = require('../../helpers/TradeHelper');
 var URLParser = require('../../goblin-slave/URLParser');
-var qsftp = require('../../runtime').ftp;
-var GoblinScheduler = require("./goblin/GoblinScheduler");
+var qsftp = require('../../runtime').ftp,
+    syncLogger = require('../../runtime/loggers').get('item-sync');
+var GoblinScheduler = require('./goblin/GoblinScheduler');
 
-var ItemSyncService = require("../../goblin-slave/ItemSyncService");
 var errors = require('../../errors');
 var GoblinError = require('../../goblin-slave/GoblinError');
 
@@ -159,8 +159,28 @@ item.sync = {
         async.waterfall([
             function (callback) {
                 var itemId = RequestHelper.parseId(req.body._id);
-                GoblinScheduler.registerItemWithId(itemId, callback);
-                //ItemSyncService.syncItemWithItemId(itemId, callback);
+                var invoke = false;
+                
+                _.delay(function() {
+                    if (!invoke) {
+                        invoke = true;
+                        syncLogger.info({'result' : 'miss', '_id' : req.body._id});
+                        Items.findOne({_id : itemId}, callback);
+                    }
+                }, global.qsConfig.item.sync.timeout || 10000);
+                
+                GoblinScheduler.registerItemWithId(itemId, function(err, item) {
+                    if (!invoke) {
+                        invoke = true;
+                        if (!err) {
+                            syncLogger.info({'result' : 'hit', '_id' : req.body._id});
+                            callback(err, item);
+                        } else {
+                            syncLogger.info({'result' : 'error', '_id' : req.body._id, 'error' : err});
+                            Items.findOne({_id : itemId}, callback);
+                        }
+                    }
+                });
             }
         ], function (err, item) {
             if (err) {
@@ -289,7 +309,7 @@ item.list = {
                 });
             });
         }, function(item, callback) {
-            ItemSyncService.syncItem(item, callback);
+            GoblinScheduler.registerItemWithId(item._id, callback);
         }], function(error, item) {
             ResponseHelper.response(res, error, {
                 item : item

@@ -8,8 +8,8 @@ android {
         applicationId "com.focosee.qingshow"
         minSdkVersion 15
         targetSdkVersion 15
-        versionCode 104
-        versionName "2.1.4"
+        versionCode 105
+        versionName "2.1.5"
     }
     signingConfigs {
         release {
