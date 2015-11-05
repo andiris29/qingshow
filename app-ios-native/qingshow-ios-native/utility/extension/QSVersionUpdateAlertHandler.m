@@ -33,10 +33,11 @@
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    self.alertView = nil;
-    self.vc.versionUpdateAlertHandler = nil;
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:QINGSHOW_ITUNE_URL]];
-
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"请更新最新版本" message:@"更多意想不到在等着你哦" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    alert.delegate = self;
+    self.alertView = alert;
+    [alert show];
 }
 
 @end
