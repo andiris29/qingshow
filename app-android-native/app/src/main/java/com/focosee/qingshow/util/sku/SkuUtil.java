@@ -72,8 +72,8 @@ public class SkuUtil {
 
     public static List<String> propParser(Map<String, List<String>> props, List<String> keys_order) {
         List<String> result = new ArrayList<>();
-        for (String key : props.keySet()) {
-            result.add(keys_order.indexOf(key), propParser(key, props.get(key)));
+        for (String key : keys_order) {
+            result.add(propParser(key, props.get(key)));
         }
         return result;
     }

@@ -26,7 +26,11 @@ static QSNetworkEngine* s_networkEngine = nil;
 + (void)hostInit:(NSString*)hostPath {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:[hostPath stringByReplacingOccurrencesOfString:@"http://" withString:@""]];
+        NSString* path = hostPath;
+        if (!path) {
+            path = @"";
+        }
+        s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:[path stringByReplacingOccurrencesOfString:@"http://" withString:@""]];
         [s_networkEngine registerOperationSubclass:[QSNetworkOperation class]];
     });
 }

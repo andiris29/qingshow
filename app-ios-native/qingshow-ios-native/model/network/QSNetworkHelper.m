@@ -8,6 +8,7 @@
 
 #import "QSNetworkHelper.h"
 #import "MKNetworkEngine.h"
+#import "QSNetworkOperation.h"
 
 #import "NSDictionary+QSExtension.h"
 
@@ -31,7 +32,7 @@
     p[@"version"] = version;
     
     MKNetworkEngine* engine = [[MKNetworkEngine alloc] init];
-    MKNetworkOperation* op = [[MKNetworkOperation alloc] initWithURLString:PATH_SYSTEM_GET_SERVER params:p httpMethod:@"GET"];
+    MKNetworkOperation* op = [[QSNetworkOperation alloc] initWithURLString:PATH_SYSTEM_GET_SERVER params:p httpMethod:@"GET"];
     NSDictionary* headers = [self generateHeader];
     for (NSString* key in headers) {
         [op setHeader:key withValue:headers[key]];

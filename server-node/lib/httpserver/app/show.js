@@ -16,6 +16,7 @@ var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var errors = require('../../errors');
 
@@ -49,6 +50,11 @@ show.query = {
         }], function(err, shows) {
             ResponseHelper.response(res, err, {
                 'shows' : shows
+            });
+            // Log
+            TraceHelper.trace('behavior-show-query', req, {
+                '_showId' : show._id.toString(),
+                'featuredRank' : show.featuredRank
             });
         });
     }
