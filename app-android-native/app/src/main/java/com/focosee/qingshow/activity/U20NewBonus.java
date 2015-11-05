@@ -9,13 +9,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.BonusCommand;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.util.bonus.BonusHelper;
+import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.umeng.analytics.MobclickAgent;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U20NewBonus extends Activity {
+public class U20NewBonus extends BaseActivity {
 
     @InjectView(R.id.close)
     ImageView close;
@@ -29,6 +35,7 @@ public class U20NewBonus extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u20_new_bonus);
         ButterKnife.inject(this);
+
 
         showUserHeads();
 
@@ -46,6 +53,19 @@ public class U20NewBonus extends Activity {
                 finish();
             }
         });
+    }
+
+    private void init(){
+        if(null == QSModel.INSTANCE.getUser()){
+            UserCommand.refresh(new Callback() {
+                @Override
+                public void onComplete() {
+                    showUserHeads();
+                }
+            });
+            return;
+        }
+
     }
 
     private void showUserHeads() {
@@ -86,5 +106,10 @@ public class U20NewBonus extends Activity {
         super.onPause();
         MobclickAgent.onPageEnd("U20NewBonus");
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void reconn() {
+
     }
 }

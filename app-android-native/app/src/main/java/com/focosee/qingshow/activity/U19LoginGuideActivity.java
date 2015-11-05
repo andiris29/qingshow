@@ -26,6 +26,7 @@ import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
+import com.sina.weibo.sdk.api.share.Base;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -43,7 +44,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U19LoginGuideActivity extends Activity implements View.OnClickListener{
+public class U19LoginGuideActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.close)
     ImageView close;
@@ -238,5 +239,10 @@ public class U19LoginGuideActivity extends Activity implements View.OnClickListe
         super.onPause();
         MobclickAgent.onPageEnd("U19LoginGuideActivity");
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void reconn() {
+
     }
 }

@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,7 @@ import com.umeng.analytics.MobclickAgent;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U21NewParticipantBonus extends Activity {
+public class U21NewParticipantBonus extends BaseActivity {
 
     @InjectView(R.id.close)
     ImageView close;
@@ -55,5 +54,10 @@ public class U21NewParticipantBonus extends Activity {
         super.onPause();
         MobclickAgent.onPageEnd("U21NewParticipantBonus");
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void reconn() {
+
     }
 }
