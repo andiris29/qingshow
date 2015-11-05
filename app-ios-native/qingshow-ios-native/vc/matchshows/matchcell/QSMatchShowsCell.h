@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "QSIImageLoadingCancelable.h"
 @protocol QSMatchShowCellDelegate <NSObject>
 
 - (void)headerImgViewPressed:(id)sender;
@@ -15,7 +15,7 @@
 
 @end
 
-@interface QSMatchShowsCell : UICollectionViewCell
+@interface QSMatchShowsCell : UICollectionViewCell <QSIImageLoadingCancelable>
 @property (weak, nonatomic) IBOutlet UIImageView *headerImgView;
 @property (weak, nonatomic) IBOutlet UIView* headerImageTapView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;

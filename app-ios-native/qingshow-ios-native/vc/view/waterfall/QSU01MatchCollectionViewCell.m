@@ -7,7 +7,7 @@
 //
 
 #import "QSU01MatchCollectionViewCell.h"
-
+#import "UIImageView+MKNetworkKitAdditions.h"
 @implementation QSU01MatchCollectionViewCell
 
 - (void)awakeFromNib {
@@ -17,5 +17,7 @@
 {
 
 }
-
+- (void)cancelImageLoading {
+    [self.matchImgView cancelImageLoadingOperation];
+}
 @end

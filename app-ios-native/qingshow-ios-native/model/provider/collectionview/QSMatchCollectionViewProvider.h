@@ -25,4 +25,5 @@ typedef enum : NSUInteger {
 @property(nonatomic,assign)NSObject<QSMatchCollectionViewProviderDelegate>* delegate;
 @property(nonatomic,assign)NSInteger type;
 
+
 @end

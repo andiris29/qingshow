@@ -11,6 +11,7 @@
 #import "NSNumber+QSExtension.h"
 #import "QSMetadataUtil.h"
 #import "QSAbstractListViewProvider+Protect.h"
+#import "QSIImageLoadingCancelable.h"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
 #define h ([UIScreen mainScreen].bounds.size.height)
@@ -23,6 +24,13 @@
 
 @implementation QSTableViewBasicProvider
 @dynamic view;
+#pragma mark - Getter And Setter 
+- (void)setView:(UITableView *)view {
+    if (view != self.view) {
+        [self cancelImageLoading];
+    }
+    [super setView:view];
+}
 #pragma mark - Init
 - (id)initWithCellClass:(Class)cellClass identifier:(NSString*)identifier
 {
@@ -114,4 +122,17 @@
     }
 }
 
+- (void)cancelImageLoading {
+    NSArray* cells = [self.view visibleCells];
+    for (NSObject* c in cells) {
+        if ([c conformsToProtocol:@protocol(QSIImageLoadingCancelable)]) {
+            NSObject<QSIImageLoadingCancelable>* i = (NSObject<QSIImageLoadingCancelable>*)c;
+            [i cancelImageLoading];
+        }
+    }
+}
+
+- (void)refreshVisibleData {
+    [self.view reloadData];
+}
 @end
