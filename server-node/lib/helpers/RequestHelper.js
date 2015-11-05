@@ -119,7 +119,7 @@ RequestHelper.parseFile = function (req, uploadPath, savedName, resizeOptions, c
         for (var key in files) {
             file = files[key];
         }
-
+        savedName += path.extname(file.path);
         var fullPath = path.join(uploadPath, savedName);
         var oldPath = file.path;
         qsftp.uploadWithResize(file.path, savedName, uploadPath, resizeOptions, function (err) {

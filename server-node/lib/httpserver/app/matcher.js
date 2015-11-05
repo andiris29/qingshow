@@ -193,23 +193,10 @@ matcher.updateCover = {
                         return;
                     }
                     show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
-
                     var date = new Date();
                     date.setMinutes(date.getMinutes() - 10);
-                    Show.findOne({
-                        'ownerRef' : show.ownerRef,
-                        'itemRefs' : show.itemRefs,
-                        'create' : {
-                            '$gt' : date
-                        }
-                    }, function(err, duplicatedShow) {
-                        if (err || duplicatedShow) {
-                            callback(null, duplicatedShow);
-                        } else {
-                            show.save(function(err, show) {
-                                callback(null, show);
-                            });
-                        }
+                    show.save(function(err, show) {
+                        callback(null, show);
                     });
                 });
         }], function(err, show){

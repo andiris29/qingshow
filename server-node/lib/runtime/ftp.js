@@ -94,12 +94,12 @@ var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, ca
 
     // Resize
     (resizeOptions || []).forEach(function (option) {
-        var lastDotIndex = input.lastIndexOf('.');
-        var tempPre = input;
+        var lastDotIndex = savedName.lastIndexOf('.');
+        var tempPre = savedName;
         var tempPro = "";
         if (lastDotIndex !== -1) {
-            tempPre = input.substr(0, lastDotIndex);
-            tempPro = input.substr(lastDotIndex);
+            tempPre = savedName.substr(0, lastDotIndex);
+            tempPro = savedName.substr(lastDotIndex);
         }
         var newPath = tempPre + option.suffix + tempPro;
         // Get target size
