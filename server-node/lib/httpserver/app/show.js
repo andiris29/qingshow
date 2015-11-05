@@ -16,6 +16,7 @@ var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var errors = require('../../errors');
 
