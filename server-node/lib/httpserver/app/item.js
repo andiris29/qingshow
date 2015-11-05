@@ -270,54 +270,6 @@ item.create = {
     }
 };
 
-item.list = {
-    'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var param = req.body;
-        async.waterfall([function(callback) {
-            Items.findOne({
-                _id : RequestHelper.parseId(param._id)
-            }, function(error, item) {
-                if (error) {
-                    callback(error);
-                } else if (!item) {
-                    callback(errors.ItemNotExist);
-                } else {
-                    callback(null, item);
-                }
-            });
-        }, function(item, callback) {
-            if (param.name && param.name.length > 0) { 
-                item.name = param.name;
-            }
-            if (param.categoryRef && param.categoryRef.length > 0) {
-                item.categoryRef = RequestHelper.parseId(param.categoryRef);
-            }
-            item.list = new Date();
-            RequestHelper.parseFile(req, global.qsConfig.uploads.item.thumbnail.ftpPath, item._id.toString(), [
-                {'suffix' : '_s', 'rate' : 0.5},
-                {'suffix' : '_xs', 'rate' : 0.25}
-            ], function(err, fields, file) {
-                if (file) {
-                    item.set('cover', global.qsConfig.uploads.item.thumbnail.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.item.thumbnail.ftpPath, file.path));
-                    return;
-                }
-
-                item.save(function(error, item) {
-                    callback(error, item);
-                });
-            });
-        }, function(item, callback) {
-            GoblinScheduler.registerItemWithId(item._id, callback);
-        }], function(error, item) {
-            ResponseHelper.response(res, error, {
-                item : item
-            });
-        });
-    }
-};
-
 var _itemPriceChanged = function(trades, expectable, callback) {
     var tasks = trades.map(function(trade) {
         return function(cb) {
