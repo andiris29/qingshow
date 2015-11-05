@@ -50,6 +50,11 @@ show.query = {
             ResponseHelper.response(res, err, {
                 'shows' : shows
             });
+            // Log
+            TraceHelper.trace('behavior-show-query', req, {
+                '_showId' : show._id.toString(),
+                'featuredRank' : show.featuredRank
+            });
         });
     }
 };
