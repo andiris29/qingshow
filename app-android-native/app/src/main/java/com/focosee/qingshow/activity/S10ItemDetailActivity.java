@@ -153,8 +153,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+                return false;
             }
 
             @Override
