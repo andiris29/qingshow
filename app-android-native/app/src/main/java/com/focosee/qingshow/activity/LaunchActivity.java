@@ -53,7 +53,7 @@ public class LaunchActivity extends InstrumentedActivity {
         MobclickAgent.updateOnlineConfig(this);
 
         setContentView(R.layout.activity_launch);
-        init();
+        //init();
         if (!AppUtil.checkNetWork(LaunchActivity.this)) {//not net
             jump();
             return;

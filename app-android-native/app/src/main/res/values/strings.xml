@@ -274,4 +274,7 @@
     <string name="u21_msg_line2">你也可以得到一份共享佣金</string>
     <string name="title_activity_trade_notify">TradeNotifyActivity</string>
 
+    <!-- TradeNotify -->
+    <string name="trade_notify_hint">你可以通过以上价格购买啦</string>
+    <string name="trade_notify_submit">立即购买</string>
 </resources>

@@ -106,6 +106,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         mRefreshLayout.beginRefreshing();
         showNewTradeNotify(getIntent());
 
+        startActivity(new Intent(S01MatchShowsActivity.this, TradeNotifyActivity.class));
     }
 
     @Override

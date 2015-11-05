@@ -343,6 +343,9 @@
         </activity>
         <activity
             android:name=".activity.TradeNotifyActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/title_activity_trade_notify" >
         </activity>
     </application>
