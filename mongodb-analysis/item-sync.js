@@ -2,6 +2,7 @@
  * never/outdate/total/delist @ time
  * 474/14543/16757/--- @ 2015/11/03 20:00
  * 32/9526/16553/--- @ 2015/11/04 13:00
+ * 0/0/15783/4143 @ 2015/11/05 09:00
  */
 
 var never = db.getCollection('items').find({
