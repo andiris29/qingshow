@@ -138,7 +138,7 @@
             [self showTextHud:@"已成功发送验证码"];
             [self setTimer];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
 }
 - (void)setTimer
@@ -253,7 +253,7 @@
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     };
     [SHARE_NW_ENGINE registerByNickname:nickName Password:passwdCfm Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
     
@@ -292,7 +292,7 @@
         [self popToPreviousVc];
 
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 
@@ -302,7 +302,7 @@
         [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
         [self popToPreviousVc];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 @end

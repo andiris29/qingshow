@@ -313,5 +313,7 @@
     self.headerView.segmentControl.selectedSegmentIndex = index;
     [self changeValueOfSegment:index];
 }
-
+- (void)handleNetworkError:(NSError *)error {
+    [self handleError:error];
+}
 @end

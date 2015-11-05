@@ -14,6 +14,7 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSItemUtil.h"
 #import "QSTradeUtil.h"
+#import "UIViewController+QSExtension.h"
 @interface QST01ShowTradeViewController ()
 
 @property (strong,nonatomic)QST01ShowTradeProvider *provider;
@@ -103,5 +104,7 @@
     // Pass the selected object to the new view controller.
 }
 */
-
+- (void)handleNetworkError:(NSError *)error {
+    [self handleError:error];
+}
 @end

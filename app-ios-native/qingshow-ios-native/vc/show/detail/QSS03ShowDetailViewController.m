@@ -109,7 +109,7 @@
             [weakSelf bindWithDict:dict];
             self.discountContainer.hidden = YES;
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
@@ -338,7 +338,7 @@
             [self showTextHud:@"删除成功"];
             [self performSelector:@selector(backBtnPressed:) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     }
     else
@@ -401,14 +401,14 @@
     [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
         [self showSuccessHudWithText:@"分享成功"];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 - (void)didShareWechatSuccess {
     [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
         [self showSuccessHudWithText:@"分享成功"];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 

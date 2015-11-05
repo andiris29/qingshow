@@ -35,14 +35,13 @@
 
 #define PAGE_ID @"U01 - 个人"
 
-@interface QSU01UserDetailViewController ()
+@interface QSU01UserDetailViewController () <QSShowProviderDelegate, QSPeoplelListTableViewProviderDelegate>
 @property (strong, nonatomic) NSDictionary* userInfo;
 @property (assign, nonatomic) BOOL isCurrentUser;
 @property (assign, nonatomic) BOOL showMenuIcon;
 
 #pragma mark Provider
 @property (strong,nonatomic) QSShowCollectionViewProvider *matchProvider;
-//@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
 @property (strong,nonatomic) QSShowCollectionViewProvider *recommendProvider;
 @property (strong, nonatomic) QSShowCollectionViewProvider *favorProvider;
 @property (strong, nonatomic) QSPeopleListTableViewProvider* followingProvider;
@@ -78,54 +77,12 @@
 
 - (void)providerInit
 {
-//    __weak QSU01UserDetailViewController* weakSelf = self;
     
-    
-    //Matcher
-//    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
-
     self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
     self.matchProvider.type = 2;
     //Recommend
     self.recommendProvider  = [[QSShowCollectionViewProvider alloc] init];
     self.recommendProvider.type = 2;
-//    self.recommendProvider.networkDataFinalHandlerBlock = ^(){
-//        NSMutableArray* resultArray = weakSelf.recommendProvider.resultArray;
-//        if (resultArray.count == 0) {
-//            return;
-//        }
-//        for (int i = 0; i + 1 < resultArray.count || i == 0; i++) {
-//            QSImageCollectionModel* currentModel = resultArray[i];
-//            QSImageCollectionModel* nextModel = nil;
-//            if (resultArray.count > 1) {
-//                nextModel = resultArray[i + 1];
-//            }
-//            
-//            if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
-//                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-//                m.type = QSImageCollectionModelTypeDate;
-//                QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
-//                dateModel.date = [QSShowUtil getRecommendDate:currentModel.data];
-//                dateModel.desc = [QSShowUtil getRecommentDesc:currentModel.data];
-//                m.data = dateModel;
-//                [resultArray insertObject:m atIndex:0];
-//                continue;
-//            }
-//            if (currentModel.type == QSImageCollectionModelTypeShow && nextModel.type == QSImageCollectionModelTypeShow) {
-//                NSDate* curDate = [QSShowUtil getRecommendDate:currentModel.data];
-//                NSDate* nextDate = [QSShowUtil getRecommendDate:nextModel.data];
-//                if (curDate && nextDate && ![QSDateUtil date:curDate isTheSameDayWith:nextDate]) {
-//                    QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-//                    m.type = QSImageCollectionModelTypeDate;
-//                    QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
-//                    dateModel.date = nextDate;
-//                    dateModel.desc = [QSShowUtil getRecommentDesc:nextModel.data];
-//                    m.data = dateModel;
-//                    [resultArray insertObject:m atIndex:i + 1];
-//                }
-//            }
-//        }
-//    };
     
     //Favor
     self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
@@ -349,7 +306,7 @@
         self.badgeView.followBtn.selected = f;
         [self.followerProvider reloadData];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
         if (error.code == 1019) {
             self.badgeView.followBtn.selected = YES;
             [QSPeopleUtil setPeople:self.userInfo isFollowed:YES];
@@ -425,4 +382,5 @@
         [[QSUnreadManager getInstance] clearRecommandUnread];
     }
 }
+
 @end

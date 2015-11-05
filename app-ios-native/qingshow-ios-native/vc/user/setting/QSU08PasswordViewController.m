@@ -83,7 +83,7 @@
     [SHARE_NW_ENGINE updatePeople:@{@"password":newPasswd, @"currentPassword": nowPasswd} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
         [self showSuccessHudAndPop:@"修改成功"];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 

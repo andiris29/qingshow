@@ -15,6 +15,7 @@
 #import "QSItemUtil.h"
 #import "QSNetworkEngine+TradeService.h"
 #import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
 
 #define PAGE_ID @"U12 - 申请退货"
 
@@ -197,7 +198,7 @@
         [self showTextHud:@"申请成功"];
         [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
     
 }
