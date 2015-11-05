@@ -31,6 +31,11 @@ system.get = {
             if (!version) {
                 callback(errors.NotEnoughParam);
             } else {
+                if(RequestHelper.getClientInfo(req)['qs-os-type'] === 'ios' && version === '2.1.4'){
+                    callback(errors.TextSupportVersionFlag);
+                    return;
+                }
+
                 if (VersionUtil.gt(version, global.qsConfig.system.production.maxSupportedVersion)) {
                     callback(null, devDeployment);
                 } else if (VersionUtil.gte(version, global.qsConfig.system.production.minSupportedVersion)) {
