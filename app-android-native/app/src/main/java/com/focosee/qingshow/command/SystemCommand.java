@@ -14,6 +14,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import org.json.JSONException;
@@ -46,6 +47,10 @@ public class SystemCommand {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(LaunchActivity.class.getSimpleName(), "response:" + response);
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(QSApplication.instance(), MetadataParser.getError(response));
+                    return;
+                }
                 try {
                     QSAppWebAPI.HOST_ADDRESS_PAYMENT = response.getJSONObject("data").getJSONObject("deployment").getString("paymentServiceRoot");
                     QSAppWebAPI.HOST_ADDRESS_APPWEB = response.getJSONObject("data").getJSONObject("deployment").getString("appWebRoot");
@@ -55,11 +60,12 @@ public class SystemCommand {
 //                    editor.putString(QSAppWebAPI.host_name, "http://dev.chingshow.com/services");
                     editor.putString(QSAppWebAPI.host_address_payment, QSAppWebAPI.HOST_ADDRESS_PAYMENT);
                     editor.putString(QSAppWebAPI.host_address_appweb, QSAppWebAPI.HOST_ADDRESS_APPWEB);
+                    editor.putBoolean(ValueUtil.UPDATE_APP_FORCE, false);
                     editor.commit();
                     callback.onComplete(response);
                     if(null == handler)return;
                     Message msg = new Message();
-                    msg.arg1 = LaunchActivity.SYSTEM_GET_FINISH;
+                    msg.what = LaunchActivity.SYSTEM_GET_FINISH;
                     handler.sendMessage(msg);
                 } catch (JSONException e) {
 
