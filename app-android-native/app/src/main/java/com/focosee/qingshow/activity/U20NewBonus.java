@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.command.BonusCommand;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.util.bonus.BonusHelper;
-import com.focosee.qingshow.util.push.PushHepler;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.umeng.analytics.MobclickAgent;
 import butterknife.ButterKnife;

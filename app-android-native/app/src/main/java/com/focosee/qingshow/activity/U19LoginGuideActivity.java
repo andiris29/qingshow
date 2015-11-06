@@ -1,12 +1,10 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -26,7 +24,6 @@ import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSTextView;
-import com.sina.weibo.sdk.api.share.Base;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -35,33 +32,30 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U19LoginGuideActivity extends BaseActivity implements View.OnClickListener{
+public class U19LoginGuideActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.close)
     ImageView close;
-    @InjectView(R.id.u06_mobile_login)
-    ImageView u06MobileLogin;
-    @InjectView(R.id.u06_mobile_login_text)
-    QSTextView u06MobileLoginText;
-    @InjectView(R.id.u06_weixin_login)
-    ImageView u06WeixinLogin;
-    @InjectView(R.id.u06_weixin_login_text)
-    QSTextView u06WeixinLoginText;
-    @InjectView(R.id.u06_weibo_login)
-    ImageView u06WeiboLogin;
-    @InjectView(R.id.u06_weibo_login_text)
-    QSTextView u06WeiboLoginText;
-    @InjectView(R.id.u06_loging_register_btn)
-    QSButton u06LogingRegisterBtn;
+    @InjectView(R.id.u19_mobile_login)
+    ImageView u19MobileLogin;
+    @InjectView(R.id.u19_mobile_login_text)
+    QSTextView u19MobileLoginText;
+    @InjectView(R.id.u19_weixin_login)
+    ImageView u19WeixinLogin;
+    @InjectView(R.id.u19_weixin_login_text)
+    QSTextView u19WeixinLoginText;
+    @InjectView(R.id.u19_weibo_login)
+    ImageView u19WeiboLogin;
+    @InjectView(R.id.u19_weibo_login_text)
+    QSTextView u19WeiboLoginText;
+    @InjectView(R.id.u19_loging_register_btn)
+    QSButton u19LogingRegisterBtn;
 
     private LoadingDialogs dialogs;
 
@@ -75,7 +69,7 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_u06_login);
+        setContentView(R.layout.activity_u19_login_guide);
         ButterKnife.inject(this);
 
         wxApi = QSApplication.instance().getWxApi();
@@ -87,25 +81,38 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
         mAuthInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
         mSsoHandler = new SsoHandler(U19LoginGuideActivity.this, mAuthInfo);
 
-        if(QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED){
+        if (QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED) {
             QSModel.INSTANCE.setUserStatus(MongoPeople.LOGIN_GUIDE_FINISHED);
+        }
+
+//        matchUI();
+    }
+
+    private void matchUI() {
+        if (QSModel.INSTANCE.isGuest()) {
+            u19WeixinLogin.setImageResource(R.drawable.weixin_hui);
+            u19WeixinLogin.setEnabled(false);
+            u19WeixinLoginText.setTextColor(getResources().getColor(R.color.gary));
+            u19WeiboLogin.setImageResource(R.drawable.weibo_hui);
+            u19WeiboLogin.setEnabled(false);
+            u19WeiboLoginText.setTextColor(getResources().getColor(R.color.gary));
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.u06_mobile_login:
+        switch (v.getId()) {
+            case R.id.u19_mobile_login:
                 startActivity(new Intent(U19LoginGuideActivity.this, U06LoginActivity.class));
                 finish();
                 break;
-            case R.id.u06_weixin_login:
+            case R.id.u19_weixin_login:
                 weiChatLogin();
                 break;
-            case R.id.u06_weibo_login:
+            case R.id.u19_weibo_login:
                 weiBoLogin();
                 break;
-            case R.id.u06_loging_register_btn:
+            case R.id.u19_loging_register_btn:
                 startActivity(new Intent(U19LoginGuideActivity.this, U07RegisterActivity.class));
                 finish();
                 break;
@@ -138,8 +145,8 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(null != dialogs && resultCode != -1){
-            if(dialogs.isShowing()) dialogs.dismiss();
+        if (null != dialogs && resultCode != -1) {
+            if (dialogs.isShowing()) dialogs.dismiss();
         }
         mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
@@ -174,8 +181,8 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
                     public void onResponse(JSONObject response) {
                         if (MetadataParser.hasError(response)) {
                             ErrorHandler.handle(U19LoginGuideActivity.this, MetadataParser.getError(response));
-                            if(null != dialogs){
-                                if(dialogs.isShowing()) dialogs.dismiss();
+                            if (null != dialogs) {
+                                if (dialogs.isShowing()) dialogs.dismiss();
                             }
                             return;
                         }
@@ -183,7 +190,7 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
                         ToastUtil.showShortToast(U19LoginGuideActivity.this, getString(R.string.login_successed));
                         MongoPeople user = UserParser._parsePeople(response);
                         QSModel.INSTANCE.login(user);
-                        if(QSModel.INSTANCE.isGuest()){
+                        if (QSModel.INSTANCE.isGuest()) {
                             startActivity(new Intent(U19LoginGuideActivity.this, U07RegisterActivity.class));
                             finish();
                             return;
@@ -206,8 +213,8 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
                 // 1. 当您未在平台上注册的应用程序的包名与签名时；
                 // 2. 当您注册的应用程序包名与签名不正确时；
                 // 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
-                if(null != dialogs){
-                    if(dialogs.isShowing()) dialogs.dismiss();
+                if (null != dialogs) {
+                    if (dialogs.isShowing()) dialogs.dismiss();
                 }
                 String code = values.getString("code");
                 String message = "微博登录出错";

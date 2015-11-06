@@ -94,7 +94,7 @@ public class U06LoginActivity extends BaseActivity {
                             @Override
                             public void onResponse(String response) {
                                 pDialog.dismiss();
-
+                                Log.d(U06LoginActivity.class.getSimpleName(), "response:" + response);
                                 MongoPeople user = UserParser.parseLogin(response);
                                 if (user == null) {
                                     if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {

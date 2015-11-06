@@ -1,10 +1,13 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:auto="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:alpha="0.95"
-    android:background="@color/login_background">
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/login_background"
+        android:alpha="0.8"/>
 
         <ImageButton
             android:id="@+id/backImageView"
@@ -173,6 +176,7 @@
                     app:layout_marginLeftPercent="15%"
                     app:layout_marginRightPercent="15%"
                     app:layout_marginBottomPercent="15%"
+                    android:onClick="onClick"
                     app:clickGround="@drawable/round_btn_background"
                     style="@style/login_submit_btn"/>
             </android.support.percent.PercentRelativeLayout>
@@ -186,7 +190,6 @@
         android:textColor="@color/red"
         app:layout_marginTopPercent="21%"
         android:layout_gravity="center_horizontal"
-        android:background="@color/login_background"
         android:padding="10dp"
         android:textSize="25sp"/>
 </android.support.percent.PercentRelativeLayout>

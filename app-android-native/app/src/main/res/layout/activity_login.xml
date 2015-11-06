@@ -3,10 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/login_background"
-    android:alpha="0.95"
     android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.U06LoginActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="@color/login_background"/>
 
     <ImageButton
         android:id="@+id/backImageView"
@@ -157,7 +161,6 @@
         android:textColor="@color/red"
         app:layout_marginTopPercent="21%"
         android:layout_gravity="center_horizontal"
-        android:background="@color/login_background"
         android:padding="10dp"
         android:textSize="25sp"/>
 

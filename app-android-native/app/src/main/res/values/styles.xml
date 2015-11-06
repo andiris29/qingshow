@@ -115,7 +115,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:background">@drawable/white_btn_ring</item>
+        <item name="android:background">@drawable/kuang</item>
         <item name="android:padding">10dp</item>
         <item name="android:alpha">1</item>
         <item name="android:orientation">vertical</item>
