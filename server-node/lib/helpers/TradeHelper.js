@@ -3,9 +3,6 @@ var async = require('async');
 
 var qsmail = require('../runtime/').mail;
 var winston = require('winston');
-
-var People = require('../dbmodels').People;
-
 var RequestHelper = require('./RequestHelper');
 var NotificationHelper = require('./NotificationHelper');
 
@@ -55,26 +52,15 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
         }, function(err){});
     }
 
-    async.waterfall([function(callback){        
-        if (newStatus === 2 && !trade.pay.forge) {
-            People.findOne({
-                '_id' : trade.ownerRef
-            }, function(err, people){
-                trade.peopleSnapshot = people;
-                
-            });
-        }
-        callback(null, trade);
-    }], function(err, trade){
-        trade.set('status', newStatus);
-        trade.statusLogs = trade.statusLogs || [];
-        trade.statusLogs.push(statusLog);
-        trade.statusOrder= _statusOrderMap[newStatus];
-        trade.update = Date.now();
-        trade.save(function(err) {
-            callback(err, trade);
-        });
-    })
+
+    trade.set('status', newStatus);
+    trade.statusLogs = trade.statusLogs || [];
+    trade.statusLogs.push(statusLog);
+    trade.statusOrder= _statusOrderMap[newStatus];
+    trade.update = Date.now();
+    trade.save(function(err) {
+        callback(err, trade);
+    });
 };
 
 _getStatusName = function(status) {
