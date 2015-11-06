@@ -302,6 +302,7 @@ trade.alipayCallback = {
             _validateStatus(trade, newStatus, callback);
         },
         function(trade, callback) {
+            trade.highlight = Date.now();
             trade.pay.alipay['trade_no'] = req.body['trade_no'];
             trade.pay.alipay['trade_status'] = req.body['trade_status'];
             trade.pay.alipay['total_fee'] = req.body['total_fee'];
@@ -362,6 +363,7 @@ trade.wechatCallback = {
             _validateStatus(trade, newStatus, callback);
         },
         function(trade, callback) {
+            trade.highlight = Date.now();
             trade.pay.weixin['trade_mode'] = req.body['trade_type'];
             trade.pay.weixin['partner'] = req.body['mch_id'];
             trade.pay.weixin['total_fee'] = req.body['total_fee'] / 100;
@@ -644,6 +646,7 @@ trade.forge = {
     'permissionValidators' : ['roleUserValidator'],
     'func' : function (req, res) {
         var params = req.body;
+        var highlightable = params.highlightable !== false;
         async.waterfall([function(callback) {
             People.findOne({
                 '_id' : req.qsCurrentUserId
@@ -674,6 +677,10 @@ trade.forge = {
                     date : Date.now()
                 }
             };
+            if (highlightable) {
+                trade.highlight = Date.now();
+            }
+
             if (item.delist) {
                 callback(errors.InvalidItem);
                 return;
