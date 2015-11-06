@@ -51,11 +51,15 @@ show.query = {
             ResponseHelper.response(res, err, {
                 'shows' : shows
             });
-            // Log
-            TraceHelper.trace('behavior-show-query', req, {
-                '_showId' : show._id.toString(),
-                'featuredRank' : show.featuredRank
-            });
+            if (shows.length === 1) {
+                var show = shows[0];
+                // Log
+                TraceHelper.trace('behavior-show-query', req, {
+                    '_showId' : show._id.toString(),
+                    'featuredRank' : show.featuredRank ? show.featuredRank : ''
+                });
+            }
+
         });
     }
 };
