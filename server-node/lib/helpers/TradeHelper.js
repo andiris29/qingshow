@@ -32,9 +32,7 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     };
     newStatus = Number.parseInt(newStatus);
 
-    if (newStatus === 2) {
-        trade.highlight = Date.now();
-    }else if (newStatus === 7 || newStatus === 17) {
+    if (newStatus === 7 || newStatus === 17) {
         trade.highlight = null;
     }
 
