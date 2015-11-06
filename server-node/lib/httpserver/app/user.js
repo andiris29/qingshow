@@ -160,8 +160,6 @@ _login = function(req, res) {
             //login succeed
             req.session.userId = people._id;
             req.session.loginDate = new Date();
-            req.session.mobile = people.mobile;
-            req.session.nickname = people.nickname;
 
             _addRegistrationId(people._id, param.registrationId);
 
@@ -269,8 +267,6 @@ _register = function(req, res) {
             } else {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
-                req.session.mobile = people.mobile;
-                req.session.nickname = people.nickname;
 
                 _addRegistrationId(people._id, req.body.registrationId);
                 callback(null, people);
@@ -383,8 +379,6 @@ _update = function(req, res) {
         for (var field in qsParam) {
             people.set(field, qsParam[field]);
         }
-        req.session.mobile = people.mobile;
-        req.session.nickname = people.nickname;
         people.save(callback);
     }], function(err, people) {
         ResponseHelper.response(res, err, {
@@ -710,8 +704,6 @@ _loginViaWeixin = function(req, res) {
     }, function(people, callback) {
         req.session.userId = people._id;
         req.session.loginDate = new Date();
-        req.session.mobile = people.mobile;
-        req.session.nickname = people.nickname;
         _addRegistrationId(people._id, param.registrationId);
         callback(null, people);
     }], function(error, people) {
@@ -849,8 +841,6 @@ _loginViaWeibo = function(req, res) {
     }, function(people, callback) {
         req.session.userId = people._id;
         req.session.loginDate = new Date();
-        req.session.mobile = people.mobile;
-        req.session.nickname = people.nickname;
         _addRegistrationId(people._id, param.registrationId);
         callback(null, people);
     }], function(error, people) {

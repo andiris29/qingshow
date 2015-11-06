@@ -24,8 +24,6 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
         var log = {
             'ip' : res.qsPerformance.ip,
             'qsCurrentUserId' :res.qsPerformance.qsCurrentUserId, 
-            'mobile' : res.qsPerformance.mobile,
-            'nickname' : res.qsPerformance.nickname,
             'cost' : Date.now() - res.qsPerformance.start,
             'path' : res.qsPerformance.fullpath
         };
