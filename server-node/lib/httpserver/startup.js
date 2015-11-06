@@ -45,6 +45,8 @@ var wrapCallback = function (fullpath, callback) {
         res.qsPerformance = {
             'ip' : req.header('X-Real-IP') || req.connection.remoteAddress,
             'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
+            'mobile' : req.session.mobile ? req.session.mobile : '',
+            'nickname' : req.session.nickname ? req.session.nickname : '',
             'fullpath' : fullpath,
             'start' : Date.now()
         };
