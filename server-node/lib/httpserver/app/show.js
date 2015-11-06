@@ -264,20 +264,16 @@ show.updateFeaturedRank = {
         var qsParam = req.body;
         async.waterfall([function(callback){
             var criteria = {};
-            if (qsParam._id) {
-                criteria = {
-                    '_id' : RequestHelper.parseId(qsParam._id)
+            var featuredRank = qsParam.featuredRank || 0;
+            Show.findOneAndUpdate({
+                '_id' : RequestHelper.parseId(qsParam._id)
+            }, {
+                '$set' : {
+                    'featuredRank' : featuredRank
                 }
-            }else if(qsParam.ownerRef){
-                criteria = {
-                    'ownerRef' : RequestHelper.parseId(qsParam.ownerRef)
-                }
-            }
-            Show.find(criteria).exec(callback);
-        }], function(err, shows){
-            ResponseHelper.response(res, err, {
-                'shows' : shows
-            });
+            }).exec(callback);
+        }], function(err){
+            ResponseHelper.response(res, err, {});
         })
     }
 }
