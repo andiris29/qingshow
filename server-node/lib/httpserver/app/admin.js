@@ -66,10 +66,38 @@ admin.queryItemByNickName = {
                 return target.length !== 0;
             });
             callback(!people ? errors.PeopleNotExist : null, items, people);
-        }], function(err, items, people){
+        }, function(items, people, callback){
+            var total = 0;
+            var noDraw = 0; 
+            var results = [];
+            for (var i = 0; i < items.length; i++) {
+                for (var j = 0; j < items[i].length; j++) {
+                    var item = items[i][j]; 
+                    results.push({
+                        promoterRef : people._id,
+                        itemRef : item._id,
+                        totalFee : item.promoPrice * 0.7,
+                        quantity : 1,
+                        promoPrice : item.promoPrice,
+                        bonus : item.promoPrice * 0.7 * 0.02
+                    })
+                }
+
+            };
+            var bonuses = people.bonuses || [];
+            bonuses.forEach(function(bonus){
+                if (bonus.status === 0) {
+                    noDraw += bonus.money;
+                }
+                total += bonus.money;
+            })
+            callback(null, results, people, total, noDraw);
+        }], function(err, results, people, total, noDraw){
             ResponseHelper.response(res, err, {
                 'peopleRef' : people._id,
-                'item' : items
+                'total' : total,
+                'noDraw' : noDraw,
+                'item' : results
             })
         })
     }
