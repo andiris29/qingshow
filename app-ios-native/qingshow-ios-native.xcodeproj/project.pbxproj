@@ -100,6 +100,8 @@
 		EF0C64331B21AAC20079B22E /* QSU02UserChangeDressEffectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C64221B21AAC20079B22E /* QSU02UserChangeDressEffectViewController.m */; };
 		EF0C64351B21AAC20079B22E /* QSU02UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C64251B21AAC20079B22E /* QSU02UserSettingViewController.m */; };
 		EF0C64361B21AAC20079B22E /* QSU02UserSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF0C64261B21AAC20079B22E /* QSU02UserSettingViewController.xib */; };
+		EF14DDC91BEE4B7E00E568D0 /* QSImageNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF14DDC81BEE4B7E00E568D0 /* QSImageNetworkEngine.m */; };
+		EF14DDCD1BEE556B00E568D0 /* NSFileManager+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF14DDCC1BEE556B00E568D0 /* NSFileManager+QSExtension.m */; };
 		EF17292A1A1CDCF1001819E3 /* QSU01UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1729291A1CDCF1001819E3 /* QSU01UserDetailViewController.m */; };
 		EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF17292B1A1CDD36001819E3 /* QSU01UserDetailViewController.xib */; };
 		EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A591E1A06761800001AE0 /* QSTimeCollectionViewCell.m */; };
@@ -512,6 +514,10 @@
 		EF0C64241B21AAC20079B22E /* QSU02UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController.h; sourceTree = "<group>"; };
 		EF0C64251B21AAC20079B22E /* QSU02UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController.m; sourceTree = "<group>"; };
 		EF0C64261B21AAC20079B22E /* QSU02UserSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU02UserSettingViewController.xib; sourceTree = "<group>"; };
+		EF14DDC71BEE4B7E00E568D0 /* QSImageNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSImageNetworkEngine.h; path = images/QSImageNetworkEngine.h; sourceTree = "<group>"; };
+		EF14DDC81BEE4B7E00E568D0 /* QSImageNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSImageNetworkEngine.m; path = images/QSImageNetworkEngine.m; sourceTree = "<group>"; };
+		EF14DDCB1BEE556B00E568D0 /* NSFileManager+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+QSExtension.h"; sourceTree = "<group>"; };
+		EF14DDCC1BEE556B00E568D0 /* NSFileManager+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+QSExtension.m"; sourceTree = "<group>"; };
 		EF1729281A1CDCF1001819E3 /* QSU01UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU01UserDetailViewController.h; sourceTree = "<group>"; };
 		EF1729291A1CDCF1001819E3 /* QSU01UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU01UserDetailViewController.m; sourceTree = "<group>"; };
 		EF17292B1A1CDD36001819E3 /* QSU01UserDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU01UserDetailViewController.xib; sourceTree = "<group>"; };
@@ -1365,6 +1371,15 @@
 			path = other;
 			sourceTree = "<group>";
 		};
+		EF14DDC51BEE4B5C00E568D0 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				EF14DDC71BEE4B7E00E568D0 /* QSImageNetworkEngine.h */,
+				EF14DDC81BEE4B7E00E568D0 /* QSImageNetworkEngine.m */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		EF1729261A1CDCD3001819E3 /* info */ = {
 			isa = PBXGroup;
 			children = (
@@ -2054,6 +2069,7 @@
 		EF9A74471A02A87900095F07 /* network */ = {
 			isa = PBXGroup;
 			children = (
+				EF14DDC51BEE4B5C00E568D0 /* images */,
 				EFED68BB1BA708B200120CAC /* qsService */,
 				EFED68BA1BA7089000120CAC /* basic */,
 			);
@@ -2142,6 +2158,8 @@
 				EF0C63FE1B2186360079B22E /* UINib+QSExtension.m */,
 				EF89F9D91B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.h */,
 				EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */,
+				EF14DDCB1BEE556B00E568D0 /* NSFileManager+QSExtension.h */,
+				EF14DDCC1BEE556B00E568D0 /* NSFileManager+QSExtension.m */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -2987,6 +3005,7 @@
 				8C1DB5471B93FECD00D21D0C /* QSU16BonusListViewController.m in Sources */,
 				EFAB9C6F1B346FE5008A4EF5 /* QSTableViewBasicProvider.m in Sources */,
 				EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */,
+				EF14DDC91BEE4B7E00E568D0 /* QSImageNetworkEngine.m in Sources */,
 				EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */,
 				EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */,
 				68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */,
@@ -3061,6 +3080,7 @@
 				EFEFD92A1B5A55A2009D691D /* QSTradeStatus.m in Sources */,
 				EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */,
 				EF3013381AC3174000568D92 /* base64.m in Sources */,
+				EF14DDCD1BEE556B00E568D0 /* NSFileManager+QSExtension.m in Sources */,
 				EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */,
 				8C4475961B74ABD800DF36E2 /* QSS12OrderInfoCell.m in Sources */,
 				EF8080351B4F3C79005198B6 /* QSHorizontalCollectionViewLayout.m in Sources */,
