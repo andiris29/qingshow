@@ -39,7 +39,8 @@
 #pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+    [self _configNetwork];
+
     [QSHookHelper registerHooker];
 
     [QSUnreadManager getInstance];
@@ -179,6 +180,15 @@
     self.window.rootViewController = nav;
 }
 
+- (void)_configNetwork {
+    [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+    
+    //MKNetworkKit Will Handle Cache, So Disable System Cache
+    [NSURLCache sharedURLCache].diskCapacity = 0;
+    
+    //Remove Systme Cache of Old Version
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
