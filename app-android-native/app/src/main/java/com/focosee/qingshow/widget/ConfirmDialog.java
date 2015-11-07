@@ -1,16 +1,15 @@
 package com.focosee.qingshow.widget;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.SpannableString;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import com.focosee.qingshow.R;
-
-import butterknife.InjectView;
 
 /**
  * Created by Administrator on 2015/3/27.
@@ -22,6 +21,9 @@ public class ConfirmDialog extends Dialog {
     private QSButton dialogConfirm;
     private LinearLayout layout;
     private View centerLine;
+    private Context context;
+
+    private boolean isBackFinish = false;
 
     private CharSequence titleStr;
     private String confirmStr = "确定";
@@ -37,14 +39,25 @@ public class ConfirmDialog extends Dialog {
 
     public ConfirmDialog(Context context) {
         super(context, R.style.comfirmDialog);
+        init(context);
     }
 
     public ConfirmDialog(Context context, int theme) {
         super(context, theme);
+        init(context);
     }
 
     protected ConfirmDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        init(context);
+    }
+
+    private void init(Context context){
+        this.context = context;
+    }
+
+    public void setIsBackFinish(boolean isBackFinish) {
+        this.isBackFinish = isBackFinish;
     }
 
     @Override
@@ -128,5 +141,15 @@ public class ConfirmDialog extends Dialog {
             this.dialogCancel.setVisibility(View.GONE);
             this.centerLine.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (isBackFinish && keyCode == KeyEvent.KEYCODE_BACK) {
+            ((Activity) context).finish();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

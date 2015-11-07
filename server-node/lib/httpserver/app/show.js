@@ -17,6 +17,7 @@ var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var RequestHelper = require('../../helpers/RequestHelper');
 var NotificationHelper = require('../../helpers/NotificationHelper');
+var TraceHelper = require('../../helpers/TraceHelper');
 
 var errors = require('../../errors');
 
@@ -51,6 +52,15 @@ show.query = {
             ResponseHelper.response(res, err, {
                 'shows' : shows
             });
+            if (shows.length === 1) {
+                var show = shows[0];
+                // Log
+                TraceHelper.trace('behavior-show-query', req, {
+                    '_showId' : show._id.toString(),
+                    'featuredRank' : show.featuredRank ? show.featuredRank : ''
+                });
+            }
+
         });
     }
 };
@@ -288,20 +298,16 @@ show.updateFeaturedRank = {
         var qsParam = req.body;
         async.waterfall([function(callback){
             var criteria = {};
-            if (qsParam._id) {
-                criteria = {
-                    '_id' : RequestHelper.parseId(qsParam._id)
+            var featuredRank = qsParam.featuredRank || 0;
+            Show.findOneAndUpdate({
+                '_id' : RequestHelper.parseId(qsParam._id)
+            }, {
+                '$set' : {
+                    'featuredRank' : featuredRank
                 }
-            }else if(qsParam.ownerRef){
-                criteria = {
-                    'ownerRef' : RequestHelper.parseId(qsParam.ownerRef)
-                }
-            }
-            Show.find(criteria).exec(callback);
-        }], function(err, shows){
-            ResponseHelper.response(res, err, {
-                'shows' : shows
-            });
+            }).exec(callback);
+        }], function(err){
+            ResponseHelper.response(res, err, {});
         })
     }
 }

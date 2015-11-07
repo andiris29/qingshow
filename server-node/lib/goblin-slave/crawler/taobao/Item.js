@@ -8,6 +8,7 @@ var URLParser = require('../../URLParser');
 var sizePrefixs = ["20509", "20518", "20549"];
 var colorPrefixs = ["1627207"];
 
+var _userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36';
 
 var TaobaoWebItem = module.exports;
 TaobaoWebItem.getSkus = function (source, callback) {
@@ -40,7 +41,7 @@ TaobaoWebItem.getSkus = function (source, callback) {
             }
         }
     ], function (err, taobaoInfo) {
-        callback(null, taobaoInfo);
+        callback(err, taobaoInfo);
     });
     //
 };
@@ -274,6 +275,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
     request.get({
         'url' : 'http://mdskip.taobao.com/core/initItemDetail.htm?callback=setMdskip&itemId=' + tbItemId,
         'headers' : {
+            'user-agent' : _userAgent,
             'referer' : 'http://detail.tmall.com/item.htm?id=' + tbItemId,
             'accept-language' : 'en,en-US;q=0.8,zh-CN;q=0.6,zh;q=0.4'
         },

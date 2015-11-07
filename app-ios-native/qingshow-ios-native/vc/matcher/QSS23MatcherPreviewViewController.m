@@ -12,6 +12,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 #import "QSNotificationHelper.h"
+#import "UIViewController+QSExtension.h"
 @interface QSS23MatcherPreviewViewController ()
 
 @property (strong, nonatomic) NSArray* itemArray;
@@ -88,12 +89,13 @@
         } onError:^(NSError *error) {
             [hud hide:YES];
             self.updateCoverOp = nil;
-            [self showErrorHudWithError:error];
+
+            [self handleError:error];
         }];
     } onError:^(NSError *error) {
         [hud hide:YES];
         self.createMatcherOp = nil;
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 

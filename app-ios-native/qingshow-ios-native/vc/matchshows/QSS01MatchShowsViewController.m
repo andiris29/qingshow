@@ -219,4 +219,8 @@
     }];
 
 }
+
+- (void)handleNetworkError:(NSError *)error {
+    [self handleError:error];
+}
 @end

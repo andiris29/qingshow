@@ -139,7 +139,7 @@
     };
     
     ErrorBlock error = ^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     };
     
     [SHARE_NW_ENGINE loginWithName:user

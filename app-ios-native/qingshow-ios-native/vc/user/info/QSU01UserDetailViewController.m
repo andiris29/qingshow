@@ -35,7 +35,7 @@
 
 #define PAGE_ID @"U01 - 个人"
 
-@interface QSU01UserDetailViewController ()
+@interface QSU01UserDetailViewController () <QSShowProviderDelegate, QSPeoplelListTableViewProviderDelegate>
 @property (strong, nonatomic) NSDictionary* userInfo;
 @property (assign, nonatomic) BOOL isCurrentUser;
 @property (assign, nonatomic) BOOL showMenuIcon;
@@ -77,12 +77,6 @@
 
 - (void)providerInit
 {
-//    __weak QSU01UserDetailViewController* weakSelf = self;
-    
-    
-    //Matcher
-//    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
-
     self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
     //Recommend
     self.recommendProvider  = [[QSShowCollectionViewProvider alloc] init];
@@ -287,7 +281,7 @@
         self.badgeView.followBtn.selected = f;
         [self.followerProvider reloadData];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
         if (error.code == 1019) {
             self.badgeView.followBtn.selected = YES;
             [QSPeopleUtil setPeople:self.userInfo isFollowed:YES];
@@ -363,4 +357,5 @@
         [[QSUnreadManager getInstance] clearRecommandUnread];
     }
 }
+
 @end

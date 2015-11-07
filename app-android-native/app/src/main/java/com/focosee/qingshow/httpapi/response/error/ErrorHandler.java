@@ -2,13 +2,17 @@ package com.focosee.qingshow.httpapi.response.error;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.LaunchActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.ToastUtil;
+import com.focosee.qingshow.util.ValueUtil;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by zenan on 1/2/15.
@@ -99,6 +103,12 @@ public class ErrorHandler {
                 break;
             case ErrorCode.NickNameAlredyExist:
                 ToastUtil.showShortToast(context.getApplicationContext(), "昵称已存在");
+                break;
+            case ErrorCode.UnSupportVersion:
+                SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                editor.putBoolean(ValueUtil.UPDATE_APP_FORCE, true);
+                editor.commit();
+                EventBus.getDefault().post(ValueUtil.UPDATE_APP_EVENT);
                 break;
         }
     }

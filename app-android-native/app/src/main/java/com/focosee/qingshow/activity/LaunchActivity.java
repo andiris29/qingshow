@@ -22,6 +22,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -36,6 +37,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import cn.jpush.android.api.InstrumentedActivity;
+import de.greenrobot.event.EventBus;
 
 public class LaunchActivity extends InstrumentedActivity {
 
@@ -53,6 +55,7 @@ public class LaunchActivity extends InstrumentedActivity {
         MobclickAgent.updateOnlineConfig(this);
 
         setContentView(R.layout.activity_launch);
+        EventBus.getDefault().register(this);
         //init();
         if (!AppUtil.checkNetWork(LaunchActivity.this)) {//not net
             jump();
@@ -92,7 +95,7 @@ public class LaunchActivity extends InstrumentedActivity {
                 try {
                     Thread.sleep(2000);
                     Message msg = new Message();
-                    msg.arg1 = JUMP;
+                    msg.what = JUMP;
                     handler.sendMessage(msg);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -104,18 +107,27 @@ public class LaunchActivity extends InstrumentedActivity {
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (msg.arg1 == JUMP) {
+            if(msg.what == ErrorCode.UnSupportVersion){
+                SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+                editor.putBoolean(ValueUtil.UPDATE_APP_FORCE, true);
+                editor.commit();
+                jump();
+                return true;
+            }
+            if (msg.what == JUMP) {
                 Intent mainIntent = new Intent(LaunchActivity.this, _class);
                 LaunchActivity.this.startActivity(mainIntent);
                 LaunchActivity.this.finish();
+                return true;
             }
-            if (msg.arg1 == SYSTEM_GET_FINISH) {
+            if (msg.what == SYSTEM_GET_FINISH) {
                 if (!QSModel.INSTANCE.isFinished(MongoPeople.GET_GUEST_USER))
                     userLoginAsGuest();
                 getUser();
                 CategoriesCommand.getCategories(new Callback());
                 systemLog();
                 jump();
+                return true;
             }
             return true;
         }
@@ -154,9 +166,15 @@ public class LaunchActivity extends InstrumentedActivity {
 
             @Override
             public void onError() {
-                super.onError();
+
             }
         });
+    }
+
+    public void onEventMainThread(String event){
+        if(ValueUtil.UPDATE_APP_EVENT.equals(event)){
+            jump();
+        }
     }
 
     @Override
@@ -169,5 +187,11 @@ public class LaunchActivity extends InstrumentedActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

@@ -344,7 +344,7 @@
                                 [self submitOrderWithReceiver:uuid];
                                 self.saveReceiverOp = nil;
                             } onError:^(NSError *error) {
-                                [self showErrorHudWithError:error];
+                                [self handleError:error];
                                 self.saveReceiverOp = nil;
                             }];
     } else {

@@ -72,8 +72,10 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         public boolean handleMessage(Message msg) {
             switch (msg.what){
                 case LOADING_START:
-                    if(!dialog.isShowing())
-                        dialog.show();
+                    if(null != dialog) {
+                        if (!dialog.isShowing())
+                            dialog.show();
+                    }
                     return true;
                 case LOADING_FINISH:
                     if(null != dialog){
@@ -148,8 +150,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+                return false;
             }
 
             @Override

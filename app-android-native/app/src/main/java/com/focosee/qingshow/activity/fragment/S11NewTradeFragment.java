@@ -201,7 +201,7 @@ public class S11NewTradeFragment extends Fragment {
         props = SkuUtil.filter(itemEntity.skuProperties, keys_order);
         checkIndex = new int[props.size()];
         int i = 0;
-        for (String key : props.keySet()) {
+        for (String key : keys_order) {
             bindItem(key, props.get(key), i, onCheckedChangeListener);
             i++;
         }

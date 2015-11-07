@@ -25,6 +25,7 @@ public class ValueUtil {
     public static final String S20_FIRST_INT = "第一次进入到搭配页面";
     public static final String IS_FIRST_OPEN_APP = "第一次打开应用";
     public static final String USER_STATUS = "用户状态";
+    public static final String UPDATE_APP_FORCE = "强制更新";
 
     //EventBus
     public static final String EVENT_NEED_GUIDE = "event_need_guide";
@@ -33,4 +34,5 @@ public class ValueUtil {
     public static final String TRADE_REFUND_COMPLETE = "退款成功的通知消息";
     public static final String PAY_FINISHED = "付完款点击继续逛逛";
     public static final String U01_LOADING_FINISH = "u01的所有网络请求完成";
+    public static final String UPDATE_APP_EVENT = "需要强制更新APP";
 }

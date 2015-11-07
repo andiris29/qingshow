@@ -30,6 +30,7 @@
 @property (strong, nonatomic) MKNetworkOperation* createTradeOp;
 
 @property (assign, nonatomic) BOOL hasSyncItem;
+@property (assign, nonatomic) BOOL fFirst;
 
 @property (strong, nonatomic) MKNetworkOperation* syncOp;
 @property (strong, nonatomic) MBProgressHUD* hud;
@@ -87,6 +88,8 @@
     self.navigationItem.titleView = titleImageView;
     self.discountBtn.hidden = [QSItemUtil getReadOnly:self.itemDict];
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
+    self.fFirst = YES;
+    self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [self.webView setScalesPageToFit:YES];
     
@@ -255,6 +258,17 @@
 - (IBAction)cancelBtnPressed:(id)sender {
     [self closeBtnPressed:nil];
     
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (self.fFirst && ([request.URL.absoluteString hasPrefix:@"tmall://"] || [request.URL.absoluteString hasPrefix:@"taobao://"])) {
+        self.fFirst = NO;
+        return NO;
+    } else {
+        return YES;
+    }
+
 }
 
 @end

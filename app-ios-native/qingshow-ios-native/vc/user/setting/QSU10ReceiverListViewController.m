@@ -70,7 +70,7 @@
         [self updateLocationList];
         [self.tableView reloadData];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
     [MobClick beginLogPageView:PAGE_ID];
 }
@@ -192,7 +192,7 @@
             }
         } onError:^(NSError *error) {
             self.removeOperation = nil;
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     }
 }

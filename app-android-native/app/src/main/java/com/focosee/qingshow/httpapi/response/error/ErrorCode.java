@@ -27,6 +27,7 @@ public class ErrorCode {
     public static final int AlreadyUnrelated = 1020;
     public static final int InvalidCurrentPassword = 1021;
     public static final int NoNetWork = 1022;
+    public static final int UnSupportVersion = 1027;
     public static final int MobileAlreadyExist = 1029;
     public static final int MobileVerifyFailed = 1030;
     public static final int SMSlimitedSend = 1031;
