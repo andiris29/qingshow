@@ -145,14 +145,15 @@
     } title:@"款项已经退回您的支付账号，请查收。" userInfo:noti.userInfo];
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
-#warning TODO Adjust Handler
     [self handlePnsWithHandler:^{
         [QSNotificationHelper postShowNewBonusVcNoti];
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 
 - (void)pnsNewParticipantBonus:(NSNotification*)noti {
-#warning TODO ADD HANDLER
+    [self handlePnsWithHandler:^{
+        [QSNotificationHelper postShowNewParticipantBonusVcNoti];
+    } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 
 - (void)pnsBonusWithdrawComplete:(NSNotification*)noti {
