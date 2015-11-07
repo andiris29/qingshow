@@ -218,8 +218,7 @@
     [UIView animateWithDuration:0.3f animations:^{
         self.containerScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     }];
+    
 }
 
-        [self showErrorHudWithError:error];
-        [self showErrorHudWithError:error];
 @end
