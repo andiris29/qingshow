@@ -19,14 +19,6 @@ public class QSRequestListener implements Response.Listener<JSONObject> {
 
     @Override
     public void onResponse(JSONObject response) {
-
-        if(MetadataParser.hasError(response)){
-            if(MetadataParser.getError(response) == 2000){
-                QSApplication.instance().sendBroadcast(new Intent(BaseActivity.UPDATE_APP));
-            }
-        }
-
         childListener.onResponse(response);
-
     }
 }

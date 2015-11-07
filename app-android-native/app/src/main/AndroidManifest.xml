@@ -154,7 +154,6 @@
         <activity
             android:name=".activity.S10ItemDetailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -210,7 +209,6 @@
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s03_show"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
@@ -229,7 +227,6 @@
             android:name=".activity.S07CollectActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s07_collect"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Transparent" />
         <activity
@@ -293,6 +290,7 @@
             android:label="@string/title_activity_city" />
         <activity
             android:name=".activity.U16BonusListActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_u16_bonus_list" >
         </activity>

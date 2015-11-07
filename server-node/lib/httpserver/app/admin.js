@@ -66,23 +66,97 @@ admin.queryItemByNickName = {
                 return target.length !== 0;
             });
             callback(!people ? errors.PeopleNotExist : null, items, people);
-        }], function(err, items, people){
+        }, function(items, people, callback){
+            var total = 0;
+            var noDraw = 0; 
+            var results = [];
+            for (var i = 0; i < items.length; i++) {
+                for (var j = 0; j < items[i].length; j++) {
+                    var item = items[i][j]; 
+                    results.push({
+                        promoterRef : people._id,
+                        itemRef : item._id,
+                        totalFee : item.promoPrice * 0.7,
+                        quantity : 1,
+                        promoPrice : item.promoPrice,
+                        bonus : item.promoPrice * 0.7 * 0.02
+                    })
+                }
+
+            };
+            var bonuses = people.bonuses || [];
+            bonuses.forEach(function(bonus){
+                if (bonus.status === 0) {
+                    noDraw += bonus.money;
+                }
+                total += bonus.money;
+            })
+            callback(null, results, people, total, noDraw);
+        }], function(err, results, people, total, noDraw){
             ResponseHelper.response(res, err, {
                 'peopleRef' : people._id,
-                'item' : items
+                'total' : total,
+                'noDraw' : noDraw,
+                'item' : results
             })
         })
     }
 };
 
-var _isFake = function(people){
-    if(isNaN(people.userInfo.id)) {
+var _isFake = function(id){
+    if(isNaN(id)) {
         return false
     } else {
-        var n = parseInt(people.userInfo.id);
+        var n = parseInt(id);
         return n >=0 && n < 9000;
     }
 }
+
+admin.getPeople = {
+    'method' : 'post',
+    'func' : function(req, res){
+        var param = req.body;
+        var interval = {
+            enable : param.interval.enable === true,
+            upper : param.interval.upper,
+            lower : param.interval.lower
+        }
+        async.waterfall([function(callback){
+            People.find({
+                '$where' : function(){
+                    if(isNaN(this.userInfo.id)) {
+                        return true
+                    } else {
+                        var n = parseInt(this.userInfo.id);
+                        return !(n >=0 && n < 9000);
+                    }
+                },
+                'create' : {
+                    '$lt' : new Date(interval.upper),
+                    '$gt' : new Date(interval.lower)
+                }
+            }, callback);
+        }, function(peoples, callback){
+            var target = [];
+            async.eachSeries(peoples, function(people, callback){
+                Show.count({
+                    'ownerRef' : people._id
+                }, function(err, count){
+                    if (count > 0) {
+                        target.push(people.nickname);
+                    }
+                    callback();
+                })
+            }, function(err){
+                callback(null, target);
+            })
+        }], function(err, peoples){
+            ResponseHelper.response(res, err, {
+                'peoples' : peoples
+            })
+        })
+    }
+};
 
 
 admin.getRealShow = {
@@ -111,7 +185,7 @@ admin.getRealShow = {
                     }).exec(function(err, people){
                         if (people) {
                             var temp = parseInt(people.userInfo.id);
-                            if(_isFake(people)){
+                            if(_isFake(people.userInfo.id)){
                             }else{
                                 if (target.indexOf(people.nickname) === -1) {
                                     target.push(people.nickname);
@@ -126,7 +200,7 @@ admin.getRealShow = {
                callback(null, target); 
             })
         }], function(err, target){
-             ResponseHelper.response(res, err, {
+            ResponseHelper.response(res, err, {
                 'names' : target
             })
         })

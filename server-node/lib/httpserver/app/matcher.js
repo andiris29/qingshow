@@ -116,19 +116,7 @@ matcher.save = {
             People.findOne({
                 '_id' : req.qsCurrentUserId
             }, callback);
-        }, function(people, callback){
-            Show.find({
-                'ownerRef' : people._id,
-                'featuredRank' : {
-                    $exists: true
-                }
-            }, function(err, shows){
-                if (shows && shows.length > 0) {
-                    featuredRank = shows[0].featuredRank;
-                }
-                callback(null, people, featuredRank);
-            })
-        }, function(people, featuredRank, callback) {
+        }, function(people, callback) {
             if (!req.body.itemRefs || !req.body.itemRefs.length) {
                 ResponseHelper.response(res, errors.NotEnoughParam);
                 return;

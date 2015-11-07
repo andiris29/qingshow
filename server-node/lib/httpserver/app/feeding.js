@@ -149,9 +149,13 @@ feeding.matchNew = {
             async.waterfall([
             function(callback) {
                 var criteria = {
-                    'featuredRank' : {
-                        $exists : false
-                    }
+                    '$or' : [{
+                        'featuredRank' : 0
+                    },{
+                        'featuredRank' : {
+                            $exists : false
+                        }
+                    }]
                 };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1

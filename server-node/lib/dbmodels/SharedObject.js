@@ -3,6 +3,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var sharedObjectSchema = {
+    create : {
+        type : Date,
+        'default' : Date.now
+    },
 	type : Number,
 	initiatorRef : {
 		type : Schema.Types.ObjectId,
