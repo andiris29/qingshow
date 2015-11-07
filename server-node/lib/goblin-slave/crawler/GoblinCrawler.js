@@ -67,10 +67,14 @@ var _crawlItemWebInfo = function (source, callback) {
     async.waterfall([
         function (callback) {
             crawler.getSkus(source, function (err, taobaoInfo) {
-                if (!taobaoInfo) {
-                    callback(GoblinError.fromCode(GoblinError.InvalidItemSource));
+                if (err) {
+                    callback(err);
                 } else {
-                    callback(err, taobaoInfo);
+                    if (!taobaoInfo) {
+                        callback(GoblinError.fromCode(GoblinError.InvalidItemSource));
+                    } else {
+                        callback(err, taobaoInfo);
+                    }
                 }
             });
         }

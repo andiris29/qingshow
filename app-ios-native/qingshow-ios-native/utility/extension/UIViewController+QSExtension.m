@@ -63,7 +63,7 @@ static char versionUpdateHandlerKey;
             self.loginErrorAlertHandler = [[QSUserLoginAlertHandler alloc] initWithVc:self alertView:alert];
             [alert show];
         } else if (qsError.code == 2000 && !self.versionUpdateAlertHandler) {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"请更新最新版本" message:@"更多意想不到在等着你哦" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"请更新最新版本" message:@"更多意想不到在等着你哦" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
             self.versionUpdateAlertHandler = [[QSVersionUpdateAlertHandler alloc] initWithVc:self alertView:alert];
             [alert show];
         }else {
