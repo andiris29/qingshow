@@ -135,7 +135,14 @@
 }
 
 
-
+- (void)hoverItemType:(QSRootMenuItemType)type {
+    QSRootMenuItem* item = [self _findItemWithType:type];;
+    self.currentType = type;
+    for (QSRootMenuItem* i in self.itemArray) {
+        [i setHover:(i == item)];
+        
+    }
+}
 - (void)triggerItemTypePressed:(QSRootMenuItemType)type {
     QSRootMenuItem* item = [self _findItemWithType:type];;
     

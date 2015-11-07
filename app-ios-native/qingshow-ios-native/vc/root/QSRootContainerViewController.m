@@ -106,12 +106,12 @@
         NSDictionary* u = [QSUserManager shareUserManager].userInfo;
         if (!u) {
             [self showRegisterVc];
-#warning TODO HOVER OLD MENU ITEM
+            [self.menuView hoverItemType:oldType];
             return;
         } else if ([QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest &&
                    type == QSRootMenuItemDiscount) {
             [self showRegisterVc];
-#warning TODO HOVER OLD MENU ITEM
+            [self.menuView hoverItemType:oldType];
             return;
         }
     }

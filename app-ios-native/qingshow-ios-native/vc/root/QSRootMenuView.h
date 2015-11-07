@@ -32,7 +32,7 @@
 - (IBAction)didTapView:(id)sender;
 
 - (void)triggerItemTypePressed:(QSRootMenuItemType)type;
-
+- (void)hoverItemType:(QSRootMenuItemType)type;
 - (void)updateItemDot;
 
 @end

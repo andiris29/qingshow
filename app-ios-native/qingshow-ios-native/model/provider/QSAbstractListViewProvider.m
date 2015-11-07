@@ -245,4 +245,7 @@
 - (void)cancelImageLoading {
 
 }
+- (void)refreshVisibleData {
+    
+}
 @end
