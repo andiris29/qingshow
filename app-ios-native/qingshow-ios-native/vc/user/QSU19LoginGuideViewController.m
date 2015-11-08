@@ -18,6 +18,7 @@
 #import "UIViewController+ShowHud.h"
 
 @interface QSU19LoginGuideViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *mobileLoginBtn;
 
@@ -33,7 +34,7 @@
 - (instancetype)init {
     self = [super initWithNibName:@"QSU19LoginGuideViewController" bundle:nil];
     if (self) {
-        
+        self.fShowCloseBtn = YES;
     }
     return self;
 }
@@ -51,6 +52,9 @@
     self.registerBtn.layer.borderWidth = 1.f;
     self.registerBtn.layer.cornerRadius = self.registerBtn.bounds.size.height / 2;
     self.navigationController.navigationBarHidden = YES;
+    if (!self.fShowCloseBtn) {
+        [self.closeBtn removeFromSuperview];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

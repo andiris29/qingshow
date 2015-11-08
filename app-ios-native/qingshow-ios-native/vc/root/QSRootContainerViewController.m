@@ -266,7 +266,11 @@
     self.showLoginGuideTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];
 }
 - (void)_didFinishScheduleToShowLoginGuide {
-    [self showRegisterVc];
+    UIViewController* guideVc =  [self showRegisterVc];
+    if ([guideVc isKindOfClass:[QSU19LoginGuideViewController class]]) {
+        QSU19LoginGuideViewController* vc = (QSU19LoginGuideViewController*)guideVc;
+        
+    }
 }
 
 - (void)didReceiveShowNewBonusVcNoti:(NSNotification*)noti {
