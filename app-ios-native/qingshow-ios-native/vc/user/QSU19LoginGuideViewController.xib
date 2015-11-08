@@ -27,13 +27,6 @@
                         <action selector="mobileLoginPressed:" destination="-1" eventType="touchUpInside" id="VK0-Xm-5u2"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh1-iq-gVE">
-                    <rect key="frame" x="129" y="183" width="63" height="87"/>
-                    <state key="normal" image="loginguide_wechat"/>
-                    <connections>
-                        <action selector="wechatLoginPressed:" destination="-1" eventType="touchUpInside" id="C4l-3h-Tb5"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOD-aT-Rpp">
                     <rect key="frame" x="129" y="316" width="63" height="87"/>
                     <state key="normal" image="loginguide_weibo"/>
@@ -54,6 +47,13 @@
                     <state key="normal" backgroundImage="item_detail_close"/>
                     <connections>
                         <action selector="closeBtnPressed:" destination="-1" eventType="touchUpInside" id="ev8-fh-oSt"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh1-iq-gVE">
+                    <rect key="frame" x="129" y="193" width="63" height="87"/>
+                    <state key="normal" image="loginguide_wechat"/>
+                    <connections>
+                        <action selector="wechatLoginPressed:" destination="-1" eventType="touchUpInside" id="C4l-3h-Tb5"/>
                     </connections>
                 </button>
             </subviews>

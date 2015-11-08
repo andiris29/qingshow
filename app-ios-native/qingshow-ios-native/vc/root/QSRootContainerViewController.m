@@ -62,8 +62,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-
-    
     self.fIsFirstLoad = YES;
     
     // Do any additional setup after loading the view.
@@ -266,10 +264,15 @@
     self.showLoginGuideTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];
 }
 - (void)_didFinishScheduleToShowLoginGuide {
-    UIViewController* guideVc =  [self showRegisterVc];
-    if ([guideVc isKindOfClass:[QSU19LoginGuideViewController class]]) {
-        QSU19LoginGuideViewController* vc = (QSU19LoginGuideViewController*)guideVc;
-        vc.fShowCloseBtn = NO;
+    UIViewController* guideNavVc =  [self showRegisterVc];
+    if ([guideNavVc isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* navVc = (UINavigationController*)guideNavVc;
+        if ([navVc.topViewController isKindOfClass:[QSU19LoginGuideViewController class]]) {
+            QSU19LoginGuideViewController* guideVc = (QSU19LoginGuideViewController*)navVc.topViewController;
+            guideVc.fShowCloseBtn = NO;
+        }
+        
+
     }
 }
 
