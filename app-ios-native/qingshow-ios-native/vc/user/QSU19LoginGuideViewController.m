@@ -29,7 +29,10 @@
 @end
 
 @implementation QSU19LoginGuideViewController
-
+- (void)setFShowCloseBtn:(BOOL)fShowCloseBtn {
+    _fShowCloseBtn = fShowCloseBtn;
+    self.closeBtn.hidden = !_fShowCloseBtn;
+}
 #pragma mark - Init
 - (instancetype)init {
     self = [super initWithNibName:@"QSU19LoginGuideViewController" bundle:nil];

@@ -269,7 +269,7 @@
     UIViewController* guideVc =  [self showRegisterVc];
     if ([guideVc isKindOfClass:[QSU19LoginGuideViewController class]]) {
         QSU19LoginGuideViewController* vc = (QSU19LoginGuideViewController*)guideVc;
-        
+        vc.fShowCloseBtn = NO;
     }
 }
 
