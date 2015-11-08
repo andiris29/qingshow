@@ -46,10 +46,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     if (![WXApi isWXAppInstalled]) {
-        self.weichatLoginBtn.hidden = YES;
+        [self.weichatLoginBtn setImage:[UIImage imageNamed:@"loginguide_wechat_gray"] forState:UIControlStateNormal];
+        self.weichatLoginBtn.userInteractionEnabled = NO;
     } else {
-        self.weichatLoginBtn.hidden = NO;
+        [self.weichatLoginBtn setImage:[UIImage imageNamed:@"loginguide_wechat"] forState:UIControlStateNormal];
+        self.weichatLoginBtn.userInteractionEnabled = YES;
     }
     self.registerBtn.layer.borderColor = [UIColor whiteColor].CGColor;
     self.registerBtn.layer.borderWidth = 1.f;
