@@ -47,7 +47,6 @@
     _welcomeSCV.showsHorizontalScrollIndicator = NO;
     [self addPhotosToSVC];
     
-    [super viewDidLayoutSubviews];
     
     _pageControl.numberOfPages = 3;
     _pageControl.currentPage = 0;

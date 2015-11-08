@@ -28,8 +28,11 @@
 
 #import "QSU20NewBonusViewController.h"
 #import "QSU21NewParticipantBonusViewController.h"
+#import "QSBlock.h"
 
-@interface QSRootContainerViewController ()
+#define kWelcomePageVersionKey @"kWelcomePageVersionKey"
+
+@interface QSRootContainerViewController () <QSG02WelcomeViewControllerDelegate>
 
 
 @property (strong, nonatomic) QSPnsHandler* pnsHandler;
@@ -37,6 +40,11 @@
 
 @property (strong, nonatomic) QSU20NewBonusViewController* u20NewBonusVc;
 @property (strong, nonatomic) QSU21NewParticipantBonusViewController* u21NewParticipantBonusVc;
+
+@property (strong, nonatomic) QSG02WelcomeViewController* welcomeVc;
+
+@property (assign, nonatomic) BOOL fIsFirstLoad;
+@property (strong, nonatomic) NSTimer* showLoginGuideTimer;
 
 @end
 
@@ -53,6 +61,11 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+
+    
+    self.fIsFirstLoad = YES;
+    
     // Do any additional setup after loading the view.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePrompToLoginNotification:) name:kShowLoginPrompVcNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHidePrompToLoginNotification:) name:kHideLoginPrompVcNotificationName object:nil];
@@ -75,6 +88,27 @@
     if (![QSUserManager shareUserManager].userInfo) {
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
     }
+    
+    if (self.fIsFirstLoad) {
+        self.fIsFirstLoad = NO;
+        
+        NSUserDefaults* userDefault = [NSUserDefaults standardUserDefaults];
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        if (![[userDefault valueForKey:kWelcomePageVersionKey] isEqualToString:version]) {
+            
+            self.welcomeVc = [[QSG02WelcomeViewController alloc] init];
+            self.welcomeVc.delegate = self;
+            [self _showVcInPopoverContainer:self.welcomeVc withAnimation:NO];
+            
+            [userDefault setValue:version forKey:kWelcomePageVersionKey];
+            [userDefault synchronize];
+        }
+    }
+    
+    if (self.hasFetchUserLogin) {
+        [self handleCurrentUser];
+    }
+    
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -183,14 +217,19 @@
     self.contentNavVc = nav;
 }
 - (UIViewController*)showRegisterVc {
+    if (self.showLoginGuideTimer) {
+        [self.showLoginGuideTimer invalidate];
+        self.showLoginGuideTimer = nil;
+    }
     if (self.loginGuideNavVc) {
         return self.loginGuideNavVc;
     }
+
     UINavigationController* vc = nil;
     NSDictionary* u = [QSUserManager shareUserManager].userInfo;
     if (!u || [QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest) {
         vc = [[UINavigationController alloc] initWithRootViewController: [[QSU19LoginGuideViewController alloc] init]];
-        [self _showVcInPopoverContainer:vc];
+        [self _showVcInPopoverContainer:vc withAnimation:YES];
         self.loginGuideNavVc = vc;
 
     }
@@ -220,14 +259,11 @@
     [self showRegisterVc];
 }
 - (void)didReceiveHidePrompToLoginNotification:(NSNotification*)noti {
-#warning TODO animation
-    [self _hideVcInPopoverContainer:self.loginGuideNavVc];
-
+    [self _hideVcInPopoverContainer:self.loginGuideNavVc withAnimation:YES];
     self.loginGuideNavVc = nil;
-
 }
 - (void)didReceiveScheduleToShowLoginGuideNotification:(NSNotification*)noti {
-    [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];
+    self.showLoginGuideTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];
 }
 - (void)_didFinishScheduleToShowLoginGuide {
     [self showRegisterVc];
@@ -239,11 +275,11 @@
     }
     
     self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] init];
-    [self _showVcInPopoverContainer:self.u20NewBonusVc];
+    [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
 }
 
 - (void)didReceiveHideNewBonusVcNoti:(NSNotification*)noti {
-    [self _hideVcInPopoverContainer:self.u20NewBonusVc];
+    [self _hideVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
     self.u20NewBonusVc = nil;
 }
 
@@ -252,11 +288,11 @@
         return;
     }
     self.u21NewParticipantBonusVc = [[QSU21NewParticipantBonusViewController alloc] init];
-    [self _showVcInPopoverContainer:self.u21NewParticipantBonusVc];
+    [self _showVcInPopoverContainer:self.u21NewParticipantBonusVc withAnimation:YES];
 }
 
 - (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {
-    [self _hideVcInPopoverContainer:self.u21NewParticipantBonusVc];
+    [self _hideVcInPopoverContainer:self.u21NewParticipantBonusVc withAnimation:YES];
     self.u21NewParticipantBonusVc = nil;
 }
 
@@ -268,19 +304,47 @@
         [u02Vc showBonuesVC];
     }
 }
+#pragma mark -
 
-
-- (void)_showVcInPopoverContainer:(UIViewController*)vc {
-#warning TODO animation
+- (void)_showVcInPopoverContainer:(UIViewController*)vc  withAnimation:(BOOL)fAnimate {
     vc.view.frame = self.popOverContainerView.bounds;
     [self addChildViewController:vc];
     [self.popOverContainerView addSubview:vc.view];
     self.popOverContainerView.hidden = NO;
+    
+    if (fAnimate) {
+        self.popOverContainerView.alpha = 0;
+        [UIView animateWithDuration:0.5f animations:^{
+            self.popOverContainerView.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.popOverContainerView.alpha = 1;
+        }];
+    }
 }
-- (void)_hideVcInPopoverContainer:(UIViewController*)vc {
-#warning TODO animation
-    [vc removeFromParentViewController];
-    [vc.view removeFromSuperview];
-    self.popOverContainerView.hidden = YES;
+- (void)_hideVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate{
+    VoidBlock hideBlock = ^{
+        [vc.view removeFromSuperview];
+        [vc removeFromParentViewController];
+        [vc.view removeFromSuperview];
+        self.popOverContainerView.hidden = YES;
+    };
+    
+    if (fAnimate) {
+        [UIView animateWithDuration:0.5f animations:^{
+            vc.view.alpha = 0.f;
+        } completion:^(BOOL finished) {
+            hideBlock();
+        }];
+    } else {
+        hideBlock();
+    }
 }
+
+#pragma mark - QSG02WelcomeViewControllerDelegate
+- (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc
+{
+    [self _hideVcInPopoverContainer:vc withAnimation:YES];
+    self.welcomeVc = nil;
+}
+
 @end

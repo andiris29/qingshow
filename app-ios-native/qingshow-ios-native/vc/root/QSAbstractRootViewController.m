@@ -24,18 +24,12 @@
 #import "QSPeopleUtil.h"
 #import "QSS21CategorySelectorVC.h"
 
-#define kWelcomePageVersionKey @"kWelcomePageVersionKey"
+
 
 
 @interface QSAbstractRootViewController ()
 
-
 @property (assign, nonatomic) BOOL fIsShowMenu;
-@property (assign, nonatomic) BOOL fIsFirstLoad;
-
-
-
-@property (strong, nonatomic) QSG02WelcomeViewController* welcomeVc;
 
 @end
 
@@ -57,38 +51,12 @@
     
     [self _initContainerViews];
     [self _initMenuView];
-    
-    self.fIsFirstLoad = YES;
-    
-    self.welcomeVc = [[QSG02WelcomeViewController alloc] init];
-    self.welcomeVc.delegate = self;
-#warning Somewhere to remove child view controller
-    [self addChildViewController:self.welcomeVc];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.menuView.hidden = !self.fIsShowMenu;
-    
-    if (self.fIsFirstLoad) {
-        self.fIsFirstLoad = NO;
-        
-        NSUserDefaults* userDefault = [NSUserDefaults standardUserDefaults];
-//        userDefault valueFor
-        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        if (![[userDefault valueForKey:kWelcomePageVersionKey] isEqualToString:version]) {
-            [self.contentContainerView addSubview:self.welcomeVc.view];
-            [userDefault setValue:version forKey:kWelcomePageVersionKey];
-            [userDefault synchronize];
-        }
-    }
-    
-    if (self.hasFetchUserLogin) {
-        [self handleCurrentUser];
-    }
-
 }
 
 
@@ -196,16 +164,6 @@
         }];
         self.fIsShowMenu = NO;
     }
-}
-
-#pragma mark - QSG02WelcomeViewControllerDelegate
-- (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc
-{
-    [UIView animateWithDuration:0.5f animations:^{
-        vc.view.alpha = 0.f;
-    } completion:^(BOOL finished) {
-        [vc.view removeFromSuperview];
-    }];
 }
 
 #pragma mark - QSMenuProviderDelegate
