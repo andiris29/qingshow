@@ -85,13 +85,18 @@
     [self unregisterKeyboardNotifications];
 }
 - (IBAction)getTestNumberButtonPressed:(id)sender {
+    if(![self checkMobile:self.mailAndPhoneText.text]){
+        [self showErrorHudWithText:@"请输入正确的手机号"];
+        return;
+    }
+    
     NSString *mobileNum = self.mailAndPhoneText.text;
-        [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
-            [self showTextHud:@"已成功发送验证码"];
-            [self setTimer];
-        } onError:^(NSError *error) {
-            [self handleError:error];
-        }];
+    [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
+        [self showTextHud:@"已成功发送验证码"];
+        [self setTimer];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
 }
 - (void)setTimer
 {
@@ -162,19 +167,14 @@
     NSString *passwdCfm = self.passwdCfmText.text;
     NSString *mailAndPhone = self.mailAndPhoneText.text;
     NSString *code = self.testTextField.text;
-    
-    if (passwdCfm.length == 0) {
-        [self showErrorHudWithText:@"请输入密码"];
+
+    if(![self checkMobile:mailAndPhone]){
+        [self showErrorHudWithText:@"请输入正确的手机号"];
         return;
     }
     
-    
-    if([self checkEmail:mailAndPhone] != YES && [self checkMobile:mailAndPhone] != YES){
-            [self showErrorHudWithText:@"请输入正确的邮箱或手机号"];
-            return;
-        }
-    if (code.length == 0) {
-        [self showErrorHudWithText:@"请填写验证码"];
+    if (passwdCfm.length == 0) {
+        [self showErrorHudWithText:@"请输入密码"];
         return;
     }
     
@@ -182,6 +182,14 @@
         [self showErrorHudWithText:@"请输入6位以上英文或数字密码"];
         return;
     }
+    
+
+    if (code.length == 0) {
+        [self showErrorHudWithText:@"请填写验证码"];
+        return;
+    }
+    
+
     
     EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
         [self showSuccessHudWithText:@"登陆成功"];
