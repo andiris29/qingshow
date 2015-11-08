@@ -18,6 +18,7 @@
 #import "UIViewController+ShowHud.h"
 
 @interface QSU19LoginGuideViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *mobileLoginBtn;
 
@@ -28,12 +29,15 @@
 @end
 
 @implementation QSU19LoginGuideViewController
-
+- (void)setFShowCloseBtn:(BOOL)fShowCloseBtn {
+    _fShowCloseBtn = fShowCloseBtn;
+    self.closeBtn.hidden = !_fShowCloseBtn;
+}
 #pragma mark - Init
 - (instancetype)init {
     self = [super initWithNibName:@"QSU19LoginGuideViewController" bundle:nil];
     if (self) {
-        
+        self.fShowCloseBtn = YES;
     }
     return self;
 }
@@ -42,15 +46,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     if (![WXApi isWXAppInstalled]) {
-        self.weichatLoginBtn.hidden = YES;
+        [self.weichatLoginBtn setImage:[UIImage imageNamed:@"loginguide_wechat_gray"] forState:UIControlStateNormal];
+        self.weichatLoginBtn.userInteractionEnabled = NO;
     } else {
-        self.weichatLoginBtn.hidden = NO;
+        [self.weichatLoginBtn setImage:[UIImage imageNamed:@"loginguide_wechat"] forState:UIControlStateNormal];
+        self.weichatLoginBtn.userInteractionEnabled = YES;
     }
     self.registerBtn.layer.borderColor = [UIColor whiteColor].CGColor;
     self.registerBtn.layer.borderWidth = 1.f;
     self.registerBtn.layer.cornerRadius = self.registerBtn.bounds.size.height / 2;
     self.navigationController.navigationBarHidden = YES;
+    if (!self.fShowCloseBtn) {
+        [self.closeBtn removeFromSuperview];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

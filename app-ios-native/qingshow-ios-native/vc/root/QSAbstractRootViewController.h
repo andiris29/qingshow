@@ -20,13 +20,11 @@
 
 @end
 
-@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate, QSMenuProviderDelegate>
+@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSMenuProviderDelegate>
 
 @property (strong, nonatomic) UIView* contentContainerView;
 @property (strong, nonatomic) UIView* menuContainerView;
 @property (strong, nonatomic) UIView* popOverContainerView;
-
-
 
 - (void)hideMenu;
 

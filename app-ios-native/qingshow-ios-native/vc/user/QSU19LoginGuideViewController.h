@@ -10,6 +10,7 @@
 
 @interface QSU19LoginGuideViewController : UIViewController
 
+@property (assign, nonatomic) BOOL fShowCloseBtn;
 - (instancetype)init;
 
 @end
