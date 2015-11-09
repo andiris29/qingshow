@@ -2,6 +2,9 @@ package com.focosee.qingshow.constants.config;
 
 import com.focosee.qingshow.QSApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by jackyu on 11/22/14.
  */
@@ -213,8 +216,14 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_SHARE_API;
     }
 
-    public static String getPeopleQueryApi(String _ids) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_QUERY_API + "?_ids=" + _ids;
+    public static String getPeopleQueryApi(String ..._ids) {
+        StringBuffer params = new StringBuffer();
+        for (String _id : _ids){
+            params.append("_ids=");
+            params.append(_id);
+            params.append("&");
+        }
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_QUERY_API + "?" + params.substring(0, params.length() - 1);
     }
 
     public static String getMatchSaveApi() {

@@ -29,9 +29,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_widthPercent="60%"
-        app:layout_heightPercent="30%"
+        app:layout_heightPercent="35%"
+        android:padding="30dp"
+        android:scaleType="fitCenter"
         android:layout_centerHorizontal="true"
-        app:layout_marginTopPercent="10%"
+        app:layout_marginTopPercent="5%"
         fresco:placeholderImage="@drawable/root_cell_placehold_image1"
         android:background="@drawable/white"/>
 
@@ -135,8 +137,9 @@
         android:id="@+id/u20_heads"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/u20_msg3_layout"
+        app:layout_marginLeftPercent="10%"
+        app:layout_marginRightPercent="10%"
         android:orientation="vertical" >
         </LinearLayout>
 

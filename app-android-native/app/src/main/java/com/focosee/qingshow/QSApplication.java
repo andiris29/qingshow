@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-
+import android.view.Display;
+import android.graphics.Point;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
+import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
 import com.focosee.qingshow.util.AppUtil;
@@ -92,6 +94,14 @@ public class QSApplication extends Application {
     public String getDeviceUid(){
         return ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
     }
+
+    public Point getScreenSize(Context context){
+        Display display = ((BaseActivity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
+
 
 }
 

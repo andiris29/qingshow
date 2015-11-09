@@ -1,23 +1,51 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.android.volley.Response;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.command.Callback;
-import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.user.UnreadHelper;
+import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class U20NewBonus extends BaseActivity {
+
+    private final int QUERY_PEOPLE_FINISH = 0x1;
 
     @InjectView(R.id.close)
     ImageView close;
@@ -25,6 +53,31 @@ public class U20NewBonus extends BaseActivity {
     Button u20SubmitBtn;
     @InjectView(R.id.u20_heads)
     LinearLayout u20Heads;
+    @InjectView(R.id.u20_item_image)
+    SimpleDraweeView u20ItemImage;
+    @InjectView(R.id.u20_user_head)
+    SimpleDraweeView u20UserHead;
+    @InjectView(R.id.u20_nickname)
+    QSTextView u20Nickname;
+    @InjectView(R.id.u20_msg_line1)
+    TextView u20MsgLine1;
+    @InjectView(R.id.u20_msg_line2)
+    TextView u20MsgLine2;
+    @InjectView(R.id.u20_msg3)
+    TextView u20Msg3;
+    @InjectView(R.id.u20_msg3_layout)
+    LinearLayout u20Msg3Layout;
+    private List<MongoPeople> peoples;
+    private MongoPeople.Bonuses bonuses;
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == QUERY_PEOPLE_FINISH) {
+                showUserHeads();
+            }
+            return false;
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +85,7 @@ public class U20NewBonus extends BaseActivity {
         setContentView(R.layout.activity_u20_new_bonus);
         ButterKnife.inject(this);
 
-
-        showUserHeads();
-
+        init();
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,37 +102,79 @@ public class U20NewBonus extends BaseActivity {
         });
     }
 
-    private void init(){
-        if(null == QSModel.INSTANCE.getUser()){
-            UserCommand.refresh(new Callback() {
-                @Override
-                public void onComplete() {
-                    showUserHeads();
-                }
-            });
-            return;
-        }
+    private void init() {
+        bonuses = QSModel.INSTANCE.getUser().bonuses.get(QSModel.INSTANCE.getUser().bonuses.size() - 1);
+        u20ItemImage.setImageURI(Uri.parse(bonuses.icon));
+        u20ItemImage.setAspectRatio(0.5f);
 
+        u20UserHead.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+        u20Nickname.setText(QSModel.INSTANCE.getUser().nickname);
+
+        SpannableString spannableString = new SpannableString("获得了￥" + bonuses.money + "的佣金");
+
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.pink_deep))
+                , "获得了￥".length(), ("获得了￥" + bonuses.money).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        u20MsgLine2.setText(spannableString);
+
+        getPeoplesFromNet();
+    }
+
+    private void getPeoplesFromNet() {
+        String[] pIds = bonuses.participants;
+
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(pIds), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(U20NewBonus.class.getSimpleName(), "response:" + response);
+                if (!MetadataParser.hasError(response)) {
+                    peoples = UserParser._parsePeoples(response);
+                    handler.sendEmptyMessage(QUERY_PEOPLE_FINISH);
+                }
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void showUserHeads() {
 
-        LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-        itemParams.weight = 1;
+        int screenWidth = QSApplication.instance().getScreenSize(this).x;
+
+        LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(screenWidth / 10, screenWidth / 10);
         LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-        , 0);
+                , 0);
         parentParams.weight = 1;
+        parentParams.gravity = Gravity.CENTER;
+
+        int lineLength = 10;
+        RoundingParams roundingParams = new RoundingParams();
+        roundingParams.setRoundAsCircle(true);
+        roundingParams.setBorder(getResources().getColor(R.color.white), 5);
+
+        GenericDraweeHierarchyBuilder builder =
+                new GenericDraweeHierarchyBuilder(getResources());
+        GenericDraweeHierarchy hierarchy = builder
+                .setFadeDuration(300)
+                .setRoundingParams(roundingParams)
+                .build();
+
         for (int i = 0; i < 2; i++) {
 
             LinearLayout linearLayout = new LinearLayout(this);
-
+            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
             linearLayout.setLayoutParams(parentParams);
-            for (int j = 0; j < 10; j++) {
-
-                ImageView imageView = new ImageView(this);
-                imageView.setPadding(5, 0, 5, 0);
-                imageView.setImageResource(R.drawable.weixin_login);
-                linearLayout.addView(imageView, itemParams);
+            for (int j = 0; j < lineLength; j++) {
+                int index = i * lineLength + j;
+                if (index < peoples.size()) {
+                    SimpleDraweeView imageView = new SimpleDraweeView(this);
+                    imageView.setPadding(5, 0, 5, 0);
+                    imageView.setImageURI(Uri.parse(peoples.get(index).portrait));
+                    imageView.setAspectRatio(1f);
+                    imageView.setHierarchy(hierarchy);
+                    linearLayout.addView(imageView, itemParams);
+                }
             }
             linearLayout.setLayoutParams(parentParams);
             u20Heads.addView(linearLayout);

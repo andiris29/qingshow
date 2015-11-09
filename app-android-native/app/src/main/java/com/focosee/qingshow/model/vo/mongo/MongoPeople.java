@@ -77,7 +77,7 @@ public class MongoPeople implements Serializable {
         public GregorianCalendar create;
         public Trigger trigger;
         public String icon;
-        public List<MongoPeople> participants;
+        public String[] participants;
     }
 
     public class Trigger implements Serializable {
