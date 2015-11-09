@@ -80,6 +80,12 @@ peopleSchema = Schema({
             type : Schema.Types.ObjectId,
             ref : 'peoples'
         },
+        participants : {
+            type : [{
+                type : Schema.Types.ObjectId,
+                ref : 'peoples'
+            }]
+        },
         trigger : {
             forgerRef : {
                 type : Schema.Types.ObjectId,

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 
 var People = require('../dbmodels').People;
+var Show = require('../dbmodels').Show;
 var jPushAudiences = require('../dbmodels').JPushAudience;
 
 var RequestHelper = require('../helpers/RequestHelper');
@@ -15,10 +16,12 @@ BonusHelper.createBonus = function(trade, item, cb){
         Show.find({
             itemRefs : {
                 '$all' : [item._id]
+            },
+            ownerRef : {
+                '$ne' : trade.promoterRef
             }
-        }).sort({
-            'create' : -1
         }).distinct('ownerRef', function(err, refs){
+            console.log(refs);
             callback(err, refs.slice(0, global.qsConfig.bonus.participants.count));
         })
     }, function(peopleRefs, callback) {
@@ -78,8 +81,8 @@ var _createViaItem = function(peopleRefs, item, money, cb){
                 '$in' : peopleRefs
             }
         },{
-            bonuses : {
-                '$push' : {
+            '$push' : {
+                bonuses : {
                     status : 0,
                     money : money,
                     notes : '来自' + item.name + '的佣金',
@@ -88,7 +91,7 @@ var _createViaItem = function(peopleRefs, item, money, cb){
                         itemRef : item._id
                     }
                 }
-            }
+            } 
         },{
             multi: true 
         }, callback);

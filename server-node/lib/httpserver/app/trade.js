@@ -491,6 +491,7 @@ trade.share = {
 
 trade.query = {
     'method' : 'get',
+    'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             var criteria = {};
