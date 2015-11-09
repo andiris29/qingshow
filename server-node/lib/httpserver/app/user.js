@@ -90,28 +90,16 @@ var _decryptMD5 = function (string){
 }
 
 var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId, _loginAsViewer;
-_get = function(req, res) {
-    async.waterfall([
-    function(callback) {
-        callback(req.qsCurrentUserId ? null : errors.NeedLogin);
-    },
-    function(callback) {
-        People.findOne({
-            '_id' : req.qsCurrentUserId
-        }, callback);
-    },
-    function(people, callback) {
-        if (people) {
-            callback(null, people);
-        } else {
-            callback(errors.NeedLogin);
-        }
-    }], function(err, people) {
-        ResponseHelper.response(res, err, {
-            'people' : people
+
+_get = [
+    require('../middleware/injectCurrentUser'),
+    function(req, res, next) {
+        ResponseHelper.writeData(res, {
+            'people' : req.qsCurrentUser
         });
-    });
-};
+        next();
+    }
+];
 
 _login = [function(req, res, next) {
     // Upgrade the req
@@ -144,7 +132,7 @@ _login = [function(req, res, next) {
         ]
     }).exec(function(err, people) {
         if (err) {
-            ResponseHelper.responseAsMiddleware(res, err);
+            next(err);
         } else if (people) {
             //login succeed
             req.session.userId = people._id;
@@ -152,18 +140,20 @@ _login = [function(req, res, next) {
 
             _addRegistrationId(people._id, param.registrationId);
 
-            ResponseHelper.responseAsMiddleware(res, null, {
-                people : people
-            }, {
+            ResponseHelper.writeMetadata(res, {
                 "invalidateTime" : 3600000
             });
+            ResponseHelper.writeData(res, {
+                people : people
+            });
+            next();
         } else {
             //login fail
             delete req.session.userId;
             delete req.session.loginDate;
-            ResponseHelper.responseAsMiddleware(res, errors.IncorrectMailOrPassword);
+            
+            next(errors.IncorrectMailOrPassword);
         }
-        next();
     });
 }];
 

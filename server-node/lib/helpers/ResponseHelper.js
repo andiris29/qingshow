@@ -49,10 +49,12 @@ ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, b
     ResponseHelper.response(res, err, data, metadata, beforeEndResponse);
 };
 
-ResponseHelper.responseAsMiddleware = function(res, err, data, metadata) {
-    res.locals.out = {
-        'err' : err,
-        'data' : data,
-        'metadata' : metadata
-    };
+ResponseHelper.writeMetadata = function(res, metadata) {
+    res.locals.out = res.locals.out || {};
+    res.locals.out.metadata = metadata;
+};
+
+ResponseHelper.writeData = function(res, data) {
+    res.locals.out = res.locals.out || {};
+    res.locals.out.data = data;
 };
