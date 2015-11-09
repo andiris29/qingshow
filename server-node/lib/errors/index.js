@@ -58,5 +58,6 @@ module.exports = {
     'FrequentlyRequest' : new ServerError(1032, 'FrequentlyRequest'),
     'NickNameAlreadyExist' : new ServerError(1033, 'NickNameAlreadyExist'),
     'InvalidItem' : new ServerError(1034, 'InvalidItem'),
-    'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled')
+    'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled'),
+    'AlreadyLoggedIn' : new ServerError(1036, 'AlreadyLoggedIn')
 };

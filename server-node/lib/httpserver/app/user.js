@@ -158,83 +158,65 @@ _logout = function(req, res) {
     res.json(retData);
 };
 
-_register = function(req, res) {
-    var param, id, password;
-    param = req.body;
-    id = param.id;
-    password = param.password;
-    var mobile = param.mobile;
-    var code = param.verificationCode;
-    //TODO validate id and password
-    if (!id || !password || !id.length || !password.length || !mobile) {
-        ResponseHelper.response(res, errors.NotEnoughParam);
-        return;
-    }
-    async.waterfall([function(callback){
-        // Validate whether the id/mobile is already existed
-        People.find({
-            '$or': [
-            {'userInfo.id' : id}, 
-            {'userInfo.id' : mobile}, 
-            {'mobile': mobile}
-            ]
-        }, callback);
-    }, function(peoples, callback){
-        if (peoples.length > 0) {
-            // Error when duplicated id/mobile
-            callback(errors.MobileAlreadyExist);
+_register = [
+    require('../middleware/injectCurrentUser'),
+    function(req, res, next) {
+        if (req.qsCurrentUser.role !== 0) {
+            next(errors.AlreadyLoggedIn);
         } else {
-            if (req.qsCurrentUserId) {
-                People.findOne({
-                    '_id' : req.qsCurrentUserId
-                }, function(err, people) {
-                    if (people) {
-                        if (people.role === 0) {
-                            people.role = 1;
-                            callback(null, people);
-                        } else {
-                            callback(errors.genUnkownError());
-                            return;
-                        }
-                    } else {
-                        callback(null, new People());
-                    }
-                });
-            }else{
-                callback(null, new People());
-            }
+            next();
         }
-    }, function(people, callback){
-        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
-            if (!success || err) {
-                callback(err);
-            }else {
-                callback(null, people);
+    }, function(req, res, next) {
+        // Validate whether the id/mobile is already existed
+        People.findOne({
+            '_id' : {'$ne' : req.qsCurrentUserId},
+            '$or': [{'userInfo.id' : req.body.id}, 
+                {'mobile': req.body.mobile}]
+        }, function(err, people) {
+            if (err) {
+                next(errors.genUnkownError(err));
+            } else {
+                if (people) {
+                    // Replace current user with db.people
+                    req.qsCurrentUser = people;
+                    req.qsCurrentUserId = people._id;
+                }
+                next();
             }
         });
-    }, function(people, callback){
-        people.mobile = mobile;
+    }, function(req, res, next) {
+        SMSHelper.checkVerificationCode(req, req.body.mobile, req.body.verificationCode, function(err, success){
+            if (!success || err) {
+                next(err);
+            } else {
+                next();
+            }
+        });
+    }, function(req, res, next) {
+        var people = req.qsCurrentUser;
+        people.role = 1;
+        people.mobile = req.body.mobile;
         people.userInfo = {
-            id : id,
-            encryptedPassword : _encrypt(password)
+            'id' : req.body.id,
+            'encryptedPassword' : _encrypt(req.body.password)
         };
         people.save(function(err, people) {
             if (!people || err) {
-                callback(errors.genUnkownError());
+                next(errors.genUnkownError(err));
             } else {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
 
                 _addRegistrationId(people._id, req.body.registrationId);
-                callback(null, people);
+
+                ResponseHelper.writeData(res, {
+                    'people' : people
+                });
+                next();
             }
         });
-    }], function(err, people){
-        ResponseHelper.response(res, err, {
-            'people' : people
-        });
-    });
-};
+    }
+];
 
 _update = function(req, res) {
     var qsParam;
@@ -641,7 +623,6 @@ _loginViaWeixin = function(req, res) {
                 unionid: weixinUser.unionid
             }
         };
-        people.role = 0;
         
         if (copyHeadPath && copyHeadPath.length) {
             people.portrait = copyHeadPath;
@@ -777,7 +758,6 @@ _loginViaWeibo = function(req, res) {
                 avatar_large: user.avatar_large
             }
         };
-        people.role = 0;
         
         if (copyHeadPath && copyHeadPath.length) {
             people.portrait = copyHeadPath;
