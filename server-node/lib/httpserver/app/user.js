@@ -102,32 +102,10 @@ _get = function(req, res) {
     },
     function(people, callback) {
         if (people) {
-            if (req.queryString.assetsRoot) {
-                people.assetsRoot = req.queryString.assetsRoot;
-                people.save(function() {
-                    callback(null, people);
-                });
-            } else {
-                callback(null, people);
-            }
+            callback(null, people);
         } else {
             callback(errors.NeedLogin);
         }
-    },
-    function(people, callback) {
-        People.findOne({
-            'assetsRoot' : {
-                '$ne' : null
-            }
-        }, function(err, tplt) {
-            callback(err, people, tplt);
-        });
-    },
-    function(people, tplt, callback) {
-        if (tplt) {
-            req.session.assetsRoot = tplt.assetsRoot;
-        }
-        callback(null, people);
     }], function(err, people) {
         ResponseHelper.response(res, err, {
             'people' : people
