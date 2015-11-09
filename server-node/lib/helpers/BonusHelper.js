@@ -98,7 +98,7 @@ var _createViaItem = function(peopleRefs, item, money, cb){
     }, function(doc, callback){
         var message = NotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, money);
         NotificationHelper.notify(peopleRefs, message, {
-            'command' : NotificationHelper.CommandNewBonus
+            'command' : NotificationHelper.CommandNewParticipantBonus 
         }, null);
         callback(null, doc);
     }], function(err, doc){

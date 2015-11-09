@@ -41,6 +41,7 @@ NotificationHelper.CommandItemExpectablePriceUpdated = "itemExpectablePriceUpdat
 NotificationHelper.CommandNewBonus = "newBonus";
 NotificationHelper.CommandBonusWithdrawComplete = "bonusWithdrawComplete";
 NotificationHelper.CommandTradeRefundComplete = "tradeRefundComplete";
+NotificationHelper.CommandnewParticipantBonus = "newParticipantBonus";
 
 NotificationHelper.notify = function(peoplesIds, message, extras, cb) {
     async.series([function(callback){
