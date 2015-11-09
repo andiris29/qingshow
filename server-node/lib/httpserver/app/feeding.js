@@ -208,8 +208,40 @@ feeding.featured = {
                 };
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
-                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
+                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
             }], outCallback);
+        });
+    }
+};
+
+feeding.search = {
+    'method' : 'get',
+    'func' : function (req, res) {
+        _feed(req, res, function (qsParam, outCallback) {
+            async.waterfall([
+                function (callback) {
+                    var searchKeyword = qsParam.keyword || "";
+                    var querier = Show.find({
+                            $text: {
+                                $search: searchKeyword
+                            }
+                        }, {
+                            score: { $meta: "textScore"
+                            }
+                        }
+                    ).sort({'create' : -1});
+                    var countQuerier = Show.find({
+                            $text: {
+                                $search: searchKeyword
+                            }
+                        }, {
+                            score: { $meta: "textScore"
+                            }
+                        }
+                    );
+                    MongoHelper.queryPaging(querier, countQuerier, qsParam.pageNo, qsParam.pageSize, callback);
+                }
+            ], outCallback);
         });
     }
 };
