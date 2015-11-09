@@ -8,6 +8,9 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import com.focosee.qingshow.QSApplication;
@@ -136,7 +139,9 @@ public abstract class BaseActivity extends FragmentActivity {
     public void showUpdateDialog(){
         if(dialog == null) {
             dialog = new ConfirmDialog(BaseActivity.this);
-            dialog.setTitle("请更新最新版本，更多意想不到在等着你哦");
+            SpannableString spanStrPrice = new SpannableString("请更新最新版本\n\n更多意想不到在等着你哦");
+            RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(1.5f);
+            spanStrPrice.setSpan(relativeSizeSpan, 0, "请更新最新版本".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             dialog.setConfirm(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,6 +154,7 @@ public abstract class BaseActivity extends FragmentActivity {
             dialog.setIsBackFinish(true);
             dialog.show();
             dialog.hideCancel();
+            dialog.setTitle(spanStrPrice);
             return;
         }
         if(!dialog.isShowing()){
