@@ -506,7 +506,12 @@ trade.query = {
             };
         }, {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+                Trade.populate(currentPageModels, {
+                    'path' : 'itemRef.shopRef',
+                    'model' : 'peoples'
+                }, function() {
+                    ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback); 
+                });
             }
         });
     }
