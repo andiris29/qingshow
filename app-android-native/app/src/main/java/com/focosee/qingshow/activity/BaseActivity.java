@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import com.focosee.qingshow.QSApplication;
-import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
+import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.CategoriesCommand;
 import com.focosee.qingshow.command.SystemCommand;
@@ -152,7 +152,7 @@ public abstract class BaseActivity extends FragmentActivity {
     public abstract void reconn();
 
     public void showNewTradeNotify() {
-        S11NewTradeNotifyFragment fragment = new S11NewTradeNotifyFragment();
+        S12NewTradeExpectableFragment fragment = new S12NewTradeExpectableFragment();
         fragment.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName());
     }
 

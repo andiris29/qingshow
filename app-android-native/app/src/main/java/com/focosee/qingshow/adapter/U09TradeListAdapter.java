@@ -12,27 +12,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
-import com.focosee.qingshow.activity.S17PayActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
-import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
+import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeStatusToCommand;
-import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
-import com.focosee.qingshow.util.ToastUtil;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.user.UnreadHelper;
@@ -282,7 +276,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
     public void showNewTradeNotify(String _id) {
         if (!(context instanceof U09TradeListActivity)) return;
         ((U09TradeListActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
-        S11NewTradeNotifyFragment fragment = new S11NewTradeNotifyFragment();
+        S12NewTradeExpectableFragment fragment = new S12NewTradeExpectableFragment();
         fragment.show(((BaseActivity) context).getSupportFragmentManager(), U09TradeListActivity.class.getSimpleName());
     }
 

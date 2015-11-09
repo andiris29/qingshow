@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11NewTradeNotifyFragment;
+import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -249,7 +249,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     private void showNewTradeNotify(Intent intent) {
         boolean showable = intent.getBooleanExtra(S1_INPUT_SHOWABLE, false);
         if (!showable) return;
-        S11NewTradeNotifyFragment fragment = new S11NewTradeNotifyFragment();
+        S12NewTradeExpectableFragment fragment = new S12NewTradeExpectableFragment();
         fragment.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName());
     }
 

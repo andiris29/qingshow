@@ -59,7 +59,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S11NewTradeNotifyFragment extends Fragment {
+public class S12NewTradeExpectableFragment extends Fragment {
 
     @InjectView(R.id.img)
     SimpleDraweeView img;
@@ -235,12 +235,12 @@ public class S11NewTradeNotifyFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("S11NewTradeNotifyFragment");
+        MobclickAgent.onPageStart("S12NewTradeExpectableFragment");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("S11NewTradeNotifyFragment");
+        MobclickAgent.onPageEnd("S12NewTradeExpectableFragment");
     }
 }
