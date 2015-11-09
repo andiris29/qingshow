@@ -2,14 +2,15 @@ var winston = require('winston'),
     _ = require('underscore'),
     MongoDB = require('winston-mongodb').MongoDB;
 
-var _winstonDbOptions = {}
+var _winstonDbOptions = {};
 
-var init = function(logging, dbConfig) {
+var init = function() {
+    var dbConfig = global.qsConfig.log.db;
     _winstonDbOptions = {
-        db : 'mongodb://' + dbConfig.url + ':' + dbConfig.port + '/' + logging.db.schema,
-        username : dbConfig.username,
+        db : 'mongodb://' + dbConfig.url + ':' + dbConfig.port + '/' + dbConfig.schema,
+        username : dbConfig.user,
         password : dbConfig.password
-    }
+    };
     // Default logger
     winston.add(MongoDB, _winstonDbOptions);
 
