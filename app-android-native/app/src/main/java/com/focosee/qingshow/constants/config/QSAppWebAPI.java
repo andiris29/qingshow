@@ -107,6 +107,12 @@ public class QSAppWebAPI {
 
     private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
 
+    private static String SHOW_VIEW_API = "/show/view";
+
+    public static String getShowViewApi(String _id) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + SHOW_VIEW_API + "?_id" + _id;
+    }
+
     public static String getUserUpdateregistrationidApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEREGISTRATIONID_API;
     }

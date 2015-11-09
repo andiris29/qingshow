@@ -181,6 +181,13 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         }
     }
 
+    public void onEventMainThread(ShowCollectionEvent event){
+        if(event.position != Integer.MAX_VALUE){
+            adapter.setItem(event.position, event.show);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void initRefreshLayout() {
         mRefreshLayout.setDelegate(this);
         BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(this, true);

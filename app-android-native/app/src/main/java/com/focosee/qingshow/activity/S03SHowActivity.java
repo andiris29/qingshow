@@ -29,6 +29,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.CategoriesModel;
 import com.focosee.qingshow.model.EventModel;
@@ -71,6 +72,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String CLASS_NAME = "class_name";
+    public static final String POSITION = "position";
     private final int LOADING_FINISH = 0x1;
     @InjectView(R.id.S03_image_preground)
     SimpleDraweeView s03ImagePreground;
@@ -119,6 +121,8 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
     private MenuView menuView;
     private LoadingDialogs dialogs;
+    private int position = Integer.MAX_VALUE;
+    private boolean isAlreadyRelated = false;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -144,7 +148,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
         } else showId = "";
         className = getIntent().getStringExtra(CLASS_NAME);
-
+        position = getIntent().getIntExtra(POSITION, Integer.MAX_VALUE);
         if (TextUtils.isEmpty(showId)) {
             finish();
         }
@@ -168,6 +172,8 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 }
             });
         }
+
+        getShowView();
     }
 
     @Override
@@ -214,7 +220,12 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 setLikedImageButtonBackgroundImage();
                 likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
                 likeBtn.setClickable(true);
-                EventBus.getDefault().post(new ShowCollectionEvent(showDetailEntity));
+                if(showDetailEntity.__context.likedByCurrentUser){
+                    showDetailEntity.numLike = showDetailEntity.numLike + 1;
+                }else{
+                    showDetailEntity.numLike = showDetailEntity.numLike -1;
+                }
+                EventBus.getDefault().post(new ShowCollectionEvent(position, showDetailEntity));
             }
 
             @Override
@@ -223,6 +234,22 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 ErrorHandler.handle(S03SHowActivity.this, errorCode);
             }
         });
+    }
+
+    private void getShowView(){
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowViewApi(showId), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response)){
+                    if(MetadataParser.getError(response) == ErrorCode.AlreadyRelated)
+                        isAlreadyRelated = true;
+                }
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
     }
 
     private void setLikedImageButtonBackgroundImage() {

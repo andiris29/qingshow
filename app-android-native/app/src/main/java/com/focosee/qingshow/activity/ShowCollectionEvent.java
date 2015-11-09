@@ -7,9 +7,11 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
  */
 public class ShowCollectionEvent {
 
+    public int position;
     public MongoShow show;
 
-    public ShowCollectionEvent(MongoShow show){
+    public ShowCollectionEvent(int position, MongoShow show){
+        this.position = position;
         this.show = show;
     }
 
