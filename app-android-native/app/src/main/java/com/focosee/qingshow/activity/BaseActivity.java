@@ -38,6 +38,8 @@ public abstract class BaseActivity extends FragmentActivity {
     public static String PUSHNOTIFY = "PUSHNOTIFY";
     public static String UPDATE_APP = "UPDATE_APP";
     private boolean isTop = true;
+    private final int TIME_LOGIN = 15000;
+    private ConfirmDialog dialog;
 
 
     BroadcastReceiver netReceiver = new BroadcastReceiver() {
