@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var textSearch = require('mongoose-text-search');
 
 var Schema = mongoose.Schema;
 var showSchema;
@@ -38,6 +39,18 @@ showSchema = Schema({
         group: String,
         date : Date,
         description : String
+    },
+    categoryNames : [String]
+});
+
+showSchema.plugin(textSearch);
+
+showSchema.index({
+    categoryNames : 'text'
+}, {
+    name: 'categoryNames_text_search_index',
+    weights: {
+        categoryNames : 1
     }
 });
 
