@@ -49,6 +49,11 @@ ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, b
     ResponseHelper.response(res, err, data, metadata, beforeEndResponse);
 };
 
+ResponseHelper.write = function(res, metadata, data) {
+    ResponseHelper.writeMetadata(res, metadata);
+    ResponseHelper.writeData(res, data);
+};
+
 ResponseHelper.writeMetadata = function(res, metadata) {
     res.locals.out = res.locals.out || {};
     res.locals.out.metadata = metadata;

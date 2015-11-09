@@ -106,33 +106,21 @@ _login = [function(req, res, next) {
     var v = RequestHelper.getVersion(req);
     if (VersionUtil.lt(v, '2.2.0')) {
         req.body.id = req.body.idOrNickName;
-        req.body.nickname = req.body.idOrNickName;
     }
     next();
 }, function(req, res, next) {
     // Implementation
     var param = req.body,
         id = param.id || '',
-        password = param.password || '',
-        nickname = param.nickname || '';
+        password = param.password || '';
     People.findOne({
-        "$and" : [{
-            "$or" : [{
-                "userInfo.id" : id
-            }, {
-                "nickname" : nickname
-            }, {
-                "mobile" : id
-            }]}, {
-            "$or" : [{
-                "userInfo.password" : password
-            }, {
-                "userInfo.encryptedPassword" : _encrypt(password)
-            }]}
-        ]
+        "$or" : [{"userInfo.id" : id}, 
+            {"mobile" : id}],
+        "$or" : [{ "userInfo.password" : password}, {
+            "userInfo.encryptedPassword" : _encrypt(password)}]
     }).exec(function(err, people) {
         if (err) {
-            next(err);
+            next(errors.genUnkownError(err));
         } else if (people) {
             //login succeed
             req.session.userId = people._id;
@@ -140,11 +128,10 @@ _login = [function(req, res, next) {
 
             _addRegistrationId(people._id, param.registrationId);
 
-            ResponseHelper.writeMetadata(res, {
-                "invalidateTime" : 3600000
-            });
-            ResponseHelper.writeData(res, {
-                people : people
+            ResponseHelper.write(res, {
+                'invalidateTime' : 3600000
+            }, {
+                'people' : people
             });
             next();
         } else {
@@ -158,7 +145,7 @@ _login = [function(req, res, next) {
 }];
 
 _logout = function(req, res) {
-    var id = RequestHelper.parseId(req.qsCurrentUserId);
+    var id = req.qsCurrentUserId;
     _removeRegistrationId(id, req.body.registrationId);
     delete req.session.userId;
     delete req.session.loginDate;
@@ -247,7 +234,7 @@ _register = function(req, res) {
             'people' : people
         });
     });
-}
+};
 
 _update = function(req, res) {
     var qsParam;
