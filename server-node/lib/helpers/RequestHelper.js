@@ -13,7 +13,8 @@ RequestHelper.getIp = function (req) {
 };
 
 RequestHelper.getVersion = function (req) {
-    return req.header('qs-version') || req.queryString ? req.queryString.version : global.qsConfig.system.production.maxSupportedVersion;
+    return req.header('qs-version') || 
+        (req.queryString ? req.queryString.version : global.qsConfig.system.production.maxSupportedVersion);
 };
 
 RequestHelper.getClientInfo = function (req) {
