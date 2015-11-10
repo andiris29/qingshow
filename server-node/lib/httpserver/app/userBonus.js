@@ -36,9 +36,6 @@ userBonus.withdraw = {
             people.bonuses = people.bonuses || [];
             for (var i = 0; i < people.bonuses.length; i++) {
                 people.bonuses[i].alipayId = req.body.alipayId;
-                if (people.bonuses[i].status === 0) {
-                    people.bonuses[i].status = 1;
-                }
             }
             people.save(function(error, people) {
                 if (error) {
@@ -169,3 +166,23 @@ userBonus.queryWithdrawRequested = {
         });
     }
 };
+
+userBonus/withdrawRequested = {
+    'method' : 'post',
+    'func' : [
+        require('../middleware/injectCurrentUser')(req, res, next),
+        function(req, res, next){
+            var people = req.injection.qsCurrentUser;
+            var bonuses = people.bonuses;
+            for (var i = 0; i < bonuses.length; i++) {
+                if (bonuses[i].status === 0) {
+                    bonuses[i].status = 1;
+                }
+            }
+            people.bonuses = bonuses;
+            people.save(function(err, people){
+                ResponseHelper.response(res, err, {});    
+            })
+        }
+    ]
+}

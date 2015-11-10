@@ -32,6 +32,10 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     };
     newStatus = Number.parseInt(newStatus);
 
+    if (newStatus === 2 && !trade.pay.forge) {
+        trade.pay.create = Date.now();
+    }
+
     if (newStatus === 7 || newStatus === 17) {
         trade.highlight = null;
     }

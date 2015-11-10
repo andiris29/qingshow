@@ -1,6 +1,7 @@
 var schedule = require('node-schedule');
 var winston = require('winston');
-
+var async = require('async');
+    
 var People = require('../../dbmodels').People;
 
 var NotificationHelper = require('../../helpers/NotificationHelper');

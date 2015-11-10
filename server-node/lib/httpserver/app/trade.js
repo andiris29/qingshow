@@ -138,6 +138,9 @@ trade.prepay = {
                     var jsonObject;
                     try {
                         jsonObject = JSON.parse(body);
+                        TraceHelper.trace('pay-integration-callback', req, _.extend(jsonObject, {
+                            _tradeId : trade._id
+                        }));
                     } catch (err) {
                         winston.error('wechat/prepay failed.');
                         winston.error('url = ' + url);
@@ -298,6 +301,9 @@ trade.alipayCallback = {
             }
         },
         function(trade, callback) {
+            TraceHelper.trace('pay-integration-callback', req, _.extend(req.body, {
+                _tradeId : trade._id
+            }));
             trade.highlight = Date.now();
             trade.pay.alipay['trade_no'] = req.body['trade_no'];
             trade.pay.alipay['trade_status'] = req.body['trade_status'];
@@ -308,15 +314,6 @@ trade.alipayCallback = {
             trade.pay.alipay['seller_email'] = req.body['seller_email'];
             trade.pay.alipay['buyer_id'] = req.body['buyer_id'];
             trade.pay.alipay['buyer_email'] = req.body['buyer_email'];
-
-            trade.pay.alipay.notifyLogs = trade.pay.alipay.notifyLogs || [];
-            trade.pay.alipay.notifyLogs.push({
-                'notify_type' : req.body['notify_type'],
-                'notify_id' : req.body['notify_id'],
-                'trade_status' : req.body['trade_status'],
-                'refund_status' : req.body['refund_status'],
-                //'date' : Date.now
-            });
             callback(null, trade);
         },
         function(trade, callback) {
@@ -359,6 +356,9 @@ trade.wechatCallback = {
             _validateStatus(trade, newStatus, callback);
         },
         function(trade, callback) {
+            TraceHelper.trace('pay-integration-callback', req, _.extend(req.body, {
+                _tradeId : trade._id
+            }));
             trade.highlight = Date.now();
             trade.pay.weixin['trade_mode'] = req.body['trade_type'];
             trade.pay.weixin['partner'] = req.body['mch_id'];
@@ -367,20 +367,6 @@ trade.wechatCallback = {
             trade.pay.weixin['time_end'] = req.body['time_end'];
             trade.pay.weixin['appId'] = req.body['appid'];
             trade.pay.weixin['openId'] = req.body['openid'];
-            //trade.pay.weixin[''] = req.body['trade_status'];
-            //trade.pay.weixin[''] = req.body['bank_type'];
-            //trade.pay.weixin[''] = req.body['bank_billno'];
-            //trade.pay.weixin[''] = req.body['notify_id'];
-            //trade.pay.weixin[''] = req.body['out_trade_no'];
-            //trade.pay.weixin[''] = req.body['attach'];
-            //trade.pay.weixin[''] = req.body['transport_fee'];
-            //trade.pay.weixin[''] = req.body['product_fee'];
-            //trade.pay.weixin[''] = req.body['discount'];
-            trade.pay.weixin.notifyLogs = trade.pay.weixin.notifyLogs || [];
-            trade.pay.weixin.notifyLogs.push({
-                //'trade_state' : req.body['trade_state'],
-                //'date' : Date.now
-            });
             callback(null, trade);
         },
         function(trade, callback) {
