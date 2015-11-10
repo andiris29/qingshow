@@ -89,25 +89,6 @@ body {
     background-repeat: no-repeat;
     border-radius: 10px;
 }
-.p02-bonus-total-text {
-    text-align: center;
-    font-size: 14px;
-    font-family: "Lantinghei SC";
-    padding-top: 130%;
-    width: 100%;
-}
-.p02-bonus-total-text-number {
-    font-size: 20px;
-}
-.p02-bonus-current-text {
-    text-align: center;
-    width: 100%;
-    font-size: 14px;
-    font-family: "Lantinghei SC";
-}
-.p02-bonus-current-text-number {
-    font-size: 20px;
-}
 
 .p02-image-slider-block-text {
     margin-top: 6%;
@@ -322,4 +303,61 @@ body {
 }
 .p03-image-slider {
     margin: 0 !important;
+}
+
+
+
+.p04-background {
+    position: absolute;
+    background-image: url(../assets/slicing/bonus/share_bonus_background.png);
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+}
+
+.p04-top-logo {
+    position: absolute;
+    background-image: url(../assets/slicing/bonus/share_bonus_top_logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 20%;
+    left: 10%;
+    height: 10%;
+    width: 80%;
+    background-position: 50% 100%;
+}
+
+.p04-download {
+    position: absolute;
+    background-image: url(../assets/slicing/bonus/share_bonus_app_logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+    bottom: 3%;
+    left: 35%;
+    height: 15%;
+    width: 30%;
+}
+
+.p04-withdraw-content {
+    position: absolute;
+    background-image: url(../assets/slicing/bonus/share_bonus_withdraw_content.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+    top: 42%;
+    left: 20%;
+    height: 35%;
+    width: 60%;
+}
+.p04-waiting-content {
+    position: absolute;
+    background-image: url(../assets/slicing/bonus/share_bonus_waiting_content.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+    top: 37%;
+    left: 15%;
+    height: 37%;
+    width: 70%;
 }
