@@ -14,39 +14,64 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/s01_title_layout"
+            android:id="@+id/s01_head_layout"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:background="@drawable/bg_titlebar"
+            android:layout_height="100dp">
 
+            <LinearLayout
+                android:id="@+id/s01_title_layout"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="50dp">
             <ImageButton
                 android:id="@+id/s01_menu_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:background="@null"
+                android:layout_marginLeft="10dp"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/nav_btn_menu_n" />
 
+                <com.focosee.qingshow.widget.QSTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/s01_title"/>
+                <com.focosee.qingshow.widget.QSImageButton
+                    android:id="@+id/s01_search_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:padding="10dp"
+                    android:layout_marginRight="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/close"/>
+            </LinearLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_alignBottom="@+id/s01_menu_btn"
-                android:layout_alignTop="@+id/s01_menu_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/s01_title_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
                 android:padding="5dp">
 
                 <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/s01_tab_feature"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/s01_tab_btn1"
                     android:onClick="onClick"
                     android:text="达人"
+                    android:layout_weight="1"
                     android:textColor="@color/white"
                     android:layout_marginRight="-1dp"
                     android:textSize="@dimen/text_size"
@@ -54,7 +79,8 @@
 
                 <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/s01_tab_hot"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/square_btn_border"
@@ -66,7 +92,8 @@
 
                 <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/s01_tab_new"
-                    android:layout_width="70dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:layout_alignBottom="@+id/s01_menu_btn"
                     android:layout_alignTop="@+id/s01_menu_btn"

@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
 
     <!-- title -->
-    <string name="s08_title">时尚情报</string>
+    <string name="s01_title">美搭榜单</string>
 
     <!-- Settings Activity -->
     <string name="title_activity_settings">SettingsActivity</string>
