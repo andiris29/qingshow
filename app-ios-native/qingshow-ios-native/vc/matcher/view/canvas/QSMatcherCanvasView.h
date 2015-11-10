@@ -21,7 +21,7 @@
 @interface QSMatcherCanvasView : UIView <UIGestureRecognizerDelegate, UIAlertViewDelegate>
 
 + (instancetype)generateView;
-- (void)bindWithCategory:(NSArray*)categoryArray;
+- (void)bindWithCategory:(NSArray*)categoryArray matcherConfig:(NSDictionary*)matcherConfig;
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst;
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId isFirst:(BOOL)fFirst;
 
@@ -31,6 +31,4 @@
 
 @property (weak, nonatomic) NSObject<QSMatcherCanvasViewDelegate>* delegate;
 
-@property (assign, nonatomic) int maxRow;
-@property (assign, nonatomic) int maxColumn;
 @end
