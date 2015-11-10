@@ -803,6 +803,7 @@ _requestVerificationCode = function(req, res){
             }else {
                 callback(null, code);
             }
+            SMSHelper.createVerificationCode(req, mobile, function() {});
         });
     }],function(error, code) {
         ResponseHelper.response(res, error, {
