@@ -24,7 +24,7 @@
 //  THE SOFTWARE.
 
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#import "QSImageNetworkEngine.h"
 #import "MKNetworkEngine.h"
 
 #import <objc/runtime.h>
@@ -49,7 +49,7 @@ const float kFreshLoadAnimationDuration = 0.35f;
 
 +(void)initialize
 {
-    MKNetworkEngine* engine = [[MKNetworkEngine alloc] init];
+    MKNetworkEngine* engine = [[QSImageNetworkEngine alloc] init];
     [engine useCache];
     [UIImageView setDefaultEngine:engine];
 }

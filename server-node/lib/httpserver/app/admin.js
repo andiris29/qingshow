@@ -75,6 +75,8 @@ admin.queryItemByNickName = {
                 for (var j = 0; j < items[i].length; j++) {
                     var item = items[i][j]; 
                     results.push({
+                        name : item.name,
+                        source : item.source,
                         promoterRef : people._id,
                         itemRef : item._id,
                         totalFee : item.promoPrice * 0.7,
