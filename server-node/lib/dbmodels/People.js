@@ -87,10 +87,6 @@ peopleSchema = Schema({
             }]
         },
         trigger : {
-            forgerRef : {
-                type : Schema.Types.ObjectId,
-                ref : 'peoples'
-            },
             tradeRef : {    
                 type : Schema.Types.ObjectId,
                 ref : 'trades'
