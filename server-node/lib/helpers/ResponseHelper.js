@@ -13,8 +13,14 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
         'metadata' : metadata || {}
     };
     if (err) {
+        if (!err.errorCode) {
+            err = errors.genUnkownError(err);
+        }
         json.metadata.error = err.errorCode;
-        json.metadata.devInfo = err;
+        json.metadata.devInfo = {
+            'err' : err.description || (err.toString ? err.toString() : err),
+            'stack' : err.stack
+        };
     }
     if (beforeEndResponse) {
         json = beforeEndResponse(json);

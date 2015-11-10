@@ -8,6 +8,7 @@ var Item = require('../../dbmodels').Item;
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
+var SMSHelper = require('../../helpers/SMSHelper');
 
 var errors = require('../../errors');
 
@@ -74,6 +75,8 @@ admin.queryItemByNickName = {
                 for (var j = 0; j < items[i].length; j++) {
                     var item = items[i][j]; 
                     results.push({
+                        name : item.name,
+                        source : item.source,
                         promoterRef : people._id,
                         itemRef : item._id,
                         totalFee : item.promoPrice * 0.7,
@@ -205,4 +208,17 @@ admin.getRealShow = {
             })
         })
     }
+};
+
+admin.sendSms = {
+    'method' : 'post',
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateAdmin'),
+        require('../middleware/injectModel').generate(People, 'people'),
+        function(req, res, next) {
+            var mobile = req.injection.people ? req.injection.people.mobile : req.body.mobile;
+            SMSHelper.sendTemplateSMS(mobile, req.body.datas, req.body.templateId, next);
+        }
+    ]
 };

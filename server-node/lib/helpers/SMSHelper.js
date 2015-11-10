@@ -18,13 +18,13 @@ _decryptMD5 = function (string){
     .update(string)
     .digest('hex')
     .toUpperCase();
-}
+};
 
 _base64Encoder = function(string){
 	return new Buffer(string).toString('base64');
-}
+};
 
-SMSHelper.sendTemplateSMS = function (req, to, datas, templateId, callback){
+SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
 	var timestamp = moment(new Date()).format('YYYYMMDDHHmmss');
 
 	var sig = _decryptMD5(YTX_SID + YTX_TOKEN + timestamp);
@@ -46,19 +46,20 @@ SMSHelper.sendTemplateSMS = function (req, to, datas, templateId, callback){
                 datas : datas
             })
     },function(err, res, body){
-    	var result = JSON.parse(body);
-    	//error code by yuntongxun 
-    	//send beyond astrict. 10 times a day
-    	if (result.statusCode === '112314') {
-    		callback(errors.SMSlimitedSend);
-    	}else if (err) {
-    		callback(errors.genUnkownError());
-    	}else {
-    		callback(null, body);    			
-    	}
-    	_cleanExpiredCode(req);
+        if (err) {
+            callback(errors.genUnkownError(err));
+        } else {
+        	var result = JSON.parse(body);
+        	if (result.statusCode === '112314') {
+                //error code by yuntongxun 
+                //send beyond astrict. 10 times a day
+        		callback(errors.ERR_SMS_LIMIT_EXCEEDED);
+        	} else {
+        		callback(null, body);    			
+        	}
+        }
     });
-}
+};
 
 SMSHelper.createVerificationCode = function (req, to, callback){
 	var config = global.qsConfig;
@@ -71,11 +72,11 @@ SMSHelper.createVerificationCode = function (req, to, callback){
 		_verifications[to] = {
 			'verificationCode' : code,
 			'create' : new Date()
-		}
+		};
 		req.session.verifications = _verifications;
 		callback(null, _verifications[to].verificationCode);
 	}
-}
+};
 
 SMSHelper.checkVerificationCode = function (req, to, code, callback){
 	var config = global.qsConfig;
@@ -88,7 +89,7 @@ SMSHelper.checkVerificationCode = function (req, to, code, callback){
 		callback(errors.SMSValidationFail, false);
 	}
 	_cleanExpiredCode(req);
-}
+};
 
 var _cleanExpiredCode = function (req){
 	var config = global.qsConfig;
@@ -99,6 +100,6 @@ var _cleanExpiredCode = function (req){
 		}
 	}
 	req.session.verifications = _verifications;
-}
+};
 
 

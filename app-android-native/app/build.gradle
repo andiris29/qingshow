@@ -47,6 +47,18 @@ android {
         _huawei {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_huawei"]
         }
+        _baidu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_baidu"]
+        }
+        _91 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_91"]
+        }
+        _android {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_android"]
+        }
+        _wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "_wandoujia"]
+        }
     }
 
     packagingOptions {

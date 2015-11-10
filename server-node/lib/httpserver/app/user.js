@@ -95,7 +95,7 @@ _get = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
         ResponseHelper.writeData(res, {
-            'people' : req.qsCurrentUser
+            'people' : req.injection.qsCurrentUser
         });
         next();
     }
@@ -161,7 +161,7 @@ _logout = function(req, res) {
 _register = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
-        if (req.qsCurrentUser.role !== 0) {
+        if (req.injection.qsCurrentUser.role !== 0) {
             next(errors.AlreadyLoggedIn);
         } else {
             next();
@@ -178,7 +178,7 @@ _register = [
             } else {
                 if (people) {
                     // Replace current user with db.people
-                    req.qsCurrentUser = people;
+                    req.injection.qsCurrentUser = people;
                     req.qsCurrentUserId = people._id;
                 }
                 next();
@@ -193,7 +193,7 @@ _register = [
             }
         });
     }, function(req, res, next) {
-        var people = req.qsCurrentUser;
+        var people = req.injection.qsCurrentUser;
         people.role = 1;
         people.mobile = req.body.mobile;
         people.userInfo = {
@@ -803,6 +803,7 @@ _requestVerificationCode = function(req, res){
             }else {
                 callback(null, code);
             }
+            SMSHelper.createVerificationCode(req, mobile, function() {});
         });
     }],function(error, code) {
         ResponseHelper.response(res, error, {

@@ -500,7 +500,7 @@ trade.query = {
                     '$in' : RequestHelper.parseIds(qsParam._ids)
                 };
             }
-            MongoHelper.queryPaging(Trade.find(criteria).populate('itemRef'), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryPaging(Trade.find(criteria).populate('itemRef').populate('ownerRef'), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(trades) {
             return {
                 'trades' : trades 
