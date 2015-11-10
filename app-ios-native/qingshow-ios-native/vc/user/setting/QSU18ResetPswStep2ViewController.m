@@ -27,7 +27,7 @@
 - (void)configUI
 {
     self.submitBtn.layer.cornerRadius = self.submitBtn.bounds.size.height / 8;
-    [self.password setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.passWordTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 }
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
