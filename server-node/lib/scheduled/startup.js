@@ -2,7 +2,7 @@ var winston = require('winston');
 
 module.exports = function () {
     require('./trade/autoReceiving')();
-    require('./trade/notifyUnreads')();
+    require('./user/notifyUnreads')();
 
     winston.info('Startup scheduled success');
 };
