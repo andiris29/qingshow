@@ -57,7 +57,4 @@
 + (NSNumber*)getOrder:(NSDictionary*)categoryDict {
     return [QSEntityUtil getNumberValue:categoryDict keyPath:@"order"];
 }
-+ (NSNumber*)getMeasureComposition:(NSDictionary*)categoryDict {
-    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"measureComposition"];
-}
 @end
