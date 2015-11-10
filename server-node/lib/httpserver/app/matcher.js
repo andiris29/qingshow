@@ -47,6 +47,15 @@ var _shuffle = function (array) {
 matcher.queryCategories = {
     'method' : 'get',
     'func' : function(req, res) {
+        var matchers = [];
+        var config = global.qsConfig;
+        for(var key in config){
+            if (key.substring(0, 6) === 'matcher') {
+                matchers.push(config[key]);
+            }
+        }
+        var randomIndex = require('../../utils/RandomUtil').random(0, matcher.length -1);
+        var matcher = matchers(randomIndex);
         Category.find({}).exec(function(err, categories) {
             ResponseHelper.response(res, err, {
                 'categories' : categories
