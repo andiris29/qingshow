@@ -16,8 +16,7 @@ var categorySchema = {
     parentRef : {
         type : Schema.Types.ObjectId,
         ref : 'categories'
-    },
-    measureComposition : Number
+    }
 };
 
 var Category = mongoose.model('categories', categorySchema);
