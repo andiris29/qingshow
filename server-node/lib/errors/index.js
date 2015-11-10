@@ -60,5 +60,6 @@ module.exports = {
     'InvalidItem' : new ServerError(1034, 'InvalidItem'),
     'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled'),
     'AlreadyLoggedIn' : new ServerError(1036, 'AlreadyLoggedIn'),
-    'ERR_PERMISSION_DENIED' : new ServerError(1037, 'ERR_PERMISSION_DENIED')
+    'ERR_PERMISSION_DENIED' : new ServerError(1037, 'ERR_PERMISSION_DENIED'),
+    'INVALID_OBJECT_ID' : new ServerError(1038, 'INVALID_OBJECT_ID')
 };

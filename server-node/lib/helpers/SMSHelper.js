@@ -46,16 +46,18 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
                 datas : datas
             })
     },function(err, res, body){
-    	var result = JSON.parse(body);
-    	//error code by yuntongxun 
-    	//send beyond astrict. 10 times a day
-    	if (result.statusCode === '112314') {
-    		callback(errors.ERR_SMS_LIMIT_EXCEEDED);
-    	}else if (err) {
-    		callback(errors.genUnkownError(err));
-    	}else {
-    		callback(null, body);    			
-    	}
+        if (err) {
+            callback(errors.genUnkownError(err));
+        } else {
+        	var result = JSON.parse(body);
+        	if (result.statusCode === '112314') {
+                //error code by yuntongxun 
+                //send beyond astrict. 10 times a day
+        		callback(errors.ERR_SMS_LIMIT_EXCEEDED);
+        	} else {
+        		callback(null, body);    			
+        	}
+        }
     });
 };
 

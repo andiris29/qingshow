@@ -12,7 +12,7 @@ module.exports = function(req, res, next) {
                 if (!people) {
                     next(errors.ERR_NOT_LOGGED_IN);
                 } else {
-                    req.qsCurrentUser = people;
+                    req.injection.qsCurrentUser = people;
                     next();
                 }
             }

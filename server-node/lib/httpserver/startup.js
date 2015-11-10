@@ -118,10 +118,12 @@ module.exports = function (config, qsdb) {
             var fullpath = '/services/' + path + '/' + id;
             var method = module[id].method, func = module[id].func;
             
-            var middlewares = [_genLogMiddleware(fullpath)];
+            var middlewares = [_injectionMiddleware,
+                _genLogMiddleware(fullpath)];
             if (_.isArray(func)) {
                 middlewares = middlewares.concat(func);
                 func = function(req, res) {
+                    res.locals.out = res.locals.out || {};
                     ResponseHelper.response(res, res.locals.out.err, res.locals.out.data, res.locals.out.metadata);
                 };
             }
@@ -135,10 +137,15 @@ module.exports = function (config, qsdb) {
 
 var _errMiddleware = function (err, req, res, next) {
     if (!err) {
-        return next();
+        next();
     } else {
         ResponseHelper.response(res, err);
     }
+};
+
+var _injectionMiddleware = function (req, res, next) {
+    req.injection = req.injection || {};
+    next();
 };
 
 var _genLogMiddleware = function(fullpath) {
