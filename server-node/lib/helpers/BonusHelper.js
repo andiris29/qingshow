@@ -63,7 +63,7 @@ var _create = function(trade, money, participants, cb){
         });
     },
     function(people, callback) {
-        var message = NotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, money);
+        var message = NotificationHelper.MessageNewBonus.replace(/\{0\}/g, money);
         NotificationHelper.notify([people._id], message, {
                     'command' : NotificationHelper.CommandNewBonus
                 }, null);
@@ -96,7 +96,7 @@ var _createPaticipants = function(trade, peopleRefs, item, money, cb){
             multi: true 
         }, callback);
     }, function(doc, callback){
-        var message = NotificationHelper.MessageBonusWithdrawComplete.replace(/\{0\}/g, money);
+        var message = NotificationHelper.MessageNewBonus.replace(/\{0\}/g, money);
         NotificationHelper.notify(peopleRefs, message, {
             'command' : NotificationHelper.CommandNewParticipantBonus 
         }, null);
