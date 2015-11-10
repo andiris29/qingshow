@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,6 +39,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -59,14 +61,8 @@ public class U20NewBonus extends BaseActivity {
     SimpleDraweeView u20UserHead;
     @InjectView(R.id.u20_nickname)
     QSTextView u20Nickname;
-    @InjectView(R.id.u20_msg_line1)
-    TextView u20MsgLine1;
     @InjectView(R.id.u20_msg_line2)
     TextView u20MsgLine2;
-    @InjectView(R.id.u20_msg3)
-    TextView u20Msg3;
-    @InjectView(R.id.u20_msg3_layout)
-    LinearLayout u20Msg3Layout;
     private List<MongoPeople> peoples;
     private MongoPeople.Bonuses bonuses;
     private Handler handler = new Handler(new Handler.Callback() {
@@ -113,7 +109,7 @@ public class U20NewBonus extends BaseActivity {
         SpannableString spannableString = new SpannableString("获得了￥" + bonuses.money + "的佣金");
 
         spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.pink_deep))
-                , "获得了￥".length(), ("获得了￥" + bonuses.money).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                , "获得了￥".length() - 1, ("获得了￥" + bonuses.money).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         u20MsgLine2.setText(spannableString);
 
@@ -123,6 +119,7 @@ public class U20NewBonus extends BaseActivity {
     private void getPeoplesFromNet() {
         String[] pIds = bonuses.participants;
 
+        if (pIds.length == 0 || pIds == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(pIds), new Response.Listener<JSONObject>() {
             @Override
@@ -168,6 +165,7 @@ public class U20NewBonus extends BaseActivity {
             for (int j = 0; j < lineLength; j++) {
                 int index = i * lineLength + j;
                 if (index < peoples.size()) {
+                    if (TextUtils.isEmpty(peoples.get(index).portrait)) continue;
                     SimpleDraweeView imageView = new SimpleDraweeView(this);
                     imageView.setPadding(5, 0, 5, 0);
                     imageView.setImageURI(Uri.parse(peoples.get(index).portrait));

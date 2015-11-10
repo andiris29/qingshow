@@ -105,6 +105,12 @@ public abstract class BaseActivity extends FragmentActivity {
     };
 
     private void showLoginGuide(){
+        if(this instanceof U19LoginGuideActivity
+                || this instanceof U17ResetPasswordStep1Activity
+                || this instanceof U18ResetPasswordStep2Activity
+                || this instanceof U07RegisterActivity
+                || this instanceof U06LoginActivity) return;
+
         if(QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED
                 || (QSModel.INSTANCE.getUserStatus() == MongoPeople.LOGIN_GUIDE_FINISHED && QSModel.INSTANCE.isGuest())) {
             Timer timer = new Timer(true);
