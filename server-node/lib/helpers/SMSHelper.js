@@ -50,9 +50,9 @@ SMSHelper.sendTemplateSMS = function (to, datas, templateId, callback){
     	//error code by yuntongxun 
     	//send beyond astrict. 10 times a day
     	if (result.statusCode === '112314') {
-    		callback(errors.SMSlimitedSend);
+    		callback(errors.ERR_SMS_LIMIT_EXCEEDED);
     	}else if (err) {
-    		callback(errors.genUnkownError());
+    		callback(errors.genUnkownError(err));
     	}else {
     		callback(null, body);    			
     	}

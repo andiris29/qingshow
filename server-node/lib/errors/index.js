@@ -39,7 +39,7 @@ module.exports = {
     'PagingNotExist' : new ServerError(1009, 'PagingNotExist'),
     'EmailAlreadyExist' : new ServerError(1010, 'EmailAlreadyExist'),
     'AlreadyLikeShow' : new ServerError(1011, 'AlreadyLikeShow'),
-    'NeedLogin' : new ServerError(1012, 'NeedLogin'),
+    'ERR_NOT_LOGGED_IN' : new ServerError(1012, 'ERR_NOT_LOGGED_IN'),
     'PItemNotExist' : new ServerError(1017, 'PItemNotExist'),
     'RequestValidationFail' : new ServerError(1018, 'RequestValidationFail'),
     'AlreadyRelated' : new ServerError(1019, 'AlreadyRelated'),
@@ -54,10 +54,11 @@ module.exports = {
     'GoblinError' : new ServerError(1028, 'GoblinError'),
     'MobileAlreadyExist' : new ServerError(1029, 'MobileAlreadyExist'),
     'SMSValidationFail' : new ServerError(1030, 'SMSValidationFail'),
-    'SMSlimitedSend' : new ServerError(1031, 'SMSlimitedSend'),
+    'ERR_SMS_LIMIT_EXCEEDED' : new ServerError(1031, 'ERR_SMS_LIMIT_EXCEEDED'),
     'FrequentlyRequest' : new ServerError(1032, 'FrequentlyRequest'),
     'NickNameAlreadyExist' : new ServerError(1033, 'NickNameAlreadyExist'),
     'InvalidItem' : new ServerError(1034, 'InvalidItem'),
     'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled'),
-    'AlreadyLoggedIn' : new ServerError(1036, 'AlreadyLoggedIn')
+    'AlreadyLoggedIn' : new ServerError(1036, 'AlreadyLoggedIn'),
+    'ERR_PERMISSION_DENIED' : new ServerError(1037, 'ERR_PERMISSION_DENIED')
 };

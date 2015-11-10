@@ -206,3 +206,9 @@ admin.getRealShow = {
         })
     }
 };
+
+admin.sendSms = {
+    'method' : 'post',
+    'func' : [
+    ]
+};

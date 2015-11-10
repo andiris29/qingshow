@@ -1,7 +1,7 @@
 var errors = require('../../errors'),
     People = require('../../dbmodels').People;
 
-module.exports = function parser(req, res, next) {
+module.exports = function(req, res, next) {
     if (req.qsCurrentUserId) {
         People.findOne({
             '_id' : req.qsCurrentUserId
@@ -10,7 +10,7 @@ module.exports = function parser(req, res, next) {
                 next(errors.genUnkownError(err));
             } else {
                 if (!people) {
-                    next(errors.NeedLogin);
+                    next(errors.ERR_NOT_LOGGED_IN);
                 } else {
                     req.qsCurrentUser = people;
                     next();
@@ -18,6 +18,6 @@ module.exports = function parser(req, res, next) {
             }
         });
     } else {
-        next(errors.NeedLogin);
+        next(errors.ERR_NOT_LOGGED_IN);
     }
 };

@@ -55,7 +55,7 @@ var _builtInValidators = {
         if (req.qsCurrentUserId) {
             callback(null);
         } else {
-            callback(errors.NeedLogin);
+            callback(errors.ERR_NOT_LOGGED_IN);
         }
     },
     'roleUserValidator' : function(req, res, callback) {
@@ -64,12 +64,12 @@ var _builtInValidators = {
         }).exec(function(err, people){
             if (people) {
                 if (people.role === 0) {
-                    callback(errors.NeedLogin);
+                    callback(errors.ERR_NOT_LOGGED_IN);
                 }else {
                     callback(null);
                 }
             }else {
-                callback(errors.NeedLogin);
+                callback(errors.ERR_NOT_LOGGED_IN);
             }
         });
     }
