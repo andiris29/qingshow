@@ -7,13 +7,13 @@
 //
 
 #import "QSTableViewBasicProvider.h"
-#import "QSS21TableViewCell.h"
+#import "QSCategoryTableViewCell.h"
 @class QSS21TableViewProvider;
 
 @protocol QSS21TableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 @end
 
-@interface QSS21TableViewProvider : QSTableViewBasicProvider<QSS21TableViewCellDelegate>
+@interface QSS21TableViewProvider : QSTableViewBasicProvider<QSCategoryTableViewCellDelegate>
 
 @property (weak , nonatomic) NSObject<QSS21TableViewProviderDelegate>* delegate;
 

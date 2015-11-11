@@ -22,7 +22,7 @@
 #import "QSU13PersonalizeViewController.h"
 
 #import "QSPeopleUtil.h"
-#import "QSS21CategorySelectorVC.h"
+#import "QSS21CategorySelectionViewController.h"
 
 
 

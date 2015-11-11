@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSS21CategorySelectorVC.h"
+#import "QSS21CategorySelectionViewController.h"
 #import "QSS21TableViewProvider.h"
 #import "QSBackBarItem.h"
 
-@interface QSS21CategorySelectorVC () <QSS21TableViewProviderDelegate>
+@interface QSS21CategorySelectionViewController () <QSS21TableViewProviderDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray* categories;
@@ -19,11 +19,11 @@
 
 @end
 
-@implementation QSS21CategorySelectorVC
+@implementation QSS21CategorySelectionViewController
 
 #pragma mark - Init
 - (instancetype)initWithCategories:(NSArray*)array selectedCategories:(NSArray*)selectedCategories {
-    self = [super initWithNibName:@"QSS21CategorySelectorVC" bundle:nil];
+    self = [super initWithNibName:@"QSS21CategorySelectionViewController" bundle:nil];
     if (self) {
         self.categories = array;
         self.selectedCategories = selectedCategories;

@@ -10,10 +10,10 @@
 		681148FD1B0F0E9D00E024B1 /* ImgforCell@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 681148FB1B0F0E9D00E024B1 /* ImgforCell@3x.png */; };
 		686B73ED1B1D987000E229B9 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 686B73EC1B1D987000E229B9 /* 2.jpg */; };
 		68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68C919791B15ACE800A5D405 /* shadowImage.png */; };
-		68D16CB91B32DDA500A4646C /* QSS21CategorySelectorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB31B32DDA500A4646C /* QSS21CategorySelectorVC.m */; };
-		68D16CBA1B32DDA500A4646C /* QSS21CategorySelectorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB41B32DDA500A4646C /* QSS21CategorySelectorVC.xib */; };
-		68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */; };
-		68D16CBC1B32DDA500A4646C /* QSS21TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */; };
+		68D16CB91B32DDA500A4646C /* QSS21CategorySelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB31B32DDA500A4646C /* QSS21CategorySelectionViewController.m */; };
+		68D16CBA1B32DDA500A4646C /* QSS21CategorySelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB41B32DDA500A4646C /* QSS21CategorySelectionViewController.xib */; };
+		68D16CBB1B32DDA500A4646C /* QSCategoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB71B32DDA500A4646C /* QSCategoryTableViewCell.m */; };
+		68D16CBC1B32DDA500A4646C /* QSCategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB81B32DDA500A4646C /* QSCategoryTableViewCell.xib */; };
 		68D16CC51B339BC100A4646C /* QSS21TableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */; };
 		68D16D021B341A4700A4646C /* QSMatchShowsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CFD1B341A4700A4646C /* QSMatchShowsCell.m */; };
 		68D16D031B341A4700A4646C /* QSMatchShowsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CFE1B341A4700A4646C /* QSMatchShowsCell.xib */; };
@@ -379,12 +379,12 @@
 		686B73EC1B1D987000E229B9 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		68824D8D1B0EBB57006E3151 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		68C919791B15ACE800A5D405 /* shadowImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadowImage.png; sourceTree = "<group>"; };
-		68D16CB21B32DDA500A4646C /* QSS21CategorySelectorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21CategorySelectorVC.h; sourceTree = "<group>"; };
-		68D16CB31B32DDA500A4646C /* QSS21CategorySelectorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21CategorySelectorVC.m; sourceTree = "<group>"; };
-		68D16CB41B32DDA500A4646C /* QSS21CategorySelectorVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21CategorySelectorVC.xib; sourceTree = "<group>"; };
-		68D16CB61B32DDA500A4646C /* QSS21TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewCell.h; sourceTree = "<group>"; };
-		68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewCell.m; sourceTree = "<group>"; };
-		68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS21TableViewCell.xib; path = "qingshow-ios-native/vc/createShow/CategorySelector/View/QSS21TableViewCell.xib"; sourceTree = SOURCE_ROOT; };
+		68D16CB21B32DDA500A4646C /* QSS21CategorySelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21CategorySelectionViewController.h; sourceTree = "<group>"; };
+		68D16CB31B32DDA500A4646C /* QSS21CategorySelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21CategorySelectionViewController.m; sourceTree = "<group>"; };
+		68D16CB41B32DDA500A4646C /* QSS21CategorySelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21CategorySelectionViewController.xib; sourceTree = "<group>"; };
+		68D16CB61B32DDA500A4646C /* QSCategoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCategoryTableViewCell.h; sourceTree = "<group>"; };
+		68D16CB71B32DDA500A4646C /* QSCategoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCategoryTableViewCell.m; sourceTree = "<group>"; };
+		68D16CB81B32DDA500A4646C /* QSCategoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSCategoryTableViewCell.xib; path = "qingshow-ios-native/vc/createShow/CategorySelector/View/QSCategoryTableViewCell.xib"; sourceTree = SOURCE_ROOT; };
 		68D16CC31B339BC100A4646C /* QSS21TableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewProvider.h; sourceTree = "<group>"; };
 		68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewProvider.m; sourceTree = "<group>"; };
 		68D16CFC1B341A4700A4646C /* QSMatchShowsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatchShowsCell.h; sourceTree = "<group>"; };
@@ -1162,9 +1162,9 @@
 		68D16CB11B32DDA500A4646C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				68D16CB21B32DDA500A4646C /* QSS21CategorySelectorVC.h */,
-				68D16CB31B32DDA500A4646C /* QSS21CategorySelectorVC.m */,
-				68D16CB41B32DDA500A4646C /* QSS21CategorySelectorVC.xib */,
+				68D16CB21B32DDA500A4646C /* QSS21CategorySelectionViewController.h */,
+				68D16CB31B32DDA500A4646C /* QSS21CategorySelectionViewController.m */,
+				68D16CB41B32DDA500A4646C /* QSS21CategorySelectionViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1172,9 +1172,9 @@
 		68D16CB51B32DDA500A4646C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				68D16CB61B32DDA500A4646C /* QSS21TableViewCell.h */,
-				68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */,
-				68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */,
+				68D16CB61B32DDA500A4646C /* QSCategoryTableViewCell.h */,
+				68D16CB71B32DDA500A4646C /* QSCategoryTableViewCell.m */,
+				68D16CB81B32DDA500A4646C /* QSCategoryTableViewCell.xib */,
 				68DE6A961B40EB19001B829C /* QSS21ItemView.h */,
 				68DE6A971B40EB19001B829C /* QSS21ItemView.m */,
 				68DE6A991B40EB3B001B829C /* QSS21ItemView.xib */,
@@ -2977,10 +2977,10 @@
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
 				EFA1F5621A53052100010F79 /* QSImageEditingViewController.xib in Resources */,
 				EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */,
-				68D16CBC1B32DDA500A4646C /* QSS21TableViewCell.xib in Resources */,
+				68D16CBC1B32DDA500A4646C /* QSCategoryTableViewCell.xib in Resources */,
 				EF80803F1B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.xib in Resources */,
 				EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */,
-				68D16CBA1B32DDA500A4646C /* QSS21CategorySelectorVC.xib in Resources */,
+				68D16CBA1B32DDA500A4646C /* QSS21CategorySelectionViewController.xib in Resources */,
 				EF78E3321AAF3E2300665EDD /* QSU10ReceiverListViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				8C79DB8B1B1EDED700D5159E /* lantingjianhei_xi.ttf in Resources */,
@@ -3119,7 +3119,7 @@
 				EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */,
 				EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */,
 				EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */,
-				68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */,
+				68D16CBB1B32DDA500A4646C /* QSCategoryTableViewCell.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF4A57F51BA4633C00677472 /* QSHookDictionary.m in Sources */,
 				EF994D9A1B693C7400715B0E /* QSDiscountTaobaoInfoCell.m in Sources */,
@@ -3188,7 +3188,7 @@
 				EFED68BE1BA7091700120CAC /* QSNetworkHelper.m in Sources */,
 				EF0C64301B21AAC20079B22E /* QSU02OtherCell.m in Sources */,
 				EFAB9C681B346FE5008A4EF5 /* QSAbstractListViewProvider.m in Sources */,
-				68D16CB91B32DDA500A4646C /* QSS21CategorySelectorVC.m in Sources */,
+				68D16CB91B32DDA500A4646C /* QSS21CategorySelectionViewController.m in Sources */,
 				EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */,
 				EFAB9C641B346FE5008A4EF5 /* QSShowCollectionViewProvider.m in Sources */,
 				EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */,

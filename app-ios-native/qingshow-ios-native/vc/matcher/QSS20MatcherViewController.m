@@ -7,7 +7,7 @@
 //
 
 #import "QSS20MatcherViewController.h"
-#import "QSS21CategorySelectorVC.h"
+#import "QSS21CategorySelectionViewController.h"
 
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
@@ -146,7 +146,7 @@
     NSArray* categoryArray = [[self.cateIdToProvider allValues] mapUsingBlock:^id(QSMatcherItemsProvider* p) {
         return p.categoryDict;
     }];
-    QSS21CategorySelectorVC* vc = [[QSS21CategorySelectorVC alloc] initWithCategories:self.allCategories selectedCategories:categoryArray];
+    QSS21CategorySelectionViewController* vc = [[QSS21CategorySelectionViewController alloc] initWithCategories:self.allCategories selectedCategories:categoryArray];
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }

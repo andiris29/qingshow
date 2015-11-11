@@ -9,20 +9,20 @@
 #import <UIKit/UIKit.h>
 @class QSS21TableViewProvider;
 
-@class QSS21TableViewCell;
+@class QSCategoryTableViewCell;
 
-@protocol QSS21TableViewCellDelegate <NSObject>
+@protocol QSCategoryTableViewCellDelegate <NSObject>
 
-- (void)didSelectItem:(NSDictionary*)itemDict ofCell:(QSS21TableViewCell*)cell;
+- (void)didSelectItem:(NSDictionary*)itemDict ofCell:(QSCategoryTableViewCell*)cell;
 
 @end
 
-@interface QSS21TableViewCell : UITableViewCell
+@interface QSCategoryTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIButton *titleButton;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) NSObject<QSS21TableViewCellDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSCategoryTableViewCellDelegate>* delegate;
 
 //设置cell的子控件
 - (void)setSubViewsWith:(NSDictionary *)cellDic andSelectedDic:(NSDictionary *)selectedDic;

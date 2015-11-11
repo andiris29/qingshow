@@ -29,7 +29,7 @@
     if (_cellArray == nil) {
         _cellArray = [NSMutableArray array];
         for (int i = 0; i < self.dataArray.count; i ++) {
-            QSS21TableViewCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"QSS21TableViewCell" owner:nil options:nil]lastObject];
+            QSCategoryTableViewCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"QSCategoryTableViewCell" owner:nil options:nil]lastObject];
             [_cellArray addObject:cell];
         }
     }
@@ -45,7 +45,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[indexPath.row];
+    QSCategoryTableViewCell *cell = (QSCategoryTableViewCell *)self.cellArray[indexPath.row];
     cell.delegate = self;
     NSDictionary *cellDic = self.dataArray[indexPath.row];
     
@@ -92,7 +92,7 @@
     return self.selectedArray;
 }
 
-- (void)didSelectItem:(NSDictionary*)itemDict ofCell:(QSS21TableViewCell*)cell {
+- (void)didSelectItem:(NSDictionary*)itemDict ofCell:(QSCategoryTableViewCell*)cell {
      BOOL f = YES;
 //    if (cell == [self.cellArray lastObject]) {
         for (int i = 0; i < self.selectedArray.count; i ++) {

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSS21TableViewCell.h"
+#import "QSCategoryTableViewCell.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSS21ItemView.h"
 #import "QSS21TableViewProvider.h"
@@ -16,10 +16,10 @@
 #define kItemWith 94.0
 #define kItemHeight 117.0
 
-@interface QSS21TableViewCell ()
+@interface QSCategoryTableViewCell ()
 
 @end
-@implementation QSS21TableViewCell
+@implementation QSCategoryTableViewCell
 - (void)awakeFromNib {
     // Initialization code
 }

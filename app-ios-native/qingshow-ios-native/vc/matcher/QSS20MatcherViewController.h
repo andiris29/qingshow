@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "QSMatcherCanvasView.h"
-#import "QSS21CategorySelectorVC.h"
+#import "QSS21CategorySelectionViewController.h"
 #import "QSMatcherItemsProvider.h"
 #import "QSS23MatcherPreviewViewController.h"
 #import "QSRootContentViewController.h"
