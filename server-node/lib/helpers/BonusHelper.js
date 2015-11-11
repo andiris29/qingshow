@@ -47,7 +47,7 @@ var _create = function(trade, money, participants, cb){
     },
     function(people, callback) {
         people.bonuses = people.bonuses || [];
-        people.bonuses.push({
+        var bonus = {
             status : 0,
             money : money,
             notes : '来自' + trade.itemSnapshot.name + '的佣金',
@@ -57,15 +57,17 @@ var _create = function(trade, money, participants, cb){
                 itemRef : trade.itemRef,
                 tradeRef : trade._id
             }
-        });
+        };
+        people.bonuses.push(bonus);
         people.save(function(err, people) {
-            callback(err, people);
+            callback(err, people, people.bonuses.lastIndexOf(bonus));
         });
     },
-    function(people, callback) {
+    function(people, index, callback) {
         var message = NotificationHelper.MessageNewBonus.replace(/\{0\}/g, money);
         NotificationHelper.notify([people._id], message, {
-                    'command' : NotificationHelper.CommandNewBonus
+                    'command' : NotificationHelper.CommandNewBonus,
+                    'index' : index
                 }, null);
         callback(null, people);
     }],function(error, people){
@@ -74,14 +76,18 @@ var _create = function(trade, money, participants, cb){
 }
 
 var _createPaticipants = function(trade, peopleRefs, item, money, cb){
-    async.waterfall([function(callback){
-        People.update({
-            _id : {
-                '$in' : peopleRefs
-            }
-        },{
-            '$push' : {
-                bonuses : {
+    var task = peopleRefs.map(function(peopleRef){
+        return function(cb2){
+            async.waterfall([function(callback){
+                People.findOne({
+                    _id : peopleRef
+                }).exec(function(err, people) {
+                    callback(err, people);
+                });
+            },
+            function(people, callback) {
+                people.bonuses = people.bonuses || [];
+                var bonus = {
                     status : 0,
                     money : money,
                     notes : '来自' + item.name + '的佣金',
@@ -90,18 +96,23 @@ var _createPaticipants = function(trade, peopleRefs, item, money, cb){
                         itemRef : item._id,
                         tradeRef : trade._id
                     }
-                }
-            } 
-        },{
-            multi: true 
-        }, callback);
-    }, function(doc, callback){
-        var message = NotificationHelper.MessageNewBonus.replace(/\{0\}/g, money);
-        NotificationHelper.notify(peopleRefs, message, {
-            'command' : NotificationHelper.CommandNewParticipantBonus 
-        }, null);
-        callback(null, doc);
-    }], function(err, doc){
-        cb(err);
+                };
+                people.bonuses.push(bonus);
+                people.save(function(err, people) {
+                    callback(err, people, people.bonuses.lastIndexOf(bonus));
+                });
+            },
+            function(people, index, callback) {
+                var message = NotificationHelper.MessageNewBonus.replace(/\{0\}/g, money);
+                NotificationHelper.notify([people._id], message, {
+                    'command' : NotificationHelper.CommandNewParticipantBonus,
+                    'index' : index
+                }, null);
+                callback(null, people);
+            }], function(error, people){
+                cb2(error, people);
+            })
+        }
     })
+    async.parallel(tasks, cb);
 }
