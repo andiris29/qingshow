@@ -66,6 +66,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
     private MongoShow show;
     private String uuid;
     private LoadingDialogs dialog;
+    private Timer timer;
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -96,7 +97,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
     }
 
     private void timerSubmit(){
-        Timer timer = new Timer(true);
+        timer = new Timer(true);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -116,6 +117,9 @@ public class S22MatchPreviewActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void sublit() {
+        timer.purge();
+        timer.cancel();
+        timer = null;
         saveMatch();
     }
 
