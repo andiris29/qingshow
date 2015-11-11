@@ -44,11 +44,10 @@
     self.categoryIdToEntity = [@{} mutableCopy];
     self.categoryIdToView = [@{} mutableCopy];
     [self addGesture];
-    self.maxColumn = 1;
-    self.maxRow = 3;
+
 }
 
-- (void)bindWithCategory:(NSArray*)categoryArray {
+- (void)bindWithCategory:(NSArray*)categoryArray matcherConfig:(NSDictionary*)matcherConfig{
     NSArray* newIdArray = [categoryArray mapUsingBlock:^id(NSDictionary* dict) {
         return [QSEntityUtil getIdOrEmptyStr:dict];
     }];
@@ -67,41 +66,30 @@
         return [oldIdArray indexOfObject:idStr] == NSNotFound;
     }];
     
-//    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
-    
-    NSMutableArray* mCates = [newCategoryArray mutableCopy];
-    for (int i = 0; i < self.maxColumn + 1; i++) {
-        NSArray* cates = [newCategoryArray filteredArrayUsingBlock:^BOOL(NSDictionary* dict) {
-            NSNumber* c = [QSCategoryUtil getMatchInfoColumn:dict];
-            return c && c.intValue == i;
-        }];
-        [mCates removeObjectsInArray:cates];
-        [self _addCategories:cates maxRow:(int)(cates.count - 1) maxColumn:self.maxColumn];
-    }
-    
-    if (mCates.count) {
-        [self _addCategories:mCates maxRow:self.maxRow maxColumn:self.maxColumn];
-    }
+    [self _addCategories:newCategoryArray matcherConfig:matcherConfig];
 }
 
-- (void)_addCategories:(NSArray*)newCategoryArray maxRow:(int)maxRow maxColumn:(int)maxColumn {
+- (void)_addCategories:(NSArray*)newCategoryArray matcherConfig:(NSDictionary*)matcherConfig {
+    /*
+     
+     matcher0._id5593b3df38dadbed5a998b62=0,0,40,40
+     matcher0._id5593b3df38dadbed5a998b63=0,5,40,40
+     matcher1._id5593b3df38dadbed5a998b62=50,0,40,40
+     */
+    
     for (NSDictionary* categoryDict in newCategoryArray) {
+#warning TODO ------- Adjust These Logic
+        int maxRow = 2, maxColumn = 2;
+        
+        
         float sizeHeight = self.frame.size.height / (maxRow + 1);
         float sizeWidth = self.frame.size.width / (maxColumn + 1);
         int row = -1, column = -1;
-        if ([QSCategoryUtil getMathchInfoRow:categoryDict]) {
-            row = [QSCategoryUtil getMathchInfoRow:categoryDict].intValue;
-        } else {
-            row = [QSRandomUtil randomRangeFrom:0 to:maxRow + 1];
-        }
-        if ([QSCategoryUtil getMatchInfoColumn:categoryDict]) {
-            column = [QSCategoryUtil getMatchInfoColumn:categoryDict].intValue;
-        } else {
-            column = [QSRandomUtil randomRangeFrom:0 to:maxColumn + 1];
-        }
         
         float y = self.frame.size.height * (row + 0.5) / (maxRow + 1);
         float x = self.frame.size.width * (column + 0.5) / (maxColumn + 1);
+#warning TODO ------- Adjust These Logic
+        
         
         QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(x, y, sizeWidth, sizeHeight)];
         imgView.center = CGPointMake(x, y);

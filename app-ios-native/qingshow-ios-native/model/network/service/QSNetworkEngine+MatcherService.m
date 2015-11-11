@@ -22,12 +22,13 @@
 
 @implementation QSNetworkEngine(MatcherService)
 
-- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(ArraySuccessBlock)succeedBlock
+- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(ArrayAndDictSuccessBlock)succeedBlock
                                                onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_MATCHER_QUERY_CATEGORIES method:@"GET" paramers:@{} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
-            NSArray* resArray = [((NSArray*)[responseDict valueForKeyPath:@"data.categories"]) deepMutableCopy];
+            NSArray* resArray = [[responseDict arrayValueForKeyPath:@"data.categories"] deepMutableCopy];
+            NSDictionary* contextDict = [responseDict dictValueForKeyPath:@"__context"];
             resArray = [resArray sortedArrayUsingComparator:^NSComparisonResult(NSDictionary* obj1, NSDictionary* obj2) {
                 return [[QSCategoryUtil getOrder:obj1] compare:[QSCategoryUtil getOrder:obj2]];
             }];
@@ -53,7 +54,7 @@
                     
             [QSCategoryManager getInstance].categories = retArray;
             
-            succeedBlock(retArray, responseDict[@"metadata"]);
+            succeedBlock(retArray, contextDict, responseDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

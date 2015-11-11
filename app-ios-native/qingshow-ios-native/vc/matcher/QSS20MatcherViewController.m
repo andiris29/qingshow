@@ -35,6 +35,8 @@
 
 @property (strong, nonatomic) NSString* selectedCateId;
 @property (strong, nonatomic) NSArray* allCategories;
+@property (strong, nonatomic) NSDictionary* matcherConfig;
+
 @property (assign, nonatomic) BOOL fShouldReload;
 @property (assign, nonatomic) BOOL fRemoveMenuBtn;
 @end
@@ -102,45 +104,25 @@
     if (self.fShouldReload) {
         self.fShouldReload = NO;
         [self updateCategory:@[]];
-        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary* context, NSDictionary *metadata) {
             self.allCategories = array;
+            NSDictionary* matcherConfig = [QSCategoryUtil getMatcherConfig:context];
+            self.matcherConfig = matcherConfig;
+            
             NSMutableArray* selectedCategories = [@[] mutableCopy];
             
-            __block int maxRow = -1;
-            __block int maxColumn = -1;
-            
-            DicBlock updateMaxRowAndColumn = ^(NSDictionary* dict){
-                NSNumber* n = [QSCategoryUtil getMathchInfoRow:dict];
-                if (n && n.intValue > maxRow) {
-                    maxRow = n.intValue;
-                }
-                n = [QSCategoryUtil getMatchInfoColumn:dict];
-                if (n && n.intValue > maxColumn) {
-                    maxColumn = n.intValue;
-                }
-            };
             
             for (NSDictionary* category in array) {
-                if ([QSCategoryUtil getDefaultOnCanvas:category]) {
+                if ([QSCategoryUtil getDefaultOnCanvas:category withMatcherConfig:matcherConfig]) {
                     [selectedCategories addObject:category];
-                    updateMaxRowAndColumn(category);
                     
                 }
                 NSArray* childrens = [QSCategoryUtil getChildren:category];
                 for (NSDictionary* c in childrens) {
-                    if ([QSCategoryUtil getDefaultOnCanvas:c]) {
+                    if ([QSCategoryUtil getDefaultOnCanvas:c withMatcherConfig:matcherConfig]) {
                         [selectedCategories addObject:c];
-                        updateMaxRowAndColumn(c);
                     }
                 }
-            }
-            
-            if (maxRow >= 0) {
-                self.canvasView.maxRow = maxRow;
-            }
-            
-            if (maxColumn >= 0) {
-                self.canvasView.maxColumn = maxColumn;
             }
             
             [self updateCategory:selectedCategories];
@@ -249,9 +231,9 @@
     [self updateCategory:categoryArray];
 }
 
-- (void)updateCategory:(NSArray*)array {
+- (void)updateCategory:(NSArray*)array{
     //Update View
-    [self.canvasView bindWithCategory:array];
+    [self.canvasView bindWithCategory:array matcherConfig:self.matcherConfig];
     
     NSArray* newCategoryIds = [array mapUsingBlock:^id(NSDictionary* dict) {
         return [QSEntityUtil getIdOrEmptyStr:dict];

@@ -11,7 +11,7 @@
 
 @interface QSNetworkEngine(MatcherService)
 
-- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(ArraySuccessBlock)succeedBlock
+- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(ArrayAndDictSuccessBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)matcherQueryItemsCategory:(NSDictionary*)categoryDict

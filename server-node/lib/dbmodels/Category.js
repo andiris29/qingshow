@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var categorySchema = {
+    __context : Object,
     name : String,
     icon : String,
     order : Number,
@@ -16,8 +17,7 @@ var categorySchema = {
     parentRef : {
         type : Schema.Types.ObjectId,
         ref : 'categories'
-    },
-    measureComposition : Number
+    }
 };
 
 var Category = mongoose.model('categories', categorySchema);

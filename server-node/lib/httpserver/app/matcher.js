@@ -17,6 +17,7 @@ var ServiceHelper = require('../../helpers/ServiceHelper');
 var MongoHelper = require('../../helpers/MongoHelper.js');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var TraceHelper = require('../../helpers/TraceHelper');
+var ContextHelper = require('../../helpers/ContextHelper');
 
 var errors = require('../../errors');
 
@@ -47,9 +48,20 @@ var _shuffle = function (array) {
 matcher.queryCategories = {
     'method' : 'get',
     'func' : function(req, res) {
+        var matchers = [];
+        var config = global.qsConfig;
+        for(var key in config){
+            if (key.substring(0, 7) === 'matcher') {
+                matchers.push(config[key]);
+            }
+        }
+        var randomIndex = require('../../utils/RandomUtil').random(0, matchers.length -1);
+        var matcher = matchers[randomIndex];
         Category.find({}).exec(function(err, categories) {
-            ResponseHelper.response(res, err, {
-                'categories' : categories
+            ContextHelper.appendcategoryMatcherContext(matcher, categories, function(err, categories){
+                ResponseHelper.response(res, err, {
+                    'categories' : categories
+                });
             });
         });
     }

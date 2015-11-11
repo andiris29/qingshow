@@ -57,7 +57,7 @@ define([
             } else if (shareObj.type === 2) {
                 //bonus
                 navigationService.push('qs/views/P04ShareBonus', {
-                    'entity' : shareObj.targetInfo.bonus
+                    'create' : shareObj.create
                 });
             } else {
                 navigationService.push('qs/views/P01NotFound');

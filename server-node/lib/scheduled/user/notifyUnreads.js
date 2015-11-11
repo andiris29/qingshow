@@ -45,7 +45,7 @@ var _next = function(today) {
 
 var _run = function() {
     var startDate = new Date();
-    winston.info('Trade-autoReceiving run at: ' + startDate);
+    winston.info('notifyUnreads run at: ' + startDate);
 
     _next(startDate);
 };

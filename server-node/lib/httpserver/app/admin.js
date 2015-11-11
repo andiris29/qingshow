@@ -210,7 +210,7 @@ admin.getRealShow = {
     }
 };
 
-admin.sendSms = {
+admin.sms = {
     'method' : 'post',
     'func' : [
         require('../middleware/injectCurrentUser'),

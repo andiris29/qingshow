@@ -15,10 +15,10 @@
 + (NSString*)getParentId:(NSDictionary*)categoryDict;
 
 + (BOOL)getMatchEnabled:(NSDictionary*)categoryDict;
-+ (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict;
-+ (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict;
-+ (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict;
+
++ (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict withMatcherConfig:(NSDictionary*)config;
+
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict;
 + (NSNumber*)getOrder:(NSDictionary*)categoryDict;
-+ (NSNumber*)getMeasureComposition:(NSDictionary*)categoryDict;
++ (NSDictionary*)getMatcherConfig:(NSDictionary*)context;
 @end

@@ -167,10 +167,10 @@ userBonus.queryWithdrawRequested = {
     }
 };
 
-userBonus/withdrawRequested = {
+userBonus.withdrawRequested = {
     'method' : 'post',
     'func' : [
-        require('../middleware/injectCurrentUser')(req, res, next),
+        require('../middleware/injectCurrentUser'),
         function(req, res, next){
             var people = req.injection.qsCurrentUser;
             var bonuses = people.bonuses;
