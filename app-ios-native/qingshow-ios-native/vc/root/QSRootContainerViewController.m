@@ -282,6 +282,7 @@
     }
     
     self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] init];
+    self.u20NewBonusVc.bonusIndex = [noti.userInfo numberValueForKeyPath:@"index"];
     [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
 }
 
@@ -295,6 +296,7 @@
         return;
     }
     self.u21NewParticipantBonusVc = [[QSU21NewParticipantBonusViewController alloc] init];
+    self.u21NewParticipantBonusVc.bonusIndex = [noti.userInfo numberValueForKeyPath:@"index"];
     [self _showVcInPopoverContainer:self.u21NewParticipantBonusVc withAnimation:YES];
 }
 

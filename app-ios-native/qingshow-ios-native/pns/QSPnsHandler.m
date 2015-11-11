@@ -146,13 +146,13 @@
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        [QSNotificationHelper postShowNewBonusVcNoti];
+        [QSNotificationHelper postShowNewBonusVcNoti:noti.userInfo];
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 
 - (void)pnsNewParticipantBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        [QSNotificationHelper postShowNewParticipantBonusVcNoti];
+        [QSNotificationHelper postShowNewParticipantBonusVcNoti:noti.userInfo];
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 

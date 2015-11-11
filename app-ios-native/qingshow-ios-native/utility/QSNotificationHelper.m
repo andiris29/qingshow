@@ -13,16 +13,16 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kScheduleToShowLoginGuideNotificationName object:nil];
 }
 
-+ (void)postShowNewBonusVcNoti {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowNewBonusVcNotificationName object:nil];
++ (void)postShowNewBonusVcNoti:(NSDictionary*)userInfo {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowNewBonusVcNotificationName object:nil userInfo:userInfo];
 }
 
 + (void)postHideNewBonusVcNoti {
     [[NSNotificationCenter defaultCenter] postNotificationName:kHideNewBonusVcNotificationName object:nil];
 }
 
-+ (void)postShowNewParticipantBonusVcNoti {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowNewParticipantBonusVcNotificationName object:nil];
++ (void)postShowNewParticipantBonusVcNoti:(NSDictionary*)userInfo {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowNewParticipantBonusVcNotificationName object:nil userInfo:userInfo];
 }
 
 + (void)postHideNewParticipantBonusVcNoti {

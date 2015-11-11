@@ -36,10 +36,10 @@
 @implementation QSU20NewBonusViewController
 
 #pragma mark - Init
-- (instancetype)init {
+- (instancetype)initWithBonusIndex:(NSNumber*)bonusIndex {
     self = [super initWithNibName:@"QSU20NewBonusViewController" bundle:nil];
     if (self) {
-        
+        self.bonusIndex = bonusIndex;
     }
     return self;
 }
@@ -91,7 +91,14 @@
         [weakSelf performSelector:@selector(_popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
     };
     [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *peopleDict, NSDictionary *metadata) {
-        NSDictionary* bonusDict = [QSPeopleUtil getLatestBonus:peopleDict];
+        NSDictionary* bonusDict = nil;
+        NSArray* bonusList = [QSPeopleUtil getBonusList:peopleDict];
+        if (self.bonusIndex && self.bonusIndex.intValue < bonusList.count) {
+            bonusDict = bonusList[self.bonusIndex.intValue];
+        } else {
+            bonusDict = [QSPeopleUtil getLatestBonus:peopleDict];
+        }
+
         NSString* itemId = [QSBonusUtil getItemRef:bonusDict];
         NSArray* participantsArray = [QSBonusUtil getParticipantsIds:bonusDict];
         

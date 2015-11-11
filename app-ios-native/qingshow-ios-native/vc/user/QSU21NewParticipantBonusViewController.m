@@ -33,10 +33,10 @@
 @implementation QSU21NewParticipantBonusViewController
 
 #pragma mark - Init
-- (instancetype)init {
+- (instancetype)initWithBonusIndex:(NSNumber*)bonusIndex {
     self = [super initWithNibName:@"QSU21NewParticipantBonusViewController" bundle:nil];
     if (self) {
-        
+        self.bonusIndex = bonusIndex;
     }
     return self;
 }
@@ -89,10 +89,16 @@
         [weakSelf performSelector:@selector(_popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
     };
     [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *peopleDict, NSDictionary *metadata) {
-        NSDictionary* bonusDict = [QSPeopleUtil getLatestBonus:peopleDict];
+        NSDictionary* bonusDict = nil;
+        NSArray* bonusList = [QSPeopleUtil getBonusList:peopleDict];
+        if (self.bonusIndex && self.bonusIndex.intValue < bonusList.count) {
+            bonusDict = bonusList[self.bonusIndex.intValue];
+        } else {
+            bonusDict = [QSPeopleUtil getLatestBonus:peopleDict];
+        }
+        
         NSString* itemId = [QSBonusUtil getItemRef:bonusDict];
         NSString* tradeId = [QSBonusUtil getTradeRef:bonusDict];
-        
 
         weakSelf.priceLabel.text = [NSString stringWithFormat:@"￥%.2f", [QSBonusUtil getMoney:bonusDict].doubleValue];
         [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDict, NSDictionary *metadata) {

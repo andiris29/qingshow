@@ -10,6 +10,8 @@
 
 @interface QSU21NewParticipantBonusViewController : UIViewController
 
-- (instancetype)init;
+@property (strong, nonatomic) NSNumber* bonusIndex;
+
+- (instancetype)initWithBonusIndex:(NSNumber*)bonusIndex;
 
 @end

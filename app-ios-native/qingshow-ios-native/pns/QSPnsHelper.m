@@ -61,8 +61,16 @@
         }
         [center postNotificationName:kPnsItemExpectablePriceUpdatedNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandNewBonus]) {
+        NSNumber* index = [userInfo numberValueForKeyPath:@"index"];
+        if (index) {
+            userInfoDict[@"index"] = index;
+        }
         [center postNotificationName:kPnsNewBonusNotification object:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandNewParticipantBonus]) {
+        NSNumber* index = [userInfo numberValueForKeyPath:@"index"];
+        if (index) {
+            userInfoDict[@"index"] = index;
+        }
         [center postNotificationName:kPnsNewParticipantBonusNotification object:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandBonusWithdrawComplete]) {
         [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:userInfoDict];
