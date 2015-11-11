@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var categorySchema = {
+    __context : Object,
     name : String,
     icon : String,
     order : Number,

@@ -106,6 +106,27 @@ ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
     });
 };
 
+ContextHelper.appendcategoryMatcherContext = function(matcher, categories, callback){
+    var __contexts = [];
+    for(var key in matcher){
+        var splice = matcher[key].split(',');
+        __contexts[key.substring(3)] = {
+            x : splice[0],
+            y : splice[1],
+            maxWidth : splice[2],
+            maxHeight : splice[3]
+        };
+    }
+    categories = _prepare(categories);
+    var result = categories.map(function(category){
+        if (__contexts[category._id.toString()]) {
+            category.__context = __contexts[category._id.toString()]
+        }
+        return category;
+    })
+    callback(null, result);
+}
+
 var _prepare = function(models) {
     return models.filter(function(model) {
         return model;
