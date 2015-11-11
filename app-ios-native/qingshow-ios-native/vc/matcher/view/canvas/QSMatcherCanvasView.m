@@ -368,9 +368,56 @@
             [newView addSubview:newImageView];
         }
     }
+    [self _transformForNewView:newView];
     return [newView makeScreenShot];
 }
 
+- (void)_transformForNewView:(UIView*)newView {
+    CGFloat left = newView.bounds.size.width,
+    right = 0.f,
+    top = newView.bounds.size.height,
+    bottom = 0.f;
+    
+    for (UIView* v in newView.subviews) {
+        left = left < v.frame.origin.x ? left : v.frame.origin.x;
+        right = right > v.frame.origin.x + v.frame.size.width ? right : v.frame.origin.x + v.frame.size.width;
+        top = top < v.frame.origin.y ? top : v.frame.origin.y;
+        bottom = bottom > v.frame.origin.y + v.frame.size.height ? bottom : v.frame.origin.y + v.frame.size.height;
+    }
+    left = left > 0 ? left : 0;
+    right = right < newView.bounds.size.width ? right : newView.bounds.size.width;
+    top = top > 0 ? top : 0;
+    bottom = bottom < newView.bounds.size.height ? bottom : newView.bounds.size.height;
+    CGFloat width = right - left;
+    CGFloat height = bottom - top;
+    if (width / newView.bounds.size.width >= 0.6 ||
+        height / newView.bounds.size.height >= 0.5) {
+        return;
+    }
+    
+    CGFloat scaleXrate = newView.bounds.size.width / width;
+    CGFloat scaleYrate = newView.bounds.size.height * 0.8 / height;
+    
+    CGFloat scaleRate = scaleXrate < scaleYrate ? scaleXrate : scaleYrate;
+    
+    CGFloat oldCenterX = (left + right) / 2;
+    CGFloat oldCenterY = (top + bottom) / 2;
+    CGFloat newCenterX = oldCenterX * scaleRate;
+    CGFloat newCenterY = oldCenterY * scaleRate;
+    CGFloat deltaX = newView.bounds.size.width / 2 - newCenterX;
+    CGFloat deltaY = newView.bounds.size.height / 2 - newCenterY;
+    
+    for (UIView* v in newView.subviews) {
+        CGRect frame = v.frame;
+        
+        frame.origin.x = frame.origin.x * scaleRate + deltaX;
+        frame.origin.y = frame.origin.y * scaleRate + deltaY;
+        frame.size.width *= scaleRate;
+        frame.size.height *= scaleRate;
+        
+        v.frame = frame;
+    }
+}
 
 #pragma mark -
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
