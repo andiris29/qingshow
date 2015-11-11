@@ -45,7 +45,7 @@
     NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
     NSString* keyString = [NSString stringWithFormat:@"_id%@",categoryId];
     NSArray* onCanvasCategories = [config allKeys];
-    return [onCanvasCategories indexOfObject:keyString] != NSNotFound;
+    return onCanvasCategories && [onCanvasCategories indexOfObject:keyString] != NSNotFound;
 }
 
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict{

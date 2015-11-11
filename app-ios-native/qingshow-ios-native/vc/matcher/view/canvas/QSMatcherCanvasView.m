@@ -17,6 +17,8 @@
 #import "QSRandomUtil.h"
 #import "UIView+ScreenShot.h"
 #import "QSRectUtil.h"
+#import "NSDictionary+QSExtension.h"
+
 
 @interface QSMatcherCanvasView ()
 
@@ -78,18 +80,34 @@
      */
     
     for (NSDictionary* categoryDict in newCategoryArray) {
-#warning TODO ------- Adjust These Logic
-        int maxRow = 2, maxColumn = 2;
+        NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
+        NSString* configKey = [NSString stringWithFormat:@"_id%@",categoryId];
+        NSString* configStr = [matcherConfig stringValueForKeyPath:configKey];
         
+        NSArray* compArray = [configStr componentsSeparatedByString:@","];
         
-        float sizeHeight = self.frame.size.height / (maxRow + 1);
-        float sizeWidth = self.frame.size.width / (maxColumn + 1);
-        int row = -1, column = -1;
+        int xPercent = 0;
+        int yPercent = 0;
+        int widthPercent = 0;
+        int heightPercent = 0;
         
-        float y = self.frame.size.height * (row + 0.5) / (maxRow + 1);
-        float x = self.frame.size.width * (column + 0.5) / (maxColumn + 1);
-#warning TODO ------- Adjust These Logic
+        if (compArray && compArray.count == 4) {
+            xPercent = ((NSString*)compArray[0]).intValue;
+            yPercent = ((NSString*)compArray[1]).intValue;
+            widthPercent = ((NSString*)compArray[2]).intValue;
+            heightPercent = ((NSString*)compArray[3]).intValue;
+        } else {
+            //Random
+            xPercent = [QSRandomUtil randomRangeFrom:0 to:70];
+            yPercent = [QSRandomUtil randomRangeFrom:0 to:70];
+            widthPercent = [QSRandomUtil randomRangeFrom:30 to:100 - xPercent];
+            heightPercent = [QSRandomUtil randomRangeFrom:30 to:100 - yPercent];
+        }
         
+        float sizeHeight = self.frame.size.height * heightPercent / 100;
+        float sizeWidth = self.frame.size.width * widthPercent / 100;
+        float y = self.frame.size.height * xPercent / 100;
+        float x = self.frame.size.width * yPercent / 100;
         
         QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(x, y, sizeWidth, sizeHeight)];
         imgView.center = CGPointMake(x, y);
@@ -98,7 +116,6 @@
         ges.minimumPressDuration = 0.f;
         [imgView addGestureRecognizer:ges];
         
-        NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         self.categoryIdToEntity[categoryId] = categoryDict;
         self.categoryIdToView[categoryId] = imgView;
         imgView.categoryId = categoryId;
