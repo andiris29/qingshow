@@ -13,6 +13,7 @@ import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.view.KeyEvent;
 import android.view.View;
+
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.command.Callback;
@@ -39,9 +40,8 @@ public abstract class BaseActivity extends FragmentActivity {
 
     public static String NOTNET = "not_net";
     public static String PUSHNOTIFY = "PUSHNOTIFY";
-    public static String UPDATE_APP = "UPDATE_APP";
+    public static String SHOW_GUIDE = "SHOW_GUIDE";
     private boolean isTop = true;
-    private final int TIME_LOGIN = 15000;
     private ConfirmDialog dialog;
 
 
@@ -83,7 +83,7 @@ public abstract class BaseActivity extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     Intent i = PushHepler._jumpTo(context, bundle, JPushInterface.ACTION_NOTIFICATION_RECEIVED);
-                    if(null != i) {
+                    if (null != i) {
                         context.startActivity(i);
                     }
                     dialog.dismiss();
@@ -97,45 +97,34 @@ public abstract class BaseActivity extends FragmentActivity {
         }
     };
 
-    BroadcastReceiver updateAppReceiver = new BroadcastReceiver() {
+    BroadcastReceiver showGuideReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            showLoginGuide();
         }
     };
 
-    private void showLoginGuide(){
-        if(this instanceof U19LoginGuideActivity
+    private void showLoginGuide() {
+        if (this instanceof U19LoginGuideActivity
                 || this instanceof U17ResetPasswordStep1Activity
                 || this instanceof U18ResetPasswordStep2Activity
                 || this instanceof U07RegisterActivity
                 || this instanceof U06LoginActivity) return;
 
-        if(QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED
-                || (QSModel.INSTANCE.getUserStatus() == MongoPeople.LOGIN_GUIDE_FINISHED && QSModel.INSTANCE.isGuest())) {
-            Timer timer = new Timer(true);
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(BaseActivity.this, U19LoginGuideActivity.class));
-                }
-            };
-            timer.schedule(timerTask, TIME_LOGIN);
-        }
+        startActivity(new Intent(BaseActivity.this, U19LoginGuideActivity.class));
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(QSApplication.instance().getPreferences().getBoolean(ValueUtil.UPDATE_APP_FORCE, false)){
+        if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.UPDATE_APP_FORCE, false)) {
             showUpdateDialog();
         }
         registerReceiver(netReceiver, new IntentFilter(NOTNET));
         registerReceiver(pushReceiver, new IntentFilter(PUSHNOTIFY));
-        registerReceiver(updateAppReceiver, new IntentFilter(UPDATE_APP));
+        registerReceiver(showGuideReceiver, new IntentFilter(SHOW_GUIDE));
         getWindow().setBackgroundDrawable(null);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        showLoginGuide();
     }
 
     @Override
@@ -154,7 +143,7 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onDestroy() {
         unregisterReceiver(netReceiver);
         unregisterReceiver(pushReceiver);
-        unregisterReceiver(updateAppReceiver);
+        unregisterReceiver(showGuideReceiver);
         super.onDestroy();
     }
 
@@ -165,8 +154,8 @@ public abstract class BaseActivity extends FragmentActivity {
         fragment.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName());
     }
 
-    public void showUpdateDialog(){
-        if(dialog == null) {
+    public void showUpdateDialog() {
+        if (dialog == null) {
             dialog = new ConfirmDialog(BaseActivity.this);
             SpannableString spanStrPrice = new SpannableString("请更新最新版本\n\n更多意想不到在等着你哦");
             RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(1.5f);
@@ -186,7 +175,7 @@ public abstract class BaseActivity extends FragmentActivity {
             dialog.setTitle(spanStrPrice);
             return;
         }
-        if(!dialog.isShowing()){
+        if (!dialog.isShowing()) {
             dialog.show();
         }
     }
