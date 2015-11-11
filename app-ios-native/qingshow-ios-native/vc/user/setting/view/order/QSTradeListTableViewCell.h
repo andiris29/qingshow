@@ -9,10 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define QSTradeListTableViewCellIdentifier @"QSTradeListTableViewCellIdentifier"
-#define QSTradeListTableViewCellHeight 213
-
-#define QSTradeListTableViewCellCompleteIdentifier @"QSTradeListTableViewCellCompleteIdentifier"
-#define QSTradeListTableViewCellCompleteHeight 213
+#define QSTradeListTableViewCellHeight 230
 
 @class QSTradeListTableViewCell;
 
@@ -47,13 +44,12 @@ typedef NS_ENUM(NSUInteger, QSTradeListTableViewCellType) {
 
 @property (weak, nonatomic) IBOutlet UILabel* sizeLabel;
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
-@property (weak, nonatomic) IBOutlet UILabel* priceLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *clickToWebpageBtn;
-@property (weak, nonatomic) IBOutlet UILabel *exDiscountLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *circleBtnImageView;
 @property (assign, nonatomic) QSTradeListTableViewCellType cellType;
@@ -67,10 +63,15 @@ typedef NS_ENUM(NSUInteger, QSTradeListTableViewCellType) {
 //物流信息
 @property (strong, nonatomic) IBOutlet UIButton* logisticsButton;
 - (IBAction)logisticsBtnPressed:(id)sender;
-//取消申请
+//取消预定
 @property (strong, nonatomic) IBOutlet UIButton* cancelButton;
 - (IBAction)cancelBtnPressed:(id)sender;
-
+//查看折扣
+@property (strong, nonatomic) IBOutlet UIButton* showDiscountButton;
+- (IBAction)showDiscountBtnPressed:(id)sender;
+//立即付款
+@property (strong, nonatomic) IBOutlet UIButton* payButton;
+- (IBAction)payBtnPressed:(id)sender;
 
 
 - (IBAction)clickToWebpageBtnPressed:(id)sender;

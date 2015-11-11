@@ -181,16 +181,17 @@
 
 - (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict
 {
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-        [self.provider reloadData];
-        QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:d];
-        QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
-        vc.navigationItem.leftBarButtonItem = backItem;
-        vc.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:vc animated:YES];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
+    [self didClickExpectablePriceBtnOfOrder:tradeDict];
+//    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
+//        [self.provider reloadData];
+//        QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:d];
+//        QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+//        vc.navigationItem.leftBarButtonItem = backItem;
+//        vc.menuProvider = self.menuProvider;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    } onError:^(NSError *error) {
+//        [self handleError:error];
+//    }];
 }
 - (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
 {

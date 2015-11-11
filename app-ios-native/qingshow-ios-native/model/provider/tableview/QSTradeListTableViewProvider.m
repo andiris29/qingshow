@@ -15,7 +15,6 @@
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSTradeListTableViewCell" bundle:nil] forCellReuseIdentifier:QSTradeListTableViewCellIdentifier];
-    [self.view registerNib:[UINib nibWithNibName:@"QSTradeListTableViewCellComplete" bundle:nil] forCellReuseIdentifier:QSTradeListTableViewCellCompleteIdentifier];
 }
 
 
@@ -23,11 +22,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSTradeListTableViewCell* cell = nil;
-    if (self.cellType == QSTradeListTableViewCellNormal) {
-        cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellIdentifier forIndexPath:indexPath];
-    } else {
-        cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellCompleteIdentifier forIndexPath:indexPath];
-    }
+
+    cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellIdentifier forIndexPath:indexPath];
+
     cell.cellType = self.cellType;
     cell.delegate = self;
     [cell bindWithDict:[self orderForIndexPath:indexPath]];

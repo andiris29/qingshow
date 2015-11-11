@@ -21,10 +21,8 @@
 
 typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
     QSTradeListCellCircleTypeNone = 0,
-    QSTradeListCellCircleTypeNewDiscount = 1,
-    QSTradeListCellCircleTypePay = 2,
-    QSTradeListCellCircleTypeShareToPay = 3,
-    QSTradeListCellCircleTypeSaleOut = 4
+    QSTradeListCellCircleTypeReserveSucceed = 1,
+    QSTradeListCellCircleTypeSaleOut = 2
 };
 
 @interface QSTradeListTableViewCell ()<UIAlertViewDelegate>
@@ -65,8 +63,8 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
     self.topRightBtns = @[
                           self.submitButton,
                           self.refundButton,
-                          self.logisticsButton,
-                          self.cancelButton
+                          self.cancelButton,
+                          self.payButton
                           ];
     for (UIButton* btn in self.topRightBtns) {
         [self configBtn:btn];
@@ -102,26 +100,16 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
     self.circleBtnImageView.hidden = NO;
     if (self.circleType == QSTradeListCellCircleTypeNone) {
         self.circleBtnImageView.hidden = YES;
-    } else if (self.circleType == QSTradeListCellCircleTypeNewDiscount) {
-        
+    } else if (self.circleType == QSTradeListCellCircleTypeReserveSucceed) {
         if (
-            [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]] ||
-            [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]
+            [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]
             ) {
-            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_dot"];
+            //红色按钮
+            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_circle_reserve_succeed_red"];
         } else {
-            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount"];
+            //粉红按钮
+            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_circle_reserve_succeed_pink"];
         }
-
-    } else if (self.circleType == QSTradeListCellCircleTypeShareToPay) {
-        if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
-            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_sharetopay_dot"];
-        } else {
-            self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_share_to_pay"];
-        }
-
-    } else if (self.circleType == QSTradeListCellCircleTypePay) {
-        self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_pay"];
     } else if (self.circleType == QSTradeListCellCircleTypeSaleOut) {
         self.circleBtnImageView.image = [UIImage imageNamed:@"order_list_cell_discount_outofsale"];
     }
@@ -129,16 +117,10 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
 
 - (void)didTapCircleBtn:(UIGestureRecognizer*)ges {
     if (self.circleType == QSTradeListCellCircleTypeNone) {
-    } else if (self.circleType == QSTradeListCellCircleTypeNewDiscount) {
-        [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
-        [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
         
+    } else if (self.circleType == QSTradeListCellCircleTypeReserveSucceed) {
+        [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
         [self didTapExpectablePriceBtn:ges];
-    } else if (self.circleType == QSTradeListCellCircleTypeShareToPay) {
-        [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeInitialized id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
-        [self.delegate didClickPayBtnForCell:self];
-    } else if (self.circleType == QSTradeListCellCircleTypePay) {
-        [self.delegate didClickPayBtnForCell:self];
     } else if (self.circleType == QSTradeListCellCircleTypeSaleOut) {
         
     }
@@ -150,15 +132,6 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
     UIColor* color = btn.titleLabel.textColor;
     btn.layer.borderColor = color.CGColor;
     btn.layer.borderWidth = 1.f;
-    btn.layer.cornerRadius = 4.f;
-    btn.layer.masksToBounds = YES;
-}
-
-- (void)clearBtn:(UIButton*)btn
-{
-    UIColor* color = [UIColor clearColor];
-    btn.layer.borderColor = color.CGColor;
-    btn.layer.borderWidth = 0.f;
     btn.layer.cornerRadius = 4.f;
     btn.layer.masksToBounds = YES;
 }
@@ -188,7 +161,12 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     NSString *oldPrice = [NSString stringWithFormat:@"原价:￥%@",[QSItemUtil getPriceDesc:itemDict]];
     [self.originPriceLabel setAttributedText:[QSItemUtil getAttrbuteStr:oldPrice]];
-    self.nowPriceLabel.text = [NSString stringWithFormat:@"现价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+    if (self.cellType == QSTradeListTableViewCellNormal) {
+        self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+    } else {
+        self.nowPriceLabel.text = [NSString stringWithFormat:@"折扣价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+    }
+
     
     //tradeUtil
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
@@ -211,8 +189,6 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
     {
         _actualPrice = [QSTradeUtil getPrice:tradeDict].floatValue;
         self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
-        self.priceLabel.text = [NSString stringWithFormat:@"购买价格: ￥%@",[QSTradeUtil getPriceDesc:tradeDict]];
-        self.exDiscountLabel.text = [NSString stringWithFormat:@"成功申请折扣: %@", [QSTradeUtil calculateDiscountDescWithPrice:@(_actualPrice) trade:tradeDict]];
     }
     
     switch (s) {
@@ -221,32 +197,36 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
             self.stateLabel.hidden = YES;
             [self showTopRightBtns:@[self.cancelButton]];
             self.circleType = QSTradeListCellCircleTypeNone;
+            self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: 尽请期待"];
             break;
         }
         case 1:{
-
             self.stateLabel.hidden = YES;
-            [self showTopRightBtns:@[self.cancelButton]];
-            
             if ([QSItemUtil getExpectableIsExpire:itemDict]) {
+                [self showTopRightBtns:@[self.cancelButton]];
                 self.circleType = QSTradeListCellCircleTypeSaleOut;
             } else {
-                self.circleType = QSTradeListCellCircleTypeNewDiscount;
+                self.circleType = QSTradeListCellCircleTypeReserveSucceed;
+                
+                if (
+                    [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]
+                    ) {
+                    self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: ?"];
+                    [self showTopRightBtns:@[self.showDiscountButton, self.cancelButton]];
+                } else {
+                    self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+                    [self showTopRightBtns:@[self.payButton, self.cancelButton]];
+                }
             }
-
             break;
         }
         case 3: {
             self.stateLabel.hidden = YES;
-
-
             if ([[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]) {
-                [self.logisticsButton setImage:nil forState:UIControlStateNormal];
-                [self clearBtn:self.logisticsButton];
+                [self.logisticsButton setTitle:@"" forState:UIControlStateNormal];
                 [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_dot"] forState:UIControlStateNormal];
             } else {
-                [self.logisticsButton setImage:nil forState:UIControlStateNormal];
-                [self clearBtn:self.logisticsButton];
+                [self.logisticsButton setTitle:@"" forState:UIControlStateNormal];
                 [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_normal"] forState:UIControlStateNormal];
             }
             
@@ -302,6 +282,17 @@ typedef NS_ENUM(NSUInteger, QSTradeListCellCircleType) {
         [self.delegate didClickLogisticForCell:self];
     }
     [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
+}
+
+- (IBAction)payBtnPressed:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {
+        [self.delegate didClickPayBtnForCell:self];
+    }
+}
+- (IBAction)showDiscountBtnPressed:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnForCell:)]) {
+        [self.delegate didClickExpectablePriceBtnForCell:self];
+    }
 }
 
 #pragma mark - Web Page

@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "order_list_cell_discount_share_to_pay.png",
+      "filename" : "order_list_cell_circle_reserve_succeed_red.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "order_list_cell_discount_share_to_pay@2x.png",
+      "filename" : "order_list_cell_circle_reserve_succeed_red@2x.png",
       "scale" : "2x"
     },
     {
