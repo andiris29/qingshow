@@ -29,6 +29,8 @@ import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -198,30 +200,36 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     @Override
     public void onClick(View v) {
         recyclerView.scrollToPosition(0);
-        if (v.getId() == R.id.s01_tab_hot) {
-            currentType = TYPE_HOT;
-            mRefreshLayout.beginRefreshing();
-            s01TabHot.setBackgroundResource(R.drawable.square_pink_btn);
-            s01TabHot.setTextColor(getResources().getColor(R.color.white));
-            s01TabNew.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
-            s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
-            s01TabFeature.setBackgroundResource(R.drawable.s01_tab_border2);
-            s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
-            return;
-        }
-        if (v.getId() == R.id.s01_tab_new) {
-            clickTabNew();
-            return;
-        }
-        if (v.getId() == R.id.s01_tab_feature) {
-            currentType = TYPE_FEATURED;
-            mRefreshLayout.beginRefreshing();
-            s01TabHot.setBackgroundResource(R.drawable.square_btn_border);
-            s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
-            s01TabNew.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
-            s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
-            s01TabFeature.setBackgroundResource(R.drawable.s01_tab_btn1);
-            s01TabFeature.setTextColor(getResources().getColor(R.color.white));
+        switch (v.getId()){
+            case R.id.s01_tab_hot:
+                currentType = TYPE_HOT;
+                mRefreshLayout.beginRefreshing();
+                s01TabHot.setBackgroundResource(R.drawable.square_pink_btn);
+                s01TabHot.setTextColor(getResources().getColor(R.color.white));
+                s01TabNew.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
+                s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
+                s01TabFeature.setBackgroundResource(R.drawable.s01_tab_border2);
+                s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
+                return;
+            case R.id.s01_tab_new:
+                clickTabNew();
+                return;
+            case R.id.s01_tab_feature:
+                currentType = TYPE_FEATURED;
+                mRefreshLayout.beginRefreshing();
+                s01TabHot.setBackgroundResource(R.drawable.square_btn_border);
+                s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
+                s01TabNew.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
+                s01TabNew.setTextColor(getResources().getColor(R.color.master_pink));
+                s01TabFeature.setBackgroundResource(R.drawable.s01_tab_btn1);
+                s01TabFeature.setTextColor(getResources().getColor(R.color.white));
+                return;
+            case R.id.s01_search_btn:
+                Intent intent = new Intent(S01MatchShowsActivity.this, S21CategoryActivity.class);
+                intent.putExtra(S21CategoryActivity.TYPE, S21CategoryActivity.TYPE_SEARCH);
+                intent.putStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS, new ArrayList<String>());
+                startActivity(intent);
+                return;
         }
     }
 

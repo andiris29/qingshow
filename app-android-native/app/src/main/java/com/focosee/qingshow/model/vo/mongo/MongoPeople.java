@@ -94,5 +94,6 @@ public class MongoPeople implements Serializable {
     public class Extra implements Serializable{
         public String _id;
         public String command;
+        public int index;
     }
 }

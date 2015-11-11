@@ -277,4 +277,5 @@
     <!-- TradeNotify -->
     <string name="trade_notify_hint">你可以通过以上价格购买啦</string>
     <string name="trade_notify_submit">立即购买</string>
+    <string name="title_activity_s23_search">S23SearchActivity</string>
 </resources>

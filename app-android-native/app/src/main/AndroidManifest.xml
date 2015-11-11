@@ -295,8 +295,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U16BonusListActivity"
-            android:launchMode="singleTask"
             android:label="@string/title_activity_u16_bonus_list"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -341,10 +341,16 @@
         </activity>
         <activity
             android:name=".activity.TradeNotifyActivity"
+            android:label="@string/title_activity_trade_notify"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/title_activity_trade_notify" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".activity.S23SearchActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_s23_search" >
         </activity>
     </application>
 

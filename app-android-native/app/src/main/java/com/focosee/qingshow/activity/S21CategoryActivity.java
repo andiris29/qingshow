@@ -33,10 +33,15 @@ import de.greenrobot.event.EventBus;
  */
 public class S21CategoryActivity extends BaseActivity {
 
+    public static final String TYPE = "S21CategoryActivity_TYPE";
+    public static final int TYPE_SEARCH = 0x1;
+
     private ListView s21_listview;
     private ArrayList<MongoCategories> categories = new ArrayList<>();
     private ArrayList<ArrayList<MongoCategories>> items = new ArrayList<>();
     private List<String> selectCategories;
+
+    private int type = 0x0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,7 @@ public class S21CategoryActivity extends BaseActivity {
         ButterKnife.inject(this);
 
         s21_listview = (ListView) findViewById(R.id.s21_listview);
+        type = getIntent().getIntExtra(TYPE, type);
         selectCategories = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS);
         getDataFromNet();
         s21_listview.setDividerHeight(0);
