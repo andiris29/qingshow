@@ -149,6 +149,8 @@
 		EF4F950C1BE6417500D6E0BF /* QSU21NewParticipantBonusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4F950A1BE6417500D6E0BF /* QSU21NewParticipantBonusViewController.m */; };
 		EF4F950D1BE6417500D6E0BF /* QSU21NewParticipantBonusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4F950B1BE6417500D6E0BF /* QSU21NewParticipantBonusViewController.xib */; };
 		EF4F95111BE6774E00D6E0BF /* QSNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4F95101BE6774E00D6E0BF /* QSNavigationController.m */; };
+		EF54C9FA1BF3C6C10050A81A /* QSS23SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF54C9F81BF3C6C10050A81A /* QSS23SearchViewController.m */; };
+		EF54C9FB1BF3C6C10050A81A /* QSS23SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF54C9F91BF3C6C10050A81A /* QSS23SearchViewController.xib */; };
 		EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55730D1A21B20000C3BC23 /* QSShowUtil.m */; };
 		EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */; };
 		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
@@ -686,6 +688,9 @@
 		EF4F950B1BE6417500D6E0BF /* QSU21NewParticipantBonusViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU21NewParticipantBonusViewController.xib; sourceTree = "<group>"; };
 		EF4F950F1BE6774E00D6E0BF /* QSNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNavigationController.h; sourceTree = "<group>"; };
 		EF4F95101BE6774E00D6E0BF /* QSNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNavigationController.m; sourceTree = "<group>"; };
+		EF54C9F71BF3C6C10050A81A /* QSS23SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS23SearchViewController.h; sourceTree = "<group>"; };
+		EF54C9F81BF3C6C10050A81A /* QSS23SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS23SearchViewController.m; sourceTree = "<group>"; };
+		EF54C9F91BF3C6C10050A81A /* QSS23SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS23SearchViewController.xib; sourceTree = "<group>"; };
 		EF55730C1A21B20000C3BC23 /* QSShowUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowUtil.h; sourceTree = "<group>"; };
 		EF55730D1A21B20000C3BC23 /* QSShowUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowUtil.m; sourceTree = "<group>"; };
 		EF5573101A21EC7B00C3BC23 /* QSItemUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemUtil.h; sourceTree = "<group>"; };
@@ -1198,6 +1203,9 @@
 				68D16CFF1B341A4700A4646C /* QSS01MatchShowsViewController.h */,
 				68D16D001B341A4700A4646C /* QSS01MatchShowsViewController.m */,
 				68D16D011B341A4700A4646C /* QSS01MatchShowsViewController.xib */,
+				EF54C9F71BF3C6C10050A81A /* QSS23SearchViewController.h */,
+				EF54C9F81BF3C6C10050A81A /* QSS23SearchViewController.m */,
+				EF54C9F91BF3C6C10050A81A /* QSS23SearchViewController.xib */,
 			);
 			path = matchshows;
 			sourceTree = "<group>";
@@ -2926,6 +2934,7 @@
 				8C44759C1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib in Resources */,
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
 				EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */,
+				EF54C9FB1BF3C6C10050A81A /* QSS23SearchViewController.xib in Resources */,
 				8C53454A1B4D61180062D638 /* welcome1_736@3x.png in Resources */,
 				EFED348F1AFC734F00F08A0D /* QSU06LoginViewController.xib in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */,
@@ -3087,6 +3096,7 @@
 				EF994D901B693C3B00715B0E /* QSDiscountTitleCell.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */,
+				EF54C9FA1BF3C6C10050A81A /* QSS23SearchViewController.m in Sources */,
 				EF78E34B1AAF4C9400665EDD /* QSTradeListHeaderView.m in Sources */,
 				EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */,
 				EF810F701AB601C20079BA76 /* QSCreateTradeReceiverInfoTitleCell.m in Sources */,
