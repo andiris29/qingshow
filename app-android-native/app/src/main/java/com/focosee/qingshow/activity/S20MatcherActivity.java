@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -43,13 +45,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -81,8 +86,9 @@ public class S20MatcherActivity extends BaseActivity {
     private Map<String, Select> allSelect;
     private List<String> categoryRefs;
     private ArrayList<String> lastCategoryRefs;
+    private Map<String, MongoCategories.Context> contexts;
 
-    private String categoryRef = "";
+    private String mCategoryRef = "";
     private int pagaSize = 10;
     private int rows[] = new int[]{1, 2};
     private boolean hasDraw = false;
@@ -103,6 +109,7 @@ public class S20MatcherActivity extends BaseActivity {
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
+        contexts = new HashMap<>();
 
         if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
             menu.setVisibility(View.GONE);
@@ -126,8 +133,11 @@ public class S20MatcherActivity extends BaseActivity {
         getCategoryFromNet();
     }
 
-    private void addItemsToCanvas(final String categoryRef, String url, final int row, final int column) {
+    private void addItemsToCanvas(final String categoryRef, String url) {
         final Select select;
+
+        final QSImageView itemView = new QSImageView(this);
+
         if (allSelect.containsKey(categoryRef)) {
             select = allSelect.get(categoryRef);
         } else {
@@ -136,7 +146,6 @@ public class S20MatcherActivity extends BaseActivity {
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-        final QSImageView itemView = new QSImageView(this);
         itemView.setLayoutParams(layoutParams);
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
@@ -146,7 +155,9 @@ public class S20MatcherActivity extends BaseActivity {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
-                formatPlace(itemView, row, column, true);
+                if (contexts.containsKey(categoryRef)) {
+                    formatPlace(itemView, categoryRef, true);
+                }
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);
                 animator.start();
@@ -204,57 +215,33 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
 
-    private void formatPlace(QSImageView view, int row, int column, boolean moveToFrame) {
+    private void formatPlace(final QSImageView itemView, final String categoryRef, boolean moveToFrame) {
+        final Point point = QSApplication.instance().getScreenSize(this);
+        itemView.setX(contexts.get(categoryRef).x * point.x / 100);
+        itemView.setY(contexts.get(categoryRef).y * point.y / 100);
+        System.out.println("x:" + itemView.getX());
+        System.out.println("y:" + itemView.getY());
+        System.out.println("contexts_x" + contexts.get(categoryRef).x);
+        System.out.println("contexts_y" + contexts.get(categoryRef).y);
+        itemView.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = FrameLayout.LayoutParams.WRAP_CONTENT;
+                int height = FrameLayout.LayoutParams.WRAP_CONTENT;
 
-        float left = 0;
-        float top;
+                if ((contexts.get(categoryRef).maxWidth * point.x / 100) <= itemView.getWidth()) {
+                    width = contexts.get(categoryRef).maxWidth * point.x / 100;
+                }
 
-        int minus;
+                if ((contexts.get(categoryRef).maxHeight * point.x / 100) <= itemView.getWidth()) {
+                    height = contexts.get(categoryRef).maxHeight * point.y / 100;
+                }
 
-        int width = view.getImageView().getDrawable().getIntrinsicWidth();
-        int height = view.getImageView().getDrawable().getIntrinsicHeight();
-        float halfCanvasWidth = canvas.getWidth() / 2.0f;
-        float avgCanvasHeight = canvas.getHeight() / (rows[column] + 1);
-
-        switch (column) {
-            case 0:
-                left = 0;
-                break;
-            case 1:
-                left = halfCanvasWidth;
-                break;
-        }
-
-        float ratio = Math.abs(avgCanvasHeight / height) < Math.abs(halfCanvasWidth / width)
-                ? Math.abs(avgCanvasHeight / (height + 20)) : Math.abs(halfCanvasWidth / (width + 20));
-        view.setScaleX(ratio);
-        view.setScaleY(ratio);
-        view.setLastScaleFactor(ratio);
-
-        if (ratio < 1) {
-            minus = -1;
-        } else {
-            minus = 1;
-        }
-
-        if (moveToFrame) {
-            if (column == 0) {
-                left = minus * Math.abs(width * (1.0f - ratio) / 2.0f);
+                itemView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
             }
-            if (column == 1) {
-                left = (halfCanvasWidth + minus * Math.abs(width * (1.0f - ratio) / 2.0f));
-            }
+        });
 
-            top = avgCanvasHeight * row + minus * Math.abs(height * (1.0f - ratio) / 2.0f);
-            moveView(view, 0, 0, left, top);
-        } else {
-            Point lastCentroid = view.getLastCentroid();
-            float dx = view.getLeft() + width / 2 - lastCentroid.x;
-            float dy = view.getTop() + height / 2 - lastCentroid.y;
-            moveView(view, view.getX(), view.getY(), view.getX() - dx, view.getY() - dy);
-            checkBorder(view, canvas);
-        }
-        view.callOnClick();
+        itemView.callOnClick();
     }
 
 
@@ -288,14 +275,14 @@ public class S20MatcherActivity extends BaseActivity {
         canvas.setOnCheckedChangeListener(new QSCanvasView.OnCheckedChangeListener() {
             @Override
             public void checkedChanged(QSImageView view) {
-                if (categoryRef != view.getCategoryId()) {
-                    categoryRef = view.getCategoryId();
-                    if (allSelect.containsKey(categoryRef)) {
-                        allSelect.get(categoryRef).view.showDelBtn();
-                        allSelect.get(categoryRef).view.bringToFront();
-                        List<MongoItem> mongoItems = allSelect.get(categoryRef).data;
-                        adapter.setSelectPos(allSelect.get(categoryRef).selectPos);
-                        adapter.setLastChecked(allSelect.get(categoryRef).lastChecked);
+                if (mCategoryRef != view.getCategoryId()) {
+                    mCategoryRef = view.getCategoryId();
+                    if (allSelect.containsKey(mCategoryRef)) {
+                        allSelect.get(mCategoryRef).view.showDelBtn();
+                        allSelect.get(mCategoryRef).view.bringToFront();
+                        List<MongoItem> mongoItems = allSelect.get(mCategoryRef).data;
+                        adapter.setSelectPos(allSelect.get(mCategoryRef).selectPos);
+                        adapter.setLastChecked(allSelect.get(mCategoryRef).lastChecked);
                         adapter.addDataAtTop(mongoItems);
                         adapter.notifyDataSetChanged();
                     }
@@ -308,25 +295,25 @@ public class S20MatcherActivity extends BaseActivity {
     private void initSelectRV() {
         datas = new LinkedList<>();
         adapter = new S20SelectAdapter(datas, this, R.layout.item_s20_select);
-        allSelect.containsKey(categoryRef);
+        allSelect.containsKey(mCategoryRef);
         adapter.setOnCheckedChangeListener(new S20SelectAdapter.OnCheckedChangeListener() {
             @Override
             public void onCheckedChange(MongoItem datas, int position, RadioLayout view) {
-                if (!allSelect.containsKey(categoryRef)) {
+                if (!allSelect.containsKey(mCategoryRef)) {
                     return;
                 }
-                ImageLoader.getInstance().displayImage(datas.thumbnail, allSelect.get(categoryRef).view.getImageView(), new SimpleImageLoadingListener() {
+                ImageLoader.getInstance().displayImage(datas.thumbnail, allSelect.get(mCategoryRef).view.getImageView(), new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
-                        if (allSelect.containsKey(categoryRef)) {
-                            formatPlace(allSelect.get(categoryRef).view, allSelect.get(categoryRef).row, allSelect.get(categoryRef).column, false);
+                        if (allSelect.containsKey(mCategoryRef) && contexts.containsKey(mCategoryRef)) {
+                            formatPlace(allSelect.get(mCategoryRef).view, mCategoryRef, false);
                         } else {
                             return;
                         }
                     }
                 });
-                allSelect.put(categoryRef, allSelect.get(categoryRef).setLastChecked(view).setSelectPos(position).setItem(datas));
+                allSelect.put(mCategoryRef, allSelect.get(mCategoryRef).setLastChecked(view).setSelectPos(position).setItem(datas));
 
             }
         });
@@ -362,11 +349,11 @@ public class S20MatcherActivity extends BaseActivity {
             }
 
             public void onBottom() {
-                if (allSelect.containsKey(categoryRef)) {
-                    int pagaNo = allSelect.get(categoryRef).pageNo;
+                if (allSelect.containsKey(mCategoryRef)) {
+                    int pagaNo = allSelect.get(mCategoryRef).pageNo;
                     ++pagaNo;
-                    getDataFromNet(pagaNo, pagaSize, categoryRef);
-                    allSelect.put(categoryRef, allSelect.get(categoryRef).setPageNo(pagaNo));
+                    getDataFromNet(pagaNo, pagaSize, mCategoryRef);
+                    allSelect.put(mCategoryRef, allSelect.get(mCategoryRef).setPageNo(pagaNo));
                 }
             }
 
@@ -385,24 +372,25 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
 
-    private void getDataFromNet(final String categoryRef, final int row, final int column) {
+    private void getDataFromNet(final String categoryRef) {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryItems(1, 20, categoryRef), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S20MatcherActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 datas = ItemFeedingParser.parse(response);
                 if (allSelect.containsKey(categoryRef)) {
-                    allSelect.put(categoryRef, allSelect.get(categoryRef).setData(datas).setItem(datas.get(0)).setRow(row).setColumn(column));
+                    allSelect.put(categoryRef, allSelect.get(categoryRef).setData(datas).setItem(datas.get(0)));
                 } else {
-                    allSelect.put(categoryRef, new Select().setData(datas).setItem(datas.get(0)).setRow(row).setColumn(column));
+                    allSelect.put(categoryRef, new Select().setData(datas).setItem(datas.get(0)));
                 }
                 if (!categoryRefs.contains(categoryRef)) {
                     categoryRefs.add(categoryRef);
                 }
-                addItemsToCanvas(categoryRef, datas.get(0).thumbnail, row, column);
+                addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -439,6 +427,7 @@ public class S20MatcherActivity extends BaseActivity {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryCategories(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S20MatcherActivity.class.getSimpleName(), "cate_response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
@@ -446,22 +435,16 @@ public class S20MatcherActivity extends BaseActivity {
                 categories = CategoryParser.parseQuery(response);
 
                 for (MongoCategories category : categories) {
-                    if (category.matchInfo != null) {
-                        if (category.matchInfo.defaultOnCanvas) {
-                            if (category.matchInfo.row > rows[category.matchInfo.column]) {
-                                rows[category.matchInfo.column] = category.matchInfo.row;
-                            }
-                        }
-                    }
-                }
 
-                for (MongoCategories category : categories) {
-                    if (category.matchInfo != null) {
-                        if (category.matchInfo.defaultOnCanvas) {
-                            if (!categoryRefs.contains(category._id)) {
-                                categoryRefs.add(category._id);
+                    if (null != category.__context) {
+                        contexts.put(category._id, category.__context);
+                        if (category.matchInfo != null) {
+                            if (category.matchInfo.defaultOnCanvas) {
+                                if (!categoryRefs.contains(category._id)) {
+                                    categoryRefs.add(category._id);
+                                }
+                                getDataFromNet(category._id);
                             }
-                            getDataFromNet(category._id, category.matchInfo.row, category.matchInfo.column);
                         }
                     }
                 }
@@ -506,7 +489,7 @@ public class S20MatcherActivity extends BaseActivity {
                 if (row > rows[cloum]) {
                     rows[cloum] = row;
                 }
-                getDataFromNet(ref, row, cloum);
+                getDataFromNet(ref);
             }
         }
     }
@@ -545,7 +528,7 @@ public class S20MatcherActivity extends BaseActivity {
         } else {
             onSubmit = true;
         }
-        if (allSelect.size() < 4){
+        if (allSelect.size() < 4) {
             ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_item_less));
             onSubmit = false;
             return;

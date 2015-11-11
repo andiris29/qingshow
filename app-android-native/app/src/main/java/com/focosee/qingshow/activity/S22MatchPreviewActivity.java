@@ -3,6 +3,8 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,6 +37,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -44,6 +49,8 @@ import butterknife.OnClick;
  */
 public class S22MatchPreviewActivity extends BaseActivity {
 
+    private final long TIME_SUBMIT = 5000;
+    private final int TIME_OUT = 0x1;
     @InjectView(R.id.image)
     ImageView image;
     @InjectView(R.id.back)
@@ -60,6 +67,17 @@ public class S22MatchPreviewActivity extends BaseActivity {
     private String uuid;
     private LoadingDialogs dialog;
 
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(msg.what == TIME_OUT){
+                sublit();
+                return true;
+            }
+            return false;
+        }
+    });
+
     @Override
     public void reconn() {
 
@@ -74,6 +92,19 @@ public class S22MatchPreviewActivity extends BaseActivity {
         dialog.setCanceledOnTouchOutside(false);
         itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         initImage();
+        timerSubmit();
+    }
+
+    private void timerSubmit(){
+        Timer timer = new Timer(true);
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if(submitBtn.isEnabled())
+                    handler.sendEmptyMessage(TIME_OUT);
+            }
+        };
+        timer.schedule(timerTask, TIME_SUBMIT);
     }
 
     private void initImage() {
