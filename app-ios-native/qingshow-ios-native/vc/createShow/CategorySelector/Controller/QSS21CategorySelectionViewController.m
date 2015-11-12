@@ -10,7 +10,7 @@
 #import "QSS21TableViewProvider.h"
 #import "QSBackBarItem.h"
 
-@interface QSS21CategorySelectionViewController () <QSS21TableViewProviderDelegate>
+@interface QSS21CategorySelectionViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray* categories;
@@ -74,7 +74,6 @@
 - (void)setProvider
 {
     self.provider = [[QSS21TableViewProvider alloc] init];
-    self.provider.delegate = self;
     self.provider.dataArray = self.categories;
     self.provider.selectedArray = [self.selectedCategories mutableCopy];
     [self.provider bindWithTableView:self.tableView];

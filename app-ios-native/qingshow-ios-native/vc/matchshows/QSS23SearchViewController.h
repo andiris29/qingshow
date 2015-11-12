@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSS23TableViewProvider.h"
 
-@interface QSS23SearchViewController : UIViewController
+@interface QSS23SearchViewController : UIViewController<QSS23TableViewProviderDelegate>
 
 - (instancetype)init;
 

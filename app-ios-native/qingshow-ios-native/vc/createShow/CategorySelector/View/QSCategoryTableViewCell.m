@@ -61,6 +61,51 @@
     NSArray *array = [QSCategoryUtil getChildren:cellDic];
     [self setItemsWith:array select:selectedDic];
 }
+
+- (void)bindCategoryForSearch:(NSDictionary*)categoryDict {
+    [self setTitleButtonCornerRadius];
+    NSString *titleStr = [QSCategoryUtil getName:categoryDict];
+    [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
+    UIColor* color = [QSCategoryUtil getColor:categoryDict];
+    self.titleButton.backgroundColor = color;
+    self.titleLine.backgroundColor = color;
+    [self.leftBtn setTitleColor:color forState:UIControlStateNormal];
+    [self.rightBtn setTitleColor:color forState:UIControlStateNormal];
+    
+    NSArray *array = [QSCategoryUtil getChildren:categoryDict];
+    [self _bindCellContentWithCategories:array];
+}
+- (void)_bindCellContentWithCategories:(NSArray*)array {
+    self.scrollView.contentSize = CGSizeMake(array.count*kItemWith, kItemHeight);
+    for (QSS21ItemView *item in self.scrollView.subviews) {
+        [item removeFromSuperview];
+    }
+    for (int i = 0; i < array.count; i ++) {
+        
+        //初始化resultArray
+        //从nib记载自定义button
+        NSArray *nibViews = [[NSBundle mainBundle] loadNibNamed:@"QSS21ItemView" owner:self options:nil];
+        
+        QSS21ItemView *item = [nibViews lastObject];
+        item.frame = CGRectMake(i *kItemWith, 0, 64, kItemHeight);
+        [item.titleLabel setTextColor:[UIColor blackColor]];
+        
+        //添加点击手势
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeitemState:)];
+        singleTap.numberOfTapsRequired = 1;
+        [item addGestureRecognizer:singleTap];
+        
+        //设置图片和title
+        NSDictionary *itemDic = array[i];
+        item.itemDic = itemDic;
+        
+        [item updateForSearch];
+        
+        [self.scrollView addSubview:item];
+        
+    }
+}
+
 - (void)setLastCellWith:(NSDictionary *)cellDic andSelectedArray:(NSArray *)selectedArray
 {
     [self setTitleButtonCornerRadius];

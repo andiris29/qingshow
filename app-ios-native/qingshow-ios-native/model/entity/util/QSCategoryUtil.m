@@ -76,5 +76,17 @@
     }
 }
 
-
++ (NSURL*)getColoredIconUrl:(NSDictionary*)categoryDict {
+    NSString* path = [QSEntityUtil getStringValue:categoryDict keyPath:@"coloredIcon"];
+    if (path) {
+        return [NSURL URLWithString:path];
+    } else {
+        return nil;
+    }
+}
++ (UIColor*)getColor:(NSDictionary*)categoryDict {
+    NSString* colorStr = [categoryDict stringValueForKeyPath:@"color"];
+#warning TODO
+    return [UIColor redColor];
+}
 @end

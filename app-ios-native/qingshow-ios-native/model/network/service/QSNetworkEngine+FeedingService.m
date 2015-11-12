@@ -29,6 +29,7 @@
 #define PATH_FEEDING_MATCH_NEW @"feeding/matchNew"
 #define PATH_FEEDING_MATCH_FEATURED @"feeding/featured"
 #define PATH_FEEDING_OWNERREF @"feeding/"
+#define PATH_FEEDING_SEARCH @"feeding/search"
 
 
 @interface QSNetworkEngine (Private)
@@ -193,4 +194,11 @@
 {
     return [self getFeedingPath:PATH_FEEDING_MATCH_FEATURED otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
+- (MKNetworkOperation*)getFeedingSearch:(NSString*)keyword
+                                page:(int)page
+                           onSucceed:(ArraySuccessBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock {
+    return [self getFeedingPath:PATH_FEEDING_SEARCH otherParam:@{@"keyword" : keyword} page:page onSucceed:succeedBlock onError:errorBlock];
+}
+
 @end
