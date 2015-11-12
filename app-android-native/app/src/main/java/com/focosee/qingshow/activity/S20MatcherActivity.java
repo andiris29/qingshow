@@ -215,33 +215,30 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
 
-    private void formatPlace(final QSImageView itemView, final String categoryRef, boolean moveToFrame) {
-        final Point point = QSApplication.instance().getScreenSize(this);
-        itemView.setX(contexts.get(categoryRef).x * point.x / 100);
-        itemView.setY(contexts.get(categoryRef).y * point.y / 100);
-        System.out.println("x:" + itemView.getX());
-        System.out.println("y:" + itemView.getY());
-        System.out.println("contexts_x" + contexts.get(categoryRef).x);
-        System.out.println("contexts_y" + contexts.get(categoryRef).y);
-        itemView.post(new Runnable() {
-            @Override
-            public void run() {
-                int width = FrameLayout.LayoutParams.WRAP_CONTENT;
-                int height = FrameLayout.LayoutParams.WRAP_CONTENT;
+    private void formatPlace(final QSImageView view, final String categoryRef, boolean moveToFrame) {
 
-                if ((contexts.get(categoryRef).maxWidth * point.x / 100) <= itemView.getWidth()) {
-                    width = contexts.get(categoryRef).maxWidth * point.x / 100;
-                }
+        int width = view.getImageView().getDrawable().getIntrinsicWidth();
+        int height = view.getImageView().getDrawable().getIntrinsicHeight();
+        float ratio =(float) width / height;
 
-                if ((contexts.get(categoryRef).maxHeight * point.x / 100) <= itemView.getWidth()) {
-                    height = contexts.get(categoryRef).maxHeight * point.y / 100;
-                }
+        float maxWidth = contexts.get(categoryRef).maxWidth * canvas.getWidth() / 100f;
+        float maxHeight = contexts.get(categoryRef).maxHeight * canvas.getHeight() / 100f;
 
-                itemView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
-            }
-        });
+        float maxRatio = maxWidth / maxHeight;
 
-        itemView.callOnClick();
+        if (ratio < maxRatio) {
+            width = (int) (maxHeight * ratio);
+            height = (int) maxHeight;
+        } else {
+            height = (int) (maxWidth / ratio);
+            width = (int) maxWidth;
+        }
+        view.setLayoutParams(new FrameLayout.LayoutParams(width, height));
+        view.setX(contexts.get(categoryRef).x * canvas.getWidth() / 100);
+        view.setY(contexts.get(categoryRef).y * canvas.getHeight() / 100);
+        System.out.println("left:" + view.getLeft());
+        System.out.println("right:" + view.getRight());
+        view.callOnClick();
     }
 
 
@@ -438,14 +435,10 @@ public class S20MatcherActivity extends BaseActivity {
 
                     if (null != category.__context) {
                         contexts.put(category._id, category.__context);
-                        if (category.matchInfo != null) {
-                            if (category.matchInfo.defaultOnCanvas) {
-                                if (!categoryRefs.contains(category._id)) {
-                                    categoryRefs.add(category._id);
-                                }
-                                getDataFromNet(category._id);
-                            }
+                        if (!categoryRefs.contains(category._id)) {
+                            categoryRefs.add(category._id);
                         }
+                        getDataFromNet(category._id);
                     }
                 }
             }

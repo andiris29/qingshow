@@ -29,7 +29,6 @@ import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
