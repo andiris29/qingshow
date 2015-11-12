@@ -22,11 +22,14 @@ import com.focosee.qingshow.bean.ResponseJsonEntity;
 import com.focosee.qingshow.tencent.common.Util;
 import com.focosee.qingshow.tencent.common.bean.PayQueryReqBean;
 import com.focosee.qingshow.tencent.common.bean.PayQueryResBean;
+import com.focosee.qingshow.tencent.common.bean.SendRedPackReqBean;
+import com.focosee.qingshow.tencent.common.bean.SendRedPackResBean;
 import com.focosee.qingshow.tencent.common.bean.UnifiedOrderReqBean;
 import com.focosee.qingshow.tencent.common.bean.UnifiedOrderResBean;
 import com.focosee.qingshow.tencent.service.CallbackReqBean;
 import com.focosee.qingshow.tencent.service.CallbackResBean;
 import com.focosee.qingshow.tencent.service.PayQueryService;
+import com.focosee.qingshow.tencent.service.SendRedPackService;
 import com.focosee.qingshow.tencent.service.UnifiedOrderService;
 import com.focosee.qingshow.util.ServerError;
 import com.google.gson.Gson;
@@ -207,6 +210,68 @@ public class WeChatPaymentController {
             metadata.setDevInfo(ServerError.ERROR_QUERY_ORDER_FAIL_MSG);
             returnEntity.setMetadata(metadata);
         }        
+        return returnEntity;
+    }
+    
+    @RequestMapping(value = "/sendRedPack", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object sendRedPack(
+            @RequestParam(value = "mchBillno", required = true)String mchBillno,
+            @RequestParam(value = "sendName", required = true) String sendName,
+            @RequestParam(value = "openid", required = true)String openid, 
+            @RequestParam(value = "totalAmount", required = true)String totalAmount, 
+            @RequestParam(value = "wishing", required = true)String wishing, 
+            @RequestParam(value = "ip", required = true)String ip, 
+            @RequestParam(value = "actName", required = true)String actName,
+            @RequestParam(value = "remark", required = true)String remark) {
+        log.info("wechat/sendRedPack");
+
+        ResponseJsonEntity returnEntity = new ResponseJsonEntity();
+        
+        try {
+            SendRedPackReqBean bean = new SendRedPackReqBean();
+            double totalAmountOriginal = NumberUtils.toDouble(totalAmount, 0);
+            totalAmountOriginal *= 100;
+            int totalAmountFeng = NumberUtils.createBigDecimal(String.valueOf(totalAmountOriginal)).intValue();
+            
+            bean.setTotal_amount(String.valueOf(totalAmountFeng));
+            bean.setRe_openid(openid);
+            bean.setTotal_num("1");
+            bean.setWishing(wishing);
+            bean.setClient_ip(ip);
+            bean.setAct_name(actName);
+            bean.setRemark(remark);
+            bean.setMch_billno(mchBillno);
+            bean.setSend_name(sendName);
+            bean.sign();
+
+            SendRedPackService service = new SendRedPackService();
+            SendRedPackResBean responseBody = service.request(bean);
+            if (SUCCESS.compareTo(responseBody.getReturn_code()) != 0) {
+                log.error("send redpack failure. reason:" + responseBody.getReturn_msg());
+                Metadata metadata = new Metadata();
+                metadata.setError("9007");
+                metadata.setDevInfo(responseBody.getReturn_msg());
+                returnEntity.setMetadata(metadata);
+                return returnEntity;
+            } 
+            if (SUCCESS.compareTo(responseBody.getResult_code()) != 0) {
+                log.error("send redpack error. err_code:[" + responseBody.getErr_code() + "],err_msg:[" + responseBody.getErr_code_des() + "]");
+                Metadata metadata = new Metadata();
+                metadata.setError("9007");
+                metadata.setDevInfo(responseBody.getErr_code() + "/" + responseBody.getErr_code_des());
+                returnEntity.setMetadata(metadata);
+                return returnEntity;
+            }
+            
+            returnEntity.setData(responseBody);
+
+        } catch (Exception ex) {
+            log.error("send red pack exception.", ex);
+            Metadata metadata = new Metadata();
+            metadata.setError("9007");
+            returnEntity.setMetadata(metadata);
+        }
+        
         return returnEntity;
     }
 
