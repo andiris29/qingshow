@@ -197,7 +197,26 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                         });
                         return;
                     }
+                    if(command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
+                        btn2.setVisibility(View.VISIBLE);
+                        btn2.setText("查看折扣");
+                        btn2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showNewTradeNotify(trade._id);
+                            }
+                        });
+                    }
                 }
+            } else {
+                btn2.setVisibility(View.VISIBLE);
+                btn2.setText("立即付款");
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showNewTradeNotify(trade._id);
+                    }
+                });
             }
 
             discountBtn.setVisibility(View.VISIBLE);
