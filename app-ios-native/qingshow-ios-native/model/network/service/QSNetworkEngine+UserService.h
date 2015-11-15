@@ -16,10 +16,6 @@
                             password:(NSString*)password
                            onSucceed:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)loginViaWeiboAccessToken:(NSString*)accessToken
-                                            uid:(NSString*)uid
-                                      onSucceed:(EntitySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)loginViaWechatCode:(NSString*)code
                                 onSucceed:(EntitySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
@@ -28,11 +24,6 @@
                                onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)loginAsGuestOnSucceed:(EntitySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
-
-//- (MKNetworkOperation *)registerById:(NSString *)pid
-//                            Password:(NSString *)passwd
-//                           onSuccess:(EntitySuccessBlock)succeedBlock
-//                             onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation *)registerByNickname:(NSString *)nickName
                                   Password:(NSString *)passwd
                                         Id:(NSString *)pid
@@ -95,7 +86,11 @@
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)userUpdateJpushId:(NSString*)jpushId
-                               onSucceed:(VoidBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)userBindCurrentJpushIdOnSucceed:(VoidBlock)succeedBlock
+                                               onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)userBindJpushId:(NSString*)jpushId
+                             onSucceed:(VoidBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock;
 @end

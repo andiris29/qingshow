@@ -335,39 +335,6 @@
     
 }
 
-//#pragma mark -- rememberFirstLaunch
-//- (void)logTraceFirstLaunch
-//{
-//    //获取倾秀版本
-//    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-//    //获取设备号
-//    NSUUID *uidID= [UIDevice currentDevice].identifierForVendor;
-//    NSString *uidIDStr = [NSString stringWithFormat:@"%@",uidID];
-//    NSRange range = [uidIDStr rangeOfString:@"> "];
-//    
-//    NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
-//    if (range.length) {
-//        int loc = (int)(range.location + range.length);
-//        NSString *uidStr = [uidIDStr substringFromIndex:loc];
-//        parametes[@"deviceUid"] = uidStr;
-//    }
-//        //获取iOS版本号
-//    NSString *osVersion = [UIDevice currentDevice].systemVersion;
-//    
-//
-//    parametes[@"version"] = appVersion;
-//
-////    parametes[@"deviceUid"] = @111;
-//    parametes[@"osVersion"] = osVersion;
-//    parametes[@"osType"] = @(0);
-//    
-//    [SHARE_NW_ENGINE logTraceWithParametes:parametes onSucceed:^(BOOL f) {
-//        
-//    } onError:^(NSError *error) {
-//        
-//    }];
-//}
-
 - (BOOL)isFirstLaunch {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return ![userDefaults boolForKey:kTraceLogFirstLaunch];
@@ -444,7 +411,6 @@
         default: {
             break;
         }
-            
     }
     
     [APService handleRemoteNotification:userInfo];
@@ -457,8 +423,7 @@
 #pragma mark - JPush
 - (void)didReceiveJPushRegistrionId:(NSNotification*)notification {
     [QSUserManager shareUserManager].JPushRegistrationID = [APService registrationID];
-    [SHARE_NW_ENGINE userUpdateJpushId:[QSUserManager shareUserManager].JPushRegistrationID onSucceed:nil onError:nil];
-    
+    [SHARE_NW_ENGINE userBindCurrentJpushIdOnSucceed:nil onError:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
 }
 
