@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *mobileLoginBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *weichatLoginBtn;
-@property (weak, nonatomic) IBOutlet UIButton *weiboLoginBtn;
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;
 
 @end
@@ -87,14 +86,7 @@
         [self showErrorHudWithError:error];
     }];
 }
-- (IBAction)weiboLoginPressed:(id)sender {
-    [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
-        [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
-        [self registerBtnPressed:nil];
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
-}
+
 - (IBAction)registerBtnPressed:(id)sender {
     QSU07RegisterViewController* registerVc = [[QSU07RegisterViewController alloc] init];
     CATransition* tran = [[CATransition alloc] init];

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU19LoginGuideViewController">
@@ -11,7 +11,6 @@
                 <outlet property="mobileLoginBtn" destination="tNm-4o-Lke" id="WRm-fd-WUw"/>
                 <outlet property="registerBtn" destination="1ZX-JL-3vh" id="RYc-IP-MCc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="weiboLoginBtn" destination="hOD-aT-Rpp" id="c9k-vN-j8B"/>
                 <outlet property="weichatLoginBtn" destination="bh1-iq-gVE" id="dhj-8x-8jj"/>
             </connections>
         </placeholder>
@@ -25,13 +24,6 @@
                     <state key="normal" image="loginguide_mobile"/>
                     <connections>
                         <action selector="mobileLoginPressed:" destination="-1" eventType="touchUpInside" id="VK0-Xm-5u2"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOD-aT-Rpp">
-                    <rect key="frame" x="129" y="316" width="63" height="87"/>
-                    <state key="normal" image="loginguide_weibo"/>
-                    <connections>
-                        <action selector="weiboLoginPressed:" destination="-1" eventType="touchUpInside" id="IMz-ab-hB6"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ZX-JL-3vh">
@@ -50,7 +42,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh1-iq-gVE">
-                    <rect key="frame" x="129" y="193" width="63" height="87"/>
+                    <rect key="frame" x="129" y="317" width="63" height="87"/>
                     <state key="normal" image="loginguide_wechat"/>
                     <connections>
                         <action selector="wechatLoginPressed:" destination="-1" eventType="touchUpInside" id="C4l-3h-Tb5"/>
@@ -65,6 +57,10 @@
         <image name="item_detail_close" width="20" height="20"/>
         <image name="loginguide_mobile" width="63" height="87"/>
         <image name="loginguide_wechat" width="63" height="88"/>
-        <image name="loginguide_weibo" width="63" height="88"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

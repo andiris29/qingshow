@@ -8,13 +8,11 @@
 
 #import "QSThirdPartLoginService.h"
 #import "QSSharePlatformConst.h"
-#import "WeiboSDK.h"
 #import "WXApi.h"
 #import "QSNetworkKit.h"
 #import "QSEntityUtil.h"
 
 @interface QSThirdPartLoginService ()
-//Weibo
 @property (strong, nonatomic) VoidBlock succeedBlock;
 @property (strong, nonatomic) ErrorBlock errorBlock;
 
@@ -25,7 +23,6 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWeiboAuthroizeResult:) name:kWeiboAuthorizeResultNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWechatAuthroizeSuccess:) name:kWechatAuthorizeSucceedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWechatAuthroizeFail:) name:kWechatAuthorizeFailNotification object:nil];
     }
@@ -75,35 +72,6 @@
     [self invokeFailCallback:nil];
 }
 
-#pragma mark - Weibo
-- (void)loginWithWeiboOnSuccees:(VoidBlock)succeedBlock
-                        onError:(ErrorBlock)errorBlock
-{
-    self.succeedBlock = succeedBlock;
-    self.errorBlock = errorBlock;
-    
-    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    request.redirectURI = kWeiboRedirectURI;
-    request.scope = @"all";
-    request.userInfo = nil;
-    [WeiboSDK sendRequest:request];
-}
-- (void)didReceiveWeiboAuthroizeResult:(NSNotification*)noti
-{
-    NSDictionary* userInfo = noti.userInfo;
-    NSNumber* statusCode = [QSEntityUtil getNumberValue:userInfo keyPath:@"statusCode"] ;
-    if (statusCode.intValue == WeiboSDKResponseStatusCodeSuccess) {
-        NSString* accessToken =  [QSEntityUtil getStringValue:userInfo keyPath:@"accessToken"];
-        NSString* uid = [QSEntityUtil getStringValue:userInfo keyPath:@"userId"];
-        [SHARE_NW_ENGINE loginViaWeiboAccessToken:accessToken uid:uid onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
-            [self invokeSuccessCallback];
-        } onError:^(NSError *error) {
-            [self invokeFailCallback:error];
-        }];
-    } else {
-        [self invokeFailCallback:nil];
-    }
-}
 #pragma mark - Private
 - (void)invokeSuccessCallback
 {

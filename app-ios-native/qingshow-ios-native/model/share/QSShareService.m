@@ -9,7 +9,6 @@
 #import "QSSharePlatformConst.h"
 #import "QSShareService.h"
 #import <Social/Social.h>
-#import "WeiboSDK.h"
 #import "WXApi.h"
 
 @interface QSShareService ()

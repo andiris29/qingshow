@@ -223,9 +223,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     NSString* urlStr = [url absoluteString];
-    if ([urlStr hasPrefix:kWeiboAppKey]) {
-        return [WeiboSDK handleOpenURL:url delegate:self];
-    } else if ([urlStr hasPrefix:kWechatAppID]) {
+    if ([urlStr hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     } else if ([urlStr hasPrefix:@"alipay"]) {
         if ([url.host isEqualToString:@"safepay"]) {
@@ -246,9 +244,7 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url absoluteString] hasPrefix:kWeiboAppKey]) {
-        return [WeiboSDK handleOpenURL:url delegate:self ];
-    } else if ([[url absoluteString] hasPrefix:kWechatAppID]) {
+    if ([[url absoluteString] hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     }
     return YES;
@@ -256,42 +252,8 @@
 
 #pragma mark - Share Platform
 - (void)registerSharePlatform {
-    //Weibo
-    [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:kWeiboAppKeyNum];
-    
     //Wechat
     [WXApi registerApp:kWechatAppID];
-}
-#pragma mark - Weibo
-- (void)didReceiveWeiboRequest:(WBBaseRequest *)request
-{
-    
-}
-
-- (void)didReceiveWeiboResponse:(WBBaseResponse *)response
-{
-    if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboSendMessageResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
-    }
-    else if ([response isKindOfClass:WBAuthorizeResponse.class])
-    {
-        QSUserManager* um = [QSUserManager shareUserManager];
-        if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
-            um.weiboAccessToken = [(WBAuthorizeResponse *)response accessToken];
-            um.weiboUserId = [(WBAuthorizeResponse *)response userID];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode), @"accessToken" : um.weiboAccessToken, @"userId" : um.weiboUserId}];
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
-        }
-        
-
-    }
-    else if ([response isKindOfClass:WBPaymentResponse.class])
-    {
-        
-    }
 }
 
 #pragma mark - WeChat
