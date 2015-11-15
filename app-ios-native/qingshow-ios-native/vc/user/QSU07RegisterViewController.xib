@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -19,12 +19,12 @@
             <connections>
                 <outlet property="containerScrollView" destination="eh6-AP-T6p" id="MeH-c6-Yu0"/>
                 <outlet property="contentView" destination="i5M-Pr-FkT" id="364-Qb-0mP"/>
-                <outlet property="geTestNumBtn" destination="LUm-jg-Pe7" id="i5u-GN-oe3"/>
+                <outlet property="getVerifyCodeBtn" destination="LUm-jg-Pe7" id="bEX-Pu-9AL"/>
                 <outlet property="itemBtn" destination="49Y-mb-sK5" id="t8i-ov-k9W"/>
-                <outlet property="mailAndPhoneText" destination="0FZ-dt-Muw" id="sB9-z8-UFk"/>
-                <outlet property="passwdCfmText" destination="Ck3-gi-jKz" id="SMg-K4-6b0"/>
-                <outlet property="registerButton" destination="RGB-hF-Hch" id="IrK-vP-63Y"/>
-                <outlet property="testTextField" destination="98R-gf-SYG" id="l7g-DP-Hey"/>
+                <outlet property="mobileTextField" destination="0FZ-dt-Muw" id="7nV-xS-o5S"/>
+                <outlet property="passwdCfmTextField" destination="Ck3-gi-jKz" id="3Hb-DN-21B"/>
+                <outlet property="registerBtn" destination="RGB-hF-Hch" id="qGS-Ya-zau"/>
+                <outlet property="verifyCodeTextField" destination="98R-gf-SYG" id="BcN-yL-8xe"/>
                 <outlet property="view" destination="ef3-FR-n1U" id="cQD-cL-JZx"/>
             </connections>
         </placeholder>
@@ -82,7 +82,7 @@
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="15"/>
                     <state key="normal" title="注册"/>
                     <connections>
-                        <action selector="registers:" destination="-1" eventType="touchUpInside" id="B1T-aG-l6O"/>
+                        <action selector="registerBtnPressed:" destination="-1" eventType="touchUpInside" id="BEi-gA-Q4T"/>
                     </connections>
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入验证码" minimumFontSize="17" id="98R-gf-SYG">
@@ -141,7 +141,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="back:" destination="-1" eventType="touchUpInside" id="1U1-J1-aaO"/>
+                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="OND-I5-rli"/>
                     </connections>
                 </button>
             </subviews>
@@ -157,4 +157,9 @@
         <image name="user_mobile" width="14" height="27"/>
         <image name="user_password" width="18" height="21"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

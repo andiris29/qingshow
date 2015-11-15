@@ -229,22 +229,25 @@
             ];
 }
 
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd Id:(NSString *)pid onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)registerByMobile:(NSString *)mobile
+                                  password:(NSString *)passwd
+                              verifyCode:(NSString *)code
+                             onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock
 {
-    NSMutableDictionary* paramDict = [@{@"nickname" : nickName, @"password": passwd, @"id":pid} mutableCopy];
-    
+#warning TODO API WIKI Page上目前没有code，待确认
     return [self startOperationWithPath:PATH_USER_REGISTER
                                  method:@"POST"
-                               paramers:paramDict
+                               paramers:@{@"mobile" : mobile, @"password": passwd, @"code":code}
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;
                 [QSUserManager shareUserManager].fIsLogined = YES;
-                [QSUserManager shareUserManager].userInfo = retDict[@"data"][@"people"];
+                
+                NSDictionary* userDict = [retDict dictValueForKeyPath:@"data.people"];
+                [QSUserManager shareUserManager].userInfo = userDict;
                 [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
                 if (successdBlock) {
-                    successdBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                    successdBlock(userDict, [retDict dictValueForKeyPath:@"metadata"]);
                 }
             }
                                 onError:
@@ -255,42 +258,6 @@
             }
             ];
   
-}
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd
-                                        Id:(NSString *)pid
-                                    mobile:(NSString *)mobileNum
-                                      code:(NSString *)code
-                               onSucceessd:(EntitySuccessBlock)successdBlock
-                                   onErrer:(ErrorBlock)errorBlock
-{
-    NSMutableDictionary* paramDict = [@{@"password": passwd, @"id":pid
-                                        ,@"mobile":mobileNum,@"verificationCode":code} mutableCopy];
-    if (nickName) {
-        paramDict[@"nickname"] = nickName;
-    }
-    
-    return [self startOperationWithPath:PATH_USER_REGISTER
-                                 method:@"POST"
-                               paramers:paramDict
-                            onSucceeded:
-            ^(MKNetworkOperation *completeOperation) {
-                NSDictionary *retDict = completeOperation.responseJSON;
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                [QSUserManager shareUserManager].userInfo = retDict[@"data"][@"people"];
-                [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
-                if (successdBlock) {
-                    successdBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
-                }
-            }
-                                onError:
-            ^(MKNetworkOperation *completedOperation, NSError *error) {
-                if(errorBlock) {
-                    errorBlock(error);
-                }
-            }
-            ];
-
 }
 
 - (MKNetworkOperation *)updatePeople:(NSDictionary *)people

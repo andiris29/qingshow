@@ -12,6 +12,11 @@
 @interface QSNetworkEngine(UserService)
 
 #pragma mark - User
+- (MKNetworkOperation *)registerByMobile:(NSString *)mobile
+                                password:(NSString *)passwd
+                              verifyCode:(NSString *)code
+                             onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
                             password:(NSString*)password
                            onSucceed:(EntitySuccessBlock)succeedBlock
@@ -24,18 +29,6 @@
                                onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)loginAsGuestOnSucceed:(EntitySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd
-                                        Id:(NSString *)pid
-                               onSucceessd:(EntitySuccessBlock)successdBlock
-                                   onErrer:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd
-                                        Id:(NSString *)pid
-                                    mobile:(NSString *)mobileNum
-                                      code:(NSString *)code
-                               onSucceessd:(EntitySuccessBlock)successdBlock
-                                   onErrer:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation *)updatePeople:(NSDictionary *)people
                            onSuccess:(EntitySuccessBlock)succeedBlock

@@ -19,38 +19,18 @@
 #define PAGE_ID @"U07 - 注册"
 #define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSU07RegisterViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *passwdCfmText;
-@property (weak, nonatomic) IBOutlet UITextField *mailAndPhoneText;
-@property (weak, nonatomic) IBOutlet UIButton *registerButton;
-@property (weak, nonatomic) IBOutlet UITextField *testTextField;
-@property (weak, nonatomic) IBOutlet UIButton *geTestNumBtn;
-
-
-//@property (assign,nonatomic)static int num;
-@property (strong,nonatomic)NSTimer *timer;
+@property (weak, nonatomic) IBOutlet UITextField *passwdCfmTextField;
+@property (weak, nonatomic) IBOutlet UITextField *mobileTextField;
+@property (weak, nonatomic) IBOutlet UITextField *verifyCodeTextField;
+@property (weak, nonatomic) IBOutlet UIButton *getVerifyCodeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *registerBtn;
+@property (strong,nonatomic) NSTimer *timer;
 
 @end
 
 @implementation QSU07RegisterViewController
 
-- (void)popToPreviousVc {
-    [self hideLoginPrompVc];
-}
-
-- (void)configScrollView
-{
-    
-    CGSize scrollViewSize = self.containerScrollView.bounds.size;
-    CGSize contentSize = self.contentView.bounds.size;
-    float height = scrollViewSize.height > contentSize.height ? scrollViewSize.height : contentSize.height;
-    self.containerScrollView.contentSize = CGSizeMake(scrollViewSize.width, height + 20);
-    [self.view addSubview:self.contentView];
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
-}
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -58,74 +38,26 @@
     [self registerForKeyboardNotifications];
     [self configScrollView];
     [self.containerScrollView addSubview:self.contentView];
-    self.passwdCfmText.delegate = self;
-    self.mailAndPhoneText.delegate = self;
-    [self.passwdCfmText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self.mailAndPhoneText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self.testTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    self.passwdCfmTextField.delegate = self;
+    self.mobileTextField.delegate = self;
+    [self.passwdCfmTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.mobileTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.verifyCodeTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
-    self.passwdCfmText.tintColor = [UIColor whiteColor];
-    self.mailAndPhoneText.tintColor = [UIColor whiteColor];
-    self.testTextField.tintColor = [UIColor whiteColor];
+    self.passwdCfmTextField.tintColor = [UIColor whiteColor];
+    self.mobileTextField.tintColor = [UIColor whiteColor];
+    self.verifyCodeTextField.tintColor = [UIColor whiteColor];
     
-    self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
-    self.registerButton.layer.masksToBounds = YES;
+    self.registerBtn.layer.cornerRadius = self.registerBtn.frame.size.height / 8;
+    self.registerBtn.layer.masksToBounds = YES;
     
-    self.geTestNumBtn.layer.cornerRadius = self.geTestNumBtn.frame.size.height / 8;
+    self.getVerifyCodeBtn.layer.cornerRadius = self.getVerifyCodeBtn.frame.size.height / 8;
     
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
     self.view.userInteractionEnabled = YES;
     [self.view addGestureRecognizer:ges];
+}
 
-
-    
-}
-- (void)dealloc
-{
-    [self unregisterKeyboardNotifications];
-}
-- (IBAction)getTestNumberButtonPressed:(id)sender {
-    if(![self checkMobile:self.mailAndPhoneText.text]){
-        [self showErrorHudWithText:@"请输入正确的手机号"];
-        return;
-    }
-    
-    NSString *mobileNum = self.mailAndPhoneText.text;
-    [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
-        [self showTextHud:@"已成功发送验证码"];
-        [self setTimer];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
-}
-- (void)setTimer
-{
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
-    [_timer fire];
-    
-    self.geTestNumBtn.userInteractionEnabled = NO;
-}
-- (void)timerRun
-{
-#warning remove static
-    static int num = 60;
-    [self.geTestNumBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
-    num -= 1;
-    if (num < 1) {
-        [_timer invalidate];
-        _timer = nil;
-        num = 60;
-        [self.geTestNumBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
-        self.geTestNumBtn.userInteractionEnabled = YES;
-    }
-    
-}
-- (IBAction)back:(id)sender {
-    CATransition* tran = [[CATransition alloc] init];
-    tran.type = kCATransitionFade;
-    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
-    [self.navigationController popViewControllerAnimated:NO];
-}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -142,6 +74,12 @@
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:PAGE_ID];
 }
+
+- (void)dealloc
+{
+    [self unregisterKeyboardNotifications];
+}
+
 # pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.currentResponder = textField;
@@ -151,24 +89,36 @@
     [textField resignFirstResponder];
 }
 
-
-# pragma mark - Action
-- (void)resignOnTap:(id)iSender {
-    [self hideKeyboard];
+#pragma mark - IBAction
+- (IBAction)backBtnPressed:(id)sender {
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+    [self.navigationController popViewControllerAnimated:NO];
 }
-- (void)hideKeyboard
-{
-    for (UITextField* t in @[self.passwdCfmText, self.mailAndPhoneText,self.testTextField]) {
-        [t resignFirstResponder];
+
+- (IBAction)getTestNumberButtonPressed:(id)sender {
+    if(![self checkMobile:self.mobileTextField.text]){
+        [self showErrorHudWithText:@"请输入正确的手机号"];
+        return;
     }
+    
+    NSString *mobileNum = self.mobileTextField.text;
+    [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
+        [self showTextHud:@"已成功发送验证码"];
+        [self configTimer];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
 }
 
-- (IBAction)registers:(id)sender {
-    NSString *passwdCfm = self.passwdCfmText.text;
-    NSString *mailAndPhone = self.mailAndPhoneText.text;
-    NSString *code = self.testTextField.text;
 
-    if(![self checkMobile:mailAndPhone]){
+- (IBAction)registerBtnPressed:(id)sender {
+    NSString *passwdCfm = self.passwdCfmTextField.text;
+    NSString *mobilePhone = self.mobileTextField.text;
+    NSString *code = self.verifyCodeTextField.text;
+    
+    if(![self checkMobile:mobilePhone]){
         [self showErrorHudWithText:@"请输入正确的手机号"];
         return;
     }
@@ -183,13 +133,11 @@
         return;
     }
     
-
+    
     if (code.length == 0) {
         [self showErrorHudWithText:@"请填写验证码"];
         return;
     }
-    
-
     
     EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
         [self showSuccessHudWithText:@"登陆成功"];
@@ -199,7 +147,18 @@
     ErrorBlock errorBlock = ^(NSError *error) {
         [self handleError:error];
     };
-    [SHARE_NW_ENGINE registerByNickname:nil Password:passwdCfm Id:mailAndPhone mobile:mailAndPhone code:code onSucceessd:successBloc onErrer:errorBlock];
+    [SHARE_NW_ENGINE registerByMobile:mobilePhone password:passwdCfm verifyCode:code onSucceessd:successBloc onErrer:errorBlock];
+}
+
+#pragma mark - Gesture
+- (void)resignOnTap:(id)iSender {
+    [self hideKeyboard];
+}
+- (void)hideKeyboard
+{
+    for (UITextField* t in @[self.passwdCfmTextField, self.mobileTextField,self.verifyCodeTextField]) {
+        [t resignFirstResponder];
+    }
 }
 
 #pragma mark - Keyboard
@@ -227,6 +186,48 @@
         self.containerScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     }];
     
+}
+
+#pragma mark - Timer
+- (void)configTimer
+{
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerUpdate) userInfo:nil repeats:YES];
+    [_timer fire];
+    
+    self.getVerifyCodeBtn.userInteractionEnabled = NO;
+}
+- (void)timerUpdate
+{
+#warning remove static
+    static int num = 60;
+    [self.getVerifyCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
+    num -= 1;
+    if (num < 1) {
+        [_timer invalidate];
+        _timer = nil;
+        num = 60;
+        [self.getVerifyCodeBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
+        self.getVerifyCodeBtn.userInteractionEnabled = YES;
+    }
+}
+
+#pragma mark - Helper
+- (void)popToPreviousVc {
+    [self hideLoginPrompVc];
+}
+
+- (void)configScrollView
+{
+    CGSize scrollViewSize = self.containerScrollView.bounds.size;
+    CGSize contentSize = self.contentView.bounds.size;
+    float height = scrollViewSize.height > contentSize.height ? scrollViewSize.height : contentSize.height;
+    self.containerScrollView.contentSize = CGSizeMake(scrollViewSize.width, height + 20);
+    [self.view addSubview:self.contentView];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 @end

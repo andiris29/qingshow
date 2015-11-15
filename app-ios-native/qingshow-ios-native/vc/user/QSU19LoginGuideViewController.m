@@ -16,6 +16,8 @@
 #import "WXApi.h"
 
 #import "UIViewController+ShowHud.h"
+#import "QSPeopleUtil.h"
+#import "QSUserManager.h"
 
 @interface QSU19LoginGuideViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
@@ -78,10 +80,15 @@
 }
 - (IBAction)wechatLoginPressed:(id)sender {
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
+
+#warning TODO check whether to remvoe update people
         [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
         
-        [self registerBtnPressed:nil];
-        
+        if ([QSPeopleUtil checkMobileExist:[QSUserManager shareUserManager].userInfo]) {
+            [self hideLoginPrompVc];
+        } else {
+            [self registerBtnPressed:nil];
+        }
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
     }];
@@ -96,11 +103,11 @@
 
 }
 
-- (void)popToPreviousVc {
+- (void)_popToPreviousVc {
     [self hideLoginPrompVc];
 }
 - (IBAction)closeBtnPressed:(id)sender {
-    [self popToPreviousVc];
+    [self _popToPreviousVc];
 }
 
 @end
