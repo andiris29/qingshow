@@ -179,6 +179,7 @@
 		EF6F3D7E1BF8C5F200DFE9EB /* QSTradeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D451BF8C5F200DFE9EB /* QSTradeListTableViewCell.xib */; };
 		EF6F3D7F1BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D471BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.m */; };
 		EF6F3D801BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D481BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.xib */; };
+		EF6F3D841BF8C95300DFE9EB /* QSMobileVerifyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D831BF8C95300DFE9EB /* QSMobileVerifyManager.m */; };
 		EF7826AB1A4EB9EC00C69460 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */; };
 		EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */; };
 		EF7826B11A4F057900C69460 /* UIView+ScreenShot.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826B01A4F057900C69460 /* UIView+ScreenShot.m */; };
@@ -726,6 +727,8 @@
 		EF6F3D461BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU15BonusListTableViewCell.h; sourceTree = "<group>"; };
 		EF6F3D471BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU15BonusListTableViewCell.m; sourceTree = "<group>"; };
 		EF6F3D481BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU15BonusListTableViewCell.xib; sourceTree = "<group>"; };
+		EF6F3D821BF8C95300DFE9EB /* QSMobileVerifyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMobileVerifyManager.h; sourceTree = "<group>"; };
+		EF6F3D831BF8C95300DFE9EB /* QSMobileVerifyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMobileVerifyManager.m; sourceTree = "<group>"; };
 		EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		EF7826AC1A4EBA2200C69460 /* UIImage+BlurryImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BlurryImage.h"; sourceTree = "<group>"; };
 		EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BlurryImage.m"; sourceTree = "<group>"; };
@@ -1621,6 +1624,7 @@
 		EF6F3CF61BF8C5F200DFE9EB /* login */ = {
 			isa = PBXGroup;
 			children = (
+				EF6F3D811BF8C69200DFE9EB /* mobile */,
 				EF6F3CF71BF8C5F200DFE9EB /* QSU06LoginViewController.h */,
 				EF6F3CF81BF8C5F200DFE9EB /* QSU06LoginViewController.m */,
 				EF6F3CF91BF8C5F200DFE9EB /* QSU06LoginViewController.xib */,
@@ -1781,6 +1785,15 @@
 				EF6F3D481BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.xib */,
 			);
 			path = order;
+			sourceTree = "<group>";
+		};
+		EF6F3D811BF8C69200DFE9EB /* mobile */ = {
+			isa = PBXGroup;
+			children = (
+				EF6F3D821BF8C95300DFE9EB /* QSMobileVerifyManager.h */,
+				EF6F3D831BF8C95300DFE9EB /* QSMobileVerifyManager.m */,
+			);
+			path = mobile;
 			sourceTree = "<group>";
 		};
 		EF7826A41A4EB4F200C69460 /* resource */ = {
@@ -3112,6 +3125,7 @@
 				EFAD758D1B3BAE1300565DED /* QSMatcherItemsProvider.m in Sources */,
 				EFB1ADEB1B386889007893AB /* QSNetworkEngine+MatcherService.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,
+				EF6F3D841BF8C95300DFE9EB /* QSMobileVerifyManager.m in Sources */,
 				EF6F3D5C1BF8C5F200DFE9EB /* QSU19LoginGuideViewController.m in Sources */,
 				EF30133D1AC3174000568D92 /* openssl_wrapper.m in Sources */,
 				EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */,

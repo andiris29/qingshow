@@ -104,10 +104,13 @@
     }
     
     NSString *mobileNum = self.mobileTextField.text;
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
     [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
+        [hud hide:YES];
         [self showTextHud:@"已成功发送验证码"];
         [self configTimer];
     } onError:^(NSError *error) {
+        [hud hide:YES];
         [self handleError:error];
     }];
 }
