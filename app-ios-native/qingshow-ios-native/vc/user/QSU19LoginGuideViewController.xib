@@ -19,13 +19,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNm-4o-Lke">
-                    <rect key="frame" x="129" y="71" width="63" height="87"/>
-                    <state key="normal" image="loginguide_mobile"/>
-                    <connections>
-                        <action selector="mobileLoginPressed:" destination="-1" eventType="touchUpInside" id="VK0-Xm-5u2"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ZX-JL-3vh">
                     <rect key="frame" x="79" y="470" width="162" height="34"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -42,10 +35,17 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh1-iq-gVE">
-                    <rect key="frame" x="129" y="317" width="63" height="87"/>
+                    <rect key="frame" x="129" y="269" width="63" height="87"/>
                     <state key="normal" image="loginguide_wechat"/>
                     <connections>
                         <action selector="wechatLoginPressed:" destination="-1" eventType="touchUpInside" id="C4l-3h-Tb5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNm-4o-Lke">
+                    <rect key="frame" x="129" y="131" width="63" height="87"/>
+                    <state key="normal" image="loginguide_mobile"/>
+                    <connections>
+                        <action selector="mobileLoginPressed:" destination="-1" eventType="touchUpInside" id="VK0-Xm-5u2"/>
                     </connections>
                 </button>
             </subviews>
