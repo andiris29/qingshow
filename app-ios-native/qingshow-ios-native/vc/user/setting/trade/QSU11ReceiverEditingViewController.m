@@ -118,14 +118,9 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
-    self.textFieldArray = @[self.nameTextField, self.phoneTextField,self.codeTextField, self.detailLocationTextField];
+    self.textFieldArray = @[self.nameTextField, self.phoneTextField,self.detailLocationTextField];
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    BOOL hasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
-    if (hasMobile == NO) {
-        self.cellArray = @[self.nameCell, self.locationCell, self.detailLocationCell, self.phoneCell,self.codeCell];
-    }else{
-        self.cellArray = @[self.nameCell, self.locationCell, self.detailLocationCell, self.phoneCell];
-    }
+    self.cellArray = @[self.nameCell, self.locationCell, self.detailLocationCell, self.phoneCell];
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 5)];
     headerView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     self.tableView.tableHeaderView = headerView;
@@ -139,7 +134,6 @@
     }
     
     self.view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
-    self.getCodeBtn.layer.cornerRadius = self.getCodeBtn.bounds.size.height / 8;
 
 }
 - (void)configBarBtn
@@ -178,46 +172,8 @@
     self.selectionLocation = self.localLabel.text;
     self.detailLocationTextField.text = [QSReceiverUtil getAddress:dict];
 }
-- (void)setTimer
-{
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
-    [_timer fire];
-    
-    self.getCodeBtn.userInteractionEnabled = NO;
-    self.getCodeBtn.highlighted = YES;
-}
-- (void)timerRun
-{
-    static int num = 60;
-    
-    [self.getCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateHighlighted];
-    num -= 1;
-    if (num < 1) {
-        [_timer invalidate];
-        _timer = nil;
-        num = 60;
-        [self.getCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-        self.getCodeBtn.userInteractionEnabled = YES;
-        self.getCodeBtn.highlighted = NO;
-    }
-    
-}
 
 #pragma mark - IBAction
-- (IBAction)getCodeBtnPressed:(id)sender {
-    NSString *mobileNum = self.phoneTextField.text;
-    if (!mobileNum.length) {
-        [self showErrorHudWithText:@"请输入手机号！"];
-    }else{
-    [SHARE_NW_ENGINE getTestNumberWithMobileNumber:mobileNum onSucceed:^{
-        [self showTextHud:@"已成功发送验证码"];
-        [self setTimer];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
-    }
-}
-
 - (void)didSelectSaveBtn
 {
     [self hideKeyboardAndPicker];
@@ -233,51 +189,20 @@
         uuid = [QSReceiverUtil getUuid:self.locationDict];
         isDefault = NO;
     }
-    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    //TODO: is has mobile逻辑有没问题
-    BOOL isHasMobile = [QSPeopleUtil checkMobileExist:peopleDic];
-    if (isHasMobile == NO) {
-        [SHARE_NW_ENGINE MobileNumberAvilable:self.phoneTextField.text code:self.codeTextField.text onSucceed:^(BOOL code) {
-            if (code == YES) {
-                [SHARE_NW_ENGINE updatePeople:@{@"mobile":self.phoneTextField.text} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
-                    [self showTextHud:@"保存成功"];
-                    [SHARE_NW_ENGINE saveReceiver:uuid
-                                             name:self.nameTextField.text
-                                            phone:self.phoneTextField.text
-                                         province:self.selectionLocation
-                                          address:self.detailLocationTextField.text
-                                        isDefault:isDefault
-                                        onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
-                     {
-                         
-                         [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-                     } onError:^(NSError *error) {
-                         [self handleError:error];
-                     }];
-                } onError:^(NSError *error){
-                    [self handleError:error];
-                }];
-            }else{
-                [self showTextHud:@"手机号已被使用"];
-            }
-            } onError:^(NSError *error) {
-            [self handleError:error];
-        }];
-    }else{
-        [SHARE_NW_ENGINE saveReceiver:uuid
-                                 name:self.nameTextField.text
-                                phone:self.phoneTextField.text
-                             province:self.selectionLocation
-                              address:self.detailLocationTextField.text
-                            isDefault:isDefault
-                            onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
-         {
-             [self showTextHud:@"保存成功"];
-             [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-         } onError:^(NSError *error) {
-             [self handleError:error];
-         }];
-    }
+    
+    [SHARE_NW_ENGINE saveReceiver:uuid
+                             name:self.nameTextField.text
+                            phone:self.phoneTextField.text
+                         province:self.selectionLocation
+                          address:self.detailLocationTextField.text
+                        isDefault:isDefault
+                        onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
+     {
+         [self showTextHud:@"保存成功"];
+         [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+     } onError:^(NSError *error) {
+         [self handleError:error];
+     }];
     
 }
 

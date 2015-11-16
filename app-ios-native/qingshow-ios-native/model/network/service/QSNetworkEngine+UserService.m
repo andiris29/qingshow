@@ -27,7 +27,6 @@
 #define PATH_USER_REMOVE_RECEIVER @"user/removeReceiver"
 #define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
 #define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
-#define PATH_MOBILE_VALIDATE @"user/validateMobile"
 #define PATH_MOBILE_RESET_PASSWORD @"user/resetPassword"
 #define PATH_USER_READ_NOTIFICATION @"user/readNotification"
 
@@ -396,22 +395,7 @@
         }
     }];
 }
-- (MKNetworkOperation*)MobileNumberAvilable:(NSString*)mobileNum
-                                       code:(NSString*)code
-                                  onSucceed:(BoolBlock)succeedBlock
-                                    onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_MOBILE_VALIDATE method:@"POST" paramers:@{@"mobile":mobileNum,   @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        NSDictionary *retDic = completedOperation.responseJSON;
-        if (succeedBlock) {
-            succeedBlock((BOOL)retDic[@"data"][@"success"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
+
 - (MKNetworkOperation *)resetPassWord:(NSString *)mobileNum
                                  coed:(NSString *)code
                             onSucceed:(StringBlock)succeedBlock
