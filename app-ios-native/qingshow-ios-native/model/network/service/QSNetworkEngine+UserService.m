@@ -28,6 +28,7 @@
 #define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
 #define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
 #define PATH_MOBILE_RESET_PASSWORD @"user/resetPassword"
+#define PATH_MOBILE_FORGET_PASSWORD @"user/forgotPassword"
 #define PATH_USER_READ_NOTIFICATION @"user/readNotification"
 
 //Bind
@@ -381,9 +382,9 @@
     }];
 }
 
-- (MKNetworkOperation*)getTestNumberWithMobileNumber:(NSString*)mobileNum
-                                           onSucceed:(VoidBlock)succeedBlock
-                                             onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation*)getVerifyCodeForMobile:(NSString*)mobileNum
+                                    onSucceed:(VoidBlock)succeedBlock
+                                      onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_MOBILE_REQUEST_CODE method:@"POST" paramers:@{@"mobile":mobileNum} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
@@ -396,22 +397,49 @@
     }];
 }
 
-- (MKNetworkOperation *)resetPassWord:(NSString *)mobileNum
-                                 coed:(NSString *)code
-                            onSucceed:(StringBlock)succeedBlock
-                              onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)forgetPasswordPhone:(NSString *)mobileNum
+                                 verifyCode:(NSString *)code
+                                  onSucceed:(VoidBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_MOBILE_RESET_PASSWORD method:@"POST" paramers:@{@"mobile":mobileNum, @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            NSDictionary *pswDic = completedOperation.responseJSON;
-            succeedBlock(pswDic[@"data"][@"password"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+    return [self startOperationWithPath:PATH_MOBILE_FORGET_PASSWORD
+                                 method:@"POST"
+                               paramers:@{
+                                          @"mobile":mobileNum,
+                                          @"verificationCode":code
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock();
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
 }
+
+- (MKNetworkOperation *)resetPassword:(NSString*)newPassword
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MOBILE_RESET_PASSWORD
+                                 method:@"POST"
+                               paramers:@{
+                                          @"password" : newPassword
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock();
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
+}
+
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock {

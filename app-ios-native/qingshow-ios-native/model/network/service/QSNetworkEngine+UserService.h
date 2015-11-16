@@ -65,12 +65,15 @@
 - (MKNetworkOperation*)getBonusWithAlipayId:(NSString*)alipayId
                                 OnSusscee:(VoidBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getTestNumberWithMobileNumber:(NSString*)mobileNum
+- (MKNetworkOperation*)getVerifyCodeForMobile:(NSString*)mobileNum
                                            onSucceed:(VoidBlock)succeedBlock
                                              onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)resetPassWord:(NSString *)mobileNum
-                                 coed:(NSString *)code
-                            onSucceed:(StringBlock)succeedBlock
+- (MKNetworkOperation *)forgetPasswordPhone:(NSString *)mobileNum
+                                 verifyCode:(NSString *)code
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)resetPassword:(NSString*)newPassword
+                            onSucceed:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
