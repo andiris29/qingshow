@@ -71,7 +71,7 @@
 
     //For Test
 //    [self didReceiveShowNewParticipantBonusVcNoti:nil];
-    [self didReceiveShowNewBonusVcNoti:nil];
+//    [self didReceiveShowNewBonusVcNoti:nil];
 }
 - (void)_observeNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePrompToLoginNotification:) name:kShowLoginPrompVcNotificationName object:nil];

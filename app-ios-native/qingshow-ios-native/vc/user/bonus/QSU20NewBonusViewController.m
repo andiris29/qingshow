@@ -140,8 +140,22 @@
         
         [weakSelf.userHeadIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
         weakSelf.userNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
-#warning TODO 数字需要用attributedString highlight显示
-        weakSelf.bonusNumberLabel.text = [NSString stringWithFormat:@"获得了￥%.2f的佣金", [QSBonusUtil getMoney:bonusDict].doubleValue];
+        NSMutableAttributedString* bonusText = [[NSMutableAttributedString alloc] initWithString:@"获得了"];
+        NSString* bonusNumberText = [NSString stringWithFormat:@"￥%.2f ", [QSBonusUtil getMoney:bonusDict].doubleValue];
+        NSUInteger begin = bonusText.length;
+        NSUInteger length = bonusNumberText.length;
+        NSRange range = NSMakeRange(begin, length);
+        [bonusText appendAttributedString:[[NSAttributedString alloc] initWithString:bonusNumberText]];
+        [bonusText appendAttributedString:[[NSAttributedString alloc] initWithString:@"的佣金"]];
+        
+        UIColor* colorPink = [UIColor colorWithRed:248.f/255.f green:62.f/255.f blue:91.f/255.f alpha:1.f];
+        [bonusText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:range];
+        [bonusText addAttribute:NSUnderlineColorAttributeName value:colorPink range:range];
+        [bonusText addAttribute:NSForegroundColorAttributeName value:colorPink range:range];
+        [bonusText addAttribute:NSFontAttributeName value:NEWFONT range:range];
+        
+        
+        weakSelf.bonusNumberLabel.attributedText = bonusText;
         [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDict, NSDictionary *metadata) {
             [self.itemImageView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
             if (participantsArray && participantsArray.count) {
