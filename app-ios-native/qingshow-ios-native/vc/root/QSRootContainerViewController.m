@@ -77,7 +77,7 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowBonusListVcNoti:) name:kShowBonusListVcNotificatinName object:nil];
 //    [self didReceiveShowNewParticipantBonusVcNoti:nil];
-//    [self didReceiveShowNewBonusVcNoti:nil];
+    [self didReceiveShowNewBonusVcNoti:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
