@@ -32,6 +32,9 @@
 #import "QSBlock.h"
 #import "QSUnreadManager.h"
 #import "QSEntityUtil.h"
+#import "QSNetworkKit.h"
+#import "QSPaymentService.h"
+#import "QSS11CreateTradeViewController.h"
 
 #define kWelcomePageVersionKey @"kWelcomePageVersionKey"
 
@@ -344,7 +347,7 @@
     [[QSUnreadManager getInstance] clearTradeUnreadId:tradeId];
     self.s12NotiVc = [[QSS12NewTradeExpectableViewController alloc] initWithDict:dict];
     self.s12NotiVc.delelgate = self;
-    [self._showVcInPopoverContainer:self.s12NotiVc withAnimation:YES];
+    [self _showVcInPopoverContainer:self.s12NotiVc withAnimation:YES];
 }
 
 - (void)didReceiveHideTradeExpectablePriceChangeVcNoti:(NSNotification*)noti {
@@ -405,10 +408,11 @@
         paramDict = @{@"actualPrice" : vc.expectablePrice};
     }
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-        [self didClickClose:vc];
+        [self didReceiveHideTradeExpectablePriceChangeVcNoti:nil];
+
         QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
-        v.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:v animated:YES];
+        v.menuProvider = self;
+        [self.contentNavVc pushViewController:v animated:YES];
     } onError:^(NSError *error) {
         [vc handleError:error];
     }];
