@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,11 +31,15 @@ import com.focosee.qingshow.model.S20Bitmap;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.RectUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +67,8 @@ public class S22MatchPreviewActivity extends BaseActivity {
     LinearLayout rootView;
 
     private Bitmap bitmap;
-    private List<String> itemRefs;
+    private List<String> innerItemRefs;
+    private ArrayList<Rect> innerItemRects;
 
     private MongoShow show;
     private String uuid;
@@ -91,7 +98,8 @@ public class S22MatchPreviewActivity extends BaseActivity {
         ButterKnife.inject(this);
         dialog = new LoadingDialogs(this, R.style.dialog);
         dialog.setCanceledOnTouchOutside(false);
-        itemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
+        innerItemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
+        innerItemRects = getIntent().getParcelableArrayListExtra(S20MatcherActivity.S20_ITEMRECTS);
         initImage();
         timerSubmit();
     }
@@ -148,8 +156,16 @@ public class S22MatchPreviewActivity extends BaseActivity {
         forbidClick();
         Map map = new HashMap();
         try {
-            JSONArray jsonArray = new JSONArray(QSGsonFactory.create().toJson(itemRefs));
-            map.put("itemRefs", jsonArray);
+            ArrayList<JSONArray> list = new ArrayList<>();
+            for (Rect rect : innerItemRects) {
+                JSONArray jsonArray = new JSONArray(RectUtil.rectParser(rect));
+                list.add(jsonArray);
+            }
+            JSONArray itemRects = new JSONArray(QSGsonFactory.create().toJson(list));
+            JSONArray itemRefs = new JSONArray(QSGsonFactory.create().toJson(innerItemRefs));
+
+            map.put("itemRects", itemRects);
+            map.put("itemRefs", itemRefs);
         } catch (JSONException e) {
             e.printStackTrace();
         }

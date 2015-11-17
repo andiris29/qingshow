@@ -71,6 +71,7 @@ public class S20MatcherActivity extends BaseActivity {
     RecyclerView selectRV;
 
     public static final String S20_ITEMREFS = "S20_ITEMREFS";
+    public static final String S20_ITEMRECTS = "S20_ITEMRECTS";
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
     @InjectView(R.id.container)
     FrameLayout container;
@@ -557,6 +558,17 @@ public class S20MatcherActivity extends BaseActivity {
             itemRefs.add(allSelect.get(s).item._id);
         }
         intent.putStringArrayListExtra(S20_ITEMREFS, itemRefs);
+
+        ArrayList<Rect> itemRects = new ArrayList<>();
+        for (int i = 0; i < canvas.getChildCount(); i++) {
+            Rect rect = new Rect();
+            if(canvas.getChildVisibleRect(canvas.getChildAt(i), rect, null)){
+                itemRects.add(rect);
+            }
+        }
+
+        intent.putParcelableArrayListExtra(S20_ITEMRECTS, itemRects);
+
         startActivity(intent);
         onSubmit = false;
     }
