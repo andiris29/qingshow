@@ -54,6 +54,7 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
+import com.focosee.qingshow.widget.TagDotView;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
@@ -71,6 +72,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
+import rx.Subscription;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
 
@@ -179,6 +181,9 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 }
             });
         }
+
+        TagDotView tagDotView = new TagDotView(this);
+        container.addView(tagDotView);
 
         getShowView();
     }
