@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "bonus_faq_content.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "pig.png"
+      "filename" : "bonus_faq_content@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

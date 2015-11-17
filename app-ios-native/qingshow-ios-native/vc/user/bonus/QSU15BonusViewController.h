@@ -8,14 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU15BonusViewController : UIViewController<UIScrollViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *alipayTextField;
+@interface QSU15BonusViewController : UIViewController<UIAlertViewDelegate>
+#pragma mark - Container
+@property (weak, nonatomic) IBOutlet UIScrollView *containerView;
+
+#pragma mark - Content
+@property (strong, nonatomic) IBOutlet UIView *bonusContentView;
 @property (weak, nonatomic) IBOutlet UILabel *allBonusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currBonusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *shareToGetBtn;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIImageView *alipayIconImgView;
-@property (weak, nonatomic) IBOutlet UILabel *descTextLabel;
+@property (weak, nonatomic) IBOutlet UIButton *faqBtn;
+
+#pragma mark - Faq Layer
+@property (strong, nonatomic) IBOutlet UIView *faqLayer;
+@property (weak, nonatomic) IBOutlet UIScrollView *faqContainerScrollView;
+#pragma mark - Faq Content
+@property (strong, nonatomic) IBOutlet UIImageView *faqContentImgView;
+
 
 
 @property (strong,nonatomic)NSString *peopleId;
