@@ -27,9 +27,9 @@
 @property (nonatomic,assign) NSInteger segIndex;
 @property (nonatomic,strong) UISegmentedControl *segmentControl;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
-
-@property (strong, nonatomic) QSS12NewTradeExpectableViewController* s11NotiVc;
 @property (strong, nonatomic) UIBarButtonItem* searchMenuBtn;
+
+- (IBAction)backToTopBtnPressed:(id)sender;
 
 @end
 
@@ -161,22 +161,11 @@
     vc.menuProvider = self.menuProvider;
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
- 
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.collectionView.contentOffset.y != 0) {
@@ -192,42 +181,6 @@
     p.y = 0;
     [self.collectionView setContentOffset:p animated:YES];
     _backToTopbtn.hidden = YES;
-}
-
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId{
-    [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        [[QSUnreadManager getInstance] clearTradeUnreadId:tradeId];
-#warning MOVE TO POPOVER LAYER OF ROOT CONTAINER VC
-        self.s11NotiVc = [[QSS12NewTradeExpectableViewController alloc] initWithDict:dict];
-        self.s11NotiVc.delelgate = self;
-        self.s11NotiVc.view.frame = self.navigationController.view.bounds;
-        [self.navigationController.view addSubview:self.s11NotiVc.view];
-    } onError:^(NSError *error) {
-
-    }];
-}
-- (void)didClickClose:(QSS12NewTradeExpectableViewController *)vc
-{
-    [self.s11NotiVc.view removeFromSuperview];
-    self.s11NotiVc = nil;
-}
-
-- (void)didClickPay:(QSS12NewTradeExpectableViewController*)vc {
-    NSDictionary* tradeDict = vc.tradeDict;
-    NSNumber* actualPrice = vc.expectablePrice;
-    NSDictionary* paramDict = nil;
-    if (actualPrice) {
-        paramDict = @{@"actualPrice" : vc.expectablePrice};
-    }
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-        [self didClickClose:vc];
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
-        v.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:v animated:YES];
-    } onError:^(NSError *error) {
-        [vc handleError:error];
-    }];
-
 }
 
 - (void)handleNetworkError:(NSError *)error {

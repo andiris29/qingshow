@@ -22,13 +22,12 @@
 #import "QSAbstractRootViewController.h"
 #import "QSUnreadManager.h"
 #import "QSUserManager.h"
+#import "QSNotificationHelper.h"
 
 #define PAGE_ID @"U09 - 交易一览"
 @interface QSU09TradeListViewController ()
 
 @property (strong,nonatomic) NSDictionary *tradeDict;
-
-@property (strong, nonatomic) QSS12NewTradeExpectableViewController* s11NotiVc;
 
 @property (assign, nonatomic)BOOL isFirstLoad;
 
@@ -287,28 +286,7 @@
 - (void)showTradeNotiViewOfTradeId:(NSDictionary*)tradeDict
 {
     [[QSUnreadManager getInstance] clearTradeUnreadId:[QSEntityUtil getIdOrEmptyStr:tradeDict]];
-    self.s11NotiVc = [[QSS12NewTradeExpectableViewController alloc] initWithDict:tradeDict];
-    self.s11NotiVc.delelgate = self;
-    self.s11NotiVc.view.frame = self.navigationController.view.bounds;
-    [self.navigationController.view addSubview:self.s11NotiVc.view];
-}
-    
-- (void)didClickClose:(QSS12NewTradeExpectableViewController*)vc {
-    [self.s11NotiVc.view removeFromSuperview];
-    self.s11NotiVc = nil;
-}
-- (void)didClickPay:(QSS12NewTradeExpectableViewController*)vc {
-    NSDictionary* tradeDict = vc.tradeDict;
-
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-        [self didClickClose:vc];
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
-        v.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:v animated:YES];
-    } onError:^(NSError *error) {
-        [vc handleError:error];
-    }];
-    
+    [QSNotificationHelper postShowTradeExpectablePriceChangeVcNotiWithTradeDict:tradeDict];
 }
 
 - (void)triggerChangeToSegmentIndex:(int)index {

@@ -10,9 +10,8 @@
 #import "QSS12TradeDiscountCell.h"
 
 @class QSS12NewTradeExpectableViewController;
-@protocol QSS12NewTradeNotifyViewControllerDelegate <NSObject>
 
-- (void)didClickClose:(QSS12NewTradeExpectableViewController*)vc;
+@protocol QSS12NewTradeNotifyViewControllerDelegate <NSObject>
 - (void)didClickPay:(QSS12NewTradeExpectableViewController*)vc;
 @end
 

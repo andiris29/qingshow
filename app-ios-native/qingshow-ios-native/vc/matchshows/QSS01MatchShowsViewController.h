@@ -6,18 +6,14 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSRootContentViewController.h"
-#import "QSS12NewTradeExpectableViewController.h"
 #import <UIKit/UIKit.h>
+
+#import "QSRootContentViewController.h"
 #import "QSAbstractListViewProvider.h"
 
-@interface QSS01MatchShowsViewController : QSRootContentViewController <QSS12NewTradeNotifyViewControllerDelegate>
+@interface QSS01MatchShowsViewController : QSRootContentViewController 
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
-
-- (IBAction)backToTopBtnPressed:(id)sender;
-
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId;
 
 @end

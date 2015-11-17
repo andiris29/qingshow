@@ -17,6 +17,9 @@
 
 #define kShowBonusListVcNotificatinName @"kShowBonusListVcNotificatinName"
 
+#define kShowTradeExpectablePriceChangeVcNotificationName @"kShowTradeExpectablePriceChangeVcNotificationName"
+#define kHideTradeExpectablePriceChangeVcNotificationName @"kHideTradeExpectablePriceChangeVcNotificationName"
+
 @interface QSNotificationHelper : NSObject
 
 + (void)postScheduleToShowLoginGuideNoti;
@@ -27,4 +30,8 @@
 + (void)postHideNewParticipantBonusVcNoti;
 
 + (void)postShowBonusListVcNotificationName;
+
++ (void)postShowTradeExpectablePriceChangeVcNotiWithTradeDict:(NSDictionary*)tradeDict;
++ (void)postShowTradeExpectablePriceChangeVcNoti:(NSDictionary*)userInfo;
++ (void)postHideTradeExpectablePriceChangeVcNoti;
 @end

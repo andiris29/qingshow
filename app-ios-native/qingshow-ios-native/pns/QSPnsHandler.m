@@ -113,16 +113,9 @@
 
 - (void)pnsItemPriceChanged:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemMeida];
-
-        if ([vc isKindOfClass:[QSS01MatchShowsViewController class]]) {
-            QSS01MatchShowsViewController* matchVc = (QSS01MatchShowsViewController*)vc;
-            [matchVc showTradeNotiViewOfTradeId:[noti.userInfo stringValueForKeyPath:@"tradeId"]];
-        }
-
+        [QSNotificationHelper postShowTradeExpectablePriceChangeVcNoti:noti.userInfo];
     } title:@"您申请的折扣有最新信息，不要错过哦！" userInfo:noti.userInfo];
 }
-
 
 - (void)pnsTradeShipped:(NSNotification*)noti {
     [self handlePnsWithHandler:^{

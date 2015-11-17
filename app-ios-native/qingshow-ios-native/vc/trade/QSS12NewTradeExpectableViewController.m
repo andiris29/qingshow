@@ -9,6 +9,7 @@
 #import "QSS12NewTradeExpectableViewController.h"
 #import "QSS12TradeInfoCell.h"
 
+#import "QSNotificationHelper.h"
 #import "QSTableViewBasicProvider.h"
 #import "QSTradeUtil.h"
 #import "QSNetworkKit.h"
@@ -69,9 +70,7 @@
 
 #pragma mark - IBAction
 - (IBAction)closeNotifyViewController:(id)sender {
-    if ([self.delelgate respondsToSelector:@selector(didClickClose:)]) {
-        [self.delelgate didClickClose:self];
-    }
+    [QSNotificationHelper postHideTradeExpectablePriceChangeVcNoti];
 }
 
 #pragma mark - Table View

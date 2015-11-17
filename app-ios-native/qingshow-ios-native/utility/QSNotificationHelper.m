@@ -32,4 +32,16 @@
 + (void)postShowBonusListVcNotificationName {
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowBonusListVcNotificatinName object:nil];
 }
+
++ (void)postShowTradeExpectablePriceChangeVcNotiWithTradeDict:(NSDictionary*)tradeDict {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowTradeExpectablePriceChangeVcNotificationName object:nil userInfo:@{@"tradeDict" : tradeDict}];
+}
++ (void)postShowTradeExpectablePriceChangeVcNoti:(NSDictionary*)userInfo {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowTradeExpectablePriceChangeVcNotificationName object:nil userInfo:userInfo];
+}
++ (void)postHideTradeExpectablePriceChangeVcNoti {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHideTradeExpectablePriceChangeVcNotificationName object:nil];
+}
+
+
 @end
