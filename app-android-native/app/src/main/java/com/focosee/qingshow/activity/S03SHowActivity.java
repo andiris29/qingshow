@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -25,7 +26,9 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.request.RxRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
@@ -43,9 +46,9 @@ import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
+import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.util.filter.Filter;
 import com.focosee.qingshow.util.filter.FilterHepler;
-import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
@@ -57,14 +60,18 @@ import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
+
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener{
@@ -189,7 +196,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void getShowDetailFromNet() {
-
         dialogs.show();
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
@@ -220,10 +226,10 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 setLikedImageButtonBackgroundImage();
                 likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
                 likeBtn.setClickable(true);
-                if(showDetailEntity.__context.likedByCurrentUser){
+                if (showDetailEntity.__context.likedByCurrentUser) {
                     showDetailEntity.numLike = showDetailEntity.numLike + 1;
-                }else{
-                    showDetailEntity.numLike = showDetailEntity.numLike -1;
+                } else {
+                    showDetailEntity.numLike = showDetailEntity.numLike - 1;
                 }
                 EventBus.getDefault().post(new ShowCollectionEvent(position, showDetailEntity));
             }
@@ -238,18 +244,15 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
     private void getShowView(){
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowViewApi(showId), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
-                    if(MetadataParser.getError(response) == ErrorCode.AlreadyRelated)
-                        isAlreadyRelated = true;
-                }
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-
+        RxRequest.createIdRequest(QSAppWebAPI.getShowViewApi(), showId)
+                .subscribe(new QSSubscriber<JSONObject>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S03SHowActivity.this, message);
+                        if (message == ErrorCode.AlreadyRelated)
+                            isAlreadyRelated = true;
+                    }
+                });
     }
 
     private void setLikedImageButtonBackgroundImage() {
