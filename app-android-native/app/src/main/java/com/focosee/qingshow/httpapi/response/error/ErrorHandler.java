@@ -21,6 +21,10 @@ public class ErrorHandler {
 
     private static final String TAG = ErrorHandler.class.getSimpleName();
 
+    public static void handle(Context context, String errorCode){
+        handle(context, Integer.parseInt(errorCode));
+    }
+
     public static void handle(Context context, int errorCode) {
         switch (errorCode) {
             case ErrorCode.ServerError:
@@ -109,6 +113,9 @@ public class ErrorHandler {
                 editor.putBoolean(ValueUtil.UPDATE_APP_FORCE, true);
                 editor.commit();
                 EventBus.getDefault().post(ValueUtil.UPDATE_APP_EVENT);
+                break;
+            case  ErrorCode.VolleyError:
+                ToastUtil.showShortToast(context.getApplicationContext(), "网络请求失败");
                 break;
         }
     }
