@@ -20,15 +20,7 @@
 #define HEAD_NUMBER_EVERY_ROW 10
 #define HEAD_ROW_NUMBER 2
 
-typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
-    QSU20NewBonusViewControllerStateParticipant,
-    QSU20NewBonusViewControllerStateAbout
-};
-
-
 @interface QSU20NewBonusViewController ()
-
-@property (assign, nonatomic) QSU20NewBonusViewControllerState state;
 
 #pragma mark - IBOutlet
 @property (weak, nonatomic) IBOutlet UIImageView *itemImageView;
@@ -49,15 +41,19 @@ typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
 //About
 @property (weak, nonatomic) IBOutlet UILabel *aboutLabel;
 
+@property (assign, nonatomic) QSU20NewBonusViewControllerState state;
+@property (assign, nonatomic) BOOL fShouldTapToShowParticipant;
 @end
 
 @implementation QSU20NewBonusViewController
 
 #pragma mark - Init
-- (instancetype)initWithBonusIndex:(NSNumber*)bonusIndex {
+- (instancetype)initWithBonusIndex:(NSNumber*)bonusIndex state:(QSU20NewBonusViewControllerState)state {
     self = [super initWithNibName:@"QSU20NewBonusViewController" bundle:nil];
     if (self) {
         self.bonusIndex = bonusIndex;
+        _state = state;
+        self.fShouldTapToShowParticipant = state == QSU20NewBonusViewControllerStateParticipant;
     }
     return self;
 }
@@ -95,7 +91,10 @@ typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
 
 #pragma mark - Gesture
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    self.state = QSU20NewBonusViewControllerStateParticipant;
+    if (self.fShouldTapToShowParticipant) {
+        self.state = QSU20NewBonusViewControllerStateParticipant;
+    }
+
 }
 
 #pragma mark - Private
@@ -118,7 +117,7 @@ typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
     self.aboutParticipantBonusBtn.layer.borderColor = [UIColor blackColor].CGColor;
     self.aboutParticipantBonusBtn.layer.borderWidth = 1.f;
     
-    self.state = QSU20NewBonusViewControllerStateParticipant;
+    [self _updateUiForState];
 }
 
 - (void)_bindInfo {
@@ -145,8 +144,6 @@ typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
         weakSelf.bonusNumberLabel.text = [NSString stringWithFormat:@"获得了￥%.2f的佣金", [QSBonusUtil getMoney:bonusDict].doubleValue];
         [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDict, NSDictionary *metadata) {
             [self.itemImageView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-#warning TODO Change To Actual People
-            [self _setupOtherHeadIcons:@[peopleDict, peopleDict,peopleDict, peopleDict,peopleDict, peopleDict,peopleDict, peopleDict,peopleDict, peopleDict, peopleDict, peopleDict, peopleDict, peopleDict, peopleDict, peopleDict, peopleDict]];
             if (participantsArray && participantsArray.count) {
                 [SHARE_NW_ENGINE queryPeoplesDetail:participantsArray onSucceed:^(NSArray *peoples) {
                     [self _setupOtherHeadIcons:peoples];
@@ -193,6 +190,9 @@ typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
 #pragma mark - Getter and Setter
 - (void)setState:(QSU20NewBonusViewControllerState)state {
     _state = state;
+    [self _updateUiForState];
+}
+- (void)_updateUiForState {
     switch (_state) {
         case QSU20NewBonusViewControllerStateParticipant: {
             self.bottomTitleLabel.text = @"获得共享佣金的账户";
@@ -211,8 +211,6 @@ typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
         default:
             break;
     }
-    
-    
 }
 
 @end

@@ -28,7 +28,6 @@
 
 #import "QSS12NewTradeExpectableViewController.h"
 #import "QSU20NewBonusViewController.h"
-#import "QSU21NewParticipantBonusViewController.h"
 #import "QSBlock.h"
 #import "QSUnreadManager.h"
 #import "QSEntityUtil.h"
@@ -45,7 +44,6 @@
 @property (strong, nonatomic) UINavigationController* loginGuideNavVc;
 
 @property (strong, nonatomic) QSU20NewBonusViewController* u20NewBonusVc;
-@property (strong, nonatomic) QSU21NewParticipantBonusViewController* u21NewParticipantBonusVc;
 @property (strong, nonatomic) QSS12NewTradeExpectableViewController* s12NotiVc;
 
 @property (strong, nonatomic) QSG02WelcomeViewController* welcomeVc;
@@ -294,8 +292,7 @@
         return;
     }
     
-    self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] init];
-    self.u20NewBonusVc.bonusIndex = [noti.userInfo numberValueForKeyPath:@"index"];
+    self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonusIndex:[noti.userInfo numberValueForKeyPath:@"index"] state:QSU20NewBonusViewControllerStateParticipant];
     [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
 }
 
@@ -305,17 +302,17 @@
 }
 
 - (void)didReceiveShowNewParticipantBonusVcNoti:(NSNotification*)noti {
-    if (self.u21NewParticipantBonusVc) {
+    if (self.u20NewBonusVc) {
         return;
     }
-    self.u21NewParticipantBonusVc = [[QSU21NewParticipantBonusViewController alloc] init];
-    self.u21NewParticipantBonusVc.bonusIndex = [noti.userInfo numberValueForKeyPath:@"index"];
-    [self _showVcInPopoverContainer:self.u21NewParticipantBonusVc withAnimation:YES];
+    
+    self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonusIndex:[noti.userInfo numberValueForKeyPath:@"index"] state:QSU20NewBonusViewControllerStateAbout];
+    [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
 }
 
 - (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {
-    [self _hideVcInPopoverContainer:self.u21NewParticipantBonusVc withAnimation:YES];
-    self.u21NewParticipantBonusVc = nil;
+    [self _hideVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
+    self.u20NewBonusVc = nil;
 }
 
 

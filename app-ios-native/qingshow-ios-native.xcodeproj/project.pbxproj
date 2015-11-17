@@ -128,8 +128,6 @@
 		EF6F3D4B1BF8C5F200DFE9EB /* QSU16BonusListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CE81BF8C5F200DFE9EB /* QSU16BonusListViewController.m */; };
 		EF6F3D4C1BF8C5F200DFE9EB /* QSU20NewBonusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CEA1BF8C5F200DFE9EB /* QSU20NewBonusViewController.m */; };
 		EF6F3D4D1BF8C5F200DFE9EB /* QSU20NewBonusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CEB1BF8C5F200DFE9EB /* QSU20NewBonusViewController.xib */; };
-		EF6F3D4E1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CED1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.m */; };
-		EF6F3D4F1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CEE1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.xib */; };
 		EF6F3D501BF8C5F200DFE9EB /* QSU01UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CF11BF8C5F200DFE9EB /* QSU01UserDetailViewController.m */; };
 		EF6F3D511BF8C5F200DFE9EB /* QSU01UserDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CF21BF8C5F200DFE9EB /* QSU01UserDetailViewController.xib */; };
 		EF6F3D521BF8C5F200DFE9EB /* QSU13PersonalizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CF41BF8C5F200DFE9EB /* QSU13PersonalizeViewController.m */; };
@@ -647,9 +645,6 @@
 		EF6F3CE91BF8C5F200DFE9EB /* QSU20NewBonusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU20NewBonusViewController.h; sourceTree = "<group>"; };
 		EF6F3CEA1BF8C5F200DFE9EB /* QSU20NewBonusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU20NewBonusViewController.m; sourceTree = "<group>"; };
 		EF6F3CEB1BF8C5F200DFE9EB /* QSU20NewBonusViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU20NewBonusViewController.xib; sourceTree = "<group>"; };
-		EF6F3CEC1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU21NewParticipantBonusViewController.h; sourceTree = "<group>"; };
-		EF6F3CED1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU21NewParticipantBonusViewController.m; sourceTree = "<group>"; };
-		EF6F3CEE1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU21NewParticipantBonusViewController.xib; sourceTree = "<group>"; };
 		EF6F3CF01BF8C5F200DFE9EB /* QSU01UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU01UserDetailViewController.h; sourceTree = "<group>"; };
 		EF6F3CF11BF8C5F200DFE9EB /* QSU01UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU01UserDetailViewController.m; sourceTree = "<group>"; };
 		EF6F3CF21BF8C5F200DFE9EB /* QSU01UserDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU01UserDetailViewController.xib; sourceTree = "<group>"; };
@@ -1601,9 +1596,6 @@
 				EF6F3CE91BF8C5F200DFE9EB /* QSU20NewBonusViewController.h */,
 				EF6F3CEA1BF8C5F200DFE9EB /* QSU20NewBonusViewController.m */,
 				EF6F3CEB1BF8C5F200DFE9EB /* QSU20NewBonusViewController.xib */,
-				EF6F3CEC1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.h */,
-				EF6F3CED1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.m */,
-				EF6F3CEE1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.xib */,
 			);
 			path = bonus;
 			sourceTree = "<group>";
@@ -2987,7 +2979,6 @@
 				EF6F3D7E1BF8C5F200DFE9EB /* QSTradeListTableViewCell.xib in Resources */,
 				EF994D961B693C4F00715B0E /* QSDiscountInfoCell.xib in Resources */,
 				EF994DA01B693CB900715B0E /* QSDiscountQuantityCell.xib in Resources */,
-				EF6F3D4F1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.xib in Resources */,
 				EF3013331AC3174000568D92 /* AlipaySDK.bundle in Resources */,
 				8C4475971B74ABD800DF36E2 /* QSS12TradeInfoCell.xib in Resources */,
 				EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */,
@@ -3065,7 +3056,6 @@
 				EFAB9C6C1B346FE5008A4EF5 /* QSPeopleListTableViewProvider.m in Sources */,
 				8C9864261BD61F2F00597867 /* QSShareUtil.m in Sources */,
 				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
-				EF6F3D4E1BF8C5F200DFE9EB /* QSU21NewParticipantBonusViewController.m in Sources */,
 				EF6F3D6C1BF8C5F200DFE9EB /* QSU02UserChangeDressEffectViewController.m in Sources */,
 				EF30133C1AC3174000568D92 /* NSDataEx.m in Sources */,
 				EF6F3D771BF8C5F200DFE9EB /* QSU12RefundViewController.m in Sources */,
