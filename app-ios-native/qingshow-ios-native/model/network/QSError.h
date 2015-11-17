@@ -9,15 +9,15 @@
 #import <Foundation/Foundation.h>
 
 #define kQSErrorDomain @"qs_error_domain"
+#define kQSErrorCodeNumber 1000
 
-typedef NS_ENUM(NSInteger, kQSErrorCode) {
-    kQSErrorCodePageNotExist = 1009,
-    kQSErrorCodeAlreadyFollow = 1019,
-    kQSErrorCodeAlreadyUnfollow = 1020
-};
-
+#define kQSErrorCodePageNotExist @"ERR_PAGE_NOT_EXISTS"
+#define kQSErrorCodeAlreadyFollow @"ERR_ALREADY_FOLLOW"
+#define kQSErrorCodeAlreadyUnfollow @"ERR_ALREADY_UNFOLLOW"
 @interface QSError : NSError
 
+@property (copy, nonatomic) NSString* qsErrorCode;
+@property (copy, nonatomic) NSString* qsErrorMessage;
 - (NSString*)toString;
 
 @end
