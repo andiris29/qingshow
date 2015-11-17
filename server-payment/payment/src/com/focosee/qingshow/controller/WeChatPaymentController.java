@@ -213,26 +213,45 @@ public class WeChatPaymentController {
         return returnEntity;
     }
     
+    /**
+     * 向微信用户发送红包
+     * 
+     * @param mchBillno 商户订单号
+     * @param openid 用户openid
+     * @param totalAmount 付款金额
+     * @param ip Ip地址
+     * @param actName 活动名称
+     * @param wishing 红包祝福语
+     * @param remark 备注
+     * @return
+     */
     @RequestMapping(value = "/sendRedPack", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object sendRedPack(
-            @RequestParam(value = "mchBillno", required = true)String mchBillno,
-            @RequestParam(value = "sendName", required = true) String sendName,
+            @RequestParam(value = "id", required = true)String mchBillno,
             @RequestParam(value = "openid", required = true)String openid, 
-            @RequestParam(value = "totalAmount", required = true)String totalAmount, 
-            @RequestParam(value = "wishing", required = true)String wishing, 
-            @RequestParam(value = "ip", required = true)String ip, 
-            @RequestParam(value = "actName", required = true)String actName,
-            @RequestParam(value = "remark", required = true)String remark) {
+            @RequestParam(value = "amount", required = true)String totalAmount, 
+            @RequestParam(value = "clientIp", required = true)String ip, 
+            @RequestParam(value = "event", required = true)String actName,
+            @RequestParam(value = "message", required = true)String wishing, 
+            @RequestParam(value = "note", required = true)String remark) {
         log.info("wechat/sendRedPack");
 
         ResponseJsonEntity returnEntity = new ResponseJsonEntity();
+        
+        log.debug("id=" + mchBillno);
+        log.debug("openid=" + openid);
+        log.debug("amount=" + totalAmount);
+        log.debug("clientIp=" + ip);
+        log.debug("event=" + actName);
+        log.debug("message=" + wishing);
+        log.debug("note=" + remark);
         
         try {
             SendRedPackReqBean bean = new SendRedPackReqBean();
             double totalAmountOriginal = NumberUtils.toDouble(totalAmount, 0);
             totalAmountOriginal *= 100;
             int totalAmountFeng = NumberUtils.createBigDecimal(String.valueOf(totalAmountOriginal)).intValue();
-            
+            String sendName = "倾秀";
             bean.setTotal_amount(String.valueOf(totalAmountFeng));
             bean.setRe_openid(openid);
             bean.setTotal_num("1");
