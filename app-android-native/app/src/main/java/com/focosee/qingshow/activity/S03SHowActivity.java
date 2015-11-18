@@ -2,6 +2,8 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -66,13 +69,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.transform.TransformerFactory;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
 
@@ -181,10 +193,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 }
             });
         }
-
-        TagDotView tagDotView = new TagDotView(this);
-        container.addView(tagDotView);
-
         getShowView();
     }
 
@@ -329,6 +337,37 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(showDetailEntity.ownerRef.bonuses));
             }
         }
+
+        showTag(showDetailEntity);
+    }
+
+    private void showTag(MongoShow show){
+        Observable.from(show.itemRects)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<int[], Point>() {
+                    @Override
+                    public Point call(int[] ints) {
+                        Rect rect = new Rect(ints[0], ints[1], ints[0] + ints[2], ints[1] + ints[3]);
+                        return new Point(rect.centerX(), rect.centerY());
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<Point>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(Point point) {
+                        TagDotView tagDotView = new TagDotView(S03SHowActivity.this, point.x, point.y);
+                        container.addView(tagDotView);
+                    }
+                });
     }
 
     private void showData_self() {

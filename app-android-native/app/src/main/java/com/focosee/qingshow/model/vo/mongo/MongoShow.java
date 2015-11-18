@@ -10,13 +10,10 @@ public class MongoShow implements Serializable {
     public ShowContext __context;
 
     public String cover;
-    public boolean ugc;
     public String video;
-    public String[] posters;
-    public String description;
 
     public List<MongoItem> itemRefs;
-    public MongoPromotion promotionRef;
+    public List<int[]> itemRects;
     public String coverForeground;
 
     public GregorianCalendar create;
@@ -26,9 +23,7 @@ public class MongoShow implements Serializable {
 
     public Recommend recommend;
     public class Recommend implements Serializable {
-        public String group;
         public GregorianCalendar date;
-        public String description;
     }
 
 }
