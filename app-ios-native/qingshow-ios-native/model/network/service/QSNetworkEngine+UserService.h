@@ -79,10 +79,16 @@
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
 
+
+#pragma mark - Bind
 - (MKNetworkOperation*)userBindCurrentJpushIdOnSucceed:(VoidBlock)succeedBlock
                                                onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)userBindJpushId:(NSString*)jpushId
                              onSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)userBindMobile:(NSString*)mobileNumber
+                           verifyCode:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 @end

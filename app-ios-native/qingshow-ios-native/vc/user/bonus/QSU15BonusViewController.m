@@ -19,14 +19,11 @@
 #import "QSShareUtil.h"
 @interface QSU15BonusViewController ()
 
+@property (strong, nonatomic) NSArray* bonusArray;
+@property (assign, nonatomic) float currMoney;
 @end
 
 @implementation QSU15BonusViewController
-{
-    NSArray *_bonusArray;
-    NSString *_alipayStr;
-    float _currMoney;
-}
 
 #pragma mark - Init
 - (instancetype)initwithBonuesArray:(NSArray *)array {

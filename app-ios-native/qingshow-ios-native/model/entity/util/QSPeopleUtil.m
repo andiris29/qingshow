@@ -366,14 +366,15 @@
     return [QSEntityUtil getStringValue:dict keyPath:@"trigger.itemRef"];
 }
 
++ (BOOL)hasBindWechat:(NSDictionary*)dict {
+    return [self getWechatLoginId:dict] != nil;
+}
+
 + (NSString *)getWechatLoginId:(NSDictionary *)dict
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.weixin.openid"];
 }
-+ (NSString *)getWeiboLoginId:(NSDictionary *)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.weibo.id"];
-}
+
 + (NSString *)getNameAndPswLoginId:(NSDictionary *)dict
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.id"];

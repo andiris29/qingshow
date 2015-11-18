@@ -168,7 +168,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 - (void)getCellArrayWithPeople
 {
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    if ([QSPeopleUtil getWechatLoginId:peopleDic] || [QSPeopleUtil getWeiboLoginId:peopleDic]) {
+    if ([QSPeopleUtil hasBindWechat:peopleDic]) {
         self.rowModelArray = @[@[
                                    @(U02SectionImageRowHead),
                                    @(U02SectionImageRowBackground)

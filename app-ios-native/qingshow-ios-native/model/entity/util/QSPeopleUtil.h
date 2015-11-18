@@ -72,8 +72,7 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 
 
 #pragma mark - logintype
-+ (NSString *)getWechatLoginId:(NSDictionary *)dict;
-+ (NSString *)getWeiboLoginId:(NSDictionary *)dict;
++ (BOOL)hasBindWechat:(NSDictionary*)dict;
 + (NSString *)getNameAndPswLoginId:(NSDictionary *)dict;
 #pragma mark - code
 + (BOOL)checkMobileExist:(NSDictionary *)dict;

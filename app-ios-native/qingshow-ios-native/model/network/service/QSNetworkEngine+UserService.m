@@ -33,6 +33,8 @@
 
 //Bind
 #define PATH_BIND_JPUSH @"user/bindJPush"
+#define PATH_BIND_MOBILE @"user/bindMobile"
+#define PATH_BIND_WECHAT @"user/bindWeixin"
 
 @implementation QSNetworkEngine(UserService)
 
@@ -52,13 +54,7 @@
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary *reDict = completedOperation.responseJSON;
-                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
-                if (succeedBlock) {
-                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
-                }
+                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
             {
@@ -76,14 +72,7 @@
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary *reDict = completedOperation.responseJSON;
-                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
-                
-                if (succeedBlock) {
-                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
-                }
+                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
             {
@@ -107,13 +96,7 @@
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary *reDict = completedOperation.responseJSON;
-                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
-                if (succeedBlock) {
-                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
-                }
+                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
             {
@@ -163,8 +146,8 @@
                 if (succeedBlock) {
                     NSDictionary* retDict = completedOperation.responseJSON;
                     QSUserManager* manager = [QSUserManager shareUserManager];
-                    manager.userInfo = retDict[@"data"][@"people"];
-                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                    manager.userInfo = [retDict dictValueForKeyPath:@"data.people"];
+                    succeedBlock(manager.userInfo, [retDict dictValueForKeyPath:@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -487,4 +470,40 @@
                                 }];
 }
 
+- (MKNetworkOperation*)userBindMobile:(NSString*)mobileNumber
+                           verifyCode:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_BIND_MOBILE
+                                 method:@"POST"
+                               paramers:@{
+                                          @"mobile" : mobileNumber,
+                                          @"verificationCode" : code
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                NSDictionary* retDict = completedOperation.responseJSON;
+                                if (succeedBlock) {
+                                    succeedBlock([retDict dictValueForKeyPath:@"data.people"], [retDict dictValueForKeyPath:@"metadata"]);
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
+}
+
+#pragma mark - Private
+#pragma mark Helper
+- (void)_handleLoginSucceedOperation:(MKNetworkOperation*)completedOperation
+                        succeedBlock:(EntitySuccessBlock)succeedBlock {
+    NSDictionary* retDict = completedOperation.responseJSON;
+    NSDictionary* peopleDict = [retDict dictValueForKeyPath:@"data.people"];
+    [QSUserManager shareUserManager].userInfo = peopleDict;
+    [QSUserManager shareUserManager].fIsLogined = YES;
+    [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
+    if (succeedBlock) {
+        succeedBlock(peopleDict, [retDict dictValueForKeyPath:@"metadata"]);
+    }
+}
 @end
