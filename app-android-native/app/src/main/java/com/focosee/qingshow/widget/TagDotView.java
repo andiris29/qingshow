@@ -80,7 +80,6 @@ public class TagDotView extends View {
         ripplePaint.setAlpha(alpha);
         canvas.drawCircle(getDotX(), getDotY(), rippleRadius, ripplePaint);
         canvas.drawCircle(getDotX(), getDotY(), dotRadius, dotPaint);
-        canvas.save();
         canvas.restore();
         switch (type) {
             case TYPE_RIPPLE_ACT:

@@ -140,6 +140,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
+    private List<TagDotView> tagViewList;
     private MenuView menuView;
     private LoadingDialogs dialogs;
     private int position = Integer.MAX_VALUE;
@@ -176,6 +177,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
+        tagViewList = new ArrayList<>();
         if (S22MatchPreviewActivity.class.getSimpleName().equals(className)) {
             s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
@@ -342,6 +344,9 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void showTag(MongoShow show){
+        for (TagDotView dotView : tagViewList) {
+            container.removeView(dotView);
+        }
         Observable.from(show.itemRects)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<int[], Point>() {
@@ -365,6 +370,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                     @Override
                     public void onNext(Point point) {
                         TagDotView tagDotView = new TagDotView(S03SHowActivity.this, point.x, point.y);
+                        tagViewList.add(tagDotView);
                         container.addView(tagDotView);
                     }
                 });
