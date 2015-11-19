@@ -106,8 +106,14 @@ public class QSAppWebAPI {
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
     private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
-    
+
+    private static String FEEDINGAGGREGATION_MATCHNEW = "/feedingAggregation/matchNew";
+
     private static String SHOW_VIEW_API = "/show/view";
+
+    public static String getFeedingaggregationMatchnew() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_MATCHNEW;
+    }
 
     public static String getShowViewApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "");
@@ -250,7 +256,7 @@ public class QSAppWebAPI {
     }
 
     public static String getMatchNewApi(int pageNo, int pageSize) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+        return "http://dev.chingshow.com/services" + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getQueryCategories() {
