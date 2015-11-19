@@ -94,7 +94,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
+        adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_match);
         recyclerView.setAdapter(adapter);
 
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
