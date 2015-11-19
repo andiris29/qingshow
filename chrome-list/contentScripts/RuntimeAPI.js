@@ -21,7 +21,7 @@ chrome.runtime.sendMessage({
             source: source,
             sourceInfo: {
                 domain: getDomain(source),
-                id: getIdFromSource(source)
+                id: getIdFromSource(source, /id=(\d*)/)
             },
             syncEnabled: true
         };
