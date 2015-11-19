@@ -26,6 +26,9 @@
 
 @interface QSS01MatchShowsViewController ()<QSMatchCollectionViewProviderDelegate>
 
+@property (weak, nonatomic) IBOutlet UIButton *calendarBtn;
+
+
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 @property (strong, nonatomic) NSArray* viewsArray;
 #pragma mark Provider
@@ -123,6 +126,8 @@
     p.y = 0;
     [currentScrollView setContentOffset:p animated:YES];
     _backToTopbtn.hidden = YES;
+}
+- (IBAction)calendarBtnPressed:(id)sender {
 }
 
 #pragma mark - s11

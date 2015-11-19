@@ -17,8 +17,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView* hotCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView* newestTableView;
 
-
-
 @property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
 
 @property (weak, nonatomic) IBOutlet UIView *segmentContainerView;

@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS01MatchShowsViewController">
             <connections>
                 <outlet property="backToTopbtn" destination="5Zc-Cp-IlS" id="Hmb-hp-I6J"/>
+                <outlet property="calendarBtn" destination="xpY-Dp-DaC" id="iIB-BT-uac"/>
                 <outlet property="darenCollectionView" destination="z6K-De-9g3" id="y72-XG-APF"/>
                 <outlet property="hotCollectionView" destination="5au-Gq-WiW" id="LAI-Nf-Qad"/>
                 <outlet property="newestTableView" destination="kXg-aq-5lo" id="TuZ-tm-fG1"/>
@@ -62,6 +63,15 @@
                         <constraint firstAttribute="height" constant="40" id="fQ6-aB-Ke8"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpY-Dp-DaC">
+                    <rect key="frame" x="117" y="409" width="87" height="87"/>
+                    <state key="normal" image="s01_calendar">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="calendarBtnPressed:" destination="-1" eventType="touchUpInside" id="JdN-A8-2o5"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -92,6 +102,7 @@
     </objects>
     <resources>
         <image name="backToTopBtnImg_black" width="35" height="35"/>
+        <image name="s01_calendar" width="87" height="87"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

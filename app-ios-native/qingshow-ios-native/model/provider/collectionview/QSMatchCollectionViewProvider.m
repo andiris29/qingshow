@@ -20,6 +20,11 @@
 
 @dynamic delegate;
 
+- (void)bindWithCollectionView:(UICollectionView *)collectionView {
+    [super bindWithCollectionView:collectionView];
+    
+}
+
 - (void)registerCell
 {
     if (_type == 1) {
