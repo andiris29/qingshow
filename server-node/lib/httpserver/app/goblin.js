@@ -100,18 +100,19 @@ goblin.findItem = {
     method: 'get',
     func: function(req, res) {
         var param = req.queryString;
-
-        var domain = getDomain(param.source);
+console.log(param.source);
+        var domain = _getDomain(param.source);
         var id = '';
+        console.log(domain);
 
-        if (domain.test(/taobao/ig)) {
-            id = getIdFromSource(item.source, /id=(\d*)/);
-        } else if (domain.test(/tmall/ig)) {
-            id = getIdFromSource(item.source, /id=(\d*)/);
-        } else if (domain.test(/thejamy/ig)) {
-            id = getIdFromSource(item.source, /product\/[a-zA-Z0-9]*/);
-        } else if (domain.test(/hm/ig)) {
-            id = getIdFromSource(item.source, /page.(\d*)/);
+        if (domain.indexOf('taobao') >= 0) {
+            id = _getIdFromSource(param.source, /id=(\d*)/);
+        } else if (domain.indexOf('') >= 0) {
+            id = _getIdFromSource(param.source, /id=(\d*)/);
+        } else if (domain.indexOf('thejamy') >= 0) {
+            id = _getIdFromSource(param.source, /product\/[a-zA-Z0-9]*/);
+        } else if (domain.indexOf('hm') >= 0) {
+            id = _getIdFromSource(param.source, /page.(\d*)/);
         } else {
             id = '';
         }
@@ -133,10 +134,9 @@ goblin.findItem = {
                     item: item
                 });
             }
-        }
-    
+        });
     }
-}
+};
 
 var _getIdFromSource =  function(source, idRegex) {
     var idComp = source.match(idRegex);
@@ -147,4 +147,17 @@ var _getIdFromSource =  function(source, idRegex) {
     }
 };
 
+var _getDomain = function(url) {
+    var domain;
+    //find & remove protocol (http, ftp, etc.) and get domain
+    if (url.indexOf("://") > -1) {
+        domain = url.split('/')[2];
+    } else {
+        domain = url.split('/')[0];
+    }
 
+    //find & remove port number
+    domain = domain.split(':')[0];
+
+    return domain;
+}

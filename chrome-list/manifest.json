@@ -2,8 +2,10 @@
     "name": "倾秀上货插件",
     "version": "1.0",
     "permissions": [
-        "http://dev.chingshow.com/*",
-        "http://chingshow.com/*"
+        "tabs",
+        "http://dev.chingshow.com:30001/*",
+        "http://chingshow.com:30001/*",
+        "http://localhost:30001/*"
     ],
     "page_action": {
         "default_title": "上货"
@@ -11,7 +13,8 @@
     "background": {
         "scripts": [
             "/background/background.js"
-        ]
+        ],
+        "persistent": false
     },
     "icons": {
         "16": "/images/icon.png",
