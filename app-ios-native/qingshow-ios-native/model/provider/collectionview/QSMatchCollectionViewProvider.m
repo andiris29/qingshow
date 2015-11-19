@@ -94,14 +94,15 @@
 #pragma mark - Delegate
 - (void)headerImgViewPressed:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(didClickHeaderImgView:)]) {
-        [self.delegate didClickHeaderImgView:sender];
+    if ([self.delegate respondsToSelector:@selector(provider:didClickHeaderImgView:)]) {
+        
+        [self.delegate provider:self didClickHeaderImgView:sender];
     }
 }
 - (void)matchImgViewPressed:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)]) {
-        [self.delegate  didSelectedCellInCollectionView:sender];
+    if ([self.delegate respondsToSelector:@selector(provider:didSelectedCellInCollectionView:)]) {
+        [self.delegate provider:self didSelectedCellInCollectionView:sender];
     }
 }
 @end

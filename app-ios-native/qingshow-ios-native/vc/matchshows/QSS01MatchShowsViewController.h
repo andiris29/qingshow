@@ -12,8 +12,18 @@
 
 @interface QSS01MatchShowsViewController : QSRootContentViewController <QSS12NewTradeNotifyViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+@property (weak, nonatomic) IBOutlet UICollectionView* darenCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView* hotCollectionView;
+@property (weak, nonatomic) IBOutlet UITableView* newestTableView;
+
+
+
 @property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
+
+@property (weak, nonatomic) IBOutlet UIView *segmentContainerView;
+
+
 
 - (IBAction)backToTopBtnPressed:(id)sender;
 

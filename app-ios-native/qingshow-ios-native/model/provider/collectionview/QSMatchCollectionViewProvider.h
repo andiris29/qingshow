@@ -9,10 +9,13 @@
 #import "QSWaterfallBasicProvider.h"
 #import "QSMatchShowsCell.h"
 #import "QSU01MatchCollectionViewCell.h"
+
+@class QSMatchCollectionViewProvider;
+
 @protocol QSMatchCollectionViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
-- (void)didSelectedCellInCollectionView:(id)sender;
-- (void)didClickHeaderImgView:(id)sender;
+- (void)provider:(QSMatchCollectionViewProvider*)provider didSelectedCellInCollectionView:(id)sender;
+- (void)provider:(QSMatchCollectionViewProvider*)provider didClickHeaderImgView:(id)sender;
 
 @end
 typedef enum : NSUInteger {

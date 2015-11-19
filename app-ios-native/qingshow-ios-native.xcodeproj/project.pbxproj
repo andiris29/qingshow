@@ -154,6 +154,7 @@
 		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
 		EF610EFB1AF937E400B7DFB3 /* QSBigImageDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF610EFA1AF937E300B7DFB3 /* QSBigImageDateView.m */; };
 		EF610EFD1AF937F700B7DFB3 /* QSBigImageDateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF610EFC1AF937F700B7DFB3 /* QSBigImageDateView.xib */; };
+		EF651F4A1BFE34E100B35AB0 /* QSMatcherTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF651F491BFE34E100B35AB0 /* QSMatcherTableViewProvider.m */; };
 		EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6567741A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib */; };
 		EF6753BF1A6416C90045E96C /* QSG01ItemWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6753BD1A6416C90045E96C /* QSG01ItemWebViewController.m */; };
 		EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6753BE1A6416C90045E96C /* QSG01ItemWebViewController.xib */; };
@@ -694,6 +695,8 @@
 		EF610EF91AF937E300B7DFB3 /* QSBigImageDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBigImageDateView.h; sourceTree = "<group>"; };
 		EF610EFA1AF937E300B7DFB3 /* QSBigImageDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBigImageDateView.m; sourceTree = "<group>"; };
 		EF610EFC1AF937F700B7DFB3 /* QSBigImageDateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBigImageDateView.xib; sourceTree = "<group>"; };
+		EF651F481BFE34E100B35AB0 /* QSMatcherTableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherTableViewProvider.h; sourceTree = "<group>"; };
+		EF651F491BFE34E100B35AB0 /* QSMatcherTableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherTableViewProvider.m; sourceTree = "<group>"; };
 		EF6567741A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBigImageFashionTableViewCell.xib; sourceTree = "<group>"; };
 		EF6753BC1A6416C90045E96C /* QSG01ItemWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSG01ItemWebViewController.h; sourceTree = "<group>"; };
 		EF6753BD1A6416C90045E96C /* QSG01ItemWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSG01ItemWebViewController.m; sourceTree = "<group>"; };
@@ -2316,6 +2319,8 @@
 				8C46D7DB1B9C308700561F12 /* QST01ShowTradeProvider.m */,
 				EFAB9C5D1B346FE5008A4EF5 /* QSTableViewBasicProvider.h */,
 				EFAB9C5E1B346FE5008A4EF5 /* QSTableViewBasicProvider.m */,
+				EF651F481BFE34E100B35AB0 /* QSMatcherTableViewProvider.h */,
+				EF651F491BFE34E100B35AB0 /* QSMatcherTableViewProvider.m */,
 			);
 			path = tableview;
 			sourceTree = "<group>";
@@ -3074,6 +3079,7 @@
 				EFCA01311B00F96F00199BCF /* QSNavigationController.m in Sources */,
 				EF0C642C1B21AAC20079B22E /* QSU02InfoTextCell.m in Sources */,
 				EFAB9C651B346FE5008A4EF5 /* QSWaterfallBasicProvider.m in Sources */,
+				EF651F4A1BFE34E100B35AB0 /* QSMatcherTableViewProvider.m in Sources */,
 				EFAD758D1B3BAE1300565DED /* QSMatcherItemsProvider.m in Sources */,
 				EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */,
 				EFB1ADEB1B386889007893AB /* QSNetworkEngine+MatcherService.m in Sources */,
