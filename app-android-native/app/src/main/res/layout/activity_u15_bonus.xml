@@ -12,16 +12,42 @@
         android:id="@+id/u15_title"
         layout="@layout/title"/>
 
-    <ImageView
-        android:id="@+id/u15_pig"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/u15_total_linear"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_widthPercent="20%"
-        app:layout_heightPercent="20%"
+        app:layout_heightPercent="13%"
         android:layout_below="@+id/u15_title"
-        app:layout_marginTopPercent="5%"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/pig_pink"/>
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:background="@color/master_pink">
+        <TextView
+            android:textSize="@android:dimen/action_bar_title_text_size"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/u15_total"/>
+        <com.focosee.qingshow.widget.QSTextView
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.3"
+            android:textSize="30sp"
+            android:text="￥0.00"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/u15_pig"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="13%"
+        android:layout_below="@+id/u15_total_linear"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+
+    </LinearLayout>
 
     <com.focosee.qingshow.widget.QSTextView
         android:id="@+id/u15_myBonus"
@@ -42,7 +68,6 @@
         android:gravity="center">
 
         <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/u15_total_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4.5"
@@ -50,7 +75,6 @@
             android:text="佣金总计："/>
 
         <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/u15_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="3.3"
