@@ -13,13 +13,6 @@ import java.util.List;
  * Created by Administrator on 2015/11/19.
  */
 public class S24Adapter extends AbsAdapter<MongoShow>{
-    /**
-     * viewType的顺序的layoutId的顺序一致
-     *
-     * @param datas
-     * @param context
-     * @param layoutId
-     */
     public S24Adapter(@NonNull List<MongoShow> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
     }

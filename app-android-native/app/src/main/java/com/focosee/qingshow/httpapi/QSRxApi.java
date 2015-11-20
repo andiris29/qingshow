@@ -21,7 +21,7 @@ import rx.functions.Func1;
  */
 public class QSRxApi {
 
-    public static Observable<?> createFeedingaggregationMatchNewRequest(Date from, Date to){
+    public static Observable<List<MongoShow>> createFeedingaggregationMatchNewRequest(Date from, Date to){
         Map<String, Object> reqData = new HashMap<>();
         reqData.put("from", from);
         reqData.put("to", to);
@@ -35,7 +35,7 @@ public class QSRxApi {
                 });
     }
 
-    public static Observable<?> createFeedingMatchNewRequest(int pageNo, int pageSize, Date from, Date to){
+    public static Observable<List<MongoShow>> createFeedingMatchNewRequest(int pageNo, int pageSize, Date from, Date to){
         Map<String, Object> reqData = new HashMap<>();
         reqData.put("from", from);
         reqData.put("to", to);

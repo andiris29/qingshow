@@ -45,7 +45,7 @@
         android:configChanges="orientation|keyboardHidden"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
+        android:theme="@style/Theme.AppCompat.NoActionBar">
 
         <!-- Required SDK核心功能 -->
         <activity
@@ -234,11 +234,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_launch"
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
@@ -293,21 +293,21 @@
             android:name=".activity.U16BonusListActivity"
             android:label="@string/title_activity_u16_bonus_list"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.T01HighlightedTradeListActivity"
             android:label="@string/title_activity_t01_highlighted_trade_list"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.U17ResetPasswordStep1Activity"
             android:label="@string/title_activity_u17_reset_password_step1"
             android:parentActivityName=".activity.U06LoginActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.U18ResetPasswordStep2Activity"
             android:label="@string/title_activity_u18_reset_password_step2"
             android:parentActivityName=".activity.U17ResetPasswordStep1Activity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.S24ShowsDateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

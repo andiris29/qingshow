@@ -28,7 +28,6 @@ public class QSGsonFactory {
     public static GsonBuilder createBuilder() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(GregorianCalendar.class, new UTCDeserializer());
-        builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
         return builder;
     }
 

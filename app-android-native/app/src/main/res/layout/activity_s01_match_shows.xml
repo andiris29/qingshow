@@ -82,6 +82,10 @@
             </LinearLayout>
         </RelativeLayout>
 
+        <include
+            android:id="@+id/head"
+            layout="@layout/s01_head"/>
+
         <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/s01_refresh"
             android:layout_width="match_parent"
@@ -94,6 +98,15 @@
                 android:layout_weight="1" />
         </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/home_time"
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_gravity="bottom|center"
+        android:src="@drawable/home_time"
+        android:layout_marginBottom="30dp"
+        />
 
     <ImageButton
         android:id="@+id/s01_backTop_btn"

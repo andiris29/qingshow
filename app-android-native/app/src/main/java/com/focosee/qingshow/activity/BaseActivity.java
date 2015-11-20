@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -28,7 +29,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by Administrator on 2015/2/5.
  */
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public static String NOTNET = "not_net";
     public static String PUSHNOTIFY = "PUSHNOTIFY";
