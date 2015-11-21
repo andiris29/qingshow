@@ -133,10 +133,9 @@ goblin.findItem = {
                     item: item
                 });
             }
-        }
-    
+        });
     }
-}
+};
 
 var _getIdFromSource =  function(source, idRegex) {
     var idComp = source.match(idRegex);
