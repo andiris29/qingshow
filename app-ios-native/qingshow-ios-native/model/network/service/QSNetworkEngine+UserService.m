@@ -25,7 +25,7 @@
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 #define PATH_USER_SAVE_RECEIVER @"user/saveReceiver"
 #define PATH_USER_REMOVE_RECEIVER @"user/removeReceiver"
-#define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
+
 #define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
 #define PATH_MOBILE_RESET_PASSWORD @"user/resetPassword"
 #define PATH_MOBILE_FORGET_PASSWORD @"user/forgotPassword"
@@ -350,20 +350,6 @@
                                 }
             ];
 }
-- (MKNetworkOperation*)getBonusWithAlipayId:(NSString*)alipayId
-                                OnSusscee:(VoidBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_USER_BONUS_WITHDRAW method:@"POST" paramers:@{@"alipayId":alipayId} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            succeedBlock();
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
 
 - (MKNetworkOperation*)getVerifyCodeForMobile:(NSString*)mobileNum
                                     onSucceed:(VoidBlock)succeedBlock
@@ -481,10 +467,7 @@
                                           @"verificationCode" : code
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation) {
-                                NSDictionary* retDict = completedOperation.responseJSON;
-                                if (succeedBlock) {
-                                    succeedBlock([retDict dictValueForKeyPath:@"data.people"], [retDict dictValueForKeyPath:@"metadata"]);
-                                }
+                                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
                             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error) {
                                     if (errorBlock) {
@@ -493,13 +476,27 @@
                                 }];
 }
 
+- (MKNetworkOperation*)userBindWechat:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_BIND_WECHAT method:@"POST" paramers:@{@"code" : code } onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 #pragma mark - Private
 #pragma mark Helper
 - (void)_handleLoginSucceedOperation:(MKNetworkOperation*)completedOperation
                         succeedBlock:(EntitySuccessBlock)succeedBlock {
     NSDictionary* retDict = completedOperation.responseJSON;
     NSDictionary* peopleDict = [retDict dictValueForKeyPath:@"data.people"];
-    [QSUserManager shareUserManager].userInfo = peopleDict;
+    if (peopleDict) {
+        [QSUserManager shareUserManager].userInfo = peopleDict;
+    }
     [QSUserManager shareUserManager].fIsLogined = YES;
     [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
     if (succeedBlock) {

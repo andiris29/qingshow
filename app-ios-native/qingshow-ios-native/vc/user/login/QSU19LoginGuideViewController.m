@@ -87,6 +87,7 @@
         if ([QSPeopleUtil checkMobileExist:[QSUserManager shareUserManager].userInfo]) {
             [self hideLoginPrompVc];
         } else {
+#warning TODO Change to New VC
             [self registerBtnPressed:nil];
         }
     } onError:^(NSError *error) {

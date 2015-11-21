@@ -17,6 +17,9 @@
 #import "QSUnreadManager.h"
 #import "QSNetworkEngine+ShareService.h"
 #import "QSShareUtil.h"
+#import "UIViewController+QSExtension.h"
+#import "QSThirdPartLoginService.h"
+
 @interface QSU15BonusViewController ()
 
 @property (strong, nonatomic) NSArray* bonusArray;
@@ -66,31 +69,30 @@
 }
 
 - (IBAction)withdrawBtnPressed:(id)sender {
-#warning TODO
-    if (self.availableMoney != 0) {
-        NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-        NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
-        
-        __weak QSU15BonusViewController *weakSelf = self;
-#warning TODO Refactor
+    if (self.availableMoney == 0) {
+        return;
+    }
+
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
+    
+    if ([QSPeopleUtil hasBindWechat:peopleDic]) {
         [SHARE_NW_ENGINE shareCreateBonus:peopleId onSucceed:^(NSDictionary *shareDic) {
             [[QSShareService shareService]shareWithWechatMoment:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] image:[UIImage imageNamed:@"share_icon"] url:[QSShareUtil getshareUrl:shareDic] onSucceed:^{
-                [SHARE_NW_ENGINE getBonusWithAlipayId:self.alipayId OnSusscee:^{
-                    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-                    NSArray *bonusArray = [QSPeopleUtil getBonusList:peopleDic];
-                    [weakSelf _updateAvailableBonus:bonusArray];
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"佣金提取成功 款项将会在48小时内转至您的账户" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    alert.tag = 345;
-                    [alert show];
-                } onError:^(NSError *error) {
-                    
-                }];
+                [self showSuccessHudWithText:@"提取成功"];
             } onError:nil];
         } onError:^(NSError *error) {
-            
+            [self handleError:error];
+        }];
+    } else {
+        [[QSThirdPartLoginService getInstance] bindWithWechatOnSucceed:^{
+            [self _configUI];
+        } onError:^(NSError *error) {
+            [self handleError:error];
         }];
     }
 }
+
 - (IBAction)faqBtnPressed:(id)sender {
     if (!self.faqLayer.superview) {
         [self.navigationController.view addSubview:self.faqLayer];
