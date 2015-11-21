@@ -84,9 +84,7 @@ var _decryptMD5 = function (string){
     .toUpperCase();
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId, _loginAsViewer;
-
-_get = [
+var _get = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
         ResponseHelper.writeData(res, {
@@ -96,7 +94,7 @@ _get = [
     }
 ];
 
-_login = [function(req, res, next) {
+var _login = [function(req, res, next) {
     // Upgrade the req
     var v = RequestHelper.getVersion(req);
     if (VersionUtil.lt(v, '2.2.0')) {
@@ -139,7 +137,7 @@ _login = [function(req, res, next) {
     });
 }];
 
-_logout = function(req, res) {
+var _logout = function(req, res) {
     var id = req.qsCurrentUserId;
     _removeRegistrationId(id, req.body.registrationId);
     delete req.session.userId;
@@ -153,7 +151,7 @@ _logout = function(req, res) {
     res.json(retData);
 };
 
-_register = [
+var _register = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
         if (req.injection.qsCurrentUser.role !== 0) {
@@ -213,7 +211,7 @@ _register = [
     }
 ];
 
-_update = function(req, res) {
+var _update = function(req, res) {
     var qsParam;
     qsParam = req.body;
     async.waterfall([
@@ -323,15 +321,15 @@ _update = function(req, res) {
 
 
 
-_updatePortrait = function(req, res) {
+var _updatePortrait = function(req, res) {
     _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait', userPortraitResizeOptions);
 };
 
-_updateBackground = function(req, res) {
+var _updateBackground = function(req, res) {
     _upload(req, res, global.qsConfig.uploads.user.background, 'background');
 };
 
-_saveReceiver = function(req, res) {
+var _saveReceiver = function(req, res) {
     var param = req.body;
     async.waterfall([function(callback) {
         People.findOne({
@@ -428,7 +426,7 @@ var _upload = function(req, res, config, keyword, resizeOptions) {
     });
 };
 
-_removeReceiver = function(req, res) {
+var _removeReceiver = function(req, res) {
     var param = req.body;
     async.waterfall([function(callback) {
         People.findOne({
@@ -486,7 +484,7 @@ var _downloadHeadIcon = function (path, callback) {
         });
 };
 
-_loginViaWeixin = function(req, res) {
+var _loginViaWeixin = function(req, res) {
     var config = global.qsConfig;
     var param = req.body;
     var code = param.code;
@@ -642,7 +640,7 @@ _loginViaWeixin = function(req, res) {
 };
 
 
-_requestVerificationCode = function(req, res){
+var _requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
     async.waterfall([function(callback){
         console.log(req);
@@ -669,7 +667,7 @@ _requestVerificationCode = function(req, res){
     });
 };
 
-_validateMobile = function(req, res){
+var _validateMobile = function(req, res){
     var params = req.body;
     var mobile = params.mobile;
     async.series([function(callback){
@@ -684,7 +682,7 @@ _validateMobile = function(req, res){
     });
 };
 
-_resetPassword = function(req, res){
+var _resetPassword = function(req, res){
     var params = req.body;
     var mobile = params.mobile;
     var code = params.verificationCode;
@@ -734,7 +732,7 @@ _resetPassword = function(req, res){
 };
 
 
-var _readNotification = function(req, res) {
+var var _readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
     for (var element in params) {
@@ -748,7 +746,7 @@ var _readNotification = function(req, res) {
     });
 };
 
-_loginAsGuest = function(req, res){
+var _loginAsGuest = function(req, res){
     var params = req.body;
     async.waterfall([function(callback){
         var nickname = '';
@@ -792,7 +790,7 @@ _loginAsGuest = function(req, res){
     });
 };
 
-_updateRegistrationId = function(req, res){
+var _updateRegistrationId = function(req, res){
     var params = req.body;
     var registrationId = params.registrationId;
     People.findOne({
@@ -805,7 +803,7 @@ _updateRegistrationId = function(req, res){
     });
 };
 
-_loginAsViewer = function(req, res){
+var _loginAsViewer = function(req, res){
     var params = req.body;
     async.waterfall([function(callback){
         People.findOne({
