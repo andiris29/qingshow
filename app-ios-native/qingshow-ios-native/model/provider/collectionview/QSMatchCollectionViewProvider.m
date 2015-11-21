@@ -10,23 +10,31 @@
 
 #import "QSS03ShowDetailViewController.h"
 #import "QSIImageLoadingCancelable.h"
+#import "QSMatcherCollectionViewHeader.h"
 
 #define S01MATCHCELL @"matchShowsForS01CellId"
 #define U01MATCHCELL @"matchShowsForU01CellId"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
 #define h ([UIScreen mainScreen].bounds.size.height)
+@interface QSMatchCollectionViewProvider()
+
+@property (strong, nonatomic) QSMatcherCollectionViewHeader* headerView;
+
+@end
+
 @implementation QSMatchCollectionViewProvider
 
 @dynamic delegate;
 
 - (void)bindWithCollectionView:(UICollectionView *)collectionView {
     [super bindWithCollectionView:collectionView];
-    
+    self.headerView = [QSMatcherCollectionViewHeader generateView];
 }
 
 - (void)registerCell
 {
+    [self.view registerNib:[UINib nibWithNibName:@"QSMatcherCollectionViewHeader" bundle:nil] forCellWithReuseIdentifier:@"QSMatcherCollectionViewHeader"];
     if (_type == 1) {
         [self.view registerNib:[UINib nibWithNibName:@"QSMatchShowsCell" bundle:nil] forCellWithReuseIdentifier:S01MATCHCELL];
     }
@@ -45,19 +53,22 @@
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.item == 0) {
+        QSMatcherCollectionViewHeader* headerCell =(QSMatcherCollectionViewHeader*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSMatcherCollectionViewHeader" forIndexPath:indexPath];
+        if (!headerCell) {
+            headerCell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatcherCollectionViewHeader" owner:nil options:nil]lastObject];
+        }
+        return headerCell;
+    }
     if (_type == 1) {
         QSMatchShowsCell *cell = (QSMatchShowsCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:S01MATCHCELL forIndexPath:indexPath];
         if (!cell) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
-//        if (indexPath.item == 1) {
-//            NSLog(@"result Array = %@",self.resultArray[indexPath.item]);
-//        }
-//        
-        //NSLog(@"count === %d",self.resultArray.count);
+        
         if(self.resultArray.count)
         {
-            [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
+            [cell bindWithDic:self.resultArray[indexPath.item - 1] withIndex:(int)indexPath.item - 1];
         }
         if (w == 414) {
             cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));
@@ -78,7 +89,7 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU01MatchCollectionViewCell" owner:nil options:nil]lastObject];
         }
         if (self.resultArray.count) {
-             [cell bindWithDic:self.resultArray[indexPath.item]];
+             [cell bindWithDic:self.resultArray[indexPath.item - 1]];
         }
         cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
         cell.backgroundColor = [UIColor whiteColor];
@@ -92,9 +103,18 @@
    
 }
 
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    return CGSizeMake(320.f, 100.f);
+}
+
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.resultArray.count;
+    return self.resultArray.count + 1;
+}
+- (CGFloat)heightForHeaderInCollectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout {
+    return 100.f;
 }
 #pragma mark - Delegate
 - (void)headerImgViewPressed:(id)sender

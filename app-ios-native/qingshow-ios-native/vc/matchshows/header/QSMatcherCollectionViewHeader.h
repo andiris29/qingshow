@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSMatcherCollectionViewHeader : UIView
+@interface QSMatcherCollectionViewHeader : UICollectionViewCell
 
-
-// 
 + (instancetype)generateView;
 - (void)bindWithDict:(NSDictionary*)dict;
 
