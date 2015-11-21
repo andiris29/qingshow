@@ -1,40 +1,39 @@
-var mongoose = require('mongoose');
-var async = require('async');
-var uuid = require('node-uuid');
-var path = require('path');
-var jPushAudiences = require('../../dbmodels').JPushAudience;
-var fs = require('fs');
-var winston = require('winston');
-var TraceHelper = require('../../helpers/TraceHelper');
+var async = require('async'),
+    uuid = require('node-uuid'),
+    path = require('path'),
+    fs = require('fs'),
+    crypto = require('crypto'),
+    request = require('request');
 
-var People = require('../../dbmodels').People;
+var JPushAudience = require('../../dbmodels').JPushAudience,
+    People = require('../../dbmodels').People;
 
-var RequestHelper = require('../../helpers/RequestHelper');
-var ResponseHelper = require('../../helpers/ResponseHelper');
-var SMSHelper = require('../../helpers/SMSHelper');
-var NotificationHelper = require('../../helpers/NotificationHelper');
+var qsftp = require('../../runtime').ftp;
+
+var TraceHelper = require('../../helpers/TraceHelper'),
+    RequestHelper = require('../../helpers/RequestHelper'),
+    ResponseHelper = require('../../helpers/ResponseHelper'),
+    SMSHelper = require('../../helpers/SMSHelper'),
+    NotificationHelper = require('../../helpers/NotificationHelper');
 
 var VersionUtil = require('../../utils/VersionUtil');
 
 var errors = require('../../errors');
 
-var crypto = require('crypto'), _secret = 'qingshow@secret';
-var moment =require('moment');
-
-var request = require('request');
-var WX_APPID = 'wx75cf44d922f47721';
-var WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
-
-var WB_APPID = 'wb1213293589';
-var WB_SECRET = '';
-
-var qsftp = require('../../runtime').ftp;
+var _secret = 'qingshow@secret';
 
 var _encrypt = function(string) {
     var cipher = crypto.createCipher('aes192', _secret);
     var enc = cipher.update(string, 'utf8', 'hex');
     enc += cipher.final('hex');
     return enc;
+};
+
+var _decrypt = function(string) {
+    var decipher = crypto.createDecipher('aes192', _secret);
+    var dec = decipher.update(string, 'hex', 'utf8');
+    dec += decipher.final('utf8');
+    return dec;
 };
 
 var userPortraitResizeOptions = [
@@ -44,26 +43,22 @@ var userPortraitResizeOptions = [
     {'suffix' : '_30', 'width' : 30, 'height' : 30}
 ];
 
-var _decrypt = function(string) {
-    var decipher = crypto.createDecipher('aes192', _secret);
-    var dec = decipher.update(string, 'hex', 'utf8');
-    dec += decipher.final('utf8');
-    return dec;
-};
-
+var WX_APPID = 'wx75cf44d922f47721',
+    WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
+    
 var _addRegistrationId = function(peopleId, registrationId) {
     if (!registrationId || registrationId.length === 0) {
         return;
     }
 
-    jPushAudiences.remove({
+    JPushAudience.remove({
         'registrationId' : registrationId
     }, function(err) {
         if (err) {
             return;
         }
 
-        var info = new jPushAudiences({
+        var info = new JPushAudience({
             'peopleRef' : peopleId,
             'registrationId' : registrationId
         });
@@ -76,7 +71,7 @@ var _removeRegistrationId = function(peopleId, registrationId) {
         return;
     }
 
-    jPushAudiences.remove({
+    JPushAudience.remove({
         'peopleRef' : peopleId,
         'registrationId' : registrationId
     }, function(err) {});
@@ -501,7 +496,6 @@ _loginViaWeixin = function(req, res) {
     }
     async.waterfall([function(callback) {
         var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + code + '&grant_type=authorization_code';
-        winston.info('token url', token_url);
         request.get(token_url, function(error, response, body) {
             var data = JSON.parse(body);
             if (data.errcode !== undefined) {
@@ -512,7 +506,6 @@ _loginViaWeixin = function(req, res) {
         });
     }, function(token, openid, callback) {
         var usr_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid;
-        winston.info('usr_url', usr_url);
 
         request.get(usr_url, function(errro, response, body) {
             var data = JSON.parse(body);
