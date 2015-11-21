@@ -80,10 +80,6 @@
 }
 - (IBAction)wechatLoginPressed:(id)sender {
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
-
-#warning TODO check whether to remvoe update people
-        [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
-        
         if ([QSPeopleUtil checkMobileExist:[QSUserManager shareUserManager].userInfo]) {
             [self hideLoginPrompVc];
         } else {
