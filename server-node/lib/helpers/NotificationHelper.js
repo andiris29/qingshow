@@ -47,13 +47,13 @@ NotificationHelper.notify = function(peoplesIds, message, extras, cb) {
     async.series([function(callback){
         NotificationHelper._push(peoplesIds, message, extras, function(err, res){
             callback(err, res);
-        })
+        });
     }, function(callback){
         NotificationHelper._saveAsUnread(peoplesIds, extras, function(err){
             callback(err);
-        })
+        });
     }], cb);
-}
+};
 
 NotificationHelper._push = function(peoplesIds, message, extras, cb) {
     async.waterfall([function(callback){
@@ -90,8 +90,8 @@ NotificationHelper._push = function(peoplesIds, message, extras, cb) {
         } else {
             callback();
         }
-    }], cb)
-}
+    }], cb);
+};
 
 NotificationHelper.read = function(peoplesIds, criteria, callback) {
     if (criteria['extra.command'] === NotificationHelper.CommandItemExpectablePriceUpdated) {
@@ -111,7 +111,7 @@ NotificationHelper.read = function(peoplesIds, criteria, callback) {
         multi : true
     }, function(err, doc){
         callback(err, doc);  
-    })
+    });
 };
 
 NotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
@@ -138,6 +138,6 @@ NotificationHelper._saveAsUnread = function(peoplesIds, extras, cb) {
             multi : true
         }, function(err, doc){
             callback(err, doc);
-        })
-    }], cb)
-}
+        });
+    }], cb);
+};

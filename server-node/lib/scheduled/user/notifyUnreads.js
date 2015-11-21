@@ -51,9 +51,9 @@ var _run = function() {
 };
 
 module.exports = function () {
-    var rule = new schedule.RecurrenceRule();
-    rule.hour = [new schedule.Range(10, 23)];
-    schedule.scheduleJob(rule, function () {
-        _run();
-    });
+    // var rule = new schedule.RecurrenceRule();
+    // rule.hour = [new schedule.Range(10, 23)];
+    // schedule.scheduleJob(rule, function () {
+        // _run();
+    // });
 };
