@@ -77,13 +77,6 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     }, function(err) {});
 };
 
-var _decryptMD5 = function (string){
-    return crypto.createHash('md5')
-    .update(string)
-    .digest('hex')
-    .toUpperCase();
-};
-
 var user = {};
 
 user.get = [
@@ -667,7 +660,7 @@ user.requestVerificationCode = function(req, res){
     });
 };
 
-user.validateMobile = function(req, res){
+user.forgotPassword = function(req, res){
     var params = req.body;
     var mobile = params.mobile;
     async.series([function(callback){
@@ -676,6 +669,11 @@ user.validateMobile = function(req, res){
             callback(err, success);
         });
     }],function(error, success) {
+        if (!error) {
+            req.session.resetPassword = {
+                'mobile' : mobile
+            };
+        }
         ResponseHelper.response(res, error, {            
             'success' : success[0]
         });
@@ -683,50 +681,49 @@ user.validateMobile = function(req, res){
 };
 
 user.resetPassword = function(req, res){
-    var params = req.body;
-    var mobile = params.mobile;
-    var code = params.verificationCode;
-    async.waterfall([function(callback){
-        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
-            if (err) {
-                callback(err);
-            }else{
-                callback(null, success);
-            }
-        });
-    }, function(success, callback){
+    var params = req.body,
+        mobile = null;
+        password = params.password;
+        
+    async.waterfall([function(callback) {
+        if (!req.session.resetPassword) {
+            callback(errors.genUnkownError());
+        } else {
+            mobile = req.session.resetPassword.mobile;
+            delete req.session.resetPassword;
+            callback();
+        }
+    }, function(callback){
         People.find({
             'userInfo.id' : mobile
         }, function(err, peoples) {
             if (peoples.length > 1) {
-                callback(errors.genUnkownError);
+                callback(errors.genUnkownError());
             }else {
                 callback(null , peoples);
             }
         });
     }, function(people, callback) {
-        var code = new Number(Math.random() * Math.pow(10,6)).toFixed(0);
-        var tempPassword = _decryptMD5(code);
         People.findOneAndUpdate({
             'userInfo.id' : mobile
         }, {
-            $unset : { 
-                'userInfo.encryptedPassword' : -1
-             },
-             $set : {
-                'userInfo.password' : tempPassword
-             }
+            $unset : {
+               'userInfo.password' : -1
+            },
+            $set : {
+               'userInfo.encryptedPassword' : _encrypt(password)
+            }
         }, {
         }, function(error, people) {
             if (error) {
-                callback(errors.genUnkownError);
-            }else {
-                callback(null, tempPassword); 
+                callback(errors.genUnkownError());
+            } else {
+                callback(null, people); 
             }
         });
-    }],function(error, tempPassword) {
+    }],function(error, people) {
         ResponseHelper.response(res, error, {
-            'password' : tempPassword
+            'people' : people
         });
     });
 };
@@ -885,9 +882,9 @@ module.exports = {
         method : 'post',
         func : user.requestVerificationCode
     },
-    'validateMobile' : {
+    'forgotPassword' : {
         method : 'post',
-        func : user.validateMobile
+        func : user.forgotPassword
     },
     'resetPassword' : {
         method : 'post',
