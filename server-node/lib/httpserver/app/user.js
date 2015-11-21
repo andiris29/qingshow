@@ -119,8 +119,6 @@ var _login = [function(req, res, next) {
             req.session.userId = people._id;
             req.session.loginDate = new Date();
 
-            _addRegistrationId(people._id, param.registrationId);
-
             ResponseHelper.write(res, {
                 'invalidateTime' : 3600000
             }, {
@@ -139,7 +137,8 @@ var _login = [function(req, res, next) {
 
 var _logout = function(req, res) {
     var id = req.qsCurrentUserId;
-    _removeRegistrationId(id, req.body.registrationId);
+    _removeRegistrationId(id, req.session.registrationId);
+    delete req.session.registrationId;
     delete req.session.userId;
     delete req.session.loginDate;
     delete req.qsCurrentUserId;
@@ -199,8 +198,6 @@ var _register = [
             } else {
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
-
-                _addRegistrationId(people._id, req.body.registrationId);
 
                 ResponseHelper.writeData(res, {
                     'people' : people
@@ -630,7 +627,6 @@ var _loginViaWeixin = function(req, res) {
     }, function(people, callback) {
         req.session.userId = people._id;
         req.session.loginDate = new Date();
-        _addRegistrationId(people._id, param.registrationId);
         callback(null, people);
     }], function(error, people) {
         ResponseHelper.response(res, error, {
@@ -732,7 +728,7 @@ var _resetPassword = function(req, res){
 };
 
 
-var var _readNotification = function(req, res) {
+var _readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
     for (var element in params) {
@@ -774,7 +770,6 @@ var _loginAsGuest = function(req, res){
         people.nickname = nickname;
         people.role = 0;
         people.save(function(err, people){
-            _addRegistrationId(people._id, params.registrationId);
             req.session.userId = people._id;
             req.session.loginDate = new Date();
             callback(null, people);
@@ -790,12 +785,13 @@ var _loginAsGuest = function(req, res){
     });
 };
 
-var _updateRegistrationId = function(req, res){
+var _bindJPush = function(req, res){
     var params = req.body;
     var registrationId = params.registrationId;
     People.findOne({
         '_id': req.qsCurrentUserId
     }, function(err, people) {
+        req.session.registrationId = registrationId;
         _addRegistrationId(people._id, registrationId);
         ResponseHelper.response(res, err, {
             'people' : people
@@ -902,10 +898,10 @@ module.exports = {
         method : 'post',
         func : _loginAsGuest
     },
-    'updateRegistrationId' : {
+    'bindJPush' : {
         method : 'post',
         permissionValidators : ['loginValidator'],
-        func : _updateRegistrationId
+        func : _bindJPush
     },
     'loginAsViewer' : {
         method : 'post',
