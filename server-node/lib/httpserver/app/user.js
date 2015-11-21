@@ -87,9 +87,9 @@ var _decryptMD5 = function (string){
     .update(string)
     .digest('hex')
     .toUpperCase();
-}
+};
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId, _loginAsViewer;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId, _loginAsViewer;
 
 _get = [
     require('../middleware/injectCurrentUser'),
@@ -477,7 +477,7 @@ var _generateTempPathForHeadIcon = function (path) {
     var tempName = path.replace(/[\.\/:]/g, '_');
     var tempPath = "/tmp/" + tempName;
     return tempPath;
-}
+};
 
 var _downloadHeadIcon = function (path, callback) {
     var tempPath = _generateTempPathForHeadIcon(path);
@@ -602,7 +602,7 @@ _loginViaWeixin = function(req, res) {
                     '_id': req.qsCurrentUserId
                 }, function(err, target){
                     callback(null, target, weixinUser, copyHeadPath);
-                })
+                });
             }else{
                 callback(null, new People(), weixinUser, copyHeadPath);
             }
@@ -648,141 +648,6 @@ _loginViaWeixin = function(req, res) {
     });
 };
 
-_loginViaWeibo = function(req, res) {
-    var config = global.qsConfig;
-    var param = req.body;
-    var token = param.access_token;
-    var uid = param.uid;
-    if (!token || !uid) {
-        ResponseHelper.response(res, errors.NotEnoughParam);
-        return;
-    }
-    async.waterfall([function(callback) {
-        var url = "https://api.weibo.com/2/users/show.json?access_token=" + token + "&uid=" + uid;
-        request.get(url, function(error, response, body) {
-            var data = JSON.parse(body);
-            if (data.error !== undefined) {
-                callback(data);
-                return;
-            }
-
-            callback(null, {
-                id : data.id,
-                screen_name : data.screen_name,
-                province : data.province,
-                country : data.country,
-                gender : data.gender,
-                avatar_large : data.avatar_large
-            });
-        });
-    }, function (weiboUser, callback) {
-        var url = weiboUser.avatar_large;
-
-        People.findOne({
-            'userInfo.weibo.id' : weiboUser.id
-        }, function(err, people) {
-            if (err) {
-                callback(err);
-            } else {
-                var shouldDownload = true;
-                try {
-                    if (people && people.userInfo.weibo.avatar_large === url) {
-                        shouldDownload = false;
-                    }
-                } catch(e) {}
-                callback(null, shouldDownload, weiboUser, people);
-            }
-        });
-
-    }, function (shouldDownloadHeadIcon, weiboUser, people, callback) {
-        if (shouldDownloadHeadIcon) {
-            var url = weiboUser.avatar_large;
-            //download headIcon
-            _downloadHeadIcon(url, function (err, tempPath) {
-                if (err) {
-                    callback(err);
-                    try {
-                        fs.unlink(tempPath, function () {});
-                    } catch (e) {
-                    }
-                } else {
-                    //update head icon to ftp
-                    var baseName = people._id.toString();
-                    qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                        if (err) {
-                            callback(err);
-                        } else {
-                            var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                            var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                            callback(err, weiboUser, copyHeadPath);
-                        }
-                        try {
-                            fs.unlink(tempPath, function() {});
-                        } catch (e) {
-                        }
-                    });
-                }
-            });
-        } else {
-            callback(null, weiboUser, "");
-        }
-    }, function(user, copyHeadPath, callback) {
-        People.findOne({
-            'userInfo.weibo.id' : user.id
-        }, function(err, people) {
-            callback(null, people, user, copyHeadPath);
-        });
-    }, function(people, user, copyHeadPath, callback){
-        if (!people) {
-            if (req.qsCurrentUserId) {
-                People.findOne({
-                    '_id' : req.qsCurrentUserId
-                }, function(err, target){
-                    callback(null, target, user, copyHeadPath);
-                })
-            }else{
-                callback(null, new People(), user, copyHeadPath);
-            }   
-        }else {
-            callback(null, people, user, copyHeadPath);
-        }
-    }, function(people, user, copyHeadPath, callback){
-        people.nickname = user.screen_name;
-        people.userInfo = {
-            weibo: {
-                id: user.id,
-                screen_name: user.screen_name,
-                province: user.province,
-                country: user.country,
-                gender: user.gender,
-                avatar_large: user.avatar_large
-            }
-        };
-        
-        if (copyHeadPath && copyHeadPath.length) {
-            people.portrait = copyHeadPath;
-        }
-
-        people.save(function(err, people) {
-            if (err) {
-                callback(err, people);
-            } else if (!people) {
-                callback(errors.genUnkownError());
-            } else {
-                callback(null, people);
-            }
-        });
-    }, function(people, callback) {
-        req.session.userId = people._id;
-        req.session.loginDate = new Date();
-        _addRegistrationId(people._id, param.registrationId);
-        callback(null, people);
-    }], function(error, people) {
-        ResponseHelper.response(res, error, {
-            'people' : people
-        });
-    });
-};
 
 _requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
@@ -847,7 +712,7 @@ _resetPassword = function(req, res){
             }else {
                 callback(null , peoples);
             }
-        })
+        });
     }, function(people, callback) {
         var code = new Number(Math.random() * Math.pow(10,6)).toFixed(0);
         var tempPassword = _decryptMD5(code);
@@ -932,7 +797,7 @@ _loginAsGuest = function(req, res){
             '_id' : people._id
         });
     });
-}
+};
 
 _updateRegistrationId = function(req, res){
     var params = req.body;
@@ -940,12 +805,12 @@ _updateRegistrationId = function(req, res){
     People.findOne({
         '_id': req.qsCurrentUserId
     }, function(err, people) {
-        _addRegistrationId(people._id, registrationId)
+        _addRegistrationId(people._id, registrationId);
         ResponseHelper.response(res, err, {
             'people' : people
         });
     });
-}
+};
 
 _loginAsViewer = function(req, res){
     var params = req.body;
@@ -968,14 +833,14 @@ _loginAsViewer = function(req, res){
                 }else{
                     callback(null, people);
                 }
-            })
+            });
         }
     }], function(err, people){
         ResponseHelper.response(res, err, {
             'people' : people
         });
-    })
-}
+    });
+};
 
 module.exports = {
     'get' : {
@@ -1025,10 +890,6 @@ module.exports = {
         method : 'post',
         func : _loginViaWeixin
     },
-    'loginViaWeibo' : {
-        method : 'post',
-        func : _loginViaWeibo
-    },
     'requestVerificationCode' : {
         method : 'post',
         func : _requestVerificationCode
@@ -1059,4 +920,4 @@ module.exports = {
         method : 'post',
         func : _loginAsViewer
     }
-}
+};
