@@ -84,7 +84,9 @@ var _decryptMD5 = function (string){
     .toUpperCase();
 };
 
-var _get = [
+var user = {};
+
+user.get = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
         ResponseHelper.writeData(res, {
@@ -94,7 +96,7 @@ var _get = [
     }
 ];
 
-var _login = [function(req, res, next) {
+user.login = [function(req, res, next) {
     // Upgrade the req
     var v = RequestHelper.getVersion(req);
     if (VersionUtil.lt(v, '2.2.0')) {
@@ -135,10 +137,12 @@ var _login = [function(req, res, next) {
     });
 }];
 
-var _logout = function(req, res) {
+user.logout = function(req, res) {
     var id = req.qsCurrentUserId;
-    _removeRegistrationId(id, req.session.registrationId);
-    delete req.session.registrationId;
+    if (req.session.registrationId) {
+        _removeRegistrationId(id, req.session.registrationId);
+        delete req.session.registrationId;
+    }
     delete req.session.userId;
     delete req.session.loginDate;
     delete req.qsCurrentUserId;
@@ -150,7 +154,7 @@ var _logout = function(req, res) {
     res.json(retData);
 };
 
-var _register = [
+user.register = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
         if (req.injection.qsCurrentUser.role !== 0) {
@@ -208,7 +212,7 @@ var _register = [
     }
 ];
 
-var _update = function(req, res) {
+user.update = function(req, res) {
     var qsParam;
     qsParam = req.body;
     async.waterfall([
@@ -318,15 +322,15 @@ var _update = function(req, res) {
 
 
 
-var _updatePortrait = function(req, res) {
+user.updatePortrait = function(req, res) {
     _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait', userPortraitResizeOptions);
 };
 
-var _updateBackground = function(req, res) {
+user.updateBackground = function(req, res) {
     _upload(req, res, global.qsConfig.uploads.user.background, 'background');
 };
 
-var _saveReceiver = function(req, res) {
+user.saveReceiver = function(req, res) {
     var param = req.body;
     async.waterfall([function(callback) {
         People.findOne({
@@ -423,7 +427,7 @@ var _upload = function(req, res, config, keyword, resizeOptions) {
     });
 };
 
-var _removeReceiver = function(req, res) {
+user.removeReceiver = function(req, res) {
     var param = req.body;
     async.waterfall([function(callback) {
         People.findOne({
@@ -481,7 +485,7 @@ var _downloadHeadIcon = function (path, callback) {
         });
 };
 
-var _loginViaWeixin = function(req, res) {
+user.loginViaWeixin = function(req, res) {
     var config = global.qsConfig;
     var param = req.body;
     var code = param.code;
@@ -636,7 +640,7 @@ var _loginViaWeixin = function(req, res) {
 };
 
 
-var _requestVerificationCode = function(req, res){
+user.requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
     async.waterfall([function(callback){
         console.log(req);
@@ -663,7 +667,7 @@ var _requestVerificationCode = function(req, res){
     });
 };
 
-var _validateMobile = function(req, res){
+user.validateMobile = function(req, res){
     var params = req.body;
     var mobile = params.mobile;
     async.series([function(callback){
@@ -678,7 +682,7 @@ var _validateMobile = function(req, res){
     });
 };
 
-var _resetPassword = function(req, res){
+user.resetPassword = function(req, res){
     var params = req.body;
     var mobile = params.mobile;
     var code = params.verificationCode;
@@ -728,7 +732,7 @@ var _resetPassword = function(req, res){
 };
 
 
-var _readNotification = function(req, res) {
+user.readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
     for (var element in params) {
@@ -742,7 +746,7 @@ var _readNotification = function(req, res) {
     });
 };
 
-var _loginAsGuest = function(req, res){
+user.loginAsGuest = function(req, res){
     var params = req.body;
     async.waterfall([function(callback){
         var nickname = '';
@@ -785,7 +789,7 @@ var _loginAsGuest = function(req, res){
     });
 };
 
-var _bindJPush = function(req, res){
+user.bindJPush = function(req, res){
     var params = req.body;
     var registrationId = params.registrationId;
     People.findOne({
@@ -799,7 +803,7 @@ var _bindJPush = function(req, res){
     });
 };
 
-var _loginAsViewer = function(req, res){
+user.loginAsViewer = function(req, res){
     var params = req.body;
     async.waterfall([function(callback){
         People.findOne({
@@ -832,79 +836,79 @@ var _loginAsViewer = function(req, res){
 module.exports = {
     'get' : {
         method : 'get',
-        func : _get,
+        func : user.get,
         permissionValidators : ['loginValidator']
     },
     'login' : {
         method : 'post',
-        func : _login
+        func : user.login
     },
     'logout' : {
         method : 'post',
-        func : _logout,
+        func : user.logout,
         permissionValidators : ['loginValidator']
     },
     'register' : {
         method : 'post',
-        func : _register
+        func : user.register
     },
     'update' : {
         method : 'post',
-        func : _update,
+        func : user.update,
         permissionValidators : ['loginValidator']
     },
     'updatePortrait' : {
         method : 'post',
-        func : _updatePortrait,
+        func : user.updatePortrait,
         permissionValidators : ['loginValidator']
     },
     'updateBackground' : {
         method : 'post',
-        func : _updateBackground,
+        func : user.updateBackground,
         permissionValidators : ['loginValidator']
     },
     'saveReceiver' : {
         method : 'post',
-        func : _saveReceiver,
+        func : user.saveReceiver,
         permissionValidators : ['loginValidator']
     },
     'removeReceiver' : {
         method : 'post',
-        func : _removeReceiver,
+        func : user.removeReceiver,
         permissionValidators : ['loginValidator']
     },
     'loginViaWeixin' : {
         method : 'post',
-        func : _loginViaWeixin
+        func : user.loginViaWeixin
     },
     'requestVerificationCode' : {
         method : 'post',
-        func : _requestVerificationCode
+        func : user.requestVerificationCode
     },
     'validateMobile' : {
         method : 'post',
-        func : _validateMobile
+        func : user.validateMobile
     },
     'resetPassword' : {
         method : 'post',
-        func : _resetPassword
+        func : user.resetPassword
     },
     'readNotification' : {
         method : 'post',
         permissionValidators : ['loginValidator'],
-        func : _readNotification
+        func : user.readNotification
     },
     'loginAsGuest' : {
         method : 'post',
-        func : _loginAsGuest
+        func : user.loginAsGuest
     },
     'bindJPush' : {
         method : 'post',
         permissionValidators : ['loginValidator'],
-        func : _bindJPush
+        func : user.bindJPush
     },
     'loginAsViewer' : {
         method : 'post',
-        func : _loginAsViewer
+        func : user.loginAsViewer
     }
 };
