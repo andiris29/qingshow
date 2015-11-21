@@ -112,20 +112,16 @@ user.login = [function(req, res, next) {
         } else if (people) {
             //login succeed
             req.session.userId = people._id;
-            req.session.loginDate = new Date();
 
-            ResponseHelper.write(res, {
-                'invalidateTime' : 3600000
-            }, {
-                'people' : people
-            });
+            ResponseHelper.write(res, 
+                {'invalidateTime' : 3600000}, 
+                {'people' : people});
             next();
         } else {
             //login fail
             delete req.session.userId;
-            delete req.session.loginDate;
             
-            next(errors.IncorrectMailOrPassword);
+            next(errors.ERR_INCORRECT_PASSWORD);
         }
     });
 }];
@@ -137,7 +133,6 @@ user.logout = function(req, res) {
         delete req.session.registrationId;
     }
     delete req.session.userId;
-    delete req.session.loginDate;
     delete req.qsCurrentUserId;
     var retData = {
         metadata : {
@@ -155,38 +150,29 @@ user.register = [
         } else {
             next();
         }
-    }, function(req, res, next) {
-        // Validate whether the id/mobile is already existed
-        People.findOne({
+    }, 
+    _validateMobile,
+    require('../middleware/injectModelGenerator').generateInject(People, 'registered', function(req) {
+        return {
             '_id' : {'$ne' : req.qsCurrentUserId},
-            '$or': [{'userInfo.id' : req.body.id}, 
-                {'mobile': req.body.mobile}]
-        }, function(err, people) {
-            if (err) {
-                next(errors.genUnkownError(err));
-            } else {
-                if (people) {
-                    // Replace current user with db.people
-                    req.injection.qsCurrentUser = people;
-                    req.qsCurrentUserId = people._id;
-                }
-                next();
-            }
-        });
-    }, function(req, res, next) {
-        SMSHelper.checkVerificationCode(req, req.body.mobile, req.body.verificationCode, function(err, success){
-            if (!success || err) {
-                next(err);
-            } else {
-                next();
-            }
-        });
+            '$or': [
+                {'userInfo.id' : req.body.mobile}, 
+                {'mobile': req.body.mobile}
+            ]
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.registered) {
+            next(errors.ERR_MOBILE_ALREADY_REGISTERED);
+        } else {
+            next();
+        }
     }, function(req, res, next) {
         var people = req.injection.qsCurrentUser;
         people.role = 1;
         people.mobile = req.body.mobile;
         people.userInfo = {
-            'id' : req.body.id,
+            'id' : req.body.mobile,
             'encryptedPassword' : _encrypt(req.body.password)
         };
         people.save(function(err, people) {
@@ -194,8 +180,43 @@ user.register = [
                 next(errors.genUnkownError(err));
             } else {
                 req.session.userId = people._id;
-                req.session.loginDate = new Date();
 
+                ResponseHelper.writeData(res, {
+                    'people' : people
+                });
+                next();
+            }
+        });
+    }
+];
+
+user.bindMobile = [
+    require('../middleware/injectCurrentUser'),
+    _validateMobile,
+    require('../middleware/injectModelGenerator').generateInject(People, 'registered', function(req) {
+        return {
+            '_id' : {'$ne' : req.qsCurrentUserId},
+            '$or': [
+                {'userInfo.id' : req.body.mobile}, 
+                {'mobile': req.body.mobile}
+            ]
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.registered) {
+            // Replace current user with db.people
+            req.injection.qsCurrentUser = req.injection.registered;
+            req.qsCurrentUserId = req.session.userId = req.injection.registered._id;
+        }
+        next();
+    }, function(req, res, next) {
+        var people = req.injection.qsCurrentUser;
+        people.role = 1;
+        people.mobile = req.body.mobile;
+        people.save(function(err, people) {
+            if (!people || err) {
+                next(errors.genUnkownError(err));
+            } else {
                 ResponseHelper.writeData(res, {
                     'people' : people
                 });
@@ -237,21 +258,6 @@ user.update = function(req, res) {
                 }
             });
         } else {
-            callback(null, people);
-        }
-    },
-    function(people, callback) {
-        if (qsParam.mobile) {
-            People.find({
-                'mobile' : qsParam.mobile
-            }, function(err, peoples){
-                if (peoples && peoples.length > 0) {
-                    callback(errors.MobileAlreadyExist);
-                }else {
-                    callback(null, people);
-                }
-            });
-        }else {
             callback(null, people);
         }
     },
@@ -303,6 +309,9 @@ user.update = function(req, res) {
         }
 
         for (var field in qsParam) {
+            if (field === 'mobile') {
+                continue;
+            }
             people.set(field, qsParam[field]);
         }
         people.save(callback);
@@ -623,7 +632,6 @@ user.loginViaWeixin = function(req, res) {
         });
     }, function(people, callback) {
         req.session.userId = people._id;
-        req.session.loginDate = new Date();
         callback(null, people);
     }], function(error, people) {
         ResponseHelper.response(res, error, {
@@ -660,25 +668,15 @@ user.requestVerificationCode = function(req, res){
     });
 };
 
-user.forgotPassword = function(req, res){
-    var params = req.body;
-    var mobile = params.mobile;
-    async.series([function(callback){
-        var code = params.verificationCode;
-        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
-            callback(err, success);
-        });
-    }],function(error, success) {
-        if (!error) {
-            req.session.resetPassword = {
-                'mobile' : mobile
-            };
-        }
-        ResponseHelper.response(res, error, {            
-            'success' : success[0]
-        });
-    });
-};
+user.forgotPassword = [
+    _validateMobile,
+    function(req, res, next) {
+        req.session.resetPassword = {
+            'mobile' : req.body.mobile
+        };
+        next();
+    }
+];
 
 user.resetPassword = function(req, res){
     var params = req.body,
@@ -772,7 +770,6 @@ user.loginAsGuest = function(req, res){
         people.role = 0;
         people.save(function(err, people){
             req.session.userId = people._id;
-            req.session.loginDate = new Date();
             callback(null, people);
         });
     }],function(err, people){
@@ -827,6 +824,16 @@ user.loginAsViewer = function(req, res){
         ResponseHelper.response(res, err, {
             'people' : people
         });
+    });
+};
+
+var _validateMobile = function(req, res, next) {
+    SMSHelper.checkVerificationCode(req, req.body.mobile, req.body.verificationCode, function(err, success){
+        if (!success || err) {
+            next(err);
+        } else {
+            next();
+        }
     });
 };
 

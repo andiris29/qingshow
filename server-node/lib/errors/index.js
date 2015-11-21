@@ -28,7 +28,7 @@ module.exports = {
     'genGoblin' : function(message, err) {
         return new ServerError(1028, message, err);
     },
-    'IncorrectMailOrPassword' : new ServerError(1001, 'IncorrectMailOrPassword'),
+    'ERR_INCORRECT_PASSWORD' : new ServerError(1001, 'ERR_INCORRECT_PASSWORD'),
     'SessionExpired' : new ServerError(1002, 'SessionExpired'),
     'ShowNotExist' : new ServerError(1003, 'ShowNotExist'),
     'ItemNotExist' : new ServerError(1004, 'ItemNotExist'),
@@ -52,7 +52,7 @@ module.exports = {
     'AlreadyLaunched' : new ServerError(1026, 'AlreadyLaunched'),
     'UnsupportVersion' : new ServerError(1027, 'UnsupportVersion'),
     'GoblinError' : new ServerError(1028, 'GoblinError'),
-    'MobileAlreadyExist' : new ServerError(1029, 'MobileAlreadyExist'),
+    'ERR_MOBILE_ALREADY_REGISTERED' : new ServerError(1029, 'ERR_MOBILE_ALREADY_REGISTERED'),
     'SMSValidationFail' : new ServerError(1030, 'SMSValidationFail'),
     'ERR_SMS_LIMIT_EXCEEDED' : new ServerError(1031, 'ERR_SMS_LIMIT_EXCEEDED'),
     'FrequentlyRequest' : new ServerError(1032, 'FrequentlyRequest'),
