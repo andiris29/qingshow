@@ -25,8 +25,7 @@ typedef enum : NSUInteger {
 
 @interface QSMatchCollectionViewProvider : QSWaterfallBasicProvider<QSMatchShowCellDelegate>
 
-@property(nonatomic,assign)NSObject<QSMatchCollectionViewProviderDelegate>* delegate;
-@property(nonatomic,assign)NSInteger type;
-
+@property (nonatomic,assign) NSObject<QSMatchCollectionViewProviderDelegate>* delegate;
+@property (nonatomic,assign) NSInteger type;
 
 @end

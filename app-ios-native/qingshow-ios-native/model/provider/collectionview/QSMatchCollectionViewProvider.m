@@ -81,9 +81,7 @@
         cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
         return (UICollectionViewCell *)cell;
-    }
-    else
-    {
+    } else {
         QSU01MatchCollectionViewCell *cell = (QSU01MatchCollectionViewCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:U01MATCHCELL forIndexPath:indexPath];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU01MatchCollectionViewCell" owner:nil options:nil]lastObject];
@@ -99,7 +97,6 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-   
    
 }
 
@@ -120,7 +117,6 @@
 - (void)headerImgViewPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(provider:didClickHeaderImgView:)]) {
-        
         [self.delegate provider:self didClickHeaderImgView:sender];
     }
 }

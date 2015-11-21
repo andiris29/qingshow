@@ -86,6 +86,11 @@
 		EF029C251BC0234C008E66D0 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = EF029C241BC0234C008E66D0 /* UIDevice-Hardware.m */; };
 		EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF037EA01B43520A004E2723 /* QSRandomUtil.m */; };
 		EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */; };
+		EF0A12A31C009BD700DBF23E /* CKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0A129D1C009BD700DBF23E /* CKCalendarView.m */; };
+		EF0A12A41C009BD700DBF23E /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0A129F1C009BD700DBF23E /* left_arrow.png */; };
+		EF0A12A51C009BD700DBF23E /* left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0A12A01C009BD700DBF23E /* left_arrow@2x.png */; };
+		EF0A12A61C009BD700DBF23E /* right_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0A12A11C009BD700DBF23E /* right_arrow.png */; };
+		EF0A12A71C009BD700DBF23E /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0A12A21C009BD700DBF23E /* right_arrow@2x.png */; };
 		EF0C63FF1B2186360079B22E /* UINib+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C63FE1B2186360079B22E /* UINib+QSExtension.m */; };
 		EF0C64271B21AAC20079B22E /* QSU02ImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C640A1B21AAC20079B22E /* QSU02ImgCell.m */; };
 		EF0C64281B21AAC20079B22E /* QSU02ImgCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF0C640B1B21AAC20079B22E /* QSU02ImgCell.xib */; };
@@ -496,6 +501,12 @@
 		EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		EF05E9421A7928DC00A58F72 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		EF05E9431A7928DC00A58F72 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
+		EF0A129C1C009BD700DBF23E /* CKCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKCalendarView.h; sourceTree = "<group>"; };
+		EF0A129D1C009BD700DBF23E /* CKCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKCalendarView.m; sourceTree = "<group>"; };
+		EF0A129F1C009BD700DBF23E /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
+		EF0A12A01C009BD700DBF23E /* left_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left_arrow@2x.png"; sourceTree = "<group>"; };
+		EF0A12A11C009BD700DBF23E /* right_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_arrow.png; sourceTree = "<group>"; };
+		EF0A12A21C009BD700DBF23E /* right_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_arrow@2x.png"; sourceTree = "<group>"; };
 		EF0C63FD1B2186360079B22E /* UINib+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINib+QSExtension.h"; sourceTree = "<group>"; };
 		EF0C63FE1B2186360079B22E /* UINib+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINib+QSExtension.m"; sourceTree = "<group>"; };
 		EF0C64091B21AAC20079B22E /* QSU02ImgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02ImgCell.h; sourceTree = "<group>"; };
@@ -1318,6 +1329,27 @@
 				EF05E9431A7928DC00A58F72 /* MobClickSocialAnalytics.h */,
 			);
 			path = umeng;
+			sourceTree = "<group>";
+		};
+		EF0A129B1C009BD700DBF23E /* CKCalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				EF0A129C1C009BD700DBF23E /* CKCalendarView.h */,
+				EF0A129D1C009BD700DBF23E /* CKCalendarView.m */,
+				EF0A129E1C009BD700DBF23E /* resources */,
+			);
+			path = CKCalendarView;
+			sourceTree = "<group>";
+		};
+		EF0A129E1C009BD700DBF23E /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				EF0A129F1C009BD700DBF23E /* left_arrow.png */,
+				EF0A12A01C009BD700DBF23E /* left_arrow@2x.png */,
+				EF0A12A11C009BD700DBF23E /* right_arrow.png */,
+				EF0A12A21C009BD700DBF23E /* right_arrow@2x.png */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 		EF0C64061B21AAC20079B22E /* u02 */ = {
@@ -2653,6 +2685,7 @@
 		EFF1148C1A0D2EEC009B7361 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				EF0A129B1C009BD700DBF23E /* CKCalendarView */,
 				EF029C221BC0234C008E66D0 /* hardware */,
 				EF4A57ED1BA45CFC00677472 /* Aspect */,
 				EFF58B4A1B55DD5D001A9AC8 /* JPush */,
@@ -2945,8 +2978,10 @@
 				EFF049931B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf in Resources */,
 				8C1DB54D1B945D4400D21D0C /* QSU15BonusListTableViewCell.xib in Resources */,
 				8C5345451B4D61180062D638 /* welcome2_568@2x.png in Resources */,
+				EF0A12A71C009BD700DBF23E /* right_arrow@2x.png in Resources */,
 				8C53454B1B4D61180062D638 /* welcome2_736@3x.png in Resources */,
 				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
+				EF0A12A41C009BD700DBF23E /* left_arrow.png in Resources */,
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,
 				686B73ED1B1D987000E229B9 /* 2.jpg in Resources */,
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
@@ -2986,6 +3021,7 @@
 				EF80803F1B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.xib in Resources */,
 				EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */,
 				68D16CBA1B32DDA500A4646C /* QSS21CategorySelectorVC.xib in Resources */,
+				EF0A12A61C009BD700DBF23E /* right_arrow.png in Resources */,
 				EF78E3321AAF3E2300665EDD /* QSU10ReceiverListViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				8C79DB8B1B1EDED700D5159E /* lantingjianhei_xi.ttf in Resources */,
@@ -3012,6 +3048,7 @@
 				68D16D031B341A4700A4646C /* QSMatchShowsCell.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				8CFC569B1BB7B1E300A0E649 /* QSU18ResetPswStep2ViewController.xib in Resources */,
+				EF0A12A51C009BD700DBF23E /* left_arrow@2x.png in Resources */,
 				8C5345461B4D61180062D638 /* welcome3_568@2x.png in Resources */,
 				A7F852991AF8D559002EC71D /* QSU13PersonalizeViewController.xib in Resources */,
 				EF0C642B1B21AAC20079B22E /* QSU02InfoPickerCell.xib in Resources */,
@@ -3090,6 +3127,7 @@
 				8C0A2CF41B20287600F83991 /* QSBackBarItem.m in Sources */,
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				8C46D7E01B9C31EE00561F12 /* QST01ShowTradeCell.m in Sources */,
+				EF0A12A31C009BD700DBF23E /* CKCalendarView.m in Sources */,
 				EF994D8C1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m in Sources */,
 				EF994D901B693C3B00715B0E /* QSDiscountTitleCell.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
