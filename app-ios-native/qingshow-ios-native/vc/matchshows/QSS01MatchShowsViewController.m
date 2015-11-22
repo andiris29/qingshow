@@ -17,8 +17,8 @@
 #import "QSPaymentService.h"
 #import "UIViewController+QSExtension.h"
 #import "QSS11CreateTradeViewController.h"
-#import "QSS23SearchViewController.h"
 #import "QSUnreadManager.h"
+#import "QSS12NewTradeExpectableViewController.h"
 
 #define PAGE_ID @"新美搭榜单"
 
@@ -27,20 +27,13 @@
 @property (nonatomic,assign) NSInteger segIndex;
 @property (nonatomic,strong) UISegmentedControl *segmentControl;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
-@property (strong, nonatomic) UIBarButtonItem* searchMenuBtn;
+@property (strong, nonatomic) QSS12NewTradeExpectableViewController* s11NotiVc;
 
 - (IBAction)backToTopBtnPressed:(id)sender;
 
 @end
 
 @implementation QSS01MatchShowsViewController
-
-- (UIBarButtonItem*)searchMenuBtn {
-    if (!_searchMenuBtn) {
-        _searchMenuBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s01_search_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(searchBtnPressed:)];
-    }
-    return _searchMenuBtn;
-}
 
 - (instancetype)init {
     self = [super initWithNibName:@"QSS01MatchShowsViewController" bundle:nil];
@@ -59,7 +52,7 @@
     _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
-
+//    [self showTradeNotiViewOfTradeId:@"55cc124fcd4ee1473606a3b8" actualPrice:[NSNumber numberWithFloat:156.78]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -86,7 +79,7 @@
 
 - (void)configNav
 {
-
+    
     _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"达人",@"最热",@"最新"]];
     _segmentControl.frame = CGRectMake(0, 0, 180, 25);
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
@@ -97,8 +90,6 @@
     self.navigationItem.titleView = _segmentControl;
     _segmentControl.selectedSegmentIndex = 0;
     [self.navigationController.navigationBar removeGestureRecognizer:self.showVersionTapGesture];
-
-    self.navigationItem.rightBarButtonItem = self.searchMenuBtn;
 }
 
 
@@ -185,9 +176,5 @@
 
 - (void)handleNetworkError:(NSError *)error {
     [self handleError:error];
-}
-
-- (void)searchBtnPressed:(id)sender {
-    [self.navigationController pushViewController:[[QSS23SearchViewController alloc] init] animated:YES];
 }
 @end

@@ -21,15 +21,10 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *titleButton;
 
-@property (weak, nonatomic) IBOutlet UIView* titleLine;
-@property (weak, nonatomic) IBOutlet UIButton* leftBtn;
-@property (weak, nonatomic) IBOutlet UIButton* rightBtn;
-
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) NSObject<QSCategoryTableViewCellDelegate>* delegate;
 
 //设置cell的子控件
 - (void)setSubViewsWith:(NSDictionary *)cellDic andSelectedDic:(NSDictionary *)selectedDic;
 - (void)setLastCellWith:(NSDictionary *)cellDic andSelectedArray:(NSArray *)selectedArray;
-- (void)bindCategoryForSearch:(NSDictionary*)categoryDict;
 @end

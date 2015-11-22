@@ -9,15 +9,9 @@
 #import "QSError.h"
 #import "NSDictionary+QSExtension.h"
 
-
-
 @implementation QSError
 - (NSString*)toString
 {
-    NSDictionary* buildInErrorCodeToDesc = @{
-                                             
-                                             };
-    /*
     NSArray* desArray = @[@"系统错误，请稍后再试",    //1000
                           @"邮箱或密码错误",
                           @"请重新登陆",
@@ -52,11 +46,15 @@
                           @"已超过每日发送次数",
                           @"请求短信频率过高，请稍候再试",
                           @"昵称已存在"];
-*/
-    NSString* desc = nil;
-    desc = [buildInErrorCodeToDesc stringValueForKeyPath:self.qsErrorCode];
-    if (desc) {
-        desc = self.qsErrorMessage;
+
+    NSString* desc = @"";
+
+    if (self.code <= 1033 && self.code >= 1000) {
+        desc = desArray[self.code - 1000];
+    }
+    if (!desc || !desc.length) {
+//        desc = desArray[0];
+        desc = [self.userInfo stringValueForKeyPath:@"devInfo.description"];
     }
     return desc;
 }

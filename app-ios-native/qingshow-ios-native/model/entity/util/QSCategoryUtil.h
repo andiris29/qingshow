@@ -19,8 +19,6 @@
 + (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict withMatcherConfig:(NSDictionary*)config;
 
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict;
-+ (NSURL*)getColoredIconUrl:(NSDictionary*)categoryDict;
-+ (UIColor*)getColor:(NSDictionary*)categoryDict;
 + (NSNumber*)getOrder:(NSDictionary*)categoryDict;
 + (NSDictionary*)getMatcherConfig:(NSDictionary*)context;
 @end

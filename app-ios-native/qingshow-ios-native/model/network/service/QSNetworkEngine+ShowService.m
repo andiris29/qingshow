@@ -225,10 +225,9 @@
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if ([error isKindOfClass:[QSError class]]) {
-            QSError* qsError = (QSError*)error;
-            if ([qsError.qsErrorCode isEqualToString:kQSErrorCodeAlreadyFollow]) {
+            if (error.code == kQSErrorCodeAlreadyFollow) {
                 [QSShowUtil setIsLike:YES show:showDict];
-            } else if ([qsError.qsErrorCode isEqualToString:kQSErrorCodeAlreadyUnfollow]) {
+            } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
                 [QSShowUtil setIsLike:NO show:showDict];
             }
         }
@@ -250,10 +249,9 @@
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if ([error isKindOfClass:[QSError class]]) {
-            QSError* qsError = (QSError*)error;
-            if ([qsError.qsErrorCode isEqualToString:kQSErrorCodeAlreadyFollow]) {
+            if (error.code == kQSErrorCodeAlreadyFollow) {
                 [QSShowUtil setIsLike:YES show:showDict];
-            } else if ([qsError.qsErrorCode isEqualToString:kQSErrorCodeAlreadyUnfollow]) {
+            } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
                 [QSShowUtil setIsLike:NO show:showDict];
             }
         }

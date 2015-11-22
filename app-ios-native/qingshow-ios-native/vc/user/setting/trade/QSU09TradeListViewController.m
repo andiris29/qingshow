@@ -50,10 +50,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _isFirstLoad = YES;
-    
+    // Do any additional setup after loading the view from its nib.
     [self configProvider];
     [self configView];
-    
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
@@ -135,9 +134,7 @@
                 if (error.code == 1009 && page == 1  && _isFirstLoad == YES) {
                     weakSelf.headerView.segmentControl.selectedSegmentIndex = 1;
                     [weakSelf changeValueOfSegment:1];
-                } else {
-                    errorBlock(error);
-                }
+                }else(errorBlock(error));
         }];
     };
     _isFirstLoad = NO;

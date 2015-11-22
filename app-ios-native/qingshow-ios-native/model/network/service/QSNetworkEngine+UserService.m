@@ -217,10 +217,9 @@
                               verifyCode:(NSString *)code
                              onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock
 {
-#warning TODO API WIKI Page上目前没有code，待确认
     return [self startOperationWithPath:PATH_USER_REGISTER
                                  method:@"POST"
-                               paramers:@{@"mobile" : mobile, @"password": passwd, @"code":code}
+                               paramers:@{@"mobile" : mobile, @"password": passwd, @"verificationCode":code}
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;

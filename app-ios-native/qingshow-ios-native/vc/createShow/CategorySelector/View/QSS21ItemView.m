@@ -12,20 +12,6 @@
 
 @implementation QSS21ItemView
 
-- (void)updateForSearch {
-    NSString *itemName =[QSCategoryUtil getName:self.itemDic];
-    self.titleLabel.text = itemName;
-    NSURL* coloredUrl = [QSCategoryUtil getColoredIconUrl:self.itemDic];
-    if (coloredUrl) {
-        [self.imgView setImageFromURL:coloredUrl];
-    } else {
-        NSURL* url = [QSCategoryUtil getIconUrl:self.itemDic];
-        url = [NSURL URLWithString:[url.absoluteString stringByReplacingOccurrencesOfString:@".png" withString:@"_normal.png"] ] ;
-        [self.imgView setImageFromURL:url];
-    }
-
-}
-
 - (void)setSubViewsValueWith:(NSDictionary *)selectedDic
 {
     NSString *itemName =[QSCategoryUtil getName:self.itemDic];
