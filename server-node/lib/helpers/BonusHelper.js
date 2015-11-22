@@ -73,10 +73,10 @@ var _create = function(trade, money, participants, cb){
     }],function(error, people){
         cb(error, people);
     });
-}
+};
 
 var _createPaticipants = function(trade, peopleRefs, item, money, cb){
-    var task = peopleRefs.map(function(peopleRef){
+    var tasks = peopleRefs.map(function(peopleRef){
         return function(cb2){
             async.waterfall([function(callback){
                 People.findOne({
@@ -111,8 +111,8 @@ var _createPaticipants = function(trade, peopleRefs, item, money, cb){
                 callback(null, people);
             }], function(error, people){
                 cb2(error, people);
-            })
-        }
-    })
+            });
+        };
+    });
     async.parallel(tasks, cb);
-}
+};
