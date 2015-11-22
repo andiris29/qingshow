@@ -133,7 +133,7 @@ trade.prepay = {
                 trade.pay = req.body.pay;
                 // Communicate to payment to get prepayid for weixin
                 var orderName = trade.itemSnapshot.name;
-                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
+                var url = global.qsConfig.payment.url + '/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
                     var jsonObject;
                     try {
@@ -194,7 +194,7 @@ var _validateStatus = function(trade, newStatus, callback) {
 
 var _weixinDeliveryNotify = function(trade) {
     var payInfo = trade.pay.weixin;
-    var url = 'http://localhost:8080/payment/wechat/deliverNotify?openid=' + payInfo.OpenId + '&transid=' + payInfo.transaction_id + '&out_trade_no=' + trade._id + '&deliver_status=1&deliver_msg=OK';
+    var url = global.qsConfig.payment.url + '/payment/wechat/deliverNotify?openid=' + payInfo.OpenId + '&transid=' + payInfo.transaction_id + '&out_trade_no=' + trade._id + '&deliver_status=1&deliver_msg=OK';
     request.get(url, function(error, response, body) {
         var jsonObject = JSON.parse(body);
         if (jsonObject.metadata) {
@@ -412,7 +412,7 @@ trade.refreshPaymentStatus = {
                 callback(null, trade);
             } else {
                 // pay with wechat
-                var url = 'http://localhost:8080/payment/wechat/queryOrder?id=' + trade._id.toString;
+                var url = global.qsConfig.payment.url + '/payment/wechat/queryOrder?id=' + trade._id.toString;
                 request.get(url, function(error, response, body) {
                     var jsonObject = JSON.parse(body);
                     if (jsonObject.metadata) {

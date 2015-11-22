@@ -1,40 +1,39 @@
-var mongoose = require('mongoose');
-var async = require('async');
-var uuid = require('node-uuid');
-var path = require('path');
-var jPushAudiences = require('../../dbmodels').JPushAudience;
-var fs = require('fs');
-var winston = require('winston');
-var TraceHelper = require('../../helpers/TraceHelper');
+var async = require('async'),
+    uuid = require('node-uuid'),
+    path = require('path'),
+    fs = require('fs'),
+    crypto = require('crypto'),
+    request = require('request');
 
-var People = require('../../dbmodels').People;
+var JPushAudience = require('../../dbmodels').JPushAudience,
+    People = require('../../dbmodels').People;
 
-var RequestHelper = require('../../helpers/RequestHelper');
-var ResponseHelper = require('../../helpers/ResponseHelper');
-var SMSHelper = require('../../helpers/SMSHelper');
-var NotificationHelper = require('../../helpers/NotificationHelper');
+var qsftp = require('../../runtime').ftp;
+
+var TraceHelper = require('../../helpers/TraceHelper'),
+    RequestHelper = require('../../helpers/RequestHelper'),
+    ResponseHelper = require('../../helpers/ResponseHelper'),
+    SMSHelper = require('../../helpers/SMSHelper'),
+    NotificationHelper = require('../../helpers/NotificationHelper');
 
 var VersionUtil = require('../../utils/VersionUtil');
 
 var errors = require('../../errors');
 
-var crypto = require('crypto'), _secret = 'qingshow@secret';
-var moment =require('moment');
-
-var request = require('request');
-var WX_APPID = 'wx75cf44d922f47721';
-var WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
-
-var WB_APPID = 'wb1213293589';
-var WB_SECRET = '';
-
-var qsftp = require('../../runtime').ftp;
+var _secret = 'qingshow@secret';
 
 var _encrypt = function(string) {
     var cipher = crypto.createCipher('aes192', _secret);
     var enc = cipher.update(string, 'utf8', 'hex');
     enc += cipher.final('hex');
     return enc;
+};
+
+var _decrypt = function(string) {
+    var decipher = crypto.createDecipher('aes192', _secret);
+    var dec = decipher.update(string, 'hex', 'utf8');
+    dec += decipher.final('utf8');
+    return dec;
 };
 
 var userPortraitResizeOptions = [
@@ -44,26 +43,22 @@ var userPortraitResizeOptions = [
     {'suffix' : '_30', 'width' : 30, 'height' : 30}
 ];
 
-var _decrypt = function(string) {
-    var decipher = crypto.createDecipher('aes192', _secret);
-    var dec = decipher.update(string, 'hex', 'utf8');
-    dec += decipher.final('utf8');
-    return dec;
-};
-
+var WX_APPID = 'wx75cf44d922f47721',
+    WX_SECRET = 'b2d418fcb94879affd36c8c3f37f1810';
+    
 var _addRegistrationId = function(peopleId, registrationId) {
     if (!registrationId || registrationId.length === 0) {
         return;
     }
 
-    jPushAudiences.remove({
+    JPushAudience.remove({
         'registrationId' : registrationId
     }, function(err) {
         if (err) {
             return;
         }
 
-        var info = new jPushAudiences({
+        var info = new JPushAudience({
             'peopleRef' : peopleId,
             'registrationId' : registrationId
         });
@@ -76,22 +71,15 @@ var _removeRegistrationId = function(peopleId, registrationId) {
         return;
     }
 
-    jPushAudiences.remove({
+    JPushAudience.remove({
         'peopleRef' : peopleId,
         'registrationId' : registrationId
     }, function(err) {});
 };
 
-var _decryptMD5 = function (string){
-    return crypto.createHash('md5')
-    .update(string)
-    .digest('hex')
-    .toUpperCase();
-}
+var user = {};
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver, _loginViaWeixin, _loginViaWeibo, _requestVerificationCode, _validateMobile, _resetPassword, _loginAsGuest, _updateRegistrationId, _loginAsViewer;
-
-_get = [
+user.get = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
         ResponseHelper.writeData(res, {
@@ -101,7 +89,7 @@ _get = [
     }
 ];
 
-_login = [function(req, res, next) {
+user.login = [function(req, res, next) {
     // Upgrade the req
     var v = RequestHelper.getVersion(req);
     if (VersionUtil.lt(v, '2.2.0')) {
@@ -124,31 +112,27 @@ _login = [function(req, res, next) {
         } else if (people) {
             //login succeed
             req.session.userId = people._id;
-            req.session.loginDate = new Date();
 
-            _addRegistrationId(people._id, param.registrationId);
-
-            ResponseHelper.write(res, {
-                'invalidateTime' : 3600000
-            }, {
-                'people' : people
-            });
+            ResponseHelper.write(res, 
+                {'invalidateTime' : 3600000}, 
+                {'people' : people});
             next();
         } else {
             //login fail
             delete req.session.userId;
-            delete req.session.loginDate;
             
-            next(errors.IncorrectMailOrPassword);
+            next(errors.ERR_INCORRECT_PASSWORD);
         }
     });
 }];
 
-_logout = function(req, res) {
+user.logout = function(req, res) {
     var id = req.qsCurrentUserId;
-    _removeRegistrationId(id, req.body.registrationId);
+    if (req.session.registrationId) {
+        _removeRegistrationId(id, req.session.registrationId);
+        delete req.session.registrationId;
+    }
     delete req.session.userId;
-    delete req.session.loginDate;
     delete req.qsCurrentUserId;
     var retData = {
         metadata : {
@@ -158,7 +142,7 @@ _logout = function(req, res) {
     res.json(retData);
 };
 
-_register = [
+user.register = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
         if (req.injection.qsCurrentUser.role !== 0) {
@@ -166,38 +150,29 @@ _register = [
         } else {
             next();
         }
-    }, function(req, res, next) {
-        // Validate whether the id/mobile is already existed
-        People.findOne({
+    }, 
+    _validateMobile,
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
+        return {
             '_id' : {'$ne' : req.qsCurrentUserId},
-            '$or': [{'userInfo.id' : req.body.id}, 
-                {'mobile': req.body.mobile}]
-        }, function(err, people) {
-            if (err) {
-                next(errors.genUnkownError(err));
-            } else {
-                if (people) {
-                    // Replace current user with db.people
-                    req.injection.qsCurrentUser = people;
-                    req.qsCurrentUserId = people._id;
-                }
-                next();
-            }
-        });
-    }, function(req, res, next) {
-        SMSHelper.checkVerificationCode(req, req.body.mobile, req.body.verificationCode, function(err, success){
-            if (!success || err) {
-                next(err);
-            } else {
-                next();
-            }
-        });
+            '$or': [
+                {'userInfo.id' : req.body.mobile}, 
+                {'mobile': req.body.mobile}
+            ]
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.exsited) {
+            next(errors.ERR_MOBILE_ALREADY_REGISTERED);
+        } else {
+            next();
+        }
     }, function(req, res, next) {
         var people = req.injection.qsCurrentUser;
         people.role = 1;
         people.mobile = req.body.mobile;
         people.userInfo = {
-            'id' : req.body.id,
+            'id' : req.body.mobile,
             'encryptedPassword' : _encrypt(req.body.password)
         };
         people.save(function(err, people) {
@@ -205,9 +180,6 @@ _register = [
                 next(errors.genUnkownError(err));
             } else {
                 req.session.userId = people._id;
-                req.session.loginDate = new Date();
-
-                _addRegistrationId(people._id, req.body.registrationId);
 
                 ResponseHelper.writeData(res, {
                     'people' : people
@@ -218,7 +190,41 @@ _register = [
     }
 ];
 
-_update = function(req, res) {
+user.bindMobile = [
+    require('../middleware/injectCurrentUser'),
+    _validateMobile,
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
+        return {
+            '_id' : {'$ne' : req.qsCurrentUserId},
+            '$or': [
+                {'userInfo.id' : req.body.mobile}, 
+                {'mobile': req.body.mobile}
+            ]
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.exsited) {
+            _replaceCurrectUser(req, req.injection.exsited);
+        }
+        next();
+    }, function(req, res, next) {
+        var people = req.injection.qsCurrentUser;
+        people.role = 1;
+        people.mobile = req.body.mobile;
+        people.save(function(err, people) {
+            if (!people || err) {
+                next(errors.genUnkownError(err));
+            } else {
+                ResponseHelper.writeData(res, {
+                    'people' : people
+                });
+                next();
+            }
+        });
+    }
+];
+
+user.update = function(req, res) {
     var qsParam;
     qsParam = req.body;
     async.waterfall([
@@ -250,21 +256,6 @@ _update = function(req, res) {
                 }
             });
         } else {
-            callback(null, people);
-        }
-    },
-    function(people, callback) {
-        if (qsParam.mobile) {
-            People.find({
-                'mobile' : qsParam.mobile
-            }, function(err, peoples){
-                if (peoples && peoples.length > 0) {
-                    callback(errors.MobileAlreadyExist);
-                }else {
-                    callback(null, people);
-                }
-            });
-        }else {
             callback(null, people);
         }
     },
@@ -316,6 +307,9 @@ _update = function(req, res) {
         }
 
         for (var field in qsParam) {
+            if (field === 'mobile') {
+                continue;
+            }
             people.set(field, qsParam[field]);
         }
         people.save(callback);
@@ -328,15 +322,15 @@ _update = function(req, res) {
 
 
 
-_updatePortrait = function(req, res) {
+user.updatePortrait = function(req, res) {
     _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait', userPortraitResizeOptions);
 };
 
-_updateBackground = function(req, res) {
+user.updateBackground = function(req, res) {
     _upload(req, res, global.qsConfig.uploads.user.background, 'background');
 };
 
-_saveReceiver = function(req, res) {
+user.saveReceiver = function(req, res) {
     var param = req.body;
     async.waterfall([function(callback) {
         People.findOne({
@@ -433,7 +427,7 @@ var _upload = function(req, res, config, keyword, resizeOptions) {
     });
 };
 
-_removeReceiver = function(req, res) {
+user.removeReceiver = function(req, res) {
     var param = req.body;
     async.waterfall([function(callback) {
         People.findOne({
@@ -477,7 +471,7 @@ var _generateTempPathForHeadIcon = function (path) {
     var tempName = path.replace(/[\.\/:]/g, '_');
     var tempPath = "/tmp/" + tempName;
     return tempPath;
-}
+};
 
 var _downloadHeadIcon = function (path, callback) {
     var tempPath = _generateTempPathForHeadIcon(path);
@@ -491,17 +485,52 @@ var _downloadHeadIcon = function (path, callback) {
         });
 };
 
-_loginViaWeixin = function(req, res) {
-    var config = global.qsConfig;
-    var param = req.body;
-    var code = param.code;
-    if (!code) {
-        ResponseHelper.response(res, errors.NotEnoughParam);
-        return;
+user.loginViaWeixin = [
+    _injectWeixinUser,
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
+        return {
+            'userInfo.weixin.openid' : req.injection.weixinUser.openid
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.exsited) {
+            _replaceCurrectUser(req, req.injection.exsited);
+        }
+        next();
+    },
+    _saveWeixinUser,
+    function(req, res, next) {
+        ResponseHelper.writeData(res, {
+            'people' : req.injection.qsCurrentUser
+        });
     }
+];
+
+user.bindWeixin = [
+    _injectWeixinUser,
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
+        return {
+            'userInfo.weixin.openid' : req.injection.weixinUser.openid
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.exsited) {
+            next(errors.ERR_WEIXIN_ALREADY_REGISTERED);
+        } else {
+            next();
+        }
+    },
+    _saveWeixinUser,
+    function(req, res, next) {
+        ResponseHelper.writeData(res, {
+            'people' : req.injection.qsCurrentUser
+        });
+    }
+];
+
+var _injectWeixinUser = function(req, res, next) {
     async.waterfall([function(callback) {
-        var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + code + '&grant_type=authorization_code';
-        winston.info('token url', token_url);
+        var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + req.body.code + '&grant_type=authorization_code';
         request.get(token_url, function(error, response, body) {
             var data = JSON.parse(body);
             if (data.errcode !== undefined) {
@@ -512,7 +541,6 @@ _loginViaWeixin = function(req, res) {
         });
     }, function(token, openid, callback) {
         var usr_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid;
-        winston.info('usr_url', usr_url);
 
         request.get(usr_url, function(errro, response, body) {
             var data = JSON.parse(body);
@@ -536,255 +564,84 @@ _loginViaWeixin = function(req, res) {
                 'unionid' : data.unionid
             });
         });
-    }, function (user, callback) {
-        var url = user.headimgurl;
-
-        People.findOne({
-            'userInfo.weixin.openid' : user.openid
-        }, function(err, people) {
-            if (err) {
-                callback(err);
-            } else {
-                var shouldDownload = true;
-                try {
-                    if (people && people.userInfo.weixin.headimgurl === url) {
-                        shouldDownload = false;
-                    }
-                } catch(e) {}
-                callback(null, shouldDownload, user, people);
-            }
-        });
-
-    },
-    function (shouldDownloadHeadIcon, user, people, callback) {
-        if (shouldDownloadHeadIcon) {
-            //download headIcon
-            _downloadHeadIcon(user.headimgurl, function (err, tempPath) {
-                if (err) {
-                    callback(err);
-                    try {
-                        fs.unlink(tempPath, function(){});
-                    } catch (e) {
-                    }
-                } else {
-                    //update head icon to ftp
-                    var baseName = people._id.toString();
-                    qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                        if (err) {
-                            callback(err);
-                        } else {
-                            var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                            var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                            callback(err, user, copyHeadPath);
-                        }
-                        try {
-                            fs.unlink(tempPath, function() {});
-                        } catch (e) {
-                        }
-                    });
-                }
-            });
+    }], function(err, weixinUser) {
+        if (err) {
+            next(err);
         } else {
-            callback(null, user, "");
+            req.injection.weixinUser = weixinUser;
         }
-
-    }, 
-    function(weixinUser, copyHeadPath, callback){
-         People.findOne({
-            'userInfo.weixin.openid' : weixinUser.openid
-        }, function(err, people) {
-            callback(null, people, weixinUser, copyHeadPath);
-        });
-    }, function(people, weixinUser, copyHeadPath, callback){
-        if (!people) {
-            if (req.qsCurrentUserId) {
-                People.findOne({
-                    '_id': req.qsCurrentUserId
-                }, function(err, target){
-                    callback(null, target, weixinUser, copyHeadPath);
-                })
-            }else{
-                callback(null, new People(), weixinUser, copyHeadPath);
-            }
-        }else {
-            callback(null, people, weixinUser, copyHeadPath);
-        }
-    },function(people, weixinUser, copyHeadPath, callback){
-        people.nickname = weixinUser.nickname;
-        people.userInfo = {
-            weixin: {
-                openid: weixinUser.openid,
-                nickname: weixinUser.nickname,
-                sex: weixinUser.sex,
-                province: weixinUser.province,
-                city: weixinUser.city,
-                country: weixinUser.country,
-                headimgurl: weixinUser.headimgurl,
-                unionid: weixinUser.unionid
-            }
-        };
-        
-        if (copyHeadPath && copyHeadPath.length) {
-            people.portrait = copyHeadPath;
-        }
-        people.save(function(err, people) {
-            if (err) {
-                callback(err, people);
-            } else if (!people) {
-                callback(errors.genUnkownError());
-            } else {
-                callback(null, people);
-            }
-        });
-    }, function(people, callback) {
-        req.session.userId = people._id;
-        req.session.loginDate = new Date();
-        _addRegistrationId(people._id, param.registrationId);
-        callback(null, people);
-    }], function(error, people) {
-        ResponseHelper.response(res, error, {
-            'people' : people
-        });
     });
 };
 
-_loginViaWeibo = function(req, res) {
-    var config = global.qsConfig;
-    var param = req.body;
-    var token = param.access_token;
-    var uid = param.uid;
-    if (!token || !uid) {
-        ResponseHelper.response(res, errors.NotEnoughParam);
-        return;
-    }
-    async.waterfall([function(callback) {
-        var url = "https://api.weibo.com/2/users/show.json?access_token=" + token + "&uid=" + uid;
-        request.get(url, function(error, response, body) {
-            var data = JSON.parse(body);
-            if (data.error !== undefined) {
-                callback(data);
-                return;
-            }
-
-            callback(null, {
-                id : data.id,
-                screen_name : data.screen_name,
-                province : data.province,
-                country : data.country,
-                gender : data.gender,
-                avatar_large : data.avatar_large
-            });
-        });
-    }, function (weiboUser, callback) {
-        var url = weiboUser.avatar_large;
-
-        People.findOne({
-            'userInfo.weibo.id' : weiboUser.id
-        }, function(err, people) {
-            if (err) {
-                callback(err);
-            } else {
-                var shouldDownload = true;
-                try {
-                    if (people && people.userInfo.weibo.avatar_large === url) {
-                        shouldDownload = false;
-                    }
-                } catch(e) {}
-                callback(null, shouldDownload, weiboUser, people);
-            }
-        });
-
-    }, function (shouldDownloadHeadIcon, weiboUser, people, callback) {
-        if (shouldDownloadHeadIcon) {
-            var url = weiboUser.avatar_large;
-            //download headIcon
-            _downloadHeadIcon(url, function (err, tempPath) {
-                if (err) {
-                    callback(err);
-                    try {
-                        fs.unlink(tempPath, function () {});
-                    } catch (e) {
-                    }
-                } else {
-                    //update head icon to ftp
-                    var baseName = people._id.toString();
-                    qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                        if (err) {
-                            callback(err);
-                        } else {
-                            var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                            var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                            callback(err, weiboUser, copyHeadPath);
-                        }
+var _saveWeixinUser = function(req, res, next) {
+    var people = req.injection.qsCurrentUser,
+        weixinUser = req.injection.weixinUser,
+        copyHeadPath = null;
+    
+    async.waterfall([
+        function(callback) {
+            // Download portrait
+            if (!people.userInfo.weixin ||
+                people.userInfo.weixin.headimgurl !== weixinUser.headimgurl) {
+                //download headIcon
+                _downloadHeadIcon(weixinUser.headimgurl, function (err, tempPath) {
+                    if (err) {
+                        callback(err);
                         try {
-                            fs.unlink(tempPath, function() {});
+                            fs.unlink(tempPath, function(){});
                         } catch (e) {
                         }
-                    });
-                }
-            });
-        } else {
-            callback(null, weiboUser, "");
-        }
-    }, function(user, copyHeadPath, callback) {
-        People.findOne({
-            'userInfo.weibo.id' : user.id
-        }, function(err, people) {
-            callback(null, people, user, copyHeadPath);
-        });
-    }, function(people, user, copyHeadPath, callback){
-        if (!people) {
-            if (req.qsCurrentUserId) {
-                People.findOne({
-                    '_id' : req.qsCurrentUserId
-                }, function(err, target){
-                    callback(null, target, user, copyHeadPath);
-                })
-            }else{
-                callback(null, new People(), user, copyHeadPath);
-            }   
-        }else {
-            callback(null, people, user, copyHeadPath);
-        }
-    }, function(people, user, copyHeadPath, callback){
-        people.nickname = user.screen_name;
-        people.userInfo = {
-            weibo: {
-                id: user.id,
-                screen_name: user.screen_name,
-                province: user.province,
-                country: user.country,
-                gender: user.gender,
-                avatar_large: user.avatar_large
-            }
-        };
-        
-        if (copyHeadPath && copyHeadPath.length) {
-            people.portrait = copyHeadPath;
-        }
-
-        people.save(function(err, people) {
-            if (err) {
-                callback(err, people);
-            } else if (!people) {
-                callback(errors.genUnkownError());
+                    } else {
+                        //update head icon to ftp
+                        var baseName = people._id.toString();
+                        qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                            if (err) {
+                                callback(err);
+                            } else {
+                                var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                                copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                                callback();
+                            }
+                            try {
+                                fs.unlink(tempPath, function() {});
+                            } catch (e) {
+                            }
+                        });
+                    }
+                });
             } else {
-                callback(null, people);
+                callback(null, '');
             }
-        });
-    }, function(people, callback) {
-        req.session.userId = people._id;
-        req.session.loginDate = new Date();
-        _addRegistrationId(people._id, param.registrationId);
-        callback(null, people);
-    }], function(error, people) {
-        ResponseHelper.response(res, error, {
-            'people' : people
-        });
+        },
+        function(callback) {
+            // Save weixinUser
+            people.nickname = weixinUser.nickname;
+            people.userInfo = {
+                weixin: {
+                    openid: weixinUser.openid,
+                    nickname: weixinUser.nickname,
+                    sex: weixinUser.sex,
+                    province: weixinUser.province,
+                    city: weixinUser.city,
+                    country: weixinUser.country,
+                    headimgurl: weixinUser.headimgurl,
+                    unionid: weixinUser.unionid
+                }
+            };
+            
+            if (copyHeadPath && copyHeadPath.length) {
+                people.portrait = copyHeadPath;
+            }
+            people.save(function(err, people) {
+                callback(err, people);
+            });
+        }
+    ], function(err) {
+        next(err);
     });
 };
 
-_requestVerificationCode = function(req, res){
+user.requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
     async.waterfall([function(callback){
         console.log(req);
@@ -811,72 +668,66 @@ _requestVerificationCode = function(req, res){
     });
 };
 
-_validateMobile = function(req, res){
-    var params = req.body;
-    var mobile = params.mobile;
-    async.series([function(callback){
-        var code = params.verificationCode;
-        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
-            callback(err, success);
-        });
-    }],function(error, success) {
-        ResponseHelper.response(res, error, {            
-            'success' : success[0]
-        });
-    });
-};
+user.forgotPassword = [
+    _validateMobile,
+    function(req, res, next) {
+        req.session.resetPassword = {
+            'mobile' : req.body.mobile
+        };
+        next();
+    }
+];
 
-_resetPassword = function(req, res){
-    var params = req.body;
-    var mobile = params.mobile;
-    var code = params.verificationCode;
-    async.waterfall([function(callback){
-        SMSHelper.checkVerificationCode(req, mobile, code, function(err, success){
-            if (err) {
-                callback(err);
-            }else{
-                callback(null, success);
-            }
-        });
-    }, function(success, callback){
+user.resetPassword = function(req, res){
+    var params = req.body,
+        mobile = null;
+        password = params.password;
+        
+    async.waterfall([function(callback) {
+        if (!req.session.resetPassword) {
+            callback(errors.genUnkownError());
+        } else {
+            mobile = req.session.resetPassword.mobile;
+            delete req.session.resetPassword;
+            callback();
+        }
+    }, function(callback){
         People.find({
             'userInfo.id' : mobile
         }, function(err, peoples) {
             if (peoples.length > 1) {
-                callback(errors.genUnkownError);
+                callback(errors.genUnkownError());
             }else {
                 callback(null , peoples);
             }
-        })
+        });
     }, function(people, callback) {
-        var code = new Number(Math.random() * Math.pow(10,6)).toFixed(0);
-        var tempPassword = _decryptMD5(code);
         People.findOneAndUpdate({
             'userInfo.id' : mobile
         }, {
-            $unset : { 
-                'userInfo.encryptedPassword' : -1
-             },
-             $set : {
-                'userInfo.password' : tempPassword
-             }
+            $unset : {
+               'userInfo.password' : -1
+            },
+            $set : {
+               'userInfo.encryptedPassword' : _encrypt(password)
+            }
         }, {
         }, function(error, people) {
             if (error) {
-                callback(errors.genUnkownError);
-            }else {
-                callback(null, tempPassword); 
+                callback(errors.genUnkownError());
+            } else {
+                callback(null, people); 
             }
         });
-    }],function(error, tempPassword) {
+    }],function(error, people) {
         ResponseHelper.response(res, error, {
-            'password' : tempPassword
+            'people' : people
         });
     });
 };
 
 
-var _readNotification = function(req, res) {
+user.readNotification = function(req, res) {
     var params = req.body;
     var criteria = {};
     for (var element in params) {
@@ -890,7 +741,7 @@ var _readNotification = function(req, res) {
     });
 };
 
-_loginAsGuest = function(req, res){
+user.loginAsGuest = function(req, res){
     var params = req.body;
     async.waterfall([function(callback){
         var nickname = '';
@@ -918,9 +769,7 @@ _loginAsGuest = function(req, res){
         people.nickname = nickname;
         people.role = 0;
         people.save(function(err, people){
-            _addRegistrationId(people._id, params.registrationId);
             req.session.userId = people._id;
-            req.session.loginDate = new Date();
             callback(null, people);
         });
     }],function(err, people){
@@ -932,22 +781,23 @@ _loginAsGuest = function(req, res){
             '_id' : people._id
         });
     });
-}
+};
 
-_updateRegistrationId = function(req, res){
+user.bindJPush = function(req, res){
     var params = req.body;
     var registrationId = params.registrationId;
     People.findOne({
         '_id': req.qsCurrentUserId
     }, function(err, people) {
-        _addRegistrationId(people._id, registrationId)
+        req.session.registrationId = registrationId;
+        _addRegistrationId(people._id, registrationId);
         ResponseHelper.response(res, err, {
             'people' : people
         });
     });
-}
+};
 
-_loginAsViewer = function(req, res){
+user.loginAsViewer = function(req, res){
     var params = req.body;
     async.waterfall([function(callback){
         People.findOne({
@@ -968,95 +818,107 @@ _loginAsViewer = function(req, res){
                 }else{
                     callback(null, people);
                 }
-            })
+            });
         }
     }], function(err, people){
         ResponseHelper.response(res, err, {
             'people' : people
         });
-    })
-}
+    });
+};
+
+var _validateMobile = function(req, res, next) {
+    SMSHelper.checkVerificationCode(req, req.body.mobile, req.body.verificationCode, function(err, success){
+        if (!success || err) {
+            next(err);
+        } else {
+            next();
+        }
+    });
+};
+
+var _replaceCurrectUser = function(req, people) {
+    // Replace current user with db.people
+    req.injection.qsCurrentUser = people;
+    req.qsCurrentUserId = req.session.userId = people._id;
+};
 
 module.exports = {
     'get' : {
         method : 'get',
-        func : _get,
+        func : user.get,
         permissionValidators : ['loginValidator']
     },
     'login' : {
         method : 'post',
-        func : _login
+        func : user.login
     },
     'logout' : {
         method : 'post',
-        func : _logout,
+        func : user.logout,
         permissionValidators : ['loginValidator']
     },
     'register' : {
         method : 'post',
-        func : _register
+        func : user.register
     },
     'update' : {
         method : 'post',
-        func : _update,
+        func : user.update,
         permissionValidators : ['loginValidator']
     },
     'updatePortrait' : {
         method : 'post',
-        func : _updatePortrait,
+        func : user.updatePortrait,
         permissionValidators : ['loginValidator']
     },
     'updateBackground' : {
         method : 'post',
-        func : _updateBackground,
+        func : user.updateBackground,
         permissionValidators : ['loginValidator']
     },
     'saveReceiver' : {
         method : 'post',
-        func : _saveReceiver,
+        func : user.saveReceiver,
         permissionValidators : ['loginValidator']
     },
     'removeReceiver' : {
         method : 'post',
-        func : _removeReceiver,
+        func : user.removeReceiver,
         permissionValidators : ['loginValidator']
     },
     'loginViaWeixin' : {
         method : 'post',
-        func : _loginViaWeixin
-    },
-    'loginViaWeibo' : {
-        method : 'post',
-        func : _loginViaWeibo
+        func : user.loginViaWeixin
     },
     'requestVerificationCode' : {
         method : 'post',
-        func : _requestVerificationCode
+        func : user.requestVerificationCode
     },
-    'validateMobile' : {
+    'forgotPassword' : {
         method : 'post',
-        func : _validateMobile
+        func : user.forgotPassword
     },
     'resetPassword' : {
         method : 'post',
-        func : _resetPassword
+        func : user.resetPassword
     },
     'readNotification' : {
         method : 'post',
         permissionValidators : ['loginValidator'],
-        func : _readNotification
+        func : user.readNotification
     },
     'loginAsGuest' : {
         method : 'post',
-        func : _loginAsGuest
+        func : user.loginAsGuest
     },
-    'updateRegistrationId' : {
+    'bindJPush' : {
         method : 'post',
         permissionValidators : ['loginValidator'],
-        func : _updateRegistrationId
+        func : user.bindJPush
     },
     'loginAsViewer' : {
         method : 'post',
-        func : _loginAsViewer
+        func : user.loginAsViewer
     }
-}
+};

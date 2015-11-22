@@ -28,7 +28,7 @@ module.exports = {
     'genGoblin' : function(message, err) {
         return new ServerError(1028, message, err);
     },
-    'IncorrectMailOrPassword' : new ServerError(1001, 'IncorrectMailOrPassword'),
+    'ERR_INCORRECT_PASSWORD' : new ServerError(1001, 'ERR_INCORRECT_PASSWORD'),
     'SessionExpired' : new ServerError(1002, 'SessionExpired'),
     'ShowNotExist' : new ServerError(1003, 'ShowNotExist'),
     'ItemNotExist' : new ServerError(1004, 'ItemNotExist'),
@@ -52,7 +52,7 @@ module.exports = {
     'AlreadyLaunched' : new ServerError(1026, 'AlreadyLaunched'),
     'UnsupportVersion' : new ServerError(1027, 'UnsupportVersion'),
     'GoblinError' : new ServerError(1028, 'GoblinError'),
-    'MobileAlreadyExist' : new ServerError(1029, 'MobileAlreadyExist'),
+    'ERR_MOBILE_ALREADY_REGISTERED' : new ServerError(1029, 'ERR_MOBILE_ALREADY_REGISTERED'),
     'SMSValidationFail' : new ServerError(1030, 'SMSValidationFail'),
     'ERR_SMS_LIMIT_EXCEEDED' : new ServerError(1031, 'ERR_SMS_LIMIT_EXCEEDED'),
     'FrequentlyRequest' : new ServerError(1032, 'FrequentlyRequest'),
@@ -61,5 +61,9 @@ module.exports = {
     'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled'),
     'AlreadyLoggedIn' : new ServerError(1036, 'AlreadyLoggedIn'),
     'ERR_PERMISSION_DENIED' : new ServerError(1037, 'ERR_PERMISSION_DENIED'),
-    'INVALID_OBJECT_ID' : new ServerError(1038, 'INVALID_OBJECT_ID')
+    'INVALID_OBJECT_ID' : new ServerError(1038, 'INVALID_OBJECT_ID'),
+    'ERR_WEIXIN_ALREADY_REGISTERED' : new ServerError(1039, 'ERR_WEIXIN_ALREADY_REGISTERED'),
+    'INVALID_SHARED_OBJECT' : new ServerError(1040, 'INVALID_SHARED_OBJECT'),
+    'ERR_WEIXIN_NOT_BOUND' : new ServerError(1041, 'ERR_WEIXIN_NOT_BOUND'),
+    'ERR_SEND_WEIXIN_RED_PACK_FAILED' : new ServerError(1042, 'ERR_SEND_WEIXIN_RED_PACK_FAILED')
 };

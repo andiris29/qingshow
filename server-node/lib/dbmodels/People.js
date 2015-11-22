@@ -96,7 +96,7 @@ peopleSchema = Schema({
                 ref : 'items'
             }
         },
-        alipayId : String
+        weixinRedPackId : String
     }],
     unreadNotifications : [{
         create : {

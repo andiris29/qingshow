@@ -1,15 +1,17 @@
 var async = require('async');
 
-var Show = require('../../dbmodels').Show;
-var Trade = require('../../dbmodels').Trade;
-var People = require('../../dbmodels').People;
-var SharedObject = require('../../dbmodels').SharedObject;
+var Show = require('../../dbmodels').Show,
+    Trade = require('../../dbmodels').Trade,
+    People = require('../../dbmodels').People,
+    PeopleCode = require('../../dbmodels').PeopleCode,
+    SharedObject = require('../../dbmodels').SharedObject,
+    SharedObjectCode = require('../../dbmodels').SharedObjectCode;
 
-var ShareHelper = require('../../helpers/ShareHelper');
-var ResponseHelper = require('../../helpers/ResponseHelper');
-var RequestHelper = require('../../helpers/RequestHelper');
-var ServiceHelper = require('../../helpers/ServiceHelper');
-var MongoHelper = require('../../helpers/MongoHelper');
+var ShareHelper = require('../../helpers/ShareHelper'),
+    ResponseHelper = require('../../helpers/ResponseHelper'),
+    RequestHelper = require('../../helpers/RequestHelper'),
+    ServiceHelper = require('../../helpers/ServiceHelper'),
+    MongoHelper = require('../../helpers/MongoHelper');
 
 var share = module.exports;
 
@@ -36,7 +38,7 @@ share.createShow = {
             });
 		});
     }
-}
+};
 
 
 share.createTrade = {
@@ -67,7 +69,7 @@ share.createTrade = {
             });
 		});
 	}
-}
+};
 
 share.createBonus = {
 	method : 'post',
@@ -103,7 +105,7 @@ share.createBonus = {
             });
 		});
 	}
-}
+};
 
 share.query = {
     'method' : 'get',
@@ -117,8 +119,85 @@ share.query = {
             }
             MongoHelper.queryPaging(SharedObject.find(criteria), SharedObject.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         },function(sharedObjects){
-            return {'sharedObjects': sharedObjects}
-        })
+            return {'sharedObjects': sharedObjects};
+        });
     }
 };
 
+share.withdrawBonus = {
+    'method' : 'post',
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(SharedObject, 'sharedObject'),
+        function(req, res, next) {
+            var sharedObject = req.injection.sharedObject;
+            if (!sharedObject) {
+                next(errors.INVALID_OBJECT_ID);
+            } else {
+                if (sharedObject.type !== SharedObjectCode.TYPE_SHARE_BONUS) {
+                    next(errors.INVALID_SHARED_OBJECT);
+                } else if (Date.now().getTime - sharedObject.create.getTime() < 15 * 60 * 1000) {
+                    next(errors.INVALID_SHARED_OBJECT);
+                } else {
+                    next();
+                }
+            }
+        },
+        function(req, res, next) {
+            var sharedObject = req.injection.sharedObject;
+            SharedObject.populate(sharedObject, {
+                'path' : 'initiatorRef',
+                'model' : 'peoples'
+            }, next);
+        },
+        function(req, res, next) {
+            var people = req.injection.sharedObject.initiatorRef;
+            
+            if (!people.userInfo.weixin) {
+                next(errors.ERR_WEIXIN_NOT_BOUND);
+            } else {
+                var amount = 0;
+                people.bonuses.forEach(function(bonus) {
+                    if (bonus.status === PeopleCode.BONUS_STATUS_INIT) {
+                        bonus.status = PeopleCode.BONUS_STATUS_REQUESTED;
+                        amount = amount + money;
+                    }
+                });
+                
+                request({
+                    'url' : global.qsConfig.payment.url + '/payment/wechat/sendRedPack',
+                    'json' : true,
+                    'body' : {
+                        'mch_billno' : sharedObject._id.toString(),
+                        're_openid' : people.userInfo.weixin.openid,
+                        'total_amount' : amount,
+                        'client_ip' : RequestHelper.getIp(req),
+                        'act_name' : global.qsConfig.bonus.event,
+                        'wishing' : global.qsConfig.bonus.message,
+                        'remark' : global.qsConfig.bonus.note
+                    }
+                }, function(err, response, body) {
+                    try {
+                        body = JSON.parse(body);
+                    } catch (err) {
+                        next(errors.genUnkownError(err));
+                        return;
+                    }
+                    
+                    if (body.metadata && body.metadata.error) {
+                        next(errors.ERR_SEND_WEIXIN_RED_PACK_FAILED);
+                    } else {
+                        people.bonuses.forEach(function(bonus) {
+                            if (bonus.status === PeopleCode.BONUS_STATUS_REQUESTED) {
+                                bonus.status = PeopleCode.BONUS_STATUS_COMPLETE;
+                                bonus.weixinRedPackId = body.data.send_listid;
+                            }
+                        });
+                        people.save(function(err, people){
+                            next(err);    
+                        });
+                    }
+                });
+            }
+        }
+    ]
+};
