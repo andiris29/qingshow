@@ -24,7 +24,6 @@ var servicesNames = [
     'matcher', 
     'notify', 
     'shop', 
-    'userBonus', 
     'item', 
     'dashboard', 
     'goblin', 
