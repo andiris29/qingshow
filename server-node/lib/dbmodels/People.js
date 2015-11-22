@@ -14,7 +14,10 @@ peopleSchema = Schema({
     bodyType : Number,
     dressStyle : Number,
     expectations : [Number],
-    role : Number,
+    role : {
+        type : Number,
+        'default' : 0
+    },
     initiatorRef : {
         type : Schema.Types.ObjectId,
         ref : 'peoples'

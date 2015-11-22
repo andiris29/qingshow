@@ -3,6 +3,7 @@ module.exports = {
     'Item' : require('./Item'),
     'JPushAudience' : require('./JPushAudience'),
     'People' : require('./People'),
+    'PeopleCode' : require('./PeopleCode'),
     'RPeopleFollowPeople' : require('./RPeopleFollowPeople'),
     'RPeopleLikeShow' : require('./RPeopleLikeShow'),
     'RPeopleShareShow' : require('./RPeopleShareShow'),

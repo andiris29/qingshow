@@ -1,4 +1,5 @@
-var async = require('async');
+var async = require('async'),
+    request = require('request');
 
 var Show = require('../../dbmodels').Show,
     Trade = require('../../dbmodels').Trade,
@@ -12,6 +13,8 @@ var ShareHelper = require('../../helpers/ShareHelper'),
     RequestHelper = require('../../helpers/RequestHelper'),
     ServiceHelper = require('../../helpers/ServiceHelper'),
     MongoHelper = require('../../helpers/MongoHelper');
+
+var errors = require('../../errors');
 
 var share = module.exports;
 
@@ -135,7 +138,7 @@ share.withdrawBonus = {
             } else {
                 if (sharedObject.type !== SharedObjectCode.TYPE_SHARE_BONUS) {
                     next(errors.INVALID_SHARED_OBJECT);
-                } else if (Date.now().getTime - sharedObject.create.getTime() < 15 * 60 * 1000) {
+                } else if (Date.now() - sharedObject.create.getTime() < 15 * 60 * 1000) {
                     next(errors.INVALID_SHARED_OBJECT);
                 } else {
                     next();
@@ -150,7 +153,8 @@ share.withdrawBonus = {
             }, next);
         },
         function(req, res, next) {
-            var people = req.injection.sharedObject.initiatorRef;
+            var sharedObject = req.injection.sharedObject,
+                people = sharedObject.initiatorRef;
             
             if (!people.userInfo.weixin) {
                 next(errors.ERR_WEIXIN_NOT_BOUND);
@@ -159,21 +163,21 @@ share.withdrawBonus = {
                 people.bonuses.forEach(function(bonus) {
                     if (bonus.status === PeopleCode.BONUS_STATUS_INIT) {
                         bonus.status = PeopleCode.BONUS_STATUS_REQUESTED;
-                        amount = amount + money;
+                        amount = amount + bonus.money;
                     }
                 });
                 
                 request({
                     'url' : global.qsConfig.payment.url + '/payment/wechat/sendRedPack',
-                    'json' : true,
-                    'body' : {
-                        'mch_billno' : sharedObject._id.toString(),
-                        're_openid' : people.userInfo.weixin.openid,
-                        'total_amount' : amount,
-                        'client_ip' : RequestHelper.getIp(req),
-                        'act_name' : global.qsConfig.bonus.event,
-                        'wishing' : global.qsConfig.bonus.message,
-                        'remark' : global.qsConfig.bonus.note
+                    'method' : 'post',
+                    'form' : {
+                        'id' : sharedObject._id.toString(),
+                        'openid' : people.userInfo.weixin.openid,
+                        'amount' : amount,
+                        'clientIp' : RequestHelper.getIp(req),
+                        'event' : global.qsConfig.bonus.event,
+                        'message' : global.qsConfig.bonus.message,
+                        'note' : global.qsConfig.bonus.note
                     }
                 }, function(err, response, body) {
                     try {
