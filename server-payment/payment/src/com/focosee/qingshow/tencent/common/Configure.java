@@ -56,6 +56,9 @@ public class Configure {
     //8）统一下单API
     public static String PREPAY_API = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     
+    //9) 发送红包API
+    public static String SEND_REDPACK_API = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
+    
     public static String HttpsRequestClassName = "com.focosee.qingshow.tencent.common.HttpsRequest";
     
     public static boolean isUseThreadToDoReport() {
