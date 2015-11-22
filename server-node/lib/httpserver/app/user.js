@@ -343,7 +343,8 @@ user.bindMobile = [
     }, function(req, res, next) {
         var people = req.injection.qsCurrentUser;
         people.role = 1;
-        people.mobile = req.body.mobile;
+        people.userInfo = people.userInfo || {};
+        people.mobile = people.userInfo.id = req.body.mobile;
         people.save(function(err, people) {
             if (!people || err) {
                 next(errors.genUnkownError(err));
@@ -725,7 +726,7 @@ user.resetPassword = function(req, res){
         }
     }, function(callback){
         People.find({
-            'userInfo.id' : mobile
+            'mobile' : mobile
         }, function(err, peoples) {
             if (peoples.length > 1) {
                 callback(errors.genUnkownError());
