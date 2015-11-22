@@ -117,6 +117,7 @@
     }, ^(NSError *error) {
         if (error.code == 1009) {
             self.fIsAll = YES;
+            error = nil;
         }
         if (page == 1) {
             [self.resultArray removeAllObjects];
