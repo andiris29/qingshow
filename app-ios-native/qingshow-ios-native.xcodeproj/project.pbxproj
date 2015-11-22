@@ -94,6 +94,9 @@
 		EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013481AC31BD700568D92 /* AlipayOrder.m */; };
 		EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */; };
 		EF30601A1B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF3060181B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib */; };
+		EF35D68E1C01B50E00CDE1B4 /* QSU20NewBonusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CEA1BF8C5F200DFE9EB /* QSU20NewBonusViewController.m */; };
+		EF35D6901C01B52600CDE1B4 /* QSU10ReceiverListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D321BF8C5F200DFE9EB /* QSU10ReceiverListViewController.m */; };
+		EF35D6911C01B53600CDE1B4 /* QSUserLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D3D1BF8C5F200DFE9EB /* QSUserLocationTableViewCell.m */; };
 		EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD731A871512003CBBEE /* QSImageNameUtil.m */; };
 		EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD771A87153F003CBBEE /* QSDateUtil.m */; };
 		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
@@ -124,12 +127,10 @@
 		EF6F3D491BF8C5F200DFE9EB /* QSU15BonusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CE51BF8C5F200DFE9EB /* QSU15BonusViewController.m */; };
 		EF6F3D4A1BF8C5F200DFE9EB /* QSU15BonusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CE61BF8C5F200DFE9EB /* QSU15BonusViewController.xib */; };
 		EF6F3D4B1BF8C5F200DFE9EB /* QSU16BonusListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CE81BF8C5F200DFE9EB /* QSU16BonusListViewController.m */; };
-		EF6F3D4C1BF8C5F200DFE9EB /* QSU20NewBonusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CEA1BF8C5F200DFE9EB /* QSU20NewBonusViewController.m */; };
 		EF6F3D4D1BF8C5F200DFE9EB /* QSU20NewBonusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CEB1BF8C5F200DFE9EB /* QSU20NewBonusViewController.xib */; };
 		EF6F3D501BF8C5F200DFE9EB /* QSU01UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CF11BF8C5F200DFE9EB /* QSU01UserDetailViewController.m */; };
 		EF6F3D511BF8C5F200DFE9EB /* QSU01UserDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CF21BF8C5F200DFE9EB /* QSU01UserDetailViewController.xib */; };
 		EF6F3D521BF8C5F200DFE9EB /* QSU13PersonalizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CF41BF8C5F200DFE9EB /* QSU13PersonalizeViewController.m */; };
-		EF6F3D531BF8C5F200DFE9EB /* QSU13PersonalizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CF51BF8C5F200DFE9EB /* QSU13PersonalizeViewController.xib */; };
 		EF6F3D541BF8C5F200DFE9EB /* QSU06LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CF81BF8C5F200DFE9EB /* QSU06LoginViewController.m */; };
 		EF6F3D551BF8C5F200DFE9EB /* QSU06LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3CF91BF8C5F200DFE9EB /* QSU06LoginViewController.xib */; };
 		EF6F3D561BF8C5F200DFE9EB /* QSU07RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3CFB1BF8C5F200DFE9EB /* QSU07RegisterViewController.m */; };
@@ -161,20 +162,17 @@
 		EF6F3D701BF8C5F200DFE9EB /* QSU02UserSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D2C1BF8C5F200DFE9EB /* QSU02UserSettingViewController.xib */; };
 		EF6F3D711BF8C5F200DFE9EB /* QSU09TradeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D2F1BF8C5F200DFE9EB /* QSU09TradeListViewController.m */; };
 		EF6F3D721BF8C5F200DFE9EB /* QSU09TradeListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D301BF8C5F200DFE9EB /* QSU09TradeListViewController.xib */; };
-		EF6F3D731BF8C5F200DFE9EB /* QSU10ReceiverListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D321BF8C5F200DFE9EB /* QSU10ReceiverListViewController.m */; };
 		EF6F3D741BF8C5F200DFE9EB /* QSU10ReceiverListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D331BF8C5F200DFE9EB /* QSU10ReceiverListViewController.xib */; };
 		EF6F3D751BF8C5F200DFE9EB /* QSU11ReceiverEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D351BF8C5F200DFE9EB /* QSU11ReceiverEditingViewController.m */; };
 		EF6F3D761BF8C5F200DFE9EB /* QSU11ReceiverEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D361BF8C5F200DFE9EB /* QSU11ReceiverEditingViewController.xib */; };
 		EF6F3D771BF8C5F200DFE9EB /* QSU12RefundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D381BF8C5F200DFE9EB /* QSU12RefundViewController.m */; };
 		EF6F3D781BF8C5F200DFE9EB /* QSU12RefundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D391BF8C5F200DFE9EB /* QSU12RefundViewController.xib */; };
-		EF6F3D791BF8C5F200DFE9EB /* QSUserLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D3D1BF8C5F200DFE9EB /* QSUserLocationTableViewCell.m */; };
 		EF6F3D7A1BF8C5F200DFE9EB /* QSUserLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D3E1BF8C5F200DFE9EB /* QSUserLocationTableViewCell.xib */; };
 		EF6F3D7B1BF8C5F200DFE9EB /* QSTradeListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D411BF8C5F200DFE9EB /* QSTradeListHeaderView.m */; };
 		EF6F3D7C1BF8C5F200DFE9EB /* QSTradeListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D421BF8C5F200DFE9EB /* QSTradeListHeaderView.xib */; };
 		EF6F3D7D1BF8C5F200DFE9EB /* QSTradeListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D441BF8C5F200DFE9EB /* QSTradeListTableViewCell.m */; };
 		EF6F3D7E1BF8C5F200DFE9EB /* QSTradeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D451BF8C5F200DFE9EB /* QSTradeListTableViewCell.xib */; };
 		EF6F3D7F1BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D471BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.m */; };
-		EF6F3D801BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6F3D481BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.xib */; };
 		EF6F3D841BF8C95300DFE9EB /* QSMobileVerifyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6F3D831BF8C95300DFE9EB /* QSMobileVerifyManager.m */; };
 		EF7826AB1A4EB9EC00C69460 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */; };
 		EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */; };
@@ -311,14 +309,7 @@
 		EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */; };
 		EFCC1B8E1B0203FB00E13279 /* QSThirdPartLoginService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCC1B8D1B0203FB00E13279 /* QSThirdPartLoginService.m */; };
 		EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */; };
-		EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CF51AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m */; };
-		EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CF61AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib */; };
-		EFD28CFD1AB41CBE00991ADD /* QSU12RefundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */; };
-		EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */; };
-		EFE7A27A1BDBF5F200E2168A /* QSU19LoginGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A2781BDBF5F200E2168A /* QSU19LoginGuideViewController.m */; };
-		EFE7A27B1BDBF5F200E2168A /* QSU19LoginGuideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFE7A2791BDBF5F200E2168A /* QSU19LoginGuideViewController.xib */; };
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
-		EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
 		EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */; };
 		EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */; };
@@ -968,18 +959,7 @@
 		EFCC1B8D1B0203FB00E13279 /* QSThirdPartLoginService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSThirdPartLoginService.m; sourceTree = "<group>"; };
 		EFD0B7EE1A1A4FC500BCDFBA /* QSUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserManager.h; sourceTree = "<group>"; };
 		EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserManager.m; sourceTree = "<group>"; };
-		EFD28CF41AB3F56C00991ADD /* QSU11ReceiverEditingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU11ReceiverEditingViewController.h; sourceTree = "<group>"; };
-		EFD28CF51AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU11ReceiverEditingViewController.m; sourceTree = "<group>"; };
-		EFD28CF61AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU11ReceiverEditingViewController.xib; sourceTree = "<group>"; };
-		EFD28CFA1AB41CBE00991ADD /* QSU12RefundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU12RefundViewController.h; sourceTree = "<group>"; };
-		EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU12RefundViewController.m; sourceTree = "<group>"; };
-		EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU12RefundViewController.xib; sourceTree = "<group>"; };
-		EFE7A2771BDBF5F200E2168A /* QSU19LoginGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU19LoginGuideViewController.h; sourceTree = "<group>"; };
-		EFE7A2781BDBF5F200E2168A /* QSU19LoginGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU19LoginGuideViewController.m; sourceTree = "<group>"; };
-		EFE7A2791BDBF5F200E2168A /* QSU19LoginGuideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU19LoginGuideViewController.xib; sourceTree = "<group>"; };
 		EFEBAAE31ABEB0000000FEEE /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
-		EFEBAAE61ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSProvinceSelectionTableViewController.h; sourceTree = "<group>"; };
-		EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSProvinceSelectionTableViewController.m; sourceTree = "<group>"; };
 		EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeUtil.h; sourceTree = "<group>"; };
 		EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeUtil.m; sourceTree = "<group>"; };
 		EFECFE921BB6DAD600146BD7 /* QSIRootContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSIRootContentViewController.h; sourceTree = "<group>"; };
@@ -2982,7 +2962,6 @@
 				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
 				EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */,
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
-				EFA1F5621A53052100010F79 /* QSImageEditingViewController.xib in Resources */,
 				EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */,
 				68D16CBC1B32DDA500A4646C /* QSCategoryTableViewCell.xib in Resources */,
 				EF6F3D701BF8C5F200DFE9EB /* QSU02UserSettingViewController.xib in Resources */,
@@ -3077,7 +3056,6 @@
 				EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */,
 				EF1F52B11ABB281100E7EDDF /* QSNetworkEngine+TradeService.m in Sources */,
 				EF8F0EF41A657DA900D1DADE /* UIImage+fixOrientation.m in Sources */,
-				EF0C64271B21AAC20079B22E /* QSU02ImgCell.m in Sources */,
 				EF810F731AB601E50079BA76 /* QSCreateTradeReceiverInfoTextCell.m in Sources */,
 				EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */,
 				EFAB9C6D1B346FE5008A4EF5 /* QSTradeListTableViewProvider.m in Sources */,
@@ -3098,7 +3076,6 @@
 				EF994D901B693C3B00715B0E /* QSDiscountTitleCell.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */,
-				EF78E34B1AAF4C9400665EDD /* QSTradeListHeaderView.m in Sources */,
 				EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */,
 				EF810F701AB601C20079BA76 /* QSCreateTradeReceiverInfoTitleCell.m in Sources */,
 				EF241E6F1AB9CD82007B5058 /* QSLayoutUtil.m in Sources */,
@@ -3218,6 +3195,7 @@
 				EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */,
 				EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */,
 				EFAB9C691B346FE5008A4EF5 /* QSBigImageTableViewProvider.m in Sources */,
+				EF35D6911C01B53600CDE1B4 /* QSUserLocationTableViewCell.m in Sources */,
 				EF9656A91B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m in Sources */,
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,
 				EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */,
@@ -3247,7 +3225,9 @@
 				EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */,
 				EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */,
 				EF7826B11A4F057900C69460 /* UIView+ScreenShot.m in Sources */,
+				EF35D6901C01B52600CDE1B4 /* QSU10ReceiverListViewController.m in Sources */,
 				68D16CC51B339BC100A4646C /* QSS21TableViewProvider.m in Sources */,
+				EF35D68E1C01B50E00CDE1B4 /* QSU20NewBonusViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

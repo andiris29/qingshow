@@ -18,6 +18,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSS11CreateTradeViewController.h"
 #import "QSUnreadManager.h"
+#import "QSS12NewTradeExpectableViewController.h"
 
 #define PAGE_ID @"新美搭榜单"
 
