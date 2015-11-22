@@ -81,6 +81,11 @@ define([
             context.strokeStyle = 'rgba(200, 16, 78, 1)';
             context.lineWidth = strokeWidth;
             context.stroke();
+
+            context.beginPath();
+            context.arc(width/2, height/2 - radius, 3, 0, Math.PI * 2, false);
+            context.fillStyle = 'rgba(200, 16, 78, 1)';
+            context.fill();
         } else {
             var nowDate = new Date();
             var context = this._canvasContext;
@@ -101,6 +106,12 @@ define([
             context.lineWidth = strokeWidth;
             context.stroke();
             this._updateRemainTimeText(this._maxTimeInterval - (nowDate - this._createDate));
+
+            context.beginPath();
+            context.arc(width/2 + radius * Math.cos(end), height/2 + radius * Math.sin(end), 3, 0, Math.PI * 2, false);
+            context.fillStyle = 'rgba(200, 16, 78, 1)';
+            context.fill();
+
         }
     };
     P04ShareBonus.prototype._updateRemainTimeText = function (timeInterval) {
