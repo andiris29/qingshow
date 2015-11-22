@@ -12,6 +12,7 @@
 #import "QSThirdPartLoginService.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
+#import "QSBindMobileViewController.h"
 
 #import "WXApi.h"
 
@@ -83,8 +84,11 @@
         if ([QSPeopleUtil checkMobileExist:[QSUserManager shareUserManager].userInfo]) {
             [self hideLoginPrompVc];
         } else {
-#warning TODO Change to New VC
-            [self registerBtnPressed:nil];
+            QSBindMobileViewController* vc = [[QSBindMobileViewController alloc] init];
+            CATransition* tran = [[CATransition alloc] init];
+            tran.type = kCATransitionFade;
+            [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+            [self.navigationController pushViewController:vc animated:NO];
         }
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
