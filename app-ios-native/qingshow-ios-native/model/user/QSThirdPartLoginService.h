@@ -14,5 +14,6 @@
 
 - (void)loginWithWechatOnSuccees:(VoidBlock)succeedBlock
                          onError:(ErrorBlock)errorBlock;
-
+- (void)bindWithWechatOnSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock;
 @end

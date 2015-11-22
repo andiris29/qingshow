@@ -28,9 +28,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self _configUI];
-    
-    [self.phoneTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self.codeTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,10 +95,10 @@
 
 #pragma mark - Private
 - (void)_configUI {
-    //self.view.backgroundColor = [UIColor colorWithRed:0.949 green:0.588 blue:0.643 alpha:1.000];
     self.nextStepBtn.layer.cornerRadius = self.nextStepBtn.bounds.size.height / 8;
     self.getCodeBtn.layer.cornerRadius  =self.getCodeBtn.bounds.size.height / 8;
-    
+    [self.phoneTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.codeTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
 }
 
 - (void)setTimer
@@ -123,6 +121,5 @@
         [self.getCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
         self.getCodeBtn.userInteractionEnabled = YES;
     }
-    
 }
 @end

@@ -294,6 +294,8 @@
 		EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */; };
 		EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */; };
 		EFB1ADEB1B386889007893AB /* QSNetworkEngine+MatcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADEA1B386889007893AB /* QSNetworkEngine+MatcherService.m */; };
+		EFB696811C00BADD005C097C /* QSBindMobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB6967F1C00BADD005C097C /* QSBindMobileViewController.m */; };
+		EFB696821C00BADD005C097C /* QSBindMobileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB696801C00BADD005C097C /* QSBindMobileViewController.xib */; };
 		EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBA0B611A2387090014A05B /* MediaPlayer.framework */; };
 		EFBC76491B332A6200832116 /* QSBadgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBC76481B332A6200832116 /* QSBadgeButton.m */; };
 		EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFBC764A1B332AEC00832116 /* QSBadgeButton.xib */; };
@@ -936,6 +938,9 @@
 		EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS20MatcherViewController.xib; sourceTree = "<group>"; };
 		EFB1ADE91B386889007893AB /* QSNetworkEngine+MatcherService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+MatcherService.h"; sourceTree = "<group>"; };
 		EFB1ADEA1B386889007893AB /* QSNetworkEngine+MatcherService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+MatcherService.m"; sourceTree = "<group>"; };
+		EFB6967E1C00BADD005C097C /* QSBindMobileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBindMobileViewController.h; sourceTree = "<group>"; };
+		EFB6967F1C00BADD005C097C /* QSBindMobileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBindMobileViewController.m; sourceTree = "<group>"; };
+		EFB696801C00BADD005C097C /* QSBindMobileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBindMobileViewController.xib; sourceTree = "<group>"; };
 		EFBA0B611A2387090014A05B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		EFBC76471B332A6200832116 /* QSBadgeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBadgeButton.h; sourceTree = "<group>"; };
 		EFBC76481B332A6200832116 /* QSBadgeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBadgeButton.m; sourceTree = "<group>"; };
@@ -1632,6 +1637,9 @@
 				EF6F3D031BF8C5F200DFE9EB /* QSU19LoginGuideViewController.h */,
 				EF6F3D041BF8C5F200DFE9EB /* QSU19LoginGuideViewController.m */,
 				EF6F3D051BF8C5F200DFE9EB /* QSU19LoginGuideViewController.xib */,
+				EFB6967E1C00BADD005C097C /* QSBindMobileViewController.h */,
+				EFB6967F1C00BADD005C097C /* QSBindMobileViewController.m */,
+				EFB696801C00BADD005C097C /* QSBindMobileViewController.xib */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -2932,6 +2940,7 @@
 				68D16D051B341A4700A4646C /* QSS01MatchShowsViewController.xib in Resources */,
 				EF88D08E1ACEF90C002C4963 /* area.json in Resources */,
 				8C44759C1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib in Resources */,
+				EFB696821C00BADD005C097C /* QSBindMobileViewController.xib in Resources */,
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
 				EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */,
 				EF6F3D801BF8C5F200DFE9EB /* QSU15BonusListTableViewCell.xib in Resources */,
@@ -3114,6 +3123,7 @@
 				EFAB9C651B346FE5008A4EF5 /* QSWaterfallBasicProvider.m in Sources */,
 				EFAD758D1B3BAE1300565DED /* QSMatcherItemsProvider.m in Sources */,
 				EFB1ADEB1B386889007893AB /* QSNetworkEngine+MatcherService.m in Sources */,
+				EFB696811C00BADD005C097C /* QSBindMobileViewController.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,
 				EF6F3D841BF8C95300DFE9EB /* QSMobileVerifyManager.m in Sources */,
 				EF6F3D5C1BF8C5F200DFE9EB /* QSU19LoginGuideViewController.m in Sources */,

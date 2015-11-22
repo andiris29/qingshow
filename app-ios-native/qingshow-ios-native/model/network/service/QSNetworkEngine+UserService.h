@@ -62,9 +62,6 @@
 - (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
                             onSuccess:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getBonusWithAlipayId:(NSString*)alipayId
-                                OnSusscee:(VoidBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)getVerifyCodeForMobile:(NSString*)mobileNum
                                            onSucceed:(VoidBlock)succeedBlock
                                              onError:(ErrorBlock)errorBlock;
@@ -89,6 +86,9 @@
                                onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)userBindMobile:(NSString*)mobileNumber
                            verifyCode:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)userBindWechat:(NSString*)code
                             onSucceed:(EntitySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
 @end

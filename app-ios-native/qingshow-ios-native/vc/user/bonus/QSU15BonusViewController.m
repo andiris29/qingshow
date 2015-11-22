@@ -17,10 +17,14 @@
 #import "QSUnreadManager.h"
 #import "QSNetworkEngine+ShareService.h"
 #import "QSShareUtil.h"
+#import "UIViewController+QSExtension.h"
+#import "QSThirdPartLoginService.h"
+
 @interface QSU15BonusViewController ()
 
 @property (strong, nonatomic) NSArray* bonusArray;
-@property (assign, nonatomic) float currMoney;
+@property (assign, nonatomic) float availableMoney;
+@property (assign, nonatomic) float totalMoney;
 @end
 
 @implementation QSU15BonusViewController
@@ -28,7 +32,7 @@
 #pragma mark - Init
 - (instancetype)initwithBonuesArray:(NSArray *)array {
     if (self == [super initWithNibName:@"QSU15BonusViewController" bundle:nil]) {
-        _bonusArray = array;
+        self.bonusArray = array;
     }
     return self;
 }
@@ -37,9 +41,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self _updateAvailableBonus:self.bonusArray];
     [self _configNav];
     [self _configUI];
-    [self _bindVCWithArray:_bonusArray];
+
     
 }
 
@@ -63,35 +68,40 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (IBAction)shareToGetBonusBtnPressed:(id)sender {
-#warning TODO
-    if (_currMoney != 0) {
-        NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-        NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
-        
-        __weak QSU15BonusViewController *weakSelf = self;
-#warning TODO Refactor
+- (IBAction)withdrawBtnPressed:(id)sender {
+    if (self.availableMoney == 0) {
+        return;
+    }
+
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
+    
+    if ([QSPeopleUtil hasBindWechat:peopleDic]) {
         [SHARE_NW_ENGINE shareCreateBonus:peopleId onSucceed:^(NSDictionary *shareDic) {
             [[QSShareService shareService]shareWithWechatMoment:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] image:[UIImage imageNamed:@"share_icon"] url:[QSShareUtil getshareUrl:shareDic] onSucceed:^{
-                [SHARE_NW_ENGINE getBonusWithAlipayId:self.alipayId OnSusscee:^{
-                    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-                    NSArray *bonusArray = [QSPeopleUtil getBonusList:peopleDic];
-                    [weakSelf _bindVCWithArray:bonusArray];
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"佣金提取成功 款项将会在48小时内转至您的账户" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    alert.tag = 345;
-                    [alert show];
-                } onError:^(NSError *error) {
-                    
-                }];
+                [self showSuccessHudWithText:@"提取成功"];
             } onError:nil];
         } onError:^(NSError *error) {
-            
+            [self handleError:error];
+        }];
+    } else {
+        [[QSThirdPartLoginService getInstance] bindWithWechatOnSucceed:^{
+            [self _configUI];
+        } onError:^(NSError *error) {
+            [self handleError:error];
         }];
     }
 }
+
 - (IBAction)faqBtnPressed:(id)sender {
+    if (!self.faqLayer.superview) {
+        [self.navigationController.view addSubview:self.faqLayer];
+        self.faqLayer.frame = self.navigationController.view.bounds;
+    }
+
 }
 - (IBAction)closeFaqBtnPressed:(id)sender {
+    [self.faqLayer removeFromSuperview];
 }
 
 
@@ -105,11 +115,28 @@
 
 #pragma mark - Private
 - (void)_configUI {
-    self.shareToGetBtn.layer.cornerRadius = 30.f/2;
+    NSDictionary* userDict = [QSUserManager shareUserManager].userInfo;
+    //Withdraw Btn
+    if ([QSPeopleUtil hasBindWechat:userDict]) {
+        [self.withdrawBtn setTitle:@"分享提现" forState:UIControlStateNormal];
+    } else {
+        [self.withdrawBtn setTitle:@"登陆微信分享提现" forState:UIControlStateNormal];
+    }
+    self.withdrawBtn.layer.cornerRadius = self.withdrawBtn.bounds.size.height / 2;
+    
+    self.faqBtn.layer.cornerRadius = self.faqBtn.bounds.size.height / 2;
+    self.faqBtn.layer.borderWidth = 1.f;
+    UIColor* faqBtnTitleColor = [self.faqBtn titleColorForState:UIControlStateNormal];
+    self.faqBtn.layer.borderColor = faqBtnTitleColor.CGColor;
+    
     self.scrollView.scrollEnabled = YES;
     
     self.containerView.contentSize = self.bonusContentView.bounds.size;
     [self.containerView addSubview:self.bonusContentView];
+    
+    //Faq
+    self.faqContainerScrollView.contentSize = self.faqContentImgView.bounds.size;
+    [self.faqContainerScrollView addSubview:self.faqContentImgView];
 }
 
 - (void)_configNav {
@@ -120,23 +147,24 @@
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
-- (void)_bindVCWithArray:(NSArray*)bonusArray {
+- (void)_updateAvailableBonus:(NSArray*)bonusArray {
+    self.availableMoney = 0;
+    self.totalMoney = 0;
     if (bonusArray.count) {
-        _currMoney = 0;
-        float money = 0;
         for (NSDictionary *dic in bonusArray) {
-            money += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
+            self.totalMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
             if ([QSPeopleUtil getStatusFromBonusDict:dic].integerValue == 0) {
-                _currMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
+                self.availableMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
             }
         }
-        if (_currMoney  ==  0) {
-            self.shareToGetBtn.backgroundColor = [UIColor lightGrayColor];
-            self.shareToGetBtn.userInteractionEnabled = NO;
-            self.navigationItem.rightBarButtonItem.action = nil;
-        }
-        self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",_currMoney];
-        self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",money];
+    }
+    
+    self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.availableMoney];
+    self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.totalMoney];
+    if (self.availableMoney  ==  0) {
+        self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
+        self.withdrawBtn.userInteractionEnabled = NO;
+        self.navigationItem.rightBarButtonItem.action = nil;
     }
 }
 
