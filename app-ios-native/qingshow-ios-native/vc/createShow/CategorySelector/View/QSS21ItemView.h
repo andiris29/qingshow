@@ -20,5 +20,4 @@
 - (void)setSubViewsValueWith:(NSDictionary *)selectedDic;
 
 - (void)setLastCellItem:(NSArray *)array;
-- (void)updateForSearch;
 @end

@@ -10,14 +10,18 @@
 #import "QSCategoryTableViewCell.h"
 @class QSS21TableViewProvider;
 
+@protocol QSS21TableViewProviderDelegate <QSAbstractScrollProviderDelegate>
+@end
 
 @interface QSS21TableViewProvider : QSTableViewBasicProvider<QSCategoryTableViewCellDelegate>
 
+@property (weak , nonatomic) NSObject<QSS21TableViewProviderDelegate>* delegate;
 
 @property (strong , nonatomic) NSArray *dataArray;
+
 @property (strong , nonatomic) NSMutableArray *selectedArray;
 
 //获取cell的记录结果
 - (NSMutableArray *)getResultArray;
-@property (strong ,nonatomic) NSMutableArray *cellArray;
+
 @end

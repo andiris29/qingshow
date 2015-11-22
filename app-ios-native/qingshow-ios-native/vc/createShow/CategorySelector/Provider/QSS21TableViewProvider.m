@@ -14,7 +14,7 @@
 
 @interface QSS21TableViewProvider ()
 
-
+@property (strong ,nonatomic) NSMutableArray *cellArray;
 @end
 
 @implementation QSS21TableViewProvider
