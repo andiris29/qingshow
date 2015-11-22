@@ -61,5 +61,6 @@ module.exports = {
     'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled'),
     'AlreadyLoggedIn' : new ServerError(1036, 'AlreadyLoggedIn'),
     'ERR_PERMISSION_DENIED' : new ServerError(1037, 'ERR_PERMISSION_DENIED'),
-    'INVALID_OBJECT_ID' : new ServerError(1038, 'INVALID_OBJECT_ID')
+    'INVALID_OBJECT_ID' : new ServerError(1038, 'INVALID_OBJECT_ID'),
+    'ERR_WEIXIN_ALREADY_REGISTERED' : new ServerError(1039, 'ERR_WEIXIN_ALREADY_REGISTERED')
 };

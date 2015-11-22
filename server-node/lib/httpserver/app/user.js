@@ -152,7 +152,7 @@ user.register = [
         }
     }, 
     _validateMobile,
-    require('../middleware/injectModelGenerator').generateInject(People, 'registered', function(req) {
+    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
         return {
             '_id' : {'$ne' : req.qsCurrentUserId},
             '$or': [
@@ -162,7 +162,7 @@ user.register = [
         };
     }),
     function(req, res, next) {
-        if (req.injection.registered) {
+        if (req.injection.exsited) {
             next(errors.ERR_MOBILE_ALREADY_REGISTERED);
         } else {
             next();
@@ -193,7 +193,7 @@ user.register = [
 user.bindMobile = [
     require('../middleware/injectCurrentUser'),
     _validateMobile,
-    require('../middleware/injectModelGenerator').generateInject(People, 'registered', function(req) {
+    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
         return {
             '_id' : {'$ne' : req.qsCurrentUserId},
             '$or': [
@@ -203,10 +203,8 @@ user.bindMobile = [
         };
     }),
     function(req, res, next) {
-        if (req.injection.registered) {
-            // Replace current user with db.people
-            req.injection.qsCurrentUser = req.injection.registered;
-            req.qsCurrentUserId = req.session.userId = req.injection.registered._id;
+        if (req.injection.exsited) {
+            _replaceCurrectUser(req, req.injection.exsited);
         }
         next();
     }, function(req, res, next) {
@@ -487,16 +485,52 @@ var _downloadHeadIcon = function (path, callback) {
         });
 };
 
-user.loginViaWeixin = function(req, res) {
-    var config = global.qsConfig;
-    var param = req.body;
-    var code = param.code;
-    if (!code) {
-        ResponseHelper.response(res, errors.NotEnoughParam);
-        return;
+user.loginViaWeixin = [
+    _injectWeixinUser,
+    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
+        return {
+            'userInfo.weixin.openid' : req.injection.weixinUser.openid
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.exsited) {
+            _replaceCurrectUser(req, req.injection.exsited);
+        }
+        next();
+    },
+    _saveWeixinUser,
+    function(req, res, next) {
+        ResponseHelper.writeData(res, {
+            'people' : req.injection.qsCurrentUser
+        });
     }
+];
+
+user.bindWeixin = [
+    _injectWeixinUser,
+    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
+        return {
+            'userInfo.weixin.openid' : req.injection.weixinUser.openid
+        };
+    }),
+    function(req, res, next) {
+        if (req.injection.exsited) {
+            next(errors.ERR_WEIXIN_ALREADY_REGISTERED);
+        } else {
+            next();
+        }
+    },
+    _saveWeixinUser,
+    function(req, res, next) {
+        ResponseHelper.writeData(res, {
+            'people' : req.injection.qsCurrentUser
+        });
+    }
+];
+
+var _injectWeixinUser = function(req, res, next) {
     async.waterfall([function(callback) {
-        var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + code + '&grant_type=authorization_code';
+        var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + req.body.code + '&grant_type=authorization_code';
         request.get(token_url, function(error, response, body) {
             var data = JSON.parse(body);
             if (data.errcode !== undefined) {
@@ -530,116 +564,82 @@ user.loginViaWeixin = function(req, res) {
                 'unionid' : data.unionid
             });
         });
-    }, function (user, callback) {
-        var url = user.headimgurl;
-
-        People.findOne({
-            'userInfo.weixin.openid' : user.openid
-        }, function(err, people) {
-            if (err) {
-                callback(err);
-            } else {
-                var shouldDownload = true;
-                try {
-                    if (people && people.userInfo.weixin.headimgurl === url) {
-                        shouldDownload = false;
-                    }
-                } catch(e) {}
-                callback(null, shouldDownload, user, people);
-            }
-        });
-
-    },
-    function (shouldDownloadHeadIcon, user, people, callback) {
-        if (shouldDownloadHeadIcon) {
-            //download headIcon
-            _downloadHeadIcon(user.headimgurl, function (err, tempPath) {
-                if (err) {
-                    callback(err);
-                    try {
-                        fs.unlink(tempPath, function(){});
-                    } catch (e) {
-                    }
-                } else {
-                    //update head icon to ftp
-                    var baseName = people._id.toString();
-                    qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                        if (err) {
-                            callback(err);
-                        } else {
-                            var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                            var copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                            callback(err, user, copyHeadPath);
-                        }
-                        try {
-                            fs.unlink(tempPath, function() {});
-                        } catch (e) {
-                        }
-                    });
-                }
-            });
+    }], function(err, weixinUser) {
+        if (err) {
+            next(err);
         } else {
-            callback(null, user, "");
+            req.injection.weixinUser = weixinUser;
         }
-
-    }, 
-    function(weixinUser, copyHeadPath, callback){
-         People.findOne({
-            'userInfo.weixin.openid' : weixinUser.openid
-        }, function(err, people) {
-            callback(null, people, weixinUser, copyHeadPath);
-        });
-    }, function(people, weixinUser, copyHeadPath, callback){
-        if (!people) {
-            if (req.qsCurrentUserId) {
-                People.findOne({
-                    '_id': req.qsCurrentUserId
-                }, function(err, target){
-                    callback(null, target, weixinUser, copyHeadPath);
-                });
-            }else{
-                callback(null, new People(), weixinUser, copyHeadPath);
-            }
-        }else {
-            callback(null, people, weixinUser, copyHeadPath);
-        }
-    },function(people, weixinUser, copyHeadPath, callback){
-        people.nickname = weixinUser.nickname;
-        people.userInfo = {
-            weixin: {
-                openid: weixinUser.openid,
-                nickname: weixinUser.nickname,
-                sex: weixinUser.sex,
-                province: weixinUser.province,
-                city: weixinUser.city,
-                country: weixinUser.country,
-                headimgurl: weixinUser.headimgurl,
-                unionid: weixinUser.unionid
-            }
-        };
-        
-        if (copyHeadPath && copyHeadPath.length) {
-            people.portrait = copyHeadPath;
-        }
-        people.save(function(err, people) {
-            if (err) {
-                callback(err, people);
-            } else if (!people) {
-                callback(errors.genUnkownError());
-            } else {
-                callback(null, people);
-            }
-        });
-    }, function(people, callback) {
-        req.session.userId = people._id;
-        callback(null, people);
-    }], function(error, people) {
-        ResponseHelper.response(res, error, {
-            'people' : people
-        });
     });
 };
 
+var _saveWeixinUser = function(req, res, next) {
+    var people = req.injection.qsCurrentUser,
+        weixinUser = req.injection.weixinUser,
+        copyHeadPath = null;
+    
+    async.waterfall([
+        function(callback) {
+            // Download portrait
+            if (!people.userInfo.weixin ||
+                people.userInfo.weixin.headimgurl !== weixinUser.headimgurl) {
+                //download headIcon
+                _downloadHeadIcon(weixinUser.headimgurl, function (err, tempPath) {
+                    if (err) {
+                        callback(err);
+                        try {
+                            fs.unlink(tempPath, function(){});
+                        } catch (e) {
+                        }
+                    } else {
+                        //update head icon to ftp
+                        var baseName = people._id.toString();
+                        qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                            if (err) {
+                                callback(err);
+                            } else {
+                                var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                                copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                                callback();
+                            }
+                            try {
+                                fs.unlink(tempPath, function() {});
+                            } catch (e) {
+                            }
+                        });
+                    }
+                });
+            } else {
+                callback(null, '');
+            }
+        },
+        function(callback) {
+            // Save weixinUser
+            people.nickname = weixinUser.nickname;
+            people.userInfo = {
+                weixin: {
+                    openid: weixinUser.openid,
+                    nickname: weixinUser.nickname,
+                    sex: weixinUser.sex,
+                    province: weixinUser.province,
+                    city: weixinUser.city,
+                    country: weixinUser.country,
+                    headimgurl: weixinUser.headimgurl,
+                    unionid: weixinUser.unionid
+                }
+            };
+            
+            if (copyHeadPath && copyHeadPath.length) {
+                people.portrait = copyHeadPath;
+            }
+            people.save(function(err, people) {
+                callback(err, people);
+            });
+        }
+    ], function(err) {
+        next(err);
+    });
+};
 
 user.requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
@@ -835,6 +835,12 @@ var _validateMobile = function(req, res, next) {
             next();
         }
     });
+};
+
+var _replaceCurrectUser = function(req, people) {
+    // Replace current user with db.people
+    req.injection.qsCurrentUser = people;
+    req.qsCurrentUserId = req.session.userId = people._id;
 };
 
 module.exports = {
