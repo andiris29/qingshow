@@ -77,6 +77,132 @@ var _removeRegistrationId = function(peopleId, registrationId) {
     }, function(err) {});
 };
 
+var _validateMobile = function(req, res, next) {
+    SMSHelper.checkVerificationCode(req, req.body.mobile, req.body.verificationCode, function(err, success){
+        if (!success || err) {
+            next(err);
+        } else {
+            next();
+        }
+    });
+};
+
+var _injectWeixinUser = function(req, res, next) {
+    async.waterfall([function(callback) {
+        var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + req.body.code + '&grant_type=authorization_code';
+        request.get(token_url, function(error, response, body) {
+            var data = JSON.parse(body);
+            if (data.errcode !== undefined) {
+                callback(data);
+                return;
+            }
+            callback(null, data.access_token, data.openid);
+        });
+    }, function(token, openid, callback) {
+        var usr_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid;
+
+        request.get(usr_url, function(errro, response, body) {
+            var data = JSON.parse(body);
+            if (data.errorcode !== undefined) {
+                callback({
+                    errorcode : data.errcode,
+                    weixin_err : data
+                });
+                return;
+            }
+
+            callback(null, {
+                'openid' : data.openid,
+                'nickname' : data.nickname,
+                'sex' : data.sex,
+                'province' : data.province,
+                'city' : data.city,
+                'country' : data.country,
+                'headimgurl' : data.headimgurl,
+                'privilege' : data.privilege,
+                'unionid' : data.unionid
+            });
+        });
+    }], function(err, weixinUser) {
+        if (err) {
+            next(err);
+        } else {
+            req.injection.weixinUser = weixinUser;
+        }
+    });
+};
+
+var _saveWeixinUser = function(req, res, next) {
+    var people = req.injection.qsCurrentUser,
+        weixinUser = req.injection.weixinUser,
+        copyHeadPath = null;
+    
+    async.waterfall([
+        function(callback) {
+            // Download portrait
+            if (!people.userInfo.weixin ||
+                people.userInfo.weixin.headimgurl !== weixinUser.headimgurl) {
+                //download headIcon
+                _downloadHeadIcon(weixinUser.headimgurl, function (err, tempPath) {
+                    if (err) {
+                        callback(err);
+                        try {
+                            fs.unlink(tempPath, function(){});
+                        } catch (e) {
+                        }
+                    } else {
+                        //update head icon to ftp
+                        var baseName = people._id.toString();
+                        qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
+                            if (err) {
+                                callback(err);
+                            } else {
+                                var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
+                                copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                                callback();
+                            }
+                            try {
+                                fs.unlink(tempPath, function() {});
+                            } catch (e) {
+                            }
+                        });
+                    }
+                });
+            } else {
+                callback(null, '');
+            }
+        },
+        function(callback) {
+            // Save weixinUser
+            people.nickname = weixinUser.nickname;
+            people.userInfo = {
+                weixin: {
+                    openid: weixinUser.openid,
+                    nickname: weixinUser.nickname,
+                    sex: weixinUser.sex,
+                    province: weixinUser.province,
+                    city: weixinUser.city,
+                    country: weixinUser.country,
+                    headimgurl: weixinUser.headimgurl,
+                    unionid: weixinUser.unionid
+                }
+            };
+            
+            if (copyHeadPath && copyHeadPath.length) {
+                people.portrait = copyHeadPath;
+            }
+            people.save(function(err, people) {
+                callback(err, people);
+            });
+        }
+    ], function(err) {
+        next(err);
+    });
+};
+
+// ------------------
+// Services
+// ------------------
 var user = {};
 
 user.get = [
@@ -528,123 +654,10 @@ user.bindWeixin = [
     }
 ];
 
-var _injectWeixinUser = function(req, res, next) {
-    async.waterfall([function(callback) {
-        var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + req.body.code + '&grant_type=authorization_code';
-        request.get(token_url, function(error, response, body) {
-            var data = JSON.parse(body);
-            if (data.errcode !== undefined) {
-                callback(data);
-                return;
-            }
-            callback(null, data.access_token, data.openid);
-        });
-    }, function(token, openid, callback) {
-        var usr_url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid;
-
-        request.get(usr_url, function(errro, response, body) {
-            var data = JSON.parse(body);
-            if (data.errorcode !== undefined) {
-                callback({
-                    errorcode : data.errcode,
-                    weixin_err : data
-                });
-                return;
-            }
-
-            callback(null, {
-                'openid' : data.openid,
-                'nickname' : data.nickname,
-                'sex' : data.sex,
-                'province' : data.province,
-                'city' : data.city,
-                'country' : data.country,
-                'headimgurl' : data.headimgurl,
-                'privilege' : data.privilege,
-                'unionid' : data.unionid
-            });
-        });
-    }], function(err, weixinUser) {
-        if (err) {
-            next(err);
-        } else {
-            req.injection.weixinUser = weixinUser;
-        }
-    });
-};
-
-var _saveWeixinUser = function(req, res, next) {
-    var people = req.injection.qsCurrentUser,
-        weixinUser = req.injection.weixinUser,
-        copyHeadPath = null;
-    
-    async.waterfall([
-        function(callback) {
-            // Download portrait
-            if (!people.userInfo.weixin ||
-                people.userInfo.weixin.headimgurl !== weixinUser.headimgurl) {
-                //download headIcon
-                _downloadHeadIcon(weixinUser.headimgurl, function (err, tempPath) {
-                    if (err) {
-                        callback(err);
-                        try {
-                            fs.unlink(tempPath, function(){});
-                        } catch (e) {
-                        }
-                    } else {
-                        //update head icon to ftp
-                        var baseName = people._id.toString();
-                        qsftp.uploadWithResize(tempPath, baseName, global.qsConfig.uploads.user.portrait.ftpPath, userPortraitResizeOptions, function (err) {
-                            if (err) {
-                                callback(err);
-                            } else {
-                                var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                                copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
-                                callback();
-                            }
-                            try {
-                                fs.unlink(tempPath, function() {});
-                            } catch (e) {
-                            }
-                        });
-                    }
-                });
-            } else {
-                callback(null, '');
-            }
-        },
-        function(callback) {
-            // Save weixinUser
-            people.nickname = weixinUser.nickname;
-            people.userInfo = {
-                weixin: {
-                    openid: weixinUser.openid,
-                    nickname: weixinUser.nickname,
-                    sex: weixinUser.sex,
-                    province: weixinUser.province,
-                    city: weixinUser.city,
-                    country: weixinUser.country,
-                    headimgurl: weixinUser.headimgurl,
-                    unionid: weixinUser.unionid
-                }
-            };
-            
-            if (copyHeadPath && copyHeadPath.length) {
-                people.portrait = copyHeadPath;
-            }
-            people.save(function(err, people) {
-                callback(err, people);
-            });
-        }
-    ], function(err) {
-        next(err);
-    });
-};
 
 user.requestVerificationCode = function(req, res){
     var mobile = req.body.mobile;
     async.waterfall([function(callback){
-        console.log(req);
         SMSHelper.createVerificationCode(req, mobile, function(err, code){
             if (err) {
                 callback(err);
@@ -654,7 +667,7 @@ user.requestVerificationCode = function(req, res){
         });
     },function(code, callback){
         var expire = global.qsConfig.verification.expire;
-        SMSHelper.sendTemplateSMS(req, mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
+        SMSHelper.sendTemplateSMS(mobile, [code, expire/60/1000 + '分钟'], '36286', function(err, body){
             if (err) {
                 callback(err);
             }else {
@@ -824,16 +837,6 @@ user.loginAsViewer = function(req, res){
         ResponseHelper.response(res, err, {
             'people' : people
         });
-    });
-};
-
-var _validateMobile = function(req, res, next) {
-    SMSHelper.checkVerificationCode(req, req.body.mobile, req.body.verificationCode, function(err, success){
-        if (!success || err) {
-            next(err);
-        } else {
-            next();
-        }
     });
 };
 

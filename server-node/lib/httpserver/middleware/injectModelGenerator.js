@@ -5,7 +5,7 @@ var errors = require('../../errors'),
 var injectModelGenerator = module.exports;
 
 injectModelGenerator.generateInjectOneByObjectId = function(Model, injectAs) {
-    injectModelGenerator.generateInjectOne(Model, injectAs, function(req) {
+    return injectModelGenerator.generateInjectOne(Model, injectAs, function(req) {
         var param = req.body || req.queryString || {},
             _id = param._id;
         return {
