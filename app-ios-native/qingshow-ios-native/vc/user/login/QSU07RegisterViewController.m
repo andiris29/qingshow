@@ -144,7 +144,7 @@
     
     EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
         [self showSuccessHudWithText:@"登陆成功"];
-        [self popToPreviousVc];
+        [self performSelector:@selector(popToPreviousVc) withObject:nil afterDelay:0.5f];
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {

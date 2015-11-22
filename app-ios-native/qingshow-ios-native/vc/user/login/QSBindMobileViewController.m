@@ -95,9 +95,24 @@
     if (codeStr == nil) {
         codeStr = @"";
     }
+    
+    
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
+    [SHARE_NW_ENGINE userBindMobile:PhoneStr verifyCode:codeStr onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+        [hud hide:YES];
+        [self showSuccessHudWithText:@"成功"];
+        [self performSelector:@selector(_popToRoot) withObject:nil afterDelay:0.5f];
+    } onError:^(NSError *error) {
+        [hud hide:YES];
+        [self handleError:error];
+    }];
 }
 
 #pragma mark - Private
+- (void)_popToRoot {
+    [self hideLoginPrompVc];
+}
+
 - (void)_configUI {
     self.submitBtn.layer.cornerRadius = self.submitBtn.bounds.size.height / 8;
     self.getVerifyCodeBtn.layer.cornerRadius  =self.getVerifyCodeBtn.bounds.size.height / 8;
@@ -106,16 +121,14 @@
 }
 
 
-- (void)setTimer
-{
+- (void)setTimer {
     _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
     [_timer fire];
     
     self.getVerifyCodeBtn.userInteractionEnabled = NO;
 }
 
-- (void)timerRun
-{
+- (void)timerRun {
     static int num = 60;
     [self.getVerifyCodeBtn setTitle:[NSString stringWithFormat:@"%d秒后可重发",num] forState:UIControlStateNormal];
     num -= 1;

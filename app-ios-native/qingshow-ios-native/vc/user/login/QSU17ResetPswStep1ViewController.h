@@ -10,4 +10,6 @@
 
 @interface QSU17ResetPswStep1ViewController : UIViewController
 
+@property (weak, nonatomic) UIViewController* previousVc;
+
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface QSU18ResetPswStep2ViewController : UIViewController
-
+@property (weak, nonatomic) UIViewController* previousVc;
 @end

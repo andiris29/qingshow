@@ -112,12 +112,11 @@
     [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
     
     QSU17ResetPswStep1ViewController *vc = [[QSU17ResetPswStep1ViewController alloc]init];
+    vc.previousVc = self;
     [self.navigationController pushViewController:vc animated:NO];
 }
 
 - (IBAction)login:(id)sender {
-    NSLog(@"login to qingshow");
-    
     NSString *user = self.userText.text;
     NSString *passwd = self.passwordText.text;
     
@@ -135,7 +134,7 @@
         self.fRemoveLoginAndRegisterVc = YES;
         [self showSuccessHudWithText:@"登陆成功"];
         [SHARE_NW_ENGINE updatePeople:@{@"role":[NSNumber numberWithInt:1]} onSuccess:nil onError:nil];
-        [self popToPreviousVc];
+        [self performSelector:@selector(popToPreviousVc) withObject:nil afterDelay:0.5f];
     };
     
     ErrorBlock error = ^(NSError *error) {

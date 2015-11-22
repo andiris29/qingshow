@@ -72,7 +72,10 @@
     if (self.availableMoney == 0) {
         return;
     }
-
+    if (self.availableMoney < 1.f) {
+        [self showErrorHudWithText:@"佣金需要1元以上才能提取"];
+        return;
+    }
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
     NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
     

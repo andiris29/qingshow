@@ -44,15 +44,25 @@
         [self showTextHud:@"请输入密码"];
         return;
     }
-    
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
     [SHARE_NW_ENGINE resetPassword:psw onSucceed:^{
-        CATransition* tran = [[CATransition alloc] init];
-        tran.type = kCATransitionFade;
-        [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
-        [self.navigationController popViewControllerAnimated:NO];
+        [hud hide:YES];
+        [self performSelector:@selector(_popBack) withObject:nil afterDelay:0.5f];
     } onError:^(NSError *error) {
+        [hud hide:YES];
         [self handleError:error];
     }];
+}
+- (void)_popBack {
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"key"];
+    if (self.previousVc) {
+        [self.navigationController popToViewController:self.previousVc animated:NO];
+    } else {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+
 }
 
 #pragma mark - Gesture

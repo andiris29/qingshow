@@ -79,11 +79,11 @@
     __weak QSU17ResetPswStep1ViewController *weakSelf = self;
     [SHARE_NW_ENGINE forgetPasswordPhone:PhoneStr verifyCode:codeStr onSucceed:^ {
         QSU18ResetPswStep2ViewController *vc = [[QSU18ResetPswStep2ViewController alloc]init];
+        vc.previousVc = self.previousVc;
         [weakSelf.navigationController pushViewController:vc animated:YES];
     } onError:^(NSError *error) {
         [self handleError:error];
     }];
-    
 }
 
 - (IBAction)backBtnPressed:(id)sender {
