@@ -152,7 +152,7 @@ user.register = [
         }
     }, 
     _validateMobile,
-    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
         return {
             '_id' : {'$ne' : req.qsCurrentUserId},
             '$or': [
@@ -193,7 +193,7 @@ user.register = [
 user.bindMobile = [
     require('../middleware/injectCurrentUser'),
     _validateMobile,
-    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
         return {
             '_id' : {'$ne' : req.qsCurrentUserId},
             '$or': [
@@ -487,7 +487,7 @@ var _downloadHeadIcon = function (path, callback) {
 
 user.loginViaWeixin = [
     _injectWeixinUser,
-    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
         return {
             'userInfo.weixin.openid' : req.injection.weixinUser.openid
         };
@@ -508,7 +508,7 @@ user.loginViaWeixin = [
 
 user.bindWeixin = [
     _injectWeixinUser,
-    require('../middleware/injectModelGenerator').generateInject(People, 'exsited', function(req) {
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
         return {
             'userInfo.weixin.openid' : req.injection.weixinUser.openid
         };

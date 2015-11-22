@@ -11,5 +11,6 @@ module.exports = {
     'Show' : require('./Show'),
     'Trade' : require('./Trade'),
     'SharedObject' : require('./SharedObject'),
+    'SharedObjectCode' : require('./SharedObjectCode'),
     'RPeopleViewShow' : require('./RPeopleViewShow')
 };

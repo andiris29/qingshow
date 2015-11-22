@@ -4,8 +4,8 @@ var errors = require('../../errors'),
 
 var injectModelGenerator = module.exports;
 
-injectModelGenerator.generateInjectByObjectId = function(Model, injectAs) {
-    injectModelGenerator.generateInject(Model, injectAs, function(req) {
+injectModelGenerator.generateInjectOneByObjectId = function(Model, injectAs) {
+    injectModelGenerator.generateInjectOne(Model, injectAs, function(req) {
         var param = req.body || req.queryString || {},
             _id = param._id;
         return {
@@ -14,7 +14,7 @@ injectModelGenerator.generateInjectByObjectId = function(Model, injectAs) {
     });
 };
 
-injectModelGenerator.generateInject = function(Model, injectAs, criteriaGenerator) {
+injectModelGenerator.generateInjectOne = function(Model, injectAs, criteriaGenerator) {
     return function(req, res, next) {
         Model.findOne(criteriaGenerator(req), function(err, model) {
             if (err) {
