@@ -128,6 +128,7 @@ var _injectWeixinUser = function(req, res, next) {
             next(err);
         } else {
             req.injection.weixinUser = weixinUser;
+            next();
         }
     });
 };
@@ -158,7 +159,7 @@ var _saveWeixinUser = function(req, res, next) {
                                 callback(err);
                             } else {
                                 var newPath = path.join(global.qsConfig.uploads.user.portrait.ftpPath, baseName);
-                                copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(config.uploads.user.portrait.ftpPath, newPath);
+                                copyHeadPath = global.qsConfig.uploads.user.portrait.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.user.portrait.ftpPath, newPath);
                                 callback();
                             }
                             try {
@@ -169,7 +170,7 @@ var _saveWeixinUser = function(req, res, next) {
                     }
                 });
             } else {
-                callback(null, '');
+                callback(null);
             }
         },
         function(callback) {
@@ -270,6 +271,12 @@ user.logout = function(req, res) {
 
 user.register = [
     require('../middleware/injectCurrentUser'),
+    function(req, res, next) {
+        if (!req.injection.qsCurrentUser) {
+            _replaceCurrectUser(req, new People());
+        }
+        next();
+    },
     function(req, res, next) {
         if (req.injection.qsCurrentUser.role !== 0) {
             next(errors.AlreadyLoggedIn);
@@ -612,9 +619,17 @@ var _downloadHeadIcon = function (path, callback) {
 };
 
 user.loginViaWeixin = [
+    require('../middleware/injectCurrentUser'),
+    function(req, res, next) {
+        if (!req.injection.qsCurrentUser) {
+            _replaceCurrectUser(req, new People());
+        }
+        next();
+    },
     _injectWeixinUser,
     require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
         return {
+            '_id' : {'$ne' : req.qsCurrentUserId},
             'userInfo.weixin.openid' : req.injection.weixinUser.openid
         };
     }),
@@ -629,13 +644,17 @@ user.loginViaWeixin = [
         ResponseHelper.writeData(res, {
             'people' : req.injection.qsCurrentUser
         });
+        next();
     }
 ];
 
 user.bindWeixin = [
+    require('../middleware/validateLogin'),
+    require('../middleware/injectCurrentUser'),
     _injectWeixinUser,
     require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
         return {
+            '_id' : {'$ne' : req.qsCurrentUserId},
             'userInfo.weixin.openid' : req.injection.weixinUser.openid
         };
     }),
@@ -893,6 +912,14 @@ module.exports = {
     'loginViaWeixin' : {
         method : 'post',
         func : user.loginViaWeixin
+    },
+    'bindWeixin' : {
+        method : 'post',
+        func : user.bindWeixin
+    },
+    'bindMobile' : {
+        method : 'post',
+        func : user.bindMobile
     },
     'requestVerificationCode' : {
         method : 'post',

@@ -167,13 +167,13 @@ share.withdrawBonus = {
                     'url' : global.qsConfig.payment.url + '/payment/wechat/sendRedPack',
                     'json' : true,
                     'body' : {
-                        'mch_billno' : sharedObject._id.toString(),
-                        're_openid' : people.userInfo.weixin.openid,
-                        'total_amount' : amount,
-                        'client_ip' : RequestHelper.getIp(req),
-                        'act_name' : global.qsConfig.bonus.event,
-                        'wishing' : global.qsConfig.bonus.message,
-                        'remark' : global.qsConfig.bonus.note
+                        'id' : sharedObject._id.toString(),
+                        'openid' : people.userInfo.weixin.openid,
+                        'amount' : amount,
+                        'clientIp' : RequestHelper.getIp(req),
+                        'event' : global.qsConfig.bonus.event,
+                        'message' : global.qsConfig.bonus.message,
+                        'note' : global.qsConfig.bonus.note
                     }
                 }, function(err, response, body) {
                     try {
