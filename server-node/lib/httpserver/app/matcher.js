@@ -52,7 +52,7 @@ matcher.queryCategories = {
             ResponseHelper.response(res, err, {
                 'categories' : categories
             },{
-                'modelCategory' : global.qsConfig.matcher.modelCategory
+                'modelCategory' : global.qsMatcherConfig.matcher.modelCategory
             });
         });
     }
