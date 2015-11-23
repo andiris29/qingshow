@@ -110,13 +110,12 @@ ContextHelper.appendMatchCompositionContext = function(items, callback){
     items = _prepare(items);
     var tasks = items.map(function(item){
         return function(cb){
-            var config = global.qsConfig;
+            var config = global.qsMatcherConfig;
             var layout = {};
             if (item.matchComposition && item.matchComposition.layout && config.matcher.layouts[item.matchComposition.layout]) {      
                 layout = config.matcher.layouts[definedLayout];
             }else {
                 layout = config.matcher.layouts.default;
-
             }
 
             var context = {};
