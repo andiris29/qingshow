@@ -35,7 +35,6 @@
 
 @property (strong, nonatomic) NSString* selectedCateId;
 @property (strong, nonatomic) NSArray* allCategories;
-@property (strong, nonatomic) NSDictionary* matcherConfig;
 
 @property (assign, nonatomic) BOOL fShouldReload;
 @property (assign, nonatomic) BOOL fRemoveMenuBtn;
@@ -104,28 +103,12 @@
     if (self.fShouldReload) {
         self.fShouldReload = NO;
         [self updateCategory:@[]];
-        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary* context, NSDictionary *metadata) {
+        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSString* modelId, NSDictionary *metadata) {
             self.allCategories = array;
-            NSDictionary* matcherConfig = [QSCategoryUtil getMatcherConfig:context];
-            self.matcherConfig = matcherConfig;
-            
-            NSMutableArray* selectedCategories = [@[] mutableCopy];
             
             
-            for (NSDictionary* category in array) {
-                if ([QSCategoryUtil getDefaultOnCanvas:category withMatcherConfig:matcherConfig]) {
-                    [selectedCategories addObject:category];
-                    
-                }
-                NSArray* childrens = [QSCategoryUtil getChildren:category];
-                for (NSDictionary* c in childrens) {
-                    if ([QSCategoryUtil getDefaultOnCanvas:c withMatcherConfig:matcherConfig]) {
-                        [selectedCategories addObject:c];
-                    }
-                }
-            }
             
-            [self updateCategory:selectedCategories];
+            [self updateCategory:nil];
         } onError:nil];
         self.cateIdToProvider = [@{} mutableCopy];
     }

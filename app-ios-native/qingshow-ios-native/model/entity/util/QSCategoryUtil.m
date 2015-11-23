@@ -36,17 +36,6 @@
    // return n.boolValue;
 }
 
-+ (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict withMatcherConfig:(NSDictionary*)config {
-    /*
-     matcher0._id5593b3df38dadbed5a998b62=0,0,40,40
-     matcher0._id5593b3df38dadbed5a998b63=0,5,40,40
-     matcher1._id5593b3df38dadbed5a998b62=50,0,40,40
-     */
-    NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
-    NSString* keyString = [NSString stringWithFormat:@"_id%@",categoryId];
-    NSArray* onCanvasCategories = [config allKeys];
-    return onCanvasCategories && [onCanvasCategories indexOfObject:keyString] != NSNotFound;
-}
 
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict{
     NSString* path = [QSEntityUtil getStringValue:categoryDict keyPath:@"icon"];

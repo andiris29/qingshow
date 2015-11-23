@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "QSNetworkEngine.h"
 
+typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSString* modelCategoryId, NSDictionary* metadata);
+
 @interface QSNetworkEngine(MatcherService)
 
-- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(ArrayAndDictSuccessBlock)succeedBlock
-                                onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(QueryCategorySucceedBlock)succeedBlock
+                                               onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)matcherQueryItemsCategory:(NSDictionary*)categoryDict
                                             page:(int)page

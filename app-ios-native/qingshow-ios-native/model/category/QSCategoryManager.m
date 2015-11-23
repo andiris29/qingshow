@@ -26,7 +26,7 @@
     if (retryCount <= 0) {
         return;
     }
-    [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary* context, NSDictionary *metadata) {
+    [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSString* modelId, NSDictionary *metadata) {
         [self getInstance].categories = array;
     } onError:^(NSError *error) {
         [self updateCategory:retryCount - 1];
