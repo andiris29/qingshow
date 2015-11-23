@@ -11,6 +11,7 @@ var sharedObjectSchema = {
     title : String,
     description : String,
     url : String,
+    icon : String,
     initiatorRef : {
         type : Schema.Types.ObjectId,
         ref : 'peoples'
