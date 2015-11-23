@@ -26,6 +26,9 @@ showSchema = Schema({
         }]
         //        select: false
     },
+    itemRects : {
+        type : [Number]
+    },
     create : {
         type : Date,
         'default' : Date.now

@@ -132,6 +132,7 @@ matcher.save = {
                 return;
             }
             var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
+            var itemRects = req.body.itemRects;
 
             var coverUrl = global.qsConfig.show.coverForeground.template;
             coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
@@ -144,14 +145,16 @@ matcher.save = {
 
             if (_isFake(people)) {
                 show = {
-                    'itemRefs' : itemRefs, 
+                    'itemRefs' : itemRefs,
+                    'itemRects' : itemRects,
                     'ownerRef' : req.qsCurrentUserId,
                     'coverForeground' : coverUrl,
                     'featuredRank' : 1
                 }; 
             }else {
                 show = {
-                    'itemRefs' : itemRefs, 
+                    'itemRefs' : itemRefs,
+                    'itemRects' : itemRects,
                     'ownerRef' : req.qsCurrentUserId,
                     'coverForeground' : coverUrl
                 };
