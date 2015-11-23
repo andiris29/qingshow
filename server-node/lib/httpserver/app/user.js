@@ -229,10 +229,14 @@ user.login = [function(req, res, next) {
         id = param.id || '',
         password = param.password || '';
     People.findOne({
-        "$or" : [{"userInfo.id" : id}, 
-            {"mobile" : id}],
-        "$or" : [{ "userInfo.password" : password}, {
-            "userInfo.encryptedPassword" : _encrypt(password)}]
+        "$and" : [{
+            "$or" : [{"userInfo.id" : id}, 
+                {"mobile" : id}]
+        }, {
+            "$or" : [{ "userInfo.password" : password}, 
+                {"userInfo.encryptedPassword" : _encrypt(password)}]
+            }
+        ]
     }).exec(function(err, people) {
         if (err) {
             next(errors.genUnkownError(err));
