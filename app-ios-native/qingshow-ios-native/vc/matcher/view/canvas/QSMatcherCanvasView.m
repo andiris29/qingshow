@@ -48,8 +48,36 @@
     [self addGesture];
 
 }
+- (void)rearrangeWithMatcherConfig:(NSDictionary*)matcherConfig
+                           modelId:(NSString*)modelId {
+    UIView* modelView = self.categoryIdToView[modelId];
+    if (![modelView isEqual:[NSNull null]]) {
+        NSArray* modelConfig = [matcherConfig arrayValueForKeyPath:@"model.rect"];
+        [self _updateView:modelView withRectConfig:modelConfig];
+    }
+    
+    NSArray* itemConfigs = [matcherConfig arrayValueForKeyPath:@"items"];
+    for (NSDictionary* itemConfig in itemConfigs) {
+        NSArray* rectConfig = [itemConfig arrayValueForKeyPath:@"rect"];
+        NSString* categoryId = [itemConfig stringValueForKeyPath:@"ref"];
+        UIView* v = self.categoryIdToView[categoryId];
+        if (![v isEqual:[NSNull null]]) {
+            [self _updateView:v withRectConfig:rectConfig];
+        }
+    }
+}
+- (void)_updateView:(UIView*)view withRectConfig:(NSArray*)rectConfig {
+    if (!rectConfig || rectConfig.count != 4) {
+        return;
+    }
+    float x = self.frame.size.width * ((NSNumber*)rectConfig[0]).intValue / 100;
+    float y = self.frame.size.height * ((NSNumber*)rectConfig[1]).intValue / 100;
+    float sizeWidth = self.frame.size.width * ((NSNumber*)rectConfig[2]).intValue / 100;
+    float sizeHeight = self.frame.size.height * ((NSNumber*)rectConfig[3]).intValue / 100;
+    view.frame = CGRectMake(x, y, sizeWidth, sizeHeight);
+}
 
-- (void)bindWithCategory:(NSArray*)categoryArray matcherConfig:(NSDictionary*)matcherConfig{
+- (void)bindWithCategory:(NSArray*)categoryArray {
     NSArray* newIdArray = [categoryArray mapUsingBlock:^id(NSDictionary* dict) {
         return [QSEntityUtil getIdOrEmptyStr:dict];
     }];
@@ -68,41 +96,17 @@
         return [oldIdArray indexOfObject:idStr] == NSNotFound;
     }];
     
-    [self _addCategories:newCategoryArray matcherConfig:matcherConfig];
+    [self _addCategories:newCategoryArray];
 }
 
-- (void)_addCategories:(NSArray*)newCategoryArray matcherConfig:(NSDictionary*)matcherConfig {
-    /*
-     
-     matcher0._id5593b3df38dadbed5a998b62=0,0,40,40
-     matcher0._id5593b3df38dadbed5a998b63=0,5,40,40
-     matcher1._id5593b3df38dadbed5a998b62=50,0,40,40
-     */
-    
+- (void)_addCategories:(NSArray*)newCategoryArray {
     for (NSDictionary* categoryDict in newCategoryArray) {
         NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
-        NSString* configKey = [NSString stringWithFormat:@"_id%@",categoryId];
-        NSString* configStr = [matcherConfig stringValueForKeyPath:configKey];
         
-        NSArray* compArray = [configStr componentsSeparatedByString:@","];
-        
-        int xPercent = 0;
-        int yPercent = 0;
-        int widthPercent = 0;
-        int heightPercent = 0;
-        
-        if (compArray && compArray.count == 4) {
-            xPercent = ((NSString*)compArray[0]).intValue;
-            yPercent = ((NSString*)compArray[1]).intValue;
-            widthPercent = ((NSString*)compArray[2]).intValue;
-            heightPercent = ((NSString*)compArray[3]).intValue;
-        } else {
-            //Random
-            xPercent = [QSRandomUtil randomRangeFrom:0 to:70];
-            yPercent = [QSRandomUtil randomRangeFrom:0 to:70];
-            widthPercent = [QSRandomUtil randomRangeFrom:30 to:100 - xPercent];
-            heightPercent = [QSRandomUtil randomRangeFrom:30 to:100 - yPercent];
-        }
+        int xPercent = [QSRandomUtil randomRangeFrom:0 to:70];
+        int yPercent = [QSRandomUtil randomRangeFrom:0 to:70];
+        int widthPercent = [QSRandomUtil randomRangeFrom:30 to:100 - xPercent];
+        int heightPercent = [QSRandomUtil randomRangeFrom:30 to:100 - yPercent];
         
         float sizeHeight = self.frame.size.height * heightPercent / 100;
         float sizeWidth = self.frame.size.width * widthPercent / 100;
@@ -110,7 +114,6 @@
         float x = self.frame.size.width * yPercent / 100;
         
         QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(x, y, sizeWidth, sizeHeight)];
-        imgView.center = CGPointMake(x, y);
         imgView.userInteractionEnabled = YES;
         UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapEntityView:)];
         ges.minimumPressDuration = 0.f;
@@ -122,8 +125,6 @@
         [self addSubview:imgView];
     }
 }
-
-
 
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst {
     NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:category];

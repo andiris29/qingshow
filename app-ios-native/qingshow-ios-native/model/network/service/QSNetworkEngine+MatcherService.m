@@ -64,11 +64,11 @@
     }];
 }
 
-- (MKNetworkOperation*)matcherQueryItemsCategory:(NSDictionary*)categoryDict
-                                            page:(int)page
-                                       onSucceed:(ArraySuccessBlock)succeedBlock
-                                         onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : [QSEntityUtil getIdOrEmptyStr:categoryDict], @"pageNo" : @(page), @"pageSize" : @20} onSucceeded:^(MKNetworkOperation *completedOperation) {
+- (MKNetworkOperation*)matcherQueryItemsCategoryId:(NSString*)categoryId
+                                              page:(int)page
+                                         onSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : categoryId, @"pageNo" : @(page), @"pageSize" : @20} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock([((NSArray*)[responseDict valueForKeyPath:@"data.items"]) deepMutableCopy], responseDict[@"metadata"]);
@@ -78,6 +78,16 @@
             errorBlock(error);
         }
     }];
+}
+
+- (MKNetworkOperation*)matcherQueryItemsCategory:(NSDictionary*)categoryDict
+                                            page:(int)page
+                                       onSucceed:(ArraySuccessBlock)succeedBlock
+                                         onError:(ErrorBlock)errorBlock {
+    return [self matcherQueryItemsCategoryId:[QSEntityUtil getIdOrEmptyStr:categoryDict]
+                                        page:page
+                                   onSucceed:succeedBlock
+                                     onError:errorBlock];
 }
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
                          onSucceed:(VoidBlock)succeedBlock

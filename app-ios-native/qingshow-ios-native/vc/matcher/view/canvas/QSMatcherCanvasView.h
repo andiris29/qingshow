@@ -21,7 +21,9 @@
 @interface QSMatcherCanvasView : UIView <UIGestureRecognizerDelegate, UIAlertViewDelegate>
 
 + (instancetype)generateView;
-- (void)bindWithCategory:(NSArray*)categoryArray matcherConfig:(NSDictionary*)matcherConfig;
+- (void)bindWithCategory:(NSArray*)categoryArray;
+- (void)rearrangeWithMatcherConfig:(NSDictionary*)matcherConfig
+                           modelId:(NSString*)modelId;
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst;
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId isFirst:(BOOL)fFirst;
 

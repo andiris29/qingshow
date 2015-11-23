@@ -13,6 +13,7 @@
 #import "QSNetworkKit.h"
 #import "QSEntityUtil.h"
 #import "QSCategoryUtil.h"
+#import "QSCategoryManager.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 #import "UIView+ScreenShot.h"
@@ -22,10 +23,12 @@
 #import "QSMatcherItemScrollSelectionView.h"
 
 #import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 #import "QSUnreadManager.h"
 
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
+
 @interface QSS20MatcherViewController ()
 
 @property (strong, nonatomic) UIView<QSMatcherItemSelectionViewProtocol>* itemSelectionView;
@@ -34,7 +37,6 @@
 @property (strong, nonatomic) NSMutableDictionary* cateIdToProvider;
 
 @property (strong, nonatomic) NSString* selectedCateId;
-@property (strong, nonatomic) NSArray* allCategories;
 
 @property (assign, nonatomic) BOOL fShouldReload;
 @property (assign, nonatomic) BOOL fRemoveMenuBtn;
@@ -103,12 +105,20 @@
     if (self.fShouldReload) {
         self.fShouldReload = NO;
         [self updateCategory:@[]];
-        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSString* modelId, NSDictionary *metadata) {
-            self.allCategories = array;
+        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSString* modelCategoryId, NSDictionary *metadata) {
+            NSDictionary* modelCategory = [[QSCategoryManager getInstance] findCategoryOfId:modelCategoryId];
             
-            
-            
-            [self updateCategory:nil];
+            [SHARE_NW_ENGINE matcherQueryItemsCategoryId:modelCategoryId
+                                                    page:0
+                                               onSucceed:^(NSArray *array, NSDictionary *metadata) {
+                if (array.count) {
+                    NSDictionary* modelItem = [array firstObject];
+                    [self updateWithModelCategory:modelCategory modelItem:modelItem];
+                } else {
+                    [self updateCategory:@[]];
+                }
+
+            } onError:nil];
         } onError:nil];
         self.cateIdToProvider = [@{} mutableCopy];
     }
@@ -129,7 +139,8 @@
     NSArray* categoryArray = [[self.cateIdToProvider allValues] mapUsingBlock:^id(QSMatcherItemsProvider* p) {
         return p.categoryDict;
     }];
-    QSS21CategorySelectionViewController* vc = [[QSS21CategorySelectionViewController alloc] initWithCategories:self.allCategories selectedCategories:categoryArray];
+    
+    QSS21CategorySelectionViewController* vc = [[QSS21CategorySelectionViewController alloc] initWithCategories:[QSCategoryManager getInstance].categories selectedCategories:categoryArray];
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -213,12 +224,29 @@
 - (void)didSelectCategories:(NSArray*)categoryArray {
     [self updateCategory:categoryArray];
 }
-
-- (void)updateCategory:(NSArray*)array{
-    //Update View
-    [self.canvasView bindWithCategory:array matcherConfig:self.matcherConfig];
+- (void)updateWithModelCategory:(NSDictionary*)modelCategory
+                      modelItem:(NSDictionary*)modelItem {
+    NSDictionary* categoryContext = [modelItem dictValueForKeyPath:@"__context"];
     
-    NSArray* newCategoryIds = [array mapUsingBlock:^id(NSDictionary* dict) {
+    NSArray* itemsContextArray = [categoryContext arrayValueForKeyPath:@"items"];
+    NSArray* categoryArray = [itemsContextArray mapUsingBlock:^id(NSDictionary* dict) {
+        NSString* categoryId = [dict stringValueForKeyPath:@"ref"];
+        NSDictionary* categoryDict = [[QSCategoryManager getInstance] findCategoryOfId:categoryId];
+        if (categoryDict) {
+            return categoryDict;
+        } else {
+            return [NSNull null];
+        }
+    }];
+    NSArray* allCategories = [categoryArray arrayByAddingObject:modelCategory];
+    [self.canvasView bindWithCategory:allCategories];
+    [self _updateCategoryProvider:allCategories];
+    self.selectedCateId = [QSEntityUtil getIdOrEmptyStr:modelCategory];
+    [self.canvasView rearrangeWithMatcherConfig:categoryContext modelId:[QSEntityUtil getIdOrEmptyStr:modelCategory]];
+}
+
+- (void)_updateCategoryProvider:(NSArray*)categoryArray {
+    NSArray* newCategoryIds = [categoryArray mapUsingBlock:^id(NSDictionary* dict) {
         return [QSEntityUtil getIdOrEmptyStr:dict];
     }];
     NSArray* oldCategoryIds = [self.cateIdToProvider allKeys];
@@ -230,7 +258,7 @@
     }];
     
     //Add New Provider
-    for (NSDictionary* categoryDict in array) {
+    for (NSDictionary* categoryDict in categoryArray) {
         __block NSString* cateId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         if ([oldCategoryIds indexOfObject:cateId] == NSNotFound) {
             QSMatcherItemsProvider* provider = [[QSMatcherItemsProvider alloc] initWithCategory:categoryDict];
@@ -239,8 +267,12 @@
             [provider reloadData];
         }
     }
-    
-    //Set Default Selected Provider
+}
+
+- (void)updateCategory:(NSArray*)array{
+    //Update View
+    [self.canvasView bindWithCategory:array];
+    [self _updateCategoryProvider:array];
     if ([self.cateIdToProvider allKeys].count) {
         self.selectedCateId = [self.cateIdToProvider allKeys][0];
     }
@@ -250,6 +282,11 @@
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider ofCategory:(NSDictionary*)categoryDict didSelectItem:(NSDictionary*)itemDict{
     [self.canvasView setItem:itemDict forCategory:categoryDict isFirst:provider.fIsFirst];
     provider.fIsFirst = NO;
+    
+    NSDictionary* context = [itemDict dictValueForKeyPath:@"__context"];
+    if (context) {
+        [self updateWithModelCategory:categoryDict modelItem:itemDict];
+    }
 }
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider didFinishNetworkLoading:(NSDictionary*)categoryDict {
     if ([[QSEntityUtil getIdOrEmptyStr:categoryDict] isEqualToString:self.selectedCateId]) {

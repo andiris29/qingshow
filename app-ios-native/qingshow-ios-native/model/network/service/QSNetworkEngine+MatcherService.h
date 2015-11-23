@@ -13,8 +13,14 @@ typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSString* modelCategor
 
 @interface QSNetworkEngine(MatcherService)
 
+
 - (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(QueryCategorySucceedBlock)succeedBlock
                                                onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)matcherQueryItemsCategoryId:(NSString*)categoryId
+                                              page:(int)page
+                                         onSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)matcherQueryItemsCategory:(NSDictionary*)categoryDict
                                             page:(int)page
