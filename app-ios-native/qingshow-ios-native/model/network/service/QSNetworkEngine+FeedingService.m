@@ -28,7 +28,6 @@
 #define PATH_FEEDING_MATCH_HOT @"feeding/matchHot"
 #define PATH_FEEDING_MATCH_NEW @"feeding/matchNew"
 #define PATH_FEEDING_MATCH_FEATURED @"feeding/featured"
-#define PATH_FEEDING_OWNERREF @"feeding/"
 
 
 @interface QSNetworkEngine (Private)

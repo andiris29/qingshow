@@ -202,6 +202,7 @@
 		EF810F761AB601F60079BA76 /* QSCreateTradeReceiverInfoLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F751AB601F60079BA76 /* QSCreateTradeReceiverInfoLocationCell.m */; };
 		EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F781AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m */; };
 		EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */; };
+		EF814EBB1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF814EBA1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m */; };
 		EF88D08E1ACEF90C002C4963 /* area.json in Resources */ = {isa = PBXBuildFile; fileRef = EF88D08D1ACEF90C002C4963 /* area.json */; };
 		EF89F9DB1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */; };
 		EF8D053A1BADC3C4004154F3 /* QSHookArray.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8D05391BADC3C4004154F3 /* QSHookArray.m */; };
@@ -768,6 +769,8 @@
 		EF810F781AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradePayInfoSelectCell.m; sourceTree = "<group>"; };
 		EF810F7A1AB602760079BA76 /* QSTotalPriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTotalPriceCell.h; sourceTree = "<group>"; };
 		EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTotalPriceCell.m; sourceTree = "<group>"; };
+		EF814EB91C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+FeedingAggregation.h"; sourceTree = "<group>"; };
+		EF814EBA1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+FeedingAggregation.m"; sourceTree = "<group>"; };
 		EF88D08D1ACEF90C002C4963 /* area.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = area.json; sourceTree = "<group>"; };
 		EF89F9D91B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSVersionUpdateAlertHandler.h; sourceTree = "<group>"; };
 		EF89F9DA1B96FC9400BF98E2 /* QSVersionUpdateAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSVersionUpdateAlertHandler.m; sourceTree = "<group>"; };
@@ -1799,6 +1802,8 @@
 			children = (
 				EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */,
 				EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */,
+				EF814EB91C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.h */,
+				EF814EBA1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m */,
 				EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */,
 				EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */,
 				EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */,
@@ -3131,6 +3136,7 @@
 				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
 				EF994D881B6936B200715B0E /* QSDiscountTableViewController.m in Sources */,
 				EF80803E1B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.m in Sources */,
+				EF814EBB1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m in Sources */,
 				68D16D041B341A4700A4646C /* QSS01MatchShowsViewController.m in Sources */,
 				EFAB9C6A1B346FE5008A4EF5 /* QSCommentListTableViewProvider.m in Sources */,
 				EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */,
