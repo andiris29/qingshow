@@ -66,6 +66,7 @@
     
     QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
     self.view.collectionViewLayout = layout;
+    self.collectionViewLayout = layout;
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.view.scrollEnabled=YES;

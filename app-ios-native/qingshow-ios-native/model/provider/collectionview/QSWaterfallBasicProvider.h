@@ -17,7 +17,7 @@
 
 #pragma mark - Private
 @property (weak, nonatomic) UICollectionView* view;
-
+@property (strong, nonatomic) QSWaterFallCollectionViewLayout* collectionViewLayout;
 #pragma mark - Virtual Method
 - (void)registerCell;
 @end
