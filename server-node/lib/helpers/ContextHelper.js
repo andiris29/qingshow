@@ -107,6 +107,7 @@ ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
 };
 
 ContextHelper.appendMatchCompositionContext = function(items, callback){
+    items = _prepare(items);
     var tasks = items.map(function(item){
         return function(cb){
             var config = global.qsConfig;
@@ -132,7 +133,7 @@ ContextHelper.appendMatchCompositionContext = function(items, callback){
                     });
                 }
             }
-            item.MatchCompositionContext = context;
+            item.__context = context;
             cb();
         }
     })
