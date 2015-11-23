@@ -62,11 +62,17 @@ RequestHelper.parseNumber = function (string) {
 
 RequestHelper.parseDate = function (string) {
     if (string !== undefined) {
+        var d;
         if (isNaN(string)) {
-            return new Date(string);
+            d = new Date(string);
         } else {
-            return new Date(Number(string));
+            d = new Date(Number(string));
         }
+        if (d) {
+            // Hard code +8 timezone
+            d.setHours(d.getHours() - 8);
+        }
+        return d;
     }
 };
 
