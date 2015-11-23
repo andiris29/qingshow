@@ -46,3 +46,14 @@ properties.parse(configPath, {
         }
     });
 });
+
+//load matchConfig
+var matchConfigPath = path.join(__dirname, 'matcherConfig.properties');
+properties.parse(matchConfigPath, {
+    path : true,
+    namespaces : true,
+    variables : true
+}, function(err, config){
+    global.qsMatcherConfig = config;
+});
+

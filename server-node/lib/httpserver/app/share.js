@@ -88,12 +88,18 @@ share.createBonus = {
 			var withdrawTotal = 0;
 			if (people.bonuses && people.bonuses.length > 0) {
 				people.bonuses.forEach(function(bonus){
-					if (bonus.status === 0) {
-						withdrawTotal += bonus.money;
+					if (bonus.status === PeopleCode.BONUS_STATUS_INIT || bonus.status === PeopleCode.BONUS_STATUS_REQUESTED) {
+						withdrawTotal += bonus.money;   
 					}
 					total += bonus.money;
+
+                    if (bonus.status === PeopleCode.BONUS_STATUS_INIT) {
+                        bonus.status = PeopleCode.BONUS_STATUS_REQUESTED
+                    }
 				});
 			}
+
+            people.save(function(err){});
 
 			ShareHelper.create(req.qsCurrentUserId, 2, ShareHelper.shareBonusTitle, {
 				'bonus' : {
@@ -191,10 +197,8 @@ share.withdrawBonus = {
                         next(errors.ERR_SEND_WEIXIN_RED_PACK_FAILED);
                     } else {
                         people.bonuses.forEach(function(bonus) {
-                            if (bonus.status === PeopleCode.BONUS_STATUS_REQUESTED) {
-                                bonus.status = PeopleCode.BONUS_STATUS_COMPLETE;
-                                bonus.weixinRedPackId = body.data.send_listid;
-                            }
+                            bonus.status = PeopleCode.BONUS_STATUS_COMPLETE;
+                            bonus.weixinRedPackId = body.data.send_listid;
                         });
                         people.save(function(err, people){
                             next(err);    

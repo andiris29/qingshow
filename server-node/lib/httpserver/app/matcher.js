@@ -48,20 +48,11 @@ var _shuffle = function (array) {
 matcher.queryCategories = {
     'method' : 'get',
     'func' : function(req, res) {
-        var matchers = [];
-        var config = global.qsConfig;
-        for(var key in config){
-            if (key.substring(0, 7) === 'matcher') {
-                matchers.push(config[key]);
-            }
-        }
-        var randomIndex = require('../../utils/RandomUtil').random(0, matchers.length -1);
-        var matcher = matchers[randomIndex];
         Category.find({}).exec(function(err, categories) {
-            ContextHelper.appendcategoryMatcherContext(matcher, categories, function(err, categories){
-                ResponseHelper.response(res, err, {
-                    'categories' : categories
-                });
+            ResponseHelper.response(res, err, {
+                'categories' : categories
+            },{
+                'modelCategory' : global.qsConfig.matcher.modelCategory
             });
         });
     }
@@ -113,8 +104,15 @@ matcher.queryItems = {
             }, function(items) {
                 return {
                     'items' : _shuffle(items)
-                };
-            }, {});
+                }; 
+
+            }, {
+                'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                    ContextHelper.appendMatchCompositionContext(currentPageModels, function(err, items){
+                        callback(null, items)
+                    })
+                }
+            });
         })
     }
 };
@@ -134,6 +132,7 @@ matcher.save = {
                 return;
             }
             var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
+            var itemRects = req.body.itemRects;
 
             var coverUrl = global.qsConfig.show.coverForeground.template;
             coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
@@ -146,14 +145,16 @@ matcher.save = {
 
             if (_isFake(people)) {
                 show = {
-                    'itemRefs' : itemRefs, 
+                    'itemRefs' : itemRefs,
+                    'itemRects' : itemRects,
                     'ownerRef' : req.qsCurrentUserId,
                     'coverForeground' : coverUrl,
                     'featuredRank' : 1
                 }; 
             }else {
                 show = {
-                    'itemRefs' : itemRefs, 
+                    'itemRefs' : itemRefs,
+                    'itemRects' : itemRects,
                     'ownerRef' : req.qsCurrentUserId,
                     'coverForeground' : coverUrl
                 };

@@ -7,10 +7,12 @@ ShareHelper.shareTradeTitle = '恭喜您获得活动最低折扣！你赚到啦�
 ShareHelper.shareBonusTitle = '原来玩搭配还能赚钱，我觉得我快要发财了...搭的越美，赚的越多';
 
 ShareHelper.url = 'http://chingshow.com/app-web?_id={sharedObject.id}';
+ShareHelper.icon = '';
 
 ShareHelper.create = function(initiatorRef, type, title, targetInfo, callback){
 	var sharedObject = new SharedObject();
 	sharedObject.url = ShareHelper.url;
+	sharedObject.icon = ShareHelper.icon;
 	sharedObject.type = type;
 	sharedObject.title = title;
 	sharedObject.initiatorRef = initiatorRef;
