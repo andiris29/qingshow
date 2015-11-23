@@ -88,7 +88,7 @@ feedingAggregation.matchNew = {
                 tasks.push((function(hour) {
                     return function(callback) {
                         var criteria = _buildCriteria(
-                            new Date(date.getTime() + ONE_HOUR * hour), ONE_HOUR, ShowCode.FEATURED_RANK_TALENT);
+                            new Date(date.getTime() + ONE_HOUR * hour), ONE_HOUR, ShowCode.FEATURED_RANK_NEW);
                         _queryTopOwners(req, criteria, callback);
                     };
                 })(hour));
@@ -96,7 +96,7 @@ feedingAggregation.matchNew = {
                 tasks.push((function(hour) {
                     return function(callback) {
                         var criteria = _buildCriteria(
-                            new Date(date.getTime() + ONE_HOUR * hour), ONE_HOUR, ShowCode.FEATURED_RANK_TALENT);
+                            new Date(date.getTime() + ONE_HOUR * hour), ONE_HOUR, ShowCode.FEATURED_RANK_NEW);
                         Show.find(criteria).limit(3).exec(function(err, shows) {
                             callback(err, {'topShows' : shows});
                         });
