@@ -12,7 +12,7 @@
 + (instancetype)generateView {
     return [UINib generateViewWithNibName:@"QSMatcherCollectionViewHeader"];
 }
-- (void)bindWithDict:(NSDictionary*)dict {
-    
+- (void)bindWithOwners:(NSArray*)owners ownerCount:(int)count index:(int)index {
+    NSLog(@"%d", index);
 }
 @end

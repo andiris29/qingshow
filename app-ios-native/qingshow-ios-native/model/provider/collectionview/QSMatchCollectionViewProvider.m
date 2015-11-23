@@ -20,12 +20,38 @@
 
 @property (strong, nonatomic) QSMatcherCollectionViewHeader* headerView;
 
+@property (strong, nonatomic) NSArray* owners;
+@property (assign, nonatomic) int numOwners;
+@property (assign, nonatomic) int ownIndex;
+
 @end
 
 @implementation QSMatchCollectionViewProvider
 
 @dynamic delegate;
 
+- (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block {
+    MKNetworkOperation* op = [super fetchDataOfPage:page completion:block];
+    if (page == 1) {
+        [self _refreshHeader];
+    }
+    return op;
+}
+- (void)_refreshHeader {
+    if (!self.headerNetworkBlock) {
+        return;
+    }
+    self.headerNetworkBlock(^(NSArray* owners, int numOwners, int ownIndex) {
+        self.owners = owners;
+        self.numOwners = numOwners;
+        self.ownIndex = ownIndex;
+        
+        NSIndexPath* path = [NSIndexPath indexPathForItem:0 inSection:0];
+        [self.view reloadItemsAtIndexPaths:@[path]];
+    }, ^(NSError *error) {
+    });
+}
+#pragma mark -
 - (void)bindWithCollectionView:(UICollectionView *)collectionView {
     [super bindWithCollectionView:collectionView];
     self.headerView = [QSMatcherCollectionViewHeader generateView];
@@ -51,21 +77,19 @@
         if (!headerCell) {
             headerCell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatcherCollectionViewHeader" owner:nil options:nil]lastObject];
         }
+        [headerCell bindWithOwners:self.owners ownerCount:self.numOwners index:self.ownIndex];
         return headerCell;
     }
     QSMatchShowsCell *cell = (QSMatchShowsCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:S01MATCHCELL forIndexPath:indexPath];
     if (!cell) {
         cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
     }
-    if(self.resultArray.count)
-    {
+    if(self.resultArray.count) {
         [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item - 1];
     }
     if (w == 414) {
         cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));
-    }
-    else
-    {
+    } else {
         cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
     }
     

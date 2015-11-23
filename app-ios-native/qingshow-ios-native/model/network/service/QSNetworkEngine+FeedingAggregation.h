@@ -8,9 +8,6 @@
 
 #import "QSNetworkEngine.h"
 
-typedef void (^TopOwnerBlock) (NSArray* owners, int numOwners, int ownIndex);
-typedef void (^TopOwnerAndShowBlock) (NSArray* owners, int numOwners, int ownIndex, NSArray* shows);
-
 @interface QSNetworkEngine(FeedingAggregation)
 
 - (MKNetworkOperation*)aggregationFeaturedTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock;

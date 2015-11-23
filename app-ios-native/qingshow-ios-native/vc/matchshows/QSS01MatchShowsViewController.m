@@ -183,6 +183,10 @@
     self.darenProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
         return [SHARE_NW_ENGINE getfeedingMatchFeatured:nil page:page onSucceed:succeedBlock onError:errorBlock];
     };
+    self.darenProvider.headerNetworkBlock = ^MKNetworkOperation* (TopOwnerBlock succeedBlock, ErrorBlock errorBlock) {
+        return [SHARE_NW_ENGINE aggregationFeaturedTopOwners:[NSDate date] onSucceed:succeedBlock onError:errorBlock];
+    };
+    
     [self.darenProvider reloadData];
     
     //hot
@@ -195,6 +199,10 @@
     self.hotProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
         return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
     };
+    self.hotProvider.headerNetworkBlock = ^MKNetworkOperation* (TopOwnerBlock succeedBlock, ErrorBlock errorBlock) {
+        return [SHARE_NW_ENGINE aggregationMatchHotTopOwners:[NSDate date] onSucceed:succeedBlock onError:errorBlock];
+    };
+    
     [self.hotProvider reloadData];
     
     //newest

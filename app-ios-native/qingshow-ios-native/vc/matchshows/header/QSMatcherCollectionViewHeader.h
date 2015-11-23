@@ -10,7 +10,13 @@
 
 @interface QSMatcherCollectionViewHeader : UICollectionViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel* dateLabel;
+@property (weak, nonatomic) IBOutlet UIView* userHeadContaienr;
+@property (weak, nonatomic) IBOutlet UILabel* numberLabel;
+@property (weak, nonatomic) IBOutlet UIImageView* headImgView;
+
+
 + (instancetype)generateView;
-- (void)bindWithDict:(NSDictionary*)dict;
+- (void)bindWithOwners:(NSArray*)owners ownerCount:(int)count index:(int)index;
 
 @end

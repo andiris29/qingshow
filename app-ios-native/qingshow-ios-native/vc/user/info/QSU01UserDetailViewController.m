@@ -24,7 +24,6 @@
 #import "QSImageCollectionModel.h"
 #import "QSRecommendationDateCellModel.h"
 
-#import "QSMatchCollectionViewProvider.h"
 #import "QSS03ShowDetailViewController.h"
 
 #import "QSUnreadManager.h"

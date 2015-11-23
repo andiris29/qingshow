@@ -19,9 +19,12 @@
 
 @end
 
+typedef MKNetworkOperation* (^MatcherProviderHeaderNetworkBlock)(TopOwnerBlock, ErrorBlock);
+
 @interface QSMatchCollectionViewProvider : QSWaterfallBasicProvider<QSMatchShowCellDelegate>
 
 @property(nonatomic,assign)NSObject<QSMatchCollectionViewProviderDelegate>* delegate;
 
+@property (strong, nonatomic) MatcherProviderHeaderNetworkBlock headerNetworkBlock;
 
 @end
