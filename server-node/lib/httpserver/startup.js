@@ -16,6 +16,7 @@ var TraceHelper = require('../helpers/TraceHelper'),
 
 var servicesNames = [
     'feeding', 
+    'feedingAggregation',
     'user', 
     'show', 
     'admin', 
