@@ -4,6 +4,8 @@ var Schema = mongoose.Schema;
 var itemSchema;
 itemSchema = Schema({
     __context : Object,
+    MatchCompositionContext : Object,
+    matchComposition : String,
     categoryRef : {
         type : Schema.Types.ObjectId,
         ref : 'categories'

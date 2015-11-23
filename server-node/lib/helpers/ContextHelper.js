@@ -106,25 +106,39 @@ ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
     });
 };
 
-ContextHelper.appendcategoryMatcherContext = function(matcher, categories, callback){
-    var __contexts = [];
-    for(var key in matcher){
-        var splice = matcher[key].split(',');
-        __contexts[key.substring(3)] = {
-            x : splice[0],
-            y : splice[1],
-            maxWidth : splice[2],
-            maxHeight : splice[3]
-        };
-    }
-    categories = _prepare(categories);
-    var result = categories.map(function(category){
-        if (__contexts[category._id.toString()]) {
-            category.__context = __contexts[category._id.toString()]
+ContextHelper.appendMatchCompositionContext = function(items, callback){
+    var tasks = items.map(function(item){
+        return function(cb){
+            var config = global.qsConfig;
+            var layout = {};
+            if (item.matchComposition && item.matchComposition.layout && config.matcher.layouts[item.matchComposition.layout]) {      
+                layout = config.matcher.layouts[definedLayout];
+            }else {
+                layout = config.matcher.layouts.default;
+
+            }
+
+            var context = {};
+            context.items = [];
+            for(var key in layout){
+                if (key === 'model') {
+                    context.model = {
+                        'rect' : JSON.parse("[" + layout.model.rect + "]")
+                    };
+                }else {
+                    context.items.push({
+                        'ref' : layout[key].ref,
+                        'rect' : JSON.parse("[" + layout[key].rect + "]")
+                    });
+                }
+            }
+            item.MatchCompositionContext = context;
+            cb();
         }
-        return category;
     })
-    callback(null, result);
+    async.parallel(tasks, function(err) {
+        callback(null, items);
+    });
 }
 
 var _prepare = function(models) {
