@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async'), _ = require('underscore');
 //model
 var Show = require('../../dbmodels').Show;
+var ShowCode = require('../../dbmodels').ShowCode;
 var Peoples = require('../../dbmodels').People;
 var RPeopleLikeShow = require('../../dbmodels').RPeopleLikeShow;
 //util
@@ -131,9 +132,7 @@ feeding.matchHot = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = {
-                    'featuredRank' : 2
-                };
+                var criteria = _buildFeaturedCriteria(req, ShowCode.FEATURED_RANK_HOT);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -148,15 +147,7 @@ feeding.matchNew = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = {
-                    '$or' : [{
-                        'featuredRank' : 0
-                    },{
-                        'featuredRank' : {
-                            $exists : false
-                        }
-                    }]
-                };
+                var criteria = _buildFeaturedCriteria(req, ShowCode.FEATURED_RANK_NEW);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -203,9 +194,7 @@ feeding.featured = {
         _feed(req, res, function (qsParam, outCallback){
             async.waterfall([
             function(callback) {
-                var criteria = {
-                    'featuredRank' : 1
-                };
+                var criteria = _buildFeaturedCriteria(req, ShowCode.FEATURED_RANK_TALENT);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -213,3 +202,19 @@ feeding.featured = {
         });
     }
 };
+
+var _buildFeaturedCriteria = function(req, featuredRank) {
+    var criteria = [
+        {'featuredRank' : featuredRank}
+    ];
+    if (req.queryString.from) {
+        criteria.push({'create' : {'$gte' : RequestHelper.parseDate(req.queryString.from)}});
+    }
+    if (req.queryString.to) {
+        criteria.push({'create' : {'$lt' : RequestHelper.parseDate(req.queryString.to)}});
+    }
+    return {
+        '$and' : criteria
+    };
+};
+

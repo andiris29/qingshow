@@ -62,8 +62,11 @@ RequestHelper.parseNumber = function (string) {
 
 RequestHelper.parseDate = function (string) {
     if (string !== undefined) {
-        var date = new Date(string);
-        return date;
+        if (isNaN(string)) {
+            return new Date(string);
+        } else {
+            return new Date(Number(string));
+        }
     }
 };
 
