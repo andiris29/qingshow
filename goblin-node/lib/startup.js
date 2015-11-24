@@ -1,4 +1,5 @@
 var winston = require('winston');
+var moment = require('moment');
 var path = require('path');
 var properties = require("properties");
 
@@ -6,6 +7,13 @@ var configPath = path.join(__dirname, 'config.properties');
 
 var _config;
 
+winston.add(winston.transports.DailyRotateFile, {
+    'filename' : path.join(__dirname, 'winston.info'),
+    'timestamp' : function(){
+        return moment()._d.toString();
+    }
+});
+    
 properties.parse(configPath, {
     path : true,
     namespaces : true,
@@ -21,9 +29,9 @@ winston.info('Startup goblin-overseer success');
 
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
-    console.log(new Date().toString() + ': uncaughtException');
-    console.log(err);
-    console.log('\t' + err.stack);
+    winston.error(new Date().toString() + ': uncaughtException');
+    winston.error(err);
+    winston.error('\t' + err.stack);
 
     var GoblinSlave = require('./goblin-overseer/GoblinSlave');
     GoblinSlave.continue();

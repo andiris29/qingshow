@@ -91,7 +91,7 @@ var _next = function (type) {
 var _queryNextItem = function (type, callback) {
     var path = slaverModel.config.server.path + '/services/goblin/nextItem';
 
-    winston.log('query nextItem: ' + type);
+    // winston.debug('query nextItem: ' + type);
     request.post({
         url: path,
         form: {
@@ -100,7 +100,7 @@ var _queryNextItem = function (type, callback) {
         }
     }, function(err, httpResponse, body){
         if (err) {
-            winston.log('query nextItem failed: ' + type);
+            // winston.debug('query nextItem failed: ' + type);
             callback(err);
         } else {
             var data = null;
@@ -111,10 +111,11 @@ var _queryNextItem = function (type, callback) {
             if (!data) {
                 callback('Goblin Scheduler response empty data');
             } else if (data.metadata && data.metadata.error) {
+                // winston.debug('query nextItem error: ' + type + ' > ' + data.metadata.error);
                 callback(data.metadata.error);
             } else {
                 var item = data && data.data && data.data.item;
-                winston.log('query nextItem success: ' + type + ' > ' + item.source);
+                // winston.debug('query nextItem success: ' + type + ' > ' + item.source);
                 callback(null, item);
             }
         }
@@ -135,17 +136,17 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         param.itemInfo = itemInfo;
     }
 
-    console.log(moment().format('YYYY-MM-DD HH:mm:ss') + ' ' + item._id);
-    console.log('    ' + item.source);
+    winston.info(moment().format('YYYY-MM-DD HH:mm:ss') + ' ' + item._id);
+    winston.info('    ' + item.source);
     if (err) {
         if (err.errorCode === GoblinError.InvalidItemSource || err.errorCode === GoblinError.Delist) {
-            console.log('    delist: ' + err.errorCode);
+            winston.info('    delist: ' + err.errorCode);
         } else {
             param.error = err;
-            console.log('    err: ' + err);
+            winston.error('    err: ' + err);
         }
     } else {
-        console.log('    complete');
+        winston.info('    complete');
     }
 
     var path = slaverModel.config.server.path + '/services/goblin/crawlItemComplete';

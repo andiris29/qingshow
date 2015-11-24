@@ -338,8 +338,8 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                 try {
                     eval(b);
                 } catch (err) {
-                    console.log('mdskip');
-                    console.log(b);
+                    winston.error('mdskip');
+                    winston.error(b);
                     throw err;
                 }
 
