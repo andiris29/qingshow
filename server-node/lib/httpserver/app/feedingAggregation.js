@@ -81,9 +81,14 @@ feedingAggregation.matchNew = {
     'method' : 'get',
     'func' : [
         function(req, res, next) {
-            var date = RequestHelper.parseDate(req.queryString.date);
-            var hour, tasks = [];
-            for (hour = 0; hour < 24; hour++) {
+            var date = RequestHelper.parseDate(req.queryString.date),
+                today = new Date();
+            var hour, 
+                maxHour = (date.getFullYear() === today.getFullYear() && 
+                    date.getMonth() === today.getMonth() && 
+                    date.getDate() === today.getDate()) ? (today.getHours() + 1) : 24,
+                tasks = [];
+            for (hour = 0; hour < maxHour; hour++) {
                 // Top owners
                 tasks.push((function(hour) {
                     return function(callback) {
