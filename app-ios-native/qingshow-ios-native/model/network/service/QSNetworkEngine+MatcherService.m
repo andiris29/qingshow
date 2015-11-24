@@ -54,7 +54,7 @@
             [QSCategoryManager getInstance].categories = retArray;
             
             NSDictionary* metadata = [responseDict dictValueForKeyPath:@"metadata"];
-            NSString* modelId = [metadata stringValueForKeyPath:@"modelCategory"];
+            NSString* modelId = [metadata stringValueForKeyPath:@"master"];
             succeedBlock(retArray, modelId, metadata);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {

@@ -52,11 +52,11 @@
                            modelId:(NSString*)modelId {
     UIView* modelView = self.categoryIdToView[modelId];
     if (![modelView isEqual:[NSNull null]]) {
-        NSArray* modelConfig = [matcherConfig arrayValueForKeyPath:@"model.rect"];
+        NSArray* modelConfig = [matcherConfig arrayValueForKeyPath:@"master.rect"];
         [self _updateView:modelView withRectConfig:modelConfig];
     }
     
-    NSArray* itemConfigs = [matcherConfig arrayValueForKeyPath:@"items"];
+    NSArray* itemConfigs = [matcherConfig arrayValueForKeyPath:@"slaves"];
     for (NSDictionary* itemConfig in itemConfigs) {
         NSArray* rectConfig = [itemConfig arrayValueForKeyPath:@"rect"];
         NSString* categoryId = [itemConfig stringValueForKeyPath:@"ref"];
