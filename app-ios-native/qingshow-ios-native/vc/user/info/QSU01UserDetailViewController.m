@@ -168,7 +168,6 @@
     self.matchProvider.hasRefreshControl = NO;
     self.matchProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE feedingMatchCreateBy:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
-//        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
     self.matchProvider.delegate = self;
@@ -323,14 +322,8 @@
     [self.navigationController pushViewController:vc animated:YES];
     
 }
-- (void)didSelectedCellInCollectionView:(NSDictionary *)showDict provider:(QSAbstractListViewProvider *)provider
-{
-    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
-    [self.navigationController pushViewController:vc animated:YES];
-   
-}
-- (void)didClickHeaderImgView:(id)sender
+
+- (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider
 {
 //    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
 //    vc.menuProvider = self.menuProvider;

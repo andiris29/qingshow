@@ -8,6 +8,9 @@
 
 #import "QSMatcherTableViewProvider.h"
 #import "QSMatcherTableViewCell.h"
+#import "NSDictionary+QSExtension.h"
+#import "QSDateUtil.h"
+
 @implementation QSMatcherTableViewProvider
 - (void)registerCell
 {
@@ -30,6 +33,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSDictionary* dict = self.resultArray[indexPath.row];
+    NSNumber* hour = [dict numberValueForKeyPath:@"hour"];
+    NSDate* date = [dict dateValueForKeyPath:@"date"];
+    NSString* dateStr = [QSDateUtil buildDateStringFromDate:date];
+    if (!dateStr) {
+        return;
+    }
+    NSString* fullStr = [NSString stringWithFormat:@"%@ %d:00:00", dateStr, hour.intValue];
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    NSDate* retDate = [dateFormatter dateFromString:fullStr];
+    if ([self.delegate respondsToSelector:@selector(provider:didClickDate:)]) {
+        [self.delegate provider:self didClickDate:retDate];
+    }
     
 }
 @end

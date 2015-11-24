@@ -7,7 +7,7 @@
 //
 
 #import "QSS01MatchShowsViewController.h"
-
+#import "QSNewestHourViewController.h"
 #import "QSMatchCollectionViewProvider.h"
 #import "QSMatcherTableViewProvider.h"
 #import "QSError.h"
@@ -26,7 +26,7 @@
 #define PAGE_ID @"新美搭榜单"
 
 
-@interface QSS01MatchShowsViewController ()<QSMatchCollectionViewProviderDelegate, CKCalendarDelegate>
+@interface QSS01MatchShowsViewController ()<QSMatchCollectionViewProviderDelegate, QSMatcherTableViewProviderDelegate, CKCalendarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *calendarBtn;
 
@@ -299,5 +299,10 @@
     [self.newestProvider reloadData];
     self.hotProvider.currentDate = self.currentDate;
     [self.hotProvider reloadData];
+}
+#pragma mark - QSMatcherTableViewProvider
+- (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date {
+    QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithDate:date];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

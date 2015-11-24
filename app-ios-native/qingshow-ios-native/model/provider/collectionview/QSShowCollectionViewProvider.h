@@ -17,8 +17,6 @@
 
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider*)provider;
 - (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider;
-- (void)didSelectedCellInCollectionView:(NSDictionary *)showDict provider:(QSAbstractListViewProvider *)provider;
-- (void)didClickHeaderImgView:(id)sender;
 
 @end
 

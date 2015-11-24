@@ -7,7 +7,16 @@
 //
 
 #import "QSTableViewBasicProvider.h"
+@class QSMatcherTableViewProvider;
+
+@protocol QSMatcherTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
+
+- (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date;
+
+@end
 
 @interface QSMatcherTableViewProvider : QSTableViewBasicProvider
+
+@property (weak, nonatomic) NSObject<QSMatcherTableViewProviderDelegate>* delegate;
 
 @end

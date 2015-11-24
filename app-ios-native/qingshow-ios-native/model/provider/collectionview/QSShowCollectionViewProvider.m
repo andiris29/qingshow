@@ -80,25 +80,21 @@
     return CGSizeMake([UIScreen mainScreen].bounds.size.width/2-10, w);
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
-    if (showDict && [self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:provider:)]) {
-        [self.delegate didSelectedCellInCollectionView:showDict provider:self];
+    if (showDict && [self.delegate respondsToSelector:@selector(didClickShow:provider:)]) {
+        [self.delegate didClickShow:showDict provider:self];
     }
 }
 
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.resultArray.count;
 }
 
 
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     QSMatchShowsCell* cell = (QSMatchShowsCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSMatchShowsCellWithU01" forIndexPath:indexPath];
     cell.delegate = self;
     [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
@@ -115,16 +111,15 @@
     return (UICollectionViewCell *)cell;
 }
 #pragma mark - QSMatchShowsCellDelegate
-- (void)headerImgViewPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(didClickHeaderImgView:)]) {
-        [self.delegate didClickHeaderImgView:sender];
+- (void)headerImgViewPressed:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(didClickPeople:provider:)]) {
+        [self.delegate didClickPeople:sender provider:self];
     }
 }
-- (void)matchImgViewPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:provider:)]) {
-        [self.delegate  didSelectedCellInCollectionView:sender provider:self];
+
+- (void)matchImgViewPressed:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(didClickShow:provider:)]) {
+        [self.delegate didClickShow:sender provider:self];
     }
 }
 

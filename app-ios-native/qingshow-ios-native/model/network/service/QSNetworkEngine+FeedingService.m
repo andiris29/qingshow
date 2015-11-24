@@ -199,10 +199,11 @@
 {
     NSMutableDictionary* params = [@{} mutableCopy];
     if (fromDate) {
-        params[@"from"] = fromDate;
+        ;
+        params[@"from"] = [QSDateUtil buildStringFromDate:fromDate];
     }
     if (toDate) {
-        params[@"to"] = toDate;
+        params[@"to"] = [QSDateUtil buildStringFromDate:toDate];
     }
     
     return [self getFeedingPath:PATH_FEEDING_MATCH_NEW
