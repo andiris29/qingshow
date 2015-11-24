@@ -13,5 +13,5 @@
 - (MKNetworkOperation*)aggregationFeaturedTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)aggregationMatchHotTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock;
 #warning TODO
-- (MKNetworkOperation*)aggregationMatchNew:(NSDate*)date onSucceed:(TopOwnerAndShowBlock)succeedBlock onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)aggregationMatchNew:(NSDate*)date onSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock;
 @end

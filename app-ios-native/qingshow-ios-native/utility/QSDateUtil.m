@@ -179,6 +179,15 @@
     return c1.year == c2.year && c1.month == c2.month && c1.day == c2.day;
 }
 
++ (NSInteger)getHourNumber:(NSDate*)date {
+    if (!date) {
+        return -1;
+    }
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitHour) fromDate:date];
+    return c.hour;
+}
+
 + (NSString*)getDayDesc:(NSDate*)date
 {
     if (!date) {

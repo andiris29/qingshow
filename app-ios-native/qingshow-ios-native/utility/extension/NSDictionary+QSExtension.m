@@ -40,4 +40,7 @@
 - (NSArray*)arrayValueForKeyPath:(NSString*)keypath {
     return [QSEntityUtil getArrayValue:self keyPath:keypath];
 }
+- (NSDate*)dateValueForKeyPath:(NSString*)keyPath {
+    return [QSEntityUtil getDateValue:self keyPath:keyPath];
+}
 @end

@@ -31,5 +31,4 @@ typedef NSArray* (^ArrayBlock)(id);
 typedef void (^InputArrayBlock)(NSArray* arrayBlock);
 typedef id(^IdBlock)(id);
 typedef void (^TopOwnerBlock) (NSArray* owners, int numOwners, int ownIndex);
-typedef void (^TopOwnerAndShowBlock) (NSArray* owners, int numOwners, int ownIndex, NSArray* shows);
 #endif

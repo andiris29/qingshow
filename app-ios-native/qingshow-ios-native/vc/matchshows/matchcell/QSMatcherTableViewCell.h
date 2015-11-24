@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+
+#define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
+#define QSMatcherTableViewCellHeight 300.f
+
 @interface QSMatcherTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UILabel* timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel* dateLabel;
+@property (weak, nonatomic) IBOutlet UIImageView* userHeadImgView;
+@property (weak, nonatomic) IBOutlet UILabel* numLabel;
+@property (weak, nonatomic) IBOutlet UIView* usersContainer;
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showImgViews;
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showForegroundImgViews;
+
 
 - (void)bindWithDict:(NSDictionary*)dict;
 

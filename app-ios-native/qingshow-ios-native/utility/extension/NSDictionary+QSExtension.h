@@ -15,4 +15,5 @@
 - (NSDictionary*)dictValueForKeyPath:(NSString*)keypath;
 - (NSNumber*)numberValueForKeyPath:(NSString*)keypath;
 - (NSArray*)arrayValueForKeyPath:(NSString*)keypath;
+- (NSDate*)dateValueForKeyPath:(NSString*)keyPath;
 @end

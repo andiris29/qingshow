@@ -104,8 +104,6 @@
 - (void)provider:(QSMatchCollectionViewProvider*)provider didSelectedCellInCollectionView:(id)sender
 {
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:sender];
-//    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
-   // vc.menuProvider = self.menuProvider;
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
@@ -223,9 +221,10 @@
     //newest
     self.newestProvider = [[QSMatcherTableViewProvider alloc] init];
     self.newestProvider.delegate = self;
-//    [self.newestProvider bindWithTableView:self.newestTableView];
+    self.newestProvider.hasPaging = NO;
+    [self.newestProvider bindWithTableView:self.newestTableView];
     self.newestProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE aggregationMatchNew:[NSDate date] onSucceed:succeedBlock onError:errorBlock];
     };
     [self.newestProvider reloadData];
 }

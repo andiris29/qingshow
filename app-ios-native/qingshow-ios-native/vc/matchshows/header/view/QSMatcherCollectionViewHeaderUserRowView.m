@@ -56,7 +56,8 @@
         if (i < users.count) {
             NSDictionary* u = users[i];
             imgView.hidden = NO;
-            [imgView.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:u type:QSImageNameType50]];
+            NSURL* url = [QSPeopleUtil getHeadIconUrl:u type:QSImageNameType50];
+            [imgView.headerImgView setImageFromURL:url];
         } else {
             imgView.hidden = YES;
         }

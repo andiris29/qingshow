@@ -70,6 +70,9 @@
 + (NSDictionary*)getDictValue:(NSDictionary*)dict keyPath:(NSString*)key {
     return [self getValue:dict keyPath:key class:[NSDictionary class]];
 }
++ (NSDate*)getDateValue:(NSDictionary*)dict keyPath:(NSString*)key {
+    return [self getValue:dict keyPath:key class:[NSDate class]];
+}
 
 
 @end

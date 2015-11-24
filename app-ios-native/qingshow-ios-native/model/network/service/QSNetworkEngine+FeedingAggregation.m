@@ -9,6 +9,7 @@
 #import "QSNetworkEngine+FeedingAggregation.h"
 #import "MKNetworkEngine+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
+#import "QSDateUtil.h"
 
 #define PATH_FEEDING_AGGREGATION_FEATURED_TOP_OWNERS @"feedingAggregation/featuredTopOwners"
 #define PATH_FEEDING_AGGREGATION_MATCH_HOT_TOP_OWNERS @"feedingAggregation/matchHotTopOwners"
@@ -39,26 +40,28 @@
     }];
 }
 
-- (MKNetworkOperation*)aggregationMatchNew:(NSDate*)date onSucceed:(TopOwnerAndShowBlock)succeedBlock onError:(ErrorBlock)errorBlock {
+- (MKNetworkOperation*)aggregationMatchNew:(NSDate*)date onSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
     NSString* formatStr = [self _paramStringFromDate:date];
     return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_MATCH_NEW method:@"GET" paramers:@{@"date" : formatStr} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* resJson = completedOperation.responseJSON;
             NSDictionary* data = [resJson dictValueForKeyPath:@"data"];
-            NSArray* owners = [data arrayValueForKeyPath:@"topOwners"];
-            NSNumber* numOwn = [data numberValueForKeyPath:@"numOwners"];
-            NSNumber* index = [data numberValueForKeyPath:@"indexOfCurrentUser"];
-            NSArray* shows = [data arrayValueForKeyPath:@"topShows"];
-#warning TODO
-            /*
-             feedingAggregation/matchNew
-             * Response
-             * `data.x.topOwners` array of db.peoples
-             * `data.x.numOwners` int
-             * `data.x.indexOfCurrentUser` int
-             * `data.x.topShows` array of db.shows
-             */
-            succeedBlock(owners, numOwn.intValue, index.intValue, shows);
+            NSMutableArray* retArray = [@[] mutableCopy];
+            NSDate* now = [NSDate date];
+            
+            for (NSInteger i = [QSDateUtil getHourNumber:now]; i >= 0; --i) {
+                NSString* hourStr = @(i).stringValue;
+                NSDictionary* dict = [data dictValueForKeyPath:hourStr];
+                NSArray* topOwners = [dict arrayValueForKeyPath:@"topOwners"];
+                if (topOwners && topOwners.count) {
+                    [retArray addObject:@{
+                                          @"hour" : @(i),
+                                          @"date" : date,
+                                          @"data" : dict
+                                          }];
+                }
+            }
+            succeedBlock(retArray, nil);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

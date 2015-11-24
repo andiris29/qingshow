@@ -25,6 +25,7 @@
 + (NSString*)getYearDesc:(NSDate*)date;
 + (NSString*)getWeekdayDesc:(NSDate*)date;
 + (NSInteger)getWeekdayIndex:(NSDate*)date;
++ (NSInteger)getHourNumber:(NSDate*)date;
 
 //获取日期
 + (NSString*)getMonthAndDate:(NSDate*)date;
