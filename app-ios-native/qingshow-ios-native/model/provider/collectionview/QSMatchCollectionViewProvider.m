@@ -81,6 +81,7 @@
             headerCell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatcherCollectionViewHeader" owner:nil options:nil]lastObject];
         }
         [headerCell bindWithOwners:self.owners ownerCount:self.numOwners index:self.ownIndex];
+        [headerCell updateDate:self.currentDate];
         return headerCell;
     }
     QSMatchShowsCell *cell = (QSMatchShowsCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:S01MATCHCELL forIndexPath:indexPath];

@@ -19,5 +19,5 @@
 
 + (instancetype)generateView;
 - (void)bindWithOwners:(NSArray*)owners ownerCount:(int)count index:(int)index;
-
+- (void)updateDate:(NSDate*)date;
 @end

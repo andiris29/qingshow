@@ -34,9 +34,6 @@
 }
 
 - (void)bindWithOwners:(NSArray*)owners ownerCount:(int)count index:(int)index {
-    NSDate* now = [NSDate date];
-    self.dateLabel.text = [NSString stringWithFormat:@"TODAY | %@.%@", [QSDateUtil getDayDesc:now], [QSDateUtil getMonthDesc:now]];
-    
     if (!owners || !owners.count) {
         self.userHeadContaienr.hidden = YES;
         self.topNumberLabel.hidden = YES;
@@ -59,5 +56,9 @@
             self.headImgView.hidden = YES;
         }
     }
+}
+- (void)updateDate:(NSDate*)date {
+    self.dateLabel.text = [QSDateUtil buildDayStringFromDate:date];
+    
 }
 @end
