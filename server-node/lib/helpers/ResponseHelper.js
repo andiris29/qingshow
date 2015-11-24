@@ -26,12 +26,12 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
         json = beforeEndResponse(json);
     }
 
-    if (res.locals && res.locals.clientInfo) {
-        var log = _.extend(res.locals.clientInfo, {
-            'cost' : Date.now() - res.locals.time,
-            'fullpath' : res.locals.fullpath
-        }, {
-            'qsCurrentUserId' : res.locals.qsCurrentUserId ? res.locals.qsCurrentUserId.toString() : ''
+    if (res.locals && res.locals.api) {
+        var log = _.extend(res.locals.api, {
+            'cost' : Date.now() - res.locals.api.timestamp,
+            'res' : {
+                'metadata' : json.metadata
+            }
         });
         if (log.cost > 1000) {
             logger.error(log);

@@ -150,17 +150,19 @@ var _injectionMiddleware = function (req, res, next) {
 
 var _genLogMiddleware = function(fullpath) {
     return function (req, res, next) {
-        TraceHelper.trace('api-request', req, {
-            'fullpath' : fullpath
-        });
-        
-        res.locals = {
+        res.locals = res.locals || {};
+        res.locals.api = {
             'fullpath' : fullpath,
-            'clientInfo' : RequestHelper.getClientInfo(req),
-            'qsCurrentUserId' : req.qsCurrentUserId,
-            'time' : Date.now()
+            'timestamp' : Date.now(),
+            'req' : {
+                'client' : RequestHelper.getClientInfo(req),
+                'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
+                'queryString' : req.queryString,
+                'body' : req.body
+            }
         };
         
+        TraceHelper.trace('api-request', req, res.locals.api);
         next();
     };
 };
