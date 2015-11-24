@@ -112,17 +112,19 @@
 }
 
 #pragma mark - QSMatchCollectionViewProviderDelegate
-- (void)provider:(QSMatchCollectionViewProvider*)provider didSelectedCellInCollectionView:(id)sender
+- (void)matcherCollectionViewProvider:(QSMatchCollectionViewProvider*)provider
+                         didClickShow:(NSDictionary*)showDict
 {
-    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:sender];
+    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)provider:(QSMatchCollectionViewProvider*)provider didClickHeaderImgView:(id)sender
+- (void)matcherCollectionViewProvider:(QSMatchCollectionViewProvider*)provider
+                       didClickPeople:(NSDictionary*)peopleDict
 {
-    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
     vc.menuProvider = self.menuProvider;
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];

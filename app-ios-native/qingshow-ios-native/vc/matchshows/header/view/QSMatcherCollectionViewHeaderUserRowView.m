@@ -32,6 +32,9 @@
         self.headerViews = [@[] mutableCopy];
         for (int i = 0; i < HEAD_NUMBER; i++) {
             UIView* v = [QSMatcherCollectionViewHeaderUserView generateView];
+            v.userInteractionEnabled = YES;
+            UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHead:)];
+            [v addGestureRecognizer:ges];
             [self.headerViews addObject:v];
             [self addSubview:v];
         }
@@ -49,6 +52,7 @@
         headerView.bounds = CGRectMake(0, 0, headRadius, headRadius);
         headerView.center = CGPointMake((i + 0.5) * blockWidth, centerY);
     }
+    
 }
 
 - (void)bindWithUsers:(NSArray*)users {
@@ -67,4 +71,16 @@
         }
     }
 }
+
+- (void)didTapHead:(UITapGestureRecognizer*)ges {
+    UIView* v = ges.view;
+    NSUInteger i = [self.headerViews indexOfObject:v];
+    if (i != NSNotFound) {
+        if ([self.delegate respondsToSelector:@selector(userRowView:didClickIndex:)]) {
+            [self.delegate userRowView:self didClickIndex:i];
+        }
+    }
+    
+}
+
 @end

@@ -7,12 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+@class QSMatcherCollectionViewHeaderUserRowView;
+
+@protocol  QSMatcherCollectionViewHeaderUserRowViewDelegate <NSObject>
+
+- (void)userRowView:(QSMatcherCollectionViewHeaderUserRowView*)view didClickIndex:(NSUInteger)index;
+
+@end
 
 @interface QSMatcherCollectionViewHeaderUserRowView : UIView
 
 @property (assign, nonatomic) BOOL kindomIconHidden;
-
+@property (weak, nonatomic) NSObject<QSMatcherCollectionViewHeaderUserRowViewDelegate>* delegate;
 - (instancetype)init;
 - (void)bindWithUsers:(NSArray*)users;
+
 
 @end

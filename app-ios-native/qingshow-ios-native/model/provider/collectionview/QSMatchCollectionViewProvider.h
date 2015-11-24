@@ -14,8 +14,10 @@
 
 @protocol QSMatchCollectionViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
-- (void)provider:(QSMatchCollectionViewProvider*)provider didSelectedCellInCollectionView:(id)sender;
-- (void)provider:(QSMatchCollectionViewProvider*)provider didClickHeaderImgView:(id)sender;
+- (void)matcherCollectionViewProvider:(QSMatchCollectionViewProvider*)provider
+                         didClickShow:(NSDictionary*)showDict;
+- (void)matcherCollectionViewProvider:(QSMatchCollectionViewProvider*)provider
+                       didClickPeople:(NSDictionary*)peopleDict;
 
 @end
 

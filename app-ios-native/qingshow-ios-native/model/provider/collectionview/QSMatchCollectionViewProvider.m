@@ -16,9 +16,7 @@
 
 #define w ([UIScreen mainScreen].bounds.size.width)
 #define h ([UIScreen mainScreen].bounds.size.height)
-@interface QSMatchCollectionViewProvider()
-
-@property (strong, nonatomic) QSMatcherCollectionViewHeader* headerView;
+@interface QSMatchCollectionViewProvider()<QSMatcherCollectionViewHeaderDelegate>
 
 @property (strong, nonatomic) NSArray* owners;
 @property (assign, nonatomic) int numOwners;
@@ -57,7 +55,6 @@
 #pragma mark -
 - (void)bindWithCollectionView:(UICollectionView *)collectionView {
     [super bindWithCollectionView:collectionView];
-    self.headerView = [QSMatcherCollectionViewHeader generateView];
 }
 
 - (void)registerCell
@@ -123,15 +120,15 @@
 #pragma mark - Delegate
 - (void)headerImgViewPressed:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(provider:didClickHeaderImgView:)]) {
-        [self.delegate provider:self didClickHeaderImgView:sender];
+    if ([self.delegate respondsToSelector:@selector(matcherCollectionViewProvider:didClickPeople:)]) {
+        [self.delegate matcherCollectionViewProvider:self didClickPeople:sender];
         self.clickedData = sender;
     }
 }
 - (void)matchImgViewPressed:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(provider:didSelectedCellInCollectionView:)]) {
-        [self.delegate provider:self didSelectedCellInCollectionView:sender];
+    if ([self.delegate respondsToSelector:@selector(matcherCollectionViewProvider:didClickShow:)]) {
+        [self.delegate matcherCollectionViewProvider:self didClickShow:sender];
         self.clickedData = sender;
     }
 }
@@ -148,6 +145,14 @@
         }
         
         self.clickedData = nil;
+    }
+}
+
+#pragma mark - QSMatcherCollectionViewHeaderDelegate
+- (void)header:(QSMatcherCollectionViewHeader*)header didClickPeople:(NSDictionary*)peopleDict {
+    if ([self.delegate respondsToSelector:@selector(matcherCollectionViewProvider:didClickPeople:)]) {
+        [self.delegate matcherCollectionViewProvider:self didClickPeople:peopleDict];
+        self.clickedData = peopleDict;
     }
 }
 @end

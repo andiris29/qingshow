@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class QSMatcherCollectionViewHeader;
+
+@protocol QSMatcherCollectionViewHeaderDelegate <NSObject>
+
+- (void)header:(QSMatcherCollectionViewHeader*)header didClickPeople:(NSDictionary*)peopleDict;
+
+@end
+
 @interface QSMatcherCollectionViewHeader : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel* dateLabel;
@@ -16,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView* headImgView;
 @property (weak, nonatomic) IBOutlet UILabel* topNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel* topListTextLabel;
+@property (weak, nonatomic) NSObject<QSMatcherCollectionViewHeaderDelegate>* delegate;
 
 + (instancetype)generateView;
 - (void)bindWithOwners:(NSArray*)owners ownerCount:(int)count index:(int)index;
