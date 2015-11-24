@@ -158,7 +158,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
         try {
             ArrayList<JSONArray> list = new ArrayList<>();
             for (Rect rect : innerItemRects) {
-                JSONArray jsonArray = new JSONArray(RectUtil.rectParser(rect));
+                JSONArray jsonArray = new JSONArray(RectUtil.rectSerializer(rect));
                 list.add(jsonArray);
             }
             JSONArray itemRects = new JSONArray(QSGsonFactory.create().toJson(list));

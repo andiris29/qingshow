@@ -22,13 +22,14 @@
         android:orientation="vertical"
         android:background="@color/master_pink">
         <TextView
-            android:textSize="@android:dimen/action_bar_title_text_size"
+            android:textSize="18sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/u15_total"/>
+            android:text=""/>
         <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/u15_total"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

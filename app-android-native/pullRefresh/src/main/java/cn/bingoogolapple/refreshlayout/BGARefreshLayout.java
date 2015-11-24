@@ -188,7 +188,7 @@ public class BGARefreshLayout extends LinearLayout {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                int paddingTop = (int) animation.getAnimatedValue();
+                int paddingTop = (Integer) animation.getAnimatedValue();
                 mWholeHeaderView.setPadding(0, paddingTop, 0, 0);
             }
         });
@@ -786,7 +786,7 @@ public class BGARefreshLayout extends LinearLayout {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                int paddingTop = (int) animation.getAnimatedValue();
+                int paddingTop = (Integer) animation.getAnimatedValue();
                 mWholeHeaderView.setPadding(0, paddingTop, 0, 0);
             }
         });
@@ -802,7 +802,7 @@ public class BGARefreshLayout extends LinearLayout {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                int paddingTop = (int) animation.getAnimatedValue();
+                int paddingTop = (Integer) animation.getAnimatedValue();
                 mWholeHeaderView.setPadding(0, paddingTop, 0, 0);
             }
         });

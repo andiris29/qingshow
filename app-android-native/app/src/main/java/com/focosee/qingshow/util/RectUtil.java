@@ -1,11 +1,15 @@
 package com.focosee.qingshow.util;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -131,13 +135,22 @@ public class RectUtil {
         return Math.abs(rect.width()) * Math.abs(rect.height());
     }
 
-    public static String rectParser(Rect rect){
+    public static String rectSerializer(Rect rect){
         int arrs[] = new int[4];
         arrs[0] = rect.left;
         arrs[1] = rect.top;
         arrs[2] = rect.width();
         arrs[3] = rect.height();
         return new Gson().toJson(arrs);
+    }
+
+    public static void locateView(Rect rect,View view){
+        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", 0, rect.left);
+        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", 0, rect.top);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(x, y);
+        animatorSet.setDuration(0);
+        animatorSet.start();
     }
 
 }
