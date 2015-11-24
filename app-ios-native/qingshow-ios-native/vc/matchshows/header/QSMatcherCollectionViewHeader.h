@@ -14,7 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIView* userHeadContaienr;
 @property (weak, nonatomic) IBOutlet UILabel* numberLabel;
 @property (weak, nonatomic) IBOutlet UIImageView* headImgView;
-
+@property (weak, nonatomic) IBOutlet UILabel* topNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel* topListTextLabel;
 
 + (instancetype)generateView;
 - (void)bindWithOwners:(NSArray*)owners ownerCount:(int)count index:(int)index;

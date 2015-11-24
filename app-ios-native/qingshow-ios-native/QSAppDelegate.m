@@ -39,6 +39,7 @@
 #pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
     [self _configNetwork];
 
     [QSHookHelper registerHooker];

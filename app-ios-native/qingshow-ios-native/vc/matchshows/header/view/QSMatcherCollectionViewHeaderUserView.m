@@ -15,7 +15,7 @@
 - (void)awakeFromNib {
     self.headerImgView.layer.cornerRadius = self.headerImgView.bounds.size.width / 2;
     self.headerImgView.layer.masksToBounds = YES;
-    self.iconImgView.hidden = YES;
+//    self.iconImgView.hidden = YES;
 }
 
 @end

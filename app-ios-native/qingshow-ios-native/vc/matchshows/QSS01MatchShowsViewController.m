@@ -73,11 +73,26 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.darenProvider refreshVisibleData];
+    [self.hotProvider refreshVisibleData];
+    [self.newestProvider refreshVisibleData];
+    
+    //Hide Navigation Shadow
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.darenProvider cancelImageLoading];
+    [self.hotProvider cancelImageLoading];
+    [self.newestProvider cancelImageLoading];
+
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    //Show Navigation Shadow
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:nil];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -55,9 +55,21 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-g3-Tcx">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vdj-Wo-6YR">
+                            <rect key="frame" x="0.0" y="39" width="320" height="1"/>
+                            <color key="backgroundColor" red="0.58431372549019611" green="0.58431372549019611" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="ZdB-O1-gB3"/>
+                            </constraints>
+                        </view>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Vdj-Wo-6YR" secondAttribute="bottom" id="E0m-R8-78q"/>
                         <constraint firstAttribute="height" constant="40" id="fQ6-aB-Ke8"/>
+                        <constraint firstItem="Vdj-Wo-6YR" firstAttribute="leading" secondItem="c9p-g3-Tcx" secondAttribute="leading" id="vgR-rg-Fj4"/>
+                        <constraint firstAttribute="trailing" secondItem="Vdj-Wo-6YR" secondAttribute="trailing" id="yNP-jC-QGp"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpY-Dp-DaC">

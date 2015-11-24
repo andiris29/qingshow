@@ -74,6 +74,8 @@
                 <outlet property="dateLabel" destination="Cc1-jG-8Xf" id="KKe-Tv-0Qg"/>
                 <outlet property="headImgView" destination="h8c-89-gHE" id="zLC-kb-hfz"/>
                 <outlet property="numberLabel" destination="p67-Rb-0w4" id="fjx-uM-NGH"/>
+                <outlet property="topListTextLabel" destination="8WU-Ek-5PL" id="Qe5-FN-36d"/>
+                <outlet property="topNumberLabel" destination="goI-0W-PBU" id="ogH-R3-OK7"/>
                 <outlet property="userHeadContaienr" destination="ypL-Tt-Vvs" id="REJ-iu-Gyh"/>
             </connections>
             <point key="canvasLocation" x="130" y="175"/>

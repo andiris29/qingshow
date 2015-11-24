@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface QSMatcherCollectionViewHeaderUserRowView : UIView
+
+@property (assign, nonatomic) BOOL kindomIconHidden;
+
 - (instancetype)init;
+- (void)bindWithUsers:(NSArray*)users;
+
 @end
