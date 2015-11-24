@@ -54,5 +54,6 @@
     <color name="master_pink">#F095A4</color>
     <color name="pink_200">#c8f095a4</color>
     <color name="pink_100">#64f095a4</color>
+    <color name="accent_material_dark">#96000000</color>
 
 </resources>
