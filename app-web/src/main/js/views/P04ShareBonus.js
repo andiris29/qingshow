@@ -93,7 +93,6 @@ define([
 
             var begin = - Math.PI / 2;
             var end = begin + 2 * Math.PI * (nowDate - this._createDate) / this._maxTimeInterval;
-
             context.beginPath();
             context.arc(width/2, height/2, radius, begin, end, false);
             context.strokeStyle = 'rgba(200, 16, 78, 1)';
@@ -106,7 +105,6 @@ define([
             context.lineWidth = strokeWidth;
             context.stroke();
             this._updateRemainTimeText(this._maxTimeInterval - (nowDate - this._createDate));
-
             context.beginPath();
             context.arc(width/2 + radius * Math.cos(end), height/2 + radius * Math.sin(end), 3, 0, Math.PI * 2, false);
             context.fillStyle = 'rgba(200, 16, 78, 1)';
@@ -158,6 +156,8 @@ define([
     };
 
     P04ShareBonus.prototype._hideAlert = function () {
+        $('.p04-circle-count-container', this._dom).off('click');
+        $('.p04-circle-count-request-complete-text', this._dom).text('提现完成');
         $('.p04-withdraw-success-alert', this._dom).css('display', 'none');
     };
 
