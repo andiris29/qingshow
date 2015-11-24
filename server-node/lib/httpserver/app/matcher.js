@@ -108,9 +108,13 @@ matcher.queryItems = {
 
             }, {
                 'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                    ContextHelper.appendMatchCompositionContext(currentPageModels, function(err, items){
-                        callback(null, items)
-                    })
+                    if (qsParam.categoryRef === global.qsMatcherConfig.matcher.modelCategory) {
+                        ContextHelper.appendMatchCompositionContext(currentPageModels, function(err, items){
+                            callback(null, items)
+                        })   
+                    }else {
+                        callback(null, currentPageModels);
+                    }
                 }
             });
         })
