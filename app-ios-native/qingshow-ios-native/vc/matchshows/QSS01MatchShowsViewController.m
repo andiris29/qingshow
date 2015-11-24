@@ -10,7 +10,7 @@
 
 #import "QSMatchCollectionViewProvider.h"
 #import "QSMatcherTableViewProvider.h"
-
+#import "QSError.h"
 #import "QSBlock.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
@@ -41,9 +41,12 @@
 #pragma mark S11
 //@property (strong, nonatomic) QSS12NewTradeNotifyViewController* s11NotiVc;
 @property (strong, nonatomic) QSS12NewTradeExpectableViewController* s11NotiVc;
+@property (strong, nonatomic) NSDate* currentDate;
 
 - (IBAction)backToTopBtnPressed:(id)sender;
 
+
+@property (strong, nonatomic) CKCalendarView* calendarView;
 @end
 
 @implementation QSS01MatchShowsViewController
@@ -52,7 +55,7 @@
 - (instancetype)init {
     self = [super initWithNibName:@"QSS01MatchShowsViewController" bundle:nil];
     if (self) {
-        
+        self.currentDate = [NSDate date];
     }
     return self;
 }
@@ -66,7 +69,12 @@
     [self _configProvider];
     self.viewsArray = @[self.darenCollectionView, self.hotCollectionView, self.newestTableView];
     
-//    [self showTradeNotiViewOfTradeId:@"55cc124fcd4ee1473606a3b8" actualPrice:[NSNumber numberWithFloat:156.78]];
+
+    self.calendarContainerView.frame = self.navigationController.view.bounds;
+    self.calendarView = [[CKCalendarView alloc] initWithStartDay:startSunday frame:self.calendarContainerView.bounds];
+    [self.calendarContainerView addSubview:self.calendarView];
+    self.calendarView.delegate = self;
+    self.calendarView.selectedDate = self.currentDate;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,7 +102,10 @@
     [self.navigationController.navigationBar setBackgroundImage:nil forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:nil];
 }
-
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.calendarView.center = self.calendarContainerView.center;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -145,6 +156,7 @@
     _backToTopbtn.hidden = YES;
 }
 - (IBAction)calendarBtnPressed:(id)sender {
+    self.calendarContainerView.hidden = NO;
 }
 
 #pragma mark - s11
@@ -188,32 +200,50 @@
 {
     //Da ren
     self.darenProvider = [[QSMatchCollectionViewProvider alloc] init];
+    self.darenProvider.currentDate = self.currentDate;
     self.darenProvider.delegate = self;
     self.darenProvider.hasRefreshControl = YES;
     _backToTopbtn.hidden = YES;
     
     [self.darenProvider bindWithCollectionView:self.darenCollectionView];
+    __weak QSS01MatchShowsViewController* weakSelf = self;
     self.darenProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        return [SHARE_NW_ENGINE getfeedingMatchFeatured:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        NSDate* nextDate = [weakSelf.currentDate dateByAddingTimeInterval:60 * 60 * 24];
+        return [SHARE_NW_ENGINE getfeedingMatchFeaturedFromDate:weakSelf.currentDate
+                                                         toDate:nextDate
+                                                           page:page
+                                                      onSucceed:succeedBlock
+                                                        onError:errorBlock];
     };
     self.darenProvider.headerNetworkBlock = ^MKNetworkOperation* (TopOwnerBlock succeedBlock, ErrorBlock errorBlock) {
-        return [SHARE_NW_ENGINE aggregationFeaturedTopOwners:[NSDate date] onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE aggregationFeaturedTopOwners:weakSelf.currentDate
+                                                   onSucceed:succeedBlock
+                                                     onError:errorBlock];
     };
     
     [self.darenProvider reloadData];
     
     //hot
     self.hotProvider = [[QSMatchCollectionViewProvider alloc] init];
+    self.hotProvider.currentDate = self.currentDate;
     self.hotProvider.delegate = self;
     self.hotProvider.hasRefreshControl = YES;
+
     _backToTopbtn.hidden = YES;
     
     [self.hotProvider bindWithCollectionView:self.hotCollectionView];
     self.hotProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        NSDate* nextDate = [weakSelf.currentDate dateByAddingTimeInterval:60 * 60 * 24];
+        return [SHARE_NW_ENGINE getfeedingMatchHotFromDate:weakSelf.currentDate
+                                                    toDate:nextDate
+                                                      page:page
+                                                 onSucceed:succeedBlock
+                                                   onError:errorBlock];
     };
     self.hotProvider.headerNetworkBlock = ^MKNetworkOperation* (TopOwnerBlock succeedBlock, ErrorBlock errorBlock) {
-        return [SHARE_NW_ENGINE aggregationMatchHotTopOwners:[NSDate date] onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE aggregationMatchHotTopOwners:weakSelf.currentDate
+                                                   onSucceed:succeedBlock
+                                                     onError:errorBlock];
     };
     
     [self.hotProvider reloadData];
@@ -224,7 +254,9 @@
     self.newestProvider.hasPaging = NO;
     [self.newestProvider bindWithTableView:self.newestTableView];
     self.newestProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        return [SHARE_NW_ENGINE aggregationMatchNew:[NSDate date] onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE aggregationMatchNew:weakSelf.currentDate
+                                          onSucceed:succeedBlock
+                                            onError:errorBlock];
     };
     [self.newestProvider reloadData];
 }
@@ -257,9 +289,13 @@
 
 #pragma mark - CKCalendarDelegate
 - (void)calendar:(CKCalendarView *)calendar didSelectDate:(NSDate *)date {
-    
-}
-- (void)handleNetworkError:(NSError *)error {
-    [self handleError:error];
+    self.calendarContainerView.hidden = YES;
+    self.calendarView.selectedDate = date;
+    self.currentDate = date;
+    self.darenProvider.currentDate = self.currentDate;
+    [self.darenProvider reloadData];
+    [self.newestProvider reloadData];
+    self.hotProvider.currentDate = self.currentDate;
+    [self.hotProvider reloadData];
 }
 @end

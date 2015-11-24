@@ -49,7 +49,7 @@
             NSMutableArray* retArray = [@[] mutableCopy];
             NSDate* now = [NSDate date];
             
-            for (NSInteger i = [QSDateUtil getHourNumber:now]; i >= 0; --i) {
+            for (NSInteger i = 24; i >= 0; --i) {
                 NSString* hourStr = @(i).stringValue;
                 NSDictionary* dict = [data dictValueForKeyPath:hourStr];
                 NSArray* topOwners = [dict arrayValueForKeyPath:@"topOwners"];

@@ -170,26 +170,65 @@
                                     onError:(ErrorBlock)errorBlock {
     return [self getFeedingPath:PATH_FEEDING_MATCH_CREATE_BY otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
-- (MKNetworkOperation *)getfeedingMatchHot:(NSDictionary *)peopleDict
-                                      page:(int)page
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)getfeedingMatchHotFromDate:(NSDate*)fromDate
+                                            toDate:(NSDate*)toDate
+                                              page:(int)page
+                                         onSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_MATCH_HOT otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    NSMutableDictionary* params = [@{} mutableCopy];
+    if (fromDate) {
+        params[@"from"] = [QSDateUtil buildDayStringFromDate:fromDate];
+    }
+    if (toDate) {
+        params[@"to"] = [QSDateUtil buildDayStringFromDate:toDate];
+    }
+    
+    return [self getFeedingPath:PATH_FEEDING_MATCH_HOT
+                     otherParam:params
+                           page:page
+                      onSucceed:succeedBlock
+                        onError:errorBlock];
 }
 
-- (MKNetworkOperation *)getfeedingMatchNew:(NSDictionary *)peopleDict
-                                      page:(int)page
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)getfeedingMatchNewFromDate:(NSDate*)fromDate
+                                            toDate:(NSDate*)toDate
+                                              page:(int)page
+                                         onSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_MATCH_NEW otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    NSMutableDictionary* params = [@{} mutableCopy];
+    if (fromDate) {
+        params[@"from"] = fromDate;
+    }
+    if (toDate) {
+        params[@"to"] = toDate;
+    }
+    
+    return [self getFeedingPath:PATH_FEEDING_MATCH_NEW
+                     otherParam:params
+                           page:page
+                      onSucceed:succeedBlock
+                        onError:errorBlock];
 }
-- (MKNetworkOperation *)getfeedingMatchFeatured:(NSDictionary *)peopleDict
-                                      page:(int)page
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)getfeedingMatchFeaturedFromDate:(NSDate*)fromDate
+                                                 toDate:(NSDate*)toDate
+                                                   page:(int)page
+                                              onSucceed:(ArraySuccessBlock)succeedBlock
+                                                onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_MATCH_FEATURED otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+    NSMutableDictionary* params = [@{} mutableCopy];
+    if (fromDate) {
+        params[@"from"] = [QSDateUtil buildDayStringFromDate:fromDate];
+    }
+    if (toDate) {
+        params[@"to"] = [QSDateUtil buildDayStringFromDate:toDate];
+    }
+    
+    return [self getFeedingPath:PATH_FEEDING_MATCH_FEATURED
+                     otherParam:params
+                           page:page
+                      onSucceed:succeedBlock
+                        onError:errorBlock];
 }
 @end

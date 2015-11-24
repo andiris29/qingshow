@@ -26,5 +26,5 @@ typedef MKNetworkOperation* (^MatcherProviderHeaderNetworkBlock)(TopOwnerBlock, 
 @property(nonatomic,assign)NSObject<QSMatchCollectionViewProviderDelegate>* delegate;
 
 @property (strong, nonatomic) MatcherProviderHeaderNetworkBlock headerNetworkBlock;
-
+@property (strong, nonatomic) NSDate* currentDate;
 @end

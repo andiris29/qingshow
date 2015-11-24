@@ -20,6 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *segmentContainerView;
 
+@property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
 
 
 @end

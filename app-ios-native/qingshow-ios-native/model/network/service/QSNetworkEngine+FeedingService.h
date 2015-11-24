@@ -52,17 +52,19 @@
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
 #pragma mark - add matchHot/matchNew
-- (MKNetworkOperation *)getfeedingMatchHot:(NSDictionary *)peopleDict
-                                      page:(int)page
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation *)getfeedingMatchNew:(NSDictionary *)peopleDict
-                                      page:(int)page
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)getfeedingMatchFeatured:(NSDictionary *)peopleDict
-                                           page:(int)page
-                                      onSucceed:(ArraySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)getfeedingMatchHotFromDate:(NSDate*)fromDate
+                                            toDate:(NSDate*)toDate
+                                              page:(int)page
+                                         onSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)getfeedingMatchNewFromDate:(NSDate*)fromDate
+                                            toDate:(NSDate*)toDate
+                                              page:(int)page
+                                         onSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)getfeedingMatchFeaturedFromDate:(NSDate*)fromDate
+                                                 toDate:(NSDate*)toDate
+                                                   page:(int)page
+                                              onSucceed:(ArraySuccessBlock)succeedBlock
+                                                onError:(ErrorBlock)errorBlock;
 @end

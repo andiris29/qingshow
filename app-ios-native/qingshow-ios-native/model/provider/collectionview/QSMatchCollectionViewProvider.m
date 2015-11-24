@@ -29,7 +29,10 @@
 @implementation QSMatchCollectionViewProvider
 
 @dynamic delegate;
-
+- (void)setCurrentDate:(NSDate *)currentDate {
+    _currentDate = currentDate;
+    [self.view reloadData];
+}
 - (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block {
     MKNetworkOperation* op = [super fetchDataOfPage:page completion:block];
     if (page == 1) {

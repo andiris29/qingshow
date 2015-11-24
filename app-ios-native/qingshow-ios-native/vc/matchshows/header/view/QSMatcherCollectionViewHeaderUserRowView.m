@@ -10,6 +10,7 @@
 #import "QSMatcherCollectionViewHeaderUserView.h"
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "NSArray+QSExtension.h"
 
 #define HEAD_NUMBER 8
 #define SPACE_X 6.f
@@ -51,6 +52,9 @@
 }
 
 - (void)bindWithUsers:(NSArray*)users {
+    users = [users filteredArrayUsingBlock:^BOOL(id u) {
+        return ![QSEntityUtil checkIsNil:u];
+    }];
     for (int i = 0; i < self.headerViews.count; i++) {
         QSMatcherCollectionViewHeaderUserView* imgView = self.headerViews[i];
         if (i < users.count) {
