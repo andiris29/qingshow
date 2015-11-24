@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var ItemSyncService = require('./ItemSyncService'),
     GoblinLogger = require('./GoblinLogger');
 
-var ItemSourceUtil = require('../../../goblin-slave/ItemSourceUtil'),
-    GoblinError = require('../../../goblin-slave/GoblinError');
+var ItemSourceUtil = require('../../../goblin-common/ItemSourceUtil'),
+    GoblinError = require('../../../goblin-common/GoblinError');
 
 var Items = require('../../../dbmodels').Item;
     

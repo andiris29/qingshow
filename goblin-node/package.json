@@ -1,0 +1,14 @@
+{
+  "name": "com.focosee.qingshow-goblin-node",
+  "version": "0.1.0",
+  "dependencies": {
+    "async": "0.9.*",
+    "underscore": "1.7.*",
+    "request": "2.44.*",
+    "moment": "2.8.*",
+    "properties": "1.*",
+    "winston": "0.8.3",
+    "iconv-lite": "0.4.*",
+    "cheerio": "^0.18.0"
+  }
+}

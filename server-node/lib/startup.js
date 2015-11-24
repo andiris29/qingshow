@@ -38,12 +38,6 @@ properties.parse(configPath, {
         } catch (err) {
             console.log(err);
         }
-        try {
-            // Startup goblin overseer
-            require('./goblin-overseer/startup')();
-        } catch (err) {
-            console.log(err);
-        }
     });
 });
 

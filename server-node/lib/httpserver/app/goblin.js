@@ -6,7 +6,7 @@ var ResponseHelper = require('../../helpers/ResponseHelper');
 var GoblinScheduler = require('./goblin/GoblinScheduler'),
     ItemSyncService = require('./goblin/ItemSyncService'),
     GoblinLogger = require('./goblin/GoblinLogger');
-var GoblinError = require('../../goblin-slave/GoblinError');
+var GoblinError = require('../../goblin-common/GoblinError');
 var Item = require('../../dbmodels').Item;
 var errors = require('../../errors');
 

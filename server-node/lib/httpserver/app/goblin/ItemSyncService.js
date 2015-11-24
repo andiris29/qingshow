@@ -7,9 +7,9 @@ var Item = require('../../../dbmodels').Item,
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 
-var GoblinError = require('../../../goblin-slave/GoblinError'),
-    ItemSourceUtil = require('../../../goblin-slave/ItemSourceUtil'),
-    ItemSourceType = require('../../../goblin-slave/ItemSourceType');
+var GoblinError = require('../../../goblin-common/GoblinError'),
+    ItemSourceUtil = require('../../../goblin-common/ItemSourceUtil'),
+    ItemSourceType = require('../../../goblin-common/ItemSourceType');
 
 var ItemSyncService = {};
 
