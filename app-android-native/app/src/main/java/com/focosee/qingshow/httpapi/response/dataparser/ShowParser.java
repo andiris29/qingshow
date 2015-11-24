@@ -29,7 +29,7 @@ public class ShowParser {
     public static LinkedList<MongoShow> parseQuery(JSONObject response) {
         try {
             String shows = response.getJSONObject("data").getJSONArray("shows").toString();
-            Gson gson = QSGsonFactory.create();
+            Gson gson = QSGsonFactory.itemBuilder().create();
             return gson.fromJson(shows, new TypeToken<LinkedList<MongoShow>>() {
             }.getType());
         } catch (JSONException e) {

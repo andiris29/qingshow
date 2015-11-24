@@ -11,11 +11,13 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -28,10 +30,14 @@ import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
@@ -95,7 +101,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
+        adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_match);
         recyclerView.setAdapter(adapter);
 
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
@@ -117,7 +123,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         getDatasFromNet(type, currentPageNo);
     }
 
-    public void getDatasFromNet(int type, final int pageNo) {
+    public void getDatasFromNet(final int type, final int pageNo) {
 
         String url = "";
         switch (type) {
@@ -234,13 +240,16 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     private void clickTabNew() {
         currentType = TYPE_NEW;
-        mRefreshLayout.beginRefreshing();
         s01TabHot.setBackgroundResource(R.drawable.square_btn_border);
         s01TabHot.setTextColor(getResources().getColor(R.color.master_pink));
         s01TabNew.setBackgroundResource(R.drawable.s01_tab_btn2);
         s01TabNew.setTextColor(getResources().getColor(R.color.white));
         s01TabFeature.setBackgroundResource(R.drawable.s01_tab_border2);
         s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
+    }
+
+    private void getMatchNew(){
+        QSRxApi.createFeedingaggregationMatchNewRequest(new Date(),new Date());
     }
 
     @Override
