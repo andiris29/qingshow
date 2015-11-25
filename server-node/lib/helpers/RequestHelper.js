@@ -64,13 +64,10 @@ RequestHelper.parseDate = function (string) {
     if (string !== undefined) {
         var d;
         if (isNaN(string)) {
+            // 2015-11-25T11:00:00+08:00
             d = new Date(string);
         } else {
             d = new Date(Number(string));
-        }
-        if (d) {
-            // Hard code +8 timezone
-            d.setHours(d.getHours() - 8);
         }
         return d;
     }
