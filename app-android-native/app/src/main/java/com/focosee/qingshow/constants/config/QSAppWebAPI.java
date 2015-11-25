@@ -114,8 +114,9 @@ public class QSAppWebAPI {
 
     private static String SHOW_VIEW_API = "/show/view";
 
-    public static String getFeedingaggregationMatchnew() {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_MATCHNEW;
+    public static String getFeedingaggregationMatchnew(String data) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_MATCHNEW +
+                "?date=" + data;
     }
 
     public static String getShowViewApi() {

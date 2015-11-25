@@ -249,7 +249,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     }
 
     private void getMatchNew(){
-        QSRxApi.createFeedingaggregationMatchNewRequest(new Date(),new Date());
+        QSRxApi.queryFeedingaggregationMatchNew(new Date());
     }
 
     @Override
