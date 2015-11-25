@@ -10,6 +10,7 @@
 
 @interface QSDateUtil : NSObject
 
++ (NSDate*)clearTimeFromDate:(NSDate*)date;
 + (NSDate*)buildDateFromResponseString:(NSString*)str;
 + (NSString*)buildStringFromDate:(NSDate*)date;
 + (NSString*)getTime:(NSDate*)date;

@@ -40,11 +40,8 @@
     if (!dateStr) {
         return;
     }
-    NSString* fullStr = [NSString stringWithFormat:@"%@ %d:00:00", dateStr, hour.intValue];
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    NSDate* retDate = [dateFormatter dateFromString:fullStr];
+    
+    NSDate* retDate = [date dateByAddingTimeInterval:hour.intValue * 60 * 60];
     if ([self.delegate respondsToSelector:@selector(provider:didClickDate:)]) {
         [self.delegate provider:self didClickDate:retDate];
     }

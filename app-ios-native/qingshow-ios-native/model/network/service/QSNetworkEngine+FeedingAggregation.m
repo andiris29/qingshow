@@ -19,8 +19,7 @@
 @implementation QSNetworkEngine(FeedingAggregation)
 
 - (MKNetworkOperation*)aggregationFeaturedTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock {
-    NSString* formatStr = [self _paramStringFromDate:date];
-    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_FEATURED_TOP_OWNERS method:@"GET" paramers:@{@"date": formatStr} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_FEATURED_TOP_OWNERS method:@"GET" paramers:@{@"date": [date description]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [self _handleTopOwner:completedOperation succeedBlock:succeedBlock];
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -30,8 +29,7 @@
 }
 
 - (MKNetworkOperation*)aggregationMatchHotTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock {
-    NSString* formatStr = [self _paramStringFromDate:date];
-    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_MATCH_HOT_TOP_OWNERS method:@"GET" paramers:@{@"date": formatStr} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_MATCH_HOT_TOP_OWNERS method:@"GET" paramers:@{@"date": [date description]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [self _handleTopOwner:completedOperation succeedBlock:succeedBlock];
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -41,13 +39,11 @@
 }
 
 - (MKNetworkOperation*)aggregationMatchNew:(NSDate*)date onSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
-    NSString* formatStr = [self _paramStringFromDate:date];
-    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_MATCH_NEW method:@"GET" paramers:@{@"date" : formatStr} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_MATCH_NEW method:@"GET" paramers:@{@"date" : [date description]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* resJson = completedOperation.responseJSON;
             NSDictionary* data = [resJson dictValueForKeyPath:@"data"];
             NSMutableArray* retArray = [@[] mutableCopy];
-            NSDate* now = [NSDate date];
             
             for (NSInteger i = 24; i >= 0; --i) {
                 NSString* hourStr = @(i).stringValue;
@@ -83,11 +79,5 @@
         block(owners, numOwn.intValue, index.intValue);
     }
 }
-- (NSString*)_paramStringFromDate:(NSDate*)date {
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    NSString* formatStr = [dateFormatter stringFromDate:date];
-    return formatStr;
-}
+
 @end

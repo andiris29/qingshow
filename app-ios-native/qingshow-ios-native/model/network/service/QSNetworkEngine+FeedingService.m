@@ -178,10 +178,10 @@
 {
     NSMutableDictionary* params = [@{} mutableCopy];
     if (fromDate) {
-        params[@"from"] = [QSDateUtil buildDayStringFromDate:fromDate];
+        params[@"from"] = [fromDate description];
     }
     if (toDate) {
-        params[@"to"] = [QSDateUtil buildDayStringFromDate:toDate];
+        params[@"to"] = [toDate description];
     }
     
     return [self getFeedingPath:PATH_FEEDING_MATCH_HOT
@@ -199,11 +199,10 @@
 {
     NSMutableDictionary* params = [@{} mutableCopy];
     if (fromDate) {
-        ;
-        params[@"from"] = [QSDateUtil buildStringFromDate:fromDate];
+        params[@"from"] = [fromDate description];
     }
     if (toDate) {
-        params[@"to"] = [QSDateUtil buildStringFromDate:toDate];
+        params[@"to"] = [toDate description];
     }
     
     return [self getFeedingPath:PATH_FEEDING_MATCH_NEW
@@ -220,10 +219,10 @@
 {
     NSMutableDictionary* params = [@{} mutableCopy];
     if (fromDate) {
-        params[@"from"] = [QSDateUtil buildDayStringFromDate:fromDate];
+        params[@"from"] = [fromDate description];
     }
     if (toDate) {
-        params[@"to"] = [QSDateUtil buildDayStringFromDate:toDate];
+        params[@"to"] = [toDate description];
     }
     
     return [self getFeedingPath:PATH_FEEDING_MATCH_FEATURED

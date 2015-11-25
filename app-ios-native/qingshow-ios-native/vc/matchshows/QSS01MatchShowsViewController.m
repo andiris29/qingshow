@@ -22,6 +22,7 @@
 #import "QSS11CreateTradeViewController.h"
 #import "QSUnreadManager.h"
 #import "CKCalendarView.h"
+#import "QSDateUtil.h"
 
 #define PAGE_ID @"新美搭榜单"
 
@@ -210,15 +211,17 @@
     [self.darenProvider bindWithCollectionView:self.darenCollectionView];
     __weak QSS01MatchShowsViewController* weakSelf = self;
     self.darenProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        NSDate* nextDate = [weakSelf.currentDate dateByAddingTimeInterval:60 * 60 * 24];
-        return [SHARE_NW_ENGINE getfeedingMatchFeaturedFromDate:weakSelf.currentDate
+        NSDate* currentDate = [QSDateUtil clearTimeFromDate:weakSelf.currentDate];
+        NSDate* nextDate = [currentDate dateByAddingTimeInterval:60 * 60 * 24];
+        return [SHARE_NW_ENGINE getfeedingMatchFeaturedFromDate:currentDate
                                                          toDate:nextDate
                                                            page:page
                                                       onSucceed:succeedBlock
                                                         onError:errorBlock];
     };
     self.darenProvider.headerNetworkBlock = ^MKNetworkOperation* (TopOwnerBlock succeedBlock, ErrorBlock errorBlock) {
-        return [SHARE_NW_ENGINE aggregationFeaturedTopOwners:weakSelf.currentDate
+        
+        return [SHARE_NW_ENGINE aggregationFeaturedTopOwners:[QSDateUtil clearTimeFromDate:weakSelf.currentDate]
                                                    onSucceed:succeedBlock
                                                      onError:errorBlock];
     };
@@ -235,15 +238,17 @@
     
     [self.hotProvider bindWithCollectionView:self.hotCollectionView];
     self.hotProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        NSDate* nextDate = [weakSelf.currentDate dateByAddingTimeInterval:60 * 60 * 24];
-        return [SHARE_NW_ENGINE getfeedingMatchHotFromDate:weakSelf.currentDate
+        NSDate* currentDate = [QSDateUtil clearTimeFromDate:weakSelf.currentDate];
+        NSDate* nextDate = [currentDate dateByAddingTimeInterval:60 * 60 * 24];
+        return [SHARE_NW_ENGINE getfeedingMatchHotFromDate:currentDate
                                                     toDate:nextDate
                                                       page:page
                                                  onSucceed:succeedBlock
                                                    onError:errorBlock];
     };
     self.hotProvider.headerNetworkBlock = ^MKNetworkOperation* (TopOwnerBlock succeedBlock, ErrorBlock errorBlock) {
-        return [SHARE_NW_ENGINE aggregationMatchHotTopOwners:weakSelf.currentDate
+        
+        return [SHARE_NW_ENGINE aggregationMatchHotTopOwners:[QSDateUtil clearTimeFromDate:weakSelf.currentDate]
                                                    onSucceed:succeedBlock
                                                      onError:errorBlock];
     };
@@ -256,7 +261,8 @@
     self.newestProvider.hasPaging = NO;
     [self.newestProvider bindWithTableView:self.newestTableView];
     self.newestProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        return [SHARE_NW_ENGINE aggregationMatchNew:weakSelf.currentDate
+        
+        return [SHARE_NW_ENGINE aggregationMatchNew:[QSDateUtil clearTimeFromDate:weakSelf.currentDate]
                                           onSucceed:succeedBlock
                                             onError:errorBlock];
     };
