@@ -145,12 +145,19 @@ public class RectUtil {
     }
 
     public static void locateView(Rect rect,View view){
-        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", 0, rect.left);
-        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", 0, rect.top);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(x, y);
-        animatorSet.setDuration(0);
-        animatorSet.start();
+        view.setX(rect.left);
+        view.setY(rect.top);
+        view.setScaleX(1.0f);
+        view.setScaleY(1.0f);
+
+        float width = view.getWidth();
+        float height = view.getHeight();
+        float maxWidth = rect.width();
+        float maxHeight = rect.height();
+        float radio = maxWidth / width > maxHeight / height ? maxHeight / height : maxWidth / width;
+        view.setScaleX(radio);
+        view.setScaleY(radio);
+
     }
 
 }

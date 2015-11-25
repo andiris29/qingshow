@@ -218,7 +218,6 @@ public class QSImageView extends RelativeLayout {
         }
     }
 
-
     public void setChecked(boolean isChecked) {
         this.isChecked = isChecked;
         onCheckedChanged(isChecked);

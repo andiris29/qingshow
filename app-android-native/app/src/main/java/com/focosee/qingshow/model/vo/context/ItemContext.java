@@ -10,14 +10,14 @@ import java.util.List;
  * Created by Administrator on 2015/11/24.
  */
 public class ItemContext implements Serializable {
-    public Model model;
-    public List<Item> items;
+    public Model master;
+    public List<Slave> slaves;
     public class Model {
         public QSRect rect;
     }
 
-    public class Item {
+    public class Slave {
         public QSRect rect;
-        public String ref;
+        public String categoryRef;
     }
 }

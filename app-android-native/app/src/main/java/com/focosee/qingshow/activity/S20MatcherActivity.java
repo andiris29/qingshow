@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -30,6 +29,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S20Bitmap;
+import com.focosee.qingshow.model.vo.context.ItemContext;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -63,6 +63,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Func1;
 
 /**
@@ -95,13 +96,10 @@ public class S20MatcherActivity extends BaseActivity {
     private Map<String, MongoCategories.Context> contexts;
     private String modelCategory;
 
-    private Point canvasPoint;
     private String mCategoryRef = "";
     private int pagaSize = 10;
     private int rows[] = new int[]{1, 2};
     private boolean hasDraw = false;
-
-    private MenuView menuView;
 
     @Override
     public void reconn() {
@@ -130,10 +128,6 @@ public class S20MatcherActivity extends BaseActivity {
             });
         }
 
-        canvasPoint = new Point();
-        canvasPoint.x = canvas.getWidth();
-        canvasPoint.y = canvas.getHeight();
-
         initSelectRV();
         initCanvas();
 
@@ -147,7 +141,6 @@ public class S20MatcherActivity extends BaseActivity {
 
     private void addItemsToCanvas(final String categoryRef, String url) {
         final Select select;
-
         final QSImageView itemView = new QSImageView(this);
 
         if (allSelect.containsKey(categoryRef)) {
@@ -219,11 +212,15 @@ public class S20MatcherActivity extends BaseActivity {
 
             }
         });
-
         canvas.attach(itemView);
         itemView.bringToFront();
         select.setView(itemView).setPageNo(1);
         allSelect.put(categoryRef, select);
+        if (select.rect != null) {
+            Log.i("tag", select.rect.toString());
+            //RectUtil.locateView(select.rect, itemView);
+        }
+
     }
 
 
@@ -248,8 +245,6 @@ public class S20MatcherActivity extends BaseActivity {
         view.setLayoutParams(new FrameLayout.LayoutParams(width, height));
         view.setX(contexts.get(categoryRef).x * canvas.getWidth() / 100);
         view.setY(contexts.get(categoryRef).y * canvas.getHeight() / 100);
-        System.out.println("left:" + view.getLeft());
-        System.out.println("right:" + view.getRight());
         view.callOnClick();
     }
 
@@ -293,8 +288,17 @@ public class S20MatcherActivity extends BaseActivity {
                             canvas.removeView(canvas.getChildAt(i));
                         }
                     }
-                    Rect rect = datas.__context.model.rect.getRect(canvasPoint);
+                    allSelect.clear();
+                    allSelect.put(modelCategory, modelSelect);
+                    final Point canvasPoint = new Point();
+                    canvasPoint.x = canvas.getWidth();
+                    canvasPoint.y = canvas.getHeight();
+                    Rect rect = datas.__context.master.rect.getRect(canvasPoint);
                     RectUtil.locateView(rect, modelView);
+
+                    for (ItemContext.Slave slave : datas.__context.slaves) {
+                        getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
+                    }
                 }
 
                 ImageLoader.getInstance().displayImage(datas.thumbnail, allSelect.get(mCategoryRef).view.getImageView(), new SimpleImageLoadingListener() {
@@ -367,7 +371,7 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
 
-    private void getDataFromNet(final String categoryRef) {
+    private void getDataFromNet(final String categoryRef, final Rect rect) {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryItems(1, 20, categoryRef), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -376,12 +380,15 @@ public class S20MatcherActivity extends BaseActivity {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
                 }
+                Select select;
                 datas = ItemFeedingParser.parse(response);
                 if (allSelect.containsKey(categoryRef)) {
-                    allSelect.put(categoryRef, allSelect.get(categoryRef).setData(datas).setItem(datas.get(0)));
+                    select = allSelect.get(categoryRef);
                 } else {
-                    allSelect.put(categoryRef, new Select().setData(datas).setItem(datas.get(0)));
+                    select = new Select();
                 }
+                select.setData(datas).setItem(datas.get(0)).setRect(rect);
+                allSelect.put(categoryRef, select);
                 if (!categoryRefs.contains(categoryRef)) {
                     categoryRefs.add(categoryRef);
                 }
@@ -428,12 +435,12 @@ public class S20MatcherActivity extends BaseActivity {
                     return;
                 }
                 try {
-                    modelCategory = response.getJSONObject("metadata").get("modelCategory").toString();
+                    modelCategory = response.getJSONObject("metadata").get("master").toString();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 categories = CategoryParser.parseQuery(response);
-                getDataFromNet(modelCategory);
+                getDataFromNet(modelCategory,null);
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -475,7 +482,7 @@ public class S20MatcherActivity extends BaseActivity {
                 if (row > rows[cloum]) {
                     rows[cloum] = row;
                 }
-                getDataFromNet(ref);
+                getDataFromNet(ref, null);
             }
         }
     }
@@ -492,7 +499,7 @@ public class S20MatcherActivity extends BaseActivity {
     @OnClick(R.id.menu)
     public void menuOpen() {
         ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
-        menuView = new MenuView();
+        MenuView menuView = new MenuView();
         menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
     }
 
@@ -582,17 +589,11 @@ public class S20MatcherActivity extends BaseActivity {
         public int pageNo;
         public List<MongoItem> data;
         public MongoItem item;
-        public int row;
-        public int column;
+        public Rect rect;
         public boolean loadDone = false;
 
-        public Select setRow(int row) {
-            this.row = row;
-            return this;
-        }
-
-        public Select setColumn(int column) {
-            this.column = column;
+        public Select setRect(Rect rect) {
+            this.rect = rect;
             return this;
         }
 
