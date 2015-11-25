@@ -81,7 +81,7 @@ feedingAggregation.matchNew = {
     'method' : 'get',
     'func' : [
         function(req, res, next) {
-            var date = RequestHelper.parseDate(req.queryString.date, req),
+            var date = RequestHelper.parseDate(req.queryString.date),
                 today = new Date();
             var hour, 
                 maxHour = (date.getFullYear() === today.getFullYear() && 
@@ -137,7 +137,7 @@ feedingAggregation.featuredTopOwners = {
     'func' : [
         function(req, res, next) {
             var criteria = _buildCriteria(
-                RequestHelper.parseDate(req.queryString.date, req), ONE_DAY, ShowCode.FEATURED_RANK_TALENT);
+                RequestHelper.parseDate(req.queryString.date), ONE_DAY, ShowCode.FEATURED_RANK_TALENT);
                 
             _queryTopOwners(req, criteria, function(err, data) {
                 if (err) {
@@ -156,7 +156,7 @@ feedingAggregation.matchHotTopOwners = {
     'func' : [
         function(req, res, next) {
             var criteria = _buildCriteria(
-                RequestHelper.parseDate(req.queryString.date, req), ONE_DAY, ShowCode.FEATURED_RANK_HOT);
+                RequestHelper.parseDate(req.queryString.date), ONE_DAY, ShowCode.FEATURED_RANK_HOT);
                 
             _queryTopOwners(req, criteria, function(err, data) {
                 if (err) {
