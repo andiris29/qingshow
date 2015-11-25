@@ -19,6 +19,7 @@
 
 #define kShowTradeExpectablePriceChangeVcNotificationName @"kShowTradeExpectablePriceChangeVcNotificationName"
 #define kHideTradeExpectablePriceChangeVcNotificationName @"kHideTradeExpectablePriceChangeVcNotificationName"
+#define kShowS01VcWithSegmentIndexNotificationName @"kShowS01VcWithSegmentIndexNotificationName"
 
 @interface QSNotificationHelper : NSObject
 
@@ -34,4 +35,7 @@
 + (void)postShowTradeExpectablePriceChangeVcNotiWithTradeDict:(NSDictionary*)tradeDict;
 + (void)postShowTradeExpectablePriceChangeVcNoti:(NSDictionary*)userInfo;
 + (void)postHideTradeExpectablePriceChangeVcNoti;
+
++ (void)postShowS01VcWithSegmentIndex:(NSInteger)index;
+
 @end

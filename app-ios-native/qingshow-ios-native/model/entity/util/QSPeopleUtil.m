@@ -388,4 +388,13 @@
     }
     return YES;
 }
+
++ (BOOL)isTalent:(NSDictionary*)dict {
+    NSNumber* f = [dict numberValueForKeyPath:@"talent"];
+    if (f) {
+        return f.boolValue;
+    } else {
+        return NO;
+    }
+}
 @end

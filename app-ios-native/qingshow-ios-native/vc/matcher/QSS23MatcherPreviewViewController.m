@@ -13,6 +13,7 @@
 #import "QSUserManager.h"
 #import "QSNotificationHelper.h"
 #import "UIViewController+QSExtension.h"
+#import "QSPeopleUtil.h"
 @interface QSS23MatcherPreviewViewController ()
 
 @property (strong, nonatomic) NSArray* itemArray;
@@ -77,15 +78,13 @@
                 [QSNotificationHelper postScheduleToShowLoginGuideNoti];
                 [QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher = NO;
             }
-            
-            
-            
-            QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc]initWithShowId:[QSEntityUtil getStringValue:d keyPath:@"_id"]];
-            vc.showBackBtn = YES;
-            vc.menuProvider = self.menuProvider;
             [hud hide:YES];
-            [self.navigationController pushViewController:vc animated:YES];
-            //            [self showShowDetailViewController:d];
+            
+            if ([QSPeopleUtil isTalent:[QSUserManager shareUserManager].userInfo]) {
+                [QSNotificationHelper postShowS01VcWithSegmentIndex:0];
+            } else {
+                [QSNotificationHelper postShowS01VcWithSegmentIndex:2];
+            }
         } onError:^(NSError *error) {
             [hud hide:YES];
             self.updateCoverOp = nil;

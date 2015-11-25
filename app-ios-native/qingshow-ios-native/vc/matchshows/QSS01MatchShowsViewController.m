@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *calendarBtn;
 
 
-@property (nonatomic, strong) UISegmentedControl *segmentControl;
+
 @property (strong, nonatomic) NSArray* viewsArray;
 #pragma mark Provider
 @property (nonatomic, strong) NSArray* providerArray;
@@ -80,6 +80,10 @@
     [self.calendarContainerView addGestureRecognizer:ges];
     self.calendarView.delegate = self;
     self.calendarView.selectedDate = self.currentDate;
+    if (self.defaultSegment) {
+        self.segmentControl.selectedSegmentIndex = self.defaultSegment.integerValue;
+        self.defaultSegment = nil;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

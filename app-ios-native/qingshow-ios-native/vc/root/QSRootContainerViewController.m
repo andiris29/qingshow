@@ -88,6 +88,8 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowTradeExpectablePriceChangeVcNoti:) name:kShowTradeExpectablePriceChangeVcNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideTradeExpectablePriceChangeVcNoti:) name:kHideTradeExpectablePriceChangeVcNotificationName object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowS01VcWithSegmentIndex:) name:kShowS01VcWithSegmentIndexNotificationName object:nil];
 }
 
 
@@ -350,6 +352,21 @@
 - (void)didReceiveHideTradeExpectablePriceChangeVcNoti:(NSNotification*)noti {
     [self _hideVcInPopoverContainer:self.s12NotiVc withAnimation:YES];
     self.s12NotiVc = nil;
+}
+
+- (void)didReceiveShowS01VcWithSegmentIndex:(NSNotification*)noti {
+    NSDictionary* userInfo = noti.userInfo;
+    NSNumber* index = [userInfo numberValueForKeyPath:@"index"];
+    [self triggerToShowVc:QSRootMenuItemMeida];
+    if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
+        QSS01MatchShowsViewController* s01Vc = (QSS01MatchShowsViewController*)self.contentVc;
+        if (s01Vc.segmentControl) {
+            s01Vc.segmentControl.selectedSegmentIndex = index.integerValue;
+        } else {
+            s01Vc.defaultSegment = index;
+        }
+
+    }
 }
 
 #pragma mark -

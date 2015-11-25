@@ -76,4 +76,5 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 + (NSString *)getNameAndPswLoginId:(NSDictionary *)dict;
 #pragma mark - code
 + (BOOL)checkMobileExist:(NSDictionary *)dict;
++ (BOOL)isTalent:(NSDictionary*)dict;
 @end

@@ -43,5 +43,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kHideTradeExpectablePriceChangeVcNotificationName object:nil];
 }
 
-
++ (void)postShowS01VcWithSegmentIndex:(NSInteger)index {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowS01VcWithSegmentIndexNotificationName object:nil userInfo:@{@"index" : @(index)}];
+}
 @end

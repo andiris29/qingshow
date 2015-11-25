@@ -22,5 +22,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
 
+@property (nonatomic, strong) UISegmentedControl *segmentControl;
 
+@property (strong, nonatomic) NSNumber* defaultSegment;
 @end
