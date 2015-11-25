@@ -61,7 +61,7 @@ RequestHelper.parseNumber = function (string) {
     return string === undefined ? undefined : parseFloat(string);
 };
 
-RequestHelper.parseDate = function (string) {
+RequestHelper.parseDate = function (string, req) {
     if (string !== undefined) {
         var d;
         if (isNaN(string)) {

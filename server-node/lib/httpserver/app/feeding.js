@@ -208,10 +208,10 @@ var _buildFeaturedCriteria = function(req, featuredRank) {
         {'featuredRank' : featuredRank}
     ];
     if (req.queryString.from) {
-        criteria.push({'create' : {'$gte' : RequestHelper.parseDate(req.queryString.from)}});
+        criteria.push({'create' : {'$gte' : RequestHelper.parseDate(req.queryString.from, req)}});
     }
     if (req.queryString.to) {
-        criteria.push({'create' : {'$lt' : RequestHelper.parseDate(req.queryString.to)}});
+        criteria.push({'create' : {'$lt' : RequestHelper.parseDate(req.queryString.to, req)}});
     }
     return {
         '$and' : criteria
