@@ -228,9 +228,9 @@
                       modelItem:(NSDictionary*)modelItem {
     NSDictionary* categoryContext = [modelItem dictValueForKeyPath:@"__context"];
     
-    NSArray* itemsContextArray = [categoryContext arrayValueForKeyPath:@"items"];
+    NSArray* itemsContextArray = [categoryContext arrayValueForKeyPath:@"slaves"];
     NSArray* categoryArray = [itemsContextArray mapUsingBlock:^id(NSDictionary* dict) {
-        NSString* categoryId = [dict stringValueForKeyPath:@"ref"];
+        NSString* categoryId = [dict stringValueForKeyPath:@"categoryRef"];
         NSDictionary* categoryDict = [[QSCategoryManager getInstance] findCategoryOfId:categoryId];
         if (categoryDict) {
             return categoryDict;

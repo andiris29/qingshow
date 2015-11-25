@@ -59,7 +59,7 @@
     NSArray* itemConfigs = [matcherConfig arrayValueForKeyPath:@"slaves"];
     for (NSDictionary* itemConfig in itemConfigs) {
         NSArray* rectConfig = [itemConfig arrayValueForKeyPath:@"rect"];
-        NSString* categoryId = [itemConfig stringValueForKeyPath:@"ref"];
+        NSString* categoryId = [itemConfig stringValueForKeyPath:@"categoryRef"];
         UIView* v = self.categoryIdToView[categoryId];
         if (![v isEqual:[NSNull null]]) {
             [self _updateView:v withRectConfig:rectConfig];
