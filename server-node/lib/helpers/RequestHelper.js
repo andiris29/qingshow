@@ -25,8 +25,7 @@ RequestHelper.getClientInfo = function (req) {
         'qs-type' : req.header('qs-type'),
         'qs-version' : req.header('qs-version'),
         'qs-version-code' : req.header('qs-version-code'),
-        'qs-timezone' : req.header('qs-timezone'),
-        'qs-ip' : RequestHelper.getIp(req)
+        'qs-client-ip' : RequestHelper.getIp(req)
     };
 };
 
@@ -69,8 +68,9 @@ RequestHelper.parseDate = function (string) {
         } else {
             d = new Date(Number(string));
         }
-        if (d && req.header('qs-timezone')) {
-            d.setHours(d.getHours() - parseInt(req.header('qs-timezone')));
+        if (d) {
+            // Hard code +8 timezone
+            d.setHours(d.getHours() - 8);
         }
         return d;
     }
