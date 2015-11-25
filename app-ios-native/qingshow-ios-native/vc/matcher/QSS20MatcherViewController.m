@@ -19,7 +19,6 @@
 #import "UIView+ScreenShot.h"
 #import "QSS03ShowDetailViewController.h"
 
-#import "QSMatcherItemPageSelectionImageView.h"
 #import "QSMatcherItemScrollSelectionView.h"
 
 #import "NSArray+QSExtension.h"
@@ -40,6 +39,7 @@
 
 @property (assign, nonatomic) BOOL fShouldReload;
 @property (assign, nonatomic) BOOL fRemoveMenuBtn;
+@property (strong, nonatomic) NSMutableArray* selectedItemIds;
 @end
 
 @implementation QSS20MatcherViewController
@@ -48,7 +48,7 @@
 - (instancetype)init {
     self = [super initWithNibName:@"QSS20MatcherViewController" bundle:nil];
     if (self) {
-        
+        self.selectedItemIds = [@[] mutableCopy];
     }
     return self;
 }
@@ -262,6 +262,7 @@
         __block NSString* cateId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         if ([oldCategoryIds indexOfObject:cateId] == NSNotFound) {
             QSMatcherItemsProvider* provider = [[QSMatcherItemsProvider alloc] initWithCategory:categoryDict];
+            provider.selectItemIds = self.selectedItemIds;
             provider.delegate = self;
             self.cateIdToProvider[cateId] = provider;
             [provider reloadData];
@@ -280,6 +281,11 @@
 
 #pragma mark - QSMatcherItemsProviderDelegate
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider ofCategory:(NSDictionary*)categoryDict didSelectItem:(NSDictionary*)itemDict{
+    NSString* itemId = [QSEntityUtil getIdOrEmptyStr:itemDict];
+    if ([self.selectedItemIds indexOfObject:itemId] == NSNotFound) {
+        [self.selectedItemIds addObject:itemId];
+    }
+    
     [self.canvasView setItem:itemDict forCategory:categoryDict isFirst:provider.fIsFirst];
     provider.fIsFirst = NO;
     
