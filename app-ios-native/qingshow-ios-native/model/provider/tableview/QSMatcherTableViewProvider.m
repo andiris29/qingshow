@@ -10,6 +10,9 @@
 #import "QSMatcherTableViewCell.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSDateUtil.h"
+#define w ([UIScreen mainScreen].bounds.size.width)
+#define h ([UIScreen mainScreen].bounds.size.height)
+
 @interface QSMatcherTableViewProvider() <QSMatcherTableViewCellDelegate>
 
 @end
@@ -29,11 +32,12 @@
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithDict:dict];
     cell.delegate = self;
+    cell.contentView.transform = CGAffineTransformMakeScale(w / 320, w / 320);
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QSMatcherTableViewCellHeight;
+    return QSMatcherTableViewCellHeight * w / 320;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

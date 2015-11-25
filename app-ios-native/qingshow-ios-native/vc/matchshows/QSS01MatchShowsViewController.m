@@ -117,6 +117,7 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.calendarView.center = self.calendarContainerView.center;
+    self.segmentControl.center = CGPointMake(self.segmentContainerView.bounds.size.width / 2, self.segmentContainerView.bounds.size.height / 2);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

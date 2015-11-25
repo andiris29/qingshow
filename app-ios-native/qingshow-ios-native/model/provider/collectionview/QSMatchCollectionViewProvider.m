@@ -80,6 +80,7 @@
         headerCell.delegate = self;
         [headerCell bindWithOwners:self.owners ownerCount:self.numOwners index:self.ownIndex];
         [headerCell updateDate:self.currentDate];
+        headerCell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);
         return headerCell;
     }
     QSMatchShowsCell *cell = (QSMatchShowsCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:S01MATCHCELL forIndexPath:indexPath];
@@ -116,7 +117,7 @@
     return self.resultArray.count + 1;
 }
 - (CGFloat)heightForHeaderInCollectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout {
-    return 100.f;
+    return 100.f * w/320;
 }
 #pragma mark - Delegate
 - (void)headerImgViewPressed:(id)sender
