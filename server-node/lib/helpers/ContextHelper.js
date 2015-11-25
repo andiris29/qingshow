@@ -112,22 +112,22 @@ ContextHelper.appendMatchCompositionContext = function(items, callback){
         return function(cb){
             var config = global.qsMatcherConfig;
             var layout = {};
-            if (item.matchComposition && item.matchComposition.layout && config.matcher.layouts[item.matchComposition.layout]) {      
+            if (item.matchComposition && item.matchComposition.layout && config[item.matchComposition.layout]) {      
                 layout = config.matcher.layouts[definedLayout];
             }else {
-                layout = config.matcher.layouts.default;
+                layout = config.default;
             }
 
             var context = {};
             context.items = [];
             for(var key in layout){
-                if (key === 'model') {
-                    context.model = {
-                        'rect' : JSON.parse("[" + layout.model.rect + "]")
+                if (key === 'master') {
+                    context.master = {
+                        'rect' : JSON.parse("[" + layout.master.rect + "]")
                     };
                 }else {
-                    context.items.push({
-                        'ref' : layout[key].ref,
+                    context.slaves.push({
+                        'categoryRef' : layout[key].categoryRef,
                         'rect' : JSON.parse("[" + layout[key].rect + "]")
                     });
                 }

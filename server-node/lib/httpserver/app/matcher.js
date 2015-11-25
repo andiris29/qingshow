@@ -52,7 +52,7 @@ matcher.queryCategories = {
             ResponseHelper.response(res, err, {
                 'categories' : categories
             },{
-                'modelCategory' : global.qsMatcherConfig.matcher.modelCategory
+                'master' : global.qsMatcherConfig.common.master.categoryRef
             });
         });
     }
@@ -108,7 +108,7 @@ matcher.queryItems = {
 
             }, {
                 'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                    if (qsParam.categoryRef === global.qsMatcherConfig.matcher.modelCategory) {
+                    if (qsParam.categoryRef === global.qsMatcherConfig.common.master.categoryRef) {
                         ContextHelper.appendMatchCompositionContext(currentPageModels, function(err, items){
                             callback(null, items)
                         })   
