@@ -218,7 +218,7 @@ public class S20MatcherActivity extends BaseActivity {
         allSelect.put(categoryRef, select);
         if (select.rect != null) {
             Log.i("tag", select.rect.toString());
-            //RectUtil.locateView(select.rect, itemView);
+//            RectUtil.locateView(select.rect, itemView);
         }
 
     }
@@ -282,19 +282,15 @@ public class S20MatcherActivity extends BaseActivity {
 
                 if (datas.categoryRef._id.equals(modelCategory)){
                     Select modelSelect = allSelect.get(modelCategory);
-                    QSImageView modelView = modelSelect.view;
-                    for (int i = 0; i < canvas.getChildCount(); i++) {
-                        if (canvas.getChildAt(i) != modelView){
-                            canvas.removeView(canvas.getChildAt(i));
-                        }
-                    }
+                    canvas.removeAllViews();
                     allSelect.clear();
-                    allSelect.put(modelCategory, modelSelect);
                     final Point canvasPoint = new Point();
                     canvasPoint.x = canvas.getWidth();
                     canvasPoint.y = canvas.getHeight();
                     Rect rect = datas.__context.master.rect.getRect(canvasPoint);
-                    RectUtil.locateView(rect, modelView);
+                    modelSelect.rect = rect;
+                    allSelect.put(modelCategory, modelSelect);
+                    addItemsToCanvas(modelCategory, datas.thumbnail);
 
                     for (ItemContext.Slave slave : datas.__context.slaves) {
                         getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
