@@ -132,7 +132,7 @@ feeding.matchHot = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = _buildFeaturedCriteria(req, ShowCode.FEATURED_RANK_HOT);
+                var criteria = _buildFeaturedCriteria(req, [ShowCode.FEATURED_RANK_HOT]);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -147,7 +147,7 @@ feeding.matchNew = {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = _buildFeaturedCriteria(req, ShowCode.FEATURED_RANK_NEW);
+                var criteria = _buildFeaturedCriteria(req, [ShowCode.FEATURED_RANK_NORMAL, ShowCode.FEATURED_RANK_HOT]);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -194,7 +194,7 @@ feeding.featured = {
         _feed(req, res, function (qsParam, outCallback){
             async.waterfall([
             function(callback) {
-                var criteria = _buildFeaturedCriteria(req, ShowCode.FEATURED_RANK_TALENT);
+                var criteria = _buildFeaturedCriteria(req, [ShowCode.FEATURED_RANK_TALENT]);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -203,9 +203,9 @@ feeding.featured = {
     }
 };
 
-var _buildFeaturedCriteria = function(req, featuredRank) {
+var _buildFeaturedCriteria = function(req, featuredRanks) {
     var criteria = [
-        {'featuredRank' : featuredRank}
+        {'featuredRank' : {'$in' : featuredRanks}}
     ];
     if (req.queryString.from) {
         criteria.push({'create' : {'$gte' : RequestHelper.parseDate(req.queryString.from)}});

@@ -128,7 +128,8 @@ peopleSchema = Schema({
         taobao : {
             sid : String
         }
-    }
+    },
+    talent : Boolean
 });
 var People = mongoose.model('peoples', peopleSchema);
 

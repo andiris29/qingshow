@@ -7,6 +7,7 @@ var _ = require('underscore');
 var Category = require('../../dbmodels').Category;
 var Items = require('../../dbmodels').Item;
 var Show = require('../../dbmodels').Show;
+var ShowCode = require('../../dbmodels').ShowCode;
 var People = require('../../dbmodels').People;
 
 var loggers = require('../../runtime').loggers;
@@ -163,6 +164,8 @@ matcher.save = {
                     'coverForeground' : coverUrl
                 };
             }
+            show.featuredRank = people.talent ? ShowCode.FEATURED_RANK_TALENT : ShowCode.FEATURED_RANK_NORMAL;
+            
             req.session.matcher = show;
             callback(null, show);
         }], function(err, show) {
