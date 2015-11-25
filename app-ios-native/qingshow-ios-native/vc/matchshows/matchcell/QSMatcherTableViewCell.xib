@@ -111,6 +111,7 @@
                 <outlet property="dateLabel" destination="XHN-90-TPJ" id="r7f-Os-2TE"/>
                 <outlet property="numLabel" destination="a9r-mY-6iE" id="lF7-cI-t5I"/>
                 <outlet property="timeLabel" destination="tLN-nc-oQM" id="VAE-dP-lCW"/>
+                <outlet property="topLabel" destination="oOR-nh-tqE" id="9rn-Xx-6FD"/>
                 <outlet property="userHeadImgView" destination="jAy-Uo-lWq" id="Bqu-ui-hFT"/>
                 <outlet property="usersContainer" destination="ieI-1y-tOY" id="eWN-ms-oDN"/>
                 <outletCollection property="showImgViews" destination="ByD-yT-yCj" id="RHq-Oh-mKS"/>

@@ -25,4 +25,5 @@
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 
 @property (strong, nonatomic) NSNumber* defaultSegment;
+- (void)segmentChanged;
 @end

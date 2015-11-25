@@ -80,9 +80,12 @@
     [self.calendarContainerView addGestureRecognizer:ges];
     self.calendarView.delegate = self;
     self.calendarView.selectedDate = self.currentDate;
+    
+    
     if (self.defaultSegment) {
         self.segmentControl.selectedSegmentIndex = self.defaultSegment.integerValue;
         self.defaultSegment = nil;
+        [self segmentChanged];
     }
 }
 
@@ -150,7 +153,7 @@
 }
 
 #pragma mark - IBAction
-- (void)_segmentChanged
+- (void)segmentChanged
 {
     NSInteger segIndex = self.segmentControl.selectedSegmentIndex;
     for (NSInteger i = 0; i < self.viewsArray.count; i++) {
@@ -284,7 +287,7 @@
     _segmentControl.frame = CGRectMake(0, 0, 180, 25);
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
-    [_segmentControl addTarget:self action:@selector(_segmentChanged) forControlEvents:UIControlEventValueChanged];
+    [_segmentControl addTarget:self action:@selector(segmentChanged) forControlEvents:UIControlEventValueChanged];
     _segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
     
     _segmentControl.selectedSegmentIndex = 0;
@@ -333,6 +336,12 @@
 #pragma mark - QSMatcherTableViewProvider
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date {
     QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithDate:date];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)provider:(QSMatcherTableViewProvider*)provider didClickPeople:(NSDictionary*)peopleDict {
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
+    vc.menuProvider = self.menuProvider;
+    vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

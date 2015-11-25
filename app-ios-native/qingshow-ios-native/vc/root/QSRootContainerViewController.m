@@ -362,6 +362,7 @@
         QSS01MatchShowsViewController* s01Vc = (QSS01MatchShowsViewController*)self.contentVc;
         if (s01Vc.segmentControl) {
             s01Vc.segmentControl.selectedSegmentIndex = index.integerValue;
+            [s01Vc segmentChanged];
         } else {
             s01Vc.defaultSegment = index;
         }

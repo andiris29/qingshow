@@ -12,6 +12,13 @@
 #define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
 #define QSMatcherTableViewCellHeight 300.f
 
+@class QSMatcherTableViewCell;
+@protocol QSMatcherTableViewCellDelegate <NSObject>
+
+- (void)cell:(QSMatcherTableViewCell*)cell didClickUser:(NSDictionary*)dict;
+
+@end
+
 @interface QSMatcherTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel* timeLabel;
@@ -21,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIView* usersContainer;
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showImgViews;
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showForegroundImgViews;
-
+@property (weak, nonatomic) NSObject<QSMatcherTableViewCellDelegate>* delegate;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 

@@ -12,6 +12,7 @@
 @protocol QSMatcherTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date;
+- (void)provider:(QSMatcherTableViewProvider*)provider didClickPeople:(NSDictionary*)peopleDict;
 
 @end
 

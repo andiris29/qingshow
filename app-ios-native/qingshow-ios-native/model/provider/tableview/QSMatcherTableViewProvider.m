@@ -10,8 +10,13 @@
 #import "QSMatcherTableViewCell.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSDateUtil.h"
+@interface QSMatcherTableViewProvider() <QSMatcherTableViewCellDelegate>
+
+@end
 
 @implementation QSMatcherTableViewProvider
+@dynamic delegate;
+
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSMatcherTableViewCell" bundle:nil] forCellReuseIdentifier:QSMatcherTableViewCellId];
@@ -23,7 +28,7 @@
     QSMatcherTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSMatcherTableViewCellId forIndexPath:indexPath];
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithDict:dict];
-//    cell.delegate = self;
+    cell.delegate = self;
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -46,5 +51,11 @@
         [self.delegate provider:self didClickDate:retDate];
     }
     
+}
+
+- (void)cell:(QSMatcherTableViewCell*)cell didClickUser:(NSDictionary*)dict {
+    if ([self.delegate respondsToSelector:@selector(provider:didClickPeople:)]) {
+        [self.delegate provider:self didClickPeople:dict];
+    }
 }
 @end
