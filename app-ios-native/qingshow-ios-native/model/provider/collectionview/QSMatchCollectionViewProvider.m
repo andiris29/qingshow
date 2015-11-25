@@ -77,6 +77,7 @@
         if (!headerCell) {
             headerCell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatcherCollectionViewHeader" owner:nil options:nil]lastObject];
         }
+        headerCell.delegate = self;
         [headerCell bindWithOwners:self.owners ownerCount:self.numOwners index:self.ownIndex];
         [headerCell updateDate:self.currentDate];
         return headerCell;
@@ -86,7 +87,7 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
     }
     if(self.resultArray.count) {
-        [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item - 1];
+        [cell bindWithDic:self.resultArray[indexPath.item - 1] withIndex:(int)indexPath.item - 1];
     }
     if (w == 414) {
         cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));

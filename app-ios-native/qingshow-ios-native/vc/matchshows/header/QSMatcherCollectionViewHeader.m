@@ -61,8 +61,11 @@
             self.peopleDict = peopleDict;
             NSURL* iconUrl = [QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType50];
             self.headImgView.hidden = NO;
+            self.topLabel.hidden = NO;
+            self.topLabel.text = [NSString stringWithFormat:@"TOP%d", index];
             [self.headImgView setImageFromURL:iconUrl];
         } else {
+            self.topLabel.hidden = YES;
             self.peopleDict = nil;
             self.headImgView.hidden = YES;
         }

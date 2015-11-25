@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 @property (strong, nonatomic) NSArray* viewsArray;
 #pragma mark Provider
+@property (nonatomic, strong) NSArray* providerArray;
 @property (nonatomic, strong) QSMatchCollectionViewProvider *darenProvider;
 @property (nonatomic, strong) QSMatchCollectionViewProvider *hotProvider;
 @property (nonatomic, strong) QSMatcherTableViewProvider* newestProvider;
@@ -74,6 +75,9 @@
     self.calendarContainerView.frame = self.navigationController.view.bounds;
     self.calendarView = [[CKCalendarView alloc] initWithStartDay:startSunday frame:self.calendarContainerView.bounds];
     [self.calendarContainerView addSubview:self.calendarView];
+    self.calendarContainerView.userInteractionEnabled = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapCalendarContainer:)];
+    [self.calendarContainerView addGestureRecognizer:ges];
     self.calendarView.delegate = self;
     self.calendarView.selectedDate = self.currentDate;
 }
@@ -149,6 +153,7 @@
         UIScrollView* sv = self.viewsArray[i];
         sv.hidden = segIndex != i;
     }
+    [self _reloadCurrentProvider];
 }
 
 - (IBAction)backToTopBtnPressed:(id)sender {
@@ -159,7 +164,7 @@
     _backToTopbtn.hidden = YES;
 }
 - (IBAction)calendarBtnPressed:(id)sender {
-    self.calendarContainerView.hidden = NO;
+    [self _showCalendar];
 }
 
 #pragma mark - s11
@@ -226,8 +231,6 @@
                                                      onError:errorBlock];
     };
     
-    [self.darenProvider reloadData];
-    
     //hot
     self.hotProvider = [[QSMatchCollectionViewProvider alloc] init];
     self.hotProvider.currentDate = self.currentDate;
@@ -253,8 +256,6 @@
                                                      onError:errorBlock];
     };
     
-    [self.hotProvider reloadData];
-    
     //newest
     self.newestProvider = [[QSMatcherTableViewProvider alloc] init];
     self.newestProvider.delegate = self;
@@ -266,7 +267,11 @@
                                           onSucceed:succeedBlock
                                             onError:errorBlock];
     };
-    [self.newestProvider reloadData];
+    
+    self.providerArray = @[self.darenProvider,
+                           self.hotProvider,
+                           self.newestProvider];
+    [self _reloadCurrentProvider];
 }
 
 - (void)_configNav
@@ -285,14 +290,12 @@
     self.title = @"美搭榜单";
 }
 
-- (void)_reloadCollectionViewData
-{
-    [self hideNewworkWaitingHud];
-    MBProgressHUD* hud = [self showNetworkWaitingHud];
-    [hud hide:YES];
-    [self.darenProvider reloadDataOnCompletion:^{
-        [hud hide:YES];
-    }];
+- (void)_reloadCurrentProvider {
+    NSInteger selectIndex = self.segmentControl.selectedSegmentIndex;
+    if (selectIndex >= 0 && selectIndex < self.providerArray.count ) {
+        QSAbstractListViewProvider* provider = self.providerArray[self.segmentControl.selectedSegmentIndex];
+        [provider reloadData];
+    }
 }
 
 #pragma mark - CKCalendarDelegate
@@ -301,10 +304,27 @@
     self.calendarView.selectedDate = date;
     self.currentDate = date;
     self.darenProvider.currentDate = self.currentDate;
-    [self.darenProvider reloadData];
-    [self.newestProvider reloadData];
     self.hotProvider.currentDate = self.currentDate;
-    [self.hotProvider reloadData];
+    [self _reloadCurrentProvider];
+}
+
+- (void)didTapCalendarContainer:(UITapGestureRecognizer*)ges {
+    [self _hideCalendar];
+}
+
+- (void)_showCalendar {
+    self.calendarContainerView.hidden = NO;
+    self.calendarContainerView.alpha = 0.f;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.calendarContainerView.alpha = 1.f;
+    }];
+}
+- (void)_hideCalendar {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.calendarContainerView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        self.calendarContainerView.hidden = YES;
+    }];
 }
 #pragma mark - QSMatcherTableViewProvider
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date {

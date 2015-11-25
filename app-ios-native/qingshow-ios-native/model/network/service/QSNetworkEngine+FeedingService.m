@@ -69,6 +69,9 @@
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     NSArray* shows = retDict[@"data"][@"shows"];
+                    shows = [shows filteredArrayUsingBlock:^BOOL(NSDictionary* d) {
+                        return ![QSEntityUtil checkIsNil:d];
+                    }];
                     succeedBlock([shows deepMutableCopy], retDict[@"metadata"]);
                 }
             }
