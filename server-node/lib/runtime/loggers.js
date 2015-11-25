@@ -15,12 +15,12 @@ var init = function() {
     winston.add(MongoDB, _winstonDbOptions);
 
     // Exception logger
-    // new winston.Logger({
-    //     'exceptionHandlers' : [new MongoDB(_.extend(_winstonDbOptions, {
-    //         collection : 'winston-exception'
-    //     }))],
-    //     'exitOnError' : false
-    // });
+    new winston.Logger({
+        'exceptionHandlers' : [new MongoDB(_.extend(_winstonDbOptions, {
+            collection : 'winston-exception'
+        }))],
+        'exitOnError' : false
+    });
 };
 
 var _registry = {};
