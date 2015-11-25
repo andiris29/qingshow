@@ -119,7 +119,7 @@ ContextHelper.appendMatchCompositionContext = function(items, callback){
             }
 
             var context = {};
-            context.items = [];
+            context.slaves = [];
             for(var key in layout){
                 if (key === 'master') {
                     context.master = {
