@@ -48,7 +48,6 @@
         self.topNumberLabel.hidden = YES;
         self.numberLabel.hidden = YES;
         self.headImgView.hidden = YES;
-        self.topListTextLabel.hidden = YES;
     } else {
         self.userHeadContaienr.hidden = NO;
         self.topNumberLabel.hidden = NO;

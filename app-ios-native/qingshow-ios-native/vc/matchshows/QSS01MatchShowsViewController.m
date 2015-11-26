@@ -117,7 +117,11 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.calendarView.center = self.calendarContainerView.center;
+    CGRect bound = self.segmentControl.bounds;
+    bound.size.width = self.segmentContainerView.bounds.size.width - 20;
+    self.segmentControl.bounds = bound;
     self.segmentControl.center = CGPointMake(self.segmentContainerView.bounds.size.width / 2, self.segmentContainerView.bounds.size.height / 2);
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -148,8 +152,10 @@
     UIScrollView* sv = self.viewsArray[self.segmentControl.selectedSegmentIndex];
     if (sv.contentOffset.y != 0) {
         _backToTopbtn.hidden = NO;
+        self.calendarBtn.hidden = YES;
     } else {
         _backToTopbtn.hidden = YES;
+        self.calendarBtn.hidden = NO;
     }
 }
 

@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UILabel* numberLabel;
 @property (weak, nonatomic) IBOutlet UIImageView* headImgView;
 @property (weak, nonatomic) IBOutlet UILabel* topNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel* topListTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* topLabel;
 
 @property (weak, nonatomic) NSObject<QSMatcherCollectionViewHeaderDelegate>* delegate;
