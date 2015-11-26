@@ -93,9 +93,11 @@
     NSIndexPath* oldIndexPath = [NSIndexPath indexPathForItem:self.selectIndex inSection:0];
     self.selectIndex = indexPath.item;
     [self.delegate selectionView:self didSelectItemAtIndex:indexPath.item];
-    [collectionView performBatchUpdates:^{
-        [collectionView reloadItemsAtIndexPaths:@[oldIndexPath, indexPath]];
-    } completion:nil];
+    [UIView performWithoutAnimation:^{
+        [collectionView reloadItemsAtIndexPaths:@[oldIndexPath]];
+        [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        
+    }];
 
 }
 

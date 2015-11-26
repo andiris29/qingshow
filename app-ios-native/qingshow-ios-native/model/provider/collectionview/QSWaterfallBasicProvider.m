@@ -82,16 +82,17 @@
 #pragma mark - Network
 - (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block
 {
-    NSUInteger preCount = 0;
-    if (page != 1) {
-        preCount = self.resultArray.count;
-    }
-    
+    __weak QSWaterfallBasicProvider* weakSelf = self;
+
     return [self fetchDataOfPage:page viewRefreshBlock:^{
         if (page == 1) {
             [self.view reloadData];
         } else {
             NSMutableArray* indexPaths = [@[] mutableCopy];
+            NSUInteger preCount = 0;
+            if (page != 1) {
+                preCount = weakSelf.resultArray.count;
+            }
             for (NSUInteger i = preCount; i < self.resultArray.count; i++){
                 [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
             }

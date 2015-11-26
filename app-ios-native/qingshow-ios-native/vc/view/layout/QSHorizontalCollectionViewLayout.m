@@ -33,7 +33,9 @@
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-    CGFloat x = self.horizontalSpace / 2 + indexPath.row * (self.itemWidth + self.horizontalSpace);
+    CGFloat x = self.horizontalSpace / 2 + indexPath.item * (self.itemWidth + self.horizontalSpace);
+    NSLog(@"%@", indexPath);
+    NSLog(@"%f", x);
     attributes.frame = CGRectMake(x, self.verticalSpace, self.itemWidth, self.itemHeight);
     return attributes;
     
