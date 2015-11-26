@@ -20,6 +20,7 @@ var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var TraceHelper = require('../../helpers/TraceHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
 
+var injectModelGenerator = require('../middleware/injectModelGenerator');
 var errors = require('../../errors');
 
 var matcher = module.exports;
@@ -252,3 +253,58 @@ matcher.hide = {
         });
     }
 };
+
+matcher.remix = {
+    method : 'post',
+    func : function(req, res){
+        var itemRef = req.body.itemRef,
+        remixConfig = global.qsRemixConfig;
+        async.waterfall([function(callback){
+            Items.findOne({
+                '_id' : itemRef
+            }, callback);
+        }, function(item, callback){
+            var config;
+            for(key in remixConfig){
+                if (remixConfig[key].master.categoryRef === item.categoryRef.toString()) {
+                    config = require('../../helpers/ConfigHelper').format(remixConfig[key]);
+                    break;
+                }
+            }
+            if (!config) {
+                callback(errors.INVALID_OBJECT_ID);
+            }else{
+                callback(null, config, item);
+            }
+        }, function(config, item, callback){
+            var data = {},
+            criteria = {};
+            data.master = config.master;
+            data.slaves = [];
+            if (item.shopRef) {
+                criteria.shopRef = item.shopRef;
+            }else {
+                criteria.remix = true;
+            }
+            var tasks = config.slaves.map(function(slave){
+                return function(cb){
+                    criteria.categoryRef = slave.categoryRef;
+                    Items.find(criteria).exec(function(err, items){
+                        if (items.length !== 0) {
+                            var randomIndex = require('../../utils/RandomUtil').random(0, items.length);
+                            slave.itemRef = items[randomIndex];
+                            delete slave.categoryRef;
+                            data.slaves.push(slave);
+                        }
+                        cb(err);
+                    });
+                }
+            });
+            async.parallel(tasks, function(err){
+                callback(err, data);
+            });
+        }], function(err, data){
+            ResponseHelper.response(res, err, data);
+        });
+    }
+}

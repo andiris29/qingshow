@@ -118,21 +118,7 @@ ContextHelper.appendMatchCompositionContext = function(items, callback){
                 layout = config.default;
             }
 
-            var context = {};
-            context.slaves = [];
-            for(var key in layout){
-                if (key === 'master') {
-                    context.master = {
-                        'rect' : JSON.parse("[" + layout.master.rect + "]")
-                    };
-                }else {
-                    context.slaves.push({
-                        'categoryRef' : layout[key].categoryRef,
-                        'rect' : JSON.parse("[" + layout[key].rect + "]")
-                    });
-                }
-            }
-            item.__context = context;
+            item.__context = require('./ConfigHelper').format(layout);
             cb();
         }
     })
