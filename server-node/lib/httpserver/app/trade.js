@@ -56,7 +56,7 @@ trade.create = {
         },
         function(trade, callback) {
             // Update trade status
-            TradeHelper.updateStatus(trade, 0, null, req.qsCurrentUserId, function(err) {
+            TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err) {
                 callback(err, trade);
             });
         },
