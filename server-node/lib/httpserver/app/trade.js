@@ -504,46 +504,6 @@ trade.query = {
     }
 };
 
-trade.queryByPhase = {
-    'method' : 'get',
-    'permissionValidators' : ['roleUserValidator'],
-    'func' : function(req, res) {
-        var phaseMap = {
-            '0' : ['00', '01'],
-            '1' : ['10'],
-            '2' : ['20'],
-            '3' : ['30']
-        };
-
-        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            var criteria = {};
-            if (qsParam.phases|| qsParam.phases.length > 0) {
-                var phases = RequestHelper.parseNumbers(qsParam.phases);
-                var orders = []
-                _.each(phases, function(phase, index) {
-                    orders = _.union(orders, phaseMap[phase]);
-                });
-
-                criteria.statusOrder = {
-                    '$in' : orders
-                }
-            }
-            criteria.ownerRef = req.qsCurrentUserId;
-            MongoHelper.queryPaging(Trade.find(criteria).sort({
-                'create' : -1
-            }).populate('itemRef'), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
-        }, function(trades) {
-            return {
-                'trades' : trades 
-            };
-        }, {
-            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
-            }
-        });
-    }
-};
-
 trade.queryHighlighted = {
     'method' : 'get',
     'func' : function (req, res){
@@ -697,3 +657,15 @@ trade.forge = {
     }
 };
 
+trade.own = {
+    method : 'post',
+    func : function(req, res){
+        Trade.find({
+            'ownerRef' : req.qsCurrentUserId
+        }).exec(function(err, trades){
+            ResponseHelper.response(res, err, {
+                'trade' : trades
+            });
+        });
+    }
+}
