@@ -272,6 +272,7 @@
 - (void)didReceiveHidePrompToLoginNotification:(NSNotification*)noti {
     [self _hideVcInPopoverContainer:self.loginGuideNavVc withAnimation:YES];
     self.loginGuideNavVc = nil;
+    [self handleCurrentUser];
 }
 - (void)didReceiveScheduleToShowLoginGuideNotification:(NSNotification*)noti {
     self.showLoginGuideTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];

@@ -12,7 +12,6 @@
 #import "UIViewController+Utility.h"
 #import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
-#import "QSU13PersonalizeViewController.h"
 
 #import "QSEntityUtil.h"
 
