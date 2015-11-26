@@ -60,9 +60,19 @@
     for (NSDictionary* itemConfig in itemConfigs) {
         NSArray* rectConfig = [itemConfig arrayValueForKeyPath:@"rect"];
         NSString* categoryId = [itemConfig stringValueForKeyPath:@"categoryRef"];
-        UIView* v = self.categoryIdToView[categoryId];
+        QSCanvasImageView* v = self.categoryIdToView[categoryId];
         if (![v isEqual:[NSNull null]]) {
             [self _updateView:v withRectConfig:rectConfig];
+            
+            if (v.imgView.image) {
+                UIImage* img = v.imgView.image;
+                CGSize viewSize = v.bounds.size;
+                CGRect bounds = v.bounds;
+                viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
+                bounds.size = viewSize;
+                v.bounds = bounds;
+                v.frame = [QSRectUtil reducedFrame:v.frame forContainer:self.bounds];
+            }
         }
     }
 }
@@ -75,6 +85,7 @@
     float sizeWidth = self.frame.size.width * ((NSNumber*)rectConfig[2]).intValue / 100;
     float sizeHeight = self.frame.size.height * ((NSNumber*)rectConfig[3]).intValue / 100;
     view.frame = CGRectMake(x, y, sizeWidth, sizeHeight);
+    
 }
 
 - (void)bindWithCategory:(NSArray*)categoryArray {
@@ -130,6 +141,7 @@
     NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:category];
     [self setItem:itemDict forCategoryId:categoryId isFirst:fFirst];
 }
+
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId isFirst:(BOOL)fFirst {
     QSCanvasImageView* imgView = self.categoryIdToView[categoryId];
     __weak QSCanvasImageView* weakImgView = imgView;
