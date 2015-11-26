@@ -51,3 +51,13 @@ properties.parse(matchConfigPath, {
     global.qsMatcherConfig = config;
 });
 
+//load remixConfig
+var remixConfigPath = path.join(__dirname, 'remixConfig.properties');
+properties.parse(remixConfigPath, {
+    path : true,
+    namespaces : true,
+    variables : true
+}, function(err, config){
+    global.qsRemixConfig = config;
+});
+
