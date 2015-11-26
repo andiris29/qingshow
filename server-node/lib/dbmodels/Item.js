@@ -15,8 +15,7 @@ itemSchema = Schema({
     },
     expectable : {
         price : Number,
-        messageForPay : String,
-        messageForBuy : String,
+        message : String,
         expired : Boolean
     },
     thumbnail : String,

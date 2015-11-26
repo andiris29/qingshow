@@ -34,8 +34,7 @@ item.updateExpectable = {
             expectable = {
                 'price' : price,
                 'expired' : param.expired === true,
-                'messageForPay' : param.messageForPay,
-                'messageForBuy' : param.messageForBuy
+                'message': param.message
             };
             if (expectable.expired) {
                 expectable.price = -1;
@@ -280,7 +279,7 @@ var _itemPriceChanged = function(trades, expectable, callback) {
                 }, function(err){});
                 cb();
             } else {
-              NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageItemPriceChanged, {
+              NotificationHelper._saveAsUnread([trade.ownerRef], {
                 'command' : NotificationHelper.CommandItemExpectablePriceUpdated,
                 '_id' : trade._id
             }, cb); 
