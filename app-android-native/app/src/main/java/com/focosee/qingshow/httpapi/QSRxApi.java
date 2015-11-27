@@ -1,5 +1,7 @@
 package com.focosee.qingshow.httpapi;
 
+import android.util.Log;
+
 import com.android.volley.Request.Method;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RxRequest;
@@ -27,9 +29,8 @@ import rx.functions.Func1;
  */
 public class QSRxApi {
 
-    public static Observable<List<FeedingAggregation>> queryFeedingaggregationMatchNew(Date datetime){
-        datetime.toString();
-        return RxRequest.createJsonRequest(Method.POST, QSAppWebAPI.getFeedingaggregationMatchnew("2015-11-25T00:00:00%2b08:00"), null)
+    public static Observable<List<FeedingAggregation>> queryFeedingaggregationMatchNew(String date){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getFeedingaggregationMatchnew(date), null)
                 .map(new Func1<JSONObject, List<FeedingAggregation>>() {
                     @Override
                     public List<FeedingAggregation> call(JSONObject jsonObject) {

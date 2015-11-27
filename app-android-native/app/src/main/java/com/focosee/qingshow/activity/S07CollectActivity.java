@@ -76,10 +76,9 @@ public class S07CollectActivity extends BaseActivity {
         final Bundle bundle = getIntent().getExtras();
         items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
         Collections.sort(items, ComparatorList.itemComparator());
-        FilterHepler.filterList(items, new Filter() {
+        FilterHepler.filterList(items, new Filter<MongoItem>() {
             @Override
-            public <T> boolean filtrate(T t) {
-                MongoItem item = (MongoItem) t;
+            public boolean filtrate(MongoItem item) {
                 if (null != item.delist)
                     return true;
                 return false;

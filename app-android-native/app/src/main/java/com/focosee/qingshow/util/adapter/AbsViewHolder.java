@@ -115,4 +115,12 @@ public class AbsViewHolder extends RecyclerView.ViewHolder {
             itemView.setOnLongClickListener(onLongClickListener);
         }
     }
+
+    public AbsViewHolder setVisibility(int id,int visibility){
+        View view;
+        if (null != (view = getView(id))) {
+            view.setVisibility(visibility);
+        }
+        return this;
+    }
 }

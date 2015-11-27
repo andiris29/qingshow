@@ -33,13 +33,14 @@ public class FeedingAggregationParser {
     }
 
     public static List<FeedingAggregation> parseQuery(JSONObject response){
-        Gson gson = QSGsonFactory.create();
+        Gson gson = QSGsonFactory.peopleAndItemBuilder().create();
         List<FeedingAggregation> list = new ArrayList<>();
         try {
-            Iterator<String> keys = response.keys();
+            JSONObject jsonData = response.getJSONObject("data");
+            Iterator<String> keys = jsonData.keys();
             while (keys.hasNext()) {
                 String key = keys.next();
-                String data = response.getJSONObject(key).toString();
+                String data = jsonData.getJSONObject(key).toString();
                 FeedingAggregation aggregation = gson.fromJson(data, new TypeToken<FeedingAggregation>() {
                 }.getType());
                 aggregation.key = key;

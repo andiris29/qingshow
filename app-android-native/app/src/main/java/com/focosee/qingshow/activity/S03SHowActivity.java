@@ -310,10 +310,9 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
         if (null != showDetailEntity.itemRefs) {
-            FilterHepler.filterList(showDetailEntity.itemRefs, new Filter() {
+            FilterHepler.filterList(showDetailEntity.itemRefs, new Filter<MongoItem>() {
                 @Override
-                public <T> boolean filtrate(T t) {
-                    MongoItem item = (MongoItem) t;
+                public boolean filtrate(MongoItem item) {
                     if (null != item.delist)
                         return true;
                     return false;
