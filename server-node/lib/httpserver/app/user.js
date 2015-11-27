@@ -707,6 +707,13 @@ user.requestVerificationCode = function(req, res){
 
 user.forgotPassword = [
     _validateMobile,
+    function(req, res, next){
+        People.count({
+            'mobile' : req.body.mobile
+        }).exec(function(err, count){
+            count > 0 ? next() : next(errors.PeopleNotExist);
+        })
+    },
     function(req, res, next) {
         req.session.resetPassword = {
             'mobile' : req.body.mobile
