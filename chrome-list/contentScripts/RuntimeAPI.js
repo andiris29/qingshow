@@ -1,9 +1,11 @@
 var source = window.location.href;
-/*
-$.get(url, function(error, data, body) {
-    console.log(error, data, body);
-});
-*/
+
+var htmlText = "<div id='pop' style='background-color:#0000ff;";
+htmlText += "position: absolute;"
+htmlText += "left: 40%;";
+htmlText += "'>";
+
+
 
 chrome.runtime.sendMessage({
     method: 'GET',
@@ -14,9 +16,10 @@ chrome.runtime.sendMessage({
 
     if (response.data != null) {
         console.log("该商品已上架");
-        console.log(JSON.stringify(response.data, null, 4));
+        htmlText += "该商品已上架";
     } else if (response.error = "1004") {
         console.log("该商品未上架");
+        htmlText += "该商品未上架";
         var item = {
             source: source,
             sourceInfo: {
@@ -27,9 +30,14 @@ chrome.runtime.sendMessage({
         };
 
         console.log(JSON.stringify(item, null, 4));
+        htmlText += "<br>";
+        htmlText += JSON.stringify(item, null, 4);
     } else {
         console.log("服务器端，执行错误");
+        htmlText += "服务器端，执行错误";
     }
+    htmlText += "</div>";
+    $("#page").prepend(htmlText);
 });
 
 function getDomain(url) {
