@@ -68,7 +68,7 @@ SMSHelper.createVerificationCode = function (req, to, callback){
 		new Date() - _verifications[to].create < config.verification.retry) {
 		callback(errors.FrequentlyRequest);
 	}else {
-		var code = new Number(Math.random() * Math.pow(10,6)).toFixed(0);
+		var code = require('../utils/RandomUtil').random(100000, 999999);
 		_verifications[to] = {
 			'verificationCode' : code,
 			'create' : new Date()
