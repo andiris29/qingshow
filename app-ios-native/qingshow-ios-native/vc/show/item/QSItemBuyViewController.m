@@ -21,6 +21,9 @@
 #import "QSDiscountQuantityCell.h"
 #import "QSS10ItemDetailViewController.h"
 
+#import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
+
 @interface QSItemBuyViewController () <QSDiscountTableViewCellDelegate,QSDiscountTaobaoInfoCellDelegate>
 
 @property (strong, nonatomic) NSDictionary* itemDict;
@@ -33,6 +36,7 @@
 @property (strong, nonatomic) QSDiscountQuantityCell* quantityCell;
 @property (strong, nonatomic) NSArray* propCellArray;
 
+@property (strong, nonatomic) MKNetworkOperation* updateRemixOp;
 @end
 
 @implementation QSItemBuyViewController
@@ -50,6 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self _configCells];
+    [self _updateRemix];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
@@ -61,7 +66,78 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-#pragma mark -
+
+
+
+
+- (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex
+{
+    NSDictionary *itemDic = self.itemDict;
+    
+    NSArray* filterValue = [[[self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
+        NSString* v = [cell getSelectedValue];
+        if (v) {
+            return v;
+        } else {
+            return @"";
+        }
+    }] filteredArrayUsingBlock:^BOOL(NSString* str) {
+        return str.length;
+    }] mapUsingBlock:^NSString*(NSString* str) {
+        return [str stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }];
+    
+    for (QSDiscountTaobaoInfoCell *cell in self.propCellArray) {
+        [cell updateBtnStateWithItem:itemDic selectProps:filterValue];
+    }
+}
+
+#pragma mark - Table view data source
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    return self.cellArray.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
+    return [cell getHeight:self.itemDict];
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
+    [cell bindWithData:self.itemDict];
+    return cell;
+}
+
+#pragma mark - QSDiscountTableViewCellDelegate
+- (void)discountCellUpdateTotalPrice:(QSAbstractDiscountTableViewCell*)cell {
+    
+}
+- (void)discountCellDetailBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
+    QSS10ItemDetailViewController* vc = [[QSS10ItemDetailViewController alloc] initWithItem:self.itemDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)discountCellRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
+    
+}
+- (void)discountCellPreviousRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
+    
+}
+- (void)discountCellNextRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
+    
+}
+
+#pragma mark - IBAction
+- (IBAction)buyBtnPressed:(id)sender {
+    
+}
+
+#pragma mark - Private
+
 - (void)_configCells {
     NSMutableArray* array = [@[] mutableCopy];
     NSMutableArray* propCells = [@[] mutableCopy];
@@ -118,29 +194,7 @@
     
     return [NSString stringWithFormat:@"请选择%@",m];
 }
-
-- (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex
-{
-    NSDictionary *itemDic = self.itemDict;
-    
-    NSArray* filterValue = [[[self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
-        NSString* v = [cell getSelectedValue];
-        if (v) {
-            return v;
-        } else {
-            return @"";
-        }
-    }] filteredArrayUsingBlock:^BOOL(NSString* str) {
-        return str.length;
-    }] mapUsingBlock:^NSString*(NSString* str) {
-        return [str stringByReplacingOccurrencesOfString:@"." withString:@""];
-    }];
-    
-    for (QSDiscountTaobaoInfoCell *cell in self.propCellArray) {
-        [cell updateBtnStateWithItem:itemDic selectProps:filterValue];
-    }
-}
-- (NSDictionary*)getResult {
+- (NSDictionary*)_getResult {
     NSMutableDictionary* retDict = [@{} mutableCopy];
     if (self.promoterId) {
         retDict[@"promoterRef"] = self.promoterId;
@@ -153,47 +207,14 @@
     return retDict;
 }
 
-#pragma mark - Table view data source
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+- (void)_updateRemix {
+    if (self.updateRemixOp) {
+        return;
+    }
+    self.updateRemixOp = [SHARE_NW_ENGINE matcherRemix:self.itemDict onSucceed:^(NSDictionary *remixInfo) {
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return self.cellArray.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
-    return [cell getHeight:self.itemDict];
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
-    [cell bindWithData:self.itemDict];
-    return cell;
-}
-
-#pragma mark - QSDiscountTableViewCellDelegate
-- (void)discountCellUpdateTotalPrice:(QSAbstractDiscountTableViewCell*)cell {
-    
-}
-- (void)discountCellDetailBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
-    QSS10ItemDetailViewController* vc = [[QSS10ItemDetailViewController alloc] initWithItem:self.itemDict];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-- (void)discountCellRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
-    
-}
-- (void)discountCellPreviousRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
-    
-}
-- (void)discountCellNextRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
-    
-}
-
-#pragma mark - IBAction
-- (IBAction)buyBtnPressed:(id)sender {
-    
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
 }
 @end

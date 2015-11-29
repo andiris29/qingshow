@@ -11,13 +11,24 @@
 
 @implementation QSDiscountRemixCell
 
+#pragma mark -
 + (instancetype)generateCell {
     return [UINib generateViewWithNibName:@"QSDiscountRemixCell"];
 }
+#pragma mark - Life Cycle
+- (void)awakeFromNib {
+    self.remixBtn.layer.cornerRadius = self.remixBtn.bounds.size.height / 2;
+}
 
+#pragma mark -
 - (void)bindWithData:(NSDictionary *)itemDict {
     
 }
+
+- (void)bindWithRemix:(NSDictionary*)remixInfoDict {
+    
+}
+
 - (CGFloat)getHeight:(NSDictionary *)itemDict {
     return 440.f;
 }
