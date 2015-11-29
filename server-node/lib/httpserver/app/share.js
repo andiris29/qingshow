@@ -136,7 +136,7 @@ share.query = {
 share.withdrawBonus = {
     'method' : 'post',
     'func' : [
-        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(SharedObject, 'sharedObject'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(SharedObject, '_id', 'sharedObject'),
         function(req, res, next) {
             var sharedObject = req.injection.sharedObject;
             if (!sharedObject) {

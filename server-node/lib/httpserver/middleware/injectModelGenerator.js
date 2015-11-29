@@ -4,23 +4,24 @@ var errors = require('../../errors'),
 
 var injectModelGenerator = module.exports;
 
-injectModelGenerator.generateInjectOneByObjectId = function(Model, injectAs) {
-    return injectModelGenerator.generateInjectOne(Model, injectAs, function(req) {
+injectModelGenerator.generateInjectOneByObjectId = function(Model, fromKeyword, toKeyword) {
+    toKeyword = toKeyword || fromKeyword;
+    return injectModelGenerator.generateInjectOne(Model, toKeyword, function(req) {
         var param = req.body || req.queryString || {},
-            _id = param._id;
+            _id = param[fromKeyword];
         return {
             '_id' : _id ? RequestHelper.parseId(_id) : null
         };
     });
 };
 
-injectModelGenerator.generateInjectOne = function(Model, injectAs, criteriaGenerator) {
+injectModelGenerator.generateInjectOne = function(Model, toKeyword, criteriaGenerator) {
     return function(req, res, next) {
         Model.findOne(criteriaGenerator(req), function(err, model) {
             if (err) {
                 next(errors.genUnkownError(err));
             } else {
-                req.injection[injectAs] = model;
+                req.injection[toKeyword] = model;
                 next();
             }
         });

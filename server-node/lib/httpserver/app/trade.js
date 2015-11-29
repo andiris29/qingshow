@@ -4,6 +4,7 @@ var async = require('async'),
     winston = require('winston');
 
 var Trade = require('../../dbmodels').Trade,
+    TradeCode = require('../../dbmodels').TradeCode,
     People = require('../../dbmodels').People,
     Item = require('../../dbmodels').Item,
     RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
@@ -21,66 +22,40 @@ var RequestHelper = require('../../helpers/RequestHelper'),
 var errors = require('../../errors');
 
 var trade = module.exports;
- 
+
 trade.create = {
     'method' : 'post',
-    'permissionValidators' : ['roleUserValidator'],
-    'func' : function(req, res) {
-        async.waterfall([
-        function(callback) {
-            // Find login people
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }, callback);
-        },
-        function(people, callback) {
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, 'itemRef'),
+        function(req, res, next) {
             // Save trade
             var trade = new Trade();
+            trade.status = TradeCode.STATUS_WAITING_PAY;
             trade.ownerRef = req.qsCurrentUserId;
-            trade.peopleSnapshot = people;
-            trade.shareToPay = true;
             trade.quantity = req.body.quantity;
-            trade.itemSnapshot = req.body.itemSnapshot;
+            trade.itemSnapshot = req.injection.itemRef.toJSON();
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
-            trade.note = req.body.note;
-            trade.itemRef = RequestHelper.parseId(req.body.itemSnapshot._id);
-            if (req.body.promoterRef && req.body.promoterRef.length > 0) {
+            trade.itemRef = req.injection.itemRef._id;
+            if (req.body.promoterRef) {
                 trade.promoterRef = RequestHelper.parseId(req.body.promoterRef);
             }
             trade.save(function(err) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
-            // Update trade status
-            TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
-            Item.findOne({
-                _id : trade.itemRef
-            }, function(error, item) {
-                if (error) {
-                    callback(error);
-                } else if (!item) {
-                    callback(errors.ItemNotExist);
+                if (err) {
+                    next(errors.genUnkownError(err));
                 } else {
-                    callback(null, trade);
+                    ResponseHelper.writeData(res, {'trade' : trade});
+                    
+                    TraceHelper.trace('behavior-trade-creation', req, {
+                        '_tradeId' : trade._id.toString(),
+                        'selectedSkuProperties' : trade.selectedSkuProperties
+                    });
+                    next();
                 }
             });
-        }], function(error, trade) {
-            // Send response
-            ResponseHelper.response(res, error, {
-                'trade' : trade
-            });
-            // Log
-            TraceHelper.trace('behavior-trade-creation', req, {
-                '_tradeId' : trade._id.toString(),
-                'selectedSkuProperties' : trade.selectedSkuProperties
-            });
-        });
-    }
+        }
+    ]
 };
 
 trade.prepay = {
@@ -611,7 +586,6 @@ trade.forge = {
             var trade = new Trade();
             trade.ownerRef = req.qsCurrentUserId;
             trade.peopleSnapshot = people;
-            trade.shareToPay = true;
             trade.itemSnapshot = item;
             trade.itemRef = item._id;
             trade.promoterRef = RequestHelper.parseId(params.promoterRef);

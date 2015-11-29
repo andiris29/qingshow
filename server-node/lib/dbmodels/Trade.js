@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 var tradeSchema = Schema({
     __context : Object,
     status : Number,
-    shareToPay : Boolean,
     totalFee : Number,
     quantity : Number,
     expectedPrice : Number,

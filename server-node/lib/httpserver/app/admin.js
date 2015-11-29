@@ -214,8 +214,8 @@ admin.sms = {
     'method' : 'post',
     'func' : [
         require('../middleware/injectCurrentUser'),
-        require('../middleware/validateAdmin'),
-        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(People, 'people'),
+        require('../middleware/validateLoginAsAdmin'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(People, '_id', 'people'),
         function(req, res, next) {
             var mobile = req.injection.people ? req.injection.people.mobile : req.body.mobile;
             SMSHelper.sendTemplateSMS(mobile, req.body.datas, req.body.templateId, next);
