@@ -29,16 +29,6 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
 
-
-- (MKNetworkOperation*)refreshTradePaymentStatus:(NSDictionary*)tradeDict
-                                       onSucceed:(DicBlock)succeedBlock
-                                         onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation*)changeTrade:(NSDictionary*)tradeDict
-                            status:(int)status
-                              info:(NSDictionary*)dict
-                         onSucceed:(DicBlock)succeedBlock
-                           onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)prepayTrade:(NSDictionary*)tradeDict
                               type:(PaymentType)paymentType
                       receiverUuid:(NSString*)uuid
@@ -47,6 +37,13 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
 - (MKNetworkOperation*)tradeShare:(NSDictionary*)tradeDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)tradeReturn:(NSDictionary*)tradeDict
+                           company:(NSString*)companyName
+                        trackingId:(NSString*)trackId
+                           comment:(NSString*)comment
+                         onSucceed:(DicBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)tradeQueryHighted:(int)page
                                 OnSecceed:(ArraySuccessBlock)succeedBlock

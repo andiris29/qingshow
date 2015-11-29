@@ -16,12 +16,8 @@
 - (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict;
 - (void)didClickPayBtnOfOrder:(NSDictionary*)orderDict;
 
-- (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic;
+- (void)didClickLogisticBtnOfOrder:(NSDictionary *)orderDic;
 
-- (void)didClickExpectablePriceBtnOfOrder:(NSDictionary*)orderDict;
-
-- (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic;
-- (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic;
 - (void)didClickOrder:(NSDictionary*)orderDict;
 - (void)didClickToWebPage:(NSDictionary *)orderDic;
 @end

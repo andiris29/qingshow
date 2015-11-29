@@ -180,19 +180,11 @@
 
 - (void)didClickPayBtnOfOrder:(NSDictionary *)tradeDict
 {
-    [self didClickExpectablePriceBtnOfOrder:tradeDict];
-//    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-//        [self.provider reloadData];
-//        QSS11CreateTradeViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:d];
-//        QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
-//        vc.navigationItem.leftBarButtonItem = backItem;
-//        vc.menuProvider = self.menuProvider;
-//        [self.navigationController pushViewController:vc animated:YES];
-//    } onError:^(NSError *error) {
-//        [self handleError:error];
-//    }];
+#warning TODO
+    [self showTradeNotiViewOfTradeId:tradeDict];
 }
-- (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
+
+- (void)didClickLogisticBtnOfOrder:(NSDictionary *)orderDic
 {
     NSString *company = [QSTradeUtil getTradeLogisticCompany:orderDic];
     NSString *trackingId = [QSTradeUtil getTradeLogisticId:orderDic];
@@ -200,33 +192,7 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"物流信息" message:str delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
 }
-- (void)didClickReceiveBtnOfOrder:(NSDictionary *)tradeDict
-{
-    _tradeDict = tradeDict;
-    NSDictionary *dic = tradeDict;
 
-    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:dic];
-    NSString *title = [QSItemUtil getItemName:itemDict];
-    NSDate *date = [NSDate date];
-    NSString *dateStr = [NSString stringWithFormat:@"收货时间  %@",[QSDateUtil buildStringFromDate:date]];
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:dateStr delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    alert.delegate = self;
-    alert.tag = 101;
-    [alert show];
-    
-}
-- (void)didClickCancelBtnOfOrder:(NSDictionary *)orderDic
-{
-    _tradeDict = orderDic;
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确认取消订单？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    alert.delegate = self;
-    alert.tag = 102;
-    [alert show];
-}
-
-- (void)didClickExpectablePriceBtnOfOrder:(NSDictionary *)orderDict {
-    [self showTradeNotiViewOfTradeId:orderDict];
-}
 - (void)didClickToWebPage:(NSDictionary *)orderDic
 {
     NSDictionary *itemDic = [QSTradeUtil getItemDic:orderDic];
@@ -243,44 +209,6 @@
     }];
 
 }
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == 101) {
-        if (buttonIndex == 1) {
-            __weak QSU09TradeListViewController *weakSelf = self;
-            [SHARE_NW_ENGINE changeTrade:_tradeDict status:5 info:nil onSucceed:^(NSDictionary* tradeDict){
-                [weakSelf showTextHud:@"收货成功！"];
-            } onError:nil];
-        }
-        else
-        {
-            [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        }
-
-    }
-    else if(alertView.tag == 102){
-        if (buttonIndex == 1) {
-            __weak QSU09TradeListViewController *weakSelf = self;
-            [SHARE_NW_ENGINE changeTrade:_tradeDict status:18 info:nil onSucceed:^(NSDictionary* dict){
-                [[QSUnreadManager getInstance] clearTradeUnreadId:[QSEntityUtil getIdOrEmptyStr:_tradeDict]];
-                if ([QSTradeUtil getStatus:_tradeDict].intValue == 0) {
-                    [weakSelf showTextHud:@"已取消订单"];
-                }else{
-                    [weakSelf showTextHud:@"已取消订单" afterCustomDelay:2.f];
-                }
-                [weakSelf changeValueOfSegment:0];
-                [weakSelf.provider reloadData];
-            }onError:nil];
-
-        }
-        else
-        {
-            [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        }
-    }
-}
-
 
 #pragma mark -
 - (void)showTradeNotiViewOfTradeId:(NSDictionary*)tradeDict

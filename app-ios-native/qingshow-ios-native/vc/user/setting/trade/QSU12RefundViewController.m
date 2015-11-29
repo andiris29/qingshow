@@ -191,16 +191,13 @@
                                    },
                            @"comment" : self.resonTextField.text
                            };
-    
-    __weak QSU12RefundViewController* weakSelf = self;
     [self hideKeyboardAndPicker];
-    [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^(NSDictionary* dict){
+    [SHARE_NW_ENGINE tradeReturn:self.orderDict company:self.companyTextField.text trackingId:self.expressOrderTextField.text comment:self.resonTextField.text onSucceed:^(NSDictionary* dict){
         [self showTextHud:@"申请成功"];
         [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
     } onError:^(NSError *error) {
         [self handleError:error];
     }];
-    
 }
 - (void)popBack
 {

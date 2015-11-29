@@ -56,20 +56,10 @@
     }
 }
 
-- (void)didClickCancelBtnForCell:(QSTradeListTableViewCell *)cell
-{
-        [self.delegate didClickCancelBtnOfOrder:[self orderForCell:cell]];
-}
 - (void)didClickPayBtnForCell:(QSTradeListTableViewCell *)cell
 {
     if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
         [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
-    }
-}
-- (void)didClickReceiveBtnForCell:(QSTradeListTableViewCell *)cell
-{
-    if ([self.delegate respondsToSelector:@selector(didClickReceiveBtnOfOrder:)]) {
-        [self.delegate didClickReceiveBtnOfOrder:[self orderForCell:cell]];
     }
 }
 - (void)didClickExchangeBtnForCell:(QSTradeListTableViewCell *)cell
@@ -78,15 +68,11 @@
 }
 - (void)didClickLogisticForCell:(QSTradeListTableViewCell *)cell
 {
-    if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnOfOrder:)]) {
-        [self.delegate didClickExchangeBtnOfOrder:[self orderForCell:cell]];
+    if ([self.delegate respondsToSelector:@selector(didClickLogisticBtnOfOrder:)]) {
+        [self.delegate didClickLogisticBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickExpectablePriceBtnForCell:(QSTradeListTableViewCell *)cell {
-    if ([self.delegate respondsToSelector:@selector(didClickExpectablePriceBtnOfOrder:)]) {
-        [self.delegate didClickExpectablePriceBtnOfOrder:[self orderForCell:cell]];
-    }
-}
+
 - (void)didClickToWebPageForCell:(QSTradeListTableViewCell *)cell
 {
     [self.delegate didClickToWebPage:[self orderForCell:cell]];
