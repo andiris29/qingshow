@@ -1,154 +1,65 @@
+var mongoose = require('mongoose'),
+    async = require('async'),
+    _ = require('underscore');
 
-var mongoose = require('mongoose');
-var async = require('async');
-var _ = require('underscore');
+var Item = require('../../dbmodels').Item;
 
-var Items = require('../../dbmodels').Item;
-var Trade = require('../../dbmodels').Trade;
-var People = require('../../dbmodels').People;
+var RequestHelper = require('../../helpers/RequestHelper'),
+    ResponseHelper = require('../../helpers/ResponseHelper'),
+    NotificationHelper = require('../../helpers/NotificationHelper');
 
-var jPushAudiences = require('../../dbmodels').JPushAudience;
-var RequestHelper = require('../../helpers/RequestHelper');
-var ResponseHelper = require('../../helpers/ResponseHelper');
-var MongoHelper = require('../../helpers/MongoHelper');
-var NotificationHelper = require('../../helpers/NotificationHelper');
-var TradeHelper = require('../../helpers/TradeHelper');
-var URLParser = require('../../goblin-common/URLParser');
-var qsftp = require('../../runtime').ftp,
-    syncLogger = require('../../runtime/loggers').get('item-sync');
+var URLParser = require('../../goblin-common/URLParser'),
+    GoblinError = require('../../goblin-common/GoblinError');
 var GoblinScheduler = require('./goblin/GoblinScheduler');
 
+var loggers = require('../../runtime/loggers');
+
 var errors = require('../../errors');
-var GoblinError = require('../../goblin-common/GoblinError');
 
 var item = module.exports;
 
 item.updateExpectable = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var param = req.body;
-        var price = RequestHelper.parseNumber(param.price);
-        var expectable = {};
-        async.waterfall([function(callback) {
-            expectable = {
-                'price' : price,
-                'expired' : param.expired === true,
-                'message': param.message
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, '_id', 'itemRef'),
+        function(req, res, next) {
+            req.injection.itemRef.expectable = {
+                'reduction' : RequestHelper.parseNumber(req.body.reduction),
+                'message' : req.body.message,
+                'expired' : req.body.expired === true
             };
-            if (expectable.expired) {
-                expectable.price = -1;
-            }
-            if (!expectable.expired && !param.price) {
-                callback(errors.NotEnoughParam);
-            }else{
-                callback();
-            }
-        }, function(callback) {
-            Items.findOne({
-                _id : RequestHelper.parseId(param._id)
-            }, function(error, item) {
-                if (error) {
-                    callback(error);
-                } else if (!item) {
-                    callback(errors.ItemNotExist);
+            
+            req.injection.itemRef.save(function(err) {
+                if (err) {
+                    next(errors.genUnkownError(err));
                 } else {
-                    callback(null, item);
+                    ResponseHelper.writeData(res, {'item' : req.injection.itemRef});
+                    next();
                 }
             });
-        }, function(item, callback) {
-                Trade.find({
-                    $or : [{
-                        'itemRef' : item._id,
-                        'status' : 0
-                    }, {
-                        'itemRef' : item._id,
-                        'status' : 1
-                    }]
-                }).exec(function(error, trades) {
-                    if (error) {
-                        callback(errors.TradeNotExist);
-                    }else {
-                        callback(null, trades, item);
-                    }
-                });
-        }, function(trades, item, callback) {
-            var targetTrades;
-            if (expectable.expired) {
-                targetTrades = trades;
-            } else {
-                targetTrades = [];
-                trades.forEach(function(trade){
-                    if (trade.status === 1 && price !== item.expectable.price) {
-                        trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
-                        trade.save(function(){});
-                        
-                        targetTrades.push(trade);  
-                    }
-                    if (trade.status === 0) {
-                        trade.totalFee = Math.round(Math.max(0.01, price * trade.quantity) * 100) / 100;
-                        TradeHelper.updateStatus(trade, 1, null, req.qsCurrentUserId, function(err){});
-                        
-                        targetTrades.push(trade);
-                    }
-                });
-            }
-            _itemPriceChanged(targetTrades, expectable, function(){});
-            callback(null, item);
-        }, function(item, callback){
-            item.expectable = expectable;
-            item.save(function(error, item) {
-                callback(error, item);
-            });
-        }], function(error, item) {
-            ResponseHelper.response(res, error, {
-                item : item
-            });
-        });
-    }
+        }
+    ]
 };
 
 item.removeExpectable = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var param = req.body;
-        async.waterfall([function(callback) {
-            Items.findOneAndUpdate({
-                _id : RequestHelper.parseId(param._id)
+    'func' : [
+        function(req, res, next) {
+            Item.findOneAndUpdate({
+                '_id' : RequestHelper.parseId(req.body._id)
             }, {
-                $unset : { 'expectable' : -1 }
+                '$unset' : { 'expectable' : -1 }
             }, {
-            }, function(error) {
-                callback(error);
+            }, function(err) {
+                next(err);
             });
-        }, function(callback){
-            Trade.find({
-                'itemRef' : RequestHelper.parseId(param._id)
-            }, function(err, trades){
-                if (err) {
-                    callback(err);
-                }else{
-                    callback(null, trades);
-                }
-            })
-        }, function(trades, callback){
-            if (!trades || trades.length === 0) {
-                callback();
-            }else{
-            }
-        }, function(callback) {
-            Items.findOne({
-                _id : RequestHelper.parseId(param._id)
-            }, function(error, item) {
-                callback(error, item);
-            });
-        }], function(error, item) {
-            ResponseHelper.response(res, error, {
-                item : item
-            });
-        });
-    }
+        },
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, '_id', 'itemRef'),
+        function(req, res, next) {
+            ResponseHelper.writeData(res, {'item' : req.injection.itemRef});
+            next();
+        }
+    ]
 };
 
 
@@ -163,8 +74,8 @@ item.sync = {
                 _.delay(function() {
                     if (!invoke) {
                         invoke = true;
-                        syncLogger.info({'result' : 'miss', '_id' : req.body._id});
-                        Items.findOne({_id : itemId}, callback);
+                        loggers.get('item-sync').info({'result' : 'miss', '_id' : req.body._id});
+                        Item.findOne({_id : itemId}, callback);
                     }
                 }, global.qsConfig.item.sync.timeout || 10000);
                 
@@ -172,11 +83,11 @@ item.sync = {
                     if (!invoke) {
                         invoke = true;
                         if (!err) {
-                            syncLogger.info({'result' : 'hit', '_id' : req.body._id});
+                            loggers.get('item-sync').info({'result' : 'hit', '_id' : req.body._id});
                             callback(err, item);
                         } else {
-                            syncLogger.info({'result' : 'error', '_id' : req.body._id, 'error' : err});
-                            Items.findOne({_id : itemId}, callback);
+                            loggers.get('item-sync').info({'result' : 'error', '_id' : req.body._id, 'error' : err});
+                            Item.findOne({_id : itemId}, callback);
                         }
                     }
                 });
@@ -203,7 +114,7 @@ item.delist = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         async.waterfall([function(callback) {
-            Items.findOne({
+            Item.findOne({
                 _id : RequestHelper.parseId(req.body._id)
             }, function(error, item) {
                 if (error) {
@@ -245,7 +156,7 @@ item.create = {
             };
         }
         async.waterfall([function(callback) {
-            Items.findOne(criteria, function(error, item) {
+            Item.findOne(criteria, function(error, item) {
                 if (error) {
                     callback(error);
                 } else if (item) {
@@ -303,7 +214,7 @@ item.query = {
                     '$in' : RequestHelper.parseIds(qsParam._ids)
                 };
             }
-            MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         },function(items){
             return {'items': items}
         })
