@@ -1,27 +1,24 @@
-var mongoose = require('mongoose');
-var async = require('async');
-var _ = require('underscore');
-var loggers = require('../../runtime').loggers;
+var async = require('async'),
+    _ = require('underscore'),
+    request = require('request'),
+    winston = require('winston');
 
-var Trade = require('../../dbmodels').Trade;
-var People = require('../../dbmodels').People;
-var Item = require('../../dbmodels').Item;
-var RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
-var jPushAudiences = require('../../dbmodels').JPushAudience;
+var Trade = require('../../dbmodels').Trade,
+    People = require('../../dbmodels').People,
+    Item = require('../../dbmodels').Item,
+    RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
 
-var RequestHelper = require('../../helpers/RequestHelper');
-var ResponseHelper = require('../../helpers/ResponseHelper');
-var TradeHelper = require('../../helpers/TradeHelper');
-var RelationshipHelper = require('../../helpers/RelationshipHelper');
-var MongoHelper = require('../../helpers/MongoHelper');
-var ContextHelper = require('../../helpers/ContextHelper');
-var BonusHelper = require('../../helpers/BonusHelper');
-var TraceHelper = require('../../helpers/TraceHelper');
+var RequestHelper = require('../../helpers/RequestHelper'),
+    ResponseHelper = require('../../helpers/ResponseHelper'),
+    TradeHelper = require('../../helpers/TradeHelper'),
+    RelationshipHelper = require('../../helpers/RelationshipHelper'),
+    MongoHelper = require('../../helpers/MongoHelper'),
+    ContextHelper = require('../../helpers/ContextHelper'),
+    BonusHelper = require('../../helpers/BonusHelper'),
+    TraceHelper = require('../../helpers/TraceHelper'),
+    NotificationHelper = require('../../helpers/NotificationHelper');
 
 var errors = require('../../errors');
-var request = require('request');
-var winston = require('winston');
-var NotificationHelper = require('../../helpers/NotificationHelper');
 
 var trade = module.exports;
  
