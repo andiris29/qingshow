@@ -1,0 +1,10 @@
+module.exports = {
+    'STATUS_WAITING_PAY' : 1,
+    'STATUS_PAID' : 2,
+    'STATUS_DELIVERED' : 3,
+    'STATUS_RETURN' : 7,
+    'STATUS_RETURN_COMPLETE' : 9,
+    'STATUS_RETURN_FAILED' : 10,
+    'STATUS_AUTO_RECEIPTED' : 15,
+    'STATUS_CANCEL' : 17
+};
