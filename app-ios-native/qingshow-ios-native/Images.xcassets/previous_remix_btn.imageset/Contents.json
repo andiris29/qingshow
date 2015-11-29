@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "order_list_cell_circle_reserve_succeed_red.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "previous_remix_btn.png"
     },
     {
       "idiom" : "universal",
-      "filename" : "order_list_cell_circle_reserve_succeed_red@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "previous_remix_btn@2x.png"
     },
     {
       "idiom" : "universal",

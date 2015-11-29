@@ -11,7 +11,7 @@
 #import "QSPeopleUtil.h"
 #import "QSNetworkEngine+ShowService.h"
 #import "QSNetworkKit.h"
-#import "QSG01ItemWebViewController.h"
+#import "QSS10ItemDetailViewController.h"
 #define QSU16CELLID @"QSU16TableViewCellId"
 @interface QSU16BonusListViewController ()
 
@@ -54,7 +54,7 @@
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDic, NSDictionary *metadata) {
         if (itemDic) {
 #warning peopleId === nil?
-            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDic peopleId:nil];
+            QSS10ItemDetailViewController *vc = [[QSS10ItemDetailViewController alloc] initWithItem:itemDic];
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }
     } onError:^(NSError *error) {

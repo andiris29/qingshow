@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
@@ -31,7 +28,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="229"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="228.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="交易完成" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jzB-mS-e1C">
@@ -134,18 +131,6 @@
                             <action selector="refundBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="tYQ-1l-E52"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P7z-TR-0Y4">
-                        <rect key="frame" x="160" y="4" width="88" height="33"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="15"/>
-                        <state key="normal" title="确认收货">
-                            <color key="titleColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="submitBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Sog-MU-1HV"/>
-                        </connections>
-                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01期望价格：￥0.01" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O6l-Az-a5N">
                         <rect key="frame" x="110" y="175" width="202" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -164,18 +149,6 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Fqs-JS-dPZ">
-                        <rect key="frame" x="16" y="27" width="88" height="33"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
-                        <state key="normal" image="order_list_cell_show_discount_dot">
-                            <color key="titleColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="showDiscountBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="h6U-Cf-0gO"/>
-                        </connections>
-                    </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZIc-Kq-ecM">
                         <rect key="frame" x="94" y="30" width="88" height="33"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -188,22 +161,9 @@
                             <action selector="payBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ZgY-QM-qSJ"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ejT-rl-Zrj">
-                        <rect key="frame" x="82" y="3" width="88" height="33"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="15"/>
-                        <state key="normal" title="取消预定">
-                            <color key="titleColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="cancelBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4Bx-UE-m97"/>
-                        </connections>
-                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="cancelButton" destination="ejT-rl-Zrj" id="qLD-kI-Bzi"/>
                 <outlet property="circleBtnImageView" destination="mJL-Pk-6tZ" id="XRc-pF-PBp"/>
                 <outlet property="clickToWebpageBtn" destination="Ztt-q0-Qh1" id="jVd-pp-ce5"/>
                 <outlet property="dateLabel" destination="zoQ-B7-uaB" id="IVY-DV-Vf4"/>
@@ -215,16 +175,16 @@
                 <outlet property="payButton" destination="ZIc-Kq-ecM" id="lCN-FU-LYm"/>
                 <outlet property="quantityLabel" destination="1xK-R1-Ulq" id="70D-MN-7Xm"/>
                 <outlet property="refundButton" destination="Xzv-6A-2ZF" id="Trp-l4-s3w"/>
-                <outlet property="showDiscountButton" destination="Fqs-JS-dPZ" id="4vJ-d1-H2G"/>
                 <outlet property="sizeLabel" destination="4ba-04-Wqp" id="dAt-xj-GZw"/>
                 <outlet property="stateLabel" destination="jzB-mS-e1C" id="FeN-eI-V8h"/>
-                <outlet property="submitButton" destination="P7z-TR-0Y4" id="zEO-oD-Pzw"/>
                 <outlet property="titleLabel" destination="bf3-gE-F7S" id="10U-Ya-syk"/>
             </connections>
             <point key="canvasLocation" x="418" y="315.5"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="order_list_cell_show_discount_dot" width="88" height="33"/>
-    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

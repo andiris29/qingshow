@@ -6,12 +6,9 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSG01ItemWebViewController.h"
+#import "QSS10ItemDetailViewController.h"
 #import "QSItemUtil.h"
 #import "QSEntityUtil.h"
-#import "QSDiscountTableViewController.h"
-#import "UIViewController+ShowHud.h"
-#import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
 #import "QSTradeUtil.h"
 #import "QSUserManager.h"
@@ -19,34 +16,18 @@
 #import "QSU11ReceiverEditingViewController.h"
 #define PAGE_ID @"G01 - 内嵌浏览器"
 
-@interface QSG01ItemWebViewController ()
+@interface QSS10ItemDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* itemDict;
 
-@property (strong, nonatomic) IBOutlet UIView *discountLayerContainer;
-@property (weak, nonatomic) IBOutlet UIImageView *discountBackgroundView;
-@property (weak, nonatomic) IBOutlet UIView *discountTableViewContainer;
-@property (strong, nonatomic) QSDiscountTableViewController* discountVc;
-@property (strong, nonatomic) MKNetworkOperation* createTradeOp;
-
-@property (assign, nonatomic) BOOL hasSyncItem;
-
-@property (strong, nonatomic) MKNetworkOperation* syncOp;
-@property (strong, nonatomic) MBProgressHUD* hud;
-
-
 @end
 
-@implementation QSG01ItemWebViewController
+@implementation QSS10ItemDetailViewController
 #pragma mark - Init Method
-- (id)initWithItem:(NSDictionary*)item peopleId:(NSString *)peopleId;
-{
-    self = [super initWithNibName:@"QSG01ItemWebViewController" bundle:nil];
+- (id)initWithItem:(NSDictionary*)item{
+    self = [super initWithNibName:@"QSS10ItemDetailViewController" bundle:nil];
     if (self) {
         self.itemDict = item;
-        self.discountVc = [[QSDiscountTableViewController alloc] initWithItem:item];
-        self.discountVc.peopleId = peopleId;
-        self.hasSyncItem = NO;
     }
     return self;
 }
@@ -68,24 +49,12 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.discountLayerContainer.frame = CGRectMake(5, 20, self.view.bounds.size.width - 10, self.view.bounds.size.height - 40);
-    self.discountVc.view.frame = self.discountTableViewContainer.bounds;
-    if ([UIScreen mainScreen].bounds.size.width == 320 && [UIScreen mainScreen].bounds.size.height == 480) {
-        CGRect submitFrame = CGRectMake(165, 420, 115, 33);
-        CGRect cancelFrame = CGRectMake(10, 420, 115, 33);
-        self.submitBtn.frame = submitFrame;
-        self.cancelBtn.frame = cancelFrame;
-    }
-    if ([UIScreen mainScreen].bounds.size.width == 414) {
-        self.view.transform = CGAffineTransformMakeScale(1.35, 1.35);
-    }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
     self.navigationItem.titleView = titleImageView;
-    self.discountBtn.hidden = [QSItemUtil getReadOnly:self.itemDict];
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
@@ -96,57 +65,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
-    
-    [self.view addSubview:self.discountLayerContainer];
 
-    self.discountLayerContainer.hidden = YES;
-    UIImage* img = [UIImage imageNamed:@"discount_container_bg"];
-    img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
-    self.discountBackgroundView.image = img;
-    
-    self.discountVc.view.frame = self.discountTableViewContainer.bounds;
-    [self addChildViewController:self.discountVc];
-    [self.discountTableViewContainer addSubview:self.discountVc.view];
-
-    
-    self.submitBtn.layer.cornerRadius = 5.f;
-    self.submitBtn.layer.masksToBounds = YES;
-    self.cancelBtn.layer.cornerRadius = 5.f;
-    self.cancelBtn.layer.masksToBounds = YES;
-    
-    [self bindWithItem:self.itemDict];
-    
-    [SHARE_NW_ENGINE itemSync:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
-        
-        self.hasSyncItem = YES;
-        self.itemDict = data;
-        [self bindWithItem:self.itemDict];
-        if (self.hud) {
-            [self.hud hide:YES];
-            self.hud = nil;
-            self.discountLayerContainer.hidden = NO;
-        }
-        if ([QSItemUtil getDelist:self.itemDict] && self.hud) {
-            [self showErrorHudWithText:@"活动结束"];
-        }
-        
-    } onError:^(NSError *error) {
-        if (self.hud) {
-            [self.hud hide:YES];
-            self.hud = nil;
-            [self handleError:error];
-        }
-        self.discountBtn.hidden = YES;
-    }];
-    }
-
-- (void)bindWithItem:(NSDictionary*)itemDict {
-    self.discountVc.itemDict = itemDict;
-    [self.discountVc refresh];
-    self.discountBtn.hidden = [QSItemUtil getDelist:itemDict];
-    if (self.isDisCountBtnHidden == YES) {
-        self.discountBtn.hidden = YES;
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -154,38 +73,29 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark -
+#pragma mark - IBAction
 - (IBAction)backBtnPressed:(id)sender {
     self.navigationController.navigationBarHidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (IBAction)discountBtnPressed:(id)sender {
-    QSPeopleRole r = [QSPeopleUtil getPeopleRole:[QSUserManager shareUserManager].userInfo];
-    if (r == QSPeopleRoleGuest) {
-        [self showLoginPrompVc];
-    }else{
-        if (self.hasSyncItem) {
-            self.discountLayerContainer.hidden = NO;
-        } else {
-            if (!self.hud) {
-                self.hud = [self showNetworkWaitingHud];
-            }
-        }
-    }
+
+- (void)backAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
-- (IBAction)closeBtnPressed:(id)sender {
-    self.discountLayerContainer.hidden = YES;
+
+#pragma mark - UIWebView Delegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (([request.URL.absoluteString hasPrefix:@"tmall://"] || [request.URL.absoluteString hasPrefix:@"taobao://"])) {
+        return NO;
+    } else {
+        return YES;
+    }
+    
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (IBAction)submitBtnPressed:(id)sender {
     if (self.createTradeOp) {
         return;
@@ -238,6 +148,7 @@
         
     }];
 }
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
@@ -249,23 +160,7 @@
 
     }
 }
-- (void)backAction
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-- (IBAction)cancelBtnPressed:(id)sender {
-    [self closeBtnPressed:nil];
-    
-}
+  */
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    if (([request.URL.absoluteString hasPrefix:@"tmall://"] || [request.URL.absoluteString hasPrefix:@"taobao://"])) {
-        return NO;
-    } else {
-        return YES;
-    }
-
-}
 
 @end

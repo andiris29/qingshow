@@ -10,7 +10,7 @@
 #import "QSNetworkKit.h"
 #import "QSNetworkEngine+TradeService.h"
 #import "QSNetworkEngine+ShowService.h"
-#import "QSG01ItemWebViewController.h"
+#import "QSS10ItemDetailViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSItemUtil.h"
 #import "QSTradeUtil.h"
@@ -58,10 +58,7 @@
     __weak QST01ShowTradeViewController *weakSelf = self;
     NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
     NSString* promoterId = [QSTradeUtil getPromoterId:tradeDict];
-    QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict peopleId:promoterId];
-    if ([QSItemUtil getDelist:itemDict] == YES) {
-        vc.isDisCountBtnHidden = YES;
-    }
+    QSS10ItemDetailViewController *vc = [[QSS10ItemDetailViewController alloc] initWithItem:itemDict];
     [weakSelf.navigationController pushViewController:vc animated:YES];
 }
 - (void)didTapHeaderInT01Cell:(NSDictionary *)peopleDic
