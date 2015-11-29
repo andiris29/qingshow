@@ -14,7 +14,7 @@ itemSchema = Schema({
         ref : 'peoples'
     },
     expectable : {
-        price : Number,
+        reduction : Number,
         message : String,
         expired : Boolean
     },
