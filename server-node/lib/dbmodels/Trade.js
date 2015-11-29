@@ -13,6 +13,7 @@ var tradeSchema = Schema({
     selectedPeopleReceiverUuid : String,
     highlight : Date,
     note : String,
+    adminNote : String,
     pay : {
         create : Date,
         weixin : {
@@ -57,18 +58,6 @@ var tradeSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'peoples'
     },
-    statusLogs : [{
-        status : Number,
-        comment : String,
-        update : {
-            type : Date,
-            'default' : Date.now
-        },
-        peopleRef : {
-            type : Schema.Types.ObjectId,
-            ref : 'peoples'
-        }
-    }],
     update : {
         type: Date,
         'default' : Date.now

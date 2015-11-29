@@ -181,101 +181,148 @@ var _weixinDeliveryNotify = function(trade) {
     });
 };
 
-trade.statusTo = {
-    'method' : 'post',
-    'permissionValidators' : ['roleUserValidator'],
-    'func' : function(req, res) {
-        var param = req.body,
-            newStatus = param.status;
-        async.waterfall([
-        function(callback) {
-            // get trade;
-            Trade.findOne({
-                '_id' : RequestHelper.parseId(param._id)
-            }, function(err, trade) {
-                if (err) {
-                    callback(err);
-                } else if (!trade) {
-                    callback(errors.TradeNotExist);
-                } else {
-                    callback(null, trade);
-                }
-            });
-        },
-        function(trade, callback) {
-            _validateStatus(trade, newStatus, callback);
-        },
-        function(trade, callback) {
-            // update trade
-            if (newStatus == 1) {
-                callback(errors.TradeStatusChangeError);
-            } else if (newStatus == 2) {
-                // Save the parameters from payment server.
-                // handle at callback interface
-                callback(errors.TradeStatusChangeError);
-            } else if (newStatus == 3 ) {
-                trade.logistic = trade.logistic || {};
-                trade.logistic.company = param.logistic.company;
-                trade.logistic.trackingId = param.logistic.trackingId;
-                if (trade.pay.weixin.prepayid != null) {
-                    _weixinDeliveryNotify(trade);
-                }
-                // Push Notification
-                NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeShipped, {
-                    '_id' : RequestHelper.parseId(param._id),
-                    'command' : NotificationHelper.CommandTradeShipped
-                }, null); 
-                callback(null, trade);
-            } else if (newStatus == 7) {
-                trade.returnLogistic = trade.returnLogistic || {};
-                trade.returnLogistic.company = param.returnLogistic.company;
-                trade.returnLogistic.trackingId = param.returnLogistic.trackingId;
-                callback(null, trade);
-            } else if (newStatus == 9) {
-                NotificationHelper._push([trade.ownerRef], NotificationHelper.MessageTradeRefundComplete, {
-                    '_id' : trade._id,
-                    'command' : NotificationHelper.CommandTradeRefundComplete
-                }, null);
-                callback(null, trade);
+var _generateStatusValidator = function(validStatuses) {
+    return function(req, res, next) {
+        if (validStatuses.indexOf(req.injection.tradeRef.status) !== -1) {
+            next();
+        } else {
+            next(errors.TradeStatusChangeError);
+        }
+    };
+};
+
+var _generateStatusUpdater = function(newStatus) {
+    return function(req, res, next) {
+        var trade = req.injection.tradeRef,
+            oldStatus = trade.status;
+        TradeHelper.updateStatus(trade, newStatus, req.qsCurrentUserId, function(err, trade) {
+            if (err) {
+                next(errors.genUnkownError(err));
             } else {
-                callback(null, trade);
+                TraceHelper.trace('trade-process', req, 
+                    {'_tradeId' : trade._id.toString(), 'oldStatus' : oldStatus, 'newStatus' : newStatus});
+                    
+                ResponseHelper.writeData(res, {'trade' : trade});
+                next();
             }
-        },
-        function(trade, callback) {
-            TradeHelper.updateStatus(trade, newStatus, param.comment, req.qsCurrentUserId, function(err, trade) {
-                callback(err, trade);
-            });
-        }], function(error, trade) {
-            ResponseHelper.response(res, error, {
-                'trade' : trade
-            });
         });
-    }
+    };
+};
+
+trade.deliver = {
+    'method' : 'post', 
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, '_id', 'tradeRef'),
+        _generateStatusValidator([TradeCode.STATUS_PAID]),
+        function(req, res, next) {
+            var param = req.body,
+                trade = req.injection.tradeRef;
+            // Save logistic
+            trade.logistic = trade.logistic || {};
+            trade.logistic.company = param.logistic.company;
+            trade.logistic.trackingId = param.logistic.trackingId;
+            // Notify weixin
+            if (trade.pay.weixin && trade.pay.weixin.prepayid) {
+                _weixinDeliveryNotify(trade);
+            }
+            // Push Notification
+            NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeShipped, {
+                '_id' : RequestHelper.parseId(param._id),
+                'command' : NotificationHelper.CommandTradeShipped
+            }, null);
+            
+            next();
+        },
+        _generateStatusUpdater(TradeCode.STATUS_DELIVERED)
+    ]
+};
+
+trade.return = {
+    'method' : 'post', 
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, '_id', 'tradeRef'),
+        _generateStatusValidator([TradeCode.STATUS_DELIVERED]),
+        function(req, res, next) {
+            var param = req.body,
+                trade = req.injection.tradeRef;
+            // Save returnLogistic
+            trade.note = param.note;
+            trade.returnLogistic = trade.returnLogistic || {};
+            trade.returnLogistic.company = param.returnLogistic.company;
+            trade.returnLogistic.trackingId = param.returnLogistic.trackingId;
+            
+            next();
+        },
+        _generateStatusUpdater(TradeCode.STATUS_RETURN)
+    ]
+};
+
+trade.returnComplete = {
+    'method' : 'post', 
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, '_id', 'tradeRef'),
+        _generateStatusValidator([TradeCode.STATUS_RETURN]),
+        function(req, res, next) {
+            req.injection.tradeRef.adminNote = req.body.adminNote;
+            // Push Notification
+            NotificationHelper._push([trade.ownerRef], NotificationHelper.MessageTradeRefundComplete, {
+                '_id' : req.injection.tradeRef._id,
+                'command' : NotificationHelper.CommandTradeRefundComplete
+            }, null);
+            
+            next();
+        },
+        _generateStatusUpdater(TradeCode.STATUS_RETURN_COMPLETE)
+    ]
+};
+
+trade.returnFailed = {
+    'method' : 'post', 
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, '_id', 'tradeRef'),
+        _generateStatusValidator([TradeCode.STATUS_RETURN]),
+        function(req, res, next) {
+            req.injection.tradeRef.adminNote = req.body.adminNote;
+            next();
+        },
+        _generateStatusUpdater(TradeCode.STATUS_RETURN_FAILED)
+    ]
+};
+
+trade.cancel = {
+    'method' : 'post', 
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, '_id', 'tradeRef'),
+        function(req, res, next) {
+            req.injection.tradeRef.adminNote = req.body.adminNote;
+            next();
+        },
+        _generateStatusUpdater(TradeCode.STATUS_CANCEL)
+    ]
 };
 
 trade.alipayCallback = {
     'method' : 'post',
-    'func' : function(req, res) {
-        var newStatus = 2;
-        async.waterfall([
-        function(callback) {
-            Trade.findOne({
-                '_id' : RequestHelper.parseId(req.body.out_trade_no)
-            }, callback);
-        },
-        function(trade, callback) {
-            if (!trade) {
-                winston.warn('alipayCallback failed: ' + req.body.out_trade_no);
-                winston.warn(req.body);
-                callback(errors.genUnkownError());
-            } else {
-                _validateStatus(trade, newStatus, callback);
-            }
-        },
-        function(trade, callback) {
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, 'out_trade_no', 'tradeRef'),
+        _generateStatusValidator([TradeCode.STATUS_WAITING_PAY]),
+        function(req, res, next) {
+            var trade = req.injection.tradeRef;
+            
             TraceHelper.trace('pay-integration-callback', req, _.extend(req.body, {
                 _tradeId : trade._id
             }));
+            
             trade.highlight = Date.now();
             trade.pay.alipay['trade_no'] = req.body['trade_no'];
             trade.pay.alipay['trade_status'] = req.body['trade_status'];
@@ -286,51 +333,27 @@ trade.alipayCallback = {
             trade.pay.alipay['seller_email'] = req.body['seller_email'];
             trade.pay.alipay['buyer_id'] = req.body['buyer_id'];
             trade.pay.alipay['buyer_email'] = req.body['buyer_email'];
-            callback(null, trade);
+            next();
         },
-        function(trade, callback) {
-            TradeHelper.updateStatus(trade, newStatus, null, null, callback);
-        },
-        function(trade, callback) {
-            BonusHelper.createBonus(trade, trade.itemSnapshot, function(error, people) {
-                callback(error, trade);
-            });
-        }], function(error, trade) {
-            ResponseHelper.response(res, error, {
-                'trade' : trade
-            });
-        });
-    }
+        _generateStatusUpdater(TradeCode.STATUS_PAID),
+        function(req, res, next) {
+            BonusHelper.createBonus(trade, trade.itemSnapshot, next);
+        }
+    ]
 };
 
 trade.wechatCallback = {
     'method' : 'post',
-    'func' : function(req, res) {
-        var newStatus = 2;
-        async.waterfall([
-        function(callback) {
-            Trade.findOne({
-                '_id' : RequestHelper.parseId(req.body.out_trade_no)
-            }).exec(function(error, trade) {
-                if (!trade) {
-                    winston.warn('wechatCallback failed. ' + JSON.stringify(req.body));
-                }
-                if (!error && !trade) {
-                    callback(errors.TradeNotExist);
-                } else if (error) {
-                    callback(error);
-                } else {
-                    callback(null, trade);
-                }
-            });
-        },
-        function(trade, callback) {
-            _validateStatus(trade, newStatus, callback);
-        },
-        function(trade, callback) {
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, 'out_trade_no', 'tradeRef'),
+        _generateStatusValidator([TradeCode.STATUS_WAITING_PAY]),
+        function(req, res, next) {
+            var trade = req.injection.tradeRef;
+            
             TraceHelper.trace('pay-integration-callback', req, _.extend(req.body, {
                 _tradeId : trade._id
             }));
+            
             trade.highlight = Date.now();
             trade.pay.weixin['trade_mode'] = req.body['trade_type'];
             trade.pay.weixin['partner'] = req.body['mch_id'];
@@ -339,28 +362,18 @@ trade.wechatCallback = {
             trade.pay.weixin['time_end'] = req.body['time_end'];
             trade.pay.weixin['appId'] = req.body['appid'];
             trade.pay.weixin['openId'] = req.body['openid'];
-            callback(null, trade);
+            
+            next();
         },
-        function(trade, callback) {
-            TradeHelper.updateStatus(trade, newStatus, null, null, callback);
-        },
-        function(trade, callback) {
-            BonusHelper.createBonus(trade, trade.itemSnapshot, function(error, people) {
-                callback(error, trade);
-            });
-        }], function(error, trade) {
-            if (error === 'pass') {
-                error = null;
-            }
-            ResponseHelper.response(res, error, {
-                'trade' : trade
-            });
-        });
-    }
+        _generateStatusUpdater(TradeCode.STATUS_PAID),
+        function(req, res, next) {
+            BonusHelper.createBonus(trade, trade.itemSnapshot, next);
+        }
+    ]
 };
 
 
-trade.refreshPaymentStatus = {
+trade.postpay = {
     'method' : 'post',
     'permissionValidators' : ['roleUserValidator'],
     'func' : function(req, res) {
