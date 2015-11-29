@@ -581,7 +581,7 @@ trade.forge = {
                 callback(err, trade, item);
             });
         }, function(trade, item, callback){
-            TradeHelper.updateStatus(trade, 2, null, req.qsCurrentUserId, function(){});
+            TradeHelper.updateStatus(trade, TradeCode.STATUS_PAID, req.qsCurrentUserId, function(){});
             BonusHelper.createBonus(trade, item, function(err){
                 callback(err, trade);
             }); 
