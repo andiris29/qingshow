@@ -19,6 +19,4 @@
 - (void)hideNaviBackBtnTitle;
 - (void)disableAutoAdjustScrollViewInset;
 
-- (void)showItemDetailViewController:(NSDictionary*)itemDict peopleId:(NSString *)peopleId;
-
 @end

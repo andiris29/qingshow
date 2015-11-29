@@ -18,7 +18,7 @@
 #import "QSDateUtil.h"
 #import "QSTradeUtil.h"
 #import "QSPeopleUtil.h"
-#import "QSG01ItemWebViewController.h"
+#import "QSS10ItemDetailViewController.h"
 #import "QSAbstractRootViewController.h"
 #import "QSUnreadManager.h"
 #import "QSUserManager.h"
@@ -234,7 +234,7 @@
     __weak QSU09TradeListViewController *weakSelf = self;
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *item, NSDictionary *metadata) {
         if (item) {
-            QSG01ItemWebViewController *vc = [[QSG01ItemWebViewController alloc]initWithItem:item peopleId:[QSTradeUtil getPromoterId:orderDic]];
+            QSS10ItemDetailViewController *vc = [[QSS10ItemDetailViewController alloc]initWithItem:item];
 //            vc.isDisCountBtnHidden = YES;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }

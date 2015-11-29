@@ -10,13 +10,17 @@
 #import "UINib+QSExtension.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "UIView+QSExtension.h"
+
+#define COLOR_PURPLE [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f]
 
 @implementation QSDiscountInfoCell
 
+#pragma mark - Life Cycle
 - (void)awakeFromNib {
-    // Initialization code
-        [super awakeFromNib];
-    self.priceLabel.isWithStrikeThrough = YES;
+    [super awakeFromNib];
+    [self.detailBtn configBorderColor:COLOR_PURPLE width:1.f cornerRadius:DISCOUNT_CELL_CORNER_RADIUS];
+    [self.iconImgView configBorderColor:COLOR_PURPLE width:1.f cornerRadius:DISCOUNT_CELL_CORNER_RADIUS];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -25,8 +29,9 @@
     // Configure the view for the selected state
 }
 
+#pragma mark - Discount Cell
 - (CGFloat)getHeight:(NSDictionary*)itemDict {
-    return 124.f;
+    return 94.f;
 }
 
 - (void)bindWithData:(NSDictionary*)itemDict {
@@ -42,5 +47,12 @@
 
 + (instancetype)generateCell {
     return [UINib generateViewWithNibName:@"QSDiscountInfoCell"];
+}
+
+#pragma IBAction
+- (IBAction)detailBtnPressed:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(discountCellDetailBtnPressed:)]) {
+        [self.delegate discountCellDetailBtnPressed:self];
+    }
 }
 @end

@@ -11,7 +11,7 @@
 #import "QSU06LoginViewController.h"
 #import "QSError.h"
 #import "QSUserLoginAlertHandler.h"
-#import "QSG01ItemWebViewController.h"
+#import "QSS10ItemDetailViewController.h"
 #import "QSPeopleUtil.h"
 
 #import <objc/runtime.h>
@@ -95,11 +95,6 @@ static char versionUpdateHandlerKey;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showItemDetailViewController:(NSDictionary*)itemDict peopleId:(NSString *)peopleId
-{
-    QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict peopleId:peopleId];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 - (void)showLoginPrompVc {
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowLoginPrompVcNotificationName object:nil];
 }

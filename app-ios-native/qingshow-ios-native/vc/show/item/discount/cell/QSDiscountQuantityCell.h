@@ -13,7 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
 @property (weak, nonatomic) IBOutlet UIButton* addBtn;
 @property (weak, nonatomic) IBOutlet UIButton* minusBtn;
-@property (weak, nonatomic) IBOutlet UIView *dotView;
 
 @property (readonly, nonatomic) int quantity;
 @end

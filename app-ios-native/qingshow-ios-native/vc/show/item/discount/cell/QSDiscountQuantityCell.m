@@ -8,23 +8,21 @@
 
 #import "QSDiscountQuantityCell.h"
 #import "UINib+QSExtension.h"
+#import "UIView+QSExtension.h"
 #import <QuartzCore/QuartzCore.h>
 @implementation QSDiscountQuantityCell
 
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    self.addBtn.layer.masksToBounds = YES;
-    self.addBtn.layer.cornerRadius = DISCOUNT_CELL_CORNER_RADIUS;
-    self.minusBtn.layer.masksToBounds = YES;
-    self.minusBtn.layer.cornerRadius = DISCOUNT_CELL_CORNER_RADIUS;
     
-    self.quantityLabel.layer.borderWidth = 1.f;
-    self.quantityLabel.layer.borderColor = [UIColor colorWithRed:155.f/255.f green:155.f/255.f blue:155.f/255.f alpha:1.f].CGColor;
-    self.quantityLabel.layer.masksToBounds = YES;
-    self.quantityLabel.layer.cornerRadius = DISCOUNT_CELL_CORNER_RADIUS;
-    self.dotView.layer.cornerRadius = self.dotView.bounds.size.width/2;
-    self.dotView.layer.masksToBounds = YES;
+    UIColor* borderColor = [UIColor colorWithRed:155.f/255.f green:155.f/255.f blue:155.f/255.f alpha:1.f];;
+    CGFloat borderWidth = 1.f;
+    CGFloat cornerRadius = DISCOUNT_CELL_CORNER_RADIUS;
+    
+    [self.addBtn configBorderColor:borderColor width:borderWidth cornerRadius:cornerRadius];
+    [self.minusBtn configBorderColor:borderColor width:borderWidth cornerRadius:cornerRadius];
+    [self.quantityLabel configBorderColor:borderColor width:borderWidth cornerRadius:cornerRadius];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -49,19 +47,22 @@
     current += delta;
     if (current <= 1) {
         current = 1;
-        self.minusBtn.backgroundColor = [UIColor colorWithWhite:0.627 alpha:1.000];
+        self.minusBtn.backgroundColor = [UIColor whiteColor];
+        [self.minusBtn setTitleColor:[UIColor colorWithRed:159.f/255.f green:159.f/255.f blue:159.f/255.f alpha:1.f] forState:UIControlStateNormal];
     }
     else
     {
-        self.minusBtn.backgroundColor = [UIColor colorWithRed:0.953 green:0.584 blue:0.643 alpha:1.000];
+        self.minusBtn.backgroundColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f];
+        [self.minusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
     }
     self.quantityLabel.text = [NSString stringWithFormat:@"%d", current];
-    if ([self.delegate respondsToSelector:@selector(updateTotalPrice)]) {
-        [self.delegate updateTotalPrice];
+    if ([self.delegate respondsToSelector:@selector(discountCellUpdateTotalPrice:)]) {
+        [self.delegate discountCellUpdateTotalPrice:self];
     }
 }
 - (CGFloat)getHeight:(NSDictionary*)itemDict {
-    return 100.f;
+    return 50.f;
 }
 - (int)quantity {
     return self.quantityLabel.text.intValue;

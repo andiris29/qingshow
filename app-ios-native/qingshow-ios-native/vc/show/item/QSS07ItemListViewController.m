@@ -16,6 +16,8 @@
 #import "QSItemListCell.h"
 #import "QSCategoryManager.h"
 #import "QSPeopleUtil.h"
+#import "QSItemBuyViewController.h"
+
 #define QSItemListCellID @"QSItemListCellID"
 
 #define PAGE_ID @"S07 - 搭配清单"
@@ -160,7 +162,8 @@
     if (self.orderdArray.count > indexPath.row) {
         NSDictionary* itemDict = self.orderdArray[indexPath.row];
         if (itemDict) {
-            [self showItemDetailViewController:itemDict peopleId:peopleId];
+            UIViewController* vc = [[QSItemBuyViewController alloc] initWithItem:itemDict promoterId:peopleId];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }
