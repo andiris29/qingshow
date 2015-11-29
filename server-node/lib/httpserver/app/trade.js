@@ -263,8 +263,8 @@ trade.statusTo = {
                 NotificationHelper._push([trade.ownerRef], NotificationHelper.MessageTradeRefundComplete, {
                     '_id' : trade._id,
                     'command' : NotificationHelper.CommandTradeRefundComplete
-                }, null)
-                callback(null, trade)
+                }, null);
+                callback(null, trade);
             } else {
                 callback(null, trade);
             }
@@ -512,7 +512,7 @@ trade.queryHighlighted = {
                 'highlight' : {
                     '$ne' : null
                 }
-            }
+            };
             MongoHelper.queryPaging(Trade.find(criteria).sort({'highlight' : -1}).populate('itemRef'),
                 Trade.find(criteria),
                 qsParam.pageNo,qsParam.pageSize , callback);
@@ -541,7 +541,7 @@ trade.getReturnReceiver = {
                 } else if (!trade) {
                     callback(errors.TradeNotExist);
                 } else {
-                    callback(null, trade)
+                    callback(null, trade);
                 }
             });
         }, function(trade, callback) {
@@ -553,7 +553,7 @@ trade.getReturnReceiver = {
                 } else if (!item) {
                     callback(errors.ItemNotExist);
                 } else {
-                    callback(null, item)
+                    callback(null, item);
                 }
             });
         }, function(item, callback) {
@@ -563,7 +563,7 @@ trade.getReturnReceiver = {
                 if (error) {
                     callback(error);
                 } else {
-                    callback(null, people)
+                    callback(null, people);
                 }
             });
         }, function(people, callback) {
@@ -653,7 +653,7 @@ trade.forge = {
             ResponseHelper.response(res, err, {
                 'trade' : trade
             });
-        })
+        });
     }
 };
 
@@ -668,4 +668,4 @@ trade.own = {
             });
         });
     }
-}
+};
