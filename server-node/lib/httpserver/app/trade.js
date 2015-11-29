@@ -642,14 +642,25 @@ trade.forge = {
 };
 
 trade.own = {
-    method : 'post',
-    func : function(req, res){
-        Trade.find({
-            'ownerRef' : req.qsCurrentUserId
-        }).exec(function(err, trades){
-            ResponseHelper.response(res, err, {
-                'trade' : trades
-            });
+    'method' : 'get',
+    'permissionValidators' : ['roleUserValidator'],
+    'func' : function(req, res) {
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            var criteria = {
+                'ownerRef' : req.qsCurrentUserId,
+                'status' : {'$ne' : TradeCode.STATUS_WAITING_PAY}
+            };
+            MongoHelper.queryPaging(Trade.find(criteria).sort({
+                'create' : -1
+            }), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(trades) {
+            return {
+                'trades' : trades 
+            };
+        }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
+                ContextHelper.appendTradeContext(req.qsCurrentUserId, currentPageModels, callback);
+            }
         });
     }
 };
