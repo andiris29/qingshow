@@ -60,47 +60,22 @@ trade.create = {
 
 trade.prepay = {
     'method' : 'post',
-    'permissionValidators' : ['roleUserValidator'],
-    'func' : function(req, res) {
-        async.waterfall([
-        function(callback) {
-            Trade.findOne({
-                '_id' : RequestHelper.parseId(req.body._id)
-            }, function(err, trade) {
-                if (err) {
-                    callback(err);
-                } else if (!trade) {
-                    callback(errors.TradeNotExist);
-                } else {
-                    callback(null, trade);
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Trade, '_id', 'tradeRef'),
+        function(req, res, next) {
+            // Save receiver
+            req.injection.qsCurrentUser.receivers.forEach(function(receiver) {
+                if (receiver.uuid === req.body.selectedPeopleReceiverUuid) {
+                    req.injection.tradeRef.receiver = receiver;
                 }
             });
+            next();
         },
-        function(trade, callback) {
-            trade.selectedPeopleReceiverUuid = req.body.selectedPeopleReceiverUuid;
-            trade.pay = {};
-
-            trade.save(function(err, trade) {
-                if (err) {
-                    callback(err);
-                } else {
-                    callback(null, trade);
-                }
-            });
-        },
-        function(trade, callback) {
-            People.findOne({
-                '_id' : trade.ownerRef
-            }, function(err, people){
-                if (err) {
-                    callback(err);
-                }else {
-                    trade.peopleSnapshot = people;
-                    callback(null, trade);
-                }
-            });
-        },
-        function(trade, callback) {
+        function(req, res, next) {
+            var trade = req.injection.tradeRef;
+            
             if (req.body.pay && req.body.pay['weixin']) {
                 trade.pay = req.body.pay;
                 // Communicate to payment to get prepayid for weixin
@@ -120,48 +95,25 @@ trade.prepay = {
                         throw err;
                     }
                     if (jsonObject.metadata) {
-                        callback(jsonObject.metadata, trade);
+                        next(errors.genUnkownError(jsonObject.metadata));
                     } else {
                         trade.pay.weixin['prepayid'] = jsonObject.data.prepay_id;
                         trade.save(function(err) {
-                            callback(err, trade);
+                            if (err) {
+                                next(errors.genUnkownError(err));
+                            } else {
+                                ResponseHelper.writeData(res, {'trade' : trade});
+                                next();
+                            }
                         });
                     }
                 });
             } else {
-                callback(null, trade);
+                ResponseHelper.writeData(res, {'trade' : trade});
+                next();
             }
-        }], function(err, trade) {
-            // Send response
-            ResponseHelper.response(res, err, {
-                'trade' : trade
-            });
-        });
-    }
-};
-
-// Validate new status
-var _statusValidationMap = {
-    1 : [0],
-    2 : [1],
-    3 : [2],
-    5 : [3],
-    7 : [3],
-    9 : [7],
-    10 : [7],
-    15 : [3],
-    17 : [0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 15, 18],
-    18 : [0, 1, 2]
-};
-
-var _validateStatus = function(trade, newStatus, callback) {
-    // Validate status
-    var valid = _statusValidationMap[newStatus];
-    if (valid && valid.indexOf(trade.status) !== -1) {
-        callback(null, trade);
-    } else {
-        callback(errors.TradeStatusChangeError);
-    }
+        }
+    ]
 };
 
 var _weixinDeliveryNotify = function(trade) {
