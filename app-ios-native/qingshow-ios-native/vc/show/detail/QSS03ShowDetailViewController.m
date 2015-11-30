@@ -299,11 +299,6 @@
         }
     }
     
-    //Item List
-    if (self.itemListVc) {
-        self.itemListVc.showDict = dict;
-        [self.itemListVc refreshData];
-    }
     [self _updateLabel];
 }
 #pragma mark - getNewItemArray
@@ -376,21 +371,6 @@
 }
 
 #pragma mark -
-- (IBAction)itemButtonPressed:(id)sender {
-    QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
-    vc.showBackBtn = self.showBackBtn;
-    vc.delegate = self;
-    self.itemListVc = vc;
-    vc.view.frame = self.view.bounds;
-    [self.view addSubview:vc.view];
-    [self setPlayModeBtnsHidden:YES];
-    [self addChildViewController:vc];
-    vc.view.alpha = 0.f;
-    [UIView animateWithDuration:.3f animations:^{
-        vc.view.alpha = 1.f;
-    }];
-    
-}
 
 - (IBAction)menuBtnPressed:(id)sender {
     [self.menuProvider didClickMenuBtn];
@@ -416,24 +396,6 @@
     {
         [self showTextHud:@"取消删除"];
     }
-}
-
-
-- (void)didClickItemListCloseBtn:(BOOL)showBackBtn
-{
-    [UIView animateWithDuration:.3f animations:^{
-        self.itemListVc.view.alpha = 0.f;
-    } completion:^(BOOL finished) {
-        [self setPlayModeBtnsHidden:NO];
-        [self.itemListVc.view removeFromSuperview];
-        [self.itemListVc removeFromParentViewController];
-        if (showBackBtn == YES) {
-              self.backBtn.hidden = YES;
-        }
-      
-        self.itemListVc = nil;
-    }];
-
 }
 
 -(void)playMovie:(NSString *)path{

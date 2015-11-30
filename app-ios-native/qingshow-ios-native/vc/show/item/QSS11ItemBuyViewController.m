@@ -188,6 +188,7 @@
     self.remixCell = [QSDiscountRemixCell generateCell];
     cell = self.remixCell;
     cell.delegate = self;
+#warning TODO
     [array addObject:cell];
     
     cell = [QSDiscountInfoCell generateCell];

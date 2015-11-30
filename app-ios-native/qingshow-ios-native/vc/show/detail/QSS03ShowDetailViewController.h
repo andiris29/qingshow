@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "QSImageScrollViewBase.h"
 #import "QSShareViewController.h"
-#import "QSS07ItemListViewController.h"
 #import "QSVideoBaseViewController.h"
 #import "QSAbstractRootViewController.h"
 
-@interface QSS03ShowDetailViewController : QSVideoBaseViewController < UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate,UIAlertViewDelegate>
+@interface QSS03ShowDetailViewController : QSVideoBaseViewController < UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, UIAlertViewDelegate>
 
 #pragma mark - IBOutlet
 @property (weak, nonatomic) IBOutlet UILabel *modelNameLabel;
@@ -54,7 +53,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
 
-@property (strong, nonatomic) QSS07ItemListViewController* itemListVc;
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 @property (assign, nonatomic) BOOL showDeletedBtn;
 @property (assign,nonatomic)BOOL showBackBtn;
