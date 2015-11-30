@@ -6,8 +6,7 @@ var async = require('async'),
 var Trade = require('../../dbmodels').Trade,
     TradeCode = require('../../dbmodels').TradeCode,
     People = require('../../dbmodels').People,
-    Item = require('../../dbmodels').Item,
-    RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
+    Item = require('../../dbmodels').Item;
 
 var RequestHelper = require('../../helpers/RequestHelper'),
     ResponseHelper = require('../../helpers/ResponseHelper'),
@@ -36,6 +35,7 @@ trade.create = {
             trade.ownerRef = req.qsCurrentUserId;
             trade.quantity = req.body.quantity;
             trade.itemSnapshot = req.injection.itemRef.toJSON();
+            trade.totalFee = trade.quantity * (trade.itemSnapshot.promoPrice * 100 - trade.itemSnapshot.expectable.reduction * 100) / 100;
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
             trade.itemRef = req.injection.itemRef._id;
             if (req.body.promoterRef) {
@@ -289,7 +289,7 @@ trade.alipayCallback = {
         },
         _generateStatusUpdater(TradeCode.STATUS_PAID),
         function(req, res, next) {
-            BonusHelper.createBonus(trade, trade.itemSnapshot, next);
+            BonusHelper.createTradeBonus(trade, next);
         }
     ]
 };
@@ -319,7 +319,7 @@ trade.wechatCallback = {
         },
         _generateStatusUpdater(TradeCode.STATUS_PAID),
         function(req, res, next) {
-            BonusHelper.createBonus(trade, trade.itemSnapshot, next);
+            BonusHelper.createTradeBonus(trade, next);
         }
     ]
 };
@@ -381,34 +381,6 @@ trade.postpay = {
                 'trade' : trade
             });
         });
-    }
-};
-
-trade.share = {
-    'method' : 'post',
-    'permissionValidators' : ['roleUserValidator'],
-    'func' : function(req, res) {
-        var targetRef, initiatorRef;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.body;
-                targetRef = RequestHelper.parseId(param._id);
-                initiatorRef = req.qsCurrentUserId;
-            } catch (err) {
-                callback(err);
-            }
-            callback();
-        },
-        function(callback) {
-            // Share
-            RelationshipHelper.append(RPeopleShareTrade, initiatorRef, targetRef, function(err, relationship) {
-                callback(err);
-            });
-        }], function(err) {
-            ResponseHelper.response(res, err);
-        });
-
     }
 };
 
@@ -582,7 +554,7 @@ trade.forge = {
             });
         }, function(trade, item, callback){
             TradeHelper.updateStatus(trade, TradeCode.STATUS_PAID, req.qsCurrentUserId, function(){});
-            BonusHelper.createBonus(trade, item, function(err){
+            BonusHelper.createTradeBonus(trade, function(err){
                 callback(err, trade);
             }); 
         }], function(err, trade){

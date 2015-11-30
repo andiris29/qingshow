@@ -88,7 +88,7 @@ import rx.schedulers.Schedulers;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
 
-public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener{
+public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
@@ -148,9 +148,9 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if(msg.what == LOADING_FINISH){
-                if(null == dialogs)return false;
-                if(dialogs.isShowing()){
+            if (msg.what == LOADING_FINISH) {
+                if (null == dialogs) return false;
+                if (dialogs.isShowing()) {
                     dialogs.dismiss();
                     return true;
                 }
@@ -257,7 +257,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         });
     }
 
-    private void getShowView(){
+    private void getShowView() {
 
         RxRequest.createIdRequest(QSAppWebAPI.getShowViewApi(), showId)
                 .subscribe(new QSSubscriber<JSONObject>() {
@@ -333,16 +333,17 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         }
         showData_other();
 
-        if(null != showDetailEntity.ownerRef){
-            if(null != showDetailEntity.ownerRef.bonuses){
+        if (null != showDetailEntity.ownerRef) {
+            if (null != showDetailEntity.ownerRef.bonuses) {
                 s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(showDetailEntity.ownerRef.bonuses));
             }
         }
 
-        showTag(showDetailEntity);
+        if (!showDetailEntity.itemRects.isEmpty())
+            showTag(showDetailEntity);
     }
 
-    private void showTag(MongoShow show){
+    private void showTag(MongoShow show) {
         for (TagDotView dotView : tagViewList) {
             container.removeView(dotView);
         }
@@ -531,8 +532,8 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         }
     }
 
-    private void jumpToS07(){
-        if(null == CategoriesModel.INSTANCE.getCategories()){
+    private void jumpToS07() {
+        if (null == CategoriesModel.INSTANCE.getCategories()) {
             getCategories();
             return;
         }

@@ -6,7 +6,6 @@ var ShowComments = require('../dbmodels').ShowComment;
 var RPeopleLikeShow = require('../dbmodels').RPeopleLikeShow;
 var RPeopleShareShow = require('../dbmodels').RPeopleShareShow;
 var RPeopleFollowPeople = require('../dbmodels').RPeopleFollowPeople;
-var RPeopleShareTrade = require('../dbmodels').RPeopleShareTrade;
 var People = require('../dbmodels').People;
 var Item = require('../dbmodels').Item;
 
@@ -96,12 +95,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
 ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
     trades = _prepare(trades);
 
-    // __context.sharedByCurrentUser
-    var sharedByCurrentUser = function(callback) {
-        _rInitiator(RPeopleShareTrade, qsCurrentUserId, trades, 'sharedByCurrentUser', callback);
-    };
-
-    async.parallel([sharedByCurrentUser], function(err) {
+    async.parallel([], function(err) {
         callback(null, trades);
     });
 };
@@ -113,7 +107,7 @@ ContextHelper.appendMatchCompositionContext = function(items, callback){
             var config = global.qsMatcherConfig;
             var layout = {};
             if (item.matchComposition && item.matchComposition.layout && config[item.matchComposition.layout]) {      
-                layout = config.matcher.layouts[definedLayout];
+                layout = config[item.matchComposition.layout];
             }else {
                 layout = config.default;
             }

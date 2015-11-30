@@ -70,37 +70,6 @@ peopleSchema = Schema({
         address : String,
         isDefault : Boolean
     }],
-    bonuses : [{
-        status : Number,
-        money : Number,
-        notes : String,
-        icon : String,
-        create : {
-            type : Date,
-            'default' : Date.now
-        },
-        initiatorRef : {
-            type : Schema.Types.ObjectId,
-            ref : 'peoples'
-        },
-        participants : {
-            type : [{
-                type : Schema.Types.ObjectId,
-                ref : 'peoples'
-            }]
-        },
-        trigger : {
-            tradeRef : {    
-                type : Schema.Types.ObjectId,
-                ref : 'trades'
-            },
-            itemRef : {
-                type : Schema.Types.ObjectId,
-                ref : 'items'
-            }
-        },
-        weixinRedPackId : String
-    }],
     unreadNotifications : [{
         create : {
             type : Date,

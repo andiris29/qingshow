@@ -265,8 +265,8 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_HOT_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getMatchNewApi(int pageNo, int pageSize) {
-        return "http://dev.chingshow.com/services" + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public static String getMatchNewApi(int pageNo, int pageSize, String from, String to) {
+        return "http://dev.chingshow.com/services" + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
     }
 
     public static String getQueryCategories() {

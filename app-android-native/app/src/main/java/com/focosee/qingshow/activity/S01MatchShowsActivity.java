@@ -37,12 +37,15 @@ import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSButton;
+import com.squareup.timessquare.CalendarPickerView;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -53,8 +56,12 @@ import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import de.greenrobot.event.EventBus;
+import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
+import rx.observables.GroupedObservable;
 
 public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener {
 
@@ -72,6 +79,8 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     FrameLayout container;
     @InjectView(R.id.s01_tab_feature)
     QSButton s01TabFeature;
+    @InjectView(R.id.calendar)
+    CalendarPickerView calendarPicker;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -92,6 +101,8 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     private int currentPageNo = 1;
     private int currentType = TYPE_FEATURED;
 
+    private GregorianCalendar calendar;
+
     private MenuView menuView;
 
     @Override
@@ -105,6 +116,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
             if (currentType == TYPE_NEW) clickTabNew();
         }
         initRefreshLayout();
+        calendar = new GregorianCalendar();
+        calendarPicker.init(new GregorianCalendar(2015, 1, 1).getTime(), new Date());
+        initCalendar();
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +137,23 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         mRefreshLayout.beginRefreshing();
         showNewTradeNotify(getIntent());
 
+    }
+
+    private void initCalendar(){
+        calendarPicker.scrollToDate(calendar.getTime());
+        calendarPicker.selectDate(calendar.getTime());
+        calendarPicker.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(Date date) {
+                calendar.setTime(date);
+                mRefreshLayout.beginRefreshing();
+            }
+
+            @Override
+            public void onDateUnselected(Date date) {
+
+            }
+        });
     }
 
     @Override
@@ -151,7 +182,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 url = QSAppWebAPI.getFeedingFeatured(pageNo, PAGESIZE);
                 break;
         }
-        if(pageNo == 1){
+        if (pageNo == 1) {
             adapter.clearData();
         }
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
@@ -201,8 +232,8 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         }
     }
 
-    public void onEventMainThread(ShowCollectionEvent event){
-        if(event.position != Integer.MAX_VALUE){
+    public void onEventMainThread(ShowCollectionEvent event) {
+        if (event.position != Integer.MAX_VALUE) {
             adapter.setItem(event.position, event.show);
             adapter.notifyDataSetChanged();
         }
@@ -217,7 +248,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     @Override
     public void onClick(View v) {
         recyclerView.scrollToPosition(0);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.s01_tab_hot:
                 currentType = TYPE_HOT;
                 mRefreshLayout.beginRefreshing();
@@ -260,28 +291,44 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         s01TabFeature.setTextColor(getResources().getColor(R.color.master_pink));
         head.setVisibility(View.GONE);
     }
+    private void getMatchNew(final GregorianCalendar calendar) {
+        Observable.from(new ArrayList<FeedingAggregation>());
 
-    private void getMatchNew(GregorianCalendar calendar){
         QSRxApi.queryFeedingaggregationMatchNew(TimeUtil.formatTime(calendar))
-            .subscribe(new QSSubscriber<List<FeedingAggregation>>() {
+            .map(new Func1<List<FeedingAggregation>, List<FeedingAggregation>>() {
+                @Override
+                public List<FeedingAggregation> call(List<FeedingAggregation> feedingAggregations) {
+                    Collections.sort(feedingAggregations, new Comparator<FeedingAggregation>() {
+                        @Override
+                        public int compare(FeedingAggregation lhs, FeedingAggregation rhs) {
+                            return Integer.parseInt(lhs.key) - Integer.parseInt(rhs.key);
+                        }
+                    });
+                    return feedingAggregations;
+                }
+            })
+            .flatMap(new Func1<List<FeedingAggregation>, Observable<FeedingAggregation>>() {
+                @Override
+                public Observable<FeedingAggregation> call(List<FeedingAggregation> feedingAggregations) {
+                    return Observable.from(feedingAggregations);
+                }
+            }).filter(new Func1<FeedingAggregation, Boolean>() {
+            @Override
+            public Boolean call(FeedingAggregation feedingAggregation) {
+                return feedingAggregation.topShows.size() > 0;
+            }
+        }).toList().subscribe(new QSSubscriber<List<FeedingAggregation>>() {
                 @Override
                 public void onNetError(int message) {
                     ErrorHandler.handle(S01MatchShowsActivity.this, message);
                 }
-
                 @Override
                 public void onNext(List<FeedingAggregation> feedingAggregations) {
-                    FilterHepler.filterList(feedingAggregations, new Filter<FeedingAggregation>() {
-                        @Override
-                        public boolean filtrate(FeedingAggregation feedingAggregation) {
-                            return feedingAggregation.topShows.size() < 0;
-                        }
-                    });
+                    matchNewAdapter.setCalendar(calendar);
                     matchNewAdapter.addDataAtTop(feedingAggregations);
                     recyclerView.setLayoutManager(new LinearLayoutManager(S01MatchShowsActivity.this, LinearLayoutManager.VERTICAL, false));
                     recyclerView.setAdapter(matchNewAdapter);
                 }
-
                 @Override
                 public void onCompleted() {
                     super.onCompleted();
@@ -299,7 +346,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
-        if(currentType == TYPE_NEW)
+        if (currentType == TYPE_NEW)
             getMatchNew(new GregorianCalendar(2015, 10, 26));
         else doRefresh(currentType);
     }

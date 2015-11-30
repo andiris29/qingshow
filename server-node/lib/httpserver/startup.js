@@ -18,6 +18,7 @@ var servicesNames = [
     'feeding', 
     'feedingAggregation',
     'user', 
+    'bonus',
     'show', 
     'admin', 
     'trade',  

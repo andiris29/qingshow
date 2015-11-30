@@ -3,7 +3,8 @@ var async = require('async');
 var _ = require('underscore');
 
 var Item = require('../../../dbmodels').Item,
-    People = require('../../../dbmodels').People;
+    People = require('../../../dbmodels').People,
+    PeopleCode = require('../../../dbmodels').PeopleCode;
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 
@@ -82,16 +83,26 @@ var _updateShopInfo = function(item, itemInfo, callback) {
     var webItem = itemInfo;
     //taobaoInfo.shopId
     var shopInfo = webItem.shopInfo;
+    if (!shopInfo) {
+        var sourceType = ItemSourceUtil.getType(item.source);
+        if (sourceType === ItemSourceType.Hm) {
+            shopInfo = {'shopId' : 'hm', 'shopName' : 'hm'};
+        } else if (sourceType === ItemSourceType.Jamy) {
+            shopInfo = {'shopId' : 'jamy', 'shopName' : 'jamy'};
+        }
+    }
     if (shopInfo && shopInfo.shopId) {
         var shopId = shopInfo.shopId;
         async.waterfall([
             function (callback) {
                 People.findOne({
-                    'shopInfo.taobao.sid' : shopId
+                    'userInfo.id' : shopId,
+                    'role' : PeopleCode.ROLE_SHOP
                 }, callback);
             }, function (people, callback) {
                 if (!people) {
                     new People({
+                        'role' : PeopleCode.ROLE_SHOP,
                         nickname: shopInfo.shopName,
                         userInfo : {
                             id : shopId,

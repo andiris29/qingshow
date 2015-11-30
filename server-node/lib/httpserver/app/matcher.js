@@ -255,27 +255,35 @@ matcher.hide = {
 };
 
 matcher.remix = {
-    method : 'post',
+    method : 'get',
     func : function(req, res){
-        var itemRef = req.body.itemRef,
-        remixConfig = global.qsRemixConfig;
+        var itemRef = req.queryString.itemRef,
+        config = global.qsRemixConfig;
         async.waterfall([function(callback){
             Items.findOne({
                 '_id' : itemRef
             }, callback);
         }, function(item, callback){
-            var config;
-            for(key in remixConfig){
-                if (remixConfig[key].master.categoryRef === item.categoryRef.toString()) {
-                    config = require('../../helpers/ConfigHelper').format(remixConfig[key]);
+            var element;
+            for(var key in config){
+                var master = config[key].master;
+                if (_.isString(master.categoryRef) && master.categoryRef === itemRef) {
+                    element = config[key];
+                    break;
+                }else if (_.isArray(master.categoryRef) && _.contains(master.categoryRef, itemRef)) {
+                    element = config[key];
+                    break;
+                }else if (master.categoryRef === '*') {
+                    element = config[key];
                     break;
                 }
             }
-            if (!config) {
+
+            if (!element) {
                 callback(errors.INVALID_OBJECT_ID);
-            }else{
-                callback(null, config, item);
+                return;
             }
+            callback(null, require('../../helpers/ConfigHelper').format(element), item);
         }, function(config, item, callback){
             var data = {},
             criteria = {};

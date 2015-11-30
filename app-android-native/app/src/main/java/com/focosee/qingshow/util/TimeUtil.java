@@ -1,5 +1,7 @@
 package com.focosee.qingshow.util;
 
+import android.util.Log;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;

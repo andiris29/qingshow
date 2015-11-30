@@ -1,10 +1,12 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.adapter.S24Adapter;
 import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
@@ -14,10 +16,11 @@ import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class S24ShowsDateActivity extends BaseActivity {
@@ -40,18 +43,18 @@ public class S24ShowsDateActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s24_shows_date);
+        ButterKnife.inject(this);
         GregorianCalendar from = (GregorianCalendar) getIntent().getSerializableExtra("MATCH_NEW_FROM");
         GregorianCalendar to  = (GregorianCalendar) getIntent().getSerializableExtra("MATCH_NEW_TO");
-
-        from = new GregorianCalendar(2015,11,20);
         String time = TimeUtil.formatDateTime_CN_Pre(from);
         timeTv.setText(time);
-        adapter = new S24Adapter(new ArrayList<MongoShow>(), this, R.layout.item_match);
+        adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_match);
         dataRv.setAdapter(adapter);
-        bindDataFromNet(pageNo, pageSize, null, null);
+        dataRv.setLayoutManager(new GridLayoutManager(this, 2));
+        bindDataFromNet(pageNo, pageSize, TimeUtil.formatTime(from), TimeUtil.formatTime(to));
     }
 
-    private void bindDataFromNet(int pageNo, int pageSize, Date from, Date to){
+    private void bindDataFromNet(int pageNo, int pageSize, String from, String to){
         QSRxApi.createFeedingMatchNewRequest(pageNo, pageSize, from, to)
                 .subscribe(new QSSubscriber<List<MongoShow>>() {
                     @Override
@@ -61,6 +64,7 @@ public class S24ShowsDateActivity extends BaseActivity {
 
                     @Override
                     public void onNext(List<MongoShow> mongoShows) {
+                        adapter.clearData();
                         adapter.addDataAtTop(mongoShows);
                         adapter.notifyDataSetChanged();
                     }

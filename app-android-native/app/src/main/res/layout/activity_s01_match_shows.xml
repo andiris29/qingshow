@@ -147,5 +147,10 @@
         android:scaleType="fitCenter"
         android:src="@drawable/back_top"
         android:visibility="visible" />
+    <com.squareup.timessquare.CalendarPickerView
+        android:id="@+id/calendar"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"/>
 </FrameLayout>
 
