@@ -35,6 +35,7 @@ trade.create = {
             trade.ownerRef = req.qsCurrentUserId;
             trade.quantity = req.body.quantity;
             trade.itemSnapshot = req.injection.itemRef.toJSON();
+            trade.totalFee = trade.quantity * (trade.itemSnapshot.promoPrice * 100 - trade.itemSnapshot.expectable.reduction * 100) / 100;
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
             trade.itemRef = req.injection.itemRef._id;
             if (req.body.promoterRef) {
