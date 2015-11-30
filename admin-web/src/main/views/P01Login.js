@@ -37,7 +37,7 @@ define([
             return;
         }
         this.request('/user/login', 'post', {
-            'idOrNickName' : idOrNickName,
+            'id' : idOrNickName,
             'password' : password
         }, function(err, metadata, data) {
             if (err || metadata.error) {
