@@ -41,11 +41,25 @@ system.get = {
             }
         }], function(error, deployment) {
             ResponseHelper.response(res, error, {
-                'deployment' : deployment,
-                'event' : global.qsConfig.event.image
+                'deployment' : deployment
             });
         });
     }
+};
+
+system.getConfig = {
+    'method' : 'get',
+    'func' : [
+        function(req, res, next) {
+            ResponseHelper.writeData({
+                'config' : {
+                    'event' : {
+                        'image' : global.qsConfig.event.image
+                    }
+                }
+            });
+        }
+    ]
 };
 
 system.log = {
