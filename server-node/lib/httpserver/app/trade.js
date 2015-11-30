@@ -6,8 +6,7 @@ var async = require('async'),
 var Trade = require('../../dbmodels').Trade,
     TradeCode = require('../../dbmodels').TradeCode,
     People = require('../../dbmodels').People,
-    Item = require('../../dbmodels').Item,
-    RPeopleShareTrade = require('../../dbmodels').RPeopleShareTrade;
+    Item = require('../../dbmodels').Item;
 
 var RequestHelper = require('../../helpers/RequestHelper'),
     ResponseHelper = require('../../helpers/ResponseHelper'),
@@ -381,34 +380,6 @@ trade.postpay = {
                 'trade' : trade
             });
         });
-    }
-};
-
-trade.share = {
-    'method' : 'post',
-    'permissionValidators' : ['roleUserValidator'],
-    'func' : function(req, res) {
-        var targetRef, initiatorRef;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.body;
-                targetRef = RequestHelper.parseId(param._id);
-                initiatorRef = req.qsCurrentUserId;
-            } catch (err) {
-                callback(err);
-            }
-            callback();
-        },
-        function(callback) {
-            // Share
-            RelationshipHelper.append(RPeopleShareTrade, initiatorRef, targetRef, function(err, relationship) {
-                callback(err);
-            });
-        }], function(err) {
-            ResponseHelper.response(res, err);
-        });
-
     }
 };
 

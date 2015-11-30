@@ -9,7 +9,6 @@ module.exports = {
     'RPeopleFollowPeople' : require('./RPeopleFollowPeople'),
     'RPeopleLikeShow' : require('./RPeopleLikeShow'),
     'RPeopleShareShow' : require('./RPeopleShareShow'),
-    'RPeopleShareTrade' : require('./RPeopleShareTrade'),
     'ShowComment' : require('./ShowComment'),
     'Show' : require('./Show'),
     'ShowCode' : require('./ShowCode'),
