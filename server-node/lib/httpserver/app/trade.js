@@ -289,7 +289,7 @@ trade.alipayCallback = {
         },
         _generateStatusUpdater(TradeCode.STATUS_PAID),
         function(req, res, next) {
-            BonusHelper.createBonus(trade, trade.itemSnapshot, next);
+            BonusHelper.createTradeBonus(trade, next);
         }
     ]
 };
@@ -319,7 +319,7 @@ trade.wechatCallback = {
         },
         _generateStatusUpdater(TradeCode.STATUS_PAID),
         function(req, res, next) {
-            BonusHelper.createBonus(trade, trade.itemSnapshot, next);
+            BonusHelper.createTradeBonus(trade, next);
         }
     ]
 };
@@ -582,7 +582,7 @@ trade.forge = {
             });
         }, function(trade, item, callback){
             TradeHelper.updateStatus(trade, TradeCode.STATUS_PAID, req.qsCurrentUserId, function(){});
-            BonusHelper.createBonus(trade, item, function(err){
+            BonusHelper.createTradeBonus(trade, function(err){
                 callback(err, trade);
             }); 
         }], function(err, trade){

@@ -4,6 +4,8 @@ module.exports = {
     'JPushAudience' : require('./JPushAudience'),
     'People' : require('./People'),
     'PeopleCode' : require('./PeopleCode'),
+    'Bonus' : require('./Bonus'),
+    'BonusCode' : require('./BonusCode'),
     'RPeopleFollowPeople' : require('./RPeopleFollowPeople'),
     'RPeopleLikeShow' : require('./RPeopleLikeShow'),
     'RPeopleShareShow' : require('./RPeopleShareShow'),

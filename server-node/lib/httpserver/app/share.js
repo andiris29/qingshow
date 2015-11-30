@@ -5,6 +5,8 @@ var Show = require('../../dbmodels').Show,
     Trade = require('../../dbmodels').Trade,
     People = require('../../dbmodels').People,
     PeopleCode = require('../../dbmodels').PeopleCode,
+    Bonus = require('../../dbmodels').Bonus,
+    BonusCode = require('../../dbmodels').BonusCode,
     SharedObject = require('../../dbmodels').SharedObject,
     SharedObjectCode = require('../../dbmodels').SharedObjectCode;
 
@@ -12,7 +14,8 @@ var ShareHelper = require('../../helpers/ShareHelper'),
     ResponseHelper = require('../../helpers/ResponseHelper'),
     RequestHelper = require('../../helpers/RequestHelper'),
     ServiceHelper = require('../../helpers/ServiceHelper'),
-    MongoHelper = require('../../helpers/MongoHelper');
+    MongoHelper = require('../../helpers/MongoHelper'),
+    BonusHelper = require('../../helpers/BonusHelper');
 
 var errors = require('../../errors');
 
@@ -28,7 +31,7 @@ share.createShow = {
     			'_id' : RequestHelper.parseId(params._id)
     		}, callback);
 		}, function(show, callback){
-			ShareHelper.create(req.qsCurrentUserId, 0, ShareHelper.shareShowTitle ,{
+			ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_SHOW, {
 				'show' : {
 					_id : show._id,
 					cover : show.cover,
@@ -54,7 +57,7 @@ share.createTrade = {
     			'_id' : RequestHelper.parseId(params._id)
     		}, callback);
 		}, function(trade, callback){
-			ShareHelper.create(req.qsCurrentUserId, 1, ShareHelper.shareTradeTitle, {
+			ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_TRADE, {
 				'trade' : {
 					_id : trade._id,
 					totalFee : trade.totalFee,
@@ -75,45 +78,47 @@ share.createTrade = {
 };
 
 share.createBonus = {
-	method : 'post',
-	permissionValidators : ['loginValidator'],
-	func : function(req, res){
-		var params = req.body;
-    	async.waterfall([function(callback){
-    		People.findOne({
-    			'_id' : RequestHelper.parseId(params._id)
-    		}, callback);
-		}, function(people, callback){
-			var total = 0;
-			var withdrawTotal = 0;
-			if (people.bonuses && people.bonuses.length > 0) {
-				people.bonuses.forEach(function(bonus){
-					if (bonus.status === PeopleCode.BONUS_STATUS_INIT || bonus.status === PeopleCode.BONUS_STATUS_REQUESTED) {
-						withdrawTotal += bonus.money;   
-					}
-					total += bonus.money;
+	'method' : 'post',
+	'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        function(req, res, next) {
+            BonusHelper.aggregate(req.qsCurrentUserId, function(err, amountByStatus) {
+                if (err) {
+                    next(errors.genUnkownError(err));
+                } else {
+                    // Create SharedObject
+                    var withdrawTotal = amountByStatus[BonusCode.STATUS_INIT] +
+                        amountByStatus[BonusCode.STATUS_REQUESTED];
+                    var total = withdrawTotal + 
+                        amountByStatus[BonusCode.STATUS_COMPLETE];
 
-                    if (bonus.status === PeopleCode.BONUS_STATUS_INIT) {
-                        bonus.status = PeopleCode.BONUS_STATUS_REQUESTED
-                    }
-				});
-			}
-
-            people.save(function(err){});
-
-			ShareHelper.create(req.qsCurrentUserId, 2, ShareHelper.shareBonusTitle, {
-				'bonus' : {
-					ownerRef : people._id,
-					total : total,
-					withdrawTotal : withdrawTotal
-				}
-			}, callback);
-		}], function(err, shareObject){
-			ResponseHelper.response(res, err, {
-                'sharedObject' : shareObject 
+                    ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_BONUS, {
+                        'bonus' : {
+                            'ownerRef' : req.qsCurrentUserId,
+                            'total' : total,
+                            'withdrawTotal' : withdrawTotal
+                        }
+                    }, function(err, shareObject) {
+                        if (err) {
+                            next(errors.genUnkownError(err));
+                        } else {
+                            ResponseHelper.writeData(res, {'shareObject' : shareObject});
+                            next();
+                        }
+                    });
+                }
             });
-		});
-	}
+        },
+        function(req, res, next) {
+            Bonus.update(
+                {'ownerRef' : req.qsCurrentUserId},
+                {'status' : BonusCode.STATUS_REQUESTED},
+                {'multi' : true},
+                next
+            );
+        }
+	]
 };
 
 share.query = {
@@ -160,48 +165,48 @@ share.withdrawBonus = {
         },
         function(req, res, next) {
             var sharedObject = req.injection.sharedObject,
-                people = sharedObject.initiatorRef;
+                ownerRef = sharedObject.initiatorRef;
             
-            if (!people.userInfo.weixin) {
+            if (!ownerRef.userInfo.weixin) {
                 next(errors.ERR_WEIXIN_NOT_BOUND);
             } else {
-                var amount = 0;
-                people.bonuses.forEach(function(bonus) {
-                    if (bonus.status === PeopleCode.BONUS_STATUS_INIT) {
-                        bonus.status = PeopleCode.BONUS_STATUS_REQUESTED;
-                        amount = amount + bonus.money;
-                    }
-                });
-                
-                request({
-                    'url' : global.qsConfig.payment.url + '/payment/wechat/sendRedPack',
-                    'method' : 'post',
-                    'form' : {
-                        'id' : sharedObject._id.toString(),
-                        'openid' : people.userInfo.weixin.openid,
-                        'amount' : amount,
-                        'clientIp' : RequestHelper.getIp(req),
-                        'event' : global.qsConfig.bonus.event,
-                        'message' : global.qsConfig.bonus.message,
-                        'note' : global.qsConfig.bonus.note
-                    }
-                }, function(err, response, body) {
-                    try {
-                        body = JSON.parse(body);
-                    } catch (err) {
+                BonusHelper.aggregate(req.injection.ownerRef, function(err, amountByStatus) {
+                    if (err) {
                         next(errors.genUnkownError(err));
-                        return;
-                    }
-                    
-                    if (body.metadata && body.metadata.error) {
-                        next(errors.ERR_SEND_WEIXIN_RED_PACK_FAILED);
                     } else {
-                        people.bonuses.forEach(function(bonus) {
-                            bonus.status = PeopleCode.BONUS_STATUS_COMPLETE;
-                            bonus.weixinRedPackId = body.data.send_listid;
-                        });
-                        people.save(function(err, people){
-                            next(err);    
+                        var amount = amountByStatus[BonusCode.STATUS_REQUESTED];
+                        // Send red pack
+                        request({
+                            'url' : global.qsConfig.payment.url + '/payment/wechat/sendRedPack',
+                            'method' : 'post',
+                            'form' : {
+                                'id' : sharedObject._id.toString(),
+                                'openid' : ownerRef.userInfo.weixin.openid,
+                                'amount' : amount,
+                                'clientIp' : RequestHelper.getIp(req),
+                                'event' : global.qsConfig.bonus.event,
+                                'message' : global.qsConfig.bonus.message,
+                                'note' : global.qsConfig.bonus.note
+                            }
+                        }, function(err, response, body) {
+                            try {
+                                body = JSON.parse(body);
+                            } catch (err) {
+                                next(errors.genUnkownError(err));
+                                return;
+                            }
+                            
+                            if (body.metadata && body.metadata.error) {
+                                next(errors.ERR_SEND_WEIXIN_RED_PACK_FAILED);
+                            } else {
+                                Bonus.update(
+                                    {'ownerRef' : ownerRef._id},
+                                    {'status' : BonusCode.BONUS_STATUS_COMPLETE,
+                                        'weixinRedPackId' : body.data.send_listid},
+                                    {'multi' : true},
+                                    next
+                                );
+                            }
                         });
                     }
                 });
