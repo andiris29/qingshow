@@ -16,8 +16,7 @@ typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
     QSRootMenuItemSetting = 3,
     QSRootMenuItemMatcher = 4,
     QSRootMenuItemDiscount = 5,
-    QSRootMenuItemShowTrade = 6,
-    QSRootMenuItemTypeMax = 7
+    QSRootMenuItemTypeMax = 6
 };
 
 
