@@ -295,7 +295,7 @@ trade.alipayCallback = {
         },
         _generateStatusUpdater(TradeCode.STATUS_PAID),
         function(req, res, next) {
-            BonusHelper.createTradeBonus(trade, next);
+            BonusHelper.createTradeBonus(req.injection.tradeRef, next);
         }
     ]
 };
@@ -325,7 +325,7 @@ trade.wechatCallback = {
         },
         _generateStatusUpdater(TradeCode.STATUS_PAID),
         function(req, res, next) {
-            BonusHelper.createTradeBonus(trade, next);
+            BonusHelper.createTradeBonus(req.injection.tradeRef, next);
         }
     ]
 };
