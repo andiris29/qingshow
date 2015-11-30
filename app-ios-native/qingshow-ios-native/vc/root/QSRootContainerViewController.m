@@ -16,8 +16,6 @@
 #import "QSNavigationController.h"
 #import "QSU09TradeListViewController.h"
 #import "QSU19LoginGuideViewController.h"
-
-#import "QST01ShowTradeViewController.h"
 #import "NSDictionary+QSExtension.h"
 #import "UIViewController+QSExtension.h"
 
@@ -147,7 +145,7 @@
     [super rootMenuItemPressedType:type oldType:oldType];
     [self hideMenu];
     
-    if (type != QSRootMenuItemMeida && type != QSRootMenuItemShowTrade) {
+    if (type != QSRootMenuItemMeida) {
         NSDictionary* u = [QSUserManager shareUserManager].userInfo;
         if (!u) {
             [self showRegisterVc];
@@ -191,12 +189,6 @@
             QSU09TradeListViewController* tradeListVc = [[QSU09TradeListViewController alloc] init];
             tradeListVc.menuProvider = self;
             vc = tradeListVc;
-            break;
-        }
-        case QSRootMenuItemShowTrade:{
-            QST01ShowTradeViewController *t01VC = [[QST01ShowTradeViewController alloc]init];
-            t01VC.menuProvider = self;
-            vc = t01VC;
             break;
         }
         default:{
