@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -20,8 +19,6 @@ import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.CategoriesCommand;
 import com.focosee.qingshow.command.SystemCommand;
-import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.push.PushHepler;
@@ -29,15 +26,12 @@ import com.focosee.qingshow.widget.ConfirmDialog;
 
 import org.json.JSONObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2015/2/5.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends FragmentActivity {
 
     public static String NOTNET = "not_net";
     public static String PUSHNOTIFY = "PUSHNOTIFY";

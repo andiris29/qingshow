@@ -39,12 +39,12 @@ public class QSRxApi {
                 });
     }
 
-    public static Observable<List<MongoShow>> createFeedingMatchNewRequest(int pageNo, int pageSize, Date from, Date to){
+    public static Observable<List<MongoShow>> createFeedingMatchNewRequest(int pageNo, int pageSize, String from, String to){
         Map<String, Object> reqData = new HashMap<>();
         reqData.put("from", from);
         reqData.put("to", to);
 
-        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getMatchNewApi(pageNo, pageSize), new JSONObject(reqData))
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getMatchNewApi(pageNo, pageSize, from, to), null)
                 .map(new Func1<JSONObject, List<MongoShow>>() {
                     @Override
                     public List<MongoShow> call(JSONObject jsonObject) {
