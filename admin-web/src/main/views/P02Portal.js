@@ -21,7 +21,7 @@ define([
         var ul$ = $('#managerTrades', this._dom);
         var module = 'main/views/components/p02/TradeStatusLi';
 
-        [0, 1, 2, 3, 5, 7, 9, 10, 15, 17, 18].forEach( function(status) {
+        [2, 3, 7, 9, 10, 15, 17].forEach( function(status) {
             violet.ui.factory.createUi(module, {
                 'status' : status
             }, ul$, this);

@@ -6,7 +6,8 @@ var Item = require('../../dbmodels').Item;
 
 var RequestHelper = require('../../helpers/RequestHelper'),
     ResponseHelper = require('../../helpers/ResponseHelper'),
-    NotificationHelper = require('../../helpers/NotificationHelper');
+    NotificationHelper = require('../../helpers/NotificationHelper'),
+    MongoHelper = require('../../helpers/MongoHelper');
 
 var URLParser = require('../../goblin-common/URLParser'),
     GoblinError = require('../../goblin-common/GoblinError');
@@ -216,8 +217,8 @@ item.query = {
             }
             MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         },function(items){
-            return {'items': items}
-        })
+            return {'items': items};
+        });
     }
 };
 

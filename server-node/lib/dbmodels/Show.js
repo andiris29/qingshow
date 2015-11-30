@@ -27,7 +27,7 @@ showSchema = Schema({
         //        select: false
     },
     itemRects : {
-        type : [Number]
+        type : Object
     },
     create : {
         type : Date,
