@@ -41,7 +41,8 @@ system.get = {
             }
         }], function(error, deployment) {
             ResponseHelper.response(res, error, {
-                'deployment' : deployment
+                'deployment' : deployment,
+                'event' : global.qsConfig.event.image
             });
         });
     }
