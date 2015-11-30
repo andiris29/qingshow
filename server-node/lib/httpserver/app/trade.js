@@ -80,7 +80,13 @@ trade.prepay = {
                 trade.pay = req.body.pay;
                 // Communicate to payment to get prepayid for weixin
                 var orderName = trade.itemSnapshot.name;
-                var url = global.qsConfig.payment.url + '/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + encodeURIComponent(orderName) + '&clientIp=' + RequestHelper.getIp(req);
+                var url = global.qsConfig.payment.url + '/payment/wechat/prepay' + 
+                    '?id=' + trade._id.toString() + 
+                    '&totalFee=' + trade.totalFee + 
+                    '&orderName=' + orderName + 
+                    '&clientIp=' + RequestHelper.getIp(req) + 
+                    '&notifyUrl=' + req.body.paymentServiceRoot + '/wechat/callback';
+                url = encodeURIComponent(url);
                 request.get(url, function(error, response, body) {
                     var jsonObject;
                     try {
