@@ -1,5 +1,4 @@
 var util = require('util');
-var winston = require('winston');
 
 var ServerError = function(errorCode, description, err) {
     Error.call(this, 'server error');
@@ -9,8 +8,10 @@ var ServerError = function(errorCode, description, err) {
     if (errorCode === 1000) {
         err = err || new Error();
         this.stack = err.stack;
-        winston.error(new Date().toString() + '- ServerError: ' + this.errorCode);
-        winston.error('\t' + this.stack);
+        require('../runtime/loggers').get('caught-exceptions').error({
+            'errorCode' : this.errorCode,
+            'stack' : (this.stack || '').split('\n')
+        });
     }
 };
 
