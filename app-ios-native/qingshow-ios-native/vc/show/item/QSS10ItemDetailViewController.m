@@ -52,9 +52,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
-    self.navigationItem.titleView = titleImageView;
+
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
@@ -65,7 +63,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
-
+    self.title = @"商品详情";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,73 +92,5 @@
     }
     
 }
-
-/*
-- (IBAction)submitBtnPressed:(id)sender {
-    if (self.createTradeOp) {
-        return;
-    }
-    if (![self.discountVc checkComplete]) {
-        
-        [self showErrorHudWithText:[self.discountVc getIncompleteMessage]];
-    } else {
-        NSDictionary *people = [QSUserManager shareUserManager].userInfo;
-        if (people && ([QSPeopleUtil checkMobileExist:people] == NO)) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"请填写收货信息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alert show];
-        }else{
-            self.createTradeOp =
-            [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
-                [self showSuccessHudAndPop:@"创建成功"];
-                self.createTradeOp = nil;
-            } onError:^(NSError *error) {
-                [self handleError:error];
-                self.createTradeOp = nil;
-            }];
-            //[self delisthandle];
-        }
-    }
-}
-- (void)delisthandle
-{
-    NSDictionary *newTradeDic = [self.discountVc getResult];
-    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:newTradeDic];
-    NSString *itemId = [QSItemUtil getItemId:itemDic];
-    NSArray *skuArray = newTradeDic[@"selectedSkuProperties"];
-    NSString *key = [QSItemUtil getKeyValueForSkuTableFromeSkuProperties:skuArray];
-    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *dic, NSDictionary *metadata) {
-        int count = [QSItemUtil getFirstValueFromSkuTableWithkey:key itemDic:dic];
-        if (count < 1) {
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"您来晚啦，这个规格的已经卖完啦！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil,nil];
-            [alert show];
-        }
-        else{
-            self.createTradeOp =
-            [SHARE_NW_ENGINE createOrderArray:@[[self.discountVc getResult]] onSucceed:^(NSDictionary *dict) {
-                [self showSuccessHudAndPop:@"创建成功"];
-                self.createTradeOp = nil;
-            } onError:^(NSError *error) {
-                [self handleError:error];
-                self.createTradeOp = nil;
-            }];
-        }
-    } onError:^(NSError *error) {
-        
-    }];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        self.navigationController.navigationBarHidden = NO;
-        UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:nil];
-        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
-        vc.navigationItem.leftBarButtonItem = backItem;
-        [self.navigationController pushViewController:vc animated:YES];
-
-    }
-}
-  */
-
 
 @end

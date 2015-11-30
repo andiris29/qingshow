@@ -33,7 +33,7 @@
 #import "QSEntityUtil.h"
 #import "QSNetworkKit.h"
 #import "QSPaymentService.h"
-#import "QSS11CreateTradeViewController.h"
+#import "QSU14CreateTradeViewController.h"
 
 #define kWelcomePageVersionKey @"kWelcomePageVersionKey"
 
@@ -426,7 +426,7 @@
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
         [self didReceiveHideTradeExpectablePriceChangeVcNoti:nil];
 
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
+        QSU14CreateTradeViewController* v = [[QSU14CreateTradeViewController alloc] initWithDict:d];
         v.menuProvider = self;
         [self.contentNavVc pushViewController:v animated:YES];
     } onError:^(NSError *error) {

@@ -17,14 +17,18 @@
 #import "QSUserManager.h"
 #import "QSTradeUtil.h"
 
-#import "QSItemBuyViewController.h"
+#import "QSS11ItemBuyViewController.h"
 #import "QSDiscountQuantityCell.h"
 #import "QSS10ItemDetailViewController.h"
 
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
+#import "UIViewController+ShowHud.h"
+#import "QSU14CreateTradeViewController.h"
+#import "QSShareService.h"
+#import "QSPaymentService.h"
 
-@interface QSItemBuyViewController () <QSDiscountTableViewCellDelegate,QSDiscountTaobaoInfoCellDelegate>
+@interface QSS11ItemBuyViewController () <QSDiscountTableViewCellDelegate,QSDiscountTaobaoInfoCellDelegate>
 
 @property (strong, nonatomic) NSDictionary* itemDict;
 @property (copy, nonatomic) NSString* promoterId;
@@ -37,16 +41,19 @@
 @property (strong, nonatomic) NSArray* propCellArray;
 
 @property (strong, nonatomic) MKNetworkOperation* updateRemixOp;
+@property (strong, nonatomic) MKNetworkOperation* createTradeOp;
+@property (assign, nonatomic) BOOL hasShared;
 @end
 
-@implementation QSItemBuyViewController
+@implementation QSS11ItemBuyViewController
 
 #pragma mark - Init
 - (instancetype)initWithItem:(NSDictionary*)itemDict promoterId:(NSString*)promoterId {
-    self = [super initWithNibName:@"QSItemBuyViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS11ItemBuyViewController" bundle:nil];
     if (self) {
         self.itemDict = itemDict;
         self.promoterId = promoterId;
+        self.hasShared = NO;
     }
     return self;
 }
@@ -56,6 +63,7 @@
     [self _configCells];
     [self _updateRemix];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self _bindWithItemDict:self.itemDict];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -133,7 +141,39 @@
 
 #pragma mark - IBAction
 - (IBAction)buyBtnPressed:(id)sender {
+    if (self.createTradeOp) {
+        return;
+    }
+    if (![self _checkComplete]) {
+        [self showErrorHudWithText:[self _getIncompleteMessage]];
+        return;
+    }
     
+    NSArray* selectedSku = [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell* cell) {
+        return [cell getResult];
+    }];
+    
+    
+    self.createTradeOp =
+    [SHARE_NW_ENGINE createTradeItemRef:[QSEntityUtil getIdOrEmptyStr:self.itemDict]
+                            promoterRef:self.promoterId
+                  selectedSkuProperties:selectedSku
+                               quantity:self.quantityCell.quantity
+                              onSucceed:^(NSDictionary *dict) {
+                                  [[QSPaymentService shareService] sharedForTrade:dict onSucceed:^(NSDictionary *dict) {
+//                                      [self showSuccessHudAndPop:@"创建成功"];
+                                      QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:dict];
+                                      [self.navigationController pushViewController:vc animated:YES];
+                                      self.createTradeOp = nil;
+                                  } onError:^(NSError *error) {
+                                      [self handleError:error];
+                                  }];
+                                  
+                              }
+                                onError:^(NSError *error) {
+                                    [self handleError:error];
+                                    self.createTradeOp = nil;
+                                }];
 }
 
 #pragma mark - Private
@@ -194,27 +234,29 @@
     
     return [NSString stringWithFormat:@"请选择%@",m];
 }
-- (NSDictionary*)_getResult {
-    NSMutableDictionary* retDict = [@{} mutableCopy];
-    if (self.promoterId) {
-        retDict[@"promoterRef"] = self.promoterId;
-    }
-    retDict[@"itemSnapshot"] = self.itemDict;
-    retDict[@"selectedSkuProperties"] = [self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell* cell) {
-        return [cell getResult];
-    }];
-    retDict[@"quantity"] = @(self.quantityCell.quantity);
-    return retDict;
-}
 
 - (void)_updateRemix {
     if (self.updateRemixOp) {
         return;
     }
     self.updateRemixOp = [SHARE_NW_ENGINE matcherRemix:self.itemDict onSucceed:^(NSDictionary *remixInfo) {
-
+#warning TODO
+        NSLog(@"%@", remixInfo);
     } onError:^(NSError *error) {
-        [self handleError:error];
+//        [self handleError:error];
     }];
 }
+- (void)_bindWithItemDict:(NSDictionary*)dict {
+    NSNumber* reduction = [QSItemUtil getExpectableReduction:dict];
+    
+    self.discountInfoBtn.hidden = NO;
+    [self.discountInfoBtn setTitle:[NSString stringWithFormat:@"分享搭配立减%.2f元", reduction.floatValue] forState:UIControlStateNormal];
+    [self.buyBtn setTitle:@"分享后购买" forState:UIControlStateNormal];
+    
+}
+
+- (IBAction)backBtnPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

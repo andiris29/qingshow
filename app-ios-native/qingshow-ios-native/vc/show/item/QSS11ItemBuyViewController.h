@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSItemBuyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface QSS11ItemBuyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

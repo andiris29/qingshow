@@ -17,5 +17,4 @@
 @property (strong, nonatomic) QSTradeListTableViewProvider* provider;
 
 - (instancetype)init;
-- (void)triggerChangeToSegmentIndex:(int)index;
 @end

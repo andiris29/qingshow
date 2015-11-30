@@ -16,7 +16,7 @@
 #import "QSItemListCell.h"
 #import "QSCategoryManager.h"
 #import "QSPeopleUtil.h"
-#import "QSItemBuyViewController.h"
+#import "QSS11ItemBuyViewController.h"
 
 #define QSItemListCellID @"QSItemListCellID"
 
@@ -162,7 +162,7 @@
     if (self.orderdArray.count > indexPath.row) {
         NSDictionary* itemDict = self.orderdArray[indexPath.row];
         if (itemDict) {
-            UIViewController* vc = [[QSItemBuyViewController alloc] initWithItem:itemDict promoterId:peopleId];
+            UIViewController* vc = [[QSS11ItemBuyViewController alloc] initWithItem:itemDict promoterId:peopleId];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }

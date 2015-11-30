@@ -17,26 +17,29 @@
 #define PATH_TRADE_QUERY @"trade/query"
 #define PATH_TRADE_CREATE @"trade/create"
 #define PATH_TRADE_PREPAY @"trade/prepay"
-#define PATH_TRADE_SHARE @"trade/share"
 #define PATH_TRADE_RETURN @"trade/return"
-#define PATH_TRADE_QUERY_PHASES @"trade/queryByPhase"
+#define PATH_TRADE_OWN @"trade/own"
 #define PATH_TRADE_QUERY_HIGILIGHTED @"trade/queryHighlighted"
 #define PATH_TRADE_RECEIVER @"trade/getReturnReceiver"
 @implementation QSNetworkEngine(TradeService)
 
 #pragma mark - Create
-- (MKNetworkOperation*)createOrderArray:(NSArray*)orderArray
-                              onSucceed:(DicBlock)succeedBlock
-                                onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)createTradeItemRef:(NSString*)itemRef
+                              promoterRef:(NSString*)promoterRef
+                    selectedSkuProperties:(NSArray*)skuProperties
+                                 quantity:(int)quantity
+                                onSucceed:(DicBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock
 {
-    if (!orderArray.count) {
-#warning TODO
-        errorBlock(nil);
-    }
-    NSDictionary* order = orderArray[0];
+
     return [self startOperationWithPath:PATH_TRADE_CREATE
                                  method:@"POST"
-                               paramers:order
+                               paramers:@{
+                                          @"promoterRef": promoterRef,
+                                          @"itemRef" : itemRef,
+                                          @"selectedSkuProperties" : skuProperties,
+                                          @"quantity" : @(quantity)
+                                          }
             
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
@@ -76,33 +79,22 @@
     }];
 }
 
-- (MKNetworkOperation*)queryPhase:(int)page
-                                   phases:(NSString *)phases
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation*)queryTradeOwnPage:(int)page
+                               onSucceed:(ArraySuccessBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
 {
-    NSDictionary *userInfo = [QSUserManager shareUserManager].userInfo;
-    NSString *userId = [QSEntityUtil getIdOrEmptyStr:userInfo];
-    return [self queryTradePhases:userId page:page phases:phases onSucceed:succeedBlock onError:errorBlock];
-}
-
-- (MKNetworkOperation*)queryTradePhases:(NSString*)peopleId
-                                      page:(int)page
-                                phases:(NSString *)phases
-                                 onSucceed:(ArraySuccessBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPathNoVersion:PATH_TRADE_QUERY_PHASES
+    return [self startOperationWithPathNoVersion:PATH_TRADE_OWN
                                  method:@"GET"
-                               paramers:@{@"pageNo" : @(page),
-                                          @"phases":phases,
-                                           @"pageSize" : @10}
+                               paramers:@{
+                                          @"pageNo" : @(page),
+                                           @"pageSize" : @10
+                                          }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
                     NSDictionary* retDict = completedOperation.responseJSON;
-                    NSArray* trades = retDict[@"data"][@"trades"];
-                    succeedBlock([trades deepMutableCopy], retDict[@"metadata"]);
+                    NSArray* trades = [retDict arrayValueForKeyPath:@"data.trades"];
+                    succeedBlock([trades deepMutableCopy], [retDict dictValueForKeyPath:@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -137,20 +129,6 @@
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
             succeedBlock(retDict[@"data"][@"trade"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
-
-- (MKNetworkOperation*)tradeShare:(NSDictionary*)tradeDict
-                        onSucceed:(VoidBlock)succeedBlock
-                          onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_TRADE_SHARE method:@"POST" paramers:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:tradeDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

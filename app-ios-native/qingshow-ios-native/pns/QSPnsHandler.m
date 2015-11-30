@@ -119,22 +119,12 @@
 
 - (void)pnsTradeShipped:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
-        if ([vc isKindOfClass:[QSU09TradeListViewController class]]) {
-            QSU09TradeListViewController* u09Vc = (QSU09TradeListViewController*)vc;
-            [u09Vc triggerChangeToSegmentIndex:1];
-        }
-        
+        [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
     } title:@"你购买的宝贝已经向你狂奔而来，等着接收惊喜呦！" userInfo:noti.userInfo];
 }
 - (void)pnsTradeRefundComplete:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
-        if ([vc isKindOfClass:[QSU09TradeListViewController class]]) {
-            QSU09TradeListViewController* u09Vc = (QSU09TradeListViewController*)vc;
-            [u09Vc triggerChangeToSegmentIndex:1];
-        }
-        
+        [self.rootVc triggerToShowVc:QSRootMenuItemDiscount];
     } title:@"款项已经退回您的支付账号，请查收。" userInfo:noti.userInfo];
 }
 - (void)pnsNewBonus:(NSNotification*)noti {

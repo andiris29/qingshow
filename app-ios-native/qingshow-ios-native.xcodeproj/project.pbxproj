@@ -79,8 +79,8 @@
 		EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013481AC31BD700568D92 /* AlipayOrder.m */; };
 		EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */; };
 		EF30601A1B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF3060181B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib */; };
-		EF36C1071C0AC2C6009ECE91 /* QSItemBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36C1051C0AC2C6009ECE91 /* QSItemBuyViewController.m */; };
-		EF36C1081C0AC2C6009ECE91 /* QSItemBuyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF36C1061C0AC2C6009ECE91 /* QSItemBuyViewController.xib */; };
+		EF36C1071C0AC2C6009ECE91 /* QSS11ItemBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36C1051C0AC2C6009ECE91 /* QSS11ItemBuyViewController.m */; };
+		EF36C1081C0AC2C6009ECE91 /* QSS11ItemBuyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF36C1061C0AC2C6009ECE91 /* QSS11ItemBuyViewController.xib */; };
 		EF36C10B1C0AC86F009ECE91 /* UIView+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36C10A1C0AC86F009ECE91 /* UIView+QSExtension.m */; };
 		EF36C10E1C0AD0CC009ECE91 /* QSDiscountRemixCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36C10D1C0AD0CC009ECE91 /* QSDiscountRemixCell.m */; };
 		EF36C1101C0AD0E7009ECE91 /* QSDiscountRemixCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF36C10F1C0AD0E7009ECE91 /* QSDiscountRemixCell.xib */; };
@@ -121,8 +121,8 @@
 		EF8080491B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8080481B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib */; };
 		EF80804D1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF80804B1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m */; };
 		EF80804E1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF80804C1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib */; };
-		EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F311AB5D18D0079BA76 /* QSS11CreateTradeViewController.m */; };
-		EF810F341AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF810F321AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib */; };
+		EF810F331AB5D18D0079BA76 /* QSU14CreateTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F311AB5D18D0079BA76 /* QSU14CreateTradeViewController.m */; };
+		EF810F341AB5D18D0079BA76 /* QSU14CreateTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF810F321AB5D18D0079BA76 /* QSU14CreateTradeViewController.xib */; };
 		EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F441AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m */; };
 		EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F461AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m */; };
 		EF810F4D1AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F481AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m */; };
@@ -344,7 +344,6 @@
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
 		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
 		EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */; };
-		EFEFD92A1B5A55A2009D691D /* QSTradeStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */; };
 		EFF049931B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFF049921B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf */; };
 		EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */; };
 		EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114931A0D2EEC009B7361 /* NSData+MKBase64.m */; };
@@ -498,9 +497,9 @@
 		EF3060161B4B4BB500490F31 /* QSS23MatcherPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS23MatcherPreviewViewController.h; sourceTree = "<group>"; };
 		EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS23MatcherPreviewViewController.m; sourceTree = "<group>"; };
 		EF3060181B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS23MatcherPreviewViewController.xib; sourceTree = "<group>"; };
-		EF36C1041C0AC2C6009ECE91 /* QSItemBuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSItemBuyViewController.h; path = ../QSItemBuyViewController.h; sourceTree = "<group>"; };
-		EF36C1051C0AC2C6009ECE91 /* QSItemBuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSItemBuyViewController.m; path = ../QSItemBuyViewController.m; sourceTree = "<group>"; };
-		EF36C1061C0AC2C6009ECE91 /* QSItemBuyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSItemBuyViewController.xib; path = ../QSItemBuyViewController.xib; sourceTree = "<group>"; };
+		EF36C1041C0AC2C6009ECE91 /* QSS11ItemBuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSS11ItemBuyViewController.h; path = ../QSS11ItemBuyViewController.h; sourceTree = "<group>"; };
+		EF36C1051C0AC2C6009ECE91 /* QSS11ItemBuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSS11ItemBuyViewController.m; path = ../QSS11ItemBuyViewController.m; sourceTree = "<group>"; };
+		EF36C1061C0AC2C6009ECE91 /* QSS11ItemBuyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS11ItemBuyViewController.xib; path = ../QSS11ItemBuyViewController.xib; sourceTree = "<group>"; };
 		EF36C1091C0AC86F009ECE91 /* UIView+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+QSExtension.h"; sourceTree = "<group>"; };
 		EF36C10A1C0AC86F009ECE91 /* UIView+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+QSExtension.m"; sourceTree = "<group>"; };
 		EF36C10C1C0AD0CC009ECE91 /* QSDiscountRemixCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDiscountRemixCell.h; sourceTree = "<group>"; };
@@ -569,9 +568,9 @@
 		EF80804A1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemScrollSelectionCollectionViewCell.h; sourceTree = "<group>"; };
 		EF80804B1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemScrollSelectionCollectionViewCell.m; sourceTree = "<group>"; };
 		EF80804C1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherItemScrollSelectionCollectionViewCell.xib; sourceTree = "<group>"; };
-		EF810F301AB5D18D0079BA76 /* QSS11CreateTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS11CreateTradeViewController.h; sourceTree = "<group>"; };
-		EF810F311AB5D18D0079BA76 /* QSS11CreateTradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS11CreateTradeViewController.m; sourceTree = "<group>"; };
-		EF810F321AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS11CreateTradeViewController.xib; sourceTree = "<group>"; };
+		EF810F301AB5D18D0079BA76 /* QSU14CreateTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14CreateTradeViewController.h; sourceTree = "<group>"; };
+		EF810F311AB5D18D0079BA76 /* QSU14CreateTradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14CreateTradeViewController.m; sourceTree = "<group>"; };
+		EF810F321AB5D18D0079BA76 /* QSU14CreateTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU14CreateTradeViewController.xib; sourceTree = "<group>"; };
 		EF810F431AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeHeigh40Cell.h; sourceTree = "<group>"; };
 		EF810F441AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeHeigh40Cell.m; sourceTree = "<group>"; };
 		EF810F451AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeHeigh46Cell.h; sourceTree = "<group>"; };
@@ -1035,8 +1034,6 @@
 		EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EFEF032E1A30BBF100EC9B48 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		EFEFD9281B5A55A2009D691D /* QSTradeStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeStatus.h; sourceTree = "<group>"; };
-		EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeStatus.m; sourceTree = "<group>"; };
 		EFF049921B78F26400586BEC /* HelveticaInserat-Roman-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "HelveticaInserat-Roman-SemiBold.ttf"; path = "libs/HelveticaInserat-Roman-SemiBold.ttf"; sourceTree = "<group>"; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
@@ -1446,8 +1443,6 @@
 				EF3013481AC31BD700568D92 /* AlipayOrder.m */,
 				EF3013441AC31AFC00568D92 /* QSPaymentService.h */,
 				EF3013451AC31AFC00568D92 /* QSPaymentService.m */,
-				EFEFD9281B5A55A2009D691D /* QSTradeStatus.h */,
-				EFEFD9291B5A55A2009D691D /* QSTradeStatus.m */,
 			);
 			path = payment;
 			sourceTree = "<group>";
@@ -2156,9 +2151,9 @@
 		EF994D841B69367600715B0E /* discount */ = {
 			isa = PBXGroup;
 			children = (
-				EF36C1041C0AC2C6009ECE91 /* QSItemBuyViewController.h */,
-				EF36C1051C0AC2C6009ECE91 /* QSItemBuyViewController.m */,
-				EF36C1061C0AC2C6009ECE91 /* QSItemBuyViewController.xib */,
+				EF36C1041C0AC2C6009ECE91 /* QSS11ItemBuyViewController.h */,
+				EF36C1051C0AC2C6009ECE91 /* QSS11ItemBuyViewController.m */,
+				EF36C1061C0AC2C6009ECE91 /* QSS11ItemBuyViewController.xib */,
 				EF994D891B693BB700715B0E /* cell */,
 			);
 			path = discount;
@@ -2812,9 +2807,9 @@
 			isa = PBXGroup;
 			children = (
 				EF810F351AB5E3B10079BA76 /* cell */,
-				EF810F301AB5D18D0079BA76 /* QSS11CreateTradeViewController.h */,
-				EF810F311AB5D18D0079BA76 /* QSS11CreateTradeViewController.m */,
-				EF810F321AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib */,
+				EF810F301AB5D18D0079BA76 /* QSU14CreateTradeViewController.h */,
+				EF810F311AB5D18D0079BA76 /* QSU14CreateTradeViewController.m */,
+				EF810F321AB5D18D0079BA76 /* QSU14CreateTradeViewController.xib */,
 			);
 			name = s11;
 			sourceTree = "<group>";
@@ -3061,7 +3056,7 @@
 				EFF5B9111A3F2F950048E634 /* QSItemListHeaderView.xib in Resources */,
 				EF8CD2D71C0378E50040611D /* QSU15BonusListTableViewCell.xib in Resources */,
 				EFAD75761B3A4C8200565DED /* QSMatcherCanvasView.xib in Resources */,
-				EF810F341AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib in Resources */,
+				EF810F341AB5D18D0079BA76 /* QSU14CreateTradeViewController.xib in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
 				68E18C111B3AC188000A7985 /* hoderImg.png in Resources */,
 				EF98A1341C04CB1500B0B5BC /* QSNewestHourTitleView.xib in Resources */,
@@ -3109,7 +3104,7 @@
 				8C46D7E11B9C31EE00561F12 /* QST01ShowTradeCell.xib in Resources */,
 				EFAA5A3B1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib in Resources */,
 				EF8CD2A41C0378E50040611D /* QSU13PersonalizeViewController.xib in Resources */,
-				EF36C1081C0AC2C6009ECE91 /* QSItemBuyViewController.xib in Resources */,
+				EF36C1081C0AC2C6009ECE91 /* QSS11ItemBuyViewController.xib in Resources */,
 				68D16D031B341A4700A4646C /* QSMatchShowsCell.xib in Resources */,
 				EF8CD2C61C0378E50040611D /* QSU17ResetPswStep1ViewController.xib in Resources */,
 				EF8CD2B41C0378E50040611D /* QSU02ImgCell.xib in Resources */,
@@ -3169,7 +3164,7 @@
 				EFBC76491B332A6200832116 /* QSBadgeButton.m in Sources */,
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
 				EF8CD38B1C0379880040611D /* QSVersionUpdateAlertHandler.m in Sources */,
-				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
+				EF810F331AB5D18D0079BA76 /* QSU14CreateTradeViewController.m in Sources */,
 				EF8CD2A11C0378E50040611D /* QSU01UserDetailViewController.m in Sources */,
 				EF8CD29F1C0378E50040611D /* QSU20NewBonusViewController.m in Sources */,
 				EFAD757C1B3AFD4C00565DED /* QSCanvasImageView.m in Sources */,
@@ -3224,7 +3219,6 @@
 				EF8CD2A31C0378E50040611D /* QSU13PersonalizeViewController.m in Sources */,
 				EFAD75741B3A4C7300565DED /* QSMatcherCanvasView.m in Sources */,
 				EF8CD2D41C0378E50040611D /* QSTradeListTableViewCell.m in Sources */,
-				EFEFD92A1B5A55A2009D691D /* QSTradeStatus.m in Sources */,
 				EF8CD2C41C0378E50040611D /* QSU02UserSettingViewController.m in Sources */,
 				EF8CD2C81C0378E50040611D /* QSU09TradeListViewController.m in Sources */,
 				EF8CD2CE1C0378E50040611D /* QSU12RefundViewController.m in Sources */,
@@ -3343,7 +3337,7 @@
 				EFAB9C621B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m in Sources */,
 				EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */,
 				EF8CD2B81C0378E50040611D /* QSU02InfoTextCell.m in Sources */,
-				EF36C1071C0AC2C6009ECE91 /* QSItemBuyViewController.m in Sources */,
+				EF36C1071C0AC2C6009ECE91 /* QSS11ItemBuyViewController.m in Sources */,
 				EF8CD3851C0379880040611D /* NSDate+QSExtension.m in Sources */,
 				EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */,
 				8C44759B1B74ABF800DF36E2 /* QSS12TradeDiscountCell.m in Sources */,
@@ -3491,8 +3485,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3520,7 +3514,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "f407cf47-d862-43ed-b796-c574231a3ce2";
+				PROVISIONING_PROFILE = "7a30939e-1a04-4cdb-9b94-b1f778ef67e5";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;
@@ -3532,8 +3526,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhongyi Han (GZAQTJABJG)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK",
@@ -3560,7 +3554,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "f407cf47-d862-43ed-b796-c574231a3ce2";
+				PROVISIONING_PROFILE = "7a30939e-1a04-4cdb-9b94-b1f778ef67e5";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;

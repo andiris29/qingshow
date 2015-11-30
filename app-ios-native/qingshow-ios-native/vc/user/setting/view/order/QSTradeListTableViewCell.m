@@ -13,7 +13,6 @@
 #import "QSEntityUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
-#import "QSTradeStatus.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
 #import "QSUnreadManager.h"
@@ -23,7 +22,6 @@
 @property (weak, nonatomic) NSDictionary* tradeDict;
 @property (strong, nonatomic) NSString *itemId;
 @property (assign, nonatomic) float skuLabelBaseY;
-@property (assign, nonatomic) float actualPrice;
 @property (strong, nonatomic) NSArray* topRightBtns;
 @end
 
@@ -33,10 +31,6 @@
 - (void)awakeFromNib {
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    //Circle Btn
-    self.circleBtnImageView.userInteractionEnabled = NO;
-    self.circleBtnImageView.hidden = YES;
     
     //Web Page
     self.clickToWebpageBtn.layer.cornerRadius = self.clickToWebpageBtn.bounds.size.height / 8;
@@ -48,8 +42,7 @@
     
     //Top Right Btns
     self.topRightBtns = @[
-                          self.refundButton,
-                          self.payButton
+                          self.refundButton
                           ];
     for (UIButton* btn in self.topRightBtns) {
         [self configBtn:btn];
@@ -74,15 +67,14 @@
     for (int i = (int)btns.count - 1; i >= 0; i--) {
         UIButton* btn = btns[i];
         right -= borderWidth;
-        btn.center = CGPointMake(right - btn.bounds.size.width / 2, 20.0);
+        btn.center = CGPointMake(right - btn.bounds.size.width / 2, 160.0);
         right -= btn.bounds.size.width;
         [self.contentView addSubview:btn];
     }
 }
 
 #pragma mark - Circle Btn
-- (void)configBtn:(UIButton*)btn
-{
+- (void)configBtn:(UIButton*)btn {
     UIColor* color = btn.titleLabel.textColor;
     btn.layer.borderColor = color.CGColor;
     btn.layer.borderWidth = 1.f;
@@ -97,8 +89,7 @@
     // Configure the view for the selected state
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 }
 
@@ -106,69 +97,23 @@
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
     self.tradeDict = tradeDict;
-    [self.circleBtnImageView setImage:nil];
     
-    //itemUtil
+    //config Item info
     NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    NSString *oldPrice = [NSString stringWithFormat:@"原价:￥%@",[QSItemUtil getPriceDesc:itemDict]];
-    [self.originPriceLabel setAttributedText:[QSItemUtil getAttrbuteStr:oldPrice]];
-    if (self.cellType == QSTradeListTableViewCellNormal) {
-        self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
-    } else {
-        self.nowPriceLabel.text = [NSString stringWithFormat:@"折扣价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
-    }
-
-    
-    //tradeUtil
-    self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
-
-    _actualPrice = [QSTradeUtil getExpectedPriceDesc:tradeDict].floatValue;
-
-    if (self.cellType == QSTradeListTableViewCellNormal) {
-        self.sizeLabel.text = [QSTradeUtil getPropertiesDesc:tradeDict];
-    } else {
-        self.sizeLabel.text = [QSTradeUtil getPropertiesFullDesc:tradeDict];
-    }
-
+    self.priceLabel.text = [NSString stringWithFormat:@"%.2f", [QSItemUtil getPriceToPay:itemDict].floatValue];
+    self.sizeLabel.text = [QSTradeUtil getPropertiesFullDesc:tradeDict];
     self.quantityLabel.text = [NSString stringWithFormat:@"数量: %@",[QSTradeUtil getQuantityDesc:tradeDict]];
-
-    NSNumber* status = [QSTradeUtil getStatus:tradeDict];
-    QSTradeStatus s = status.integerValue;
-    if (s == 0 || s == 1) {
-        self.dateLabel.text = [NSString stringWithFormat:@"申请日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
-    }else
-    {
-        _actualPrice = [QSTradeUtil getPrice:tradeDict].floatValue;
-        self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
-    }
     
+    //Trade info
+    NSInteger s = [QSTradeUtil getStatus:tradeDict].integerValue;
+    self.dateLabel.text = [NSString stringWithFormat:@"付款日期: %@",[QSTradeUtil getDayDesc:tradeDict]];
+    [self showTopRightBtns:@[]];
     switch (s) {
-        case 0:
-        {
-            self.stateLabel.hidden = YES;
-            [self showTopRightBtns:@[]];
-            self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: 尽请期待"];
-            break;
-        }
-        case 1:{
-            self.stateLabel.hidden = YES;
-            if ([QSItemUtil getExpectableIsExpire:itemDict]) {
-                [self showTopRightBtns:@[]];
-#warning TODO 售罄逻辑
-//                self.circleType = QSTradeListCellCircleTypeSaleOut;
-            } else {
-                if (
-                    [[QSUnreadManager getInstance] shouldShowTradeUnreadOfType:QSUnreadTradeTypeExpectablePriceUpdated id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]]
-                    ) {
-                    self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: ?"];
-                    [self showTopRightBtns:@[]];
-                } else {
-                    self.nowPriceLabel.text = [NSString stringWithFormat:@"预订价: ￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
-                    [self showTopRightBtns:@[self.payButton]];
-                }
-            }
+        case 2: {
+            self.stateLabel.hidden = NO;
+            self.stateLabel.text = @"备货中";
             break;
         }
         case 3: {
@@ -180,8 +125,21 @@
                 [self.logisticsButton setTitle:@"" forState:UIControlStateNormal];
                 [self.logisticsButton setImage:[UIImage imageNamed:@"order_list_cell_wuliu_normal"] forState:UIControlStateNormal];
             }
-            
             [self showTopRightBtns:@[self.logisticsButton, self.refundButton]];
+            break;
+        }
+        case 7: {
+            self.stateLabel.text = @"退货中...";
+            break;
+        }
+        case 9:
+        case 10:
+        case 17: {
+            self.stateLabel.text = @"交易关闭";
+            break;
+        }
+        case 18: {
+            self.stateLabel.text = @"交易成功";
             break;
         }
         default: {
@@ -190,29 +148,16 @@
             break;
         }
     }
-    
-    if (s == 1 && ![QSItemUtil getExpectableIsExpire:itemDict]) {
-        NSString* msg = [QSItemUtil getMessageForPay:itemDict];
-        if (msg && msg.length) {
-            self.messageLabel.text = [NSString stringWithFormat:@"商品备注:%@", msg];
-        } else {
-            self.messageLabel.text = @"";
-        }
-    } else {
-        self.messageLabel.text = @"";
-    }
-    
 }
 
 
-#pragma mark - Top Right 4 btns
+#pragma mark - Top Right btns
 - (IBAction)refundBtnPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(didClickRefundBtnForCell:)]) {
         [self.delegate didClickRefundBtnForCell:self];
     }
 }
-
 
 - (IBAction)logisticsBtnPressed:(id)sender {
     if ([self.delegate respondsToSelector:@selector(didClickLogisticForCell:)]) {
@@ -221,11 +166,6 @@
     [[QSUnreadManager getInstance] clearTradeUnreadOfType:QSUnreadTradeTypeTradeShipped id:[QSEntityUtil getIdOrEmptyStr:self.tradeDict]];
 }
 
-- (IBAction)payBtnPressed:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {
-        [self.delegate didClickPayBtnForCell:self];
-    }
-}
 
 #pragma mark - Web Page
 - (IBAction)clickToWebpageBtnPressed:(id)sender {

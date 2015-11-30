@@ -9,10 +9,6 @@
 #import "QSTradeListHeaderView.h"
 
 @implementation QSTradeListHeaderView
-- (IBAction)changeSegmentValue:(id)sender {
-    UISegmentedControl *seg = sender;
-    [self.delegate changeValueOfSegment:seg.selectedSegmentIndex];
-}
 
 + (instancetype)makeView
 {

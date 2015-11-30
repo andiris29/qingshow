@@ -19,7 +19,7 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSPaymentService.h"
 #import "UIViewController+QSExtension.h"
-#import "QSS11CreateTradeViewController.h"
+#import "QSU14CreateTradeViewController.h"
 #import "QSUnreadManager.h"
 #import "CKCalendarView.h"
 #import "QSDateUtil.h"
@@ -208,7 +208,7 @@
     }
     [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
         [self didClickClose:vc];
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
+        QSU14CreateTradeViewController* v = [[QSU14CreateTradeViewController alloc] initWithDict:d];
         v.menuProvider = self.menuProvider;
         [self.navigationController pushViewController:v animated:YES];
     } onError:^(NSError *error) {

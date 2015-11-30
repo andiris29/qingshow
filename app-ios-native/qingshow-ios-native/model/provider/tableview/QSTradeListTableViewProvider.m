@@ -24,8 +24,6 @@
     QSTradeListTableViewCell* cell = nil;
 
     cell = (QSTradeListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSTradeListTableViewCellIdentifier forIndexPath:indexPath];
-
-    cell.cellType = self.cellType;
     cell.delegate = self;
     [cell bindWithDict:[self orderForIndexPath:indexPath]];
     return cell;
@@ -56,12 +54,6 @@
     }
 }
 
-- (void)didClickPayBtnForCell:(QSTradeListTableViewCell *)cell
-{
-    if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
-        [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
-    }
-}
 - (void)didClickExchangeBtnForCell:(QSTradeListTableViewCell *)cell
 {
     

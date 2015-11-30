@@ -16,17 +16,12 @@
 @protocol QSTradeListTableViewCellDelegate <NSObject>
 
 - (void)didClickRefundBtnForCell:(QSTradeListTableViewCell*)cell;
-- (void)didClickPayBtnForCell:(QSTradeListTableViewCell*)cell;
 - (void)didClickLogisticForCell:(QSTradeListTableViewCell *)cell;
 
 - (void)didClickToWebPageForCell:(QSTradeListTableViewCell *)cell;
 
 @end
 
-typedef NS_ENUM(NSUInteger, QSTradeListTableViewCellType) {
-    QSTradeListTableViewCellNormal,
-    QSTradeListTableViewCellComplete
-};
 
 @interface QSTradeListTableViewCell : UITableViewCell
 
@@ -38,13 +33,10 @@ typedef NS_ENUM(NSUInteger, QSTradeListTableViewCellType) {
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
-@property (weak, nonatomic) IBOutlet UILabel *originPriceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *nowPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *clickToWebpageBtn;
 
-@property (weak, nonatomic) IBOutlet UIImageView *circleBtnImageView;
-@property (assign, nonatomic) QSTradeListTableViewCellType cellType;
 
 //申请退货
 @property (strong, nonatomic) IBOutlet UIButton *refundButton;
@@ -52,16 +44,9 @@ typedef NS_ENUM(NSUInteger, QSTradeListTableViewCellType) {
 //物流信息
 @property (strong, nonatomic) IBOutlet UIButton* logisticsButton;
 - (IBAction)logisticsBtnPressed:(id)sender;
-//立即付款
-@property (strong, nonatomic) IBOutlet UIButton* payButton;
-- (IBAction)payBtnPressed:(id)sender;
-
-
 - (IBAction)clickToWebpageBtnPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 
 @property (weak, nonatomic) NSObject<QSTradeListTableViewCellDelegate>* delegate;
-//@property (assign,nonatomic) int type;
-@property (weak, nonatomic) IBOutlet UILabel* messageLabel;
 @end

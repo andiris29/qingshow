@@ -18,7 +18,7 @@
 
 @protocol QSMenuProviderDelegate;
 
-@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate, UIAlertViewDelegate>
+@interface QSU14CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate, UIAlertViewDelegate>
 
 #pragma mark - Item Info Cells
 @property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoTitleCell *itemInfoTitleCell;

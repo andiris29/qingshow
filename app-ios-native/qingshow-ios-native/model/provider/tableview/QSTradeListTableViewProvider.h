@@ -14,7 +14,6 @@
 @optional
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict;
 - (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict;
-- (void)didClickPayBtnOfOrder:(NSDictionary*)orderDict;
 
 - (void)didClickLogisticBtnOfOrder:(NSDictionary *)orderDic;
 
@@ -27,6 +26,5 @@
 @property (assign, nonatomic) CGFloat headerHeight;
 
 @property (weak, nonatomic) NSObject<QSTradeListTableViewProviderDelegate>* delegate;
-@property (assign, nonatomic) QSTradeListTableViewCellType cellType;
 
 @end

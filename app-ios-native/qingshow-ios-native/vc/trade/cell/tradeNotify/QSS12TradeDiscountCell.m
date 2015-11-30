@@ -19,12 +19,6 @@
     return [UINib generateViewWithNibName:@"QSS12TradeDiscountCell"];
 }
 
-- (void)awakeFromNib {
-    // Initialization code
-    self.dotView.layer.cornerRadius = self.dotView.bounds.size.width / 2;
-    self.dotView.layer.masksToBounds = YES;
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
@@ -53,17 +47,6 @@
     NSRange contentRange = {0,[attri length]};
     [attri addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
     [self.actualPriceLabel setAttributedText:attri];
-
-    self.messageLabel.text = [QSItemUtil getMessageForBuy:[QSTradeUtil getItemDic:tradeDict]];
-    if (![QSItemUtil getMessageForBuy:[QSTradeUtil getItemDic:tradeDict]].length) {
-        self.dotView.hidden = YES;
-    } else {
-        self.dotView.hidden = NO;
-        CGSize size = [QSLayoutUtil sizeForString:self.messageLabel.text withMaxWidth:self.messageLabel.bounds.size.width height:INFINITY font:self.messageLabel.font];
-        CGRect bound = self.messageLabel.frame;
-        bound.size.height = size.height;
-        self.messageLabel.frame = bound;
-    }
 }
 
 - (IBAction)shareToBuyBtnPressed:(id)sender {
@@ -73,6 +56,6 @@
 }
 
 + (CGFloat)cellHeight {
-    return 155.f;
+    return 112.f;
 }
 @end

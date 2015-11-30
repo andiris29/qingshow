@@ -28,7 +28,8 @@
     NSDictionary* tradeDict = dict;
     NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
-    self.priceAfterDiscountLabel.text = [NSString stringWithFormat:@"%@",[QSItemUtil getExpectablePrice:itemDict]];
+#warning TODO
+//    self.priceAfterDiscountLabel.text = [NSString stringWithFormat:@"%@",[QSItemUtil getExpectablePrice:itemDict]];
     
     
     self.priceLabel.text = [QSItemUtil getPriceDesc:itemDict];

@@ -18,9 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel* actualPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel* actualDiscountLabel;
-@property (weak, nonatomic) IBOutlet UILabel* dotView;
-
-@property (weak, nonatomic) IBOutlet UILabel* messageLabel;
 @property (weak, nonatomic) NSObject<QSS12TextCellDelegate>* delegate;
 
 

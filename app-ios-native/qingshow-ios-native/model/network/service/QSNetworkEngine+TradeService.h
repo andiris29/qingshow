@@ -16,27 +16,26 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
 @interface QSNetworkEngine(TradeService)
 
 #pragma mark - Create
-- (MKNetworkOperation*)createOrderArray:(NSArray*)orderArray
-                              onSucceed:(DicBlock)succeedBlock
-                                onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)createTradeItemRef:(NSString*)itemRef
+                              promoterRef:(NSString*)promoterRef
+                    selectedSkuProperties:(NSArray*)skuProperties
+                                 quantity:(int)quantity
+                                onSucceed:(DicBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
 #pragma mark - Query
 - (MKNetworkOperation*)queryTradeDetail:(NSString*)tradeId
                               onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)queryPhase:(int)page
-                               phases:(NSString *)phases
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryTradeOwnPage:(int)page
+                               onSucceed:(ArraySuccessBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)prepayTrade:(NSDictionary*)tradeDict
                               type:(PaymentType)paymentType
                       receiverUuid:(NSString*)uuid
                          onSucceed:(DicBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)tradeShare:(NSDictionary*)tradeDict
-                        onSucceed:(VoidBlock)succeedBlock
-                          onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)tradeReturn:(NSDictionary*)tradeDict
                            company:(NSString*)companyName

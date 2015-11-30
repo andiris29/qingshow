@@ -10,7 +10,6 @@
 #import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 #import "QSItemUtil.h"
-#import "QSTradeStatus.h"
 #import "NSDictionary+QSExtension.h"
 
 @implementation QSTradeUtil
@@ -50,11 +49,6 @@
 + (NSNumber*)getStatus:(NSDictionary*)dict
 {
     return [dict numberValueForKeyPath:@"status"];
-}
-+ (NSString*)getStatusDesc:(NSDictionary*)dict
-{
-    NSNumber* status = [self getStatus:dict];
-    return QSTradeStatusToDesc(status.integerValue);
 }
 
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict

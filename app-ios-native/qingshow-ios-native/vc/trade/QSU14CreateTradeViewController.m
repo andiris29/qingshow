@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSS11CreateTradeViewController.h"
+#import "QSU14CreateTradeViewController.h"
 #import "QSCreateTradeTableViewCellBase.h"
 #import "QSCreateTradePayInfoSelectCell.h"
 #import "QSCreateTradeSkuPropertyCell.h"
@@ -28,7 +28,7 @@
 
 #import "QSAbstractRootViewController.h"
 
-@interface QSS11CreateTradeViewController ()
+@interface QSU14CreateTradeViewController ()
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
 
@@ -58,12 +58,12 @@
 
 @end
 
-@implementation QSS11CreateTradeViewController
+@implementation QSU14CreateTradeViewController
 
 #pragma mark - Init
 - (id)initWithDict:(NSDictionary*)tradeDict
 {
-    self = [super initWithNibName:@"QSS11CreateTradeViewController" bundle:nil];
+    self = [super initWithNibName:@"QSU14CreateTradeViewController" bundle:nil];
     if (self) {
         self.tradeDict = tradeDict;
         self.isShowKeyboard = NO;
@@ -198,7 +198,6 @@
     self.payWayCellArray = @[self.payInfoTitleCell,
                              self.payInfoWechatCell,
                              self.payInfoAlipayCell
-//                             ,self.payInfoBankCell
                              ];
     self.totalPriceCellArray = @[self.totalCell];
     
@@ -392,10 +391,15 @@
         paymentType = PaymentTypeWechat;
     }
     NSDictionary* tradeDict = self.tradeDict;
+    
     [self.totalCell updateWithPrice:[QSTradeUtil getTotalFeeDesc:tradeDict]];
     
-    __weak QSS11CreateTradeViewController* weakSelf = self;
-    self.prepayOp = [SHARE_NW_ENGINE prepayTrade:self.tradeDict type:paymentType receiverUuid:uuid onSucceed:^(NSDictionary *tradeDict) {
+    __weak QSU14CreateTradeViewController* weakSelf = self;
+    self.prepayOp = [SHARE_NW_ENGINE prepayTrade:self.tradeDict
+                                            type:paymentType
+                                    receiverUuid:uuid
+                                       onSucceed:^(NSDictionary *tradeDict)
+    {
         [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
                                  onSuccess:^{
                                      UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"支付成功" message:nil delegate:weakSelf cancelButtonTitle:nil otherButtonTitles:@"继续逛逛", @"查看订单", nil];
@@ -495,13 +499,7 @@
 }
 
 #pragma mark - UIAlertView Delegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == 123) {
-    
-    }
-    else
-    {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         //继续逛逛
         [self.navigationController popViewControllerAnimated:YES];
@@ -509,12 +507,7 @@
     } else if (buttonIndex == 1) {
         //查看订单
         [self.navigationController popToRootViewControllerAnimated:YES];
-        UIViewController* vc = [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
-        if ([vc isKindOfClass:[QSU09TradeListViewController class]]) {
-            QSU09TradeListViewController* u09Vc = (QSU09TradeListViewController*)vc;
-            [u09Vc triggerChangeToSegmentIndex:1];
-        }
-    }
+        [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
     }
 }
 

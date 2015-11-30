@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -37,7 +37,7 @@
         </mutableArray>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS11CreateTradeViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU14CreateTradeViewController">
             <connections>
                 <outlet property="itemInfoQuantityCell" destination="0JF-BK-tFN" id="mSs-wW-yZy"/>
                 <outlet property="itemInfoTitleCell" destination="yMR-Hb-tKX" id="Y3Z-dZ-pGJ"/>
@@ -95,7 +95,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yMR-Hb-tKX" id="762-nR-B46">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="91.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="产品详情" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGV-nr-0qH">
@@ -186,7 +186,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0JF-BK-tFN" id="4ah-RG-Gt7">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购买数量" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjR-lp-Z52">
@@ -220,7 +220,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="40"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="15S-S2-52n" id="k5N-zn-xNi">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="39"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="39.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="收货信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mq-CB-qcX">
@@ -259,7 +259,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Px5-tN-uwV" id="nBn-Vn-Kuy">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Rl-rr-aJH">
@@ -283,7 +283,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3ED-XR-GZq" id="YE2-tp-KfG">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="收货人电话:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lef-er-mps">
@@ -307,7 +307,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Ol-zb-7sH" id="zqs-79-XD8">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="所在区域" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ex-8b-2Ep">
@@ -331,7 +331,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Px1-O4-CeG" id="ysB-Hk-Lgl">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="详细地址:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ihx-r1-hZe">
@@ -355,7 +355,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="40"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Swl-FW-O50" id="x8V-if-pLS">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="39"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="39.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="支付方式" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7WZ-jb-rGK">
@@ -372,7 +372,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="W0Q-zU-5lt" id="pPe-kX-0bb">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="微信支付" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K6Q-Wc-zjA">
@@ -418,7 +418,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qdV-pm-cch" id="OIM-gE-ZFu">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="支付宝支付" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h9x-a0-PTC">
@@ -463,7 +463,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qYg-34-QGT" id="NY8-ZN-wvS">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pay_bank_icon" translatesAutoresizingMaskIntoConstraints="NO" id="LdJ-Nh-7Om">
@@ -500,7 +500,7 @@
             <rect key="frame" x="0.0" y="0.0" width="321" height="65"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yOL-GW-vcb" id="gfM-cP-QO9">
-                <rect key="frame" x="0.0" y="0.0" width="321" height="64"/>
+                <rect key="frame" x="0.0" y="0.0" width="321" height="64.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="应付金额:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7o-fA-8q4">
