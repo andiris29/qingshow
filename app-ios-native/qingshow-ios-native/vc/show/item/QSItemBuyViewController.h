@@ -12,6 +12,10 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (weak, nonatomic) IBOutlet UIButton *discountInfoBtn;
+@property (weak, nonatomic) IBOutlet UIButton *buyBtn;
+
+
 - (instancetype)initWithItem:(NSDictionary*)itemDict promoterId:(NSString*)promoterId;
 
 @end

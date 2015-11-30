@@ -80,6 +80,7 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="remixBtn" destination="tLy-vp-WlF" id="fho-1L-p8s"/>
                 <outlet property="remixContainer" destination="mAn-yw-1EA" id="9lO-Nu-CPZ"/>
                 <outlet property="titleLabel" destination="rNt-Yg-xKb" id="qMh-fg-rfP"/>
             </connections>

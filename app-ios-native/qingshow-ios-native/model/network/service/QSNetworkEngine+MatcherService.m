@@ -19,6 +19,7 @@
 #define PATH_MATCHER_SAVE @"matcher/save"
 #define PATH_MATCHER_UPDATE_COVER @"matcher/updateCover"
 #define PATH_MATCHER_HIDE @"matcher/hide"
+#define PATH_MATCHER_REMIX @"matcher/remix"
 
 @implementation QSNetworkEngine(MatcherService)
 
@@ -144,6 +145,26 @@
         if (errorBlock) {
             errorBlock(error);
         }
+    }];
+}
+
+- (MKNetworkOperation*)matcherRemix:(NSDictionary*)itemDict
+                          onSucceed:(DicBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_REMIX
+                                 method:@"GET"
+                               paramers:@{
+                                          @"itemRef" : [QSEntityUtil getIdOrEmptyStr:itemDict]
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock(completedOperation.responseJSON);
+                                }
+    }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
     }];
 }
 @end

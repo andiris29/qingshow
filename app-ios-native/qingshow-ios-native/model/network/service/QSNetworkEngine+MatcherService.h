@@ -38,4 +38,8 @@ typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSString* modelCategor
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation*)matcherRemix:(NSDictionary*)itemDict
+                          onSucceed:(DicBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock;
+
 @end

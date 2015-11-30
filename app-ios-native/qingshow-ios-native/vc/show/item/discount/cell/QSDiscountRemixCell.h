@@ -12,9 +12,12 @@
 
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UIView* remixContainer;
+@property (weak, nonatomic) IBOutlet UIButton* remixBtn;
 
 - (IBAction)remixBtnPressed:(UIButton*)sender;
 - (IBAction)previousRemixBtnPressed:(UIButton*)sender;
 - (IBAction)nextRemixBtnPressed:(UIButton*)sender;
+
+- (void)bindWithRemix:(NSDictionary*)remixInfoDict;
 
 @end
