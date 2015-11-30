@@ -113,7 +113,7 @@ ContextHelper.appendMatchCompositionContext = function(items, callback){
             var config = global.qsMatcherConfig;
             var layout = {};
             if (item.matchComposition && item.matchComposition.layout && config[item.matchComposition.layout]) {      
-                layout = config.matcher.layouts[definedLayout];
+                layout = config[item.matchComposition.layout];
             }else {
                 layout = config.default;
             }

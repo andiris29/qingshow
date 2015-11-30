@@ -264,18 +264,27 @@ matcher.remix = {
                 '_id' : itemRef
             }, callback);
         }, function(item, callback){
-            var config;
-            for(key in remixConfig){
-                if (remixConfig[key].master.categoryRef === item.categoryRef.toString()) {
-                    config = require('../../helpers/ConfigHelper').format(remixConfig[key]);
+            var element;
+            for(var key in config){
+                var master = config[key].master;
+                if (_.isString(master.categoryRef) && master.categoryRef === ref) {
+                    element = config[key];
+                    break;
+                }else if (_.isArray(master.categoryRef) && _.contains(master.categoryRef, ref)) {
+                    element = config[key];
                     break;
                 }
             }
-            if (!config) {
-                callback(errors.INVALID_OBJECT_ID);
-            }else{
-                callback(null, config, item);
+
+            if (!element) {
+                if (config['*']) {
+                    element = config['*'];
+                }else {
+                    callback(errors.INVALID_OBJECT_ID);
+                    return;    
+                }
             }
+            callback(null, require('../../helpers/ConfigHelper').format(element), item);
         }, function(config, item, callback){
             var data = {},
             criteria = {};
