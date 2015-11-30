@@ -91,6 +91,7 @@
                                      onError:errorBlock];
 }
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
+                         itemRects:(NSArray*)itemRects
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
     NSMutableArray* idArray = [@[] mutableCopy];
@@ -99,11 +100,17 @@
     }
     
     
-    return [self startOperationWithPath:PATH_MATCHER_SAVE method:@"POST" paramers:@{@"itemRefs" : idArray} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_MATCHER_SAVE
+                                 method:@"POST"
+                               paramers:@{
+                                          @"itemRefs" : idArray,
+                                          @"itemRects" : itemRects}
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+    }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
             errorBlock(error);
         }

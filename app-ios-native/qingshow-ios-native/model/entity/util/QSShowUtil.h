@@ -42,4 +42,6 @@
 + (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic;
 + (NSDictionary*)getPromotionRef:(NSDictionary*)showDict;
 + (void)addNumberView:(long long)num forShow:(NSDictionary*)showDict;
++ (NSArray*)getAllItemArray:(NSDictionary*)showDict;
++ (NSArray*)getItemRects:(NSDictionary*)showDict;
 @end

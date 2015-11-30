@@ -170,7 +170,13 @@
     }
     return returnArray;
 }
++ (NSArray*)getAllItemArray:(NSDictionary*)showDict {
+    return [showDict arrayValueForKeyPath:@"itemRefs"];
+}
 
++ (NSArray*)getItemRects:(NSDictionary*)showDict {
+    return [showDict arrayValueForKeyPath:@"itemRects"];
+}
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
 {
     if ([QSEntityUtil checkIsNil:showDict]) {

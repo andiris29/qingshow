@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
-            <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
@@ -26,10 +25,10 @@
                 <outlet property="coverContainer" destination="75p-Ch-Kwg" id="Mgp-x4-OGR"/>
                 <outlet property="coverForegroundImageView" destination="LcX-cI-hxW" id="Xqv-iM-URe"/>
                 <outlet property="coverImageView" destination="uDl-XZ-Mvo" id="OHw-hB-RNt"/>
+                <outlet property="coverLabelContainerView" destination="Jje-wN-wCR" id="20t-e0-Ogn"/>
                 <outlet property="discountContainer" destination="U6j-61-PMr" id="Vfb-TO-cd8"/>
                 <outlet property="favorBtn" destination="iFb-nD-1im" id="Qr1-Eb-uSI"/>
                 <outlet property="headIconImageView" destination="lOu-5a-lHY" id="yRc-lX-G9V"/>
-                <outlet property="itemBtn" destination="Kom-JN-rRb" id="Pf0-eD-xFv"/>
                 <outlet property="menuBtn" destination="Wqt-lf-SU4" id="i0z-Br-6bt"/>
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
                 <outlet property="modelNameLabel" destination="ZEr-7p-gCN" id="ZTs-fd-ik4"/>
@@ -71,6 +70,11 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </imageView>
+                        <view contentMode="scaleToFill" id="Jje-wN-wCR">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -138,24 +142,11 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" id="AUY-C1-rFf">
-                    <rect key="frame" x="258" y="250" width="63" height="228"/>
+                    <rect key="frame" x="258" y="315" width="63" height="163"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kom-JN-rRb">
-                            <rect key="frame" x="12" y="8" width="36" height="42"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
-                            <inset key="contentEdgeInsets" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" title="0" backgroundImage="s03_item_btn">
-                                <color key="titleColor" red="0.3308278093" green="0.3308278093" blue="0.3308278093" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="itemButtonPressed:" destination="-1" eventType="touchUpInside" id="M8t-cq-OQ8"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iFb-nD-1im">
-                            <rect key="frame" x="12" y="132" width="40" height="36"/>
+                            <rect key="frame" x="12" y="67" width="40" height="36"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <state key="normal" title="0" backgroundImage="s03_like_btnIcon">
@@ -166,20 +157,16 @@
                                 <action selector="likeBtnPressed:" destination="-1" eventType="touchUpInside" id="7du-iV-Nus"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s03_line" id="IHe-bJ-k6Q">
-                            <rect key="frame" x="14" y="58" width="36" height="6"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s03_line" id="5yz-vD-lZY">
-                            <rect key="frame" x="14" y="118" width="36" height="6"/>
+                            <rect key="frame" x="14" y="53" width="36" height="6"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s03_line" id="2MI-bE-JlY">
-                            <rect key="frame" x="14" y="172" width="36" height="6"/>
+                            <rect key="frame" x="14" y="107" width="36" height="6"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1sR-pr-gUL">
-                            <rect key="frame" x="13" y="186" width="38" height="28"/>
+                            <rect key="frame" x="13" y="121" width="38" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
                             <state key="normal" backgroundImage="s03_share_btn">
@@ -190,7 +177,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
-                            <rect key="frame" x="12" y="72" width="40" height="38"/>
+                            <rect key="frame" x="12" y="7" width="40" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <state key="normal" title="0" backgroundImage="s03_comment_btn">
@@ -265,7 +252,6 @@
         <image name="nav_btn_back" width="28" height="28"/>
         <image name="nav_btn_menu" width="28" height="28"/>
         <image name="s03_comment_btn" width="40" height="38"/>
-        <image name="s03_item_btn" width="36" height="42"/>
         <image name="s03_like_btnIcon" width="40" height="36"/>
         <image name="s03_line" width="38" height="6"/>
         <image name="s03_model_shadow" width="320" height="92"/>
@@ -274,9 +260,4 @@
         <image name="s03_share_btn" width="38" height="28"/>
         <image name="s20_canvas_remove" width="36" height="36"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

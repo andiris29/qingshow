@@ -143,18 +143,16 @@
                            comment:(NSString*)comment
                          onSucceed:(DicBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
-#warning TODO remove Comment?
     return [SHARE_NW_ENGINE startOperationWithPath:PATH_TRADE_RETURN
                                             method:@"POST"
                                           paramers:
             @{
               @"_id" : [QSEntityUtil getIdOrEmptyStr:tradeDict],
-              @"return" : @{
-                      @"logistic" : @{
+              @"returnLogistic" : @{
                               @"company" : companyName,
-                              @"trackingID" : trackId
-                              }
-                      }
+                              @"trackingId" : trackId
+                              },
+              @"note" : comment
               }
                                        onSucceeded:^(MKNetworkOperation *completedOperation) {
                                            if (succeedBlock) {

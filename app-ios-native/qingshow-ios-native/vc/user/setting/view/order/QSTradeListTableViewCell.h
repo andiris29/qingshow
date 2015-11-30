@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define QSTradeListTableViewCellIdentifier @"QSTradeListTableViewCellIdentifier"
-#define QSTradeListTableViewCellHeight 230
+#define QSTradeListTableViewCellHeight 182
 
 @class QSTradeListTableViewCell;
 

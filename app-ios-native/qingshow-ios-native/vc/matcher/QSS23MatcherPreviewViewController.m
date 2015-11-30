@@ -17,6 +17,7 @@
 @interface QSS23MatcherPreviewViewController ()
 
 @property (strong, nonatomic) NSArray* itemArray;
+@property (strong, nonatomic) NSArray* itemRects;
 @property (strong, nonatomic) UIImage* coverImage;
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
@@ -29,10 +30,11 @@
 @implementation QSS23MatcherPreviewViewController
 
 #pragma mark - Init
-- (instancetype)initWithItems:(NSArray*)items coverImages:(UIImage*)coverImage menuProvider:(NSObject<QSMenuProviderDelegate>*)menuProvider {
+- (instancetype)initWithItems:(NSArray*)items rects:(NSArray*)itemRects coverImages:(UIImage*)coverImage menuProvider:(NSObject<QSMenuProviderDelegate>*)menuProvider {
     self = [super initWithNibName:@"QSS23MatcherPreviewViewController" bundle:nil];
     if (self) {
         self.itemArray = items;
+        self.itemRects = itemRects;
         self.coverImage = coverImage;
         self.menuProvider = menuProvider;
     }
@@ -64,7 +66,7 @@
     MBProgressHUD* hud = [self showNetworkWaitingHud];
     
     self.createMatcherOp =
-    [SHARE_NW_ENGINE matcherSave:self.itemArray onSucceed:^() {
+    [SHARE_NW_ENGINE matcherSave:self.itemArray itemRects:self.itemRects onSucceed:^() {
         self.createMatcherOp = nil;
         self.updateCoverOp =
         [SHARE_NW_ENGINE matcherUpdateCover:self.coverImage  onSucceed:^(NSDictionary *d) {

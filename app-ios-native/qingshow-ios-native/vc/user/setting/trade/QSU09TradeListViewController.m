@@ -159,7 +159,7 @@
 
 - (void)didClickToWebPage:(NSDictionary *)orderDic
 {
-    NSDictionary *itemDic = [QSTradeUtil getItemDic:orderDic];
+    NSDictionary *itemDic = [QSTradeUtil getItemSnapshot:orderDic];
     NSString *itemId = [QSItemUtil getItemId:itemDic];
     __weak QSU09TradeListViewController *weakSelf = self;
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *item, NSDictionary *metadata) {

@@ -21,6 +21,9 @@
 #import "QSShareService.h"
 #import "QSNetworkEngine+ShareService.h"
 #import "QSShareUtil.h"
+#import "QSS11ItemBuyViewController.h"
+#import "QSItemTagView.h"
+#import "QSLayoutUtil.h"
 
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
@@ -38,6 +41,7 @@
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) NSString* showId;
 @property (strong, nonatomic) QSShareViewController* shareVc;
+@property (strong, nonatomic) NSMutableArray* itemLabelArray;
 @end
 
 @implementation QSS03ShowDetailViewController
@@ -68,6 +72,8 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+    self.itemLabelArray = [@[] mutableCopy];
+    
     self.menuProvider = self.menuProvider;
     self.shareVc = [[QSShareViewController alloc] init];
     self.shareVc.delegate = self;
@@ -184,8 +190,73 @@
 }
 - (void)updateCover {
     [self.coverImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict]];
-    [self.coverForegroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:self.showDict]];
+    [self.coverForegroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:self.showDict] beforeCompleteBlock:^(UIImage *image) {
+        [self _updateLabel];
+    }];
     [self.coverBackgroundImageView setImageFromURL:[QSShowUtil getCoverBackgroundUrl:self.showDict]];
+
+}
+
+- (void)_updateLabel {
+    CGPoint origin = self.coverImageView.frame.origin;
+    CGSize size = self.coverImageView.bounds.size;
+    
+    for (UIView* labelView in self.itemLabelArray) {
+        [labelView removeFromSuperview];
+    }
+    [self.itemLabelArray removeAllObjects];
+    
+    NSArray* itemArray = [QSShowUtil getAllItemArray:self.showDict];
+    NSArray* itemRects = [QSShowUtil getItemRects:self.showDict];
+    for (int i = 0; i < itemArray.count; i++) {
+        if (i >= itemRects.count) {
+            break;
+        }
+        NSDictionary* itemDict = itemArray[i];
+        NSArray* rects = itemRects[i];
+        
+        QSItemTagView* labelView = [QSItemTagView generateView];
+        [self.itemLabelArray addObject:labelView];
+        labelView.userInteractionEnabled = YES;
+        UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
+        
+
+        if ([QSEntityUtil checkIsDict:itemDict] &&
+            ![QSItemUtil getDelist:itemDict] &&
+            [QSItemUtil getExpectableReduction:itemDict] &&
+            rects.count == 4) {
+            NSNumber* reduction = [QSItemUtil getExpectableReduction:itemDict];
+            labelView.tagLabel.text = [NSString stringWithFormat:@"减 %@", reduction];
+            CGSize labelSize = [QSLayoutUtil sizeForString:labelView.tagLabel.text withMaxWidth:INFINITY height:labelView.tagLabel.bounds.size.height font:labelView.tagLabel.font];
+            CGRect rect = labelView.frame;
+            rect.size.width = labelSize.width + 15;
+            labelView.frame = rect;
+            
+            CGFloat x = ((NSNumber*)rects[0]).floatValue + ((NSNumber*)rects[2]).floatValue / 2;
+            CGFloat y = ((NSNumber*)rects[1]).floatValue + ((NSNumber*)rects[3]).floatValue / 2;
+            x *= size.width;
+            y *= size.height;
+            labelView.center = CGPointMake(origin.x + x + labelView.frame.size.width / 2, origin.y + y);
+            [labelView addGestureRecognizer:ges];
+            [self.coverLabelContainerView addSubview:labelView];
+        }
+        
+    }
+}
+
+- (void)_didTapItemLabel:(UITapGestureRecognizer*)ges {
+    UIView* itemLabelView = ges.view;
+    NSUInteger index = [self.itemLabelArray indexOfObject:itemLabelView];
+    if (index != NSNotFound) {
+        NSArray* itemArray = [QSShowUtil getAllItemArray:self.showDict];
+        NSDictionary* itemDict = itemArray[index];
+        NSDictionary *people = [QSShowUtil getPeopleFromShow:self.showDict];
+        NSString *peopleId = [QSPeopleUtil getPeopleId:people];
+        if (itemDict) {
+            UIViewController* vc = [[QSS11ItemBuyViewController alloc] initWithItem:itemDict promoterId:peopleId];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
@@ -197,7 +268,6 @@
     
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
-    [self.itemBtn setTitle:[self getItemArrayCount:dict] forState:UIControlStateNormal];
     
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     if (!peopleDict) {
@@ -234,6 +304,7 @@
         self.itemListVc.showDict = dict;
         [self.itemListVc refreshData];
     }
+    [self _updateLabel];
 }
 #pragma mark - getNewItemArray
 - (NSString *)getItemArrayCount:(NSDictionary *)dict

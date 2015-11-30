@@ -179,9 +179,10 @@
     }
     
     
-    UIImage* snapshot = [self.canvasView submitView];
+    NSMutableArray* itemRects = [@[] mutableCopy];
+    UIImage* snapshot = [self.canvasView submitViewItems:items rects:itemRects];
     
-    QSS23MatcherPreviewViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items coverImages:snapshot menuProvider:self.menuProvider];
+    QSS23MatcherPreviewViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items rects:itemRects coverImages:snapshot menuProvider:self.menuProvider];
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }

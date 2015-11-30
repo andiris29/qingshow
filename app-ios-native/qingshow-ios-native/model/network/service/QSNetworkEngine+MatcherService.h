@@ -28,6 +28,7 @@ typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSString* modelCategor
                                          onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
+                         itemRects:(NSArray*)itemRects
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
 

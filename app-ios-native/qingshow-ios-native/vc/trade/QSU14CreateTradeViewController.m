@@ -502,11 +502,13 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         //继续逛逛
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+#warning TODO Not Work
         [self.menuProvider showDefaultVc];
     } else if (buttonIndex == 1) {
         //查看订单
         [self.navigationController popToRootViewControllerAnimated:YES];
+#warning TODO Not Work
         [self.menuProvider triggerToShowVc:QSRootMenuItemDiscount];
     }
 }

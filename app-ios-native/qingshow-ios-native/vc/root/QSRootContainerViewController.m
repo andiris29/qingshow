@@ -407,6 +407,8 @@
     }
 }
 
+
+
 #pragma mark - QSG02WelcomeViewControllerDelegate
 - (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc
 {

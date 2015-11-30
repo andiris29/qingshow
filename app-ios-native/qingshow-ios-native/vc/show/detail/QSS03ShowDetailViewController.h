@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *favorBtn;
 
 @property (weak, nonatomic) IBOutlet UIView *buttnPanel;
-@property (weak, nonatomic) IBOutlet UIButton *itemBtn;
 @property (weak, nonatomic) IBOutlet UIView *discountContainer;
 
 
@@ -33,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coverBackgroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverForegroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (weak, nonatomic) IBOutlet UIView *coverLabelContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *menuBtn;
 @property (weak, nonatomic) IBOutlet UILabel *releaseDateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *trashBtn;
@@ -47,7 +47,6 @@
 - (IBAction)commentBtnPressed:(id)sender;
 - (IBAction)shareBtnPressed:(id)sender;
 - (IBAction)likeBtnPressed:(id)sender;
-- (IBAction)itemButtonPressed:(id)sender;
 - (IBAction)menuBtnPressed:(id)sender;
 - (IBAction)trashBtnPressed:(id)sender;
 

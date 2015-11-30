@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "order_list_cell_wuliu_normal.png",
+      "filename" : "pay_alipay_icon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "order_list_cell_wuliu_normal@2x.png",
+      "filename" : "pay_alipay_icon@2x.png",
       "scale" : "2x"
     },
     {

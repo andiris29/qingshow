@@ -358,12 +358,32 @@
     
     return YES;
 }
-- (UIImage*)submitView {
+- (UIImage*)submitViewItems:(NSArray*)itemArray rects:(NSMutableArray*)rectArray {
     [self updateHighlightView:nil];
+    
+    CGRect bounds = self.bounds;
+    CGFloat width = bounds.size.width;
+    CGFloat height = bounds.size.height;
+    //计算rect
+    for (NSDictionary* itemDict in itemArray) {
+        NSString* categoryId = [QSItemUtil getCategoryStr:itemDict];
+        UIView* itemImgView = self.categoryIdToView[categoryId];
+        if (![QSEntityUtil checkIsNil:itemImgView]) {
+            [rectArray addObject:
+  @[@(itemImgView.frame.origin.x / width),
+    @(itemImgView.frame.origin.y / height),
+    @(itemImgView.frame.size.width / width),
+    @(itemImgView.frame.size.height / height)]
+             ];
+        } else {
+            [rectArray addObject:@[]];
+        }
+    }
+    
     
     //放大一定倍数后再截图以提高图片清晰度
     float rate = 2.f;
-    CGRect bounds = self.bounds;
+
     bounds.size.width *= rate;
     bounds.size.height *= rate;
     UIView* newView = [[UIView alloc] initWithFrame:bounds];

@@ -33,21 +33,18 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     //Web Page
-    self.clickToWebpageBtn.layer.cornerRadius = self.clickToWebpageBtn.bounds.size.height / 8;
-    self.clickToWebpageBtn.layer.borderColor = [UIColor colorWithRed:0.949 green:0.588 blue:0.643 alpha:1.000].CGColor;
-    self.clickToWebpageBtn.layer.borderWidth = 1.f;
+    [self configBtn:self.clickToWebpageBtn];
+    
     self.itemImgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *imgGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapClickToWebViewPage:)];
     [self.itemImgView addGestureRecognizer:imgGes];
     
     //Top Right Btns
+    [self configBtn:self.refundButton];
     self.topRightBtns = @[
-                          self.refundButton
+                          self.refundButton,
+                          self.logisticsButton
                           ];
-    for (UIButton* btn in self.topRightBtns) {
-        [self configBtn:btn];
-    }
-    
     [self removeAllTopRightBtn];
     
     
@@ -67,7 +64,7 @@
     for (int i = (int)btns.count - 1; i >= 0; i--) {
         UIButton* btn = btns[i];
         right -= borderWidth;
-        btn.center = CGPointMake(right - btn.bounds.size.width / 2, 160.0);
+        btn.center = CGPointMake(right - btn.bounds.size.width / 2, 150.0);
         right -= btn.bounds.size.width;
         [self.contentView addSubview:btn];
     }
@@ -99,7 +96,7 @@
     self.tradeDict = tradeDict;
     
     //config Item info
-    NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
+    NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.priceLabel.text = [NSString stringWithFormat:@"%.2f", [QSItemUtil getPriceToPay:itemDict].floatValue];
@@ -113,7 +110,7 @@
     switch (s) {
         case 2: {
             self.stateLabel.hidden = NO;
-            self.stateLabel.text = @"备货中";
+            self.stateLabel.text = @"备货中...";
             break;
         }
         case 3: {

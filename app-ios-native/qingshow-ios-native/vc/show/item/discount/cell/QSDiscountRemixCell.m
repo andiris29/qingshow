@@ -8,6 +8,7 @@
 
 #import "QSDiscountRemixCell.h"
 #import "UINib+QSExtension.h"
+#import "QSItemUtil.h"
 
 @implementation QSDiscountRemixCell
 
@@ -18,11 +19,13 @@
 #pragma mark - Life Cycle
 - (void)awakeFromNib {
     self.remixBtn.layer.cornerRadius = self.remixBtn.bounds.size.height / 2;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+
 }
 
 #pragma mark -
 - (void)bindWithData:(NSDictionary *)itemDict {
-    
+    self.titleLabel.text = [QSItemUtil getItemName:itemDict];
 }
 
 - (void)bindWithRemix:(NSDictionary*)remixInfoDict {

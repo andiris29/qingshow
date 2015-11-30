@@ -84,6 +84,8 @@
 		EF36C10B1C0AC86F009ECE91 /* UIView+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36C10A1C0AC86F009ECE91 /* UIView+QSExtension.m */; };
 		EF36C10E1C0AD0CC009ECE91 /* QSDiscountRemixCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36C10D1C0AD0CC009ECE91 /* QSDiscountRemixCell.m */; };
 		EF36C1101C0AD0E7009ECE91 /* QSDiscountRemixCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF36C10F1C0AD0E7009ECE91 /* QSDiscountRemixCell.xib */; };
+		EF3F34391C0CA22B004B16DA /* QSItemTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3F34381C0CA22B004B16DA /* QSItemTagView.m */; };
+		EF3F343C1C0CA23B004B16DA /* QSItemTagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF3F343B1C0CA23B004B16DA /* QSItemTagView.xib */; };
 		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
 		EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46461E1A2AEB5C00172618 /* CoreText.framework */; };
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
@@ -505,6 +507,9 @@
 		EF36C10C1C0AD0CC009ECE91 /* QSDiscountRemixCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDiscountRemixCell.h; sourceTree = "<group>"; };
 		EF36C10D1C0AD0CC009ECE91 /* QSDiscountRemixCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDiscountRemixCell.m; sourceTree = "<group>"; };
 		EF36C10F1C0AD0E7009ECE91 /* QSDiscountRemixCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDiscountRemixCell.xib; sourceTree = "<group>"; };
+		EF3F34371C0CA22B004B16DA /* QSItemTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemTagView.h; sourceTree = "<group>"; };
+		EF3F34381C0CA22B004B16DA /* QSItemTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemTagView.m; sourceTree = "<group>"; };
+		EF3F343B1C0CA23B004B16DA /* QSItemTagView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemTagView.xib; sourceTree = "<group>"; };
 		EF42BBD11A4C5B1C00218693 /* UILabelStrikeThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILabelStrikeThrough.h; sourceTree = "<group>"; };
 		EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelStrikeThrough.m; sourceTree = "<group>"; };
 		EF46461E1A2AEB5C00172618 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -2598,6 +2603,9 @@
 				EFC7ADA71A10E22B0078D1F9 /* QSS03ShowDetailViewController.h */,
 				EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */,
 				EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */,
+				EF3F34371C0CA22B004B16DA /* QSItemTagView.h */,
+				EF3F34381C0CA22B004B16DA /* QSItemTagView.m */,
+				EF3F343B1C0CA23B004B16DA /* QSItemTagView.xib */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -3085,6 +3093,7 @@
 				EF8CD2BF1C0378E50040611D /* QSImageEditingViewController.xib in Resources */,
 				8C79DB8B1B1EDED700D5159E /* lantingjianhei_xi.ttf in Resources */,
 				8C5345421B4D61180062D638 /* welcome2_480@2x.png in Resources */,
+				EF3F343C1C0CA23B004B16DA /* QSItemTagView.xib in Resources */,
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF8CD2CB1C0378E50040611D /* QSU10ReceiverListViewController.xib in Resources */,
 				EF9656AB1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib in Resources */,
@@ -3185,6 +3194,7 @@
 				EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */,
 				EF4A57F01BA45CFC00677472 /* Aspects.m in Sources */,
 				EF8CD3421C03794C0040611D /* base64.m in Sources */,
+				EF3F34391C0CA22B004B16DA /* QSItemTagView.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EF8CD3461C03794C0040611D /* NSDataEx.m in Sources */,
 				EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */,

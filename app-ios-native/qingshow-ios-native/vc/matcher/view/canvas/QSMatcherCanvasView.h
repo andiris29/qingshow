@@ -27,7 +27,7 @@
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst;
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId isFirst:(BOOL)fFirst;
 
-- (UIImage*)submitView;
+- (UIImage*)submitViewItems:(NSArray*)itemArray rects:(NSMutableArray*)rectArray;
 - (BOOL)checkRate:(float)rate;
 - (BOOL)checkLoadAllImages;
 
