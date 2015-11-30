@@ -255,10 +255,10 @@ matcher.hide = {
 };
 
 matcher.remix = {
-    method : 'post',
+    method : 'get',
     func : function(req, res){
-        var itemRef = req.body.itemRef,
-        remixConfig = global.qsRemixConfig;
+        var itemRef = req.queryString.itemRef,
+        config = global.qsRemixConfig;
         async.waterfall([function(callback){
             Items.findOne({
                 '_id' : itemRef
@@ -267,22 +267,21 @@ matcher.remix = {
             var element;
             for(var key in config){
                 var master = config[key].master;
-                if (_.isString(master.categoryRef) && master.categoryRef === ref) {
+                if (_.isString(master.categoryRef) && master.categoryRef === itemRef) {
                     element = config[key];
                     break;
-                }else if (_.isArray(master.categoryRef) && _.contains(master.categoryRef, ref)) {
+                }else if (_.isArray(master.categoryRef) && _.contains(master.categoryRef, itemRef)) {
+                    element = config[key];
+                    break;
+                }else if (master.categoryRef === '*') {
                     element = config[key];
                     break;
                 }
             }
 
             if (!element) {
-                if (config['*']) {
-                    element = config['*'];
-                }else {
-                    callback(errors.INVALID_OBJECT_ID);
-                    return;    
-                }
+                callback(errors.INVALID_OBJECT_ID);
+                return;
             }
             callback(null, require('../../helpers/ConfigHelper').format(element), item);
         }, function(config, item, callback){
