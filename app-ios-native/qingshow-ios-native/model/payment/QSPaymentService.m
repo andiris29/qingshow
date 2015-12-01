@@ -44,7 +44,13 @@
 @implementation QSPaymentService
 
 static NSString* s_paymentHost = nil;
-
+- (NSString*)getPaymentHost {
+    if (!s_paymentHost) {
+        return @"";
+    } else {
+        return s_paymentHost;
+    }
+}
 + (void)configPaymentHost:(NSString*)paymentHost {
     s_paymentHost = paymentHost;
 }

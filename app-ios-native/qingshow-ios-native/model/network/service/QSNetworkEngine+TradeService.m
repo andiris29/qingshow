@@ -13,6 +13,7 @@
 #import "QSUserManager.h"
 #import "QSEntityUtil.h"
 #import "QSTradeUtil.h"
+#import "QSPaymentService.h"
 
 #define PATH_TRADE_QUERY @"trade/query"
 #define PATH_TRADE_CREATE @"trade/create"
@@ -125,6 +126,7 @@
         payTypeDict = @{@"alipay" : [NSNull null]};
     }
     paramDict[@"pay"] = payTypeDict;
+    paramDict[@"paymentServiceRoot"] = [[QSPaymentService shareService] getPaymentHost];
     return [self startOperationWithPath:PATH_TRADE_PREPAY method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
