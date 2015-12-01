@@ -17,7 +17,7 @@ var init = function() {
     // Exception logger
     new winston.Logger({
         'exceptionHandlers' : [new MongoDB(_.extend(_winstonDbOptions, {
-            collection : 'winston-exception'
+            collection : 'uncaught-exceptions'
         }))],
         'exitOnError' : false
     });

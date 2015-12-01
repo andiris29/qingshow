@@ -470,12 +470,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         Intent intent;
 
         switch (v.getId()) {
-            case R.id.S03_item_btn://搭配清单
-                jumpToS07();
-                return;
-            case R.id.S03_image:
-                jumpToS07();
-                return;
             case R.id.S03_comment_btn://评论
                 if (null != showDetailEntity && null != showDetailEntity._id) {
                     intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
@@ -532,22 +526,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         }
     }
 
-    private void jumpToS07() {
-        if (null == CategoriesModel.INSTANCE.getCategories()) {
-            getCategories();
-            return;
-        }
-        if (null == showDetailEntity.itemRefs || null == showDetailEntity.cover) return;
-        Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
-        Bundle bundle = new Bundle();
-        ArrayList<MongoItem> itemList = new ArrayList<>();
-        itemList.addAll(showDetailEntity.itemRefs);
-        bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, itemList);
-        intent.putExtras(bundle);
-        intent.putExtra(S10ItemDetailActivity.PROMOTRER, showDetailEntity.ownerRef._id);
-        startActivity(intent);
-    }
-
     private void getCategories() {
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
@@ -559,7 +537,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                         categoriesMap.put(categories._id, categories);
                     }
                     CategoriesModel.INSTANCE.setCategories(categoriesMap);
-                    jumpToS07();
                 }
             }
         });

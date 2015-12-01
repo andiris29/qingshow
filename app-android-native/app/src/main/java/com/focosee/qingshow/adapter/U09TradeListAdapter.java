@@ -13,12 +13,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.BaseActivity;
-import com.focosee.qingshow.activity.S01MatchShowsActivity;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
-import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
-import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.TradeStatusToCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
@@ -192,7 +188,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                                 discountBtn.setImageResource(R.drawable.new_discount_read);
                                 newDiscountCircleTip.setVisibility(View.GONE);
                                 EventBus.getDefault().post(trade);
-                                showNewTradeNotify(trade._id);
+
                             }
                         });
                         return;
@@ -203,7 +199,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                         btn2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showNewTradeNotify(trade._id);
+
                             }
                         });
                     }
@@ -214,7 +210,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 btn2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showNewTradeNotify(trade._id);
+
                     }
                 });
             }
@@ -225,7 +221,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 @Override
                 public void onClick(View v) {
                     EventBus.getDefault().post(trade);
-                    showNewTradeNotify(trade._id);
+
                 }
             });
             return;
@@ -292,12 +288,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         statusTV.setText(StatusCode.getStatusText(trade.status));
     }
 
-    public void showNewTradeNotify(String _id) {
-        if (!(context instanceof U09TradeListActivity)) return;
-        ((U09TradeListActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
-        S12NewTradeExpectableFragment fragment = new S12NewTradeExpectableFragment();
-        fragment.show(((BaseActivity) context).getSupportFragmentManager(), U09TradeListActivity.class.getSimpleName());
-    }
 
     private void onClickCancelTrade(final MongoTrade trade, final int status, final int type, final int position, String msg) {
         UnreadHelper.userReadNotificationId(trade._id);

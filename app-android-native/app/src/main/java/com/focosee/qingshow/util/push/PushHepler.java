@@ -66,7 +66,6 @@ public class PushHepler {
             if(action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
                 ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
                 ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
-                ((BaseActivity) context).showNewTradeNotify();
                 return null;
             }
         }
