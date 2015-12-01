@@ -52,24 +52,11 @@ NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
 }
 
 - (void)bindWithUser:(NSDictionary *)userDict {
-    self.textLabel.text = u02OtherTypeToTitle(self.rowType);
-    if (self.rowType == U02SectionOtherRowBonus) {
-        if ([[QSUnreadManager getInstance] shouldShowBonuUnread]) {
-            [self showDot];
-        } else {
-            [self hideDot];
-        }
-    }
-    
+    self.textLabel.text = u02OtherTypeToTitle(self.rowType);    
 }
 - (BOOL)cellDidClicked {
     if (self.rowType == U02SectionOtherRowPasswd) {
         [self.delegate showChangePasswordVc];
-        return YES;
-    }
-    else if (self.rowType == U02SectionOtherRowBonus)
-    {
-        [self.delegate  showBonuesVC];
         return YES;
     }
     return NO;

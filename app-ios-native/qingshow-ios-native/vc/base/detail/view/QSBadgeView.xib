@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -56,6 +56,20 @@
                     <rect key="frame" x="8" y="300" width="304" height="52"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nf6-YB-S2s">
+                    <rect key="frame" x="220" y="199" width="70" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="2mR-fV-UHi"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="OFt-cd-mV0"/>
+                        <constraint firstAttribute="height" constant="30" id="gwp-9L-oPu"/>
+                        <constraint firstAttribute="width" constant="70" id="mRJ-nN-30H"/>
+                    </constraints>
+                    <state key="normal" image="u01_bonus_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="unfollow_btn"/>
+                    <state key="highlighted" image="unfollow_btn"/>
+                </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xLX-Q6-vzv">
                     <rect key="frame" x="220" y="199" width="70" height="30"/>
                     <constraints>
@@ -78,6 +92,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="tKl-cf-6S5" firstAttribute="centerX" secondItem="NIY-rA-oO7" secondAttribute="centerX" id="33m-2q-nZI"/>
+                <constraint firstAttribute="trailing" secondItem="nf6-YB-S2s" secondAttribute="trailing" constant="30" id="5tM-ui-Htk"/>
                 <constraint firstItem="74W-bg-pUU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="7xS-5O-IMB"/>
                 <constraint firstItem="cqs-Sm-5h3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="AVA-jv-Aq6"/>
                 <constraint firstItem="NyZ-dF-fWX" firstAttribute="trailing" secondItem="NIY-rA-oO7" secondAttribute="trailing" id="Aam-Ei-T4t"/>
@@ -85,6 +100,7 @@
                 <constraint firstItem="xLX-Q6-vzv" firstAttribute="top" secondItem="NIY-rA-oO7" secondAttribute="bottom" constant="12" id="B3T-fo-YGS"/>
                 <constraint firstItem="NyZ-dF-fWX" firstAttribute="leading" secondItem="NIY-rA-oO7" secondAttribute="leading" id="KO6-nm-6Ny"/>
                 <constraint firstAttribute="bottom" secondItem="che-XF-QkT" secondAttribute="bottom" constant="8" id="MHi-q9-Nkp"/>
+                <constraint firstItem="nf6-YB-S2s" firstAttribute="top" secondItem="NIY-rA-oO7" secondAttribute="bottom" constant="12" id="O4w-Hw-t0G"/>
                 <constraint firstAttribute="trailing" secondItem="cqs-Sm-5h3" secondAttribute="trailing" constant="8" id="PDV-1b-H38"/>
                 <constraint firstAttribute="trailing" secondItem="NIY-rA-oO7" secondAttribute="trailing" id="SN3-9u-RHd"/>
                 <constraint firstItem="NyZ-dF-fWX" firstAttribute="top" secondItem="74W-bg-pUU" secondAttribute="bottom" constant="20" id="TTl-rJ-gAN"/>
@@ -103,6 +119,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="backgroundImageView" destination="NIY-rA-oO7" id="uIF-Pm-xoE"/>
+                <outlet property="bonusBtn" destination="nf6-YB-S2s" id="qme-gr-zP4"/>
                 <outlet property="bonusLabel" destination="NyZ-dF-fWX" id="3cL-tN-4IY"/>
                 <outlet property="btnsContainer" destination="che-XF-QkT" id="Md5-Ks-01G"/>
                 <outlet property="followBtn" destination="xLX-Q6-vzv" id="hAr-Oo-BRf"/>
@@ -115,13 +132,9 @@
     </objects>
     <resources>
         <image name="follow_btn" width="70" height="30"/>
+        <image name="u01_bonus_btn" width="70" height="30"/>
         <image name="unfollow_btn" width="70" height="30"/>
         <image name="user_bg_default.jpg" width="720" height="450"/>
         <image name="user_head_default.jpg" width="720" height="450"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

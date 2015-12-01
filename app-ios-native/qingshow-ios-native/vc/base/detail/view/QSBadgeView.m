@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSPeopleUtil.h"
 #import "UINib+QSExtension.h"
+#import "QSUnreadManager.h"
 
 @interface QSBadgeView ()
 
@@ -83,6 +84,13 @@
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
     }
     self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];
+    
+    if ([[QSUnreadManager getInstance] shouldShowBonuUnread]) {
+        [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_dot_btn"] forState:UIControlStateNormal];
+    } else {
+        [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_btn"] forState:UIControlStateNormal];
+    }
+
 }
 
 - (void)layoutSubviews {
@@ -93,7 +101,7 @@
 - (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView* originView = [super hitTest:point withEvent:event];
     
-    if ([self.btnsContainer pointInside:[self convertPoint:point toView:self.btnsContainer] withEvent:event] || originView == self.followBtn) {
+    if ([self.btnsContainer pointInside:[self convertPoint:point toView:self.btnsContainer] withEvent:event] || originView == self.followBtn || originView == self.bonusBtn) {
         return originView;
     } else {
         if (self.touchDelegateView) {

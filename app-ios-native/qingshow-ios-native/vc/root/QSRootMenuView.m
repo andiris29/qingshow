@@ -71,8 +71,7 @@
                            @(QSRootMenuItemMeida),
                            @(QSRootMenuItemMatcher),
                            @(QSRootMenuItemDiscount),
-                           @(QSRootMenuItemMy),
-                           @(QSRootMenuItemSetting)];
+                           @(QSRootMenuItemMy)];
     self.itemArray = [@[] mutableCopy];
 
     for (int i = 0; i < typeArray.count; i++) {

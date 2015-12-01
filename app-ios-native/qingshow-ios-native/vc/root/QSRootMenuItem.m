@@ -16,12 +16,10 @@
 NSString* getTitleFromType(QSRootMenuItemType type) {
     NSArray* titleArray = @[
                             @"",
-                            @"我的搭配",
+                            @"个人空间",
                             @"美搭榜单",
-                            @"个人设置",
                             @"百搭秀场",
-                            @"我的折扣",
-                            @"潮人晒单"];
+                            @"我的订单"];
     if ((NSUInteger)type < titleArray.count) {
         return titleArray[type];
     } else {
@@ -34,10 +32,8 @@ UIImage* getIconImageFromType(QSRootMenuItemType type) {
                             @"",
                             @"root_menu_icon_my",
                             @"root_menu_icon_meida",
-                            @"root_menu_icon_setting",
                             @"root_menu_icon_matcher",
-                            @"root_menu_icon_discount",
-                            @"root_menu_icon_showtrade"];
+                            @"root_menu_icon_discount"];
     if ((NSUInteger)type < titleArray.count) {
         NSString* str = titleArray[type];
         return [UIImage imageNamed:str];

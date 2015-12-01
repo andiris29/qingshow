@@ -24,7 +24,6 @@ NSString* u02SectionToTitle(U02Section sec);
 - (void)showChangePasswordVc;
 - (void)updateUserInfoKey:(NSString*)key value:(NSString*)value;
 - (void)showPickerWithType:(NSInteger)type;
-- (void)showBonuesVC;
 @end
 
 

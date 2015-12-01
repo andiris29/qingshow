@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *btnsContainer;
 @property (weak, nonatomic) IBOutlet UIButton* followBtn;
+@property (weak, nonatomic) IBOutlet UIButton* bonusBtn;
 @property (strong, nonatomic) QSBadgeBtnGroup* btnGroup;
 @property (weak, nonatomic) UIView* touchDelegateView;
 @property (weak, nonatomic) IBOutlet UILabel *bonusLabel;

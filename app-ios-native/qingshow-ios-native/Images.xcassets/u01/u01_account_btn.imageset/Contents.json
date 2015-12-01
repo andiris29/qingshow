@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "u01_back_btn.png"
+      "filename" : "u01_account_btn.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "u01_back_btn@2x.png"
+      "filename" : "u01_account_btn@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

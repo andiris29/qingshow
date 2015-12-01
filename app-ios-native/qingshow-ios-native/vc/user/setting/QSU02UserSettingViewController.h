@@ -16,9 +16,8 @@
 #import "QSSinglePickerProvider.h"
 
 
-@interface QSU02UserSettingViewController : QSRootContentViewController< UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, QSU02AbstractTableViewCellDelegate, QSSinglePickerProviderDelegate, UINavigationControllerDelegate,UIAlertViewDelegate>
+@interface QSU02UserSettingViewController : UIViewController< UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, QSU02AbstractTableViewCellDelegate, QSSinglePickerProviderDelegate, UINavigationControllerDelegate,UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIPickerView *picker;
 @property (weak, nonatomic) IBOutlet UITableView* tableView;
-- (void)showBonuesVC;
 @end

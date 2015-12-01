@@ -9,7 +9,6 @@
 #import "QSRootContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSU01UserDetailViewController.h"
-#import "QSU02UserSettingViewController.h"
 #import "QSUserManager.h"
 #import "QSS20MatcherViewController.h"
 #import "QSS01MatchShowsViewController.h"
@@ -173,12 +172,6 @@
             vc = matcherShowVc;
             break;
         }
-        case QSRootMenuItemSetting: {
-            QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
-            settingVc.menuProvider = self;
-            vc = settingVc;
-            break;
-        }
         case QSRootMenuItemMatcher: {
             QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
             matcherVc.menuProvider = self;
@@ -312,11 +305,12 @@
 
 
 - (void)didReceiveShowBonusListVcNoti:(NSNotification*)noti {
-    UIViewController* vc = [self triggerToShowVc:QSRootMenuItemSetting];
-    if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
-        QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
-        [u02Vc showBonuesVC];
-    }
+#warning TODO Show Bonus Bc
+//    UIViewController* vc = [self triggerToShowVc:QSRootMenuItemSetting];
+//    if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
+//        QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
+//        [u02Vc showBonuesVC];
+//    }
 }
 
 - (void)didReceiveShowTradeExpectablePriceChangeVcNoti:(NSNotification*)noti {

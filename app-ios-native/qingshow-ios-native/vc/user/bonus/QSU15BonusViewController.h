@@ -29,7 +29,6 @@
 
 
 @property (strong,nonatomic)NSString *peopleId;
-@property (strong,nonatomic)NSString *alipayId;
 - (instancetype)initwithBonuesArray:(NSArray *)array;
 
 @end

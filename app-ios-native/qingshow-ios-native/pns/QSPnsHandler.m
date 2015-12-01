@@ -141,11 +141,12 @@
 
 - (void)pnsBonusWithdrawComplete:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemSetting];
-        if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
-            QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
-            [u02Vc showBonuesVC];
-        }
+#warning TODO Show Bonus Vc
+//        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemSetting];
+//        if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
+//            QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
+//            [u02Vc showBonuesVC];
+//        }
     } title:@"您的账户成功提现，请注意查看账户！" userInfo:noti.userInfo];
 }
 

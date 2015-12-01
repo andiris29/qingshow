@@ -7,6 +7,7 @@
 //
 
 #import "QSU01UserDetailViewController.h"
+#import "QSU02UserSettingViewController.h"
 #import "QSRootContainerViewController.h"
 
 #import "QSPeopleUtil.h"
@@ -25,6 +26,7 @@
 #import "QSRecommendationDateCellModel.h"
 
 #import "QSS03ShowDetailViewController.h"
+#import "QSU15BonusViewController.h"
 
 #import "QSUnreadManager.h"
 
@@ -99,12 +101,15 @@
     self.backToTopBtn.hidden = YES;
     self.backBtn.hidden = self.showMenuIcon;
     self.menuBtn.hidden = !self.showMenuIcon;
+    self.settingBtn.hidden = self.menuBtn.hidden;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     [self.badgeView.btnGroup triggerSelectType:QSBadgeButtonTypeMatcher];
     self.badgeView.followBtn.hidden = self.isCurrentUser;
+    self.badgeView.bonusBtn.hidden = !self.isCurrentUser;
     [self.badgeView.followBtn addTarget:self action:@selector(followBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.badgeView.bonusBtn addTarget:self action:@selector(bonusBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnreadChange:) name:kQSUnreadChangeNotificationName object:nil];
 }
 
@@ -260,6 +265,10 @@
     [self.badgeView bindWithPeopleDict:self.userInfo];
 
 }
+- (IBAction)settingBtnPressed:(id)sender {
+   UIViewController* vc = [[QSU02UserSettingViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 - (IBAction)menuBtnPressed:(id)sender {
     if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
@@ -288,6 +297,20 @@
             [QSPeopleUtil setPeople:self.userInfo isFollowed:NO];
         }
     }];
+}
+
+- (void)bonusBtnPressed:(id)sender {
+    [self showBonuesVC];
+}
+
+
+- (void)showBonuesVC
+{
+    NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
+    NSArray *bonusArray = [QSPeopleUtil getBonusList:dic];
+    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:bonusArray];
+    vc.peopleId = [QSPeopleUtil getPeopleId:dic];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)clickModel:(NSDictionary*)model {

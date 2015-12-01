@@ -22,6 +22,7 @@ QSIRootContentViewController>
 @property (weak, nonatomic) IBOutlet UITableView *followerTableView;
 
 @property (strong, nonatomic) IBOutlet UIButton *menuBtn;
+@property (weak, nonatomic) IBOutlet UIButton *settingBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;

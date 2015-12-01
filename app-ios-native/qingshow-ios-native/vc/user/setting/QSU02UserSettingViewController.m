@@ -10,7 +10,6 @@
 #import "QSU08PasswordViewController.h"
 #import "QSU09TradeListViewController.h"
 #import "QSU10ReceiverListViewController.h"
-#import "QSU15BonusViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
@@ -20,6 +19,7 @@
 #import "QSDateUtil.h"
 #import "UIImage+fixOrientation.h"
 #import "QSRootContainerViewController.h"
+#import "QSNotificationHelper.h"
 
 #import "QSU02InfoBaseCell.h"
 #import "QSU02ImgCell.h"
@@ -174,7 +174,6 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                    @(U02SectionImageRowBackground)
                                    ],
                                @[@(U02SectionManagerRowAddress)],
-                               @[@(U02SectionOtherRowBonus)],
                                
                                @[
                                    @(U02SectionInfoRowName),
@@ -198,7 +197,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                    ],
                                @[@(U02SectionManagerRowAddress)],
                                @[@(U02SectionOtherRowPasswd),
-                                 @(U02SectionOtherRowBonus)],
+                                 ],
                                
                                @[
                                    @(U02SectionInfoRowName),
@@ -265,6 +264,10 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 
 - (void)configNavigation {
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.navigationItem.title = @"设置";
     [self hideNaviBackBtnTitle];
 }
@@ -318,18 +321,6 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showBonuesVC
-{
-    [self hideKeyboardAndPicker];
-    NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
-    NSArray *bonusArray = [QSPeopleUtil getBonusList:dic];
-    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:bonusArray];
-    vc.peopleId = [QSPeopleUtil getPeopleId:dic];
-    if (bonusArray.count) {
-        vc.alipayId = [QSPeopleUtil getAlipayId:[bonusArray firstObject]];
-    }
-    [self.navigationController pushViewController:vc animated:YES];
-}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -346,7 +337,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     
 }
 - (void)actionLogin {
-    [self.menuProvider showRegisterVc];
+    [self showLoginPrompVc];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -358,7 +349,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
         tran.type = kCATransitionFade;
         tran.duration = 0.5f;
         [self.navigationController.parentViewController.view.layer addAnimation:tran forKey:@"tran"];
-        [self.menuProvider showDefaultVc];
+        [QSNotificationHelper postShowS01VcWithSegmentIndex:0];
         
         [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
     }
