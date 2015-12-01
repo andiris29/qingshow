@@ -2,9 +2,6 @@ package com.focosee.qingshow.constants.config;
 
 import com.focosee.qingshow.QSApplication;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by jackyu on 11/22/14.
  */
@@ -77,7 +74,7 @@ public class QSAppWebAPI {
 
     private static String FEEDING_RECOMMENDATION_API = "/feeding/recommendation";
 
-    private static String TRADE_QUERYBY_PHASE_API = "/trade/queryByPhase";
+    private static String TRADE_OWN_API = "/trade/own";
     private static String ITEM_SYNC_API = "/item/sync";
 
     private static String TRADE_QUERY_HIGHLIGHTED_API = "/trade/queryHighlighted";
@@ -203,8 +200,8 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_GET_RETURNRECEIVER + "?_id=" + _id;
     }
 
-    public static String getTradeQuerybyPhaseApi(String phases, int pageNo, int pageSize) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public static String getTradeOwn(int pageNo, int pageSize) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_OWN_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getItemSyncApi() {

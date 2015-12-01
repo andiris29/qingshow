@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -110,6 +111,15 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         calendar = new GregorianCalendar();
         calendarPicker.init(new GregorianCalendar(2015, 1, 1).getTime(), new Date());
         initCalendar();
+        calendarPicker.setVisibility(View.INVISIBLE);
+        timeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendarPicker.scrollToDate(calendar.getTime());
+                if (calendarPicker.isShown()) calendarPicker.setVisibility(View.INVISIBLE);
+                else calendarPicker.setVisibility(View.VISIBLE);
+            }
+        });
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +135,6 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         recyclerView.setAdapter(adapter);
         matchNewAdapter = new S01MatchNewAdapter(new LinkedList<FeedingAggregation>(), this, R.layout.item_matchnew);
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
-        RecyclerViewUtil.setBackTop(recyclerView, timeBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
     }
 
@@ -267,10 +276,6 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 intent.putStringArrayListExtra(S20MatcherActivity.S20_SELECT_CATEGORYREFS, new ArrayList<String>());
                 startActivity(intent);
                 return;
-            case R.id.home_time:
-                if (calendarPicker.isShown())
-                    calendarPicker.setVisibility(View.GONE);
-                else calendarPicker.setVisibility(View.VISIBLE);
         }
     }
 
@@ -320,7 +325,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
         if (currentType == TYPE_NEW)
-            getMatchNew(calendar);
+            getMatchNew(new GregorianCalendar(2015,10,26));
         else doRefresh(currentType);
     }
 

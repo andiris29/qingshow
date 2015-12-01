@@ -9,10 +9,12 @@ import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 
 import org.json.JSONObject;
 
@@ -82,6 +84,16 @@ public class QSRxApi {
                     @Override
                     public List<MongoItem> call(JSONObject jsonObject) {
                         return ItemFeedingParser.parse(jsonObject);
+                    }
+                });
+    }
+
+    public static Observable<List<MongoTrade>> tradeOwn(int pageNo, int pageSize){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getTradeOwn(pageNo, pageSize), null)
+                .map(new Func1<JSONObject, List<MongoTrade>>() {
+                    @Override
+                    public List<MongoTrade> call(JSONObject jsonObject) {
+                        return TradeParser.parseQuery(jsonObject);
                     }
                 });
     }

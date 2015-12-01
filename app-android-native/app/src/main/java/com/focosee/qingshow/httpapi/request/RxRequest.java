@@ -29,6 +29,7 @@ public class RxRequest {
                             //errorCode became the msg
                             Throwable errorCode = new Throwable(String.valueOf(MetadataParser.getError(response)));
                             subscriber.onError(errorCode);
+                            subscriber.onCompleted();
                         }
                         subscriber.onNext(response);
                         subscriber.onCompleted();
