@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.focosee.qingshow.QSApplication;
-import com.focosee.qingshow.activity.fragment.S12NewTradeExpectableFragment;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.CategoriesCommand;
 import com.focosee.qingshow.command.SystemCommand;
@@ -143,11 +142,6 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public abstract void reconn();
-
-    public void showNewTradeNotify() {
-        S12NewTradeExpectableFragment fragment = new S12NewTradeExpectableFragment();
-        fragment.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName());
-    }
 
     public void showUpdateDialog() {
         if (dialog == null) {

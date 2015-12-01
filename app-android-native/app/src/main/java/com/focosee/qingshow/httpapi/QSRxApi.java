@@ -16,6 +16,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 
 import org.json.JSONObject;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +36,26 @@ public class QSRxApi {
                 .map(new Func1<JSONObject, List<FeedingAggregation>>() {
                     @Override
                     public List<FeedingAggregation> call(JSONObject jsonObject) {
-                        return FeedingAggregationParser.parseQuery(jsonObject);
+                    List<FeedingAggregation> feedingAggregations = FeedingAggregationParser.parseQuery(jsonObject);
+                    Collections.sort(feedingAggregations, new Comparator<FeedingAggregation>() {
+                        @Override
+                        public int compare(FeedingAggregation lhs, FeedingAggregation rhs) {
+                            return Integer.parseInt(rhs.key) - Integer.parseInt(lhs.key);
+                        }
+                    });
+                    return feedingAggregations;
                     }
-                });
+                }).flatMap(new Func1<List<FeedingAggregation>, Observable<FeedingAggregation>>() {
+                    @Override
+                    public Observable<FeedingAggregation> call(List<FeedingAggregation> feedingAggregations) {
+                        return Observable.from(feedingAggregations);
+                    }
+                }).filter(new Func1<FeedingAggregation, Boolean>() {
+                    @Override
+                    public Boolean call(FeedingAggregation feedingAggregation) {
+                        return feedingAggregation.topShows.size() > 0;
+                    }
+                }).toList();
     }
 
     public static Observable<List<MongoShow>> createFeedingMatchNewRequest(int pageNo, int pageSize, String from, String to){
