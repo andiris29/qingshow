@@ -339,7 +339,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
             }
         }
 
-        if (!showDetailEntity.itemRects.isEmpty())
+        if (showDetailEntity.itemRects != null && !showDetailEntity.itemRects.isEmpty())
             showTag(showDetailEntity);
     }
 

@@ -134,7 +134,6 @@
         android:layout_gravity="bottom|center"
         android:src="@drawable/home_time"
         android:layout_marginBottom="30dp"
-        android:onClick="onClick"
         />
 
     <ImageButton
@@ -149,7 +148,6 @@
         android:src="@drawable/back_top"
         android:visibility="visible" />
     <com.squareup.timessquare.CalendarPickerView
-        android:visibility="gone"
         android:id="@+id/calendar"
         android:layout_gravity="center"
         android:layout_width="match_parent"

@@ -44,7 +44,7 @@ public class MongoItem implements Serializable {
         public boolean expired;
         public Number price;
         public String messageForPay;
-        public String messageForBuy;
+        public Number reduction;
 
     }
 

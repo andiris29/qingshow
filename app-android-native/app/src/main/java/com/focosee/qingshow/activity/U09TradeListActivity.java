@@ -8,23 +8,17 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
 import com.focosee.qingshow.command.UserCommand;
-import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.httpapi.QSRxApi;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
@@ -36,8 +30,6 @@ import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.umeng.analytics.MobclickAgent;
-
-import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,17 +48,11 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     public static final String responseToStatusToSuccessed = "responseToStatusToSuccessed";
     public static final String FROM_WHERE = "FROM_WHEN";
     public static final String PUSH_NOTIFICATION = "PUSH_NOTIFICATION";
-    private final int TYPE_APPLY = 0;
-    private final int TYPE_SUCCESSED = 1;
 
     @InjectView(R.id.person_activity_back_image_button)
     ImageButton menu;
     @InjectView(R.id.U09_head_layout)
     LinearLayout u09HeadLayout;
-    @InjectView(R.id.u09_tab_all)
-    Button u09TabAll;
-    @InjectView(R.id.u09_tab_running)
-    Button u09TabRunning;
     @InjectView(R.id.backTop_btn)
     ImageButton backTopBtn;
     @InjectView(R.id.u09_recyclerview)
@@ -75,21 +61,13 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     BGARefreshLayout mRefreshLayout;
     @InjectView(R.id.container)
     FrameLayout container;
-    @InjectView(R.id.circle_tip)
-    View circleTip;
     @InjectView(R.id.tel_relative)
     RelativeLayout telRelative;
     private U09TradeListAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
-    private String peopleId;
     private int currentPageNo = 1;
 
     private View firstItem;
-    private int currentType = TYPE_APPLY;
     private boolean isSuccessed = true;
-
-    private String fromWhere;
-    private MenuView menuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +78,9 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         if (savedInstanceState != null) {
             position = savedInstanceState.getInt("position", Integer.MAX_VALUE);
         }
-        fromWhere = getIntent().getStringExtra(FROM_WHERE);
-        initCurrentType();
-        peopleId = QSModel.INSTANCE.getUserId();
-        if (null == peopleId) {
-            finish();
-        }
-
         mAdapter = new U09TradeListAdapter(new LinkedList<MongoTrade>(), U09TradeListActivity.this, R.layout.head_trade_list, R.layout.item_trade_list);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
 
         recyclerView.setHasFixedSize(true);
@@ -132,7 +103,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
         RecyclerViewUtil.setBackTop(recyclerView, backTopBtn, mLayoutManager);
         initRefreshLayout();
-        doRefresh(currentType);
+        doRefresh();
         UserCommand.refresh();
         EventBus.getDefault().register(this);
         new EventBus().register(this);
@@ -143,21 +114,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
                 startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:4007501010")));
             }
         });
-    }
-
-    private void initCurrentType() {
-        if (S10ItemDetailActivity.class.getSimpleName().equals(fromWhere)) {
-            currentType = TYPE_APPLY;
-            clickTabApply();
-        }
-        if (S17PayActivity.class.getSimpleName().equals(fromWhere)) {
-            currentType = TYPE_SUCCESSED;
-            clickTabSuccessed();
-        }
-        if (PUSH_NOTIFICATION.equals(fromWhere)) {
-            currentType = TYPE_SUCCESSED;
-            clickTabSuccessed();
-        }
     }
 
     private void initRefreshLayout() {
@@ -173,7 +129,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     public void onEventMainThread(String event) {
         if (responseToStatusToSuccessed.equals(event) || ValueUtil.SUBMIT_TRADE_SUCCESSED.equals(event))
-            doRefresh(currentType);
+            doRefresh();
 
         if (position == Integer.MAX_VALUE || position >= mAdapter.getItemCount()) {
             return;
@@ -195,7 +151,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
     }
 
     public void onEventMainThread(U12ReturnEvent event) {
-        doRefresh(currentType);
+        doRefresh();
         if (recyclerView.getAdapter().getItemCount() - 1 < position) return;
         recyclerView.scrollToPosition(event.position);
     }
@@ -206,10 +162,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
                     || event.command.equals(QSPushAPI.TRADE_INITIALIZED)
                     || event.command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)) {
                 reconn();
-                if (event.command.equals(QSPushAPI.TRADE_SHIPPED)) {
-                    if (currentType == TYPE_SUCCESSED) return;
-                    circleTip.setVisibility(View.VISIBLE);
-                }
             }
         } else {
             if (!UnreadHelper.hasUnread()) {
@@ -231,77 +183,58 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         EventBus.getDefault().unregister(this);
     }
 
-    public void doRefresh(int type) {
-        getTradeFromNet(type, 1, 10);
+    public void doRefresh() {
+        getTradeFromNet(1, 10);
     }
 
-    public void doLoadMore(int type) {
-        getTradeFromNet(type, currentPageNo, 10);
+    public void doLoadMore() {
+        getTradeFromNet(currentPageNo, 10);
     }
 
-    private void getTradeFromNet(int type, final int pageNo, int pageSize) {
-
-        String phases;
-
-        if (type == TYPE_SUCCESSED) {
-            phases = ValueUtil.phases_finish;
-        } else {
-            phases = ValueUtil.phases_apply;
-        }
+    private void getTradeFromNet(final int pageNo, int pageSize) {
 
         final LoadingDialogs pDialog = new LoadingDialogs(this, R.style.dialog);
         if (pageNo == 1) {
             pDialog.show();
         }
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQuerybyPhaseApi(phases, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(U09TradeListActivity.class.getSimpleName(), "response:" + response);
-                if (pageNo == 1) {
-                    pDialog.dismiss();
-                }
-                if (MetadataParser.hasError(response)) {
-                    if (MetadataParser.getError(response) == ErrorCode.PagingNotExist) {
+        QSRxApi.tradeOwn(pageNo, pageSize)
+                .subscribe(new QSSubscriber<List<MongoTrade>>() {
+                    @Override
+                    public void onNetError(int message) {
                         if (pageNo == 1) {
                             mAdapter.clearData();
                             mAdapter.notifyDataSetChanged();
                         }
                         if (isSuccessed) {//进入u09时的第一次请求
-                            clickTabApply();
-                            doRefresh(TYPE_APPLY);
-                            currentType = TYPE_APPLY;
                             isSuccessed = false;
                         }
-                    } else {
-                        ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
+                        mRefreshLayout.endRefreshing();
+                        mRefreshLayout.endLoadingMore();
+                        pDialog.dismiss();
+                        ErrorHandler.handle(U09TradeListActivity.this, message);
                     }
-                    mRefreshLayout.endRefreshing();
-                    mRefreshLayout.endLoadingMore();
-                    return;
-                }
 
-                List<MongoTrade> tradeList = TradeParser.parseQuery(response);
-                if (pageNo == 1) {
-                    mAdapter.addDataAtTop(tradeList);
-                    mRefreshLayout.endRefreshing();
-                    currentPageNo = 1;
-                } else {
-                    mAdapter.addData(tradeList);
-                    mRefreshLayout.endLoadingMore();
-                }
-                currentPageNo++;
-                mAdapter.notifyDataSetChanged();
-                isSuccessed = false;
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-
+                    @Override
+                    public void onNext(List<MongoTrade> tradeList) {
+                        pDialog.dismiss();
+                        if (pageNo == 1) {
+                            mAdapter.addDataAtTop(tradeList);
+                            mRefreshLayout.endRefreshing();
+                            currentPageNo = 1;
+                        } else {
+                            mAdapter.addData(tradeList);
+                            mRefreshLayout.endLoadingMore();
+                        }
+                        currentPageNo++;
+                        mAdapter.notifyDataSetChanged();
+                        isSuccessed = false;
+                    }
+                });
     }
 
     @Override
     public void reconn() {
-        doRefresh(currentType);
+        doRefresh();
     }
 
     @Override
@@ -309,20 +242,8 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         switch (v.getId()) {
             case R.id.person_activity_back_image_button:
                 menu.setImageResource(R.drawable.nav_btn_menu_n);
-                menuView = new MenuView();
+                MenuView menuView = new MenuView();
                 menuView.show(getSupportFragmentManager(), U09TradeListActivity.class.getSimpleName(), container);
-                break;
-            case R.id.u09_tab_all:
-                currentPageNo = 1;
-                currentType = TYPE_APPLY;
-                clickTabApply();
-                doRefresh(TYPE_APPLY);
-                break;
-            case R.id.u09_tab_running:
-                currentPageNo = 1;
-                currentType = TYPE_SUCCESSED;
-                clickTabSuccessed();
-                doRefresh(TYPE_SUCCESSED);
                 break;
             case R.id.backTop_btn:
                 recyclerView.scrollToPosition(0);
@@ -330,29 +251,14 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         }
     }
 
-    private void clickTabApply() {
-        u09TabAll.setBackgroundResource(R.drawable.s01_tab_btn1);
-        u09TabAll.setTextColor(getResources().getColor(R.color.white));
-        u09TabRunning.setBackgroundResource(R.drawable.s01_tab_new_btn_border);
-        u09TabRunning.setTextColor(getResources().getColor(R.color.master_pink));
-    }
-
-    private void clickTabSuccessed() {
-        u09TabAll.setBackgroundResource(R.drawable.s01_tab_border2);
-        u09TabAll.setTextColor(getResources().getColor(R.color.master_pink));
-        u09TabRunning.setBackgroundResource(R.drawable.s01_tab_btn2);
-        u09TabRunning.setTextColor(getResources().getColor(R.color.white));
-        circleTip.setVisibility(View.GONE);
-    }
-
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout bgaRefreshLayout) {
-        doRefresh(currentType);
+        doRefresh();
     }
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout bgaRefreshLayout) {
-        doLoadMore(currentType);
+        doLoadMore();
         return false;
     }
 
@@ -363,13 +269,6 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
         MobclickAgent.onResume(this);
         if (UnreadHelper.hasUnread()) {
             menu.setImageResource(R.drawable.nav_btn_menu_n_dot);
-            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)
-                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)) {
-                if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
-                    if (currentType == TYPE_SUCCESSED) return;
-                    circleTip.setVisibility(View.VISIBLE);
-                }
-            }
         }
     }
 

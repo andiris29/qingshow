@@ -65,20 +65,14 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         QSTextView statusTV = holder.getView(R.id.item_tradelist_status);
         QSTextView properTextView = holder.getView(R.id.item_tradelist_skuProperties);
         QSTextView properTab = holder.getView(R.id.item_tradelist_skuProperties_tab);
-        final ImageButton discountBtn = holder.getView(R.id.item_tradelist_discount);
-        final View circleTip = holder.getView(R.id.item_tradelist_btn2_topImg);
-        final View newDiscountCircleTip = holder.getView(R.id.circle_tip);
+//        final View newDiscountCircleTip = holder.getView(R.id.circle_tip);
         properTextView.setVisibility(View.GONE);
         properTab.setVisibility(View.GONE);
         btn1.setVisibility(View.GONE);
         btn2.setVisibility(View.GONE);
         statusTV.setVisibility(View.GONE);
-        discountBtn.setVisibility(View.GONE);
-        circleTip.setVisibility(View.INVISIBLE);
-        newDiscountCircleTip.setVisibility(View.GONE);
+//        newDiscountCircleTip.setVisibility(View.GONE);
 
-        holder.getView(R.id.item_tradelist_exception).setVisibility(View.GONE);
-        holder.getView(R.id.item_tradelist_expectedPrice).setVisibility(View.GONE);
         if (null == getItemData(position)) return;
         final MongoTrade trade = getItemData(position);
         if (null == trade) return;
@@ -90,14 +84,10 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
 
 
         if (null != trade.itemSnapshot) {
-            String str = "原价：";
-            String priceStr = str + StringUtil.FormatPrice(trade.itemSnapshot.price);
-            spannableString = new SpannableString(priceStr);
-            spannableString.setSpan(new StrikethroughSpan(), 0, priceStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.setText(R.id.item_tradelist_sourcePrice, spannableString);
+            String priceStr = StringUtil.FormatPrice(trade.itemSnapshot.promoPrice.floatValue() - trade.itemSnapshot.expectable.reduction.floatValue());
+            holder.setText(R.id.item_tradelist_actualPrice, priceStr);
 
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
-            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
             holder.getView(R.id.item_tradelist_image).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,7 +97,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                     context.startActivity(intent);
                 }
             });
-            holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
 
             holder.getView(R.id.item_tradelist_check).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,16 +115,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             properTextView.setText(properties);
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
-        holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.expectedPrice));
-
-        if (null != trade.itemRef) {
-            if (null != trade.itemRef.expectable) {
-                if (null != trade.itemRef.expectable) {
-                    if (!TextUtils.isEmpty(trade.itemRef.expectable.messageForPay))
-                        holder.setText(R.id.item_tradelist_hint, context.getString(R.string.good_remark) + trade.itemRef.expectable.messageForPay);
-                }
-            }
-        }
 
         //0-折扣申请中
         if (trade.status == StatusCode.APPLYING) {
@@ -164,9 +143,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             if (null == trade.itemRef) return;
             if (null == trade.itemRef.expectable) return;
             if (trade.itemRef.expectable.expired) {
-                discountBtn.setVisibility(View.VISIBLE);
-                discountBtn.setImageResource(R.drawable.sold_out_gray);
-                discountBtn.setClickable(false);
                 if(UnreadHelper.hasMyNotificationId(trade._id)){
                     UnreadHelper.userReadNotificationId(trade._id);
                 }
@@ -179,18 +155,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 Log.d(U09TradeListAdapter.class.getSimpleName(), "command:" + command);
                 if (!TextUtils.isEmpty(command)) {
                     if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.TRADE_INITIALIZED)) {
-                        discountBtn.setVisibility(View.VISIBLE);
-                        newDiscountCircleTip.setVisibility(View.VISIBLE);
-                        discountBtn.setImageResource(R.drawable.new_discount);
-                        discountBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                discountBtn.setImageResource(R.drawable.new_discount_read);
-                                newDiscountCircleTip.setVisibility(View.GONE);
-                                EventBus.getDefault().post(trade);
-
-                            }
-                        });
+//                        newDiscountCircleTip.setVisibility(View.VISIBLE);
                         return;
                     }
                     if(command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
@@ -214,29 +179,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                     }
                 });
             }
-
-            discountBtn.setVisibility(View.VISIBLE);
-            discountBtn.setImageResource(R.drawable.new_discount_read);
-            discountBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EventBus.getDefault().post(trade);
-
-                }
-            });
             return;
-        }
-
-        //成功栏
-        holder.getView(R.id.item_tradelist_exception).setVisibility(View.VISIBLE);
-        holder.getView(R.id.item_tradelist_expectedPrice).setVisibility(View.VISIBLE);
-
-        if(trade.status == 17){
-            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));
-            holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.expectedPrice));
-        }else if(trade.status >= 2){
-            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.totalFee.doubleValue() / trade.quantity, trade.itemSnapshot.promoPrice.doubleValue()));
-            holder.setText(R.id.item_tradelist_expectedPrice, StringUtil.FormatPrice(trade.totalFee.doubleValue() / trade.quantity));
         }
 
         //3-已发货
@@ -247,28 +190,26 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             btn2.setText("物流信息");
             //push guide
             if (UnreadHelper.hasMyNotificationId(trade._id))
-                circleTip.setVisibility(View.VISIBLE);
-            btn2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //push guide
-                    circleTip.setVisibility(View.INVISIBLE);
-                    UnreadHelper.userReadNotificationId(trade._id);
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //push guide
+                        UnreadHelper.userReadNotificationId(trade._id);
 
-                    String msg = "暂无物流信息";
-                    if (null != trade.logistic) {
-                        msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingId == null ? "" : trade.logistic.trackingId);
-                    }
-                    final ConfirmDialog dialog = new ConfirmDialog(context);
-                    dialog.setTitle(msg);
-                    dialog.setConfirm(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
+                        String msg = "暂无物流信息";
+                        if (null != trade.logistic) {
+                            msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingId == null ? "" : trade.logistic.trackingId);
                         }
-                    });
-                    dialog.show();
-                    dialog.hideCancel();
+                        final ConfirmDialog dialog = new ConfirmDialog(context);
+                        dialog.setTitle(msg);
+                        dialog.setConfirm(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                        dialog.hideCancel();
                 }
             });
             btn1.setOnClickListener(new View.OnClickListener() {
