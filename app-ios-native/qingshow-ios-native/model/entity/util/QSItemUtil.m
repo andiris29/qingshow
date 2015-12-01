@@ -18,7 +18,8 @@
 #import "NSArray+QSExtension.h"
 @implementation QSItemUtil
 + (NSString*)getShopNickName:(NSDictionary*)itemDict {
-    return [itemDict stringValueForKeyPath:@"shopRef.nickname"];
+    NSDictionary* shop = [itemDict dictValueForKeyPath:@"shopRef"];
+    return [shop stringValueForKeyPath:@"nickname"];
 }
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
