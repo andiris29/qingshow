@@ -22,7 +22,7 @@
 {
     NSDictionary* tradeDict = dict;
     NSDictionary* itemDict = [QSTradeUtil getItemDic:tradeDict];
-    self.titleLabel.text = [QSItemUtil getItemName:itemDict];
+    self.titleLabel.text = [QSItemUtil getShopNickName:itemDict];
     
     self.priceLabel.text = [NSString stringWithFormat:@"￥%.2f", [QSItemUtil getPriceToPay:itemDict].floatValue];
     [self.priceLabel sizeToFit];

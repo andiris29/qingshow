@@ -45,4 +45,5 @@
 + (BOOL)getExpectableIsExpire:(NSDictionary *)dict;
 
 + (NSString*)getExpectableMessage:(NSDictionary*)dict;
++ (NSString*)getShopNickName:(NSDictionary*)itemDict;
 @end
