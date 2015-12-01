@@ -9,7 +9,7 @@
 #import "QSU02OtherCell.h"
 #import "QSUnreadManager.h"
 NSString* u02OtherTypeToTitle(U02SectionOtherRow type) {
-    return @[@"更改密码",@"佣金账户"][type];
+    return @[@"更改密码"][type];
 }
 
 @interface QSU02OtherCell ()
