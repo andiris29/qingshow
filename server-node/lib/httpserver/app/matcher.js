@@ -258,24 +258,21 @@ matcher.remix = {
     method : 'get',
     func : function(req, res){
         var itemRef = req.queryString.itemRef,
-        config = global.qsRemixConfig;
+        qsRemixConfig = global.qsRemixConfig;
         async.waterfall([function(callback){
             Items.findOne({
                 '_id' : itemRef
             }, callback);
         }, function(item, callback){
             var element;
-            for(var key in config){
-                var master = config[key].master;
-                if (_.isString(master.categoryRef) && master.categoryRef === itemRef) {
-                    element = config[key];
-                    break;
-                }else if (_.isArray(master.categoryRef) && _.contains(master.categoryRef, itemRef)) {
-                    element = config[key];
-                    break;
+            for(var key in qsRemixConfig){
+                var master = qsRemixConfig[key].master;
+                if (_.isString(master.categoryRef) && master.categoryRef === item.categoryRef) {
+                    element = qsRemixConfig[key];
+                }else if (_.isArray(master.categoryRef) && _.contains(master.categoryRef, item.categoryRef)) {
+                    element = qsRemixConfig[key];
                 }else if (master.categoryRef === '*') {
-                    element = config[key];
-                    break;
+                    element = qsRemixConfig[key];
                 }
             }
 
@@ -289,20 +286,22 @@ matcher.remix = {
             criteria = {};
             data.master = config.master;
             data.slaves = [];
-            if (item.shopRef) {
-                criteria.shopRef = item.shopRef;
-            }else {
-                criteria.remix = true;
-            }
+            criteria = {
+                $or: [{
+                    shopRef: item.shopRef
+                }, {
+                    remix: true
+                }]
+            };
             var tasks = config.slaves.map(function(slave){
                 return function(cb){
                     criteria.categoryRef = slave.categoryRef;
-                    Items.find(criteria).exec(function(err, items){
+                    Items.find(criteria).exec(function(err, items){ 
                         if (items.length !== 0) {
                             var randomIndex = require('../../utils/RandomUtil').random(0, items.length);
                             slave.itemRef = items[randomIndex];
                             delete slave.categoryRef;
-                            data.slaves.push(slave);
+                            data.slaves.push(slave);   
                         }
                         cb(err);
                     });
