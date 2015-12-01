@@ -108,16 +108,20 @@
     NSArray *array = [self getSkuProperties:dict];
     NSMutableString *arrayStr = [[NSMutableString alloc]init];;
     for (int i = 0; i < array.count; i++) {
+        if (i != 0) {
+            [arrayStr appendString:@"\n"];
+        }
         NSString *str = (NSString *)array[i];
         [arrayStr appendString:str];
-        [arrayStr appendString:@" "];
     }
     NSArray *s = [arrayStr componentsSeparatedByString:@":"];
     NSMutableString *resultStr = [@"" mutableCopy];
     for (int i = 0; i < s.count; i ++) {
+        if (i != 0) {
+            [resultStr appendString:@" "];
+        }
         NSString *string = (NSString *)s[i];
         [resultStr appendString:string];
-        [resultStr appendString:@" "];
     }
     return resultStr;
 }

@@ -99,7 +99,7 @@
     NSDictionary* itemDict = [QSTradeUtil getItemSnapshot:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-    self.priceLabel.text = [NSString stringWithFormat:@"%.2f", [QSItemUtil getPriceToPay:itemDict].floatValue];
+    self.priceLabel.text = [NSString stringWithFormat:@"￥%.2f", [QSItemUtil getPriceToPay:itemDict].floatValue];
     self.sizeLabel.text = [QSTradeUtil getPropertiesFullDesc:tradeDict];
     self.quantityLabel.text = [NSString stringWithFormat:@"数量: %@",[QSTradeUtil getQuantityDesc:tradeDict]];
     

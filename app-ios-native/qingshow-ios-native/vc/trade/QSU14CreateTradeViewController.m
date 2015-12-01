@@ -9,7 +9,6 @@
 #import "QSU14CreateTradeViewController.h"
 #import "QSCreateTradeTableViewCellBase.h"
 #import "QSCreateTradePayInfoSelectCell.h"
-#import "QSCreateTradeSkuPropertyCell.h"
 #import "QSItemUtil.h"
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
@@ -40,10 +39,6 @@
 @property (strong, nonatomic) NSArray* receiverInfoCellArray;
 
 @property (strong, nonatomic) NSArray* payWayCellArray;
-
-@property (strong, nonatomic) NSArray* totalPriceCellArray;
-
-@property (strong, nonatomic) NSArray* headerArray;
 
 @property (strong, nonatomic) NSDictionary* selectedReceiver;
 
@@ -95,7 +90,7 @@
 
 - (void)bindWithDict:(NSDictionary*)tradeDict {
     [self updateAllCell];
-    [self.totalCell updateWithPrice:[QSTradeUtil getTotalFeeDesc:tradeDict]];
+    self.priceLabel.text = [NSString stringWithFormat:@"￥%@", [QSTradeUtil getTotalFeeDesc:tradeDict]];
 }
 
 - (void)receiverConfig
@@ -154,13 +149,7 @@
 }
 - (void)configView
 {
-    self.title = @"订单确认";
-    NSMutableArray* headerArray = [@[] mutableCopy];
-    for (int i = 0; i < self.cellGroupArray.count; i++) {
-        UIView* view = [[UIView alloc] init];
-        view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
-        [headerArray addObject:view];
-    }
+    self.title = @"确认订单";
     self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     self.view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     
@@ -178,15 +167,8 @@
 {
     NSMutableArray* array = [@[] mutableCopy];
     [array addObject:self.itemInfoTitleCell];
-    NSDictionary* trade = self.tradeDict;
-    NSArray* propArray = [QSTradeUtil getSkuProperties:trade];
-    for (NSString* propStr in propArray) {
-        QSCreateTradeSkuPropertyCell* propCell = [QSCreateTradeSkuPropertyCell generateCell];
-        [propCell bindSkuProperty:propStr];
-        [array addObject:propCell];
-    }
     
-    [array addObject:self.itemInfoQuantityCell];
+    NSDictionary* trade = self.tradeDict;
     self.itemInfoCellArray = array;
     
     self.receiverInfoCellArray = @[self.receiverInfoTitleCell,
@@ -196,17 +178,14 @@
                                    self.receiverInfoPhoneCell];
     
     self.payWayCellArray = @[self.payInfoTitleCell,
-                             self.payInfoWechatCell,
-                             self.payInfoAlipayCell
+                             self.payInfoWechatCell
                              ];
-    self.totalPriceCellArray = @[self.totalCell];
     
     self.cellGroupArray =
     @[
       self.itemInfoCellArray,
       self.receiverInfoCellArray,
-      self.payWayCellArray,
-      self.totalPriceCellArray
+      self.payWayCellArray
       ];
 }
 
@@ -271,35 +250,12 @@
     return [cell getHeightWithDict:self.tradeDict];
     
 }
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return self.headerArray[section];
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return 0.f;
-    }
-    else
-    {
-    return 5.f;
-    }
-}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([self.payWayCellArray indexOfObject:cell] != NSNotFound) {
-        if (cell != self.payInfoTitleCell) {
-            for (QSCreateTradePayInfoSelectCell* c in self.payWayCellArray) {
-                if (c == self.payInfoTitleCell) {
-                    continue;
-                }
-                c.isSelect = c == cell;
-            }
-        }
-    }
     if (cell == self.receiverInfoLocationCell) {
         [self showPicker];
     } else {
@@ -308,11 +264,6 @@
 }
 
 #pragma mark - UIScrollView Delegate
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    [self hidekeyboardAndPicker];
-//}
-
 - (IBAction)submitButtonPressed:(id)sender {
     if (![self checkFullInfo]) {
         [self showErrorHudWithText:@"请填写完整信息"];
@@ -321,7 +272,6 @@
     if (self.userUpdateOp) {
         return;
     }
-    
 
     [self saveReceiverAndCreateTrade];
     
@@ -371,7 +321,7 @@
         return NO;
     }
     
-    if (!self.payInfoAlipayCell.isSelect && !self.payInfoWechatCell.isSelect) {
+    if (self.payInfoWechatCell.paymentType == QSCreateTradePaymentTypeNone) {
         return NO;
     }
     return YES;
@@ -385,14 +335,15 @@
     }
     
     PaymentType paymentType = 0;
-    if (self.payInfoAlipayCell.isSelect) {
+    QSCreateTradePaymentType pt = self.payInfoWechatCell.paymentType;
+    if (pt == QSCreateTradePaymentTypeAlipay) {
         paymentType = PaymentTypeAlipay;
-    } else if (self.payInfoWechatCell.isSelect) {
+    } else if (pt == QSCreateTradePaymentTypeWechat) {
         paymentType = PaymentTypeWechat;
     }
     NSDictionary* tradeDict = self.tradeDict;
     
-    [self.totalCell updateWithPrice:[QSTradeUtil getTotalFeeDesc:tradeDict]];
+    self.priceLabel.text = [NSString stringWithFormat:@"￥%@", [QSTradeUtil getTotalFeeDesc:tradeDict]];
     
     __weak QSU14CreateTradeViewController* weakSelf = self;
     self.prepayOp = [SHARE_NW_ENGINE prepayTrade:self.tradeDict

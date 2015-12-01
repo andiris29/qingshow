@@ -122,13 +122,11 @@
 		EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F461AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m */; };
 		EF810F4D1AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F481AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m */; };
 		EF810F4E1AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F4A1AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.m */; };
-		EF810F6B1AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F621AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m */; };
 		EF810F6D1AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F661AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m */; };
 		EF810F701AB601C20079BA76 /* QSCreateTradeReceiverInfoTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F6F1AB601C20079BA76 /* QSCreateTradeReceiverInfoTitleCell.m */; };
 		EF810F731AB601E50079BA76 /* QSCreateTradeReceiverInfoTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F721AB601E50079BA76 /* QSCreateTradeReceiverInfoTextCell.m */; };
 		EF810F761AB601F60079BA76 /* QSCreateTradeReceiverInfoLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F751AB601F60079BA76 /* QSCreateTradeReceiverInfoLocationCell.m */; };
 		EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F781AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m */; };
-		EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */; };
 		EF814EBB1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF814EBA1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m */; };
 		EF88D08E1ACEF90C002C4963 /* area.json in Resources */ = {isa = PBXBuildFile; fileRef = EF88D08D1ACEF90C002C4963 /* area.json */; };
 		EF8CD22A1C0378020040611D /* QSNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD2291C0378020040611D /* QSNavigationController.m */; };
@@ -236,8 +234,6 @@
 		EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF921FBB1ACBB11100669124 /* libc++.dylib */; };
 		EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */; };
 		EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */; };
-		EF9656A91B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9656A81B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m */; };
-		EF9656AB1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */; };
 		EF98A12E1C04CAE400B0B5BC /* QSNewestHourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF98A12C1C04CAE400B0B5BC /* QSNewestHourViewController.m */; };
 		EF98A12F1C04CAE400B0B5BC /* QSNewestHourViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF98A12D1C04CAE400B0B5BC /* QSNewestHourViewController.xib */; };
 		EF98A1321C04CB0C00B0B5BC /* QSNewestHourTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF98A1311C04CB0C00B0B5BC /* QSNewestHourTitleView.m */; };
@@ -564,8 +560,6 @@
 		EF810F481AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeHeigh60Cell.m; sourceTree = "<group>"; };
 		EF810F491AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeTableViewCellBase.h; sourceTree = "<group>"; };
 		EF810F4A1AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeTableViewCellBase.m; sourceTree = "<group>"; };
-		EF810F611AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeItemInfoQuantityCell.h; sourceTree = "<group>"; };
-		EF810F621AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeItemInfoQuantityCell.m; sourceTree = "<group>"; };
 		EF810F651AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeItemInfoTitleCell.h; sourceTree = "<group>"; };
 		EF810F661AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeItemInfoTitleCell.m; sourceTree = "<group>"; };
 		EF810F6E1AB601C20079BA76 /* QSCreateTradeReceiverInfoTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeReceiverInfoTitleCell.h; sourceTree = "<group>"; };
@@ -576,8 +570,6 @@
 		EF810F751AB601F60079BA76 /* QSCreateTradeReceiverInfoLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeReceiverInfoLocationCell.m; sourceTree = "<group>"; };
 		EF810F771AB602240079BA76 /* QSCreateTradePayInfoSelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradePayInfoSelectCell.h; sourceTree = "<group>"; };
 		EF810F781AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradePayInfoSelectCell.m; sourceTree = "<group>"; };
-		EF810F7A1AB602760079BA76 /* QSTotalPriceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTotalPriceCell.h; sourceTree = "<group>"; };
-		EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTotalPriceCell.m; sourceTree = "<group>"; };
 		EF814EB91C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+FeedingAggregation.h"; sourceTree = "<group>"; };
 		EF814EBA1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+FeedingAggregation.m"; sourceTree = "<group>"; };
 		EF88D08D1ACEF90C002C4963 /* area.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = area.json; sourceTree = "<group>"; };
@@ -841,9 +833,6 @@
 		EF92B7231A3C9F6A00A08F08 /* QSBigImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBigImageTableViewCell.h; sourceTree = "<group>"; };
 		EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBigImageTableViewCell.m; sourceTree = "<group>"; };
 		EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBigImageTableViewCell.xib; sourceTree = "<group>"; };
-		EF9656A71B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeSkuPropertyCell.h; sourceTree = "<group>"; };
-		EF9656A81B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeSkuPropertyCell.m; sourceTree = "<group>"; };
-		EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCreateTradeSkuPropertyCell.xib; sourceTree = "<group>"; };
 		EF98A12B1C04CAE400B0B5BC /* QSNewestHourViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNewestHourViewController.h; sourceTree = "<group>"; };
 		EF98A12C1C04CAE400B0B5BC /* QSNewestHourViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNewestHourViewController.m; sourceTree = "<group>"; };
 		EF98A12D1C04CAE400B0B5BC /* QSNewestHourViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSNewestHourViewController.xib; sourceTree = "<group>"; };
@@ -1585,7 +1574,6 @@
 				EF810F5E1AB5FE770079BA76 /* itemInfo */,
 				EF810F671AB5FE770079BA76 /* payInfo */,
 				EF810F681AB5FE770079BA76 /* receiverInfo */,
-				EF810F691AB5FE770079BA76 /* totalPrice */,
 				EF810F421AB5F81B0079BA76 /* basic */,
 			);
 			path = cell;
@@ -1612,13 +1600,8 @@
 			isa = PBXGroup;
 			children = (
 				EFA0F9081AB8998300E52F0B /* button */,
-				EF810F611AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.h */,
-				EF810F621AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m */,
 				EF810F651AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.h */,
 				EF810F661AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m */,
-				EF9656A71B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.h */,
-				EF9656A81B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m */,
-				EF9656AA1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib */,
 			);
 			path = itemInfo;
 			sourceTree = "<group>";
@@ -1643,15 +1626,6 @@
 				EF810F751AB601F60079BA76 /* QSCreateTradeReceiverInfoLocationCell.m */,
 			);
 			path = receiverInfo;
-			sourceTree = "<group>";
-		};
-		EF810F691AB5FE770079BA76 /* totalPrice */ = {
-			isa = PBXGroup;
-			children = (
-				EF810F7A1AB602760079BA76 /* QSTotalPriceCell.h */,
-				EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */,
-			);
-			path = totalPrice;
 			sourceTree = "<group>";
 		};
 		EF8CD2271C0378020040611D /* nav */ = {
@@ -3057,7 +3031,6 @@
 				EF3F343C1C0CA23B004B16DA /* QSItemTagView.xib in Resources */,
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF8CD2CB1C0378E50040611D /* QSU10ReceiverListViewController.xib in Resources */,
-				EF9656AB1B6CBF3300239811 /* QSCreateTradeSkuPropertyCell.xib in Resources */,
 				EF98A12F1C04CAE400B0B5BC /* QSNewestHourViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */,
@@ -3190,7 +3163,6 @@
 				EF8CD2C41C0378E50040611D /* QSU02UserSettingViewController.m in Sources */,
 				EF8CD2C81C0378E50040611D /* QSU09TradeListViewController.m in Sources */,
 				EF8CD2CE1C0378E50040611D /* QSU12RefundViewController.m in Sources */,
-				EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */,
 				8C4475961B74ABD800DF36E2 /* QSS12TradeInfoCell.m in Sources */,
 				EF8080351B4F3C79005198B6 /* QSHorizontalCollectionViewLayout.m in Sources */,
 				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
@@ -3287,7 +3259,6 @@
 				EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */,
 				EF8CD29E1C0378E50040611D /* QSU16BonusListViewController.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
-				EF810F6B1AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m in Sources */,
 				EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */,
 				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
 				EFF114AF1A0D2EEC009B7361 /* NSDictionary+RequestEncoding.m in Sources */,
@@ -3298,7 +3269,6 @@
 				EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */,
 				EF8CD3481C03794C0040611D /* RSADataSigner.m in Sources */,
 				EFAB9C691B346FE5008A4EF5 /* QSBigImageTableViewProvider.m in Sources */,
-				EF9656A91B6CBF1A00239811 /* QSCreateTradeSkuPropertyCell.m in Sources */,
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,
 				EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */,
 				EFAB9C621B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m in Sources */,

@@ -13,7 +13,6 @@
 #import "QSCreateTradeReceiverInfoTextCell.h"
 #import "QSCreateTradeReceiverInfoLocationCell.h"
 #import "QSCreateTradePayInfoSelectCell.h"
-#import "QSTotalPriceCell.h"
 #import "QSLocationPickerProvider.h"
 
 @protocol QSMenuProviderDelegate;
@@ -22,7 +21,6 @@
 
 #pragma mark - Item Info Cells
 @property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoTitleCell *itemInfoTitleCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *itemInfoQuantityCell;
 
 #pragma mark - Receiver Info Cell
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *receiverInfoTitleCell;
@@ -34,17 +32,12 @@
 #pragma mark - Pay Info Cell
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *payInfoTitleCell;
 @property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoWechatCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoAlipayCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoBankCell;
-
-
-#pragma mark - Total Cell
-@property (strong, nonatomic) IBOutlet QSTotalPriceCell *totalCell;
 
 #pragma mark - 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIPickerView *locationPicker;
 
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 #pragma mark - Init
