@@ -20,6 +20,10 @@
 - (void)discountCellRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell;
 - (void)discountCellPreviousRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell;
 - (void)discountCellNextRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell;
+- (void)discountCell:(QSAbstractDiscountTableViewCell*)cell didSelectItem:(NSDictionary*)item;
+
+- (BOOL)discountCellHasPreviousRemix:(QSAbstractDiscountTableViewCell*)cell;
+- (BOOL)discountCellHasNextRemix:(QSAbstractDiscountTableViewCell*)cell;
 
 @end
 

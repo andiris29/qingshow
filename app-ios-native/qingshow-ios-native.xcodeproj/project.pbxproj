@@ -304,6 +304,8 @@
 		EFAB9C6F1B346FE5008A4EF5 /* QSTableViewBasicProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C5E1B346FE5008A4EF5 /* QSTableViewBasicProvider.m */; };
 		EFAB9C741B347027008A4EF5 /* QSPeopleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C721B347027008A4EF5 /* QSPeopleListTableViewCell.m */; };
 		EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */; };
+		EFAD4B691C0D760A009153C6 /* QSRemixView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD4B681C0D760A009153C6 /* QSRemixView.m */; };
+		EFAD4B951C0D979E009153C6 /* QSRemixImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD4B941C0D979E009153C6 /* QSRemixImageView.m */; };
 		EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD756F1B3A456400565DED /* QSCategoryUtil.m */; };
 		EFAD75741B3A4C7300565DED /* QSMatcherCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */; };
 		EFAD75761B3A4C8200565DED /* QSMatcherCanvasView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */; };
@@ -957,6 +959,10 @@
 		EFAB9C711B347027008A4EF5 /* QSPeopleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPeopleListTableViewCell.h; sourceTree = "<group>"; };
 		EFAB9C721B347027008A4EF5 /* QSPeopleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPeopleListTableViewCell.m; sourceTree = "<group>"; };
 		EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSPeopleListTableViewCell.xib; sourceTree = "<group>"; };
+		EFAD4B671C0D760A009153C6 /* QSRemixView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRemixView.h; sourceTree = "<group>"; };
+		EFAD4B681C0D760A009153C6 /* QSRemixView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRemixView.m; sourceTree = "<group>"; };
+		EFAD4B931C0D979E009153C6 /* QSRemixImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRemixImageView.h; sourceTree = "<group>"; };
+		EFAD4B941C0D979E009153C6 /* QSRemixImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRemixImageView.m; sourceTree = "<group>"; };
 		EFAD756E1B3A456400565DED /* QSCategoryUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCategoryUtil.h; sourceTree = "<group>"; };
 		EFAD756F1B3A456400565DED /* QSCategoryUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCategoryUtil.m; sourceTree = "<group>"; };
 		EFAD75721B3A4C7300565DED /* QSMatcherCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherCanvasView.h; sourceTree = "<group>"; };
@@ -2133,6 +2139,7 @@
 		EF994D891B693BB700715B0E /* cell */ = {
 			isa = PBXGroup;
 			children = (
+				EFAD4B911C0D9782009153C6 /* remix */,
 				EF994D8A1B693C2700715B0E /* QSAbstractDiscountTableViewCell.h */,
 				EF994D8B1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m */,
 				EF36C10C1C0AD0CC009ECE91 /* QSDiscountRemixCell.h */,
@@ -2451,6 +2458,17 @@
 				EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */,
 			);
 			path = people;
+			sourceTree = "<group>";
+		};
+		EFAD4B911C0D9782009153C6 /* remix */ = {
+			isa = PBXGroup;
+			children = (
+				EFAD4B671C0D760A009153C6 /* QSRemixView.h */,
+				EFAD4B681C0D760A009153C6 /* QSRemixView.m */,
+				EFAD4B931C0D979E009153C6 /* QSRemixImageView.h */,
+				EFAD4B941C0D979E009153C6 /* QSRemixImageView.m */,
+			);
+			name = remix;
 			sourceTree = "<group>";
 		};
 		EFAD75891B3BADF700565DED /* provider */ = {
@@ -3143,6 +3161,7 @@
 				EF6B4CA61B57F92C0060054F /* QSCategoryManager.m in Sources */,
 				8C0A2CF41B20287600F83991 /* QSBackBarItem.m in Sources */,
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
+				EFAD4B951C0D979E009153C6 /* QSRemixImageView.m in Sources */,
 				EF8CD3491C03794C0040611D /* RSADataVerifier.m in Sources */,
 				EF8CD2AA1C0378E50040611D /* QSU07RegisterViewController.m in Sources */,
 				EF0A12A31C009BD700DBF23E /* CKCalendarView.m in Sources */,
@@ -3250,6 +3269,7 @@
 				EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */,
 				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,
 				EF8CD2A81C0378E50040611D /* QSU06LoginViewController.m in Sources */,
+				EFAD4B691C0D760A009153C6 /* QSRemixView.m in Sources */,
 				EF651F551BFE403100B35AB0 /* QSMatcherTableViewCell.m in Sources */,
 				EFED68BE1BA7091700120CAC /* QSNetworkHelper.m in Sources */,
 				EFAB9C681B346FE5008A4EF5 /* QSAbstractListViewProvider.m in Sources */,

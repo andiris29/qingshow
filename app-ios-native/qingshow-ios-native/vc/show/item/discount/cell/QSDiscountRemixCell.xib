@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -24,7 +24,7 @@
                     <view contentMode="scaleToFill" id="mAn-yw-1EA">
                         <rect key="frame" x="30" y="52" width="260" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rNt-Yg-xKb">
                         <rect key="frame" x="8" y="16" width="304" height="19"/>
@@ -80,6 +80,8 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="nextBtn" destination="me8-O3-c6l" id="TSy-tL-XS0"/>
+                <outlet property="previousBtn" destination="tvp-ci-coL" id="3iH-ug-Hxa"/>
                 <outlet property="remixBtn" destination="tLy-vp-WlF" id="fho-1L-p8s"/>
                 <outlet property="remixContainer" destination="mAn-yw-1EA" id="9lO-Nu-CPZ"/>
                 <outlet property="titleLabel" destination="rNt-Yg-xKb" id="qMh-fg-rfP"/>
@@ -91,9 +93,4 @@
         <image name="next_remix_btn" width="10" height="16"/>
         <image name="previous_remix_btn" width="10" height="16"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

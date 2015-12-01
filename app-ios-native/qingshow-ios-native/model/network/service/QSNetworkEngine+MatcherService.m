@@ -165,7 +165,7 @@
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation) {
                                 if (succeedBlock) {
-                                    succeedBlock(completedOperation.responseJSON);
+                                    succeedBlock([completedOperation.responseJSON dictValueForKeyPath:@"data"]);
                                 }
     }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error) {

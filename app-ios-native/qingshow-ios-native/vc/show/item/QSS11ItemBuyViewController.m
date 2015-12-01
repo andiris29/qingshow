@@ -43,6 +43,10 @@
 @property (strong, nonatomic) MKNetworkOperation* updateRemixOp;
 @property (strong, nonatomic) MKNetworkOperation* createTradeOp;
 @property (assign, nonatomic) BOOL hasShared;
+
+@property (strong, nonatomic) NSMutableArray* remixArray;
+@property (assign, nonatomic) NSUInteger currentRemixIndex;
+@property (strong, nonatomic) NSDictionary* masterDict;
 @end
 
 @implementation QSS11ItemBuyViewController
@@ -52,8 +56,10 @@
     self = [super initWithNibName:@"QSS11ItemBuyViewController" bundle:nil];
     if (self) {
         self.itemDict = itemDict;
+        self.masterDict = self.itemDict;
         self.promoterId = promoterId;
         self.hasShared = NO;
+        self.remixArray = [@[] mutableCopy];
     }
     return self;
 }
@@ -61,7 +67,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self _configCells];
-    [self _updateRemix];
+    [self _queryNewRemix];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self _bindWithItemDict:self.itemDict];
 }
@@ -74,8 +80,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-
 
 
 - (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex
@@ -123,20 +127,42 @@
 
 #pragma mark - QSDiscountTableViewCellDelegate
 - (void)discountCellUpdateTotalPrice:(QSAbstractDiscountTableViewCell*)cell {
-    
+#warning TODO
 }
 - (void)discountCellDetailBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
     QSS10ItemDetailViewController* vc = [[QSS10ItemDetailViewController alloc] initWithItem:self.itemDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)discountCellRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
-    
+    [self _queryNewRemix];
 }
 - (void)discountCellPreviousRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
-    
+    if (self.currentRemixIndex <= 0) {
+        return;
+    }
+    self.currentRemixIndex -= 1;
+    NSDictionary* remixDict = self.remixArray[self.currentRemixIndex];
+    [self _updateWithRemix:remixDict];
 }
 - (void)discountCellNextRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell {
-    
+    if (self.currentRemixIndex >= self.remixArray.count - 1) {
+        return;
+    }
+    self.currentRemixIndex += 1;
+    NSDictionary* remixDict = self.remixArray[self.currentRemixIndex];
+    [self _updateWithRemix:remixDict];
+}
+
+- (void)discountCell:(QSAbstractDiscountTableViewCell*)cell didSelectItem:(NSDictionary*)item {
+    self.itemDict = item;
+    [self _bindWithItemDict:self.itemDict];
+}
+
+- (BOOL)discountCellHasPreviousRemix:(QSAbstractDiscountTableViewCell*)cell {
+    return self.currentRemixIndex > 0;
+}
+- (BOOL)discountCellHasNextRemix:(QSAbstractDiscountTableViewCell*)cell {
+    return self.currentRemixIndex < self.remixArray.count - 1;
 }
 
 #pragma mark - IBAction
@@ -188,7 +214,6 @@
     self.remixCell = [QSDiscountRemixCell generateCell];
     cell = self.remixCell;
     cell.delegate = self;
-#warning TODO
     [array addObject:cell];
     
     cell = [QSDiscountInfoCell generateCell];
@@ -236,15 +261,22 @@
     return [NSString stringWithFormat:@"请选择%@",m];
 }
 
-- (void)_updateRemix {
+- (void)_updateWithRemix:(NSDictionary*)remixDict {
+    self.itemDict = self.masterDict;
+    [self.remixCell bindWithItem:self.itemDict remix:remixDict];
+}
+- (void)_queryNewRemix {
     if (self.updateRemixOp) {
         return;
     }
-    self.updateRemixOp = [SHARE_NW_ENGINE matcherRemix:self.itemDict onSucceed:^(NSDictionary *remixInfo) {
-#warning TODO
-        NSLog(@"%@", remixInfo);
+    self.updateRemixOp = [SHARE_NW_ENGINE matcherRemix:self.masterDict onSucceed:^(NSDictionary *remixInfo) {
+        self.updateRemixOp = nil;
+        [self.remixArray addObject:remixInfo];
+        self.currentRemixIndex = self.remixArray.count - 1;
+        [self _updateWithRemix:remixInfo];
     } onError:^(NSError *error) {
-//        [self handleError:error];
+        self.updateRemixOp = nil;
+        [self handleError:error];
     }];
 }
 - (void)_bindWithItemDict:(NSDictionary*)dict {
@@ -253,7 +285,7 @@
     self.discountInfoBtn.hidden = NO;
     [self.discountInfoBtn setTitle:[NSString stringWithFormat:@"分享搭配立减%.2f元", reduction.floatValue] forState:UIControlStateNormal];
     [self.buyBtn setTitle:@"分享后购买" forState:UIControlStateNormal];
-    
+    [self.tableView reloadData];
 }
 
 - (IBAction)backBtnPressed:(id)sender {

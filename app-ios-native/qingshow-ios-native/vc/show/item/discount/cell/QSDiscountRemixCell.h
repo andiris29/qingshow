@@ -14,10 +14,13 @@
 @property (weak, nonatomic) IBOutlet UIView* remixContainer;
 @property (weak, nonatomic) IBOutlet UIButton* remixBtn;
 
+@property (weak, nonatomic) IBOutlet UIButton* previousBtn;
+@property (weak, nonatomic) IBOutlet UIButton* nextBtn;
+
 - (IBAction)remixBtnPressed:(UIButton*)sender;
 - (IBAction)previousRemixBtnPressed:(UIButton*)sender;
 - (IBAction)nextRemixBtnPressed:(UIButton*)sender;
 
-- (void)bindWithRemix:(NSDictionary*)remixInfoDict;
+- (void)bindWithItem:(NSDictionary*)itemDict remix:(NSDictionary*)remixInfoDict;
 
 @end

@@ -50,10 +50,11 @@
 }
 - (void)rearrangeWithMatcherConfig:(NSDictionary*)matcherConfig
                            modelId:(NSString*)modelId {
-    UIView* modelView = self.categoryIdToView[modelId];
+    QSCanvasImageView* modelView = self.categoryIdToView[modelId];
     if (![modelView isEqual:[NSNull null]]) {
         NSArray* modelConfig = [matcherConfig arrayValueForKeyPath:@"master.rect"];
         [self _updateView:modelView withRectConfig:modelConfig];
+
     }
     
     NSArray* itemConfigs = [matcherConfig arrayValueForKeyPath:@"slaves"];
@@ -63,20 +64,10 @@
         QSCanvasImageView* v = self.categoryIdToView[categoryId];
         if (![v isEqual:[NSNull null]]) {
             [self _updateView:v withRectConfig:rectConfig];
-            
-            if (v.imgView.image) {
-                UIImage* img = v.imgView.image;
-                CGSize viewSize = v.bounds.size;
-                CGRect bounds = v.bounds;
-                viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
-                bounds.size = viewSize;
-                v.bounds = bounds;
-                v.frame = [QSRectUtil reducedFrame:v.frame forContainer:self.bounds];
-            }
         }
     }
 }
-- (void)_updateView:(UIView*)view withRectConfig:(NSArray*)rectConfig {
+- (void)_updateView:(QSCanvasImageView*)view withRectConfig:(NSArray*)rectConfig {
     if (!rectConfig || rectConfig.count != 4) {
         return;
     }
@@ -85,6 +76,16 @@
     float sizeWidth = self.frame.size.width * ((NSNumber*)rectConfig[2]).intValue / 100;
     float sizeHeight = self.frame.size.height * ((NSNumber*)rectConfig[3]).intValue / 100;
     view.frame = CGRectMake(x, y, sizeWidth, sizeHeight);
+    
+    if (view.imgView.image) {
+        UIImage* img = view.imgView.image;
+        CGSize viewSize = view.bounds.size;
+        CGRect bounds = view.bounds;
+        viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
+        bounds.size = viewSize;
+        view.bounds = bounds;
+        view.frame = [QSRectUtil reducedFrame:view.frame forContainer:self.bounds];
+    }
     
 }
 
