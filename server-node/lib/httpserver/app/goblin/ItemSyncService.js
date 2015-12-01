@@ -86,9 +86,9 @@ var _updateShopInfo = function(item, itemInfo, callback) {
     if (!shopInfo) {
         var sourceType = ItemSourceUtil.getType(item.source);
         if (sourceType === ItemSourceType.Hm) {
-            shopInfo = {'shopId' : 'hm', 'shopName' : 'hm'};
+            shopInfo = {'shopId' : 'hm', 'shopName' : 'H&M'};
         } else if (sourceType === ItemSourceType.Jamy) {
-            shopInfo = {'shopId' : 'jamy', 'shopName' : 'jamy'};
+            shopInfo = {'shopId' : 'jamy', 'shopName' : 'JAMY'};
         }
     }
     if (shopInfo && shopInfo.shopId) {

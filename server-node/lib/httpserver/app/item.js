@@ -215,7 +215,9 @@ item.query = {
                     '$in' : RequestHelper.parseIds(qsParam._ids)
                 };
             }
-            MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryPaging(
+                Item.find(criteria).populate('shopRef'), 
+                Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         },function(items){
             return {'items': items};
         });
