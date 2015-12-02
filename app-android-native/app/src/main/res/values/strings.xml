@@ -240,7 +240,7 @@
     <string name="u15_total_bonus">佣金总计：</string>
     <string name="u15_balance">未提现：</string>
     <string name="u15_hint_edit">请输入支付宝账号</string>
-    <string name="u15_hint">*分享微信朋友圈完成提现后，系统自动将佣金通过微信红包发送给您，请注意服务通知</string>
+    <string name="u15_hint">*分享微信朋友圈完成提现后，系统自动将佣金通过微信红包发送给您，请注意服务通知/ba</string>
     <string name="u15_btn_text">朋友圈分享提现</string>
     <string name="u15_title_right_btn">佣金明细</string>
     <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>
