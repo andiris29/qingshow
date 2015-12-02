@@ -247,6 +247,10 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.navigationItem.title = @"设置";
     [self hideNaviBackBtnTitle];
+    UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
+    tapGes.numberOfTapsRequired = 5;
+    [self.navigationController.navigationBar addGestureRecognizer:tapGes];
+    
 }
 
 #pragma mark - TableView
@@ -589,4 +593,11 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 //    [self hideKeyboardAndPicker];
 //}
 
+- (void)didTapRootTitle
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString* v = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+    [self showTextHud:[NSString stringWithFormat:@"version: %@ - %@", version, v]];
+}
 @end
