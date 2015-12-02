@@ -35,7 +35,7 @@
             android:id="@+id/u15_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥0.00"
+            android:text="¥0.00"
             android:textColor="@android:color/white"
             android:textSize="24sp" />
     </LinearLayout>
@@ -63,7 +63,7 @@
             android:id="@+id/u15_draw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥0.00"
+            android:text="¥0.00"
             android:textColor="@android:color/darker_gray"
             android:textSize="24sp" />
     </LinearLayout>

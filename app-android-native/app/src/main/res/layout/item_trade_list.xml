@@ -106,7 +106,7 @@
                 android:id="@+id/item_tradelist_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_tradelist_expectedPrice"
+                android:layout_below="@id/item_tradelist_skuProperties"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/master_blue" />
         </android.support.percent.PercentRelativeLayout>
