@@ -58,7 +58,7 @@ module.exports = {
     'ERR_SMS_LIMIT_EXCEEDED' : new ServerError(1031, 'ERR_SMS_LIMIT_EXCEEDED'),
     'FrequentlyRequest' : new ServerError(1032, 'FrequentlyRequest'),
     'NickNameAlreadyExist' : new ServerError(1033, 'NickNameAlreadyExist'),
-    'InvalidItem' : new ServerError(1034, 'InvalidItem'),
+    'ERR_INVALID_ITEM' : new ServerError(1034, 'ERR_INVALID_ITEM'),
     'GoblinSlaveDisabled' : new ServerError(1035, 'GoblinSlaveDisabled'),
     'AlreadyLoggedIn' : new ServerError(1036, 'AlreadyLoggedIn'),
     'ERR_PERMISSION_DENIED' : new ServerError(1037, 'ERR_PERMISSION_DENIED'),

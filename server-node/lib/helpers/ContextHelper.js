@@ -109,27 +109,6 @@ ContextHelper.appendTradeContext = function(qsCurrentUserId, trades, callback) {
     });
 };
 
-ContextHelper.appendMatchCompositionContext = function(items, callback){
-    items = _prepare(items);
-    var tasks = items.map(function(item){
-        return function(cb){
-            var config = global.qsMatcherConfig;
-            var layout = {};
-            if (item.matchComposition && item.matchComposition.layout && config[item.matchComposition.layout]) {      
-                layout = config[item.matchComposition.layout];
-            }else {
-                layout = config.default;
-            }
-
-            item.__context = require('./ConfigHelper').format(layout);
-            cb();
-        }
-    })
-    async.parallel(tasks, function(err) {
-        callback(null, items);
-    });
-}
-
 var _prepare = function(models) {
     return models.filter(function(model) {
         return model;
