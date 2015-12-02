@@ -65,14 +65,13 @@
     if (index >= 0 && index < topOwners.count) {
         NSDictionary* peopleDict = topOwners[index];
         self.singleUser = peopleDict;
-        [self.userHeadImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
+        [self.userHeadImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
         self.topLabel.hidden = NO;
         self.topLabel.text = [NSString stringWithFormat:@"TOP%d", index];
     } else {
         self.topLabel.hidden = YES;
     }
     NSArray* topShows = [data arrayValueForKeyPath:@"topShows"];
-    
     for (int i = 0; i < self.showImgViews.count; i++) {
         UIImageView* imgView = self.showImgViews[i];
         UIImageView* foregroundView = self.showForegroundImgViews[i];
@@ -80,7 +79,7 @@
             imgView.hidden = NO;
             foregroundView.hidden = NO;
             NSDictionary* showDict = topShows[i];
-            [imgView setImageFromURL:[QSShowUtil getCoverUrl:showDict]];
+            [imgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:showDict] type:QSImageNameTypeXS]];
             [foregroundView setImageFromURL:[QSShowUtil getCoverForegroundUrl:showDict]];
         } else {
             imgView.hidden = YES;
