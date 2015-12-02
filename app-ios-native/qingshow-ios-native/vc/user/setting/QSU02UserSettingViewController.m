@@ -167,9 +167,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 #pragma mark - Config View
 
 - (void)getCellArrayWithPeople
-{
-    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    
+{   
     self.rowModelArray = @[@[
                                @(U02SectionImageRowHead),
                                @(U02SectionImageRowBackground)
@@ -330,7 +328,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
         tran.type = kCATransitionFade;
         tran.duration = 0.5f;
         [self.navigationController.parentViewController.view.layer addAnimation:tran forKey:@"tran"];
-        [QSRootNotificationHelper postShowS01VcWithSegmentIndex:0];
+        [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
         
         [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
     }

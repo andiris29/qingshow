@@ -73,10 +73,12 @@
         [statusStr appendFormat:@"%@kg ", weight];
     }
     self.statusLabel.text = statusStr;
-    float bonus = 0;
+    NSNumber* bonusNumber = [QSPeopleUtil getTotalBonus:peopleDict];
+    if (bonusNumber) {
+        float bonus = bonusNumber.floatValue;
+        self.bonusLabel.text = [NSString stringWithFormat:@"收益:￥%.2f",bonus];
+    }
 
-#warning TODO HANDLE BONUS
-    self.bonusLabel.text = [NSString stringWithFormat:@"收益:￥%.2f",bonus];
     if([QSPeopleUtil getHeadIconUrl:peopleDict])
     {
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType200] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];

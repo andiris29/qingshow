@@ -25,8 +25,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowBonusListVcNoti:) name:kShowBonusListVcNotificatinName object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowS01VcWithSegmentIndex:) name:kShowS01VcWithSegmentIndexNotificationName object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowRootMenuNoti:) name:kRootShowMenuNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowRootContentTypeNoti:) name:kShowRootContentTypeNotificationName object:nil];
 }
@@ -79,11 +77,6 @@
 }
 
 
-- (void)didReceiveShowS01VcWithSegmentIndex:(NSNotification*)noti {
-    NSDictionary* userInfo = noti.userInfo;
-    NSNumber* index = [userInfo numberValueForKeyPath:@"index"];
-    [self showS01WithIndex:index.intValue];
-}
 
 - (void)didReceiveShowRootMenuNoti:(NSNotification*)noti {
     [self didClickMenuBtn];

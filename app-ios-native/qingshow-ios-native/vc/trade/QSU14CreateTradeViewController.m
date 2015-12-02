@@ -168,7 +168,6 @@
     NSMutableArray* array = [@[] mutableCopy];
     [array addObject:self.itemInfoTitleCell];
     
-    NSDictionary* trade = self.tradeDict;
     self.itemInfoCellArray = array;
     
     self.receiverInfoCellArray = @[self.receiverInfoTitleCell,

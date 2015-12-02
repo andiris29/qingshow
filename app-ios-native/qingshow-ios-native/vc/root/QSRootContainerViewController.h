@@ -19,5 +19,4 @@
 
 - (void)showNewBonusVcWithId:(NSString*)bonusId type:(QSU20NewBonusViewControllerState)type;
 - (void)hideNewBonusVc;
-- (void)showS01WithIndex:(int)index;
 @end

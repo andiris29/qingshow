@@ -41,9 +41,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowBonusListVcNotificatinName object:nil];
 }
 
-+ (void)postShowS01VcWithSegmentIndex:(NSInteger)index {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowS01VcWithSegmentIndexNotificationName object:nil userInfo:@{@"index" : @(index)}];
-}
 + (void)postShowRootMenuNoti {
     [[NSNotificationCenter defaultCenter] postNotificationName:kRootShowMenuNotificationName object:nil];
 }

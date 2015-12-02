@@ -21,9 +21,6 @@
 
 #define kShowBonusListVcNotificatinName @"kShowBonusListVcNotificatinName"
 
-
-#define kShowS01VcWithSegmentIndexNotificationName @"kShowS01VcWithSegmentIndexNotificationName"
-
 #define kRootShowMenuNotificationName @"kRootShowMenuNotificationName"
 #define kShowRootContentTypeNotificationName @"kShowRootContentTypeNotificationName"
 

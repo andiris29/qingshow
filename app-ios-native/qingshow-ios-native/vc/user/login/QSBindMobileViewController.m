@@ -84,7 +84,6 @@
 }
 
 - (IBAction)submitBtnPressed:(id)sender {
-#warning TODO Network
     [self.phoneTextField resignFirstResponder];
     [self.verifyCodeTextField resignFirstResponder];
     
