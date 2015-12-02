@@ -2,10 +2,13 @@ package com.focosee.qingshow.util;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.focosee.qingshow.widget.QSImageView;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -144,20 +147,30 @@ public class RectUtil {
         return new Gson().toJson(arrs);
     }
 
-    public static void locateView(Rect rect,View view){
-        view.setX(rect.left);
-        view.setY(rect.top);
+    public static void locateView(Rect rect,QSImageView view){
+        moveView(view, view.getX(), view.getY(), rect.left, rect.top);
         view.setScaleX(1.0f);
         view.setScaleY(1.0f);
 
-        float width = view.getWidth();
-        float height = view.getHeight();
+        float width = view.getImageView().getDrawable().getIntrinsicWidth();
+        float height = view.getImageView().getDrawable().getIntrinsicHeight();
         float maxWidth = rect.width();
         float maxHeight = rect.height();
-        float radio = maxWidth / width > maxHeight / height ? maxHeight / height : maxWidth / width;
+        float radio = (maxWidth / width) > (maxHeight / height) ? (maxHeight / height) : (maxWidth / width);
         view.setScaleX(radio);
         view.setScaleY(radio);
+    }
 
+    public static void moveView(View view, float startX, float startY, float nextX, float nextY) {
+        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", startX, nextX);
+        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", startY, nextY);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(x, y);
+        animatorSet.setDuration(0);
+        animatorSet.start();
+        if (view instanceof QSImageView){
+            ((QSImageView) view).setLastCentroid(new Point(view.getLeft() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicWidth() / 2, view.getTop() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicHeight() / 2));
+        }
     }
 
 }

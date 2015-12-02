@@ -93,7 +93,6 @@ public class S20MatcherActivity extends BaseActivity {
     private Map<String, Select> allSelect;
     private List<String> categoryRefs;
     private ArrayList<String> lastCategoryRefs;
-    private Map<String, MongoCategories.Context> contexts;
     private String modelCategory;
 
     private String mCategoryRef = "";
@@ -115,7 +114,6 @@ public class S20MatcherActivity extends BaseActivity {
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
-        contexts = new HashMap<>();
 
         if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
             menu.setVisibility(View.GONE);
@@ -160,8 +158,8 @@ public class S20MatcherActivity extends BaseActivity {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
-                if (contexts.containsKey(categoryRef)) {
-                    //formatPlace(itemView, categoryRef, true);
+                if (select.rect != null) {
+                    RectUtil.locateView(select.rect, itemView);
                 }
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);
@@ -216,36 +214,6 @@ public class S20MatcherActivity extends BaseActivity {
         itemView.bringToFront();
         select.setView(itemView).setPageNo(1);
         allSelect.put(categoryRef, select);
-        if (select.rect != null) {
-            Log.i("tag", select.rect.toString());
-//            RectUtil.locateView(select.rect, itemView);
-        }
-
-    }
-
-
-    private void formatPlace(final QSImageView view, final String categoryRef, boolean moveToFrame) {
-
-        int width = view.getImageView().getDrawable().getIntrinsicWidth();
-        int height = view.getImageView().getDrawable().getIntrinsicHeight();
-        float ratio = (float) width / height;
-
-        float maxWidth = contexts.get(categoryRef).maxWidth * canvas.getWidth() / 100f;
-        float maxHeight = contexts.get(categoryRef).maxHeight * canvas.getHeight() / 100f;
-
-        float maxRatio = maxWidth / maxHeight;
-
-        if (ratio < maxRatio) {
-            width = (int) (maxHeight * ratio);
-            height = (int) maxHeight;
-        } else {
-            height = (int) (maxWidth / ratio);
-            width = (int) maxWidth;
-        }
-        view.setLayoutParams(new FrameLayout.LayoutParams(width, height));
-        view.setX(contexts.get(categoryRef).x * canvas.getWidth() / 100);
-        view.setY(contexts.get(categoryRef).y * canvas.getHeight() / 100);
-        view.callOnClick();
     }
 
     private void initCanvas() {
@@ -291,7 +259,6 @@ public class S20MatcherActivity extends BaseActivity {
                     modelSelect.rect = rect;
                     allSelect.put(modelCategory, modelSelect);
                     addItemsToCanvas(modelCategory, datas.thumbnail);
-
                     for (ItemContext.Slave slave : datas.__context.slaves) {
                         getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
                     }
@@ -301,11 +268,6 @@ public class S20MatcherActivity extends BaseActivity {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
-                        if (allSelect.containsKey(mCategoryRef) && contexts.containsKey(mCategoryRef)) {
-                            //formatPlace(allSelect.get(mCategoryRef).view, mCategoryRef, false);
-                        } else {
-                            return;
-                        }
                     }
                 });
                 allSelect.put(mCategoryRef, allSelect.get(mCategoryRef).setLastChecked(view).setSelectPos(position).setItem(datas));
@@ -388,7 +350,24 @@ public class S20MatcherActivity extends BaseActivity {
                 if (!categoryRefs.contains(categoryRef)) {
                     categoryRefs.add(categoryRef);
                 }
-                addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
+
+                if (datas.get(0).categoryRef._id.equals(modelCategory)){
+                    Select modelSelect = allSelect.get(modelCategory);
+                    canvas.removeAllViews();
+                    allSelect.clear();
+                    final Point canvasPoint = new Point();
+                    canvasPoint.x = canvas.getWidth();
+                    canvasPoint.y = canvas.getHeight();
+                    Rect rect = datas.get(0).__context.master.rect.getRect(canvasPoint);
+                    modelSelect.rect = rect;
+                    allSelect.put(modelCategory, modelSelect);
+                    addItemsToCanvas(modelCategory, datas.get(0).thumbnail);
+                    for (ItemContext.Slave slave : datas.get(0).__context.slaves) {
+                        getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
+                    }
+                }else {
+                    addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
+                }
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -420,6 +399,7 @@ public class S20MatcherActivity extends BaseActivity {
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
+
 
     private void getCategoryFromNet() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryCategories(), null, new Response.Listener<JSONObject>() {
