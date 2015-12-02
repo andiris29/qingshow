@@ -52,20 +52,3 @@ bonus.own = {
         });
     }
 };
-
-bonus.summary = {
-    'method' : 'get',
-    'func' : [
-        require('../middleware/validateLogin'),
-        function(req, res, next) {
-            BonusHelper.aggregate(req.qsCurrentUserId, function(err, amountByStatus) {
-                if (err) {
-                    next(errors.genUnkownError(err));
-                } else {
-                    ResponseHelper.writeData(res, {'amountByStatus' : amountByStatus});
-                    next();
-                }
-            });
-        }
-    ]
-};
