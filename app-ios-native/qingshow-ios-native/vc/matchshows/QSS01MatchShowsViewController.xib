@@ -86,8 +86,8 @@
                         <action selector="calendarBtnPressed:" destination="-1" eventType="touchUpInside" id="JdN-A8-2o5"/>
                     </connections>
                 </button>
-                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ziS-66-LMI">
-                    <rect key="frame" x="0.0" y="-65" width="320" height="569"/>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ziS-66-LMI">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
             </subviews>
@@ -95,11 +95,13 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="kXg-aq-5lo" secondAttribute="trailing" id="1wO-Lt-5jd"/>
                 <constraint firstItem="c9p-g3-Tcx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="2Zq-go-q7M"/>
+                <constraint firstItem="ziS-66-LMI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="2wG-S7-mLQ"/>
                 <constraint firstItem="z6K-De-9g3" firstAttribute="top" secondItem="c9p-g3-Tcx" secondAttribute="bottom" id="4pZ-fr-HiA"/>
                 <constraint firstAttribute="bottom" secondItem="5au-Gq-WiW" secondAttribute="bottom" id="4sB-IU-Uk7"/>
                 <constraint firstAttribute="bottom" secondItem="xpY-Dp-DaC" secondAttribute="bottom" constant="8" id="5Bb-DT-nc9"/>
                 <constraint firstItem="xpY-Dp-DaC" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="5Kc-DN-og4"/>
                 <constraint firstItem="5au-Gq-WiW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BJP-aZ-f21"/>
+                <constraint firstItem="ziS-66-LMI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DtO-u1-p6z"/>
                 <constraint firstItem="kXg-aq-5lo" firstAttribute="top" secondItem="c9p-g3-Tcx" secondAttribute="bottom" id="EJF-Ph-era"/>
                 <constraint firstItem="5au-Gq-WiW" firstAttribute="top" secondItem="c9p-g3-Tcx" secondAttribute="bottom" id="IgL-QH-Q4L"/>
                 <constraint firstAttribute="trailing" secondItem="c9p-g3-Tcx" secondAttribute="trailing" id="JsB-aU-y0G"/>
@@ -108,11 +110,13 @@
                 <constraint firstAttribute="trailing" secondItem="z6K-De-9g3" secondAttribute="trailing" id="Q1U-ea-Bam"/>
                 <constraint firstItem="z6K-De-9g3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZF7-zg-HaG"/>
                 <constraint firstAttribute="bottom" secondItem="z6K-De-9g3" secondAttribute="bottom" id="cGk-sm-D13"/>
+                <constraint firstAttribute="bottom" secondItem="ziS-66-LMI" secondAttribute="bottom" id="dYP-b3-2KT"/>
                 <constraint firstAttribute="trailing" secondItem="5Zc-Cp-IlS" secondAttribute="trailing" constant="22" id="hAW-Af-SNH"/>
                 <constraint firstAttribute="trailing" secondItem="z6K-De-9g3" secondAttribute="trailing" id="j6Z-nU-yMz"/>
                 <constraint firstAttribute="bottom" secondItem="5Zc-Cp-IlS" secondAttribute="bottom" constant="18" id="mDk-4M-f6H"/>
                 <constraint firstItem="c9p-g3-Tcx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="poN-kA-XGe"/>
                 <constraint firstAttribute="bottom" secondItem="z6K-De-9g3" secondAttribute="bottom" id="wKw-oO-Y9F"/>
+                <constraint firstAttribute="trailing" secondItem="ziS-66-LMI" secondAttribute="trailing" id="wuO-Nw-LB8"/>
                 <constraint firstItem="kXg-aq-5lo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xya-wT-osb"/>
                 <constraint firstAttribute="trailing" secondItem="5au-Gq-WiW" secondAttribute="trailing" id="y6b-Nv-mbe"/>
             </constraints>
