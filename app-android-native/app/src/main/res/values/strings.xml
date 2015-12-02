@@ -282,4 +282,7 @@
     <string name="withdraw">可提现金额</string>
     <string name="total_bonus">佣金总额</string>
     <string name="u15_packet_hint">购物新时尚，天猫折上折，倾秀来搞定!</string>
+    <string name="u15_qa"><![CDATA[常见问题Q&A]]></string>
+    <string name="s11_follow">随心搭</string>
+    <string name="s11_hint">将你的随心搭分享到朋友圈可获得惊喜低价哦</string>
 </resources>

@@ -74,27 +74,14 @@ public class QSRxApi {
                 });
     }
 
-    public static Observable<JSONObject> queryCategories(){
-        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getQueryCategories(), null);
-    }
-
-    public static Observable<List<MongoItem>> queryMatherItems(int pageNo, int pageSize, String categoryRef){
-        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getQueryItems(pageNo, pageSize, categoryRef), null)
-                .map(new Func1<JSONObject, List<MongoItem>>() {
-                    @Override
-                    public List<MongoItem> call(JSONObject jsonObject) {
-                        return ItemFeedingParser.parse(jsonObject);
-                    }
-                });
-    }
-
     public static Observable<List<MongoTrade>> tradeOwn(int pageNo, int pageSize){
         return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getTradeOwn(pageNo, pageSize), null)
-                .map(new Func1<JSONObject, List<MongoTrade>>() {
-                    @Override
-                    public List<MongoTrade> call(JSONObject jsonObject) {
-                        return TradeParser.parseQuery(jsonObject);
-                    }
-                });
+            .map(new Func1<JSONObject, List<MongoTrade>>() {
+                @Override
+                public List<MongoTrade> call(JSONObject jsonObject) {
+                    return TradeParser.parseQuery(jsonObject);
+                }
+            });
     }
+
 }

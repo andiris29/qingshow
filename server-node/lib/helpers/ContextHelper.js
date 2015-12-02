@@ -9,6 +9,8 @@ var RPeopleFollowPeople = require('../dbmodels').RPeopleFollowPeople;
 var People = require('../dbmodels').People;
 var Item = require('../dbmodels').Item;
 
+var BonusHelper = require('./BonusHelper');
+
 /**
  * ContextHelper
  *
@@ -22,15 +24,6 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
     // __context.followedByCurrentUser
     var followedByCurrentUser = function(callback) {
         _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
-    };
-
-    // __context.numFollowPeoples
-    var numFollowPeoples = function(callback) {
-        _numAssociated(peoples, RPeopleFollowPeople, 'initiatorRef', 'numFollowPeoples', callback);
-    };
-    // __context.numFollowers
-    var numFollowers = function(callback) {
-        _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
     // __context.numCreateShows, __context.numLikeToCreateShows
     var numCreateShows = function(callback) {
@@ -66,7 +59,23 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
         });
     };
 
-    async.parallel([followedByCurrentUser, numFollowPeoples, numFollowers, numCreateShows], function(err) {
+    // __context.bonusSummary
+    var bonusSummary = function(callback) {
+        async.parallel(peoples.map(function(people) {
+            return function(callback) {
+                BonusHelper.aggregate(people._id, callback);
+            };
+        }), function(err, results) {
+            peoples.forEach(function(people, index) {
+                people.__context.amountByStatus = results[index];
+            });
+            callback();
+        });
+    };
+    
+    async.parallel([followedByCurrentUser, 
+        numCreateShows, 
+        bonusSummary], function(err) {
         callback(null, peoples);
     });
 };

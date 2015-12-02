@@ -45,6 +45,8 @@ public class QSImageView extends RelativeLayout {
     private String categoryId;
     private Point lastCentroid;
 
+    private boolean removeEnable = true;
+
 
     private float lastScaleFactor = 1.0f;
 
@@ -88,6 +90,9 @@ public class QSImageView extends RelativeLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!removeEnable){
+            return true;
+        }
         this.bringToFront();
         showDelBtn();
         int pointerCount = event.getPointerCount();
@@ -356,5 +361,13 @@ public class QSImageView extends RelativeLayout {
 
     public void setLastCentroid(Point lastCentroid) {
         this.lastCentroid = lastCentroid;
+    }
+
+    public boolean isRemoveEnable() {
+        return removeEnable;
+    }
+
+    public void setRemoveEnable(boolean removeEnable) {
+        this.removeEnable = removeEnable;
     }
 }
