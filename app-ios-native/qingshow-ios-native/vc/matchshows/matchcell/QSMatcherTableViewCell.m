@@ -35,6 +35,10 @@
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapUserImgView:)];
     self.userHeadImgView.userInteractionEnabled = YES;
     [self.userHeadImgView addGestureRecognizer:ges];
+    
+    self.bottomContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.bottomContainer.layer.shadowOffset = CGSizeMake(2, 2);
+    self.bottomContainer.layer.shadowOpacity = 0.5f;
 }
 
 - (void)layoutSubviews {

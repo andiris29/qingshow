@@ -10,7 +10,7 @@
 
 
 #define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
-#define QSMatcherTableViewCellHeight 330.f
+#define QSMatcherTableViewCellHeight 340.f
 
 @class QSMatcherTableViewCell;
 @protocol QSMatcherTableViewCellDelegate <NSObject>
@@ -29,6 +29,8 @@
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showImgViews;
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showForegroundImgViews;
 @property (weak, nonatomic) NSObject<QSMatcherTableViewCellDelegate>* delegate;
+
+@property (weak, nonatomic) IBOutlet UIView* bottomContainer;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 
