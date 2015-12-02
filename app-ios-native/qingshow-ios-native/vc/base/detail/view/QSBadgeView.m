@@ -76,7 +76,7 @@
     float bonus = 0;
 
 #warning TODO HANDLE BONUS
-    self.bonusLabel.text = [NSString stringWithFormat:@"佣金:￥%.2f",bonus];
+    self.bonusLabel.text = [NSString stringWithFormat:@"收益:￥%.2f",bonus];
     if([QSPeopleUtil getHeadIconUrl:peopleDict])
     {
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType200] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];

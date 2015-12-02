@@ -285,7 +285,7 @@
             self.bonusLabel.hidden = NO;
             float bonus = 0;
 #warning TODO HANDLE BONUS
-            self.bonusLabel.text = [NSString stringWithFormat:@" 佣金:￥%.2f",bonus];
+            self.bonusLabel.text = [NSString stringWithFormat:@" 收益:￥%.2f",bonus];
             CGSize size = [QSLayoutUtil sizeForString:self.bonusLabel.text withMaxWidth:INFINITY height:self.bonusLabel.bounds.size.height font:self.bonusLabel.font];
             CGRect rect = self.bonusLabel.frame;
             rect.size.width = size.width + 10.f;
