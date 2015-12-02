@@ -27,12 +27,12 @@ var matcher = module.exports;
  
 var _isFake = function(people){
     if(isNaN(people.userInfo.id)) {
-        return false
+        return false;
     } else {
         var n = parseInt(people.userInfo.id);
         return (n >= 400 && n < 500) || (n > 600 && n < 700);
     }
-}
+};
 
 var _shuffle = function (array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -45,7 +45,7 @@ var _shuffle = function (array) {
   }
 
   return array;
-}
+};
 
 matcher.queryCategories = {
     'method' : 'get',
@@ -112,14 +112,14 @@ matcher.queryItems = {
                 'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                     if (qsParam.categoryRef === global.qsMatcherConfig.common.master.categoryRef) {
                         ContextHelper.appendMatchCompositionContext(currentPageModels, function(err, items){
-                            callback(null, items)
-                        })   
+                            callback(null, items);
+                        });
                     }else {
                         callback(null, currentPageModels);
                     }
                 }
             });
-        })
+        });
     }
 };
 
@@ -171,7 +171,7 @@ matcher.save = {
             callback(null, show);
         }], function(err, show) {
             ResponseHelper.response(res, null, {});
-        })
+        });
     }
 };
 
@@ -305,7 +305,7 @@ matcher.remix = {
                         }
                         cb(err);
                     });
-                }
+                };
             });
             async.parallel(tasks, function(err){
                 callback(err, data);
@@ -314,4 +314,4 @@ matcher.remix = {
             ResponseHelper.response(res, err, data);
         });
     }
-}
+};
