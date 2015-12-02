@@ -87,33 +87,6 @@
     return m;
 }
 
-+ (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict
-{
-    NSNumber* f = [modelDict numberValueForKeyPath:@"__context.numFollowers"];
-    if (f) {
-        return f.kmbtStringValue;
-    } else {
-        return @"0";
-    }
-}
-
-+ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict
-{
-    if ([QSEntityUtil checkIsNil:peopleDict] && ![peopleDict isKindOfClass:[NSMutableDictionary class]]) {
-        return;
-    }
-    NSMutableDictionary* p = (NSMutableDictionary*)peopleDict;
-    NSMutableDictionary* context = [peopleDict[@"__context"] mutableCopy];
-    if (context) {
-        NSNumber* f = [context numberValueForKeyPath:@"numFollowers"];
-        long long n = f.longLongValue;
-        n += num;
-        n = n >= 0? n : 0;
-        context[@"numFollowers"] = @(n);
-        p[@"__context"] = context;
-    }
-    
-}
 
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict
 {

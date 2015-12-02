@@ -25,8 +25,6 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 + (NSString*)getHeight:(NSDictionary*)peopleDict;
 + (NSString*)getWeight:(NSDictionary*)peopleDict;
 
-+ (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
-+ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
 + (NSString*)getNumberCreateShows:(NSDictionary*)peopleDict;

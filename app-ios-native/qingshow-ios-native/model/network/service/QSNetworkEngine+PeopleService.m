@@ -198,7 +198,6 @@
     {
         return [self followPeople:modelId onSucceed:^{
             [QSPeopleUtil setPeople:model isFollowed:YES];
-            [QSPeopleUtil addNumFollower:1ll forPeople:model];
             if (succeedBlock) {
                 succeedBlock(YES);
             }
