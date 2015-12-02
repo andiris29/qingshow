@@ -67,7 +67,7 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
             };
         }), function(err, results) {
             peoples.forEach(function(people, index) {
-                people.__context.amountByStatus = results[index];
+                people.__context.bonusAmountByStatus = results[index];
             });
             callback();
         });
