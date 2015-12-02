@@ -126,28 +126,13 @@ feeding.like = {
     }
 };
 
-feeding.matchHot = {
+feeding.time = {
     'method' : 'get',
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, outCallback) {
             async.waterfall([
             function(callback) {
-                var criteria = _buildFeaturedCriteria(req, [ShowCode.FEATURED_RANK_HOT]);
-                MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'create' : -1
-                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
-            }], outCallback);
-        });
-    }
-};
-
-feeding.matchNew = {
-    'method' : 'get',
-    'func' : function(req, res) {
-        _feed(req, res, function(qsParam, outCallback) {
-            async.waterfall([
-            function(callback) {
-                var criteria = _buildFeaturedCriteria(req, [ShowCode.FEATURED_RANK_NORMAL, ShowCode.FEATURED_RANK_HOT]);
+                var criteria = _buildFeaturedCriteria(req);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
@@ -188,24 +173,8 @@ feeding.matchCreatedBy = {
     }
 };
 
-feeding.featured = {
-    'method' : 'get',
-    'func' : function(req, res) {
-        _feed(req, res, function (qsParam, outCallback){
-            async.waterfall([
-            function(callback) {
-                var criteria = _buildFeaturedCriteria(req, [ShowCode.FEATURED_RANK_TALENT]);
-                MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'create' : -1
-                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
-            }], outCallback);
-        });
-    }
-};
-
-var _buildFeaturedCriteria = function(req, featuredRanks) {
+var _buildFeaturedCriteria = function(req) {
     var criteria = [
-        {'featuredRank' : {'$in' : featuredRanks}}
     ];
     if (req.queryString.from) {
         criteria.push({'create' : {'$gte' : RequestHelper.parseDate(req.queryString.from)}});

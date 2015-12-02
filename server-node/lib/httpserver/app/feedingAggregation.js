@@ -15,10 +15,9 @@ var errors = require('../../errors');
 // ------------------
 // Privates
 // ------------------
-var _buildCriteria = function(date, gap, featuredRanks) {
+var _buildCriteria = function(date, gap) {
     return {
         '$and' : [
-            {'featuredRank' : {'$in' : featuredRanks}},
             {'create' : {'$gte' : new Date(date.getTime())}},
             {'create' : {'$lt' : new Date(date.getTime() + gap)}}
         ]
@@ -77,36 +76,34 @@ var ONE_DAY = 24 * 3600 * 1000;
 // ------------------
 var feedingAggregation = module.exports;
 
-feedingAggregation.matchNew = {
+feedingAggregation.latest = {
     'method' : 'get',
     'func' : [
         function(req, res, next) {
-            var date = RequestHelper.parseDate(req.queryString.date),
-                today = new Date();
-            var hour, 
-                maxHour = (date.getFullYear() === today.getFullYear() && 
-                    date.getMonth() === today.getMonth() && 
-                    date.getDate() === today.getDate()) ? (today.getHours() + 1) : 24,
+            var date = new Date(),
                 tasks = [];
-            for (hour = 0; hour < maxHour; hour++) {
+            date.setMinutes(0);
+            date.setSeconds(0);
+            date.setMilliseconds(0);
+            for (var offset = 0; offset < 24; offset++) {
                 // Top owners
-                tasks.push((function(hour) {
+                tasks.push((function(offset) {
                     return function(callback) {
                         var criteria = _buildCriteria(
-                            new Date(date.getTime() + ONE_HOUR * hour), ONE_HOUR, [ShowCode.FEATURED_RANK_NORMAL, ShowCode.FEATURED_RANK_HOT]);
+                            new Date(date.getTime() - ONE_HOUR * offset), ONE_HOUR);
                         _queryTopOwners(req, criteria, callback);
                     };
-                })(hour));
+                })(offset));
                 // Top shows
-                tasks.push((function(hour) {
+                tasks.push((function(offset) {
                     return function(callback) {
                         var criteria = _buildCriteria(
-                            new Date(date.getTime() + ONE_HOUR * hour), ONE_HOUR, [ShowCode.FEATURED_RANK_NORMAL, ShowCode.FEATURED_RANK_HOT]);
+                            new Date(date.getTime() - ONE_HOUR * offset), ONE_HOUR);
                         Show.find(criteria).limit(3).exec(function(err, shows) {
                             callback(err, {'topShows' : shows});
                         });
                     };
-                })(hour));
+                })(offset));
             }
             async.parallel(tasks, function(err, results) {
                 var data = {};
@@ -114,54 +111,17 @@ feedingAggregation.matchNew = {
                     next(errors.genUnkownError(err));
                 } else {
                     results.forEach(function(result, index) {
-                        var hour = parseInt(index / 2);
-                        data[hour] = data[hour] || {};
+                        var offset = parseInt(index / 2),
+                            x = date.getHours() - offset;
+                        data[x] = data[x] || {};
                         if (index % 2 === 0) {
-                            data[hour].topOwners = result.topOwners;
-                            data[hour].numOwners = result.numOwners;
-                            data[hour].indexOfCurrentUser = result.indexOfCurrentUser;
+                            data[x].topOwners = result.topOwners;
+                            data[x].numOwners = result.numOwners;
+                            data[x].indexOfCurrentUser = result.indexOfCurrentUser;
                         } else {
-                            data[hour].topShows = result.topShows;
+                            data[x].topShows = result.topShows;
                         }
                     });
-                    ResponseHelper.writeData(res, data);
-                    next();
-                }
-            });
-        }
-    ]
-};
-
-feedingAggregation.featuredTopOwners = {
-    'method' : 'get',
-    'func' : [
-        function(req, res, next) {
-            var criteria = _buildCriteria(
-                RequestHelper.parseDate(req.queryString.date), ONE_DAY, [ShowCode.FEATURED_RANK_TALENT]);
-                
-            _queryTopOwners(req, criteria, function(err, data) {
-                if (err) {
-                    next(errors.genUnkownError(err));
-                } else {
-                    ResponseHelper.writeData(res, data);
-                    next();
-                }
-            });
-        }
-    ]
-};
-
-feedingAggregation.matchHotTopOwners = {
-    'method' : 'get',
-    'func' : [
-        function(req, res, next) {
-            var criteria = _buildCriteria(
-                RequestHelper.parseDate(req.queryString.date), ONE_DAY, [ShowCode.FEATURED_RANK_HOT]);
-                
-            _queryTopOwners(req, criteria, function(err, data) {
-                if (err) {
-                    next(errors.genUnkownError(err));
-                } else {
                     ResponseHelper.writeData(res, data);
                     next();
                 }
