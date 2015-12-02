@@ -32,7 +32,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coverForegroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIView *coverLabelContainerView;
-@property (weak, nonatomic) IBOutlet UIButton *menuBtn;
 @property (weak, nonatomic) IBOutlet UILabel *releaseDateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *trashBtn;
 

@@ -367,10 +367,6 @@
 
 #pragma mark -
 
-- (IBAction)menuBtnPressed:(id)sender {
-    [QSRootNotificationHelper postShowRootMenuNoti];
-}
-
 - (IBAction)trashBtnPressed:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确定删除？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
     [alert show];
