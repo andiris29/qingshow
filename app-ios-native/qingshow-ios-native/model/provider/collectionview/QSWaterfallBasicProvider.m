@@ -86,7 +86,10 @@
 
     return [self fetchDataOfPage:page viewRefreshBlock:^{
         if (page == 1) {
-            [self.view reloadData];
+            [UIView performWithoutAnimation:^{
+                [self.view reloadData];
+            }];
+
         } else {
             NSMutableArray* indexPaths = [@[] mutableCopy];
             NSUInteger preCount = 0;
@@ -97,9 +100,12 @@
                 [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
             }
             if (indexPaths.count) {
-                [self.view performBatchUpdates:^{
-                    [self.view insertItemsAtIndexPaths:indexPaths];
-                } completion:nil];
+                [UIView performWithoutAnimation:^{
+                    [self.view performBatchUpdates:^{
+                        [self.view insertItemsAtIndexPaths:indexPaths];
+                    } completion:nil];
+                }];
+
             }
 
         }

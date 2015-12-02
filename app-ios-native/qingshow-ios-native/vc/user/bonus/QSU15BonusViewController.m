@@ -60,6 +60,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.containerView.frame = self.view.bounds;
+}
+
 #pragma mark - IBAction
 - (void)bonusListBtnPressed:(id)sender
 {
@@ -75,7 +80,7 @@
         return;
     }
     if (self.availableMoney < 1.f) {
-        [self showErrorHudWithText:@"佣金需要1元以上才能提取"];
+        [self showErrorHudWithText:@"收益需要1元以上才能提取"];
         return;
     }
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
@@ -136,6 +141,12 @@
     
     self.scrollView.scrollEnabled = YES;
     
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    self.bonusContentView.transform = CGAffineTransformMakeScale(screenSize.width / 320.f, screenSize.width / 320.f);
+    CGRect rect = self.bonusContentView.frame;
+    rect.origin = CGPointZero;
+    self.bonusContentView.frame = rect;
+    
     self.containerView.contentSize = self.bonusContentView.bounds.size;
     [self.containerView addSubview:self.bonusContentView];
     
@@ -145,10 +156,10 @@
 }
 
 - (void)_configNav {
-    self.title = @"佣金账户";
+    self.title = @"收益账户";
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     self.navigationItem.leftBarButtonItem = backItem;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"佣金明细" style:UIBarButtonItemStyleDone target:self action:@selector(bonusListBtnPressed:)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"收益明细" style:UIBarButtonItemStyleDone target:self action:@selector(bonusListBtnPressed:)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
