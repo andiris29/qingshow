@@ -14,7 +14,8 @@ var TraceHelper = require('../../helpers/TraceHelper'),
     RequestHelper = require('../../helpers/RequestHelper'),
     ResponseHelper = require('../../helpers/ResponseHelper'),
     SMSHelper = require('../../helpers/SMSHelper'),
-    NotificationHelper = require('../../helpers/NotificationHelper');
+    NotificationHelper = require('../../helpers/NotificationHelper'),
+    ContextHelper = require('../../helpers/ContextHelper');
 
 var VersionUtil = require('../../utils/VersionUtil');
 
@@ -209,10 +210,12 @@ var user = {};
 user.get = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
-        ResponseHelper.writeData(res, {
-            'people' : req.injection.qsCurrentUser
+        ContextHelper.appendPeopleContext(req.injection.qsCurrentUser._id, [req.injection.qsCurrentUser], function(err) {
+            ResponseHelper.writeData(res, {
+                'people' : req.injection.qsCurrentUser
+            });
+            next();
         });
-        next();
     }
 ];
 
