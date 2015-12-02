@@ -405,8 +405,7 @@
     __weak QSS03ShowDetailViewController *weakSelf = self;
     [SHARE_NW_ENGINE shareCreateShow:showId onSucceed:^(NSDictionary *shareDic) {
         if (shareDic) {
-            NSLog(@"sharedic = %@",shareDic);
-            [weakSelf.shareVc showSharePanelWithTitle:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] url:[QSShareUtil getshareUrl:shareDic]];
+            [weakSelf.shareVc showSharePanelWithTitle:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] url:[QSShareUtil getshareUrl:shareDic] shareIconUrl:[QSShareUtil getShareIcon:shareDic]];
         }
        
     } onError:^(NSError *error) {

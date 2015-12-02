@@ -10,7 +10,6 @@
 
 @interface QSShareUtil : NSObject
 
-+ (NSString *)getShareId:(NSDictionary *)shareDic;
 + (NSString *)getShareIcon:(NSDictionary *)shareDic;
 + (NSString *)getShareTitle:(NSDictionary *)shareDic;
 + (NSString *)getShareDesc:(NSDictionary *)shareDic;

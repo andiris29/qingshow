@@ -15,12 +15,14 @@
 #import "QSEntityUtil.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSShareService.h"
+#import "QSNetworkKit.h"
 
 @interface QSShareViewController ()
 
 @property (strong, nonatomic) NSString* shareUrl;
 @property (strong, nonatomic) NSString* shareTitle;
 @property (strong, nonatomic) NSString* shareDesc;
+@property (strong, nonatomic) NSString* shareIconUrl;
 @end
 
 @implementation QSShareViewController
@@ -46,11 +48,13 @@
 
 
 #pragma mark - Share
-- (void)showSharePanelWithTitle:(NSString*)title desc:(NSString*)desc url:(NSString*)urlStr
+- (void)showSharePanelWithTitle:(NSString*)title desc:(NSString*)desc url:(NSString*)urlStr shareIconUrl:(NSString*)shareIconUrl
 {
     self.shareTitle = title;
     self.shareDesc = desc;
     self.shareUrl = urlStr;
+    self.shareIconUrl = shareIconUrl;
+    
     if (!self.shareContainer.hidden && !self.sharePanel.hidden){
         return;
     }
@@ -93,15 +97,11 @@
     } else {
         sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
-    [SHARE_SHARE_SERVICE shareWithWechatMoment:self.shareTitle desc:self.shareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+    [SHARE_SHARE_SERVICE shareWithWechatMoment:self.shareTitle desc:self.shareDesc imagePath:self.shareIconUrl url:sharedUrl onSucceed:^{
         if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
             [self.delegate didShareWechatSuccess];
         }
-    } onError:^(NSError *error) {
-        
-    }];
-    
-    [self hideSharePanel];
+    } onError:nil];
 }
 
 //微信好友
@@ -115,16 +115,13 @@
         sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
     
-    [SHARE_SHARE_SERVICE shareWithWechatFriend:self.shareTitle desc:self.shareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+    [SHARE_SHARE_SERVICE shareWithWechatFriend:self.shareTitle desc:self.shareDesc imagePath:self.shareIconUrl url:sharedUrl onSucceed:^{
         if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
             [self.delegate didShareWechatSuccess];
         }
-    } onError:^(NSError *error) {
-        
-    }];
+    } onError:nil];
     [self hideSharePanel];
 }
-
 
 - (IBAction)shareCancelPressed:(id)sender {
     [self hideSharePanel];
