@@ -121,12 +121,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
-    return [cell getHeight:self.itemDict];
+    CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320;
+    cell.transform = CGAffineTransformMakeScale(rate, rate);
+    return [cell getHeight:self.itemDict] * rate;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     QSAbstractDiscountTableViewCell* cell = self.cellArray[indexPath.row];
     [cell bindWithData:self.itemDict];
+    CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320;
+    cell.transform = CGAffineTransformMakeScale(rate, rate);
     return cell;
 }
 
