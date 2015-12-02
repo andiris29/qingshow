@@ -312,7 +312,6 @@
 
 - (void)clickModel:(NSDictionary*)model {
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:model];
-    vc.menuProvider = self.menuProvider;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -346,7 +345,6 @@
 - (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider
 {
 //    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
-//    vc.menuProvider = self.menuProvider;
 //    vc.navigationController.navigationBar.hidden = NO;
 //    [self.navigationController pushViewController:vc animated:YES];
     

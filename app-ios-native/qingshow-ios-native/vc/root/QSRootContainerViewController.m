@@ -140,25 +140,21 @@
     switch (type) {
         case QSRootMenuItemMy: {
             QSU01UserDetailViewController* u01Vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
-            u01Vc.menuProvider = self;
             vc = u01Vc;
             break;
         }
         case QSRootMenuItemMeida: {
             QSS01MatchShowsViewController * matcherShowVc = [[QSS01MatchShowsViewController alloc] init];
-            matcherShowVc.menuProvider = self;
             vc = matcherShowVc;
             break;
         }
         case QSRootMenuItemMatcher: {
             QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
-            matcherVc.menuProvider = self;
             vc = matcherVc;
             break;
         }
         case QSRootMenuItemDiscount: {
             QSU09TradeListViewController* tradeListVc = [[QSU09TradeListViewController alloc] init];
-            tradeListVc.menuProvider = self;
             vc = tradeListVc;
             break;
         }

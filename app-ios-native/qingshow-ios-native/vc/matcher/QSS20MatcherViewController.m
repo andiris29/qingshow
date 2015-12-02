@@ -43,7 +43,6 @@
 @end
 
 @implementation QSS20MatcherViewController
-@synthesize menuProvider = _menuProvider;
 #pragma mark - Init
 - (instancetype)init {
     self = [super initWithNibName:@"QSS20MatcherViewController" bundle:nil];

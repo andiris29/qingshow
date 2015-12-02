@@ -20,8 +20,6 @@
 
 @implementation QSRootContentViewController
 
-@synthesize menuProvider = _menuProvider;
-
 #pragma mark - Getter And Setter
 - (UIBarButtonItem*)menuBtn {
     if (!_menuBtn) {

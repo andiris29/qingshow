@@ -166,7 +166,6 @@
     }
 }
 
-#pragma mark - QSMenuProviderDelegate
 - (void)didClickMenuBtn
 {
     [self menuButtonPressed];

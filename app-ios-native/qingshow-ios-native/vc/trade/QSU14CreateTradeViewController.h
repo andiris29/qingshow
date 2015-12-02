@@ -15,8 +15,6 @@
 #import "QSCreateTradePayInfoSelectCell.h"
 #import "QSLocationPickerProvider.h"
 
-@protocol QSMenuProviderDelegate;
-
 @interface QSU14CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate, UIAlertViewDelegate>
 
 #pragma mark - Item Info Cells
@@ -38,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *locationPicker;
 
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
-@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 #pragma mark - Init
 - (id)initWithDict:(NSDictionary*)tradeDict;

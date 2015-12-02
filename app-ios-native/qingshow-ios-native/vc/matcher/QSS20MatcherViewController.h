@@ -14,7 +14,6 @@
 #import "QSS23MatcherPreviewViewController.h"
 #import "QSRootContentViewController.h"
 
-@protocol QSMenuProviderDelegate;
 
 @interface QSS20MatcherViewController : UIViewController <QSMatcherCanvasViewDelegate, QSMatcherItemsProviderDelegate, QSS21CategorySelectorVCDelegate, QSS23MatcherPreviewViewControllerDelegate, QSIRootContentViewController>
 

@@ -139,7 +139,6 @@
                        didClickPeople:(NSDictionary*)peopleDict
 {
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
-    vc.menuProvider = self.menuProvider;
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
     
@@ -308,7 +307,6 @@
 }
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickPeople:(NSDictionary*)peopleDict {
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
-    vc.menuProvider = self.menuProvider;
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
 }
