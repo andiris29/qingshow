@@ -96,10 +96,12 @@
             for (NSUInteger i = preCount; i < self.resultArray.count; i++){
                 [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
             }
-            
-            [self.view performBatchUpdates:^{
-                [self.view insertItemsAtIndexPaths:indexPaths];
-            } completion:nil];
+            if (indexPaths.count) {
+                [self.view performBatchUpdates:^{
+                    [self.view insertItemsAtIndexPaths:indexPaths];
+                } completion:nil];
+            }
+
         }
     } completion:block];
 }

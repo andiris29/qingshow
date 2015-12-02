@@ -11,48 +11,41 @@
 #import "NSDictionary+QSExtension.h"
 #import "QSDateUtil.h"
 
-#define PATH_FEEDING_AGGREGATION_FEATURED_TOP_OWNERS @"feedingAggregation/featuredTopOwners"
-#define PATH_FEEDING_AGGREGATION_MATCH_HOT_TOP_OWNERS @"feedingAggregation/matchHotTopOwners"
-#define PATH_FEEDING_AGGREGATION_MATCH_NEW @"feedingAggregation/matchNew"
+#define PATH_FEEDING_AGGREGATION_LATEST @"feedingAggregation/latest"
 
 
 @implementation QSNetworkEngine(FeedingAggregation)
 
-- (MKNetworkOperation*)aggregationFeaturedTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_FEATURED_TOP_OWNERS method:@"GET" paramers:@{@"date": [date description]} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        [self _handleTopOwner:completedOperation succeedBlock:succeedBlock];
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
 
-- (MKNetworkOperation*)aggregationMatchHotTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_MATCH_HOT_TOP_OWNERS method:@"GET" paramers:@{@"date": [date description]} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        [self _handleTopOwner:completedOperation succeedBlock:succeedBlock];
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
-
-- (MKNetworkOperation*)aggregationMatchNew:(NSDate*)date onSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_MATCH_NEW method:@"GET" paramers:@{@"date" : [date description]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+- (MKNetworkOperation*)feedingAggregationOnSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_FEEDING_AGGREGATION_LATEST
+                                 method:@"GET"
+                               paramers:@{}
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* resJson = completedOperation.responseJSON;
             NSDictionary* data = [resJson dictValueForKeyPath:@"data"];
             NSMutableArray* retArray = [@[] mutableCopy];
-            
-            for (NSInteger i = 24; i >= 0; --i) {
-                NSString* hourStr = @(i).stringValue;
+            NSDate* now = [NSDate date];
+            NSInteger hour = [QSDateUtil getHourNumber:now];
+            NSDate* day = [QSDateUtil clearTimeFromDate:now];
+
+            for (NSInteger i = 0; i < 24; i++) {
+                NSString* hourStr = @(hour - i).stringValue;
                 NSDictionary* dict = [data dictValueForKeyPath:hourStr];
                 NSArray* topOwners = [dict arrayValueForKeyPath:@"topOwners"];
                 if (topOwners && topOwners.count) {
+                    NSDate* targetDay = day;
+                    NSInteger targetHour = hour - i;
+                    if (targetHour < 0) {
+                        targetDay = [day dateByAddingTimeInterval:- 24 * 60 * 60];
+                        targetHour += 24;
+                    }
+                    
                     [retArray addObject:@{
-                                          @"hour" : @(i),
-                                          @"date" : date,
+                                          @"hour" : @(targetHour),
+                                          @"date" : targetDay,
                                           @"data" : dict
                                           }];
                 }
@@ -64,20 +57,6 @@
             errorBlock(error);
         }
     }];
-}
-
-#pragma mark - Private
-- (void)_handleTopOwner:(MKNetworkOperation*)op
-           succeedBlock:(TopOwnerBlock)block {
-    if (block) {
-        NSDictionary* resJson = op.responseJSON;
-        NSDictionary* data = [resJson dictValueForKeyPath:@"data"];
-        NSArray* owners = [data arrayValueForKeyPath:@"topOwners"];
-        NSNumber* numOwn = [data numberValueForKeyPath:@"numOwners"];
-        NSNumber* index = [data numberValueForKeyPath:@"indexOfCurrentUser"];
-        
-        block(owners, numOwn.intValue, index.intValue);
-    }
 }
 
 @end

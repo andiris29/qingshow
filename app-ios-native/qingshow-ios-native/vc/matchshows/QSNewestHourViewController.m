@@ -7,27 +7,28 @@
 //
 
 #import "QSNewestHourViewController.h"
-#import "QSNewestHourTitleView.h"
 #import "QSShowCollectionViewProvider.h"
 #import "QSNetworkKit.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "UIViewController+QSExtension.h"
+#import "QSDateUtil.h"
 
 @interface QSNewestHourViewController () <QSShowProviderDelegate>
 
-@property (strong, nonatomic) NSDate* date;
-@property (strong, nonatomic) QSNewestHourTitleView* titleView;
+@property (strong, nonatomic) NSDate* fromDate;
+@property (strong, nonatomic) NSDate* toDate;
 @property (strong,nonatomic) QSShowCollectionViewProvider *provider;
 @end
 
 @implementation QSNewestHourViewController
 
 #pragma mark - Init
-- (instancetype)initWithDate:(NSDate*)date {
+- (instancetype)initWithFromDate:(NSDate*)fromDate toDate:(NSDate*)toDate {
     self = [super initWithNibName:@"QSNewestHourViewController" bundle:nil];
     if (self) {
-        self.date = date;
+        self.fromDate = fromDate;
+        self.toDate = toDate;
     }
     return self;
 }
@@ -53,9 +54,7 @@
 
 #pragma mark - Private
 - (void)_configNav {
-    self.titleView = [QSNewestHourTitleView generateView];
-    [self.titleView bindWithDate:self.date];
-    self.navigationItem.titleView = self.titleView;
+    self.title = [QSDateUtil buildStringFromDate:self.fromDate];
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     self.navigationItem.leftBarButtonItem = backItem;
 }
@@ -64,8 +63,11 @@
     [self.provider bindWithCollectionView:self.collectionView];
     QSNewestHourViewController* weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        NSDate* date = [weakSelf.date dateByAddingTimeInterval:60 * 60];
-        return [SHARE_NW_ENGINE getfeedingMatchNewFromDate:weakSelf.date toDate:date page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE getfeedingMatchTimeFromDate:weakSelf.fromDate
+                                                     toDate:weakSelf.toDate
+                                                       page:page
+                                                  onSucceed:succeedBlock
+                                                    onError:errorBlock];
     };
     self.provider.delegate = self;
     [self.provider reloadData];

@@ -10,19 +10,9 @@
 #import <UIKit/UIKit.h>
 @interface QSS01MatchShowsViewController : QSRootContentViewController
 
-
-@property (weak, nonatomic) IBOutlet UICollectionView* darenCollectionView;
-@property (weak, nonatomic) IBOutlet UICollectionView* hotCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView* newestTableView;
 
 @property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
-
-@property (weak, nonatomic) IBOutlet UIView *segmentContainerView;
-
 @property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
 
-@property (nonatomic, strong) UISegmentedControl *segmentControl;
-
-@property (strong, nonatomic) NSNumber* defaultSegment;
-- (void)segmentChanged;
 @end

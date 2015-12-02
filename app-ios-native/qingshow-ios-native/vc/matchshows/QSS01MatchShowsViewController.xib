@@ -10,10 +10,7 @@
                 <outlet property="backToTopbtn" destination="5Zc-Cp-IlS" id="Hmb-hp-I6J"/>
                 <outlet property="calendarBtn" destination="xpY-Dp-DaC" id="iIB-BT-uac"/>
                 <outlet property="calendarContainerView" destination="ziS-66-LMI" id="uuf-9k-9sX"/>
-                <outlet property="darenCollectionView" destination="z6K-De-9g3" id="y72-XG-APF"/>
-                <outlet property="hotCollectionView" destination="5au-Gq-WiW" id="LAI-Nf-Qad"/>
                 <outlet property="newestTableView" destination="kXg-aq-5lo" id="TuZ-tm-fG1"/>
-                <outlet property="segmentContainerView" destination="c9p-g3-Tcx" id="i3Y-nD-IWe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,24 +20,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kXg-aq-5lo">
-                    <rect key="frame" x="0.0" y="40" width="320" height="464"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="5au-Gq-WiW">
-                    <rect key="frame" x="0.0" y="40" width="320" height="464"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <collectionViewLayout key="collectionViewLayout" id="enp-Nw-KUN"/>
-                </collectionView>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="z6K-De-9g3">
-                    <rect key="frame" x="0.0" y="40" width="320" height="464"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="I3e-Mx-36V">
-                        <size key="itemSize" width="50" height="50"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Zc-Cp-IlS">
                     <rect key="frame" x="257" y="445" width="41" height="41"/>
                     <constraints>
@@ -54,25 +36,6 @@
                         <action selector="backToTopBtnPressed:" destination="-1" eventType="touchUpInside" id="ZuM-vf-fLJ"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-g3-Tcx">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vdj-Wo-6YR">
-                            <rect key="frame" x="0.0" y="39" width="320" height="1"/>
-                            <color key="backgroundColor" red="0.58431372549019611" green="0.58431372549019611" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="ZdB-O1-gB3"/>
-                            </constraints>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Vdj-Wo-6YR" secondAttribute="bottom" id="E0m-R8-78q"/>
-                        <constraint firstAttribute="height" constant="40" id="fQ6-aB-Ke8"/>
-                        <constraint firstItem="Vdj-Wo-6YR" firstAttribute="leading" secondItem="c9p-g3-Tcx" secondAttribute="leading" id="vgR-rg-Fj4"/>
-                        <constraint firstAttribute="trailing" secondItem="Vdj-Wo-6YR" secondAttribute="trailing" id="yNP-jC-QGp"/>
-                    </constraints>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpY-Dp-DaC">
                     <rect key="frame" x="117" y="409" width="87" height="87"/>
                     <constraints>
@@ -94,31 +57,17 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="kXg-aq-5lo" secondAttribute="trailing" id="1wO-Lt-5jd"/>
-                <constraint firstItem="c9p-g3-Tcx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="2Zq-go-q7M"/>
                 <constraint firstItem="ziS-66-LMI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="2wG-S7-mLQ"/>
-                <constraint firstItem="z6K-De-9g3" firstAttribute="top" secondItem="c9p-g3-Tcx" secondAttribute="bottom" id="4pZ-fr-HiA"/>
-                <constraint firstAttribute="bottom" secondItem="5au-Gq-WiW" secondAttribute="bottom" id="4sB-IU-Uk7"/>
                 <constraint firstAttribute="bottom" secondItem="xpY-Dp-DaC" secondAttribute="bottom" constant="8" id="5Bb-DT-nc9"/>
                 <constraint firstItem="xpY-Dp-DaC" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="5Kc-DN-og4"/>
-                <constraint firstItem="5au-Gq-WiW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BJP-aZ-f21"/>
                 <constraint firstItem="ziS-66-LMI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DtO-u1-p6z"/>
-                <constraint firstItem="kXg-aq-5lo" firstAttribute="top" secondItem="c9p-g3-Tcx" secondAttribute="bottom" id="EJF-Ph-era"/>
-                <constraint firstItem="5au-Gq-WiW" firstAttribute="top" secondItem="c9p-g3-Tcx" secondAttribute="bottom" id="IgL-QH-Q4L"/>
-                <constraint firstAttribute="trailing" secondItem="c9p-g3-Tcx" secondAttribute="trailing" id="JsB-aU-y0G"/>
-                <constraint firstItem="z6K-De-9g3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Lo9-oh-twR"/>
                 <constraint firstAttribute="bottom" secondItem="kXg-aq-5lo" secondAttribute="bottom" id="Nvp-v8-vd2"/>
-                <constraint firstAttribute="trailing" secondItem="z6K-De-9g3" secondAttribute="trailing" id="Q1U-ea-Bam"/>
-                <constraint firstItem="z6K-De-9g3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZF7-zg-HaG"/>
-                <constraint firstAttribute="bottom" secondItem="z6K-De-9g3" secondAttribute="bottom" id="cGk-sm-D13"/>
                 <constraint firstAttribute="bottom" secondItem="ziS-66-LMI" secondAttribute="bottom" id="dYP-b3-2KT"/>
                 <constraint firstAttribute="trailing" secondItem="5Zc-Cp-IlS" secondAttribute="trailing" constant="22" id="hAW-Af-SNH"/>
-                <constraint firstAttribute="trailing" secondItem="z6K-De-9g3" secondAttribute="trailing" id="j6Z-nU-yMz"/>
                 <constraint firstAttribute="bottom" secondItem="5Zc-Cp-IlS" secondAttribute="bottom" constant="18" id="mDk-4M-f6H"/>
-                <constraint firstItem="c9p-g3-Tcx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="poN-kA-XGe"/>
-                <constraint firstAttribute="bottom" secondItem="z6K-De-9g3" secondAttribute="bottom" id="wKw-oO-Y9F"/>
                 <constraint firstAttribute="trailing" secondItem="ziS-66-LMI" secondAttribute="trailing" id="wuO-Nw-LB8"/>
                 <constraint firstItem="kXg-aq-5lo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xya-wT-osb"/>
-                <constraint firstAttribute="trailing" secondItem="5au-Gq-WiW" secondAttribute="trailing" id="y6b-Nv-mbe"/>
+                <constraint firstItem="kXg-aq-5lo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="zhg-6B-8Fb"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="244" y="269"/>

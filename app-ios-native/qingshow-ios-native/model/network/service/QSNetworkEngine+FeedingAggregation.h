@@ -10,7 +10,7 @@
 
 @interface QSNetworkEngine(FeedingAggregation)
 
-- (MKNetworkOperation*)aggregationFeaturedTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)aggregationMatchHotTopOwners:(NSDate*)date onSucceed:(TopOwnerBlock)succeedBlock onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)aggregationMatchNew:(NSDate*)date onSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)feedingAggregationOnSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock;
+
 @end
