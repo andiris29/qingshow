@@ -60,6 +60,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.containerView.frame = self.view.bounds;
+}
+
 #pragma mark - IBAction
 - (void)bonusListBtnPressed:(id)sender
 {
@@ -75,7 +80,7 @@
         return;
     }
     if (self.availableMoney < 1.f) {
-        [self showErrorHudWithText:@"佣金需要1元以上才能提取"];
+        [self showErrorHudWithText:@"收益需要1元以上才能提取"];
         return;
     }
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
@@ -83,7 +88,7 @@
     
     if ([QSPeopleUtil hasBindWechat:peopleDic]) {
         [SHARE_NW_ENGINE shareCreateBonus:peopleId onSucceed:^(NSDictionary *shareDic) {
-            [[QSShareService shareService]shareWithWechatMoment:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] image:[QSShareUtil getShareIcon:shareDic] url:[QSShareUtil getshareUrl:shareDic] onSucceed:^{
+            [[QSShareService shareService]shareWithWechatMoment:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] imagePath:[QSShareUtil getShareIcon:shareDic] url:[QSShareUtil getshareUrl:shareDic] onSucceed:^{
                 [self showSuccessHudWithText:@"提取成功"];
             } onError:nil];
         } onError:^(NSError *error) {
@@ -136,6 +141,12 @@
     
     self.scrollView.scrollEnabled = YES;
     
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    self.bonusContentView.transform = CGAffineTransformMakeScale(screenSize.width / 320.f, screenSize.width / 320.f);
+    CGRect rect = self.bonusContentView.frame;
+    rect.origin = CGPointZero;
+    self.bonusContentView.frame = rect;
+    
     self.containerView.contentSize = self.bonusContentView.bounds.size;
     [self.containerView addSubview:self.bonusContentView];
     
@@ -145,38 +156,26 @@
 }
 
 - (void)_configNav {
-    self.title = @"佣金账户";
+    self.title = @"收益账户";
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     self.navigationItem.leftBarButtonItem = backItem;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"佣金明细" style:UIBarButtonItemStyleDone target:self action:@selector(bonusListBtnPressed:)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"收益明细" style:UIBarButtonItemStyleDone target:self action:@selector(bonusListBtnPressed:)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)_reloadData {
-    [SHARE_NW_ENGINE queryBonusSummaryOnSucceed:^(NSDictionary * dict) {
-        /*
-         0 未提现
-         1 提现中
-         2 已提现
-         */
-        NSNumber* n0 = [dict numberValueForKeyPath:@"0"];
-        NSNumber* n1 = [dict numberValueForKeyPath:@"1"];
-        NSNumber* n2 = [dict numberValueForKeyPath:@"2"];
-        
-        self.availableMoney = n0.floatValue;
-        self.totalMoney = n0.floatValue + n1.floatValue + n2.floatValue;
-        
-        self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.availableMoney];
-        self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.totalMoney];
-        if (self.availableMoney  ==  0) {
-            self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
-            self.withdrawBtn.userInteractionEnabled = NO;
-            self.navigationItem.rightBarButtonItem.action = nil;
-        }
-        
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
+    NSDictionary* userDict = [QSUserManager shareUserManager].userInfo;
+    
+    self.availableMoney = [QSPeopleUtil getAvailableBonus:userDict].floatValue;
+    self.totalMoney = [QSPeopleUtil getTotalBonus:userDict].floatValue;
+    
+    self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.availableMoney];
+    self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.totalMoney];
+    if (self.availableMoney  ==  0) {
+        self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
+        self.withdrawBtn.userInteractionEnabled = NO;
+        self.navigationItem.rightBarButtonItem.action = nil;
+    }
 }
 
 @end

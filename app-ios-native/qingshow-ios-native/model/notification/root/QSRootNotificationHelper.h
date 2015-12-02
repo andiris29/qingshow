@@ -22,7 +22,6 @@
 
 + (void)postShowBonusListVcNotificationName;
 
-+ (void)postShowS01VcWithSegmentIndex:(NSInteger)index;
 + (void)postShowLoginPrompNoti;
 + (void)postHideLoginPrompNoti;
 

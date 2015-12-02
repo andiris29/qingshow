@@ -167,9 +167,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 #pragma mark - Config View
 
 - (void)getCellArrayWithPeople
-{
-    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    
+{   
     self.rowModelArray = @[@[
                                @(U02SectionImageRowHead),
                                @(U02SectionImageRowBackground)
@@ -247,6 +245,10 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.navigationItem.title = @"设置";
     [self hideNaviBackBtnTitle];
+    UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
+    tapGes.numberOfTapsRequired = 5;
+    [self.navigationController.navigationBar addGestureRecognizer:tapGes];
+    
 }
 
 #pragma mark - TableView
@@ -326,7 +328,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
         tran.type = kCATransitionFade;
         tran.duration = 0.5f;
         [self.navigationController.parentViewController.view.layer addAnimation:tran forKey:@"tran"];
-        [QSRootNotificationHelper postShowS01VcWithSegmentIndex:0];
+        [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
         
         [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
     }
@@ -589,4 +591,11 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 //    [self hideKeyboardAndPicker];
 //}
 
+- (void)didTapRootTitle
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString* v = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+    [self showTextHud:[NSString stringWithFormat:@"version: %@ - %@", version, v]];
+}
 @end

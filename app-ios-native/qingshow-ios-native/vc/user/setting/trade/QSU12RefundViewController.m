@@ -184,13 +184,6 @@
         return;
     }
     
-    NSDictionary* dict = @{
-                           @"returnLogistic" : @{
-                                   @"company" : self.companyTextField.text,
-                                   @"trackingId" : self.expressOrderTextField.text
-                                   },
-                           @"comment" : self.resonTextField.text
-                           };
     [self hideKeyboardAndPicker];
     [SHARE_NW_ENGINE tradeReturn:self.orderDict company:self.companyTextField.text trackingId:self.expressOrderTextField.text comment:self.resonTextField.text onSucceed:^(NSDictionary* dict){
         [self showTextHud:@"申请成功"];

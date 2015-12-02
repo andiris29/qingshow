@@ -17,6 +17,4 @@
 - (MKNetworkOperation*)queryOwnedBonusOnSucceed:(ArraySuccessBlock)succeedBlock
                                         onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)queryBonusSummaryOnSucceed:(DicBlock)succeedBlock
-                                          onError:(ErrorBlock)errorBlock;
 @end

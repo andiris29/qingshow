@@ -25,9 +25,7 @@
 #define PATH_FEEDING_BY_BRAND_DISCOUNT @"feeding/byBrandDiscount"
 #define PATH_FEEDING_BY_TOPIC @"feeding/byTopic"
 #define PATH_FEEDING_MATCH_CREATE_BY @"feeding/matchCreatedBy"
-#define PATH_FEEDING_MATCH_HOT @"feeding/matchHot"
-#define PATH_FEEDING_MATCH_NEW @"feeding/matchNew"
-#define PATH_FEEDING_MATCH_FEATURED @"feeding/featured"
+#define PATH_FEEDING_MATCH_TIME @"feeding/time"
 
 
 @interface QSNetworkEngine (Private)
@@ -173,11 +171,11 @@
                                     onError:(ErrorBlock)errorBlock {
     return [self getFeedingPath:PATH_FEEDING_MATCH_CREATE_BY otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
-- (MKNetworkOperation *)getfeedingMatchHotFromDate:(NSDate*)fromDate
-                                            toDate:(NSDate*)toDate
-                                              page:(int)page
-                                         onSucceed:(ArraySuccessBlock)succeedBlock
-                                           onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)getfeedingMatchTimeFromDate:(NSDate*)fromDate
+                                             toDate:(NSDate*)toDate
+                                               page:(int)page
+                                          onSucceed:(ArraySuccessBlock)succeedBlock
+                                            onError:(ErrorBlock)errorBlock
 {
     NSMutableDictionary* params = [@{} mutableCopy];
     if (fromDate) {
@@ -187,48 +185,7 @@
         params[@"to"] = [toDate description];
     }
     
-    return [self getFeedingPath:PATH_FEEDING_MATCH_HOT
-                     otherParam:params
-                           page:page
-                      onSucceed:succeedBlock
-                        onError:errorBlock];
-}
-
-- (MKNetworkOperation *)getfeedingMatchNewFromDate:(NSDate*)fromDate
-                                            toDate:(NSDate*)toDate
-                                              page:(int)page
-                                         onSucceed:(ArraySuccessBlock)succeedBlock
-                                           onError:(ErrorBlock)errorBlock
-{
-    NSMutableDictionary* params = [@{} mutableCopy];
-    if (fromDate) {
-        params[@"from"] = [fromDate description];
-    }
-    if (toDate) {
-        params[@"to"] = [toDate description];
-    }
-    
-    return [self getFeedingPath:PATH_FEEDING_MATCH_NEW
-                     otherParam:params
-                           page:page
-                      onSucceed:succeedBlock
-                        onError:errorBlock];
-}
-- (MKNetworkOperation *)getfeedingMatchFeaturedFromDate:(NSDate*)fromDate
-                                                 toDate:(NSDate*)toDate
-                                                   page:(int)page
-                                              onSucceed:(ArraySuccessBlock)succeedBlock
-                                                onError:(ErrorBlock)errorBlock
-{
-    NSMutableDictionary* params = [@{} mutableCopy];
-    if (fromDate) {
-        params[@"from"] = [fromDate description];
-    }
-    if (toDate) {
-        params[@"to"] = [toDate description];
-    }
-    
-    return [self getFeedingPath:PATH_FEEDING_MATCH_FEATURED
+    return [self getFeedingPath:PATH_FEEDING_MATCH_TIME
                      otherParam:params
                            page:page
                       onSucceed:succeedBlock

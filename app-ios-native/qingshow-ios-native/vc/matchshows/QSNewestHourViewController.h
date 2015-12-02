@@ -11,6 +11,6 @@
 @interface QSNewestHourViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-- (instancetype)initWithDate:(NSDate*)date;
+- (instancetype)initWithFromDate:(NSDate*)fromDate toDate:(NSDate*)toDate;
 
 @end

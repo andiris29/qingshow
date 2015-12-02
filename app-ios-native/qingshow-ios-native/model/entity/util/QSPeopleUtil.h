@@ -62,4 +62,8 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 #pragma mark - code
 + (BOOL)checkMobileExist:(NSDictionary *)dict;
 + (BOOL)isTalent:(NSDictionary*)dict;
+
+#pragma mark - Bonus
++ (NSNumber*)getTotalBonus:(NSDictionary*)dict;
++ (NSNumber*)getAvailableBonus:(NSDictionary*)dict;
 @end

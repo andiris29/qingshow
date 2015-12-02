@@ -119,7 +119,6 @@
     }
     
     self.textFieldArray = @[self.nameTextField, self.phoneTextField,self.detailLocationTextField];
-    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
     self.cellArray = @[self.nameCell, self.locationCell, self.detailLocationCell, self.phoneCell];
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 5)];
     headerView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];

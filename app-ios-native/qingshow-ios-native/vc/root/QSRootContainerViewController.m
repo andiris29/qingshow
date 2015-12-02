@@ -297,22 +297,6 @@
     }
 }
 
-- (void)showS01WithIndex:(int)index {
-    [self triggerToShowVc:QSRootMenuItemMeida];
-    if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
-        QSS01MatchShowsViewController* s01Vc = (QSS01MatchShowsViewController*)self.contentVc;
-        if (s01Vc.segmentControl) {
-            s01Vc.segmentControl.selectedSegmentIndex = index;
-            [s01Vc segmentChanged];
-        } else {
-            s01Vc.defaultSegment = @(index);
-        }
-        
-    }
-
-}
-
-
 #pragma mark - QSG02WelcomeViewControllerDelegate
 - (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc
 {

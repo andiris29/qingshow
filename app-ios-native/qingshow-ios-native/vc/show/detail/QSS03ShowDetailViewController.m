@@ -167,6 +167,12 @@
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)dict
 {
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:dict];
+    NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:peopleDict];
+    [SHARE_NW_ENGINE queryPeopleDetail:peopleId onSucceed:^(NSDictionary *detailPeopleDict) {
+        [self updatePeopleInfo:detailPeopleDict];
+    } onError:nil];
+    
     [self bindExceptImageWithDict:dict];
     
     NSArray* array = [self generateImagesData];
@@ -179,8 +185,37 @@
         self.coverContainer.hidden = NO;
         [self updateCover];
     }
-
 }
+
+- (void)updatePeopleInfo:(NSDictionary*)peopleDict {
+    if (!peopleDict) {
+        self.headIconImageView.hidden = NO;
+        self.modelNameLabel.hidden = NO;
+    } else {
+        if (self.showDeletedBtn) {
+            //当前用户
+            self.headIconImageView.hidden = YES;
+            self.modelNameLabel.hidden = YES;
+            self.bonusLabel.hidden = YES;
+            self.releaseDateLabel.hidden = NO;
+        } else {
+            self.headIconImageView.hidden = NO;
+            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
+            self.modelNameLabel.hidden = NO;
+            self.bonusLabel.hidden = NO;
+            NSNumber* bonusNumber = [QSPeopleUtil getTotalBonus:peopleDict];
+            if (bonusNumber) {
+                self.bonusLabel.text = [NSString stringWithFormat:@" 收益:￥%.2f",bonusNumber.floatValue];
+            }
+            CGSize size = [QSLayoutUtil sizeForString:self.bonusLabel.text withMaxWidth:INFINITY height:self.bonusLabel.bounds.size.height font:self.bonusLabel.font];
+            CGRect rect = self.bonusLabel.frame;
+            rect.size.width = size.width + 10.f;
+            self.bonusLabel.frame = rect;
+            self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+        }
+    }
+}
+
 - (void)updateCover {
     [self.coverImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict]];
     [self.coverForegroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:self.showDict] beforeCompleteBlock:^(UIImage *image) {
@@ -263,36 +298,17 @@
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
-    if (!peopleDict) {
-        self.headIconImageView.hidden = NO;
-        self.modelNameLabel.hidden = NO;
-    } else {
-        if (self.showDeletedBtn) {
-            //当前用户
-            self.headIconImageView.hidden = YES;
-            self.modelNameLabel.hidden = YES;
-            self.bonusLabel.hidden = YES;
-            self.releaseDateLabel.hidden = NO;
-            self.trashBtn.hidden = NO;
-            self.playBtn.hidden = YES;
-            self.pauseBtn.hidden = YES;
-            NSDate* createDate = [QSShowUtil getCreatedDate:dict];
-            self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
-        } else {
-            self.headIconImageView.hidden = NO;
-            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
-            self.modelNameLabel.hidden = NO;
-            self.bonusLabel.hidden = NO;
-            float bonus = 0;
-#warning TODO HANDLE BONUS
-            self.bonusLabel.text = [NSString stringWithFormat:@" 收益:￥%.2f",bonus];
-            CGSize size = [QSLayoutUtil sizeForString:self.bonusLabel.text withMaxWidth:INFINITY height:self.bonusLabel.bounds.size.height font:self.bonusLabel.font];
-            CGRect rect = self.bonusLabel.frame;
-            rect.size.width = size.width + 10.f;
-            self.bonusLabel.frame = rect;
-            self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
-        }
+    [self updatePeopleInfo:peopleDict];
+    if (peopleDict && self.showDeletedBtn) {
+        //当前用户
+        self.releaseDateLabel.hidden = NO;
+        self.trashBtn.hidden = NO;
+        self.playBtn.hidden = YES;
+        self.pauseBtn.hidden = YES;
+        NSDate* createDate = [QSShowUtil getCreatedDate:dict];
+        self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
     }
+
     
     [self _updateLabel];
 }

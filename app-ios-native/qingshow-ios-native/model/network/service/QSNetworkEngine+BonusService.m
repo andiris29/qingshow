@@ -13,7 +13,6 @@
 
 #define PATH_BONUS_QUERY @"bonus/query"
 #define PATH_BONUS_OWN @"bonus/own"
-#define PATH_BONUS_SUMMARY @"bonus/summary"
 
 @implementation QSNetworkEngine(BonusService)
 
@@ -56,25 +55,6 @@
                                     NSDictionary* retJson = completedOperation.responseJSON;
                                     NSArray* bonus = [retJson arrayValueForKeyPath:@"data.bonuses"];
                                     succeedBlock([bonus deepMutableCopy], nil);
-                                }
-                            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-                                    if (errorBlock) {
-                                        errorBlock(error);
-                                    }
-                                }];
-}
-
-- (MKNetworkOperation*)queryBonusSummaryOnSucceed:(DicBlock)succeedBlock
-                                          onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_BONUS_SUMMARY
-                                 method:@"GET"
-                               paramers:@{}
-                            onSucceeded:^(MKNetworkOperation *completedOperation) {
-                                if (succeedBlock) {
-                                    NSDictionary* retJson = completedOperation.responseJSON;
-                                    NSDictionary* summary = [retJson dictValueForKeyPath:@"data.amountByStatus"];
-                                    succeedBlock([summary deepMutableCopy]);
                                 }
                             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error) {

@@ -79,11 +79,7 @@
             }
             [hud hide:YES];
             
-            if ([QSPeopleUtil isTalent:[QSUserManager shareUserManager].userInfo]) {
-                [QSRootNotificationHelper postShowS01VcWithSegmentIndex:0];
-            } else {
-                [QSRootNotificationHelper postShowS01VcWithSegmentIndex:2];
-            }
+            [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
         } onError:^(NSError *error) {
             [hud hide:YES];
             self.updateCoverOp = nil;
