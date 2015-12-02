@@ -22,7 +22,7 @@
     <dimen name="left_menu_item_margin_text">5dp</dimen>
     <dimen name="left_menu_padding_top_and_bottom">30dp</dimen>
     <dimen name="left_menu_text_size">14dp</dimen>
-    
+
     <!-- personal -->
     <dimen name="indicator_height_activity_personal">40dp</dimen>
     <dimen name="indicator_height_activity_itembar">40dp</dimen>
