@@ -29,6 +29,6 @@
 
 
 @property (strong,nonatomic)NSString *peopleId;
-- (instancetype)initwithBonuesArray:(NSArray *)array;
+- (instancetype)init;
 
 @end

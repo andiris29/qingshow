@@ -19,10 +19,10 @@
 #import "QSShareUtil.h"
 #import "UIViewController+QSExtension.h"
 #import "QSThirdPartLoginService.h"
+#import "NSDictionary+QSExtension.h"
 
 @interface QSU15BonusViewController ()
 
-@property (strong, nonatomic) NSArray* bonusArray;
 @property (assign, nonatomic) float availableMoney;
 @property (assign, nonatomic) float totalMoney;
 @end
@@ -30,9 +30,8 @@
 @implementation QSU15BonusViewController
 
 #pragma mark - Init
-- (instancetype)initwithBonuesArray:(NSArray *)array {
+- (instancetype)init {
     if (self == [super initWithNibName:@"QSU15BonusViewController" bundle:nil]) {
-        self.bonusArray = array;
     }
     return self;
 }
@@ -40,11 +39,13 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    [self _updateAvailableBonus:self.bonusArray];
+    
     [self _configNav];
-    [self _configUI];
+    
+    [self _reloadData];
+    
 
+    [self _configUI];
     
 }
 
@@ -63,7 +64,7 @@
 - (void)bonusListBtnPressed:(id)sender
 {
     QSU16BonusListViewController *vc = [[QSU16BonusListViewController alloc]init];
-    vc.listArray = _bonusArray;
+
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
@@ -151,26 +152,31 @@
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
-- (void)_updateAvailableBonus:(NSArray*)bonusArray {
-    self.availableMoney = 0;
-    self.totalMoney = 0;
-    if (bonusArray.count) {
-        for (NSDictionary *dic in bonusArray) {
-            self.totalMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
-            if ([QSPeopleUtil getStatusFromBonusDict:dic].integerValue == 0) {
-                self.availableMoney += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
-            }
+- (void)_reloadData {
+    [SHARE_NW_ENGINE queryBonusSummaryOnSucceed:^(NSDictionary * dict) {
+        /*
+         0 未提现
+         1 提现中
+         2 已提现
+         */
+        NSNumber* n0 = [dict numberValueForKeyPath:@"0"];
+        NSNumber* n1 = [dict numberValueForKeyPath:@"1"];
+        NSNumber* n2 = [dict numberValueForKeyPath:@"2"];
+        
+        self.availableMoney = n0.floatValue;
+        self.totalMoney = n0.floatValue + n1.floatValue + n2.floatValue;
+        
+        self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.availableMoney];
+        self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.totalMoney];
+        if (self.availableMoney  ==  0) {
+            self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
+            self.withdrawBtn.userInteractionEnabled = NO;
+            self.navigationItem.rightBarButtonItem.action = nil;
         }
-    }
-    
-    self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.availableMoney];
-    self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.totalMoney];
-    if (self.availableMoney  ==  0) {
-        self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
-        self.withdrawBtn.userInteractionEnabled = NO;
-        self.navigationItem.rightBarButtonItem.action = nil;
-    }
+        
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
 }
-
 
 @end

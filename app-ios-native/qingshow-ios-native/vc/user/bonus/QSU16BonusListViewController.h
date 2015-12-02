@@ -10,6 +10,6 @@
 
 @interface QSU16BonusListViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
-@property (strong,nonatomic)NSArray *listArray;
+
 
 @end

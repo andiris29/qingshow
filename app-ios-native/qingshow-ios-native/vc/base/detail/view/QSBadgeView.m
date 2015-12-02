@@ -74,9 +74,8 @@
     }
     self.statusLabel.text = statusStr;
     float bonus = 0;
-    for (NSDictionary *dic in [QSPeopleUtil getBonusList:peopleDict]) {
-        bonus += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
-    }
+
+#warning TODO HANDLE BONUS
     self.bonusLabel.text = [NSString stringWithFormat:@"佣金:￥%.2f",bonus];
     if([QSPeopleUtil getHeadIconUrl:peopleDict])
     {

@@ -14,5 +14,8 @@
 + (NSString*)getTradeRef:(NSDictionary*)dict;
 + (NSNumber*)getMoney:(NSDictionary*)dict;
 + (NSArray*)getParticipantsIds:(NSDictionary*)dict;
-
++ (NSNumber*)getStatus:(NSDictionary *)dict;
++ (NSString*)getNote:(NSDictionary *)dict;
++ (NSString*)getCreate:(NSDictionary *)dict;
++ (NSString*)getIcon:(NSDictionary*)dict;
 @end

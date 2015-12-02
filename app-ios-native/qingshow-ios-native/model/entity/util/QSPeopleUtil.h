@@ -58,19 +58,6 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 #pragma mark - Unread
 + (NSArray*)getUnreadNotifications:(NSDictionary*)peopleDict;
 
-#pragma mark - Bonus
-+ (NSArray*)getBonusList:(NSDictionary*)dict;
-+ (NSDictionary*)getLatestBonus:(NSDictionary*)dict;
-
-+ (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict;
-+ (NSNumber*)getStatusFromBonusDict:(NSDictionary *)dict;
-+ (NSString*)getNoteFromBonusDict:(NSDictionary *)dict;
-+ (NSString*)getCreateFromBonusDict:(NSDictionary *)dict;
-+ (NSString*)getAlipayId:(NSDictionary *)dict;
-+ (NSString*)getIconFromBonusDict:(NSDictionary*)dict;
-+ (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict;
-
-
 #pragma mark - logintype
 + (BOOL)hasBindWechat:(NSDictionary*)dict;
 + (NSString *)getNameAndPswLoginId:(NSDictionary *)dict;

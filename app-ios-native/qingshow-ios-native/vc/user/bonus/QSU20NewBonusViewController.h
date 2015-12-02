@@ -15,9 +15,6 @@ typedef NS_ENUM(NSUInteger, QSU20NewBonusViewControllerState) {
 
 @interface QSU20NewBonusViewController : UIViewController
 
-@property (strong, nonatomic) NSNumber* bonusIndex;
-
-
-- (instancetype)initWithBonusIndex:(NSNumber*)bonusIndex state:(QSU20NewBonusViewControllerState)state;
+- (instancetype)initWithBonus:(NSDictionary*)bonusDict state:(QSU20NewBonusViewControllerState)state;
 
 @end

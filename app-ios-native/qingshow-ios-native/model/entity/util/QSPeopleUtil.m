@@ -327,43 +327,11 @@
 + (NSArray*)getUnreadNotifications:(NSDictionary*)peopleDict {
     return [peopleDict arrayValueForKeyPath:@"unreadNotifications"];
 }
-#pragma mark - bonus
-+ (NSArray*)getBonusList:(NSDictionary*)dict
-{
-    return [dict arrayValueForKeyPath:@"bonuses"];
-}
-+ (NSDictionary*)getLatestBonus:(NSDictionary*)dict {
-    return [[self getBonusList:dict] lastObject];
-}
 
-#warning TODO MOVE TO QSBONUS UTIL
-+ (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getNumberValue:dict keyPath:@"money"];
-}
-+ (NSNumber*)getStatusFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getNumberValue:dict keyPath:@"status"];
-}
-+ (NSString*)getNoteFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"notes"];
-}
-+ (NSString*)getCreateFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"create"];
-}
+
 + (NSString*)getAlipayId:(NSDictionary *)dict
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"alipayId"];
-}
-+ (NSString*)getIconFromBonusDict:(NSDictionary*)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"icon"];
-}
-+ (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"trigger.itemRef"];
 }
 
 + (BOOL)hasBindWechat:(NSDictionary*)dict {

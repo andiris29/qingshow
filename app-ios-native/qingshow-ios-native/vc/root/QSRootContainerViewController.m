@@ -276,12 +276,20 @@
 }
 
 - (void)didReceiveShowNewBonusVcNoti:(NSNotification*)noti {
-    if (self.u20NewBonusVc) {
+    NSString* bonusId = [noti.userInfo stringValueForKeyPath:@"_id"];
+    if (!bonusId) {
         return;
     }
-    
-    self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonusIndex:[noti.userInfo numberValueForKeyPath:@"index"] state:QSU20NewBonusViewControllerStateParticipant];
-    [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
+    [SHARE_NW_ENGINE queryBonusWithIds:@[bonusId]
+                             onSucceed:^(NSArray *array, NSDictionary *metadata) {
+                                 if (!array.count || self.u20NewBonusVc) {
+                                     return;
+                                 }
+                                 NSDictionary* bonusDict = [array firstObject];
+                                 self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:QSU20NewBonusViewControllerStateParticipant];
+                                 [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
+                             }
+                               onError:nil];
 }
 
 - (void)didReceiveHideNewBonusVcNoti:(NSNotification*)noti {
@@ -290,12 +298,20 @@
 }
 
 - (void)didReceiveShowNewParticipantBonusVcNoti:(NSNotification*)noti {
-    if (self.u20NewBonusVc) {
+    NSString* bonusId = [noti.userInfo stringValueForKeyPath:@"_id"];
+    if (!bonusId) {
         return;
     }
-    
-    self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonusIndex:[noti.userInfo numberValueForKeyPath:@"index"] state:QSU20NewBonusViewControllerStateAbout];
-    [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
+    [SHARE_NW_ENGINE queryBonusWithIds:@[bonusId]
+                             onSucceed:^(NSArray *array, NSDictionary *metadata) {
+                                 if (!array.count || self.u20NewBonusVc) {
+                                     return;
+                                 }
+                                 NSDictionary* bonusDict = [array firstObject];
+                                 self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:QSU20NewBonusViewControllerStateAbout];
+                                 [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
+                             }
+                               onError:nil];
 }
 
 - (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {

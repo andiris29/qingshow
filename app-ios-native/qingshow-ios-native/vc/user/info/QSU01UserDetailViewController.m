@@ -307,8 +307,7 @@
 - (void)showBonuesVC
 {
     NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
-    NSArray *bonusArray = [QSPeopleUtil getBonusList:dic];
-    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc]initwithBonuesArray:bonusArray];
+    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc] init];
     vc.peopleId = [QSPeopleUtil getPeopleId:dic];
     [self.navigationController pushViewController:vc animated:YES];
 }

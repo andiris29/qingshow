@@ -291,9 +291,7 @@
             self.modelNameLabel.hidden = NO;
             self.bonusLabel.hidden = NO;
             float bonus = 0;
-            for (NSDictionary *dic in [QSPeopleUtil getBonusList:peopleDict]) {
-                bonus += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
-            }
+#warning TODO HANDLE BONUS
             self.bonusLabel.text = [NSString stringWithFormat:@" 佣金:￥%.2f",bonus];
             CGSize size = [QSLayoutUtil sizeForString:self.bonusLabel.text withMaxWidth:INFINITY height:self.bonusLabel.bounds.size.height font:self.bonusLabel.font];
             CGRect rect = self.bonusLabel.frame;

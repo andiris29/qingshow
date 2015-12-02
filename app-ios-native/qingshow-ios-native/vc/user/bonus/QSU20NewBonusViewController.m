@@ -21,7 +21,7 @@
 #define HEAD_ROW_NUMBER 2
 
 @interface QSU20NewBonusViewController ()
-
+@property (strong, nonatomic) NSDictionary* bonusDict;
 #pragma mark - IBOutlet
 @property (weak, nonatomic) IBOutlet UIImageView *itemImageView;
 
@@ -48,10 +48,10 @@
 @implementation QSU20NewBonusViewController
 
 #pragma mark - Init
-- (instancetype)initWithBonusIndex:(NSNumber*)bonusIndex state:(QSU20NewBonusViewControllerState)state {
+- (instancetype)initWithBonus:(NSDictionary*)bonusDict state:(QSU20NewBonusViewControllerState)state {
     self = [super initWithNibName:@"QSU20NewBonusViewController" bundle:nil];
     if (self) {
-        self.bonusIndex = bonusIndex;
+        self.bonusDict = bonusDict;
         _state = state;
         self.fShouldTapToShowParticipant = state == QSU20NewBonusViewControllerStateParticipant;
     }
@@ -127,13 +127,7 @@
         [weakSelf performSelector:@selector(_popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
     };
     [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *peopleDict, NSDictionary *metadata) {
-        NSDictionary* bonusDict = nil;
-        NSArray* bonusList = [QSPeopleUtil getBonusList:peopleDict];
-        if (self.bonusIndex && self.bonusIndex.intValue < bonusList.count) {
-            bonusDict = bonusList[self.bonusIndex.intValue];
-        } else {
-            bonusDict = [QSPeopleUtil getLatestBonus:peopleDict];
-        }
+        NSDictionary* bonusDict = self.bonusDict;        
 
         NSString* itemId = [QSBonusUtil getItemRef:bonusDict];
         NSArray* participantsArray = [QSBonusUtil getParticipantsIds:bonusDict];

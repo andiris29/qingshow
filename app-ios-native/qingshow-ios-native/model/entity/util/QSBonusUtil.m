@@ -23,4 +23,20 @@
     return [dict arrayValueForKeyPath:@"participants"];
 }
 
++ (NSNumber*)getStatus:(NSDictionary *)dict {
+    return [QSEntityUtil getNumberValue:dict keyPath:@"status"];
+}
++ (NSString*)getNote:(NSDictionary *)dict {
+    return [QSEntityUtil getStringValue:dict keyPath:@"notes"];
+}
++ (NSString*)getCreate:(NSDictionary *)dict {
+    return [QSEntityUtil getStringValue:dict keyPath:@"create"];
+}
+
++ (NSString*)getIcon:(NSDictionary*)dict {
+    return [QSEntityUtil getStringValue:dict keyPath:@"icon"];
+}
+
+
+
 @end
