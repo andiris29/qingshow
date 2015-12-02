@@ -10,17 +10,7 @@
 #import "QSRootMenuView.h"
 #import "QSG02WelcomeViewController.h"
 
-@protocol QSMenuProviderDelegate <NSObject>
-
-- (void)didClickMenuBtn;
-- (UIViewController*)showRegisterVc;
-- (UIViewController*)showDefaultVc;
-- (UIViewController*)showGuestVc;
-- (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type;
-
-@end
-
-@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSMenuProviderDelegate>
+@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate>
 
 @property (strong, nonatomic) UIView* contentContainerView;
 @property (strong, nonatomic) UIView* menuContainerView;
@@ -31,5 +21,13 @@
 @property (assign, nonatomic) BOOL hasFetchUserLogin;
 @property (strong, nonatomic) QSRootMenuView* menuView;
 - (void)handleCurrentUser;
+
+
+
+- (void)didClickMenuBtn;
+- (UIViewController*)showRegisterVc;
+- (UIViewController*)showDefaultVc;
+- (UIViewController*)showGuestVc;
+- (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type;
 
 @end

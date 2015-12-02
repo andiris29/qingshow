@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "QSRootNotificationName.h"
+#import "QSRootMenuItemType.h"
 
 @interface QSRootNotificationHelper : NSObject
 
@@ -24,4 +25,7 @@
 + (void)postShowS01VcWithSegmentIndex:(NSInteger)index;
 + (void)postShowLoginPrompNoti;
 + (void)postHideLoginPrompNoti;
+
++ (void)postShowRootMenuNoti;
++ (void)postShowRootContentTypeNoti:(QSRootMenuItemType)type;
 @end

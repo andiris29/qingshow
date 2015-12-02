@@ -44,5 +44,11 @@
 + (void)postShowS01VcWithSegmentIndex:(NSInteger)index {
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowS01VcWithSegmentIndexNotificationName object:nil userInfo:@{@"index" : @(index)}];
 }
++ (void)postShowRootMenuNoti {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kRootShowMenuNotificationName object:nil];
+}
 
++ (void)postShowRootContentTypeNoti:(QSRootMenuItemType)type {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowRootContentTypeNotificationName object:nil userInfo:@{@"type" : @(type)}];
+}
 @end

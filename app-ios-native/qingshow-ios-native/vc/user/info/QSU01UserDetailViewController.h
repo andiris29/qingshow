@@ -10,7 +10,6 @@
 #import "QSDetailBaseViewController.h"
 #import "QSPeopleListTableViewProvider.h"
 #import "QSRootContentViewController.h"
-@protocol QSMenuProviderDelegate;
 
 @interface QSU01UserDetailViewController : QSDetailBaseViewController <QSPeoplelListTableViewProviderDelegate,
 QSIRootContentViewController>

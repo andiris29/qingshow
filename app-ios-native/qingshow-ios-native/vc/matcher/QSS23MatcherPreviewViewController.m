@@ -19,8 +19,6 @@
 @property (strong, nonatomic) NSArray* itemArray;
 @property (strong, nonatomic) NSArray* itemRects;
 @property (strong, nonatomic) UIImage* coverImage;
-@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
-
 
 @property (strong, nonatomic) MKNetworkOperation* createMatcherOp;
 @property (strong, nonatomic) MKNetworkOperation* updateCoverOp;
@@ -30,13 +28,12 @@
 @implementation QSS23MatcherPreviewViewController
 
 #pragma mark - Init
-- (instancetype)initWithItems:(NSArray*)items rects:(NSArray*)itemRects coverImages:(UIImage*)coverImage menuProvider:(NSObject<QSMenuProviderDelegate>*)menuProvider {
+- (instancetype)initWithItems:(NSArray*)items rects:(NSArray*)itemRects coverImages:(UIImage*)coverImage{
     self = [super initWithNibName:@"QSS23MatcherPreviewViewController" bundle:nil];
     if (self) {
         self.itemArray = items;
         self.itemRects = itemRects;
         self.coverImage = coverImage;
-        self.menuProvider = menuProvider;
     }
     return self;
 }

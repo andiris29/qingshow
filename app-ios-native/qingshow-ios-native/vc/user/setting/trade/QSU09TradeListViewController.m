@@ -68,7 +68,7 @@
 
     NSDictionary* u = [QSUserManager shareUserManager].userInfo;
     if (!u || [QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest) {
-        [self.menuProvider triggerToShowVc:QSRootMenuItemMeida];
+        [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
     }
 }
 

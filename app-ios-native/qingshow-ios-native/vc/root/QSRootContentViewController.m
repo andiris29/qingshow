@@ -11,6 +11,7 @@
 #import "QSUserManager.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUnreadManager.h"
+#import "QSRootNotificationHelper.h"
 
 @interface QSRootContentViewController ()
 @property (strong, nonatomic) UIBarButtonItem* menuBtn;
@@ -85,9 +86,7 @@
 
 - (void)menuButtonPressed
 {
-    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
-        [self.menuProvider didClickMenuBtn];
-    }
+    [QSRootNotificationHelper postShowRootMenuNoti];
 }
 - (void)didTapRootTitle
 {

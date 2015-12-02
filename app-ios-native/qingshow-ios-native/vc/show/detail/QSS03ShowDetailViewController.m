@@ -45,11 +45,6 @@
 @end
 
 @implementation QSS03ShowDetailViewController
-- (void)setMenuProvider:(NSObject<QSMenuProviderDelegate> *)menuProvider {
-    _menuProvider = menuProvider;
-    self.menuBtn.hidden = _menuProvider == nil;
-    self.backBtn.hidden = _menuProvider != nil;
-}
 #pragma mark - Init Method
 - (instancetype)initWithShowId:(NSString*)showId {
     self = [self initWithNibName:@"QSS03ShowDetailViewController" bundle:nil];
@@ -73,8 +68,6 @@
 
     [super viewDidLoad];
     self.itemLabelArray = [@[] mutableCopy];
-    
-    self.menuProvider = self.menuProvider;
     self.shareVc = [[QSShareViewController alloc] init];
     self.shareVc.delegate = self;
     [self.view addSubview:self.shareVc.view];
@@ -375,7 +368,7 @@
 #pragma mark -
 
 - (IBAction)menuBtnPressed:(id)sender {
-    [self.menuProvider didClickMenuBtn];
+    [QSRootNotificationHelper postShowRootMenuNoti];
 }
 
 - (IBAction)trashBtnPressed:(id)sender {
@@ -497,7 +490,6 @@
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     if (peopleDict) {
         QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
-        vc.menuProvider = self.menuProvider;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

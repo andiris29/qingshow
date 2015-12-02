@@ -10,6 +10,7 @@
 #import "QSU02UserSettingViewController.h"
 #import "QSRootContainerViewController.h"
 
+
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
@@ -52,7 +53,6 @@
 
 @implementation QSU01UserDetailViewController
 
-@synthesize menuProvider = _menuProvider;
 #pragma mark - Init
 - (id)initWithCurrentUser
 {
@@ -271,9 +271,7 @@
 }
 
 - (IBAction)menuBtnPressed:(id)sender {
-    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
-        [self.menuProvider didClickMenuBtn];
-    }
+    [QSRootNotificationHelper postShowRootMenuNoti];
 }
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];

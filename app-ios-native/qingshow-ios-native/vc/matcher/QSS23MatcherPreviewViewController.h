@@ -21,7 +21,7 @@
 
 @property (weak, nonatomic) NSObject<QSS23MatcherPreviewViewControllerDelegate>* delegate;
 
-- (instancetype)initWithItems:(NSArray*)items rects:(NSArray*)itemRects coverImages:(UIImage*)coverImage menuProvider:(NSObject<QSMenuProviderDelegate>*)menuProvider;
+- (instancetype)initWithItems:(NSArray*)items rects:(NSArray*)itemRects coverImages:(UIImage*)coverImage;
 
 - (IBAction)backBtnPressed:(id)sender;
 - (IBAction)submitBtnPressed:(id)sender;

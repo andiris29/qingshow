@@ -53,7 +53,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
 
-@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 @property (assign, nonatomic) BOOL showDeletedBtn;
 @property (assign,nonatomic)BOOL showBackBtn;
 @end
