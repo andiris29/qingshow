@@ -95,10 +95,5 @@ static char versionUpdateHandlerKey;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showLoginPrompVc {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowLoginPrompVcNotificationName object:nil];
-}
-- (void)hideLoginPrompVc {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kHideLoginPrompVcNotificationName object:nil];
-}
+
 @end

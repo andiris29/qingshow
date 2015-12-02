@@ -8,14 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#define kShowLoginPrompVcNotificationName @"kShowLoginPrompVcNotificationName"
-#define kHideLoginPrompVcNotificationName @"kHideLoginPrompVcNotificationName"
+
 @interface UIViewController(Network)
 
 - (void)handleError:(NSError*)error;
 - (void)showShowDetailViewController:(NSDictionary*)showDict;
-- (void)showLoginPrompVc;
-- (void)hideLoginPrompVc;
 - (void)hideNaviBackBtnTitle;
 - (void)disableAutoAdjustScrollViewInset;
 

@@ -21,9 +21,8 @@
 #import "QSRootContentViewController.h"
 #import "QSPnsHandler.h"
 #import "QSPeopleUtil.h"
-#import "QSNotificationHelper.h"
+#import "QSRootNotificationHelper.h"
 
-#import "QSS12NewTradeExpectableViewController.h"
 #import "QSU20NewBonusViewController.h"
 #import "QSBlock.h"
 #import "QSUnreadManager.h"
@@ -31,17 +30,17 @@
 #import "QSNetworkKit.h"
 #import "QSPaymentService.h"
 #import "QSU14CreateTradeViewController.h"
+#import "QSRootContainerViewController+RootNotification.h"
 
 #define kWelcomePageVersionKey @"kWelcomePageVersionKey"
 
-@interface QSRootContainerViewController () <QSG02WelcomeViewControllerDelegate, QSS12NewTradeNotifyViewControllerDelegate>
+@interface QSRootContainerViewController () <QSG02WelcomeViewControllerDelegate>
 
 
 @property (strong, nonatomic) QSPnsHandler* pnsHandler;
 @property (strong, nonatomic) UINavigationController* loginGuideNavVc;
 
 @property (strong, nonatomic) QSU20NewBonusViewController* u20NewBonusVc;
-@property (strong, nonatomic) QSS12NewTradeExpectableViewController* s12NotiVc;
 
 @property (strong, nonatomic) QSG02WelcomeViewController* welcomeVc;
 
@@ -64,30 +63,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.fIsFirstLoad = YES;
-    [self _observeNotifications];
-
-    //For Test
-//    [self didReceiveShowNewParticipantBonusVcNoti:nil];
-//    [self didReceiveShowNewBonusVcNoti:nil];
+    [self observeNotifications];
 }
-- (void)_observeNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePrompToLoginNotification:) name:kShowLoginPrompVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHidePrompToLoginNotification:) name:kHideLoginPrompVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveScheduleToShowLoginGuideNotification:) name:kScheduleToShowLoginGuideNotificationName object:nil];
 
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowNewBonusVcNoti:) name:kShowNewBonusVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideNewBonusVcNoti:) name:kHideNewBonusVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowNewParticipantBonusVcNoti:) name:kShowNewParticipantBonusVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideNewParticipantBonusVcNoti:) name:kHideNewParticipantBonusVcNotificationName object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowBonusListVcNoti:) name:kShowBonusListVcNotificatinName object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowTradeExpectablePriceChangeVcNoti:) name:kShowTradeExpectablePriceChangeVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideTradeExpectablePriceChangeVcNoti:) name:kHideTradeExpectablePriceChangeVcNotificationName object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowS01VcWithSegmentIndex:) name:kShowS01VcWithSegmentIndexNotificationName object:nil];
-}
 
 
 - (void)viewWillAppear:(BOOL)animated
@@ -231,6 +209,12 @@
     }
     return vc;
 }
+- (void)hideRegisterVc {
+    [self _hideVcInPopoverContainer:self.loginGuideNavVc withAnimation:YES];
+    self.loginGuideNavVc = nil;
+    [self handleCurrentUser];
+}
+
 - (UIViewController*)showDefaultVc {
     [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
     return self.contentVc;
@@ -244,23 +228,12 @@
     }
     return self.contentVc;
 }
-
 - (UIViewController*)triggerToShowVc:(QSRootMenuItemType)type {
     [self.menuView triggerItemTypePressed:type];
     return self.contentVc;
 }
-
-#pragma mark - Notification
-- (void)didReceivePrompToLoginNotification:(NSNotification*)noti {
-    [self showRegisterVc];
-}
-- (void)didReceiveHidePrompToLoginNotification:(NSNotification*)noti {
-    [self _hideVcInPopoverContainer:self.loginGuideNavVc withAnimation:YES];
-    self.loginGuideNavVc = nil;
-    [self handleCurrentUser];
-}
-- (void)didReceiveScheduleToShowLoginGuideNotification:(NSNotification*)noti {
-    self.showLoginGuideTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];
+- (void)scheduleToShowLoginGuide {
+    self.showLoginGuideTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(_didFinishScheduleToShowLoginGuide) userInfo:nil repeats:NO];;
 }
 - (void)_didFinishScheduleToShowLoginGuide {
     UIViewController* guideNavVc =  [self showRegisterVc];
@@ -270,107 +243,26 @@
             QSU19LoginGuideViewController* guideVc = (QSU19LoginGuideViewController*)navVc.topViewController;
             guideVc.fShowCloseBtn = NO;
         }
-        
-
     }
 }
 
-- (void)didReceiveShowNewBonusVcNoti:(NSNotification*)noti {
-    NSString* bonusId = [noti.userInfo stringValueForKeyPath:@"_id"];
-    if (!bonusId) {
-        return;
-    }
+- (void)showNewBonusVcWithId:(NSString*)bonusId type:(QSU20NewBonusViewControllerState)type {
     [SHARE_NW_ENGINE queryBonusWithIds:@[bonusId]
                              onSucceed:^(NSArray *array, NSDictionary *metadata) {
                                  if (!array.count || self.u20NewBonusVc) {
                                      return;
                                  }
                                  NSDictionary* bonusDict = [array firstObject];
-                                 self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:QSU20NewBonusViewControllerStateParticipant];
+                                 self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:type];
                                  [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
                              }
                                onError:nil];
+
 }
 
-- (void)didReceiveHideNewBonusVcNoti:(NSNotification*)noti {
+- (void)hideNewBonusVc {
     [self _hideVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
     self.u20NewBonusVc = nil;
-}
-
-- (void)didReceiveShowNewParticipantBonusVcNoti:(NSNotification*)noti {
-    NSString* bonusId = [noti.userInfo stringValueForKeyPath:@"_id"];
-    if (!bonusId) {
-        return;
-    }
-    [SHARE_NW_ENGINE queryBonusWithIds:@[bonusId]
-                             onSucceed:^(NSArray *array, NSDictionary *metadata) {
-                                 if (!array.count || self.u20NewBonusVc) {
-                                     return;
-                                 }
-                                 NSDictionary* bonusDict = [array firstObject];
-                                 self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:QSU20NewBonusViewControllerStateAbout];
-                                 [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
-                             }
-                               onError:nil];
-}
-
-- (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {
-    [self _hideVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
-    self.u20NewBonusVc = nil;
-}
-
-
-- (void)didReceiveShowBonusListVcNoti:(NSNotification*)noti {
-#warning TODO Show Bonus Bc
-//    UIViewController* vc = [self triggerToShowVc:QSRootMenuItemSetting];
-//    if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
-//        QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
-//        [u02Vc showBonuesVC];
-//    }
-}
-
-- (void)didReceiveShowTradeExpectablePriceChangeVcNoti:(NSNotification*)noti {
-    //tradeId or tradeDict
-    NSDictionary* tradeDict = [noti.userInfo dictValueForKeyPath:@"tradeDict"];
-    if (tradeDict) {
-        [self _showS12VcWithTradeDict:tradeDict];
-    } else {
-        NSString* tradeId = [noti.userInfo stringValueForKeyPath:@"tradeId"];
-        [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-            [self _showS12VcWithTradeDict:dict];
-        } onError:^(NSError *error) {
-
-        }];
-    }
-}
-
-- (void)_showS12VcWithTradeDict:(NSDictionary*)dict {
-    NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:dict];
-    [[QSUnreadManager getInstance] clearTradeUnreadId:tradeId];
-    self.s12NotiVc = [[QSS12NewTradeExpectableViewController alloc] initWithDict:dict];
-    self.s12NotiVc.delelgate = self;
-    [self _showVcInPopoverContainer:self.s12NotiVc withAnimation:YES];
-}
-
-- (void)didReceiveHideTradeExpectablePriceChangeVcNoti:(NSNotification*)noti {
-    [self _hideVcInPopoverContainer:self.s12NotiVc withAnimation:YES];
-    self.s12NotiVc = nil;
-}
-
-- (void)didReceiveShowS01VcWithSegmentIndex:(NSNotification*)noti {
-    NSDictionary* userInfo = noti.userInfo;
-    NSNumber* index = [userInfo numberValueForKeyPath:@"index"];
-    [self triggerToShowVc:QSRootMenuItemMeida];
-    if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
-        QSS01MatchShowsViewController* s01Vc = (QSS01MatchShowsViewController*)self.contentVc;
-        if (s01Vc.segmentControl) {
-            s01Vc.segmentControl.selectedSegmentIndex = index.integerValue;
-            [s01Vc segmentChanged];
-        } else {
-            s01Vc.defaultSegment = index;
-        }
-
-    }
 }
 
 #pragma mark -
@@ -409,6 +301,20 @@
     }
 }
 
+- (void)showS01WithIndex:(int)index {
+    [self triggerToShowVc:QSRootMenuItemMeida];
+    if ([self.contentVc isKindOfClass:[QSS01MatchShowsViewController class]]) {
+        QSS01MatchShowsViewController* s01Vc = (QSS01MatchShowsViewController*)self.contentVc;
+        if (s01Vc.segmentControl) {
+            s01Vc.segmentControl.selectedSegmentIndex = index;
+            [s01Vc segmentChanged];
+        } else {
+            s01Vc.defaultSegment = @(index);
+        }
+        
+    }
+
+}
 
 
 #pragma mark - QSG02WelcomeViewControllerDelegate
@@ -416,27 +322,6 @@
 {
     [self _hideVcInPopoverContainer:vc withAnimation:YES];
     self.welcomeVc = nil;
-}
-
-
-#pragma mark - S12NotiVc
-- (void)didClickPay:(QSS12NewTradeExpectableViewController*)vc {
-    NSDictionary* tradeDict = vc.tradeDict;
-    NSNumber* actualPrice = vc.expectablePrice;
-    NSDictionary* paramDict = nil;
-    if (actualPrice) {
-        paramDict = @{@"actualPrice" : vc.expectablePrice};
-    }
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-        [self didReceiveHideTradeExpectablePriceChangeVcNoti:nil];
-
-        QSU14CreateTradeViewController* v = [[QSU14CreateTradeViewController alloc] initWithDict:d];
-        v.menuProvider = self;
-        [self.contentNavVc pushViewController:v animated:YES];
-    } onError:^(NSError *error) {
-        [vc handleError:error];
-    }];
-
 }
 
 @end

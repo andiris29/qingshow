@@ -22,7 +22,7 @@
 #import "QSAbstractRootViewController.h"
 #import "QSUnreadManager.h"
 #import "QSUserManager.h"
-#import "QSNotificationHelper.h"
+#import "QSRootNotificationHelper.h"
 
 #define PAGE_ID @"U09 - 交易一览"
 @interface QSU09TradeListViewController ()

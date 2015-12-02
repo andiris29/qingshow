@@ -10,6 +10,7 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
+#import "QSRootNotificationHelper.h"
 
 @interface QSBindMobileViewController ()
 
@@ -110,7 +111,7 @@
 
 #pragma mark - Private
 - (void)_popToRoot {
-    [self hideLoginPrompVc];
+    [QSRootNotificationHelper postHideLoginPrompNoti];
 }
 
 - (void)_configUI {

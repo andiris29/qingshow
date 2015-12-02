@@ -7,11 +7,10 @@
 //
 
 #import "QSU20NewBonusViewController.h"
-#import "QSNotificationHelper.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUnreadManager.h"
-
+#import "QSRootNotificationHelper.h"
 #import "QSPeopleUtil.h"
 #import "QSBonusUtil.h"
 #import "QSItemUtil.h"
@@ -77,12 +76,12 @@
 
 #pragma mark - IBAction
 - (IBAction)withdrawBtnPressed:(id)sender {
-    [QSNotificationHelper postHideNewParticipantBonusVcNoti];
-    [QSNotificationHelper postShowBonusListVcNotificationName];
+    [QSRootNotificationHelper postHideNewParticipantBonusVcNoti];
+    [QSRootNotificationHelper postShowBonusListVcNotificationName];
 }
 
 - (IBAction)closeBtnPressed:(id)sender {
-    [QSNotificationHelper postHideNewBonusVcNoti];
+    [QSRootNotificationHelper postHideNewBonusVcNoti];
 }
 
 - (IBAction)aboutParticipantBonusBtnPressed:(id)sender {

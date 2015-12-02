@@ -14,6 +14,7 @@
 #import "QSEntityUtil.h"
 #import "QSU17ResetPswStep1ViewController.h"
 #import "QSU18ResetPswStep2ViewController.h"
+#import "QSRootNotificationHelper.h"
 #define PAGE_ID @"U06 - 登录"
 
 @interface QSU06LoginViewController ()
@@ -25,7 +26,7 @@
 
 @implementation QSU06LoginViewController
 - (void)popToPreviousVc {
-    [self hideLoginPrompVc];
+    [QSRootNotificationHelper postHideLoginPrompNoti];
 }
 #pragma mark - Init
 - (instancetype)init

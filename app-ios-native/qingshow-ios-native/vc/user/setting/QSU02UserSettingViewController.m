@@ -19,7 +19,7 @@
 #import "QSDateUtil.h"
 #import "UIImage+fixOrientation.h"
 #import "QSRootContainerViewController.h"
-#import "QSNotificationHelper.h"
+#import "QSRootNotificationHelper.h"
 
 #import "QSU02InfoBaseCell.h"
 #import "QSU02ImgCell.h"
@@ -29,6 +29,7 @@
 #import "QSU02UserChangeDressEffectViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "QSBlock.h"
+
 
 
 
@@ -313,7 +314,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     
 }
 - (void)actionLogin {
-    [self showLoginPrompVc];
+    [QSRootNotificationHelper postShowLoginPrompNoti];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -325,7 +326,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
         tran.type = kCATransitionFade;
         tran.duration = 0.5f;
         [self.navigationController.parentViewController.view.layer addAnimation:tran forKey:@"tran"];
-        [QSNotificationHelper postShowS01VcWithSegmentIndex:0];
+        [QSRootNotificationHelper postShowS01VcWithSegmentIndex:0];
         
         [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
     }

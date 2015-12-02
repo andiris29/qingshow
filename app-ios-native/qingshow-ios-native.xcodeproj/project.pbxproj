@@ -25,12 +25,6 @@
 		68DE6A9A1B40EB3B001B829C /* QSS21ItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68DE6A991B40EB3B001B829C /* QSS21ItemView.xib */; };
 		68E18C111B3AC188000A7985 /* hoderImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 68E18C101B3AC188000A7985 /* hoderImg.png */; };
 		8C0A2CF41B20287600F83991 /* QSBackBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0A2CF31B20287600F83991 /* QSBackBarItem.m */; };
-		8C44758E1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C44758C1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.m */; };
-		8C44758F1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C44758D1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.xib */; };
-		8C4475961B74ABD800DF36E2 /* QSS12TradeInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4475941B74ABD800DF36E2 /* QSS12TradeInfoCell.m */; };
-		8C4475971B74ABD800DF36E2 /* QSS12TradeInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C4475951B74ABD800DF36E2 /* QSS12TradeInfoCell.xib */; };
-		8C44759B1B74ABF800DF36E2 /* QSS12TradeDiscountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4475991B74ABF800DF36E2 /* QSS12TradeDiscountCell.m */; };
-		8C44759C1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C44759A1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib */; };
 		8C5345411B4D61180062D638 /* welcome1_480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C5345321B4D61180062D638 /* welcome1_480@2x.png */; };
 		8C5345421B4D61180062D638 /* welcome2_480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C5345331B4D61180062D638 /* welcome2_480@2x.png */; };
 		8C5345431B4D61180062D638 /* welcome3_480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C5345341B4D61180062D638 /* welcome3_480@2x.png */; };
@@ -66,6 +60,11 @@
 		EF0A12A71C009BD700DBF23E /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0A12A21C009BD700DBF23E /* right_arrow@2x.png */; };
 		EF14DDC91BEE4B7E00E568D0 /* QSImageNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF14DDC81BEE4B7E00E568D0 /* QSImageNetworkEngine.m */; };
 		EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */; };
+		EF1BD5141C0EC1D700754544 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF1BD50E1C0EC1D700754544 /* PushConfig.plist */; };
+		EF1BD5151C0EC1D700754544 /* QSPnsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1BD5101C0EC1D700754544 /* QSPnsHandler.m */; };
+		EF1BD5161C0EC1D700754544 /* QSPnsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1BD5121C0EC1D700754544 /* QSPnsHelper.m */; };
+		EF1BD51C1C0EC51600754544 /* QSRootNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1BD51B1C0EC51600754544 /* QSRootNotificationHelper.m */; };
+		EF1BD51F1C0EC57300754544 /* QSRootContainerViewController+RootNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1BD51E1C0EC57300754544 /* QSRootContainerViewController+RootNotification.m */; };
 		EF1F52B11ABB281100E7EDDF /* QSNetworkEngine+TradeService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */; };
 		EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */; };
 		EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013451AC31AFC00568D92 /* QSPaymentService.m */; };
@@ -223,7 +222,6 @@
 		EF8CD3961C0379880040611D /* QSDateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD3721C0379880040611D /* QSDateUtil.m */; };
 		EF8CD3971C0379880040611D /* QSImageNameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD3741C0379880040611D /* QSImageNameUtil.m */; };
 		EF8CD3981C0379880040611D /* QSLayoutUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD3761C0379880040611D /* QSLayoutUtil.m */; };
-		EF8CD3991C0379880040611D /* QSNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD3781C0379880040611D /* QSNotificationHelper.m */; };
 		EF8CD39A1C0379880040611D /* QSRandomUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD37A1C0379880040611D /* QSRandomUtil.m */; };
 		EF8CD39B1C0379880040611D /* QSRectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD37C1C0379880040611D /* QSRectUtil.m */; };
 		EF8CD39D1C037A0E0040611D /* QSU02InfoPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD39C1C037A0E0040611D /* QSU02InfoPickerCell.xib */; };
@@ -273,7 +271,6 @@
 		EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618AB1A125FCB00560699 /* QSS04CommentListViewController.xib */; };
 		EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */; };
 		EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */; };
-		EFA785C01B5AB5BC00CC227C /* QSPnsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */; };
 		EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */; };
 		EFA98A791A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A781A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m */; };
 		EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */; };
@@ -329,7 +326,6 @@
 		EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */; };
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
-		EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */; };
 		EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */; };
 		EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */; };
 		EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */; };
@@ -353,7 +349,6 @@
 		EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */; };
 		EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */; };
 		EFF58B561B55DDB1001A9AC8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B551B55DDB1001A9AC8 /* Security.framework */; };
-		EFF58B591B55DE86001A9AC8 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFF58B581B55DE86001A9AC8 /* PushConfig.plist */; };
 		EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */; };
 		EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD6A1B0C9CD800298BD1 /* QSRootContentViewController.m */; };
 		EFFC58921BEA512C0098FD01 /* QSBonusUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFC58911BEA512C0098FD01 /* QSBonusUtil.m */; };
@@ -409,15 +404,6 @@
 		68E18C101B3AC188000A7985 /* hoderImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hoderImg.png; sourceTree = "<group>"; };
 		8C0A2CF21B20287600F83991 /* QSBackBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBackBarItem.h; sourceTree = "<group>"; };
 		8C0A2CF31B20287600F83991 /* QSBackBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBackBarItem.m; sourceTree = "<group>"; };
-		8C44758B1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS12NewTradeExpectableViewController.h; sourceTree = "<group>"; };
-		8C44758C1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS12NewTradeExpectableViewController.m; sourceTree = "<group>"; };
-		8C44758D1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS12NewTradeExpectableViewController.xib; sourceTree = "<group>"; };
-		8C4475931B74ABD800DF36E2 /* QSS12TradeInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSS12TradeInfoCell.h; path = cell/tradeNotify/QSS12TradeInfoCell.h; sourceTree = "<group>"; };
-		8C4475941B74ABD800DF36E2 /* QSS12TradeInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSS12TradeInfoCell.m; path = cell/tradeNotify/QSS12TradeInfoCell.m; sourceTree = "<group>"; };
-		8C4475951B74ABD800DF36E2 /* QSS12TradeInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS12TradeInfoCell.xib; path = cell/tradeNotify/QSS12TradeInfoCell.xib; sourceTree = "<group>"; };
-		8C4475981B74ABF800DF36E2 /* QSS12TradeDiscountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSS12TradeDiscountCell.h; path = cell/tradeNotify/QSS12TradeDiscountCell.h; sourceTree = "<group>"; };
-		8C4475991B74ABF800DF36E2 /* QSS12TradeDiscountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSS12TradeDiscountCell.m; path = cell/tradeNotify/QSS12TradeDiscountCell.m; sourceTree = "<group>"; };
-		8C44759A1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS12TradeDiscountCell.xib; path = cell/tradeNotify/QSS12TradeDiscountCell.xib; sourceTree = "<group>"; };
 		8C5345321B4D61180062D638 /* welcome1_480@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1_480@2x.png"; sourceTree = "<group>"; };
 		8C5345331B4D61180062D638 /* welcome2_480@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2_480@2x.png"; sourceTree = "<group>"; };
 		8C5345341B4D61180062D638 /* welcome3_480@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3_480@2x.png"; sourceTree = "<group>"; };
@@ -465,6 +451,17 @@
 		EF14DDC81BEE4B7E00E568D0 /* QSImageNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSImageNetworkEngine.m; path = images/QSImageNetworkEngine.m; sourceTree = "<group>"; };
 		EF1A59231A06761800001AE0 /* QSWaterFallCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewLayout.h; sourceTree = "<group>"; };
 		EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
+		EF1BD50E1C0EC1D700754544 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
+		EF1BD50F1C0EC1D700754544 /* QSPnsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsHandler.h; sourceTree = "<group>"; };
+		EF1BD5101C0EC1D700754544 /* QSPnsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPnsHandler.m; sourceTree = "<group>"; };
+		EF1BD5111C0EC1D700754544 /* QSPnsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsHelper.h; sourceTree = "<group>"; };
+		EF1BD5121C0EC1D700754544 /* QSPnsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPnsHelper.m; sourceTree = "<group>"; };
+		EF1BD5131C0EC1D700754544 /* QSPnsNotificationName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsNotificationName.h; sourceTree = "<group>"; };
+		EF1BD5191C0EC2E000754544 /* QSRootNotificationName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootNotificationName.h; sourceTree = "<group>"; };
+		EF1BD51A1C0EC51600754544 /* QSRootNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootNotificationHelper.h; sourceTree = "<group>"; };
+		EF1BD51B1C0EC51600754544 /* QSRootNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootNotificationHelper.m; sourceTree = "<group>"; };
+		EF1BD51D1C0EC57300754544 /* QSRootContainerViewController+RootNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSRootContainerViewController+RootNotification.h"; sourceTree = "<group>"; };
+		EF1BD51E1C0EC57300754544 /* QSRootContainerViewController+RootNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSRootContainerViewController+RootNotification.m"; sourceTree = "<group>"; };
 		EF1F52AF1ABB281100E7EDDF /* QSNetworkEngine+TradeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+TradeService.h"; sourceTree = "<group>"; };
 		EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+TradeService.m"; sourceTree = "<group>"; };
 		EF241E691AB9BF6F007B5058 /* QSTradeSelectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeSelectButton.h; sourceTree = "<group>"; };
@@ -808,8 +805,6 @@
 		EF8CD3741C0379880040611D /* QSImageNameUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSImageNameUtil.m; sourceTree = "<group>"; };
 		EF8CD3751C0379880040611D /* QSLayoutUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSLayoutUtil.h; sourceTree = "<group>"; };
 		EF8CD3761C0379880040611D /* QSLayoutUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSLayoutUtil.m; sourceTree = "<group>"; };
-		EF8CD3771C0379880040611D /* QSNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNotificationHelper.h; sourceTree = "<group>"; };
-		EF8CD3781C0379880040611D /* QSNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNotificationHelper.m; sourceTree = "<group>"; };
 		EF8CD3791C0379880040611D /* QSRandomUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRandomUtil.h; sourceTree = "<group>"; };
 		EF8CD37A1C0379880040611D /* QSRandomUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRandomUtil.m; sourceTree = "<group>"; };
 		EF8CD37B1C0379880040611D /* QSRectUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRectUtil.h; sourceTree = "<group>"; };
@@ -895,9 +890,6 @@
 		EFA618AE1A125FE900560699 /* QSCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommentTableViewCell.h; sourceTree = "<group>"; };
 		EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCommentTableViewCell.m; sourceTree = "<group>"; };
 		EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCommentTableViewCell.xib; sourceTree = "<group>"; };
-		EFA785BC1B5AB59700CC227C /* QSPnsNotificationName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsNotificationName.h; sourceTree = "<group>"; };
-		EFA785BE1B5AB5BC00CC227C /* QSPnsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsHelper.h; sourceTree = "<group>"; };
-		EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPnsHelper.m; sourceTree = "<group>"; };
 		EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+UserService.h"; sourceTree = "<group>"; };
 		EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+UserService.m"; sourceTree = "<group>"; };
 		EFA98A771A38862800A8BFC7 /* MKNetworkEngine+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MKNetworkEngine+QSExtension.h"; path = "service/MKNetworkEngine+QSExtension.h"; sourceTree = "<group>"; };
@@ -999,8 +991,6 @@
 		EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeUtil.h; sourceTree = "<group>"; };
 		EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeUtil.m; sourceTree = "<group>"; };
 		EFECFE921BB6DAD600146BD7 /* QSIRootContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSIRootContentViewController.h; sourceTree = "<group>"; };
-		EFECFF361BB6DC0D00146BD7 /* QSPnsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPnsHandler.h; sourceTree = "<group>"; };
-		EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPnsHandler.m; sourceTree = "<group>"; };
 		EFECFF391BB6DD2500146BD7 /* QSUnreadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUnreadManager.h; sourceTree = "<group>"; };
 		EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUnreadManager.m; sourceTree = "<group>"; };
 		EFECFF3C1BB6EBD500146BD7 /* QSRootMenuItemType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSRootMenuItemType.h; sourceTree = "<group>"; };
@@ -1044,7 +1034,6 @@
 		EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		EFF58B551B55DDB1001A9AC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		EFF58B581B55DE86001A9AC8 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		EFFABD661B0C80F900298BD1 /* QSRootContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootContainerViewController.h; sourceTree = "<group>"; };
 		EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootContainerViewController.m; sourceTree = "<group>"; };
 		EFFABD691B0C9CD700298BD1 /* QSRootContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootContentViewController.h; sourceTree = "<group>"; };
@@ -1411,6 +1400,40 @@
 			path = waterfall;
 			sourceTree = "<group>";
 		};
+		EF1BD50C1C0EC1D700754544 /* notification */ = {
+			isa = PBXGroup;
+			children = (
+				EF1BD5171C0EC21800754544 /* root */,
+				EF1BD50D1C0EC1D700754544 /* pns */,
+			);
+			path = notification;
+			sourceTree = "<group>";
+		};
+		EF1BD50D1C0EC1D700754544 /* pns */ = {
+			isa = PBXGroup;
+			children = (
+				EF1BD50E1C0EC1D700754544 /* PushConfig.plist */,
+				EF1BD50F1C0EC1D700754544 /* QSPnsHandler.h */,
+				EF1BD5101C0EC1D700754544 /* QSPnsHandler.m */,
+				EF1BD5111C0EC1D700754544 /* QSPnsHelper.h */,
+				EF1BD5121C0EC1D700754544 /* QSPnsHelper.m */,
+				EF1BD5131C0EC1D700754544 /* QSPnsNotificationName.h */,
+			);
+			path = pns;
+			sourceTree = "<group>";
+		};
+		EF1BD5171C0EC21800754544 /* root */ = {
+			isa = PBXGroup;
+			children = (
+				EF1BD5191C0EC2E000754544 /* QSRootNotificationName.h */,
+				EF1BD51A1C0EC51600754544 /* QSRootNotificationHelper.h */,
+				EF1BD51B1C0EC51600754544 /* QSRootNotificationHelper.m */,
+				EF1BD51D1C0EC57300754544 /* QSRootContainerViewController+RootNotification.h */,
+				EF1BD51E1C0EC57300754544 /* QSRootContainerViewController+RootNotification.m */,
+			);
+			path = root;
+			sourceTree = "<group>";
+		};
 		EF3013421AC31AE500568D92 /* payment */ = {
 			isa = PBXGroup;
 			children = (
@@ -1568,7 +1591,6 @@
 			isa = PBXGroup;
 			children = (
 				EFF2997C1BDFBF8D0046EFF9 /* s11 */,
-				EFF2997D1BDFBF950046EFF9 /* s12 */,
 			);
 			path = trade;
 			sourceTree = "<group>";
@@ -1994,8 +2016,6 @@
 				EF8CD3741C0379880040611D /* QSImageNameUtil.m */,
 				EF8CD3751C0379880040611D /* QSLayoutUtil.h */,
 				EF8CD3761C0379880040611D /* QSLayoutUtil.m */,
-				EF8CD3771C0379880040611D /* QSNotificationHelper.h */,
-				EF8CD3781C0379880040611D /* QSNotificationHelper.m */,
 				EF8CD3791C0379880040611D /* QSRandomUtil.h */,
 				EF8CD37A1C0379880040611D /* QSRandomUtil.m */,
 				EF8CD37B1C0379880040611D /* QSRectUtil.h */,
@@ -2234,7 +2254,7 @@
 		EF9A74461A02A87900095F07 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				EFF58B571B55DE18001A9AC8 /* pns */,
+				EF1BD50C1C0EC1D700754544 /* notification */,
 				EFECFF351BB6DB9800146BD7 /* unread */,
 				EF4CEC461B765529002865DE /* share */,
 				EF6B4CA21B57F91C0060054F /* category */,
@@ -2783,30 +2803,6 @@
 			name = s11;
 			sourceTree = "<group>";
 		};
-		EFF2997D1BDFBF950046EFF9 /* s12 */ = {
-			isa = PBXGroup;
-			children = (
-				EFF2997E1BDFBFBA0046EFF9 /* cell */,
-				8C44758B1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.h */,
-				8C44758C1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.m */,
-				8C44758D1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.xib */,
-			);
-			name = s12;
-			sourceTree = "<group>";
-		};
-		EFF2997E1BDFBFBA0046EFF9 /* cell */ = {
-			isa = PBXGroup;
-			children = (
-				8C4475931B74ABD800DF36E2 /* QSS12TradeInfoCell.h */,
-				8C4475941B74ABD800DF36E2 /* QSS12TradeInfoCell.m */,
-				8C4475951B74ABD800DF36E2 /* QSS12TradeInfoCell.xib */,
-				8C4475981B74ABF800DF36E2 /* QSS12TradeDiscountCell.h */,
-				8C4475991B74ABF800DF36E2 /* QSS12TradeDiscountCell.m */,
-				8C44759A1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib */,
-			);
-			name = cell;
-			sourceTree = "<group>";
-		};
 		EFF58B4A1B55DD5D001A9AC8 /* JPush */ = {
 			isa = PBXGroup;
 			children = (
@@ -2814,20 +2810,6 @@
 				EFF58B4B1B55DD5D001A9AC8 /* APService.h */,
 			);
 			path = JPush;
-			sourceTree = "<group>";
-		};
-		EFF58B571B55DE18001A9AC8 /* pns */ = {
-			isa = PBXGroup;
-			children = (
-				EFF58B581B55DE86001A9AC8 /* PushConfig.plist */,
-				EFA785BC1B5AB59700CC227C /* QSPnsNotificationName.h */,
-				EFA785BE1B5AB5BC00CC227C /* QSPnsHelper.h */,
-				EFA785BF1B5AB5BC00CC227C /* QSPnsHelper.m */,
-				EFECFF361BB6DC0D00146BD7 /* QSPnsHandler.h */,
-				EFECFF371BB6DC0D00146BD7 /* QSPnsHandler.m */,
-			);
-			name = pns;
-			path = ../pns;
 			sourceTree = "<group>";
 		};
 		EFF5B9061A3F2F220048E634 /* item */ = {
@@ -2963,10 +2945,8 @@
 				EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
 				EF8CD2AD1C0378E50040611D /* QSU17ResetPswStep1ViewController.xib in Resources */,
-				EFF58B591B55DE86001A9AC8 /* PushConfig.plist in Resources */,
 				68D16D051B341A4700A4646C /* QSS01MatchShowsViewController.xib in Resources */,
 				EF88D08E1ACEF90C002C4963 /* area.json in Resources */,
-				8C44759C1B74ABF800DF36E2 /* QSS12TradeDiscountCell.xib in Resources */,
 				EF651F511BFE3CD500B35AB0 /* QSMatcherCollectionViewHeader.xib in Resources */,
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
 				EF6753C01A6416C90045E96C /* QSS10ItemDetailViewController.xib in Resources */,
@@ -2990,6 +2970,7 @@
 				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
 				EF8CD2AB1C0378E50040611D /* QSU07RegisterViewController.xib in Resources */,
 				EF0A12A41C009BD700DBF23E /* left_arrow.png in Resources */,
+				EF1BD5141C0EC1D700754544 /* PushConfig.plist in Resources */,
 				686B73ED1B1D987000E229B9 /* 2.jpg in Resources */,
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
 				EF8CD39D1C037A0E0040611D /* QSU02InfoPickerCell.xib in Resources */,
@@ -3014,7 +2995,6 @@
 				EF8CD2D31C0378E50040611D /* QSTradeListHeaderView.xib in Resources */,
 				EF994D961B693C4F00715B0E /* QSDiscountInfoCell.xib in Resources */,
 				EF994DA01B693CB900715B0E /* QSDiscountQuantityCell.xib in Resources */,
-				8C4475971B74ABD800DF36E2 /* QSS12TradeInfoCell.xib in Resources */,
 				EF8CD2B21C0378E50040611D /* QSU07RegisterViewController.xib in Resources */,
 				EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */,
 				EF8CD33D1C03794C0040611D /* AlipaySDK.bundle in Resources */,
@@ -3043,7 +3023,6 @@
 				EF80804E1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib in Resources */,
 				A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */,
 				EF8CD2C31C0378E50040611D /* QSU08PasswordViewController.xib in Resources */,
-				8C44758F1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.xib in Resources */,
 				EF8080411B4F44D6005198B6 /* QSMatcherItemPageSelectionView.xib in Resources */,
 				8C9240051B258AB60043561E /* hongxin@2x.png in Resources */,
 				EF8CD2A21C0378E50040611D /* QSU01UserDetailViewController.xib in Resources */,
@@ -3089,7 +3068,6 @@
 				EF8CD2D21C0378E50040611D /* QSTradeListHeaderView.m in Sources */,
 				EF8CD3901C0379880040611D /* UIViewController+QSExtension.m in Sources */,
 				EF8CD2CA1C0378E50040611D /* QSU10ReceiverListViewController.m in Sources */,
-				EFECFF381BB6DC0D00146BD7 /* QSPnsHandler.m in Sources */,
 				EF14DDC91BEE4B7E00E568D0 /* QSImageNetworkEngine.m in Sources */,
 				EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */,
 				EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */,
@@ -3098,7 +3076,6 @@
 				EF994D951B693C4F00715B0E /* QSDiscountInfoCell.m in Sources */,
 				EF810F4D1AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m in Sources */,
 				EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */,
-				EFA785C01B5AB5BC00CC227C /* QSPnsHelper.m in Sources */,
 				EFAB9C6C1B346FE5008A4EF5 /* QSPeopleListTableViewProvider.m in Sources */,
 				8C9864261BD61F2F00597867 /* QSShareUtil.m in Sources */,
 				EF8CD22A1C0378020040611D /* QSNavigationController.m in Sources */,
@@ -3120,6 +3097,7 @@
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
 				8C8658ED1B3403E2004DF14F /* QSMatchShowUtil.m in Sources */,
 				EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */,
+				EF1BD51C1C0EC51600754544 /* QSRootNotificationHelper.m in Sources */,
 				EF1F52B11ABB281100E7EDDF /* QSNetworkEngine+TradeService.m in Sources */,
 				EF8CD2BD1C0378E50040611D /* QSU02AbstractTableViewCell.m in Sources */,
 				EF810F731AB601E50079BA76 /* QSCreateTradeReceiverInfoTextCell.m in Sources */,
@@ -3168,7 +3146,6 @@
 				EF8CD2C41C0378E50040611D /* QSU02UserSettingViewController.m in Sources */,
 				EF8CD2C81C0378E50040611D /* QSU09TradeListViewController.m in Sources */,
 				EF8CD2CE1C0378E50040611D /* QSU12RefundViewController.m in Sources */,
-				8C4475961B74ABD800DF36E2 /* QSS12TradeInfoCell.m in Sources */,
 				EF8080351B4F3C79005198B6 /* QSHorizontalCollectionViewLayout.m in Sources */,
 				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
 				EFAB9C671B346FE5008A4EF5 /* QSSinglePickerProvider.m in Sources */,
@@ -3181,6 +3158,7 @@
 				EF610EFB1AF937E400B7DFB3 /* QSBigImageDateView.m in Sources */,
 				EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */,
 				EF810F4E1AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.m in Sources */,
+				EF1BD51F1C0EC57300754544 /* QSRootContainerViewController+RootNotification.m in Sources */,
 				EFAA5A461AFE8969001032F7 /* QSRecommendationDateCellModel.m in Sources */,
 				EF810F6D1AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m in Sources */,
 				EFAA5A2E1AFD1521001032F7 /* QSImageCollectionViewCell.m in Sources */,
@@ -3195,6 +3173,7 @@
 				EF8CD2BA1C0378E50040611D /* QSU02InfoTitleCell.m in Sources */,
 				EF8CD33F1C03794C0040611D /* APAuthV2Info.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m in Sources */,
+				EF1BD5161C0EC1D700754544 /* QSPnsHelper.m in Sources */,
 				8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */,
 				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
 				EF80803E1B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.m in Sources */,
@@ -3219,7 +3198,6 @@
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
 				EF8CD2B01C0378E50040611D /* QSU19LoginGuideViewController.m in Sources */,
 				EF8080401B4F44D6005198B6 /* QSMatcherItemPageSelectionView.m in Sources */,
-				EF8CD3991C0379880040611D /* QSNotificationHelper.m in Sources */,
 				EF98A12E1C04CAE400B0B5BC /* QSNewestHourViewController.m in Sources */,
 				EF8CD3971C0379880040611D /* QSImageNameUtil.m in Sources */,
 				EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */,
@@ -3232,7 +3210,6 @@
 				EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */,
 				EF8CD2D01C0378E50040611D /* QSUserLocationTableViewCell.m in Sources */,
 				EF8CD2A61C0378E50040611D /* QSBindMobileViewController.m in Sources */,
-				8C44758E1B74A1C200DF36E2 /* QSS12NewTradeExpectableViewController.m in Sources */,
 				EFAA5A3A1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m in Sources */,
 				EF8CD2C21C0378E50040611D /* QSU08PasswordViewController.m in Sources */,
 				EF8CD39A1C0379880040611D /* QSRandomUtil.m in Sources */,
@@ -3282,8 +3259,8 @@
 				EF8CD2B81C0378E50040611D /* QSU02InfoTextCell.m in Sources */,
 				EF36C1071C0AC2C6009ECE91 /* QSS11ItemBuyViewController.m in Sources */,
 				EF8CD3851C0379880040611D /* NSDate+QSExtension.m in Sources */,
+				EF1BD5151C0EC1D700754544 /* QSPnsHandler.m in Sources */,
 				EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */,
-				8C44759B1B74ABF800DF36E2 /* QSS12TradeDiscountCell.m in Sources */,
 				EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */,
 				EF8CD2B61C0378E50040611D /* QSU02InfoPickerCell.m in Sources */,
 				68DE6A981B40EB19001B829C /* QSS21ItemView.m in Sources */,

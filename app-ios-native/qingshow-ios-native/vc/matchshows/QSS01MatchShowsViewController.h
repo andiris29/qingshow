@@ -8,8 +8,7 @@
 
 #import "QSRootContentViewController.h"
 #import <UIKit/UIKit.h>
-#import "QSS12NewTradeExpectableViewController.h"
-@interface QSS01MatchShowsViewController : QSRootContentViewController <QSS12NewTradeNotifyViewControllerDelegate>
+@interface QSS01MatchShowsViewController : QSRootContentViewController
 
 
 @property (weak, nonatomic) IBOutlet UICollectionView* darenCollectionView;

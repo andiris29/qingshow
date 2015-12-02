@@ -40,9 +40,6 @@
 @property (nonatomic, strong) QSMatchCollectionViewProvider *hotProvider;
 @property (nonatomic, strong) QSMatcherTableViewProvider* newestProvider;
 
-#pragma mark S11
-//@property (strong, nonatomic) QSS12NewTradeNotifyViewController* s11NotiVc;
-@property (strong, nonatomic) QSS12NewTradeExpectableViewController* s11NotiVc;
 @property (strong, nonatomic) NSDate* currentDate;
 
 - (IBAction)backToTopBtnPressed:(id)sender;
@@ -179,42 +176,6 @@
 }
 - (IBAction)calendarBtnPressed:(id)sender {
     [self _showCalendar];
-}
-
-#pragma mark - s11
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId{
-    [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        [[QSUnreadManager getInstance] clearTradeUnreadId:tradeId];
-        self.s11NotiVc = [[QSS12NewTradeExpectableViewController alloc] initWithDict:dict];
-        self.s11NotiVc.delelgate = self;
-        self.s11NotiVc.view.frame = self.navigationController.view.bounds;
-        [self.navigationController.view addSubview:self.s11NotiVc.view];
-    } onError:^(NSError *error) {
-        
-    }];
-}
-- (void)didClickClose:(QSS12NewTradeExpectableViewController *)vc
-{
-    [self.s11NotiVc.view removeFromSuperview];
-    self.s11NotiVc = nil;
-}
-
-- (void)didClickPay:(QSS12NewTradeExpectableViewController*)vc {
-    NSDictionary* tradeDict = vc.tradeDict;
-    NSNumber* actualPrice = vc.expectablePrice;
-    NSDictionary* paramDict = nil;
-    if (actualPrice) {
-        paramDict = @{@"actualPrice" : vc.expectablePrice};
-    }
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-        [self didClickClose:vc];
-        QSU14CreateTradeViewController* v = [[QSU14CreateTradeViewController alloc] initWithDict:d];
-        v.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:v animated:YES];
-    } onError:^(NSError *error) {
-        [vc handleError:error];
-    }];
-    
 }
 
 #pragma mark - Private

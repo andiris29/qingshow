@@ -11,7 +11,6 @@
 
 #define kPnsNewShowCommentsNotification @"kPnsNewShowCommentsNotification"
 #define kPnsNewRecommandationNotification @"kPnsNewRecommandationNotification"
-#define kPnsItemExpectablePriceUpdatedNotification @"kPnsItemExpectablePriceUpdatedNotification"
 #define kPnsTradeShippedNotification @"kPnsTradeShippedNotification"
 #define kPnsNewBonusNotification @"kPnsNewBonusNotification"
 #define kPnsNewParticipantBonusNotification @"kPnsNewParticipantBonusNotification"

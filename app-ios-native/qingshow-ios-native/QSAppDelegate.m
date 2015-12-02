@@ -25,7 +25,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSPeopleUtil.h"
 #import "QSError.h"
-#import "QSNotificationHelper.h"
+#import "QSRootNotificationHelper.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -132,7 +132,7 @@
                 if (r == QSPeopleRoleGuest) {
                     [SHARE_NW_ENGINE feedingMatchCreateBy:data page:1 onSucceed:^(NSArray *array, NSDictionary *metadata) {
                         normalUserHandler();
-                        [QSNotificationHelper postScheduleToShowLoginGuideNoti];
+                        [QSRootNotificationHelper postScheduleToShowLoginGuideNoti];
                     } onError:^(NSError *error) {
                         if ([error isKindOfClass:[QSError class]]) {
                             QSError* e = (QSError*)error;

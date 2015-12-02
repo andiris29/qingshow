@@ -1,14 +1,22 @@
 //
-//  QSNotificationHelper.m
+//  QSRootNotificationHelper.m
 //  qingshow-ios-native
 //
-//  Created by wxy325 on 15/11/4.
+//  Created by wxy325 on 15/12/2.
 //  Copyright © 2015年 QS. All rights reserved.
 //
 
-#import "QSNotificationHelper.h"
+#import "QSRootNotificationHelper.h"
 
-@implementation QSNotificationHelper
+@implementation QSRootNotificationHelper
+
++ (void)postShowLoginPrompNoti {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowLoginPrompVcNotificationName object:nil];
+}
++ (void)postHideLoginPrompNoti {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHideLoginPrompVcNotificationName object:nil];
+}
+
 + (void)postScheduleToShowLoginGuideNoti {
     [[NSNotificationCenter defaultCenter] postNotificationName:kScheduleToShowLoginGuideNotificationName object:nil];
 }
@@ -33,17 +41,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowBonusListVcNotificatinName object:nil];
 }
 
-+ (void)postShowTradeExpectablePriceChangeVcNotiWithTradeDict:(NSDictionary*)tradeDict {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowTradeExpectablePriceChangeVcNotificationName object:nil userInfo:@{@"tradeDict" : tradeDict}];
-}
-+ (void)postShowTradeExpectablePriceChangeVcNoti:(NSDictionary*)userInfo {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowTradeExpectablePriceChangeVcNotificationName object:nil userInfo:userInfo];
-}
-+ (void)postHideTradeExpectablePriceChangeVcNoti {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kHideTradeExpectablePriceChangeVcNotificationName object:nil];
-}
-
 + (void)postShowS01VcWithSegmentIndex:(NSInteger)index {
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowS01VcWithSegmentIndexNotificationName object:nil userInfo:@{@"index" : @(index)}];
 }
+
 @end

@@ -19,6 +19,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
+#import "QSRootNotificationHelper.h"
 
 @interface QSU19LoginGuideViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
@@ -82,7 +83,7 @@
 - (IBAction)wechatLoginPressed:(id)sender {
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
         if ([QSPeopleUtil checkMobileExist:[QSUserManager shareUserManager].userInfo]) {
-            [self hideLoginPrompVc];
+            [QSRootNotificationHelper postHideLoginPrompNoti];
         } else {
             QSBindMobileViewController* vc = [[QSBindMobileViewController alloc] init];
             CATransition* tran = [[CATransition alloc] init];
@@ -105,7 +106,7 @@
 }
 
 - (void)_popToPreviousVc {
-    [self hideLoginPrompVc];
+    [QSRootNotificationHelper postHideLoginPrompNoti];
 }
 - (IBAction)closeBtnPressed:(id)sender {
     [self _popToPreviousVc];

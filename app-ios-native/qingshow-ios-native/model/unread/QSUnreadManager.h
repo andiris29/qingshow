@@ -12,7 +12,6 @@
 #define kQSUnreadChangeNotificationName @"kQSUnreadChangeNotificationName"
 
 typedef NS_ENUM(NSUInteger, QSUnreadTradeType) {
-    QSUnreadTradeTypeExpectablePriceUpdated = 0,
     QSUnreadTradeTypeTradeInitialized = 1,
     QSUnreadTradeTypeTradeShipped = 2
 };

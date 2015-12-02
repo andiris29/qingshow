@@ -22,7 +22,7 @@
 #import "QSS01MatchShowsViewController.h"
 #import "QSU02UserSettingViewController.h"
 #import "QSU09TradeListViewController.h"
-#import "QSNotificationHelper.h"
+#import "QSRootNotificationHelper.h"
 
 @interface QSPnsHandler (Private)
 
@@ -49,7 +49,6 @@
     [center addObserver:self selector:@selector(pnsDidReceiveNewShowComment:) name:kPnsNewShowCommentsNotification object:nil];
     [center addObserver:self selector:@selector(pnsDidNewRecommandation:) name:kPnsNewRecommandationNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeShipped:) name:kPnsTradeShippedNotification object:nil];
-    [center addObserver:self selector:@selector(pnsItemPriceChanged:) name:kPnsItemExpectablePriceUpdatedNotification object:nil];
     [center addObserver:self selector:@selector(pnsNewBonus:) name:kPnsNewBonusNotification object:nil];
     [center addObserver:self selector:@selector(pnsNewParticipantBonus:) name:kPnsNewParticipantBonusNotification object:nil];
     [center addObserver:self selector:@selector(pnsBonusWithdrawComplete:) name:kPnsBonusWithdrawCompleteNotification object:nil];
@@ -111,11 +110,6 @@
 
 }
 
-- (void)pnsItemPriceChanged:(NSNotification*)noti {
-    [self handlePnsWithHandler:^{
-        [QSNotificationHelper postShowTradeExpectablePriceChangeVcNoti:noti.userInfo];
-    } title:@"您申请的折扣有最新信息，不要错过哦！" userInfo:noti.userInfo];
-}
 
 - (void)pnsTradeShipped:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
@@ -129,13 +123,13 @@
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        [QSNotificationHelper postShowNewBonusVcNoti:noti.userInfo];
+        [QSRootNotificationHelper postShowNewBonusVcNoti:noti.userInfo];
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 
 - (void)pnsNewParticipantBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        [QSNotificationHelper postShowNewParticipantBonusVcNoti:noti.userInfo];
+        [QSRootNotificationHelper postShowNewParticipantBonusVcNoti:noti.userInfo];
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 

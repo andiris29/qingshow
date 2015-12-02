@@ -9,7 +9,7 @@
 #import "QSUserLoginAlertHandler.h"
 #import "QSVersionUpdateAlertHandler.h"
 #import "UIViewController+QSExtension.h"
-
+#import "QSRootNotificationHelper.h"
 @interface UIViewController(NetworkPrivate)
 @property (nonatomic) QSUserLoginAlertHandler* loginErrorAlertHandler;
 @end
@@ -31,7 +31,7 @@
 {
     UIViewController* vc = self.vc;
     if (buttonIndex != alertView.cancelButtonIndex && vc && vc.navigationController) {
-        [vc showLoginPrompVc];
+        [QSRootNotificationHelper postShowLoginPrompNoti];
     }
 
     

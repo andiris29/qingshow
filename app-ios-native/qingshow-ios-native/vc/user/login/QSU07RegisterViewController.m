@@ -12,6 +12,7 @@
 #import "UIViewController+Utility.h"
 #import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
+#import "QSRootNotificationHelper.h"
 
 #import "QSEntityUtil.h"
 
@@ -215,7 +216,7 @@
 
 #pragma mark - Helper
 - (void)popToPreviousVc {
-    [self hideLoginPrompVc];
+    [QSRootNotificationHelper postHideLoginPrompNoti];
 }
 
 - (void)configScrollView
