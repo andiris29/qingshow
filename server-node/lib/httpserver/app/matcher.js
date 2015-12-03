@@ -107,36 +107,35 @@ matcher.queryItems = {
 
 matcher.save = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        async.waterfall([function(callback){
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }, callback);
-        }, function(people, callback) {
-            if (!req.body.itemRefs || !req.body.itemRefs.length) {
-                ResponseHelper.response(res, errors.NotEnoughParam);
-                return;
-            }
-            var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
-            var itemRects = req.body.itemRects;
-
-            var coverUrl = global.qsConfig.show.coverForeground.template;
-            coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
-
-            var show = {
-                    'itemRefs' : itemRefs,
-                    'itemRects' : itemRects,
-                    'ownerRef' : req.qsCurrentUserId,
-                    'coverForeground' : coverUrl
-                }; 
-            
-            req.session.matcher = show;
-            callback(null, show);
-        }], function(err, show) {
-            ResponseHelper.response(res, null, {});
-        });
-    }
+    'func' : [
+        require('../middleware/validateLogin'),
+        function(req, res, next) {
+            var date = new Date();
+            date.setMinutes(date.getMinutes() - 60);
+                
+            Show.find({
+                'ownerRef' : req.qsCurrentUserId,
+                'create' : {'$gt' : date}
+            }).count(function(err, count) {
+                ResponseHelper.writeMetadata(res, {'limitCount' : global.qsConfig.matcher.limitCount});
+                if (count < global.qsConfig.matcher.limitCount) {
+                    next();
+                } else {
+                    next(errors.ERR_EXCEED_CREATE_SHOW_LIMIT);
+                }
+            });
+        },
+        function(req, res, next) {
+            req.session.matcher = {
+                'ownerRef' : req.qsCurrentUserId,
+                'itemRefs' : RequestHelper.parseIds(req.body.itemRefs),
+                'itemRects' : req.body.itemRects,
+                'coverForeground' : global.qsConfig.show.coverForeground.template
+                    .replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max))
+            };
+            next();
+        }
+    ]
 };
 
 matcher.updateCover = {
