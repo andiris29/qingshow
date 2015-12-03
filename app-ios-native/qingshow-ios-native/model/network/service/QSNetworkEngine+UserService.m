@@ -495,6 +495,7 @@
     NSDictionary* peopleDict = [retDict dictValueForKeyPath:@"data.people"];
     if (peopleDict) {
         [QSUserManager shareUserManager].userInfo = peopleDict;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:nil userInfo:nil];
     }
     [QSUserManager shareUserManager].fIsLogined = YES;
     [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
