@@ -371,10 +371,10 @@
         UIView* itemImgView = self.categoryIdToView[categoryId];
         if (![QSEntityUtil checkIsNil:itemImgView]) {
             [rectArray addObject:
-  @[@(itemImgView.frame.origin.x / width),
-    @(itemImgView.frame.origin.y / height),
-    @(itemImgView.frame.size.width / width),
-    @(itemImgView.frame.size.height / height)]
+  @[@(itemImgView.frame.origin.x * 100 / width),
+    @(itemImgView.frame.origin.y * 100 / height),
+    @(itemImgView.frame.size.width * 100 / width),
+    @(itemImgView.frame.size.height * 100 / height)]
              ];
         } else {
             [rectArray addObject:@[]];
