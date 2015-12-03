@@ -16,6 +16,7 @@
 #import "QSRootNotificationHelper.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSBlockAlertView.h"
+#import "QSError.h"
 
 @interface QSS23MatcherPreviewViewController ()
 
@@ -93,29 +94,32 @@
         [hud hide:YES];
         self.createMatcherOp = nil;
         
-        if (self.alertView) {
-            return;
+        if ([error isKindOfClass:[QSError class]] && error.code == 1043) {
+            if (self.alertView) {
+                return;
+            }
+            
+            NSDictionary* metadata = error.userInfo;
+            NSNumber* limitCount = [metadata numberValueForKeyPath:@"limitCount"];
+            if (!limitCount) {
+                limitCount = @2;
+            }
+            
+            NSString* msg = [NSString stringWithFormat:@"亲~ 每小时搭%@套就可以咯，要保护眼睛哦~\n下个小时再来搭吧", limitCount];
+            QSBlockAlertView* alertView = [[QSBlockAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            self.alertView = alertView;
+            alertView.succeedHandler = ^(){
+                [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
+                self.alertView = nil;
+            };
+            alertView.cancelHandler = ^(){
+                [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
+                self.alertView = nil;
+            };
+            [alertView show];
+        } else {
+            [self handleError:error];
         }
-        
-        NSDictionary* metadata = error.userInfo;
-        NSNumber* limitCount = [metadata numberValueForKeyPath:@"limitCount"];
-        if (!limitCount) {
-            limitCount = @2;
-        }
-
-        
-        NSString* msg = [NSString stringWithFormat:@"亲~ 每小时搭%@套就可以咯，要保护眼睛哦~\n下个小时再来搭吧", limitCount];
-        QSBlockAlertView* alertView = [[QSBlockAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        self.alertView = alertView;
-        alertView.succeedHandler = ^(){
-            [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
-            self.alertView = nil;
-        };
-        alertView.cancelHandler = ^(){
-            [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
-            self.alertView = nil;
-        };
-        [alertView show];
     }];
 }
 
