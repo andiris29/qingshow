@@ -262,8 +262,8 @@
             
             CGFloat x = ((NSNumber*)rects[0]).floatValue + ((NSNumber*)rects[2]).floatValue / 2;
             CGFloat y = ((NSNumber*)rects[1]).floatValue + ((NSNumber*)rects[3]).floatValue / 2;
-            x *= size.width;
-            y *= size.height;
+            x = x * size.width / 100;
+            y = y * size.height / 100;
             labelView.center = CGPointMake(origin.x + x + labelView.frame.size.width / 2, origin.y + y);
             [labelView addGestureRecognizer:ges];
             [self.coverLabelContainerView addSubview:labelView];
