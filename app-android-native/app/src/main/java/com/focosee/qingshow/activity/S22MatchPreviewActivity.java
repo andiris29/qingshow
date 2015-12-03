@@ -210,7 +210,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
                     allowClick();
                     return;
                 }
-                show = ShowParser.parse(response);
+                show = ShowParser.parsePeopleAndItemString(response);
                 allowClick();
                 Class _class = S03SHowActivity.class;
                 Intent intent = new Intent();

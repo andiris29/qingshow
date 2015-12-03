@@ -5,23 +5,22 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2015/6/24.
  */
-public class MongoCategories implements Serializable{
-
+public class MongoParentCategories implements Serializable{
     public String _id;
     public String name;
     public String icon;
     public String order;
     public MatchInfo matchInfo;
-    public MongoParentCategories parentRef;
+    public int measureComposition;
     public boolean activate = true;
-    public Context __context;
 
     public class MatchInfo implements Serializable{
         public boolean enabled;
         public boolean defaultOnCanvas;
+        public int row;
+        public int column;
     }
-
-    public MongoCategories() {
+    public MongoParentCategories() {
 
     }
 
@@ -56,13 +55,6 @@ public class MongoCategories implements Serializable{
 
     public void set_id(String _id) {
         this._id = _id;
-    }
-
-    public class Context {
-        public float x;
-        public float y;
-        public int maxWidth;
-        public int maxHeight;
     }
 
 }
