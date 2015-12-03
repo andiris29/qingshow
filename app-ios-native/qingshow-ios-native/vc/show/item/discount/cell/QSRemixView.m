@@ -87,22 +87,21 @@
 - (QSRemixImageView*)_generateImageViewItem:(NSDictionary*)itemDict
                                      config:(NSArray*)rectConfig {
     QSRemixImageView* imgView = [[QSRemixImageView alloc] init];
+    imgView.frame = [self _generateRectFromRectConfig:rectConfig];
     imgView.userInfo = itemDict;
     __weak QSRemixImageView* weakImgView = imgView;
     imgView.hidden = YES;
-    [imgView.imageView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *image) {
+    [imgView.imageView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *img) {
+
+        CGSize viewSize = weakImgView.bounds.size;
+        CGRect bounds = weakImgView.bounds;
+        viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
+        bounds.size = viewSize;
+        weakImgView.bounds = bounds;
+        weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
         weakImgView.hidden = NO;
-        if (weakImgView.imageView.image) {
-            UIImage* img = weakImgView.imageView.image;
-            CGSize viewSize = weakImgView.bounds.size;
-            CGRect bounds = weakImgView.bounds;
-            viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
-            bounds.size = viewSize;
-            weakImgView.bounds = bounds;
-            weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
-        }
-    }];
-    imgView.frame = [self _generateRectFromRectConfig:rectConfig];
+    } animation:NO];
+
     imgView.userInteractionEnabled = YES;
     UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapImgView:)];
     [imgView addGestureRecognizer:tapGes];
