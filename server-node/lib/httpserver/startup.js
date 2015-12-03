@@ -140,6 +140,7 @@ var _errMiddleware = function (err, req, res, next) {
     if (!err) {
         next();
     } else {
+        res.locals.out = res.locals.out || {};
         ResponseHelper.response(res, err, res.locals.out.data, res.locals.out.metadata);
     }
 };
