@@ -18,6 +18,7 @@
 @property (strong, nonatomic) QSRemixImageView* masterImageView;
 @property (strong, nonatomic) NSMutableArray* slaveImageViews;
 
+@property (strong, nonatomic) NSMutableArray* allImageViews;
 @end
 
 @implementation QSRemixView
@@ -50,6 +51,7 @@
     
     NSArray* masterConfig = [remixInfo arrayValueForKeyPath:@"master.rect"];
     self.masterImageView = [self _generateImageViewItem:masterItem config:masterConfig];
+    [self.masterImageView setIsSelected:YES];
     [self addSubview:self.masterImageView];
     
     NSArray* slaveInfos = [remixInfo arrayValueForKeyPath:@"slaves"];
@@ -60,10 +62,22 @@
         [self.slaveImageViews addObject:imgView];
         [self addSubview:imgView];
     }
+    
+    self.allImageViews = [self.slaveImageViews mutableCopy];
+    [self.allImageViews addObject:self.masterImageView];
+    [self bringSubviewToFront:self.masterImageView];
 }
 
 - (void)didTapImgView:(UITapGestureRecognizer*)ges {
     QSRemixImageView* imgView = (QSRemixImageView*)ges.view;
+    
+    for (QSRemixImageView* v in self.allImageViews) {
+        v.isSelected = imgView == v;
+        if (v.isSelected) {
+            [self bringSubviewToFront:v];
+        }
+    }
+    
     NSDictionary* itemDict = imgView.userInfo;
     if ([self.delegate respondsToSelector:@selector(remixView:didTapItem:)]) {
         [self.delegate remixView:self didTapItem:itemDict];

@@ -11,4 +11,5 @@
 @interface QSRemixImageView : UIView
 @property (strong, nonatomic) UIImageView* imageView;
 @property (strong, nonatomic) NSDictionary* userInfo;
+@property (assign, nonatomic) BOOL isSelected;
 @end

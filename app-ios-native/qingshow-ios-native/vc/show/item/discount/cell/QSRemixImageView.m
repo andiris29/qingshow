@@ -7,7 +7,7 @@
 //
 
 #import "QSRemixImageView.h"
-
+#import "UIView+QSExtension.h"
 @interface QSRemixImageView ()
 
 
@@ -46,5 +46,19 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.selectedIndicator = [[UIImageView alloc] init];
     [self addSubview:self.selectedIndicator];
+    self.isSelected = NO;
+}
+#pragma mark - Getter And Setter
+- (void)setIsSelected:(BOOL)isSelected {
+    _isSelected = isSelected;
+    [self _updateForIsSelect];
+}
+
+- (void)_updateForIsSelect {
+    if (_isSelected) {
+        [self configBorderColor:[UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f] width:1 cornerRadius:0];
+    } else {
+        [self configBorderColor:[UIColor clearColor] width:0 cornerRadius:0];
+    }
 }
 @end
