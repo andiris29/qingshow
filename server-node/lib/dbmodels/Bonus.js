@@ -24,6 +24,10 @@ var Bonus = mongoose.model('bonuses', Schema({
         tradeRef : {    
             type : Schema.Types.ObjectId,
             ref : 'trades'
+        },
+        showRef : {    
+            type : Schema.Types.ObjectId,
+            ref : 'shows'
         }
     },
     weixinRedPackId : String
