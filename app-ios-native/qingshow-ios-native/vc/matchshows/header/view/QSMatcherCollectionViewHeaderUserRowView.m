@@ -50,7 +50,7 @@
     for (int i = 0; i < self.headerViews.count; i++) {
         UIView* headerView = self.headerViews[i];
         headerView.bounds = CGRectMake(0, 0, headRadius, headRadius);
-        headerView.center = CGPointMake((i + 0.5) * blockWidth, centerY);
+        headerView.center = CGPointMake(i * blockWidth + headRadius / 2, centerY);
     }
     
 }
