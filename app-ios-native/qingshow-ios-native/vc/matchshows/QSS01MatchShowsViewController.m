@@ -63,7 +63,6 @@
     [self.calendarContainerView addGestureRecognizer:ges];
     self.calendarView.delegate = self;
     self.calendarView.selectedDate = [NSDate date];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

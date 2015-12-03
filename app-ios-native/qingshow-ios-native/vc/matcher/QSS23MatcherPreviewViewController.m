@@ -14,6 +14,9 @@
 #import "UIViewController+QSExtension.h"
 #import "QSPeopleUtil.h"
 #import "QSRootNotificationHelper.h"
+#import "NSDictionary+QSExtension.h"
+#import "QSBlockAlertView.h"
+
 @interface QSS23MatcherPreviewViewController ()
 
 @property (strong, nonatomic) NSArray* itemArray;
@@ -22,7 +25,7 @@
 
 @property (strong, nonatomic) MKNetworkOperation* createMatcherOp;
 @property (strong, nonatomic) MKNetworkOperation* updateCoverOp;
-
+@property (strong, nonatomic) QSBlockAlertView* alertView;
 @end
 
 @implementation QSS23MatcherPreviewViewController
@@ -89,9 +92,47 @@
     } onError:^(NSError *error) {
         [hud hide:YES];
         self.createMatcherOp = nil;
-        [self handleError:error];
+        
+        if (self.alertView) {
+            return;
+        }
+        
+        NSDictionary* metadata = error.userInfo;
+        NSNumber* limitCount = [metadata numberValueForKeyPath:@"limitCount"];
+        if (!limitCount) {
+            limitCount = @2;
+        }
+
+        
+        NSString* msg = [NSString stringWithFormat:@"亲~ 每小时搭%@套就可以咯，要保护眼睛哦~\n下个小时再来搭吧", limitCount];
+        QSBlockAlertView* alertView = [[QSBlockAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        self.alertView = alertView;
+        alertView.succeedHandler = ^(){
+            [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
+            self.alertView = nil;
+        };
+        alertView.cancelHandler = ^(){
+            [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
+            self.alertView = nil;
+        };
+        [alertView show];
     }];
 }
 
 
+#pragma mark - AlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView isKindOfClass:[QSBlockAlertView class]]) {
+        QSBlockAlertView* blockAlertView = (QSBlockAlertView*)alertView;
+        if (buttonIndex == blockAlertView.cancelButtonIndex) {
+            if (blockAlertView.cancelHandler) {
+                blockAlertView.cancelHandler();
+            }
+        } else {
+            if (blockAlertView.succeedHandler) {
+                blockAlertView.succeedHandler();
+            }
+        }
+    }
+}
 @end
