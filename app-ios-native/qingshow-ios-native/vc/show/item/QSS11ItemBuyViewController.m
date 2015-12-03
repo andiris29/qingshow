@@ -282,12 +282,14 @@
     if (self.updateRemixOp) {
         return;
     }
-    self.updateRemixOp = [SHARE_NW_ENGINE matcherRemix:self.masterDict onSucceed:^(NSDictionary *remixInfo) {
+    self.updateRemixOp = [SHARE_NW_ENGINE matcherRemixByItem:self.masterDict
+                                                   onSucceed:^(NSDictionary *remixInfo) {
         self.updateRemixOp = nil;
         [self.remixArray addObject:remixInfo];
         self.currentRemixIndex = self.remixArray.count - 1;
         [self _updateWithRemix:remixInfo];
-    } onError:^(NSError *error) {
+    }
+                                                     onError:^(NSError *error) {
         self.updateRemixOp = nil;
         [self handleError:error];
     }];

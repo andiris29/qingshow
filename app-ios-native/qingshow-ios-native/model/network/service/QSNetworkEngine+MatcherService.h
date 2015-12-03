@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "QSNetworkEngine.h"
 
-typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSString* modelCategoryId, NSDictionary* metadata);
+typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSDictionary* modelCategory, NSDictionary* metadata);
 
 @interface QSNetworkEngine(MatcherService)
 
@@ -39,8 +39,11 @@ typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSString* modelCategor
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)matcherRemix:(NSDictionary*)itemDict
-                          onSucceed:(DicBlock)succeedBlock
-                            onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)matcherRemixByItem:(NSDictionary*)itemDict
+                                onSucceed:(DicBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)matcherRemixByModel:(NSString*)modelId
+                                 onSucceed:(DicBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
 
 @end

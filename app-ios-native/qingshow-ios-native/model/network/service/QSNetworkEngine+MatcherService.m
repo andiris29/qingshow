@@ -19,7 +19,8 @@
 #define PATH_MATCHER_SAVE @"matcher/save"
 #define PATH_MATCHER_UPDATE_COVER @"matcher/updateCover"
 #define PATH_MATCHER_HIDE @"matcher/hide"
-#define PATH_MATCHER_REMIX @"matcher/remix"
+#define PATH_MATCHER_REMIX_BY_ITEM @"matcher/remixByItem"
+#define PATH_MATCHER_REMIX_BY_MODEL @"matcher/remixByModel"
 
 @implementation QSNetworkEngine(MatcherService)
 
@@ -54,9 +55,11 @@
                     
             [QSCategoryManager getInstance].categories = retArray;
             
+//            modelCategoryRef
             NSDictionary* metadata = [responseDict dictValueForKeyPath:@"metadata"];
-            NSString* modelId = [metadata stringValueForKeyPath:@"master"];
-            succeedBlock(retArray, modelId, metadata);
+            NSString* modelCategoryId = [metadata stringValueForKeyPath:@"modelCategoryRef"];
+            NSDictionary* modelCategory = [[QSCategoryManager getInstance] findCategoryOfId:modelCategoryId];
+            succeedBlock(retArray, modelCategory, metadata);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -155,10 +158,28 @@
     }];
 }
 
-- (MKNetworkOperation*)matcherRemix:(NSDictionary*)itemDict
-                          onSucceed:(DicBlock)succeedBlock
-                            onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_MATCHER_REMIX
+- (MKNetworkOperation*)matcherRemixByModel:(NSString*)modelId
+                                 onSucceed:(DicBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_REMIX_BY_MODEL method:@"GET" paramers:@{@"modelRef" : modelId} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* dict = completedOperation.responseJSON;
+        NSDictionary* data = [dict dictValueForKeyPath:@"data"];
+        
+        if (succeedBlock) {
+            succeedBlock(data);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+
+- (MKNetworkOperation*)matcherRemixByItem:(NSDictionary*)itemDict
+                                onSucceed:(DicBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_REMIX_BY_ITEM
                                  method:@"GET"
                                paramers:@{
                                           @"itemRef" : [QSEntityUtil getIdOrEmptyStr:itemDict]
