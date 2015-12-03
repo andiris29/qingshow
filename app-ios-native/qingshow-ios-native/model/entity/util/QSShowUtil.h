@@ -44,4 +44,5 @@
 + (void)addNumberView:(long long)num forShow:(NSDictionary*)showDict;
 + (NSArray*)getAllItemArray:(NSDictionary*)showDict;
 + (NSArray*)getItemRects:(NSDictionary*)showDict;
++ (BOOL)getItemReductionEnabled:(NSDictionary*)showDict;
 @end

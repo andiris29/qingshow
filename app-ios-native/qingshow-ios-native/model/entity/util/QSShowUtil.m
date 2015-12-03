@@ -402,4 +402,13 @@
     return nil;
     
 }
+
++ (BOOL)getItemReductionEnabled:(NSDictionary*)showDict {
+    NSNumber* n = [showDict numberValueForKeyPath:@"itemReductionEnabled"];
+    if (n) {
+        return n.boolValue;
+    } else {
+        return YES;
+    }
+}
 @end

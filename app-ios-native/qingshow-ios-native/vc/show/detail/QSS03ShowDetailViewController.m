@@ -288,7 +288,8 @@
 }
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
-{    
+{
+    self.coverLabelContainerView.hidden = ![QSShowUtil getItemReductionEnabled:dict];
     self.playBtn.hidden = !self.generateVideoPath;
 
     //Like Btn
