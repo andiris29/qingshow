@@ -75,6 +75,6 @@
     </objects>
     <resources>
         <image name="backToTopBtnImg_black" width="35" height="35"/>
-        <image name="s01_calendar" width="87" height="87"/>
+        <image name="s01_calendar" width="82" height="81"/>
     </resources>
 </document>

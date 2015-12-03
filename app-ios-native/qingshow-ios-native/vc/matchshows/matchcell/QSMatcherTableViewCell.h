@@ -10,7 +10,7 @@
 
 
 #define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
-#define QSMatcherTableViewCellHeight 340.f
+#define QSMatcherTableViewCellHeight 304.f
 
 @class QSMatcherTableViewCell;
 @protocol QSMatcherTableViewCellDelegate <NSObject>
