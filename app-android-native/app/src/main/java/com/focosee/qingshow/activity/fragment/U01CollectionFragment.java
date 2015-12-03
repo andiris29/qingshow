@@ -110,7 +110,7 @@ public class U01CollectionFragment extends U01BaseFragment {
                     return;
                 }
 
-                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery(response));
+                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery_itemString(response));
 
                 if(pageNo == 1) {
                      adapter.addDataAtTop(datas);

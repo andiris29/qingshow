@@ -78,7 +78,7 @@ public class S23SearchActivity extends BaseActivity implements BGARefreshLayout.
                     return;
                 }
 
-                List<MongoShow> datas = ShowParser.parseQuery(response);
+                List<MongoShow> datas = ShowParser.parseQuery_itemString(response);
                 if (pageNo == 1) {
                     mRefreshLayout.endRefreshing();
                     adapter.addDataAtTop(datas);
