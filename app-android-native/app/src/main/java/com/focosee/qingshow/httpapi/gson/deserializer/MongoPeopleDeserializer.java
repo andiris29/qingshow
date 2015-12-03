@@ -23,7 +23,7 @@ public class MongoPeopleDeserializer implements JsonDeserializer<MongoPeople> {
             people._id = jElement.getAsString();
             return people;
         }else{
-            return QSGsonFactory.create().fromJson(jElement.toString(), MongoPeople.class);
+            return QSGsonFactory.create(MongoPeople.class).fromJson(jElement.toString(), MongoPeople.class);
         }
     }
 }

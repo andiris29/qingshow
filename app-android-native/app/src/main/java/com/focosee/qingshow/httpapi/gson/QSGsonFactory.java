@@ -1,21 +1,20 @@
 package com.focosee.qingshow.httpapi.gson;
 
-import android.graphics.Rect;
-
+import com.focosee.qingshow.httpapi.gson.deserializer.AggregationDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoCategoryIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoItemIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoParentCategoryIdDeserializer;
-import com.focosee.qingshow.httpapi.gson.deserializer.MongoPeopleDeserializer;
-import com.focosee.qingshow.httpapi.gson.deserializer.PriceDeserializer;
+import com.focosee.qingshow.httpapi.gson.deserializer.NumberDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.QSRectDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.UTCDeserializer;
+import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
 import com.focosee.qingshow.model.vo.context.QSRect;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.GregorianCalendar;
 
@@ -23,55 +22,28 @@ import java.util.GregorianCalendar;
  * Created by i068020 on 2/28/15.
  */
 public class QSGsonFactory {
+
     public static Gson create() {
         return createBuilder().create();
     }
 
-    public static GsonBuilder createBuilder() {
+    public static Gson create(Class omit){
+        return createDeserializerBuilder(TypeToken.get(omit)).create();
+    }
+
+    public static GsonBuilder createBuilder(){
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(GregorianCalendar.class, new UTCDeserializer());
-        builder.registerTypeAdapter(QSRect.class, new QSRectDeserializer());
-        return builder;
+        return builder.registerTypeAdapter(GregorianCalendar.class, new UTCDeserializer())
+                .registerTypeAdapter(QSRect.class, new QSRectDeserializer())
+                .registerTypeAdapter(Number.class, new NumberDeserializer())
+                .registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer())
+                .registerTypeAdapter(MongoParentCategories.class, new MongoParentCategoryIdDeserializer())
+                .registerTypeAdapter(FeedingAggregation.class, new AggregationDeserializer())
+                .registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
     }
 
-    public static GsonBuilder itemBuilder() {
-        GsonBuilder builder = createBuilder();
-        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
-        builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
-        return builder;
-    }
-
-    public static GsonBuilder cateGoryBuilder() {
-        GsonBuilder builder = createBuilder();
-        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
-        builder.registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer());
-        return builder;
-    }
-
-    public static GsonBuilder parentCateGoryBuilder() {
-        GsonBuilder builder = createBuilder();
-        builder.registerTypeAdapter(MongoParentCategories.class, new MongoParentCategoryIdDeserializer());
-        return builder;
-    }
-
-    public static GsonBuilder peopleBuilder() {
-        GsonBuilder builder = createBuilder();
-        builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer());
-        return builder;
-    }
-
-    public static GsonBuilder peopleAndItemBuilder() {
-        GsonBuilder builder = createBuilder();
-        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
-        builder.registerTypeAdapter(MongoPeople.class, new MongoPeopleDeserializer()).registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
-        return builder;
-    }
-
-    public static GsonBuilder tradeBudiler(){
-        GsonBuilder builder = createBuilder();
-        builder.registerTypeAdapter(Number.class, new PriceDeserializer());
-        builder.registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer());
-        builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
-        return builder;
+    private static GsonBuilder createDeserializerBuilder(TypeToken omit) {
+        GsonBuilder builder = new GsonBuilder();
+        return builder.registerTypeAdapterFactory(new OmitTypeAdpaterFactory(omit, createBuilder()));
     }
 }

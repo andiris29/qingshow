@@ -29,7 +29,7 @@ public class ShowParser {
     public static LinkedList<MongoShow> parseQuery(JSONObject response) {
         try {
             String shows = response.getJSONObject("data").getJSONArray("shows").toString();
-            Gson gson = QSGsonFactory.itemBuilder().create();
+            Gson gson = QSGsonFactory.create();
             return gson.fromJson(shows, new TypeToken<LinkedList<MongoShow>>() {
             }.getType());
         } catch (JSONException e) {
@@ -38,20 +38,16 @@ public class ShowParser {
     }
 
     public static LinkedList<MongoShow> parseQuery_itemString(JSONObject response) {
-        Gson gson = QSGsonFactory.itemBuilder().create();
+        Gson gson = QSGsonFactory.create();
         return parseQuery(response, gson);
     }
 
     //people and category is String
     public static LinkedList<MongoShow> parseQuery_categoryString(JSONObject respnose) {
-        Gson gson = QSGsonFactory.cateGoryBuilder().create();
+        Gson gson = QSGsonFactory.create();
         return parseQuery(respnose, gson);
     }
 
-    public static LinkedList<MongoShow> parseQuery_parentCategoryString(JSONObject respnose) {
-        Gson gson = QSGsonFactory.parentCateGoryBuilder().create();
-        return parseQuery(respnose, gson);
-    }
 
     public static MongoShow parse(JSONObject response, Gson gson) {
         try {
@@ -66,17 +62,12 @@ public class ShowParser {
     }
 
     public static MongoShow parse(JSONObject response){
-        Gson gson = QSGsonFactory.itemBuilder().create();
-        return parse(response, gson);
-    }
-
-    public static MongoShow parse_peopleString(JSONObject response){
-        Gson gson = QSGsonFactory.peopleBuilder().registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer()).create();
+        Gson gson = QSGsonFactory.create();
         return parse(response, gson);
     }
 
     public static MongoShow parsePeopleAndItemString(JSONObject response){
-        Gson gson = QSGsonFactory.peopleAndItemBuilder().create();
+        Gson gson = QSGsonFactory.create();
         return parse(response,gson);
     }
 }

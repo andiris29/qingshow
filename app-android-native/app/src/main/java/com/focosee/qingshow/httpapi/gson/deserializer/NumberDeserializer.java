@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 /**
  * Created by Administrator on 2015/10/6.
  */
-public class PriceDeserializer implements JsonDeserializer<Number> {
+public class NumberDeserializer implements JsonDeserializer<Number> {
 
     @Override
     public Number deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

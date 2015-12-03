@@ -33,7 +33,7 @@ public class FeedingAggregationParser {
     }
 
     public static List<FeedingAggregation> parseQuery(JSONObject response){
-        Gson gson = QSGsonFactory.peopleAndItemBuilder().create();
+        Gson gson = QSGsonFactory.create();
         List<FeedingAggregation> list = new ArrayList<>();
         try {
             JSONObject jsonData = response.getJSONObject("data");
