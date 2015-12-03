@@ -28,7 +28,7 @@ ShareHelper.create = function(initiatorRef, type, targetInfo, callback){
 	}
 	
 	sharedObject.save(function(err, sharedObject) {
-	    sharedObject.url = global.qsConfig.appWebRoot ＋ '?_id=' + sharedObject._id.toString();
+	    sharedObject.url = global.qsConfig.appWebRoot + '?_id=' + sharedObject._id.toString();
         sharedObject.save(function(err, sharedObject) {
             callback(err, sharedObject);
         });
