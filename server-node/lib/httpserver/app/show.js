@@ -56,8 +56,7 @@ show.query = {
                 var show = shows[0];
                 // Log
                 TraceHelper.trace('behavior-show-query', req, {
-                    '_showId' : show._id.toString(),
-                    'featuredRank' : show.featuredRank ? show.featuredRank : ''
+                    '_showId' : show._id.toString()
                 });
             }
 
@@ -291,24 +290,4 @@ show.view = {
         });
     }
 };
-
-show.updateFeaturedRank = {
-    'method' : 'post',
-    'func' : function(req, res){
-        var qsParam = req.body;
-        async.waterfall([function(callback){
-            var criteria = {};
-            var featuredRank = qsParam.featuredRank || 0;
-            Show.findOneAndUpdate({
-                '_id' : RequestHelper.parseId(qsParam._id)
-            }, {
-                '$set' : {
-                    'featuredRank' : featuredRank
-                }
-            }).exec(callback);
-        }], function(err){
-            ResponseHelper.response(res, err, {});
-        })
-    }
-}
 

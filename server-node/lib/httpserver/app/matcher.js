@@ -25,15 +25,6 @@ var errors = require('../../errors');
 
 var matcher = module.exports;
  
-var _isFake = function(people){
-    if(isNaN(people.userInfo.id)) {
-        return false;
-    } else {
-        var n = parseInt(people.userInfo.id);
-        return (n >= 400 && n < 500) || (n > 600 && n < 700);
-    }
-};
-
 var _shuffle = function (array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
   while (0 !== currentIndex) {
@@ -118,7 +109,6 @@ matcher.save = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var featuredRank;
         async.waterfall([function(callback){
             People.findOne({
                 '_id' : req.qsCurrentUserId
@@ -134,29 +124,12 @@ matcher.save = {
             var coverUrl = global.qsConfig.show.coverForeground.template;
             coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
 
-            var show = {};
-
-            if (featuredRank) {
-                show.featuredRank = featuredRank;
-            }
-
-            if (_isFake(people)) {
-                show = {
-                    'itemRefs' : itemRefs,
-                    'itemRects' : itemRects,
-                    'ownerRef' : req.qsCurrentUserId,
-                    'coverForeground' : coverUrl,
-                    'featuredRank' : 1
-                }; 
-            }else {
-                show = {
+            var show = {
                     'itemRefs' : itemRefs,
                     'itemRects' : itemRects,
                     'ownerRef' : req.qsCurrentUserId,
                     'coverForeground' : coverUrl
-                };
-            }
-            show.featuredRank = people.talent ? ShowCode.FEATURED_RANK_TALENT : ShowCode.FEATURED_RANK_NORMAL;
+                }; 
             
             req.session.matcher = show;
             callback(null, show);
