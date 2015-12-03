@@ -19,17 +19,16 @@ var _run = function() {
     
     Show.find({
         '$and' : [
+            {'itemReductionEnabled' : true},
             {'create' : {'$gte' : new Date(date.getTime() - 24 * ONE_HOUR)}},
             {'create' : {'$lt' : new Date(date.getTime() - 23 * ONE_HOUR)}}
         ]
     }, function(err, shows) {
         shows.forEach(function(show) {
-            if (show.itemReductionEnabled) {
-                show.itemReductionEnabled = false;
-                show.save(function(){});
-                
-                BonusHelper.createShowBonus(show, function(){});
-            }
+            show.itemReductionEnabled = false;
+            show.save(function(){});
+            
+            BonusHelper.createShowBonus(show, function(){});
         });
     });
 };
