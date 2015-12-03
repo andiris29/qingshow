@@ -67,6 +67,8 @@
 		EF1BD51F1C0EC57300754544 /* QSRootContainerViewController+RootNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1BD51E1C0EC57300754544 /* QSRootContainerViewController+RootNotification.m */; };
 		EF1F52B11ABB281100E7EDDF /* QSNetworkEngine+TradeService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */; };
 		EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */; };
+		EF25AEB21C104A1C00F1CE19 /* QSActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF25AEB01C104A1C00F1CE19 /* QSActivityViewController.m */; };
+		EF25AEB31C104A1C00F1CE19 /* QSActivityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF25AEB11C104A1C00F1CE19 /* QSActivityViewController.xib */; };
 		EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013451AC31AFC00568D92 /* QSPaymentService.m */; };
 		EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013481AC31BD700568D92 /* AlipayOrder.m */; };
 		EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */; };
@@ -462,6 +464,9 @@
 		EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+TradeService.m"; sourceTree = "<group>"; };
 		EF241E691AB9BF6F007B5058 /* QSTradeSelectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeSelectButton.h; sourceTree = "<group>"; };
 		EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeSelectButton.m; sourceTree = "<group>"; };
+		EF25AEAF1C104A1C00F1CE19 /* QSActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSActivityViewController.h; sourceTree = "<group>"; };
+		EF25AEB01C104A1C00F1CE19 /* QSActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSActivityViewController.m; sourceTree = "<group>"; };
+		EF25AEB11C104A1C00F1CE19 /* QSActivityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSActivityViewController.xib; sourceTree = "<group>"; };
 		EF3013441AC31AFC00568D92 /* QSPaymentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPaymentService.h; sourceTree = "<group>"; };
 		EF3013451AC31AFC00568D92 /* QSPaymentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPaymentService.m; sourceTree = "<group>"; };
 		EF3013471AC31BD700568D92 /* AlipayOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayOrder.h; sourceTree = "<group>"; };
@@ -1352,6 +1357,9 @@
 				EFFABD691B0C9CD700298BD1 /* QSRootContentViewController.h */,
 				EFFABD6A1B0C9CD800298BD1 /* QSRootContentViewController.m */,
 				EFECFE921BB6DAD600146BD7 /* QSIRootContentViewController.h */,
+				EF25AEAF1C104A1C00F1CE19 /* QSActivityViewController.h */,
+				EF25AEB01C104A1C00F1CE19 /* QSActivityViewController.m */,
+				EF25AEB11C104A1C00F1CE19 /* QSActivityViewController.xib */,
 			);
 			path = root;
 			sourceTree = "<group>";
@@ -2924,6 +2932,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C5345491B4D61180062D638 /* welcome3_667@2x.png in Resources */,
+				EF25AEB31C104A1C00F1CE19 /* QSActivityViewController.xib in Resources */,
 				8C53454C1B4D61180062D638 /* welcome3_736@3x.png in Resources */,
 				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
 				EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */,
@@ -3152,6 +3161,7 @@
 				EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */,
 				EF029C251BC0234C008E66D0 /* UIDevice-Hardware.m in Sources */,
 				EF8CD3961C0379880040611D /* QSDateUtil.m in Sources */,
+				EF25AEB21C104A1C00F1CE19 /* QSActivityViewController.m in Sources */,
 				EF8CD2BA1C0378E50040611D /* QSU02InfoTitleCell.m in Sources */,
 				EF8CD33F1C03794C0040611D /* APAuthV2Info.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* MKNetworkEngine+QSExtension.m in Sources */,
