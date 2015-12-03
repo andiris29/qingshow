@@ -126,7 +126,6 @@
         payTypeDict = @{@"alipay" : [NSNull null]};
     }
     paramDict[@"pay"] = payTypeDict;
-    paramDict[@"paymentServiceRoot"] = [[QSPaymentService shareService] getPaymentHost];
     return [self startOperationWithPath:PATH_TRADE_PREPAY method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
