@@ -17,7 +17,8 @@ var categorySchema = {
     parentRef : {
         type : Schema.Types.ObjectId,
         ref : 'categories'
-    }
+    },
+    remixCategoryAliases : String
 };
 
 var Category = mongoose.model('categories', categorySchema);

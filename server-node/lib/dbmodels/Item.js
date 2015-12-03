@@ -38,7 +38,8 @@ itemSchema = Schema({
         type : Boolean,
         'default' : true
     },
-    sync : Date
+    sync : Date,
+    remixCategoryAliases : String
 });
 
 var Item = mongoose.model('items', itemSchema);

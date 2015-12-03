@@ -16,6 +16,21 @@ properties.parse(configPath, {
         return;
     }
     global.qsConfig = config;
+    
+    // Load additional configs
+    properties.parse(
+        path.join(__dirname, 'modelRemixConfig.properties'), 
+        {'path' : true, 'namespaces' : true, 'variables' : true}, 
+        function(err, config) {
+            global.qsConfig.modelRemix = config;
+        });
+    properties.parse(
+        path.join(__dirname, 'itemRemixConfig.properties'), 
+        {'path' : true, 'namespaces' : true, 'variables' : true}, 
+        function(err, config) {
+            global.qsConfig.itemRemix = config;
+        });
+        
     // Initialize logger
     require('./runtime').loggers.init();
 
@@ -39,25 +54,5 @@ properties.parse(configPath, {
             console.log(err);
         }
     });
-});
-
-//load matchConfig
-var matchConfigPath = path.join(__dirname, 'matcherConfig.properties');
-properties.parse(matchConfigPath, {
-    path : true,
-    namespaces : true,
-    variables : true
-}, function(err, config){
-    global.qsMatcherConfig = config;
-});
-
-//load remixConfig
-var remixConfigPath = path.join(__dirname, 'remixConfig.properties');
-properties.parse(remixConfigPath, {
-    path : true,
-    namespaces : true,
-    variables : true
-}, function(err, config){
-    global.qsRemixConfig = config;
 });
 

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -78,8 +80,8 @@ public class S11NewTradeActivity extends BaseActivity {
     Button submit;
     @InjectView(R.id.props)
     LinearLayout propsLayout;
-    @InjectView(R.id.s11_canvas)
-    QSCanvasView canvasView;
+    @InjectView(R.id.s11_canvas_pager)
+    ViewPager canvasPager;
 
     private MongoItem itemEntity;
     private MongoTrade trade;

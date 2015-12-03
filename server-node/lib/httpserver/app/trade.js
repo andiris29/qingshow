@@ -543,7 +543,7 @@ trade.forge = {
             }
 
             if (item.delist) {
-                callback(errors.InvalidItem);
+                callback(errors.ERR_INVALID_ITEM);
                 return;
             }
             if (item.skuProperties && item.skuProperties.length > 0) {

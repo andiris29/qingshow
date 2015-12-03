@@ -5,7 +5,7 @@ var _ = require('underscore');
 
 // model
 var Category = require('../../dbmodels').Category;
-var Items = require('../../dbmodels').Item;
+var Item = require('../../dbmodels').Item;
 var Show = require('../../dbmodels').Show;
 var ShowCode = require('../../dbmodels').ShowCode;
 var People = require('../../dbmodels').People;
@@ -27,12 +27,12 @@ var matcher = module.exports;
  
 var _isFake = function(people){
     if(isNaN(people.userInfo.id)) {
-        return false
+        return false;
     } else {
         var n = parseInt(people.userInfo.id);
         return (n >= 400 && n < 500) || (n > 600 && n < 700);
     }
-}
+};
 
 var _shuffle = function (array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -45,7 +45,7 @@ var _shuffle = function (array) {
   }
 
   return array;
-}
+};
 
 matcher.queryCategories = {
     'method' : 'get',
@@ -54,7 +54,7 @@ matcher.queryCategories = {
             ResponseHelper.response(res, err, {
                 'categories' : categories
             },{
-                'master' : global.qsMatcherConfig.common.master.categoryRef
+                'modelCategoryRef' : global.qsConfig.modelRemix.modelCategoryRef
             });
         });
     }
@@ -88,11 +88,11 @@ matcher.queryItems = {
             }
             pageNo = parseInt(qsParam.pageNo) + pageNo + 1;
             ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-                MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, 
+                MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), pageNo, 
                     qsParam.pageSize, function(err, models, count){
                         if ((!count || count < qsParam.pageSize) && pageNo != 0) {
                             pageNo = 0;
-                            MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
+                            MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
                                 callback(err, models ? models.concat(fillingModels) : fillingModels, qsParam.pageSize);
                             });
                             queryItems[category._id.toString()] = pageNo;
@@ -109,17 +109,8 @@ matcher.queryItems = {
                 }; 
 
             }, {
-                'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
-                    if (qsParam.categoryRef === global.qsMatcherConfig.common.master.categoryRef) {
-                        ContextHelper.appendMatchCompositionContext(currentPageModels, function(err, items){
-                            callback(null, items)
-                        })   
-                    }else {
-                        callback(null, currentPageModels);
-                    }
-                }
             });
-        })
+        });
     }
 };
 
@@ -171,7 +162,7 @@ matcher.save = {
             callback(null, show);
         }], function(err, show) {
             ResponseHelper.response(res, null, {});
-        })
+        });
     }
 };
 
@@ -254,64 +245,97 @@ matcher.hide = {
     }
 };
 
-matcher.remix = {
-    method : 'get',
-    func : function(req, res){
-        var itemRef = req.queryString.itemRef,
-        qsRemixConfig = global.qsRemixConfig;
-        async.waterfall([function(callback){
-            Items.findOne({
-                '_id' : itemRef
-            }, callback);
-        }, function(item, callback){
-            var element;
-            for(var key in qsRemixConfig){
-                var master = qsRemixConfig[key].master;
-                if (_.isString(master.categoryRef) && master.categoryRef === item.categoryRef) {
-                    element = qsRemixConfig[key];
-                }else if (_.isArray(master.categoryRef) && _.contains(master.categoryRef, item.categoryRef)) {
-                    element = qsRemixConfig[key];
-                }else if (master.categoryRef === '*') {
-                    element = qsRemixConfig[key];
-                }
-            }
+var _injectRemixCategories = function(req, res, next) {
+    async.parallel(req.injection.remixCategoryAliases.map(function(alias) {
+        return function(callback) {
+            Category.findOne({'alias' : alias}, callback);
+        };
+    }), function(err, results) {
+        req.injection.remixCategories = results;
+        next();
+    });
+};
 
-            if (!element) {
-                callback(errors.INVALID_OBJECT_ID);
-                return;
-            }
-            callback(null, require('../../helpers/ConfigHelper').format(element), item);
-        }, function(config, item, callback){
-            var data = {},
-            criteria = {};
-            data.master = config.master;
-            data.slaves = [];
-            criteria = {
-                $or: [{
-                    shopRef: item.shopRef
-                }, {
-                    remix: true
-                }]
-            };
-            var tasks = config.slaves.map(function(slave){
-                return function(cb){
-                    criteria.categoryRef = slave.categoryRef;
-                    Items.find(criteria).exec(function(err, items){ 
-                        if (items.length !== 0) {
-                            var randomIndex = require('../../utils/RandomUtil').random(0, items.length);
-                            slave.itemRef = items[randomIndex];
-                            delete slave.categoryRef;
-                            data.slaves.push(slave);   
-                        }
-                        cb(err);
+matcher.remixByModel = {
+    'method' : 'get',
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, 'modelRef'),
+        function(req, res, next) {
+            req.injection.remixCategoryAliases = req.injection.modelRef.remixCategoryAliases.split(',');
+            next();
+        },
+        _injectRemixCategories,
+        function(req, res, next) {
+            for(var composition in global.qsConfig.modelRemix) {
+                var config = global.qsConfig.modelRemix[composition];
+                if (_.keys(config).length === req.injection.remixCategories.length + 1) {
+                    var data = {
+                        'master' : {'rect' : config.master.rect},
+                        'slaves' : []
+                    };
+                    req.injection.remixCategories.forEach(function(category, index) {
+                        data.slaves[index] = {
+                            'categoryRef' : category._id.toString(),
+                            'rect' : config['slave' + index].rect
+                        };
                     });
+                    ResponseHelper.writeData(res, data);
+                    break;
+                }
+            }
+            next();
+        }
+    ]
+};
+
+matcher.remixByItem = {
+    'method' : 'get',
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, 'itemRef'),
+        function(req, res, next) {
+            req.injection.itemRef.populate('categoryRef', function() {
+                if (req.injection.itemRef.categoryRef) {
+                    req.injection.remixCategoryAliases = req.injection.itemRef.categoryRef.remixCategoryAliases.split(',');
+                    next();
+                } else {
+                    next(errors.ERR_INVALID_ITEM);
                 }
             });
-            async.parallel(tasks, function(err){
-                callback(err, data);
+        },
+        _injectRemixCategories,
+        function(req, res, next) {
+            async.parallel(req.injection.remixCategories.map(function(category) {
+                return function(callback) {
+                    Item.find({'categoryRef' : category._id}).count(function(err, count) {
+                        Item.find({'categoryRef' : category._id}).skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
+                            callback(err, items[0]);
+                        });
+                    });
+                };
+            }), function(err, results) {
+                req.injection.remixItems = results;
+                next();
             });
-        }], function(err, data){
-            ResponseHelper.response(res, err, data);
-        });
-    }
-}
+        },
+        function(req, res, next) {
+            for(var composition in global.qsConfig.itemRemix) {
+                var config = global.qsConfig.itemRemix[composition];
+                if (_.keys(config).length === req.injection.remixItems.length + 1) {
+                    var data = {
+                        'master' : {'rect' : config.master.rect},
+                        'slaves' : []
+                    };
+                    req.injection.remixItems.forEach(function(item, index) {
+                        data.slaves[index] = {
+                            'itemRef' : item._id.toString(),
+                            'rect' : config['slave' + index].rect
+                        };
+                    });
+                    ResponseHelper.writeData(res, data);
+                    break;
+                }
+            }
+            next();
+        }
+    ]
+};

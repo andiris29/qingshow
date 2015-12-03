@@ -7,8 +7,7 @@ var injectModelGenerator = module.exports;
 injectModelGenerator.generateInjectOneByObjectId = function(Model, fromKeyword, toKeyword) {
     toKeyword = toKeyword || fromKeyword;
     return injectModelGenerator.generateInjectOne(Model, toKeyword, function(req) {
-        var param = req.body || req.queryString || {},
-            _id = param[fromKeyword];
+        var _id = req.body[fromKeyword] || req.queryString[fromKeyword];
         return {
             '_id' : _id ? RequestHelper.parseId(_id) : null
         };
