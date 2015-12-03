@@ -350,6 +350,12 @@
 }
 
 + (NSNumber*)getAvailableBonus:(NSDictionary*)dict {
-    return [dict numberValueForKeyPath:@"__context.bonusAmountByStatus.0"];
+    NSDictionary* bonusDict = [dict dictValueForKeyPath:@"__context.bonusAmountByStatus"];
+    if (bonusDict) {
+        return @([dict numberValueForKeyPath:@"__context.bonusAmountByStatus.0"].floatValue + [dict numberValueForKeyPath:@"__context.bonusAmountByStatus.1"].floatValue);
+        
+    } else {
+        return nil;
+    }
 }
 @end
