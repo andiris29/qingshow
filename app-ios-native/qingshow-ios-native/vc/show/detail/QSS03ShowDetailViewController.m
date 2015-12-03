@@ -367,11 +367,8 @@
     [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
         if (f) {
             [self showSuccessHudWithText:@"添加收藏"];
-            [self.favorBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            
         } else {
             [self showSuccessHudWithText:@"取消收藏"];
-            [self.favorBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         }
         [self bindExceptImageWithDict:showDict];
         
