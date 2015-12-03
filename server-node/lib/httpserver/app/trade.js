@@ -85,7 +85,7 @@ trade.prepay = {
                     '&totalFee=' + trade.totalFee + 
                     '&orderName=' + encodeURIComponent(orderName) + 
                     '&clientIp=' + RequestHelper.getIp(req) + 
-                    '&notifyUrl=' + encodeURIComponent(req.body.paymentServiceRoot + '/wechat/callback');
+                    '&notifyUrl=' + encodeURIComponent(global.qsConfig.paymentServiceRoot + '/wechat/callback');
                 request.get(url, function(error, response, body) {
                     var jsonObject;
                     try {
