@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,6 +22,7 @@ import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
@@ -30,7 +30,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S20Bitmap;
-import com.focosee.qingshow.model.vo.context.ItemContext;
+import com.focosee.qingshow.model.vo.remix.RemixByModel;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -63,9 +63,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
 
 /**
  * Created by Administrator on 2015/7/1.
@@ -237,6 +234,34 @@ public class S20MatcherActivity extends BaseActivity {
         });
     }
 
+    private void enforceRemix(final MongoItem data){
+        QSRxApi.remixByModel(data._id)
+                .subscribe(new QSSubscriber<RemixByModel>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S20MatcherActivity.this, message);
+                    }
+
+                    @Override
+                    public void onNext(RemixByModel remixByModel) {
+                        super.onNext(remixByModel);
+                        Select modelSelect = allSelect.get(modelCategory);
+                        canvas.removeAllViews();
+                        allSelect.clear();
+                        final Point canvasPoint = new Point();
+                        canvasPoint.x = canvas.getWidth();
+                        canvasPoint.y = canvas.getHeight();
+                        RectF rect = remixByModel.master.rect.getRect(canvasPoint);
+                        modelSelect.rect = rect;
+                        allSelect.put(modelCategory, modelSelect);
+                        addItemsToCanvas(modelCategory, data.thumbnail);
+                        for (RemixByModel.Slave slave : remixByModel.slaves) {
+                            getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
+                        }
+                    }
+                });
+    }
+
 
     private void initSelectRV() {
         datas = new LinkedList<>();
@@ -250,19 +275,7 @@ public class S20MatcherActivity extends BaseActivity {
                 }
 
                 if (datas.categoryRef._id.equals(modelCategory)){
-                    Select modelSelect = allSelect.get(modelCategory);
-                    canvas.removeAllViews();
-                    allSelect.clear();
-                    final Point canvasPoint = new Point();
-                    canvasPoint.x = canvas.getWidth();
-                    canvasPoint.y = canvas.getHeight();
-                    RectF rect = datas.__context.master.rect.getRect(canvasPoint);
-                    modelSelect.rect = rect;
-                    allSelect.put(modelCategory, modelSelect);
-                    addItemsToCanvas(modelCategory, datas.thumbnail);
-                    for (ItemContext.Slave slave : datas.__context.slaves) {
-                        getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
-                    }
+                    enforceRemix(datas);
                 }
 
                 ImageLoader.getInstance().displayImage(datas.thumbnail, allSelect.get(mCategoryRef).view.getImageView(), new SimpleImageLoadingListener() {
@@ -353,19 +366,7 @@ public class S20MatcherActivity extends BaseActivity {
                 }
 
                 if (datas.get(0).categoryRef._id.equals(modelCategory)){
-                    Select modelSelect = allSelect.get(modelCategory);
-                    canvas.removeAllViews();
-                    allSelect.clear();
-                    final Point canvasPoint = new Point();
-                    canvasPoint.x = canvas.getWidth();
-                    canvasPoint.y = canvas.getHeight();
-                    RectF rect = datas.get(0).__context.master.rect.getRect(canvasPoint);
-                    modelSelect.rect = rect;
-                    allSelect.put(modelCategory, modelSelect);
-                    addItemsToCanvas(modelCategory, datas.get(0).thumbnail);
-                    for (ItemContext.Slave slave : datas.get(0).__context.slaves) {
-                        getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
-                    }
+                    enforceRemix(datas.get(0));
                 }else {
                     addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
                 }
@@ -412,7 +413,7 @@ public class S20MatcherActivity extends BaseActivity {
                     return;
                 }
                 try {
-                    modelCategory = response.getJSONObject("metadata").get("master").toString();
+                    modelCategory = response.getJSONObject("metadata").get("modelCategoryRef").toString();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -423,15 +424,6 @@ public class S20MatcherActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void moveView(View view, float startX, float startY, float nextX, float nextY) {
-        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", startX, nextX);
-        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", startY, nextY);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(x, y);
-        animatorSet.setDuration(0);
-        animatorSet.start();
-        ((QSImageView) view).setLastCentroid(new Point(view.getLeft() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicWidth() / 2, view.getTop() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicHeight() / 2));
-    }
 
     @Override
     protected void onDestroy() {

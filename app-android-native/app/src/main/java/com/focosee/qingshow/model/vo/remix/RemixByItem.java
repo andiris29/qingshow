@@ -1,4 +1,4 @@
-package com.focosee.qingshow.model.vo;
+package com.focosee.qingshow.model.vo.remix;
 
 import com.focosee.qingshow.model.vo.context.QSRect;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/12/2.
  */
-public class Remix implements Serializable {
+public class RemixByItem implements Serializable {
     Master master;
     List<Slave> slaves;
 

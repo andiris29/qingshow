@@ -1,7 +1,5 @@
 package com.focosee.qingshow.model.vo.mongo;
 
-import com.focosee.qingshow.model.vo.context.ItemContext;
-
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -13,8 +11,6 @@ import java.util.List;
 public class MongoItem implements Serializable {
 
     public String _id;
-
-    public ItemContext __context;
     public MongoCategories categoryRef;
     public String name;
     public String source;
