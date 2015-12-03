@@ -7,9 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU19LoginGuideViewController">
             <connections>
+                <outlet property="bottomConstraint" destination="MX4-SI-oaC" id="8lu-VP-RRH"/>
                 <outlet property="closeBtn" destination="OyJ-X6-olC" id="rmZ-7C-W3S"/>
                 <outlet property="mobileLoginBtn" destination="tNm-4o-Lke" id="WRm-fd-WUw"/>
                 <outlet property="registerBtn" destination="1ZX-JL-3vh" id="RYc-IP-MCc"/>
+                <outlet property="topConstraint" destination="PLq-cf-2bF" id="1ZH-tg-KIx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="weichatLoginBtn" destination="bh1-iq-gVE" id="dhj-8x-8jj"/>
             </connections>
@@ -68,8 +70,8 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="1ZX-JL-3vh" secondAttribute="bottom" constant="64" id="48r-y6-qRf"/>
+                <constraint firstAttribute="bottom" secondItem="bh1-iq-gVE" secondAttribute="bottom" constant="212" id="MX4-SI-oaC"/>
                 <constraint firstItem="tNm-4o-Lke" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="131" id="PLq-cf-2bF"/>
-                <constraint firstItem="1ZX-JL-3vh" firstAttribute="top" secondItem="bh1-iq-gVE" secondAttribute="bottom" constant="114" id="Pey-0s-hwt"/>
                 <constraint firstItem="OyJ-X6-olC" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="W8Z-xT-YIX"/>
                 <constraint firstItem="1ZX-JL-3vh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="bxS-dr-rVT"/>
                 <constraint firstAttribute="trailing" secondItem="OyJ-X6-olC" secondAttribute="trailing" constant="15" id="dUf-su-Nau"/>

@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *mobileLoginBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *weichatLoginBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;
 
 @end
@@ -48,6 +50,10 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    CGFloat divide = (screenHeight - 225) / 2;
+    self.topConstraint.constant = divide;
+    self.bottomConstraint.constant = divide;
     // Do any additional setup after loading the view from its nib.
     
     if (![WXApi isWXAppInstalled]) {
