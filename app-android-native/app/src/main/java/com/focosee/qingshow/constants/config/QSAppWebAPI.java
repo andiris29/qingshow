@@ -111,7 +111,11 @@ public class QSAppWebAPI {
 
     private static String SHOW_VIEW_API = "/show/view";
 
-    private static String MATCHER_REMIX = "/matcher/remix";
+    private static String REMIX_BY_MODEL = "/matcher/remixByModel";
+
+    private static String REMIX_BY_ITEM = "/matcher/remixByItem";
+    private static final String FEEDING_TIME = "/feeding/time";
+
 
     public static String getFeedingaggregationLatest() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_LATEST;
@@ -263,8 +267,8 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_HOT_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getMatchNewApi(int pageNo, int pageSize, String from, String to) {
-        return "http://dev.chingshow.com/services" + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
+    public static String getFeedingTimeApi(int pageNo, int pageSize, String from, String to) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_TIME + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
     }
 
     public static String getQueryCategories() {
@@ -369,8 +373,11 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEPORTRAIT;
     }
 
-    public static String getMatcherRemix(String itemRef) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCHER_REMIX;
+    public static String getRemixByModel(String modelRef) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + REMIX_BY_MODEL + "?modelRef=" + modelRef;
     }
 
+    public static String getRemixByItem(String itemRef) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + REMIX_BY_ITEM + "?itemRef=" + itemRef;
+    }
 }

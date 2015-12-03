@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
-import com.focosee.qingshow.adapter.S24Adapter;
 import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
@@ -15,7 +14,6 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.AbsAdapter;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,7 +53,7 @@ public class S24ShowsDateActivity extends BaseActivity {
     }
 
     private void bindDataFromNet(int pageNo, int pageSize, String from, String to){
-        QSRxApi.createFeedingMatchNewRequest(pageNo, pageSize, from, to)
+        QSRxApi.feedingTime(pageNo, pageSize, from, to)
                 .subscribe(new QSSubscriber<List<MongoShow>>() {
                     @Override
                     public void onNetError(int message) {

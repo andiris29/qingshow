@@ -1,19 +1,16 @@
 package com.focosee.qingshow.httpapi;
 
-import android.util.Log;
-
 import com.android.volley.Request.Method;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RxRequest;
-import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationParser;
-import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
+import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
+import com.focosee.qingshow.httpapi.response.dataparser.RemixByModelParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
-import com.focosee.qingshow.model.vo.Remix;
+import com.focosee.qingshow.model.vo.remix.RemixByItem;
+import com.focosee.qingshow.model.vo.remix.RemixByModel;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
-import com.focosee.qingshow.model.vo.mongo.MongoCategories;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 
@@ -21,7 +18,6 @@ import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,12 +57,12 @@ public class QSRxApi {
                 }).toList();
     }
 
-    public static Observable<List<MongoShow>> createFeedingMatchNewRequest(int pageNo, int pageSize, String from, String to){
+    public static Observable<List<MongoShow>> feedingTime(int pageNo, int pageSize, String from, String to){
         Map<String, Object> reqData = new HashMap<>();
         reqData.put("from", from);
         reqData.put("to", to);
 
-        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getMatchNewApi(pageNo, pageSize, from, to), null)
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getFeedingTimeApi(pageNo, pageSize, from, to), null)
                 .map(new Func1<JSONObject, List<MongoShow>>() {
                     @Override
                     public List<MongoShow> call(JSONObject jsonObject) {
@@ -85,14 +81,24 @@ public class QSRxApi {
             });
     }
 
-    public static Observable<Remix> matcherRemix(String itemRef){
-        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getMatcherRemix(itemRef), null)
-                .map(new Func1<JSONObject, Remix>() {
+    public static Observable<RemixByItem> remixByItem(String itemRef){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getRemixByItem(itemRef), null)
+                .map(new Func1<JSONObject, RemixByItem>() {
                     @Override
-                    public Remix call(JSONObject jsonObject) {
-                        return null;
+                    public RemixByItem call(JSONObject jsonObject) {
+                        return RemixByItemParser.parse(jsonObject);
                     }
                 });
+    }
+
+    public static Observable<RemixByModel> remixByModel(String modelRef){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getRemixByModel(modelRef),null)
+            .map(new Func1<JSONObject, RemixByModel>() {
+                @Override
+                public RemixByModel call(JSONObject jsonObject) {
+                    return RemixByModelParser.parse(jsonObject);
+                }
+            });
     }
 
 }

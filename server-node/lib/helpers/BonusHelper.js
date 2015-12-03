@@ -64,7 +64,8 @@ var _notify = function(bonus) {
         NotificationHelper.MessageNewBonus.replace(/\{0\}/g, bonus.amount), 
         {
             'command' : NotificationHelper.CommandNewBonus,
-            '_id' : bonus._id.toString()
+            '_id' : bonus._id.toString(),
+            'type' : type
         },
     null);
 };
