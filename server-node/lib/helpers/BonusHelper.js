@@ -45,6 +45,7 @@ BonusHelper.createShowBonus = function(show, callback) {
                 'status' : BonusCode.STATUS_INIT,
                 'amount' : show.numView * 0.01,
                 'description' : '搭配收益',
+                'icon' : 'http://trial01.focosee.com/img/misc/jiangbei.png',
                 'trigger' : {
                     'showRef' : show._id
                 }
@@ -100,6 +101,7 @@ var _createTradeBonus = function(trade, amount, participants, callback) {
             'status' : BonusCode.STATUS_INIT,
             'amount' : amount,
             'description' : '来自' + trade.itemSnapshot.name + '的佣金',
+            'icon' : trade.itemSnapshot.thumbnail,
             'trigger' : {
                 'tradeRef' : trade._id
             },
@@ -122,6 +124,7 @@ var _createTradePaticipantBonus = function(trade, peopleRefs, amount, callback){
                     'status' : BonusCode.STATUS_INIT,
                     'amount' : amount,
                     'description' : '来自' + trade.itemSnapshot.name + '的佣金',
+                    'icon' : trade.itemSnapshot.thumbnail,
                     'trigger' : {
                         'tradeRef' : trade._id
                     }
