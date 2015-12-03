@@ -17,7 +17,7 @@
     return [dict stringValueForKeyPath:@"trigger.tradeRef"];
 }
 + (NSNumber*)getMoney:(NSDictionary*)dict {
-    return [dict numberValueForKeyPath:@"money"];
+    return [dict numberValueForKeyPath:@"amount"];
 }
 + (NSArray*)getParticipantsIds:(NSDictionary*)dict {
     return [dict arrayValueForKeyPath:@"participants"];
@@ -27,7 +27,7 @@
     return [QSEntityUtil getNumberValue:dict keyPath:@"status"];
 }
 + (NSString*)getNote:(NSDictionary *)dict {
-    return [QSEntityUtil getStringValue:dict keyPath:@"notes"];
+    return [QSEntityUtil getStringValue:dict keyPath:@"description"];
 }
 + (NSString*)getCreate:(NSDictionary *)dict {
     return [QSEntityUtil getStringValue:dict keyPath:@"create"];
