@@ -95,7 +95,7 @@ public class U01RecommFragment extends U01BaseFragment {
                     }
                     return;
                 }
-                adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                adapter.addDataAtTop(ShowParser.parseQuery(response));
                 adapter.notifyDataSetChanged();
             }
         });

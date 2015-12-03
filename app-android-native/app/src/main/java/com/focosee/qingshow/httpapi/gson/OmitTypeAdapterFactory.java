@@ -9,12 +9,12 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Created by Administrator on 2015/12/3.
  */
-public class OmitTypeAdpaterFactory implements TypeAdapterFactory {
+public class OmitTypeAdapterFactory implements TypeAdapterFactory {
 
     TypeToken omit;
     GsonBuilder builder;
 
-    public OmitTypeAdpaterFactory(TypeToken omit, GsonBuilder builder) {
+    public OmitTypeAdapterFactory(TypeToken omit, GsonBuilder builder) {
         this.omit = omit;
         this.builder = builder;
     }

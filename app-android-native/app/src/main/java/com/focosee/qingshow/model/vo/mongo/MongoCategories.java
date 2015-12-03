@@ -12,7 +12,7 @@ public class MongoCategories implements Serializable{
     public String icon;
     public String order;
     public MatchInfo matchInfo;
-    public MongoParentCategories parentRef;
+    public MongoCategories parentRef;
     public boolean activate = true;
     public Context __context;
 

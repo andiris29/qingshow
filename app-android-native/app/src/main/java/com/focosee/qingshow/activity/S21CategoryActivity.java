@@ -14,7 +14,6 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
-import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
 import com.focosee.qingshow.util.ComparatorList;
 import com.umeng.analytics.MobclickAgent;
 
@@ -84,7 +83,7 @@ public class S21CategoryActivity extends BaseActivity {
                 }
                 ArrayList<MongoCategories> arrayList = CategoryParser.parseQuery(response);
                 for (MongoCategories ca : arrayList) {
-                    MongoParentCategories parentRef = ca.parentRef;
+                    MongoCategories parentRef = ca.parentRef;
                     if (parentRef == null) {
                         categories.add(ca);
                     }
@@ -94,7 +93,7 @@ public class S21CategoryActivity extends BaseActivity {
                     String id = categories.get(i).get_id();
                     ArrayList<MongoCategories> item = new ArrayList<>();
                     for (MongoCategories cas : arrayList) {
-                        MongoParentCategories parentRef = cas.parentRef;
+                        MongoCategories parentRef = cas.parentRef;
                         if (parentRef != null) {
                             if (id.equals(parentRef._id)) {
                                 item.add(cas);
