@@ -26,21 +26,20 @@
                 android:text="折扣订单"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
-
-
-            <com.focosee.qingshow.widget.QSCanvasView
+            <android.support.v4.view.ViewPager
+                android:id="@+id/s11_canvas_pager"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:id="@+id/s11_canvas"
+                android:layout_below="@id/title"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_below="@id/title" />
+                android:layout_height="360dp"/>
+
             <TextView
                 android:id="@+id/s11_follow"
                 android:textSize="16sp"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:layout_below="@id/s11_canvas"
+                android:layout_below="@id/s11_canvas_pager"
                 android:layout_width="110dp"
                 android:layout_height="35dp"
                 android:text="@string/s11_follow"

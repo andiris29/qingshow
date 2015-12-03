@@ -111,6 +111,8 @@ public class QSAppWebAPI {
 
     private static String SHOW_VIEW_API = "/show/view";
 
+    private static String MATCHER_REMIX = "/matcher/remix";
+
     public static String getFeedingaggregationMatchnew(String data) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_MATCHNEW +
                 "?date=" + data;
@@ -367,4 +369,9 @@ public class QSAppWebAPI {
     public static String getUserUpdateportrait() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEPORTRAIT;
     }
+
+    public static String getMatcherRemix(String itemRef) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCHER_REMIX;
+    }
+
 }

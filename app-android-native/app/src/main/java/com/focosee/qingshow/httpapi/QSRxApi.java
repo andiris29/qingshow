@@ -10,6 +10,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationParser
 import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
+import com.focosee.qingshow.model.vo.Remix;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -82,6 +83,16 @@ public class QSRxApi {
                     return TradeParser.parseQuery(jsonObject);
                 }
             });
+    }
+
+    public static Observable<Remix> matcherRemix(String itemRef){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getMatcherRemix(itemRef), null)
+                .map(new Func1<JSONObject, Remix>() {
+                    @Override
+                    public Remix call(JSONObject jsonObject) {
+                        return null;
+                    }
+                });
     }
 
 }
