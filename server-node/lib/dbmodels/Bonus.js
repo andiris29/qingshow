@@ -10,6 +10,7 @@ var Bonus = mongoose.model('bonuses', Schema({
     status : Number,
     amount : Number,
     description : String,
+    icon : String,
     create : {
         type : Date,
         'default' : Date.now

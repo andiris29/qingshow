@@ -18,7 +18,7 @@ var proDeployment = {
 var devDeployment = {
     appServiceRoot : 'http://dev.chingshow.com/services',
     paymentServiceRoot : 'http://dev.chingshow.com/payment',
-    appWebRoot : 'http://chingshow.com/app-web'
+    appWebRoot : 'http://dev.chingshow.com/app-web'
 };
 
 system.get = {
