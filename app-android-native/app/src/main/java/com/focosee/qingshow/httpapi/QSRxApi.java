@@ -34,8 +34,8 @@ import rx.functions.Func1;
  */
 public class QSRxApi {
 
-    public static Observable<List<FeedingAggregation>> queryFeedingaggregationMatchNew(String date){
-        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getFeedingaggregationMatchnew(date), null)
+    public static Observable<List<FeedingAggregation>> queryFeedingaggregationLatest(){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getFeedingaggregationLatest(), null)
                 .map(new Func1<JSONObject, List<FeedingAggregation>>() {
                     @Override
                     public List<FeedingAggregation> call(JSONObject jsonObject) {

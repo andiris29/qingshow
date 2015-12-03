@@ -28,6 +28,7 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
     private GregorianCalendar calendar;
     public S01MatchNewAdapter(@NonNull List<FeedingAggregation> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
+        calendar = new GregorianCalendar();
     }
 
     @Override
@@ -51,7 +52,7 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
         final int to = from + 1;
         String timeTemplate = "S:00~E:00";
         holder.setText(R.id.time, timeTemplate.replace("S", from + "").replace("E", to + ""));
-        holder.setText(R.id.day, calendar.get(Calendar.DAY_OF_MONTH) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
+        holder.setText(R.id.day,  "TODAY | " + calendar.get(Calendar.DAY_OF_MONTH) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
         if (QSModel.INSTANCE.loggedin() && data.indexOfCurrentUser != -1){
             holder.setImgeByUrl(R.id.current_head, QSModel.INSTANCE.getUser().portrait);
         }else{
@@ -73,9 +74,5 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
                 context.startActivity(intent);
             }
         });
-    }
-
-    public void setCalendar(GregorianCalendar calendar) {
-        this.calendar = calendar;
     }
 }

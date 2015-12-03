@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -255,7 +256,7 @@ public class S20MatcherActivity extends BaseActivity {
                     final Point canvasPoint = new Point();
                     canvasPoint.x = canvas.getWidth();
                     canvasPoint.y = canvas.getHeight();
-                    Rect rect = datas.__context.master.rect.getRect(canvasPoint);
+                    RectF rect = datas.__context.master.rect.getRect(canvasPoint);
                     modelSelect.rect = rect;
                     allSelect.put(modelCategory, modelSelect);
                     addItemsToCanvas(modelCategory, datas.thumbnail);
@@ -329,7 +330,7 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
 
-    private void getDataFromNet(final String categoryRef, final Rect rect) {
+    private void getDataFromNet(final String categoryRef, final RectF rect) {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryItems(1, 20, categoryRef), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -358,7 +359,7 @@ public class S20MatcherActivity extends BaseActivity {
                     final Point canvasPoint = new Point();
                     canvasPoint.x = canvas.getWidth();
                     canvasPoint.y = canvas.getHeight();
-                    Rect rect = datas.get(0).__context.master.rect.getRect(canvasPoint);
+                    RectF rect = datas.get(0).__context.master.rect.getRect(canvasPoint);
                     modelSelect.rect = rect;
                     allSelect.put(modelCategory, modelSelect);
                     addItemsToCanvas(modelCategory, datas.get(0).thumbnail);
@@ -565,10 +566,10 @@ public class S20MatcherActivity extends BaseActivity {
         public int pageNo;
         public List<MongoItem> data;
         public MongoItem item;
-        public Rect rect;
+        public RectF rect;
         public boolean loadDone = false;
 
-        public Select setRect(Rect rect) {
+        public Select setRect(RectF rect) {
             this.rect = rect;
             return this;
         }

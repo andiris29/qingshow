@@ -1,5 +1,6 @@
 package com.focosee.qingshow.model.vo.mongo;
 
+import com.focosee.qingshow.model.vo.context.QSRect;
 import com.focosee.qingshow.model.vo.context.ShowContext;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
@@ -13,7 +14,7 @@ public class MongoShow implements Serializable {
     public String video;
 
     public List<MongoItem> itemRefs;
-    public List<int[]> itemRects;
+    public List<QSRect> itemRects;
     public String coverForeground;
 
     public GregorianCalendar create;
