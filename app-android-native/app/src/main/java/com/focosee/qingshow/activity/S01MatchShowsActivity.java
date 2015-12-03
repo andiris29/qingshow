@@ -195,7 +195,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                     return;
                 }
 
-                List<MongoShow> datas = ShowParser.parseQuery_itemString(response);
+                List<MongoShow> datas = ShowParser.parseQuery(response);
                 if (pageNo == 1) {
                     mRefreshLayout.endRefreshing();
                     adapter.addDataAtTop(datas);
