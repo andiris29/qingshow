@@ -3,7 +3,9 @@ package com.focosee.qingshow.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,9 +43,11 @@ import com.focosee.qingshow.model.CategoriesModel;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.context.QSRect;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.TimeUtil;
@@ -140,7 +144,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
-    private List<TagDotView> tagViewList;
+    private List<TextView> tagViewList;
     private MenuView menuView;
     private LoadingDialogs dialogs;
     private int position = Integer.MAX_VALUE;
@@ -344,36 +348,44 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void showTag(MongoShow show) {
-        for (TagDotView dotView : tagViewList) {
+        for (TextView dotView : tagViewList) {
             container.removeView(dotView);
         }
-//        Observable.from(show.itemRects)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .map(new Func1<int[], Point>() {
-//                    @Override
-//                    public Point call(int[] ints) {
-//                        Rect rect = new Rect(ints[0], ints[1], ints[0] + ints[2], ints[1] + ints[3]);
-//                        return new Point(rect.centerX(), rect.centerY());
-//                    }
-//                })
-//                .subscribeOn(Schedulers.newThread())
-//                .subscribe(new Subscriber<Point>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                    }
-//
-//                    @Override
-//                    public void onNext(Point point) {
+        Observable.from(show.itemRects)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<QSRect, PointF>() {
+                    @Override
+                    public PointF call(QSRect qsRect) {
+                        Point point = new Point(image.getWidth(), image.getHeight());
+                        RectF rect = qsRect.getRect(point);
+                        return new PointF(rect.centerX(), rect.centerY());
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<PointF>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(PointF point) {
 //                        TagDotView tagDotView = new TagDotView(S03SHowActivity.this, point.x, point.y);
-//                        tagViewList.add(tagDotView);
-//                        container.addView(tagDotView);
-//                    }
-//                });
+                        TextView tagDotView = new TextView(S03SHowActivity.this);
+                        tagDotView.setX(point.x);
+                        tagDotView.setY(point.y);
+                        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) AppUtil.transformToDip(35, S03SHowActivity.this),
+                                (int)AppUtil.transformToDip(15, S03SHowActivity.this));
+                        tagDotView.setLayoutParams(layoutParams);
+                        tagDotView.setBackgroundDrawable(getResources().getDrawable(R.drawable.show_tag_background));
+                        tagViewList.add(tagDotView);
+                        container.addView(tagDotView);
+                    }
+                });
     }
 
     private void showData_self() {
