@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var textSearch = require('mongoose-text-search');
 
 var Schema = mongoose.Schema;
 var showSchema;
@@ -10,7 +9,10 @@ showSchema = Schema({
     coverForeground : String,
     video : String,
     posters : [String],
-    numView : Number,
+    numView : {
+        type : Number,
+        'default' : 0
+    },
     numLike : {
         type : Number,
         'default' : 0
@@ -21,6 +23,10 @@ showSchema = Schema({
             ref : 'items'
         }]
         //        select: false
+    },
+    itemReductionEnabled : {
+        type : Boolean,
+        'default' : true
     },
     itemRects : {
         type : Object
@@ -38,18 +44,6 @@ showSchema = Schema({
         group: String,
         date : Date,
         description : String
-    },
-    categoryNames : [String]
-});
-
-showSchema.plugin(textSearch);
-
-showSchema.index({
-    categoryNames : 'text'
-}, {
-    name: 'categoryNames_text_search_index',
-    weights: {
-        categoryNames : 1
     }
 });
 

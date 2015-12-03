@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,7 +148,7 @@ public class RectUtil {
         return new Gson().toJson(arrs);
     }
 
-    public static void locateView(Rect rect,QSImageView view){
+    public static void locateView(RectF rect,QSImageView view){
         moveView(view, view.getX(), view.getY(), rect.left, rect.top);
         view.setScaleX(1.0f);
         view.setScaleY(1.0f);

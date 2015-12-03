@@ -107,15 +107,14 @@ public class QSAppWebAPI {
 
     private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
 
-    private static String FEEDINGAGGREGATION_MATCHNEW = "/feedingAggregation/matchNew";
+    private static String FEEDINGAGGREGATION_LATEST = "/feedingAggregation/latest";
 
     private static String SHOW_VIEW_API = "/show/view";
 
     private static String MATCHER_REMIX = "/matcher/remix";
 
-    public static String getFeedingaggregationMatchnew(String data) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_MATCHNEW +
-                "?date=" + data;
+    public static String getFeedingaggregationLatest() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_LATEST;
     }
 
     public static String getShowViewApi() {

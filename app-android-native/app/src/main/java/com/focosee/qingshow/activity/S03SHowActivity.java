@@ -347,33 +347,33 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         for (TagDotView dotView : tagViewList) {
             container.removeView(dotView);
         }
-        Observable.from(show.itemRects)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<int[], Point>() {
-                    @Override
-                    public Point call(int[] ints) {
-                        Rect rect = new Rect(ints[0], ints[1], ints[0] + ints[2], ints[1] + ints[3]);
-                        return new Point(rect.centerX(), rect.centerY());
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Subscriber<Point>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(Point point) {
-                        TagDotView tagDotView = new TagDotView(S03SHowActivity.this, point.x, point.y);
-                        tagViewList.add(tagDotView);
-                        container.addView(tagDotView);
-                    }
-                });
+//        Observable.from(show.itemRects)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .map(new Func1<int[], Point>() {
+//                    @Override
+//                    public Point call(int[] ints) {
+//                        Rect rect = new Rect(ints[0], ints[1], ints[0] + ints[2], ints[1] + ints[3]);
+//                        return new Point(rect.centerX(), rect.centerY());
+//                    }
+//                })
+//                .subscribeOn(Schedulers.newThread())
+//                .subscribe(new Subscriber<Point>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                    }
+//
+//                    @Override
+//                    public void onNext(Point point) {
+//                        TagDotView tagDotView = new TagDotView(S03SHowActivity.this, point.x, point.y);
+//                        tagViewList.add(tagDotView);
+//                        container.addView(tagDotView);
+//                    }
+//                });
     }
 
     private void showData_self() {

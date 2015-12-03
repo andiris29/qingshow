@@ -32,6 +32,42 @@ BonusHelper.createTradeBonus = function(trade, cb) {
     });
 };
 
+BonusHelper.createShowBonus = function(show, callback) {
+    if (!show.numView) {
+        callback();
+        return;
+    }
+    async.waterfall([
+        function(callback) {
+            var bonus = new Bonus({
+                'ownerRef' : show.ownerRef,
+                'type' : BonusCode.TYPE_SHOW,
+                'status' : BonusCode.STATUS_INIT,
+                'amount' : show.numView * 0.01,
+                'description' : '搭配收益',
+                'trigger' : {
+                    'showRef' : show._id
+                }
+            });
+            bonus.save(function(err) {callback(err, bonus);});
+        }
+    ], function(err, bonus) {
+        _notify(bonus);
+        callback(err);
+    });
+};
+
+var _notify = function(bonus) {
+    NotificationHelper.notify(
+        [bonus.ownerRef], 
+        NotificationHelper.MessageNewBonus.replace(/\{0\}/g, bonus.amount), 
+        {
+            'command' : NotificationHelper.CommandNewBonus,
+            '_id' : bonus._id.toString()
+        },
+    null);
+};
+
 BonusHelper.aggregate = function(ownerRef, callback) {
     Bonus.aggregate([
         {'$match' : {'ownerRef' : ownerRef}}, 
@@ -70,16 +106,8 @@ var _createTradeBonus = function(trade, amount, participants, callback) {
             'participants' : participants
         });
         bonus.save(function(err) {callback(err, bonus);});
-    },
-    function(bonus, callback) {
-        var message = NotificationHelper.MessageNewBonus.replace(/\{0\}/g, amount);
-        NotificationHelper.notify([trade.promoterRef], message, {
-            'command' : NotificationHelper.CommandNewBonus,
-            '_id' : bonus._id.toString
-        }, null);
-        
-        callback();
-    }], function(err){
+    }], function(err, bonus) {
+        _notify(bonus);
         callback(err);
     });
 };
@@ -99,16 +127,8 @@ var _createTradePaticipantBonus = function(trade, peopleRefs, amount, callback){
                     }
                 });
                 bonus.save(function(err) {callback(err, bonus);});
-            },
-            function(bonus, callback) {
-                var message = NotificationHelper.MessageNewBonus.replace(/\{0\}/g, amount);
-                NotificationHelper.notify([peopleRef._id], message, {
-                    'command' : NotificationHelper.CommandNewParticipantBonus,
-                    '_id' : bonus._id.toString
-                }, null);
-                
-                callback();
-            }], function(err){
+            }], function(err, bonus) {
+                _notify(bonus);
                 callback(err);
             });
         };
