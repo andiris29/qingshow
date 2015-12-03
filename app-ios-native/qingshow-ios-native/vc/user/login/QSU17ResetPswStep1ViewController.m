@@ -23,6 +23,14 @@
 
 @implementation QSU17ResetPswStep1ViewController
 
+- (instancetype)init {
+    self = [super initWithNibName:@"QSU17ResetPswStep1ViewController" bundle:nil];
+    if (self) {
+        
+    }
+    return self;
+}
+
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];

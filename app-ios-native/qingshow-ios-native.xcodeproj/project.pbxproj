@@ -168,7 +168,6 @@
 		EF8CD2C31C0378E50040611D /* QSU08PasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD27A1C0378E50040611D /* QSU08PasswordViewController.xib */; };
 		EF8CD2C41C0378E50040611D /* QSU02UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD27C1C0378E50040611D /* QSU02UserSettingViewController.m */; };
 		EF8CD2C51C0378E50040611D /* QSU02UserSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD27D1C0378E50040611D /* QSU02UserSettingViewController.xib */; };
-		EF8CD2C61C0378E50040611D /* QSU17ResetPswStep1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD27E1C0378E50040611D /* QSU17ResetPswStep1ViewController.xib */; };
 		EF8CD2C71C0378E50040611D /* QSU18ResetPswStep2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD27F1C0378E50040611D /* QSU18ResetPswStep2ViewController.xib */; };
 		EF8CD2C81C0378E50040611D /* QSU09TradeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD2821C0378E50040611D /* QSU09TradeListViewController.m */; };
 		EF8CD2C91C0378E50040611D /* QSU09TradeListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD2831C0378E50040611D /* QSU09TradeListViewController.xib */; };
@@ -633,7 +632,6 @@
 		EF8CD27B1C0378E50040611D /* QSU02UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController.h; sourceTree = "<group>"; };
 		EF8CD27C1C0378E50040611D /* QSU02UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController.m; sourceTree = "<group>"; };
 		EF8CD27D1C0378E50040611D /* QSU02UserSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU02UserSettingViewController.xib; sourceTree = "<group>"; };
-		EF8CD27E1C0378E50040611D /* QSU17ResetPswStep1ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU17ResetPswStep1ViewController.xib; sourceTree = "<group>"; };
 		EF8CD27F1C0378E50040611D /* QSU18ResetPswStep2ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU18ResetPswStep2ViewController.xib; sourceTree = "<group>"; };
 		EF8CD2811C0378E50040611D /* QSU09TradeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU09TradeListViewController.h; sourceTree = "<group>"; };
 		EF8CD2821C0378E50040611D /* QSU09TradeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU09TradeListViewController.m; sourceTree = "<group>"; };
@@ -1736,7 +1734,6 @@
 				EF8CD27B1C0378E50040611D /* QSU02UserSettingViewController.h */,
 				EF8CD27C1C0378E50040611D /* QSU02UserSettingViewController.m */,
 				EF8CD27D1C0378E50040611D /* QSU02UserSettingViewController.xib */,
-				EF8CD27E1C0378E50040611D /* QSU17ResetPswStep1ViewController.xib */,
 				EF8CD27F1C0378E50040611D /* QSU18ResetPswStep2ViewController.xib */,
 				EF8CD2801C0378E50040611D /* trade */,
 				EF8CD28D1C0378E50040611D /* view */,
@@ -3018,7 +3015,6 @@
 				EF8CD2A41C0378E50040611D /* QSU13PersonalizeViewController.xib in Resources */,
 				EF36C1081C0AC2C6009ECE91 /* QSS11ItemBuyViewController.xib in Resources */,
 				68D16D031B341A4700A4646C /* QSMatchShowsCell.xib in Resources */,
-				EF8CD2C61C0378E50040611D /* QSU17ResetPswStep1ViewController.xib in Resources */,
 				EF8CD2B41C0378E50040611D /* QSU02ImgCell.xib in Resources */,
 				EF0A12A51C009BD700DBF23E /* left_arrow@2x.png in Resources */,
 				EF8CD2B91C0378E50040611D /* QSU02InfoTextCell.xib in Resources */,
