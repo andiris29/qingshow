@@ -62,6 +62,7 @@ import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.focosee.qingshow.widget.TagDotView;
+import com.focosee.qingshow.widget.TagView;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
@@ -87,7 +88,9 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
@@ -137,6 +140,9 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     TextView itemTextView;
     @InjectView(R.id.container)
     FrameLayout container;
+    @InjectView(R.id.tag_fl)
+    FrameLayout tagFl;
+
     private SharePopupWindow sharePopupWindow;
 
     private IWeiboShareAPI mWeiboShareAPI;
@@ -144,7 +150,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
-    private List<TextView> tagViewList;
+    private List<TagView> tagViewList;
     private MenuView menuView;
     private LoadingDialogs dialogs;
     private int position = Integer.MAX_VALUE;
@@ -348,44 +354,35 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void showTag(MongoShow show) {
-        for (TextView dotView : tagViewList) {
-            container.removeView(dotView);
+        for (TagView dotView : tagViewList) {
+            tagFl.removeView(dotView);
         }
-        Observable.from(show.itemRects)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<QSRect, PointF>() {
+        Observable.zip(
+                Observable.from(show.itemRects),
+                Observable.from(show.itemRefs),
+                new Func2<QSRect, MongoItem, TagView>() {
                     @Override
-                    public PointF call(QSRect qsRect) {
+                    public TagView call(QSRect qsRect, final MongoItem mongoItem) {
+                        TagView tagView = new TagView(S03SHowActivity.this);
                         Point point = new Point(image.getWidth(), image.getHeight());
-                        RectF rect = qsRect.getRect(point);
-                        return new PointF(rect.centerX(), rect.centerY());
+                        tagView.initByRectF(qsRect.getRect(point));
+                        tagView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(S03SHowActivity.this, S11NewTradeActivity.class);
+                                intent.putExtra(S11NewTradeActivity.OUTPUT_ITEM_ENTITY, mongoItem);
+                                startActivity(intent);
+                            }
+                        });
+                        return tagView;
                     }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Subscriber<PointF>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(PointF point) {
-//                        TagDotView tagDotView = new TagDotView(S03SHowActivity.this, point.x, point.y);
-                        TextView tagDotView = new TextView(S03SHowActivity.this);
-                        tagDotView.setX(point.x);
-                        tagDotView.setY(point.y);
-                        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams((int) AppUtil.transformToDip(35, S03SHowActivity.this),
-                                (int)AppUtil.transformToDip(15, S03SHowActivity.this));
-                        tagDotView.setLayoutParams(layoutParams);
-                        tagDotView.setBackgroundDrawable(getResources().getDrawable(R.drawable.show_tag_background));
-                        tagViewList.add(tagDotView);
-                        container.addView(tagDotView);
-                    }
-                });
+                }).subscribe(new Action1<TagView>() {
+                @Override
+                public void call(TagView tagView) {
+                    tagViewList.add(tagView);
+                    tagFl.addView(tagView);
+                }
+        });
     }
 
     private void showData_self() {

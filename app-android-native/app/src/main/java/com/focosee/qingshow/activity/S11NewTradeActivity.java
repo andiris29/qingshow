@@ -97,13 +97,15 @@ public class S11NewTradeActivity extends BaseActivity {
     private int checkIndex[];
     private Map<String, String> skuTable = new HashMap<>();
 
+    public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s11_trade);
         ButterKnife.inject(this);
 
-        itemEntity = (MongoItem) this.getIntent().getExtras().getSerializable(S10ItemDetailActivity.OUTPUT_ITEM_ENTITY);
+        itemEntity = (MongoItem) this.getIntent().getExtras().getSerializable(OUTPUT_ITEM_ENTITY);
         trade = new MongoTrade();
         selectProps = new HashMap<>();
         selectRadioButton = new HashMap<>();

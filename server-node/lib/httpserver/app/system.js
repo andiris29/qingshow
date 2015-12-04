@@ -51,13 +51,14 @@ system.getConfig = {
     'method' : 'get',
     'func' : [
         function(req, res, next) {
-            ResponseHelper.writeData({
+            ResponseHelper.writeData(res, {
                 'config' : {
                     'event' : {
                         'image' : global.qsConfig.event.image
                     }
                 }
             });
+            next();
         }
     ]
 };
