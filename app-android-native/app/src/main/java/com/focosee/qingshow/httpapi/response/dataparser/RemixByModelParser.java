@@ -17,14 +17,6 @@ import java.lang.reflect.Type;
 public class RemixByModelParser {
 
     public static RemixByModel parse(JSONObject response) {
-        try {
-            String items = response.getJSONObject("data").toString();
-            Type listType = new TypeToken<RemixByModel>() {
-            }.getType();
-            Gson gson = QSGsonFactory.create();
-            return gson.fromJson(items, listType);
-        } catch (JSONException e) {
-            return null;
-        }
+        return ParserGenerator.parse(response, TypeToken.get(RemixByModel.class), "");
     }
 }

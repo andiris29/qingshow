@@ -27,4 +27,21 @@ public class MongoShow implements Serializable {
         public GregorianCalendar date;
     }
 
+    @Override
+    public String toString() {
+        return "MongoShow{" +
+                "_id='" + _id + '\'' +
+                ", __context=" + __context +
+                ", cover='" + cover + '\'' +
+                ", video='" + video + '\'' +
+                ", itemRefs=" + itemRefs +
+                ", itemRects=" + itemRects +
+                ", coverForeground='" + coverForeground + '\'' +
+                ", create=" + create +
+                ", numLike=" + numLike +
+                ", ownerRef=" + ownerRef +
+                ", hideAgainstOwner=" + hideAgainstOwner +
+                ", recommend=" + recommend +
+                '}';
+    }
 }

@@ -38,10 +38,9 @@ public class MongoItem implements Serializable {
 
     public class Expectable implements Serializable {
         public boolean expired;
-        public Number price;
-        public String messageForPay;
+        public String message;
         public Number reduction;
-
+        public Number price;
     }
 
 }
