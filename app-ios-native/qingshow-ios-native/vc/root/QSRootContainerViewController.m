@@ -65,9 +65,9 @@
     [super viewDidLoad];
     self.fIsFirstLoad = YES;
     [self observeNotifications];
+    
+    [self _handleBonusUnread];
     [self _handleSystemConfig];
-    
-    
 }
 
 
@@ -314,6 +314,29 @@
 {
     [self _hideVcInPopoverContainer:vc withAnimation:YES];
     self.welcomeVc = nil;
+}
+
+#pragma mark - Handle Unread Bonus Notification
+- (void)_handleBonusUnread {
+#warning TODO Use Const
+    NSArray* unreads = [[QSUnreadManager getInstance] getUnreadOfCommand:@"newBonus"];
+    NSDictionary* bonusDict = nil;
+    NSNumber* type = nil;
+    for (NSDictionary* u in unreads) {
+        type = [u numberValueForKeyPath:@"extra.type"];
+        if (type.intValue == 0 || type.intValue == 1) {
+            bonusDict = u;
+            break;
+        }
+    }
+    if (bonusDict) {
+        NSString* bonusId = [bonusDict stringValueForKeyPath:@"extra._id"];
+        if (type.integerValue == 0) {
+            [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateAbout];
+        } else {
+            [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateParticipant];
+        }
+    }
 }
 
 #pragma mark - System Get Config
