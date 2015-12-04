@@ -79,15 +79,18 @@
     for (int i = 0; i < self.showImgViews.count; i++) {
         UIImageView* imgView = self.showImgViews[i];
         UIImageView* foregroundView = self.showForegroundImgViews[i];
+        UIView* backgroundView = self.showBackgroundViews[i];
         if (i < topShows.count) {
             imgView.hidden = NO;
             foregroundView.hidden = NO;
+            backgroundView.hidden = NO;
             NSDictionary* showDict = topShows[i];
             [imgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:showDict] type:QSImageNameTypeXS]];
             [foregroundView setImageFromURL:[QSShowUtil getCoverForegroundUrl:showDict]];
         } else {
             imgView.hidden = YES;
             foregroundView.hidden = YES;
+            backgroundView.hidden = YES;
         }
     }
 }

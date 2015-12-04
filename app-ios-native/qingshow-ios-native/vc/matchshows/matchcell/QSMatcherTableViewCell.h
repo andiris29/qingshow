@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIView* usersContainer;
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showImgViews;
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showForegroundImgViews;
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *showBackgroundViews;
 @property (weak, nonatomic) NSObject<QSMatcherTableViewCellDelegate>* delegate;
 
 @property (weak, nonatomic) IBOutlet UIView* bottomContainer;
