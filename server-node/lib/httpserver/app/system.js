@@ -58,6 +58,7 @@ system.getConfig = {
                     }
                 }
             });
+            next();
         }
     ]
 };
