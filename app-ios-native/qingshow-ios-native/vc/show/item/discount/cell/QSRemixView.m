@@ -108,10 +108,10 @@
     [imgView.imageView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *img) {
 
         CGSize viewSize = weakImgView.bounds.size;
-        CGRect bounds = weakImgView.bounds;
+        CGRect frame = weakImgView.frame;
         viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
-        bounds.size = viewSize;
-        weakImgView.bounds = bounds;
+        frame.size = viewSize;
+        weakImgView.frame = frame;
         weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
         weakImgView.hidden = NO;
     } animation:NO];

@@ -64,6 +64,9 @@
     [super viewDidLoad];
     self.fIsFirstLoad = YES;
     [self observeNotifications];
+    
+    
+    
 }
 
 
@@ -303,5 +306,7 @@
     [self _hideVcInPopoverContainer:vc withAnimation:YES];
     self.welcomeVc = nil;
 }
+
+#pragma mark - System Get Config
 
 @end

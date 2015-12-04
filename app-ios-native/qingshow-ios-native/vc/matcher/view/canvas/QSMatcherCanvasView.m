@@ -80,10 +80,10 @@
     if (view.imgView.image) {
         UIImage* img = view.imgView.image;
         CGSize viewSize = view.bounds.size;
-        CGRect bounds = view.bounds;
+        CGRect frame = view.frame;
         viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
-        bounds.size = viewSize;
-        view.bounds = bounds;
+        frame.size = viewSize;
+        view.frame = frame;
         view.frame = [QSRectUtil reducedFrame:view.frame forContainer:self.bounds];
     }
     
@@ -149,10 +149,10 @@
     [imgView.imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *img) {
         if (fFirst) {
             CGSize viewSize = weakImgView.bounds.size;
-            CGRect bounds = weakImgView.bounds;
+            CGRect frame = weakImgView.frame;
             viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
-            bounds.size = viewSize;
-            weakImgView.bounds = bounds;
+            frame.size = viewSize;
+            weakImgView.frame = frame;
             
             weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
         } else {
@@ -160,9 +160,9 @@
             CGSize viewSize = weakImgView.bounds.size;
             CGFloat newHeigh = viewSize.width / imgSize.width * imgSize.height;
             viewSize.height = newHeigh;
-            CGRect bounds = weakImgView.bounds;
-            bounds.size = viewSize;
-            weakImgView.bounds = bounds;
+            CGRect frame = weakImgView.frame;
+            frame.size = viewSize;
+            weakImgView.frame = frame;
             
             weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
         }
