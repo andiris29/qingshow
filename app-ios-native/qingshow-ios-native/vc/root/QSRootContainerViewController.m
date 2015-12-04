@@ -312,7 +312,7 @@
 - (void)_handleSystemConfig {
     [SHARE_NW_ENGINE systemGetConfigOnSucceed:^(NSDictionary * config) {
         NSString* imgPath = [config stringValueForKeyPath:@"config.event.image"];
-        if (![[QSUserManager shareUserManager].configEventImagePath isEqualToString:imgPath] && !self.activityVc) {
+        if (imgPath && ![[QSUserManager shareUserManager].configEventImagePath isEqualToString:imgPath] && !self.activityVc) {
             self.activityVc = [[QSActivityViewController alloc] initWithImgPath:imgPath];
             self.activityVc.delegate = self;
             [self _showVcInPopoverContainer:self.activityVc withAnimation:YES];
