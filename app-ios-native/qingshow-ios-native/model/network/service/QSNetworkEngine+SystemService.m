@@ -48,7 +48,7 @@
 - (MKNetworkOperation*)systemGetConfigOnSucceed:(DicBlock)succeedBlock
                                         onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_SYSTEM_GET_CONFIG method:@"GET" paramers:@{} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        //data.config.event.image
+        //config.event.image
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
             NSDictionary* configDict = [retDict dictValueForKeyPath:@"data"];

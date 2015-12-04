@@ -17,6 +17,7 @@
 #import "QSU19LoginGuideViewController.h"
 #import "NSDictionary+QSExtension.h"
 #import "UIViewController+QSExtension.h"
+#import "QSActivityViewController.h"
 
 #import "QSRootContentViewController.h"
 #import "QSPnsHandler.h"
@@ -34,7 +35,7 @@
 
 #define kWelcomePageVersionKey @"kWelcomePageVersionKey"
 
-@interface QSRootContainerViewController () <QSG02WelcomeViewControllerDelegate>
+@interface QSRootContainerViewController () <QSG02WelcomeViewControllerDelegate, QSActivityViewControllerDelegate>
 
 
 @property (strong, nonatomic) QSPnsHandler* pnsHandler;
@@ -46,7 +47,7 @@
 
 @property (assign, nonatomic) BOOL fIsFirstLoad;
 @property (strong, nonatomic) NSTimer* showLoginGuideTimer;
-
+@property (strong, nonatomic) QSActivityViewController* activityVc;
 @end
 
 @implementation QSRootContainerViewController
@@ -64,7 +65,7 @@
     [super viewDidLoad];
     self.fIsFirstLoad = YES;
     [self observeNotifications];
-    
+    [self _handleSystemConfig];
     
     
 }
@@ -308,5 +309,20 @@
 }
 
 #pragma mark - System Get Config
+- (void)_handleSystemConfig {
+    [SHARE_NW_ENGINE systemGetConfigOnSucceed:^(NSDictionary * config) {
+        NSString* imgPath = [config stringValueForKeyPath:@"config.event.image"];
+        if (![[QSUserManager shareUserManager].configEventImagePath isEqualToString:imgPath] && !self.activityVc) {
+            self.activityVc = [[QSActivityViewController alloc] initWithImgPath:imgPath];
+            self.activityVc.delegate = self;
+            [self _showVcInPopoverContainer:self.activityVc withAnimation:YES];
+        }
+    } onError:nil];
+}
 
+- (void)activityVcShouldDismiss:(QSActivityViewController*)vc {
+    [QSUserManager shareUserManager].configEventImagePath = self.activityVc.path;
+    [self _hideVcInPopoverContainer:self.activityVc withAnimation:YES];
+    self.activityVc = nil;
+}
 @end

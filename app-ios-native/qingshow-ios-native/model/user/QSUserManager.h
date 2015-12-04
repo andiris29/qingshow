@@ -23,6 +23,7 @@
 
 @property (strong, nonatomic) NSDate* globalFirstLaunchShowDueDate;
 @property (strong, nonatomic) NSString* globalFirstLaunchTitle;
+@property (strong, nonatomic) NSString* configEventImagePath;
 
 @property (strong, nonatomic) NSString* JPushRegistrationID;
 

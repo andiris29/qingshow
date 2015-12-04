@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class QSActivityViewController;
+
 @protocol QSActivityViewControllerDelegate <NSObject>
 
 - (void)activityVcShouldDismiss:(QSActivityViewController*)vc;
@@ -19,5 +20,5 @@
 
 @property (weak, nonatomic) NSObject<QSActivityViewControllerDelegate>* delegate;
 - (instancetype)initWithImgPath:(NSString*)path;
-
+@property (strong, nonatomic) NSString* path;
 @end

@@ -9,11 +9,10 @@
 #import "QSActivityViewController.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
-
-
 @interface QSActivityViewController ()
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) NSString* path;
+
 @end
 
 @implementation QSActivityViewController

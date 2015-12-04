@@ -20,5 +20,6 @@
 #import "QSNetworkEngine+ItemService.h"
 #import "QSNetworkEngine+FeedingAggregation.h"
 #import "QSNetworkEngine+BonusService.h"
+#import "QSNetworkEngine+SystemService.h"
 
 #endif
