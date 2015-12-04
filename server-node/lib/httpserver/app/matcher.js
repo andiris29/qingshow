@@ -228,6 +228,12 @@ var _injectRemixCategories = function(req, res, next) {
     });
 };
 
+var _parseRect = function(rect) {
+    return rect.split(',').map(function(n) {
+        return parseFloat(n);
+    });
+};
+
 matcher.remixByModel = {
     'method' : 'get',
     'func' : [
@@ -242,13 +248,13 @@ matcher.remixByModel = {
                 var config = global.qsConfig.modelRemix[composition];
                 if (_.keys(config).length === req.injection.remixCategories.length + 1) {
                     var data = {
-                        'master' : {'rect' : config.master.rect},
+                        'master' : {'rect' : _parseRect(config.master.rect)},
                         'slaves' : []
                     };
                     req.injection.remixCategories.forEach(function(category, index) {
                         data.slaves[index] = {
                             'categoryRef' : category._id.toString(),
-                            'rect' : config['slave' + index].rect
+                            'rect' : _parseRect(config['slave' + index].rect)
                         };
                     });
                     ResponseHelper.writeData(res, data);
@@ -294,13 +300,13 @@ matcher.remixByItem = {
                 var config = global.qsConfig.itemRemix[composition];
                 if (_.keys(config).length === req.injection.remixItems.length + 1) {
                     var data = {
-                        'master' : {'rect' : config.master.rect},
+                        'master' : {'rect' : _parseRect(config.master.rect)},
                         'slaves' : []
                     };
                     req.injection.remixItems.forEach(function(item, index) {
                         data.slaves[index] = {
                             'itemRef' : item,
-                            'rect' : config['slave' + index].rect
+                            'rect' : _parseRect(config['slave' + index].rect)
                         };
                     });
                     ResponseHelper.writeData(res, data);
