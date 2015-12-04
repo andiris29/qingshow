@@ -119,12 +119,12 @@
     }
     
     self.textFieldArray = @[self.nameTextField, self.phoneTextField,self.detailLocationTextField];
-    self.cellArray = @[self.nameCell, self.locationCell, self.detailLocationCell, self.phoneCell];
+    self.cellArray = @[self.nameCell, self.locationCell, self.detailLocationCell, self.phoneCell, self.submitCell];
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 5)];
-    headerView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+    headerView.backgroundColor = [UIColor colorWithRed:247.f/255.f green:247.f/255.f blue:247.f/255.f alpha:1.f];
     self.tableView.tableHeaderView = headerView;
     self.tableView.tableFooterView = [[UIView alloc] init];
-    self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+    self.tableView.backgroundColor = [UIColor colorWithRed:247.f/255.f green:247.f/255.f blue:247.f/255.f alpha:1.f];
     if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
         self.tableView.separatorInset = UIEdgeInsetsZero;
     }
@@ -132,16 +132,15 @@
         self.tableView.layoutMargins = UIEdgeInsetsZero;
     }
     
-    self.view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+    self.view.backgroundColor = [UIColor colorWithRed:247.f/255.f green:247.f/255.f blue:247.f/255.f alpha:1.f];
+    
+    self.submitBtn.layer.cornerRadius = 4.f;
+    self.submitBtn.layer.masksToBounds = YES;
 
 }
 - (void)configBarBtn
 {
-    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didSelectSaveBtn)];
-    item.tintColor = [UIColor colorWithRed:240.0f/255.f green:149.0f/255.f blue:164.0f/255.f alpha:1.f];
-    self.navigationItem.rightBarButtonItem = item;
     [self hideNaviBackBtnTitle];
-    
 }
 
 - (void)hideKeyboardAndPicker
@@ -173,8 +172,8 @@
 }
 
 #pragma mark - IBAction
-- (void)didSelectSaveBtn
-{
+
+- (IBAction)submitBtnPressed:(id)sender {
     [self hideKeyboardAndPicker];
     if (!self.nameTextField.text.length || !self.phoneTextField.text.length || !self.detailLocationTextField.text.length) {
         [self showErrorHudWithText:@"请填写完整信息"];
@@ -202,7 +201,6 @@
      } onError:^(NSError *error) {
          [self handleError:error];
      }];
-    
 }
 
 - (void)popBack
