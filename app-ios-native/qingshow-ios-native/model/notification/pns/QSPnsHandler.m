@@ -50,7 +50,6 @@
     [center addObserver:self selector:@selector(pnsDidNewRecommandation:) name:kPnsNewRecommandationNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeShipped:) name:kPnsTradeShippedNotification object:nil];
     [center addObserver:self selector:@selector(pnsNewBonus:) name:kPnsNewBonusNotification object:nil];
-    [center addObserver:self selector:@selector(pnsNewParticipantBonus:) name:kPnsNewParticipantBonusNotification object:nil];
     [center addObserver:self selector:@selector(pnsBonusWithdrawComplete:) name:kPnsBonusWithdrawCompleteNotification object:nil];
     [center addObserver:self selector:@selector(pnsTradeRefundComplete:) name:kPnsTradeRefundCompleteNotification object:nil];
 }
@@ -123,24 +122,23 @@
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-        [QSRootNotificationHelper postShowNewBonusVcNoti:noti.userInfo];
-    } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
-}
 
-- (void)pnsNewParticipantBonus:(NSNotification*)noti {
-    [self handlePnsWithHandler:^{
-        [QSRootNotificationHelper postShowNewParticipantBonusVcNoti:noti.userInfo];
+        
+        int bonusType = [noti.userInfo numberValueForKeyPath:@"type"].intValue;
+        if (bonusType == 0) {
+            [QSRootNotificationHelper postShowNewBonusVcNoti:noti.userInfo];
+        } else if (bonusType == 1) {
+            [QSRootNotificationHelper postShowNewParticipantBonusVcNoti:noti.userInfo];
+        } else if (bonusType == 2) {
+            [QSRootNotificationHelper postShowBonusListVcNotificationName];
+        }
+        
     } title:@"您有一笔佣金入账啦，立即查看！" userInfo:noti.userInfo];
 }
 
 - (void)pnsBonusWithdrawComplete:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-#warning TODO Show Bonus Vc
-//        UIViewController* vc = [self.rootVc triggerToShowVc:QSRootMenuItemSetting];
-//        if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
-//            QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
-//            [u02Vc showBonuesVC];
-//        }
+        [QSRootNotificationHelper postShowBonusListVcNotificationName];
     } title:@"您的账户成功提现，请注意查看账户！" userInfo:noti.userInfo];
 }
 

@@ -47,7 +47,7 @@
     if (!bonusId) {
         return;
     }
-    [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateParticipant];
+    [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateAbout];
 }
 
 - (void)didReceiveHideNewBonusVcNoti:(NSNotification*)noti {
@@ -59,7 +59,7 @@
     if (!bonusId) {
         return;
     }
-    [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateAbout];
+    [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateParticipant];
 }
 
 - (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {
@@ -68,15 +68,8 @@
 
 
 - (void)didReceiveShowBonusListVcNoti:(NSNotification*)noti {
-#warning TODO Show Bonus Bc
-    //    UIViewController* vc = [self triggerToShowVc:QSRootMenuItemSetting];
-    //    if ([vc isKindOfClass:[QSU02UserSettingViewController class]]) {
-    //        QSU02UserSettingViewController* u02Vc = (QSU02UserSettingViewController*)vc;
-    //        [u02Vc showBonuesVC];
-    //    }
+    [self showBonusVc];
 }
-
-
 
 - (void)didReceiveShowRootMenuNoti:(NSNotification*)noti {
     [self didClickMenuBtn];

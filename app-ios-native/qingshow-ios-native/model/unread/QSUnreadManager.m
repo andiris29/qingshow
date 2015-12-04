@@ -69,7 +69,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
             [commands addObjectsFromArray:a];
         }
         self.menuDotCommands = commands;
-        self.bonuDotCommands = @[@"newBonus", @"newParticipantBonus", @"bonusWithdrawComplete"];
+        self.bonuDotCommands = @[@"newBonus", @"bonusWithdrawComplete"];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveUserInfoUpdateNoti:) name:kUserInfoUpdateNotification object:nil];
     }
     return self;

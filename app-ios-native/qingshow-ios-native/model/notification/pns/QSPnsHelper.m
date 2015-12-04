@@ -16,7 +16,6 @@
 #define kPnsCommandNewRecommandations @"newRecommandations"
 #define kPnsCommandTradeShipped @"tradeShipped"
 #define kPnsCommandNewBonus @"newBonus"
-#define kPnsCommandNewParticipantBonus @"newParticipantBonus"
 #define kPnsCommandBonusWithdrawComplete @"bonusWithdrawComplete"
 #define kPnsTradeRefundComplete @"tradeRefundComplete"
 
@@ -53,17 +52,15 @@
         //订单发货
         [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandNewBonus]) {
-        NSNumber* index = [userInfo numberValueForKeyPath:@"_id"];
-        if (index) {
-            userInfoDict[@"_id"] = index;
+        NSNumber* bonusId = [userInfo numberValueForKeyPath:@"_id"];
+        NSNumber* type = [userInfo numberValueForKeyPath:@"type"];
+        if (bonusId) {
+            userInfoDict[@"_id"] = bonusId;
+        }
+        if (type) {
+            userInfoDict[@"type"] = type;
         }
         [center postNotificationName:kPnsNewBonusNotification object:userInfoDict];
-    } else if ([command isEqualToString:kPnsCommandNewParticipantBonus]) {
-        NSNumber* index = [userInfo numberValueForKeyPath:@"_id"];
-        if (index) {
-            userInfoDict[@"_id"] = index;
-        }
-        [center postNotificationName:kPnsNewParticipantBonusNotification object:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandBonusWithdrawComplete]) {
         [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:userInfoDict];
     } else if ([command isEqual:kPnsTradeRefundComplete]) {

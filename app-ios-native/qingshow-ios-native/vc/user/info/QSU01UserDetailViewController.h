@@ -31,5 +31,5 @@ QSIRootContentViewController>
 
 - (id)initWithPeople:(NSDictionary*)peopleDict;
 - (id)initWithCurrentUser;
-
+- (void)showBonusVC;
 @end

@@ -265,6 +265,14 @@
     self.u20NewBonusVc = nil;
 }
 
+- (void)showBonusVc {
+    UIViewController* vc = [self triggerToShowVc:QSRootMenuItemMy];
+    if ([vc isKindOfClass:[QSU01UserDetailViewController class]]) {
+        QSU01UserDetailViewController* u01Vc = (QSU01UserDetailViewController*)vc;
+        [u01Vc showBonusVC];
+    }
+}
+
 #pragma mark -
 
 - (void)_showVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate {

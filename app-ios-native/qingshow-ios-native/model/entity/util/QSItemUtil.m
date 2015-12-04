@@ -234,7 +234,6 @@
     
     NSMutableDictionary* skuKeyMap = [@{} mutableCopy];
     
-#warning TODO cached for skuKeyMap in the future
     for (NSString* k in skuTableKeys) {
         NSArray* components = [k componentsSeparatedByString:@":"];
         components = [components mapUsingBlock:^NSString* (NSString* str) {

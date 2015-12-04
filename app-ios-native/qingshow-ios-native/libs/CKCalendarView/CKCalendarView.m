@@ -452,7 +452,7 @@
 
 - (int)dayOfWeekForDate:(NSDate *)date {
     NSDateComponents *comps = [self.calendar components:NSWeekdayCalendarUnit fromDate:date];
-    return comps.weekday;
+    return (int)comps.weekday;
 }
 
 - (BOOL)dateIsToday:(NSDate *)date {

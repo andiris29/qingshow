@@ -298,11 +298,11 @@
 }
 
 - (void)bonusBtnPressed:(id)sender {
-    [self showBonuesVC];
+    [self showBonusVC];
 }
 
 
-- (void)showBonuesVC
+- (void)showBonusVC
 {
     NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
     QSU15BonusViewController *vc = [[QSU15BonusViewController alloc] init];
