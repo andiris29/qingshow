@@ -299,7 +299,7 @@ matcher.remixByItem = {
                     };
                     req.injection.remixItems.forEach(function(item, index) {
                         data.slaves[index] = {
-                            'itemRef' : item._id.toString(),
+                            'itemRef' : item,
                             'rect' : config['slave' + index].rect
                         };
                     });
