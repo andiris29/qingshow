@@ -43,7 +43,6 @@
     [self _configNav];
     
     [self _reloadData];
-    
 
     [self _configUI];
     
@@ -176,6 +175,7 @@
         self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
         self.withdrawBtn.userInteractionEnabled = NO;
         self.navigationItem.rightBarButtonItem.action = nil;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
         self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
     }
 }

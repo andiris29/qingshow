@@ -68,7 +68,7 @@
     self.fFirstUnreadChange = YES;
     [self observeNotifications];
     
-    [self _handleBonusUnread];
+//    [self _handleBonusUnread];
     [self _handleSystemConfig];
     [self _registerNoti];
 }
@@ -326,7 +326,7 @@
     if (!self.fFirstUnreadChange) {
         return;
     }
-    self.fFirstUnreadChange = YES;
+    self.fFirstUnreadChange = NO;
 
     NSArray* unreads = [[QSUnreadManager getInstance] getUnreadOfCommand:@"newBonus"];
     NSDictionary* bonusDict = nil;

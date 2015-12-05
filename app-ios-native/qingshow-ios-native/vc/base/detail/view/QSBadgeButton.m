@@ -102,7 +102,7 @@ NSString* badgeBtnTypeToTitle(QSBadgeButtonType type) {
 - (void)updateColor {
     if (_hover) {
         self.imgView.image = self.hoverIcon;
-        self.label.textColor = [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f];
+        self.label.textColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:90.f/255.f alpha:1.f];
     } else {
         if (_hasDot) {
             self.imgView.image = self.dotIcon;
