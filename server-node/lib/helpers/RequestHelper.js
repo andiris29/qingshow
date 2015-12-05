@@ -126,6 +126,7 @@ RequestHelper.parseFile = function (req, uploadPath, savedName, resizeOptions, c
         for (var key in files) {
             file = files[key];
         }
+        savedName = savedName || '';
         savedName += path.extname(file.path);
         var fullPath = path.join(uploadPath, savedName);
         var oldPath = file.path;
