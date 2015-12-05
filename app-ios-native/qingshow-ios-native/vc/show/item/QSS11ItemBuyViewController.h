@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buyBtn;
 
 
+@property (strong, nonatomic) IBOutlet UIView *btnContainer;
 - (instancetype)initWithItem:(NSDictionary*)itemDict promoterId:(NSString*)promoterId;
 
 @end

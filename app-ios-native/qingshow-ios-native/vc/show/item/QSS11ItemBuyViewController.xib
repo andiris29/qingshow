@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS11ItemBuyViewController">
             <connections>
+                <outlet property="btnContainer" destination="i5M-Pr-FkT" id="bRA-nT-Z44"/>
                 <outlet property="buyBtn" destination="gXX-1n-Rcx" id="xwC-Wv-qjN"/>
                 <outlet property="discountInfoBtn" destination="QkB-tE-xl8" id="TQI-Rr-8R6"/>
                 <outlet property="tableView" destination="xe9-Uu-T88" id="DgB-9z-Q0H"/>
@@ -45,46 +46,54 @@
                         <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="C8s-bP-4ge"/>
                     </connections>
                 </button>
-                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QkB-tE-xl8">
-                    <rect key="frame" x="0.0" y="526" width="160" height="42"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnu-jp-peA">
+                    <rect key="frame" x="0.0" y="526" width="320" height="42"/>
+                    <subviews>
+                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QkB-tE-xl8">
+                            <rect key="frame" x="0.0" y="0.0" width="160" height="42"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
+                            <state key="normal" title="分享搭配立减40元">
+                                <color key="titleColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gXX-1n-Rcx">
+                            <rect key="frame" x="160" y="0.0" width="160" height="42"/>
+                            <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
+                            <state key="normal" title="¥280.00 购买">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buyBtnPressed:" destination="-1" eventType="touchUpInside" id="5Hn-gC-jRU"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="42" id="3N3-WD-Yyt"/>
+                        <constraint firstItem="QkB-tE-xl8" firstAttribute="top" secondItem="gnu-jp-peA" secondAttribute="top" id="1Vs-Jg-CS3"/>
+                        <constraint firstItem="QkB-tE-xl8" firstAttribute="width" secondItem="gXX-1n-Rcx" secondAttribute="width" id="3Pt-B7-TBu"/>
+                        <constraint firstItem="gXX-1n-Rcx" firstAttribute="leading" secondItem="QkB-tE-xl8" secondAttribute="trailing" id="4dB-i1-ngG"/>
+                        <constraint firstAttribute="bottom" secondItem="gXX-1n-Rcx" secondAttribute="bottom" id="7HZ-kI-T1p"/>
+                        <constraint firstAttribute="height" constant="42" id="PS3-oV-cid"/>
+                        <constraint firstItem="QkB-tE-xl8" firstAttribute="leading" secondItem="gnu-jp-peA" secondAttribute="leading" id="aeL-zO-JaF"/>
+                        <constraint firstAttribute="trailing" secondItem="gXX-1n-Rcx" secondAttribute="trailing" id="dnm-hj-eBz"/>
+                        <constraint firstItem="gXX-1n-Rcx" firstAttribute="top" secondItem="gnu-jp-peA" secondAttribute="top" id="pFI-Ax-jRV"/>
+                        <constraint firstAttribute="bottom" secondItem="QkB-tE-xl8" secondAttribute="bottom" id="vU9-bm-9zT"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                    <state key="normal" title="分享搭配立减40元">
-                        <color key="titleColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gXX-1n-Rcx">
-                    <rect key="frame" x="160" y="526" width="160" height="42"/>
-                    <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="42" id="DlX-FI-0Um"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="14"/>
-                    <state key="normal" title="¥280.00 购买">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="buyBtnPressed:" destination="-1" eventType="touchUpInside" id="5Hn-gC-jRU"/>
-                    </connections>
-                </button>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="gnu-jp-peA" firstAttribute="top" secondItem="xe9-Uu-T88" secondAttribute="bottom" id="5fK-Tl-duT"/>
                 <constraint firstItem="xe9-Uu-T88" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IIW-Y3-u0p"/>
-                <constraint firstItem="gXX-1n-Rcx" firstAttribute="leading" secondItem="QkB-tE-xl8" secondAttribute="trailing" id="KjH-oX-nOQ"/>
+                <constraint firstAttribute="bottom" secondItem="gnu-jp-peA" secondAttribute="bottom" id="NMs-In-BdN"/>
                 <constraint firstItem="35j-mb-m5V" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="SwY-k6-4g2"/>
-                <constraint firstAttribute="trailing" secondItem="gXX-1n-Rcx" secondAttribute="trailing" id="fF3-45-ltb"/>
-                <constraint firstItem="gXX-1n-Rcx" firstAttribute="width" secondItem="QkB-tE-xl8" secondAttribute="width" id="iBM-b4-dZZ"/>
+                <constraint firstItem="gnu-jp-peA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VQb-BM-naI"/>
+                <constraint firstAttribute="trailing" secondItem="gnu-jp-peA" secondAttribute="trailing" id="att-E4-Osd"/>
                 <constraint firstItem="35j-mb-m5V" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="nNu-We-8Io"/>
                 <constraint firstAttribute="trailing" secondItem="xe9-Uu-T88" secondAttribute="trailing" id="r0J-NA-wrB"/>
-                <constraint firstItem="QkB-tE-xl8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sTW-6n-zUJ"/>
                 <constraint firstItem="xe9-Uu-T88" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="sxD-Zu-HiD"/>
-                <constraint firstAttribute="bottom" secondItem="QkB-tE-xl8" secondAttribute="bottom" id="tXU-0D-gxu"/>
-                <constraint firstItem="gXX-1n-Rcx" firstAttribute="top" secondItem="xe9-Uu-T88" secondAttribute="bottom" id="xdP-v5-O6x"/>
-                <constraint firstAttribute="bottom" secondItem="gXX-1n-Rcx" secondAttribute="bottom" id="yiM-jR-GfG"/>
             </constraints>
             <point key="canvasLocation" x="253" y="309"/>
         </view>

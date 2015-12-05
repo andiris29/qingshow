@@ -254,7 +254,7 @@
         NSArray* rects = itemRects[i];
         
         QSItemTagView* labelView = [QSItemTagView generateView];
-        labelView.hidden = !self.showShouldLabel;
+//        labelView.hidden = !self.showShouldLabel;
         [self.itemLabelArray addObject:labelView];
         labelView.userInteractionEnabled = YES;
         UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
@@ -522,10 +522,10 @@
 }
 
 - (void)didTapLabelContainer:(UITapGestureRecognizer*)tap {
-    self.showShouldLabel = !self.showShouldLabel;
-    for (UIView* v  in self.itemLabelArray) {
-        v.hidden = !self.showShouldLabel;
-    }
+//    self.showShouldLabel = !self.showShouldLabel;
+//    for (UIView* v  in self.itemLabelArray) {
+//        v.hidden = !self.showShouldLabel;
+//    }
 }
 
 @end
