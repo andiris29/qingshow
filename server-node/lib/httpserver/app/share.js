@@ -170,7 +170,7 @@ share.withdrawBonus = {
             if (!ownerRef.userInfo.weixin) {
                 next(errors.ERR_WEIXIN_NOT_BOUND);
             } else {
-                BonusHelper.aggregate(req.injection.ownerRef, function(err, amountByStatus) {
+                BonusHelper.aggregate(ownerRef._id, function(err, amountByStatus) {
                     if (err) {
                         next(errors.genUnkownError(err));
                     } else {
@@ -201,8 +201,14 @@ share.withdrawBonus = {
                             } else {
                                 Bonus.update(
                                     {'ownerRef' : ownerRef._id},
-                                    {'status' : BonusCode.BONUS_STATUS_COMPLETE,
-                                        'weixinRedPackId' : body.data.send_listid},
+                                    {'$set' : {
+                                        'status' : BonusCode.STATUS_COMPLETE,
+                                        'weixinRedPack' : {
+                                            'create' : Date.now(),
+                                            'send_listid' : body.data.send_listid
+                                            }
+                                        }
+                                    },
                                     {'multi' : true},
                                     next
                                 );
