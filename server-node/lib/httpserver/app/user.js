@@ -356,7 +356,7 @@ user.bindMobile = [
         people.userInfo = people.userInfo || {};
         people.mobile = people.userInfo.id = req.body.mobile;
         // Copy weixin from outdated
-        if (outdated.userInfo && outdated.userInfo.weixin) {
+        if (outdated && outdated.userInfo && outdated.userInfo.weixin) {
             people.userInfo.weixin = outdated.userInfo.weixin;
             outdated.userInfo.weixin = null;
             outdated.save(function(){});
