@@ -118,6 +118,7 @@
 }
 
 - (void)matchImgViewPressed:(id)sender {
+    self.clickedData = sender;
     if ([self.delegate respondsToSelector:@selector(didClickShow:provider:)]) {
         [self.delegate didClickShow:sender provider:self];
     }

@@ -40,6 +40,7 @@
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) NSString* showId;
+@property (strong, nonatomic) NSDictionary *oldShowDict;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @property (strong, nonatomic) NSMutableArray* itemLabelArray;
 @end
@@ -58,7 +59,8 @@
 {
     self = [self initWithShowId:[QSEntityUtil getIdOrEmptyStr:showDict]];
     if (self) {
-        self.showDict = showDict;
+        self.showDict = [showDict mutableCopy];
+        self.oldShowDict = showDict;
     }
     return self;
 }
@@ -90,7 +92,9 @@
     self.bonusLabel.layer.borderColor = [UIColor whiteColor].CGColor;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
     
-    [SHARE_NW_ENGINE viewShow:self.showDict onSucceed:nil onError:nil];
+    [SHARE_NW_ENGINE viewShow:self.showDict onSucceed:^{
+        [QSShowUtil addNumberView:1l forShow:self.oldShowDict];
+    } onError:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
