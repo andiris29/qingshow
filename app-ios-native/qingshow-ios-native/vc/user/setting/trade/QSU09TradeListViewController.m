@@ -114,7 +114,8 @@
     _headerView = [QSTradeListHeaderView makeView];
     _headerView.delegate = self;
     self.tableView.tableHeaderView = _headerView;
-    self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+    
+    self.tableView.backgroundColor = [UIColor colorWithRed:247.f/255.f green:247.f/255.f blue:247.f/255.f alpha:1.f];
     
     [self hideNaviBackBtnTitle];
 }

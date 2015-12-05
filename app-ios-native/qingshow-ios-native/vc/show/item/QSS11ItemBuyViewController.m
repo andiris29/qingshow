@@ -69,8 +69,6 @@
     [self _configCells];
     [self _queryNewRemix];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self _bindWithItemDict:self.itemDict];
-    
     [SHARE_NW_ENGINE getItemWithId:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
         self.itemDict = data;
         [self _bindWithItemDict:self.itemDict];
