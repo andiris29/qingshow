@@ -31,7 +31,10 @@ var Bonus = mongoose.model('bonuses', Schema({
             ref : 'shows'
         }
     },
-    weixinRedPackId : String
+    weixinRedPack : {
+        create : Date,
+        send_listid : String
+    }
 }));
 
 module.exports = Bonus;

@@ -37,14 +37,14 @@ var _queryTopOwners = function(req, criteria, callback) {
             callback(errors.genUnkownError(err));
         } else {
             var topOwners = [],
-                indexOfCurrentUser = -1;
+                numViewOfCurrentUser = 0;
             results.forEach(function(result, index) {
                 if (topOwners.length < 8) {
                     topOwners.push({'ownerRef' : result._id});
                 }
                 if (req.qsCurrentUserId && 
                     req.qsCurrentUserId.toString() === result._id.toString()) {
-                    indexOfCurrentUser = index;
+                    numViewOfCurrentUser = result.numView;
                 }
             });
             
@@ -59,7 +59,7 @@ var _queryTopOwners = function(req, criteria, callback) {
                         return object.ownerRef;
                     });
                     callback(null, {
-                        'indexOfCurrentUser' : indexOfCurrentUser,
+                        'numViewOfCurrentUser' : numViewOfCurrentUser,
                         'numOwners' : results.length,
                         'topOwners' : topOwners
                     });
@@ -117,7 +117,7 @@ feedingAggregation.latest = {
                         if (index % 2 === 0) {
                             data[x].topOwners = result.topOwners;
                             data[x].numOwners = result.numOwners;
-                            data[x].indexOfCurrentUser = result.indexOfCurrentUser;
+                            data[x].numViewOfCurrentUser = result.numViewOfCurrentUser;
                         } else {
                             data[x].topShows = result.topShows;
                         }

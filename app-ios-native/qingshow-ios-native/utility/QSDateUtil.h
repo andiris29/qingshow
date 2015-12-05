@@ -30,5 +30,5 @@
 
 //获取日期
 + (NSString*)getMonthAndDate:(NSDate*)date;
-
++ (NSString*)buildDotStringFromDate:(NSDate*)date;
 @end

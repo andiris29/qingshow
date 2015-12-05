@@ -29,9 +29,9 @@ peoples.forEach(function(people) {
     });
     if (bonuses.length) {
         db.getCollection('bonuses').insert(bonuses);
-        db.getCollection('peoples').update(
-            {'_id' : people._id},
-            {'$unset' : {'bonuses' : ''}}
-        );
     }
+    db.getCollection('peoples').update(
+        {'_id' : people._id},
+        {'$unset' : {'bonuses' : ''}}
+    );
 });
