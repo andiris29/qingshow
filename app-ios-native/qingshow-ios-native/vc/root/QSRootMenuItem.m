@@ -47,10 +47,8 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
                             @"",
                             @"root_menu_icon_my_hover",
                             @"root_menu_icon_meida_hover",
-                            @"root_menu_icon_setting_hover",
                             @"root_menu_icon_matcher_hover",
-                            @"root_menu_icon_discount_hover",
-                            @"root_menu_icon_showtrade_hover"];
+                            @"root_menu_icon_discount_hover"];
     if ((NSUInteger)type < titleArray.count) {
         NSString* str = titleArray[type];
         return [UIImage imageNamed:str];
