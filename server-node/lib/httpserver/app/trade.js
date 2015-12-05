@@ -186,7 +186,7 @@ trade.deliver = {
             }
             // Push Notification
             NotificationHelper.notify([trade.ownerRef], NotificationHelper.MessageTradeShipped, {
-                '_id' : RequestHelper.parseId(param._id),
+                '_id' : param._id,
                 'command' : NotificationHelper.CommandTradeShipped
             }, null);
             
@@ -229,7 +229,7 @@ trade.returnComplete = {
             req.injection.tradeRef.adminNote = req.body.adminNote;
             // Push Notification
             NotificationHelper._push([trade.ownerRef], NotificationHelper.MessageTradeRefundComplete, {
-                '_id' : req.injection.tradeRef._id,
+                '_id' : req.injection.tradeRef._id.toString(),
                 'command' : NotificationHelper.CommandTradeRefundComplete
             }, null);
             

@@ -790,7 +790,6 @@ user.readNotification = function(req, res) {
     var criteria = {};
     for (var element in params) {
         var key = 'extra.' + element;
-        element === '_id' ? criteria[key] = RequestHelper.parseId(params._id) :
         criteria[key] = params[element];
     }
 
