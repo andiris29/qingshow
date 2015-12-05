@@ -31,7 +31,7 @@
     return [self startOperationWithPath:PATH_BONUS_QUERY
                                  method:@"GET"
                                paramers:@{
-                                          @"ids" : str}
+                                          @"_ids" : str}
                             onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* retJson = completedOperation.responseJSON;
