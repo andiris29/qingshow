@@ -50,6 +50,7 @@
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page) {
         return [SHARE_NW_ENGINE queryOwnedBonusPage:page onSucceed:succeedBlock onError:errorBlock];
     };
+    self.provider.delegate = self;
     [self.provider reloadData];
 }
 
