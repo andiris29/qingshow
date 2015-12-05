@@ -107,7 +107,7 @@
     MBProgressHUD* hud = [self showNetworkWaitingHud];
     [SHARE_NW_ENGINE getVerifyCodeForMobile:mobileNum onSucceed:^{
         [hud hide:YES];
-        [self showTextHud:@"已成功发送验证码"];
+        [self showTextHud:@"已发送验证码"];
         [self configTimer];
     } onError:^(NSError *error) {
         [hud hide:YES];
@@ -209,7 +209,7 @@
         [_timer invalidate];
         _timer = nil;
         num = 60;
-        [self.getVerifyCodeBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
+        [self.getVerifyCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
         self.getVerifyCodeBtn.userInteractionEnabled = YES;
     }
 }

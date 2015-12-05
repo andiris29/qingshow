@@ -7,7 +7,7 @@
 //
 
 #import "QSG02WelcomeViewController.h"
-
+#import "UIView+QSExtension.h"
 #define PAGE_ID @"G02 - 欢迎页"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -36,6 +36,8 @@
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    self.pageControl.currentPageIndicatorTintColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"page_select"]];
+    
     
     _welcomeSCV.frame = CGRectMake(0, 0, w, h);
     _welcomeSCV.contentSize = CGSizeMake(w*4, h);

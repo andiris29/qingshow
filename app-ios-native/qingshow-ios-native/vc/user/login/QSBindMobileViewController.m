@@ -70,7 +70,7 @@
 #warning TODO 使用regex验证手机号
     if (phoneStr.length == 11) {
         [SHARE_NW_ENGINE getVerifyCodeForMobile:phoneStr onSucceed:^{
-            [self showTextHud:@"已成功发送验证码"];
+            [self showTextHud:@"已发送验证码"];
             [self setTimer];
         } onError:^(NSError *error) {
             

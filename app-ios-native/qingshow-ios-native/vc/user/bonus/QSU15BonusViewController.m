@@ -160,6 +160,7 @@
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     self.navigationItem.leftBarButtonItem = backItem;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"收益明细" style:UIBarButtonItemStyleDone target:self action:@selector(bonusListBtnPressed:)];
+
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
@@ -175,6 +176,7 @@
         self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
         self.withdrawBtn.userInteractionEnabled = NO;
         self.navigationItem.rightBarButtonItem.action = nil;
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
     }
 }
 
