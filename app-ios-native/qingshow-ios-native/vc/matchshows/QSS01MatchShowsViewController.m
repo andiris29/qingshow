@@ -136,13 +136,15 @@
 
 #pragma mark - CKCalendarDelegate
 - (void)calendar:(CKCalendarView *)calendar didSelectDate:(NSDate *)date {
-    self.calendarContainerView.hidden = YES;
-    self.calendarView.selectedDate = date;
-    date = [QSDateUtil clearTimeFromDate:date];
-    NSDate* toDate = [date dateByAddingTimeInterval:24 * 60 * 60];
-    QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:toDate];
-    [self.navigationController pushViewController:vc animated:YES];
-    
+    NSDate* now = [NSDate date];
+    if ([date compare:now] == NSOrderedAscending) {
+        self.calendarContainerView.hidden = YES;
+        self.calendarView.selectedDate = date;
+        date = [QSDateUtil clearTimeFromDate:date];
+        NSDate* toDate = [date dateByAddingTimeInterval:24 * 60 * 60];
+        QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:toDate];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)didTapCalendarContainer:(UITapGestureRecognizer*)ges {

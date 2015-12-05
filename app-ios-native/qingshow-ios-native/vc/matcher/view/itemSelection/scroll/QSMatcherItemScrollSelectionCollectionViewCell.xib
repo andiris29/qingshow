@@ -28,7 +28,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="s20_pink_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="oG4-AV-Fct">
-                        <rect key="frame" x="35" y="37" width="17" height="16"/>
+                        <rect key="frame" x="40" y="40" width="17" height="16"/>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -42,6 +42,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="s20_pink_checkmark" width="17" height="16"/>
+        <image name="s20_pink_checkmark" width="20" height="20"/>
     </resources>
 </document>

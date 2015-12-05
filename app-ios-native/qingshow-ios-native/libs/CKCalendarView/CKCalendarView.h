@@ -62,8 +62,6 @@ typedef int startDay;
 - (void)setDateBorderColor:(UIColor *)color;
 - (UIColor *)dateBorderColor;
 
-@property (nonatomic, strong) UIColor *selectedDateTextColor;
-@property (nonatomic, strong) UIColor *selectedDateBackgroundColor;
 @property (nonatomic, strong) UIColor *currentDateTextColor;
 @property (nonatomic, strong) UIColor *currentDateBackgroundColor;
 

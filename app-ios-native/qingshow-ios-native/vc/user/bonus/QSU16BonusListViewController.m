@@ -14,16 +14,27 @@
 #import "QSNetworkKit.h"
 #import "QSS10ItemDetailViewController.h"
 #import "UIViewController+QSExtension.h"
+#import "QSBonusTableViewProvider.h"
 
 #define QSU16CELLID @"QSU16TableViewCellId"
-@interface QSU16BonusListViewController ()
+@interface QSU16BonusListViewController () <QSBonusTableViewProviderDelegate>
 
 @property (strong,nonatomic)NSArray *listArray;
 
 @property (strong, nonatomic) UITableView* tableView;
+@property (strong, nonatomic) QSBonusTableViewProvider* provider;
+
 @end
 
 @implementation QSU16BonusListViewController
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,40 +42,23 @@
     self.title = @"佣金明细";
     UITableView *tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView = tableView;
-    tableView.delegate = self;
-    tableView.dataSource = self;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tableView];
     
-    [SHARE_NW_ENGINE queryOwnedBonusOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-        self.listArray = array;
-        [self.tableView reloadData];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
+    self.provider = [[QSBonusTableViewProvider alloc] init];
+    [self.provider bindWithTableView:self.tableView];
+    self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page) {
+        return [SHARE_NW_ENGINE queryOwnedBonusPage:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    [self.provider reloadData];
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 60.f;
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return _listArray.count;
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    QSU15BonusListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:QSU16CELLID];
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU15BonusListTableViewCell" owner:self options:nil]lastObject];
-    }
-    [cell bindWithDict:_listArray[_listArray.count - indexPath.row -1]];
 
-    return cell;
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSDictionary *dic = _listArray[_listArray.count - 1 - indexPath.row];
-    NSString *itemId = [QSBonusUtil getItemRef:dic];
+
+- (void)provider:(QSBonusTableViewProvider*)provider didTapBonus:(NSDictionary*)bonusDict {
+    NSString *itemId = [QSBonusUtil getItemRef:bonusDict];
     __weak QSU16BonusListViewController *weakSelf = self;
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDic, NSDictionary *metadata) {
         if (itemDic) {
@@ -72,13 +66,11 @@
             [weakSelf.navigationController pushViewController:vc animated:YES];
         }
     } onError:^(NSError *error) {
-        
+        [self handleError:error];
     }];
-    
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
+- (void)handleNetworkError:(NSError *)error {
+    [self handleError:error];
+}
 @end

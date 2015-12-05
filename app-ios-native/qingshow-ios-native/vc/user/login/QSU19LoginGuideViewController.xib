@@ -7,11 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU19LoginGuideViewController">
             <connections>
-                <outlet property="bottomConstraint" destination="MX4-SI-oaC" id="8lu-VP-RRH"/>
                 <outlet property="closeBtn" destination="OyJ-X6-olC" id="rmZ-7C-W3S"/>
                 <outlet property="mobileLoginBtn" destination="tNm-4o-Lke" id="WRm-fd-WUw"/>
                 <outlet property="registerBtn" destination="1ZX-JL-3vh" id="RYc-IP-MCc"/>
-                <outlet property="topConstraint" destination="PLq-cf-2bF" id="1ZH-tg-KIx"/>
+                <outlet property="topConstraint" destination="59j-b4-b7C" id="aZu-sX-O58"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="weichatLoginBtn" destination="bh1-iq-gVE" id="dhj-8x-8jj"/>
             </connections>
@@ -22,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ZX-JL-3vh">
-                    <rect key="frame" x="79" y="470" width="162" height="34"/>
+                    <rect key="frame" x="79" y="378.5" width="162" height="34"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="162" id="KGq-VT-dZH"/>
                         <constraint firstAttribute="height" constant="34" id="fTU-lA-bOm"/>
@@ -45,7 +44,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh1-iq-gVE">
-                    <rect key="frame" x="129" y="269" width="63" height="87"/>
+                    <rect key="frame" x="129" y="240.5" width="63" height="87"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="87" id="jAG-rj-AtS"/>
                         <constraint firstAttribute="width" constant="63" id="rZc-Ms-M7Z"/>
@@ -56,7 +55,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNm-4o-Lke">
-                    <rect key="frame" x="129" y="131" width="63" height="87"/>
+                    <rect key="frame" x="129" y="103" width="63" height="87"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="87" id="QC6-mz-U28"/>
                         <constraint firstAttribute="width" constant="63" id="Ymg-nh-H5d"/>
@@ -69,12 +68,12 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="1ZX-JL-3vh" secondAttribute="bottom" constant="64" id="48r-y6-qRf"/>
-                <constraint firstAttribute="bottom" secondItem="bh1-iq-gVE" secondAttribute="bottom" constant="212" id="MX4-SI-oaC"/>
-                <constraint firstItem="tNm-4o-Lke" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="131" id="PLq-cf-2bF"/>
+                <constraint firstItem="tNm-4o-Lke" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="102.5" id="59j-b4-b7C"/>
                 <constraint firstItem="OyJ-X6-olC" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="W8Z-xT-YIX"/>
+                <constraint firstItem="1ZX-JL-3vh" firstAttribute="top" secondItem="bh1-iq-gVE" secondAttribute="bottom" constant="51" id="XkE-uc-EYy"/>
                 <constraint firstItem="1ZX-JL-3vh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="bxS-dr-rVT"/>
                 <constraint firstAttribute="trailing" secondItem="OyJ-X6-olC" secondAttribute="trailing" constant="15" id="dUf-su-Nau"/>
+                <constraint firstItem="bh1-iq-gVE" firstAttribute="top" secondItem="tNm-4o-Lke" secondAttribute="bottom" constant="51" id="f2D-QO-Vs8"/>
                 <constraint firstItem="bh1-iq-gVE" firstAttribute="centerX" secondItem="1ZX-JL-3vh" secondAttribute="centerX" id="s1T-Om-3Rs"/>
                 <constraint firstItem="tNm-4o-Lke" firstAttribute="centerX" secondItem="1ZX-JL-3vh" secondAttribute="centerX" id="sVA-5S-X9i"/>
             </constraints>

@@ -45,8 +45,9 @@
         }
     }];
 }
-- (MKNetworkOperation*)queryOwnedBonusOnSucceed:(ArraySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock {
+- (MKNetworkOperation*)queryOwnedBonusPage:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_BONUS_OWN
                                  method:@"GET"
                                paramers:@{}

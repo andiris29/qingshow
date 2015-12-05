@@ -10,7 +10,7 @@
 
 
 #define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
-#define QSMatcherTableViewCellHeight 304.f
+#define QSMatcherTableViewCellHeight 300.f
 
 @class QSMatcherTableViewCell;
 @protocol QSMatcherTableViewCellDelegate <NSObject>
@@ -23,6 +23,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel* timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel* dateLabel;
+@property (weak, nonatomic) IBOutlet UIImageView* eyeImgView;
 @property (weak, nonatomic) IBOutlet UIImageView* userHeadImgView;
 @property (weak, nonatomic) IBOutlet UILabel* numLabel;
 @property (weak, nonatomic) IBOutlet UIView* usersContainer;

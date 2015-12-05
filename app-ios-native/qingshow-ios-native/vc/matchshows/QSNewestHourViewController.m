@@ -54,7 +54,12 @@
 
 #pragma mark - Private
 - (void)_configNav {
-    self.title = [QSDateUtil buildStringFromDate:self.fromDate];
+    if ([self.toDate timeIntervalSinceDate:self.fromDate] > 60 * 60 + 1) {
+        self.title = [QSDateUtil buildDayStringFromDate:self.fromDate];
+    } else {
+        self.title = [QSDateUtil getTime:self.fromDate];
+    }
+    
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     self.navigationItem.leftBarButtonItem = backItem;
 }

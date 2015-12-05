@@ -51,6 +51,22 @@
     
     return nil;
 }
+
++ (NSString*)buildDotStringFromDate:(NSDate*)date {
+    if (date)
+    {
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
+        NSString* currentDateStr = [dateFormatter stringFromDate:date];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        return currentDateStr;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
 + (NSString*)buildStringFromDate:(NSDate*)date
 {
     if (date)

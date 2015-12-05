@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -10,16 +11,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="148"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="147"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="147.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7jk-0z-Jzm">
                         <rect key="frame" x="35" y="15" width="250" height="1"/>
-                        <color key="backgroundColor" red="0.91764705882352937" green="0.50196078431372548" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qab-fb-UUD" userLabel="TitleButton">
                         <rect key="frame" x="125" y="3" width="71" height="25"/>
-                        <color key="backgroundColor" red="0.91764705882352937" green="0.50196078431372548" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <state key="normal" title="Button">
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -35,7 +36,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <inset key="titleEdgeInsets" minX="0.0" minY="-20" maxX="0.0" maxY="0.0"/>
                         <state key="normal" title="&lt;">
-                            <color key="titleColor" red="0.91764705882352937" green="0.50196078431372548" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -46,7 +47,7 @@
                         <rect key="frame" x="285" y="30" width="35" height="117"/>
                         <inset key="titleEdgeInsets" minX="0.0" minY="-20" maxX="0.0" maxY="0.0"/>
                         <state key="normal" title="&gt;">
-                            <color key="titleColor" red="0.91764705882352937" green="0.50196078431372548" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>

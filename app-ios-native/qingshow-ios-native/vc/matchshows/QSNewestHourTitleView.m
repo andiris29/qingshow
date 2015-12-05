@@ -16,7 +16,13 @@
     return [UINib generateViewWithNibName:@"QSNewestHourTitleView"];
 }
 
-- (void)bindWithDate:(NSDate*)date {
-    self.timeLabel.text = [QSDateUtil buildStringFromDate:date];
+- (void)bindWithDate:(NSDate*)date showTime:(BOOL)fShowTime {
+    if (fShowTime) {
+        self.timeLabel.text = [QSDateUtil buildDotStringFromDate:date];
+    } else {
+        self.timeLabel.text = [QSDateUtil buildDayStringFromDate:date];
+    }
+
+    
 }
 @end

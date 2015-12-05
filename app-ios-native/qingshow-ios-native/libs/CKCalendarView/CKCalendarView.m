@@ -121,8 +121,6 @@
 @synthesize selectedDate = _selectedDate;
 @synthesize delegate = _delegate;
 
-@synthesize selectedDateTextColor = _selectedDateTextColor;
-@synthesize selectedDateBackgroundColor = _selectedDateBackgroundColor;
 @synthesize currentDateTextColor = _currentDateTextColor;
 @synthesize currentDateBackgroundColor = _currentDateBackgroundColor;
 @synthesize cellWidth = _cellWidth;
@@ -268,17 +266,18 @@
 
     NSDate *date = [self firstDayOfMonthContainingDate:self.monthShowing];
     uint dateButtonPosition = 0;
+    NSDate* now = [NSDate date];
     while ([self dateIsInMonthShowing:date]) {
         DateButton *dateButton = [self.dateButtons objectAtIndex:dateButtonPosition];
 
         dateButton.date = date;
-        if ([dateButton.date isEqualToDate:self.selectedDate]) {
-            dateButton.backgroundColor = self.selectedDateBackgroundColor;
-            [dateButton setTitleColor:self.selectedDateTextColor forState:UIControlStateNormal];
-        } else if ([self dateIsToday:dateButton.date]) {
+        if ([self dateIsToday:dateButton.date]) {
             [dateButton setTitleColor:self.currentDateTextColor forState:UIControlStateNormal];
             dateButton.backgroundColor = self.currentDateBackgroundColor;
-        } else {
+        } else if ([dateButton.date compare:now] == NSOrderedDescending) {
+            dateButton.backgroundColor = [UIColor lightGrayColor];
+            [dateButton setTitleColor:[self dateTextColor] forState:UIControlStateNormal];
+        }else {
             dateButton.backgroundColor = [self dateBackgroundColor];
             [dateButton setTitleColor:[self dateTextColor] forState:UIControlStateNormal];
         }
@@ -316,11 +315,8 @@
     [self setDateBackgroundColor:UIColorFromRGB(0xF2F2F2)];
     [self setDateBorderColor:UIColorFromRGB(0xDAE1E6)];
 
-    [self setSelectedDateTextColor:UIColorFromRGB(0xF2F2F2)];
-    [self setSelectedDateBackgroundColor:UIColorFromRGB(0x88B6DB)];
-
     [self setCurrentDateTextColor:UIColorFromRGB(0xF2F2F2)];
-    [self setCurrentDateBackgroundColor:[UIColor lightGrayColor]];
+    [self setCurrentDateBackgroundColor:UIColorFromRGB(0x88B6DB)];
 }
 
 - (CGRect)calculateDayCellFrame:(NSDate *)date {

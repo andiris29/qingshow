@@ -124,7 +124,7 @@
                         <constraint firstAttribute="height" constant="26" id="l8W-M5-bo7"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
-                    <state key="normal" title="发送验证码">
+                    <state key="normal" title="获取验证码">
                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>

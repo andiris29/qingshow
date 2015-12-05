@@ -11,7 +11,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSImageNameUtil.h"
 #define COLOR_GRAY [UIColor colorWithRed:149.f/255.f green:149.f/255.f blue:149.f/255.f alpha:1.f]
-#define COLOR_PINK [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f]
+#define COLOR_PURPLE [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f]
 
 @implementation QSMatcherItemScrollSelectionCollectionViewCell
 
@@ -33,7 +33,7 @@
 }
 - (void)_updateColor {
     if (self.hover) {
-        self.imgView.layer.borderColor = COLOR_PINK.CGColor;
+        self.imgView.layer.borderColor = COLOR_PURPLE.CGColor;
     } else {
         self.imgView.layer.borderColor = COLOR_GRAY.CGColor;
     }
