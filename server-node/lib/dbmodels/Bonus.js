@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
     
-var Bonus = mongoose.model('bonuses', Schema({
+var bonusSchema = Schema({
     ownerRef : {
         type : Schema.Types.ObjectId,
         ref : 'peoples'
@@ -35,6 +35,11 @@ var Bonus = mongoose.model('bonuses', Schema({
         create : Date,
         send_listid : String
     }
-}));
+});
+
+bonusSchema.index({ownerRef: 1});
+bonusSchema.index({create: -1});
+
+var Bonus = mongoose.model('bonuses', bonusSchema);
 
 module.exports = Bonus;

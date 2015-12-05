@@ -47,5 +47,8 @@ showSchema = Schema({
     }
 });
 
+showSchema.index({ownerRef: 1});
+showSchema.index({create: -1});
+
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;
