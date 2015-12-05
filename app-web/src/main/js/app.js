@@ -19,6 +19,21 @@
     });
 
     $(function() {
-        require(['qs/core/bootstrap']);
+        var settings = {
+            'url' : 'http://chingshow.com/services/system/get?version=' + window.__config.VERSION,
+            'type' : 'get',
+            'dataType' : 'json',
+            'cache' : false,
+            'xhrFields' : {
+                'withCredentials' : true
+            }
+        };
+
+        $.ajax(settings).done(function(json){
+            window.__config.appServiceRoot = json.data.deployment.appServiceRoot;
+
+            require(['qs/core/bootstrap']);
+        });
+                
     });
 })();

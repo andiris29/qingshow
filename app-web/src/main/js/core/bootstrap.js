@@ -17,9 +17,8 @@ define([
     };
     // Initialize __services
     httpService.config({
-        // 'root' : 'http://127.0.0.1:30001/services',
-        'root' : 'http://chingshow.com/services',
-        'version' : '2.1.0'
+        'root' : window.__config.appServiceRoot,
+        'version' : window.__config.VERSION
     });
     navigationService.config({
         'root' : $('#root').get(0)
