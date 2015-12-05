@@ -112,7 +112,7 @@ share.createBonus = {
         },
         function(req, res, next) {
             Bonus.update(
-                {'ownerRef' : req.qsCurrentUserId},
+                {'ownerRef' : req.qsCurrentUserId, 'status' : BonusCode.STATUS_INIT},
                 {'status' : BonusCode.STATUS_REQUESTED},
                 {'multi' : true},
                 next
@@ -200,7 +200,7 @@ share.withdrawBonus = {
                                 next(errors.ERR_SEND_WEIXIN_RED_PACK_FAILED);
                             } else {
                                 Bonus.update(
-                                    {'ownerRef' : ownerRef._id},
+                                    {'ownerRef' : ownerRef._id, 'status' : BonusCode.STATUS_REQUESTED},
                                     {'$set' : {
                                         'status' : BonusCode.STATUS_COMPLETE,
                                         'weixinRedPack' : {
