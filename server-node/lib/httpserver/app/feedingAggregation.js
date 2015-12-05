@@ -37,7 +37,7 @@ var _queryTopOwners = function(req, criteria, callback) {
             callback(errors.genUnkownError(err));
         } else {
             var topOwners = [],
-                numViewOfCurrentUser = 0;
+                numViewOfCurrentUser = -1;
             results.forEach(function(result, index) {
                 if (topOwners.length < 8) {
                     topOwners.push({'ownerRef' : result._id});

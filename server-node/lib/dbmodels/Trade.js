@@ -73,5 +73,8 @@ var tradeSchema = Schema({
     }
 });
 
+tradeSchema.index({ownerRef: 1});
+tradeSchema.index({create: -1});
+
 var Trade = mongoose.model('trades', tradeSchema);
 module.exports = Trade;

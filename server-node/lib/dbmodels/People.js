@@ -100,6 +100,10 @@ peopleSchema = Schema({
     },
     talent : Boolean
 });
+
+peopleSchema.index({mobile: 1});
+peopleSchema.index({create: -1});
+
 var People = mongoose.model('peoples', peopleSchema);
 
 module.exports = People;
