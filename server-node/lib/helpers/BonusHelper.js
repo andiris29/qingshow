@@ -17,7 +17,13 @@ BonusHelper.createTradeBonus = function(trade, cb) {
             'itemRefs' : {'$all' : [trade.itemRef]},
             'ownerRef' : {'$ne' : trade.promoterRef}
         }).sort({'numView' : -1}).limit(global.qsConfig.bonus.participants.count).exec(
-            function(err, refs){callback(err, refs);}
+            function(err, shows) {
+                if (!err) {
+                    callback(null, shows.map(function(show) {return show.ownerRef;}));
+                } else {
+                    callback(err);
+                }
+            }
         );
     }, function(peopleRefs, callback) {
         var amount = Math.round(Math.max(0.01, trade.totalFee * global.qsConfig.bonus.participants.rate) * 100) / 100;
@@ -65,7 +71,7 @@ var _notify = function(bonus) {
         {
             'command' : NotificationHelper.CommandNewBonus,
             '_id' : bonus._id.toString(),
-            'type' : type
+            'type' : bonus.type
         },
     null);
 };
