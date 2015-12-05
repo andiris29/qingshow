@@ -15,6 +15,7 @@
 #import "QSBonusUtil.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "NSArray+QSExtension.h"
 
 #define HEAD_NUMBER_EVERY_ROW 10
 #define HEAD_ROW_NUMBER 2
@@ -152,7 +153,10 @@
         [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDict, NSDictionary *metadata) {
             [self.itemImageView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
             if (participantsArray && participantsArray.count) {
-                [SHARE_NW_ENGINE queryPeoplesDetail:participantsArray onSucceed:^(NSArray *peoples) {
+                NSArray* a = [participantsArray mapUsingBlock:^id(NSDictionary* p) {
+                    return [QSEntityUtil getIdOrEmptyStr:p];
+                }];
+                [SHARE_NW_ENGINE queryPeoplesDetail:a onSucceed:^(NSArray *peoples) {
                     [self _setupOtherHeadIcons:peoples];
                 } onError:errorBlock];
             }

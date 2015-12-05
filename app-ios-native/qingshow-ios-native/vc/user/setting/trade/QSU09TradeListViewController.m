@@ -53,9 +53,10 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
-    if ([UIScreen mainScreen].bounds.size.width == 414) {
-        self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
-    }
+    
+    CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320;
+    self.view.transform = CGAffineTransformMakeScale(rate, rate);
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 

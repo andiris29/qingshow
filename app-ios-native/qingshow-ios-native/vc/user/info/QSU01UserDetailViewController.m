@@ -354,7 +354,7 @@
     if ([[QSUnreadManager getInstance] shouldShowDotAtMenu]) {
         [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
     } else {
-        [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
+        [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_black"] forState:UIControlStateNormal];
     }
 }
 - (void)handleUnreadChange:(NSNotification*)noti {

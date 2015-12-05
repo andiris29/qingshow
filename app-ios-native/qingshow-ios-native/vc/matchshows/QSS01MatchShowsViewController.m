@@ -68,13 +68,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self.newestProvider refreshVisibleData];
+    [self.newestProvider refreshClickedData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.newestProvider cancelImageLoading];
-
 }
 
 - (void)viewDidLayoutSubviews {

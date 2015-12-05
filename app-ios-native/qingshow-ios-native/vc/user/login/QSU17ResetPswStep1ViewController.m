@@ -57,10 +57,11 @@
 - (IBAction)getCodeBtnPressed:(id)sender {
     NSString *phoneStr = self.phoneTextField.text;
 #warning TODO 使用regex验证手机号
+    [self setTimer];
     if (phoneStr.length == 11) {
         [SHARE_NW_ENGINE getVerifyCodeForMobile:phoneStr onSucceed:^{
             [self showTextHud:@"已发送验证码"];
-            [self setTimer];
+
         } onError:^(NSError *error) {
             
             [self showErrorHudWithError:error];
