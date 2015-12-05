@@ -80,6 +80,7 @@
 		EF36C1101C0AD0E7009ECE91 /* QSDiscountRemixCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF36C10F1C0AD0E7009ECE91 /* QSDiscountRemixCell.xib */; };
 		EF3F34391C0CA22B004B16DA /* QSItemTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3F34381C0CA22B004B16DA /* QSItemTagView.m */; };
 		EF3F343C1C0CA23B004B16DA /* QSItemTagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF3F343B1C0CA23B004B16DA /* QSItemTagView.xib */; };
+		EF41CEAA1C12BB20008F0878 /* QSBonusTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF41CEA91C12BB20008F0878 /* QSBonusTableViewProvider.m */; };
 		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
 		EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46461E1A2AEB5C00172618 /* CoreText.framework */; };
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
@@ -485,6 +486,8 @@
 		EF3F34371C0CA22B004B16DA /* QSItemTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemTagView.h; sourceTree = "<group>"; };
 		EF3F34381C0CA22B004B16DA /* QSItemTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemTagView.m; sourceTree = "<group>"; };
 		EF3F343B1C0CA23B004B16DA /* QSItemTagView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemTagView.xib; sourceTree = "<group>"; };
+		EF41CEA81C12BB20008F0878 /* QSBonusTableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBonusTableViewProvider.h; sourceTree = "<group>"; };
+		EF41CEA91C12BB20008F0878 /* QSBonusTableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBonusTableViewProvider.m; sourceTree = "<group>"; };
 		EF42BBD11A4C5B1C00218693 /* UILabelStrikeThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILabelStrikeThrough.h; sourceTree = "<group>"; };
 		EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelStrikeThrough.m; sourceTree = "<group>"; };
 		EF46461E1A2AEB5C00172618 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -2437,6 +2440,8 @@
 				EFAB9C5E1B346FE5008A4EF5 /* QSTableViewBasicProvider.m */,
 				EF651F481BFE34E100B35AB0 /* QSMatcherTableViewProvider.h */,
 				EF651F491BFE34E100B35AB0 /* QSMatcherTableViewProvider.m */,
+				EF41CEA81C12BB20008F0878 /* QSBonusTableViewProvider.h */,
+				EF41CEA91C12BB20008F0878 /* QSBonusTableViewProvider.m */,
 			);
 			path = tableview;
 			sourceTree = "<group>";
@@ -3156,6 +3161,7 @@
 				EF8CD2BE1C0378E50040611D /* QSImageEditingViewController.m in Sources */,
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
+				EF41CEAA1C12BB20008F0878 /* QSBonusTableViewProvider.m in Sources */,
 				EF8CD3891C0379880040611D /* NSNumber+QSExtension.m in Sources */,
 				EFAB9C741B347027008A4EF5 /* QSPeopleListTableViewCell.m in Sources */,
 				EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */,

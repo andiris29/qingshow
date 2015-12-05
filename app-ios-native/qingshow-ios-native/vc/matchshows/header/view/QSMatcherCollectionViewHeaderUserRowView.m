@@ -13,7 +13,7 @@
 #import "NSArray+QSExtension.h"
 
 #define HEAD_NUMBER 8
-#define SPACE_X 2.f
+#define SPACE_X 1.f
 
 @interface QSMatcherCollectionViewHeaderUserRowView()
 @property (strong, nonatomic) NSMutableArray* headerViews;

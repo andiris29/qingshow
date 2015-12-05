@@ -14,7 +14,8 @@
                                onSucceed:(ArraySuccessBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)queryOwnedBonusOnSucceed:(ArraySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryOwnedBonusPage:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
 
 @end

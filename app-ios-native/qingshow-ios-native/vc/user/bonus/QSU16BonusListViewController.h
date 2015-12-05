@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU16BonusListViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface QSU16BonusListViewController : UIViewController
 
 
 

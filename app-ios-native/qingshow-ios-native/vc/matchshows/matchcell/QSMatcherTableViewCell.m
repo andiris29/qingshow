@@ -12,7 +12,9 @@
 #import "QSDateUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSShowUtil.h"
+#import "QSUserManager.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSLayoutUtil.h"
 
 @interface QSMatcherTableViewCell () <QSMatcherCollectionViewHeaderUserRowViewDelegate>
 @property (strong, nonatomic) QSMatcherCollectionViewHeaderUserRowView* userHeadsView;
@@ -35,10 +37,6 @@
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapUserImgView:)];
     self.userHeadImgView.userInteractionEnabled = YES;
     [self.userHeadImgView addGestureRecognizer:ges];
-    
-    self.bottomContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.bottomContainer.layer.shadowOffset = CGSizeMake(2, 2);
-    self.bottomContainer.layer.shadowOpacity = 0.5f;
 }
 
 - (void)layoutSubviews {
@@ -57,23 +55,43 @@
     NSDictionary* data = [dict dictValueForKeyPath:@"data"];
     NSDate* date = [dict dateValueForKeyPath:@"date"];
     self.dateLabel.text = [QSDateUtil buildDayStringFromDate:date];
-    self.timeLabel.text = [NSString stringWithFormat:@"%2d:00~%2d:00", hour.intValue, hour.intValue + 1];
+    self.timeLabel.text = [NSString stringWithFormat:@"%d:00~%2d:00", hour.intValue, hour.intValue + 1];
     
     NSArray* topOwners = [data arrayValueForKeyPath:@"topOwners"];
     [self.userHeadsView bindWithUsers:topOwners];
     NSNumber* numOwners = [data numberValueForKeyPath:@"numOwners"];
     self.numLabel.text = [NSString stringWithFormat:@"+%d", numOwners.intValue];
     
-    int index = [data numberValueForKeyPath:@"indexOfCurrentUser"].intValue;
+    int number = [data numberValueForKeyPath:@"numViewOfCurrentUser"].intValue;
     self.userArray = topOwners;
-    if (index >= 0 && index < topOwners.count) {
-        NSDictionary* peopleDict = topOwners[index];
+    
+    if (number != -1) {
+        NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
         self.singleUser = peopleDict;
-        [self.userHeadImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
+        self.userHeadImgView.hidden = NO;
         self.topLabel.hidden = NO;
-        self.topLabel.text = [NSString stringWithFormat:@"TOP%d", index];
+        self.eyeImgView.hidden = NO;
+        
+        [self.userHeadImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
+
+        self.topLabel.text = [NSString stringWithFormat:@"%d", number];
+        
+        CGSize labelSize = [QSLayoutUtil sizeForString:self.topLabel.text withMaxWidth:INFINITY height:9.f font:self.topLabel.font];
+        CGSize eyeSize = self.eyeImgView.frame.size;
+        CGFloat spaceX = 2.f;
+        CGFloat totalWidth = labelSize.width + spaceX + eyeSize.width;
+        CGFloat eyeOri = self.userHeadImgView.center.x - totalWidth / 2;
+        self.eyeImgView.center = self.topLabel.center;
+        CGRect frame = self.eyeImgView.frame;
+        frame.origin.x = eyeOri;
+        self.eyeImgView.frame = frame;
+        frame = self.topLabel.frame;
+        frame.origin.x = eyeOri + eyeSize.width + spaceX;
+        self.topLabel.frame = frame;
     } else {
+        self.userHeadImgView.hidden = YES;
         self.topLabel.hidden = YES;
+        self.eyeImgView.hidden = YES;
     }
     NSArray* topShows = [data arrayValueForKeyPath:@"topShows"];
     for (int i = 0; i < self.showImgViews.count; i++) {
