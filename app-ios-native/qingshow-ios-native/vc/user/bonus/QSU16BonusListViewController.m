@@ -29,7 +29,7 @@
 @implementation QSU16BonusListViewController
 
 - (instancetype)init {
-    self = [super initWithNibName:@"QSU16BonusListViewController" bundle:nil];
+    self = [super init];
     if (self) {
 
     }

@@ -52,7 +52,7 @@
         //订单发货
         [center postNotificationName:kPnsTradeShippedNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandNewBonus]) {
-        NSNumber* bonusId = [userInfo numberValueForKeyPath:@"_id"];
+        NSString* bonusId = [userInfo stringValueForKeyPath:@"_id"];
         NSNumber* type = [userInfo numberValueForKeyPath:@"type"];
         if (bonusId) {
             userInfoDict[@"_id"] = bonusId;
