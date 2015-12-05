@@ -750,13 +750,14 @@ user.resetPassword = function(req, res){
         });
     }, function(people, callback) {
         People.findOneAndUpdate({
-            'userInfo.id' : mobile
+            'mobile' : mobile
         }, {
             $unset : {
-               'userInfo.password' : -1
+                'userInfo.password' : -1
             },
             $set : {
-               'userInfo.encryptedPassword' : _encrypt(password)
+                'userInfo.id' : mobile,
+                'userInfo.encryptedPassword' : _encrypt(password)
             }
         }, {
         }, function(error, people) {
