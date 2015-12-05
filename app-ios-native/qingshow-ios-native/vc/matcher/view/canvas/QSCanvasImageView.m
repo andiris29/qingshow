@@ -49,7 +49,7 @@
 }
 - (void)updateHoverColor {
     if (_hover) {
-        self.layer.borderColor = [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f].CGColor;
+        self.layer.borderColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f].CGColor;
         self.layer.borderWidth = 1.f;
         self.removeBtn.hidden = NO;
         self.removeBtn.alpha = 1.f;

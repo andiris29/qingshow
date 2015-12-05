@@ -171,7 +171,6 @@
 		EF8CD2C31C0378E50040611D /* QSU08PasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD27A1C0378E50040611D /* QSU08PasswordViewController.xib */; };
 		EF8CD2C41C0378E50040611D /* QSU02UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD27C1C0378E50040611D /* QSU02UserSettingViewController.m */; };
 		EF8CD2C51C0378E50040611D /* QSU02UserSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD27D1C0378E50040611D /* QSU02UserSettingViewController.xib */; };
-		EF8CD2C71C0378E50040611D /* QSU18ResetPswStep2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD27F1C0378E50040611D /* QSU18ResetPswStep2ViewController.xib */; };
 		EF8CD2C81C0378E50040611D /* QSU09TradeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD2821C0378E50040611D /* QSU09TradeListViewController.m */; };
 		EF8CD2C91C0378E50040611D /* QSU09TradeListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD2831C0378E50040611D /* QSU09TradeListViewController.xib */; };
 		EF8CD2CA1C0378E50040611D /* QSU10ReceiverListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD2851C0378E50040611D /* QSU10ReceiverListViewController.m */; };
@@ -640,7 +639,6 @@
 		EF8CD27B1C0378E50040611D /* QSU02UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController.h; sourceTree = "<group>"; };
 		EF8CD27C1C0378E50040611D /* QSU02UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController.m; sourceTree = "<group>"; };
 		EF8CD27D1C0378E50040611D /* QSU02UserSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU02UserSettingViewController.xib; sourceTree = "<group>"; };
-		EF8CD27F1C0378E50040611D /* QSU18ResetPswStep2ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU18ResetPswStep2ViewController.xib; sourceTree = "<group>"; };
 		EF8CD2811C0378E50040611D /* QSU09TradeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU09TradeListViewController.h; sourceTree = "<group>"; };
 		EF8CD2821C0378E50040611D /* QSU09TradeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU09TradeListViewController.m; sourceTree = "<group>"; };
 		EF8CD2831C0378E50040611D /* QSU09TradeListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU09TradeListViewController.xib; sourceTree = "<group>"; };
@@ -1745,7 +1743,6 @@
 				EF8CD27B1C0378E50040611D /* QSU02UserSettingViewController.h */,
 				EF8CD27C1C0378E50040611D /* QSU02UserSettingViewController.m */,
 				EF8CD27D1C0378E50040611D /* QSU02UserSettingViewController.xib */,
-				EF8CD27F1C0378E50040611D /* QSU18ResetPswStep2ViewController.xib */,
 				EF8CD2801C0378E50040611D /* trade */,
 				EF8CD28D1C0378E50040611D /* view */,
 			);
@@ -3032,7 +3029,6 @@
 				EF8CD2B41C0378E50040611D /* QSU02ImgCell.xib in Resources */,
 				EF0A12A51C009BD700DBF23E /* left_arrow@2x.png in Resources */,
 				EF8CD2B91C0378E50040611D /* QSU02InfoTextCell.xib in Resources */,
-				EF8CD2C71C0378E50040611D /* QSU18ResetPswStep2ViewController.xib in Resources */,
 				8C5345461B4D61180062D638 /* welcome3_568@2x.png in Resources */,
 				EF8CD2C51C0378E50040611D /* QSU02UserSettingViewController.xib in Resources */,
 				EF8CD2C91C0378E50040611D /* QSU09TradeListViewController.xib in Resources */,
@@ -3469,7 +3465,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "f407cf47-d862-43ed-b796-c574231a3ce2";
+				PROVISIONING_PROFILE = "ef29d9ef-dd14-476b-9f05-d296a8cc256b";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = "arm64 armv7";
 				WRAPPER_EXTENSION = app;

@@ -41,7 +41,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TODAY | 10.Nov" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XHN-90-TPJ">
-                        <rect key="frame" x="13" y="40" width="81" height="12"/>
+                        <rect key="frame" x="17" y="40" width="81" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="10"/>
                         <color key="textColor" red="0.32549019607843138" green="0.32549019607843138" blue="0.32549019607843138" alpha="1" colorSpace="calibratedRGB"/>
