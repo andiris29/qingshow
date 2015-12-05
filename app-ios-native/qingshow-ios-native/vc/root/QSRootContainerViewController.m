@@ -176,7 +176,7 @@
 
 }
 
-- (void)showVc:(UIViewController<QSIRootContentViewController>*)vc{
+- (void)showVc:(UIViewController<QSIRootContentViewController>*)vc {
     if (!vc) {
         return;
     }

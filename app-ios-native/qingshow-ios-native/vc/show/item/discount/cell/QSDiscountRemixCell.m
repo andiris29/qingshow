@@ -33,6 +33,7 @@
 
 #pragma mark -
 - (void)bindWithData:(NSDictionary *)itemDict {
+    
     self.titleLabel.text = [QSItemUtil getShopNickName:itemDict];
     [self _updatePreviousAndNextBtn];
 }

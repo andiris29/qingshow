@@ -69,12 +69,14 @@
     [self _configCells];
     [self _queryNewRemix];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self _bindWithItemDict:self.itemDict];
-    
     [SHARE_NW_ENGINE getItemWithId:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
         self.itemDict = data;
         [self _bindWithItemDict:self.itemDict];
     } onError:nil];
+    self.btnContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.btnContainer.layer.shadowOffset = CGSizeMake(0, -4);
+    self.btnContainer.layer.shadowOpacity = 0.5f;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

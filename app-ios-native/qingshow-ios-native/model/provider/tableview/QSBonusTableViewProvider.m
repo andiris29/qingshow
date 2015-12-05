@@ -20,17 +20,20 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.f;
+    CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320;
+    return 60.f * rate;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     QSU15BonusListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QSU15BonusListTableViewCell"];
     [cell bindWithDict:self.resultArray[indexPath.row]];
+    CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320;
+    cell.transform = CGAffineTransformMakeScale(rate, rate);
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *dict = self.resultArray[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(provider:didTapBonus:)]) {
         [self.delegate provider:self didTapBonus:dict];

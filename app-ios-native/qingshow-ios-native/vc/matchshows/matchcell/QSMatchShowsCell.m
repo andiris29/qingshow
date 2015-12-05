@@ -46,6 +46,7 @@
     u01Tap.numberOfTapsRequired = 1;
     [self.headerImgView addGestureRecognizer:u01Tap];
     
+
     
     UITapGestureRecognizer *s03Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(matchShowImgviewPressed:)];
     UITapGestureRecognizer *s03ImgTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(matchShowImgviewPressed:)];
@@ -53,6 +54,9 @@
     self.bgImgView.userInteractionEnabled = YES;
     [self.matchShowImgview addGestureRecognizer:s03Tap];
     [self.bgImgView addGestureRecognizer:s03ImgTap];
+
+    UITapGestureRecognizer* userTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headerImgViewPressed:)];
+    [self.headerImageTapView addGestureRecognizer:userTap];
     
 }
 

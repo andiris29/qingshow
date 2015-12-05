@@ -50,7 +50,7 @@
                                    onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_BONUS_OWN
                                  method:@"GET"
-                               paramers:@{}
+                               paramers:@{@"pageNo" : @(page)}
                             onSucceeded:^(MKNetworkOperation *completedOperation) {
                                 if (succeedBlock) {
                                     NSDictionary* retJson = completedOperation.responseJSON;

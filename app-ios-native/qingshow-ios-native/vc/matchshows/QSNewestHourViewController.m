@@ -87,10 +87,8 @@
 
 - (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider
 {
-//        QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
-
-    //    [self.navigationController pushViewController:vc animated:YES];
-    
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

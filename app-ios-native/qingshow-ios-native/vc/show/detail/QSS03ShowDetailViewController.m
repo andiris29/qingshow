@@ -43,6 +43,7 @@
 @property (strong, nonatomic) NSDictionary *oldShowDict;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @property (strong, nonatomic) NSMutableArray* itemLabelArray;
+@property (assign, nonatomic) BOOL showShouldLabel;
 @end
 
 @implementation QSS03ShowDetailViewController
@@ -52,6 +53,7 @@
     if (self) {
         self.showId = showId;
         self.showDeletedBtn = NO;
+        self.showShouldLabel = YES;
     }
     return self;
 }
@@ -95,6 +97,10 @@
     [SHARE_NW_ENGINE viewShow:self.showDict onSucceed:^{
         [QSShowUtil addNumberView:1l forShow:self.oldShowDict];
     } onError:nil];
+    
+    UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapLabelContainer:)];
+    [self.coverLabelContainerView addGestureRecognizer:tapGes];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -248,6 +254,7 @@
         NSArray* rects = itemRects[i];
         
         QSItemTagView* labelView = [QSItemTagView generateView];
+//        labelView.hidden = !self.showShouldLabel;
         [self.itemLabelArray addObject:labelView];
         labelView.userInteractionEnabled = YES;
         UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
@@ -512,6 +519,13 @@
     self.discountContainer.hidden = NO;
     self.discountContainer.alpha = 1.f;
     [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
+}
+
+- (void)didTapLabelContainer:(UITapGestureRecognizer*)tap {
+//    self.showShouldLabel = !self.showShouldLabel;
+//    for (UIView* v  in self.itemLabelArray) {
+//        v.hidden = !self.showShouldLabel;
+//    }
 }
 
 @end
