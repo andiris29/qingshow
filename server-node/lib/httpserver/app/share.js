@@ -38,9 +38,9 @@ share.createShow = {
 					coverForeground : show.coverForeground 
 				}
 			}, callback);
-		}], function(err, shareObject){
+		}], function(err, sharedObject){
 			ResponseHelper.response(res, err, {
-                'sharedObject' : shareObject 
+                'sharedObject' : sharedObject 
             });
 		});
     }
@@ -69,9 +69,9 @@ share.createTrade = {
 					}
 				}
 			}, callback);
-		}], function(err, shareObject){
+		}], function(err, sharedObject){
 			ResponseHelper.response(res, err, {
-                'sharedObject' : shareObject 
+                'sharedObject' : sharedObject 
             });
 		});
 	}
@@ -99,11 +99,11 @@ share.createBonus = {
                             'total' : total,
                             'withdrawTotal' : withdrawTotal
                         }
-                    }, function(err, shareObject) {
+                    }, function(err, sharedObject) {
                         if (err) {
                             next(errors.genUnkownError(err));
                         } else {
-                            ResponseHelper.writeData(res, {'shareObject' : shareObject});
+                            ResponseHelper.writeData(res, {'sharedObject' : sharedObject});
                             next();
                         }
                     });

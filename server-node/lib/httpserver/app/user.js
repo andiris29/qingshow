@@ -561,7 +561,7 @@ var _upload = function(req, res, config, keyword, resizeOptions) {
             '_id' : req.qsCurrentUserId
         }, callback);
     }, function(people, callback){
-        RequestHelper.parseFile(req, config.ftpPath, people._id.toString(), resizeOptions, function(err, fields, file) {
+        RequestHelper.parseFile(req, config.ftpPath, null, resizeOptions, function(err, fields, file) {
             if (err) {
                 callback(err);
                 return;

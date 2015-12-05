@@ -78,7 +78,9 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.calendarView.center = self.calendarContainerView.center;
+    CGPoint center = self.calendarContainerView.center;
+    center.y = self.calendarView.bounds.size.height / 2;
+    self.calendarView.center = center;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

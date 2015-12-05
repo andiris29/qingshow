@@ -285,7 +285,7 @@ matcher.remixByItem = {
             async.parallel(req.injection.remixCategories.map(function(category) {
                 return function(callback) {
                     Item.find({'categoryRef' : category._id}).count(function(err, count) {
-                        Item.find({'categoryRef' : category._id}).skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
+                        Item.find({'categoryRef' : category._id}).populate('shopRef').skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
                             callback(err, items[0]);
                         });
                     });
