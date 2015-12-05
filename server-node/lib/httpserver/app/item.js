@@ -181,30 +181,6 @@ item.create = {
     }
 };
 
-var _itemPriceChanged = function(trades, expectable, callback) {
-    var tasks = trades.map(function(trade) {
-        return function(cb) {
-            if (expectable.expired) {
-                NotificationHelper.read([trade.ownerRef], {
-                    'extra.command' : NotificationHelper.CommandItemExpectablePriceUpdated,
-                    'extra._id' : trade._id
-                }, function(err){});
-                cb();
-            } else {
-              NotificationHelper._saveAsUnread([trade.ownerRef], {
-                'command' : NotificationHelper.CommandItemExpectablePriceUpdated,
-                '_id' : trade._id
-            }, cb); 
-          }
-      };
-    });
-    async.parallel(tasks, function(err) {
-        if (err) {
-            callback(err);
-        }
-    });
-};
-
 item.query = {
     'method' : 'get',
     'func' : function(req, res) {
