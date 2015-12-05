@@ -33,13 +33,6 @@ TradeHelper.updateStatus = function(trade, newStatus, peopleId, callback) {
         trade.highlight = null;
     }
 
-    if (newStatus === 2 || newStatus === 18) {
-        NotificationHelper.read([trade.ownerRef], {
-            'extra.command' : NotificationHelper.CommandItemExpectablePriceUpdated,
-            'extra._id' : trade._id
-        }, function(err){});
-    }
-
     if (newStatus === 5 || newStatus === 15 || newStatus === 7) {
         NotificationHelper.read([trade.ownerRef], {
             'extra.command' : NotificationHelper.CommandTradeShipped,

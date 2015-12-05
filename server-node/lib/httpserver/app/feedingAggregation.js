@@ -57,6 +57,8 @@ var _queryTopOwners = function(req, criteria, callback) {
                 } else {
                     topOwners = topOwners.map(function(object) {
                         return object.ownerRef;
+                    }).filter(function(ownerRef) {
+                        return ownerRef;
                     });
                     callback(null, {
                         'numViewOfCurrentUser' : numViewOfCurrentUser,

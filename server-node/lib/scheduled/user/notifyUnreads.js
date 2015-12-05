@@ -23,10 +23,7 @@ var _next = function(today) {
 				for (var i = 0; i < unreadNotifications.length; i++) {
 					var unread = unreadNotifications[i];
 					var command = unread.extra.command;
-					if (command === NotificationHelper.CommandItemExpectablePriceUpdated) {
-						NotificationHelper._push([people._id], NotificationHelper.MessageItemPriceChanged, unread.extra, cb);
-						break;
-					}else if(command === NotificationHelper.CommandNewBonus){
+					if(command === NotificationHelper.CommandNewBonus){
 						NotificationHelper._push([people._id], NotificationHelper.MessageNewBonus.replace(/\{0\}/g, '一笔'), unread.extra, cb);
 						break;
 					}else if(command === NotificationHelper.CommandNewParticipantBonus){
@@ -35,12 +32,12 @@ var _next = function(today) {
 					}
 				}
 				cb();
-			}
-		})
+			};
+		});
 		async.parallel(task, callback);
 	}], function(err, result) {
 		winston.info('notifyUnreads complete');
-	})
+	});
 };
 
 var _run = function() {
