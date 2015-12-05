@@ -261,33 +261,22 @@ show.share= {
 show.view = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res){
-        var params = req.body;
-        var targetRef;
-        async.series([function(callback){
-            if (!params._id) {
-                callback(errors.NotEnoughParam);
-            }else {
-                targetRef = RequestHelper.parseId(params._id);
-                callback();
-            }
-        }, function(callback){
-            RelationshipHelper.create(RPeopleViewShow, req.qsCurrentUserId, targetRef, function(err){
-                callback(err);
-            });
-        }, function(callback){
-            Show.update({
-                '_id' : targetRef
-            }, {
-                '$inc' : {
-                    'numView' : 1
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Show, '_id', 'showRef'),
+        function(req, res, next) {
+            var show = req.injection.showRef;
+            RelationshipHelper.create(RPeopleViewShow, req.qsCurrentUserId, show._id, function(err) {
+                if (err) {
+                    next(err);
+                } else {
+                    show.numView++;
+                    show.save(function(err) {
+                        ResponseHelper.writeData(res, show);
+                        next(err);
+                    });
                 }
-            }, function(err, numUpdated) {
-                callback(err);
             });
-        }], function(err) {
-            ResponseHelper.response(res, err);
-        });
-    }
+        }
+    ]
 };
 
