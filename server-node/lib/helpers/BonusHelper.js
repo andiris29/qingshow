@@ -7,6 +7,8 @@ var Bonus = require('../dbmodels').Bonus,
 
 var NotificationHelper = require('../helpers/NotificationHelper');
 
+var errors = require('../errors');
+
 var BonusHelper = module.exports;
 
 BonusHelper.createTradeBonus = function(trade, cb) {

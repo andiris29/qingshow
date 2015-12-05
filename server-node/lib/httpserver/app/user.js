@@ -344,14 +344,24 @@ user.bindMobile = [
     }),
     function(req, res, next) {
         if (req.injection.exsited) {
+            req.injection.outdated = req.injection.qsCurrentUser;
             _replaceCurrectUser(req, req.injection.exsited);
         }
         next();
     }, function(req, res, next) {
-        var people = req.injection.qsCurrentUser;
+        var people = req.injection.qsCurrentUser,
+            outdated = req.injection.outdated;
+            
         people.role = 1;
         people.userInfo = people.userInfo || {};
         people.mobile = people.userInfo.id = req.body.mobile;
+        // Copy weixin from outdated
+        if (outdated.userInfo && outdated.userInfo.weixin) {
+            people.userInfo.weixin = outdated.userInfo.weixin;
+            outdated.userInfo.weixin = null;
+            outdated.save(function(){});
+        }
+        
         people.save(function(err, people) {
             if (!people || err) {
                 next(errors.genUnkownError(err));
