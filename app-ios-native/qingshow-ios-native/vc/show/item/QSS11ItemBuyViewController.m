@@ -189,10 +189,6 @@
         return [cell getResult];
     }];
     
-    QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:@{}];
-    [self.navigationController pushViewController:vc animated:YES];
-    return;
-    
     self.createTradeOp =
     [SHARE_NW_ENGINE createTradeItemRef:[QSEntityUtil getIdOrEmptyStr:self.itemDict]
                             promoterRef:self.promoterId
