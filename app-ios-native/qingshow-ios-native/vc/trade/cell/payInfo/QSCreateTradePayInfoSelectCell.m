@@ -29,7 +29,7 @@
 }
 
 - (void)_setUnselect:(UIButton*)btn {
-    [btn configBorderColor:[UIColor colorWithRed:149.f/255.f green:149.f/255.f blue:149.f/255.f alpha:1.f] width:1 cornerRadius:4];
+    [btn configBorderColor:[UIColor colorWithRed:149.f/255.f green:149.f/255.f blue:149.f/255.f alpha:1.f] width:1.2 cornerRadius:4];
 }
 - (void)_setSelect:(UIButton*)btn {
     [btn configBorderColor:[UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f] width:1 cornerRadius:4];

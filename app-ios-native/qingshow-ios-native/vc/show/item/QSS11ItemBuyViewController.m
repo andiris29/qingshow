@@ -76,7 +76,6 @@
     self.btnContainer.layer.shadowColor = [UIColor blackColor].CGColor;
     self.btnContainer.layer.shadowOffset = CGSizeMake(0, -4);
     self.btnContainer.layer.shadowOpacity = 0.5f;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -190,6 +189,9 @@
         return [cell getResult];
     }];
     
+    QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:@{}];
+    [self.navigationController pushViewController:vc animated:YES];
+    return;
     
     self.createTradeOp =
     [SHARE_NW_ENGINE createTradeItemRef:[QSEntityUtil getIdOrEmptyStr:self.itemDict]

@@ -307,21 +307,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="321" height="99.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oST-Pt-6al">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oST-Pt-6al">
                         <rect key="frame" x="8" y="26" width="138" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="KTE-Bb-B7V"/>
+                        </constraints>
                         <state key="normal" image="u14_wechat_pay"/>
                         <connections>
                             <action selector="wechatBtnPressed:" destination="W0Q-zU-5lt" eventType="touchUpInside" id="CJC-a4-LA1"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HjD-8f-X3D">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HjD-8f-X3D">
                         <rect key="frame" x="175" y="26" width="138" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="Edy-kR-e1i"/>
+                        </constraints>
                         <state key="normal" image="u14_alipay_pay"/>
                         <connections>
                             <action selector="alipayBtnPressed:" destination="W0Q-zU-5lt" eventType="touchUpInside" id="iS5-vm-1xJ"/>
                         </connections>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="HjD-8f-X3D" secondAttribute="trailing" constant="8" id="AVz-AJ-Lo3"/>
+                    <constraint firstItem="oST-Pt-6al" firstAttribute="top" secondItem="pPe-kX-0bb" secondAttribute="top" constant="26" id="FqT-Aw-fCY"/>
+                    <constraint firstItem="oST-Pt-6al" firstAttribute="width" secondItem="HjD-8f-X3D" secondAttribute="width" id="HE6-d6-AL5"/>
+                    <constraint firstItem="HjD-8f-X3D" firstAttribute="top" secondItem="pPe-kX-0bb" secondAttribute="top" constant="26" id="KEK-Jl-QIB"/>
+                    <constraint firstItem="oST-Pt-6al" firstAttribute="leading" secondItem="pPe-kX-0bb" secondAttribute="leading" constant="8" id="hh8-J0-mvY"/>
+                    <constraint firstItem="HjD-8f-X3D" firstAttribute="leading" secondItem="oST-Pt-6al" secondAttribute="trailing" constant="29" id="uix-Y2-yam"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="alipayBtn" destination="HjD-8f-X3D" id="tm5-Hq-bUQ"/>
