@@ -66,4 +66,6 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 #pragma mark - Bonus
 + (NSNumber*)getTotalBonus:(NSDictionary*)dict;
 + (NSNumber*)getAvailableBonus:(NSDictionary*)dict;
++ (NSNumber*)getRank:(NSDictionary*)dict;
++ (UIImage*)rankImgView:(NSDictionary*)dict;
 @end

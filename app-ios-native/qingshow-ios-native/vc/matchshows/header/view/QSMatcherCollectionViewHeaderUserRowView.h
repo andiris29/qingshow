@@ -17,7 +17,6 @@
 
 @interface QSMatcherCollectionViewHeaderUserRowView : UIView
 
-@property (assign, nonatomic) BOOL kindomIconHidden;
 @property (weak, nonatomic) NSObject<QSMatcherCollectionViewHeaderUserRowViewDelegate>* delegate;
 - (instancetype)init;
 - (void)bindWithUsers:(NSArray*)users;

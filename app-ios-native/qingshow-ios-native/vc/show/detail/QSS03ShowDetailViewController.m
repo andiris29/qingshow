@@ -43,6 +43,7 @@
 @property (strong, nonatomic) NSDictionary *oldShowDict;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @property (strong, nonatomic) NSMutableArray* itemLabelArray;
+@property (weak, nonatomic) IBOutlet UIImageView *rankImgView;
 @property (assign, nonatomic) BOOL showShouldLabel;
 @end
 
@@ -93,7 +94,7 @@
     self.bonusLabel.layer.borderWidth = 0.1f;
     self.bonusLabel.layer.borderColor = [UIColor whiteColor].CGColor;
     [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
-    
+
     [SHARE_NW_ENGINE viewShow:self.showDict onSucceed:^{
         [QSShowUtil addNumberView:1l forShow:self.oldShowDict];
     } onError:nil];
@@ -200,17 +201,22 @@
 - (void)updatePeopleInfo:(NSDictionary*)peopleDict {
     if (!peopleDict) {
         self.headIconImageView.hidden = NO;
+        self.rankImgView.hidden = NO;
         self.modelNameLabel.hidden = NO;
     } else {
         if (self.showDeletedBtn) {
             //当前用户
             self.headIconImageView.hidden = YES;
+            self.rankImgView.hidden = YES;
             self.modelNameLabel.hidden = YES;
             self.bonusLabel.hidden = YES;
             self.releaseDateLabel.hidden = NO;
+            
         } else {
             self.headIconImageView.hidden = NO;
             [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
+            self.rankImgView.hidden = NO;
+            self.rankImgView.image = [QSPeopleUtil rankImgView:peopleDict];
             self.modelNameLabel.hidden = NO;
             self.bonusLabel.hidden = NO;
             NSNumber* bonusNumber = [QSPeopleUtil getTotalBonus:peopleDict];

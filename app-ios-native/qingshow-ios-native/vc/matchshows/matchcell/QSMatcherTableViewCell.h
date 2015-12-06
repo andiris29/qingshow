@@ -31,6 +31,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *showForegroundImgViews;
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *showBackgroundViews;
 @property (weak, nonatomic) NSObject<QSMatcherTableViewCellDelegate>* delegate;
+@property (weak, nonatomic) IBOutlet UIImageView* rankImgView;
 
 @property (weak, nonatomic) IBOutlet UIView* bottomContainer;
 

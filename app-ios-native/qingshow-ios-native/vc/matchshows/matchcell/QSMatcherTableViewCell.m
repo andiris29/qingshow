@@ -71,6 +71,7 @@
         self.userHeadImgView.hidden = NO;
         self.topLabel.hidden = NO;
         self.eyeImgView.hidden = NO;
+        self.rankImgView.hidden = NO;
         
         [self.userHeadImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
 
@@ -92,7 +93,9 @@
         self.userHeadImgView.hidden = YES;
         self.topLabel.hidden = YES;
         self.eyeImgView.hidden = YES;
+        self.rankImgView.hidden = YES;
     }
+    self.rankImgView.image = [QSPeopleUtil rankImgView:dict];
     NSArray* topShows = [data arrayValueForKeyPath:@"topShows"];
     for (int i = 0; i < self.showImgViews.count; i++) {
         UIImageView* imgView = self.showImgViews[i];

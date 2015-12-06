@@ -44,6 +44,14 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="q1F-Hf-8Wm">
+                                <rect key="frame" x="8" y="5" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gold_wangguan" id="beS-a1-4Zw">
+                                <rect key="frame" x="6" y="4" width="13" height="13"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -53,10 +61,6 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="match_item_clock" id="Gg2-rQ-6mg">
                         <rect key="frame" x="44" y="299" width="13" height="13"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="q1F-Hf-8Wm">
-                        <rect key="frame" x="8" y="282" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S76-wp-gu0">
@@ -80,6 +84,7 @@
                 <outlet property="headerImageTapView" destination="72z-ct-BgZ" id="VEp-hj-hm7"/>
                 <outlet property="headerImgView" destination="q1F-Hf-8Wm" id="N2K-TK-ezw"/>
                 <outlet property="matchShowImgview" destination="dp9-gc-uNq" id="fqC-dK-oLy"/>
+                <outlet property="rankImgView" destination="beS-a1-4Zw" id="SnR-7L-V1e"/>
                 <outlet property="timeLabel" destination="S76-wp-gu0" id="Ymd-id-Wfi"/>
                 <outlet property="userNameLabel" destination="4I4-W0-OJO" id="JcY-r4-niW"/>
                 <outlet property="viewNumlabel" destination="a9K-In-K1C" id="3ab-qa-yLw"/>
@@ -88,6 +93,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="gold_wangguan" width="40" height="40"/>
         <image name="match_item_clock" width="10" height="10"/>
         <image name="matchcell_bg_square" width="152" height="310"/>
         <image name="view_num_icon" width="20" height="12"/>
