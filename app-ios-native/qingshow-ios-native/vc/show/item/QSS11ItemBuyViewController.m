@@ -48,6 +48,7 @@
 @property (assign, nonatomic) NSUInteger currentRemixIndex;
 @property (strong, nonatomic) NSDictionary* masterDict;
 @property (assign, nonatomic) CGFloat backBtnTopPreConst;
+@property (assign, nonatomic) BOOL cache;
 @end
 
 @implementation QSS11ItemBuyViewController
@@ -61,6 +62,7 @@
         self.promoterId = promoterId;
         self.hasShared = NO;
         self.remixArray = [@[] mutableCopy];
+        self.cache = YES;
     }
     return self;
 }
@@ -282,7 +284,10 @@
     if (self.updateRemixOp) {
         return;
     }
+    BOOL f = self.cache;
+    self.cache = NO;
     self.updateRemixOp = [SHARE_NW_ENGINE matcherRemixByItem:self.masterDict
+                                                       cache:f
                                                    onSucceed:^(NSDictionary *remixInfo) {
         self.updateRemixOp = nil;
         [self.remixArray addObject:remixInfo];

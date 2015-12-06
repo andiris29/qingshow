@@ -358,4 +358,18 @@
         return nil;
     }
 }
++ (NSNumber*)getRank:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"rank"];
+}
+
++ (UIImage*)rankImgView:(NSDictionary*)dict {
+    NSNumber* n = [self getRank:dict];
+    if (n && n.intValue == 0) {
+        return [UIImage imageNamed:@"gold_wangguan"];
+    } else if (n && n.intValue == 1) {
+        return [UIImage imageNamed:@"silver_wangguan"];
+    }else {
+        return nil;
+    }
+}
 @end

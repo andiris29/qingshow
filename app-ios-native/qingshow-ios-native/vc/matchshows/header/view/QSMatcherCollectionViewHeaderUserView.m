@@ -15,7 +15,7 @@
 - (void)awakeFromNib {
 
     self.headerImgView.layer.masksToBounds = YES;
-    self.iconImgView.hidden = YES;
+//    self.iconImgView.hidden = YES;
 }
 
 - (void)layoutSubviews {

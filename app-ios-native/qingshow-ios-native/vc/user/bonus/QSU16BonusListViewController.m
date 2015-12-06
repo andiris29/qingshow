@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"佣金明细";
+    self.title = @"收益明细";
     UITableView *tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView = tableView;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

@@ -20,12 +20,6 @@
 @end
 
 @implementation QSMatcherCollectionViewHeaderUserRowView
-- (void)setKindomIconHidden:(BOOL)kindomIconHidden {
-    _kindomIconHidden = kindomIconHidden;
-    for (QSMatcherCollectionViewHeaderUserView* view in self.headerViews) {
-        view.iconImgView.hidden = kindomIconHidden;
-    }
-}
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -66,6 +60,7 @@
             imgView.hidden = NO;
             NSURL* url = [QSPeopleUtil getHeadIconUrl:u type:QSImageNameType50];
             [imgView.headerImgView setImageFromURL:url];
+            imgView.iconImgView.image = [QSPeopleUtil rankImgView:u];
         } else {
             imgView.hidden = YES;
         }

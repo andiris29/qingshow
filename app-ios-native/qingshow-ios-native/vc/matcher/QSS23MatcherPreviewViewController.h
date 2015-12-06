@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 
 @property (weak, nonatomic) NSObject<QSS23MatcherPreviewViewControllerDelegate>* delegate;
+@property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 
 - (instancetype)initWithItems:(NSArray*)items rects:(NSArray*)itemRects coverImages:(UIImage*)coverImage;
 

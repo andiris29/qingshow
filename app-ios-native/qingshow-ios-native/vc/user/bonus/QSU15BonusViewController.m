@@ -92,14 +92,14 @@
     if ([QSPeopleUtil hasBindWechat:peopleDic]) {
         [SHARE_NW_ENGINE shareCreateBonus:peopleId onSucceed:^(NSDictionary *shareDic) {
             [[QSShareService shareService]shareWithWechatMoment:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] imagePath:[QSShareUtil getShareIcon:shareDic] url:[QSShareUtil getshareUrl:shareDic] onSucceed:^{
-                [self showSuccessHudWithText:@"提取成功"];
+                [[[UIAlertView alloc] initWithTitle:@"系统正在处理您的申请，请至分享页面领取红包" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
             } onError:nil];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
     } else {
         [[QSThirdPartLoginService getInstance] bindWithWechatOnSucceed:^{
-            [self _configUI];
+            [self withdrawBtnPressed:nil];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];

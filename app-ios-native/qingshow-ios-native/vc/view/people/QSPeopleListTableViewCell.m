@@ -44,6 +44,7 @@
     self.nameLabel.text = [QSPeopleUtil getNickname:modelDict];
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
     [self.headPhotoImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict type:QSImageNameType100]];
+    self.rankImgView.image = [QSPeopleUtil rankImgView:modelDict];
     
     self.showNumLabel.text = [QSPeopleUtil getNumberCreateShows:modelDict];
     self.followerNumLabel.text = [QSPeopleUtil getNumberLiketoCreateShows:modelDict];

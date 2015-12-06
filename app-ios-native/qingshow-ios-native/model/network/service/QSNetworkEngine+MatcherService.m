@@ -177,12 +177,14 @@
 
 
 - (MKNetworkOperation*)matcherRemixByItem:(NSDictionary*)itemDict
+                                    cache:(BOOL)cache
                                 onSucceed:(DicBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_MATCHER_REMIX_BY_ITEM
                                  method:@"GET"
                                paramers:@{
-                                          @"itemRef" : [QSEntityUtil getIdOrEmptyStr:itemDict]
+                                          @"itemRef" : [QSEntityUtil getIdOrEmptyStr:itemDict],
+                                          @"cache" : @(cache)
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation) {
                                 if (succeedBlock) {

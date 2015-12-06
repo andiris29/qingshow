@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS23MatcherPreviewViewController">
             <connections>
                 <outlet property="imgView" destination="rDj-9Z-xUL" id="4J2-Ir-mld"/>
+                <outlet property="submitBtn" destination="Lgd-es-keJ" id="ccy-d5-2SH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

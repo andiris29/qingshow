@@ -116,6 +116,10 @@
                         <rect key="frame" x="263" y="40" width="15" height="9"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="woy-Nm-mcp">
+                        <rect key="frame" x="280" y="7" width="13" height="13"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -124,6 +128,7 @@
                 <outlet property="dateLabel" destination="XHN-90-TPJ" id="r7f-Os-2TE"/>
                 <outlet property="eyeImgView" destination="7mA-Sy-ttA" id="yov-7k-sqx"/>
                 <outlet property="numLabel" destination="a9r-mY-6iE" id="lF7-cI-t5I"/>
+                <outlet property="rankImgView" destination="woy-Nm-mcp" id="3oJ-Yy-NcM"/>
                 <outlet property="timeLabel" destination="tLN-nc-oQM" id="VAE-dP-lCW"/>
                 <outlet property="topLabel" destination="oOR-nh-tqE" id="9rn-Xx-6FD"/>
                 <outlet property="userHeadImgView" destination="jAy-Uo-lWq" id="Bqu-ui-hFT"/>

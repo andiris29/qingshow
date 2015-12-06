@@ -31,6 +31,7 @@
                 <outlet property="modelNameLabel" destination="ZEr-7p-gCN" id="ZTs-fd-ik4"/>
                 <outlet property="pauseBtn" destination="DXm-AO-FLL" id="PLW-Vz-DQv"/>
                 <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
+                <outlet property="rankImgView" destination="Pzb-1e-rv4" id="jxq-0h-1bn"/>
                 <outlet property="releaseDateLabel" destination="BA9-v6-Qeh" id="UoE-IW-tkj"/>
                 <outlet property="scrollViewContainer" destination="Rzs-4O-hfv" id="pTH-la-QN4"/>
                 <outlet property="shareBtn" destination="1sR-pr-gUL" id="Z3n-9V-5n1"/>
@@ -159,6 +160,10 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gold_wangguan" id="Pzb-1e-rv4">
+                            <rect key="frame" x="21" y="27" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -201,6 +206,7 @@
         </view>
     </objects>
     <resources>
+        <image name="gold_wangguan" width="40" height="40"/>
         <image name="nav_btn_back" width="28" height="28"/>
         <image name="s03_comment_btn" width="32" height="32"/>
         <image name="s03_like_btnIcon" width="31" height="27"/>

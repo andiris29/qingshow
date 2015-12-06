@@ -73,6 +73,9 @@
         NSURL *defaultHeader = [QSImageNameUtil appendingDefaultImageUrl];
         [self.headerImgView setImageFromURL:defaultHeader];
     }
+    
+    self.rankImgView.image = [QSPeopleUtil rankImgView:_peopleDic];
+    
     NSURL *url = [QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:dict] type:QSImageNameTypeS];
     [self.matchShowImgview setImageFromURL:url];
     [self.bgImgView setImageFromURL:[QSShowUtil getFormatterCoVerForegroundUrl:dict]];

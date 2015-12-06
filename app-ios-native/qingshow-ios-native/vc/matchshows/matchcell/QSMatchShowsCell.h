@@ -25,6 +25,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @property (assign,nonatomic) NSObject <QSMatchShowCellDelegate>* delegate;
-
+@property (weak, nonatomic) IBOutlet UIImageView* rankImgView;
 - (void)bindWithDic:(NSDictionary *)dict withIndex:(int)index;
 @end

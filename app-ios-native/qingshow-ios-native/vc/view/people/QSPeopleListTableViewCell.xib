@@ -23,7 +23,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MPc-od-xLn">
-                        <rect key="frame" x="9" y="6" width="50" height="50"/>
+                        <rect key="frame" x="8" y="8" width="51" height="48"/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qN4-FA-NJq">
                         <rect key="frame" x="72" y="15" width="107" height="16"/>
@@ -59,6 +59,9 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="people_list_icon_favor" translatesAutoresizingMaskIntoConstraints="NO" id="e8U-zK-08L">
                         <rect key="frame" x="247" y="22" width="20" height="20"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Scj-bf-fzq">
+                        <rect key="frame" x="4" y="7" width="20" height="20"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
@@ -67,6 +70,7 @@
                 <outlet property="headPhotoImageView" destination="MPc-od-xLn" id="eo0-5n-Les"/>
                 <outlet property="leftIcon" destination="Q3X-in-2rl" id="Ibh-5Q-wde"/>
                 <outlet property="nameLabel" destination="qN4-FA-NJq" id="Veu-dI-60c"/>
+                <outlet property="rankImgView" destination="Scj-bf-fzq" id="pFs-dA-KWZ"/>
                 <outlet property="rightIcon" destination="e8U-zK-08L" id="rfC-Ct-MHd"/>
                 <outlet property="showNumLabel" destination="NaK-pU-nIh" id="pKC-iX-cKS"/>
             </connections>
