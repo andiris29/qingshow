@@ -209,12 +209,16 @@ var user = {};
 user.get = [
     require('../middleware/injectCurrentUser'),
     function(req, res, next) {
-        ContextHelper.appendPeopleContext(req.injection.qsCurrentUser._id, [req.injection.qsCurrentUser], function(err) {
-            ResponseHelper.writeData(res, {
-                'people' : req.injection.qsCurrentUser
+        if (req.injection.qsCurrentUser) {
+            ContextHelper.appendPeopleContext(req.injection.qsCurrentUser._id, [req.injection.qsCurrentUser], function(err) {
+                ResponseHelper.writeData(res, {
+                    'people' : req.injection.qsCurrentUser
+                });
+                next();
             });
+        } else {
             next();
-        });
+        }
     }
 ];
 
