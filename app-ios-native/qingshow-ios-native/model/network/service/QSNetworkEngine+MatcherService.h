@@ -40,6 +40,7 @@ typedef void (^QueryCategorySucceedBlock)(NSArray* array, NSDictionary* modelCat
                            onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)matcherRemixByItem:(NSDictionary*)itemDict
+                                    cache:(BOOL)cache
                                 onSucceed:(DicBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)matcherRemixByModel:(NSString*)modelId
