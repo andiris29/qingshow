@@ -98,7 +98,7 @@ peopleSchema = Schema({
             sid : String
         }
     },
-    talent : Boolean
+    rank : Number
 });
 
 peopleSchema.index({mobile: 1});
