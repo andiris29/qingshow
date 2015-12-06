@@ -117,7 +117,9 @@ matcher.save = {
                 'ownerRef' : req.qsCurrentUserId,
                 'create' : {'$gt' : date}
             }).count(function(err, count) {
-                ResponseHelper.writeMetadata(res, {'limitCount' : global.qsConfig.matcher.limitCount});
+                ResponseHelper.writeMetadata(res, {
+                    'limitMessage' : global.qsConfig.matcher.limitMessage.replace(/\{0\}/g, global.qsConfig.matcher.limitCount)
+                });
                 if (count < global.qsConfig.matcher.limitCount) {
                     next();
                 } else {
