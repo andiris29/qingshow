@@ -43,6 +43,10 @@
     [self _configNav];
     
     [self _reloadData];
+    
+    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+        [self _reloadData];
+    } onError:nil];
 
     [self _configUI];
     
