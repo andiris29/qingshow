@@ -97,6 +97,15 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.btnGroup.frame = self.btnsContainer.bounds;
+    CGFloat centerX = (self.bounds.size.width + self.iconImageView.bounds.size.width + self.iconImageView.frame.origin.x) / 2;
+    CGPoint center = self.bonusBtn.center;
+    center.x = centerX;
+    self.bonusBtn.center = center;
+    center = self.followBtn.center;
+    center.x = centerX;
+    self.followBtn.center = center;
+    
+    
 }
 
 - (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
