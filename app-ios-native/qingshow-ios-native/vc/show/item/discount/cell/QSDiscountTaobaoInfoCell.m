@@ -210,7 +210,12 @@
 
 
 - (CGFloat)getHeight:(NSDictionary *)itemDict {
-    NSString* str = [QSItemUtil getSkuProperties:itemDict][self.infoIndex];
+    NSArray* array = [QSItemUtil getSkuProperties:itemDict];
+    NSString* str = @"";
+    if (self.infoIndex < array.count) {
+        str = array[self.infoIndex];
+    }
+
     NSArray* comps = [str componentsSeparatedByString:@":"];
     NSArray* compInfos = [comps subarrayWithRange:NSMakeRange(1, comps.count - 1)];
     CGFloat baseY = BTN_ORIGIN_Y;
