@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "QSRootMenuItemType.h"
-#define QSRootMenuItemWidth 78.f
-#define QSRootMenuItemHeight 132.f
+#define QSRootMenuItemWidth 65.f
+#define QSRootMenuItemHeight 118.f
 
 
 @class QSRootMenuItem;

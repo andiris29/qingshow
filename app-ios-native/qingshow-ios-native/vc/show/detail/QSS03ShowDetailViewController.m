@@ -315,6 +315,7 @@
         //当前用户
         self.releaseDateLabel.hidden = NO;
         self.trashBtn.hidden = NO;
+        self.favorBtn.hidden = YES;
         self.playBtn.hidden = YES;
         self.pauseBtn.hidden = YES;
         NSDate* createDate = [QSShowUtil getCreatedDate:dict];
