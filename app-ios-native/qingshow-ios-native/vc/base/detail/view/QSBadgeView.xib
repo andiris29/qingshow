@@ -86,8 +86,12 @@
                     <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Geu-2b-2Rr">
-                    <rect key="frame" x="111" y="143" width="35" height="35"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Geu-2b-2Rr">
+                    <rect key="frame" x="111" y="140" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="cBJ-QU-mfd"/>
+                        <constraint firstAttribute="width" constant="35" id="kHt-fc-VPv"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -108,8 +112,10 @@
                 <constraint firstItem="che-XF-QkT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Wm4-DQ-J3N"/>
                 <constraint firstItem="tKl-cf-6S5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="145" id="YbD-OD-ejk"/>
                 <constraint firstItem="che-XF-QkT" firstAttribute="top" secondItem="NyZ-dF-fWX" secondAttribute="bottom" constant="9" id="ZO4-to-A3G"/>
+                <constraint firstItem="tKl-cf-6S5" firstAttribute="top" secondItem="Geu-2b-2Rr" secondAttribute="bottom" constant="-30" id="aHW-fu-Lsd"/>
                 <constraint firstItem="che-XF-QkT" firstAttribute="top" secondItem="cqs-Sm-5h3" secondAttribute="bottom" constant="29" id="aIY-NC-9aU"/>
                 <constraint firstAttribute="trailing" secondItem="74W-bg-pUU" secondAttribute="trailing" constant="8" id="cTP-t7-Jag"/>
+                <constraint firstItem="tKl-cf-6S5" firstAttribute="leading" secondItem="Geu-2b-2Rr" secondAttribute="trailing" constant="-28" id="ehx-gz-2kA"/>
                 <constraint firstAttribute="trailing" secondItem="che-XF-QkT" secondAttribute="trailing" constant="8" id="fhl-SR-awx"/>
                 <constraint firstItem="cqs-Sm-5h3" firstAttribute="top" secondItem="74W-bg-pUU" secondAttribute="bottom" id="hbL-Rr-qIH"/>
                 <constraint firstAttribute="trailing" secondItem="xLX-Q6-vzv" secondAttribute="trailing" constant="30" id="hvM-k3-eNs"/>

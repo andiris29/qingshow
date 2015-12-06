@@ -236,9 +236,8 @@
     [self.coverImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict] placeHolderImage:nil animation:NO complete:^{
         [self _updateLabel];
     }];
-    
     [self.coverBackgroundImageView setImageFromURL:[QSShowUtil getCoverBackgroundUrl:self.showDict] beforeCompleteBlock:nil animation:NO];
-
+    [self.coverForegroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:self.showDict]];
 }
 
 - (void)_updateLabel {
@@ -283,7 +282,8 @@
             CGFloat y = ((NSNumber*)rects[1]).floatValue + ((NSNumber*)rects[3]).floatValue / 2;
             x = x * size.width / 100;
             y = y * size.height / 100;
-            labelView.center = CGPointMake(origin.x + x + labelView.frame.size.width / 2, origin.y + y);
+            labelView.center = CGPointMake(origin.x + x, origin.y + y);
+            labelView.transform = CGAffineTransformMakeScale(1.3, 1.3);
             [labelView addGestureRecognizer:ges];
             [self.coverLabelContainerView addSubview:labelView];
         }

@@ -48,7 +48,6 @@
 @property (assign, nonatomic) BOOL fIsFirstLoad;
 @property (strong, nonatomic) NSTimer* showLoginGuideTimer;
 @property (strong, nonatomic) QSActivityViewController* activityVc;
-@property (assign, nonatomic) BOOL fFirstUnreadChange;
 @end
 
 @implementation QSRootContainerViewController
@@ -65,7 +64,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.fIsFirstLoad = YES;
-    self.fFirstUnreadChange = YES;
     [self observeNotifications];
     
 //    [self _handleBonusUnread];
@@ -325,11 +323,6 @@
 
 #pragma mark - Handle Unread Bonus Notification
 - (void)_handleBonusUnread {
-    if (!self.fFirstUnreadChange) {
-        return;
-    }
-    self.fFirstUnreadChange = NO;
-
     NSArray* unreads = [[QSUnreadManager getInstance] getUnreadOfCommand:@"newBonus"];
     NSDictionary* bonusDict = nil;
     NSNumber* type = nil;
