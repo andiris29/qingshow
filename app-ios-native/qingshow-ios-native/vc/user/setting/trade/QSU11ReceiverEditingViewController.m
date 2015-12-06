@@ -30,7 +30,12 @@
 - (void)setSelectionLocation:(NSString *)selectionLocation
 {
     _selectionLocation = selectionLocation;
-    self.localLabel.text = _selectionLocation;
+    if (_selectionLocation.length) {
+        self.localLabel.text = _selectionLocation;
+    } else {
+        self.localLabel.text = @"请选择所在区域";
+    }
+
 }
 
 #pragma mark - Init
@@ -51,11 +56,13 @@
     self.pickerProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.provincePicker];
     self.pickerProvider.delegate = self;
     [self bindWithDict:self.locationDict];
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSFontAttributeName:NAVNEWFONT, NSForegroundColorAttributeName:[UIColor blackColor]}];
+    UIView* v = [[UIView alloc] init];
+    v.backgroundColor = [UIColor clearColor];
+    self.tableView.tableFooterView = v;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorColor = [UIColor clearColor];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -131,7 +131,7 @@
     
     NSDictionary* bonusDict = self.bonusDict;
     
-    NSString* itemId = [QSBonusUtil getItemRef:bonusDict];
+    NSString* itemId = [QSBonusUtil getTradeItemId:bonusDict];
     NSArray* participantsArray = [QSBonusUtil getParticipantsIds:bonusDict];
     
     [weakSelf.userHeadIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];

@@ -119,6 +119,7 @@
     self.newestProvider = [[QSMatcherTableViewProvider alloc] init];
     self.newestProvider.delegate = self;
     self.newestProvider.hasPaging = NO;
+    self.newestProvider.hasRefreshControl = YES;
     [self.newestProvider bindWithTableView:self.newestTableView];
     self.newestProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
         return [SHARE_NW_ENGINE feedingAggregationOnSucceed:succeedBlock onError:errorBlock];
