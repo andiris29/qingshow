@@ -152,7 +152,6 @@
 		EF8CD2AF1C0378E50040611D /* QSU18ResetPswStep2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD2521C0378E50040611D /* QSU18ResetPswStep2ViewController.xib */; };
 		EF8CD2B01C0378E50040611D /* QSU19LoginGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD2541C0378E50040611D /* QSU19LoginGuideViewController.m */; };
 		EF8CD2B11C0378E50040611D /* QSU19LoginGuideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD2551C0378E50040611D /* QSU19LoginGuideViewController.xib */; };
-		EF8CD2B21C0378E50040611D /* QSU07RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD2561C0378E50040611D /* QSU07RegisterViewController.xib */; };
 		EF8CD2B31C0378E50040611D /* QSU02ImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD25B1C0378E50040611D /* QSU02ImgCell.m */; };
 		EF8CD2B41C0378E50040611D /* QSU02ImgCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD25C1C0378E50040611D /* QSU02ImgCell.xib */; };
 		EF8CD2B51C0378E50040611D /* QSU02InfoBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD25F1C0378E50040611D /* QSU02InfoBaseCell.m */; };
@@ -605,7 +604,6 @@
 		EF8CD2531C0378E50040611D /* QSU19LoginGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU19LoginGuideViewController.h; sourceTree = "<group>"; };
 		EF8CD2541C0378E50040611D /* QSU19LoginGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU19LoginGuideViewController.m; sourceTree = "<group>"; };
 		EF8CD2551C0378E50040611D /* QSU19LoginGuideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU19LoginGuideViewController.xib; sourceTree = "<group>"; };
-		EF8CD2561C0378E50040611D /* QSU07RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU07RegisterViewController.xib; sourceTree = "<group>"; };
 		EF8CD25A1C0378E50040611D /* QSU02ImgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02ImgCell.h; sourceTree = "<group>"; };
 		EF8CD25B1C0378E50040611D /* QSU02ImgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02ImgCell.m; sourceTree = "<group>"; };
 		EF8CD25C1C0378E50040611D /* QSU02ImgCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU02ImgCell.xib; sourceTree = "<group>"; };
@@ -1658,7 +1656,6 @@
 				EF8CD2301C0378E50040611D /* bonus */,
 				EF8CD2391C0378E50040611D /* info */,
 				EF8CD2401C0378E50040611D /* login */,
-				EF8CD2561C0378E50040611D /* QSU07RegisterViewController.xib */,
 				EF8CD2571C0378E50040611D /* setting */,
 			);
 			path = user;
@@ -2980,7 +2977,6 @@
 				EF8CD2D31C0378E50040611D /* QSTradeListHeaderView.xib in Resources */,
 				EF994D961B693C4F00715B0E /* QSDiscountInfoCell.xib in Resources */,
 				EF994DA01B693CB900715B0E /* QSDiscountQuantityCell.xib in Resources */,
-				EF8CD2B21C0378E50040611D /* QSU07RegisterViewController.xib in Resources */,
 				EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */,
 				EF8CD33D1C03794C0040611D /* AlipaySDK.bundle in Resources */,
 				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
