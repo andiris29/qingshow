@@ -16,6 +16,7 @@
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "NSArray+QSExtension.h"
+#import "QSUserManager.h"
 
 #define HEAD_NUMBER_EVERY_ROW 10
 #define HEAD_ROW_NUMBER 2
@@ -126,42 +127,42 @@
         [weakSelf showErrorHudWithError:error];
         [weakSelf performSelector:@selector(_popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
     };
-    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *peopleDict, NSDictionary *metadata) {
-        NSDictionary* bonusDict = self.bonusDict;        
-
-        NSString* itemId = [QSBonusUtil getItemRef:bonusDict];
-        NSArray* participantsArray = [QSBonusUtil getParticipantsIds:bonusDict];
+    NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
+    
+    NSDictionary* bonusDict = self.bonusDict;
+    
+    NSString* itemId = [QSBonusUtil getItemRef:bonusDict];
+    NSArray* participantsArray = [QSBonusUtil getParticipantsIds:bonusDict];
+    
+    [weakSelf.userHeadIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
+    weakSelf.userNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+    NSMutableAttributedString* bonusText = [[NSMutableAttributedString alloc] initWithString:@"获得了"];
+    NSString* bonusNumberText = [NSString stringWithFormat:@"￥%.2f ", [QSBonusUtil getMoney:bonusDict].doubleValue];
+    NSUInteger begin = bonusText.length;
+    NSUInteger length = bonusNumberText.length;
+    NSRange range = NSMakeRange(begin, length);
+    [bonusText appendAttributedString:[[NSAttributedString alloc] initWithString:bonusNumberText]];
+    [bonusText appendAttributedString:[[NSAttributedString alloc] initWithString:@"的佣金"]];
+    
+    UIColor* colorPink = [UIColor colorWithRed:248.f/255.f green:62.f/255.f blue:91.f/255.f alpha:1.f];
+    [bonusText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:range];
+    [bonusText addAttribute:NSUnderlineColorAttributeName value:colorPink range:range];
+    [bonusText addAttribute:NSForegroundColorAttributeName value:colorPink range:range];
+    [bonusText addAttribute:NSFontAttributeName value:NEWFONT range:range];
+    
+    
+    weakSelf.bonusNumberLabel.attributedText = bonusText;
+    [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDict, NSDictionary *metadata) {
+        [self.itemImageView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
+        if (participantsArray && participantsArray.count) {
+            NSArray* a = [participantsArray mapUsingBlock:^id(NSDictionary* p) {
+                return [QSEntityUtil getIdOrEmptyStr:p];
+            }];
+            [SHARE_NW_ENGINE queryPeoplesDetail:a onSucceed:^(NSArray *peoples) {
+                [self _setupOtherHeadIcons:peoples];
+            } onError:errorBlock];
+        }
         
-        [weakSelf.userHeadIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
-        weakSelf.userNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
-        NSMutableAttributedString* bonusText = [[NSMutableAttributedString alloc] initWithString:@"获得了"];
-        NSString* bonusNumberText = [NSString stringWithFormat:@"￥%.2f ", [QSBonusUtil getMoney:bonusDict].doubleValue];
-        NSUInteger begin = bonusText.length;
-        NSUInteger length = bonusNumberText.length;
-        NSRange range = NSMakeRange(begin, length);
-        [bonusText appendAttributedString:[[NSAttributedString alloc] initWithString:bonusNumberText]];
-        [bonusText appendAttributedString:[[NSAttributedString alloc] initWithString:@"的佣金"]];
-        
-        UIColor* colorPink = [UIColor colorWithRed:248.f/255.f green:62.f/255.f blue:91.f/255.f alpha:1.f];
-        [bonusText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:range];
-        [bonusText addAttribute:NSUnderlineColorAttributeName value:colorPink range:range];
-        [bonusText addAttribute:NSForegroundColorAttributeName value:colorPink range:range];
-        [bonusText addAttribute:NSFontAttributeName value:NEWFONT range:range];
-        
-        
-        weakSelf.bonusNumberLabel.attributedText = bonusText;
-        [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDict, NSDictionary *metadata) {
-            [self.itemImageView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
-            if (participantsArray && participantsArray.count) {
-                NSArray* a = [participantsArray mapUsingBlock:^id(NSDictionary* p) {
-                    return [QSEntityUtil getIdOrEmptyStr:p];
-                }];
-                [SHARE_NW_ENGINE queryPeoplesDetail:a onSucceed:^(NSArray *peoples) {
-                    [self _setupOtherHeadIcons:peoples];
-                } onError:errorBlock];
-            }
-
-        } onError:errorBlock];
     } onError:errorBlock];
     
 }

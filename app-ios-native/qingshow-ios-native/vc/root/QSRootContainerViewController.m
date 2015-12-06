@@ -323,6 +323,11 @@
 
 #pragma mark - Handle Unread Bonus Notification
 - (void)_handleBonusUnread {
+    [self showNewBonusVcWithId:@"56627cece1b24dee7bf0f06d" type:QSU20NewBonusViewControllerStateAbout];
+    
+    
+    
+    
     if (!self.fFirstUnreadChange) {
         return;
     }

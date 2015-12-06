@@ -11,10 +11,7 @@
 @implementation QSBonusUtil
 
 + (NSString*)getItemRef:(NSDictionary*)dict {
-    return [dict stringValueForKeyPath:@"trigger.itemRef"];
-}
-+ (NSString*)getTradeRef:(NSDictionary*)dict {
-    return [dict stringValueForKeyPath:@"trigger.tradeRef"];
+    return [dict stringValueForKeyPath:@"legacyTrigger.itemRef"];
 }
 + (NSNumber*)getMoney:(NSDictionary*)dict {
     return [dict numberValueForKeyPath:@"amount"];

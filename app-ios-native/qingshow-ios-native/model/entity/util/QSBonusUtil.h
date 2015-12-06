@@ -11,7 +11,6 @@
 @interface QSBonusUtil : NSObject
 
 + (NSString*)getItemRef:(NSDictionary*)dict;
-+ (NSString*)getTradeRef:(NSDictionary*)dict;
 + (NSNumber*)getMoney:(NSDictionary*)dict;
 + (NSArray*)getParticipantsIds:(NSDictionary*)dict;
 + (NSNumber*)getStatus:(NSDictionary *)dict;
