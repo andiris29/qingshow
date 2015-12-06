@@ -93,8 +93,10 @@
         b.size = s;
         self.removeBtn.bounds = b;
     }
-    self.removeBtn.center = CGPointMake(size.width / 2, size.height / 2);
     self.imgView.frame = self.bounds;
+    CGRect rect = self.removeBtn.frame;
+    rect.origin = CGPointMake(5, 5);
+    self.removeBtn.frame = rect;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
