@@ -15,4 +15,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
 @property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
 
+- (void)showLatestS24Vc;
 @end

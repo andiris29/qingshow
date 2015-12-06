@@ -27,4 +27,5 @@
 
 + (void)postShowRootMenuNoti;
 + (void)postShowRootContentTypeNoti:(QSRootMenuItemType)type;
++ (void)postShowLatestS24VcNoti;
 @end

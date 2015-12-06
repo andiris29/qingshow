@@ -23,5 +23,6 @@
 
 #define kRootShowMenuNotificationName @"kRootShowMenuNotificationName"
 #define kShowRootContentTypeNotificationName @"kShowRootContentTypeNotificationName"
+#define kShowLatestS24VcNotificationName @"kShowLatestS24VcNotificationName"
 
 #endif /* QSRootNotificationName_h */

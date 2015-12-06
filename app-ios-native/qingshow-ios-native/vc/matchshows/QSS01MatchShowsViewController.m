@@ -177,4 +177,10 @@
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
 }
+- (void)showLatestS24Vc {
+    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-1];
+    date = [QSDateUtil clearMinuteFromDate:date];
+    QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:[date dateByAddingTimeInterval:60 * 60]];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

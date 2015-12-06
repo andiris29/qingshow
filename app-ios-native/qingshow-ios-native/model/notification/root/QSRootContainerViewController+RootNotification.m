@@ -27,6 +27,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowRootMenuNoti:) name:kRootShowMenuNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowRootContentTypeNoti:) name:kShowRootContentTypeNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowLatestS24:) name:kShowLatestS24VcNotificationName object:nil];
 }
 
 #pragma mark - Notification
@@ -80,5 +81,9 @@
     NSDictionary* userInfo = noti.userInfo;
     NSNumber* type = [userInfo numberValueForKeyPath:@"type"];
     [self triggerToShowVc:type.unsignedIntegerValue];
+}
+
+- (void)didReceiveShowLatestS24:(NSNotification*)noti {
+    [self showLatestS24Vc];
 }
 @end

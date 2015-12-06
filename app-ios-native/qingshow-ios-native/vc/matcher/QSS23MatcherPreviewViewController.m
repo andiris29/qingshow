@@ -83,7 +83,7 @@
             }
             [hud hide:YES];
             
-            [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
+            [QSRootNotificationHelper postShowLatestS24VcNoti];
         } onError:^(NSError *error) {
             [hud hide:YES];
             self.updateCoverOp = nil;

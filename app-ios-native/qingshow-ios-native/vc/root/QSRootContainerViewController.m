@@ -367,4 +367,11 @@
     [self _hideVcInPopoverContainer:self.activityVc withAnimation:YES];
     self.activityVc = nil;
 }
+
+- (void)showLatestS24Vc {
+    QSS01MatchShowsViewController* vc = (QSS01MatchShowsViewController*)[self triggerToShowVc:QSRootMenuItemMeida];
+    if ([vc respondsToSelector:@selector(showLatestS24Vc)]) {
+        [vc showLatestS24Vc];
+    }
+}
 @end
