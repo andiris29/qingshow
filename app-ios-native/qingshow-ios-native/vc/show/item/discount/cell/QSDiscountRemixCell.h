@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton* previousBtn;
 @property (weak, nonatomic) IBOutlet UIButton* nextBtn;
+@property (weak, nonatomic) IBOutlet UILabel* mesageLabel;
 
 - (IBAction)remixBtnPressed:(UIButton*)sender;
 - (IBAction)previousRemixBtnPressed:(UIButton*)sender;
