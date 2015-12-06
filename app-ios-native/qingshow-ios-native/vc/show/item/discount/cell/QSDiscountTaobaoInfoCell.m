@@ -25,7 +25,7 @@
 #define ORIGIN_Y 20.f
 
 #define LABEL_BTN_PADDING_Y 0.f
-#define CELL_BOTTOM_PADDING_Y 15.f
+#define CELL_BOTTOM_PADDING_Y 0.f
 
 #define LABEL_HEIGHT 13.f
 #define BTN_FONT [UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:12]

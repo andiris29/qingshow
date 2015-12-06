@@ -47,6 +47,7 @@
 @property (strong, nonatomic) NSMutableArray* remixArray;
 @property (assign, nonatomic) NSUInteger currentRemixIndex;
 @property (strong, nonatomic) NSDictionary* masterDict;
+@property (assign, nonatomic) CGFloat backBtnTopPreConst;
 @end
 
 @implementation QSS11ItemBuyViewController
@@ -76,6 +77,7 @@
     self.btnContainer.layer.shadowColor = [UIColor blackColor].CGColor;
     self.btnContainer.layer.shadowOffset = CGSizeMake(0, -4);
     self.btnContainer.layer.shadowOpacity = 0.5f;
+    self.backBtnTopPreConst = self.backTopConstraint.constant;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -195,9 +197,7 @@
                   selectedSkuProperties:selectedSku
                                quantity:self.quantityCell.quantity
                               onSucceed:^(NSDictionary *dict) {
-                                  [[QSPaymentService shareService] sharedForTrade:dict onSucceed:^(NSDictionary *dict) {
-//                                      [self showSuccessHudAndPop:@"创建成功"];
-                                      QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:dict];
+                                  [[QSPaymentService shareService] sharedForTrade:dict onSucceed:^(NSDictionary *dict) {                                      QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:dict];
                                       [self.navigationController pushViewController:vc animated:YES];
                                       self.createTradeOp = nil;
                                   } onError:^(NSError *error) {
@@ -299,12 +299,17 @@
     
     self.discountInfoBtn.hidden = NO;
     [self.discountInfoBtn setTitle:[NSString stringWithFormat:@"分享搭配立减%.2f元", reduction.floatValue] forState:UIControlStateNormal];
-    [self.buyBtn setTitle:@"分享后购买" forState:UIControlStateNormal];
+
+    [self.buyBtn setTitle:[NSString stringWithFormat:@"%.2f 购买", ([QSItemUtil getPromoPrice:dict].doubleValue - reduction.doubleValue)] forState:UIControlStateNormal];
     [self.tableView reloadData];
 }
 
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    self.backTopConstraint.constant = self.backBtnTopPreConst - scrollView.contentOffset.y;
 }
 
 @end

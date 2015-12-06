@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS11ItemBuyViewController">
             <connections>
+                <outlet property="backTopConstraint" destination="SwY-k6-4g2" id="z99-HP-TS1"/>
                 <outlet property="btnContainer" destination="i5M-Pr-FkT" id="bRA-nT-Z44"/>
                 <outlet property="buyBtn" destination="gXX-1n-Rcx" id="xwC-Wv-qjN"/>
                 <outlet property="discountInfoBtn" destination="QkB-tE-xl8" id="TQI-Rr-8R6"/>
