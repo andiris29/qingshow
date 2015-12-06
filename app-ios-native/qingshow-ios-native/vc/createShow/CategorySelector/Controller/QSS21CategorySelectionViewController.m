@@ -16,17 +16,21 @@
 @property (strong, nonatomic) NSArray* categories;
 @property (strong, nonatomic) NSArray* selectedCategories;
 @property (strong , nonatomic)QSS21TableViewProvider *provider;
+@property (strong, nonatomic) NSDictionary* modelParentCategory;
 
 @end
 
 @implementation QSS21CategorySelectionViewController
 
 #pragma mark - Init
-- (instancetype)initWithCategories:(NSArray*)array selectedCategories:(NSArray*)selectedCategories {
+- (instancetype)initWithCategories:(NSArray*)array
+                selectedCategories:(NSArray*)selectedCategories
+               modelParentCategory:(NSDictionary*)modelParentCategory {
     self = [super initWithNibName:@"QSS21CategorySelectionViewController" bundle:nil];
     if (self) {
         self.categories = array;
         self.selectedCategories = selectedCategories;
+        self.modelParentCategory = modelParentCategory;
     }
     return self;
 }
@@ -77,6 +81,7 @@
     self.provider.delegate = self;
     self.provider.dataArray = self.categories;
     self.provider.selectedArray = [self.selectedCategories mutableCopy];
+    self.provider.modelParentDict = self.modelParentCategory;
     [self.provider bindWithTableView:self.tableView];
 }
 

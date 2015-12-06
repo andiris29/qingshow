@@ -146,7 +146,8 @@
         return p.categoryDict;
     }];
     
-    QSS21CategorySelectionViewController* vc = [[QSS21CategorySelectionViewController alloc] initWithCategories:[QSCategoryManager getInstance].categories selectedCategories:categoryArray];
+    QSS21CategorySelectionViewController* vc = [[QSS21CategorySelectionViewController alloc] initWithCategories:[QSCategoryManager getInstance].categories selectedCategories:categoryArray modelParentCategory:self.modelParentCategory];
+    
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
