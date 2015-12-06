@@ -185,12 +185,14 @@ item.query = {
     'method' : 'get',
     'func' : function(req, res) {
         ServiceHelper.queryPaging(req, res,function(qsParam, callback){
-            var criteria = {};
-            if (qsParam._ids && qsParam._ids.length > 0) {
-                criteria._id = {
-                    '$in' : RequestHelper.parseIds(qsParam._ids)
-                };
+            if (!qsParam._ids || !qsParam._ids.length) {
+                callback(errors.NotEnoughParam);
+                return;
             }
+            var criteria = {};
+            criteria._id = {
+                '$in' : RequestHelper.parseIds(qsParam._ids)
+            };
             MongoHelper.queryPaging(
                 Item.find(criteria).populate('shopRef'), 
                 Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);

@@ -34,7 +34,7 @@ show.query = {
                 _ids = RequestHelper.parseIds(req.queryString._ids);
                 callback(null);
             } catch (err) {
-                callback(errors.genUnkownError(err));
+                callback(errors.NotEnoughParam);
             }
         },
         function(callback) {
