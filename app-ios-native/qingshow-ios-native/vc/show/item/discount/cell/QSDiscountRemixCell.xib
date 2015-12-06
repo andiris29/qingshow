@@ -45,8 +45,8 @@
                             <action selector="remixBtnPressed:" destination="uGX-c2-J3a" eventType="touchUpInside" id="rgd-wL-GwP"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将你的随心搭分享朋友圈可获得惊喜低价哦" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ibh-7s-ubp">
-                        <rect key="frame" x="56" y="408" width="209" height="13"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将你的随心搭分享朋友圈可获得惊喜低价哦" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ibh-7s-ubp">
+                        <rect key="frame" x="8" y="408" width="304" height="13"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
                         <color key="textColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -80,6 +80,7 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="mesageLabel" destination="Ibh-7s-ubp" id="bh1-dE-4Fo"/>
                 <outlet property="nextBtn" destination="me8-O3-c6l" id="TSy-tL-XS0"/>
                 <outlet property="previousBtn" destination="tvp-ci-coL" id="3iH-ug-Hxa"/>
                 <outlet property="remixBtn" destination="tLy-vp-WlF" id="fho-1L-p8s"/>

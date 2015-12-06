@@ -18,6 +18,14 @@
     return [dateFormatter dateFromString:currentDateStr];
 }
 
++ (NSDate*)clearMinuteFromDate:(NSDate*)date {
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd HH"];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString* currentDateStr = [dateFormatter stringFromDate:date];
+    return [dateFormatter dateFromString:currentDateStr];
+}
+
 + (NSDate*)buildDateFromResponseString:(NSString*)str
 {
     if ([QSEntityUtil checkIsNil:str]) {

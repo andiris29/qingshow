@@ -115,13 +115,13 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARc-0d-VTl">
-                    <rect key="frame" x="269" y="26" width="30" height="30"/>
+                    <rect key="frame" x="269" y="26" width="39" height="39"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="6vk-sc-6xf"/>
-                        <constraint firstAttribute="height" constant="30" id="WOd-IC-kfe"/>
+                        <constraint firstAttribute="width" constant="39" id="6vk-sc-6xf"/>
+                        <constraint firstAttribute="height" constant="39" id="WOd-IC-kfe"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal" image="u01_setting_btn">
+                    <state key="normal" backgroundImage="u01_setting_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -135,7 +135,7 @@
                         <constraint firstAttribute="width" constant="39" id="qD7-AF-iCw"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal" image="nav_menu_black">
+                    <state key="normal" backgroundImage="nav_menu_black">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -149,7 +149,7 @@
                         <constraint firstAttribute="width" constant="39" id="b32-WZ-UZ8"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal" image="back_shadow">
+                    <state key="normal" backgroundImage="back_shadow">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -164,7 +164,7 @@
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="DTe-9u-7lB"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="QPE-wC-rfU"/>
-                <constraint firstAttribute="trailing" secondItem="ARc-0d-VTl" secondAttribute="trailing" constant="21" id="RrF-fs-GR8"/>
+                <constraint firstAttribute="trailing" secondItem="ARc-0d-VTl" secondAttribute="trailing" constant="12" id="RrF-fs-GR8"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
                 <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
                 <constraint firstItem="ac3-Q3-Rae" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="nPm-wY-OMy"/>

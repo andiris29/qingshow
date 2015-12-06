@@ -35,6 +35,7 @@
 - (void)bindWithData:(NSDictionary *)itemDict {
     
     self.titleLabel.text = [QSItemUtil getShopNickName:itemDict];
+    self.mesageLabel.text = [QSItemUtil getExpectableMessage:itemDict];
     [self _updatePreviousAndNextBtn];
 }
 

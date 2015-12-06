@@ -48,4 +48,8 @@
 + (void)postShowRootContentTypeNoti:(QSRootMenuItemType)type {
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowRootContentTypeNotificationName object:nil userInfo:@{@"type" : @(type)}];
 }
+
++ (void)postShowLatestS24VcNoti {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kShowLatestS24VcNotificationName object:nil];
+}
 @end
