@@ -45,7 +45,7 @@ bonus.own = {
             var criteria = {
                 'ownerRef' : req.qsCurrentUserId
             };
-            MongoHelper.queryPaging(Bonus.find(criteria).sort({'create' : -1}), 
+            MongoHelper.queryPaging(Bonus.find(criteria).sort({'create' : -1}).populate('trigger.tradeRef'), 
                 Bonus.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(bonuses) {
             return {

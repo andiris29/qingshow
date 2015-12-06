@@ -265,6 +265,10 @@ show.view = {
         require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Show, '_id', 'showRef'),
         function(req, res, next) {
             var show = req.injection.showRef;
+            if (show.ownerRef.toString() === req.qsCurrentUserId.toString()) {
+                next(errors.AlreadyRelated);
+                return;
+            }
             RelationshipHelper.create(RPeopleViewShow, req.qsCurrentUserId, show._id, function(err) {
                 if (err) {
                     next(err);

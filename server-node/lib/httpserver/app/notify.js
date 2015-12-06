@@ -19,7 +19,10 @@ notify.newRecommandations = {
 
         async.waterfall([
         function(callback) {
-            People.find({}).exec(callback);
+            People.find({
+                'weight' : {'$ne' : null},
+                'height' : {'$ne' : null}
+            }).exec(callback);
         },
         function(peoples, callback) {
             var targets = _.filter(peoples, function(people) {
