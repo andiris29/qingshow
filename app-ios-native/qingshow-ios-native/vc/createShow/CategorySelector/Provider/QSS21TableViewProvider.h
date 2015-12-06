@@ -16,10 +16,9 @@
 @interface QSS21TableViewProvider : QSTableViewBasicProvider<QSCategoryTableViewCellDelegate>
 
 @property (weak , nonatomic) NSObject<QSS21TableViewProviderDelegate>* delegate;
-
 @property (strong , nonatomic) NSArray *dataArray;
-
 @property (strong , nonatomic) NSMutableArray *selectedArray;
+@property (strong, nonatomic) NSDictionary* modelParentDict;
 
 //获取cell的记录结果
 - (NSMutableArray *)getResultArray;

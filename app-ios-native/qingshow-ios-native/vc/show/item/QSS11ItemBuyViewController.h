@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *discountInfoBtn;
 @property (weak, nonatomic) IBOutlet UIButton *buyBtn;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *backTopConstraint;
 
 @property (strong, nonatomic) IBOutlet UIView *btnContainer;
 - (instancetype)initWithItem:(NSDictionary*)itemDict promoterId:(NSString*)promoterId;

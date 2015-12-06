@@ -59,7 +59,8 @@
 }
 
 - (void)provider:(QSBonusTableViewProvider*)provider didTapBonus:(NSDictionary*)bonusDict {
-    NSString *itemId = [QSBonusUtil getItemRef:bonusDict];
+
+    NSString *itemId = [QSBonusUtil getTradeItemId:bonusDict];
     __weak QSU16BonusListViewController *weakSelf = self;
     [SHARE_NW_ENGINE getItemWithId:itemId onSucceed:^(NSDictionary *itemDic, NSDictionary *metadata) {
         if (itemDic) {

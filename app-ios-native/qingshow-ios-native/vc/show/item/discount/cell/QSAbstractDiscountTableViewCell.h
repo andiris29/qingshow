@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #define DISCOUNT_CELL_CORNER_RADIUS 4.f
-#define DISCOUNT_CELL_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define DISCOUNT_CELL_WIDTH (320.f)
 
 @class QSAbstractDiscountTableViewCell;
 

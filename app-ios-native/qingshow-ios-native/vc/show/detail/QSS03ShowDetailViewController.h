@@ -45,7 +45,6 @@
 - (IBAction)commentBtnPressed:(id)sender;
 - (IBAction)shareBtnPressed:(id)sender;
 - (IBAction)likeBtnPressed:(id)sender;
-- (IBAction)menuBtnPressed:(id)sender;
 - (IBAction)trashBtnPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *modelContainer;

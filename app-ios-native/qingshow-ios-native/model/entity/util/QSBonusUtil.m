@@ -10,9 +10,6 @@
 #import "NSDictionary+QSExtension.h"
 @implementation QSBonusUtil
 
-+ (NSString*)getItemRef:(NSDictionary*)dict {
-    return [dict stringValueForKeyPath:@"legacyTrigger.itemRef"];
-}
 + (NSNumber*)getMoney:(NSDictionary*)dict {
     return [dict numberValueForKeyPath:@"amount"];
 }
@@ -34,6 +31,8 @@
     return [QSEntityUtil getStringValue:dict keyPath:@"icon"];
 }
 
-
++ (NSString*)getTradeItemId:(NSDictionary*)dict {
+    return [QSEntityUtil getStringValue:dict keyPath:@"trigger.tradeRef.itemRef"];
+}
 
 @end

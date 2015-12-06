@@ -100,7 +100,7 @@
             }
             
             NSDictionary* metadata = error.userInfo;
-            NSNumber* limitCount = [metadata numberValueForKeyPath:@"limitCount"];
+            NSNumber* limitCount = [metadata numberValueForKeyPath:@"limitMessage"];
             if (!limitCount) {
                 limitCount = @2;
             }

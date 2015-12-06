@@ -52,7 +52,7 @@
     [self hideNaviBackBtnTitle];
     
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(newLocationBtnPressed)];
-    item.tintColor = [UIColor colorWithRed:240.0f/255.f green:149.0f/255.f blue:164.0f/255.f alpha:1.f];
+    item.tintColor = [UIColor colorWithRed:40.0f/255.f green:45.0f/255.f blue:90.0f/255.f alpha:1.f];
     self.navigationItem.rightBarButtonItem = item;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,

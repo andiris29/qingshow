@@ -352,7 +352,7 @@
 
 - (void)updateMenuDot {
     if ([[QSUnreadManager getInstance] shouldShowDotAtMenu]) {
-        [self.menuBtn setBackgroundImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+        [self.menuBtn setBackgroundImage:[UIImage imageNamed:@"nav_menu_black_new"] forState:UIControlStateNormal];
     } else {
         [self.menuBtn setBackgroundImage:[UIImage imageNamed:@"nav_menu_black"] forState:UIControlStateNormal];
     }

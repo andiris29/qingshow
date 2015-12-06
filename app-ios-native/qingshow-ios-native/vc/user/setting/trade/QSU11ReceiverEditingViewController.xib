@@ -81,10 +81,20 @@
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                     </textField>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tLR-pY-jcb">
+                        <rect key="frame" x="0.0" y="42" width="320" height="1"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="JjY-1A-RjK"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="tLR-pY-jcb" secondAttribute="trailing" id="HCB-ls-74X"/>
                     <constraint firstItem="SNa-Is-QgS" firstAttribute="top" secondItem="z6z-Cw-8yg" secondAttribute="top" constant="15" id="O1X-dV-fBn"/>
+                    <constraint firstAttribute="bottom" secondItem="tLR-pY-jcb" secondAttribute="bottom" constant="0.5" id="ODR-ye-dCd"/>
                     <constraint firstItem="SNa-Is-QgS" firstAttribute="leading" secondItem="z6z-Cw-8yg" secondAttribute="leading" constant="20" id="VEy-OD-S4x"/>
+                    <constraint firstItem="tLR-pY-jcb" firstAttribute="leading" secondItem="z6z-Cw-8yg" secondAttribute="leading" id="esM-6i-8lY"/>
                     <constraint firstAttribute="trailing" secondItem="SNa-Is-QgS" secondAttribute="trailing" constant="8" id="zBQ-Kq-1rh"/>
                 </constraints>
             </tableViewCellContentView>
@@ -106,9 +116,19 @@
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                         <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="next"/>
                     </textField>
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LO5-sT-w93">
+                        <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="9AD-ag-TpC"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="tZO-Fm-eg9" firstAttribute="leading" secondItem="WjZ-4m-Mt7" secondAttribute="leading" constant="20" id="OLI-eZ-A8n"/>
+                    <constraint firstAttribute="trailing" secondItem="LO5-sT-w93" secondAttribute="trailing" id="Pwc-sB-M8B"/>
+                    <constraint firstAttribute="bottom" secondItem="LO5-sT-w93" secondAttribute="bottom" constant="0.5" id="VsH-f1-ZYg"/>
+                    <constraint firstItem="LO5-sT-w93" firstAttribute="leading" secondItem="WjZ-4m-Mt7" secondAttribute="leading" id="arR-RV-XCQ"/>
                     <constraint firstItem="tZO-Fm-eg9" firstAttribute="top" secondItem="WjZ-4m-Mt7" secondAttribute="top" constant="14" id="gSP-dQ-kSg"/>
                     <constraint firstAttribute="trailing" secondItem="tZO-Fm-eg9" secondAttribute="trailing" constant="8" id="xUn-G2-noa"/>
                 </constraints>
@@ -141,13 +161,23 @@
                         <color key="textColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k4E-GJ-7bb">
+                        <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="2ru-rT-GJi"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="f9h-hZ-RGx" secondAttribute="trailing" constant="8" id="38f-Bw-IGy"/>
                     <constraint firstItem="f9h-hZ-RGx" firstAttribute="top" secondItem="LAy-ra-FqD" secondAttribute="top" constant="14" id="9zL-OF-tYS"/>
                     <constraint firstItem="xbR-a5-qWa" firstAttribute="leading" secondItem="LAy-ra-FqD" secondAttribute="leading" constant="20" id="GM2-0U-di7"/>
+                    <constraint firstItem="k4E-GJ-7bb" firstAttribute="leading" secondItem="LAy-ra-FqD" secondAttribute="leading" id="GPC-FK-Uv2"/>
+                    <constraint firstAttribute="bottom" secondItem="k4E-GJ-7bb" secondAttribute="bottom" constant="0.5" id="J19-sP-FX3"/>
                     <constraint firstItem="xbR-a5-qWa" firstAttribute="top" secondItem="LAy-ra-FqD" secondAttribute="top" constant="14" id="JtD-xf-139"/>
                     <constraint firstItem="f9h-hZ-RGx" firstAttribute="leading" secondItem="xbR-a5-qWa" secondAttribute="trailing" constant="8" id="tXt-Ry-pJa"/>
+                    <constraint firstAttribute="trailing" secondItem="k4E-GJ-7bb" secondAttribute="trailing" id="vcd-2f-hRZ"/>
                 </constraints>
             </tableViewCellContentView>
             <point key="canvasLocation" x="747" y="416"/>
@@ -168,9 +198,19 @@
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     </textField>
+                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eQY-5e-6nf">
+                        <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="ZMK-Uf-La1"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="eQY-5e-6nf" firstAttribute="leading" secondItem="x6p-NW-U74" secondAttribute="leading" id="J1h-d4-gXG"/>
+                    <constraint firstAttribute="trailing" secondItem="eQY-5e-6nf" secondAttribute="trailing" id="SS3-L2-ebg"/>
                     <constraint firstItem="Jyc-Hr-c9U" firstAttribute="leading" secondItem="x6p-NW-U74" secondAttribute="leading" constant="20" id="cTP-vP-jfp"/>
+                    <constraint firstAttribute="bottom" secondItem="eQY-5e-6nf" secondAttribute="bottom" constant="0.5" id="jxY-xk-k3G"/>
                     <constraint firstAttribute="trailing" secondItem="Jyc-Hr-c9U" secondAttribute="trailing" constant="8" id="um0-Yg-kFe"/>
                     <constraint firstItem="Jyc-Hr-c9U" firstAttribute="top" secondItem="x6p-NW-U74" secondAttribute="top" constant="15" id="v5a-59-Hvt"/>
                 </constraints>

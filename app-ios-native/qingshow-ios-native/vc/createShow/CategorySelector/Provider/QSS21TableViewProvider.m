@@ -10,6 +10,8 @@
 #import "QSCategoryUtil.h"
 #import "NSArray+QSExtension.h"
 #import "QSEntityUtil.h"
+#import "QSCategoryManager.h"
+
 #define selectorCellID @"QSS21SelectorCell"
 
 @interface QSS21TableViewProvider ()
@@ -49,20 +51,9 @@
     cell.delegate = self;
     NSDictionary *cellDic = self.dataArray[indexPath.row];
     
-    //NSDictionary *dic = [self getSelectedDicCompareWithCellDic:cellDic];
-    //if (cell == [self.cellArray lastObject]) {
-        [cell setLastCellWith:cellDic andSelectedArray:self.selectedArray];
-//    }
-//    else
-//    {
-//    [cell setSubViewsWith:cellDic andSelectedDic:dic];
-//    }
+    [cell setLastCellWith:cellDic andSelectedArray:self.selectedArray];
     CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320.0;
     cell.contentView.transform  = CGAffineTransformMakeScale(rate, rate);
-    //在这里将更新后的cell放在array里
-    //[self.cellArray replaceObjectAtIndex:cell withObject:indexPath.row];
-    
-    
     return cell;
 }
 
@@ -94,46 +85,34 @@
     return self.selectedArray;
 }
 
-- (void)didSelectItem:(NSDictionary*)itemDict ofCell:(QSCategoryTableViewCell*)cell {
-     BOOL f = YES;
-//    if (cell == [self.cellArray lastObject]) {
-        for (int i = 0; i < self.selectedArray.count; i ++) {
-             NSDictionary *dic = self.selectedArray[i];
-                        if (dic == itemDict) {
-                            [self.selectedArray removeObject:dic];
-                            i --;
-                            f = NO;
-                        }
+- (void)didSelectItem:(NSDictionary*)categoryDict ofCell:(QSCategoryTableViewCell*)cell {
+    BOOL f = YES;
+    
+    for (int i = 0; i < self.selectedArray.count; i ++) {
+        NSDictionary *dic = self.selectedArray[i];
+        if (dic == categoryDict) {
+            [self.selectedArray removeObject:dic];
+            i --;
+            f = NO;
         }
-        if (f && itemDict) {
-            [self.selectedArray addObject:itemDict];
+    }
+    
+    NSString* parentId = [QSEntityUtil getIdOrEmptyStr:self.modelParentDict];
+    NSMutableArray* dictToRemove = [NSMutableArray array];
+    
+    if ([parentId isEqualToString:[QSCategoryUtil getParentId:categoryDict]]) {
+        for (NSDictionary* d in self.selectedArray) {
+            if ([parentId isEqualToString:[QSCategoryUtil getParentId:d]]) {
+                [dictToRemove addObject:d];
+            }
         }
-        
-//    }
-//    else
-//    {
+    }
+    [self.selectedArray removeObjectsInArray:dictToRemove];
     
-//        for (int i = 0; i < self.selectedArray.count; i++) {
-//            NSDictionary* dict = self.selectedArray[i];
-//            if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCategoryUtil getParentId:itemDict]] ) {
-//                [self.selectedArray removeObject:dict];
-//                i--;
-//                if (dict == itemDict  ) {
-//                    f = NO;
-//                }
-//                
-//                
-//            }
-//            
-//        }
-//        if (f && itemDict) {
-//            [self.selectedArray addObject:itemDict];
-//        }
-    
-//    }
-    
+    if (f && categoryDict) {
+        [self.selectedArray addObject:categoryDict];
+    }
     
     [self.view reloadData];
-    
 }
 @end
