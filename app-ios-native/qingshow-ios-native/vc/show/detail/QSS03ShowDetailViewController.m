@@ -214,7 +214,7 @@
             
         } else {
             self.headIconImageView.hidden = NO;
-            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100]];
+            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType100] beforeCompleteBlock:nil animation:NO];
             self.rankImgView.hidden = NO;
             self.rankImgView.image = [QSPeopleUtil rankImgView:peopleDict];
             self.modelNameLabel.hidden = NO;
@@ -233,15 +233,17 @@
 }
 
 - (void)updateCover {
-    [self.coverImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict]];
-    [self.coverForegroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:self.showDict] beforeCompleteBlock:^(UIImage *image) {
+    [self.coverImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict] placeHolderImage:nil animation:NO complete:^{
         [self _updateLabel];
     }];
-    [self.coverBackgroundImageView setImageFromURL:[QSShowUtil getCoverBackgroundUrl:self.showDict]];
+    
+    [self.coverBackgroundImageView setImageFromURL:[QSShowUtil getCoverBackgroundUrl:self.showDict] beforeCompleteBlock:nil animation:NO];
 
 }
 
 - (void)_updateLabel {
+    self.showShouldLabel = YES;
+    BOOL fShowLabel = self.showShouldLabel && self.coverImageView.image;
     CGPoint origin = self.coverImageView.frame.origin;
     CGSize size = self.coverImageView.bounds.size;
     
@@ -260,7 +262,7 @@
         NSArray* rects = itemRects[i];
         
         QSItemTagView* labelView = [QSItemTagView generateView];
-//        labelView.hidden = !self.showShouldLabel;
+        labelView.hidden = !fShowLabel;
         [self.itemLabelArray addObject:labelView];
         labelView.userInteractionEnabled = YES;
         UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
@@ -327,8 +329,6 @@
         NSDate* createDate = [QSShowUtil getCreatedDate:dict];
         self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
     }
-
-    
     [self _updateLabel];
 }
 #pragma mark - getNewItemArray
@@ -529,10 +529,10 @@
 }
 
 - (void)didTapLabelContainer:(UITapGestureRecognizer*)tap {
-//    self.showShouldLabel = !self.showShouldLabel;
-//    for (UIView* v  in self.itemLabelArray) {
-//        v.hidden = !self.showShouldLabel;
-//    }
+    self.showShouldLabel = !self.showShouldLabel;
+    for (UIView* v  in self.itemLabelArray) {
+        v.hidden = !self.showShouldLabel;
+    }
 }
 
 @end

@@ -46,6 +46,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.imgView.image = self.coverImage;
+    self.submitBtn.layer.cornerRadius = 5.f;
+    self.submitBtn.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -115,6 +115,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
     return [self setImageFromURL:url placeHolderImage:image usingEngine:imageCacheEngine animation:animation beforeComplete:nil complete:nil];
 }
 
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image  animation:(BOOL) animation complete:(VoidBlock)completeBlock {
+    return [self setImageFromURL:url placeHolderImage:image usingEngine:DefaultEngine animation:animation beforeComplete:nil complete:completeBlock];
+}
+
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation beforeComplete:(ImgBlock)beforeBlock complete:(VoidBlock)completeBlock {
     if (self.contentMode != UIViewContentModeCenter) {
         self.preContentMode = self.contentMode;
