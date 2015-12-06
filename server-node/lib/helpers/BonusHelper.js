@@ -69,7 +69,7 @@ BonusHelper.createShowBonus = function(show, callback) {
 var _notify = function(bonus) {
     NotificationHelper.notify(
         [bonus.ownerRef], 
-        NotificationHelper.MessageNewBonus.replace(/\{0\}/g, bonus.amount), 
+        NotificationHelper.MessageNewBonus.replace(/\{0\}/g, bonus.amount + '元'), 
         {
             'command' : NotificationHelper.CommandNewBonus,
             '_id' : bonus._id.toString(),
