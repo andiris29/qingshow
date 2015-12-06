@@ -176,18 +176,17 @@ var _saveWeixinUser = function(req, res, next) {
         },
         function(callback) {
             // Save weixinUser
-            people.nickname = weixinUser.nickname;
-            people.userInfo = {
-                weixin: {
-                    openid: weixinUser.openid,
-                    nickname: weixinUser.nickname,
-                    sex: weixinUser.sex,
-                    province: weixinUser.province,
-                    city: weixinUser.city,
-                    country: weixinUser.country,
-                    headimgurl: weixinUser.headimgurl,
-                    unionid: weixinUser.unionid
-                }
+            people.nickname = people.nickname || weixinUser.nickname;
+            people.userInfo = people.userInfo || {};
+            people.userInfo.weixin = {
+                openid: weixinUser.openid,
+                nickname: weixinUser.nickname,
+                sex: weixinUser.sex,
+                province: weixinUser.province,
+                city: weixinUser.city,
+                country: weixinUser.country,
+                headimgurl: weixinUser.headimgurl,
+                unionid: weixinUser.unionid
             };
             
             if (copyHeadPath && copyHeadPath.length) {
@@ -670,6 +669,7 @@ user.bindWeixin = [
         ResponseHelper.writeData(res, {
             'people' : req.injection.qsCurrentUser
         });
+        next();
     }
 ];
 
