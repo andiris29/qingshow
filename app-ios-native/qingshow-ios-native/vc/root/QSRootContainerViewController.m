@@ -259,6 +259,8 @@
                                  }
                                  NSDictionary* bonusDict = [array firstObject];
                                  self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:type];
+                                 CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320.f;
+                                 self.u20NewBonusVc.view.transform = CGAffineTransformMakeScale(rate, rate);
                                  [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
                              }
                                onError:nil];
@@ -323,11 +325,6 @@
 
 #pragma mark - Handle Unread Bonus Notification
 - (void)_handleBonusUnread {
-    [self showNewBonusVcWithId:@"56627cece1b24dee7bf0f06d" type:QSU20NewBonusViewControllerStateAbout];
-    
-    
-    
-    
     if (!self.fFirstUnreadChange) {
         return;
     }
