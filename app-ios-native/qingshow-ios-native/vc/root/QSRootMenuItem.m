@@ -71,9 +71,9 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
     item->_type = type;
     item.label.text = getTitleFromType(type);
     
-    [item.button setImage:getIconImageFromType(type) forState:UIControlStateNormal];
-    [item.button setImage:getIconHoverImageFromType(type) forState:UIControlStateHighlighted];
-    [item.button setImage:getIconHoverImageFromType(type) forState:UIControlStateSelected];
+    [item.button setBackgroundImage:getIconImageFromType(type) forState:UIControlStateNormal];
+    [item.button setBackgroundImage:getIconHoverImageFromType(type) forState:UIControlStateHighlighted];
+    [item.button setBackgroundImage:getIconHoverImageFromType(type) forState:UIControlStateSelected];
     item.button.backgroundColor = [UIColor clearColor];
     return item;
 }
