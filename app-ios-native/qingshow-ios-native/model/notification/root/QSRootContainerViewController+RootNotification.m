@@ -45,7 +45,6 @@
 
 - (void)didReceiveShowNewBonusVcNoti:(NSNotification*)noti {
     NSString* bonusId = [noti.userInfo stringValueForKeyPath:@"_id"];
-    [[[UIAlertView alloc] initWithTitle:bonusId message:@"1" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"aa", nil] show];
     if (!bonusId) {
         return;
     }
