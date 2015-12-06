@@ -107,7 +107,8 @@
             backgroundView.hidden = NO;
             NSDictionary* showDict = topShows[i];
             [imgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:showDict] type:QSImageNameTypeXS]];
-            [foregroundView setImageFromURL:[QSShowUtil getCoverForegroundUrl:showDict]];
+            
+            [foregroundView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverForegroundUrl:showDict] type:QSImageNameTypeXS]];
         } else {
             imgView.hidden = YES;
             foregroundView.hidden = YES;
