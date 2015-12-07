@@ -12,6 +12,9 @@ var RequestHelper = require('../../helpers/RequestHelper'),
 
 var errors = require('../../errors');
 
+var ONE_MINUTE = 1 * 60 * 1000;
+var ONE_HOUR = 1 * 3600 * 1000;
+var ONE_DAY = 24 * 3600 * 1000;
 // ------------------
 // Privates
 // ------------------
@@ -71,8 +74,29 @@ var _queryTopOwners = function(req, criteria, callback) {
     });
 };
 
-var ONE_HOUR = 1 * 3600 * 1000;
-var ONE_DAY = 24 * 3600 * 1000;
+var _queryTopShows = function(criteria, callback) {
+    Show.find(criteria).sort({'numView' : -1}).limit(3).exec(function(err, shows) {
+        callback(err, {'topShows' : shows});
+    });
+};
+
+
+var _cache = {};
+setInterval(function() {
+    _cache = {};
+}, ONE_MINUTE * 5);
+
+var _writeCache = function(category, keyword, cache) {
+    _cache[category] = _cache[category] || {};
+    _cache[category][keyword] = cache;
+};
+
+var _readCache = function(category, keyword, cache) {
+    if (_cache[category]) {
+        return _cache[category][keyword];
+    }
+};
+
 // ------------------
 // Services
 // ------------------
@@ -93,7 +117,15 @@ feedingAggregation.latest = {
                     return function(callback) {
                         var criteria = _buildCriteria(
                             new Date(date.getTime() - ONE_HOUR * offset), ONE_HOUR);
-                        _queryTopOwners(req, criteria, callback);
+                        var cache = _readCache('_queryTopOwners', date.getTime());
+                        if (offset > 0 && cache) {
+                            callback(null, cache);
+                        } else {
+                            _queryTopOwners(req, criteria, function(err, result) {
+                                _writeCache('_queryTopOwners', date.getTime(), result);
+                                callback(err, result);
+                            });
+                        }
                     };
                 })(offset));
                 // Top shows
@@ -101,9 +133,15 @@ feedingAggregation.latest = {
                     return function(callback) {
                         var criteria = _buildCriteria(
                             new Date(date.getTime() - ONE_HOUR * offset), ONE_HOUR);
-                        Show.find(criteria).sort({'numView' : -1}).limit(3).exec(function(err, shows) {
-                            callback(err, {'topShows' : shows});
-                        });
+                        var cache = _readCache('_queryTopShows', date.getTime());
+                        if (offset > 0 && cache) {
+                            callback(null, cache);
+                        } else {
+                            _queryTopShows(criteria, function(err, result) {
+                                _writeCache('_queryTopShows', date.getTime(), result);
+                                callback(err, result);
+                            });
+                        }
                     };
                 })(offset));
             }
