@@ -189,9 +189,13 @@
     if (self.availableMoney  ==  0) {
         self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
         self.withdrawBtn.userInteractionEnabled = NO;
-        self.navigationItem.rightBarButtonItem.action = nil;
         self.navigationItem.rightBarButtonItem.enabled = NO;
         self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
+    } else {
+        self.withdrawBtn.backgroundColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:90.f/255.f alpha:1.f];
+        self.withdrawBtn.userInteractionEnabled = YES;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.navigationItem.rightBarButtonItem.tintColor = self.navigationController.navigationBar.tintColor;
     }
 }
 
