@@ -60,7 +60,7 @@
     [self removeAllTopRightBtn];
     //cell将会被scale，所以按320宽度进行布局
     CGFloat right = 320.f;
-    CGFloat borderWidth = 10.0;
+    CGFloat borderWidth = 5.0;
     for (int i = (int)btns.count - 1; i >= 0; i--) {
         UIButton* btn = btns[i];
         right -= borderWidth;
