@@ -140,7 +140,7 @@ var _weixinDeliveryNotify = function(trade) {
 
 var _generateStatusValidator = function(validStatuses) {
     return function(req, res, next) {
-        if (validStatuses.indexOf(req.injection.tradeRef.status) !== -1) {
+        if (req.injection.tradeRef && validStatuses.indexOf(req.injection.tradeRef.status) !== -1) {
             next();
         } else {
             next(errors.TradeStatusChangeError);

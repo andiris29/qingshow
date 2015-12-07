@@ -10,6 +10,8 @@ var ItemSourceUtil = require('../../../goblin-common/ItemSourceUtil'),
 
 var Items = require('../../../dbmodels').Item;
     
+var EMPTY = function() {};
+
 var GoblinScheduler = module.exports;
 
 
@@ -120,8 +122,8 @@ var _fetchNextItem = function (scope, type, callback) {
     }
 };
 
-
 GoblinScheduler.registerItem = function (item, callback) {
+    callback = callback || EMPTY;
     if (!ItemSyncService.isOutDate(item)) {
         // 该Item最近已经爬过，不需要再爬，直接执行callback
         callback(null, item);
