@@ -6,7 +6,8 @@ var async = require('async'),
     request = require('request');
 
 var JPushAudience = require('../../dbmodels').JPushAudience,
-    People = require('../../dbmodels').People;
+    People = require('../../dbmodels').People,
+    PeopleCode = require('../../dbmodels').PeopleCode;
 
 var qsftp = require('../../runtime').ftp;
 
@@ -176,7 +177,11 @@ var _saveWeixinUser = function(req, res, next) {
         },
         function(callback) {
             // Save weixinUser
-            people.nickname = people.nickname || weixinUser.nickname;
+            if (people.role === PeopleCode.ROLE_GUEST) {
+                people.nickname = weixinUser.nickname;
+            } else {
+                people.nickname = people.nickname || weixinUser.nickname;
+            }
             people.userInfo = people.userInfo || {};
             people.userInfo.weixin = {
                 openid: weixinUser.openid,
@@ -810,7 +815,7 @@ user.loginAsGuest = function(req, res){
     }, function(nickname, callback){
         var people = new People();
         people.nickname = nickname;
-        people.role = 0;
+        people.role = PeopleCode.ROLE_GUEST;
         people.save(function(err, people){
             req.session.userId = people._id;
             callback(null, people);
@@ -851,7 +856,7 @@ user.loginAsViewer = function(req, res){
             callback(null, people);
         }else{
             var people = new People({
-                'role' : 2,
+                'role' : PeopleCode.ROLE_VIEWER,
                 'userInfo.id' : RequestHelper.getIp(req)
             });
             req.invitorRef = people.invitorRef = params.invitorRef;
