@@ -95,6 +95,6 @@
         </view>
     </objects>
     <resources>
-        <image name="user_head_default.png" width="28" height="28"/>
+        <image name="user_head_default.png" width="17" height="15"/>
     </resources>
 </document>

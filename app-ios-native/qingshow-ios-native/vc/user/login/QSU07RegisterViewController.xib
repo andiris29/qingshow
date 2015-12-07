@@ -201,10 +201,10 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49Y-mb-sK5">
-                    <rect key="frame" x="17" y="27" width="28" height="28"/>
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="28" id="DHJ-Xn-3sd"/>
-                        <constraint firstAttribute="height" constant="28" id="acq-GZ-xd9"/>
+                        <constraint firstAttribute="width" constant="32" id="DHJ-Xn-3sd"/>
+                        <constraint firstAttribute="height" constant="32" id="acq-GZ-xd9"/>
                     </constraints>
                     <state key="normal" image="nav_btn_back_white">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -216,9 +216,9 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="49Y-mb-sK5" firstAttribute="leading" secondItem="ef3-FR-n1U" secondAttribute="leading" constant="17" id="0Rb-Qh-mDD"/>
+                <constraint firstItem="49Y-mb-sK5" firstAttribute="leading" secondItem="ef3-FR-n1U" secondAttribute="leading" constant="14" id="0Rb-Qh-mDD"/>
                 <constraint firstItem="eh6-AP-T6p" firstAttribute="leading" secondItem="ef3-FR-n1U" secondAttribute="leading" id="AVj-nK-9aN"/>
-                <constraint firstItem="49Y-mb-sK5" firstAttribute="top" secondItem="ef3-FR-n1U" secondAttribute="top" constant="27" id="XUl-Qi-h6s"/>
+                <constraint firstItem="49Y-mb-sK5" firstAttribute="top" secondItem="ef3-FR-n1U" secondAttribute="top" constant="25" id="XUl-Qi-h6s"/>
                 <constraint firstItem="eh6-AP-T6p" firstAttribute="top" secondItem="ef3-FR-n1U" secondAttribute="top" id="bgY-OV-V1G"/>
                 <constraint firstAttribute="trailing" secondItem="eh6-AP-T6p" secondAttribute="trailing" id="qGd-3j-aFp"/>
                 <constraint firstAttribute="bottom" secondItem="eh6-AP-T6p" secondAttribute="bottom" id="s5m-W0-RFJ"/>

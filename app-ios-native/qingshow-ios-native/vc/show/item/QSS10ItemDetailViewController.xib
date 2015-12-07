@@ -21,10 +21,10 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </webView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nn3-da-Dkd">
-                    <rect key="frame" x="17" y="27" width="28" height="28"/>
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="28" id="STu-n3-If4"/>
-                        <constraint firstAttribute="height" constant="28" id="g4c-vF-8MA"/>
+                        <constraint firstAttribute="width" constant="32" id="STu-n3-If4"/>
+                        <constraint firstAttribute="height" constant="32" id="g4c-vF-8MA"/>
                     </constraints>
                     <state key="normal" image="back_shadow">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,9 +38,9 @@
             <constraints>
                 <constraint firstItem="Hhc-Be-55j" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="F5H-QC-Iy1"/>
                 <constraint firstItem="Hhc-Be-55j" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NYb-l9-7qe"/>
-                <constraint firstItem="Nn3-da-Dkd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="eMb-Vc-3J0"/>
+                <constraint firstItem="Nn3-da-Dkd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="eMb-Vc-3J0"/>
                 <constraint firstAttribute="trailing" secondItem="Hhc-Be-55j" secondAttribute="trailing" id="kpb-J1-xxJ"/>
-                <constraint firstItem="Nn3-da-Dkd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="pia-Cu-6wu"/>
+                <constraint firstItem="Nn3-da-Dkd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="14" id="pia-Cu-6wu"/>
                 <constraint firstAttribute="bottom" secondItem="Hhc-Be-55j" secondAttribute="bottom" id="u3c-hW-AHx"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

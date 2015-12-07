@@ -32,10 +32,10 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLE-BA-R8G">
-                    <rect key="frame" x="17" y="27" width="28" height="28"/>
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="28" id="CpV-wO-wF2"/>
-                        <constraint firstAttribute="height" constant="28" id="fG1-NF-9Vt"/>
+                        <constraint firstAttribute="width" constant="32" id="CpV-wO-wF2"/>
+                        <constraint firstAttribute="height" constant="32" id="fG1-NF-9Vt"/>
                     </constraints>
                     <state key="normal" image="nav_btn_menu">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -97,7 +97,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="29K-Lw-qhy"/>
+                <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="14" id="29K-Lw-qhy"/>
                 <constraint firstAttribute="trailing" secondItem="IPv-3T-oo4" secondAttribute="trailing" id="BQP-dL-hp8"/>
                 <constraint firstAttribute="bottom" secondItem="utQ-tX-ieQ" secondAttribute="bottom" id="CCQ-Vc-HJ8"/>
                 <constraint firstItem="nXP-DQ-iBc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="Gm4-3q-Izp"/>
@@ -109,7 +109,7 @@
                 <constraint firstAttribute="trailing" secondItem="sV4-f5-KsD" secondAttribute="trailing" id="ciY-qN-zmc"/>
                 <constraint firstAttribute="trailing" secondItem="nXP-DQ-iBc" secondAttribute="trailing" id="nna-rp-NMr"/>
                 <constraint firstItem="sV4-f5-KsD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pWd-9S-OhI"/>
-                <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="tks-Qz-8KH"/>
+                <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="tks-Qz-8KH"/>
                 <constraint firstItem="utQ-tX-ieQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xzj-B1-odW"/>
                 <constraint firstItem="IPv-3T-oo4" firstAttribute="top" secondItem="nXP-DQ-iBc" secondAttribute="bottom" id="y8H-eB-28m"/>
                 <constraint firstItem="utQ-tX-ieQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="yhW-tx-m2d"/>

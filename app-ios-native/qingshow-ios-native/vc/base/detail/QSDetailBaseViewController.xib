@@ -67,10 +67,10 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2e-NN-4gA">
-                    <rect key="frame" x="17" y="27" width="28" height="28"/>
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="28" id="WD0-BC-i58"/>
-                        <constraint firstAttribute="height" constant="28" id="eS1-pg-Ad1"/>
+                        <constraint firstAttribute="width" constant="32" id="WD0-BC-i58"/>
+                        <constraint firstAttribute="height" constant="32" id="eS1-pg-Ad1"/>
                     </constraints>
                     <state key="normal" image="s03_back_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -79,11 +79,11 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="v2e-NN-4gA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="27" id="9Pf-Sz-eSr"/>
+                <constraint firstItem="v2e-NN-4gA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="9Pf-Sz-eSr"/>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="FkP-Cb-DCU"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
-                <constraint firstItem="v2e-NN-4gA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="Odn-cc-TAT"/>
+                <constraint firstItem="v2e-NN-4gA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="Odn-cc-TAT"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
                 <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>

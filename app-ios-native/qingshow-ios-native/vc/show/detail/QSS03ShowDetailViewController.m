@@ -277,6 +277,7 @@
             CGRect rect = labelView.frame;
             rect.size.width = labelSize.width + 40;
             labelView.frame = rect;
+            labelView.transform = CGAffineTransformMakeScale(1.1, 1.1);
             
             CGFloat x = ((NSNumber*)rects[0]).floatValue + ((NSNumber*)rects[2]).floatValue / 2;
             CGFloat y = ((NSNumber*)rects[1]).floatValue + ((NSNumber*)rects[3]).floatValue / 2;

@@ -32,10 +32,10 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TE2-v0-rfD">
-                    <rect key="frame" x="17" y="27" width="28" height="28"/>
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="28" id="N4a-ai-r7k"/>
-                        <constraint firstAttribute="width" constant="28" id="nfh-4m-Q3g"/>
+                        <constraint firstAttribute="height" constant="32" id="N4a-ai-r7k"/>
+                        <constraint firstAttribute="width" constant="32" id="nfh-4m-Q3g"/>
                     </constraints>
                     <state key="normal" image="nav_btn_back_white">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -134,9 +134,9 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="TE2-v0-rfD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="4Uh-uk-Tnd"/>
+                <constraint firstItem="TE2-v0-rfD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="14" id="4Uh-uk-Tnd"/>
                 <constraint firstItem="7sI-88-PSH" firstAttribute="leading" secondItem="D8w-dE-QF2" secondAttribute="trailing" constant="8" id="5bF-Db-S57"/>
-                <constraint firstItem="TE2-v0-rfD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="AnB-UR-g3I"/>
+                <constraint firstItem="TE2-v0-rfD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="AnB-UR-g3I"/>
                 <constraint firstItem="t8E-uR-vrs" firstAttribute="top" secondItem="rXd-tQ-T7H" secondAttribute="bottom" constant="25" id="F59-GY-S09"/>
                 <constraint firstItem="jEb-it-OqZ" firstAttribute="top" secondItem="rXd-tQ-T7H" secondAttribute="bottom" constant="30" id="Fnj-c1-dvt"/>
                 <constraint firstItem="kFY-DT-KTE" firstAttribute="leading" secondItem="jEb-it-OqZ" secondAttribute="trailing" constant="9" id="HZ1-cb-Dw5"/>
@@ -160,7 +160,7 @@
                 <constraint firstAttribute="trailing" secondItem="t8E-uR-vrs" secondAttribute="trailing" constant="38" id="sVp-LH-Aos"/>
                 <constraint firstItem="rXd-tQ-T7H" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="38" id="vBu-JV-Kaa"/>
                 <constraint firstAttribute="trailing" secondItem="NUW-FR-AFK" secondAttribute="trailing" constant="22" id="vFg-mq-hLs"/>
-                <constraint firstItem="NUW-FR-AFK" firstAttribute="top" secondItem="TE2-v0-rfD" secondAttribute="bottom" constant="59" id="zDm-wN-cdT"/>
+                <constraint firstItem="NUW-FR-AFK" firstAttribute="top" secondItem="TE2-v0-rfD" secondAttribute="bottom" constant="57" id="zDm-wN-cdT"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
