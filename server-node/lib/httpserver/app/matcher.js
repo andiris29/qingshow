@@ -21,6 +21,9 @@ var TraceHelper = require('../../helpers/TraceHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
 
 var injectModelGenerator = require('../middleware/injectModelGenerator');
+
+var GoblinScheduler = require('./goblin/GoblinScheduler');
+
 var errors = require('../../errors');
 
 var matcher = module.exports;
@@ -286,8 +289,12 @@ matcher.remixByItem = {
         function(req, res, next) {
             async.parallel(req.injection.remixCategories.map(function(category) {
                 return function(callback) {
-                    Item.find({'categoryRef' : category._id}).count(function(err, count) {
-                        Item.find({'categoryRef' : category._id}).populate('shopRef').skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
+                    var criteria = {
+                        'categoryRef' : category._id,
+                        'delist' : null
+                    };
+                    Item.find(criteria).count(function(err, count) {
+                        Item.find(criteria).populate('shopRef').skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
                             callback(err, items[0]);
                         });
                     });
@@ -316,6 +323,12 @@ matcher.remixByItem = {
                 }
             }
             next();
+            
+            // Register items to goblin scheduler
+            GoblinScheduler.registerItem(req.injection.itemRef);
+            req.injection.remixItems.forEach(function(item, index) {
+                GoblinScheduler.registerItem(item);
+            });
         }
     ]
 };
