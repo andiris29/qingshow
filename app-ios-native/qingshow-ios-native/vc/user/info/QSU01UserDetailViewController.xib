@@ -115,10 +115,10 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARc-0d-VTl">
-                    <rect key="frame" x="269" y="26" width="39" height="39"/>
+                    <rect key="frame" x="275" y="27" width="28" height="28"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="39" id="6vk-sc-6xf"/>
-                        <constraint firstAttribute="height" constant="39" id="WOd-IC-kfe"/>
+                        <constraint firstAttribute="width" constant="28" id="6vk-sc-6xf"/>
+                        <constraint firstAttribute="height" constant="28" id="WOd-IC-kfe"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <state key="normal" backgroundImage="u01_setting_btn">
@@ -129,10 +129,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
-                    <rect key="frame" x="17" y="22" width="39" height="39"/>
+                    <rect key="frame" x="17" y="27" width="28" height="28"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="39" id="96r-aa-5BR"/>
-                        <constraint firstAttribute="width" constant="39" id="qD7-AF-iCw"/>
+                        <constraint firstAttribute="height" constant="28" id="96r-aa-5BR"/>
+                        <constraint firstAttribute="width" constant="28" id="qD7-AF-iCw"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <state key="normal" backgroundImage="nav_menu_black">
@@ -143,10 +143,10 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ac3-Q3-Rae">
-                    <rect key="frame" x="17" y="22" width="39" height="39"/>
+                    <rect key="frame" x="17" y="27" width="28" height="28"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="39" id="3Lc-wb-1SG"/>
-                        <constraint firstAttribute="width" constant="39" id="b32-WZ-UZ8"/>
+                        <constraint firstAttribute="height" constant="28" id="3Lc-wb-1SG"/>
+                        <constraint firstAttribute="width" constant="28" id="b32-WZ-UZ8"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <state key="normal" backgroundImage="back_shadow">
@@ -159,19 +159,19 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ac3-Q3-Rae" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="3hV-Eq-L5b"/>
+                <constraint firstItem="ac3-Q3-Rae" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="27" id="3hV-Eq-L5b"/>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
-                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="DTe-9u-7lB"/>
+                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="27" id="DTe-9u-7lB"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="QPE-wC-rfU"/>
-                <constraint firstAttribute="trailing" secondItem="ARc-0d-VTl" secondAttribute="trailing" constant="12" id="RrF-fs-GR8"/>
+                <constraint firstAttribute="trailing" secondItem="ARc-0d-VTl" secondAttribute="trailing" constant="17" id="RrF-fs-GR8"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
                 <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
                 <constraint firstItem="ac3-Q3-Rae" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="nPm-wY-OMy"/>
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v9I-jF-Wrp"/>
-                <constraint firstItem="ARc-0d-VTl" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" constant="4" id="zvV-GT-RSI"/>
+                <constraint firstItem="ARc-0d-VTl" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" id="zvV-GT-RSI"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
         </view>

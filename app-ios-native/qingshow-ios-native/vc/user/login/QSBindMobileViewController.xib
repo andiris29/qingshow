@@ -29,7 +29,7 @@
                     <rect key="frame" x="23" y="114" width="275" height="295"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TE2-v0-rfD">
-                    <rect key="frame" x="20" y="30" width="28" height="28"/>
+                    <rect key="frame" x="17" y="27" width="28" height="28"/>
                     <state key="normal" image="nav_btn_back_white">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>

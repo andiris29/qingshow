@@ -23,7 +23,7 @@
                 </scrollView>
                 <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="eco-0C-SYn">
                     <rect key="frame" x="140" y="495" width="39" height="37"/>
-                    <color key="pageIndicatorTintColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="pageIndicatorTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="currentPageIndicatorTintColor" red="0.97647064920000004" green="0.99215692280000001" blue="0.97647064920000004" alpha="1" colorSpace="deviceRGB"/>
                 </pageControl>
             </subviews>

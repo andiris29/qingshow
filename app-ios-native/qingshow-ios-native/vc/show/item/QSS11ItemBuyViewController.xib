@@ -35,7 +35,7 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35j-mb-m5V">
-                    <rect key="frame" x="20" y="20" width="28" height="28"/>
+                    <rect key="frame" x="17" y="27" width="28" height="28"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="28" id="CPS-Hd-ldp"/>
                         <constraint firstAttribute="height" constant="28" id="Zmq-s2-W0L"/>
@@ -90,10 +90,10 @@
                 <constraint firstItem="gnu-jp-peA" firstAttribute="top" secondItem="xe9-Uu-T88" secondAttribute="bottom" id="5fK-Tl-duT"/>
                 <constraint firstItem="xe9-Uu-T88" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IIW-Y3-u0p"/>
                 <constraint firstAttribute="bottom" secondItem="gnu-jp-peA" secondAttribute="bottom" id="NMs-In-BdN"/>
-                <constraint firstItem="35j-mb-m5V" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="SwY-k6-4g2"/>
+                <constraint firstItem="35j-mb-m5V" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="SwY-k6-4g2"/>
                 <constraint firstItem="gnu-jp-peA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VQb-BM-naI"/>
                 <constraint firstAttribute="trailing" secondItem="gnu-jp-peA" secondAttribute="trailing" id="att-E4-Osd"/>
-                <constraint firstItem="35j-mb-m5V" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="nNu-We-8Io"/>
+                <constraint firstItem="35j-mb-m5V" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="nNu-We-8Io"/>
                 <constraint firstAttribute="trailing" secondItem="xe9-Uu-T88" secondAttribute="trailing" id="r0J-NA-wrB"/>
                 <constraint firstItem="xe9-Uu-T88" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="sxD-Zu-HiD"/>
             </constraints>

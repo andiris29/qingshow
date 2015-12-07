@@ -25,17 +25,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8J-EI-SBu">
-                    <rect key="frame" x="20" y="30" width="28" height="28"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="28" id="5uG-uf-chH"/>
-                        <constraint firstAttribute="height" constant="28" id="RIs-m5-mVM"/>
-                    </constraints>
-                    <state key="normal" image="nav_btn_back_white"/>
-                    <connections>
-                        <action selector="back:" destination="-1" eventType="touchUpInside" id="Bov-Np-ASX"/>
-                    </connections>
-                </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_border" translatesAutoresizingMaskIntoConstraints="NO" id="jrG-rP-qBS">
                     <rect key="frame" x="22" y="114" width="275" height="295"/>
                     <constraints>
@@ -131,6 +120,17 @@
                         <action selector="forgetPswBtnPressed:" destination="-1" eventType="touchUpInside" id="Pla-WQ-ndl"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8J-EI-SBu">
+                    <rect key="frame" x="17" y="27" width="28" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="28" id="5uG-uf-chH"/>
+                        <constraint firstAttribute="height" constant="28" id="RIs-m5-mVM"/>
+                    </constraints>
+                    <state key="normal" image="nav_btn_back_white"/>
+                    <connections>
+                        <action selector="back:" destination="-1" eventType="touchUpInside" id="Bov-Np-ASX"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
             <gestureRecognizers/>
@@ -141,22 +141,22 @@
                 <constraint firstAttribute="trailing" secondItem="rMd-37-2CO" secondAttribute="trailing" constant="37" id="8QM-mb-mfX"/>
                 <constraint firstItem="gDc-h8-6Ln" firstAttribute="leading" secondItem="tp3-BB-btG" secondAttribute="trailing" constant="7" id="8hB-4p-kvG"/>
                 <constraint firstAttribute="trailing" secondItem="GHB-x5-Sck" secondAttribute="trailing" constant="42" id="BIm-vu-FYK"/>
-                <constraint firstItem="jrG-rP-qBS" firstAttribute="top" secondItem="Q8J-EI-SBu" secondAttribute="bottom" constant="56" id="CPn-4B-dsP"/>
+                <constraint firstItem="jrG-rP-qBS" firstAttribute="top" secondItem="Q8J-EI-SBu" secondAttribute="bottom" constant="59" id="CPn-4B-dsP"/>
                 <constraint firstItem="GHB-x5-Sck" firstAttribute="top" secondItem="qN3-2Z-q9f" secondAttribute="bottom" constant="49" id="DKx-iw-hgN"/>
                 <constraint firstItem="tp3-BB-btG" firstAttribute="top" secondItem="rMd-37-2CO" secondAttribute="bottom" constant="24" id="EfD-V2-IHD"/>
                 <constraint firstItem="gDc-h8-6Ln" firstAttribute="top" secondItem="rMd-37-2CO" secondAttribute="bottom" constant="24" id="Fug-eL-4Bz"/>
                 <constraint firstAttribute="trailing" secondItem="gDc-h8-6Ln" secondAttribute="trailing" constant="45" id="JY2-A1-7cw"/>
                 <constraint firstAttribute="trailing" secondItem="jrG-rP-qBS" secondAttribute="trailing" constant="23" id="RpS-ww-ibV"/>
-                <constraint firstItem="Q8J-EI-SBu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="XlX-NK-60Q"/>
+                <constraint firstItem="Q8J-EI-SBu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="XlX-NK-60Q"/>
                 <constraint firstItem="d76-ww-Mcn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="39" id="dYr-d7-zKj"/>
                 <constraint firstItem="aWK-Fb-8cM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="36" id="e9K-es-W4j"/>
                 <constraint firstItem="jrG-rP-qBS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="22" id="eb2-Sp-pHH"/>
                 <constraint firstItem="ZyK-Oq-S1g" firstAttribute="top" secondItem="d76-ww-Mcn" secondAttribute="bottom" constant="18" id="ftv-lS-D9C"/>
                 <constraint firstItem="tp3-BB-btG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="36" id="g8R-a8-5bq"/>
-                <constraint firstItem="Q8J-EI-SBu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="gTf-5W-VYi"/>
+                <constraint firstItem="Q8J-EI-SBu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="27" id="gTf-5W-VYi"/>
                 <constraint firstAttribute="trailing" secondItem="d76-ww-Mcn" secondAttribute="trailing" constant="37" id="gs5-Yq-fuh"/>
                 <constraint firstItem="qN3-2Z-q9f" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jKs-vM-pjg"/>
-                <constraint firstItem="aWK-Fb-8cM" firstAttribute="top" secondItem="Q8J-EI-SBu" secondAttribute="bottom" constant="114" id="lAL-Bg-8SQ"/>
+                <constraint firstItem="aWK-Fb-8cM" firstAttribute="top" secondItem="Q8J-EI-SBu" secondAttribute="bottom" constant="117" id="lAL-Bg-8SQ"/>
                 <constraint firstItem="GHB-x5-Sck" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="trailing" constant="10" id="tqc-ZC-kiD"/>
                 <constraint firstItem="rMd-37-2CO" firstAttribute="top" secondItem="GHB-x5-Sck" secondAttribute="bottom" constant="8" id="u3q-DG-nXX"/>
                 <constraint firstItem="cVr-g0-gMn" firstAttribute="top" secondItem="ZyK-Oq-S1g" secondAttribute="bottom" constant="35" id="u7b-Su-8x8"/>
