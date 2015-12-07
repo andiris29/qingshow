@@ -91,7 +91,7 @@
             
             self.welcomeVc = [[QSG02WelcomeViewController alloc] init];
             self.welcomeVc.delegate = self;
-            [self _showVcInPopoverContainer:self.welcomeVc withAnimation:NO];
+            [self _showVcInWelcomeContainer:self.welcomeVc withAnimation:NO];
             
             [userDefault setValue:version forKey:kWelcomePageVersionKey];
             [userDefault synchronize];
@@ -279,28 +279,27 @@
 }
 
 #pragma mark -
-
-- (void)_showVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate {
-    vc.view.frame = self.popOverContainerView.bounds;
+- (void)_showVc:(UIViewController*)vc inContainerView:(UIView*)v withAnimation:(BOOL)fAnimate {
+    vc.view.frame = v.bounds;
     [self addChildViewController:vc];
-    [self.popOverContainerView addSubview:vc.view];
-    self.popOverContainerView.hidden = NO;
+    [v addSubview:vc.view];
+    v.hidden = NO;
     
     if (fAnimate) {
-        self.popOverContainerView.alpha = 0;
+        v.alpha = 0;
         [UIView animateWithDuration:0.5f animations:^{
-            self.popOverContainerView.alpha = 1;
+            v.alpha = 1;
         } completion:^(BOOL finished) {
-            self.popOverContainerView.alpha = 1;
+            v.alpha = 1;
         }];
     }
 }
-- (void)_hideVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate{
+- (void)_hideVc:(UIViewController*)vc inContainerView:(UIView*)v withAnimation:(BOOL)fAnimate {
     VoidBlock hideBlock = ^{
         [vc.view removeFromSuperview];
         [vc removeFromParentViewController];
         [vc.view removeFromSuperview];
-        self.popOverContainerView.hidden = YES;
+        v.hidden = YES;
     };
     
     if (fAnimate) {
@@ -314,10 +313,26 @@
     }
 }
 
+
+- (void)_showVcInWelcomeContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimation {
+    [self _showVc:vc inContainerView:self.welcomeContainerView withAnimation:fAnimation];
+}
+
+- (void)_hideVcInWelcomeContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimation {
+    [self _hideVc:vc inContainerView:self.welcomeContainerView withAnimation:fAnimation];
+}
+
+- (void)_showVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate {
+    [self _showVc:vc inContainerView:self.popOverContainerView withAnimation:fAnimate];
+}
+- (void)_hideVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate{
+    [self _hideVc:vc inContainerView:self.popOverContainerView withAnimation:fAnimate];
+}
+
 #pragma mark - QSG02WelcomeViewControllerDelegate
 - (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc
 {
-    [self _hideVcInPopoverContainer:vc withAnimation:YES];
+    [self _hideVcInWelcomeContainer:vc withAnimation:YES];
     self.welcomeVc = nil;
 }
 

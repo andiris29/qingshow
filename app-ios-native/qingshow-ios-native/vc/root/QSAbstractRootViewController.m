@@ -101,6 +101,10 @@
     self.popOverContainerView = [[UIView alloc] init];
     [self.view addSubview:self.popOverContainerView];
     self.popOverContainerView.hidden = YES;
+
+    self.welcomeContainerView = [[UIView alloc] init];
+    [self.view addSubview:self.welcomeContainerView];
+    self.welcomeContainerView.hidden = YES;
 }
 - (void)_initMenuView {
     QSRootMenuView* menuView = [QSRootMenuView generateView];
@@ -118,6 +122,7 @@
     self.contentContainerView.frame = r;
     self.menuContainerView.frame = r;
     self.popOverContainerView.frame = r;
+    self.welcomeContainerView.frame = r;
 }
 
 #pragma mark - QSRootMenuViewDelegate

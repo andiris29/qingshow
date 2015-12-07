@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UIView* contentContainerView;
 @property (strong, nonatomic) UIView* menuContainerView;
 @property (strong, nonatomic) UIView* popOverContainerView;
+@property (strong, nonatomic) UIView* welcomeContainerView;
 
 - (void)hideMenu;
 
