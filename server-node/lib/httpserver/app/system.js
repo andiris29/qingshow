@@ -1,3 +1,4 @@
+
 var async = require('async');
 var winston = require('winston');
 
@@ -52,14 +53,7 @@ system.getConfig = {
     'func' : [
         function(req, res, next) {
             ResponseHelper.writeData(res, {
-                'config' : {
-                    'event' : {
-                        'image' : global.qsConfig.event.image
-                    },
-                    'bonus' : {
-                        'faq' : global.qsConfig.bonus.faq
-                    }
-                }
+                'guide' : global.qsConfig.guide
             });
             next();
         }
