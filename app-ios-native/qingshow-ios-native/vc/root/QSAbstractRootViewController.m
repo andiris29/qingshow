@@ -83,7 +83,6 @@
 
 - (void)handleCurrentUser
 {
-//    [self presentViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES completion:nil];
     NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
     if (userInfo && [QSPeopleUtil getPeopleRole:userInfo] == QSPeopleRoleUser && ![QSPeopleUtil hasPersonalizeData:userInfo]) {
 #warning MOVE TO POPOVER CONTAINER
