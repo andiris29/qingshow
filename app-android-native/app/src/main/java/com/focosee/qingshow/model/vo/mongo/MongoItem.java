@@ -15,9 +15,8 @@ public class MongoItem implements Serializable {
     public String name;
     public String source;
     public String thumbnail;
-    public Number price;
-    public Number promoPrice;
-    public Number minExpectedPrice;
+    public Number price = 0;
+    public Number promoPrice = 0;
     public List<String> skuProperties;
     public HashMap<String, String> skuTable;
     public GregorianCalendar create;

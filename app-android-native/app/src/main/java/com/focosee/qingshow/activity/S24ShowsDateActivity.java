@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
@@ -50,6 +51,12 @@ public class S24ShowsDateActivity extends BaseActivity {
         dataRv.setAdapter(adapter);
         dataRv.setLayoutManager(new GridLayoutManager(this, 2));
         bindDataFromNet(pageNo, pageSize, TimeUtil.formatTime(from), TimeUtil.formatTime(to));
+        findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S24ShowsDateActivity.this.finish();
+            }
+        });
     }
 
     private void bindDataFromNet(int pageNo, int pageSize, String from, String to){

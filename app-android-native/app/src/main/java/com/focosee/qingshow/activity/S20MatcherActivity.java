@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -91,7 +92,8 @@ public class S20MatcherActivity extends BaseActivity {
     private Map<String, Select> allSelect;
     private List<String> categoryRefs;
     private ArrayList<String> lastCategoryRefs;
-    private String modelCategory;
+    private String modelParentCategory;
+    private List<MongoCategories> modelCategories;
 
     private String mCategoryRef = "";
     private int pagaSize = 10;
@@ -112,6 +114,7 @@ public class S20MatcherActivity extends BaseActivity {
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
+        modelCategories = new ArrayList<>();
 
         if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
             menu.setVisibility(View.GONE);
@@ -157,7 +160,8 @@ public class S20MatcherActivity extends BaseActivity {
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
                 if (select.rect != null) {
-                    RectUtil.locateView(select.rect, itemView);
+                    PointF point = RectUtil.getImageViewDrawablePoint(itemView.getImageView());
+                    RectUtil.locateView(select.rect, itemView, point.x, point.y);
                 }
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);
@@ -245,7 +249,7 @@ public class S20MatcherActivity extends BaseActivity {
                     @Override
                     public void onNext(RemixByModel remixByModel) {
                         super.onNext(remixByModel);
-                        Select modelSelect = allSelect.get(modelCategory);
+                        Select modelSelect = allSelect.get(data.categoryRef._id);
                         canvas.removeAllViews();
                         allSelect.clear();
                         final Point canvasPoint = new Point();
@@ -253,8 +257,8 @@ public class S20MatcherActivity extends BaseActivity {
                         canvasPoint.y = canvas.getHeight();
                         RectF rect = remixByModel.master.rect.getRect(canvasPoint);
                         modelSelect.rect = rect;
-                        allSelect.put(modelCategory, modelSelect);
-                        addItemsToCanvas(modelCategory, data.thumbnail);
+                        allSelect.put(data.categoryRef._id, modelSelect);
+                        addItemsToCanvas(data.categoryRef._id, data.thumbnail);
                         for (RemixByModel.Slave slave : remixByModel.slaves) {
                             getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
                         }
@@ -274,8 +278,11 @@ public class S20MatcherActivity extends BaseActivity {
                     return;
                 }
 
-                if (datas.categoryRef._id.equals(modelCategory)){
-                    enforceRemix(datas);
+                for (MongoCategories category : modelCategories) {
+
+                    if (datas.categoryRef._id.equals(category._id)){
+                        enforceRemix(datas);
+                    }
                 }
 
                 ImageLoader.getInstance().displayImage(datas.thumbnail, allSelect.get(mCategoryRef).view.getImageView(), new SimpleImageLoadingListener() {
@@ -347,7 +354,6 @@ public class S20MatcherActivity extends BaseActivity {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryItems(1, 20, categoryRef), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(S20MatcherActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
@@ -365,7 +371,7 @@ public class S20MatcherActivity extends BaseActivity {
                     categoryRefs.add(categoryRef);
                 }
 
-                if (datas.get(0).categoryRef._id.equals(modelCategory)){
+                if (datas.get(0).categoryRef._id.equals(modelParentCategory)){
                     enforceRemix(datas.get(0));
                 }else {
                     addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
@@ -413,12 +419,23 @@ public class S20MatcherActivity extends BaseActivity {
                     return;
                 }
                 try {
-                    modelCategory = response.getJSONObject("metadata").get("modelCategoryRef").toString();
+                    modelParentCategory = response.getJSONObject("metadata").get("modelCategoryRef").toString();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 categories = CategoryParser.parseQuery(response);
-                getDataFromNet(modelCategory,null);
+                if (categories == null){
+                    return;
+                }
+
+                for (MongoCategories category : categories) {
+                    if (category.parentRef != null && category.parentRef._id.equals(modelParentCategory)){
+                        modelCategories.add(category);
+                    }
+                }
+                Random random = new Random();
+                MongoCategories model = modelCategories.get(random.nextInt(modelCategories.size()));
+                getDataFromNet(model._id, null);
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

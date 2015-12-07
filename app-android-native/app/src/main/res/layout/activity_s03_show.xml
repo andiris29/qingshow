@@ -38,6 +38,12 @@
                     android:onClick="onClick"
                     fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
 
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/S03_image_preground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fresco:actualImageScaleType="fitXY" />
+
                 <FrameLayout
                     android:id="@+id/tag_fl"
                     android:layout_width="0dp"
@@ -48,11 +54,6 @@
                     app:layout_marginTopPercent="18%"
                     app:layout_widthPercent="90%"/>
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/S03_image_preground"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    fresco:actualImageScaleType="fitXY" />
 
                 <RelativeLayout
                     android:id="@+id/S03_before_video_view"
@@ -114,7 +115,7 @@
                                 android:textSize="@dimen/text_size"
                                 android:visibility="gone" />
 
-                            <com.focosee.qingshow.widget.QSTextView
+                            <TextView
                                 android:id="@+id/s03_bonus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -123,10 +124,9 @@
                                 android:layout_below="@+id/s03_nickname"
                                 android:background="@drawable/s03_bonus_text_border"
                                 android:padding="5dp"
-                                android:text="获得佣金：￥0.00"
                                 android:textColor="@color/white"
                                 android:visibility="gone"
-                                android:textSize="13sp" />
+                                android:textSize="10sp" />
 
                             <ImageButton
                                 android:id="@+id/S03_video_start_btn"
@@ -142,7 +142,7 @@
                                 android:id="@+id/S03_share_btn"
                                 android:layout_width="@dimen/right_btn_list_width"
                                 android:layout_height="@dimen/right_btn_list_height"
-                                android:layout_above="@+id/S03_video_start_btn"
+                                android:layout_alignTop="@+id/S03_video_start_btn"
                                 android:layout_alignRight="@+id/S03_video_start_btn"
                                 android:layout_marginBottom="20dp"
                                 android:background="@null"
@@ -150,24 +150,13 @@
                                 android:scaleType="centerInside"
                                 android:src="@drawable/s03_share_btn" />
 
-                            <ImageView
-                                android:id="@+id/S03_line_share_like"
-                                android:layout_width="@dimen/right_btn_list_width"
-                                android:layout_height="wrap_content"
-                                android:layout_above="@+id/S03_share_btn"
-                                android:layout_alignRight="@+id/S03_share_btn"
-                                android:layout_marginBottom="8dp"
-                                android:layout_marginTop="8dp"
-                                android:paddingLeft="2dp"
-                                android:paddingRight="2dp"
-                                android:src="@drawable/s03_line" />
-
                             <ImageButton
+                                android:layout_marginRight="20dp"
                                 android:id="@+id/S03_like_btn"
                                 android:layout_width="@dimen/right_btn_list_width"
                                 android:layout_height="@dimen/right_btn_list_height"
-                                android:layout_above="@+id/S03_line_share_like"
-                                android:layout_alignRight="@+id/S03_line_share_like"
+                                android:layout_alignTop="@id/S03_share_btn"
+                                android:layout_toLeftOf="@id/S03_share_btn"
                                 android:background="@null"
                                 android:onClick="onClick"
                                 android:scaleType="centerInside"
@@ -183,27 +172,17 @@
                                 android:layout_alignTop="@+id/S03_like_btn"
                                 android:gravity="center"
                                 android:text="0"
-                                android:textColor="@color/black"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/text_size_mini" />
 
-                            <ImageView
-                                android:id="@+id/S03_line_like_message"
-                                android:layout_width="@dimen/right_btn_list_width"
-                                android:layout_height="wrap_content"
-                                android:layout_above="@+id/S03_like_btn"
-                                android:layout_alignRight="@+id/S03_like_btn"
-                                android:layout_marginBottom="8dp"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/s03_line"
-                                android:paddingLeft="2dp"
-                                android:paddingRight="2dp" />
 
                             <ImageButton
+                                android:layout_marginRight="20dp"
                                 android:id="@+id/S03_comment_btn"
                                 android:layout_width="@dimen/right_btn_list_width"
                                 android:layout_height="@dimen/right_btn_list_height"
-                                android:layout_above="@+id/S03_line_like_message"
-                                android:layout_alignRight="@+id/S03_line_like_message"
+                                android:layout_alignTop="@id/S03_like_btn"
+                                android:layout_toLeftOf="@id/S03_like_btn"
                                 android:background="@null"
                                 android:onClick="onClick"
                                 android:scaleType="centerInside"
@@ -219,46 +198,9 @@
                                 android:layout_alignTop="@+id/S03_comment_btn"
                                 android:gravity="center"
                                 android:text="0"
-                                android:textColor="@color/black"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/text_size_mini" />
 
-                            <ImageView
-                                android:id="@+id/S03_line_comment_item"
-                                android:layout_width="@dimen/right_btn_list_width"
-                                android:layout_height="wrap_content"
-                                android:layout_above="@+id/S03_comment_btn"
-                                android:layout_alignRight="@+id/S03_comment_btn"
-                                android:layout_marginBottom="8dp"
-                                android:layout_marginTop="8dp"
-                                android:paddingLeft="2dp"
-                                android:paddingRight="2dp"
-                                android:src="@drawable/s03_line" />
-
-                            <ImageButton
-                                android:id="@+id/S03_item_btn"
-                                android:layout_width="@dimen/right_btn_list_width"
-                                android:layout_height="@dimen/right_btn_list_height"
-                                android:layout_above="@+id/S03_line_comment_item"
-                                android:layout_alignRight="@+id/S03_line_comment_item"
-                                android:background="@null"
-                                android:onClick="onClick"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/s03_item_btn" />
-
-                            <com.focosee.qingshow.widget.QSTextView
-                                android:id="@+id/S03_item_text_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/S03_item_btn"
-                                android:layout_alignLeft="@+id/S03_item_btn"
-                                android:layout_alignRight="@+id/S03_item_btn"
-                                android:layout_alignTop="@+id/S03_item_btn"
-                                android:layout_centerInParent="true"
-                                android:gravity="center"
-                                android:paddingTop="13dp"
-                                android:text="0"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_mini" />
 
                             <ImageButton
                                 android:id="@+id/S03_back_btn"
@@ -318,6 +260,7 @@
                         </RelativeLayout>
                     </RelativeLayout>
                 </RelativeLayout>
+
             </android.support.percent.PercentRelativeLayout>
         </android.support.percent.PercentRelativeLayout>
     </LinearLayout>

@@ -39,6 +39,7 @@ public class RxRequest {
                     public void onErrorResponse(VolleyError error) {
                         Throwable errorCode = new Throwable("8888", error);
                         subscriber.onError(errorCode);
+                        subscriber.onCompleted();
                     }
                 });
                 RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

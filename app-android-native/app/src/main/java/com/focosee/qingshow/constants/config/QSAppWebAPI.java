@@ -116,6 +116,12 @@ public class QSAppWebAPI {
     private static String REMIX_BY_ITEM = "/matcher/remixByItem";
     private static final String FEEDING_TIME = "/feeding/time";
 
+    private static String QUERY_BUYERS = "/people/queryBuyers";
+
+    public static String getQueryBuyers() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_BUYERS;
+    }
+
 
     public static String getFeedingaggregationLatest() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_LATEST;

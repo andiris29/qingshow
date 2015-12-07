@@ -46,7 +46,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S17PayActivity extends BaseActivity implements View.OnClickListener, IWXAPIEventHandler{
+public class U14PayActivity extends BaseActivity implements View.OnClickListener, IWXAPIEventHandler{
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ENTITY";
 
@@ -74,14 +74,14 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         EventBus.getDefault().register(this);
 
         trade = (MongoTrade) getIntent().getSerializableExtra(INPUT_ITEM_ENTITY);
-        Log.d(S17PayActivity.class.getSimpleName(), "trade:" + trade);
+        Log.d(U14PayActivity.class.getSimpleName(), "trade:" + trade);
 
         getTradeFromNet();
     }
 
     private void getTradeFromNet(){
 
-        final LoadingDialogs dialogs = new LoadingDialogs(S17PayActivity.this);
+        final LoadingDialogs dialogs = new LoadingDialogs(U14PayActivity.this);
         dialogs.show();
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeApi(trade._id), new Response.Listener<JSONObject>() {
@@ -89,7 +89,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             public void onResponse(JSONObject response) {
                 dialogs.dismiss();
                 if(MetadataParser.hasError(response)){
-                    ErrorHandler.handle(S17PayActivity.this, MetadataParser.getError(response));
+                    ErrorHandler.handle(U14PayActivity.this, MetadataParser.getError(response));
                     trade = null;
                     return;
                 }
@@ -157,7 +157,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
                     @Override
                     public void onError(int errorCode) {
-                        ErrorHandler.handle(S17PayActivity.this, errorCode);
+                        ErrorHandler.handle(U14PayActivity.this, errorCode);
                     }
                 });
             }
@@ -214,7 +214,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
 
             @Override
             public void onError(int errorCode) {
-                ErrorHandler.handle(S17PayActivity.this, errorCode);
+                ErrorHandler.handle(U14PayActivity.this, errorCode);
             }
         });
     }
@@ -224,7 +224,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         params = new HashMap();
-        Log.d(S17PayActivity.class.getSimpleName(), "totalFee:" + totalFee);
+        Log.d(U14PayActivity.class.getSimpleName(), "totalFee:" + totalFee);
         params.put("totalFee", totalFee);
         try {
             if (paymentFragment.getPaymentMode().equals(getResources().getString(R.string.weixin))) {
@@ -248,9 +248,9 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
                 QSAppWebAPI.getPayApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(S17PayActivity.class.getSimpleName(), "response:" + response);
+                Log.d(U14PayActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(S17PayActivity.this, MetadataParser.getError(response));
+                    ErrorHandler.handle(U14PayActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 trade = TradeParser.parse(response);
@@ -266,7 +266,7 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
         String paymentMode = paymentFragment.getPaymentMode();
 
         if (paymentMode.equals(getResources().getString(R.string.alipay))) {
-            PayCommand.alipay(trade, S17PayActivity.this, new Callback() {
+            PayCommand.alipay(trade, U14PayActivity.this, new Callback() {
                 @Override
                 public void onComplete() {
                     submit.setEnabled(true);
@@ -296,22 +296,22 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void showPayStatus() {
-        ConfirmDialog dialog = new ConfirmDialog(S17PayActivity.this);
+        ConfirmDialog dialog = new ConfirmDialog(U14PayActivity.this);
         dialog.setTitle("支付成功");
         dialog.setCancel("继续逛逛", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(ValueUtil.PAY_FINISHED);
-                S17PayActivity.this.finish();
+                U14PayActivity.this.finish();
             }
         });
         dialog.setConfirm("查看订单", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S17PayActivity.this, U09TradeListActivity.class);
-                intent.putExtra(U09TradeListActivity.FROM_WHERE, S17PayActivity.class.getSimpleName());
+                Intent intent = new Intent(U14PayActivity.this, U09TradeListActivity.class);
+                intent.putExtra(U09TradeListActivity.FROM_WHERE, U14PayActivity.class.getSimpleName());
                 startActivity(intent);
-                S17PayActivity.this.finish();
+                U14PayActivity.this.finish();
             }
         });
         dialog.show();
@@ -332,14 +332,12 @@ public class S17PayActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("S17PayActivity");
         MobclickAgent.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("S17PayActivity");
         MobclickAgent.onPause(this);
     }
 }

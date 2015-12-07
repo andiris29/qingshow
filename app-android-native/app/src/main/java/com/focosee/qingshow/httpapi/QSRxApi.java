@@ -4,10 +4,13 @@ import com.android.volley.Request.Method;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RxRequest;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationParser;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByModelParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.remix.RemixByItem;
 import com.focosee.qingshow.model.vo.remix.RemixByModel;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
@@ -99,6 +102,18 @@ public class QSRxApi {
                     return RemixByModelParser.parse(jsonObject);
                 }
             });
+    }
+
+    public static Observable<List<MongoPeople>> queryBuyers(String itemRef){
+        Map<String, Object> reqData = new HashMap<>();
+        reqData.put("itemRef", itemRef);
+        return RxRequest.createJsonRequest(Method.POST, QSAppWebAPI.getQueryBuyers(),new JSONObject(reqData))
+                .map(new Func1<JSONObject, List<MongoPeople>>() {
+                    @Override
+                    public List<MongoPeople> call(JSONObject jsonObject) {
+                        return PeopleParser.parseQuery(jsonObject);
+                    }
+                });
     }
 
 }

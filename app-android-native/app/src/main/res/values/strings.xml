@@ -168,7 +168,7 @@
     <string name="brand_not_exist">非常抱歉，店铺已不存在</string>
     <string name="item_not_exist">商品不存在</string>
     <string name="image_not_exist">商品没有图片</string>
-    <string name="get_bonuses_label">佣金：</string>
+    <string name="get_bonuses_label">收益</string>
     <string name="need_install_wx">请先安装微信</string>
     <string name="forget_password">忘记密码</string>
     <string name="good_remark">商品备注:</string>
@@ -285,4 +285,5 @@
     <string name="u15_qa"><![CDATA[常见问题Q&A]]></string>
     <string name="s11_follow">随心搭</string>
     <string name="s11_hint">将你的随心搭分享到朋友圈可获得惊喜低价哦</string>
+    <string name="details">查看详情</string>
 </resources>
