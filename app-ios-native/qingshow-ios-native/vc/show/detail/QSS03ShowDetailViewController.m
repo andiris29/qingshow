@@ -272,10 +272,10 @@
             [QSItemUtil getExpectableReduction:itemDict] &&
             rects.count == 4) {
             NSNumber* reduction = [QSItemUtil getExpectableReduction:itemDict];
-            labelView.tagLabel.text = [NSString stringWithFormat:@"减 %@", reduction];
+            labelView.tagLabel.text = [NSString stringWithFormat:@"%@", reduction];
             CGSize labelSize = [QSLayoutUtil sizeForString:labelView.tagLabel.text withMaxWidth:INFINITY height:labelView.tagLabel.bounds.size.height font:labelView.tagLabel.font];
             CGRect rect = labelView.frame;
-            rect.size.width = labelSize.width + 15;
+            rect.size.width = labelSize.width + 40;
             labelView.frame = rect;
             
             CGFloat x = ((NSNumber*)rects[0]).floatValue + ((NSNumber*)rects[2]).floatValue / 2;
@@ -283,7 +283,6 @@
             x = x * size.width / 100;
             y = y * size.height / 100;
             labelView.center = CGPointMake(origin.x + x, origin.y + y);
-            labelView.transform = CGAffineTransformMakeScale(1.3, 1.3);
             [labelView addGestureRecognizer:ges];
             [self.coverLabelContainerView addSubview:labelView];
         }

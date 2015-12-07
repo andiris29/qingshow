@@ -10,7 +10,7 @@
 #import "UINib+QSExtension.h"
 @implementation QSItemTagView
 - (void)awakeFromNib {
-    self.backgroundImageView.image = [self.backgroundImageView.image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    self.backgroundImageView.image = [self.backgroundImageView.image resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 10)];
 }
 + (instancetype)generateView {
     return [UINib generateViewWithNibName:@"QSItemTagView"];
