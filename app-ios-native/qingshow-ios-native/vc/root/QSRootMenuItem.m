@@ -86,7 +86,7 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat radius = self.button.bounds.size.width / 2;
-    radius = radius / sqrt(2.0) * 0.75;
+    radius = radius / sqrt(2.0) * 0.9;
     CGPoint center = self.button.center;
     center.x += radius;
     center.y -= radius;
