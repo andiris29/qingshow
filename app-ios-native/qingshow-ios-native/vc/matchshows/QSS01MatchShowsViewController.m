@@ -212,6 +212,10 @@
     self.calendarBtn.hidden = YES;
 }
 - (void)showCalendarBtnLater {
+    if (self.scheduleToShowCalendarBtnTimer) {
+        [self.scheduleToShowCalendarBtnTimer invalidate];
+        self.scheduleToShowCalendarBtnTimer = nil;
+    }
     self.scheduleToShowCalendarBtnTimer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(showCalendarBtn) userInfo:nil repeats:NO];
 }
 @end
