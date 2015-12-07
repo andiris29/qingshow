@@ -38,7 +38,7 @@
 #define PAGE_ID @"U01 - 个人"
 
 @interface QSU01UserDetailViewController () <QSShowProviderDelegate, QSPeoplelListTableViewProviderDelegate>
-@property (strong, nonatomic) NSDictionary* userInfo;
+
 @property (assign, nonatomic) BOOL isCurrentUser;
 @property (assign, nonatomic) BOOL showMenuIcon;
 

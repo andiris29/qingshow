@@ -87,7 +87,7 @@
     }
     self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];
 
-    if ([[QSEntityUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSEntityUtil getIdOrEmptyStr:peopleDict]] && [[QSUnreadManager getInstance] shouldShowBonuUnread]) {
+    if ([[QSUnreadManager getInstance] shouldShowBonuUnread]) {
         [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_dot_btn"] forState:UIControlStateNormal];
     } else {
         [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_btn"] forState:UIControlStateNormal];

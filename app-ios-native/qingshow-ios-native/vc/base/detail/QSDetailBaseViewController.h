@@ -16,7 +16,7 @@
 @property (assign, nonatomic) int currentSection;
 @property (strong, nonatomic) NSArray* viewArray;
 @property (strong, nonatomic) QSBadgeView* badgeView;
-
+@property (strong, nonatomic) NSDictionary* userInfo;
 
 - (void)configContentInset;
 @end
