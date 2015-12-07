@@ -30,6 +30,7 @@
 
 @interface QSS11ItemBuyViewController () <QSDiscountTableViewCellDelegate,QSDiscountTaobaoInfoCellDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) NSDictionary* itemDict;
 @property (copy, nonatomic) NSString* promoterId;
 
@@ -308,6 +309,7 @@
 
     [self.buyBtn setTitle:[NSString stringWithFormat:@"%.2f 购买", ([QSItemUtil getPromoPrice:dict].doubleValue - reduction.doubleValue)] forState:UIControlStateNormal];
     [self.tableView reloadData];
+    self.titleLabel.text = [QSItemUtil getShopNickName:dict];
 }
 
 - (IBAction)backBtnPressed:(id)sender {

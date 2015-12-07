@@ -8,7 +8,6 @@
         <mutableArray key="lantingjianhei_xi.ttf">
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
-            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -26,13 +25,6 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rNt-Yg-xKb">
-                        <rect key="frame" x="8" y="26" width="304" height="19"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="16"/>
-                        <color key="textColor" red="0.19215686274509802" green="0.19215686274509802" blue="0.19215686274509802" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="me8-O3-c6l">
                         <rect key="frame" x="292" y="221" width="20" height="24"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -85,7 +77,6 @@
                 <outlet property="previousBtn" destination="tvp-ci-coL" id="3iH-ug-Hxa"/>
                 <outlet property="remixBtn" destination="tLy-vp-WlF" id="fho-1L-p8s"/>
                 <outlet property="remixContainer" destination="mAn-yw-1EA" id="9lO-Nu-CPZ"/>
-                <outlet property="titleLabel" destination="rNt-Yg-xKb" id="qMh-fg-rfP"/>
             </connections>
             <point key="canvasLocation" x="145" y="536"/>
         </tableViewCell>

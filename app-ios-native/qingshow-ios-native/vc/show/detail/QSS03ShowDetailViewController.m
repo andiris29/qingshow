@@ -45,6 +45,7 @@
 @property (strong, nonatomic) NSMutableArray* itemLabelArray;
 @property (weak, nonatomic) IBOutlet UIImageView *rankImgView;
 @property (assign, nonatomic) BOOL showShouldLabel;
+
 @end
 
 @implementation QSS03ShowDetailViewController

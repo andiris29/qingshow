@@ -10,7 +10,6 @@
 
 @interface QSDiscountRemixCell : QSAbstractDiscountTableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UIView* remixContainer;
 @property (weak, nonatomic) IBOutlet UIButton* remixBtn;
 
