@@ -70,6 +70,10 @@
 
 - (void)didTapImgView:(UITapGestureRecognizer*)ges {
     QSRemixImageView* imgView = (QSRemixImageView*)ges.view;
+    NSDictionary* itemDict = imgView.userInfo;
+    if ([QSItemUtil getReadOnly:itemDict]) {
+        return;
+    }
     
     for (QSRemixImageView* v in self.allImageViews) {
         v.isSelected = imgView == v;
@@ -78,7 +82,6 @@
         }
     }
     
-    NSDictionary* itemDict = imgView.userInfo;
     if ([self.delegate respondsToSelector:@selector(remixView:didTapItem:)]) {
         [self.delegate remixView:self didTapItem:itemDict];
     }
