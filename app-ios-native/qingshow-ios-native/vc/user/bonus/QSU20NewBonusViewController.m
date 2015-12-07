@@ -9,7 +9,6 @@
 #import "QSU20NewBonusViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-#import "QSUnreadManager.h"
 #import "QSRootNotificationHelper.h"
 #import "QSPeopleUtil.h"
 #import "QSBonusUtil.h"
@@ -68,7 +67,6 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[QSUnreadManager getInstance] clearBonuUnread];
 }
 
 - (void)didReceiveMemoryWarning {
