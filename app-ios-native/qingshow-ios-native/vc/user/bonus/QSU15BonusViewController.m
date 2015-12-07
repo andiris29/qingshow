@@ -146,6 +146,7 @@
     
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     self.bonusContentView.transform = CGAffineTransformMakeScale(screenSize.width / 320.f, screenSize.width / 320.f);
+    self.faqContentImgView.transform = CGAffineTransformMakeScale(screenSize.width / 320.f, screenSize.width / 320.f);
     CGRect rect = self.bonusContentView.frame;
     rect.origin = CGPointZero;
     self.bonusContentView.frame = rect;
@@ -155,6 +156,9 @@
     
     //Faq
     self.faqContainerScrollView.contentSize = self.faqContentImgView.bounds.size;
+    rect = self.faqContentImgView.frame;
+    rect.origin = CGPointZero;
+    self.faqContentImgView.frame = rect;
     [self.faqContainerScrollView addSubview:self.faqContentImgView];
 }
 
