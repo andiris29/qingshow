@@ -15,18 +15,24 @@ BonusHelper.createTradeBonus = function(trade, cb) {
     async.waterfall([
     function(callback){
         // Find participants
-        Show.find({
-            'itemRefs' : {'$all' : [trade.itemRef]},
-            'ownerRef' : {'$ne' : trade.promoterRef}
-        }).sort({'numView' : -1}).limit(global.qsConfig.bonus.participants.count).exec(
-            function(err, shows) {
-                if (!err) {
-                    callback(null, shows.map(function(show) {return show.ownerRef;}));
-                } else {
-                    callback(err);
-                }
+        Show.aggregate([
+            {'$match' : {
+                'itemRefs' : {'$all' : [trade.itemRef]},
+                'ownerRef' : {'$ne' : trade.promoterRef}
+            }}, 
+            {'$group' : {
+                '_id' : '$ownerRef',
+                'numView' : {'$sum' : '$numView'}
+            }}, 
+            {'$sort' : {'numView' : -1}}
+        ], function(err, results) {
+            var ownerRefs = [];
+            var max = Math.min(results.length, global.qsConfig.bonus.participants.count);
+            for (var i = 0; i < max; i++) {
+                ownerRefs.push(results[i]._id);
             }
-        );
+            callback(null, ownerRefs);
+        });
     }, function(peopleRefs, callback) {
         var amount = Math.round(Math.max(0.01, trade.totalFee * global.qsConfig.bonus.participants.rate) * 100) / 100;
         _createTradePaticipantBonus(trade, peopleRefs, amount, function(err){
