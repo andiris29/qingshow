@@ -101,7 +101,7 @@ feedingAggregation.latest = {
                     return function(callback) {
                         var criteria = _buildCriteria(
                             new Date(date.getTime() - ONE_HOUR * offset), ONE_HOUR);
-                        Show.find(criteria).limit(3).exec(function(err, shows) {
+                        Show.find(criteria).sort({'numView' : -1}).limit(3).exec(function(err, shows) {
                             callback(err, {'topShows' : shows});
                         });
                     };
