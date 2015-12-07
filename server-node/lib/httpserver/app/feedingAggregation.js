@@ -115,14 +115,15 @@ feedingAggregation.latest = {
                 // Top owners
                 tasks.push((function(offset) {
                     return function(callback) {
-                        var criteria = _buildCriteria(
-                            new Date(date.getTime() - ONE_HOUR * offset), ONE_HOUR);
-                        var cache = _readCache('_queryTopOwners', date.getTime());
+                        var from = new Date(date.getTime() - ONE_HOUR * offset),
+                            criteria = _buildCriteria(from, ONE_HOUR),
+                            keyword = from.getTime();
+                        var cache = _readCache('_queryTopOwners', keyword);
                         if (offset > 0 && cache) {
                             callback(null, cache);
                         } else {
                             _queryTopOwners(req, criteria, function(err, result) {
-                                _writeCache('_queryTopOwners', date.getTime(), result);
+                                _writeCache('_queryTopOwners', keyword, result);
                                 callback(err, result);
                             });
                         }
@@ -131,14 +132,15 @@ feedingAggregation.latest = {
                 // Top shows
                 tasks.push((function(offset) {
                     return function(callback) {
-                        var criteria = _buildCriteria(
-                            new Date(date.getTime() - ONE_HOUR * offset), ONE_HOUR);
-                        var cache = _readCache('_queryTopShows', date.getTime());
+                        var from = new Date(date.getTime() - ONE_HOUR * offset),
+                            criteria = _buildCriteria(from, ONE_HOUR),
+                            keyword = from.getTime();
+                        var cache = _readCache('_queryTopShows', keyword);
                         if (offset > 0 && cache) {
                             callback(null, cache);
                         } else {
                             _queryTopShows(criteria, function(err, result) {
-                                _writeCache('_queryTopShows', date.getTime(), result);
+                                _writeCache('_queryTopShows', keyword, result);
                                 callback(err, result);
                             });
                         }
