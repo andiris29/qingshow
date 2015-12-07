@@ -40,10 +40,14 @@
     CGSize containerSize = self.bounds.size;
     CGFloat blockWidth = containerSize.width / HEAD_NUMBER;
     CGFloat headRadius = blockWidth - SPACE_X;
+    CGFloat rate = headRadius / 50.f;
     CGFloat centerY = containerSize.height / 2;
     for (int i = 0; i < self.headerViews.count; i++) {
         UIView* headerView = self.headerViews[i];
-        headerView.bounds = CGRectMake(0, 0, headRadius, headRadius);
+        headerView.transform = CGAffineTransformMakeScale(1, 1);
+        headerView.frame = CGRectMake(0, 0, 50, 50);
+        headerView.transform = CGAffineTransformMakeScale(rate, rate);
+//        headerView.bounds = CGRectMake(0, 0, headRadius, headRadius);
         headerView.center = CGPointMake(i * blockWidth + headRadius / 2, centerY);
     }
     
