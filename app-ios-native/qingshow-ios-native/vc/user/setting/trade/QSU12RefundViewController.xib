@@ -102,7 +102,7 @@
                                 <constraint firstAttribute="width" constant="59" id="XFK-qF-Zqe"/>
                                 <constraint firstAttribute="height" constant="15" id="xEQ-QN-Kfb"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
                             <color key="textColor" red="0.26274509800000001" green="0.26274509800000001" blue="0.26274509800000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -273,7 +273,7 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sMK-6H-eMw">
                             <rect key="frame" x="0.0" y="344" width="320" height="38"/>
-                            <color key="backgroundColor" red="0.91764705879999997" green="0.50196078430000002" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="38" id="1Vc-SJ-3d9"/>
                             </constraints>
