@@ -86,7 +86,7 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat radius = self.button.bounds.size.width / 2;
-    radius = radius / sqrt(2.0) * 0.75;
+    radius = radius / sqrt(2.0) * 0.9;
     CGPoint center = self.button.center;
     center.x += radius;
     center.y -= radius;
@@ -123,7 +123,7 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
     [self.button setSelected:fHover];
     
     if (fHover) {
-        self.label.textColor = [UIColor colorWithRed:120.f/255.f green:120.f/255.f blue:120.f/255.f alpha:1.f];
+        self.label.textColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f];
     } else {
         self.label.textColor = [UIColor whiteColor];
     }
