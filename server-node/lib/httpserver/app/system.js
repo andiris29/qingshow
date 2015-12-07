@@ -55,6 +55,9 @@ system.getConfig = {
                 'config' : {
                     'event' : {
                         'image' : global.qsConfig.event.image
+                    },
+                    'bonus' : {
+                        'faq' : global.qsConfig.bonus.faq
                     }
                 }
             });
