@@ -33,6 +33,8 @@
 @property (nonatomic, strong) QSMatcherTableViewProvider* newestProvider;
 @property (strong, nonatomic) CKCalendarView* calendarView;
 
+@property (strong, nonatomic) NSTimer* scheduleToShowCalendarBtnTimer;
+
 - (IBAction)backToTopBtnPressed:(id)sender;
 @end
 
@@ -92,10 +94,19 @@
     UIScrollView* sv = self.newestTableView;
     if (sv.contentOffset.y != 0) {
         _backToTopbtn.hidden = NO;
-        self.calendarBtn.hidden = YES;
+        [self hideCalendarBtn];
     } else {
         _backToTopbtn.hidden = YES;
-        self.calendarBtn.hidden = NO;
+        [self showCalendarBtn];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self showCalendarBtnLater];
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerat {
+    if (!decelerat) {
+        [self showCalendarBtnLater];
     }
 }
 
@@ -183,5 +194,24 @@
     date = [QSDateUtil clearMinuteFromDate:date];
     QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:[date dateByAddingTimeInterval:60 * 60]];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - 
+- (void)showCalendarBtn {
+    if (self.scheduleToShowCalendarBtnTimer) {
+        [self.scheduleToShowCalendarBtnTimer invalidate];
+        self.scheduleToShowCalendarBtnTimer = nil;
+    }
+    self.calendarBtn.hidden = NO;
+}
+- (void)hideCalendarBtn {
+    if (self.scheduleToShowCalendarBtnTimer) {
+        [self.scheduleToShowCalendarBtnTimer invalidate];
+        self.scheduleToShowCalendarBtnTimer = nil;
+    }
+    self.calendarBtn.hidden = YES;
+}
+- (void)showCalendarBtnLater {
+    self.scheduleToShowCalendarBtnTimer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(showCalendarBtn) userInfo:nil repeats:NO];
 }
 @end
