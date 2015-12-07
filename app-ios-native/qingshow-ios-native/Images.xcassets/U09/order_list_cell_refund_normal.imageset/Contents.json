@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "order_list_cell_discount_outofsale.png"
+      "filename" : "order_list_cell_refund_normal.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "order_list_cell_discount_outofsale@2x.png"
+      "filename" : "order_list_cell_refund_normal@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

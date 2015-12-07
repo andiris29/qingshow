@@ -40,7 +40,7 @@
     [self.itemImgView addGestureRecognizer:imgGes];
     
     //Top Right Btns
-    [self configBtn:self.refundButton];
+    
     self.topRightBtns = @[
                           self.refundButton,
                           self.logisticsButton
