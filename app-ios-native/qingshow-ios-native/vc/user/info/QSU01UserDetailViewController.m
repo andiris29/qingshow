@@ -58,7 +58,6 @@
 {
     self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
         self.isCurrentUser = YES;
         self.showMenuIcon = YES;
     }
@@ -117,6 +116,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
     [self updateMenuDot];
     self.navigationController.navigationBarHidden = YES;
     [self updateViewWithList];
@@ -153,6 +153,7 @@
     for (QSAbstractListViewProvider* provider in @[self.matchProvider, self.recommendProvider, self.favorProvider, self.followingProvider, self.followerProvider]) {
         [provider cancelImageLoading];
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
