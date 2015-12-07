@@ -2,9 +2,8 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -16,13 +15,14 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -50,19 +50,16 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
-import com.focosee.qingshow.util.filter.Filter;
-import com.focosee.qingshow.util.filter.FilterHepler;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
-import com.focosee.qingshow.widget.TagDotView;
-import com.focosee.qingshow.widget.TagView;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
@@ -74,25 +71,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.transform.TransformerFactory;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import rx.Observable;
-import rx.Scheduler;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.functions.Func2;
-import rx.schedulers.Schedulers;
 
+import static com.focosee.qingshow.R.id.num;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener {
@@ -117,7 +106,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     @InjectView(R.id.s03_del_btn)
     ImageView s03DelBtn;
     @InjectView(R.id.s03_bonus)
-    QSTextView s03Bonus;
+    TextView s03Bonus;
 
     private MongoShow showDetailEntity;
     private List<MongoItem> itemsData;
@@ -136,8 +125,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     ImageView likeBtn;
     @InjectView(R.id.S03_like_text_view)
     TextView likeTextView;
-    @InjectView(R.id.S03_item_text_view)
-    TextView itemTextView;
     @InjectView(R.id.container)
     FrameLayout container;
     @InjectView(R.id.tag_fl)
@@ -150,7 +137,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
-    private List<TagView> tagViewList;
+    private List<TextView> tagViewList;
     private MenuView menuView;
     private LoadingDialogs dialogs;
     private int position = Integer.MAX_VALUE;
@@ -318,19 +305,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         }
 
         likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
-
-        if (null != showDetailEntity.itemRefs) {
-            FilterHepler.filterList(showDetailEntity.itemRefs, new Filter<MongoItem>() {
-                @Override
-                public boolean filtrate(MongoItem item) {
-                    if (null != item.delist)
-                        return true;
-                    return false;
-                }
-            });
-            itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.size()));
-        }
-
         setLikedImageButtonBackgroundImage();
 
         if (QSModel.INSTANCE.loggedin()) {
@@ -345,7 +319,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
         if (null != showDetailEntity.ownerRef) {
             if (null != showDetailEntity.ownerRef.bonuses) {
-                s03Bonus.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(showDetailEntity.ownerRef.bonuses));
+                s03Bonus.setText(getString(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(showDetailEntity.ownerRef.bonuses));
             }
         }
 
@@ -354,35 +328,52 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void showTag(MongoShow show) {
-        for (TagView dotView : tagViewList) {
-            tagFl.removeView(dotView);
+        for (TextView tag : tagViewList) {
+            tagFl.removeView(tag);
         }
         Observable.zip(
                 Observable.from(show.itemRects),
                 Observable.from(show.itemRefs),
-                new Func2<QSRect, MongoItem, TagView>() {
+                new Func2<QSRect, MongoItem, TextView>() {
                     @Override
-                    public TagView call(QSRect qsRect, final MongoItem mongoItem) {
-                        TagView tagView = new TagView(S03SHowActivity.this);
+                    public TextView call(QSRect qsRect, final MongoItem item) {
                         Point point = new Point(image.getWidth(), image.getHeight());
-                        tagView.initByRectF(qsRect.getRect(point));
-                        tagView.setOnClickListener(new View.OnClickListener() {
+                        TextView tag = initTag(qsRect.getRect(point));
+                        if (item.expectable.reduction != null) {
+                            tag.setText("减" + StringUtil.FormatPrice(item.expectable.reduction));
+                        }
+                        tag.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(S03SHowActivity.this, S11NewTradeActivity.class);
-                                intent.putExtra(S11NewTradeActivity.OUTPUT_ITEM_ENTITY, mongoItem);
+                                intent.putExtra(S11NewTradeActivity.OUTPUT_ITEM_ENTITY, item);
                                 startActivity(intent);
                             }
                         });
-                        return tagView;
+                        return tag;
                     }
-                }).subscribe(new Action1<TagView>() {
-                @Override
-                public void call(TagView tagView) {
-                    tagViewList.add(tagView);
-                    tagFl.addView(tagView);
-                }
+                }).subscribe(new Action1<TextView>() {
+            @Override
+            public void call(TextView tagView) {
+                tagViewList.add(tagView);
+                tagFl.addView(tagView);
+            }
         });
+    }
+
+    private TextView initTag(RectF rectF){
+        TextView tag = new TextView(this);
+        tag.setX(rectF.centerX());
+        tag.setY(rectF.centerY() - 15);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        tag.setLayoutParams(params);
+        tag.setTextColor(Color.WHITE);
+        tag.setGravity(Gravity.CENTER);
+        tag.setTextSize(12);
+        tag.setPadding(38,10,20,10);
+        tag.setBackgroundDrawable(getResources().getDrawable(R.drawable.show_tag_background));
+        return tag;
     }
 
     private void showData_self() {

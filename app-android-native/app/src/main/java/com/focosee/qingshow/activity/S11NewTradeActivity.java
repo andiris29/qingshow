@@ -1,6 +1,11 @@
 package com.focosee.qingshow.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.ArrayMap;
@@ -8,6 +13,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,27 +33,42 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.S11CanvasPagerAdapter;
+import com.focosee.qingshow.adapter.TopOwnerAdapter;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.model.vo.remix.RemixByItem;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.RectUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.QSCanvasView;
+import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
@@ -62,6 +85,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
+import rx.functions.Action1;
 
 public class S11NewTradeActivity extends BaseActivity {
     @InjectView(R.id.itemName)
@@ -77,11 +101,17 @@ public class S11NewTradeActivity extends BaseActivity {
     @InjectView(R.id.plus_num)
     ImageView plusNum;
     @InjectView(R.id.submitBtn)
-    Button submit;
+    QSTextView submit;
     @InjectView(R.id.props)
     LinearLayout propsLayout;
     @InjectView(R.id.s11_canvas_pager)
     ViewPager canvasPager;
+    @InjectView(R.id.s11_follow)
+    TextView follow;
+    @InjectView(R.id.buyers)
+    RecyclerView buyers;
+    @InjectView(R.id.text)
+    TextView text;
 
     private MongoItem itemEntity;
     private MongoTrade trade;
@@ -91,13 +121,18 @@ public class S11NewTradeActivity extends BaseActivity {
     private Map<String, List<FlowRadioButton>> selectRadioButton;
     private List<String> keys_order;
 
+    private List<FrameLayout> canvasList;
+    private S11CanvasPagerAdapter adapter;
+
     private int num = 1;
     private int numOffline = 1;
     private double basePrice;
     private int checkIndex[];
     private Map<String, String> skuTable = new HashMap<>();
 
+
     public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +144,9 @@ public class S11NewTradeActivity extends BaseActivity {
         trade = new MongoTrade();
         selectProps = new HashMap<>();
         selectRadioButton = new HashMap<>();
-
-        basePrice = itemEntity.promoPrice.doubleValue();
+        if (itemEntity.promoPrice != null) {
+            basePrice = itemEntity.promoPrice.doubleValue();
+        }
         initDes();
         if (null != itemEntity.skuTable && !Collections.emptyList().equals(itemEntity.skuTable)
                 && itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
@@ -119,8 +155,32 @@ public class S11NewTradeActivity extends BaseActivity {
         } else {
             changeBtnClickable(false);
         }
+        canvasList = new ArrayList<>();
+        adapter = new S11CanvasPagerAdapter(canvasList);
+        canvasPager.setAdapter(adapter);
 
         checkNum();
+
+        if (itemEntity != null){
+            addCanvas(itemEntity._id);
+        }
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemEntity != null){
+                    addCanvas(itemEntity._id);
+                }
+            }
+        });
+
+        initBuyers(itemEntity._id);
+
+        findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S11NewTradeActivity.this.finish();
+            }
+        });
     }
 
     //skuTable(没有库存的商品)
@@ -205,7 +265,7 @@ public class S11NewTradeActivity extends BaseActivity {
                 boolean isAble;
                 bList.add(value);
                 tempMap.put(p, bList);
-                if(tempMap.keySet().size() == props.size()) {
+                if (tempMap.keySet().size() == props.size()) {
                     isAble = SkuHelper.obtainSkuStock(itemEntity.skuTable, SkuUtil.formetPropsAsTableKey(tempMap, keys_order)) >= 1;
                     if (isAble) continue;
 
@@ -230,20 +290,15 @@ public class S11NewTradeActivity extends BaseActivity {
 
     private void changeBtnClickable(boolean clickable) {
         submit.setClickable(clickable);
-
-        if (clickable == false) {
-            submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.gary_btn));
-        } else {
-            submit.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_submit_match));
-        }
-
     }
 
 
     private void initDes() {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
-        price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
+        if (itemEntity != null) {
+            price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
+        }
     }
 
     @OnClick({R.id.cut_num, R.id.plus_num})
@@ -301,7 +356,7 @@ public class S11NewTradeActivity extends BaseActivity {
         params.put("expectedPrice", trade.expectedPrice);
         try {
             params.put("selectedSkuProperties", new JSONArray(QSGsonFactory.create().toJson(trade.selectedSkuProperties)));
-            params.put("itemSnapshot", new JSONObject(QSGsonFactory.create().toJson(trade.itemSnapshot)));
+            params.put("itemRef", new JSONObject(QSGsonFactory.create().toJson(trade.itemSnapshot)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -328,7 +383,82 @@ public class S11NewTradeActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
+    //buyers
+    //------------------------------------------------------------------------------------
+    private void initBuyers(String itemRef){
+        QSRxApi.queryBuyers(itemRef)
+                .subscribe(new QSSubscriber<List<MongoPeople>>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S11NewTradeActivity.this, message);
+                        buyers.setVisibility(View.GONE);
+                    }
 
+                    @Override
+                    public void onNext(List<MongoPeople> mongoPeoples) {
+                        if (mongoPeoples != null && mongoPeoples.size() > 0) {
+                            buyers.setLayoutManager(new LinearLayoutManager(S11NewTradeActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                            buyers.setAdapter(new TopOwnerAdapter(mongoPeoples, S11NewTradeActivity.this, R.layout.item_portrait));
+                            buyers.setVisibility(View.VISIBLE);
+                            text.setVisibility(View.VISIBLE);
+                            text.setText(mongoPeoples.size() + "位用户已通过分享获得优惠");
+                        }
+                    }
+                });
+    }
+
+
+    //canvas
+    //------------------------------------------------------------------------------------
+    private void addCanvas(String itemRef) {
+        final FrameLayout canvas = new FrameLayout(this);
+
+        QSRxApi.remixByItem(itemRef)
+                .subscribe(new QSSubscriber<RemixByItem>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S11NewTradeActivity.this, message);
+                    }
+
+                    @Override
+                    public void onNext(RemixByItem remixByItem) {
+                        final Point canvasPoint = new Point();
+                        canvasPoint.x = canvasPager.getWidth();
+                        canvasPoint.y = canvasPager.getHeight();
+                        RectF rect = remixByItem.master.rect.getRect(canvasPoint);
+                        addItemToCanvas(canvas, itemEntity, rect);
+
+                        for (RemixByItem.Slave slave : remixByItem.slaves) {
+                            addItemToCanvas(canvas, slave.itemRef, slave.rect.getRect(canvasPoint));
+                        }
+                        canvasList.add(canvas);
+                        adapter.notifyDataSetChanged();
+                        canvasPager.setCurrentItem(canvasList.size(), true);
+                    }
+                });
+
+    }
+
+    private void addItemToCanvas(ViewGroup canvas, MongoItem item, final RectF rectF) {
+        final ImageView imageView = new ImageView(this);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT);
+        canvas.addView(imageView, layoutParams);
+        ImageLoader.getInstance().displayImage(item.thumbnail, imageView, AppUtil.getShowDisplayOptions(), new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                super.onLoadingComplete(imageUri, view, loadedImage);
+                PointF point = RectUtil.getImageViewDrawablePoint(imageView);
+                RectUtil.locateView(rectF, imageView, point.x, point.y);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
+                animator.setDuration(500);
+                animator.start();
+            }
+        });
+    }
+
+
+    //sku prop
     //------------------------------------------------------------------------------------
 
     private float radioBtnWdith = 35;
@@ -386,13 +516,11 @@ public class S11NewTradeActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("S11NewTradeFragment");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("S11NewTradeFragment");
     }
 
     @Override

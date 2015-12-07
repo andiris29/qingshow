@@ -2,24 +2,20 @@ package com.focosee.qingshow.util;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.focosee.qingshow.widget.QSImageView;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/7/10.
@@ -139,7 +135,7 @@ public class RectUtil {
         return Math.abs(rect.width()) * Math.abs(rect.height());
     }
 
-    public static String rectSerializer(Rect rect){
+    public static String rectSerializer(Rect rect) {
         int arrs[] = new int[4];
         arrs[0] = rect.left;
         arrs[1] = rect.top;
@@ -148,18 +144,30 @@ public class RectUtil {
         return new Gson().toJson(arrs);
     }
 
-    public static void locateView(RectF rect,QSImageView view){
-        moveView(view, view.getX(), view.getY(), rect.left, rect.top);
+    public static void locateView(RectF rect, View view, float width, float height) {
         view.setScaleX(1.0f);
         view.setScaleY(1.0f);
-
-        float width = view.getImageView().getDrawable().getIntrinsicWidth();
-        float height = view.getImageView().getDrawable().getIntrinsicHeight();
         float maxWidth = rect.width();
         float maxHeight = rect.height();
         float radio = (maxWidth / width) > (maxHeight / height) ? (maxHeight / height) : (maxWidth / width);
         view.setScaleX(radio);
         view.setScaleY(radio);
+        moveView(view, view.getX(), view.getY(), rect.left, rect.top);
+    }
+
+    public static PointF getImageViewDrawablePoint(ImageView view) {
+        float width = view.getDrawable().getIntrinsicWidth();
+        float height = view.getDrawable().getIntrinsicHeight();
+        return new PointF(width, height);
+    }
+
+    public static void scaleView(View view, float scale){
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", view.getScaleX(), scale);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", view.getScaleX(), scale);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX, scaleY);
+        animatorSet.setDuration(0);
+        animatorSet.start();
     }
 
     public static void moveView(View view, float startX, float startY, float nextX, float nextY) {
@@ -169,7 +177,7 @@ public class RectUtil {
         animatorSet.playTogether(x, y);
         animatorSet.setDuration(0);
         animatorSet.start();
-        if (view instanceof QSImageView){
+        if (view instanceof QSImageView) {
             ((QSImageView) view).setLastCentroid(new Point(view.getLeft() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicWidth() / 2, view.getTop() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicHeight() / 2));
         }
     }

@@ -3,7 +3,7 @@ package com.focosee.qingshow.widget;
 import android.content.Context;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
+import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -30,6 +30,21 @@ public class TagView extends FrameLayout {
 
     public TagView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return false;
+    }
+
+    @Override
+    public void setOnClickListener(OnClickListener l) {
+        tag.setOnClickListener(l);
     }
 
     public void initByRectF(RectF rectF){

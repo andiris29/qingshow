@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -157,7 +158,8 @@ public class S20MatcherActivity extends BaseActivity {
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
                 if (select.rect != null) {
-                    RectUtil.locateView(select.rect, itemView);
+                    PointF point = RectUtil.getImageViewDrawablePoint(itemView.getImageView());
+                    RectUtil.locateView(select.rect, itemView, point.x, point.y);
                 }
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);
