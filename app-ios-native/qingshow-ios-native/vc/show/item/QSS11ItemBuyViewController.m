@@ -80,6 +80,7 @@
     self.btnContainer.layer.shadowOffset = CGSizeMake(0, -4);
     self.btnContainer.layer.shadowOpacity = 0.5f;
     self.backBtnTopPreConst = self.backTopConstraint.constant;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -40,7 +40,7 @@
                         <constraint firstAttribute="width" constant="32" id="CPS-Hd-ldp"/>
                         <constraint firstAttribute="height" constant="32" id="Zmq-s2-W0L"/>
                     </constraints>
-                    <state key="normal" image="nav_btn_back">
+                    <state key="normal" backgroundImage="nav_btn_back">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
