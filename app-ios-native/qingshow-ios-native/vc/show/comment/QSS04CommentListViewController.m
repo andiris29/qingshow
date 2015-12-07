@@ -206,7 +206,7 @@
     if (textField.text.length == range.length && string.length == 0) {
         self.sendBtn.backgroundColor = [UIColor colorWithRed:162.f/255.f green:162.f/255.f blue:162.f/255.f alpha:0.9];
     } else {
-        self.sendBtn.backgroundColor = [UIColor colorWithRed:237.f/255.f green:85.f/255.f blue:100.f/255.f alpha:0.9];
+        self.sendBtn.backgroundColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:90.f/255.f alpha:0.9];
     }
     return YES;
 }
