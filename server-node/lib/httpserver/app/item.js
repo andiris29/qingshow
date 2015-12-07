@@ -9,9 +9,7 @@ var RequestHelper = require('../../helpers/RequestHelper'),
     NotificationHelper = require('../../helpers/NotificationHelper'),
     MongoHelper = require('../../helpers/MongoHelper');
 
-var URLParser = require('../../goblin-common/URLParser'),
-    GoblinError = require('../../goblin-common/GoblinError');
-var GoblinScheduler = require('./goblin/GoblinScheduler');
+var URLParser = require('../../goblin-common/URLParser');
 
 var loggers = require('../../runtime/loggers');
 
@@ -61,53 +59,6 @@ item.removeExpectable = {
             next();
         }
     ]
-};
-
-
-item.sync = {
-    method : 'post',
-    func : function (req, res) {
-        async.waterfall([
-            function (callback) {
-                var itemId = RequestHelper.parseId(req.body._id);
-                var invoke = false;
-                
-                _.delay(function() {
-                    if (!invoke) {
-                        invoke = true;
-                        loggers.get('item-sync').info({'result' : 'miss', '_id' : req.body._id});
-                        Item.findOne({_id : itemId}, callback);
-                    }
-                }, global.qsConfig.item.sync.timeout || 10000);
-                
-                GoblinScheduler.registerItemWithId(itemId, function(err, item) {
-                    if (!invoke) {
-                        invoke = true;
-                        if (!err) {
-                            loggers.get('item-sync').info({'result' : 'hit', '_id' : req.body._id});
-                            callback(err, item);
-                        } else {
-                            loggers.get('item-sync').info({'result' : 'error', '_id' : req.body._id, 'error' : err});
-                            Item.findOne({_id : itemId}, callback);
-                        }
-                    }
-                });
-            }
-        ], function (err, item) {
-            if (err) {
-                if (err.domain === GoblinError.Domain) {
-                    err = errors.genGoblin(err.description, err);
-                }
-                ResponseHelper.response(res, err);
-            } else if (!item) {
-                ResponseHelper.response(res, errors.ItemNotExist);
-            } else {
-                ResponseHelper.response(res, null, {
-                    'item' : item
-                });
-            }
-        });
-    }
 };
 
 item.delist = {
