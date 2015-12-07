@@ -112,6 +112,14 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == self.cellArray.count - 1) {
+        return 64.f;
+    } else {
+        return 44.f;
+    }
+}
+
 #pragma mark - ScrollView
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

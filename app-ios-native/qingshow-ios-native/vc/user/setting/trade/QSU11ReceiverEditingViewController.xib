@@ -77,7 +77,6 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="QS3-OJ-wWO"/>
                         </constraints>
-                        <color key="textColor" red="0.58431372549019611" green="0.58431372549019611" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                         <textInputTraits key="textInputTraits" returnKeyType="next"/>
                     </textField>
@@ -112,7 +111,6 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="baQ-KY-tmk"/>
                         </constraints>
-                        <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                         <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="next"/>
                     </textField>
@@ -194,7 +192,6 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="gCR-qd-ybc"/>
                         </constraints>
-                        <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     </textField>
@@ -217,18 +214,18 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="756" y="522"/>
         </tableViewCell>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="54" id="2du-eZ-oea">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="68" id="2du-eZ-oea">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2du-eZ-oea" id="0cd-RF-pW6">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="53.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="63.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qhy-PO-aAz">
-                        <rect key="frame" x="8" y="15" width="304" height="30"/>
+                        <rect key="frame" x="8" y="15" width="304" height="40"/>
                         <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="jIl-pc-5Hf"/>
+                            <constraint firstAttribute="height" constant="40" id="jIl-pc-5Hf"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="15"/>
                         <state key="normal" title="保存"/>
@@ -245,7 +242,7 @@
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="813" y="878"/>
+            <point key="canvasLocation" x="813" y="885"/>
         </tableViewCell>
     </objects>
 </document>
