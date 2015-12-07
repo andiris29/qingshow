@@ -488,7 +488,7 @@
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden
 {
     [self setBtnsHiddenExceptBackAndPlay:hidden];
-    self.playBtn.hidden = hidden;
+//    self.playBtn.hidden = hidden;
 //    self.pauseBtn.hidden = hidden;
 }
 - (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
