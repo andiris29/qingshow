@@ -45,7 +45,7 @@
 }
 
 - (CGFloat)getHeight:(NSDictionary *)itemDict {
-    return 440.f;
+    return 436.f;
 }
 
 #pragma mark - IBAction
