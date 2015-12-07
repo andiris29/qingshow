@@ -89,13 +89,14 @@
         frame = self.topLabel.frame;
         frame.origin.x = eyeOri + eyeSize.width + spaceX;
         self.topLabel.frame = frame;
+        self.rankImgView.image = [QSPeopleUtil rankImgView:peopleDict];
     } else {
         self.userHeadImgView.hidden = YES;
         self.topLabel.hidden = YES;
         self.eyeImgView.hidden = YES;
         self.rankImgView.hidden = YES;
     }
-    self.rankImgView.image = [QSPeopleUtil rankImgView:dict];
+
     NSArray* topShows = [data arrayValueForKeyPath:@"topShows"];
     for (int i = 0; i < self.showImgViews.count; i++) {
         UIImageView* imgView = self.showImgViews[i];
