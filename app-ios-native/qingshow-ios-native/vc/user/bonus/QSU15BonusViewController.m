@@ -20,11 +20,13 @@
 #import "UIViewController+QSExtension.h"
 #import "QSThirdPartLoginService.h"
 #import "NSDictionary+QSExtension.h"
+#import "QSUserManager.h"
 
 @interface QSU15BonusViewController ()
 
 @property (assign, nonatomic) float availableMoney;
 @property (assign, nonatomic) float totalMoney;
+@property (assign, nonatomic) BOOL fHasClickWithdraw;
 @end
 
 @implementation QSU15BonusViewController
@@ -77,15 +79,7 @@
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
-
-- (IBAction)withdrawBtnPressed:(id)sender {
-    if (self.availableMoney == 0) {
-        return;
-    }
-    if (self.availableMoney < 1.f) {
-        [self showErrorHudWithText:@"收益需要1元以上才能提取"];
-        return;
-    }
+- (void)_handleWithdraw {
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
     NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
     
@@ -99,11 +93,22 @@
         }];
     } else {
         [[QSThirdPartLoginService getInstance] bindWithWechatOnSucceed:^{
-            [self withdrawBtnPressed:nil];
+            [self _handleWithdraw];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
     }
+}
+- (IBAction)withdrawBtnPressed:(id)sender {
+    if (self.availableMoney == 0) {
+        return;
+    }
+    if (self.availableMoney < 1.f) {
+        [self showErrorHudWithText:@"收益需要1元以上才能提取"];
+        return;
+    }
+    self.fHasClickWithdraw = YES;
+    [self showWithdrawMsgLayer];
 }
 
 - (IBAction)faqBtnPressed:(id)sender {
@@ -146,20 +151,22 @@
     
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     self.bonusContentView.transform = CGAffineTransformMakeScale(screenSize.width / 320.f, screenSize.width / 320.f);
-    self.faqContentImgView.transform = CGAffineTransformMakeScale(screenSize.width / 320.f, screenSize.width / 320.f);
     CGRect rect = self.bonusContentView.frame;
     rect.origin = CGPointZero;
     self.bonusContentView.frame = rect;
     
     self.containerView.contentSize = self.bonusContentView.bounds.size;
     [self.containerView addSubview:self.bonusContentView];
+    [self.faqContentImgView setImageFromURL:[NSURL URLWithString:[QSUserManager shareUserManager].faqContentPath]];
     
-    //Faq
-    self.faqContainerScrollView.contentSize = self.faqContentImgView.bounds.size;
-    rect = self.faqContentImgView.frame;
-    rect.origin = CGPointZero;
-    self.faqContentImgView.frame = rect;
-    [self.faqContainerScrollView addSubview:self.faqContentImgView];
+    
+
+    
+    [self.withdrawMsgImgView setImageFromURL:[NSURL URLWithString:[QSUserManager shareUserManager].bonusWithdrawImgPath]];
+    
+    self.withdrawMsgLayer.userInteractionEnabled = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapWithdrawMsgLayer:)];
+    [self.withdrawMsgLayer addGestureRecognizer:ges];
 }
 
 - (void)_configNav {
@@ -186,6 +193,38 @@
         self.navigationItem.rightBarButtonItem.enabled = NO;
         self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
     }
+}
+
+- (void)showWithdrawMsgLayer {
+    if (!self.withdrawMsgLayer.superview) {
+        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        self.withdrawMsgLayer.transform = CGAffineTransformMakeScale(screenSize.width / 320.f, screenSize.width / 320.f);
+        
+        [self.navigationController.view addSubview:self.withdrawMsgLayer];
+        self.withdrawMsgLayer.frame = self.navigationController.view.bounds;
+        self.withdrawMsgLayer.hidden = NO;
+        self.withdrawMsgLayer.alpha = 0;
+        [UIView animateWithDuration:0.5f animations:^{
+            self.withdrawMsgLayer.alpha = 1;
+        } completion:^(BOOL finished) {
+        }];
+    }
+}
+
+- (void)didTapWithdrawMsgLayer:(UITapGestureRecognizer*)ges {
+    if (!self.withdrawMsgLayer.superview) {
+        return;
+    }
+    [UIView animateWithDuration:0.5f animations:^{
+        self.withdrawMsgLayer.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.withdrawMsgLayer.hidden = YES;
+        if (self.fHasClickWithdraw) {
+            self.fHasClickWithdraw = NO;
+            [self _handleWithdraw];
+        }
+        [self.withdrawMsgLayer removeFromSuperview];
+    }];
 }
 
 @end

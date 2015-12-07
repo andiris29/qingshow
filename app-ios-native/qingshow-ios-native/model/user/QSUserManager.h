@@ -27,4 +27,7 @@
 
 @property (strong, nonatomic) NSString* JPushRegistrationID;
 
+@property (strong, nonatomic) NSString* faqContentPath;
+@property (strong, nonatomic) NSString* bonusWithdrawImgPath;
+
 @end
