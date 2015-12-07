@@ -12,6 +12,7 @@
 #import "QSPeopleUtil.h"
 #import "UINib+QSExtension.h"
 #import "QSUnreadManager.h"
+#import "QSUserManager.h"
 
 @interface QSBadgeView ()
 
@@ -85,8 +86,8 @@
         [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
     }
     self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];
-    
-    if ([[QSUnreadManager getInstance] shouldShowBonuUnread]) {
+
+    if ([[QSEntityUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSEntityUtil getIdOrEmptyStr:peopleDict]] && [[QSUnreadManager getInstance] shouldShowBonuUnread]) {
         [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_dot_btn"] forState:UIControlStateNormal];
     } else {
         [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_btn"] forState:UIControlStateNormal];
