@@ -368,8 +368,8 @@
             self.activityVc.delegate = self;
             [self _showVcInPopoverContainer:self.activityVc withAnimation:YES];
         }
-        userMgr.faqContentPath = [config stringValueForKeyPath:@"bonus.faq"];
-        userMgr.bonusWithdrawImgPath = [config stringValueForKeyPath:@"bonus.withdraw"];
+        userMgr.faqContentPath = [config stringValueForKeyPath:@"guide.bonus.faq"];
+        userMgr.bonusWithdrawImgPath = [config stringValueForKeyPath:@"guide.bonus.withdraw"];
         
         
     } onError:nil];
