@@ -19,13 +19,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *withdrawBtn;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIButton *faqBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *faqContentImgView;
+@property (strong, nonatomic) IBOutlet UIView *withdrawMsgLayer;
+@property (weak, nonatomic) IBOutlet UIImageView *withdrawMsgImgView;
 
 #pragma mark - Faq Layer
 @property (strong, nonatomic) IBOutlet UIView *faqLayer;
-@property (weak, nonatomic) IBOutlet UIScrollView *faqContainerScrollView;
-#pragma mark - Faq Content
-@property (strong, nonatomic) IBOutlet UIImageView *faqContentImgView;
-
 
 
 @property (strong,nonatomic)NSString *peopleId;
