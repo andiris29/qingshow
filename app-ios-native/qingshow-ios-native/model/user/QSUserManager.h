@@ -29,5 +29,5 @@
 
 @property (strong, nonatomic) NSString* faqContentPath;
 @property (strong, nonatomic) NSString* bonusWithdrawImgPath;
-
+@property (strong, nonatomic) NSCache* remixCache;
 @end

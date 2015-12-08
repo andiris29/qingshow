@@ -98,7 +98,7 @@
 - (void)disCountBtnPressed:(NSArray *)btnArray btnIndex:(NSInteger)infoIndex
 {
     NSDictionary *itemDic = self.itemDict;
-    
+
     NSArray* filterValue = [[[self.propCellArray mapUsingBlock:^id(QSDiscountTaobaoInfoCell *cell) {
         NSString* v = [cell getSelectedValue];
         if (v) {
@@ -280,27 +280,45 @@
 }
 
 - (void)_updateWithRemix:(NSDictionary*)remixDict {
+    NSString* masterId = [QSEntityUtil getIdOrEmptyStr:self.masterDict];
+    [[QSUserManager shareUserManager].remixCache setObject:remixDict forKey:masterId];
     self.itemDict = self.masterDict;
     [self.remixCell bindWithItem:self.itemDict remix:remixDict];
+    
+
 }
 - (void)_queryNewRemix {
     if (self.updateRemixOp) {
         return;
     }
+    NSString* masterId = [QSEntityUtil getIdOrEmptyStr:self.masterDict];
     BOOL f = self.cache;
     self.cache = NO;
-    self.updateRemixOp = [SHARE_NW_ENGINE matcherRemixByItem:self.masterDict
-                                                       cache:f
-                                                   onSucceed:^(NSDictionary *remixInfo) {
-        self.updateRemixOp = nil;
-        [self.remixArray addObject:remixInfo];
-        self.currentRemixIndex = self.remixArray.count - 1;
-        [self _updateWithRemix:remixInfo];
+    
+    NSCache* remixCache = [QSUserManager shareUserManager].remixCache;
+    NSDictionary* cacheRemixInfo = [remixCache objectForKey:masterId];
+    if ([cacheRemixInfo isKindOfClass:[NSNull class]]) {
+        cacheRemixInfo = nil;
     }
-                                                     onError:^(NSError *error) {
-        self.updateRemixOp = nil;
-        [self handleError:error];
-    }];
+    
+    if (f && cacheRemixInfo) {
+        [self.remixArray addObject:cacheRemixInfo];
+        self.currentRemixIndex = self.remixArray.count - 1;
+        [self _updateWithRemix:cacheRemixInfo];
+    } else {
+        self.updateRemixOp = [SHARE_NW_ENGINE matcherRemixByItem:self.masterDict
+                                                       onSucceed:^(NSDictionary *remixInfo) {
+                                                           self.updateRemixOp = nil;
+                                                           [self.remixArray addObject:remixInfo];
+                                                           self.currentRemixIndex = self.remixArray.count - 1;
+                                                           [self _updateWithRemix:remixInfo];
+
+                                                       }
+                                                         onError:^(NSError *error) {
+                                                             self.updateRemixOp = nil;
+                                                             [self handleError:error];
+                                                         }];
+    }
 }
 - (void)_bindWithItemDict:(NSDictionary*)dict {
     NSNumber* reduction = [QSItemUtil getExpectableReduction:dict];

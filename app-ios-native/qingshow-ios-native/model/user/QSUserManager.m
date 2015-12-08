@@ -27,6 +27,7 @@
     self = [super init];
     if (self) {
         self.userDefault = [NSUserDefaults standardUserDefaults];
+        self.remixCache = [[NSCache alloc] init];
     }
     return self;
 }
