@@ -72,6 +72,7 @@
 }
 - (void)_registerNoti {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleBonusUnread) name:kQSUnreadChangeNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveEnterForegroundNoti:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 
@@ -386,5 +387,9 @@
     if ([vc respondsToSelector:@selector(showLatestS24Vc)]) {
         [vc showLatestS24Vc];
     }
+}
+
+- (void)didReceiveEnterForegroundNoti:(NSNotification*)noti {
+    [self _handleSystemConfig];
 }
 @end
