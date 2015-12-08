@@ -60,7 +60,7 @@
         if (type) {
             userInfoDict[@"type"] = type;
         }
-        [center postNotificationName:kPnsNewBonusNotification object:userInfoDict];
+        [center postNotificationName:kPnsNewBonusNotification object:nil userInfo:userInfoDict];
     } else if ([command isEqualToString:kPnsCommandBonusWithdrawComplete]) {
         [center postNotificationName:kPnsBonusWithdrawCompleteNotification object:userInfoDict];
     } else if ([command isEqual:kPnsTradeRefundComplete]) {

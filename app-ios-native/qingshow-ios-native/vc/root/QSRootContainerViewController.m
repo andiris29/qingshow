@@ -72,7 +72,7 @@
     [self _registerNoti];
 }
 - (void)_registerNoti {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleBonusUnread) name:kQSUnreadChangeNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_handleFirstBonusUnread) name:kQSUnreadChangeNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveEnterForegroundNoti:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
@@ -349,6 +349,10 @@
 }
 
 #pragma mark - Handle Unread Bonus Notification
+- (void)_handleFirstBonusUnread {
+    [self _handleBonusUnread];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kQSUnreadChangeNotificationName object:nil];
+}
 - (void)_handleBonusUnread {
     NSArray* unreads = [[QSUnreadManager getInstance] getUnreadOfCommand:@"newBonus"];
     NSDictionary* bonusDict = nil;
@@ -364,7 +368,7 @@
         NSString* bonusId = [bonusDict stringValueForKeyPath:@"extra._id"];
         if (type.integerValue == 0) {
             [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateAbout];
-        } else {
+        } else if (type.integerValue == 1) {
             [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateParticipant];
         }
     }
@@ -404,5 +408,6 @@
 
 - (void)didReceiveEnterForegroundNoti:(NSNotification*)noti {
     [self _handleSystemConfig];
+    [self _handleBonusUnread];
 }
 @end
