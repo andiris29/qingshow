@@ -98,7 +98,6 @@
                                 android:layout_marginBottom="20dp"
                                 android:layout_marginLeft="15dp"
                                 android:onClick="onClick"
-                                android:visibility="gone"
                                 fresco:placeholderImage="@drawable/root_cell_placehold_head"
                                 fresco:roundAsCircle="true" />
 
@@ -112,27 +111,28 @@
                                 android:gravity="center"
                                 android:onClick="onClick"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/text_size"
+                                android:textSize="12sp"
                                 android:visibility="gone" />
 
                             <TextView
+                                android:gravity="center"
                                 android:id="@+id/s03_bonus"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="25dp"
                                 android:layout_alignBottom="@id/s03_portrait"
                                 android:layout_alignLeft="@+id/s03_nickname"
                                 android:layout_below="@+id/s03_nickname"
                                 android:background="@drawable/s03_bonus_text_border"
-                                android:padding="5dp"
+                                android:padding="3dp"
                                 android:textColor="@color/white"
-                                android:visibility="gone"
-                                android:textSize="10sp" />
+                                android:textSize="12sp"
+                                android:text=""/>
 
                             <ImageButton
                                 android:id="@+id/S03_video_start_btn"
                                 android:layout_width="43dp"
                                 android:layout_height="43dp"
-                                android:layout_alignBottom="@+id/S03_describe"
+                                android:layout_alignBottom="@id/s03_portrait"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginRight="25dp"
                                 android:background="@null"

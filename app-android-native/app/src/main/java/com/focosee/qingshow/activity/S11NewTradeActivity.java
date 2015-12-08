@@ -7,21 +7,16 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.net.Uri;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.ArrayMap;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.util.ArrayMap;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +39,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
+import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
@@ -54,22 +49,18 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.model.vo.remix.RemixByItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.RectUtil;
+import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
-import com.focosee.qingshow.widget.QSCanvasView;
-import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.focosee.qingshow.wxapi.ShareTradeEvent;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,7 +76,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import rx.functions.Action1;
 
 public class S11NewTradeActivity extends BaseActivity {
     @InjectView(R.id.itemName)
@@ -112,6 +102,8 @@ public class S11NewTradeActivity extends BaseActivity {
     RecyclerView buyers;
     @InjectView(R.id.text)
     TextView text;
+    @InjectView(R.id.share)
+    QSTextView share;
 
     private MongoItem itemEntity;
     private MongoTrade trade;
@@ -128,6 +120,7 @@ public class S11NewTradeActivity extends BaseActivity {
     private int numOffline = 1;
     private double basePrice;
     private int checkIndex[];
+    private MongoTrade t;
     private Map<String, String> skuTable = new HashMap<>();
 
 
@@ -139,6 +132,7 @@ public class S11NewTradeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s11_trade);
         ButterKnife.inject(this);
+        EventBus.getDefault().register(this);
 
         itemEntity = (MongoItem) this.getIntent().getExtras().getSerializable(OUTPUT_ITEM_ENTITY);
         trade = new MongoTrade();
@@ -175,12 +169,22 @@ public class S11NewTradeActivity extends BaseActivity {
 
         initBuyers(itemEntity._id);
 
+        submit.setText(StringUtil.FormatPrice(itemEntity.promoPrice.floatValue() - itemEntity.expectable.reduction.floatValue())
+                + " 购买");
+        share.setText("分享搭配立减" + itemEntity.expectable.reduction.floatValue() + "元");
+
         findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 S11NewTradeActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     //skuTable(没有库存的商品)
@@ -301,6 +305,14 @@ public class S11NewTradeActivity extends BaseActivity {
         }
     }
 
+    public void onEventMainThread(ShareTradeEvent event){
+        if (event.shareByCreateUser && t != null){
+            Intent intent = new Intent(this, U14PayActivity.class);
+            intent.putExtra(U14PayActivity.INPUT_ITEM_ENTITY, t);
+            startActivity(intent);
+        }
+    }
+
     @OnClick({R.id.cut_num, R.id.plus_num})
     public void clickNum(ImageView v) {
         switch (v.getId()) {
@@ -343,10 +355,14 @@ public class S11NewTradeActivity extends BaseActivity {
                 }
 
                 submit.setClickable(false);
-                trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
-                trade.itemSnapshot = itemEntity;
-                trade.quantity = num;
-                submitToNet(trade);
+                if (selectProps.size() > 0){
+                    trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
+                    trade.itemSnapshot = itemEntity;
+                    trade.quantity = num;
+                    submitToNet(trade);
+                }else {
+                    ToastUtil.showShortToast(S11NewTradeActivity.this,"选择商品属性哦~");
+                }
             }
         });
     }
@@ -354,9 +370,12 @@ public class S11NewTradeActivity extends BaseActivity {
     private void submitToNet(MongoTrade trade) {
         Map params = new HashMap();
         params.put("expectedPrice", trade.expectedPrice);
+        if (trade.selectedSkuProperties == null || trade.selectedSkuProperties.size() < 0){
+            return;
+        }
         try {
             params.put("selectedSkuProperties", new JSONArray(QSGsonFactory.create().toJson(trade.selectedSkuProperties)));
-            params.put("itemRef", new JSONObject(QSGsonFactory.create().toJson(trade.itemSnapshot)));
+            params.put("itemRef", trade.itemSnapshot._id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -370,9 +389,10 @@ public class S11NewTradeActivity extends BaseActivity {
                     submit.setClickable(true);
                     return;
                 }
-                Toast.makeText(S11NewTradeActivity.this, R.string.toast_activity_discount_successed, Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().post(ValueUtil.SUBMIT_TRADE_SUCCESSED);
-                S11NewTradeActivity.this.finish();
+                t = TradeParser.parse(response);
+                //ShareUtil.shareTradeToWX(t._id, ValueUtil.SHARE_TRADE, S11NewTradeActivity.this, true);
+                EventBus.getDefault().post(new ShareTradeEvent(true));
             }
         }, new Response.ErrorListener() {
             @Override

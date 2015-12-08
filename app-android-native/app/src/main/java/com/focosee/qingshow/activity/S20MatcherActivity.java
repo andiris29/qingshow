@@ -546,12 +546,14 @@ public class S20MatcherActivity extends BaseActivity {
         }
         intent.putStringArrayListExtra(S20_ITEMREFS, itemRefs);
 
-        ArrayList<Rect> itemRects = new ArrayList<>();
+        ArrayList<RectF> itemRects = new ArrayList<>();
         for (int i = 0; i < canvas.getChildCount(); i++) {
-            Rect rect = new Rect();
-            if (canvas.getChildVisibleRect(canvas.getChildAt(i), rect, null)) {
-                itemRects.add(rect);
-            }
+            RectF rect = RectUtil.getViewRealRect(canvas.getChildAt(i));
+            RectF rectF = new RectF((rect.left + 0.0f) / (canvas.getWidth() + 0.0f) * 100,
+                    (rect.top + 0.0f) / (canvas.getHeight() + 0.0f) * 100,
+                    (rect.right + 0.0f) / (canvas.getWidth() + 0.0f) * 100,
+                    (rect.bottom + 0.0f) / (canvas.getHeight() + 0.0f) * 100);
+            itemRects.add(rectF);
         }
 
         intent.putParcelableArrayListExtra(S20_ITEMRECTS, itemRects);

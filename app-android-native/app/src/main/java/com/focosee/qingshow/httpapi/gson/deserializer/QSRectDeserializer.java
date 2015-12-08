@@ -1,8 +1,6 @@
 package com.focosee.qingshow.httpapi.gson.deserializer;
 
-import android.graphics.Rect;
-
-import com.focosee.qingshow.model.vo.context.QSRect;
+import com.focosee.qingshow.model.vo.remix.QSRect;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

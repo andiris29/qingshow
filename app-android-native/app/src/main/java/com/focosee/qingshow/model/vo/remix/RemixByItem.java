@@ -1,6 +1,5 @@
 package com.focosee.qingshow.model.vo.remix;
 
-import com.focosee.qingshow.model.vo.context.QSRect;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 
 import java.io.Serializable;

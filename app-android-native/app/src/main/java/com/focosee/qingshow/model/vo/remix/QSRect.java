@@ -1,4 +1,4 @@
-package com.focosee.qingshow.model.vo.context;
+package com.focosee.qingshow.model.vo.remix;
 
 import android.graphics.Point;
 import android.graphics.Rect;

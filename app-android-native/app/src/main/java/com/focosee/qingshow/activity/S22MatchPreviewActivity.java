@@ -69,7 +69,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
 
     private Bitmap bitmap;
     private List<String> innerItemRefs;
-    private ArrayList<Rect> innerItemRects;
+    private ArrayList<RectF> innerItemRects;
 
     private MongoShow show;
     private String uuid;
@@ -157,8 +157,8 @@ public class S22MatchPreviewActivity extends BaseActivity {
         forbidClick();
         Map map = new HashMap();
         try {
-            ArrayList<int[]> list = new ArrayList<>();
-            for (Rect rect : innerItemRects) {
+            ArrayList<float[]> list = new ArrayList<>();
+            for (RectF rect : innerItemRects) {
                 list.add(RectUtil.rectSerializer(rect));
             }
             JSONArray itemRects = new JSONArray(list);

@@ -1,10 +1,5 @@
 package com.focosee.qingshow.model.vo.remix;
 
-import android.graphics.Point;
-import android.graphics.Rect;
-
-import com.focosee.qingshow.model.vo.context.QSRect;
-
 import java.io.Serializable;
 import java.util.List;
 

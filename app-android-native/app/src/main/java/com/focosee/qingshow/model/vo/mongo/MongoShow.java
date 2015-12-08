@@ -1,6 +1,6 @@
 package com.focosee.qingshow.model.vo.mongo;
 
-import com.focosee.qingshow.model.vo.context.QSRect;
+import com.focosee.qingshow.model.vo.remix.QSRect;
 import com.focosee.qingshow.model.vo.context.ShowContext;
 import java.io.Serializable;
 import java.util.GregorianCalendar;

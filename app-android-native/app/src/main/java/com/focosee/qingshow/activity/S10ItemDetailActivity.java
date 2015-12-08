@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,7 +19,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.fragment.S11NewTradeFragment;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -217,7 +215,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
                 if(showble) {
                     innerItemEntity = ItemFeedingParser.parseOne(response);
-                    showNext(innerItemEntity);
                     showble = false;
                 }else{
                     itemEntity = ItemFeedingParser.parseOne(response);
@@ -232,15 +229,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
-    private void showNext(MongoItem item){
-
-        container.setVisibility(View.VISIBLE);
-        getIntent().putExtra(OUTPUT_ITEM_ENTITY, item);
-        FragmentTransaction details = getSupportFragmentManager().beginTransaction().replace(R.id.container, new S11NewTradeFragment(), "details" + System.currentTimeMillis());
-        details.addToBackStack(null);
-        details.commit();
     }
 
     @Override

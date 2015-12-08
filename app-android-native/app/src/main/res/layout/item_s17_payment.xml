@@ -1,49 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    >
+    android:layout_height="60dp">
 
-    <ImageView
-        android:layout_centerVertical="true"
-        android:id="@+id/s11_paymet_logo"
-        android:layout_gravity="center"
-        android:layout_width="50dp"
-        android:adjustViewBounds="true"
-        android:layout_height="wrap_content"
-        />
-    <LinearLayout
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/s11_paymet_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+    <RelativeLayout
         android:gravity="center"
-        android:layout_marginLeft="20dp">
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/s11_paymet_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="微信支付"
-            android:textSize="@dimen/text_size"/>
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/s11_paymet_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="操作简单易用，支持大额支付"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="#9e9e9e"/>
-    </LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:id="@+id/payment_rl"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/gary_ring_3"
+        android:padding="5dp">
 
-    <ImageView
-        android:layout_centerVertical="true"
-        android:id="@+id/s11_paymet_button"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="center_vertical|right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        />
+        <ImageView
+            android:id="@+id/s11_paymet_logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/weixin" />
+    </RelativeLayout>
+
 
 </RelativeLayout>
