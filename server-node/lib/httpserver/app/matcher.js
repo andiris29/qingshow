@@ -295,7 +295,7 @@ matcher.remixByItem = {
                             if (req.injection.itemRef.shopRef) {
                                 _findRandomItem(category, {'shopRef' : req.injection.itemRef.shopRef}, callback);
                             } else {
-                                callback();
+                                callback(null, null);
                             }
                         },
                         // Find item remix only
