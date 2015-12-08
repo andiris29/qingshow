@@ -135,13 +135,13 @@ public class RectUtil {
         return Math.abs(rect.width()) * Math.abs(rect.height());
     }
 
-    public static String rectSerializer(Rect rect) {
+    public static int[] rectSerializer(Rect rect) {
         int arrs[] = new int[4];
         arrs[0] = rect.left;
         arrs[1] = rect.top;
         arrs[2] = rect.width();
         arrs[3] = rect.height();
-        return new Gson().toJson(arrs);
+        return arrs;
     }
 
     public static void locateView(RectF rect, View view, float width, float height) {
@@ -152,22 +152,24 @@ public class RectUtil {
         float radio = (maxWidth / width) > (maxHeight / height) ? (maxHeight / height) : (maxWidth / width);
         view.setScaleX(radio);
         view.setScaleY(radio);
-        moveView(view, view.getX(), view.getY(), rect.left, rect.top);
+
+        float minus;
+        if (radio < 1) {
+            minus = -1;
+        } else {
+            minus = 1;
+        }
+
+        float dx = minus * Math.abs(width * (1.0f - radio) / 2.0f);
+        float dy = minus * Math.abs(height * (1.0f - radio) / 2.0f);
+
+        moveView(view, view.getX(), view.getY(), rect.left + dx, rect.top + dy);
     }
 
     public static PointF getImageViewDrawablePoint(ImageView view) {
         float width = view.getDrawable().getIntrinsicWidth();
         float height = view.getDrawable().getIntrinsicHeight();
         return new PointF(width, height);
-    }
-
-    public static void scaleView(View view, float scale){
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", view.getScaleX(), scale);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", view.getScaleX(), scale);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(0);
-        animatorSet.start();
     }
 
     public static void moveView(View view, float startX, float startY, float nextX, float nextY) {
