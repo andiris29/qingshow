@@ -75,6 +75,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [SHARE_NW_ENGINE getItemWithId:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
         self.itemDict = data;
+        self.masterDict = data;
         [self _bindWithItemDict:self.itemDict];
     } onError:nil];
     self.btnContainer.layer.shadowColor = [UIColor blackColor].CGColor;
