@@ -71,11 +71,13 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.newestProvider refreshClickedData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveUserLoginNoti:) name:kUserLoginNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.newestProvider cancelImageLoading];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -217,5 +219,9 @@
         self.scheduleToShowCalendarBtnTimer = nil;
     }
     self.scheduleToShowCalendarBtnTimer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(showCalendarBtn) userInfo:nil repeats:NO];
+}
+#pragma mark -
+- (void)didReceiveUserLoginNoti:(NSNotification*)noti {
+    [self.newestProvider reloadData];
 }
 @end

@@ -43,6 +43,12 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.provider refreshClickedData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveUserLoginNoti:) name:kUserLoginNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -77,6 +83,7 @@
     };
     self.provider.delegate = self;
     [self.provider reloadData];
+    
 }
 
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
@@ -91,4 +98,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)didReceiveUserLoginNoti:(NSNotification*)noti {
+    [self.provider reloadData];
+}
 @end

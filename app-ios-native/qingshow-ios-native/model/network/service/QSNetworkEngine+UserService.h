@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "QSNetworkEngine.h"
 #define kUserInfoUpdateNotification @"kUserInfoUpdateNotification"
+#define kUserLoginNotification @"kUserLoginNotification"
 @interface QSNetworkEngine(UserService)
 
 #pragma mark - User
