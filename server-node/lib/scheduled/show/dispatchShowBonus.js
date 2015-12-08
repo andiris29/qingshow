@@ -13,7 +13,6 @@ var _run = function() {
     logger.info('Run dispatchShowBonus');
     
     var date = new Date();
-    date.setHours(0);
     date.setMinutes(0);
     date.setSeconds(0);
     date.setMilliseconds(0);
@@ -23,8 +22,8 @@ var _run = function() {
             '$and' : [
                 {'numViewFirstDay' : {'$gt' : 0}},
                 {'bonusRef' : null},
-                {'create' : {'$gte' : new Date(date.getTime() - ONE_DAY)}},
-                {'create' : {'$lt' : date}}
+                // {'create' : {'$gte' : new Date(date.getTime() - 2 * ONE_DAY)}},
+                {'create' : {'$lt' : new Date(date.getTime() - ONE_DAY)}}
             ]
         }}, 
         {'$group' : {
