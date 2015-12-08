@@ -24,9 +24,6 @@
 #import "QSPeopleUtil.h"
 #import "QSS21CategorySelectionViewController.h"
 
-
-
-
 @interface QSAbstractRootViewController ()
 
 @property (assign, nonatomic) BOOL fIsShowMenu;
@@ -101,6 +98,8 @@
     self.popOverContainerView = [[UIView alloc] init];
     [self.view addSubview:self.popOverContainerView];
     self.popOverContainerView.hidden = YES;
+    
+
 
     self.welcomeContainerView = [[UIView alloc] init];
     [self.view addSubview:self.welcomeContainerView];

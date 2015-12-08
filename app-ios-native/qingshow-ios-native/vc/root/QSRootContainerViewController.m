@@ -56,6 +56,7 @@
     self = [super init];
     if (self){
         self.pnsHandler = [[QSPnsHandler alloc] initWithRootVc:self];
+
     }
     return self;
 }
@@ -207,9 +208,9 @@
     NSDictionary* u = [QSUserManager shareUserManager].userInfo;
     if (!u || [QSPeopleUtil getPeopleRole:u] == QSPeopleRoleGuest) {
         vc = [[UINavigationController alloc] initWithRootViewController: [[QSU19LoginGuideViewController alloc] init]];
-        [self _showVcInPopoverContainer:vc withAnimation:YES];
-        self.loginGuideNavVc = vc;
-
+        if ([self _showVcInPopoverContainer:vc withAnimation:YES]) {
+            self.loginGuideNavVc = vc;
+        }
     }
     return vc;
 }
@@ -257,10 +258,12 @@
                                      return;
                                  }
                                  NSDictionary* bonusDict = [array firstObject];
-                                 self.u20NewBonusVc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:type];
+                                 QSU20NewBonusViewController* vc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:type];
                                  CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320.f;
-                                 self.u20NewBonusVc.view.transform = CGAffineTransformMakeScale(rate, rate);
-                                 [self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES];
+                                 vc.view.transform = CGAffineTransformMakeScale(rate, rate);
+                                 if ([self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES]) {
+                                     self.u20NewBonusVc = vc;
+                                 }
                              }
                                onError:nil];
 
@@ -280,7 +283,10 @@
 }
 
 #pragma mark -
-- (void)_showVc:(UIViewController*)vc inContainerView:(UIView*)v withAnimation:(BOOL)fAnimate {
+- (BOOL)_showVc:(UIViewController*)vc inContainerView:(UIView*)v withAnimation:(BOOL)fAnimate {
+    if (!v.hidden) {
+        return NO;
+    }
     vc.view.frame = v.bounds;
     [self addChildViewController:vc];
     [v addSubview:vc.view];
@@ -294,8 +300,12 @@
             v.alpha = 1;
         }];
     }
+    return YES;
 }
-- (void)_hideVc:(UIViewController*)vc inContainerView:(UIView*)v withAnimation:(BOOL)fAnimate {
+- (BOOL)_hideVc:(UIViewController*)vc inContainerView:(UIView*)v withAnimation:(BOOL)fAnimate {
+    if (v.hidden) {
+        return NO;
+    }
     VoidBlock hideBlock = ^{
         [vc.view removeFromSuperview];
         [vc removeFromParentViewController];
@@ -312,22 +322,23 @@
     } else {
         hideBlock();
     }
+    return YES;
 }
 
 
-- (void)_showVcInWelcomeContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimation {
-    [self _showVc:vc inContainerView:self.welcomeContainerView withAnimation:fAnimation];
+- (BOOL)_showVcInWelcomeContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimation {
+    return [self _showVc:vc inContainerView:self.welcomeContainerView withAnimation:fAnimation];
 }
 
-- (void)_hideVcInWelcomeContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimation {
-    [self _hideVc:vc inContainerView:self.welcomeContainerView withAnimation:fAnimation];
+- (BOOL)_hideVcInWelcomeContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimation {
+    return [self _hideVc:vc inContainerView:self.welcomeContainerView withAnimation:fAnimation];
 }
 
-- (void)_showVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate {
-    [self _showVc:vc inContainerView:self.popOverContainerView withAnimation:fAnimate];
+- (BOOL)_showVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate {
+    return [self _showVc:vc inContainerView:self.popOverContainerView withAnimation:fAnimate];
 }
-- (void)_hideVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate{
-    [self _hideVc:vc inContainerView:self.popOverContainerView withAnimation:fAnimate];
+- (BOOL)_hideVcInPopoverContainer:(UIViewController*)vc withAnimation:(BOOL)fAnimate{
+    return [self _hideVc:vc inContainerView:self.popOverContainerView withAnimation:fAnimate];
 }
 
 #pragma mark - QSG02WelcomeViewControllerDelegate
@@ -365,9 +376,11 @@
         QSUserManager* userMgr = [QSUserManager shareUserManager];
         NSString* imgPath = [config stringValueForKeyPath:@"guide.global"];
         if (imgPath && ![userMgr.configEventImagePath isEqualToString:imgPath] && !self.activityVc) {
-            self.activityVc = [[QSActivityViewController alloc] initWithImgPath:imgPath];
-            self.activityVc.delegate = self;
-            [self _showVcInPopoverContainer:self.activityVc withAnimation:YES];
+            QSActivityViewController* vc = [[QSActivityViewController alloc] initWithImgPath:imgPath];;
+            if ([self _showVcInPopoverContainer:vc withAnimation:YES]) {
+                self.activityVc = vc;
+                self.activityVc.delegate = self;
+            }
         }
         userMgr.faqContentPath = [config stringValueForKeyPath:@"guide.bonus.faq"];
         userMgr.bonusWithdrawImgPath = [config stringValueForKeyPath:@"guide.bonus.withdraw"];
