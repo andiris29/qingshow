@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -156,12 +157,11 @@ public class S22MatchPreviewActivity extends BaseActivity {
         forbidClick();
         Map map = new HashMap();
         try {
-            ArrayList<JSONArray> list = new ArrayList<>();
+            ArrayList<int[]> list = new ArrayList<>();
             for (Rect rect : innerItemRects) {
-                JSONArray jsonArray = new JSONArray(RectUtil.rectSerializer(rect));
-                list.add(jsonArray);
+                list.add(RectUtil.rectSerializer(rect));
             }
-            JSONArray itemRects = new JSONArray(QSGsonFactory.create().toJson(list));
+            JSONArray itemRects = new JSONArray(list);
             JSONArray itemRefs = new JSONArray(QSGsonFactory.create().toJson(innerItemRefs));
 
             map.put("itemRects", itemRects);

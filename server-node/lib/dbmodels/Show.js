@@ -13,6 +13,11 @@ showSchema = Schema({
         type : Number,
         'default' : 0
     },
+    numViewFirstDay : Number,
+    bonusRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'bonus'
+    },
     numLike : {
         type : Number,
         'default' : 0

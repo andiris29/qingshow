@@ -371,11 +371,13 @@ public class S20MatcherActivity extends BaseActivity {
                     categoryRefs.add(categoryRef);
                 }
 
-                if (datas.get(0).categoryRef._id.equals(modelParentCategory)){
-                    enforceRemix(datas.get(0));
-                }else {
-                    addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
+                for (MongoCategories category : modelCategories) {
+                    if (datas.get(0).categoryRef._id.equals(category._id)){
+                        enforceRemix(datas.get(0));
+                        return;
+                    }
                 }
+                addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

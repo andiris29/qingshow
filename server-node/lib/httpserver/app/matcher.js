@@ -289,15 +289,32 @@ matcher.remixByItem = {
         function(req, res, next) {
             async.parallel(req.injection.remixCategories.map(function(category) {
                 return function(callback) {
-                    var criteria = {
-                        'categoryRef' : category._id,
-                        'delist' : null
-                    };
-                    Item.find(criteria).count(function(err, count) {
-                        Item.find(criteria).populate('shopRef').skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
-                            callback(err, items[0]);
-                        });
-                    });
+                    async.waterfall([
+                        // Find item in same shop
+                        function(callback) {
+                            if (req.injection.itemRef.shopRef) {
+                                _findRandomItem(category, {'shopRef' : req.injection.itemRef.shopRef}, callback);
+                            } else {
+                                callback();
+                            }
+                        },
+                        // Find item remix only
+                        function(item, callback) {
+                            if (item) {
+                                callback(null, item);
+                            } else {
+                                _findRandomItem(category, {'remix' : true}, callback);
+                            }
+                        },
+                        // Find all items
+                        function(item, callback) {
+                            if (item) {
+                                callback(null, item);
+                            } else {
+                                _findRandomItem(category, {}, callback);
+                            }
+                        }
+                    ], callback);
                 };
             }), function(err, results) {
                 req.injection.remixItems = results;
@@ -331,4 +348,16 @@ matcher.remixByItem = {
             });
         }
     ]
+};
+
+var _findRandomItem = function(category, criteria, callback) {
+    criteria = _.extend({
+        'categoryRef' : category._id,
+        'delist' : null
+    }, criteria);
+    Item.find(criteria).count(function(err, count) {
+        Item.find(criteria).populate('shopRef').skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
+            callback(err, items[0]);
+        });
+    });
 };
