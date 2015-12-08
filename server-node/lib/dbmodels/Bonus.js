@@ -26,10 +26,10 @@ var bonusSchema = Schema({
             type : Schema.Types.ObjectId,
             ref : 'trades'
         },
-        showRef : {    
+        showRefs : [{    
             type : Schema.Types.ObjectId,
             ref : 'shows'
-        }
+        }]
     },
     weixinRedPack : {
         create : Date,

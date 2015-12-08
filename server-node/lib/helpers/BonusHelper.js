@@ -46,29 +46,25 @@ BonusHelper.createTradeBonus = function(trade, cb) {
     });
 };
 
-BonusHelper.createShowBonus = function(show, callback) {
-    if (!show.numView) {
-        callback();
-        return;
-    }
+BonusHelper.createShowBonus = function(ownerRef, showRefs, numView, callback) {
     async.waterfall([
         function(callback) {
             var bonus = new Bonus({
-                'ownerRef' : show.ownerRef,
+                'ownerRef' : ownerRef,
                 'type' : BonusCode.TYPE_SHOW,
                 'status' : BonusCode.STATUS_INIT,
-                'amount' : show.numView * 0.01,
+                'amount' : numView * 0.01,
                 'description' : '搭配收益',
                 'icon' : 'http://trial01.focosee.com/img/misc/jiangbei.png',
                 'trigger' : {
-                    'showRef' : show._id
+                    'showRefs' : showRefs
                 }
             });
             bonus.save(function(err) {callback(err, bonus);});
         }
     ], function(err, bonus) {
         _notify(bonus);
-        callback(err);
+        callback(err, bonus);
     });
 };
 
