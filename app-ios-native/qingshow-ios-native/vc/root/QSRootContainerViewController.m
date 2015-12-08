@@ -261,7 +261,7 @@
                                  QSU20NewBonusViewController* vc = [[QSU20NewBonusViewController alloc] initWithBonus:bonusDict state:type];
                                  CGFloat rate = [UIScreen mainScreen].bounds.size.width / 320.f;
                                  vc.view.transform = CGAffineTransformMakeScale(rate, rate);
-                                 if ([self _showVcInPopoverContainer:self.u20NewBonusVc withAnimation:YES]) {
+                                 if ([self _showVcInPopoverContainer:vc withAnimation:YES]) {
                                      self.u20NewBonusVc = vc;
                                  }
                              }
