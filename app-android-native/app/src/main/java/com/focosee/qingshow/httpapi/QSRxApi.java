@@ -116,4 +116,13 @@ public class QSRxApi {
                 });
     }
 
+    public static Observable<List<MongoPeople>> queryPeople(String ... ids){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getPeopleQueryApi(ids), null)
+                .map(new Func1<JSONObject, List<MongoPeople>>() {
+                    @Override
+                    public List<MongoPeople> call(JSONObject jsonObject) {
+                        return PeopleParser.parseQuery(jsonObject);
+                    }
+                });
+    }
 }

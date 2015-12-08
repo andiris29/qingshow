@@ -17,7 +17,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +29,7 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
+import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -43,11 +43,12 @@ import com.focosee.qingshow.model.CategoriesModel;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.context.QSRect;
+import com.focosee.qingshow.model.vo.aggregation.BonusAmount;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.model.vo.remix.QSRect;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
@@ -58,7 +59,6 @@ import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
-import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
@@ -81,7 +81,6 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func2;
 
-import static com.focosee.qingshow.R.id.num;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener {
@@ -317,14 +316,38 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         }
         showData_other();
 
-        if (null != showDetailEntity.ownerRef) {
-            if (null != showDetailEntity.ownerRef.bonuses) {
-                s03Bonus.setText(getString(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(showDetailEntity.ownerRef.bonuses));
-            }
-        }
+        showBonus(showDetailEntity);
 
         if (showDetailEntity.itemRects != null && !showDetailEntity.itemRects.isEmpty())
             showTag(showDetailEntity);
+    }
+
+    private void showBonus(MongoShow show){
+        QSRxApi.queryPeople(show.ownerRef._id)
+                .subscribe(new QSSubscriber<List<MongoPeople>>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S03SHowActivity.this, message);
+                    }
+
+                    @Override
+                    public void onNext(List<MongoPeople> mongoPeoples) {
+                        BonusAmount bonusAmount;
+                        if ((bonusAmount = mongoPeoples.get(0).__context.bonusAmountByStatus) != null){
+                            float totalBonuses = 0f;
+                            Map<String, Number> bonuses = bonusAmount.bonuses;
+                            if (bonuses != null){
+                                if (bonuses.containsKey("0")){
+                                    totalBonuses +=  bonuses.get("0").floatValue();
+                                }
+                                if (bonuses.containsKey("1")){
+                                    totalBonuses += bonuses.get("1").floatValue();
+                                }
+                            }
+                            s03Bonus.setText(getString(R.string.get_bonuses_label) + StringUtil.FormatPrice(totalBonuses));
+                        }
+                    }
+                });
     }
 
     private void showTag(MongoShow show) {
@@ -340,7 +363,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                         Point point = new Point(image.getWidth(), image.getHeight());
                         TextView tag = initTag(qsRect.getRect(point));
                         if (item.expectable.reduction != null) {
-                            tag.setText("减" + StringUtil.FormatPrice(item.expectable.reduction));
+                            tag.setText("减" + item.expectable.reduction.intValue());
                         }
                         tag.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -363,8 +386,8 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
     private TextView initTag(RectF rectF){
         TextView tag = new TextView(this);
-        tag.setX(rectF.centerX());
-        tag.setY(rectF.centerY() - 15);
+        tag.setX(rectF.centerX() - 35);
+        tag.setY(rectF.centerY() - 35);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         tag.setLayoutParams(params);

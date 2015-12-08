@@ -135,13 +135,28 @@ public class RectUtil {
         return Math.abs(rect.width()) * Math.abs(rect.height());
     }
 
-    public static int[] rectSerializer(Rect rect) {
-        int arrs[] = new int[4];
+    public static float[] rectSerializer(RectF rect) {
+        float arrs[] = new float[4];
         arrs[0] = rect.left;
         arrs[1] = rect.top;
         arrs[2] = rect.width();
         arrs[3] = rect.height();
         return arrs;
+    }
+
+    public static RectF getViewRealRect(View view){
+        float width = view.getWidth();
+        float height = view.getHeight();
+        float minus;
+        float radio = view.getScaleX();
+        if (radio < 1) {
+            minus = -1;
+        } else {
+            minus = 1;
+        }
+        float dx = minus * Math.abs(width * (1.0f - radio) / 2.0f);
+        float dy = minus * Math.abs(height * (1.0f - radio) / 2.0f);
+        return new RectF(view.getX() - dx, view.getY() - dy, view.getX() + width + dx, view.getY() + height + dy);
     }
 
     public static void locateView(RectF rect, View view, float width, float height) {

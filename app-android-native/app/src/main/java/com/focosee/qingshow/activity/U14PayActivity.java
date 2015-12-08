@@ -94,7 +94,7 @@ public class U14PayActivity extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 trade = TradeParser.parseQuery(response).get(0);
-                totalFee = trade.itemRef.expectable.price.doubleValue() * trade.quantity;
+                totalFee = (trade.itemSnapshot.promoPrice.floatValue() - trade.itemSnapshot.expectable.reduction.floatValue()) * trade.quantity;
                 init();
             }
         });
@@ -113,7 +113,7 @@ public class U14PayActivity extends BaseActivity implements View.OnClickListener
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
         submit.setOnClickListener(this);
-        priceTV.setText(StringUtil.FormatPrice(trade.itemRef.expectable.price.doubleValue() * trade.quantity));
+        priceTV.setText(StringUtil.FormatPrice(totalFee) + "");
 
     }
 

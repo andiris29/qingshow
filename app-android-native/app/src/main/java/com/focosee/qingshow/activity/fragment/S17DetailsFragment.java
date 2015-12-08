@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U14PayActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
@@ -29,12 +32,12 @@ public class S17DetailsFragment extends Fragment {
     QSTextView itemName;
     @InjectView(R.id.s11_details_price)
     QSTextView price;
-    @InjectView(R.id.s11_details_maxprice)
-    QSTextView maxPrice;
     @InjectView(R.id.S11_num)
     QSTextView num;
     @InjectView(R.id.props)
     LinearLayout group;
+    @InjectView(R.id.desImg)
+    SimpleDraweeView desImg;
 
     private View rootView;
 
@@ -75,9 +78,8 @@ public class S17DetailsFragment extends Fragment {
         if(null != trade.itemSnapshot) {
             itemName.setText(trade.itemSnapshot.name);
             price.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
-            maxPrice.setText(StringUtil.FormatPrice(trade.itemSnapshot.price));
+            desImg.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         }
-        maxPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         num.setText(String.valueOf(trade.quantity));
     }
 
