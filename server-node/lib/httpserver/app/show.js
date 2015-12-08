@@ -88,15 +88,13 @@ show.like = {
         },
         function(callback) {
             // Count
-            Show.update({
-                '_id' : targetRef
-            }, {
-                '$inc' : {
-                    'numLike' : 1
+            Show.update(
+                {'_id' : targetRef},
+                {'$inc' : {'numLike' : 1}},
+                function(err, numUpdated) {
+                    callback(err);
                 }
-            }, function(err, numUpdated) {
-                callback(err);
-            });
+            );
         }], function(err) {
             ResponseHelper.response(res, err);
         });
@@ -118,7 +116,13 @@ show.unlike = {
         }
 
         RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, function(err) {
-            ResponseHelper.response(res, err);
+            Show.update(
+                {'_id' : targetRef},
+                {'$inc' : {'numLike' : -1}},
+                function(err, numUpdated) {
+                    ResponseHelper.response(res, err);
+                }
+            );
         });
     }
 };
