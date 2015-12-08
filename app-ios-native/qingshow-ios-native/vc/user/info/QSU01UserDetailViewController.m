@@ -153,7 +153,7 @@
     for (QSAbstractListViewProvider* provider in @[self.matchProvider, self.recommendProvider, self.favorProvider, self.followingProvider, self.followerProvider]) {
         [provider cancelImageLoading];
     }
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kUserInfoUpdateNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
