@@ -48,11 +48,22 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
             if (i > 3) break;
             holder.setImgeByUrl(imgId[i], topShows.get(i).cover).setVisibility(imgId[i], View.VISIBLE);
         }
-        final int from = Integer.parseInt(data.key);
-        final int to = from + 1;
+        final int key = Integer.parseInt(data.key);
+        final int from;
+
         String timeTemplate = "S:00~E:00";
+
+        if (key < 0){
+            from = 24 + key;
+            holder.setText(R.id.day,  (calendar.get(Calendar.DAY_OF_MONTH) - 1) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
+
+        }else {
+            from = key;
+            holder.setText(R.id.day,  "TODAY | " + calendar.get(Calendar.DAY_OF_MONTH) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
+        }
+        final int to = from + 1;
+
         holder.setText(R.id.time, timeTemplate.replace("S", from + "").replace("E", to + ""));
-        holder.setText(R.id.day,  "TODAY | " + calendar.get(Calendar.DAY_OF_MONTH) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
         if (QSModel.INSTANCE.loggedin() && data.indexOfCurrentUser != -1){
             holder.setImgeByUrl(R.id.current_head, QSModel.INSTANCE.getUser().portrait);
         }else{
@@ -69,8 +80,15 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, S24ShowsDateActivity.class);
-                intent.putExtra("MATCH_NEW_FROM", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),from,0));
-                intent.putExtra("MATCH_NEW_TO", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),to,0));
+                if (key > 0){
+                    intent.putExtra("MATCH_NEW_FROM", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),from,0));
+                    intent.putExtra("MATCH_NEW_TO", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),to,0));
+                }else {
+                    intent.putExtra("MATCH_NEW_FROM", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) - 1,from,0));
+                    intent.putExtra("MATCH_NEW_TO", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) - 1,to,0));
+
+                }
+
                 context.startActivity(intent);
             }
         });
