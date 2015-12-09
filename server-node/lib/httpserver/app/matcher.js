@@ -150,6 +150,7 @@ matcher.updateCover = {
         async.waterfall([function(callback){
             var show = req.session.matcher;
             delete req.session.matcher;
+            req.session.save();
             
             if (show) {
                 new Show(show).save(function(err, show){
