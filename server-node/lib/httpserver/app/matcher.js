@@ -149,6 +149,8 @@ matcher.updateCover = {
     'func' : function(req, res) {
         async.waterfall([function(callback){
             var show = req.session.matcher;
+            delete req.session.matcher;
+            
             if (show) {
                 new Show(show).save(function(err, show){
                     callback(null, show);
@@ -176,8 +178,7 @@ matcher.updateCover = {
                         callback(null, show);
                     });
                 });
-        }], function(err, show){
-            delete req.session.matcher;
+        }], function(err, show) {
             ResponseHelper.response(res, err, {
                 'show' : show
             });
