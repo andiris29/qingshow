@@ -31,8 +31,14 @@ peopleSchema = Schema({
     },
     userInfo : {
         id : String,
-        password : String,
-        encryptedPassword : String,
+        password : {
+            type : String,
+            select : false
+        },
+        encryptedPassword : {
+            type : String,
+            select : false
+        },
         passwordUpdatedDate : {
             type : Date,
             select : false,
