@@ -98,49 +98,17 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         drawable.setBounds(0, 0, (int)AppUtil.transformToDip(30f,this), (int)AppUtil.transformToDip(30f,this));
         ss.setSpan(new ImageSpan(drawable),hint.length() - 3,hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         u15HintText.setText(ss);
+
+        setData();
     }
 
     public void setData() {
-        if (null == people) return;
-        if (null == people.bonuses) return;
-        u15Total.setText(BonusHelper.getTotalBonusesString(people.bonuses));
-        Log.d(U15BonusActivity.class.getSimpleName(), "bonus:" + people.bonuses.size());
-        if (!(null == people.bonuses || people.bonuses.size() == 0)) {
-            withDrawBtn.setBackgroundResource(R.drawable.u15_pink_btn);
-            withDrawBtn.setEnabled(true);
-        }
-        if (BonusHelper.getBonusesWithFloat(people.bonuses) > 0) {
-            isCanWithDrwa = true;
-        }else{
-            withDrawBtn.setBackgroundResource(R.drawable.u15_gray_btn);
-            withDrawBtn.setEnabled(false);
-        }
-        //灰色页面
-        if (BonusHelper.getTotalBonusesFloat(people.bonuses) <= 0) {
-            rightBtn.setTextColor(getResources().getColor(R.color.background_color));
-            rightBtn.setEnabled(false);
-            withDrawBtn.setBackgroundResource(R.drawable.u15_gray_btn);
-            withDrawBtn.setEnabled(false);
-            u15HintText.setTextColor(getResources().getColor(R.color.darker_gray));
-        }
 
-    }
 
-    private void getUser() {
-        dialogs.show();
-        UserCommand.refresh(new Callback() {
-            @Override
-            public void onComplete() {
-                dialogs.dismiss();
-                people = QSModel.INSTANCE.getUser();
-                setData();
-            }
-        });
     }
 
     @Override
     public void reconn() {
-        getUser();
     }
 
     public void onEventMainThread(ShareBonusEvent event) {
