@@ -16,7 +16,9 @@ var TraceHelper = require('../helpers/TraceHelper'),
 
 var servicesNames = [
     'feeding', 
+    'feedingAggregation',
     'user', 
+    'bonus',
     'show', 
     'admin', 
     'trade',  
@@ -24,7 +26,6 @@ var servicesNames = [
     'matcher', 
     'notify', 
     'shop', 
-    'userBonus', 
     'item', 
     'dashboard', 
     'goblin', 
@@ -118,11 +119,13 @@ module.exports = function (config, qsdb) {
             var fullpath = '/services/' + path + '/' + id;
             var method = module[id].method, func = module[id].func;
             
-            var middlewares = [_genLogMiddleware(fullpath)];
+            var middlewares = [_injectionMiddleware,
+                _genLogMiddleware(fullpath)];
             if (_.isArray(func)) {
                 middlewares = middlewares.concat(func);
                 func = function(req, res) {
-                    ResponseHelper.response(res, res.locals.err, res.locals.data, res.locals.metadata);
+                    res.locals.out = res.locals.out || {};
+                    ResponseHelper.response(res, res.locals.out.err, res.locals.out.data, res.locals.out.metadata);
                 };
             }
             middlewares.push(_errMiddleware);
@@ -135,25 +138,33 @@ module.exports = function (config, qsdb) {
 
 var _errMiddleware = function (err, req, res, next) {
     if (!err) {
-        return next();
+        next();
     } else {
-        ResponseHelper.response(res, err);
+        res.locals.out = res.locals.out || {};
+        ResponseHelper.response(res, err, res.locals.out.data, res.locals.out.metadata);
     }
+};
+
+var _injectionMiddleware = function (req, res, next) {
+    req.injection = req.injection || {};
+    next();
 };
 
 var _genLogMiddleware = function(fullpath) {
     return function (req, res, next) {
-        TraceHelper.trace('api-request', req, {
-            'fullpath' : fullpath
-        });
-        
-        res.locals = {
+        res.locals = res.locals || {};
+        res.locals.api = {
             'fullpath' : fullpath,
-            'clientInfo' : RequestHelper.getClientInfo(req),
-            'qsCurrentUserId' : req.qsCurrentUserId,
-            'time' : Date.now()
+            'timestamp' : Date.now(),
+            'req' : {
+                'client' : RequestHelper.getClientInfo(req),
+                'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
+                'queryString' : req.queryString,
+                'body' : req.body
+            }
         };
         
+        TraceHelper.trace('api-request', req, res.locals.api);
         next();
     };
 };

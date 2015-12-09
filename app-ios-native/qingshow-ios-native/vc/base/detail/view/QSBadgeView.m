@@ -11,12 +11,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSPeopleUtil.h"
 #import "UINib+QSExtension.h"
+#import "QSUnreadManager.h"
+#import "QSUserManager.h"
 
 @interface QSBadgeView ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-
+@property (weak, nonatomic) IBOutlet UIImageView* rankImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
@@ -72,28 +74,45 @@
         [statusStr appendFormat:@"%@kg ", weight];
     }
     self.statusLabel.text = statusStr;
-    float bonus = 0;
-    for (NSDictionary *dic in [QSPeopleUtil getBonusList:peopleDict]) {
-        bonus += [QSPeopleUtil getMoneyFromBonusDict:dic].floatValue;
+    NSNumber* bonusNumber = [QSPeopleUtil getTotalBonus:peopleDict];
+    if (bonusNumber) {
+        float bonus = bonusNumber.floatValue;
+        self.bonusLabel.text = [NSString stringWithFormat:@"收益:￥%.2f",bonus];
     }
-    self.bonusLabel.text = [NSString stringWithFormat:@"佣金:￥%.2f",bonus];
-    if([QSPeopleUtil getHeadIconUrl:peopleDict])
-    {
-    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType200] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
-    [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
+
+    if([QSPeopleUtil getHeadIconUrl:peopleDict]) {
+        [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict type:QSImageNameType200] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
+        self.rankImageView.image = [QSPeopleUtil rankImgView:peopleDict];
+        [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
     }
     self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];
+
+    if ([[QSUnreadManager getInstance] shouldShowBonuUnread]) {
+        [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_dot_btn"] forState:UIControlStateNormal];
+    } else {
+        [self.bonusBtn setImage:[UIImage imageNamed:@"u01_bonus_btn"] forState:UIControlStateNormal];
+    }
+
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.btnGroup.frame = self.btnsContainer.bounds;
+    CGFloat centerX = (self.bounds.size.width + self.iconImageView.bounds.size.width + self.iconImageView.frame.origin.x) / 2;
+    CGPoint center = self.bonusBtn.center;
+    center.x = centerX;
+    self.bonusBtn.center = center;
+    center = self.followBtn.center;
+    center.x = centerX;
+    self.followBtn.center = center;
+    
+    
 }
 
 - (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView* originView = [super hitTest:point withEvent:event];
     
-    if ([self.btnsContainer pointInside:[self convertPoint:point toView:self.btnsContainer] withEvent:event] || originView == self.followBtn) {
+    if ([self.btnsContainer pointInside:[self convertPoint:point toView:self.btnsContainer] withEvent:event] || originView == self.followBtn || originView == self.bonusBtn) {
         return originView;
     } else {
         if (self.touchDelegateView) {

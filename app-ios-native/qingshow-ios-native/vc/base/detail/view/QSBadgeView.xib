@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -56,6 +56,18 @@
                     <rect key="frame" x="8" y="300" width="304" height="52"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nf6-YB-S2s">
+                    <rect key="frame" x="220" y="199" width="70" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="2mR-fV-UHi"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="OFt-cd-mV0"/>
+                        <constraint firstAttribute="height" constant="30" id="gwp-9L-oPu"/>
+                        <constraint firstAttribute="width" constant="70" id="mRJ-nN-30H"/>
+                    </constraints>
+                    <state key="normal" image="u01_bonus_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xLX-Q6-vzv">
                     <rect key="frame" x="220" y="199" width="70" height="30"/>
                     <constraints>
@@ -74,10 +86,18 @@
                     <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Geu-2b-2Rr">
+                    <rect key="frame" x="107" y="136" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="cBJ-QU-mfd"/>
+                        <constraint firstAttribute="width" constant="35" id="kHt-fc-VPv"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="tKl-cf-6S5" firstAttribute="centerX" secondItem="NIY-rA-oO7" secondAttribute="centerX" id="33m-2q-nZI"/>
+                <constraint firstAttribute="trailing" secondItem="nf6-YB-S2s" secondAttribute="trailing" constant="30" id="5tM-ui-Htk"/>
                 <constraint firstItem="74W-bg-pUU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="7xS-5O-IMB"/>
                 <constraint firstItem="cqs-Sm-5h3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="AVA-jv-Aq6"/>
                 <constraint firstItem="NyZ-dF-fWX" firstAttribute="trailing" secondItem="NIY-rA-oO7" secondAttribute="trailing" id="Aam-Ei-T4t"/>
@@ -85,14 +105,17 @@
                 <constraint firstItem="xLX-Q6-vzv" firstAttribute="top" secondItem="NIY-rA-oO7" secondAttribute="bottom" constant="12" id="B3T-fo-YGS"/>
                 <constraint firstItem="NyZ-dF-fWX" firstAttribute="leading" secondItem="NIY-rA-oO7" secondAttribute="leading" id="KO6-nm-6Ny"/>
                 <constraint firstAttribute="bottom" secondItem="che-XF-QkT" secondAttribute="bottom" constant="8" id="MHi-q9-Nkp"/>
+                <constraint firstItem="nf6-YB-S2s" firstAttribute="top" secondItem="NIY-rA-oO7" secondAttribute="bottom" constant="12" id="O4w-Hw-t0G"/>
                 <constraint firstAttribute="trailing" secondItem="cqs-Sm-5h3" secondAttribute="trailing" constant="8" id="PDV-1b-H38"/>
                 <constraint firstAttribute="trailing" secondItem="NIY-rA-oO7" secondAttribute="trailing" id="SN3-9u-RHd"/>
                 <constraint firstItem="NyZ-dF-fWX" firstAttribute="top" secondItem="74W-bg-pUU" secondAttribute="bottom" constant="20" id="TTl-rJ-gAN"/>
                 <constraint firstItem="che-XF-QkT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Wm4-DQ-J3N"/>
                 <constraint firstItem="tKl-cf-6S5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="145" id="YbD-OD-ejk"/>
                 <constraint firstItem="che-XF-QkT" firstAttribute="top" secondItem="NyZ-dF-fWX" secondAttribute="bottom" constant="9" id="ZO4-to-A3G"/>
+                <constraint firstItem="tKl-cf-6S5" firstAttribute="top" secondItem="Geu-2b-2Rr" secondAttribute="bottom" constant="-26" id="aHW-fu-Lsd"/>
                 <constraint firstItem="che-XF-QkT" firstAttribute="top" secondItem="cqs-Sm-5h3" secondAttribute="bottom" constant="29" id="aIY-NC-9aU"/>
                 <constraint firstAttribute="trailing" secondItem="74W-bg-pUU" secondAttribute="trailing" constant="8" id="cTP-t7-Jag"/>
+                <constraint firstItem="tKl-cf-6S5" firstAttribute="leading" secondItem="Geu-2b-2Rr" secondAttribute="trailing" constant="-24" id="ehx-gz-2kA"/>
                 <constraint firstAttribute="trailing" secondItem="che-XF-QkT" secondAttribute="trailing" constant="8" id="fhl-SR-awx"/>
                 <constraint firstItem="cqs-Sm-5h3" firstAttribute="top" secondItem="74W-bg-pUU" secondAttribute="bottom" id="hbL-Rr-qIH"/>
                 <constraint firstAttribute="trailing" secondItem="xLX-Q6-vzv" secondAttribute="trailing" constant="30" id="hvM-k3-eNs"/>
@@ -103,11 +126,13 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="backgroundImageView" destination="NIY-rA-oO7" id="uIF-Pm-xoE"/>
+                <outlet property="bonusBtn" destination="nf6-YB-S2s" id="qme-gr-zP4"/>
                 <outlet property="bonusLabel" destination="NyZ-dF-fWX" id="3cL-tN-4IY"/>
                 <outlet property="btnsContainer" destination="che-XF-QkT" id="Md5-Ks-01G"/>
                 <outlet property="followBtn" destination="xLX-Q6-vzv" id="hAr-Oo-BRf"/>
                 <outlet property="iconImageView" destination="tKl-cf-6S5" id="iGt-p7-Fz7"/>
                 <outlet property="nameLabel" destination="74W-bg-pUU" id="aQF-ad-HH7"/>
+                <outlet property="rankImageView" destination="Geu-2b-2Rr" id="jNI-qu-gu4"/>
                 <outlet property="statusLabel" destination="cqs-Sm-5h3" id="OaI-QH-2Ts"/>
             </connections>
             <point key="canvasLocation" x="503" y="389"/>
@@ -115,13 +140,9 @@
     </objects>
     <resources>
         <image name="follow_btn" width="70" height="30"/>
+        <image name="u01_bonus_btn" width="70" height="30"/>
         <image name="unfollow_btn" width="70" height="30"/>
         <image name="user_bg_default.jpg" width="720" height="450"/>
         <image name="user_head_default.jpg" width="720" height="450"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

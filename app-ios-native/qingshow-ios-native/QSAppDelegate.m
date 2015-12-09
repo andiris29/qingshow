@@ -14,7 +14,6 @@
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "QSPaymentConst.h"
-#import "QSNavigationController.h"
 #import "QSNetworkKit.h"
 #import "QSRootContainerViewController.h"
 #import "APService.h"
@@ -26,6 +25,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSPeopleUtil.h"
 #import "QSError.h"
+#import "QSRootNotificationHelper.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -39,6 +39,7 @@
 #pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
     [self _configNetwork];
 
     [QSHookHelper registerHooker];
@@ -64,6 +65,7 @@
         
         //标记第一次载入
         VoidBlock guestHandler = ^(){
+            [QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher = YES;
             [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
@@ -88,6 +90,7 @@
             }
         };
         VoidBlock normalUserHandler = ^(){
+            [QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher = NO;
             [QSCategoryManager getInstance];
             vc.hasFetchUserLogin = YES;
             [vc handleCurrentUser];
@@ -129,6 +132,7 @@
                 if (r == QSPeopleRoleGuest) {
                     [SHARE_NW_ENGINE feedingMatchCreateBy:data page:1 onSucceed:^(NSArray *array, NSDictionary *metadata) {
                         normalUserHandler();
+                        [QSRootNotificationHelper postScheduleToShowLoginGuideNoti];
                     } onError:^(NSError *error) {
                         if ([error isKindOfClass:[QSError class]]) {
                             QSError* e = (QSError*)error;
@@ -173,11 +177,7 @@
 
 }
 - (void)_configRootVc {
-    QSRootContainerViewController* vc = (QSRootContainerViewController*)self.rootVc;
-    UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
-    
-    nav.navigationBar.translucent = NO;
-    self.window.rootViewController = nav;
+    self.window.rootViewController = self.rootVc;
 }
 
 - (void)_configNetwork {
@@ -224,9 +224,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     NSString* urlStr = [url absoluteString];
-    if ([urlStr hasPrefix:kWeiboAppKey]) {
-        return [WeiboSDK handleOpenURL:url delegate:self];
-    } else if ([urlStr hasPrefix:kWechatAppID]) {
+    if ([urlStr hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     } else if ([urlStr hasPrefix:@"alipay"]) {
         if ([url.host isEqualToString:@"safepay"]) {
@@ -247,9 +245,7 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url absoluteString] hasPrefix:kWeiboAppKey]) {
-        return [WeiboSDK handleOpenURL:url delegate:self ];
-    } else if ([[url absoluteString] hasPrefix:kWechatAppID]) {
+    if ([[url absoluteString] hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     }
     return YES;
@@ -257,42 +253,8 @@
 
 #pragma mark - Share Platform
 - (void)registerSharePlatform {
-    //Weibo
-    [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:kWeiboAppKeyNum];
-    
     //Wechat
     [WXApi registerApp:kWechatAppID];
-}
-#pragma mark - Weibo
-- (void)didReceiveWeiboRequest:(WBBaseRequest *)request
-{
-    
-}
-
-- (void)didReceiveWeiboResponse:(WBBaseResponse *)response
-{
-    if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboSendMessageResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
-    }
-    else if ([response isKindOfClass:WBAuthorizeResponse.class])
-    {
-        QSUserManager* um = [QSUserManager shareUserManager];
-        if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
-            um.weiboAccessToken = [(WBAuthorizeResponse *)response accessToken];
-            um.weiboUserId = [(WBAuthorizeResponse *)response userID];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode), @"accessToken" : um.weiboAccessToken, @"userId" : um.weiboUserId}];
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
-        }
-        
-
-    }
-    else if ([response isKindOfClass:WBPaymentResponse.class])
-    {
-        
-    }
 }
 
 #pragma mark - WeChat
@@ -374,39 +336,6 @@
     
 }
 
-//#pragma mark -- rememberFirstLaunch
-//- (void)logTraceFirstLaunch
-//{
-//    //获取倾秀版本
-//    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-//    //获取设备号
-//    NSUUID *uidID= [UIDevice currentDevice].identifierForVendor;
-//    NSString *uidIDStr = [NSString stringWithFormat:@"%@",uidID];
-//    NSRange range = [uidIDStr rangeOfString:@"> "];
-//    
-//    NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
-//    if (range.length) {
-//        int loc = (int)(range.location + range.length);
-//        NSString *uidStr = [uidIDStr substringFromIndex:loc];
-//        parametes[@"deviceUid"] = uidStr;
-//    }
-//        //获取iOS版本号
-//    NSString *osVersion = [UIDevice currentDevice].systemVersion;
-//    
-//
-//    parametes[@"version"] = appVersion;
-//
-////    parametes[@"deviceUid"] = @111;
-//    parametes[@"osVersion"] = osVersion;
-//    parametes[@"osType"] = @(0);
-//    
-//    [SHARE_NW_ENGINE logTraceWithParametes:parametes onSucceed:^(BOOL f) {
-//        
-//    } onError:^(NSError *error) {
-//        
-//    }];
-//}
-
 - (BOOL)isFirstLaunch {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return ![userDefaults boolForKey:kTraceLogFirstLaunch];
@@ -483,7 +412,6 @@
         default: {
             break;
         }
-            
     }
     
     [APService handleRemoteNotification:userInfo];
@@ -496,8 +424,7 @@
 #pragma mark - JPush
 - (void)didReceiveJPushRegistrionId:(NSNotification*)notification {
     [QSUserManager shareUserManager].JPushRegistrationID = [APService registrationID];
-    [SHARE_NW_ENGINE userUpdateJpushId:[QSUserManager shareUserManager].JPushRegistrationID onSucceed:nil onError:nil];
-    
+    [SHARE_NW_ENGINE userBindCurrentJpushIdOnSucceed:nil onError:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
 }
 

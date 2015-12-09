@@ -2,12 +2,12 @@ package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,9 +26,7 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
-import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.activity.U02SettingsActivity;
-import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
 import com.focosee.qingshow.activity.UserUpdatedEvent;
@@ -39,35 +34,31 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
-import com.focosee.qingshow.model.PushModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U02Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ToastUtil;
-import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.MenuView;
+import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -111,10 +102,16 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private FrameLayout container;
     private MenuView menuView;
     private View bonusTip;
+    private QSTextView title;
     public static U02SettingsFragment instance;
 
     private MongoPeople people;
     private LoadingDialogs dialog;
+
+    private Timer timer = new Timer(true);
+    private TimerTask timerTask;
+    private long time = 2000;
+    private int count = 0;
 
     public static U02SettingsFragment newIntance() {
         return new U02SettingsFragment();
@@ -123,6 +120,46 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     public U02SettingsFragment() {
         // Required empty public constructor
 
+    }
+
+    private void initShowVerison() {
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ++count;
+                if (null != timerTask) {
+                    timerTask.cancel();
+                }
+                timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        count = 0;
+                    }
+                };
+                timer.schedule(timerTask, time / 5);
+                String version = "";
+                try {
+                    version = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (count == 5)
+                    showDialag(version);
+            }
+        });
+    }
+
+    private void showDialag(String msg) {
+        final ConfirmDialog dialog = new ConfirmDialog(getActivity());
+        dialog.setTitle(msg);
+        dialog.setConfirm(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.hideCancel();
     }
 
     @Override
@@ -140,6 +177,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
         matchUI(view);
+        initShowVerison();
         return view;
     }
 
@@ -257,6 +295,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
         container = (FrameLayout) view.findViewById(R.id.container);
         bonusTip = view.findViewById(R.id.u02_bonus_tip);
+        title = (QSTextView) view.findViewById(R.id.u02_title);
     }
 
     //进入页面时，给字段赋值
@@ -267,7 +306,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 quitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+                        startActivity(new Intent(getActivity(), U19LoginGuideActivity.class));
                     }
                 });
             } else {

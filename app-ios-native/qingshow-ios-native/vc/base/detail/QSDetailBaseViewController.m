@@ -15,6 +15,8 @@
 #import "QSS03ShowDetailViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "QSUnreadManager.h"
+#import "QSUserManager.h"
+#import "QSPeopleUtil.h"
 
 
 @interface QSDetailBaseViewController ()
@@ -286,7 +288,7 @@
 - (void)updateDot {
      QSBadgeButton* btn = [self.badgeView.btnGroup findBtnOfType:QSBadgeButtonTypeRecommend];
     if (btn) {
-        btn.hasDot = [[QSUnreadManager getInstance] shouldShowRecommandUnread];
+        btn.hasDot = [[QSEntityUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSEntityUtil getIdOrEmptyStr:self.userInfo]] && [[QSUnreadManager getInstance] shouldShowRecommandUnread];
     }
 }
 @end

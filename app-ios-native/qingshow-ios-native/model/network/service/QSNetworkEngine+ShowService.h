@@ -64,4 +64,8 @@
 - (MKNetworkOperation*)getTestShowsOnSucceed:(ArraySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
 
+#pragma mark - View
+- (MKNetworkOperation*)viewShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock;
 @end

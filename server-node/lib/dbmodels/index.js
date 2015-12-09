@@ -3,12 +3,18 @@ module.exports = {
     'Item' : require('./Item'),
     'JPushAudience' : require('./JPushAudience'),
     'People' : require('./People'),
+    'PeopleCode' : require('./PeopleCode'),
+    'Bonus' : require('./Bonus'),
+    'BonusCode' : require('./BonusCode'),
     'RPeopleFollowPeople' : require('./RPeopleFollowPeople'),
     'RPeopleLikeShow' : require('./RPeopleLikeShow'),
     'RPeopleShareShow' : require('./RPeopleShareShow'),
-    'RPeopleShareTrade' : require('./RPeopleShareTrade'),
     'ShowComment' : require('./ShowComment'),
     'Show' : require('./Show'),
+    'ShowCode' : require('./ShowCode'),
     'Trade' : require('./Trade'),
-    'SharedObject' : require('./SharedObject')
+    'TradeCode' : require('./TradeCode'),
+    'SharedObject' : require('./SharedObject'),
+    'SharedObjectCode' : require('./SharedObjectCode'),
+    'RPeopleViewShow' : require('./RPeopleViewShow')
 };

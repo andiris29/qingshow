@@ -11,7 +11,6 @@
 
 @implementation QSShareUtil
 
-//+ (NSString *)getShareId:(NSDictionary *)shareDic;
 + (NSString *)getShareIcon:(NSDictionary *)shareDic
 {
     if (!shareDic) {

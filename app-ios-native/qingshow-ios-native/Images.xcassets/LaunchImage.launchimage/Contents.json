@@ -10,19 +10,12 @@
       "scale" : "3x"
     },
     {
-      "orientation" : "landscape",
-      "idiom" : "iphone",
       "extent" : "full-screen",
-      "minimum-system-version" : "8.0",
-      "subtype" : "736h",
-      "scale" : "3x"
-    },
-    {
-      "orientation" : "portrait",
       "idiom" : "iphone",
-      "extent" : "full-screen",
-      "minimum-system-version" : "8.0",
       "subtype" : "667h",
+      "filename" : "luanch_750_1334.png",
+      "minimum-system-version" : "8.0",
+      "orientation" : "portrait",
       "scale" : "2x"
     },
     {
@@ -37,7 +30,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "retina4",
-      "filename" : "luanch_640_1136.png",
+      "filename" : "luanch_640_1136-1.png",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
@@ -45,58 +38,23 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
+      "filename" : "luanch_320_480.png",
       "extent" : "full-screen",
       "scale" : "1x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "luanch_640_960-1.png",
+      "filename" : "luanch_640_960-2.png",
       "extent" : "full-screen",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "luanch_640_1136-1.png",
+      "filename" : "luanch_640_1136.png",
       "extent" : "full-screen",
       "subtype" : "retina4",
-      "scale" : "2x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "ipad",
-      "filename" : "luanch_320_480.png",
-      "minimum-system-version" : "7.0",
-      "orientation" : "portrait",
-      "unassigned" : true,
-      "scale" : "1x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "ipad",
-      "filename" : "luanch_1024_768.png",
-      "minimum-system-version" : "7.0",
-      "orientation" : "landscape",
-      "unassigned" : true,
-      "scale" : "1x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "ipad",
-      "filename" : "luanch_1536_2048.png",
-      "minimum-system-version" : "7.0",
-      "orientation" : "portrait",
-      "unassigned" : true,
-      "scale" : "2x"
-    },
-    {
-      "extent" : "full-screen",
-      "idiom" : "ipad",
-      "filename" : "luanch_2048_1536.png",
-      "minimum-system-version" : "7.0",
-      "orientation" : "landscape",
-      "unassigned" : true,
       "scale" : "2x"
     }
   ],

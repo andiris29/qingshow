@@ -93,8 +93,12 @@ const float kFreshLoadAnimationDuration = 0.35f;
     return [self setImageFromURL:url placeHolderImage:nil];
 }
 
+- (MKNetworkOperation*) setImageFromURL:(NSURL *)url beforeCompleteBlock:(ImgBlock)completeBlock animation:(BOOL)fAnimation {
+    return [self setImageFromURL:url placeHolderImage:nil usingEngine:DefaultEngine animation:fAnimation beforeComplete:completeBlock complete:nil];
+}
+
 - (MKNetworkOperation*) setImageFromURL:(NSURL *)url beforeCompleteBlock:(ImgBlock)completeBlock {
-    return [self setImageFromURL:url placeHolderImage:nil usingEngine:DefaultEngine animation:YES beforeComplete:completeBlock complete:nil];
+    return [self setImageFromURL:url beforeCompleteBlock:completeBlock animation:YES];
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image {
@@ -109,6 +113,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
     return [self setImageFromURL:url placeHolderImage:image usingEngine:imageCacheEngine animation:animation beforeComplete:nil complete:nil];
+}
+
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image  animation:(BOOL) animation complete:(VoidBlock)completeBlock {
+    return [self setImageFromURL:url placeHolderImage:image usingEngine:DefaultEngine animation:animation beforeComplete:nil complete:completeBlock];
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation beforeComplete:(ImgBlock)beforeBlock complete:(VoidBlock)completeBlock {

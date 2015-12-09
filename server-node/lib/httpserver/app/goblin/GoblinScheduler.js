@@ -5,11 +5,13 @@ var mongoose = require('mongoose');
 var ItemSyncService = require('./ItemSyncService'),
     GoblinLogger = require('./GoblinLogger');
 
-var ItemSourceUtil = require('../../../goblin-slave/ItemSourceUtil'),
-    GoblinError = require('../../../goblin-slave/GoblinError');
+var ItemSourceUtil = require('../../../goblin-common/ItemSourceUtil'),
+    GoblinError = require('../../../goblin-common/GoblinError');
 
 var Items = require('../../../dbmodels').Item;
     
+var EMPTY = function() {};
+
 var GoblinScheduler = module.exports;
 
 
@@ -120,28 +122,8 @@ var _fetchNextItem = function (scope, type, callback) {
     }
 };
 
-
-/**
- * 登记下一个需要爬的itemId及爬虫成功的回调函数
- * @param itemId
- * @param callback function (err, item)
- */
-GoblinScheduler.registerItemWithId = function (itemId, callback) {
-    var item = null;
-    async.waterfall([
-        function (callback) {
-            _queryItemWithId(itemId, callback);
-        }
-    ], function (err, i) {
-        if (err) {
-            callback(err, item);
-        } else {
-            _registerItem(i, callback);
-        }
-    });
-};
-
-var _registerItem = function (item, callback) {
+GoblinScheduler.registerItem = function (item, callback) {
+    callback = callback || EMPTY;
     if (!ItemSyncService.isOutDate(item)) {
         // 该Item最近已经爬过，不需要再爬，直接执行callback
         callback(null, item);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
 import com.focosee.qingshow.activity.BaseActivity;
 import com.focosee.qingshow.activity.PushWebActivity;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
@@ -13,6 +12,8 @@ import com.focosee.qingshow.activity.S20MatcherActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
+import com.focosee.qingshow.activity.U20NewBonus;
+import com.focosee.qingshow.activity.U21NewParticipantBonus;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -65,12 +66,21 @@ public class PushHepler {
             if(action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
                 ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
                 ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
-                ((BaseActivity) context).showNewTradeNotify();
                 return null;
             }
         }
 
-        if(command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
+        if(command.equals(QSPushAPI.NEW_BONUSES)){
+            intent = new Intent(context, U20NewBonus.class);
+            EventBus.getDefault().post(ValueUtil.BONUES_COMING);
+        }
+
+        if(command.equals(QSPushAPI.NEW_PARTICIPANT_BONUS)){
+            intent = new Intent(context, U21NewParticipantBonus.class);
+            EventBus.getDefault().post(ValueUtil.BONUES_COMING);
+        }
+
+        if(command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)){
             intent = new Intent(context, U15BonusActivity.class);
             EventBus.getDefault().post(ValueUtil.BONUES_COMING);
         }

@@ -36,16 +36,7 @@
    // return n.boolValue;
 }
 
-+ (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict {
-    NSNumber* n = [QSEntityUtil getNumberValue:categoryDict keyPath:@"matchInfo.defaultOnCanvas"];
-    return n.boolValue;
-}
-+ (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict {
-    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"matchInfo.row"];
-}
-+ (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict {
-    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"matchInfo.column"];
-}
+
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict{
     NSString* path = [QSEntityUtil getStringValue:categoryDict keyPath:@"icon"];
     if (path) {
@@ -57,7 +48,22 @@
 + (NSNumber*)getOrder:(NSDictionary*)categoryDict {
     return [QSEntityUtil getNumberValue:categoryDict keyPath:@"order"];
 }
-+ (NSNumber*)getMeasureComposition:(NSDictionary*)categoryDict {
-    return [QSEntityUtil getNumberValue:categoryDict keyPath:@"measureComposition"];
+
++ (NSDictionary*)getMatcherConfig:(NSDictionary*)context {
+    NSArray* keys = [context allKeys];
+    NSString* key = nil;
+    for (NSString* k in keys) {
+        if ([k hasPrefix:@"matcher"]) {
+            key = k;
+            break;
+        }
+    }
+    if (key) {
+        return [context dictValueForKeyPath:key];
+    } else {
+        return nil;
+    }
 }
+
+
 @end

@@ -19,15 +19,17 @@
 #define PATH_MATCHER_SAVE @"matcher/save"
 #define PATH_MATCHER_UPDATE_COVER @"matcher/updateCover"
 #define PATH_MATCHER_HIDE @"matcher/hide"
+#define PATH_MATCHER_REMIX_BY_ITEM @"matcher/remixByItem"
+#define PATH_MATCHER_REMIX_BY_MODEL @"matcher/remixByModel"
 
 @implementation QSNetworkEngine(MatcherService)
 
-- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(ArraySuccessBlock)succeedBlock
+- (MKNetworkOperation*)matcherQueryCategoriesOnSucceed:(QueryCategorySucceedBlock)succeedBlock
                                                onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_MATCHER_QUERY_CATEGORIES method:@"GET" paramers:@{} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
-            NSArray* resArray = [((NSArray*)[responseDict valueForKeyPath:@"data.categories"]) deepMutableCopy];
+            NSArray* resArray = [[responseDict arrayValueForKeyPath:@"data.categories"] deepMutableCopy];
             resArray = [resArray sortedArrayUsingComparator:^NSComparisonResult(NSDictionary* obj1, NSDictionary* obj2) {
                 return [[QSCategoryUtil getOrder:obj1] compare:[QSCategoryUtil getOrder:obj2]];
             }];
@@ -53,7 +55,27 @@
                     
             [QSCategoryManager getInstance].categories = retArray;
             
-            succeedBlock(retArray, responseDict[@"metadata"]);
+//            modelCategoryRef
+            NSDictionary* metadata = [responseDict dictValueForKeyPath:@"metadata"];
+            NSString* modelCategoryId = [metadata stringValueForKeyPath:@"modelCategoryRef"];
+            NSDictionary* modelCategory = [[QSCategoryManager getInstance] findCategoryOfId:modelCategoryId];
+            succeedBlock(retArray, modelCategory, metadata);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)matcherQueryItemsCategoryId:(NSString*)categoryId
+                                              page:(int)page
+                                         onSucceed:(ArraySuccessBlock)succeedBlock
+                                           onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : categoryId, @"pageNo" : @(page), @"pageSize" : @20} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* responseDict = completedOperation.responseJSON;
+        if (succeedBlock) {
+            succeedBlock([((NSArray*)[responseDict valueForKeyPath:@"data.items"]) deepMutableCopy], responseDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -66,19 +88,14 @@
                                             page:(int)page
                                        onSucceed:(ArraySuccessBlock)succeedBlock
                                          onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : [QSEntityUtil getIdOrEmptyStr:categoryDict], @"pageNo" : @(page), @"pageSize" : @20} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        NSDictionary* responseDict = completedOperation.responseJSON;
-        if (succeedBlock) {
-            succeedBlock([((NSArray*)[responseDict valueForKeyPath:@"data.items"]) deepMutableCopy], responseDict[@"metadata"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+    return [self matcherQueryItemsCategoryId:[QSEntityUtil getIdOrEmptyStr:categoryDict]
+                                        page:page
+                                   onSucceed:succeedBlock
+                                     onError:errorBlock];
 }
 - (MKNetworkOperation*)matcherSave:(NSArray*)itemArray
-                         onSucceed:(StringBlock)succeedBlock
+                         itemRects:(NSArray*)itemRects
+                         onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
     NSMutableArray* idArray = [@[] mutableCopy];
     for (NSDictionary* itemDict in itemArray) {
@@ -86,29 +103,29 @@
     }
     
     
-    return [self startOperationWithPath:PATH_MATCHER_SAVE method:@"POST" paramers:@{@"itemRefs" : idArray} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        NSDictionary* responseDict = completedOperation.responseJSON;
-        
+    return [self startOperationWithPath:PATH_MATCHER_SAVE
+                                 method:@"POST"
+                               paramers:@{
+                                          @"itemRefs" : idArray,
+                                          @"itemRects" : itemRects}
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
-            succeedBlock([responseDict stringValueForKeyPath:@"data.uuid"]);
+            succeedBlock();
         }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+    }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
             errorBlock(error);
         }
     }];
 }
 
-- (MKNetworkOperation*)matcherUuid:(NSString*)uuid
-                       updateCover:(UIImage*)cover
+- (MKNetworkOperation*)matcherUpdateCover:(UIImage*)cover
                          onSucceed:(DicBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
-    if (!uuid) {
-        uuid = @"";
-    }
     return [self startOperationWithPath:PATH_MATCHER_UPDATE_COVER
                                  method:@"POST"
-                               paramers:@{@"uuid" : uuid}
+                               paramers:@{}
                                 fileKey:@"cover"
                                fileName:@"cover.jpeg"
                                   image:UIImageJPEGRepresentation(cover, 0.7)
@@ -138,6 +155,44 @@
         if (errorBlock) {
             errorBlock(error);
         }
+    }];
+}
+
+- (MKNetworkOperation*)matcherRemixByModel:(NSString*)modelId
+                                 onSucceed:(DicBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_REMIX_BY_MODEL method:@"GET" paramers:@{@"modelRef" : modelId} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* dict = completedOperation.responseJSON;
+        NSDictionary* data = [dict dictValueForKeyPath:@"data"];
+        
+        if (succeedBlock) {
+            succeedBlock(data);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+
+- (MKNetworkOperation*)matcherRemixByItem:(NSDictionary*)itemDict
+                                onSucceed:(DicBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_REMIX_BY_ITEM
+                                 method:@"GET"
+                               paramers:@{
+                                          @"itemRef" : [QSEntityUtil getIdOrEmptyStr:itemDict]
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock([completedOperation.responseJSON dictValueForKeyPath:@"data"]);
+                                }
+    }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
     }];
 }
 @end

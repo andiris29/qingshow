@@ -20,7 +20,7 @@ define([
             return;
         }
         return {
-            'comment' : comment
+            'adminNote' : comment
         };
     };
 

@@ -9,19 +9,20 @@
 #import "QSShareViewController.h"
 #import "QSUserManager.h"
 #import <Social/Social.h>
-#import "WeiboSDK.h"
 #import "WXApi.h"
 #import "QSSharePlatformConst.h"
 #import "UIViewController+ShowHud.h"
 #import "QSEntityUtil.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSShareService.h"
+#import "QSNetworkKit.h"
 
 @interface QSShareViewController ()
 
 @property (strong, nonatomic) NSString* shareUrl;
 @property (strong, nonatomic) NSString* shareTitle;
 @property (strong, nonatomic) NSString* shareDesc;
+@property (strong, nonatomic) NSString* shareIconUrl;
 @end
 
 @implementation QSShareViewController
@@ -29,15 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-#warning Refactor Share Weibo
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboAuthorizeNotiHander:) name:kWeiboAuthorizeResultNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboSendMessageNotiHandler:) name:kWeiboSendMessageResultNotification object:nil];
-    
     [self.navigationController.navigationBar setTitleTextAttributes:
-     
      @{NSFontAttributeName:NAVNEWFONT,
-       
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.shareContainer.hidden = YES;
     self.sharePanel.hidden = YES;
@@ -54,11 +48,13 @@
 
 
 #pragma mark - Share
-- (void)showSharePanelWithTitle:(NSString*)title desc:(NSString*)desc url:(NSString*)urlStr
+- (void)showSharePanelWithTitle:(NSString*)title desc:(NSString*)desc url:(NSString*)urlStr shareIconUrl:(NSString*)shareIconUrl
 {
     self.shareTitle = title;
     self.shareDesc = desc;
     self.shareUrl = urlStr;
+    self.shareIconUrl = shareIconUrl;
+    
     if (!self.shareContainer.hidden && !self.sharePanel.hidden){
         return;
     }
@@ -91,54 +87,6 @@
     self.shareContainer.hidden = YES;
 }
 
-
-- (IBAction)shareWeiboPressed:(id)sender {
-    [self hideSharePanel];
-    
-    NSString* weiboAccessToken = [QSUserManager shareUserManager].weiboAccessToken;
-    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    request.redirectURI = kWeiboRedirectURI;
-    request.scope = @"all";
-    request.userInfo = nil;
-    
-    WBMessageObject *message = [WBMessageObject message];
-    WBWebpageObject* webPage = [WBWebpageObject object];
-    webPage.objectID = @"qingshow_webpage_id";
-    webPage.title = self.shareTitle;
-    webPage.description = self.shareDesc;
-    if (self.shareUrl) {
-        webPage.webpageUrl = self.shareUrl;
-    } else {
-        webPage.webpageUrl = @"http://121.41.161.239/";
-    }
-
-    webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
-    
-    //    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"gray_clock"], 0.5);
-    
-    message.mediaObject = webPage;
-    WBSendMessageToWeiboRequest *msgRequest = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:request access_token:weiboAccessToken];
-    message.text = @"";
-    [WeiboSDK sendRequest:msgRequest];
-}
-
-
-- (void)weiboSendMessageNotiHandler:(NSNotification*)notification
-{
-    if (WeiboSDKResponseStatusCodeSuccess == [notification.userInfo numberValueForKeyPath:@"statusCode"].integerValue) {
-        [MobClick event:@"shareShow" attributes:@{@"snsName": @"weibo"} counter:1];
-        if ([self.delegate respondsToSelector:@selector(didShareWeiboSuccess)]) {
-            [self.delegate didShareWeiboSuccess];
-        }
-    }
-}
-- (void)weiboAuthorizeNotiHander:(NSNotification*)notification
-{
-    if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
-        [self shareWeiboPressed:nil];
-    }
-}
-
 //朋友圈
 - (IBAction)shareWechatMomentPressed:(id)sender {
     [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
@@ -149,15 +97,11 @@
     } else {
         sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
-    [SHARE_SHARE_SERVICE shareWithWechatMoment:self.shareTitle desc:self.shareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+    [SHARE_SHARE_SERVICE shareWithWechatMoment:self.shareTitle desc:self.shareDesc imagePath:self.shareIconUrl url:sharedUrl onSucceed:^{
         if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
             [self.delegate didShareWechatSuccess];
         }
-    } onError:^(NSError *error) {
-        
-    }];
-    
-    [self hideSharePanel];
+    } onError:nil];
 }
 
 //微信好友
@@ -171,16 +115,13 @@
         sharedUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
     
-    [SHARE_SHARE_SERVICE shareWithWechatFriend:self.shareTitle desc:self.shareDesc image:[UIImage imageNamed:@"share_icon"] url:sharedUrl onSucceed:^{
+    [SHARE_SHARE_SERVICE shareWithWechatFriend:self.shareTitle desc:self.shareDesc imagePath:self.shareIconUrl url:sharedUrl onSucceed:^{
         if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
             [self.delegate didShareWechatSuccess];
         }
-    } onError:^(NSError *error) {
-        
-    }];
+    } onError:nil];
     [self hideSharePanel];
 }
-
 
 - (IBAction)shareCancelPressed:(id)sender {
     [self hideSharePanel];

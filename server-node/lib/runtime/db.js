@@ -4,7 +4,7 @@ var _db;
 var connect = function(mongodbConfig) {
     var opts = {
         server : {
-            poolSize : 25,
+            poolSize : mongodbConfig.poolSize,
             socketOptions : {
                 keepAlive : 1
             }

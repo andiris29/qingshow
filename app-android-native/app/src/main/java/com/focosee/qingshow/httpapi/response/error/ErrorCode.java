@@ -4,6 +4,9 @@ package com.focosee.qingshow.httpapi.response.error;
  * Created by zenan on 1/2/15.
  */
 public class ErrorCode {
+
+    public static final int VolleyError = 8888;
+
     public static final int ServerError = 1000;
     public static final int IncorrectMailOrPassword = 1001;
     public static final int SessionExpired = 1002;

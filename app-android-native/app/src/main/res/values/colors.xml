@@ -15,11 +15,13 @@
     <color name="lite_blue">#ff359ff2</color>
     <color name="red">#FF0000</color>
     <color name="pink">#a91a4e</color>
+    <color name="pink_deep">#F83E5B</color>
     <!-- personal -->
     <color name="indicator_bg_default_activity_personal">#88000000</color>
     <color name="indicator_bg_chosen_activity_personal">#88ffffff</color>
     <color name="indicator_text_color_default_activity_personal">#ffffff</color>
     <color name="gary">#ff888888</color>
+    <color name="login_background">#99000000</color>
     <color name="loading">#3e000000</color>
     <color name="btntextcolor">#ff1E90FF</color><!--dialog中按钮字体颜色 -->
 
@@ -50,7 +52,10 @@
     <color name="seekbar_bg">#c3c3c3</color>
 
     <color name="master_pink">#F095A4</color>
+    <color name="master_blue">#282d5b</color>
     <color name="pink_200">#c8f095a4</color>
     <color name="pink_100">#64f095a4</color>
+    <color name="accent_material_dark">#96000000</color>
+    <color name="primary_dark_material_light_1">#6e5353</color>
 
 </resources>

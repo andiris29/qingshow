@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
-            <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
@@ -28,21 +27,21 @@
                     <rect key="frame" x="0.0" y="468" width="320" height="100"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTx-Zx-KYk">
-                            <rect key="frame" x="33" y="24" width="38" height="38"/>
+                            <rect key="frame" x="83" y="24" width="38" height="38"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="38" id="Xy2-v4-rsw"/>
                                 <constraint firstAttribute="width" constant="38" id="xFa-bT-gXz"/>
                             </constraints>
-                            <state key="normal" image="weibo_icon">
+                            <state key="normal" image="weichart_friend_icon">
                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="shareWeiboPressed:" destination="-1" eventType="touchUpInside" id="gH3-Y6-cxV"/>
+                                <action selector="shareWechatFriendPressed:" destination="-1" eventType="touchUpInside" id="EVR-0k-XhN"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rhz-xv-GnH">
-                            <rect key="frame" x="250" y="24" width="38" height="38"/>
+                            <rect key="frame" x="199" y="24" width="38" height="38"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="38" id="Hz8-ma-fSN"/>
                                 <constraint firstAttribute="height" constant="38" id="sel-sg-lQa"/>
@@ -55,8 +54,8 @@
                                 <action selector="shareWechatMomentPressed:" destination="-1" eventType="touchUpInside" id="a5R-8P-o5O"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新浪微博" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uZ-Ri-dXR">
-                            <rect key="frame" x="28" y="70" width="48" height="14"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信好友" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uZ-Ri-dXR">
+                            <rect key="frame" x="78" y="70" width="48" height="14"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="48" id="J5p-Ny-fGC"/>
                                 <constraint firstAttribute="height" constant="14" id="JTB-xL-Ugf"/>
@@ -65,32 +64,8 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N1C-ZC-K5g">
-                            <rect key="frame" x="142" y="24" width="38" height="38"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="38" id="QNO-Ji-SrH"/>
-                                <constraint firstAttribute="height" constant="38" id="il3-ca-aj9"/>
-                            </constraints>
-                            <state key="normal" image="weichart_friend_icon">
-                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="shareWechatFriendPressed:" destination="-1" eventType="touchUpInside" id="Pe6-yo-xFS"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信好友" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Wu-jG-Bg7">
-                            <rect key="frame" x="136" y="70" width="48" height="14"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="48" id="p8J-12-eLo"/>
-                                <constraint firstAttribute="height" constant="14" id="xqV-yi-gdV"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朋友圈" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31B-XK-T8u">
-                            <rect key="frame" x="251" y="70" width="36" height="14"/>
+                            <rect key="frame" x="201" y="70" width="36" height="14"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="36" id="XfL-hl-VSd"/>
                                 <constraint firstAttribute="height" constant="14" id="rTK-W9-XQc"/>
@@ -102,19 +77,15 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="31B-XK-T8u" secondAttribute="trailing" constant="33" id="0fD-2b-tLH"/>
+                        <constraint firstAttribute="trailing" secondItem="31B-XK-T8u" secondAttribute="trailing" constant="83" id="0fD-2b-tLH"/>
                         <constraint firstAttribute="bottom" secondItem="6uZ-Ri-dXR" secondAttribute="bottom" constant="16" id="1m0-ei-ERU"/>
-                        <constraint firstItem="bTx-Zx-KYk" firstAttribute="leading" secondItem="Rn6-cS-zUV" secondAttribute="leading" constant="33" id="8n3-BY-afc"/>
+                        <constraint firstItem="bTx-Zx-KYk" firstAttribute="leading" secondItem="Rn6-cS-zUV" secondAttribute="leading" constant="83" id="8n3-BY-afc"/>
                         <constraint firstAttribute="height" constant="100" id="Ce3-cQ-kvr"/>
-                        <constraint firstAttribute="centerX" secondItem="9Wu-jG-Bg7" secondAttribute="centerX" id="DE7-9o-D3m"/>
-                        <constraint firstItem="6uZ-Ri-dXR" firstAttribute="leading" secondItem="Rn6-cS-zUV" secondAttribute="leading" constant="28" id="ZcW-rf-g83"/>
-                        <constraint firstAttribute="centerX" secondItem="N1C-ZC-K5g" secondAttribute="centerX" constant="-1" id="aEH-9r-fvj"/>
+                        <constraint firstItem="6uZ-Ri-dXR" firstAttribute="leading" secondItem="Rn6-cS-zUV" secondAttribute="leading" constant="78" id="ZcW-rf-g83"/>
                         <constraint firstAttribute="bottom" secondItem="31B-XK-T8u" secondAttribute="bottom" constant="16" id="aMM-gz-r75"/>
                         <constraint firstItem="6uZ-Ri-dXR" firstAttribute="top" secondItem="bTx-Zx-KYk" secondAttribute="bottom" constant="8" id="hsk-4t-hNP"/>
-                        <constraint firstAttribute="bottom" secondItem="9Wu-jG-Bg7" secondAttribute="bottom" constant="16" id="n3P-Yw-jG4"/>
                         <constraint firstItem="31B-XK-T8u" firstAttribute="top" secondItem="rhz-xv-GnH" secondAttribute="bottom" constant="8" id="nkw-o3-EhW"/>
-                        <constraint firstAttribute="trailing" secondItem="rhz-xv-GnH" secondAttribute="trailing" constant="32" id="uDM-Lw-Vi2"/>
-                        <constraint firstItem="9Wu-jG-Bg7" firstAttribute="top" secondItem="N1C-ZC-K5g" secondAttribute="bottom" constant="8" id="xgL-SD-Jnl"/>
+                        <constraint firstAttribute="trailing" secondItem="rhz-xv-GnH" secondAttribute="trailing" constant="83" id="uDM-Lw-Vi2"/>
                     </constraints>
                 </view>
             </subviews>
@@ -128,13 +99,7 @@
         </view>
     </objects>
     <resources>
-        <image name="weibo_icon" width="38" height="38"/>
         <image name="weichart_friend_icon" width="38" height="38"/>
         <image name="weichart_quan_icon" width="38" height="38"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

@@ -15,6 +15,8 @@
 - (void)handleNetworkError:(NSError*)error;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerat;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
 @end
 
 @interface QSAbstractListViewProvider : NSObject <UIScrollViewDelegate>

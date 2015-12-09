@@ -13,16 +13,15 @@ itemSchema = Schema({
         ref : 'peoples'
     },
     expectable : {
-        price : Number,
-        messageForPay : String,
-        messageForBuy : String,
+        reduction : Number,
+        message : String,
         expired : Boolean
     },
+    remix : Boolean,
     thumbnail : String,
     name : String,
     price: Number,
     promoPrice : Number,
-    minExpectedPrice : Number,
     skuProperties : [String],
     skuTable : {},
     source : String,
@@ -38,7 +37,8 @@ itemSchema = Schema({
         type : Boolean,
         'default' : true
     },
-    sync : Date
+    sync : Date,
+    remixCategoryAliases : String
 });
 
 var Item = mongoose.model('items', itemSchema);

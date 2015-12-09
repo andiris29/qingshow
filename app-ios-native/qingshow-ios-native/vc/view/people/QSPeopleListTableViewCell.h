@@ -27,7 +27,7 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView* leftIcon;
 @property (strong, nonatomic) IBOutlet UIImageView* rightIcon;
-
+@property (strong, nonatomic) IBOutlet UIImageView* rankImgView;
 @property (weak, nonatomic) NSObject<QSPeopleListTableViewCellDelegate>* delegate;
 
 //- (IBAction)followButtonPressed:(id)sender;

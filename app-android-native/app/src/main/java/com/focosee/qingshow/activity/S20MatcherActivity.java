@@ -1,11 +1,12 @@
 package com.focosee.qingshow.activity;
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -15,12 +16,14 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S20SelectAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
@@ -28,11 +31,14 @@ import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S20Bitmap;
+import com.focosee.qingshow.model.vo.remix.RemixByModel;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.RectUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.ConfirmDialog;
 import com.focosee.qingshow.widget.MenuView;
@@ -43,13 +49,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -66,6 +76,7 @@ public class S20MatcherActivity extends BaseActivity {
     RecyclerView selectRV;
 
     public static final String S20_ITEMREFS = "S20_ITEMREFS";
+    public static final String S20_ITEMRECTS = "S20_ITEMRECTS";
     public static final String S20_SELECT_CATEGORYREFS = "S20_SELECT_CATEGORYREFS";
     @InjectView(R.id.container)
     FrameLayout container;
@@ -81,14 +92,13 @@ public class S20MatcherActivity extends BaseActivity {
     private Map<String, Select> allSelect;
     private List<String> categoryRefs;
     private ArrayList<String> lastCategoryRefs;
+    private String modelParentCategory;
+    private List<MongoCategories> modelCategories;
 
-    private String categoryRef = "";
+    private String mCategoryRef = "";
     private int pagaSize = 10;
     private int rows[] = new int[]{1, 2};
     private boolean hasDraw = false;
-    private Toast toast = null;
-
-    private MenuView menuView;
 
     @Override
     public void reconn() {
@@ -104,6 +114,7 @@ public class S20MatcherActivity extends BaseActivity {
         allSelect = new HashMap<>();
         categoryRefs = new ArrayList<>();
         lastCategoryRefs = new ArrayList<>();
+        modelCategories = new ArrayList<>();
 
         if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
             menu.setVisibility(View.GONE);
@@ -127,8 +138,10 @@ public class S20MatcherActivity extends BaseActivity {
         getCategoryFromNet();
     }
 
-    private void addItemsToCanvas(final String categoryRef, String url, final int row, final int column) {
+    private void addItemsToCanvas(final String categoryRef, String url) {
         final Select select;
+        final QSImageView itemView = new QSImageView(this);
+
         if (allSelect.containsKey(categoryRef)) {
             select = allSelect.get(categoryRef);
         } else {
@@ -137,7 +150,6 @@ public class S20MatcherActivity extends BaseActivity {
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-        final QSImageView itemView = new QSImageView(this);
         itemView.setLayoutParams(layoutParams);
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
@@ -147,7 +159,10 @@ public class S20MatcherActivity extends BaseActivity {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
-                formatPlace(itemView, row, column, true);
+                if (select.rect != null) {
+                    PointF point = RectUtil.getImageViewDrawablePoint(itemView.getImageView());
+                    RectUtil.locateView(select.rect, itemView, point.x, point.y);
+                }
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);
                 animator.start();
@@ -197,106 +212,24 @@ public class S20MatcherActivity extends BaseActivity {
 
             }
         });
-
         canvas.attach(itemView);
         itemView.bringToFront();
         select.setView(itemView).setPageNo(1);
         allSelect.put(categoryRef, select);
     }
 
-
-    private void formatPlace(QSImageView view, int row, int column, boolean moveToFrame) {
-
-        float left = 0;
-        float top;
-
-        int minus;
-
-        int width = view.getImageView().getDrawable().getIntrinsicWidth();
-        int height = view.getImageView().getDrawable().getIntrinsicHeight();
-        float halfCanvasWidth = canvas.getWidth() / 2.0f;
-        float avgCanvasHeight = canvas.getHeight() / (rows[column] + 1);
-
-        switch (column) {
-            case 0:
-                left = 0;
-                break;
-            case 1:
-                left = halfCanvasWidth;
-                break;
-        }
-
-        float ratio = Math.abs(avgCanvasHeight / height) < Math.abs(halfCanvasWidth / width)
-                ? Math.abs(avgCanvasHeight / (height + 20)) : Math.abs(halfCanvasWidth / (width + 20));
-        view.setScaleX(ratio);
-        view.setScaleY(ratio);
-        view.setLastScaleFactor(ratio);
-
-        if (ratio < 1) {
-            minus = -1;
-        } else {
-            minus = 1;
-        }
-
-        if (moveToFrame) {
-            if (column == 0) {
-                left = minus * Math.abs(width * (1.0f - ratio) / 2.0f);
-            }
-            if (column == 1) {
-                left = (halfCanvasWidth + minus * Math.abs(width * (1.0f - ratio) / 2.0f));
-            }
-
-            top = avgCanvasHeight * row + minus * Math.abs(height * (1.0f - ratio) / 2.0f);
-            moveView(view, 0, 0, left, top);
-        } else {
-            Point lastCentroid = view.getLastCentroid();
-            float dx = view.getLeft() + width / 2 - lastCentroid.x;
-            float dy = view.getTop() + height / 2 - lastCentroid.y;
-            moveView(view, view.getX(), view.getY(), view.getX() - dx, view.getY() - dy);
-            checkBorder(view, canvas);
-        }
-        view.callOnClick();
-    }
-
-
-    public void checkBorder(QSImageView view, View prent) {
-        float scaleFactor = view.getLastScaleFactor();
-        float dx = view.getImageView().getDrawable().getIntrinsicWidth() * (scaleFactor - 1) / 2;
-        float dy = view.getImageView().getDrawable().getIntrinsicHeight() * (scaleFactor - 1) / 2;
-        float actrulLeft = view.getLeft() - dx;
-        float actrulRight = view.getRight() + dx;
-        float actrulTop = view.getTop() - dy;
-        float actrulBottom = view.getBottom() + dy;
-
-        if (actrulLeft < 0) {
-//            moveView(view,view.getX(),view.getY(),);
-        }
-
-
-        if (actrulRight > prent.getWidth()) {
-
-        }
-
-        if (actrulTop < 0) {
-        }
-
-        if (actrulBottom > prent.getHeight()) {
-        }
-    }
-
-
     private void initCanvas() {
         canvas.setOnCheckedChangeListener(new QSCanvasView.OnCheckedChangeListener() {
             @Override
             public void checkedChanged(QSImageView view) {
-                if (categoryRef != view.getCategoryId()) {
-                    categoryRef = view.getCategoryId();
-                    if (allSelect.containsKey(categoryRef)) {
-                        allSelect.get(categoryRef).view.showDelBtn();
-                        allSelect.get(categoryRef).view.bringToFront();
-                        List<MongoItem> mongoItems = allSelect.get(categoryRef).data;
-                        adapter.setSelectPos(allSelect.get(categoryRef).selectPos);
-                        adapter.setLastChecked(allSelect.get(categoryRef).lastChecked);
+                if (mCategoryRef != view.getCategoryId()) {
+                    mCategoryRef = view.getCategoryId();
+                    if (allSelect.containsKey(mCategoryRef)) {
+                        allSelect.get(mCategoryRef).view.showDelBtn();
+                        allSelect.get(mCategoryRef).view.bringToFront();
+                        List<MongoItem> mongoItems = allSelect.get(mCategoryRef).data;
+                        adapter.setSelectPos(allSelect.get(mCategoryRef).selectPos);
+                        adapter.setLastChecked(allSelect.get(mCategoryRef).lastChecked);
                         adapter.addDataAtTop(mongoItems);
                         adapter.notifyDataSetChanged();
                     }
@@ -305,29 +238,60 @@ public class S20MatcherActivity extends BaseActivity {
         });
     }
 
+    private void enforceRemix(final MongoItem data){
+        QSRxApi.remixByModel(data._id)
+                .subscribe(new QSSubscriber<RemixByModel>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S20MatcherActivity.this, message);
+                    }
+
+                    @Override
+                    public void onNext(RemixByModel remixByModel) {
+                        super.onNext(remixByModel);
+                        Select modelSelect = allSelect.get(data.categoryRef._id);
+                        canvas.removeAllViews();
+                        allSelect.clear();
+                        final Point canvasPoint = new Point();
+                        canvasPoint.x = canvas.getWidth();
+                        canvasPoint.y = canvas.getHeight();
+                        RectF rect = remixByModel.master.rect.getRect(canvasPoint);
+                        modelSelect.rect = rect;
+                        allSelect.put(data.categoryRef._id, modelSelect);
+                        addItemsToCanvas(data.categoryRef._id, data.thumbnail);
+                        for (RemixByModel.Slave slave : remixByModel.slaves) {
+                            getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
+                        }
+                    }
+                });
+    }
+
 
     private void initSelectRV() {
         datas = new LinkedList<>();
         adapter = new S20SelectAdapter(datas, this, R.layout.item_s20_select);
-        allSelect.containsKey(categoryRef);
+        allSelect.containsKey(mCategoryRef);
         adapter.setOnCheckedChangeListener(new S20SelectAdapter.OnCheckedChangeListener() {
             @Override
             public void onCheckedChange(MongoItem datas, int position, RadioLayout view) {
-                if (!allSelect.containsKey(categoryRef)) {
+                if (!allSelect.containsKey(mCategoryRef)) {
                     return;
                 }
-                ImageLoader.getInstance().displayImage(datas.thumbnail, allSelect.get(categoryRef).view.getImageView(), new SimpleImageLoadingListener() {
+
+                for (MongoCategories category : modelCategories) {
+
+                    if (datas.categoryRef._id.equals(category._id)){
+                        enforceRemix(datas);
+                    }
+                }
+
+                ImageLoader.getInstance().displayImage(datas.thumbnail, allSelect.get(mCategoryRef).view.getImageView(), new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
-                        if (allSelect.containsKey(categoryRef)) {
-                            formatPlace(allSelect.get(categoryRef).view, allSelect.get(categoryRef).row, allSelect.get(categoryRef).column, false);
-                        } else {
-                            return;
-                        }
                     }
                 });
-                allSelect.put(categoryRef, allSelect.get(categoryRef).setLastChecked(view).setSelectPos(position).setItem(datas));
+                allSelect.put(mCategoryRef, allSelect.get(mCategoryRef).setLastChecked(view).setSelectPos(position).setItem(datas));
 
             }
         });
@@ -363,11 +327,11 @@ public class S20MatcherActivity extends BaseActivity {
             }
 
             public void onBottom() {
-                if (allSelect.containsKey(categoryRef)) {
-                    int pagaNo = allSelect.get(categoryRef).pageNo;
+                if (allSelect.containsKey(mCategoryRef)) {
+                    int pagaNo = allSelect.get(mCategoryRef).pageNo;
                     ++pagaNo;
-                    getDataFromNet(pagaNo, pagaSize, categoryRef);
-                    allSelect.put(categoryRef, allSelect.get(categoryRef).setPageNo(pagaNo));
+                    getDataFromNet(pagaNo, pagaSize, mCategoryRef);
+                    allSelect.put(mCategoryRef, allSelect.get(mCategoryRef).setPageNo(pagaNo));
                 }
             }
 
@@ -386,7 +350,7 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
 
-    private void getDataFromNet(final String categoryRef, final int row, final int column) {
+    private void getDataFromNet(final String categoryRef, final RectF rect) {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryItems(1, 20, categoryRef), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -394,16 +358,26 @@ public class S20MatcherActivity extends BaseActivity {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
                 }
+                Select select;
                 datas = ItemFeedingParser.parse(response);
                 if (allSelect.containsKey(categoryRef)) {
-                    allSelect.put(categoryRef, allSelect.get(categoryRef).setData(datas).setItem(datas.get(0)).setRow(row).setColumn(column));
+                    select = allSelect.get(categoryRef);
                 } else {
-                    allSelect.put(categoryRef, new Select().setData(datas).setItem(datas.get(0)).setRow(row).setColumn(column));
+                    select = new Select();
                 }
+                select.setData(datas).setItem(datas.get(0)).setRect(rect);
+                allSelect.put(categoryRef, select);
                 if (!categoryRefs.contains(categoryRef)) {
                     categoryRefs.add(categoryRef);
                 }
-                addItemsToCanvas(categoryRef, datas.get(0).thumbnail, row, column);
+
+                for (MongoCategories category : modelCategories) {
+                    if (datas.get(0).categoryRef._id.equals(category._id)){
+                        enforceRemix(datas.get(0));
+                        return;
+                    }
+                }
+                addItemsToCanvas(categoryRef, datas.get(0).thumbnail);
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -436,50 +410,39 @@ public class S20MatcherActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
+
     private void getCategoryFromNet() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSJsonObjectRequest.Method.GET, QSAppWebAPI.getQueryCategories(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(S20MatcherActivity.class.getSimpleName(), "cate_response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S20MatcherActivity.this, MetadataParser.getError(response));
                     return;
                 }
+                try {
+                    modelParentCategory = response.getJSONObject("metadata").get("modelCategoryRef").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 categories = CategoryParser.parseQuery(response);
-
-                for (MongoCategories category : categories) {
-                    if (category.matchInfo != null) {
-                        if (category.matchInfo.defaultOnCanvas) {
-                            if (category.matchInfo.row > rows[category.matchInfo.column]) {
-                                rows[category.matchInfo.column] = category.matchInfo.row;
-                            }
-                        }
-                    }
+                if (categories == null){
+                    return;
                 }
 
                 for (MongoCategories category : categories) {
-                    if (category.matchInfo != null) {
-                        if (category.matchInfo.defaultOnCanvas) {
-                            if (!categoryRefs.contains(category._id)) {
-                                categoryRefs.add(category._id);
-                            }
-                            getDataFromNet(category._id, category.matchInfo.row, category.matchInfo.column);
-                        }
+                    if (category.parentRef != null && category.parentRef._id.equals(modelParentCategory)){
+                        modelCategories.add(category);
                     }
                 }
+                Random random = new Random();
+                MongoCategories model = modelCategories.get(random.nextInt(modelCategories.size()));
+                getDataFromNet(model._id, null);
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    private void moveView(View view, float startX, float startY, float nextX, float nextY) {
-        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", startX, nextX);
-        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", startY, nextY);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(x, y);
-        animatorSet.setDuration(0);
-        animatorSet.start();
-        ((QSImageView) view).setLastCentroid(new Point(view.getLeft() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicWidth() / 2, view.getTop() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicHeight() / 2));
-    }
 
     @Override
     protected void onDestroy() {
@@ -507,7 +470,7 @@ public class S20MatcherActivity extends BaseActivity {
                 if (row > rows[cloum]) {
                     rows[cloum] = row;
                 }
-                getDataFromNet(ref, row, cloum);
+                getDataFromNet(ref, null);
             }
         }
     }
@@ -524,7 +487,7 @@ public class S20MatcherActivity extends BaseActivity {
     @OnClick(R.id.menu)
     public void menuOpen() {
         ((ImageButton) findViewById(R.id.menu)).setImageResource(R.drawable.nav_btn_menu_n);
-        menuView = new MenuView();
+        MenuView menuView = new MenuView();
         menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
     }
 
@@ -546,10 +509,14 @@ public class S20MatcherActivity extends BaseActivity {
         } else {
             onSubmit = true;
         }
+        if (allSelect.size() < 4) {
+            ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_item_less));
+            onSubmit = false;
+            return;
+        }
         for (String key : allSelect.keySet()) {
             if (!allSelect.get(key).loadDone) {
-                toast = Toast.makeText(getApplicationContext(), R.string.s20_notify_load_image_unfinished, Toast.LENGTH_SHORT);
-                toast.show();
+                ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_notify_load_image_unfinished));
                 onSubmit = false;
                 return;
             }
@@ -557,8 +524,7 @@ public class S20MatcherActivity extends BaseActivity {
 
 
         if (!checkOverlap(0.7f)) {
-            toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.s20_notify_more), Toast.LENGTH_SHORT);
-            toast.show();
+            ToastUtil.showShortToast(getApplicationContext(), getResources().getString(R.string.s20_notify_more));
             onSubmit = false;
             return;
         }
@@ -573,12 +539,25 @@ public class S20MatcherActivity extends BaseActivity {
         S20Bitmap.INSTANCE.setBitmap(bitmap);
         hasDraw = true;
 
-        Intent intent = new Intent(S20MatcherActivity.this, S20MatchPreviewActivity.class);
+        Intent intent = new Intent(S20MatcherActivity.this, S22MatchPreviewActivity.class);
         ArrayList<String> itemRefs = new ArrayList<>();
         for (String s : allSelect.keySet()) {
             itemRefs.add(allSelect.get(s).item._id);
         }
         intent.putStringArrayListExtra(S20_ITEMREFS, itemRefs);
+
+        ArrayList<RectF> itemRects = new ArrayList<>();
+        for (int i = 0; i < canvas.getChildCount(); i++) {
+            RectF rect = RectUtil.getViewRealRect(canvas.getChildAt(i));
+            RectF rectF = new RectF((rect.left + 0.0f) / (canvas.getWidth() + 0.0f) * 100,
+                    (rect.top + 0.0f) / (canvas.getHeight() + 0.0f) * 100,
+                    (rect.right + 0.0f) / (canvas.getWidth() + 0.0f) * 100,
+                    (rect.bottom + 0.0f) / (canvas.getHeight() + 0.0f) * 100);
+            itemRects.add(rectF);
+        }
+
+        intent.putParcelableArrayListExtra(S20_ITEMRECTS, itemRects);
+
         startActivity(intent);
         onSubmit = false;
     }
@@ -600,17 +579,11 @@ public class S20MatcherActivity extends BaseActivity {
         public int pageNo;
         public List<MongoItem> data;
         public MongoItem item;
-        public int row;
-        public int column;
+        public RectF rect;
         public boolean loadDone = false;
 
-        public Select setRow(int row) {
-            this.row = row;
-            return this;
-        }
-
-        public Select setColumn(int column) {
-            this.column = column;
+        public Select setRect(RectF rect) {
+            this.rect = rect;
             return this;
         }
 

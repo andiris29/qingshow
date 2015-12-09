@@ -56,7 +56,7 @@ public class FlowRadioButton extends Button implements IRadioViewHelper {
     private void onCheckedChanged(boolean isCheck) {
         if (!isEnable()) return;
         if (isCheck) {
-            setBackgroundResource(R.drawable.pink_btn_fall);
+            setBackgroundResource(R.drawable.blue_btn_fall);
             setTextColor(Color.WHITE);
         } else {
             setBackgroundResource(R.drawable.gay_btn_ring);

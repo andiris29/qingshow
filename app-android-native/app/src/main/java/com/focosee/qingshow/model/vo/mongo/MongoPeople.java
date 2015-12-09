@@ -13,6 +13,7 @@ public class MongoPeople implements Serializable {
     public static final int FIRST_OPEN_APP = 1;
     public static final int GET_GUEST_USER = 2;
     public static final int MATCH_FINISHED = 3;
+    public static final int LOGIN_GUIDE_FINISHED = 4;
 
     public String _id;
 
@@ -76,6 +77,7 @@ public class MongoPeople implements Serializable {
         public GregorianCalendar create;
         public Trigger trigger;
         public String icon;
+        public String[] participants;
     }
 
     public class Trigger implements Serializable {
@@ -92,5 +94,6 @@ public class MongoPeople implements Serializable {
     public class Extra implements Serializable{
         public String _id;
         public String command;
+        public int index;
     }
 }

@@ -11,6 +11,7 @@
 #import "QSUserManager.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUnreadManager.h"
+#import "QSRootNotificationHelper.h"
 
 @interface QSRootContentViewController ()
 @property (strong, nonatomic) UIBarButtonItem* menuBtn;
@@ -18,8 +19,6 @@
 @end
 
 @implementation QSRootContentViewController
-
-@synthesize menuProvider = _menuProvider;
 
 #pragma mark - Getter And Setter
 - (UIBarButtonItem*)menuBtn {
@@ -71,8 +70,6 @@
 - (void)configNavBar
 {
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
-//    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
-//    titleImageView.userInteractionEnabled = YES;
     UINavigationBar* navBar = self.navigationController.navigationBar;
     UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
     self.showVersionTapGesture = tapGes;
@@ -87,9 +84,7 @@
 
 - (void)menuButtonPressed
 {
-    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
-        [self.menuProvider didClickMenuBtn];
-    }
+    [QSRootNotificationHelper postShowRootMenuNoti];
 }
 - (void)didTapRootTitle
 {

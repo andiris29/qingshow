@@ -53,10 +53,30 @@
 - (MKNetworkOperation*)queryPeopleDetail:(NSString*)peopleId
                                onSucceed:(DicBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock{
-    return [self startOperationWithPath:PATH_PEOPLE_QUERY_DETAIL method:@"GET" paramers:@{@"_ids" : peopleId} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self queryPeoplesDetail:@[peopleId]
+                          onSucceed:^(NSArray *arrayBlock)
+            {
+                if (succeedBlock) {
+                    succeedBlock([arrayBlock firstObject]);
+                }
+            }
+                            onError:errorBlock];
+}
+
+- (MKNetworkOperation*)queryPeoplesDetail:(NSArray*)peopleIds
+                               onSucceed:(InputArrayBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock {
+    NSMutableString* resultString = [@"" mutableCopy];
+    for (NSString* pId in peopleIds) {
+        if (resultString.length) {
+            [resultString appendString:@","];
+        }
+        [resultString appendString:pId];
+    }
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_DETAIL method:@"GET" paramers:@{@"_ids" : resultString} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSArray* retArray = completedOperation.responseJSON[@"data"][@"peoples"];
         if (retArray.count) {
-            succeedBlock([retArray deepMutableCopy][0]);
+            succeedBlock([retArray deepMutableCopy]);
         } else {
             succeedBlock(nil);
         }
@@ -67,6 +87,8 @@
         }
     }];
 }
+
+
 #pragma mark - Follow
 - (MKNetworkOperation*)peopleQueryFollowed:(NSDictionary*)peopleDict
                                       page:(int)page
@@ -176,7 +198,6 @@
     {
         return [self followPeople:modelId onSucceed:^{
             [QSPeopleUtil setPeople:model isFollowed:YES];
-            [QSPeopleUtil addNumFollower:1ll forPeople:model];
             if (succeedBlock) {
                 succeedBlock(YES);
             }

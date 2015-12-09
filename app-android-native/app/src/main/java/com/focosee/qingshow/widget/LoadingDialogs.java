@@ -53,6 +53,7 @@ public class LoadingDialogs extends Dialog {
     @Override
     public void dismiss() {
         super.dismiss();
+        if (load != null)
         load.clearAnimation();
     }
 

@@ -10,6 +10,7 @@
 
 @interface QSDateUtil : NSObject
 
++ (NSDate*)clearTimeFromDate:(NSDate*)date;
 + (NSDate*)buildDateFromResponseString:(NSString*)str;
 + (NSString*)buildStringFromDate:(NSDate*)date;
 + (NSString*)getTime:(NSDate*)date;
@@ -25,8 +26,10 @@
 + (NSString*)getYearDesc:(NSDate*)date;
 + (NSString*)getWeekdayDesc:(NSDate*)date;
 + (NSInteger)getWeekdayIndex:(NSDate*)date;
++ (NSInteger)getHourNumber:(NSDate*)date;
 
 //获取日期
 + (NSString*)getMonthAndDate:(NSDate*)date;
-
++ (NSString*)buildDotStringFromDate:(NSDate*)date;
++ (NSDate*)clearMinuteFromDate:(NSDate*)date;
 @end

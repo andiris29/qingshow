@@ -13,19 +13,25 @@ ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) 
         'metadata' : metadata || {}
     };
     if (err) {
+        if (!err.errorCode) {
+            err = errors.genUnkownError(err);
+        }
         json.metadata.error = err.errorCode;
-        json.metadata.devInfo = err;
+        json.metadata.devInfo = {
+            'err' : err.description || (err.toString ? err.toString() : err),
+            'stack' : err.stack
+        };
     }
     if (beforeEndResponse) {
         json = beforeEndResponse(json);
     }
 
-    if (res.locals && res.locals.clientInfo) {
-        var log = _.extend(res.locals.clientInfo, {
-            'cost' : Date.now() - res.locals.time,
-            'fullpath' : res.locals.fullpath
-        }, {
-            'qsCurrentUserId' : res.locals.qsCurrentUserId ? res.locals.qsCurrentUserId.toString() : ''
+    if (res.locals && res.locals.api) {
+        var log = _.extend(res.locals.api, {
+            'cost' : Date.now() - res.locals.api.timestamp,
+            'res' : {
+                'metadata' : json.metadata
+            }
         });
         if (log.cost > 1000) {
             logger.error(log);
@@ -47,4 +53,19 @@ ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, b
         };
     }
     ResponseHelper.response(res, err, data, metadata, beforeEndResponse);
+};
+
+ResponseHelper.write = function(res, metadata, data) {
+    ResponseHelper.writeMetadata(res, metadata);
+    ResponseHelper.writeData(res, data);
+};
+
+ResponseHelper.writeMetadata = function(res, metadata) {
+    res.locals.out = res.locals.out || {};
+    res.locals.out.metadata = metadata;
+};
+
+ResponseHelper.writeData = function(res, data) {
+    res.locals.out = res.locals.out || {};
+    res.locals.out.data = data;
 };

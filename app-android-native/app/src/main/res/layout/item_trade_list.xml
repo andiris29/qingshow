@@ -1,70 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:layout_below="@+id/item_tradelist_line"
+    android:layout_margin="5dp">
 
     <android.support.percent.PercentRelativeLayout
-        android:id="@+id/item_tradelist_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:paddingTop="20dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_tradelist_image"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            app:layout_widthPercent="30%"
+            fresco:actualImageScaleType="fitCenter"
+            fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+
+        <com.focosee.qingshow.widget.QSButton
+            android:id="@+id/item_tradelist_check"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/item_tradelist_image"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tradelist_btn"
+            android:text="查看商品"
+            android:textColor="@color/master_blue"
+            app:layout_marginLeftPercent="4%"
+            app:layout_widthPercent="23%" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_payTime"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_tradelist_check"
+            android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:text="付款日期："
             android:textColor="@color/gary"
             android:textSize="13sp" />
 
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/item_tradelist_image">
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_tradelist_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/master_blue" />
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_tradelist_actualPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_tradelist_description"
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:textColor="@color/master_blue" />
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_tradelist_skuProperties_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_tradelist_actualPrice"
+                android:layout_marginTop="20dp"
+                android:lineSpacingExtra="5dp"
+                android:text="规格："
+                android:visibility="gone" />
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_tradelist_skuProperties"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/item_tradelist_skuProperties_tab"
+                android:layout_toRightOf="@id/item_tradelist_skuProperties_tab"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:visibility="gone" />
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_tradelist_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_tradelist_skuProperties"
+                android:layout_marginTop="5dp"
+                android:text="@string/trade_count"
+                app:preText="@string/trade_count" />
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/item_tradelist_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_tradelist_skuProperties"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/master_blue" />
+        </android.support.percent.PercentRelativeLayout>
+
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_tradelist_status"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/item_tradelist_payTime"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:gravity="center_vertical"
-            android:text="折扣申请中"
-            android:textColor="@color/master_pink"
-            android:textSize="@dimen/text_size"
-            android:visibility="gone" />
-
-        <com.focosee.qingshow.widget.QSButton
-            android:id="@+id/item_tradelist_btn2"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/item_tradelist_btn1"
-            android:background="@drawable/tradelist_btn"
-            android:gravity="center"
-            android:text="申请退货"
-            android:textColor="@color/master_pink"
-            android:textSize="@dimen/text_size_small"
-            android:visibility="gone"
-            app:clickGround="@drawable/round_btn_background" />
-
-        <View
-            android:id="@+id/item_tradelist_btn2_topImg"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_alignLeft="@+id/item_tradelist_btn2"
-            android:layout_alignTop="@+id/item_tradelist_btn2"
-            android:layout_marginLeft="-5dp"
-            android:layout_marginTop="-5dp"
-            android:background="@drawable/circle_tip"
+            android:layout_marginRight="18dp"
+            android:textColor="@color/master_blue"
+            android:textSize="18sp"
             android:visibility="gone" />
 
         <com.focosee.qingshow.widget.QSButton
             android:id="@+id/item_tradelist_btn1"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
+            android:layout_alignBottom="@id/item_tradelist_payTime"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
@@ -73,23 +136,22 @@
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:text="分享后付款"
-            android:textColor="@color/master_pink"
+            android:textColor="@color/master_blue"
             android:textSize="@dimen/text_size_small"
-            android:visibility="gone"
-            app:clickGround="@drawable/round_btn_background" />
+            android:visibility="invisible" />
+
+        <com.focosee.qingshow.widget.QSButton
+            android:id="@+id/item_tradelist_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignBottom="@id/item_tradelist_btn1"
+            android:layout_toLeftOf="@id/item_tradelist_btn1"
+            android:background="@drawable/tradelist_btn"
+            android:gravity="center"
+            android:text="申请退货"
+            android:textColor="@color/master_blue"
+            android:visibility="invisible" />
+
 
     </android.support.percent.PercentRelativeLayout>
-
-    <View
-        android:id="@+id/item_tradelist_line"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/item_tradelist_title"
-        android:background="@color/gary" />
-
-    <include
-        layout="@layout/include_trade_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/item_tradelist_line"/>
-</android.support.percent.PercentRelativeLayout>
+</android.support.v7.widget.CardView>

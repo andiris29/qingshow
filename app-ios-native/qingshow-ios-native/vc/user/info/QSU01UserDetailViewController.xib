@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU01UserDetailViewController">
@@ -18,13 +18,14 @@
                 <outlet property="matcherCollectionView" destination="sg7-Ao-Jcv" id="HS6-Q1-pXq"/>
                 <outlet property="menuBtn" destination="wOr-OR-RzB" id="zAR-eC-Xpi"/>
                 <outlet property="recommendCollectionView" destination="DrY-X6-QFu" id="GMq-fN-k8b"/>
+                <outlet property="settingBtn" destination="ARc-0d-VTl" id="b4Y-5j-Eh7"/>
                 <outlet property="topConstrain" destination="j2X-WF-LhN" id="aJX-zq-48w"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zNd-7b-5M4"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVA-uB-yhC">
@@ -113,14 +114,28 @@
                         <constraint firstAttribute="height" constant="360" id="uMu-M4-U1U"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
-                    <rect key="frame" x="17" y="22" width="39" height="39"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARc-0d-VTl">
+                    <rect key="frame" x="274" y="25" width="32" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="39" id="96r-aa-5BR"/>
-                        <constraint firstAttribute="width" constant="39" id="qD7-AF-iCw"/>
+                        <constraint firstAttribute="width" constant="32" id="6vk-sc-6xf"/>
+                        <constraint firstAttribute="height" constant="32" id="WOd-IC-kfe"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal" image="nav_menu_u01">
+                    <state key="normal" backgroundImage="u01_setting_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="settingBtnPressed:" destination="-1" eventType="touchUpInside" id="MVx-Sa-0WZ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="96r-aa-5BR"/>
+                        <constraint firstAttribute="width" constant="32" id="qD7-AF-iCw"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" backgroundImage="nav_menu_black">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -128,13 +143,13 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ac3-Q3-Rae">
-                    <rect key="frame" x="17" y="22" width="39" height="39"/>
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="39" id="3Lc-wb-1SG"/>
-                        <constraint firstAttribute="width" constant="39" id="b32-WZ-UZ8"/>
+                        <constraint firstAttribute="height" constant="32" id="3Lc-wb-1SG"/>
+                        <constraint firstAttribute="width" constant="32" id="b32-WZ-UZ8"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal" image="back_shadow">
+                    <state key="normal" backgroundImage="back_shadow">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -144,17 +159,19 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ac3-Q3-Rae" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="3hV-Eq-L5b"/>
+                <constraint firstItem="ac3-Q3-Rae" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="3hV-Eq-L5b"/>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
-                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="DTe-9u-7lB"/>
+                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="DTe-9u-7lB"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
-                <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="QPE-wC-rfU"/>
+                <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="QPE-wC-rfU"/>
+                <constraint firstAttribute="trailing" secondItem="ARc-0d-VTl" secondAttribute="trailing" constant="14" id="RrF-fs-GR8"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
                 <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
-                <constraint firstItem="ac3-Q3-Rae" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="nPm-wY-OMy"/>
+                <constraint firstItem="ac3-Q3-Rae" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="nPm-wY-OMy"/>
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v9I-jF-Wrp"/>
+                <constraint firstItem="ARc-0d-VTl" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" id="zvV-GT-RSI"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
         </view>
@@ -162,11 +179,7 @@
     <resources>
         <image name="backToTopBtnImg_black" width="35" height="35"/>
         <image name="back_shadow" width="35" height="35"/>
-        <image name="nav_menu_u01" width="28" height="28"/>
+        <image name="nav_menu_black" width="30" height="30"/>
+        <image name="u01_setting_btn" width="30" height="30"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

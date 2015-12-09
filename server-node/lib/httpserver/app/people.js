@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 //model
 var People = require('../../dbmodels').People;
+var Trade = require('../../dbmodels').Trade;
 var RPeopleFollowPeople = require('../../dbmodels').RPeopleFollowPeople;
 //util
 var ServiceHelper = require('../../helpers/ServiceHelper');
@@ -105,5 +106,39 @@ people.query = {
         });
     }
 };
+
+
+people.queryBuyers = {
+    method : 'post',
+    func : function(req, res) {
+        var itemRef = req.body.itemRef;
+        Trade.find({
+            'itemRef' : itemRef
+        }).exec(function(err, trades){
+            if (err) {
+                ResponseHelper.response(res, errors.genUnkownError(), {});
+                return;
+            }
+            var ownerRefs = trades.map(function(trade){
+                return trade.ownerRef;
+            });
+            var criteria = {
+                '_id' : {
+                    $in : ownerRefs
+                }
+            };
+            ServiceHelper.queryPaging(req, res, function(qsParam, callback){
+                MongoHelper.queryPaging(People.find(criteria), People.find(criteria), qsParam.pageNo, 
+                    qsParam.pageSize, function(err, models, count){
+                        callback(err, models, count);
+                    });
+            },function(peoples){
+                return {
+                    'peoples' : peoples
+                }
+            });
+        });            
+    }
+}
 
 

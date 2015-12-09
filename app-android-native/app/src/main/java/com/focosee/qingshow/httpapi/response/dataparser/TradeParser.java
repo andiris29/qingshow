@@ -13,11 +13,7 @@ import java.util.LinkedList;
  */
 public class TradeParser {
     public static LinkedList<MongoTrade> parseQuery(JSONObject response) {
-        Gson gson = QSGsonFactory.tradeBudiler().create();
-        return parseQuery(gson, response);
-    }
-
-    public static LinkedList<MongoTrade> parseQuery(Gson gson, JSONObject response) {
+        Gson gson = QSGsonFactory.create();
         try {
             String trades = response.getJSONObject("data").getJSONArray("trades").toString();
             return gson.fromJson(trades, new TypeToken<LinkedList<MongoTrade>>() {
@@ -30,17 +26,12 @@ public class TradeParser {
     public static MongoTrade parse(JSONObject response) {
         try {
             String trade = response.getJSONObject("data").getJSONObject("trade").toString();
-            Gson gson = QSGsonFactory.itemBuilder().create();
+            Gson gson = QSGsonFactory.create();
             return gson.fromJson(trade, new TypeToken<MongoTrade>() {
             }.getType());
         } catch (JSONException e) {
             return null;
         }
-    }
-
-    public static LinkedList<MongoTrade> parse_categories(JSONObject response){
-        Gson gson = QSGsonFactory.cateGoryBuilder().create();
-        return parseQuery(gson, response);
     }
 
 }

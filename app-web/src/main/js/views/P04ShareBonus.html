@@ -1,42 +1,34 @@
 <div class="qs-page">
-    <div class="p02-background"></div>
-    <div class="slider p02-image-slider">
-        <div>
-            <div class="p02-image-slider-block-content">
-                <div class="p02-image-slider-block-image-container">
-                    <div class="p02-image-slider-block-image">
-                        <div class="p02-bonus-total-text">佣金总计：<span class="p02-bonus-total-text-number"></span></div>
-                        <div class="p02-bonus-current-text">提现金额：<span class="p02-bonus-current-text-number"></span></div>
-                    </div>
-                </div>
-                <div class="p02-image-slider-block-text" style="color: #7c005a">搭的越美 赚的越多</div>
-            </div>
-        </div>
-        <div>
-            <div class="p02-image-slider-block-content">
-                <div class="p02-image-slider-block-image-container">
-                    <div class="p02-image-slider-block-image"></div>
-                </div>
+    <div class="p04-background"></div>
+    <div class="p04-waiting-container" style="display:none">
+        <div class="p04-title">佣金提现处理中...</div>
+        <div class="p04-subtitle">系统将在15分钟后完成您的申请<br/>成功后请点击下方按钮完成提现</div>
+    </div>
+    <div class="p04-request-complete-container" style="display:none">
+        <div class="p04-title">申请成功</div>
+        <div class="p04-subtitle">点击确定按钮完成提现</div>
+        <div class="p04-request-complete-arrow"></div>
+    </div>
 
-                <div class="p02-image-slider-block-text" style="color: #440058">当季新品 折扣你定</div>
-            </div>
+    <div class="p04-circle-count-container">
+        <canvas class="p04-circle-count-canvas"></canvas>
+        <div class="p04-circle-count-remain-time-container" style="display:none">
+            <div class="p04-circle-count-remain-time-title">剩余时间</div>
+            <div class="p04-circle-count-remain-time-number">03:20</div>
         </div>
-        <div>
-            <div class="p02-image-slider-block-content">
-                <div class="p02-image-slider-block-image-container">
-                    <div class="p02-image-slider-block-image"></div>
-                </div>
-                <div class="p02-image-slider-block-text" style="color: #7d0022">万件潮品 随心搭配</div>
-            </div>
-        </div>
-        <div>
-            <div class="p02-image-slider-block-content">
-                <div class="p02-image-slider-block-image-container">
-                    <div class="p02-image-slider-block-image"></div>
-                </div>
-                <div class="p02-image-slider-block-text" style="color: #004f82">全球时尚 一手掌握</div>
-            </div>
+
+        <div class="p04-circle-count-request-complete-container" style="display:none">
+            <div class="p04-circle-count-request-complete-icon"></div>
+            <div class="p04-circle-count-request-complete-text">确定提现</div>
         </div>
     </div>
-    <div class="p02-download"></div>
+
+    <div class="p04-withdraw-success-alert" style="display: none">
+        <div class="p04-withdraw-success-alert-title">佣金发送成功</div>
+        <div class="p04-withdraw-success-alert-splitter"></div>
+        <div class="p04-withdraw-success-alert-OK">OK</div>
+    </div>
+
+    <div class="p04-download"></div>
+    <div class="p04-bottom-text p04-subtitle">赶快加入倾秀  |  折扣享不停  佣金赚不尽</div>
 </div>

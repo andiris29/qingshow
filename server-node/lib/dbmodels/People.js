@@ -6,7 +6,6 @@ peopleSchema = Schema({
     __context : Object,
     nickname: String,
     mobile: String,
-    assetsRoot : String,
     portrait : String,
     background : String,
     height : Number,
@@ -15,7 +14,14 @@ peopleSchema = Schema({
     bodyType : Number,
     dressStyle : Number,
     expectations : [Number],
-    role : Number,
+    role : {
+        type : Number,
+        'default' : 0
+    },
+    initiatorRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'peoples'
+    },
     measureInfo : {
         shoulder : Number,
         bust : Number,
@@ -25,14 +31,8 @@ peopleSchema = Schema({
     },
     userInfo : {
         id : String,
-        password : {
-            type : String,
-            select : false
-        },
-        encryptedPassword : {
-            type : String,
-            select : false
-        },
+        password : String,
+        encryptedPassword : String,
         passwordUpdatedDate : {
             type : Date,
             select : false,
@@ -64,35 +64,6 @@ peopleSchema = Schema({
         address : String,
         isDefault : Boolean
     }],
-    bonuses : [{
-        status : Number,
-        money : Number,
-        notes : String,
-        icon : String,
-        create : {
-            type : Date,
-            'default' : Date.now
-        },
-        initiatorRef : {
-            type : Schema.Types.ObjectId,
-            ref : 'peoples'
-        },
-        trigger : {
-            forgerRef : {
-                type : Schema.Types.ObjectId,
-                ref : 'peoples'
-            },
-            tradeRef : {    
-                type : Schema.Types.ObjectId,
-                ref : 'trades'
-            },
-            itemRef : {
-                type : Schema.Types.ObjectId,
-                ref : 'items'
-            }
-        },
-        alipayId : String
-    }],
     unreadNotifications : [{
         create : {
             type : Date,
@@ -120,8 +91,13 @@ peopleSchema = Schema({
         taobao : {
             sid : String
         }
-    }
+    },
+    rank : Number
 });
+
+peopleSchema.index({mobile: 1});
+peopleSchema.index({create: -1});
+
 var People = mongoose.model('peoples', peopleSchema);
 
 module.exports = People;

@@ -87,33 +87,6 @@
     return m;
 }
 
-+ (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict
-{
-    NSNumber* f = [modelDict numberValueForKeyPath:@"__context.numFollowers"];
-    if (f) {
-        return f.kmbtStringValue;
-    } else {
-        return @"0";
-    }
-}
-
-+ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict
-{
-    if ([QSEntityUtil checkIsNil:peopleDict] && ![peopleDict isKindOfClass:[NSMutableDictionary class]]) {
-        return;
-    }
-    NSMutableDictionary* p = (NSMutableDictionary*)peopleDict;
-    NSMutableDictionary* context = [peopleDict[@"__context"] mutableCopy];
-    if (context) {
-        NSNumber* f = [context numberValueForKeyPath:@"numFollowers"];
-        long long n = f.longLongValue;
-        n += num;
-        n = n >= 0? n : 0;
-        context[@"numFollowers"] = @(n);
-        p[@"__context"] = context;
-    }
-    
-}
 
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict
 {
@@ -327,48 +300,22 @@
 + (NSArray*)getUnreadNotifications:(NSDictionary*)peopleDict {
     return [peopleDict arrayValueForKeyPath:@"unreadNotifications"];
 }
-#pragma mark - bonus
-+ (NSArray*)getBonusList:(NSDictionary*)dict
-{
-    return [dict arrayValueForKeyPath:@"bonuses"];
-}
-+ (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getNumberValue:dict keyPath:@"money"];
-}
-+ (NSNumber*)getStatusFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getNumberValue:dict keyPath:@"status"];
-}
-+ (NSString*)getNoteFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"notes"];
-}
-+ (NSString*)getCreateFromBonusDict:(NSDictionary *)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"create"];
-}
+
+
 + (NSString*)getAlipayId:(NSDictionary *)dict
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"alipayId"];
 }
-+ (NSString*)getIconFromBonusDict:(NSDictionary*)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"icon"];
-}
-+ (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"trigger.itemRef"];
+
++ (BOOL)hasBindWechat:(NSDictionary*)dict {
+    return [self getWechatLoginId:dict] != nil;
 }
 
 + (NSString *)getWechatLoginId:(NSDictionary *)dict
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.weixin.openid"];
 }
-+ (NSString *)getWeiboLoginId:(NSDictionary *)dict
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.weibo.id"];
-}
+
 + (NSString *)getNameAndPswLoginId:(NSDictionary *)dict
 {
     return [QSEntityUtil getStringValue:dict keyPath:@"userInfo.id"];
@@ -381,5 +328,48 @@
         return NO;
     }
     return YES;
+}
+
++ (BOOL)isTalent:(NSDictionary*)dict {
+    NSNumber* f = [dict numberValueForKeyPath:@"talent"];
+    if (f) {
+        return f.boolValue;
+    } else {
+        return NO;
+    }
+}
+
++ (NSNumber*)getTotalBonus:(NSDictionary*)dict {
+    NSDictionary* bonusDict = [dict dictValueForKeyPath:@"__context.bonusAmountByStatus"];
+    if (bonusDict) {
+        return @([dict numberValueForKeyPath:@"__context.bonusAmountByStatus.0"].floatValue + [dict numberValueForKeyPath:@"__context.bonusAmountByStatus.1"].floatValue + [dict numberValueForKeyPath:@"__context.bonusAmountByStatus.2"].floatValue);
+
+    } else {
+        return nil;
+    }
+}
+
++ (NSNumber*)getAvailableBonus:(NSDictionary*)dict {
+    NSDictionary* bonusDict = [dict dictValueForKeyPath:@"__context.bonusAmountByStatus"];
+    if (bonusDict) {
+        return @([dict numberValueForKeyPath:@"__context.bonusAmountByStatus.0"].floatValue + [dict numberValueForKeyPath:@"__context.bonusAmountByStatus.1"].floatValue);
+        
+    } else {
+        return nil;
+    }
+}
++ (NSNumber*)getRank:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"rank"];
+}
+
++ (UIImage*)rankImgView:(NSDictionary*)dict {
+    NSNumber* n = [self getRank:dict];
+    if (n && n.intValue == 0) {
+        return [UIImage imageNamed:@"gold_wangguan"];
+    } else if (n && n.intValue == 1) {
+        return [UIImage imageNamed:@"silver_wangguan"];
+    }else {
+        return nil;
+    }
 }
 @end

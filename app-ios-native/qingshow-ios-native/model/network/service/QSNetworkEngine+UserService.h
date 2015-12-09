@@ -9,17 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "QSNetworkEngine.h"
 #define kUserInfoUpdateNotification @"kUserInfoUpdateNotification"
+#define kUserLoginNotification @"kUserLoginNotification"
 @interface QSNetworkEngine(UserService)
 
 #pragma mark - User
+- (MKNetworkOperation *)registerByMobile:(NSString *)mobile
+                                password:(NSString *)passwd
+                              verifyCode:(NSString *)code
+                             onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
                             password:(NSString*)password
                            onSucceed:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)loginViaWeiboAccessToken:(NSString*)accessToken
-                                            uid:(NSString*)uid
-                                      onSucceed:(EntitySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)loginViaWechatCode:(NSString*)code
                                 onSucceed:(EntitySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
@@ -28,23 +30,6 @@
                                onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)loginAsGuestOnSucceed:(EntitySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
-
-//- (MKNetworkOperation *)registerById:(NSString *)pid
-//                            Password:(NSString *)passwd
-//                           onSuccess:(EntitySuccessBlock)succeedBlock
-//                             onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd
-                                        Id:(NSString *)pid
-                               onSucceessd:(EntitySuccessBlock)successdBlock
-                                   onErrer:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd
-                                        Id:(NSString *)pid
-                                    mobile:(NSString *)mobileNum
-                                      code:(NSString *)code
-                               onSucceessd:(EntitySuccessBlock)successdBlock
-                                   onErrer:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation *)updatePeople:(NSDictionary *)people
                            onSuccess:(EntitySuccessBlock)succeedBlock
@@ -78,24 +63,33 @@
 - (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
                             onSuccess:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getBonusWithAlipayId:(NSString*)alipayId
-                                OnSusscee:(VoidBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getTestNumberWithMobileNumber:(NSString*)mobileNum
+- (MKNetworkOperation*)getVerifyCodeForMobile:(NSString*)mobileNum
                                            onSucceed:(VoidBlock)succeedBlock
                                              onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)MobileNumberAvilable:(NSString*)mobileNum
-                                       code:(NSString*)code
-                                  onSucceed:(BoolBlock)succeedBlock
-                                    onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)resetPassWord:(NSString *)mobileNum
-                                 coed:(NSString *)code
-                            onSucceed:(StringBlock)succeedBlock
+- (MKNetworkOperation *)forgetPasswordPhone:(NSString *)mobileNum
+                                 verifyCode:(NSString *)code
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)resetPassword:(NSString*)newPassword
+                            onSucceed:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)userUpdateJpushId:(NSString*)jpushId
-                               onSucceed:(VoidBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock;
+
+
+#pragma mark - Bind
+- (MKNetworkOperation*)userBindCurrentJpushIdOnSucceed:(VoidBlock)succeedBlock
+                                               onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)userBindJpushId:(NSString*)jpushId
+                             onSucceed:(VoidBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)userBindMobile:(NSString*)mobileNumber
+                           verifyCode:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)userBindWechat:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 @end

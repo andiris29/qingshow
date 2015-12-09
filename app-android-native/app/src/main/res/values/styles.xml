@@ -111,4 +111,28 @@
     <style name="comfirmDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@color/transparent</item>
     </style>
+    <style name="login_linearlayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">@drawable/kuang</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:alpha">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="login_percent_relative">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:background">@color/bg_activity_settings</item>
+    </style>
+    <style name="login_submit_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:background">@drawable/pink_deep_btn</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

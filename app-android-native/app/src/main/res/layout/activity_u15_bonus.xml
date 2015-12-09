@@ -1,153 +1,146 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
     tools:context="com.focosee.qingshow.activity.U15BonusActivity">
 
     <include
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:id="@+id/u15_title"
-        layout="@layout/title"/>
-
-    <ImageView
-        android:id="@+id/u15_pig"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_widthPercent="20%"
-        app:layout_heightPercent="20%"
-        android:layout_below="@+id/u15_title"
-        app:layout_marginTopPercent="5%"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/pig_pink"/>
-
-    <com.focosee.qingshow.widget.QSTextView
-        android:id="@+id/u15_myBonus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_below="@+id/u15_pig"
-        android:layout_centerHorizontal="true"
-        android:singleLine="true"
-        android:text="我的佣金"/>
+        layout="@layout/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 
     <LinearLayout
-        android:id="@+id/u15_total_layout"
+        android:id="@+id/u15_total_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/u15_myBonus"
-        app:layout_marginTopPercent="2%"
-        android:gravity="center">
+        android:layout_height="0dp"
+        android:layout_below="@+id/u15_title"
+        android:layout_marginTop="5dp"
+        android:background="@color/master_pink"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_heightPercent="12%">
 
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/u15_total_label"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4.5"
-            android:gravity="right"
-            android:text="佣金总计："/>
+            android:layout_gravity="center_horizontal"
+            android:text="@string/total_bonus"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/u15_total"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3.3"
-            android:textSize="30sp"
-            android:text="￥0.00"/>
-
+            android:text="¥0.00"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/u15_balance_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/u15_total_layout"
-        android:gravity="center"
-        app:layout_marginTopPercent="2%">
-
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/u15_balance_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="4.5"
-            android:gravity="right"
-            android:text="未提现："/>
-
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/u15_balance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3.3"
-            android:textSize="30sp"
-            android:text="￥0.00"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/u15_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:layout_below="@+id/u15_balance_layout">
-
-        <ImageView
-            android:id="@+id/u15_alipay_image"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:src="@drawable/alipay"/>
-
-        <com.focosee.qingshow.widget.QSEditText
-            android:id="@+id/u15_alipay_account"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:layout_margin="10dp"
-            android:paddingLeft="25dp"
-            android:background="@null"
-            android:hint="@string/u15_hint_edit"/>
-
-    </LinearLayout>
-
-    <com.focosee.qingshow.widget.QSTextView
-        android:id="@+id/u15_error_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/u15_input_layout"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="15dp"
-        android:textColor="@color/red"
-        android:visibility="gone"
-        android:text="@string/u15_hint_edit"/>
-
-    <com.focosee.qingshow.widget.QSTextView
-        android:id="@+id/u15_hint_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/u15_error_text"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="15dp"
-        android:text="@string/u15_hint"/>
-
-    <com.focosee.qingshow.widget.QSButton
-        android:id="@+id/u15_withDrawBtn"
+        android:id="@+id/u15_withdraw_liner"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="8%"
-        android:background="@drawable/u15_gray_btn"
-        app:clickGround="@drawable/u15_pink_btn"
-        app:layout_marginTopPercent="10%"
-        app:layout_marginLeftPercent="15%"
-        app:layout_marginRightPercent="15%"
-        android:enabled="false"
-        android:text="@string/u15_btn_text"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:onClick="onClick"
-        android:layout_below="@+id/u15_hint_text"/>
+        android:layout_below="@+id/u15_total_linear"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_heightPercent="12%">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/withdraw"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp" />
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/u15_draw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥0.00"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/u15_bonus_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/u15_withdraw_liner"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/u15_packet"
+            android:layout_width="210dp"
+            android:layout_height="180dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/u15_packet" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/u15_packet"
+            android:layout_alignLeft="@id/u15_packet"
+            android:layout_alignRight="@id/u15_packet"
+            android:layout_alignTop="@id/u15_packet"
+            android:gravity="center"
+            android:paddingBottom="30dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="@string/u15_packet_hint"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <com.focosee.qingshow.widget.QSButton
+            android:id="@+id/u15_withDrawBtn"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/u15_packet"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/u15_gray_btn"
+            android:enabled="false"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/u15_btn_text"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:clickGround="@drawable/u15_pink_btn" />
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/u15_hint_text"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/u15_withDrawBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/u15_hint" />
+
+
+        <com.focosee.qingshow.widget.QSButton
+            android:id="@+id/u15_qa"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/u15_hint_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/pinck_radio"
+            android:enabled="false"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/u15_qa"
+            android:textColor="@color/pink_deep"
+            android:textSize="18sp"
+            app:clickGround="@drawable/u15_pink_btn" />
+    </RelativeLayout>
 
 </android.support.percent.PercentRelativeLayout>

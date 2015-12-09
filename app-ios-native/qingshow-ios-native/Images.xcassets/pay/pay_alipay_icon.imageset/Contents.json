@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "pay_alipay_icon.png"
+      "filename" : "pay_alipay_icon.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "pay_alipay_icon@2x.png"
+      "filename" : "pay_alipay_icon@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

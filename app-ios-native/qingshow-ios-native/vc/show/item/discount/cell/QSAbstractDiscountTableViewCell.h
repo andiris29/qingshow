@@ -8,12 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-#define DISCOUNT_CELL_CORNER_RADIUS 4.f;
-#define DISCOUNT_CELL_WIDTH ([UIScreen mainScreen].bounds.size.width - 50)
+#define DISCOUNT_CELL_CORNER_RADIUS 4.f
+#define DISCOUNT_CELL_WIDTH (320.f)
+
+@class QSAbstractDiscountTableViewCell;
 
 @protocol QSDiscountTableViewCellDelegate <NSObject>
 
-- (void)updateTotalPrice;
+- (void)discountCellUpdateTotalPrice:(QSAbstractDiscountTableViewCell*)cell;
+- (void)discountCellDetailBtnPressed:(QSAbstractDiscountTableViewCell*)cell;
+- (void)discountCellRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell;
+- (void)discountCellPreviousRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell;
+- (void)discountCellNextRemixBtnPressed:(QSAbstractDiscountTableViewCell*)cell;
+- (void)discountCell:(QSAbstractDiscountTableViewCell*)cell didSelectItem:(NSDictionary*)item;
+
+- (BOOL)discountCellHasPreviousRemix:(QSAbstractDiscountTableViewCell*)cell;
+- (BOOL)discountCellHasNextRemix:(QSAbstractDiscountTableViewCell*)cell;
 
 @end
 

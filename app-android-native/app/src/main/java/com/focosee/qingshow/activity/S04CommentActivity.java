@@ -206,7 +206,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
         if (!QSModel.INSTANCE.loggedin()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-            startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
+            startActivity(new Intent(S04CommentActivity.this, U19LoginGuideActivity.class));
             return;
         }
 

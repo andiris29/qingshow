@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "order_list_cell_wuliu_dot.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "order_list_cell_wuliu_red.png"
+      "filename" : "order_list_cell_wuliu_dot@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

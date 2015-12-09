@@ -90,7 +90,6 @@ public class T01HihghtedTradeListAdapter extends AbsAdapter<MongoTrade> {
             holder.setText(R.id.item_tradelist_sourcePrice, spannableString);
 
             holder.setText(R.id.item_tradelist_description, trade.itemSnapshot.name);
-            holder.setText(R.id.item_tradelist_exception, StringUtil.calculationException(trade.expectedPrice, trade.itemSnapshot.promoPrice.doubleValue()));
             holder.setImgeByUrl(R.id.item_tradelist_image, trade.itemSnapshot.thumbnail);
             holder.setText(R.id.item_tradelist_actualPrice, StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
         }

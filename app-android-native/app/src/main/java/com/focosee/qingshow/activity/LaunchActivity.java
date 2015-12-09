@@ -57,7 +57,7 @@ public class LaunchActivity extends InstrumentedActivity {
 
         setContentView(R.layout.activity_launch);
         EventBus.getDefault().register(this);
-        init();
+        //init();
         if (!AppUtil.checkNetWork(LaunchActivity.this)) {//not net
             jump();
             return;

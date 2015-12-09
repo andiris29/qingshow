@@ -8,6 +8,7 @@ var RPeopleLikeShow = require('../../dbmodels').RPeopleLikeShow;
 var RPeopleShareShow = require('../../dbmodels').RPeopleShareShow;
 var People = require('../../dbmodels').People;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
+var RPeopleViewShow = require('../../dbmodels').RPeopleViewShow;
 
 //util
 var MongoHelper = require('../../helpers/MongoHelper');
@@ -33,7 +34,7 @@ show.query = {
                 _ids = RequestHelper.parseIds(req.queryString._ids);
                 callback(null);
             } catch (err) {
-                callback(errors.genUnkownError(err));
+                callback(errors.NotEnoughParam);
             }
         },
         function(callback) {
@@ -55,8 +56,7 @@ show.query = {
                 var show = shows[0];
                 // Log
                 TraceHelper.trace('behavior-show-query', req, {
-                    '_showId' : show._id.toString(),
-                    'featuredRank' : show.featuredRank ? show.featuredRank : ''
+                    '_showId' : show._id.toString()
                 });
             }
 
@@ -88,15 +88,13 @@ show.like = {
         },
         function(callback) {
             // Count
-            Show.update({
-                '_id' : targetRef
-            }, {
-                '$inc' : {
-                    'numLike' : 1
+            Show.update(
+                {'_id' : targetRef},
+                {'$inc' : {'numLike' : 1}},
+                function(err, numUpdated) {
+                    callback(err);
                 }
-            }, function(err, numUpdated) {
-                callback(err);
-            });
+            );
         }], function(err) {
             ResponseHelper.response(res, err);
         });
@@ -118,7 +116,13 @@ show.unlike = {
         }
 
         RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, function(err) {
-            ResponseHelper.response(res, err);
+            Show.update(
+                {'_id' : targetRef},
+                {'$inc' : {'numLike' : -1}},
+                function(err, numUpdated) {
+                    ResponseHelper.response(res, err);
+                }
+            );
         });
     }
 };
@@ -258,22 +262,29 @@ show.share= {
     }
 };
 
-show.updateFeaturedRank = {
+show.view = {
     'method' : 'post',
-    'func' : function(req, res){
-        var qsParam = req.body;
-        async.waterfall([function(callback){
-            var criteria = {};
-            var featuredRank = qsParam.featuredRank || 0;
-            Show.findOneAndUpdate({
-                '_id' : RequestHelper.parseId(qsParam._id)
-            }, {
-                '$set' : {
-                    'featuredRank' : featuredRank
+    'permissionValidators' : ['loginValidator'],
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Show, '_id', 'showRef'),
+        function(req, res, next) {
+            var show = req.injection.showRef;
+            if (show.ownerRef.toString() === req.qsCurrentUserId.toString()) {
+                next(errors.AlreadyRelated);
+                return;
+            }
+            RelationshipHelper.create(RPeopleViewShow, req.qsCurrentUserId, show._id, function(err) {
+                if (err) {
+                    next(err);
+                } else {
+                    show.numView++;
+                    show.save(function(err) {
+                        ResponseHelper.writeData(res, show);
+                        next(err);
+                    });
                 }
-            }).exec(callback);
-        }], function(err){
-            ResponseHelper.response(res, err, {});
-        })
-    }
-}
+            });
+        }
+    ]
+};
+

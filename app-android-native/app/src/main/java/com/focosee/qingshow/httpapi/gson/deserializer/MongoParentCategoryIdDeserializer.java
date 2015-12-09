@@ -6,6 +6,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 
 /**
@@ -18,7 +20,7 @@ public class MongoParentCategoryIdDeserializer implements JsonDeserializer<Mongo
             (JsonElement jElement, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         if(jElement.isJsonObject()){
-            return QSGsonFactory.create().fromJson(jElement.getAsJsonObject(), MongoParentCategories.class);
+            return QSGsonFactory.create(MongoParentCategories.class).fromJson(jElement.getAsJsonObject(), MongoParentCategories.class);
         }
         MongoParentCategories categorie = new MongoParentCategories();
         categorie._id = jElement.getAsString();

@@ -17,6 +17,8 @@
 #import "QSRandomUtil.h"
 #import "UIView+ScreenShot.h"
 #import "QSRectUtil.h"
+#import "NSDictionary+QSExtension.h"
+
 
 @interface QSMatcherCanvasView ()
 
@@ -44,8 +46,47 @@
     self.categoryIdToEntity = [@{} mutableCopy];
     self.categoryIdToView = [@{} mutableCopy];
     [self addGesture];
-    self.maxColumn = 1;
-    self.maxRow = 3;
+
+}
+- (void)rearrangeWithMatcherConfig:(NSDictionary*)matcherConfig
+                           modelId:(NSString*)modelId {
+    QSCanvasImageView* modelView = self.categoryIdToView[modelId];
+    if (![modelView isEqual:[NSNull null]]) {
+        NSArray* modelConfig = [matcherConfig arrayValueForKeyPath:@"master.rect"];
+        [self _updateView:modelView withRectConfig:modelConfig];
+
+    }
+    
+    NSArray* itemConfigs = [matcherConfig arrayValueForKeyPath:@"slaves"];
+    for (NSDictionary* itemConfig in itemConfigs) {
+        NSArray* rectConfig = [itemConfig arrayValueForKeyPath:@"rect"];
+        NSString* categoryId = [itemConfig stringValueForKeyPath:@"categoryRef"];
+        QSCanvasImageView* v = self.categoryIdToView[categoryId];
+        if (![v isEqual:[NSNull null]]) {
+            [self _updateView:v withRectConfig:rectConfig];
+        }
+    }
+}
+- (void)_updateView:(QSCanvasImageView*)view withRectConfig:(NSArray*)rectConfig {
+    if (!rectConfig || rectConfig.count != 4) {
+        return;
+    }
+    float x = self.frame.size.width * ((NSNumber*)rectConfig[0]).intValue / 100;
+    float y = self.frame.size.height * ((NSNumber*)rectConfig[1]).intValue / 100;
+    float sizeWidth = self.frame.size.width * ((NSNumber*)rectConfig[2]).intValue / 100;
+    float sizeHeight = self.frame.size.height * ((NSNumber*)rectConfig[3]).intValue / 100;
+    view.frame = CGRectMake(x, y, sizeWidth, sizeHeight);
+    
+    if (view.imgView.image) {
+        UIImage* img = view.imgView.image;
+        CGSize viewSize = view.bounds.size;
+        CGRect bounds = view.bounds;
+        viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
+        bounds.size = viewSize;
+        view.bounds = bounds;
+        view.frame = [QSRectUtil reducedFrame:view.frame forContainer:self.bounds];
+    }
+    
 }
 
 - (void)bindWithCategory:(NSArray*)categoryArray {
@@ -67,50 +108,29 @@
         return [oldIdArray indexOfObject:idStr] == NSNotFound;
     }];
     
-//    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
-    
-    NSMutableArray* mCates = [newCategoryArray mutableCopy];
-    for (int i = 0; i < self.maxColumn + 1; i++) {
-        NSArray* cates = [newCategoryArray filteredArrayUsingBlock:^BOOL(NSDictionary* dict) {
-            NSNumber* c = [QSCategoryUtil getMatchInfoColumn:dict];
-            return c && c.intValue == i;
-        }];
-        [mCates removeObjectsInArray:cates];
-        [self _addCategories:cates maxRow:(int)(cates.count - 1) maxColumn:self.maxColumn];
-    }
-    
-    if (mCates.count) {
-        [self _addCategories:mCates maxRow:self.maxRow maxColumn:self.maxColumn];
-    }
+    [self _addCategories:newCategoryArray];
 }
 
-- (void)_addCategories:(NSArray*)newCategoryArray maxRow:(int)maxRow maxColumn:(int)maxColumn {
+- (void)_addCategories:(NSArray*)newCategoryArray {
     for (NSDictionary* categoryDict in newCategoryArray) {
-        float sizeHeight = self.frame.size.height / (maxRow + 1);
-        float sizeWidth = self.frame.size.width / (maxColumn + 1);
-        int row = -1, column = -1;
-        if ([QSCategoryUtil getMathchInfoRow:categoryDict]) {
-            row = [QSCategoryUtil getMathchInfoRow:categoryDict].intValue;
-        } else {
-            row = [QSRandomUtil randomRangeFrom:0 to:maxRow + 1];
-        }
-        if ([QSCategoryUtil getMatchInfoColumn:categoryDict]) {
-            column = [QSCategoryUtil getMatchInfoColumn:categoryDict].intValue;
-        } else {
-            column = [QSRandomUtil randomRangeFrom:0 to:maxColumn + 1];
-        }
+        NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         
-        float y = self.frame.size.height * (row + 0.5) / (maxRow + 1);
-        float x = self.frame.size.width * (column + 0.5) / (maxColumn + 1);
+        int xPercent = [QSRandomUtil randomRangeFrom:0 to:70];
+        int yPercent = [QSRandomUtil randomRangeFrom:0 to:70];
+        int widthPercent = [QSRandomUtil randomRangeFrom:30 to:100 - xPercent];
+        int heightPercent = [QSRandomUtil randomRangeFrom:30 to:100 - yPercent];
+        
+        float sizeHeight = self.frame.size.height * heightPercent / 100;
+        float sizeWidth = self.frame.size.width * widthPercent / 100;
+        float y = self.frame.size.height * xPercent / 100;
+        float x = self.frame.size.width * yPercent / 100;
         
         QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(x, y, sizeWidth, sizeHeight)];
-        imgView.center = CGPointMake(x, y);
         imgView.userInteractionEnabled = YES;
         UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapEntityView:)];
         ges.minimumPressDuration = 0.f;
         [imgView addGestureRecognizer:ges];
         
-        NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         self.categoryIdToEntity[categoryId] = categoryDict;
         self.categoryIdToView[categoryId] = imgView;
         imgView.categoryId = categoryId;
@@ -118,12 +138,11 @@
     }
 }
 
-
-
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst {
     NSString* categoryId = [QSEntityUtil getIdOrEmptyStr:category];
     [self setItem:itemDict forCategoryId:categoryId isFirst:fFirst];
 }
+
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId isFirst:(BOOL)fFirst {
     QSCanvasImageView* imgView = self.categoryIdToView[categoryId];
     __weak QSCanvasImageView* weakImgView = imgView;
@@ -292,10 +311,6 @@
     }
 }
 
-
-
-
-
 - (void)updateHighlightView:(UIView*)highlightView {
     NSArray* viewArray = [self.categoryIdToView allValues];
     for (QSCanvasImageView* imgView in viewArray) {
@@ -306,18 +321,17 @@
     }
 }
 
-
-- (BOOL)checkLoadAtLeastOneImage {
+- (BOOL)checkLoadAllImages {
     NSArray* subviews = self.subviews;
     for (QSCanvasImageView* imgView in subviews) {
         if (![imgView isKindOfClass:[QSCanvasImageView class]]) {
             continue;
         }
-        if (imgView.imgView.image) {
-            return YES;
+        if (!imgView.imgView.image) {
+            return NO;
         }
     }
-    return NO;
+    return YES;
 }
 
 
@@ -345,12 +359,32 @@
     
     return YES;
 }
-- (UIImage*)submitView {
+- (UIImage*)submitViewItems:(NSArray*)itemArray rects:(NSMutableArray*)rectArray {
     [self updateHighlightView:nil];
+    
+    CGRect bounds = self.bounds;
+    CGFloat width = bounds.size.width;
+    CGFloat height = bounds.size.height;
+    //计算rect
+    for (NSDictionary* itemDict in itemArray) {
+        NSString* categoryId = [QSItemUtil getCategoryStr:itemDict];
+        UIView* itemImgView = self.categoryIdToView[categoryId];
+        if (![QSEntityUtil checkIsNil:itemImgView]) {
+            [rectArray addObject:
+  @[@(itemImgView.frame.origin.x * 100 / width),
+    @(itemImgView.frame.origin.y * 100 / height),
+    @(itemImgView.frame.size.width * 100 / width),
+    @(itemImgView.frame.size.height * 100 / height)]
+             ];
+        } else {
+            [rectArray addObject:@[]];
+        }
+    }
+    
     
     //放大一定倍数后再截图以提高图片清晰度
     float rate = 2.f;
-    CGRect bounds = self.bounds;
+
     bounds.size.width *= rate;
     bounds.size.height *= rate;
     UIView* newView = [[UIView alloc] initWithFrame:bounds];
@@ -368,9 +402,56 @@
             [newView addSubview:newImageView];
         }
     }
+    [self _transformForNewView:newView];
     return [newView makeScreenShot];
 }
 
+- (void)_transformForNewView:(UIView*)newView {
+    CGFloat left = newView.bounds.size.width,
+    right = 0.f,
+    top = newView.bounds.size.height,
+    bottom = 0.f;
+    
+    for (UIView* v in newView.subviews) {
+        left = left < v.frame.origin.x ? left : v.frame.origin.x;
+        right = right > v.frame.origin.x + v.frame.size.width ? right : v.frame.origin.x + v.frame.size.width;
+        top = top < v.frame.origin.y ? top : v.frame.origin.y;
+        bottom = bottom > v.frame.origin.y + v.frame.size.height ? bottom : v.frame.origin.y + v.frame.size.height;
+    }
+    left = left > 0 ? left : 0;
+    right = right < newView.bounds.size.width ? right : newView.bounds.size.width;
+    top = top > 0 ? top : 0;
+    bottom = bottom < newView.bounds.size.height ? bottom : newView.bounds.size.height;
+    CGFloat width = right - left;
+    CGFloat height = bottom - top;
+    if (width / newView.bounds.size.width >= 0.6 ||
+        height / newView.bounds.size.height >= 0.5) {
+        return;
+    }
+    
+    CGFloat scaleXrate = newView.bounds.size.width / width;
+    CGFloat scaleYrate = newView.bounds.size.height * 0.8 / height;
+    
+    CGFloat scaleRate = scaleXrate < scaleYrate ? scaleXrate : scaleYrate;
+    
+    CGFloat oldCenterX = (left + right) / 2;
+    CGFloat oldCenterY = (top + bottom) / 2;
+    CGFloat newCenterX = oldCenterX * scaleRate;
+    CGFloat newCenterY = oldCenterY * scaleRate;
+    CGFloat deltaX = newView.bounds.size.width / 2 - newCenterX;
+    CGFloat deltaY = newView.bounds.size.height / 2 - newCenterY;
+    
+    for (UIView* v in newView.subviews) {
+        CGRect frame = v.frame;
+        
+        frame.origin.x = frame.origin.x * scaleRate + deltaX;
+        frame.origin.y = frame.origin.y * scaleRate + deltaY;
+        frame.size.width *= scaleRate;
+        frame.size.height *= scaleRate;
+        
+        v.frame = frame;
+    }
+}
 
 #pragma mark -
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {

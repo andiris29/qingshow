@@ -28,11 +28,22 @@
     return CGSizeMake([UIScreen mainScreen].bounds.size.width, (leftY>rightY?leftY:rightY));
 }
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath  withIndex:(NSInteger)index
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath withIndex:(NSInteger)index
 {
+    UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(heightForHeaderInCollectionView:layout:)] && indexPath.item == 0) {
+        CGFloat height = [self.delegate heightForHeaderInCollectionView:self.collectionView layout:self];
+        CGFloat maxY = MAX(leftY, rightY);
+        leftY = maxY + height;
+        rightY = maxY + height;
+        
+        attributes.frame = CGRectMake(x, maxY, self.itemWidth * 2, height);
+        return attributes;
+    }
+    
     CGSize itemSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath];
     CGFloat itemHeight = floorf(itemSize.height * self.itemWidth / itemSize.width);
-    UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+
 
     if (leftY <= rightY) {
         //Left
@@ -48,21 +59,6 @@
         rightY += itemHeight;
     }
     
-//    index += 1;
-//    if (index % 2 == 0)
-//    {
-//        x += (self.itemWidth + 4);
-//        rightY += self.sectionInset.top;
-//        attributes.frame = CGRectMake(x, rightY, self.itemWidth, itemHeight);
-//        rightY += itemHeight;
-//    }
-//    else
-//    {
-//        x = 0;
-//        leftY += self.sectionInset.top;
-//        attributes.frame = CGRectMake(x, leftY, self.itemWidth, itemHeight);
-//        leftY += itemHeight;
-//    }
     return attributes;
 }
 

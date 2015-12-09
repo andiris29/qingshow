@@ -26,6 +26,8 @@
 #define PATH_SHOW_UNLIKE @"show/unlike"
 //Share
 #define PATH_SHOW_SHARE @"show/share"
+//View
+#define PATH_SHOW_VIEW @"show/view"
 
 
 
@@ -240,8 +242,7 @@
 {
     return [self startOperationWithPath:PATH_SHOW_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [QSShowUtil setIsLike:NO show:showDict];
-        //取消收藏时暂时不-1
-//        [QSShowUtil addNumberLike:-1ll forShow:showDict];
+        [QSShowUtil addNumberLike:-1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
         }
@@ -275,5 +276,19 @@
     }];
 }
 
-
+#pragma mark - View
+- (MKNetworkOperation*)viewShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_SHOW_VIEW method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [QSShowUtil addNumberView:1 forShow:showDict];
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 @end

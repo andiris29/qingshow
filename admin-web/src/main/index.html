@@ -52,7 +52,7 @@
                 });
 
                 window.appConfig = {
-                    'VERSION' : '2.1.0',
+                    'VERSION' : '3.0.0',
                     'appServiceRoot' : ''
                 };
 
@@ -79,11 +79,12 @@
                 $.ajax(settings).done(function(json){
                     window.appConfig.appServiceRoot = json.data.deployment.appServiceRoot;
 //                    window.appConfig.appServiceRoot = 'http://127.0.0.1:30001/services';
+
+                    $(function() {
+                        require(['main/core/bootstrap']);
+                    });
                 });
 
-                $(function() {
-                    require(['main/core/bootstrap']);
-                });
             })();
         </script>
     </head>

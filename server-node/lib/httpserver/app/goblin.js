@@ -6,7 +6,7 @@ var ResponseHelper = require('../../helpers/ResponseHelper');
 var GoblinScheduler = require('./goblin/GoblinScheduler'),
     ItemSyncService = require('./goblin/ItemSyncService'),
     GoblinLogger = require('./goblin/GoblinLogger');
-var GoblinError = require('../../goblin-slave/GoblinError');
+var GoblinError = require('../../goblin-common/GoblinError');
 var Item = require('../../dbmodels').Item;
 var errors = require('../../errors');
 
@@ -95,3 +95,55 @@ goblin.crawlItemFailed = {
         ResponseHelper.response(res, null, {});
     }
 };
+
+goblin.findItem = {
+    method: 'get',
+    func: function(req, res) {
+        var param = req.queryString;
+
+        var domain = getDomain(param.source);
+        var id = '';
+
+        if (domain.test(/taobao/ig)) {
+            id = getIdFromSource(item.source, /id=(\d*)/);
+        } else if (domain.test(/tmall/ig)) {
+            id = getIdFromSource(item.source, /id=(\d*)/);
+        } else if (domain.test(/thejamy/ig)) {
+            id = getIdFromSource(item.source, /product\/[a-zA-Z0-9]*/);
+        } else if (domain.test(/hm/ig)) {
+            id = getIdFromSource(item.source, /page.(\d*)/);
+        } else {
+            id = '';
+        }
+
+        if (id == '') {
+            ResponseHelper.response(res, errors.ItemNotExist);
+            return;
+        }
+
+        Item.findOne({
+            'sourceInfo.id': id
+        }, function(error, item) {
+            if(error) {
+                ResponseHelper.response(res, error);
+            } else if (!item) {
+                ResponseHelper.response(res, errors.ItemNotExist);
+            } else {
+                ResponseHelper.response(res, error, {
+                    item: item
+                });
+            }
+        });
+    }
+};
+
+var _getIdFromSource =  function(source, idRegex) {
+    var idComp = source.match(idRegex);
+    if (idComp && idComp.length > 1) {
+        return idComp[1];
+    } else {
+        return null;
+    }
+};
+
+

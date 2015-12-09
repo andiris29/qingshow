@@ -1,31 +1,24 @@
 var winston = require('winston'),
-    fs = require('fs'),
-    path = require('path'),
-    moment = require('moment');
+    _ = require('underscore'),
+    MongoDB = require('winston-mongodb').MongoDB;
 
-var _root;
+var _winstonDbOptions = {};
 
-var init = function(dir) {
-    _root = dir;
-    _mkdir(_root);
-
+var init = function() {
+    var dbConfig = global.qsConfig.log.db;
+    _winstonDbOptions = {
+        db : 'mongodb://' + dbConfig.url + ':' + dbConfig.port + '/' + dbConfig.schema,
+        username : dbConfig.user,
+        password : dbConfig.password
+    };
     // Default logger
-    winston.add(winston.transports.DailyRotateFile, {
-        'filename' : path.join(dir, 'winston.log'),
-        'timestamp' : function(){
-            return moment()._d.toString();
-        }
-    });
-    // winston.remove(winston.transports.Console);
+    winston.add(MongoDB, _winstonDbOptions);
 
     // Exception logger
     new winston.Logger({
-        'exceptionHandlers' : [new winston.transports.DailyRotateFile({
-            'filename' : path.join(dir, 'winston-exception.log'),
-            'timestamp' : function(){
-                return moment()._d.toString();
-            }
-        })],
+        'exceptionHandlers' : [new MongoDB(_.extend(_winstonDbOptions, {
+            collection : 'uncaught-exceptions'
+        }))],
         'exitOnError' : false
     });
 };
@@ -36,23 +29,13 @@ var get = function(category) {
     if (!_registry[category]) {
         _registry[category] = true;
 
-        _mkdir(path.join(_root, category));
         winston.loggers.add(category, {
-            'transports' : [new winston.transports.DailyRotateFile({
-                'filename' : path.join(_root, category, 'winston-' + category + '.log'),
-                'timestamp' : function(){
-                    return moment()._d.toString();
-                }
-            })]
+            'transports' : [new MongoDB(_.extend(_winstonDbOptions, {
+                collection : category
+            }))]
         });
     }
     return winston.loggers.get(category);
-};
-
-var _mkdir = function(dir) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    }
 };
 
 module.exports = {

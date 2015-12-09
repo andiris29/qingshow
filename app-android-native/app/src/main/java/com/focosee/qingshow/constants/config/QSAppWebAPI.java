@@ -74,7 +74,7 @@ public class QSAppWebAPI {
 
     private static String FEEDING_RECOMMENDATION_API = "/feeding/recommendation";
 
-    private static String TRADE_QUERYBY_PHASE_API = "/trade/queryByPhase";
+    private static String TRADE_OWN_API = "/trade/own";
     private static String ITEM_SYNC_API = "/item/sync";
 
     private static String TRADE_QUERY_HIGHLIGHTED_API = "/trade/queryHighlighted";
@@ -106,6 +106,30 @@ public class QSAppWebAPI {
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
     private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
+
+    private static String FEEDINGAGGREGATION_LATEST = "/feedingAggregation/latest";
+
+    private static String SHOW_VIEW_API = "/show/view";
+
+    private static String REMIX_BY_MODEL = "/matcher/remixByModel";
+
+    private static String REMIX_BY_ITEM = "/matcher/remixByItem";
+    private static final String FEEDING_TIME = "/feeding/time";
+
+    private static String QUERY_BUYERS = "/people/queryBuyers";
+
+    public static String getQueryBuyers() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_BUYERS;
+    }
+
+
+    public static String getFeedingaggregationLatest() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDINGAGGREGATION_LATEST;
+    }
+
+    public static String getShowViewApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "");
+    }
 
     public static String getUserUpdateregistrationidApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEREGISTRATIONID_API;
@@ -187,8 +211,8 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_GET_RETURNRECEIVER + "?_id=" + _id;
     }
 
-    public static String getTradeQuerybyPhaseApi(String phases, int pageNo, int pageSize) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERYBY_PHASE_API + "?phases=" + phases + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public static String getTradeOwn(int pageNo, int pageSize) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_OWN_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getItemSyncApi() {
@@ -207,8 +231,14 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_SHARE_API;
     }
 
-    public static String getPeopleQueryApi(String _ids) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_QUERY_API + "?_ids=" + _ids;
+    public static String getPeopleQueryApi(String ..._ids) {
+        StringBuffer params = new StringBuffer();
+        for (String _id : _ids){
+            params.append("_ids=");
+            params.append(_id);
+            params.append("&");
+        }
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + PEOPLE_QUERY_API + "?" + params.substring(0, params.length() - 1);
     }
 
     public static String getMatchSaveApi() {
@@ -243,8 +273,8 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_HOT_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getMatchNewApi(int pageNo, int pageSize) {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public static String getFeedingTimeApi(int pageNo, int pageSize, String from, String to) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_TIME + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
     }
 
     public static String getQueryCategories() {
@@ -347,5 +377,13 @@ public class QSAppWebAPI {
 
     public static String getUserUpdateportrait() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_UPDATEPORTRAIT;
+    }
+
+    public static String getRemixByModel(String modelRef) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + REMIX_BY_MODEL + "?modelRef=" + modelRef;
+    }
+
+    public static String getRemixByItem(String itemRef) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + REMIX_BY_ITEM + "?itemRef=" + itemRef;
     }
 }

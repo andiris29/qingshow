@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.focosee.qingshow.activity.U21NewParticipantBonus">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="@color/login_background"/>
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        app:layout_marginPercent="2%"
+        android:onClick="onClick"
+        android:src="@drawable/collect_icon_close" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/u21_item_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/white"
+        android:paddingBottom="42dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:scaleType="fitCenter"
+        app:layout_heightPercent="35%"
+        app:layout_marginTopPercent="7%"
+        app:layout_widthPercent="60%">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/u21_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/white"
+            fresco:actualImageScaleType="fitCenter"
+            app:layout_marginTopPercent="5%"
+            fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/u21_user_head"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/u21_item_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-40dp"
+        fresco:roundingBorderWidth="5dp"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:roundAsCircle="true"
+        fresco:roundingBorderColor="@color/white"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/u21_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u21_user_head"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/u21_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u21_nickname"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/u21_bonus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u21_from"
+        android:textColor="@color/pink_deep"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/u21_submit_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="55%"
+        app:layout_heightPercent="10%"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/u21_bonus"
+        android:layout_marginTop="10dp"
+        android:textSize="35sp"
+        android:text="@string/u20_submit_btn"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/pink_deep_btn2"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/u21_msg_line1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_below="@id/u21_submit_btn"
+        app:layout_marginTopPercent="5%"
+        android:gravity="center"
+        android:text="@string/u21_msg_line1"/>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/u21_msg_line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u21_msg_line1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/u21_msg_line2"/>
+
+</android.support.percent.PercentRelativeLayout>

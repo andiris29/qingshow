@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:layout_marginLeft="10dp"
+    android:layout_marginBottom="10dp">
+    <TextView
+        android:layout_alignTop="@+id/current_head"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TODAY | 10.Nov"/>
+    <TextView
+        android:id="@+id/title"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray"
+        android:layout_below="@id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rank"
+        android:text="@string/top_list_title"/>
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/current_head"
+        android:layout_alignParentRight="true"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:placeholderImage="@drawable/root_cell_placehold_head"
+        app:roundAsCircle="true" />
+    <TextView
+        android:id="@+id/rank"
+        android:textSize="10dp"
+        android:layout_alignLeft="@id/current_head"
+        android:layout_below="@id/current_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TOP26"/>
+
+</RelativeLayout>

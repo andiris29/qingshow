@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU14CreateTradeViewController">
+            <connections>
+                <outlet property="itemInfoTitleCell" destination="yMR-Hb-tKX" id="Y3Z-dZ-pGJ"/>
+                <outlet property="locationPicker" destination="li8-XD-Ft7" id="jlU-A7-LdB"/>
+                <outlet property="payInfoTitleCell" destination="Swl-FW-O50" id="2iM-qX-wim"/>
+                <outlet property="payInfoWechatCell" destination="W0Q-zU-5lt" id="oq4-rY-ruH"/>
+                <outlet property="priceLabel" destination="N9E-MS-Xaq" id="vII-Oy-yEN"/>
+                <outlet property="receiverInfoDetailLocationCell" destination="Px1-O4-CeG" id="Nxb-Sf-gdh"/>
+                <outlet property="receiverInfoLocationCell" destination="2Ol-zb-7sH" id="pNp-1O-fky"/>
+                <outlet property="receiverInfoNameCell" destination="Px5-tN-uwV" id="Fip-0P-bxl"/>
+                <outlet property="receiverInfoPhoneCell" destination="3ED-XR-GZq" id="WEL-e2-U0E"/>
+                <outlet property="receiverInfoTitleCell" destination="15S-S2-52n" id="Ndz-FU-rOI"/>
+                <outlet property="tableView" destination="lwj-Es-0Kt" id="1iN-55-m3p"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lwj-Es-0Kt">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="462"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="5Rj-Jk-Kh7"/>
+                        <outlet property="delegate" destination="-1" id="Bfb-ev-aHs"/>
+                    </connections>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9E-MS-Xaq">
+                    <rect key="frame" x="0.0" y="461" width="160" height="43"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="idG-ez-0IX"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WwA-FN-NA8">
+                    <rect key="frame" x="160" y="462" width="160" height="42"/>
+                    <color key="backgroundColor" red="0.15686274509803921" green="0.1764705882352941" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="42" id="SOl-dn-zwO"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                    <state key="normal" title="确认付款"/>
+                    <connections>
+                        <action selector="submitButtonPressed:" destination="-1" eventType="touchUpInside" id="vrc-Es-WW3"/>
+                    </connections>
+                </button>
+                <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="li8-XD-Ft7">
+                    <rect key="frame" x="0.0" y="342" width="320" height="162"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="162" id="9Uf-XV-pNY"/>
+                    </constraints>
+                </pickerView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="N9E-MS-Xaq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1bi-bf-YUn"/>
+                <constraint firstItem="N9E-MS-Xaq" firstAttribute="width" secondItem="WwA-FN-NA8" secondAttribute="width" id="DyD-zb-PUx"/>
+                <constraint firstItem="WwA-FN-NA8" firstAttribute="leading" secondItem="N9E-MS-Xaq" secondAttribute="trailing" id="Lip-sv-vTF"/>
+                <constraint firstAttribute="trailing" secondItem="WwA-FN-NA8" secondAttribute="trailing" id="Ofy-jY-hyr"/>
+                <constraint firstAttribute="bottom" secondItem="N9E-MS-Xaq" secondAttribute="bottom" id="V7b-w1-pCS"/>
+                <constraint firstItem="lwj-Es-0Kt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VfB-bx-CrN"/>
+                <constraint firstItem="li8-XD-Ft7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Zxq-Ca-O1l"/>
+                <constraint firstAttribute="bottom" secondItem="WwA-FN-NA8" secondAttribute="bottom" id="dnI-Qx-WYd"/>
+                <constraint firstAttribute="bottom" secondItem="li8-XD-Ft7" secondAttribute="bottom" id="hyQ-T0-twS"/>
+                <constraint firstAttribute="trailing" secondItem="li8-XD-Ft7" secondAttribute="trailing" id="mp0-xh-aFz"/>
+                <constraint firstAttribute="trailing" secondItem="lwj-Es-0Kt" secondAttribute="trailing" id="tH2-Fj-x5e"/>
+                <constraint firstItem="lwj-Es-0Kt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="tqq-cx-5dA"/>
+                <constraint firstAttribute="bottom" secondItem="lwj-Es-0Kt" secondAttribute="bottom" constant="42" id="yHr-Sp-ob3"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <point key="canvasLocation" x="418" y="320"/>
+        </view>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="157" id="yMR-Hb-tKX" customClass="QSCreateTradeItemInfoTitleCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="157"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yMR-Hb-tKX" id="762-nR-B46">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="156.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="秋冬新款韩版圆点宽松衬衫" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBg-9l-PCA">
+                        <rect key="frame" x="120" y="30" width="192" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <color key="textColor" red="0.15686274509803921" green="0.1764705882352941" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="￥350.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpW-LE-OTd">
+                        <rect key="frame" x="120" y="54" width="192" height="15"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <color key="textColor" red="0.15686274509803921" green="0.1764705882352941" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P1y-6Y-hf1">
+                        <rect key="frame" x="14" y="30" width="98" height="98"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="数量：1件" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IiC-xb-lqM">
+                        <rect key="frame" x="120" y="113" width="192" height="15"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <color key="textColor" red="0.1058823529" green="0.1058823529" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="￥350.00 ￥350.00 ￥350.00 ￥350.00" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hu2-eB-b1F">
+                        <rect key="frame" x="120" y="83" width="192" height="28"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <color key="textColor" red="0.1058823529" green="0.1058823529" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="iconImageView" destination="P1y-6Y-hf1" id="xht-Pq-AoQ"/>
+                <outlet property="priceLabel" destination="rpW-LE-OTd" id="Cni-kx-dfx"/>
+                <outlet property="quantityLabel" destination="IiC-xb-lqM" id="QSJ-bS-lmo"/>
+                <outlet property="selectedSkuLabel" destination="Hu2-eB-b1F" id="WAy-gM-QKQ"/>
+                <outlet property="titleLabel" destination="YBg-9l-PCA" id="311-Qm-nFs"/>
+            </connections>
+            <point key="canvasLocation" x="808" y="164.5"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="15S-S2-52n" customClass="QSCreateTradeReceiverInfoTitleCell">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="40"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="15S-S2-52n" id="k5N-zn-xNi">
+                <rect key="frame" x="0.0" y="0.0" width="321" height="39.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="收货信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mq-CB-qcX">
+                        <rect key="frame" x="8" y="12" width="52" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
+                        <color key="textColor" red="0.1176470588" green="0.1176470588" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzH-kY-1fb">
+                        <rect key="frame" x="248" y="6" width="65" height="27"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="27" id="70H-Lb-Psx"/>
+                            <constraint firstAttribute="width" constant="65" id="nCG-DH-hYy"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
+                        <state key="normal" title="管理地址">
+                            <color key="titleColor" red="0.15686274509803921" green="0.1764705882352941" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="receiverManageBtnPressed:" destination="-1" eventType="touchUpInside" id="UaO-Bb-P6P"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="VzH-kY-1fb" secondAttribute="trailing" constant="8" id="PCT-uT-o6f"/>
+                    <constraint firstItem="VzH-kY-1fb" firstAttribute="top" secondItem="k5N-zn-xNi" secondAttribute="top" constant="6" id="gwY-Ep-xIX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="locationBtn" destination="VzH-kY-1fb" id="Po8-7o-nA5"/>
+            </connections>
+            <point key="canvasLocation" x="1412.5" y="145"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px5-tN-uwV" customClass="QSCreateTradeReceiverInfoTextCell">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Px5-tN-uwV" id="nBn-Vn-Kuy">
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Rl-rr-aJH">
+                        <rect key="frame" x="92" y="16" width="221" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="收货人姓名:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Viu-Bm-Zns">
+                        <rect key="frame" x="20" y="16" width="64" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="textField" destination="0Rl-rr-aJH" id="gEo-qR-lS7"/>
+            </connections>
+            <point key="canvasLocation" x="1405.5" y="275"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3ED-XR-GZq" customClass="QSCreateTradeReceiverInfoTextCell">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3ED-XR-GZq" id="YE2-tp-KfG">
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="收货人电话:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lef-er-mps">
+                        <rect key="frame" x="20" y="15" width="69" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Npo-Ti-Zx6">
+                        <rect key="frame" x="97" y="15" width="221" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="textField" destination="Npo-Ti-Zx6" id="Zcs-Eg-Axq"/>
+            </connections>
+            <point key="canvasLocation" x="1412.5" y="402"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2Ol-zb-7sH" customClass="QSCreateTradeReceiverInfoLocationCell">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Ol-zb-7sH" id="zqs-79-XD8">
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="所在区域" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ex-8b-2Ep">
+                        <rect key="frame" x="20" y="15" width="52" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVZ-z8-mbn">
+                        <rect key="frame" x="80" y="15" width="233" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="label" destination="aVZ-z8-mbn" id="6dT-ln-4m5"/>
+            </connections>
+            <point key="canvasLocation" x="1412.5" y="521"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px1-O4-CeG" customClass="QSCreateTradeReceiverInfoTextCell">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Px1-O4-CeG" id="ysB-Hk-Lgl">
+                <rect key="frame" x="0.0" y="0.0" width="321" height="45.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="详细地址:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ihx-r1-hZe">
+                        <rect key="frame" x="20" y="15" width="56" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wj9-pq-zJg">
+                        <rect key="frame" x="84" y="15" width="221" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="textField" destination="wj9-pq-zJg" id="9kq-ke-MEu"/>
+            </connections>
+            <point key="canvasLocation" x="1405.5" y="636"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Swl-FW-O50" customClass="QSCreateTradeHeigh40Cell">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="40"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Swl-FW-O50" id="x8V-if-pLS">
+                <rect key="frame" x="0.0" y="0.0" width="321" height="39.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="支付方式" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7WZ-jb-rGK">
+                        <rect key="frame" x="8" y="12" width="52" height="16"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="13"/>
+                        <color key="textColor" red="0.1058823529" green="0.1058823529" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="1817.5" y="145"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="W0Q-zU-5lt" customClass="QSCreateTradePayInfoSelectCell">
+            <rect key="frame" x="0.0" y="0.0" width="321" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="W0Q-zU-5lt" id="pPe-kX-0bb">
+                <rect key="frame" x="0.0" y="0.0" width="321" height="99.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oST-Pt-6al">
+                        <rect key="frame" x="8" y="26" width="138" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="KTE-Bb-B7V"/>
+                        </constraints>
+                        <state key="normal" image="u14_wechat_pay"/>
+                        <connections>
+                            <action selector="wechatBtnPressed:" destination="W0Q-zU-5lt" eventType="touchUpInside" id="CJC-a4-LA1"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HjD-8f-X3D">
+                        <rect key="frame" x="175" y="26" width="138" height="48"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="Edy-kR-e1i"/>
+                        </constraints>
+                        <state key="normal" image="u14_alipay_pay"/>
+                        <connections>
+                            <action selector="alipayBtnPressed:" destination="W0Q-zU-5lt" eventType="touchUpInside" id="iS5-vm-1xJ"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="HjD-8f-X3D" secondAttribute="trailing" constant="8" id="AVz-AJ-Lo3"/>
+                    <constraint firstItem="oST-Pt-6al" firstAttribute="top" secondItem="pPe-kX-0bb" secondAttribute="top" constant="26" id="FqT-Aw-fCY"/>
+                    <constraint firstItem="oST-Pt-6al" firstAttribute="width" secondItem="HjD-8f-X3D" secondAttribute="width" id="HE6-d6-AL5"/>
+                    <constraint firstItem="HjD-8f-X3D" firstAttribute="top" secondItem="pPe-kX-0bb" secondAttribute="top" constant="26" id="KEK-Jl-QIB"/>
+                    <constraint firstItem="oST-Pt-6al" firstAttribute="leading" secondItem="pPe-kX-0bb" secondAttribute="leading" constant="8" id="hh8-J0-mvY"/>
+                    <constraint firstItem="HjD-8f-X3D" firstAttribute="leading" secondItem="oST-Pt-6al" secondAttribute="trailing" constant="29" id="uix-Y2-yam"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="alipayBtn" destination="HjD-8f-X3D" id="tm5-Hq-bUQ"/>
+                <outlet property="wechatBtn" destination="oST-Pt-6al" id="xVF-NT-qNM"/>
+            </connections>
+            <point key="canvasLocation" x="1822.5" y="318"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="u14_alipay_pay" width="102" height="26"/>
+        <image name="u14_wechat_pay" width="100" height="32"/>
+    </resources>
+</document>

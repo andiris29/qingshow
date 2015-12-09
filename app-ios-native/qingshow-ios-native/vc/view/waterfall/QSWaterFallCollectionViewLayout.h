@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-#pragma mark WaterF
+#pragma mark QSWaterFallLayoutDelegate
 @protocol QSWaterFallLayoutDelegate <UICollectionViewDelegate>
 @required
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 @optional
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout heightForHeaderInSection:(NSInteger)section;
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout heightForFooterInSection:(NSInteger)section;
+- (CGFloat)heightForHeaderInCollectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout;
+
 @end
 
 

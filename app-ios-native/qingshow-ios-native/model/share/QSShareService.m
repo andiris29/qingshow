@@ -9,8 +9,8 @@
 #import "QSSharePlatformConst.h"
 #import "QSShareService.h"
 #import <Social/Social.h>
-#import "WeiboSDK.h"
 #import "WXApi.h"
+#import "QSNetworkKit.h"
 
 @interface QSShareService ()
 
@@ -51,6 +51,58 @@
 
 #pragma mark - Share
 #pragma mark Wechat
+- (void)shareWithWechatMoment:(NSString*)title
+                         desc:(NSString*)desc
+                    imagePath:(NSString*)imagePath
+                          url:(NSString*)url
+                    onSucceed:(VoidBlock)succeedBlock
+                      onError:(ErrorBlock)errorBlock {
+    [self _getShareImage:imagePath complete:^(UIImage *image) {
+        [self shareWithWechatMoment:title
+                               desc:desc
+                              image:image
+                                url:url
+                          onSucceed:succeedBlock
+                            onError:errorBlock];
+    }];
+}
+
+- (void)shareWithWechatFriend:(NSString*)title
+                         desc:(NSString*)desc
+                    imagePath:(NSString*)imagePath
+                          url:(NSString*)url
+                    onSucceed:(VoidBlock)succeedBlock
+                      onError:(ErrorBlock)errorBlock {
+    [self _getShareImage:imagePath complete:^(UIImage *image) {
+        [self shareWithWechatFriend:title
+                               desc:desc
+                              image:image
+                                url:url
+                          onSucceed:succeedBlock
+                            onError:errorBlock];
+    }];
+}
+
+- (void)_getShareImage:(NSString*)urlStr complete:(ImgBlock)block {
+    if (!block) {
+        return;
+    }
+    UIImage* defaultImg = [UIImage imageNamed:@"share_icon"];
+    if (urlStr && urlStr.length) {
+        [SHARE_NW_ENGINE imageAtURL:[NSURL URLWithString:urlStr] completionHandler:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
+            if (fetchedImage) {
+                block(fetchedImage);
+            } else {
+                block(defaultImg);
+            }
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            block(defaultImg);
+        }];
+    } else {
+        block(defaultImg);
+    }
+}
+
 - (void)shareWithWechatMoment:(NSString*)title
                          desc:(NSString*)desc
                         image:(UIImage*)image

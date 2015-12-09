@@ -7,25 +7,28 @@
 //
 
 #import "QSS20MatcherViewController.h"
-#import "QSS21CategorySelectorVC.h"
+#import "QSS21CategorySelectionViewController.h"
 
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
 #import "QSEntityUtil.h"
 #import "QSCategoryUtil.h"
+#import "QSItemUtil.h"
+#import "QSCategoryManager.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 #import "UIView+ScreenShot.h"
 #import "QSS03ShowDetailViewController.h"
 
-#import "QSMatcherItemPageSelectionImageView.h"
 #import "QSMatcherItemScrollSelectionView.h"
 
 #import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 #import "QSUnreadManager.h"
 
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
+
 @interface QSS20MatcherViewController ()
 
 @property (strong, nonatomic) UIView<QSMatcherItemSelectionViewProtocol>* itemSelectionView;
@@ -34,18 +37,19 @@
 @property (strong, nonatomic) NSMutableDictionary* cateIdToProvider;
 
 @property (strong, nonatomic) NSString* selectedCateId;
-@property (strong, nonatomic) NSArray* allCategories;
+
 @property (assign, nonatomic) BOOL fShouldReload;
 @property (assign, nonatomic) BOOL fRemoveMenuBtn;
+@property (strong, nonatomic) NSMutableArray* selectedItemIds;
+@property (strong, nonatomic) NSDictionary* modelParentCategory;
 @end
 
 @implementation QSS20MatcherViewController
-@synthesize menuProvider = _menuProvider;
 #pragma mark - Init
 - (instancetype)init {
     self = [super initWithNibName:@"QSS20MatcherViewController" bundle:nil];
     if (self) {
-        
+        self.selectedItemIds = [@[] mutableCopy];
     }
     return self;
 }
@@ -102,48 +106,25 @@
     if (self.fShouldReload) {
         self.fShouldReload = NO;
         [self updateCategory:@[]];
-        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-            self.allCategories = array;
-            NSMutableArray* selectedCategories = [@[] mutableCopy];
-            
-            __block int maxRow = -1;
-            __block int maxColumn = -1;
-            
-            DicBlock updateMaxRowAndColumn = ^(NSDictionary* dict){
-                NSNumber* n = [QSCategoryUtil getMathchInfoRow:dict];
-                if (n && n.intValue > maxRow) {
-                    maxRow = n.intValue;
-                }
-                n = [QSCategoryUtil getMatchInfoColumn:dict];
-                if (n && n.intValue > maxColumn) {
-                    maxColumn = n.intValue;
-                }
-            };
-            
-            for (NSDictionary* category in array) {
-                if ([QSCategoryUtil getDefaultOnCanvas:category]) {
-                    [selectedCategories addObject:category];
-                    updateMaxRowAndColumn(category);
-                    
-                }
-                NSArray* childrens = [QSCategoryUtil getChildren:category];
-                for (NSDictionary* c in childrens) {
-                    if ([QSCategoryUtil getDefaultOnCanvas:c]) {
-                        [selectedCategories addObject:c];
-                        updateMaxRowAndColumn(c);
-                    }
-                }
+        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary* modelCategory, NSDictionary *metadata) {
+            self.modelParentCategory = modelCategory;
+            NSArray* modelCategories = [QSCategoryUtil getChildren:modelCategory];
+            NSDictionary* modelCategoryToDisplay = [modelCategories firstObject];
+            if (!modelCategoryToDisplay) {
+                return;
             }
             
-            if (maxRow >= 0) {
-                self.canvasView.maxRow = maxRow;
-            }
-            
-            if (maxColumn >= 0) {
-                self.canvasView.maxColumn = maxColumn;
-            }
-            
-            [self updateCategory:selectedCategories];
+            [SHARE_NW_ENGINE matcherQueryItemsCategoryId:[QSEntityUtil getIdOrEmptyStr:modelCategoryToDisplay]
+                                                    page:0
+                                               onSucceed:^(NSArray *array, NSDictionary *metadata) {
+                if (array.count) {
+                    NSDictionary* modelItem = [array firstObject];
+                    [self updateWithModelCategory:modelCategoryToDisplay modelItem:modelItem];
+                } else {
+                    [self updateCategory:@[]];
+                }
+
+            } onError:nil];
         } onError:nil];
         self.cateIdToProvider = [@{} mutableCopy];
     }
@@ -164,18 +145,20 @@
     NSArray* categoryArray = [[self.cateIdToProvider allValues] mapUsingBlock:^id(QSMatcherItemsProvider* p) {
         return p.categoryDict;
     }];
-    QSS21CategorySelectorVC* vc = [[QSS21CategorySelectorVC alloc] initWithCategories:self.allCategories selectedCategories:categoryArray];
+    
+    QSS21CategorySelectionViewController* vc = [[QSS21CategorySelectionViewController alloc] initWithCategories:[QSCategoryManager getInstance].categories selectedCategories:categoryArray modelParentCategory:self.modelParentCategory];
+    
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)menuBtnPressed:(id)sender {
-    [self.menuProvider didClickMenuBtn];
+    [QSRootNotificationHelper postShowRootMenuNoti];
 }
 
 - (IBAction)previewButtonPressed:(id)sender {
     //防止因为图标未下载完提交白图
-    if (![self.canvasView checkLoadAtLeastOneImage]) {
+    if (![self.canvasView checkLoadAllImages]) {
         [self showErrorHudWithText:@"请等待图片下载完成"];
     }
     
@@ -197,9 +180,16 @@
         return ![QSEntityUtil checkIsNil:itemDict];
     }];
     
-    UIImage* snapshot = [self.canvasView submitView];
+    if (items.count < 4) {
+        [self showTextHud:@"单品太少了会不好看哦，\n点击选择分类按钮，\n上万件单品可以选哦！" afterCustomDelay:1.f];
+        return;
+    }
     
-    QSS23MatcherPreviewViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items coverImages:snapshot menuProvider:self.menuProvider];
+    
+    NSMutableArray* itemRects = [@[] mutableCopy];
+    UIImage* snapshot = [self.canvasView submitViewItems:items rects:itemRects];
+    
+    QSS23MatcherPreviewViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items rects:itemRects coverImages:snapshot];
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -242,12 +232,33 @@
 - (void)didSelectCategories:(NSArray*)categoryArray {
     [self updateCategory:categoryArray];
 }
-
-- (void)updateCategory:(NSArray*)array {
-    //Update View
-    [self.canvasView bindWithCategory:array];
+- (void)updateWithModelCategory:(NSDictionary*)modelCategory
+                      modelItem:(NSDictionary*)modelItem {
     
-    NSArray* newCategoryIds = [array mapUsingBlock:^id(NSDictionary* dict) {
+    [SHARE_NW_ENGINE matcherRemixByModel:[QSEntityUtil getIdOrEmptyStr:modelItem] onSucceed:^(NSDictionary * categoryContext) {
+        NSArray* itemsContextArray = [categoryContext arrayValueForKeyPath:@"slaves"];
+        NSArray* categoryArray = [itemsContextArray mapUsingBlock:^id(NSDictionary* dict) {
+            NSString* categoryId = [dict stringValueForKeyPath:@"categoryRef"];
+            NSDictionary* categoryDict = [[QSCategoryManager getInstance] findCategoryOfId:categoryId];
+            if (categoryDict) {
+                return categoryDict;
+            } else {
+                return [NSNull null];
+            }
+        }];
+        NSArray* allCategories = [categoryArray arrayByAddingObject:modelCategory];
+        [self.canvasView bindWithCategory:allCategories];
+        [self _updateCategoryProvider:allCategories];
+        self.selectedCateId = [QSEntityUtil getIdOrEmptyStr:modelCategory];
+        [self.canvasView rearrangeWithMatcherConfig:categoryContext modelId:[QSEntityUtil getIdOrEmptyStr:modelCategory]];
+        
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
+}
+
+- (void)_updateCategoryProvider:(NSArray*)categoryArray {
+    NSArray* newCategoryIds = [categoryArray mapUsingBlock:^id(NSDictionary* dict) {
         return [QSEntityUtil getIdOrEmptyStr:dict];
     }];
     NSArray* oldCategoryIds = [self.cateIdToProvider allKeys];
@@ -259,17 +270,22 @@
     }];
     
     //Add New Provider
-    for (NSDictionary* categoryDict in array) {
+    for (NSDictionary* categoryDict in categoryArray) {
         __block NSString* cateId = [QSEntityUtil getIdOrEmptyStr:categoryDict];
         if ([oldCategoryIds indexOfObject:cateId] == NSNotFound) {
             QSMatcherItemsProvider* provider = [[QSMatcherItemsProvider alloc] initWithCategory:categoryDict];
+            provider.selectItemIds = self.selectedItemIds;
             provider.delegate = self;
             self.cateIdToProvider[cateId] = provider;
             [provider reloadData];
         }
     }
-    
-    //Set Default Selected Provider
+}
+
+- (void)updateCategory:(NSArray*)array{
+    //Update View
+    [self.canvasView bindWithCategory:array];
+    [self _updateCategoryProvider:array];
     if ([self.cateIdToProvider allKeys].count) {
         self.selectedCateId = [self.cateIdToProvider allKeys][0];
     }
@@ -277,8 +293,18 @@
 
 #pragma mark - QSMatcherItemsProviderDelegate
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider ofCategory:(NSDictionary*)categoryDict didSelectItem:(NSDictionary*)itemDict{
+    NSString* itemId = [QSEntityUtil getIdOrEmptyStr:itemDict];
+    if ([self.selectedItemIds indexOfObject:itemId] == NSNotFound) {
+        [self.selectedItemIds addObject:itemId];
+    }
+    
     [self.canvasView setItem:itemDict forCategory:categoryDict isFirst:provider.fIsFirst];
     provider.fIsFirst = NO;
+    
+    NSString* parentId = [QSCategoryUtil getParentId:categoryDict];
+    if ([parentId isEqualToString:[QSEntityUtil getIdOrEmptyStr:self.modelParentCategory]]) {
+        [self updateWithModelCategory:categoryDict modelItem:itemDict];
+    }
 }
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider didFinishNetworkLoading:(NSDictionary*)categoryDict {
     if ([[QSEntityUtil getIdOrEmptyStr:categoryDict] isEqualToString:self.selectedCateId]) {

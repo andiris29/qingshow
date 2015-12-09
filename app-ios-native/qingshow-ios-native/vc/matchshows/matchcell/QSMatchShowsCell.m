@@ -46,6 +46,7 @@
     u01Tap.numberOfTapsRequired = 1;
     [self.headerImgView addGestureRecognizer:u01Tap];
     
+
     
     UITapGestureRecognizer *s03Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(matchShowImgviewPressed:)];
     UITapGestureRecognizer *s03ImgTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(matchShowImgviewPressed:)];
@@ -53,6 +54,9 @@
     self.bgImgView.userInteractionEnabled = YES;
     [self.matchShowImgview addGestureRecognizer:s03Tap];
     [self.bgImgView addGestureRecognizer:s03ImgTap];
+
+    UITapGestureRecognizer* userTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headerImgViewPressed:)];
+    [self.headerImageTapView addGestureRecognizer:userTap];
     
 }
 
@@ -69,13 +73,16 @@
         NSURL *defaultHeader = [QSImageNameUtil appendingDefaultImageUrl];
         [self.headerImgView setImageFromURL:defaultHeader];
     }
+    
+    self.rankImgView.image = [QSPeopleUtil rankImgView:_peopleDic];
+    
     NSURL *url = [QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:dict] type:QSImageNameTypeS];
     [self.matchShowImgview setImageFromURL:url];
     [self.bgImgView setImageFromURL:[QSShowUtil getFormatterCoVerForegroundUrl:dict]];
 
     NSDate *createDate = [QSShowUtil getCreatedDate:dict];
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];
-    self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
+    self.viewNumlabel.text = [QSShowUtil getNumberViewDesc:dict];
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:dict];
     self.userNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
 }
@@ -94,7 +101,7 @@
 }
 
 - (void)cancelImageLoading {
-    for (UIImageView* imgView in @[self.headerImgView, self.bodyTypeImgView, self.matchShowImgview, self.bgImgView]) {
+    for (UIImageView* imgView in @[self.headerImgView, self.matchShowImgview, self.bgImgView]) {
         [imgView cancelImageLoadingOperation];
     }
 }

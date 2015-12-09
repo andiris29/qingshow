@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WeiboSDK.h"
 #import "WXApi.h"
-@interface QSAppDelegate : UIResponder <UIApplicationDelegate, WeiboSDKDelegate, WXApiDelegate>
+@interface QSAppDelegate : UIResponder <UIApplicationDelegate, WXApiDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIViewController* rootVc;

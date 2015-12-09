@@ -4,16 +4,17 @@ var Schema = mongoose.Schema;
 var tradeSchema = Schema({
     __context : Object,
     status : Number,
-    shareToPay : Boolean,
     totalFee : Number,
     quantity : Number,
     expectedPrice : Number,
     itemSnapshot : Object,
     selectedSkuProperties : [String],
-    peopleSnapshot : Object,
-    selectedPeopleReceiverUuid : String,
+    receiver : Object,
     highlight : Date,
+    note : String,
+    adminNote : String,
     pay : {
+        create : Date,
         weixin : {
             prepayid : String,
             transaction_id : String,
@@ -23,15 +24,7 @@ var tradeSchema = Schema({
             fee_type : String,
             AppId : String,
             OpenId : String,
-            time_end : String,
-            notifyLogs : [{
-                notify_id : String,
-                trade_state : String,
-                date : {
-                    type : Date,
-                    'default' : Date.now
-                }
-            }]
+            time_end : String
         },
         alipay : {
             trade_no : String,
@@ -42,17 +35,7 @@ var tradeSchema = Schema({
             seller_id : String,
             seller_email : String,
             buyer_id : String,
-            buyer_email : String,
-            notifyLogs : [{
-                notify_type : String,
-                notify_id : String,
-                trade_status : String,
-                refund_status : String,
-                date : {
-                    type : Date,
-                    'default' : Date.now
-                }
-            }],
+            buyer_email : String
         },
         forge : {
             date : Date
@@ -74,18 +57,6 @@ var tradeSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'peoples'
     },
-    statusLogs : [{
-        status : Number,
-        comment : String,
-        update : {
-            type : Date,
-            'default' : Date.now
-        },
-        peopleRef : {
-            type : Schema.Types.ObjectId,
-            ref : 'peoples'
-        }
-    }],
     update : {
         type: Date,
         'default' : Date.now
@@ -101,6 +72,9 @@ var tradeSchema = Schema({
         ref : 'peoples'
     }
 });
+
+tradeSchema.index({ownerRef: 1});
+tradeSchema.index({create: -1});
 
 var Trade = mongoose.model('trades', tradeSchema);
 module.exports = Trade;

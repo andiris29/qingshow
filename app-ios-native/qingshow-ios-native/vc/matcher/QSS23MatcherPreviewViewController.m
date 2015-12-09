@@ -10,28 +10,34 @@
 #import "QSNetworkKit.h"
 #import "QSS03ShowDetailViewController.h"
 #import "UIViewController+ShowHud.h"
+#import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
+#import "QSPeopleUtil.h"
+#import "QSRootNotificationHelper.h"
+#import "NSDictionary+QSExtension.h"
+#import "QSBlockAlertView.h"
+#import "QSError.h"
+
 @interface QSS23MatcherPreviewViewController ()
 
 @property (strong, nonatomic) NSArray* itemArray;
+@property (strong, nonatomic) NSArray* itemRects;
 @property (strong, nonatomic) UIImage* coverImage;
-@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
-
 
 @property (strong, nonatomic) MKNetworkOperation* createMatcherOp;
 @property (strong, nonatomic) MKNetworkOperation* updateCoverOp;
-
+@property (strong, nonatomic) QSBlockAlertView* alertView;
 @end
 
 @implementation QSS23MatcherPreviewViewController
 
 #pragma mark - Init
-- (instancetype)initWithItems:(NSArray*)items coverImages:(UIImage*)coverImage menuProvider:(NSObject<QSMenuProviderDelegate>*)menuProvider {
+- (instancetype)initWithItems:(NSArray*)items rects:(NSArray*)itemRects coverImages:(UIImage*)coverImage{
     self = [super initWithNibName:@"QSS23MatcherPreviewViewController" bundle:nil];
     if (self) {
         self.itemArray = items;
+        self.itemRects = itemRects;
         self.coverImage = coverImage;
-        self.menuProvider = menuProvider;
     }
     return self;
 }
@@ -40,6 +46,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.imgView.image = self.coverImage;
+    self.submitBtn.layer.cornerRadius = 5.f;
+    self.submitBtn.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,22 +69,23 @@
     MBProgressHUD* hud = [self showNetworkWaitingHud];
     
     self.createMatcherOp =
-    [SHARE_NW_ENGINE matcherSave:self.itemArray onSucceed:^(NSString *uuid) {
+    [SHARE_NW_ENGINE matcherSave:self.itemArray itemRects:self.itemRects onSucceed:^() {
         self.createMatcherOp = nil;
         self.updateCoverOp =
-        [SHARE_NW_ENGINE matcherUuid:uuid updateCover:self.coverImage  onSucceed:^(NSDictionary *d) {
+        [SHARE_NW_ENGINE matcherUpdateCover:self.coverImage  onSucceed:^(NSDictionary *d) {
             self.updateCoverOp = nil;
             
             if ([self.delegate respondsToSelector:@selector(vc:didCreateNewMatcher:)]) {
                 [self.delegate vc:self didCreateNewMatcher:d];
             }
             
-            QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc]initWithShowId:[QSEntityUtil getStringValue:d keyPath:@"_id"]];
-            vc.showBackBtn = YES;
-            vc.menuProvider = self.menuProvider;
+            if ([QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher) {
+                [QSRootNotificationHelper postScheduleToShowLoginGuideNoti];
+                [QSUserManager shareUserManager].fShouldShowLoginGuideAfterCreateMatcher = NO;
+            }
             [hud hide:YES];
-            [self.navigationController pushViewController:vc animated:YES];
-            //            [self showShowDetailViewController:d];
+            
+            [QSRootNotificationHelper postShowLatestS24VcNoti];
         } onError:^(NSError *error) {
             [hud hide:YES];
             self.updateCoverOp = nil;
@@ -86,9 +95,50 @@
     } onError:^(NSError *error) {
         [hud hide:YES];
         self.createMatcherOp = nil;
-        [self handleError:error];
+        
+        if ([error isKindOfClass:[QSError class]] && error.code == 1043) {
+            if (self.alertView) {
+                return;
+            }
+            
+            NSDictionary* metadata = error.userInfo;
+            NSNumber* limitCount = [metadata numberValueForKeyPath:@"limitMessage"];
+            if (!limitCount) {
+                limitCount = @2;
+            }
+            
+            NSString* msg = [NSString stringWithFormat:@"亲~ 每小时搭%@套就可以咯，要保护眼睛哦~\n下个小时再来搭吧", limitCount];
+            QSBlockAlertView* alertView = [[QSBlockAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            self.alertView = alertView;
+            alertView.succeedHandler = ^(){
+                [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
+                self.alertView = nil;
+            };
+            alertView.cancelHandler = ^(){
+                [QSRootNotificationHelper postShowRootContentTypeNoti:QSRootMenuItemMeida];
+                self.alertView = nil;
+            };
+            [alertView show];
+        } else {
+            [self handleError:error];
+        }
     }];
 }
 
 
+#pragma mark - AlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView isKindOfClass:[QSBlockAlertView class]]) {
+        QSBlockAlertView* blockAlertView = (QSBlockAlertView*)alertView;
+        if (buttonIndex == blockAlertView.cancelButtonIndex) {
+            if (blockAlertView.cancelHandler) {
+                blockAlertView.cancelHandler();
+            }
+        } else {
+            if (blockAlertView.succeedHandler) {
+                blockAlertView.succeedHandler();
+            }
+        }
+    }
+}
 @end

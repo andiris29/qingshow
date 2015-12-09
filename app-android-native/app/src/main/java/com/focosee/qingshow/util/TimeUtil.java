@@ -1,5 +1,9 @@
 package com.focosee.qingshow.util;
 
+import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +28,18 @@ public class TimeUtil {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         return dateFormat.format(calendar.getTime());
+    }
+
+    public static String formatTime(GregorianCalendar calendar){
+        calendar.setTimeZone(TimeZone.getDefault());
+        try {
+            String timeZone = URLEncoder.encode(new SimpleDateFormat("Z", Locale.US).format(calendar.getTime()), "UTF-8");
+            String date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US).format(calendar.getTime());
+            return date + timeZone;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static String formatWeekInfo(int dayOfWeek) {

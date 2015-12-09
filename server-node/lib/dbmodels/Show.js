@@ -8,11 +8,16 @@ showSchema = Schema({
     cover : String,
     coverForeground : String,
     video : String,
-    featuredRank : {
+    posters : [String],
+    numView : {
         type : Number,
         'default' : 0
     },
-    posters : [String],
+    numViewFirstDay : Number,
+    bonusRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'bonus'
+    },
     numLike : {
         type : Number,
         'default' : 0
@@ -23,6 +28,13 @@ showSchema = Schema({
             ref : 'items'
         }]
         //        select: false
+    },
+    itemReductionEnabled : {
+        type : Boolean,
+        'default' : true
+    },
+    itemRects : {
+        type : Object
     },
     create : {
         type : Date,
@@ -39,6 +51,9 @@ showSchema = Schema({
         description : String
     }
 });
+
+showSchema.index({ownerRef: 1});
+showSchema.index({create: -1});
 
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;

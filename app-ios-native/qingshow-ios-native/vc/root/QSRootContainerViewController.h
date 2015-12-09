@@ -8,8 +8,17 @@
 
 #import "QSAbstractRootViewController.h"
 #import "QSIRootContentViewController.h"
+#import "QSU20NewBonusViewController.h"
 
 @interface QSRootContainerViewController : QSAbstractRootViewController <UIAlertViewDelegate>
 @property (strong, nonatomic) UINavigationController* contentNavVc;
 @property (strong, nonatomic) UIViewController<QSIRootContentViewController>* contentVc;
+
+- (void)hideRegisterVc;
+- (void)scheduleToShowLoginGuide;
+
+- (void)showNewBonusVcWithId:(NSString*)bonusId type:(QSU20NewBonusViewControllerState)type;
+- (void)hideNewBonusVc;
+- (void)showBonusVc;
+- (void)showLatestS24Vc;
 @end

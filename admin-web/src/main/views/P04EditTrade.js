@@ -61,9 +61,19 @@ define([
             status$ = $('#status', this._dom),
             newStatus = parseInt(status$.val());
 
-        this.request('/trade/statusTo', 'post', $.extend(true, {
-            '_id' : trade._id,
-            'status' : newStatus
+        var api = '';
+        if (newStatus === 3) {
+            api = '/trade/deliver';
+        } else if (newStatus === 9) {
+            api = '/trade/returnComplete';
+        } else if (newStatus === 10) {
+            api = '/trade/returnFailed';
+        } else if (newStatus === 17) {
+            api = '/trade/cancel';
+        }
+
+        this.request(api, 'post', $.extend(true, {
+            '_id' : trade._id
         }, details), function(err, metadata, data) {
             if (err) {
                 alertify.error('编辑失败');
@@ -78,10 +88,9 @@ define([
     };
 
     var _statusToMap = {
-        0 : [17],
         1 : [17],
         2 : [3, 17],
-        3 : [5, 17],
+        3 : [17],
         7 : [9, 10, 17]
     };
 

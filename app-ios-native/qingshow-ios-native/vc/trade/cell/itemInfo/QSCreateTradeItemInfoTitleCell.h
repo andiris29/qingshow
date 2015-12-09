@@ -9,11 +9,13 @@
 #import "QSCreateTradeHeight80Cell.h"
 #import "UILabelStrikeThrough.h"
 
-@interface QSCreateTradeItemInfoTitleCell : QSCreateTradeHeight80Cell
+@interface QSCreateTradeItemInfoTitleCell : QSCreateTradeTableViewCellBase
 
-@property (strong, nonatomic) IBOutlet UILabel* titleLabel;
-@property (strong, nonatomic) IBOutlet UILabel* priceAfterDiscountLabel;
-@property (strong, nonatomic) IBOutlet UILabel* priceTextLabel;
-@property (strong, nonatomic) IBOutlet UILabelStrikeThrough* priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel* titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel* priceLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView* iconImageView;
+@property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
+@property (weak, nonatomic) IBOutlet UILabel* selectedSkuLabel;
 
 @end

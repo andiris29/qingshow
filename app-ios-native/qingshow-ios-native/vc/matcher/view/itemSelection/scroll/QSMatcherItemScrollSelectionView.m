@@ -71,16 +71,34 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSDictionary* dict = [self.datasource selectionView:self itemDictAtIndex:indexPath.item];
+    BOOL f = NO;
+    if ([self.datasource respondsToSelector:@selector(selectionView:hasSelectItemId:)]) {
+        NSString* itemId = [QSEntityUtil getIdOrEmptyStr:dict];
+        f = [self.datasource selectionView:self hasSelectItemId:itemId];
+    }
     QSMatcherItemScrollSelectionCollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:QSMatcherItemScrollSelectionCollectionViewCellIdentifier forIndexPath:indexPath];
     [cell bindWithDict:dict];
+    if (self.selectIndex == indexPath.item) {
+        cell.checkmarkImgView.hidden = YES;
+    } else {
+        cell.checkmarkImgView.hidden = !f;
+    }
+
     cell.hover = self.selectIndex == indexPath.item;
     return cell;
 }
 
 #pragma mark - UICollectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSIndexPath* oldIndexPath = [NSIndexPath indexPathForItem:self.selectIndex inSection:0];
     self.selectIndex = indexPath.item;
     [self.delegate selectionView:self didSelectItemAtIndex:indexPath.item];
+    [UIView performWithoutAnimation:^{
+        [collectionView reloadItemsAtIndexPaths:@[oldIndexPath]];
+        [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+        
+    }];
+
 }
 
 #pragma mark - UIScrollView Delegate

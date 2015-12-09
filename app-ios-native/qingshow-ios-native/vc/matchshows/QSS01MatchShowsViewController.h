@@ -7,17 +7,13 @@
 //
 
 #import "QSRootContentViewController.h"
-#import "QSS12NewTradeNotifyViewController.h"
 #import <UIKit/UIKit.h>
-#import "QSAbstractListViewProvider.h"
+@interface QSS01MatchShowsViewController : QSRootContentViewController
 
-@interface QSS01MatchShowsViewController : QSRootContentViewController <QSS12NewTradeNotifyViewControllerDelegate>
+@property (weak, nonatomic) IBOutlet UITableView* newestTableView;
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
+@property (weak, nonatomic) IBOutlet UIView *calendarContainerView;
 
-- (IBAction)backToTopBtnPressed:(id)sender;
-
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId;
-
+- (void)showLatestS24Vc;
 @end

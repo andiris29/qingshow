@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.focosee.qingshow.activity.S24ShowsDateActivity">
+    <RelativeLayout
+        android:id="@+id/s24_tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageButton
+            android:id="@+id/backImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:background="@null"
+            android:src="@drawable/nav_btn_back"/>
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/s24_time"
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01.Nov 2015"/>
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/s24_tab"
+        android:id="@+id/s24_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

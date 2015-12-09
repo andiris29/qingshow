@@ -18,6 +18,19 @@
 
 + (QSShareService*)shareService;
 
+- (void)shareWithWechatMoment:(NSString*)title
+                         desc:(NSString*)desc
+                    imagePath:(NSString*)imagePath
+                          url:(NSString*)url
+                    onSucceed:(VoidBlock)succeedBlock
+                      onError:(ErrorBlock)errorBlock;
+- (void)shareWithWechatFriend:(NSString*)title
+                         desc:(NSString*)desc
+                    imagePath:(NSString*)imagePath
+                          url:(NSString*)url
+                    onSucceed:(VoidBlock)succeedBlock
+                      onError:(ErrorBlock)errorBlock;
+
 //朋友圈
 - (void)shareWithWechatMoment:(NSString*)title
                          desc:(NSString*)desc
@@ -31,6 +44,5 @@
                           url:(NSString*)url
                     onSucceed:(VoidBlock)succeedBlock
                       onError:(ErrorBlock)errorBlock;
-#warning Add Share Service For Weibo
 
 @end

@@ -25,8 +25,6 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 + (NSString*)getHeight:(NSDictionary*)peopleDict;
 + (NSString*)getWeight:(NSDictionary*)peopleDict;
 
-+ (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
-+ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
 + (NSString*)getNumberCreateShows:(NSDictionary*)peopleDict;
@@ -58,21 +56,16 @@ typedef NS_ENUM(NSInteger, QSPeopleRole) {
 #pragma mark - Unread
 + (NSArray*)getUnreadNotifications:(NSDictionary*)peopleDict;
 
-#pragma mark - Bonus
-+ (NSArray*)getBonusList:(NSDictionary*)dict;
-+ (NSNumber*)getMoneyFromBonusDict:(NSDictionary *)dict;
-+ (NSNumber*)getStatusFromBonusDict:(NSDictionary *)dict;
-+ (NSString*)getNoteFromBonusDict:(NSDictionary *)dict;
-+ (NSString*)getCreateFromBonusDict:(NSDictionary *)dict;
-+ (NSString*)getAlipayId:(NSDictionary *)dict;
-+ (NSString*)getIconFromBonusDict:(NSDictionary*)dict;
-+ (NSString*)getItemIdFromeBonusDict:(NSDictionary*)dict;
-
-
 #pragma mark - logintype
-+ (NSString *)getWechatLoginId:(NSDictionary *)dict;
-+ (NSString *)getWeiboLoginId:(NSDictionary *)dict;
++ (BOOL)hasBindWechat:(NSDictionary*)dict;
 + (NSString *)getNameAndPswLoginId:(NSDictionary *)dict;
 #pragma mark - code
 + (BOOL)checkMobileExist:(NSDictionary *)dict;
++ (BOOL)isTalent:(NSDictionary*)dict;
+
+#pragma mark - Bonus
++ (NSNumber*)getTotalBonus:(NSDictionary*)dict;
++ (NSNumber*)getAvailableBonus:(NSDictionary*)dict;
++ (NSNumber*)getRank:(NSDictionary*)dict;
++ (UIImage*)rankImgView:(NSDictionary*)dict;
 @end

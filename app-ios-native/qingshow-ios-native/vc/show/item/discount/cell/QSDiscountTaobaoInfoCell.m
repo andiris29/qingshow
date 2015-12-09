@@ -12,21 +12,28 @@
 #import "QSItemUtil.h"
 #import "NSArray+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
+#import "UIView+QSExtension.h"
 
 #define DELTA_X 8.f
 #define DELTA_Y 5.f
 
+#define BTN_ORIGIN_X 75.f
+#define BTN_ORIGIN_Y 15.f
 #define BTN_PADDING_X 5.f
 #define BTN_PADDING_Y 5.f
 
-#define ORIGIN_Y 8.f
+#define ORIGIN_Y 20.f
+
+#define LABEL_BTN_PADDING_Y 0.f
+#define CELL_BOTTOM_PADDING_Y 0.f
+
 #define LABEL_HEIGHT 13.f
 #define BTN_FONT [UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:12]
 
 
 #define COLOR_GRAY [UIColor colorWithRed:112.f/255.f green:112.f/255.f blue:112.f/255.f alpha:1.f]
 #define COLOR_LIGHT_GRAY [UIColor colorWithRed:200.f/255.f green:200.f/255.f blue:200.f/255.f alpha:1.f]
-#define COLOR_PINK [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f]
+#define COLOR_PURPLE [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f]
 
 @interface QSDiscountTaobaoInfoCell ()
 
@@ -108,15 +115,15 @@
     if (self.title && self.title.length) {
         self.titleLabel.hidden = NO;
         self.titleLabel.text = self.title;
-        baseY = self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + ORIGIN_Y;
     } else {
         self.titleLabel.hidden = YES;
-        baseY = ORIGIN_Y;
+
     }
+    baseY = BTN_ORIGIN_Y;
     
     NSMutableArray* btnArray = [@[] mutableCopy];
     
-    float baseX = 0;
+    float baseX = BTN_ORIGIN_X;
 
     float cellWidth = DISCOUNT_CELL_WIDTH;
     
@@ -128,7 +135,7 @@
         CGSize size = [self getBtnSize:comp];
         
         if (baseX + size.width > cellWidth) {
-            baseX = 0;
+            baseX = BTN_ORIGIN_X;
             baseY += size.height + DELTA_Y;
         }
         
@@ -160,16 +167,15 @@
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
     btn.titleLabel.font = BTN_FONT;
-    btn.layer.masksToBounds = YES;
-    btn.layer.borderWidth = 1.;
-    btn.layer.cornerRadius = DISCOUNT_CELL_CORNER_RADIUS;
+    [btn configBorderColor:COLOR_GRAY width:1.f cornerRadius:DISCOUNT_CELL_CORNER_RADIUS];
+    
     return btn;
 }
 + (void)setBtn:(UIButton*)btn Hover:(BOOL)f {
     btn.userInteractionEnabled = true;
     if (f) {
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        btn.backgroundColor = COLOR_PINK;
+        btn.backgroundColor = COLOR_PURPLE;
         btn.layer.borderColor = [UIColor clearColor].CGColor;
     } else {
         [btn setTitleColor:COLOR_GRAY forState:UIControlStateNormal];
@@ -204,17 +210,16 @@
 
 
 - (CGFloat)getHeight:(NSDictionary *)itemDict {
-    NSString* str = [QSItemUtil getSkuProperties:itemDict][self.infoIndex];
-    NSArray* comps = [str componentsSeparatedByString:@":"];
-    NSString* title = comps[0];
-    NSArray* compInfos = [comps subarrayWithRange:NSMakeRange(1, comps.count - 1)];
-    float baseY = 0;
-    if (title && title.length) {
-        baseY = ORIGIN_Y + LABEL_HEIGHT + ORIGIN_Y;
-    } else {
-        baseY = ORIGIN_Y;
+    NSArray* array = [QSItemUtil getSkuProperties:itemDict];
+    NSString* str = @"";
+    if (self.infoIndex < array.count) {
+        str = array[self.infoIndex];
     }
-    float baseX = 0;
+
+    NSArray* comps = [str componentsSeparatedByString:@":"];
+    NSArray* compInfos = [comps subarrayWithRange:NSMakeRange(1, comps.count - 1)];
+    CGFloat baseY = BTN_ORIGIN_Y;
+    float baseX = BTN_ORIGIN_X;
     
     float cellWidth = DISCOUNT_CELL_WIDTH;
     
@@ -223,7 +228,7 @@
         CGSize size = [self getBtnSize:comp];
         
         if (baseX + size.width > cellWidth) {
-            baseX = 0;
+            baseX = BTN_ORIGIN_X;
             baseY += size.height + DELTA_Y;
         }
         
@@ -231,7 +236,7 @@
         
         oneSize = size;
     }
-    return baseY + oneSize.height + ORIGIN_Y;
+    return baseY + oneSize.height + CELL_BOTTOM_PADDING_Y;
 }
 
 - (CGSize)getBtnSize:(NSString*)str {
