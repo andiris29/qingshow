@@ -182,23 +182,16 @@ var _saveWeixinUser = function(req, res, next) {
             } else {
                 people.nickname = people.nickname || weixinUser.nickname;
             }
-            people.userInfo = people.userInfo || {};
-            people.userInfo.weixin = {
-                openid: weixinUser.openid,
-                nickname: weixinUser.nickname,
-                sex: weixinUser.sex,
-                province: weixinUser.province,
-                city: weixinUser.city,
-                country: weixinUser.country,
-                headimgurl: weixinUser.headimgurl,
-                unionid: weixinUser.unionid
-            };
             
             if (copyHeadPath && copyHeadPath.length) {
                 people.portrait = copyHeadPath;
             }
             people.save(function(err, people) {
-                callback(err, people);
+                People.update(
+                    {'_id' : people._id},
+                    {'$set' : {'userInfo.weixin' : weixinUser}},
+                    function() {callback(err, people);}
+                );
             });
         }
     ], function(err) {
