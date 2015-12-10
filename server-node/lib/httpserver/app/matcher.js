@@ -131,14 +131,34 @@ matcher.save = {
             });
         },
         function(req, res, next) {
-            req.session.matcher = {
-                'ownerRef' : req.qsCurrentUserId,
-                'itemRefs' : RequestHelper.parseIds(req.body.itemRefs),
-                'itemRects' : req.body.itemRects,
-                'coverForeground' : global.qsConfig.show.coverForeground.template
-                    .replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max))
-            };
-            next();
+            var duplicated = true;
+            if (req.session.matcher) {
+                if (req.session.matcher.itemRefs.length !== req.body.itemRefs.length) {
+                    duplicated = false;
+                } else {
+                    for (var i = 0; i < req.session.matcher.itemRefs.length; i++) {
+                        if (req.session.matcher.itemRefs[i].toString() !== req.body.itemRefs[i]) {
+                            duplicated = false;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                duplicated = false;
+            }
+            
+            if (duplicated) {
+                next(errors.genUnkownError('Duplicated save request.'));
+            } else {
+                req.session.matcher = {
+                    'ownerRef' : req.qsCurrentUserId,
+                    'itemRefs' : RequestHelper.parseIds(req.body.itemRefs),
+                    'itemRects' : req.body.itemRects,
+                    'coverForeground' : global.qsConfig.show.coverForeground.template
+                        .replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max))
+                };
+                next();
+            }
         }
     ]
 };
@@ -148,12 +168,8 @@ matcher.updateCover = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         async.waterfall([function(callback){
-            var show = req.session.matcher;
-            delete req.session.matcher;
-            req.session.save();
-            
-            if (show) {
-                new Show(show).save(function(err, show){
+            if (req.session.matcher) {
+                new Show(req.session.matcher).save(function(err, show){
                     callback(null, show);
                 });
             }else{
