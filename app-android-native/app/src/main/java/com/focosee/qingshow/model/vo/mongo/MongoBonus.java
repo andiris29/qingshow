@@ -16,4 +16,5 @@ public class MongoBonus implements Serializable {
     public String description;
     public GregorianCalendar create;
     public String weixinRedPackId;
+    public String icon;
 }

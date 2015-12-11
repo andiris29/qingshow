@@ -9,11 +9,17 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U16BonusListAdapter;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.httpapi.QSRxApi;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSTextView;
+
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -71,5 +77,21 @@ public class U16BonusListActivity extends BaseActivity {
         LinearLayoutManager manager = new LinearLayoutManager(U16BonusListActivity.this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         u16Recycler.setLayoutManager(manager);
+        QSRxApi.getOwnBonus()
+                .subscribe(new QSSubscriber<List<MongoBonus>>() {
+                    @Override
+                    public void onNetError(int message) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<MongoBonus> bonuses) {
+                        adapter = new U16BonusListAdapter(bonuses, U16BonusListActivity.this, R.layout.item_u16_bonuses_list);
+                        u16Recycler.setAdapter(adapter);
+                    }
+                });
+
+
+
     }
 }

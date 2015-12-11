@@ -120,8 +120,8 @@ public class QSAppWebAPI {
 
     private static String GETCONFIG = "/system/getConfig";
 
-    public static String getBonusSummery(){
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + "/bonus/summary";
+    public static String getBonusOwn(){
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + "/bonus/own";
     }
 
     public static String getConfig(){

@@ -3,19 +3,20 @@ package com.focosee.qingshow.httpapi;
 import com.android.volley.Request.Method;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RxRequest;
+import com.focosee.qingshow.httpapi.response.dataparser.BonusParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByModelParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
-import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.model.vo.remix.RemixByItem;
-import com.focosee.qingshow.model.vo.remix.RemixByModel;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
+import com.focosee.qingshow.model.vo.mongo.MongoBonus;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.model.vo.remix.RemixByItem;
+import com.focosee.qingshow.model.vo.remix.RemixByModel;
 
 import org.json.JSONObject;
 
@@ -122,6 +123,16 @@ public class QSRxApi {
                     @Override
                     public List<MongoPeople> call(JSONObject jsonObject) {
                         return PeopleParser.parseQuery(jsonObject);
+                    }
+                });
+    }
+
+    public static Observable<List<MongoBonus>> getOwnBonus(){
+        return RxRequest.createJsonRequest(Method.GET,QSAppWebAPI.getBonusOwn(),null)
+                .map(new Func1<JSONObject, List<MongoBonus>>() {
+                    @Override
+                    public List<MongoBonus> call(JSONObject jsonObject) {
+                        return BonusParser.parseQuery(jsonObject);
                     }
                 });
     }
