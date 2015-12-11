@@ -26,6 +26,8 @@ var GoblinScheduler = require('./goblin/GoblinScheduler');
 
 var errors = require('../../errors');
 
+var QUERY_ITEMS_NUM_TOTAL = 1000 * 1000;
+
 var matcher = module.exports;
  
 var _shuffle = function (array) {
@@ -56,56 +58,71 @@ matcher.queryCategories = {
 
 matcher.queryItems = {
     'method' : 'get',
-    'func' : function(req, res) {
-        var qsParam = req.queryString;
-        async.waterfall([function(callback){
-            Category.findOne({
-                '_id' : RequestHelper.parseId(qsParam.categoryRef)
-            }, callback);
-        }], function(err, category){
-            var criteria = category.matchInfo.excludeDelistBefore ? {
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Category, 'categoryRef'),
+        function(req, res, next) {
+            var category = req.injection.categoryRef;
+            var pageInfo = RequestHelper.parsePageInfo(req.queryString),
+                pageNo = pageInfo.pageNo,
+                pageSize = pageInfo.pageSize;
+            var criteria = {
                 'categoryRef' : category._id,
-                '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}, {
-                    'delist' : {'$gte' : category.matchInfo.excludeDelistBefore}
-                }]
-            } : {
-                'categoryRef' : category._id,
-                '$or' : [{'delist' : {'$exists' : false}}, {'delist' : null}]
+                '$or' : [
+                    {'delist' : null}
+                ]
             };
-
-            var queryItems = req.session.queryItems || {};
-            var pageNo;
-            if (queryItems[category._id.toString()]) {
-                pageNo = parseInt(queryItems[category._id.toString()]);
-            }else {
-                pageNo = parseInt(new Number(Math.random() * 10).toFixed(0));
+            if (category.matchInfo.excludeDelistBefore) {
+                criteria['$or'].push(
+                    {'delist' : {'$gte' : category.matchInfo.excludeDelistBefore}}
+                );
             }
-            pageNo = parseInt(qsParam.pageNo) + pageNo + 1;
-            ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-                MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), pageNo, 
-                    qsParam.pageSize, function(err, models, count){
-                        if ((!count || count < qsParam.pageSize) && pageNo != 0) {
-                            pageNo = 0;
-                            MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
-                                callback(err, models ? models.concat(fillingModels) : fillingModels, qsParam.pageSize);
-                            });
-                            queryItems[category._id.toString()] = pageNo;
-                            req.session.queryItems = queryItems;
-                        }else {
-                            queryItems[category._id.toString()] = pageNo;
-                            req.session.queryItems = queryItems;
-                            callback(err, models, count);
+            req.session.matcherQueryItems = req.session.matcherQueryItems || {};
+            
+            var closure = {};
+            async.series([
+                function(callback) {
+                    // Count
+                    Item.find(criteria).count(function(err, count) {
+                        var initialSkip = req.session.matcherQueryItems[category._id.toString()];
+                        if (initialSkip === undefined) {
+                            initialSkip = req.session.matcherQueryItems[category._id.toString()] = _.random(0, count);
                         }
+                        
+                        closure.count = count;
+                        closure.skip = (initialSkip + pageNo * pageSize) % count;
+                        callback(err);
                     });
-            }, function(items) {
-                return {
-                    'items' : _shuffle(items)
-                }; 
-
-            }, {
+                },
+                function(callback) {
+                    // Query from skip
+                    Item.find(criteria).skip(closure.skip).limit(pageSize).exec(function(err, items) {
+                        closure.items = items;
+                        callback(err);
+                    });
+                },
+                function(callback) {
+                    // Query from 0
+                    if (closure.items.length < pageSize) {
+                        Item.find(criteria).limit(pageSize - closure.items.length).exec(function(err, items) {
+                            closure.items = closure.items.concat(items);
+                            callback(err);
+                        });
+                    } else {
+                        callback();
+                    }
+                }
+            ], function(err) {
+                if (err) {
+                    next(errors.genUnkownError(err));
+                } else {
+                    ResponseHelper.write(res, 
+                        {'numTotal' : QUERY_ITEMS_NUM_TOTAL, 'numPages' : Math.floor(QUERY_ITEMS_NUM_TOTAL / pageSize)},
+                        {'items' : _shuffle(closure.items)});
+                    next();
+                }
             });
-        });
-    }
+        }
+    ]
 };
 
 matcher.save = {
@@ -132,12 +149,12 @@ matcher.save = {
         },
         function(req, res, next) {
             var duplicated = true;
-            if (req.session.matcher) {
-                if (req.session.matcher.itemRefs.length !== req.body.itemRefs.length) {
+            if (req.session.matcherSave) {
+                if (req.session.matcherSave.itemRefs.length !== req.body.itemRefs.length) {
                     duplicated = false;
                 } else {
-                    for (var i = 0; i < req.session.matcher.itemRefs.length; i++) {
-                        if (req.session.matcher.itemRefs[i].toString() !== req.body.itemRefs[i]) {
+                    for (var i = 0; i < req.session.matcherSave.itemRefs.length; i++) {
+                        if (req.session.matcherSave.itemRefs[i].toString() !== req.body.itemRefs[i]) {
                             duplicated = false;
                             break;
                         }
@@ -150,7 +167,7 @@ matcher.save = {
             if (duplicated) {
                 next(errors.genUnkownError('Duplicated save request.'));
             } else {
-                req.session.matcher = {
+                req.session.matcherSave = {
                     'ownerRef' : req.qsCurrentUserId,
                     'itemRefs' : RequestHelper.parseIds(req.body.itemRefs),
                     'itemRects' : req.body.itemRects,
@@ -168,8 +185,8 @@ matcher.updateCover = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         async.waterfall([function(callback){
-            if (req.session.matcher) {
-                new Show(req.session.matcher).save(function(err, show){
+            if (req.session.matcherSave) {
+                new Show(req.session.matcherSave).save(function(err, show){
                     callback(null, show);
                 });
             }else{
