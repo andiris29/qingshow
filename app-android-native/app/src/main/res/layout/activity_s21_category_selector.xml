@@ -43,7 +43,7 @@
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/master_pink"
+        android:background="@color/master_blue"
         android:padding="10dp"
         android:text="开始搭配"
         android:textColor="@color/white"

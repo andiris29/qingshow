@@ -9,6 +9,9 @@ import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
 import org.json.JSONObject;
 import java.util.Map;
 
+import rx.Observable;
+import rx.functions.Func1;
+
 public class QSJsonObjectRequest extends JsonObjectRequest {
 
     public QSJsonObjectRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
@@ -36,5 +39,6 @@ public class QSJsonObjectRequest extends JsonObjectRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         return RequestHelper.beforeGetHeaders(super.getHeaders());
+
     }
 }

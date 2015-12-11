@@ -14,6 +14,7 @@ import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.widget.radio.RadioLayout;
 import com.sina.weibo.sdk.utils.ImageUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
 
     private RadioLayout lastChecked = null;
     private int selectPos = -1;
+    private List<String> chooseRefs;
 
     private OnCheckedChangeListener onCheckedChangeListener = null;
 
@@ -32,6 +34,7 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
 
     public S20SelectAdapter(@NonNull List<MongoItem> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
+        chooseRefs = new ArrayList<>();
     }
 
     @Override
@@ -40,7 +43,7 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
     }
 
     @Override
-    public void onBindViewHolder(AbsViewHolder holder, int position) {
+    public void onBindViewHolder(final AbsViewHolder holder, int position) {
         holder.setImgeByUrl(R.id.select_view, ImgUtil.getImgSrc(datas.get(position).thumbnail, ImgUtil.LARGE));
         RadioLayout bgView = holder.getView(R.id.item_bg);
         bgView.setTag(new Integer(position));
@@ -50,6 +53,12 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
         } else {
             bgView.setChecked(true);
             lastChecked = bgView;
+        }
+
+        if (chooseRefs.contains(datas.get(position)._id)){
+            holder.setVisibility(R.id.check_mark,View.VISIBLE);
+        }else {
+            holder.setVisibility(R.id.check_mark,View.GONE);
         }
 
         bgView.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +75,8 @@ public class S20SelectAdapter extends AbsAdapter<MongoItem> {
 
                 lastChecked = radio;
                 selectPos = clickedPos;
+                chooseRefs.add(datas.get(clickedPos)._id);
+                holder.setVisibility(R.id.check_mark,View.VISIBLE);
                 onCheckedChangeListener.onCheckedChange(datas.get(clickedPos), clickedPos, lastChecked);
             }
         });

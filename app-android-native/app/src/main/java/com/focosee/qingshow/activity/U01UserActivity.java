@@ -114,6 +114,8 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     QSTextView userBonuses;
     @InjectView(R.id.container)
     FrameLayout container;
+    @InjectView(R.id.u01_setting)
+    ImageView setting;
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -155,6 +157,14 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         userViewPager.setOffscreenPageLimit(5);
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(U01UserActivity.this, U02SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void mySelf() {

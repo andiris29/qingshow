@@ -71,8 +71,5 @@ public class U16BonusListActivity extends BaseActivity {
         LinearLayoutManager manager = new LinearLayoutManager(U16BonusListActivity.this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         u16Recycler.setLayoutManager(manager);
-        BonusHelper.bonusSort(people.bonuses);
-        adapter = new U16BonusListAdapter(people.bonuses, U16BonusListActivity.this, R.layout.item_u16_bonuses_list);
-        u16Recycler.setAdapter(adapter);
     }
 }

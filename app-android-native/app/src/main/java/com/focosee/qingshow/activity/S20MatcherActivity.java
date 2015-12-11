@@ -55,6 +55,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by Administrator on 2015/7/1.
@@ -250,17 +253,38 @@ public class S20MatcherActivity extends BaseActivity {
                     public void onNext(RemixByModel remixByModel) {
                         super.onNext(remixByModel);
                         Select modelSelect = allSelect.get(data.categoryRef._id);
-                        canvas.removeAllViews();
-                        allSelect.clear();
                         final Point canvasPoint = new Point();
                         canvasPoint.x = canvas.getWidth();
                         canvasPoint.y = canvas.getHeight();
+
+                        List<String> slaveRefs = new ArrayList<>();
+                        for (RemixByModel.Slave slave : remixByModel.slaves) {
+                            slaveRefs.add(slave.categoryRef);
+                        }
+
+                        Iterator<String> iterator = allSelect.keySet().iterator();
+                        while (iterator.hasNext()){
+                            String key = iterator.next();
+                            if(!slaveRefs.contains(key)){
+                                canvas.removeView(allSelect.get(key).view);
+                                iterator.remove();
+                            }
+                        }
+
                         RectF rect = remixByModel.master.rect.getRect(canvasPoint);
                         modelSelect.rect = rect;
                         allSelect.put(data.categoryRef._id, modelSelect);
                         addItemsToCanvas(data.categoryRef._id, data.thumbnail);
+
                         for (RemixByModel.Slave slave : remixByModel.slaves) {
-                            getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
+
+                            if (allSelect.containsKey(slave.categoryRef)){
+                                Select select = allSelect.get(slave.categoryRef);
+                                PointF drawablePoint = RectUtil.getImageViewDrawablePoint(select.view.getImageView());
+                                RectUtil.locateView(slave.rect.getRect(canvasPoint), select.view,drawablePoint.x,drawablePoint.y);
+                            }else{
+                                getDataFromNet(slave.categoryRef, slave.rect.getRect(canvasPoint));
+                            }
                         }
                     }
                 });
@@ -541,20 +565,18 @@ public class S20MatcherActivity extends BaseActivity {
 
         Intent intent = new Intent(S20MatcherActivity.this, S22MatchPreviewActivity.class);
         ArrayList<String> itemRefs = new ArrayList<>();
+        ArrayList<RectF> itemRects = new ArrayList<>();
+
         for (String s : allSelect.keySet()) {
             itemRefs.add(allSelect.get(s).item._id);
-        }
-        intent.putStringArrayListExtra(S20_ITEMREFS, itemRefs);
-
-        ArrayList<RectF> itemRects = new ArrayList<>();
-        for (int i = 0; i < canvas.getChildCount(); i++) {
-            RectF rect = RectUtil.getViewRealRect(canvas.getChildAt(i));
+            RectF rect = RectUtil.getViewRealRect(allSelect.get(s).view);
             RectF rectF = new RectF((rect.left + 0.0f) / (canvas.getWidth() + 0.0f) * 100,
                     (rect.top + 0.0f) / (canvas.getHeight() + 0.0f) * 100,
                     (rect.right + 0.0f) / (canvas.getWidth() + 0.0f) * 100,
                     (rect.bottom + 0.0f) / (canvas.getHeight() + 0.0f) * 100);
             itemRects.add(rectF);
         }
+        intent.putStringArrayListExtra(S20_ITEMREFS, itemRefs);
 
         intent.putParcelableArrayListExtra(S20_ITEMRECTS, itemRects);
 

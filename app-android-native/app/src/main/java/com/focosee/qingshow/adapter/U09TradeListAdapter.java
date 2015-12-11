@@ -85,7 +85,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
 
         if (null != trade.itemSnapshot) {
             String priceStr = "";
-            if (trade.itemSnapshot.promoPrice != null){
+            if (trade.itemSnapshot.promoPrice != null && trade.itemSnapshot.expectable != null && trade.itemSnapshot.expectable.reduction != null){
                 priceStr = StringUtil.FormatPrice(trade.itemSnapshot.promoPrice.floatValue() - trade.itemSnapshot.expectable.reduction.floatValue());
             }
             holder.setText(R.id.item_tradelist_actualPrice, priceStr);

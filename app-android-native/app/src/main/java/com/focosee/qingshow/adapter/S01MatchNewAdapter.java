@@ -40,13 +40,26 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
     public void onBindViewHolder(AbsViewHolder holder, int position) {
         FeedingAggregation data = datas.get(position);
         int[] imgId = new int[]{R.id.item_new_img1, R.id.item_new_img2, R.id.item_new_img3};
+        int[] pimgId= new int[]{R.id.item_new_pg_img1,R.id.item_new_pg_img2,R.id.item_new_pg_img3};
+        int[] layoutId = new int[]{R.id.layout1,R.id.layout2,R.id.layout3};
         List<MongoShow> topShows = data.topShows;
         for (int id : imgId) {
             holder.setVisibility(id, View.INVISIBLE);
         }
+
+        for (int id : pimgId) {
+            holder.setVisibility(id, View.INVISIBLE);
+        }
+
+        for (int id : layoutId) {
+            holder.setVisibility(id, View.INVISIBLE);
+        }
+
         for (int i = 0; i < topShows.size(); i++) {
             if (i > 3) break;
             holder.setImgeByUrl(imgId[i], topShows.get(i).cover).setVisibility(imgId[i], View.VISIBLE);
+            holder.setImgeByUrl(pimgId[i], topShows.get(i).coverForeground).setVisibility(pimgId[i], View.VISIBLE);
+            holder.setVisibility(layoutId[i],View.VISIBLE);
         }
         final int key = Integer.parseInt(data.key);
         final int from;
@@ -64,7 +77,7 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
         final int to = from + 1;
 
         holder.setText(R.id.time, timeTemplate.replace("S", from + "").replace("E", to + ""));
-        if (QSModel.INSTANCE.loggedin() && data.indexOfCurrentUser != -1){
+        if (data.indexOfCurrentUser < 0){
             holder.setImgeByUrl(R.id.current_head, QSModel.INSTANCE.getUser().portrait);
         }else{
             holder.setVisibility(R.id.current_head, View.GONE);

@@ -200,7 +200,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     }
 
     private void checkItem(TextView tv, SimpleDraweeView img, String url) {
-        tv.setTextColor(context.getResources().getColor(R.color.master_pink));
+        tv.setTextColor(context.getResources().getColor(R.color.master_blue));
         img.setImageURI(ImgUtil.changeImgUri(url, ImgUtil.CategoryImgType.SELECTED));
     }
 

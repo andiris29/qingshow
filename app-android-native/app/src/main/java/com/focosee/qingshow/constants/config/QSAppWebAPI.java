@@ -118,6 +118,15 @@ public class QSAppWebAPI {
 
     private static String QUERY_BUYERS = "/people/queryBuyers";
 
+    private static String GETCONFIG = "/system/getConfig";
+
+    public static String getBonusSummery(){
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + "/bonus/summary";
+    }
+
+    public static String getConfig(){
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + GETCONFIG;
+    }
     public static String getQueryBuyers() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_BUYERS;
     }

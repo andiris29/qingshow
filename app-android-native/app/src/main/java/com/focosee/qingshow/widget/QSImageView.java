@@ -297,7 +297,9 @@ public class QSImageView extends RelativeLayout {
         delBtn.setBackgroundResource(R.drawable.canvas_del);
         LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()),
                 (int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()));
-        btnParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        btnParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        btnParams.setMargins(2,2,2,2);
         delBtn.setLayoutParams(btnParams);
         delBtn.setOnClickListener(onDelClickListener);
         this.addView(delBtn);

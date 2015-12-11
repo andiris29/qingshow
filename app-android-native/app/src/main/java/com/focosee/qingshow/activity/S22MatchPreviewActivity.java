@@ -33,6 +33,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.RectUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
 
@@ -79,7 +80,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if(msg.what == TIME_OUT){
+            if (msg.what == TIME_OUT) {
                 sublit();
                 return true;
             }
@@ -105,12 +106,12 @@ public class S22MatchPreviewActivity extends BaseActivity {
         timerSubmit();
     }
 
-    private void timerSubmit(){
+    private void timerSubmit() {
         timer = new Timer(true);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                if(submitBtn.isEnabled())
+                if (submitBtn.isEnabled())
                     handler.sendEmptyMessage(TIME_OUT);
             }
         };
@@ -126,10 +127,15 @@ public class S22MatchPreviewActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void sublit() {
-        timer.purge();
-        timer.cancel();
-        timer = null;
-        saveMatch();
+        if (timer != null) {
+            timer.purge();
+            timer.cancel();
+            timer = null;
+        }
+
+        if (QSModel.INSTANCE.loggedin()) {
+            saveMatch();
+        }
     }
 
     @OnClick(R.id.back)
@@ -161,7 +167,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
             for (RectF rect : innerItemRects) {
                 list.add(RectUtil.rectSerializer(rect));
             }
-            JSONArray itemRects = new JSONArray(list);
+            JSONArray itemRects = new JSONArray(QSGsonFactory.create().toJson(list));
             JSONArray itemRefs = new JSONArray(QSGsonFactory.create().toJson(innerItemRefs));
 
             map.put("itemRects", itemRects);
@@ -182,8 +188,8 @@ public class S22MatchPreviewActivity extends BaseActivity {
                     QSModel.INSTANCE.setUserStatus(MongoPeople.MATCH_FINISHED);
                 }
 
-                if(null != bitmap)
-                    if(!bitmap.isRecycled())
+                if (null != bitmap)
+                    if (!bitmap.isRecycled())
                         uploadImage();
             }
         }, new QSResponseErrorListener() {
@@ -206,7 +212,15 @@ public class S22MatchPreviewActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 Log.d(S22MatchPreviewActivity.class.getSimpleName(), "uploadImage_response:" + response);
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(S22MatchPreviewActivity.this, MetadataParser.getError(response));
+                    try {
+                        if (response.getJSONObject("metadata").has("limitMessage")) {
+                            ToastUtil.showShortToast(S22MatchPreviewActivity.this, response.getJSONObject("metadata").get("limitMessage").toString());
+                        } else {
+                            ErrorHandler.handle(S22MatchPreviewActivity.this, MetadataParser.getError(response));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     allowClick();
                     return;
                 }
@@ -214,7 +228,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
                 allowClick();
                 Class _class = S03SHowActivity.class;
                 Intent intent = new Intent();
-                if(QSModel.INSTANCE.isGuest()){
+                if (QSModel.INSTANCE.isGuest()) {
                     _class = S01MatchShowsActivity.class;
                 }
                 intent.setClass(S22MatchPreviewActivity.this, _class);
@@ -239,7 +253,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if(null != bitmap) {
+        if (null != bitmap) {
             if (!bitmap.isRecycled()) {
                 bitmap.recycle();
             }
@@ -250,7 +264,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (null == bitmap){
+        if (null == bitmap) {
             finish();
         }
         MobclickAgent.onPageStart("S22MatcherPreviewActivity");

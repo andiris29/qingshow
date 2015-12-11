@@ -50,10 +50,6 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
     ImageView u19WeixinLogin;
     @InjectView(R.id.u19_weixin_login_text)
     QSTextView u19WeixinLoginText;
-    @InjectView(R.id.u19_weibo_login)
-    ImageView u19WeiboLogin;
-    @InjectView(R.id.u19_weibo_login_text)
-    QSTextView u19WeiboLoginText;
     @InjectView(R.id.u19_loging_register_btn)
     QSButton u19LogingRegisterBtn;
 
@@ -93,9 +89,6 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
             u19WeixinLogin.setImageResource(R.drawable.weixin_hui);
             u19WeixinLogin.setEnabled(false);
             u19WeixinLoginText.setTextColor(getResources().getColor(R.color.gary));
-            u19WeiboLogin.setImageResource(R.drawable.weibo_hui);
-            u19WeiboLogin.setEnabled(false);
-            u19WeiboLoginText.setTextColor(getResources().getColor(R.color.gary));
         }
     }
 
@@ -108,9 +101,6 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.u19_weixin_login:
                 weiChatLogin();
-                break;
-            case R.id.u19_weibo_login:
-                weiBoLogin();
                 break;
             case R.id.u19_loging_register_btn:
                 startActivity(new Intent(U19LoginGuideActivity.this, U07RegisterActivity.class));
@@ -135,11 +125,6 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
         req.state = "qingshow_wxlogin";
         wxApi.sendReq(req);
 
-        dialogs.show();
-    }
-
-    public void weiBoLogin() {
-        mSsoHandler.authorize(new AuthListener());
         dialogs.show();
     }
 

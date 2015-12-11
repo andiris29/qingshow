@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="center"
-            android:background="@color/master_pink" />
+            android:background="@color/master_blue" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/item_s21_name"
@@ -51,7 +51,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/matcher_item_selection_pre_hover" />
+                android:background="@drawable/previous_remix_btn" />
         </FrameLayout>
 
 
@@ -71,7 +71,7 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/matcher_item_selection_next" />
+                android:background="@drawable/next_remix_btn" />
         </FrameLayout>
     </LinearLayout>
 </RelativeLayout>

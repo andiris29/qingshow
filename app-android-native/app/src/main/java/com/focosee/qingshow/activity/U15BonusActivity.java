@@ -27,11 +27,14 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.request.RxRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.aggregation.BonusAmount;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ShareUtil;
+import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.bonus.BonusHelper;
@@ -54,6 +57,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
+import rx.functions.Func1;
 
 public class U15BonusActivity extends BaseActivity implements View.OnClickListener {
 
@@ -69,6 +73,9 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     ImageButton leftBtn;
     @InjectView(R.id.u15_withDrawBtn)
     QSButton withDrawBtn;
+    @InjectView(R.id.u15_draw)
+    QSTextView u15Draw;
+
     private MongoPeople people;
     private boolean isCanWithDrwa = false;
     private LoadingDialogs dialogs;
@@ -96,15 +103,34 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         Drawable drawable = getResources().getDrawable(R.drawable.u15_notify);
         assert drawable != null;
         drawable.setBounds(0, 0, (int)AppUtil.transformToDip(30f,this), (int)AppUtil.transformToDip(30f,this));
-        ss.setSpan(new ImageSpan(drawable),hint.length() - 3,hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ImageSpan(drawable), hint.length() - 3, hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         u15HintText.setText(ss);
 
         setData();
     }
 
     public void setData() {
-
-
+        UserCommand.refresh(new Callback(){
+            @Override
+            public void onComplete() {
+                BonusAmount amountByStatus = QSModel.INSTANCE.getUser().__context.bonusAmountByStatus;
+                float total = 0;
+                float draw = 0;
+                if (amountByStatus.bonuses.containsKey("0")){
+                    total += amountByStatus.bonuses.get("0").floatValue();
+                    draw += amountByStatus.bonuses.get("0").floatValue();
+                }
+                if (amountByStatus.bonuses.containsKey("1")){
+                    total += amountByStatus.bonuses.get("1").floatValue();
+                }
+                if (amountByStatus.bonuses.containsKey("2")){
+                    total += amountByStatus.bonuses.get("2").floatValue();
+                }
+                u15Total.setText(StringUtil.FormatPrice(total));
+                u15Draw.setText(StringUtil.FormatPrice(draw));
+            }
+        });
+ 
     }
 
     @Override

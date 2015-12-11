@@ -18,7 +18,7 @@
         android:layout_height="0dp"
         android:layout_below="@+id/u15_title"
         android:layout_marginTop="5dp"
-        android:background="@color/master_pink"
+        android:background="@color/master_blue"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_heightPercent="12%">

@@ -56,18 +56,6 @@
             android:text="我的折扣" />
 
         <ImageButton
-            android:id="@+id/u01_bonusList"
-            style="@style/navigation_btn"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:src="@drawable/root_menu_highted" />
-
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/u01_bonusList_tv"
-            style="@style/navigation_text"
-            android:text="潮人晒单" />
-
-        <ImageButton
             android:id="@+id/u01_people"
             style="@style/navigation_btn"
             android:layout_marginTop="20dp"
@@ -79,16 +67,5 @@
             style="@style/navigation_text"
             android:text="我的搭配" />
 
-        <ImageButton
-            android:id="@+id/s17_settting"
-            style="@style/navigation_btn"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:src="@drawable/root_menu_setting" />
-
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/s17_settting_tv"
-            style="@style/navigation_text"
-            android:text="个人设置" />
     </LinearLayout>
 </FrameLayout>

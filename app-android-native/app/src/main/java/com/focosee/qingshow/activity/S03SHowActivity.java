@@ -67,6 +67,7 @@ import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -78,7 +79,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.functions.Func2;
 
 import static com.focosee.qingshow.R.id.s03_nickname;
@@ -162,6 +165,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
         dialogs = new LoadingDialogs(S03SHowActivity.this);
+
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
         } else showId = "";
@@ -259,9 +263,11 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 .subscribe(new QSSubscriber<JSONObject>() {
                     @Override
                     public void onNetError(int message) {
-                        ErrorHandler.handle(S03SHowActivity.this, message);
-                        if (message == ErrorCode.AlreadyRelated)
+                        if (message == ErrorCode.AlreadyRelated){
                             isAlreadyRelated = true;
+                        }else {
+                            isAlreadyRelated = false;
+                        }
                     }
                 });
     }
@@ -333,14 +339,14 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                     @Override
                     public void onNext(List<MongoPeople> mongoPeoples) {
                         BonusAmount bonusAmount;
-                        if ((bonusAmount = mongoPeoples.get(0).__context.bonusAmountByStatus) != null){
+                        if ((bonusAmount = mongoPeoples.get(0).__context.bonusAmountByStatus) != null) {
                             float totalBonuses = 0f;
                             Map<String, Number> bonuses = bonusAmount.bonuses;
-                            if (bonuses != null){
-                                if (bonuses.containsKey("0")){
-                                    totalBonuses +=  bonuses.get("0").floatValue();
+                            if (bonuses != null) {
+                                if (bonuses.containsKey("0")) {
+                                    totalBonuses += bonuses.get("0").floatValue();
                                 }
-                                if (bonuses.containsKey("1")){
+                                if (bonuses.containsKey("1")) {
                                     totalBonuses += bonuses.get("1").floatValue();
                                 }
                             }
@@ -350,10 +356,35 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 });
     }
 
-    private void showTag(MongoShow show) {
+    private void showTag(final MongoShow show) {
         for (TextView tag : tagViewList) {
             tagFl.removeView(tag);
         }
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (!MetadataParser.hasError(response)) {
+                    try {
+                        String modelParentCategory = response.getJSONObject("metadata").get("modelCategoryRef").toString();
+                        ArrayList<MongoCategories> categories = CategoryParser.parseQuery(response);
+                        List<String> modelRefs = new ArrayList<>();
+                        for (MongoCategories category : categories) {
+                            if (category.parentRef != null && category.parentRef._id.equals(modelParentCategory)){
+                                modelRefs.add(category._id);
+                            }
+                        }
+                        addTagTo(show);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void addTagTo(MongoShow show){
         Observable.zip(
                 Observable.from(show.itemRects),
                 Observable.from(show.itemRefs),
@@ -394,7 +425,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         tag.setTextColor(Color.WHITE);
         tag.setGravity(Gravity.CENTER);
         tag.setTextSize(12);
-        tag.setPadding(38,10,20,10);
+        tag.setPadding(38, 10, 20, 10);
         tag.setBackgroundDrawable(getResources().getDrawable(R.drawable.show_tag_background));
         return tag;
     }
@@ -547,23 +578,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 startActivity(intent);
                 return;
         }
-    }
-
-    private void getCategories() {
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (!MetadataParser.hasError(response)) {
-                    Map<String, MongoCategories> categoriesMap = new HashMap<>();
-                    for (MongoCategories categories : CategoryParser.parseQuery(response)) {
-                        categoriesMap.put(categories._id, categories);
-                    }
-                    CategoriesModel.INSTANCE.setCategories(categoriesMap);
-                }
-            }
-        });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void hideShow() {

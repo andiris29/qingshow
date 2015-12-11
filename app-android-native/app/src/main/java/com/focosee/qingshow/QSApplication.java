@@ -31,7 +31,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import java.io.File;
@@ -65,7 +64,6 @@ public class QSApplication extends Application {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
         if(AppUtil.isApkInDebug(this)){
-            LeakCanary.install(this);
         }
 
         showLoginGuide();

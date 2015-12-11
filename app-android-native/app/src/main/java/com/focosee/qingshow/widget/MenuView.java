@@ -64,18 +64,10 @@ public class MenuView extends Fragment implements View.OnClickListener {
     ImageButton navigationBtnDiscount;
     @InjectView(R.id.navigation_btn_discount_tv)
     TextView navigationBtnDiscountTv;
-    @InjectView(R.id.u01_bonusList)
-    ImageButton u01BonusList;
-    @InjectView(R.id.u01_bonusList_tv)
-    TextView u01BonusListTv;
     @InjectView(R.id.u01_people)
     ImageButton u01People;
     @InjectView(R.id.u01_people_tv)
     TextView u01PeopleTv;
-    @InjectView(R.id.s17_settting)
-    ImageButton s17Settting;
-    @InjectView(R.id.s17_settting_tv)
-    TextView s17SetttingTv;
     @InjectView(R.id.background)
     FrameLayout background;
     @InjectView(R.id.menu_blur)
@@ -169,9 +161,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
         navigationBtnMatch.setOnClickListener(this);
         navigationBtnGoodMatch.setOnClickListener(this);
         navigationBtnDiscount.setOnClickListener(this);
-        u01BonusList.setOnClickListener(this);
         u01People.setOnClickListener(this);
-        s17Settting.setOnClickListener(this);
     }
 
     private void initBtnColor() {
@@ -192,24 +182,12 @@ public class MenuView extends Fragment implements View.OnClickListener {
                 navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
             navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
-        if (getActivity() instanceof T01HighlightedTradeListActivity) {
-            u01BonusList.setImageResource(R.drawable.root_menu_highted_gray);
-            u01BonusListTv.setTextColor(getResources().getColor(R.color.darker_gray));
-        }
         if (getActivity() instanceof U01UserActivity) {
             if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS))
                 u01People.setImageResource(R.drawable.root_menu_flash_gray_dot);
             else
                 u01People.setImageResource(R.drawable.root_menu_flash_gray);
             u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
-        }
-        if (getActivity() instanceof U02SettingsActivity) {
-            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)
-                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE))
-                s17Settting.setImageResource(R.drawable.root_menu_setting_gray_dot);
-            else
-                s17Settting.setImageResource(R.drawable.root_menu_setting_gray);
-            s17SetttingTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
     }
 
@@ -222,11 +200,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
                 || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)
                 || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
             navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_dot);
-        }
-
-        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)
-                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
-            s17Settting.setImageResource(R.drawable.root_menu_setting_tip);
         }
     }
 
@@ -280,16 +253,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
             getActivity().finish();
             return;
         }
-
-        if (v.getId() == R.id.u01_bonusList) {
-            if (getActivity() instanceof T01HighlightedTradeListActivity) {
-                return;
-            }
-            startActivity(new Intent(getActivity(), T01HighlightedTradeListActivity.class));
-            getActivity().finish();
-            return;
-        }
-
         Class _class = null;
         switch (v.getId()) {
             case R.id.navigation_btn_good_match:
@@ -307,10 +270,6 @@ public class MenuView extends Fragment implements View.OnClickListener {
             case R.id.u01_people:
                 if (getActivity() instanceof U01UserActivity) return;
                 _class = U01UserActivity.class;
-                break;
-            case R.id.s17_settting:
-                if (getActivity() instanceof U02SettingsActivity) return;
-                _class = U02SettingsActivity.class;
                 break;
         }
 

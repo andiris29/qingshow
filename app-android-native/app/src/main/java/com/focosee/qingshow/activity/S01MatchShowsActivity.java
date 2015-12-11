@@ -1,6 +1,8 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,21 +12,29 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01MatchNewAdapter;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.QSRxApi;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
-import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.squareup.timessquare.CalendarPickerView;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -57,6 +67,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     ImageView s01MenuBtn;
     @InjectView(R.id.home_time)
     ImageView timeBtn;
+
+    @InjectView(R.id.guide)
+    SimpleDraweeView global;
 
     private S01MatchNewAdapter matchNewAdapter;
 
@@ -96,6 +109,15 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
+
+        getConfig();
+
+        global.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                global.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initCalendar() {
@@ -173,6 +195,32 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                         matchNewAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    private void getConfig(){
+        QSJsonObjectRequest request = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getConfig(), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getJSONObject("data").getJSONObject("guide").has("global")){
+                                final String url = response.getJSONObject("data").getJSONObject("guide").get("global").toString();
+                                final SharedPreferences preferences = QSApplication.instance().getPreferences();
+
+                                if (!preferences.getBoolean(url, false)){
+                                    global.setImageURI(Uri.parse(url));
+                                    global.setVisibility(View.VISIBLE);
+                                    preferences.edit().putBoolean(url, true);
+                                    preferences.edit().apply();
+                                }
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        RequestQueueManager.INSTANCE.getQueue().add(request);
     }
 
     @Override

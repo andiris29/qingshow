@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
+    android:background="@color/master_blue"
     tools:context="com.focosee.qingshow.activity.U19LoginGuideActivity">
 
     <View
@@ -31,7 +31,7 @@
         android:src="@drawable/shouji"
         android:onClick="onClick"
         android:layout_centerHorizontal="true"
-        app:layout_marginTopPercent="10%"
+        app:layout_marginTopPercent="20%"
         app:layout_widthPercent="30%"
         app:layout_heightPercent="15%"/>
 
@@ -65,32 +65,12 @@
         android:textSize="20sp"
         android:text="@string/weixin_login_activity_register"/>
 
-    <ImageView
-        android:id="@+id/u19_weibo_login"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/weibo"
-        android:layout_centerHorizontal="true"
-        android:onClick="onClick"
-        android:layout_below="@id/u19_weixin_login_text"
-        app:layout_marginTopPercent="5%"
-        app:layout_widthPercent="30%"
-        app:layout_heightPercent="15%"/>
-
-    <com.focosee.qingshow.widget.QSTextView
-        style="@style/navigation_text"
-        android:id="@+id/u19_weibo_login_text"
-        android:layout_below="@+id/u19_weibo_login"
-        android:layout_alignLeft="@id/u19_weibo_login"
-        android:layout_alignRight="@id/u19_weibo_login"
-        android:textSize="20sp"
-        android:text="@string/weibologin_activity_register"/>
 
     <com.focosee.qingshow.widget.QSButton
         android:id="@+id/u19_loging_register_btn"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_below="@id/u19_weibo_login_text"
+        android:layout_below="@id/u19_weixin_login_text"
         android:background="@drawable/white_btn_ring"
         android:textColor="@color/white"
         app:layout_marginTopPercent="5%"
