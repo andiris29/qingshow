@@ -16,8 +16,23 @@ properties.parse(configPath, {
         return;
     }
     global.qsConfig = config;
+    
+    // Load additional configs
+    properties.parse(
+        path.join(__dirname, 'modelRemixConfig.properties'), 
+        {'path' : true, 'namespaces' : true, 'variables' : true}, 
+        function(err, config) {
+            global.qsConfig.modelRemix = config;
+        });
+    properties.parse(
+        path.join(__dirname, 'itemRemixConfig.properties'), 
+        {'path' : true, 'namespaces' : true, 'variables' : true}, 
+        function(err, config) {
+            global.qsConfig.itemRemix = config;
+        });
+        
     // Initialize logger
-    require('./runtime').loggers.init(config.logging.dir);
+    require('./runtime').loggers.init();
 
     //Database Connection
     var qsdb = require('./runtime').db;
@@ -38,11 +53,6 @@ properties.parse(configPath, {
         } catch (err) {
             console.log(err);
         }
-        try {
-            // Startup goblin overseer
-            require('./goblin-overseer/startup')();
-        } catch (err) {
-            console.log(err);
-        }
     });
 });
+

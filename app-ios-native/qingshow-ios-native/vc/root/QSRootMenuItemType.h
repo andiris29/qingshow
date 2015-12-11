@@ -13,11 +13,9 @@ typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
     QSRootMenuItemTypeNone = 0,
     QSRootMenuItemMy = 1,
     QSRootMenuItemMeida = 2,
-    QSRootMenuItemSetting = 3,
-    QSRootMenuItemMatcher = 4,
-    QSRootMenuItemDiscount = 5,
-    QSRootMenuItemShowTrade = 6,
-    QSRootMenuItemTypeMax = 7
+    QSRootMenuItemMatcher = 3,
+    QSRootMenuItemDiscount = 4,
+    QSRootMenuItemTypeMax = 5
 };
 
 

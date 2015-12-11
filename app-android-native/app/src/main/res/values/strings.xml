@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
 
     <!-- title -->
-    <string name="s08_title">时尚情报</string>
+    <string name="s01_title">美搭榜单</string>
 
     <!-- Settings Activity -->
     <string name="title_activity_settings">SettingsActivity</string>
@@ -56,10 +56,11 @@
     <string name="account_hint_activity_register">输入昵称</string>
     <string name="password_activity_register">密码</string>
     <string name="password_hint_activity_register">输入密码</string>
+    <string name="reinput_password">重新输入密码</string>
     <string name="confirm_activity_register">再次输入密码</string>
     <string name="submit_activity_register">注册倾秀账号</string>
     <string name="phone_email_activity_register">输入手机号码</string>
-    <string name="verification_code_activity_register">输入验证码</string>
+    <string name="verification_code_activity_register">输入手机验证码</string>
     <string name="or_activity_register">or</string>
     <string name="weixin_login_activity_register">微信登录</string>
     <string name="weibologin_activity_register">微博登录</string>
@@ -69,13 +70,16 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_bar_activity_login">登录</string>
     <string name="register_activity_login">注册</string>
-    <string name="account_hint_activity_login">输入昵称或手机号码</string>
+    <string name="account_hint_activity_login">输入手机号码</string>
     <string name="account_activity_login">账号</string>
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
-    <string name="login_activity_login">登录倾秀账号</string>
-    <string name="register1_activity_login">注册倾秀账号</string>
+    <string name="login_activity_login">立即登录</string>
+    <string name="register1_activity_login">注册</string>
     <string name="login_successed">登录成功</string>
+    <string name="mobile_login">手机登录</string>
+    <string name="mobile_register">手机注册</string>
+    <string name="goto_register">还没账号，立即注册</string>
 
     <!-- Personal Activity -->
     <string name="title_activity_personal">PersonalActivity</string>
@@ -155,6 +159,7 @@
     <string name="s02_title_name">潮流单品</string>
     <string name="s17_title_name">美搭榜单</string>
     <string name="u17_title_name">找回密码</string>
+    <string name="u18_title_name">重置密码</string>
 
     <!-- comm -->
     <string name="no_more_data">没有更多数据了！</string>
@@ -163,7 +168,7 @@
     <string name="brand_not_exist">非常抱歉，店铺已不存在</string>
     <string name="item_not_exist">商品不存在</string>
     <string name="image_not_exist">商品没有图片</string>
-    <string name="get_bonuses_label">佣金：</string>
+    <string name="get_bonuses_label">收益</string>
     <string name="need_install_wx">请先安装微信</string>
     <string name="forget_password">忘记密码</string>
     <string name="good_remark">商品备注:</string>
@@ -174,7 +179,7 @@
     <string name="apply_return_activity_trade">申请退货</string>
     <string name="comfirm_receive_activity_trade">确认收货</string>
     <string name="service_text">客服热线:</string>
-    <string name="service_phone_number">4007- 501- 010</string>
+    <string name="service_phone_number">4008- 123- 655</string>
     <string name="service_describe1">7天退货</string>
     <string name="service_describe2">极速发货</string>
     <string name="service_describe3">全场免运</string>
@@ -214,6 +219,7 @@
 
     <string name="s20_dialog">确定删除？</string>
     <string name="s20_notify_more">图片被遮挡太多,请调整</string>
+    <string name="s20_item_less">单品太少了会不好看哦，点击选择分类按钮，上万件单品可以选哦！</string>
 
     <string name="s20_loading">上传中...</string>
     <string name="s06_loading">登录中...</string>
@@ -234,8 +240,8 @@
     <string name="u15_total_bonus">佣金总计：</string>
     <string name="u15_balance">未提现：</string>
     <string name="u15_hint_edit">请输入支付宝账号</string>
-    <string name="u15_hint">*提现后，款项将在48小时内转至您的账户</string>
-    <string name="u15_btn_text">分享APP获取佣金</string>
+    <string name="u15_hint">*分享微信朋友圈完成提现后，系统自动将佣金通过微信红包发送给您，请注意服务通知/ba</string>
+    <string name="u15_btn_text">朋友圈分享提现</string>
     <string name="u15_title_right_btn">佣金明细</string>
     <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>
     <string name="title_activity_t01_highlighted_trade_list">T01HighlightedTradeListActivity</string>
@@ -254,4 +260,30 @@
     <string name="need_input_phone">*请正确输入手机号码</string>
     <string name="need_input_verification">*请正确输入验证码</string>
     <string name="title_activity_u18_reset_password_step2">U18ResetPasswordStep2</string>
+    <string name="title_activity_u06_login">U06LoginActivity</string>
+    <string name="title_activity_u20_new_bonus">U20NewBonus</string>
+
+    <!-- u20 -->
+    <string name="u20_msg_line1">您搭配的单品已被购买</string>
+    <string name="u20_submit_btn">马上提现</string>
+    <string name="u20_msg3">最近搭配过该商品的用户也可以获得共享佣金哦</string>
+    <string name="title_activity_u21_new_participant_bonus">U21NewParticipantBonus</string>
+
+    <!-- u21 -->
+    <string name="u21_msg_line1">她与你搭配了同一款单品，当她得到佣金时</string>
+    <string name="u21_msg_line2">你也可以得到一份共享佣金</string>
+    <string name="title_activity_trade_notify">TradeNotifyActivity</string>
+
+    <!-- TradeNotify -->
+    <string name="trade_notify_hint">你可以通过以上价格购买啦</string>
+    <string name="trade_notify_submit">立即购买</string>
+    <string name="title_activity_s23_search">S23SearchActivity</string>
+    <string name="top_list_title">TOP LIST</string>
+    <string name="withdraw">可提现金额</string>
+    <string name="total_bonus">佣金总额</string>
+    <string name="u15_packet_hint">购物新时尚，天猫折上折，倾秀来搞定!</string>
+    <string name="u15_qa"><![CDATA[常见问题Q&A]]></string>
+    <string name="s11_follow">随心搭</string>
+    <string name="s11_hint">将你的随心搭分享到朋友圈可获得惊喜低价哦</string>
+    <string name="details">查看详情</string>
 </resources>

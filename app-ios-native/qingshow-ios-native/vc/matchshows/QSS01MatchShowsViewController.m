@@ -7,7 +7,9 @@
 //
 
 #import "QSS01MatchShowsViewController.h"
-#import "QSMatchCollectionViewProvider.h"
+#import "QSNewestHourViewController.h"
+#import "QSMatcherTableViewProvider.h"
+#import "QSError.h"
 #import "QSBlock.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
@@ -16,207 +18,210 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSPaymentService.h"
 #import "UIViewController+QSExtension.h"
-#import "QSS11CreateTradeViewController.h"
+#import "QSU14CreateTradeViewController.h"
 #import "QSUnreadManager.h"
+#import "CKCalendarView.h"
+#import "QSDateUtil.h"
 
 #define PAGE_ID @"新美搭榜单"
 
-@interface QSS01MatchShowsViewController ()<UICollectionViewDelegate,QSMatchCollectionViewProviderDelegate>
 
-@property (nonatomic,assign) NSInteger segIndex;
-@property (nonatomic,strong) UISegmentedControl *segmentControl;
-@property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
+@interface QSS01MatchShowsViewController ()<QSMatcherTableViewProviderDelegate, CKCalendarDelegate>
 
-@property (strong, nonatomic) QSS12NewTradeNotifyViewController* s11NotiVc;
+@property (weak, nonatomic) IBOutlet UIButton *calendarBtn;
 
+@property (nonatomic, strong) QSMatcherTableViewProvider* newestProvider;
+@property (strong, nonatomic) CKCalendarView* calendarView;
 
+@property (strong, nonatomic) NSTimer* scheduleToShowCalendarBtnTimer;
+
+- (IBAction)backToTopBtnPressed:(id)sender;
 @end
 
 @implementation QSS01MatchShowsViewController
 
+#pragma mark - Init
 - (instancetype)init {
     self = [super initWithNibName:@"QSS01MatchShowsViewController" bundle:nil];
     if (self) {
-        
     }
     return self;
 }
 
+#pragma mark - Life Cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib
-    _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
-    _matchCollectionViewProvider.delegate = self;
-    _matchCollectionViewProvider.type = 1;
-    _matchCollectionViewProvider.hasRefreshControl = YES;
-    _backToTopbtn.hidden = YES;
-    [self configNav];
-    [self configProvider];
-//    [self showTradeNotiViewOfTradeId:@"55cc124fcd4ee1473606a3b8" actualPrice:[NSNumber numberWithFloat:156.78]];
+    
+    [self _configNav];
+    [self _configProvider];
+    
+
+    self.calendarContainerView.frame = self.navigationController.view.bounds;
+    self.calendarView = [[CKCalendarView alloc] initWithStartDay:startSunday frame:self.calendarContainerView.bounds];
+    [self.calendarContainerView addSubview:self.calendarView];
+    self.calendarContainerView.userInteractionEnabled = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapCalendarContainer:)];
+    [self.calendarContainerView addGestureRecognizer:ges];
+    self.calendarView.delegate = self;
+    self.calendarView.selectedDate = [NSDate date];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self.matchCollectionViewProvider refreshVisibleData];
+    [self.newestProvider refreshClickedData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveUserLoginNoti:) name:kUserLoginNotification object:nil];
 }
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.matchCollectionViewProvider cancelImageLoading];
+    [self.newestProvider cancelImageLoading];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)configProvider
-{
-   
-    [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
-    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-        return [SHARE_NW_ENGINE getfeedingMatchFeatured:nil page:page onSucceed:succeedBlock onError:errorBlock];
-    };
-    //NSLog(@" new count == %@",self.matchCollectionViewProvider.resultArray);
-    [_matchCollectionViewProvider fetchDataOfPage:1];
-    [self.matchCollectionViewProvider reloadData];
-}
-
-- (void)configNav
-{
-    
-    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"达人",@"最热",@"最新"]];
-    _segmentControl.frame = CGRectMake(0, 0, 180, 25);
-    [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
-    [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
-    [_segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
-    _segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
-    
-    self.navigationItem.titleView = _segmentControl;
-    _segmentControl.selectedSegmentIndex = 0;
-    [self.navigationController.navigationBar removeGestureRecognizer:self.showVersionTapGesture];
-}
-
-
-- (void)changeEvents
-{
-    _segIndex = _segmentControl.selectedSegmentIndex;
-    if(_segIndex ==  2)
-    {
-        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-            return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
-        };
-        [_matchCollectionViewProvider fetchDataOfPage:1];
-        [self reloadCollectionViewData];
-        
-    }
-    else if(_segIndex == 1)
-    {
-        [self.matchCollectionViewProvider.resultArray removeAllObjects];
-        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-            return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
-        };
-        [_matchCollectionViewProvider fetchDataOfPage:1];
-        [self reloadCollectionViewData];
-       
-    }else if(_segIndex == 0)
-    {
-        [self.matchCollectionViewProvider.resultArray removeAllObjects];
-        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-            return [SHARE_NW_ENGINE getfeedingMatchFeatured:nil page:page onSucceed:succeedBlock onError:errorBlock];
-        };
-        [_matchCollectionViewProvider fetchDataOfPage:1];
-        [self reloadCollectionViewData];
-
-    }
-}
-#pragma mark - Delegate
-- (void)didSelectedCellInCollectionView:(id)sender
-{
-    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:sender];
-//    NSLog(@"%@",[QSEntityUtil getStringValue:sender keyPath:@"_id"]) ;
-   // vc.menuProvider = self.menuProvider;
-    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
-    vc.navigationItem.leftBarButtonItem = backItem;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)reloadCollectionViewData
-{
-    [self hideNewworkWaitingHud];
-    MBProgressHUD* hud = [self showNetworkWaitingHud];
-    [hud hide:YES];
-    [self.matchCollectionViewProvider reloadDataOnCompletion:^{
-        [hud hide:YES];
-    }];
-}
-
-- (void)didClickHeaderImgView:(id)sender
-{
-    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
-    vc.menuProvider = self.menuProvider;
-    vc.navigationController.navigationBar.hidden = NO;
-    [self.navigationController pushViewController:vc animated:YES];
- 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGPoint center = self.calendarContainerView.center;
+    center.y = self.calendarView.bounds.size.height / 2;
+    self.calendarView.center = center;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (self.collectionView.contentOffset.y != 0) {
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    UIScrollView* sv = self.newestTableView;
+    if (sv.contentOffset.y != 0) {
         _backToTopbtn.hidden = NO;
-    }
-    else
-    {
+        [self hideCalendarBtn];
+    } else {
         _backToTopbtn.hidden = YES;
+        [self showCalendarBtn];
     }
 }
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self showCalendarBtnLater];
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerat {
+    if (!decelerat) {
+        [self showCalendarBtnLater];
+    }
+}
+
+#pragma mark - IBAction
 - (IBAction)backToTopBtnPressed:(id)sender {
-    CGPoint p = [self.collectionView contentOffset];
+    UIScrollView* currentScrollView = self.newestTableView;
+    CGPoint p = [currentScrollView contentOffset];
     p.y = 0;
-    [self.collectionView setContentOffset:p animated:YES];
+    [currentScrollView setContentOffset:p animated:YES];
     _backToTopbtn.hidden = YES;
 }
-
-- (void)showTradeNotiViewOfTradeId:(NSString*)tradeId{
-    [SHARE_NW_ENGINE queryTradeDetail:tradeId onSucceed:^(NSDictionary *dict) {
-        [[QSUnreadManager getInstance] clearTradeUnreadId:tradeId];
-        self.s11NotiVc = [[QSS12NewTradeNotifyViewController alloc] initWithDict:dict];
-        self.s11NotiVc.delelgate = self;
-        self.s11NotiVc.view.frame = self.navigationController.view.bounds;
-        [self.navigationController.view addSubview:self.s11NotiVc.view];
-    } onError:^(NSError *error) {
-
-    }];
+- (IBAction)calendarBtnPressed:(id)sender {
+    [self _showCalendar];
 }
-- (void)didClickClose:(QSS12NewTradeNotifyViewController *)vc
+
+#pragma mark - Private
+- (void)_configProvider
 {
-    [self.s11NotiVc.view removeFromSuperview];
-    self.s11NotiVc = nil;
+    _backToTopbtn.hidden = YES;
+    
+    self.newestProvider = [[QSMatcherTableViewProvider alloc] init];
+    self.newestProvider.delegate = self;
+    self.newestProvider.hasPaging = NO;
+    self.newestProvider.hasRefreshControl = YES;
+    [self.newestProvider bindWithTableView:self.newestTableView];
+    self.newestProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+        return [SHARE_NW_ENGINE feedingAggregationOnSucceed:succeedBlock onError:errorBlock];
+    };
+    [self _reloadCurrentProvider];
 }
 
-- (void)didClickPay:(QSS12NewTradeNotifyViewController*)vc {
-    NSDictionary* tradeDict = vc.tradeDict;
-    NSNumber* actualPrice = vc.expectablePrice;
-    NSDictionary* paramDict = nil;
-    if (actualPrice) {
-        paramDict = @{@"actualPrice" : vc.expectablePrice};
-    }
-    [SHARE_PAYMENT_SERVICE sharedForTrade:tradeDict onSucceed:^(NSDictionary* d){
-        [self didClickClose:vc];
-        QSS11CreateTradeViewController* v = [[QSS11CreateTradeViewController alloc] initWithDict:d];
-        v.menuProvider = self.menuProvider;
-        [self.navigationController pushViewController:v animated:YES];
-    } onError:^(NSError *error) {
-        [vc handleError:error];
-    }];
+- (void)_configNav
+{
+    self.title = @"美搭榜单";
+}
 
+- (void)_reloadCurrentProvider {
+    [self.newestProvider reloadData];
+}
+
+#pragma mark - CKCalendarDelegate
+- (void)calendar:(CKCalendarView *)calendar didSelectDate:(NSDate *)date {
+    NSDate* now = [NSDate date];
+    if ([date compare:now] == NSOrderedAscending) {
+        self.calendarContainerView.hidden = YES;
+        self.calendarView.selectedDate = date;
+        date = [QSDateUtil clearTimeFromDate:date];
+        NSDate* toDate = [date dateByAddingTimeInterval:24 * 60 * 60];
+        QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:toDate];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)didTapCalendarContainer:(UITapGestureRecognizer*)ges {
+    [self _hideCalendar];
+}
+
+- (void)_showCalendar {
+    self.calendarContainerView.hidden = NO;
+    self.calendarContainerView.alpha = 0.f;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.calendarContainerView.alpha = 1.f;
+    }];
+}
+- (void)_hideCalendar {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.calendarContainerView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        self.calendarContainerView.hidden = YES;
+    }];
+}
+#pragma mark - QSMatcherTableViewProvider
+- (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date {
+    NSDate* toDate = [date dateByAddingTimeInterval:60 * 60];
+    QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:toDate];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)provider:(QSMatcherTableViewProvider*)provider didClickPeople:(NSDictionary*)peopleDict {
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
+    vc.navigationController.navigationBar.hidden = NO;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)showLatestS24Vc {
+    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-1];
+    date = [QSDateUtil clearMinuteFromDate:date];
+    QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:[date dateByAddingTimeInterval:60 * 60]];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - 
+- (void)showCalendarBtn {
+    if (self.scheduleToShowCalendarBtnTimer) {
+        [self.scheduleToShowCalendarBtnTimer invalidate];
+        self.scheduleToShowCalendarBtnTimer = nil;
+    }
+    self.calendarBtn.hidden = NO;
+}
+- (void)hideCalendarBtn {
+    if (self.scheduleToShowCalendarBtnTimer) {
+        [self.scheduleToShowCalendarBtnTimer invalidate];
+        self.scheduleToShowCalendarBtnTimer = nil;
+    }
+    self.calendarBtn.hidden = YES;
+}
+- (void)showCalendarBtnLater {
+    if (self.scheduleToShowCalendarBtnTimer) {
+        [self.scheduleToShowCalendarBtnTimer invalidate];
+        self.scheduleToShowCalendarBtnTimer = nil;
+    }
+    self.scheduleToShowCalendarBtnTimer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(showCalendarBtn) userInfo:nil repeats:NO];
+}
+#pragma mark -
+- (void)didReceiveUserLoginNoti:(NSNotification*)noti {
+    [self.newestProvider reloadData];
 }
 @end

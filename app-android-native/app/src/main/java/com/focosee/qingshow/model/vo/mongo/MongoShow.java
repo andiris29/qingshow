@@ -1,5 +1,6 @@
 package com.focosee.qingshow.model.vo.mongo;
 
+import com.focosee.qingshow.model.vo.remix.QSRect;
 import com.focosee.qingshow.model.vo.context.ShowContext;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
@@ -10,13 +11,10 @@ public class MongoShow implements Serializable {
     public ShowContext __context;
 
     public String cover;
-    public boolean ugc;
     public String video;
-    public String[] posters;
-    public String description;
 
     public List<MongoItem> itemRefs;
-    public MongoPromotion promotionRef;
+    public List<QSRect> itemRects;
     public String coverForeground;
 
     public GregorianCalendar create;
@@ -26,9 +24,24 @@ public class MongoShow implements Serializable {
 
     public Recommend recommend;
     public class Recommend implements Serializable {
-        public String group;
         public GregorianCalendar date;
-        public String description;
     }
 
+    @Override
+    public String toString() {
+        return "MongoShow{" +
+                "_id='" + _id + '\'' +
+                ", __context=" + __context +
+                ", cover='" + cover + '\'' +
+                ", video='" + video + '\'' +
+                ", itemRefs=" + itemRefs +
+                ", itemRects=" + itemRects +
+                ", coverForeground='" + coverForeground + '\'' +
+                ", create=" + create +
+                ", numLike=" + numLike +
+                ", ownerRef=" + ownerRef +
+                ", hideAgainstOwner=" + hideAgainstOwner +
+                ", recommend=" + recommend +
+                '}';
+    }
 }

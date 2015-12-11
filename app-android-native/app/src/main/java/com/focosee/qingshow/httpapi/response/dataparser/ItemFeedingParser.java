@@ -21,7 +21,7 @@ public class ItemFeedingParser {
             String items = response.getJSONObject("data").getJSONArray("items").toString();
             Type listType = new TypeToken<ArrayList<MongoItem>>() {
             }.getType();
-            Gson gson = QSGsonFactory.cateGoryBuilder().create();
+            Gson gson = QSGsonFactory.create();
             return gson.fromJson(items, listType);
         } catch (JSONException e) {
             return null;
@@ -31,7 +31,7 @@ public class ItemFeedingParser {
     public static MongoItem parseOne(JSONObject response) {
         try {
             String item = response.getJSONObject("data").getJSONObject("item").toString();
-            return QSGsonFactory.cateGoryBuilder().create().fromJson(item, new TypeToken<MongoItem>() {
+            return QSGsonFactory.create().fromJson(item, new TypeToken<MongoItem>() {
             }.getType());
         } catch (JSONException e) {
             e.printStackTrace();

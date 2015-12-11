@@ -71,7 +71,7 @@
                 <include
                     layout="@layout/head_trade_list"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="60dp"
                     android:layout_below="@+id/U09_title_relative_layout" />
 
                 <ImageButton

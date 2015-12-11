@@ -17,9 +17,8 @@ define([
     };
     // Initialize __services
     httpService.config({
-        // 'root' : 'http://127.0.0.1:30001/services',
-        'root' : 'http://chingshow.com/services',
-        'version' : '2.1.0'
+        'root' : window.__config.appServiceRoot,
+        'version' : window.__config.VERSION
     });
     navigationService.config({
         'root' : $('#root').get(0)
@@ -57,7 +56,8 @@ define([
             } else if (shareObj.type === 2) {
                 //bonus
                 navigationService.push('qs/views/P04ShareBonus', {
-                    'entity' : shareObj.targetInfo.bonus
+                    'create' : shareObj.create,
+                    '_id' : search._id
                 });
             } else {
                 navigationService.push('qs/views/P01NotFound');

@@ -3,8 +3,6 @@ package com.focosee.qingshow.activity.fragment;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +19,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.widget.LoadingDialogs;
-import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -53,7 +49,7 @@ public class U01MatchFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_s01_matchlist);
+        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_match);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -115,11 +111,11 @@ public class U01MatchFragment extends U01BaseFragment {
                 }
 
                 if (pageNo == 1) {
-                    adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                    adapter.addDataAtTop(ShowParser.parseQuery(response));
                     message.arg1 = REFRESH_FINISH;
                     currentPageN0 = pageNo;
                 }else{
-                    adapter.addData(ShowParser.parseQuery_itemString(response));
+                    adapter.addData(ShowParser.parseQuery(response));
                     message.arg1 = LOAD_FINISH;
                 }
                 handler.sendMessage(message);

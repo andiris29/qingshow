@@ -16,10 +16,8 @@ import com.focosee.qingshow.R;
 public class PaymentRadio extends RelativeLayout {
 
     private RelativeLayout rootView;
+    private RelativeLayout layout;
     private ImageView logoView;
-    private TextView nameView;
-    private TextView infoView;
-    private ImageView button;
 
     private Context context;
 
@@ -52,7 +50,7 @@ public class PaymentRadio extends RelativeLayout {
     private void initAttrbutes(AttributeSet attrs) {
         if (null != attrs) {
             final int attrIds[] = new int[]{R.attr.logo_res, R.attr.name_text, R.attr.info_text,
-                    R.attr.checked,R.attr.button_res,R.attr.mode};
+                    R.attr.checked, R.attr.button_res, R.attr.mode};
             TypedArray array = context.obtainStyledAttributes(attrs,
                     attrIds);
             logoRes = array.getResourceId(0, 0);
@@ -68,14 +66,9 @@ public class PaymentRadio extends RelativeLayout {
     private void init() {
         rootView = (RelativeLayout) inflate(getContext(), R.layout.item_s17_payment, this);
         logoView = (ImageView) rootView.findViewById(R.id.s11_paymet_logo);
-        nameView = (TextView) rootView.findViewById(R.id.s11_paymet_name);
-        infoView = (TextView) rootView.findViewById(R.id.s11_paymet_info);
-        button = (ImageView) rootView.findViewById(R.id.s11_paymet_button);
+        layout = (RelativeLayout) rootView.findViewById(R.id.payment_rl);
 
         logoView.setImageResource(logoRes);
-        nameView.setText(nameStr);
-        infoView.setText(infoStr);
-        button.setBackgroundResource(inCheckRes);
 
     }
 
@@ -91,10 +84,10 @@ public class PaymentRadio extends RelativeLayout {
 
     public void setCheck(boolean check) {
         this.check = check;
-        if(check){
-            button.setBackgroundResource(checkedRes);
-        }else{
-            button.setBackgroundResource(inCheckRes);
+        if (check) {
+            layout.setBackgroundResource(checkedRes);
+        } else {
+            layout.setBackgroundResource(inCheckRes);
         }
     }
 

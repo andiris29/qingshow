@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS23MatcherPreviewViewController">
             <connections>
                 <outlet property="imgView" destination="rDj-9Z-xUL" id="4J2-Ir-mld"/>
+                <outlet property="submitBtn" destination="Lgd-es-keJ" id="ccy-d5-2SH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,22 +25,9 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rDj-9Z-xUL">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PxQ-Qr-7LA">
-                    <rect key="frame" x="20" y="30" width="28" height="28"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="28" id="z2P-GA-09K"/>
-                        <constraint firstAttribute="height" constant="28" id="zXb-pw-NXe"/>
-                    </constraints>
-                    <state key="normal" image="nav_btn_back">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="QhA-Od-Kau"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgd-es-keJ">
                     <rect key="frame" x="88" y="506" width="145" height="35"/>
-                    <color key="backgroundColor" red="0.94117647058823528" green="0.58431372549019611" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="145" id="cPx-WQ-SEe"/>
                         <constraint firstAttribute="height" constant="35" id="ksg-Pq-avk"/>
@@ -52,14 +40,27 @@
                         <action selector="submitBtnPressed:" destination="-1" eventType="touchUpInside" id="k7u-Ak-ZOa"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PxQ-Qr-7LA">
+                    <rect key="frame" x="14" y="25" width="32" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="32" id="z2P-GA-09K"/>
+                        <constraint firstAttribute="height" constant="32" id="zXb-pw-NXe"/>
+                    </constraints>
+                    <state key="normal" image="nav_btn_back">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="QhA-Od-Kau"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="rDj-9Z-xUL" secondAttribute="bottom" id="7yJ-mk-dRJ"/>
                 <constraint firstAttribute="bottom" secondItem="Lgd-es-keJ" secondAttribute="bottom" constant="27" id="KtB-dk-bgc"/>
                 <constraint firstItem="rDj-9Z-xUL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Q15-nK-edo"/>
-                <constraint firstItem="PxQ-Qr-7LA" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="QMm-3l-M0v"/>
-                <constraint firstItem="PxQ-Qr-7LA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="aVx-pa-lck"/>
+                <constraint firstItem="PxQ-Qr-7LA" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="25" id="QMm-3l-M0v"/>
+                <constraint firstItem="PxQ-Qr-7LA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="14" id="aVx-pa-lck"/>
                 <constraint firstAttribute="centerX" secondItem="Lgd-es-keJ" secondAttribute="centerX" constant="-0.5" id="o38-Np-IcF"/>
                 <constraint firstItem="rDj-9Z-xUL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="v7R-W1-bP6"/>
                 <constraint firstAttribute="trailing" secondItem="rDj-9Z-xUL" secondAttribute="trailing" id="vXj-7R-P8f"/>
@@ -70,9 +71,4 @@
     <resources>
         <image name="nav_btn_back" width="28" height="28"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

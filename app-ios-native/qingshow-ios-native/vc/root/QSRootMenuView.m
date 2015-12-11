@@ -71,9 +71,7 @@
                            @(QSRootMenuItemMeida),
                            @(QSRootMenuItemMatcher),
                            @(QSRootMenuItemDiscount),
-                           @(QSRootMenuItemShowTrade),
-                           @(QSRootMenuItemMy),
-                           @(QSRootMenuItemSetting)];
+                           @(QSRootMenuItemMy)];
     self.itemArray = [@[] mutableCopy];
 
     for (int i = 0; i < typeArray.count; i++) {
@@ -135,7 +133,14 @@
 }
 
 
-
+- (void)hoverItemType:(QSRootMenuItemType)type {
+    QSRootMenuItem* item = [self _findItemWithType:type];;
+    self.currentType = type;
+    for (QSRootMenuItem* i in self.itemArray) {
+        [i setHover:(i == item)];
+        
+    }
+}
 - (void)triggerItemTypePressed:(QSRootMenuItemType)type {
     QSRootMenuItem* item = [self _findItemWithType:type];;
     

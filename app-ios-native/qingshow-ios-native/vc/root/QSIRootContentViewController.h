@@ -8,13 +8,9 @@
 
 #ifndef QSIRootContentViewController_h
 #define QSIRootContentViewController_h
-@protocol QSMenuProviderDelegate;
 
 @protocol QSIRootContentViewController <NSObject>
-
-@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 - (void)updateMenuDot;
-
 @end
 
 

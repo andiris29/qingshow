@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU19LoginGuideViewController">
+            <connections>
+                <outlet property="closeBtn" destination="OyJ-X6-olC" id="rmZ-7C-W3S"/>
+                <outlet property="mobileLoginBtn" destination="tNm-4o-Lke" id="WRm-fd-WUw"/>
+                <outlet property="registerBtn" destination="1ZX-JL-3vh" id="RYc-IP-MCc"/>
+                <outlet property="topConstraint" destination="59j-b4-b7C" id="aZu-sX-O58"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weichatLoginBtn" destination="bh1-iq-gVE" id="dhj-8x-8jj"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ZX-JL-3vh">
+                    <rect key="frame" x="79" y="378.5" width="162" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="162" id="KGq-VT-dZH"/>
+                        <constraint firstAttribute="height" constant="34" id="fTU-lA-bOm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="还没账号，立即注册"/>
+                    <connections>
+                        <action selector="registerBtnPressed:" destination="-1" eventType="touchUpInside" id="sSv-U4-eSe"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyJ-X6-olC">
+                    <rect key="frame" x="274" y="30" width="32" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="32" id="P2Q-kv-rh7"/>
+                        <constraint firstAttribute="height" constant="32" id="mBx-xm-oPV"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="item_detail_close"/>
+                    <connections>
+                        <action selector="closeBtnPressed:" destination="-1" eventType="touchUpInside" id="ev8-fh-oSt"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh1-iq-gVE">
+                    <rect key="frame" x="129" y="240.5" width="63" height="87"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="87" id="jAG-rj-AtS"/>
+                        <constraint firstAttribute="width" constant="63" id="rZc-Ms-M7Z"/>
+                    </constraints>
+                    <state key="normal" image="loginguide_wechat"/>
+                    <connections>
+                        <action selector="wechatLoginPressed:" destination="-1" eventType="touchUpInside" id="C4l-3h-Tb5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNm-4o-Lke">
+                    <rect key="frame" x="129" y="103" width="63" height="87"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="87" id="QC6-mz-U28"/>
+                        <constraint firstAttribute="width" constant="63" id="Ymg-nh-H5d"/>
+                    </constraints>
+                    <state key="normal" image="loginguide_mobile"/>
+                    <connections>
+                        <action selector="mobileLoginPressed:" destination="-1" eventType="touchUpInside" id="VK0-Xm-5u2"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.15686274510000001" green="0.1764705882" blue="0.35686274509999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="tNm-4o-Lke" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="102.5" id="59j-b4-b7C"/>
+                <constraint firstItem="OyJ-X6-olC" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="W8Z-xT-YIX"/>
+                <constraint firstItem="1ZX-JL-3vh" firstAttribute="top" secondItem="bh1-iq-gVE" secondAttribute="bottom" constant="51" id="XkE-uc-EYy"/>
+                <constraint firstItem="1ZX-JL-3vh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="bxS-dr-rVT"/>
+                <constraint firstAttribute="trailing" secondItem="OyJ-X6-olC" secondAttribute="trailing" constant="14" id="dUf-su-Nau"/>
+                <constraint firstItem="bh1-iq-gVE" firstAttribute="top" secondItem="tNm-4o-Lke" secondAttribute="bottom" constant="51" id="f2D-QO-Vs8"/>
+                <constraint firstItem="bh1-iq-gVE" firstAttribute="centerX" secondItem="1ZX-JL-3vh" secondAttribute="centerX" id="s1T-Om-3Rs"/>
+                <constraint firstItem="tNm-4o-Lke" firstAttribute="centerX" secondItem="1ZX-JL-3vh" secondAttribute="centerX" id="sVA-5S-X9i"/>
+            </constraints>
+            <point key="canvasLocation" x="362" y="258"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="item_detail_close" width="20" height="20"/>
+        <image name="loginguide_mobile" width="63" height="87"/>
+        <image name="loginguide_wechat" width="63" height="88"/>
+    </resources>
+</document>

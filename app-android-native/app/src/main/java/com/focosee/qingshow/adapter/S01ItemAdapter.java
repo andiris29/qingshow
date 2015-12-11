@@ -43,7 +43,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
     }
 
     @Override
-    public void onBindViewHolder(AbsViewHolder holder, int position) {
+    public void onBindViewHolder(AbsViewHolder holder, final int position) {
 
         if(null == getItemData(position))return;
 
@@ -55,6 +55,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
                 Intent intent = new Intent(context, S03SHowActivity.class);
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
                 intent.putExtra(S03SHowActivity.CLASS_NAME, "S01MatchShowsActivity");
+                intent.putExtra(S03SHowActivity.POSITION, position);
                 context.startActivity(intent);
             }
         });

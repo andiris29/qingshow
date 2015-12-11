@@ -37,8 +37,12 @@
 
 + (NSDate*)getCreatedDate:(NSDictionary*)showDict;
 + (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict;
-
++ (NSString*)getNumberViewDesc:(NSDictionary*)showDict;
 //新增获取图片高度的方法
 + (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic;
 + (NSDictionary*)getPromotionRef:(NSDictionary*)showDict;
++ (void)addNumberView:(long long)num forShow:(NSDictionary*)showDict;
++ (NSArray*)getAllItemArray:(NSDictionary*)showDict;
++ (NSArray*)getItemRects:(NSDictionary*)showDict;
++ (BOOL)getItemReductionEnabled:(NSDictionary*)showDict;
 @end

@@ -11,7 +11,6 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.adapter.U01MatchFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.constants.config.QSPushAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -20,7 +19,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.user.UnreadHelper;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
@@ -49,7 +47,7 @@ public class U01RecommFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_s01_matchlist);
+        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_match);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -97,7 +95,7 @@ public class U01RecommFragment extends U01BaseFragment {
                     }
                     return;
                 }
-                adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                adapter.addDataAtTop(ShowParser.parseQuery(response));
                 adapter.notifyDataSetChanged();
             }
         });

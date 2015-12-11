@@ -83,6 +83,17 @@ var upload = function(input, dest, callback) {
     });
 };
 
+var _insertSuffix = function(input, suffix) {
+    var lastDotIndex = input.lastIndexOf('.');
+    var tempPre = input;
+    var tempPro = "";
+    if (lastDotIndex !== -1) {
+        tempPre = input.substr(0, lastDotIndex);
+        tempPro = input.substr(lastDotIndex);
+    }
+    return tempPre + suffix + tempPro;
+};
+
 var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, callback) {
     var tasks = [];
 
@@ -94,14 +105,7 @@ var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, ca
 
     // Resize
     (resizeOptions || []).forEach(function (option) {
-        var lastDotIndex = input.lastIndexOf('.');
-        var tempPre = input;
-        var tempPro = "";
-        if (lastDotIndex !== -1) {
-            tempPre = input.substr(0, lastDotIndex);
-            tempPro = input.substr(lastDotIndex);
-        }
-        var newPath = tempPre + option.suffix + tempPro;
+        var newPath = _insertSuffix(input, option.suffix);
         // Get target size
         if (option.rate) {
             tasks.push(function (innerCallback) {
@@ -142,16 +146,13 @@ var uploadWithResize = function (input, savedName, uploadPath, resizeOptions, ca
                         'step' : 'resize-complete',
                         'ftp.logRandom' : logRandom
                     });
-                    var savedName = path.basename(newPath);
-                    var fullPath = path.join(uploadPath, savedName);
+                    var n = path.basename(_insertSuffix(savedName, option.suffix));
 
-
-                    upload(newPath, fullPath, function (err) {
+                    upload(newPath, path.join(uploadPath, n), function (err) {
                         innerCallback (err);
                         try {
                             fs.unlink(newPath, function(){});
                         } catch(e){}
-
                     });
                 }
             });

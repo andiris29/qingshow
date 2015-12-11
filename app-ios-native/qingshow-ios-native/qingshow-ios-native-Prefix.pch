@@ -20,4 +20,5 @@
     #import "MobClick.h"
     #import"QSBackBarItem.h"
     #import "QSEntityUtil.h"
+    #import "QSRootNotificationHelper.h"
 #endif

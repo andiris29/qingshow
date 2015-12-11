@@ -1,104 +1,63 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:auto="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/master_pink">
+    android:layout_height="match_parent">
 
-    <android.support.percent.PercentRelativeLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/master_pink">
+        android:background="@color/login_background"
+        android:alpha="0.8"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/indicator_bg_default_activity_personal" />
+        <ImageButton
+            android:id="@+id/backImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:background="@null"
+            android:onClick="onClick"
+            android:src="@drawable/nav_btn_back_white"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            style="@style/login_linearlayout"
+            app:layout_heightPercent="50%"
+            app:layout_marginLeftPercent="5%"
+            app:layout_marginRightPercent="5%"
+            app:layout_marginTopPercent="25%">
 
-            <android.support.percent.PercentRelativeLayout
-                android:id="@+id/titleBarRelativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/title_bar_height"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/backImageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitCenter"
-                    android:padding="10dp"
-                    android:background="@null"
-                    android:onClick="onClick"
-                    android:src="@drawable/nav_btn_back_white"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:src="@drawable/logo_white" />
-
-                <com.focosee.qingshow.widget.QSButton
-                    android:id="@+id/register_login_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/title_bar_height"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    app:clickGround="@color/transparent"
-                    android:gravity="center"
-                    android:onClick="onClick"
-                    android:padding="10dp"
-                    android:text="登录账户"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size" />
-            </android.support.percent.PercentRelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line_activity_settings" />
 
             <RelativeLayout
-                android:id="@+id/accountRelativeLayout"
+                android:id="@+id/confirmRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="15dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
                 <ImageView
-                    android:id="@+id/accountTextView"
+                    android:id="@+id/confirmTextView"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/login_user" />
+                    android:src="@drawable/phone" />
 
                 <com.focosee.qingshow.widget.QSEditText
-                    android:id="@+id/accountEditText"
-                    android:layout_width="match_parent"
+                    android:id="@+id/phoneEditText"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toRightOf="@id/accountTextView"
+                    android:layout_toRightOf="@id/confirmTextView"
                     android:background="@null"
-                    android:hint="@string/account_hint_activity_register"
-                    android:singleLine="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/phone_email_activity_register"
                     android:textColor="@color/white"
+                    android:inputType="phone"
+                    android:singleLine="true"
                     android:textColorHint="@color/white" />
             </RelativeLayout>
 
@@ -150,53 +109,18 @@
                 android:layout_marginRight="10dp"
                 android:background="@color/gray_background" />
 
-            <RelativeLayout
-                android:id="@+id/confirmRelativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <ImageView
-                    android:id="@+id/confirmTextView"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/phone" />
-
-                <com.focosee.qingshow.widget.QSEditText
-                    android:id="@+id/phoneEditText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toRightOf="@id/confirmTextView"
-                    android:background="@null"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/phone_email_activity_register"
-                    android:textColor="@color/white"
-                    android:inputType="phone"
-                    android:singleLine="true"
-                    android:textColorHint="@color/white" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/gray_background" />
-
             <android.support.percent.PercentRelativeLayout
                 android:id="@+id/verificationCodeRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/yanzhenma" />
 
                 <com.focosee.qingshow.widget.QSEditText
                     android:id="@+id/verification_code"
@@ -224,8 +148,7 @@
                     android:layout_height="0dp"
                     app:layout_heightPercent="60%"
                     android:layout_alignParentRight="true"
-                    app:layout_marginRightPercent="10%"
-                    android:background="@drawable/white_small"
+                    android:background="@drawable/pink_deep_btn"
                     app:clickGround="@drawable/white_small"
                     android:layout_centerVertical="true"
                     android:paddingLeft="10dp"
@@ -233,7 +156,7 @@
                     android:text="发送验证码"
                     android:textSize="12sp"
                     android:onClick="onClick"
-                    android:textColor="@color/master_pink"/>
+                    android:textColor="@color/white"/>
             </android.support.percent.PercentRelativeLayout>
 
             <View
@@ -245,109 +168,28 @@
                 android:background="@color/gray_background" />
 
             <android.support.percent.PercentRelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                style="@style/login_percent_relative">
 
                 <com.focosee.qingshow.widget.QSButton
                     android:id="@+id/submitButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="@drawable/white"
-                    android:onClick="onClick"
                     android:text="@string/register1_activity_login"
-                    android:textColor="@color/master_pink"
-                    android:textSize="@dimen/text_size"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginRight="45dp"
-                    auto:clickGround="@drawable/round_btn_background" />
+                    app:layout_marginLeftPercent="15%"
+                    app:layout_marginRightPercent="15%"
+                    app:layout_marginBottomPercent="15%"
+                    android:onClick="onClick"
+                    app:clickGround="@drawable/round_btn_background"
+                    style="@style/login_submit_btn"/>
             </android.support.percent.PercentRelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="2"
-                    android:background="@color/line_activity_settings" />
-
-                <com.focosee.qingshow.widget.QSTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="@string/or_activity_register"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="2"
-                    android:background="@color/line_activity_settings" />
-
-            </LinearLayout>
-
-            <android.support.percent.PercentRelativeLayout
-                android:id="@+id/weixinLoginButton"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="55dp"
-                android:layout_marginRight="55dp"
-                android:background="@drawable/round_relativelayout_background"
-                android:onClick="onClick">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/weixin_login_text"
-                    android:src="@drawable/weixin_logo" />
-
-                <com.focosee.qingshow.widget.QSTextView
-                    android:id="@+id/weixin_login_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="10dp"
-                    android:text="@string/weixin_login_activity_register"
-                    android:textColor="@color/master_pink"
-                    android:textSize="@dimen/text_size" />
-            </android.support.percent.PercentRelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/weiboLoginButton"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="55dp"
-                android:layout_marginRight="55dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/round_relativelayout_background"
-                android:onClick="onClick">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/weibo_login_text"
-                    android:src="@drawable/weibo_logo" />
-
-                <com.focosee.qingshow.widget.QSTextView
-                    android:id="@+id/weibo_login_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="10dp"
-                    android:text="@string/weibologin_activity_register"
-                    android:textColor="@color/master_pink"
-                    android:textSize="@dimen/text_size" />
-            </RelativeLayout>
         </LinearLayout>
-    </android.support.percent.PercentRelativeLayout>
-</ScrollView>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mobile_register"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/red"
+        app:layout_marginTopPercent="21%"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:textSize="25sp"/>
+</android.support.percent.PercentRelativeLayout>

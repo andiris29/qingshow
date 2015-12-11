@@ -1,3 +1,4 @@
+
 var async = require('async');
 var winston = require('winston');
 
@@ -18,7 +19,7 @@ var proDeployment = {
 var devDeployment = {
     appServiceRoot : 'http://dev.chingshow.com/services',
     paymentServiceRoot : 'http://dev.chingshow.com/payment',
-    appWebRoot : 'http://chingshow.com/app-web'
+    appWebRoot : 'http://dev.chingshow.com/app-web'
 };
 
 system.get = {
@@ -45,6 +46,18 @@ system.get = {
             });
         });
     }
+};
+
+system.getConfig = {
+    'method' : 'get',
+    'func' : [
+        function(req, res, next) {
+            ResponseHelper.writeData(res, {
+                'guide' : global.qsConfig.guide
+            });
+            next();
+        }
+    ]
 };
 
 system.log = {

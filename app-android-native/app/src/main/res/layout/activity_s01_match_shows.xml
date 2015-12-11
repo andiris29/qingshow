@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,12 +11,14 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+
         <RelativeLayout
             android:id="@+id/s01_title_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
             <ImageButton
+                android:layout_alignParentLeft="true"
                 android:id="@+id/s01_menu_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -28,59 +28,17 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/nav_btn_menu_n" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_alignBottom="@+id/s01_menu_btn"
-                android:layout_alignTop="@+id/s01_menu_btn"
+            <TextView
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <com.focosee.qingshow.widget.QSButton
-                    android:id="@+id/s01_tab_feature"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/s01_tab_btn1"
-                    android:onClick="onClick"
-                    android:text="达人"
-                    android:textColor="@color/white"
-                    android:layout_marginRight="-1dp"
-                    android:textSize="@dimen/text_size"
-                    app:clickGround="@color/transparent" />
-
-                <com.focosee.qingshow.widget.QSButton
-                    android:id="@+id/s01_tab_hot"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/square_btn_border"
-                    android:onClick="onClick"
-                    android:text="最热"
-                    android:textColor="@color/master_pink"
-                    android:textSize="@dimen/text_size"
-                    app:clickGround="@color/transparent" />
-
-                <com.focosee.qingshow.widget.QSButton
-                    android:id="@+id/s01_tab_new"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignBottom="@+id/s01_menu_btn"
-                    android:layout_alignTop="@+id/s01_menu_btn"
-                    android:layout_centerHorizontal="true"
-                    android:layout_toRightOf="@+id/s01_tab_hot"
-                    android:background="@drawable/s01_tab_new_btn_border"
-                    android:layout_marginLeft="-1dp"
-                    android:onClick="onClick"
-                    android:text="最新"
-                    android:textColor="@color/master_pink"
-                    android:textSize="@dimen/text_size"
-                    app:clickGround="@color/transparent" />
-            </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/s01_title" />
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@android:color/darker_gray"/>
 
         <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/s01_refresh"
@@ -95,6 +53,14 @@
         </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/home_time"
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/calendar" />
+
     <ImageButton
         android:id="@+id/s01_backTop_btn"
         android:layout_width="45dp"
@@ -106,5 +72,11 @@
         android:scaleType="fitCenter"
         android:src="@drawable/back_top"
         android:visibility="visible" />
+
+    <com.squareup.timessquare.CalendarPickerView
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:layout_gravity="center" />
 </FrameLayout>
 

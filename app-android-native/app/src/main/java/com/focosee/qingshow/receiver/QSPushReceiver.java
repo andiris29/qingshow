@@ -73,7 +73,7 @@ public class QSPushReceiver extends BroadcastReceiver {
             final String command = PushUtil.getCommand(bundle);
             if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
                     || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.NEW_RECOMMANDATIONS)
-                    || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
+                    || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.NEW_PARTICIPANT_BONUS) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
                 UserCommand.refresh(new Callback() {
                     @Override
                     public void onComplete() {

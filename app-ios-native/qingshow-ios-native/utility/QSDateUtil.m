@@ -10,6 +10,22 @@
 #import "QSEntityUtil.h"
 @implementation QSDateUtil
 
++ (NSDate*)clearTimeFromDate:(NSDate*)date {
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd"];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString* currentDateStr = [dateFormatter stringFromDate:date];
+    return [dateFormatter dateFromString:currentDateStr];
+}
+
++ (NSDate*)clearMinuteFromDate:(NSDate*)date {
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd HH"];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString* currentDateStr = [dateFormatter stringFromDate:date];
+    return [dateFormatter dateFromString:currentDateStr];
+}
+
 + (NSDate*)buildDateFromResponseString:(NSString*)str
 {
     if ([QSEntityUtil checkIsNil:str]) {
@@ -43,6 +59,22 @@
     
     return nil;
 }
+
++ (NSString*)buildDotStringFromDate:(NSDate*)date {
+    if (date)
+    {
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
+        NSString* currentDateStr = [dateFormatter stringFromDate:date];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        return currentDateStr;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
 + (NSString*)buildStringFromDate:(NSDate*)date
 {
     if (date)
@@ -177,6 +209,15 @@
     NSDateComponents* c1 = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:date1];
     NSDateComponents* c2 = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:date2];
     return c1.year == c2.year && c1.month == c2.month && c1.day == c2.day;
+}
+
++ (NSInteger)getHourNumber:(NSDate*)date {
+    if (!date) {
+        return -1;
+    }
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitHour) fromDate:date];
+    return c.hour;
 }
 
 + (NSString*)getDayDesc:(NSDate*)date

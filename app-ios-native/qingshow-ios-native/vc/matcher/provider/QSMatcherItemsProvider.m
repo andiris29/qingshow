@@ -38,6 +38,9 @@
 - (NSDictionary*)selectionView:(UIView*)view itemDictAtIndex:(NSUInteger)index {
     return self.resultArray[index];
 }
+- (BOOL)selectionView:(UIView*)view hasSelectItemId:(NSString*)itemId {
+    return [self.selectItemIds indexOfObject:itemId] != NSNotFound;
+}
 
 - (void)selectionView:(UIView*)view didSelectItemAtIndex:(NSUInteger)index {
     self.selectIndex = index;

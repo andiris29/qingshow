@@ -18,10 +18,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationController.navigationBar setTitleTextAttributes:
-     
      @{NSFontAttributeName:NAVNEWFONT,
-       
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.interactivePopGestureRecognizer.enabled = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,7 +35,7 @@
 -(BOOL)shouldAutorotate {
     return YES;
 }
--(NSUInteger)supportedInterfaceOrientations {
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {

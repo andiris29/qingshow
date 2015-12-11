@@ -19,7 +19,7 @@ public class MongoItemIdDeserializer implements JsonDeserializer<MongoItem> {
             (JsonElement jElement, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         if(jElement.isJsonObject()){
-            return QSGsonFactory.cateGoryBuilder().create().fromJson(jElement.getAsJsonObject(), MongoItem.class);
+            return QSGsonFactory.create(MongoItem.class).fromJson(jElement.getAsJsonObject(), MongoItem.class);
         }else{
             MongoItem item = new MongoItem();
             item._id = jElement.getAsString();

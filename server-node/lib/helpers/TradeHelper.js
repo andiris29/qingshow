@@ -22,25 +22,15 @@ var _statusOrderMap = {
     18 : '30'
 };
 
-TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callback) {
-    winston.info('[TradeHelper.updateStatus] ' + trade._id.toString() + ':' + trade.status + '>' + newStatus);
-    var statusLog = {
-        'status' : newStatus,
-        'comment' : comment,
-        'peopleRef' : peopleId,
-        'date' : Date.now
-    };
-    newStatus = Number.parseInt(newStatus);
+TradeHelper.updateStatus = function(trade, newStatus, peopleId, callback) {
+    var oldStatus = trade.status;
+
+    if (newStatus === 2 && !trade.pay.forge) {
+        trade.pay.create = Date.now();
+    }
 
     if (newStatus === 7 || newStatus === 17) {
         trade.highlight = null;
-    }
-
-    if (newStatus === 2 || newStatus === 18) {
-        NotificationHelper.read([trade.ownerRef], {
-            'extra.command' : NotificationHelper.CommandTradeInitialized,
-            'extra._id' : trade._id
-        }, function(err){});
     }
 
     if (newStatus === 5 || newStatus === 15 || newStatus === 7) {
@@ -51,10 +41,8 @@ TradeHelper.updateStatus = function(trade, newStatus, comment, peopleId, callbac
     }
 
 
-    trade.set('status', newStatus);
-    trade.statusLogs = trade.statusLogs || [];
-    trade.statusLogs.push(statusLog);
-    trade.statusOrder= _statusOrderMap[newStatus];
+    trade.status = newStatus;
+    trade.statusOrder = _statusOrderMap[newStatus];
     trade.update = Date.now();
     trade.save(function(err) {
         callback(err, trade);

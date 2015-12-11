@@ -9,12 +9,11 @@
 #import <UIKit/UIKit.h>
 
 #import "QSMatcherCanvasView.h"
-#import "QSS21CategorySelectorVC.h"
+#import "QSS21CategorySelectionViewController.h"
 #import "QSMatcherItemsProvider.h"
 #import "QSS23MatcherPreviewViewController.h"
 #import "QSRootContentViewController.h"
 
-@protocol QSMenuProviderDelegate;
 
 @interface QSS20MatcherViewController : UIViewController <QSMatcherCanvasViewDelegate, QSMatcherItemsProviderDelegate, QSS21CategorySelectorVCDelegate, QSS23MatcherPreviewViewControllerDelegate, QSIRootContentViewController>
 

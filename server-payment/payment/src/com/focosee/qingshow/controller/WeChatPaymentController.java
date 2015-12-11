@@ -1,5 +1,6 @@
 package com.focosee.qingshow.controller;
 
+import java.net.URLDecoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +23,14 @@ import com.focosee.qingshow.bean.ResponseJsonEntity;
 import com.focosee.qingshow.tencent.common.Util;
 import com.focosee.qingshow.tencent.common.bean.PayQueryReqBean;
 import com.focosee.qingshow.tencent.common.bean.PayQueryResBean;
+import com.focosee.qingshow.tencent.common.bean.SendRedPackReqBean;
+import com.focosee.qingshow.tencent.common.bean.SendRedPackResBean;
 import com.focosee.qingshow.tencent.common.bean.UnifiedOrderReqBean;
 import com.focosee.qingshow.tencent.common.bean.UnifiedOrderResBean;
 import com.focosee.qingshow.tencent.service.CallbackReqBean;
 import com.focosee.qingshow.tencent.service.CallbackResBean;
 import com.focosee.qingshow.tencent.service.PayQueryService;
+import com.focosee.qingshow.tencent.service.SendRedPackService;
 import com.focosee.qingshow.tencent.service.UnifiedOrderService;
 import com.focosee.qingshow.util.ServerError;
 import com.google.gson.Gson;
@@ -62,6 +66,7 @@ public class WeChatPaymentController {
      * @param id 请求参数:商户订单号(使用trade的 _id)
      * @param totolPrice 请求参数:订单总金额
      * @param orderName 请求参数:订单商品名，（如果orders是复数个的话，逗号分隔）
+     * @param notifyUrl 回调地址
      * @param request Http Servlet Request(Spring framework autowrite)
      * @param response Http Servlet Response(Spring framework autowrite)
      * @return
@@ -70,7 +75,8 @@ public class WeChatPaymentController {
     public Object handlePrePay(@RequestParam(value = "id", required = true) String id,
             @RequestParam(value = "totalFee", required = true) String totalFee,
             @RequestParam(value = "orderName", required = true) String orderName,
-            @RequestParam(value= "clientIp", required = true) String clientIp,
+            @RequestParam(value = "clientIp", required = true) String clientIp,
+            @RequestParam(value = "notifyUrl", required = true) String notifyUrl,
             HttpServletRequest request,
             HttpServletResponse response) {
         
@@ -92,7 +98,9 @@ public class WeChatPaymentController {
             int totalFeeFeng = NumberUtils.createBigDecimal(String.valueOf(totalFeeOriginal)).intValue();
             bean.setTotal_fee(String.valueOf(totalFeeFeng));
             bean.setSpbill_create_ip(clientIp);
-            bean.setNotify_url(this.notifyUrl);
+            String callbackURL = URLDecoder.decode(notifyUrl, "UTF-8");
+            log.debug("callbackURL=" + callbackURL);
+            bean.setNotify_url(callbackURL);
             bean.setTrade_type("APP");
             bean.sign();
             
@@ -207,6 +215,87 @@ public class WeChatPaymentController {
             metadata.setDevInfo(ServerError.ERROR_QUERY_ORDER_FAIL_MSG);
             returnEntity.setMetadata(metadata);
         }        
+        return returnEntity;
+    }
+    
+    /**
+     * 向微信用户发送红包
+     * 
+     * @param mchBillno 商户订单号
+     * @param openid 用户openid
+     * @param totalAmount 付款金额
+     * @param ip Ip地址
+     * @param actName 活动名称
+     * @param wishing 红包祝福语
+     * @param remark 备注
+     * @return
+     */
+    @RequestMapping(value = "/sendRedPack", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object sendRedPack(
+            @RequestParam(value = "id", required = true)String mchBillno,
+            @RequestParam(value = "openid", required = true)String openid, 
+            @RequestParam(value = "amount", required = true)String totalAmount, 
+            @RequestParam(value = "clientIp", required = true)String ip, 
+            @RequestParam(value = "event", required = true)String actName,
+            @RequestParam(value = "message", required = true)String wishing, 
+            @RequestParam(value = "note", required = true)String remark) {
+        log.info("wechat/sendRedPack");
+
+        ResponseJsonEntity returnEntity = new ResponseJsonEntity();
+        
+        log.debug("id=" + mchBillno);
+        log.debug("openid=" + openid);
+        log.debug("amount=" + totalAmount);
+        log.debug("clientIp=" + ip);
+        log.debug("event=" + actName);
+        log.debug("message=" + wishing);
+        log.debug("note=" + remark);
+        
+        try {
+            SendRedPackReqBean bean = new SendRedPackReqBean();
+            double totalAmountOriginal = NumberUtils.toDouble(totalAmount, 0);
+            totalAmountOriginal *= 100;
+            int totalAmountFeng = NumberUtils.createBigDecimal(String.valueOf(totalAmountOriginal)).intValue();
+            String sendName = "倾秀";
+            bean.setTotal_amount(String.valueOf(totalAmountFeng));
+            bean.setRe_openid(openid);
+            bean.setTotal_num("1");
+            bean.setWishing(wishing);
+            bean.setClient_ip(ip);
+            bean.setAct_name(actName);
+            bean.setRemark(remark);
+            bean.setMch_billno(mchBillno);
+            bean.setSend_name(sendName);
+            bean.sign();
+
+            SendRedPackService service = new SendRedPackService();
+            SendRedPackResBean responseBody = service.request(bean);
+            if (SUCCESS.compareTo(responseBody.getReturn_code()) != 0) {
+                log.error("send redpack failure. reason:" + responseBody.getReturn_msg());
+                Metadata metadata = new Metadata();
+                metadata.setError("9007");
+                metadata.setDevInfo(responseBody.getReturn_msg());
+                returnEntity.setMetadata(metadata);
+                return returnEntity;
+            } 
+            if (SUCCESS.compareTo(responseBody.getResult_code()) != 0) {
+                log.error("send redpack error. err_code:[" + responseBody.getErr_code() + "],err_msg:[" + responseBody.getErr_code_des() + "]");
+                Metadata metadata = new Metadata();
+                metadata.setError("9007");
+                metadata.setDevInfo(responseBody.getErr_code() + "/" + responseBody.getErr_code_des());
+                returnEntity.setMetadata(metadata);
+                return returnEntity;
+            }
+            
+            returnEntity.setData(responseBody);
+
+        } catch (Exception ex) {
+            log.error("send red pack exception.", ex);
+            Metadata metadata = new Metadata();
+            metadata.setError("9007");
+            returnEntity.setMetadata(metadata);
+        }
+        
         return returnEntity;
     }
 

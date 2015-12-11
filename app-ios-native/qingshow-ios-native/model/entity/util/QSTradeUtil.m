@@ -10,7 +10,6 @@
 #import "QSEntityUtil.h"
 #import "QSDateUtil.h"
 #import "QSItemUtil.h"
-#import "QSTradeStatus.h"
 #import "NSDictionary+QSExtension.h"
 
 @implementation QSTradeUtil
@@ -51,11 +50,6 @@
 {
     return [dict numberValueForKeyPath:@"status"];
 }
-+ (NSString*)getStatusDesc:(NSDictionary*)dict
-{
-    NSNumber* status = [self getStatus:dict];
-    return QSTradeStatusToDesc(status.integerValue);
-}
 
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict
 {
@@ -89,10 +83,6 @@
     return NO;
 }
 
-+ (NSString *)getHint:(NSDictionary *)dict;
-{
-    return [QSEntityUtil getStringValue:dict keyPath:@"hint"];
-}
 #pragma mark - Order
 
 + (NSString *)getItemId:(NSDictionary *)dict
@@ -113,23 +103,32 @@
 + (NSArray*)getSkuProperties:(NSDictionary*)dict {
     return [dict arrayValueForKeyPath:@"selectedSkuProperties"];
 }
-+ (NSString *)getSizeText:(NSDictionary *)dict
-{
 
++ (NSString *)getPropertiesFullDesc:(NSDictionary *)dict {
     NSArray *array = [self getSkuProperties:dict];
     NSMutableString *arrayStr = [[NSMutableString alloc]init];;
     for (int i = 0; i < array.count; i++) {
+        if (i != 0) {
+            [arrayStr appendString:@"\n"];
+        }
         NSString *str = (NSString *)array[i];
         [arrayStr appendString:str];
-        [arrayStr appendString:@" "];
     }
     NSArray *s = [arrayStr componentsSeparatedByString:@":"];
     NSMutableString *resultStr = [@"" mutableCopy];
     for (int i = 0; i < s.count; i ++) {
+        if (i != 0) {
+            [resultStr appendString:@" "];
+        }
         NSString *string = (NSString *)s[i];
         [resultStr appendString:string];
-        [resultStr appendString:@" "];
     }
+    return resultStr;
+}
++ (NSString *)getPropertiesDesc:(NSDictionary *)dict
+{
+    NSMutableString *resultStr = [[self getPropertiesFullDesc:dict] mutableCopy];
+    
 
     if ([resultStr rangeOfString:@"颜色"].location != NSNotFound) {
         NSRange range = [resultStr rangeOfString:@"颜色"];

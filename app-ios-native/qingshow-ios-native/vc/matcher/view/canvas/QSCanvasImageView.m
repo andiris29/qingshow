@@ -49,7 +49,7 @@
 }
 - (void)updateHoverColor {
     if (_hover) {
-        self.layer.borderColor = [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f].CGColor;
+        self.layer.borderColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f].CGColor;
         self.layer.borderWidth = 1.f;
         self.removeBtn.hidden = NO;
         self.removeBtn.alpha = 1.f;
@@ -93,8 +93,10 @@
         b.size = s;
         self.removeBtn.bounds = b;
     }
-    self.removeBtn.center = CGPointMake(size.width / 2, size.height / 2);
     self.imgView.frame = self.bounds;
+    CGRect rect = self.removeBtn.frame;
+    rect.origin = CGPointMake(5, 5);
+    self.removeBtn.frame = rect;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {

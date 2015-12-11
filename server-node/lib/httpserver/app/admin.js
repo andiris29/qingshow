@@ -2,12 +2,15 @@ var mongoose = require('mongoose');
 var async = require('async');
 
 var People = require('../../dbmodels').People;
+var BonusCode = require('../../dbmodels').BonusCode;
 var Show = require('../../dbmodels').Show;
 var Item = require('../../dbmodels').Item;
 
 var RequestHelper = require('../../helpers/RequestHelper');
 var ResponseHelper = require('../../helpers/ResponseHelper');
 var MongoHelper = require('../../helpers/MongoHelper');
+var SMSHelper = require('../../helpers/SMSHelper');
+var BonusHelper = require('../../helpers/BonusHelper');
 
 var errors = require('../../errors');
 
@@ -55,13 +58,13 @@ admin.queryItemByNickName = {
             Show.find({
                 'ownerRef' : people._id
             }).populate('itemRefs').exec(function(err, shows){
-                callback(null, shows, people)
+                callback(null, shows, people);
             });
         }, function(shows, people, callback){
             var items = shows.map(function(show){
                 return show.itemRefs.filter(function(item){
-                    return !item.delist
-                })
+                    return !item.delist;
+                });
             }).filter(function(target){
                 return target.length !== 0;
             });
@@ -82,26 +85,28 @@ admin.queryItemByNickName = {
                         quantity : 1,
                         promoPrice : item.promoPrice,
                         bonus : item.promoPrice * 0.7 * 0.02
-                    })
+                    });
                 }
 
             };
-            var bonuses = people.bonuses || [];
-            bonuses.forEach(function(bonus){
-                if (bonus.status === 0) {
-                    noDraw += bonus.money;
+            
+            BonusHelper.aggregate(people, function(err, amountByStatus) {
+                if (!err) {
+                    noDraw = amountByStatus[BonusCode.STATUS_INIT];
+                    total = amountByStatus[BonusCode.STATUS_INIT] +
+                        amountByStatus[BonusCode.STATUS_REQUESTED] +
+                        amountByStatus[BonusCode.STATUS_COMPLETE];
                 }
-                total += bonus.money;
-            })
-            callback(null, results, people, total, noDraw);
+                callback(null, results, people, total, noDraw);
+            });
         }], function(err, results, people, total, noDraw){
             ResponseHelper.response(res, err, {
                 'peopleRef' : people._id,
                 'total' : total,
                 'noDraw' : noDraw,
                 'item' : results
-            })
-        })
+            });
+        });
     }
 };
 
@@ -207,4 +212,17 @@ admin.getRealShow = {
             })
         })
     }
+};
+
+admin.sms = {
+    'method' : 'post',
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsAdmin'),
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(People, '_id', 'people'),
+        function(req, res, next) {
+            var mobile = req.injection.people ? req.injection.people.mobile : req.body.mobile;
+            SMSHelper.sendTemplateSMS(mobile, req.body.datas, req.body.templateId, next);
+        }
+    ]
 };

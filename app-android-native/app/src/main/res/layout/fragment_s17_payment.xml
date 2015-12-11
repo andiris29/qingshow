@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,10 +11,10 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -24,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="10dp"
                 android:text="支付方式"
-                android:textSize="@dimen/text_size" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -34,36 +35,35 @@
             android:background="@color/line_activity_settings" />
 
         <com.focosee.qingshow.widget.PaymentGroup
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:id="@+id/s11_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <com.focosee.qingshow.widget.PaymentRadio xmlns:payment="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                payment:button_res="@drawable/s11_payment"
-                payment:checked="@drawable/s11_payment_hover"
-                payment:info_text="操作简单易用，支持大额支付"
+                android:layout_weight="1"
+                payment:button_res="@drawable/gary_ring_3"
+                payment:checked="@drawable/blue_ring_3"
                 payment:logo_res="@drawable/weixin"
                 payment:mode="@string/weixin"
                 payment:name_text="微信支付" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line_activity_settings" />
-
             <com.focosee.qingshow.widget.PaymentRadio xmlns:payment="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                payment:button_res="@drawable/s11_payment"
-                payment:checked="@drawable/s11_payment_hover"
-                payment:info_text="使用支付宝账户支付"
+                android:layout_weight="1"
+                payment:button_res="@drawable/gary_ring_3"
+                payment:checked="@drawable/blue_ring_3"
                 payment:logo_res="@drawable/alipay"
                 payment:mode="@string/alipay"
-                payment:name_text="支付宝" />
+                payment:name_text="支付宝支付" />
 
         </com.focosee.qingshow.widget.PaymentGroup>
     </LinearLayout>

@@ -6,13 +6,22 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSCreateTradeHeigh46Cell.h"
+#import "QSCreateTradeTableViewCellBase.h"
 
-@interface QSCreateTradePayInfoSelectCell : QSCreateTradeHeigh46Cell
+typedef NS_ENUM(NSUInteger, QSCreateTradePaymentType)
+{
+    QSCreateTradePaymentTypeNone,
+    QSCreateTradePaymentTypeWechat,
+    QSCreateTradePaymentTypeAlipay
+};
 
-@property (strong, nonatomic) IBOutlet UIButton* selectedBtn;
+@interface QSCreateTradePayInfoSelectCell : QSCreateTradeTableViewCellBase
 
-@property (assign, nonatomic) BOOL isSelect;
+@property (weak, nonatomic) IBOutlet UIButton* wechatBtn;
+@property (weak, nonatomic) IBOutlet UIButton* alipayBtn;
 
+@property (assign, nonatomic) QSCreateTradePaymentType paymentType;
 
+- (IBAction)wechatBtnPressed:(id)sender;
+- (IBAction)alipayBtnPressed:(id)sender;
 @end

@@ -83,7 +83,7 @@ public class U06LoginActivity extends BaseActivity {
                 pDialog.show();
 
                 Map<String, String> map = new HashMap<>();
-                map.put("idOrNickName", accountEditText.getText().toString());
+                map.put("id", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
                 Log.i("JPush_QS", "login" + PushModel.INSTANCE.getRegId());
                 map.put("registrationId", PushModel.INSTANCE.getRegId());
@@ -94,7 +94,7 @@ public class U06LoginActivity extends BaseActivity {
                             @Override
                             public void onResponse(String response) {
                                 pDialog.dismiss();
-
+                                Log.d(U06LoginActivity.class.getSimpleName(), "response:" + response);
                                 MongoPeople user = UserParser.parseLogin(response);
                                 if (user == null) {
                                     if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {

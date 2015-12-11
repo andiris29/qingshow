@@ -2,15 +2,24 @@ package com.focosee.qingshow;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-
+import android.view.Display;
+import android.graphics.Point;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
+import com.focosee.qingshow.activity.BaseActivity;
+import com.focosee.qingshow.activity.U06LoginActivity;
+import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U17ResetPasswordStep1Activity;
+import com.focosee.qingshow.activity.U18ResetPasswordStep2Activity;
+import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.exception.CrashHandler;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
@@ -26,12 +35,15 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import cn.jpush.android.api.JPushInterface;
 
 public class QSApplication extends Application {
     private static QSApplication _instance;
     private IWXAPI wxApi;
-
+    private final long TIME_LOGIN = 15000;
 
     public static QSApplication instance() {
         return _instance;
@@ -55,6 +67,8 @@ public class QSApplication extends Application {
         if(AppUtil.isApkInDebug(this)){
             LeakCanary.install(this);
         }
+
+        showLoginGuide();
     }
 
     public void configImageLoader() {
@@ -92,6 +106,33 @@ public class QSApplication extends Application {
     public String getDeviceUid(){
         return ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
     }
+
+    public Point getScreenSize(Context context){
+        Display display = ((BaseActivity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
+
+    Timer timer;
+    private void showLoginGuide(){
+
+        if(QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED
+                || (QSModel.INSTANCE.getUserStatus() == MongoPeople.LOGIN_GUIDE_FINISHED && QSModel.INSTANCE.isGuest())) {
+            timer = new Timer(true);
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    sendBroadcast(new Intent(BaseActivity.SHOW_GUIDE));
+                    timer.cancel();
+                    timer.purge();
+                    timer = null;
+                }
+            };
+            timer.schedule(timerTask, TIME_LOGIN);
+        }
+    }
+
 
 }
 

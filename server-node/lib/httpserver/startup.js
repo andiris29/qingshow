@@ -9,26 +9,29 @@ var path = require('path');
 var _ = require('underscore');
 var winston = require('winston');
 var qsftp = require('../runtime').ftp;
-var TraceHelper = require('../helpers/TraceHelper');
+var TraceHelper = require('../helpers/TraceHelper'),
+    RequestHelper = require('../helpers/RequestHelper'),
+    ResponseHelper = require('../helpers/ResponseHelper');
 //Services Name
 
 var servicesNames = [
-'feeding', 
-'user', 
-'show', 
-'admin', 
-'trade',  
-'people', 
-'matcher', 
-'notify', 
-'shop', 
-'userBonus', 
-'item', 
-'dashboard', 
-'goblin', 
-'system',
-'share',
-'trace'
+    'feeding', 
+    'feedingAggregation',
+    'user', 
+    'bonus',
+    'show', 
+    'admin', 
+    'trade',  
+    'people', 
+    'matcher', 
+    'notify', 
+    'shop', 
+    'item', 
+    'dashboard', 
+    'goblin', 
+    'system',
+    'share',
+    'trace'
 ];
 var services = servicesNames.map(function (path) {
     return {
@@ -36,21 +39,6 @@ var services = servicesNames.map(function (path) {
         'module' : require('./app/' + path)
     };
 });
-
-var wrapCallback = function (fullpath, callback) {
-    return function (req, res) {
-        TraceHelper.trace('api-request', req, {
-            'fullpath' : fullpath
-        });
-        res.qsPerformance = {
-            'ip' : req.header('X-Real-IP') || req.connection.remoteAddress,
-            'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
-            'fullpath' : fullpath,
-            'start' : Date.now()
-        };
-        callback.func(req, res);
-    };
-};
 
 var mkdirUploads = function (config) {
     for (var key in config) {
@@ -122,19 +110,61 @@ module.exports = function (config, qsdb) {
     }));
     app.use(require('./middleware/sessionParser'));
     app.use(require('./middleware/permissionValidator')(services));
-    app.use(require('./middleware/errorHandler'));
-// Regist http services
+    app.use(_errMiddleware);
+    
+    // Register http services
     services.forEach(function(service) {
         var module = service.module, path = service.path;
         for (var id in module) {
             var fullpath = '/services/' + path + '/' + id;
-            var method = module[id].method, callback = module[id];
-            if (method === 'get') {
-                app.get(fullpath, wrapCallback(fullpath, callback));
-            } else if (method === 'post') {
-                app.post(fullpath, wrapCallback(fullpath, callback));
+            var method = module[id].method, func = module[id].func;
+            
+            var middlewares = [_injectionMiddleware,
+                _genLogMiddleware(fullpath)];
+            if (_.isArray(func)) {
+                middlewares = middlewares.concat(func);
+                func = function(req, res) {
+                    res.locals.out = res.locals.out || {};
+                    ResponseHelper.response(res, res.locals.out.err, res.locals.out.data, res.locals.out.metadata);
+                };
             }
+            middlewares.push(_errMiddleware);
+            
+            app[method](fullpath, middlewares, func);
         }
     });
     winston.info('Http server startup complete!');
+};
+
+var _errMiddleware = function (err, req, res, next) {
+    if (!err) {
+        next();
+    } else {
+        res.locals.out = res.locals.out || {};
+        ResponseHelper.response(res, err, res.locals.out.data, res.locals.out.metadata);
+    }
+};
+
+var _injectionMiddleware = function (req, res, next) {
+    req.injection = req.injection || {};
+    next();
+};
+
+var _genLogMiddleware = function(fullpath) {
+    return function (req, res, next) {
+        res.locals = res.locals || {};
+        res.locals.api = {
+            'fullpath' : fullpath,
+            'timestamp' : Date.now(),
+            'req' : {
+                'client' : RequestHelper.getClientInfo(req),
+                'qsCurrentUserId' : req.qsCurrentUserId ? req.qsCurrentUserId.toString() : '',
+                'queryString' : req.queryString,
+                'body' : req.body
+            }
+        };
+        
+        TraceHelper.trace('api-request', req, res.locals.api);
+        next();
+    };
 };

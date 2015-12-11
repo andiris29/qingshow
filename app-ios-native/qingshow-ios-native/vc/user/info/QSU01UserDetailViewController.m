@@ -7,7 +7,9 @@
 //
 
 #import "QSU01UserDetailViewController.h"
+#import "QSU02UserSettingViewController.h"
 #import "QSRootContainerViewController.h"
+
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
@@ -24,8 +26,8 @@
 #import "QSImageCollectionModel.h"
 #import "QSRecommendationDateCellModel.h"
 
-#import "QSMatchCollectionViewProvider.h"
 #import "QSS03ShowDetailViewController.h"
+#import "QSU15BonusViewController.h"
 
 #import "QSUnreadManager.h"
 
@@ -35,14 +37,13 @@
 
 #define PAGE_ID @"U01 - 个人"
 
-@interface QSU01UserDetailViewController ()
-@property (strong, nonatomic) NSDictionary* userInfo;
+@interface QSU01UserDetailViewController () <QSShowProviderDelegate, QSPeoplelListTableViewProviderDelegate>
+
 @property (assign, nonatomic) BOOL isCurrentUser;
 @property (assign, nonatomic) BOOL showMenuIcon;
 
 #pragma mark Provider
 @property (strong,nonatomic) QSShowCollectionViewProvider *matchProvider;
-//@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
 @property (strong,nonatomic) QSShowCollectionViewProvider *recommendProvider;
 @property (strong, nonatomic) QSShowCollectionViewProvider *favorProvider;
 @property (strong, nonatomic) QSPeopleListTableViewProvider* followingProvider;
@@ -52,13 +53,11 @@
 
 @implementation QSU01UserDetailViewController
 
-@synthesize menuProvider = _menuProvider;
 #pragma mark - Init
 - (id)initWithCurrentUser
 {
     self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
         self.isCurrentUser = YES;
         self.showMenuIcon = YES;
     }
@@ -78,58 +77,12 @@
 
 - (void)providerInit
 {
-//    __weak QSU01UserDetailViewController* weakSelf = self;
-    
-    
-    //Matcher
-//    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
-
     self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
-    self.matchProvider.type = 2;
     //Recommend
     self.recommendProvider  = [[QSShowCollectionViewProvider alloc] init];
-    self.recommendProvider.type = 2;
-//    self.recommendProvider.networkDataFinalHandlerBlock = ^(){
-//        NSMutableArray* resultArray = weakSelf.recommendProvider.resultArray;
-//        if (resultArray.count == 0) {
-//            return;
-//        }
-//        for (int i = 0; i + 1 < resultArray.count || i == 0; i++) {
-//            QSImageCollectionModel* currentModel = resultArray[i];
-//            QSImageCollectionModel* nextModel = nil;
-//            if (resultArray.count > 1) {
-//                nextModel = resultArray[i + 1];
-//            }
-//            
-//            if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
-//                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-//                m.type = QSImageCollectionModelTypeDate;
-//                QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
-//                dateModel.date = [QSShowUtil getRecommendDate:currentModel.data];
-//                dateModel.desc = [QSShowUtil getRecommentDesc:currentModel.data];
-//                m.data = dateModel;
-//                [resultArray insertObject:m atIndex:0];
-//                continue;
-//            }
-//            if (currentModel.type == QSImageCollectionModelTypeShow && nextModel.type == QSImageCollectionModelTypeShow) {
-//                NSDate* curDate = [QSShowUtil getRecommendDate:currentModel.data];
-//                NSDate* nextDate = [QSShowUtil getRecommendDate:nextModel.data];
-//                if (curDate && nextDate && ![QSDateUtil date:curDate isTheSameDayWith:nextDate]) {
-//                    QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-//                    m.type = QSImageCollectionModelTypeDate;
-//                    QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
-//                    dateModel.date = nextDate;
-//                    dateModel.desc = [QSShowUtil getRecommentDesc:nextModel.data];
-//                    m.data = dateModel;
-//                    [resultArray insertObject:m atIndex:i + 1];
-//                }
-//            }
-//        }
-//    };
     
     //Favor
     self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
-    self.favorProvider.type = 2;
     //Following
     self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
     //Follower
@@ -147,12 +100,15 @@
     self.backToTopBtn.hidden = YES;
     self.backBtn.hidden = self.showMenuIcon;
     self.menuBtn.hidden = !self.showMenuIcon;
+    self.settingBtn.hidden = self.menuBtn.hidden;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     [self.badgeView.btnGroup triggerSelectType:QSBadgeButtonTypeMatcher];
     self.badgeView.followBtn.hidden = self.isCurrentUser;
+    self.badgeView.bonusBtn.hidden = !self.isCurrentUser;
     [self.badgeView.followBtn addTarget:self action:@selector(followBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.badgeView.bonusBtn addTarget:self action:@selector(bonusBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUnreadChange:) name:kQSUnreadChangeNotificationName object:nil];
 }
 
@@ -160,6 +116,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
     [self updateMenuDot];
     self.navigationController.navigationBarHidden = YES;
     [self updateViewWithList];
@@ -196,6 +153,7 @@
     for (QSAbstractListViewProvider* provider in @[self.matchProvider, self.recommendProvider, self.favorProvider, self.followingProvider, self.followerProvider]) {
         [provider cancelImageLoading];
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kUserInfoUpdateNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -216,7 +174,6 @@
     self.matchProvider.hasRefreshControl = NO;
     self.matchProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE feedingMatchCreateBy:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
-//        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
     self.matchProvider.delegate = self;
@@ -309,32 +266,13 @@
     [self.badgeView bindWithPeopleDict:self.userInfo];
 
 }
-
-#pragma mark - QSImageCollectionViewProviderDelegate
-- (void)didClickModel:(QSImageCollectionModel*)model
-             provider:(QSImageCollectionViewProvider*)provider
-{
-
-    switch (model.type) {
-        case QSImageCollectionModelTypeShow:
-        {
-            [self showShowDetailViewController:model.data];
-            break;
-        }
-        case QSImageCollectionModelTypeItem:
-        {
-#warning 此情况现在不会使用
-            [self showItemDetailViewController:model.data peopleId:nil];
-            break;
-        }
-        default:
-            break;
-    }
+- (IBAction)settingBtnPressed:(id)sender {
+   UIViewController* vc = [[QSU02UserSettingViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
+
 - (IBAction)menuBtnPressed:(id)sender {
-    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
-        [self.menuProvider didClickMenuBtn];
-    }
+    [QSRootNotificationHelper postShowRootMenuNoti];
 }
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -349,7 +287,7 @@
         self.badgeView.followBtn.selected = f;
         [self.followerProvider reloadData];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
         if (error.code == 1019) {
             self.badgeView.followBtn.selected = YES;
             [QSPeopleUtil setPeople:self.userInfo isFollowed:YES];
@@ -360,9 +298,21 @@
     }];
 }
 
+- (void)bonusBtnPressed:(id)sender {
+    [self showBonusVC];
+}
+
+
+- (void)showBonusVC
+{
+    NSDictionary *dic = [QSUserManager shareUserManager].userInfo;
+    QSU15BonusViewController *vc = [[QSU15BonusViewController alloc] init];
+    vc.peopleId = [QSPeopleUtil getPeopleId:dic];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)clickModel:(NSDictionary*)model {
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:model];
-    vc.menuProvider = self.menuProvider;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -392,17 +342,10 @@
     [self.navigationController pushViewController:vc animated:YES];
     
 }
-- (void)didSelectedCellInCollectionView:(NSDictionary *)showDict provider:(QSAbstractListViewProvider *)provider
-{
-    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
-    [self.navigationController pushViewController:vc animated:YES];
-   
-}
-- (void)didClickHeaderImgView:(id)sender
+
+- (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider
 {
 //    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
-//    vc.menuProvider = self.menuProvider;
 //    vc.navigationController.navigationBar.hidden = NO;
 //    [self.navigationController pushViewController:vc animated:YES];
     
@@ -410,9 +353,9 @@
 
 - (void)updateMenuDot {
     if ([[QSUnreadManager getInstance] shouldShowDotAtMenu]) {
-        [self.menuBtn setImage:[UIImage imageNamed:@"nav_btn_menu_new"] forState:UIControlStateNormal];
+        [self.menuBtn setBackgroundImage:[UIImage imageNamed:@"nav_menu_black_new"] forState:UIControlStateNormal];
     } else {
-        [self.menuBtn setImage:[UIImage imageNamed:@"nav_menu_u01"] forState:UIControlStateNormal];
+        [self.menuBtn setBackgroundImage:[UIImage imageNamed:@"nav_menu_black"] forState:UIControlStateNormal];
     }
 }
 - (void)handleUnreadChange:(NSNotification*)noti {
@@ -425,4 +368,5 @@
         [[QSUnreadManager getInstance] clearRecommandUnread];
     }
 }
+
 @end

@@ -61,8 +61,7 @@ NSString* unreadTradeTypeToCommand(QSUnreadTradeType type) {
     if (self) {
         self.typeToDotCommands = @{
             _typeToStr(QSRootMenuItemMy) : @[@"newRecommandations"],
-            _typeToStr(QSRootMenuItemDiscount) : @[@"itemExpectablePriceUpdated", @"tradeInitialized", @"tradeShipped"],
-            _typeToStr(QSRootMenuItemSetting) : @[@"newBonus", @"bonusWithdrawComplete"]
+            _typeToStr(QSRootMenuItemDiscount) : @[@"itemExpectablePriceUpdated", @"tradeInitialized", @"tradeShipped"]
         };
         
         NSMutableArray* commands = [@[] mutableCopy];

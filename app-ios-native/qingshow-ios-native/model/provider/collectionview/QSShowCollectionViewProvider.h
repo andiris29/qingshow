@@ -8,7 +8,6 @@
 
 #import "QSWaterfallBasicProvider.h"
 #import <Foundation/Foundation.h>
-#import "QSShowCollectionViewCell.h"
 #import "QSMatchShowsCell.h"
 
 
@@ -17,25 +16,13 @@
 @optional
 
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider*)provider;
-- (void)addFavorShow:(NSDictionary*)showDict  provider:(QSAbstractListViewProvider*)provider;
 - (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider;
-- (void)didClickPlayButtonOfShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider*)provider;
-
-- (void)didSelectedCellInCollectionView:(NSDictionary *)showDict provider:(QSAbstractListViewProvider *)provider;
-- (void)didClickHeaderImgView:(id)sender;
 
 @end
 
-typedef NS_ENUM(NSInteger, QSShowProviderType) {
-    QSShowProviderTypeWithoutDate = 0,
-    QSShowProviderTypeWithDate = 1,
-    QSShowProviderTypeNew = 2
-};
+@interface QSShowCollectionViewProvider : QSWaterfallBasicProvider< QSMatchShowCellDelegate>
 
 
-@interface QSShowCollectionViewProvider : QSWaterfallBasicProvider< QSShowCollectionViewCellDelegate,QSMatchShowCellDelegate>
-
-@property (assign, nonatomic) QSShowProviderType type;
 
 @property (weak, nonatomic) NSObject<QSShowProviderDelegate>* delegate;
 

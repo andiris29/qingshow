@@ -170,7 +170,13 @@
     }
     return returnArray;
 }
++ (NSArray*)getAllItemArray:(NSDictionary*)showDict {
+    return [showDict arrayValueForKeyPath:@"itemRefs"];
+}
 
++ (NSArray*)getItemRects:(NSDictionary*)showDict {
+    return [showDict arrayValueForKeyPath:@"itemRects"];
+}
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
 {
     if ([QSEntityUtil checkIsNil:showDict]) {
@@ -236,6 +242,12 @@
     return ((NSNumber*)showDict[@"numLike"]).kmbtStringValue;
 }
 
++ (NSString*)getNumberViewDesc:(NSDictionary*)showDict {
+    NSNumber* n = [showDict numberValueForKeyPath:@"numView"];
+    n = n ? n : @0;
+    return n.kmbtStringValue;
+}
+
 + (NSString*)getNumberItemDescription:(NSDictionary*)showDict
 {
     if ([QSEntityUtil checkIsNil:showDict]) {
@@ -284,7 +296,22 @@
     if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
         NSMutableDictionary* s = (NSMutableDictionary*)showDict;
         long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
-        s[@"numLike"] = @(preNumlike + num);
+        preNumlike += num;
+        s[@"numLike"] = @(preNumlike);
+    }
+}
+
++ (void)addNumberView:(long long)num forShow:(NSDictionary*)showDict {
+#warning Refactor
+    if ([QSEntityUtil checkIsNil:showDict]) {
+        return;
+    }
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
+        long long preNumlike = ((NSNumber*)s[@"numView"]).longLongValue;
+        preNumlike += num;
+        preNumlike = preNumlike >= 0 ? preNumlike : 0;
+        s[@"numView"] = @(preNumlike);
     }
 }
 
@@ -373,5 +400,14 @@
     }
     return nil;
     
+}
+
++ (BOOL)getItemReductionEnabled:(NSDictionary*)showDict {
+    NSNumber* n = [showDict numberValueForKeyPath:@"itemReductionEnabled"];
+    if (n) {
+        return n.boolValue;
+    } else {
+        return YES;
+    }
 }
 @end

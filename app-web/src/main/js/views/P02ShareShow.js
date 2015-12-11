@@ -5,6 +5,12 @@ define([
 // @formatter:on
     var P02ShareShow = function(dom, initOptions) {
         P02ShareShow.superclass.constructor.apply(this, arguments);
+        var show = initOptions.entity;
+        
+        __services.httpService.request('/show/view', 'post', {
+            '_id' : show._id || ""
+        }, function(err, metadata, data) {
+        });
 
         var imageArray = [''];
         imageArray.push(__config.image.root + "/assets/slicing/common/a3.jpg");
@@ -18,7 +24,7 @@ define([
             $(dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
         }
 
-        var show = initOptions.entity;
+        
         var $dom = $($('.p02-image-slider-block-image', this._dom)[0]);
         $dom.css('background-image', violet.string.substitute('url({0})', show.cover));
         $dom.attr('src', show.coverForeground);

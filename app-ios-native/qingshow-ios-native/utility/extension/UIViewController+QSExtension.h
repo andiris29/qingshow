@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface UIViewController(Network)
 
 - (void)handleError:(NSError*)error;
 - (void)showShowDetailViewController:(NSDictionary*)showDict;
 - (void)hideNaviBackBtnTitle;
 - (void)disableAutoAdjustScrollViewInset;
-
-- (void)showItemDetailViewController:(NSDictionary*)itemDict peopleId:(NSString *)peopleId;
 
 @end

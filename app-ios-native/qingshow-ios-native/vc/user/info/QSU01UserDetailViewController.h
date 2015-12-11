@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
-#import "QSImageCollectionViewProvider.h"
 #import "QSPeopleListTableViewProvider.h"
 #import "QSRootContentViewController.h"
-@protocol QSMenuProviderDelegate;
 
-@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate, QSPeoplelListTableViewProviderDelegate,
+@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSPeoplelListTableViewProviderDelegate,
 QSIRootContentViewController>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *matcherCollectionView;
@@ -23,6 +21,7 @@ QSIRootContentViewController>
 @property (weak, nonatomic) IBOutlet UITableView *followerTableView;
 
 @property (strong, nonatomic) IBOutlet UIButton *menuBtn;
+@property (weak, nonatomic) IBOutlet UIButton *settingBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;
@@ -32,5 +31,5 @@ QSIRootContentViewController>
 
 - (id)initWithPeople:(NSDictionary*)peopleDict;
 - (id)initWithCurrentUser;
-
+- (void)showBonusVC;
 @end

@@ -11,7 +11,7 @@
 #import "QSU06LoginViewController.h"
 #import "QSError.h"
 #import "QSUserLoginAlertHandler.h"
-#import "QSG01ItemWebViewController.h"
+#import "QSS10ItemDetailViewController.h"
 #import "QSPeopleUtil.h"
 
 #import <objc/runtime.h>
@@ -69,6 +69,8 @@ static char versionUpdateHandlerKey;
         }else {
             [self showErrorHudWithError:error];
         }
+    } else {
+        [self showErrorHudWithText:@"系统错误，请稍后再试"];
     }
 }
 
@@ -93,10 +95,5 @@ static char versionUpdateHandlerKey;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)showItemDetailViewController:(NSDictionary*)itemDict peopleId:(NSString *)peopleId
-{
-    QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict peopleId:peopleId];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
 @end

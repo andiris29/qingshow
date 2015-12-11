@@ -11,14 +11,12 @@ import java.util.List;
 public class MongoItem implements Serializable {
 
     public String _id;
-
     public MongoCategories categoryRef;
     public String name;
     public String source;
     public String thumbnail;
-    public Number price;
-    public Number promoPrice;
-    public Number minExpectedPrice;
+    public Number price = 0;
+    public Number promoPrice = 0;
     public List<String> skuProperties;
     public HashMap<String, String> skuTable;
     public GregorianCalendar create;
@@ -39,10 +37,8 @@ public class MongoItem implements Serializable {
 
     public class Expectable implements Serializable {
         public boolean expired;
-        public Number price;
-        public String messageForPay;
-        public String messageForBuy;
-
+        public String message;
+        public Number reduction;
     }
 
 }

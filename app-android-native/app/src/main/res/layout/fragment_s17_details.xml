@@ -1,91 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/desImg"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        app:actualImageScaleType="fitCenter"
+        app:roundedCornerRadius="5dp"
+        app:roundingBorderColor="@color/master_blue"
+        app:roundingBorderWidth="1dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="2"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/s11_details_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/master_blue"
+            android:textSize="16sp" />
+
+        <com.focosee.qingshow.widget.QSTextView
+            android:id="@+id/s11_details_price"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <com.focosee.qingshow.widget.QSTextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:text="产品详情"
-                android:textSize="@dimen/text_size" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <com.focosee.qingshow.widget.QSTextView
-                    android:id="@+id/s11_details_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:textSize="@dimen/text_size_small" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp">
-
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/s11_details_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <com.focosee.qingshow.widget.QSTextView
-                        android:id="@+id/s11_details_maxprice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/text_size_small" />
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/s11_details_size_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
+            android:layout_marginTop="2dp"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/props"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="vertical" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:orientation="horizontal">
 
             <com.focosee.qingshow.widget.QSTextView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="数量"
-                android:textSize="@dimen/text_size" />
+                android:text="数量:"
+                android:textSize="16sp" />
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/S11_num"
@@ -94,13 +67,12 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:text="1"
-                android:textSize="18sp" />
-
+                android:textSize="16sp" />
 
         </LinearLayout>
 
     </LinearLayout>
-</FrameLayout>
+
+</LinearLayout>

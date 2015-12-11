@@ -3,13 +3,14 @@ var async = require('async');
 var _ = require('underscore');
 
 var Item = require('../../../dbmodels').Item,
-    People = require('../../../dbmodels').People;
+    People = require('../../../dbmodels').People,
+    PeopleCode = require('../../../dbmodels').PeopleCode;
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 
-var GoblinError = require('../../../goblin-slave/GoblinError'),
-    ItemSourceUtil = require('../../../goblin-slave/ItemSourceUtil'),
-    ItemSourceType = require('../../../goblin-slave/ItemSourceType');
+var GoblinError = require('../../../goblin-common/GoblinError'),
+    ItemSourceUtil = require('../../../goblin-common/ItemSourceUtil'),
+    ItemSourceType = require('../../../goblin-common/ItemSourceType');
 
 var ItemSyncService = {};
 
@@ -82,16 +83,26 @@ var _updateShopInfo = function(item, itemInfo, callback) {
     var webItem = itemInfo;
     //taobaoInfo.shopId
     var shopInfo = webItem.shopInfo;
+    if (!shopInfo) {
+        var sourceType = ItemSourceUtil.getType(item.source);
+        if (sourceType === ItemSourceType.Hm) {
+            shopInfo = {'shopId' : 'hm', 'shopName' : 'H&M'};
+        } else if (sourceType === ItemSourceType.Jamy) {
+            shopInfo = {'shopId' : 'jamy', 'shopName' : 'JAMY'};
+        }
+    }
     if (shopInfo && shopInfo.shopId) {
         var shopId = shopInfo.shopId;
         async.waterfall([
             function (callback) {
                 People.findOne({
-                    'shopInfo.taobao.sid' : shopId
+                    'userInfo.id' : shopId,
+                    'role' : PeopleCode.ROLE_SHOP
                 }, callback);
             }, function (people, callback) {
                 if (!people) {
                     new People({
+                        'role' : PeopleCode.ROLE_SHOP,
                         nickname: shopInfo.shopName,
                         userInfo : {
                             id : shopId,
@@ -134,28 +145,6 @@ var _updateItem = function(item, itemInfo, callback) {
     }
     item.skuTable = skuTable;
 
-    //minExpectedPrice
-    var price = item.promoPrice || item.price;
-    var sourceType = ItemSourceUtil.getType(item.source);
-    if (price) {
-        var discount;
-        if (sourceType === ItemSourceType.Taobao || sourceType === ItemSourceType.Tmall)  {
-            if (price <= 100) {
-                discount = 0.5;
-            } else if (price <= 180) {
-                discount = 0.6;
-            } else {
-                discount = 0.7;
-            }
-        } else if (sourceType === ItemSourceType.Hm) {
-            discount = 0.7;
-        } else if (sourceType === ItemSourceType.Jamy) {
-            discount = 0.6;
-        }
-        if (discount) {
-            item.minExpectedPrice = price * discount;
-        }
-    }
     callback(null, itemInfo);
 };
 

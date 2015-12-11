@@ -28,6 +28,7 @@
 @property (assign, nonatomic) NSUInteger selectIndex;
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (weak, nonatomic) NSObject<QSMatcherItemsProviderDelegate>* delegate;
+@property (weak, nonatomic) NSMutableArray* selectItemIds;
 @property (assign, nonatomic) BOOL fIsFirst;
 - (void)reloadData;
 

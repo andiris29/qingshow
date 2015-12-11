@@ -89,25 +89,6 @@ body {
     background-repeat: no-repeat;
     border-radius: 10px;
 }
-.p02-bonus-total-text {
-    text-align: center;
-    font-size: 14px;
-    font-family: "Lantinghei SC";
-    padding-top: 130%;
-    width: 100%;
-}
-.p02-bonus-total-text-number {
-    font-size: 20px;
-}
-.p02-bonus-current-text {
-    text-align: center;
-    width: 100%;
-    font-size: 14px;
-    font-family: "Lantinghei SC";
-}
-.p02-bonus-current-text-number {
-    font-size: 20px;
-}
 
 .p02-image-slider-block-text {
     margin-top: 6%;
@@ -322,4 +303,181 @@ body {
 }
 .p03-image-slider {
     margin: 0 !important;
+}
+
+
+
+.p04-background {
+    position: absolute;
+    background-image: url(../assets/slicing/bonus/share_bonus_background.png);
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+}
+
+.p04-waiting-container {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    height: 12%;
+    width: 70%;
+    text-align: center;
+}
+
+.p04-title {
+    font-size: 22px;
+    font-family: "Lantinghei SC";
+    color: #c8104e;
+}
+
+.p04-subtitle {
+    font-size: 10px;
+    font-family: "Lantinghei SC";
+    color: #434343;
+}
+
+.p04-request-complete-container {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    height: 12%;
+    width: 70%;
+    text-align: center;
+}
+.p04-request-complete-arrow {
+    background-image: url(../assets/slicing/bonus/share_bonus_complete_down_arrow.png);
+    width: 100%;
+    height: 20%;
+    margin-top: 2%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+}
+
+
+.p04-circle-count-container {
+    position: absolute;
+    top: 42%;
+    left: 24%;
+    height: 30%;
+    width: 52%;
+}
+
+.p04-circle-count-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.p04-circle-count-remain-time-container {
+    position: absolute;
+    top : 35%;
+    left : 0;
+    text-align: center;
+    width: 100%;
+    font-family: "Lantinghei SC";
+}
+
+.p04-circle-count-remain-time-title {
+    font-size: 10px;
+    color: #d60051;
+}
+
+.p04-circle-count-remain-time-number {
+    font-size: 34px;
+    color: #d60051;
+}
+
+.p04-circle-count-request-complete-container {
+    position: absolute;
+    top : 20%;
+    left : 0;
+    text-align: center;
+    width: 100%;
+    height: 60%;
+    font-family: "Lantinghei SC";
+}
+
+.p04-circle-count-request-complete-icon {
+    background-image: url(../assets/slicing/bonus/share_bonus_withdraw_submit_icon.png);
+    width: 100%;
+    height: 30%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+}
+
+.p04-circle-count-request-complete-text {
+    margin-top: 5%;
+    font-size: 24px;
+    color: #d60051;
+}
+
+
+.p04-download {
+    position: absolute;
+    background-image: url(../assets/slicing/bonus/share_bonus_app_logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+    bottom: 11%;
+    left: 35%;
+    height: 15%;
+    width: 30%;
+}
+
+.p04-bottom-text {
+    position: absolute;
+    bottom: 4%;
+    left: 15%;
+    height: 5%;
+    width: 70%;
+    text-align: center;
+}
+
+.p04-withdraw-success-alert {
+    position: absolute;
+    top: 50%;
+    left: 23%;
+    width: 54%;
+    height: 15%;
+    background-color: white;
+
+    -webkit-box-shadow:0 0 15px #000;
+    -moz-box-shadow:0 0 15px #000;
+    box-shadow:0 0 15px #000;
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:5px;
+    font-family: "Lantinghei SC";
+    text-align: center;
+}
+
+.p04-withdraw-success-alert-title {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    font-size: 12px;
+}
+
+.p04-withdraw-success-alert-splitter {
+    position: absolute;
+    top: 60%;
+    width: 100%;
+    height: 1px;
+    background-color: #a91a4e;
+}
+
+.p04-withdraw-success-alert-OK {
+    position: absolute;
+    top: 61%;
+    height: 29%;
+    left : 0;
+    width: 100%;
+    color : #c8104e;
+    font-size: 15px;
+    padding-top: 5%;
 }

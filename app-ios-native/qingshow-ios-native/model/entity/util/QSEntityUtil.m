@@ -27,6 +27,8 @@
     }
     return [obj isKindOfClass:[NSArray class]];
 }
+
+
 + (NSString*)getIdOrEmptyStr:(NSDictionary*)dict
 {
     if (![self checkIsDict:dict]) {
@@ -38,16 +40,8 @@
     }
     return idString;
 }
-+ (NSString *)getCommentsStr:(NSDictionary *)dict
-{
-    if (![self checkIsDict:dict]) {
-        return nil;
-    }
-    NSString *commentsStr = dict[@"_comments"];
-    if ([self checkIsNil:commentsStr]) {
-        return @"";
-    }
-    return commentsStr;
++ (NSDictionary*)getResponseContext:(NSDictionary*)dict {
+    return [self getDictValue:dict keyPath:@"__context"];
 }
 
 + (id)getValue:(NSDictionary*)dict keyPath:(NSString*)key class:(Class)c {
@@ -76,4 +70,9 @@
 + (NSDictionary*)getDictValue:(NSDictionary*)dict keyPath:(NSString*)key {
     return [self getValue:dict keyPath:key class:[NSDictionary class]];
 }
++ (NSDate*)getDateValue:(NSDictionary*)dict keyPath:(NSString*)key {
+    return [self getValue:dict keyPath:key class:[NSDate class]];
+}
+
+
 @end

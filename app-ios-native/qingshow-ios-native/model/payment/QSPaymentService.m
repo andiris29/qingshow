@@ -23,7 +23,7 @@
 #import "QSPaymentConst.h"
 #import "QSNetworkKit.h"
 #import "QSNetworkEngine+ShareService.h"
-
+#import "QSShareUtil.h"
 
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
@@ -44,7 +44,13 @@
 @implementation QSPaymentService
 
 static NSString* s_paymentHost = nil;
-
+- (NSString*)getPaymentHost {
+    if (!s_paymentHost) {
+        return @"";
+    } else {
+        return s_paymentHost;
+    }
+}
 + (void)configPaymentHost:(NSString*)paymentHost {
     s_paymentHost = paymentHost;
 }
@@ -81,18 +87,11 @@ static NSString* s_paymentHost = nil;
                onError:(ErrorBlock)errorBlock {
     //分享
     NSString* tradeId = [QSEntityUtil getIdOrEmptyStr:tradeDict];
-   // NSString* peopleId = [QSEntityUtil getIdOrEmptyStr:[QSTradeUtil getPeopleDic:tradeDict]];
-    [SHARE_NW_ENGINE shareCreateTrade:tradeId onSucceed:^(NSString *shareId) {
-        [[QSShareService shareService] shareWithWechatMoment:@"正品折扣，在倾秀动动手指即刻拥有" desc:nil image:[UIImage imageNamed:@"share_icon"] url:[NSString stringWithFormat:@"%@?_id=%@",[QSShareService getShareHost],shareId] onSucceed:^{
-            [SHARE_NW_ENGINE tradeShare:tradeDict onSucceed:^{
-                succeedBlock(tradeDict);
-            } onError:errorBlock];
-            
+    [SHARE_NW_ENGINE shareCreateTrade:tradeId onSucceed:^(NSDictionary *shareDic) {
+        [[QSShareService shareService] shareWithWechatMoment:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic]imagePath:[QSShareUtil getShareIcon:shareDic] url:[QSShareUtil getshareUrl:shareDic] onSucceed:^{
+            succeedBlock(tradeDict);
         } onError:errorBlock];
-    } onError:^(NSError *error) {
-        
-    }];
-
+    } onError:errorBlock];
 }
 
 - (void)payForTrade:(NSDictionary*)tradeDict

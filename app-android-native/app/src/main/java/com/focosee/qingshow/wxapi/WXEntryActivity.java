@@ -13,6 +13,8 @@ import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
+import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U14PayActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -115,6 +117,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(WXEntryActivity.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ToastUtil.showShortToast(getApplicationContext(), "登录失败，请重试！");
                     EventBus.getDefault().post(new WxLoginedEvent("error"));
@@ -127,6 +130,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
                 }
                 QSModel.INSTANCE.login(user);
+                if(QSModel.INSTANCE.isGuest()){
+                    startActivity(new Intent(WXEntryActivity.this, U07RegisterActivity.class));
+                    finish();
+                    return;
+                }
                 if (null != GoToWhereAfterLoginModel.INSTANCE.get_class()) {
                     Intent intent = new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class());
                     Bundle bundle = new Bundle();

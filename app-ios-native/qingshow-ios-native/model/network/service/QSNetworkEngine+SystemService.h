@@ -17,4 +17,6 @@
                                 extra:(NSString*)extra
                             onSuccess:(VoidBlock)successBlock
                               onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)systemGetConfigOnSucceed:(DicBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock;
 @end

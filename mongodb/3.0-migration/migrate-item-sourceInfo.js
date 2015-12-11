@@ -9,6 +9,7 @@ function getDomain(url) {
 
     //find & remove port number
     domain = domain.split(':')[0];
+
     return domain;
 }
 
@@ -21,9 +22,7 @@ function getIdFromSource(source, idRegex) {
     }
 };
 
-var items = db.getCollection('items').find({
-});
-
+var items = db.getCollection('items').find({});
 
 items.forEach(function(item) {
     if (item.source != null && item.source.length != 0) {
@@ -31,26 +30,24 @@ items.forEach(function(item) {
         var domain = getDomain(item.source);
         var id = '';
 
-        if (domain.indexOf('taobao') >= 0) {
             domain = 'taobao';
             id = getIdFromSource(item.source, /id=(\d*)/);
-        } else if (domain.indexOf('tmall') >= 0) {
             domain = 'tmall';
             id = getIdFromSource(item.source, /id=(\d*)/);
-        } else if (domain.indexOf('thejamy') >= 0) {
+        } else if (domain.test(/thejamy/ig)) {
             domain = 'jamy';
-            var urls = item.source.split('/');
-            id = urls[urls.length-1];
-        } else if (domain.indexOf('hm') >= 0) {
+            id = getIdFromSource(item.source, /product\/[a-zA-Z0-9]*/);
+        } else if (domain.test(/hm/ig)) {
             domain = 'hm';
             id = getIdFromSource(item.source, /page.(\d*)/);
         } else {
-            return;
+            domain = '';
+            id = '';
         }
 
         item.sourceInfo = {
-            'domain': domain,
-            'id': id
+            domain: domain,
+            id: id
         }
 
         db.getCollection('items').save(item);

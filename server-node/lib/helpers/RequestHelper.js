@@ -13,7 +13,8 @@ RequestHelper.getIp = function (req) {
 };
 
 RequestHelper.getVersion = function (req) {
-    return req.header('qs-version') || req.queryString.version;
+    return req.header('qs-version') || 
+        (req.queryString ? req.queryString.version : global.qsConfig.system.production.maxSupportedVersion);
 };
 
 RequestHelper.getClientInfo = function (req) {
@@ -61,8 +62,14 @@ RequestHelper.parseNumber = function (string) {
 
 RequestHelper.parseDate = function (string) {
     if (string !== undefined) {
-        var date = new Date(string);
-        return date;
+        var d;
+        if (isNaN(string)) {
+            // 2015-11-25T11:00:00+08:00
+            d = new Date(string);
+        } else {
+            d = new Date(Number(string));
+        }
+        return d;
     }
 };
 
@@ -94,7 +101,7 @@ RequestHelper.parseNumbers =  function (string) {
     });
 };
 
-RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
+RequestHelper.parseFile = function (req, uploadPath, savedName, resizeOptions, callback) {
     var formidable = require('formidable');
 
     var form = new formidable.IncomingForm();
@@ -119,8 +126,12 @@ RequestHelper.parseFile = function (req, uploadPath, resizeOptions, callback) {
         for (var key in files) {
             file = files[key];
         }
-
-        var savedName = path.basename(file.path);
+        if (savedName) {
+            savedName += path.extname(file.path);
+        } else {
+            savedName = path.basename(file.path);
+        }
+        
         var fullPath = path.join(uploadPath, savedName);
         var oldPath = file.path;
         qsftp.uploadWithResize(file.path, savedName, uploadPath, resizeOptions, function (err) {

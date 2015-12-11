@@ -9,6 +9,8 @@
 #import "QSNetworkEngine+SystemService.h"
 #import "MKNetworkEngine+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
+#define PATH_SYSTEM_LOG @"system/log"
+#define PATH_SYSTEM_GET_CONFIG @"system/getConfig"
 
 @implementation QSNetworkEngine(SystemService)
 - (MKNetworkOperation*)systemLogLevel:(NSString*)level
@@ -32,7 +34,7 @@
         paramDict[@"extra"] = extra;
     }
     
-    return [self startOperationWithPath:@"system/log" method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_SYSTEM_LOG method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (successBlock) {
             successBlock();
         }
@@ -42,4 +44,22 @@
         }
     }];
 }
+
+- (MKNetworkOperation*)systemGetConfigOnSucceed:(DicBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_SYSTEM_GET_CONFIG method:@"GET" paramers:@{} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        //config.event.image
+        if (succeedBlock) {
+            NSDictionary* retDict = completedOperation.responseJSON;
+            NSDictionary* configDict = [retDict dictValueForKeyPath:@"data"];
+            succeedBlock(configDict);
+        }
+        
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 @end

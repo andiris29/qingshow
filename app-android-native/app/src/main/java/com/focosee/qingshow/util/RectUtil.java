@@ -1,8 +1,18 @@
 package com.focosee.qingshow.util;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.focosee.qingshow.widget.QSImageView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +133,70 @@ public class RectUtil {
 
     public static float getRectArea(Rect rect) {
         return Math.abs(rect.width()) * Math.abs(rect.height());
+    }
+
+    public static float[] rectSerializer(RectF rect) {
+        float arrs[] = new float[4];
+        arrs[0] = rect.left;
+        arrs[1] = rect.top;
+        arrs[2] = rect.width();
+        arrs[3] = rect.height();
+        return arrs;
+    }
+
+    public static RectF getViewRealRect(View view){
+        float width = view.getWidth();
+        float height = view.getHeight();
+        float minus;
+        float radio = view.getScaleX();
+        if (radio < 1) {
+            minus = -1;
+        } else {
+            minus = 1;
+        }
+        float dx = minus * Math.abs(width * (1.0f - radio) / 2.0f);
+        float dy = minus * Math.abs(height * (1.0f - radio) / 2.0f);
+        return new RectF(view.getX() - dx, view.getY() - dy, view.getX() + width + dx, view.getY() + height + dy);
+    }
+
+    public static void locateView(RectF rect, View view, float width, float height) {
+        view.setScaleX(1.0f);
+        view.setScaleY(1.0f);
+        float maxWidth = rect.width();
+        float maxHeight = rect.height();
+        float radio = (maxWidth / width) > (maxHeight / height) ? (maxHeight / height) : (maxWidth / width);
+        view.setScaleX(radio);
+        view.setScaleY(radio);
+
+        float minus;
+        if (radio < 1) {
+            minus = -1;
+        } else {
+            minus = 1;
+        }
+
+        float dx = minus * Math.abs(width * (1.0f - radio) / 2.0f);
+        float dy = minus * Math.abs(height * (1.0f - radio) / 2.0f);
+
+        moveView(view, view.getX(), view.getY(), rect.left + dx, rect.top + dy);
+    }
+
+    public static PointF getImageViewDrawablePoint(ImageView view) {
+        float width = view.getDrawable().getIntrinsicWidth();
+        float height = view.getDrawable().getIntrinsicHeight();
+        return new PointF(width, height);
+    }
+
+    public static void moveView(View view, float startX, float startY, float nextX, float nextY) {
+        ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", startX, nextX);
+        ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", startY, nextY);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(x, y);
+        animatorSet.setDuration(0);
+        animatorSet.start();
+        if (view instanceof QSImageView) {
+            ((QSImageView) view).setLastCentroid(new Point(view.getLeft() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicWidth() / 2, view.getTop() + ((QSImageView) view).getImageView().getDrawable().getIntrinsicHeight() / 2));
+        }
     }
 
 }

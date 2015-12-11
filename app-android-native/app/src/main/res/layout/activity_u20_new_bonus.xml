@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.focosee.qingshow.activity.U20NewBonus">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/login_background" />
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:onClick="onClick"
+        android:padding="10dp"
+        android:src="@drawable/collect_icon_close"
+        app:layout_marginPercent="2%" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/u20_item_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/white"
+        android:paddingBottom="42dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:scaleType="fitCenter"
+        app:layout_heightPercent="35%"
+        app:layout_marginTopPercent="7%"
+        app:layout_widthPercent="60%">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/u20_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/white"
+            fresco:actualImageScaleType="fitCenter"
+            app:layout_marginTopPercent="5%"
+            fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/u20_user_head"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/u20_item_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-40dp"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:roundAsCircle="true"
+        fresco:roundingBorderColor="@color/white"
+        fresco:roundingBorderWidth="5dp" />
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:id="@+id/u20_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u20_user_head"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="kelly"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/u20_msg_line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u20_nickname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/u20_msg_line1"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/u20_msg_line2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u20_msg_line1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="fdasfdasdfsa"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/u20_submit_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/u20_msg_line2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/pink_deep_btn2"
+        android:text="@string/u20_submit_btn"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="55%" />
+
+    <LinearLayout
+        android:id="@+id/u20_msg3_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u20_submit_btn"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_marginTopPercent="5%">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/white_dashed"
+            android:layerType="software" />
+
+        <TextView
+            android:id="@+id/u20_msg3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/u20_msg3"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_lsmall"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/white_dashed"
+            android:layerType="software" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/u20_heads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/u20_msg3_layout"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_marginLeftPercent="10%"
+        app:layout_marginRightPercent="10%"></LinearLayout>
+
+
+</android.support.percent.PercentRelativeLayout>

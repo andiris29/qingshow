@@ -7,25 +7,48 @@
 //
 
 #import "QSCreateTradePayInfoSelectCell.h"
+#import "UIView+QSExtension.h"
+
+@interface QSCreateTradePayInfoSelectCell ()
+
+@end
 
 @implementation QSCreateTradePayInfoSelectCell
+- (void)setPaymentType:(QSCreateTradePaymentType)paymentType {
+    _paymentType = paymentType;
+    if (_paymentType == QSCreateTradePaymentTypeWechat) {
+        [self _setSelect:self.wechatBtn];
+    } else {
+        [self _setUnselect:self.wechatBtn];
+    }
+    if (_paymentType == QSCreateTradePaymentTypeAlipay) {
+        [self _setSelect:self.alipayBtn];
+    } else {
+        [self _setUnselect:self.alipayBtn];
+    }
+}
+
+- (void)_setUnselect:(UIButton*)btn {
+    [btn configBorderColor:[UIColor colorWithRed:149.f/255.f green:149.f/255.f blue:149.f/255.f alpha:1.f] width:1 cornerRadius:4];
+}
+- (void)_setSelect:(UIButton*)btn {
+    [btn configBorderColor:[UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f] width:2 cornerRadius:4];
+}
+
 - (void)awakeFromNib
 {
-    _isSelect = NO;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-}
-- (void)setIsSelect:(BOOL)isSelect
-{
-    _isSelect = isSelect;
-    self.selectedBtn.highlighted = _isSelect;
+    self.paymentType = QSCreateTradePaymentTypeNone;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (CGFloat)getHeightWithDict:(NSDictionary*)dict {
+    return 100.f;
 }
-*/
 
+- (IBAction)wechatBtnPressed:(id)sender {
+    self.paymentType = QSCreateTradePaymentTypeWechat;
+}
+- (IBAction)alipayBtnPressed:(id)sender {
+    self.paymentType = QSCreateTradePaymentTypeAlipay;
+}
 @end

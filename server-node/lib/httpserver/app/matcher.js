@@ -5,8 +5,9 @@ var _ = require('underscore');
 
 // model
 var Category = require('../../dbmodels').Category;
-var Items = require('../../dbmodels').Item;
+var Item = require('../../dbmodels').Item;
 var Show = require('../../dbmodels').Show;
+var ShowCode = require('../../dbmodels').ShowCode;
 var People = require('../../dbmodels').People;
 
 var loggers = require('../../runtime').loggers;
@@ -17,20 +18,16 @@ var ServiceHelper = require('../../helpers/ServiceHelper');
 var MongoHelper = require('../../helpers/MongoHelper.js');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var TraceHelper = require('../../helpers/TraceHelper');
+var ContextHelper = require('../../helpers/ContextHelper');
+
+var injectModelGenerator = require('../middleware/injectModelGenerator');
+
+var GoblinScheduler = require('./goblin/GoblinScheduler');
 
 var errors = require('../../errors');
 
 var matcher = module.exports;
-
-var _isFake = function(people){
-    if(isNaN(people.userInfo.id)) {
-        return false
-    } else {
-        var n = parseInt(people.userInfo.id);
-        return (n >= 400 && n < 500) || (n > 600 && n < 700);
-    }
-}
-
+ 
 var _shuffle = function (array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
   while (0 !== currentIndex) {
@@ -42,7 +39,7 @@ var _shuffle = function (array) {
   }
 
   return array;
-}
+};
 
 matcher.queryCategories = {
     'method' : 'get',
@@ -50,6 +47,8 @@ matcher.queryCategories = {
         Category.find({}).exec(function(err, categories) {
             ResponseHelper.response(res, err, {
                 'categories' : categories
+            },{
+                'modelCategoryRef' : global.qsConfig.modelRemix.modelCategoryRef
             });
         });
     }
@@ -83,11 +82,11 @@ matcher.queryItems = {
             }
             pageNo = parseInt(qsParam.pageNo) + pageNo + 1;
             ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-                MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, 
+                MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), pageNo, 
                     qsParam.pageSize, function(err, models, count){
                         if ((!count || count < qsParam.pageSize) && pageNo != 0) {
                             pageNo = 0;
-                            MongoHelper.queryPaging(Items.find(criteria), Items.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
+                            MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), pageNo, qsParam.pageSize - count, function(err, fillingModels, count){
                                 callback(err, models ? models.concat(fillingModels) : fillingModels, qsParam.pageSize);
                             });
                             queryItems[category._id.toString()] = pageNo;
@@ -101,113 +100,91 @@ matcher.queryItems = {
             }, function(items) {
                 return {
                     'items' : _shuffle(items)
-                };
-            }, {});
-        })
+                }; 
+
+            }, {
+            });
+        });
     }
 };
 
-var _matchers = {};
-
 matcher.save = {
     'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var featuredRank;
-        async.waterfall([function(callback){
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }, callback);
-        }, function(people, callback) {
-            if (!req.body.itemRefs || !req.body.itemRefs.length) {
-                ResponseHelper.response(res, errors.NotEnoughParam);
-                return;
-            }
-            var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
-
-            var coverUrl = global.qsConfig.show.coverForeground.template;
-            coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
-
-            if (_isFake(people)) {
-                var show = new Show({
-                    'itemRefs' : itemRefs, 
-                    'ownerRef' : req.qsCurrentUserId,
-                    'coverForeground' : coverUrl,
-                    'featuredRank' : 1
-                }); 
-            }else {
-                var show = new Show({
-                    'itemRefs' : itemRefs, 
-                    'ownerRef' : req.qsCurrentUserId,
-                    'coverForeground' : coverUrl
+    'func' : [
+        require('../middleware/validateLogin'),
+        function(req, res, next) {
+            var date = new Date();
+            date.setMinutes(date.getMinutes() - 60);
+                
+            Show.find({
+                'ownerRef' : req.qsCurrentUserId,
+                'create' : {'$gt' : date}
+            }).count(function(err, count) {
+                ResponseHelper.writeMetadata(res, {
+                    'limitMessage' : global.qsConfig.matcher.limitMessage.replace(/\{0\}/g, global.qsConfig.matcher.limitCount)
                 });
-            }
-
-            var uuid = require('node-uuid').v1();
-            _matchers[uuid] = show;
-            callback(null, uuid);
-        }], function(err, uuid) {
-            ResponseHelper.response(res, null, {
-                'uuid' : uuid
+                if (count < global.qsConfig.matcher.limitCount) {
+                    next();
+                } else {
+                    next(errors.ERR_EXCEED_CREATE_SHOW_LIMIT);
+                }
             });
-        })
-    }
+        },
+        function(req, res, next) {
+            req.session.matcher = {
+                'ownerRef' : req.qsCurrentUserId,
+                'itemRefs' : RequestHelper.parseIds(req.body.itemRefs),
+                'itemRects' : req.body.itemRects,
+                'coverForeground' : global.qsConfig.show.coverForeground.template
+                    .replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max))
+            };
+            next();
+        }
+    ]
 };
 
 matcher.updateCover = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.ftpPath, [
-            {'suffix' : '_s', 'rate' : 0.5},
-            {'suffix' : '_xs', 'rate' : 0.25}
-        ], function (err, fields, file) {
-            if (err) {
-                ResponseHelper.response(res, err);
-                return;
+        async.waterfall([function(callback){
+            var show = req.session.matcher;
+            if (show) {
+                new Show(show).save(function(err, show){
+                    callback(null, show);
+                });
+            }else{
+                callback(errors.NotEnoughParam);
             }
-            if (!fields.uuid || !fields.uuid.length) {
-                ResponseHelper.response(res, errors.NotEnoughParam);
-                return;
-            }
-            if (!file) {
-                ResponseHelper.response(res, errors.NotEnoughParam);
-                return;
-            }
-            var show = _matchers[fields.uuid];
-            if (!show) {
-                ResponseHelper.response(res, errors.NotEnoughParam);
-                return;
-            }
-            show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
-            
-            var date = new Date();
-            date.setMinutes(date.getMinutes() - 10);
-            Show.findOne({
-                'ownerRef' : show.ownerRef,
-                'itemRefs' : show.itemRefs,
-                'create' : {
-                    '$gt' : date
-                }
-            }, function(err, duplicatedShow) {
-                if (err || duplicatedShow) {
-                    ResponseHelper.response(res, err, {
-                        'show' : duplicatedShow
-                    });
-                } else {
+        }, function(show, callback){
+            RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.ftpPath, show._id.toString(), [
+                {'suffix' : '_s', 'rate' : 0.5},
+                {'suffix' : '_xs', 'rate' : 0.25}
+                ], function (err, fields, file) {
+                    if (err) {
+                        callback(err);
+                        return;
+                    }
+                    if (!file) {
+                        callback(errors.NotEnoughParam);
+                        return;
+                    }
+                    show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
+                    var date = new Date();
+                    date.setMinutes(date.getMinutes() - 10);
                     show.save(function(err, show) {
-                        ResponseHelper.response(res, err, {
-                            'show' : show
-                        });
-                        // Log
-                        TraceHelper.trace('behavior-show-creation', req, {
-                            '_showId' : show._id.toString()
-                        });
+                        callback(null, show);
                     });
-                }
+                });
+        }], function(err, show){
+            delete req.session.matcher;
+            ResponseHelper.response(res, err, {
+                'show' : show
             });
-            
-            delete _matchers[fields.uuid];
+            // Log
+            TraceHelper.trace('behavior-show-creation', req, {
+                '_showId' : show._id.toString()
+            });
         });
     }
 };
@@ -243,4 +220,144 @@ matcher.hide = {
             }
         });
     }
+};
+
+var _injectRemixCategories = function(req, res, next) {
+    async.parallel(req.injection.remixCategoryAliases.map(function(alias) {
+        return function(callback) {
+            Category.findOne({'alias' : alias}, callback);
+        };
+    }), function(err, results) {
+        req.injection.remixCategories = results;
+        next();
+    });
+};
+
+var _parseRect = function(rect) {
+    return rect.split(',').map(function(n) {
+        return parseFloat(n);
+    });
+};
+
+matcher.remixByModel = {
+    'method' : 'get',
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, 'modelRef'),
+        function(req, res, next) {
+            req.injection.remixCategoryAliases = req.injection.modelRef.remixCategoryAliases.split(',');
+            next();
+        },
+        _injectRemixCategories,
+        function(req, res, next) {
+            for(var composition in global.qsConfig.modelRemix) {
+                var config = global.qsConfig.modelRemix[composition];
+                if (_.keys(config).length === req.injection.remixCategories.length + 1) {
+                    var data = {
+                        'master' : {'rect' : _parseRect(config.master.rect)},
+                        'slaves' : []
+                    };
+                    req.injection.remixCategories.forEach(function(category, index) {
+                        data.slaves[index] = {
+                            'categoryRef' : category._id.toString(),
+                            'rect' : _parseRect(config['slave' + index].rect)
+                        };
+                    });
+                    ResponseHelper.writeData(res, data);
+                    break;
+                }
+            }
+            next();
+        }
+    ]
+};
+
+matcher.remixByItem = {
+    'method' : 'get',
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, 'itemRef'),
+        function(req, res, next) {
+            req.injection.itemRef.populate('categoryRef', function() {
+                if (req.injection.itemRef.categoryRef) {
+                    req.injection.remixCategoryAliases = req.injection.itemRef.categoryRef.remixCategoryAliases.split(',');
+                    next();
+                } else {
+                    next(errors.ERR_INVALID_ITEM);
+                }
+            });
+        },
+        _injectRemixCategories,
+        function(req, res, next) {
+            async.parallel(req.injection.remixCategories.map(function(category) {
+                return function(callback) {
+                    async.waterfall([
+                        // Find item in same shop
+                        function(callback) {
+                            if (req.injection.itemRef.shopRef) {
+                                _findRandomItem(category, {'shopRef' : req.injection.itemRef.shopRef}, callback);
+                            } else {
+                                callback(null, null);
+                            }
+                        },
+                        // Find item remix only
+                        function(item, callback) {
+                            if (item) {
+                                callback(null, item);
+                            } else {
+                                _findRandomItem(category, {'remix' : true}, callback);
+                            }
+                        },
+                        // Find all items
+                        function(item, callback) {
+                            if (item) {
+                                callback(null, item);
+                            } else {
+                                _findRandomItem(category, {}, callback);
+                            }
+                        }
+                    ], callback);
+                };
+            }), function(err, results) {
+                req.injection.remixItems = results;
+                next();
+            });
+        },
+        function(req, res, next) {
+            for(var composition in global.qsConfig.itemRemix) {
+                var config = global.qsConfig.itemRemix[composition];
+                if (_.keys(config).length === req.injection.remixItems.length + 1) {
+                    var data = {
+                        'master' : {'rect' : _parseRect(config.master.rect)},
+                        'slaves' : []
+                    };
+                    req.injection.remixItems.forEach(function(item, index) {
+                        data.slaves[index] = {
+                            'itemRef' : item,
+                            'rect' : _parseRect(config['slave' + index].rect)
+                        };
+                    });
+                    ResponseHelper.writeData(res, data);
+                    break;
+                }
+            }
+            next();
+            
+            // Register items to goblin scheduler
+            GoblinScheduler.registerItem(req.injection.itemRef);
+            req.injection.remixItems.forEach(function(item, index) {
+                GoblinScheduler.registerItem(item);
+            });
+        }
+    ]
+};
+
+var _findRandomItem = function(category, criteria, callback) {
+    criteria = _.extend({
+        'categoryRef' : category._id,
+        'delist' : null
+    }, criteria);
+    Item.find(criteria).count(function(err, count) {
+        Item.find(criteria).populate('shopRef').skip(_.random(0, count - 1)).limit(1).exec(function(err, items) {
+            callback(err, items[0]);
+        });
+    });
 };

@@ -12,14 +12,14 @@
 @interface QSNetworkEngine (ShareService)
 
 - (MKNetworkOperation *)shareCreateShow:(NSString *)showId
-                              onSucceed:(StringBlock)succeedBlock
+                              onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation *)shareCreateTrade:(NSString *)tradeId
-                              onSucceed:(StringBlock)succeedBlock
+                              onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation *)shareCreateBonus:(NSString *)peopleId
-                              onSucceed:(StringBlock)succeedBlock
+                              onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 @end

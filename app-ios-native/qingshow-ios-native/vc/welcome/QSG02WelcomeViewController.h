@@ -13,17 +13,13 @@
 @protocol QSG02WelcomeViewControllerDelegate <NSObject>
 
 - (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc;
-- (void)presentRegisterVC:(QSG02WelcomeViewController *)vc;
-- (void)presentLoginVC:(QSG02WelcomeViewController *)vc;
 
 @end
 
 @interface QSG02WelcomeViewController : UIViewController<UIScrollViewDelegate>
-@property (weak, nonatomic) IBOutlet UIButton *loginBtn;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *welcomeSCV;
-@property (weak, nonatomic) IBOutlet UIView *loginAndRegisterView;
 
 @property (weak, nonatomic) NSObject<QSG02WelcomeViewControllerDelegate>* delegate;
 

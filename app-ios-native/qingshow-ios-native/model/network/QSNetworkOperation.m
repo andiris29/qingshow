@@ -7,6 +7,7 @@
 //
 
 #import "QSNetworkOperation.h"
+#import "NSDictionary+QSExtension.h"
 
 @implementation QSNetworkOperation
 - (QSError*)checkCustomerError
@@ -14,9 +15,11 @@
     if (![self.responseJSON isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-    NSDictionary* metaData = self.responseJSON[@"metadata"];
+    
+    NSDictionary* metaData = [self.responseJSON dictValueForKeyPath:@"metadata"];
     if (metaData) {
-        NSNumber* errorCode = metaData[@"error"];
+        
+        NSNumber* errorCode = [metaData numberValueForKeyPath:@"error"];;
         if (errorCode) {
             self.qsError = [[QSError alloc] initWithDomain:kQSErrorDomain code:errorCode.intValue userInfo:metaData];
             return self.qsError;

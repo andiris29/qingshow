@@ -1,11 +1,9 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +56,7 @@ public class U01CollectionFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_s01_matchlist, R.layout.item_u01_collection_qingshow);
+        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_match, R.layout.item_u01_collection_qingshow);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -112,7 +110,7 @@ public class U01CollectionFragment extends U01BaseFragment {
                     return;
                 }
 
-                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery_itemString(response));
+                List<MongoShow> datas = ShowUtil.cleanHidedShow(ShowParser.parseQuery(response));
 
                 if(pageNo == 1) {
                      adapter.addDataAtTop(datas);

@@ -17,6 +17,10 @@
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
 @implementation QSItemUtil
++ (NSString*)getShopNickName:(NSDictionary*)itemDict {
+    NSDictionary* shop = [itemDict dictValueForKeyPath:@"shopRef"];
+    return [shop stringValueForKeyPath:@"nickname"];
+}
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
@@ -51,8 +55,12 @@
     return [itemDict stringValueForKeyPath:@"name"];
 }
 
-+ (NSNumber*)getMinExpectionPrice:(NSDictionary*)itemDict {
-    return [itemDict numberValueForKeyPath:@"minExpectedPrice"];
++ (NSNumber*)getExpectableReduction:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"expectable.reduction"];
+}
+
++ (NSString*)getExpectableMessage:(NSDictionary*)dict {
+    return [dict stringValueForKeyPath:@"expectable.message"];
 }
 
 + (NSNumber*)getPrice:(NSDictionary*)itemDict {
@@ -124,13 +132,6 @@
     }
     return [QSEntityUtil getStringValue:dict keyPath:@"phone"];
 }
-+ (NSMutableAttributedString *)getAttrbuteStr:(NSString *)str
-{
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc]initWithString:str];
-    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, str.length)];
-    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor darkTextColor] range:NSMakeRange(0, str.length)];
-    return attri;
-}
 
 + (NSURL*)getThumbnail:(NSDictionary *)itemDict {
     NSString* s = [QSEntityUtil getStringValue:itemDict keyPath:@"thumbnail"];
@@ -141,9 +142,6 @@
     }
 }
 
-+ (NSDictionary*)getExpectableDict:(NSDictionary*)dict {
-    return [dict dictValueForKeyPath:@"expectable"];
-}
 + (BOOL)getExpectableIsExpire:(NSDictionary *)dict {
     NSNumber* n = [dict numberValueForKeyPath:@"expectable.expired"];
     if (n) {
@@ -151,28 +149,6 @@
     }
     return NO;
     
-}
-
-+ (NSString*)getExpectablePriceDesc:(NSDictionary*)dict {
-    NSNumber* n = [self getExpectablePrice:dict];
-    if (!n) {
-        return nil;
-    } else {
-        return [NSString stringWithFormat:@"%.2f", n.doubleValue];
-    }
-}
-
-+ (NSNumber *)getExpectablePrice:(NSDictionary *)dict
-{
-    NSNumber* n = [dict numberValueForKeyPath:@"expectable.price"];
-    if (!n) {
-        NSString* s = [dict stringValueForKeyPath:@"expectable.price"];
-        if (s) {
-            n = @(s.doubleValue);
-        }
-        
-    }
-    return n;
 }
 
 
@@ -258,7 +234,6 @@
     
     NSMutableDictionary* skuKeyMap = [@{} mutableCopy];
     
-#warning TODO cached for skuKeyMap in the future
     for (NSString* k in skuTableKeys) {
         NSArray* components = [k componentsSeparatedByString:@":"];
         components = [components mapUsingBlock:^NSString* (NSString* str) {
@@ -278,11 +253,13 @@
     
     return matchedKeys;
 }
-
-+ (NSString*)getMessageForBuy:(NSDictionary*)dict {
-    return [dict stringValueForKeyPath:@"expectable.messageForBuy"];
-}
-+ (NSString*)getMessageForPay:(NSDictionary*)dict {
-    return [dict stringValueForKeyPath:@"expectable.messageForPay"];
++ (NSNumber*)getPriceToPay:(NSDictionary*)itemDict {
+    NSNumber* reduction = [self getExpectableReduction:itemDict];
+    NSNumber* promoPrice = [self getPromoPrice:itemDict];
+    if (reduction) {
+        return @(promoPrice.floatValue - reduction.floatValue);
+    } else {
+        return promoPrice;
+    }
 }
 @end

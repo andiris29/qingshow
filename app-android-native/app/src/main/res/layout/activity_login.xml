@@ -1,54 +1,39 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.percent.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/master_pink"
     android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.U06LoginActivity">
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:alpha="0.8"
+        android:background="@color/login_background"/>
 
-        <RelativeLayout
-            android:id="@+id/titleBarRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_bar_height">
+    <ImageButton
+        android:id="@+id/backImageView"
+        android:layout_width="@dimen/title_bar_height"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_alignParentLeft="true"
+        android:background="@null"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/nav_btn_back_white" />
 
-            <ImageButton
-                android:id="@+id/backImageView"
-                android:layout_width="@dimen/title_bar_height"
-                android:layout_height="@dimen/title_bar_height"
-                android:layout_alignParentLeft="true"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:background="@null"
-                android:src="@drawable/nav_btn_back_white" />
-
-            <com.focosee.qingshow.widget.QSTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="@string/title_bar_activity_login"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_activity_settings" />
+    <LinearLayout
+        style="@style/login_linearlayout"
+        app:layout_heightPercent="50%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_marginRightPercent="5%"
+        app:layout_marginTopPercent="25%">
 
         <RelativeLayout
             android:id="@+id/accountRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:paddingLeft="10dp">
@@ -60,7 +45,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
-                android:src="@drawable/login_user" />
+                android:src="@drawable/phone" />
 
             <com.focosee.qingshow.widget.QSEditText
                 android:id="@+id/accountEditText"
@@ -132,50 +117,51 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/forget_password_btn"
-                android:layout_alignTop="@+id/forget_password_btn"
                 android:layout_alignBottom="@+id/forget_password_btn"
-                android:src="@drawable/forget_password"/>
+                android:layout_alignTop="@+id/forget_password_btn"
+                android:layout_toLeftOf="@+id/forget_password_btn"
+                android:src="@drawable/forget_password" />
 
             <com.focosee.qingshow.widget.QSButton
                 android:id="@+id/forget_password_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/forget_password"
                 android:layout_alignParentRight="true"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:background="@null"
-                app:clickGround="@color/transparent"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_gravity="right"
                 android:layout_marginRight="25dp"
-                android:textColor="@color/white"/>
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:drawablePadding="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/forget_password"
+                android:textColor="@color/white"
+                app:clickGround="@color/transparent" />
 
         </RelativeLayout>
-
         <android.support.percent.PercentRelativeLayout
-            android:id="@+id/submitRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:background="@color/bg_activity_settings">
+            style="@style/login_percent_relative">
 
             <com.focosee.qingshow.widget.QSButton
                 android:id="@+id/submitButton"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="30dp"
                 app:layout_marginLeftPercent="15%"
                 app:layout_marginRightPercent="15%"
-                android:layout_marginBottom="10dp"
+                app:layout_marginBottomPercent="15%"
                 app:clickGround="@drawable/round_btn_background"
-                android:background="@drawable/white"
-                android:text="@string/login_activity_login"
-                android:textColor="@color/master_pink"
-                android:textSize="@dimen/text_size" />
+                style="@style/login_submit_btn"
+                android:text="@string/login_activity_login"/>
         </android.support.percent.PercentRelativeLayout>
     </LinearLayout>
-</RelativeLayout>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mobile_login"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/red"
+        app:layout_marginTopPercent="21%"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:textSize="25sp"/>
+
+</android.support.percent.PercentFrameLayout>

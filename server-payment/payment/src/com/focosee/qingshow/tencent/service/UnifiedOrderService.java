@@ -8,7 +8,7 @@ import com.focosee.qingshow.tencent.common.bean.UnifiedOrderReqBean;
 import com.focosee.qingshow.tencent.common.bean.UnifiedOrderResBean;
 
 public class UnifiedOrderService extends BaseService {
-    private static final Logger log = Logger.getLogger(PayQueryService.class);
+    private static final Logger log = Logger.getLogger(UnifiedOrderService.class);
 
     public UnifiedOrderService() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         super(Configure.PREPAY_API);

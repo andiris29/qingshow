@@ -16,12 +16,10 @@
 NSString* getTitleFromType(QSRootMenuItemType type) {
     NSArray* titleArray = @[
                             @"",
-                            @"我的搭配",
+                            @"个人空间",
                             @"美搭榜单",
-                            @"个人设置",
                             @"百搭秀场",
-                            @"我的折扣",
-                            @"潮人晒单"];
+                            @"我的订单"];
     if ((NSUInteger)type < titleArray.count) {
         return titleArray[type];
     } else {
@@ -34,10 +32,8 @@ UIImage* getIconImageFromType(QSRootMenuItemType type) {
                             @"",
                             @"root_menu_icon_my",
                             @"root_menu_icon_meida",
-                            @"root_menu_icon_setting",
                             @"root_menu_icon_matcher",
-                            @"root_menu_icon_discount",
-                            @"root_menu_icon_showtrade"];
+                            @"root_menu_icon_discount"];
     if ((NSUInteger)type < titleArray.count) {
         NSString* str = titleArray[type];
         return [UIImage imageNamed:str];
@@ -51,10 +47,8 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
                             @"",
                             @"root_menu_icon_my_hover",
                             @"root_menu_icon_meida_hover",
-                            @"root_menu_icon_setting_hover",
                             @"root_menu_icon_matcher_hover",
-                            @"root_menu_icon_discount_hover",
-                            @"root_menu_icon_showtrade_hover"];
+                            @"root_menu_icon_discount_hover"];
     if ((NSUInteger)type < titleArray.count) {
         NSString* str = titleArray[type];
         return [UIImage imageNamed:str];
@@ -77,9 +71,9 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
     item->_type = type;
     item.label.text = getTitleFromType(type);
     
-    [item.button setImage:getIconImageFromType(type) forState:UIControlStateNormal];
-    [item.button setImage:getIconHoverImageFromType(type) forState:UIControlStateHighlighted];
-    [item.button setImage:getIconHoverImageFromType(type) forState:UIControlStateSelected];
+    [item.button setBackgroundImage:getIconImageFromType(type) forState:UIControlStateNormal];
+    [item.button setBackgroundImage:getIconHoverImageFromType(type) forState:UIControlStateHighlighted];
+    [item.button setBackgroundImage:getIconHoverImageFromType(type) forState:UIControlStateSelected];
     item.button.backgroundColor = [UIColor clearColor];
     return item;
 }
@@ -92,7 +86,7 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat radius = self.button.bounds.size.width / 2;
-    radius = radius / sqrt(2.0) * 0.75;
+    radius = radius / sqrt(2.0) * 0.9;
     CGPoint center = self.button.center;
     center.x += radius;
     center.y -= radius;
@@ -129,7 +123,7 @@ UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
     [self.button setSelected:fHover];
     
     if (fHover) {
-        self.label.textColor = [UIColor colorWithRed:120.f/255.f green:120.f/255.f blue:120.f/255.f alpha:1.f];
+        self.label.textColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f];
     } else {
         self.label.textColor = [UIColor whiteColor];
     }

@@ -16,7 +16,8 @@
 
 - (NSUInteger)numberOfItemInSelectionView:(UIView*)view;
 - (NSDictionary*)selectionView:(UIView*)view itemDictAtIndex:(NSUInteger)index;
-
+@optional
+- (BOOL)selectionView:(UIView*)view hasSelectItemId:(NSString*)itemId;
 @end
 
 

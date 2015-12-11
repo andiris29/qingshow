@@ -14,7 +14,6 @@
 
 //Path
 #define PATH_USER_LOGIN @"user/login"
-#define PATH_USER_LOGIN_WEIBO @"user/loginViaWeibo"
 #define PATH_USER_LOGIN_WECHAT @"user/loginViaWeixin"
 #define PATH_USER_LOGIN_AS_GUEST @"user/loginAsGuest"
 
@@ -26,12 +25,16 @@
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 #define PATH_USER_SAVE_RECEIVER @"user/saveReceiver"
 #define PATH_USER_REMOVE_RECEIVER @"user/removeReceiver"
-#define PATH_USER_BONUS_WITHDRAW @"userBonus/withdraw"
+
 #define PATH_MOBILE_REQUEST_CODE @"user/requestVerificationCode"
-#define PATH_MOBILE_VALIDATE @"user/validateMobile"
 #define PATH_MOBILE_RESET_PASSWORD @"user/resetPassword"
+#define PATH_MOBILE_FORGET_PASSWORD @"user/forgotPassword"
 #define PATH_USER_READ_NOTIFICATION @"user/readNotification"
-#define PATH_UPDATE_JPUSH_REGISTRATION_ID @"user/updateRegistrationId"
+
+//Bind
+#define PATH_BIND_JPUSH @"user/bindJPush"
+#define PATH_BIND_MOBILE @"user/bindMobile"
+#define PATH_BIND_WECHAT @"user/bindWeixin"
 
 @implementation QSNetworkEngine(UserService)
 
@@ -43,24 +46,15 @@
                              onError:(ErrorBlock)errorBlock
 {
     NSMutableDictionary* paramDict = [@{
-                                        @"idOrNickName" : userName,
+                                        @"id" : userName,
                                         @"password" : password
                                         } mutableCopy];
-    if ([QSUserManager shareUserManager].JPushRegistrationID) {
-        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
-    }
-    
     return [self startOperationWithPath:PATH_USER_LOGIN
                                  method:@"POST"
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary *reDict = completedOperation.responseJSON;
-                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                if (succeedBlock) {
-                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
-                }
+                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
             {
@@ -73,21 +67,12 @@
 - (MKNetworkOperation*)loginAsGuestOnSucceed:(EntitySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock {
     NSMutableDictionary* paramDict = [@{} mutableCopy];
-    if ([QSUserManager shareUserManager].JPushRegistrationID) {
-        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
-    }
-    
     return [self startOperationWithPath:PATH_USER_LOGIN_AS_GUEST
                                  method:@"POST"
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary *reDict = completedOperation.responseJSON;
-                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                if (succeedBlock) {
-                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
-                }
+                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
             {
@@ -97,39 +82,6 @@
             }];
 }
 
-- (MKNetworkOperation*)loginViaWeiboAccessToken:(NSString*)accessToken
-                                            uid:(NSString*)uid
-                                      onSucceed:(EntitySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock
-{
-    
-    NSMutableDictionary* paramDict = [@{
-                                        @"access_token" : accessToken,
-                                        @"uid" : uid
-                                        } mutableCopy];
-    if ([QSUserManager shareUserManager].JPushRegistrationID) {
-        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
-    }
-    
-    return [self startOperationWithPath:PATH_USER_LOGIN_WEIBO
-                                 method:@"POST"
-                               paramers:paramDict
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                NSDictionary *reDict = completedOperation.responseJSON;
-                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                if (succeedBlock) {
-                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-}
 
 - (MKNetworkOperation*)loginViaWechatCode:(NSString*)code
                                       onSucceed:(EntitySuccessBlock)succeedBlock
@@ -139,21 +91,12 @@
     NSMutableDictionary* paramDict = [@{
                                         @"code" : code
                                         } mutableCopy];
-    if ([QSUserManager shareUserManager].JPushRegistrationID) {
-        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
-    }
-    
     return [self startOperationWithPath:PATH_USER_LOGIN_WECHAT
                                  method:@"POST"
                                paramers:paramDict
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary *reDict = completedOperation.responseJSON;
-                [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                if (succeedBlock) {
-                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
-                }
+                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
             {
@@ -168,10 +111,6 @@
                                onError:(ErrorBlock)errorBlock
 {
     NSMutableDictionary* paramDict = [@{} mutableCopy];
-    if ([QSUserManager shareUserManager].JPushRegistrationID) {
-        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
-    }
-//    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
     [QSUserManager shareUserManager].userInfo = nil;
     [QSUserManager shareUserManager].fIsLogined = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:nil userInfo:nil];
@@ -207,8 +146,8 @@
                 if (succeedBlock) {
                     NSDictionary* retDict = completedOperation.responseJSON;
                     QSUserManager* manager = [QSUserManager shareUserManager];
-                    manager.userInfo = retDict[@"data"][@"people"];
-                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                    manager.userInfo = [retDict dictValueForKeyPath:@"data.people"];
+                    succeedBlock(manager.userInfo, [retDict dictValueForKeyPath:@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -222,8 +161,6 @@
 - (MKNetworkOperation *)updateBackground:(NSData *)image
                                onSuccess:(EntitySuccessBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock {
-    
-    
     return [self startOperationWithPath:PATH_USER_UPDATE_BACKGROUND
                                  method:@"POST"
                                paramers:@{}
@@ -275,49 +212,24 @@
             ];
 }
 
-//- (MKNetworkOperation *)registerById:(NSString *) pid
-//                            Password:(NSString *)passwd
-//                           onSuccess:(EntitySuccessBlock)succeedBlock
-//                             onError:(ErrorBlock)errorBlock {
-//    
-//    return [self startOperationWithPath:PATH_USER_REGISTER
-//                                 method:@"POST"
-//                               paramers:@{@"id" : pid, @"password": passwd}
-//                            onSucceeded:
-//            ^(MKNetworkOperation *completeOperation) {
-//                NSDictionary *retDict = completeOperation.responseJSON;
-//                [QSUserManager shareUserManager].fIsLogined = YES;
-//                if (succeedBlock) {
-//                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
-//                }
-//            }
-//                                onError:
-//            ^(MKNetworkOperation *completedOperation, NSError *error) {
-//                if(errorBlock) {
-//                    errorBlock(error);
-//                }
-//            }
-//            ];
-//}
-
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd Id:(NSString *)pid onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)registerByMobile:(NSString *)mobile
+                                  password:(NSString *)passwd
+                              verifyCode:(NSString *)code
+                             onSucceessd:(EntitySuccessBlock)successdBlock onErrer:(ErrorBlock)errorBlock
 {
-    NSMutableDictionary* paramDict = [@{@"nickname" : nickName, @"password": passwd, @"id":pid} mutableCopy];
-    if ([QSUserManager shareUserManager].JPushRegistrationID) {
-        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
-    }
-    
     return [self startOperationWithPath:PATH_USER_REGISTER
                                  method:@"POST"
-                               paramers:paramDict
+                               paramers:@{@"mobile" : mobile, @"password": passwd, @"verificationCode":code}
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;
                 [QSUserManager shareUserManager].fIsLogined = YES;
-                [QSUserManager shareUserManager].userInfo = retDict[@"data"][@"people"];
+                
+                NSDictionary* userDict = [retDict dictValueForKeyPath:@"data.people"];
+                [QSUserManager shareUserManager].userInfo = userDict;
+                [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
                 if (successdBlock) {
-                    successdBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                    successdBlock(userDict, [retDict dictValueForKeyPath:@"metadata"]);
                 }
             }
                                 onError:
@@ -328,41 +240,6 @@
             }
             ];
   
-}
-- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
-                                  Password:(NSString *)passwd
-                                        Id:(NSString *)pid
-                                    mobile:(NSString *)mobileNum
-                                      code:(NSString *)code
-                               onSucceessd:(EntitySuccessBlock)successdBlock
-                                   onErrer:(ErrorBlock)errorBlock
-{
-    NSMutableDictionary* paramDict = [@{@"nickname" : nickName, @"password": passwd, @"id":pid
-                                        ,@"mobile":mobileNum,@"verificationCode":code} mutableCopy];
-    if ([QSUserManager shareUserManager].JPushRegistrationID) {
-        paramDict[@"registrationId"] = [QSUserManager shareUserManager].JPushRegistrationID;
-    }
-    
-    return [self startOperationWithPath:PATH_USER_REGISTER
-                                 method:@"POST"
-                               paramers:paramDict
-                            onSucceeded:
-            ^(MKNetworkOperation *completeOperation) {
-                NSDictionary *retDict = completeOperation.responseJSON;
-                [QSUserManager shareUserManager].fIsLogined = YES;
-                [QSUserManager shareUserManager].userInfo = retDict[@"data"][@"people"];
-                if (successdBlock) {
-                    successdBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
-                }
-            }
-                                onError:
-            ^(MKNetworkOperation *completedOperation, NSError *error) {
-                if(errorBlock) {
-                    errorBlock(error);
-                }
-            }
-            ];
-
 }
 
 - (MKNetworkOperation *)updatePeople:(NSDictionary *)people
@@ -472,24 +349,10 @@
                                 }
             ];
 }
-- (MKNetworkOperation*)getBonusWithAlipayId:(NSString*)alipayId
-                                OnSusscee:(VoidBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_USER_BONUS_WITHDRAW method:@"POST" paramers:@{@"alipayId":alipayId} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            succeedBlock();
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
 
-- (MKNetworkOperation*)getTestNumberWithMobileNumber:(NSString*)mobileNum
-                                           onSucceed:(VoidBlock)succeedBlock
-                                             onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation*)getVerifyCodeForMobile:(NSString*)mobileNum
+                                    onSucceed:(VoidBlock)succeedBlock
+                                      onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_MOBILE_REQUEST_CODE method:@"POST" paramers:@{@"mobile":mobileNum} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
@@ -501,38 +364,50 @@
         }
     }];
 }
-- (MKNetworkOperation*)MobileNumberAvilable:(NSString*)mobileNum
-                                       code:(NSString*)code
-                                  onSucceed:(BoolBlock)succeedBlock
+
+- (MKNetworkOperation *)forgetPasswordPhone:(NSString *)mobileNum
+                                 verifyCode:(NSString *)code
+                                  onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_MOBILE_VALIDATE method:@"POST" paramers:@{@"mobile":mobileNum,   @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        NSDictionary *retDic = completedOperation.responseJSON;
-        if (succeedBlock) {
-            succeedBlock((BOOL)retDic[@"data"][@"success"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+    return [self startOperationWithPath:PATH_MOBILE_FORGET_PASSWORD
+                                 method:@"POST"
+                               paramers:@{
+                                          @"mobile":mobileNum,
+                                          @"verificationCode":code
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock();
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
 }
-- (MKNetworkOperation *)resetPassWord:(NSString *)mobileNum
-                                 coed:(NSString *)code
-                            onSucceed:(StringBlock)succeedBlock
-                              onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_MOBILE_RESET_PASSWORD method:@"POST" paramers:@{@"mobile":mobileNum, @"verificationCode":code} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            NSDictionary *pswDic = completedOperation.responseJSON;
-            succeedBlock(pswDic[@"data"][@"password"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+
+- (MKNetworkOperation *)resetPassword:(NSString*)newPassword
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MOBILE_RESET_PASSWORD
+                                 method:@"POST"
+                               paramers:@{
+                                          @"password" : newPassword
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock();
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
 }
+
 - (MKNetworkOperation*)userReadNotification:(NSDictionary*)noti
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock {
@@ -547,13 +422,64 @@
     }];
 }
 
-- (MKNetworkOperation*)userUpdateJpushId:(NSString*)jpushId
-                              onSucceed:(VoidBlock)succeedBlock
-                                onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_UPDATE_JPUSH_REGISTRATION_ID method:@"POST" paramers:@{@"registrationId" : jpushId } onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            succeedBlock();
-        }
+
+#pragma mark - Bind
+- (MKNetworkOperation*)userBindCurrentJpushIdOnSucceed:(VoidBlock)succeedBlock
+                                               onError:(ErrorBlock)errorBlock {
+    return [self userBindJpushId:[QSUserManager shareUserManager].JPushRegistrationID
+                       onSucceed:succeedBlock
+                         onError:errorBlock];
+}
+
+- (MKNetworkOperation*)userBindJpushId:(NSString*)jpushId
+                             onSucceed:(VoidBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock {
+    if (!jpushId) {
+        return nil;
+    }
+    
+    NSMutableDictionary* paramDict = [@{} mutableCopy];
+    paramDict[@"registrationId"] = jpushId;
+    return [self startOperationWithPath:PATH_BIND_JPUSH
+                                 method:@"POST"
+                               paramers:paramDict
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock();
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
+}
+
+- (MKNetworkOperation*)userBindMobile:(NSString*)mobileNumber
+                           verifyCode:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_BIND_MOBILE
+                                 method:@"POST"
+                               paramers:@{
+                                          @"mobile" : mobileNumber,
+                                          @"verificationCode" : code
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
+}
+
+- (MKNetworkOperation*)userBindWechat:(NSString*)code
+                            onSucceed:(EntitySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_BIND_WECHAT method:@"POST" paramers:@{@"code" : code } onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [self _handleLoginSucceedOperation:completedOperation succeedBlock:succeedBlock];
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
             errorBlock(error);
@@ -561,4 +487,21 @@
     }];
 }
 
+#pragma mark - Private
+#pragma mark Helper
+- (void)_handleLoginSucceedOperation:(MKNetworkOperation*)completedOperation
+                        succeedBlock:(EntitySuccessBlock)succeedBlock {
+    NSDictionary* retDict = completedOperation.responseJSON;
+    NSDictionary* peopleDict = [retDict dictValueForKeyPath:@"data.people"];
+    if (peopleDict) {
+        [QSUserManager shareUserManager].userInfo = peopleDict;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoUpdateNotification object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil userInfo:nil];
+    }
+    [QSUserManager shareUserManager].fIsLogined = YES;
+    [self userBindCurrentJpushIdOnSucceed:nil onError:nil];
+    if (succeedBlock) {
+        succeedBlock(peopleDict, [retDict dictValueForKeyPath:@"metadata"]);
+    }
+}
 @end

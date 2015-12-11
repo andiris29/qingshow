@@ -17,8 +17,10 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.SharedObjectParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoSharedObjects;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
@@ -47,9 +49,9 @@ public class ShareUtil {
     public static void shareShowToWX(final String showId, final String transaction, final Context context, final boolean isTimelineCb) {
         getShareObject(TYPE_SHOW, showId, context, new Callback() {
             @Override
-            public void onComplete(String result) {
-                shareToWX(ShareConfig.SHARE_URL + result, transaction, context, isTimelineCb
-                        , ShareConfig.IMG, ShareConfig.SHARE_SHOW_TITLE, ShareConfig.SHARE_SHOW_DESCRIPTION);
+            public void onComplete(MongoSharedObjects sharedObjects) {
+                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
+                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
         });
     }
@@ -57,19 +59,19 @@ public class ShareUtil {
     public static void shareTradeToWX(final String tradeId, final String transaction, final Context context, final boolean isTimelineCb) {
         getShareObject(TYPE_TRADE, tradeId, context, new Callback() {
             @Override
-            public void onComplete(String result) {
-                shareToWX(ShareConfig.SHARE_URL + result, transaction, context, isTimelineCb
-                        , ShareConfig.IMG, ShareConfig.SHARE_TRADE_TITLE, ShareConfig.SHARRE_TRADE_DESCRIPTION);
+            public void onComplete(MongoSharedObjects sharedObjects) {
+                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
+                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
         });
     }
 
-    public static void shareBonusToWX(final String peopleId, final String transaction, final Context context, final boolean isTimelineCb) {
-        getShareObject(TYPE_BONUS, peopleId, context, new Callback() {
+    public static void shareBonusToWX(final Context context) {
+        getShareObject(TYPE_BONUS, QSModel.INSTANCE.getUserId(), context, new Callback() {
             @Override
-            public void onComplete(String result) {
-                shareToWX(ShareConfig.SHARE_URL + result, transaction, context, isTimelineCb
-                        , ShareConfig.IMG, ShareConfig.SHARE_BONUS_TITLE, ShareConfig.SHARE_BONUS_DESCRIPTION);
+            public void onComplete(MongoSharedObjects sharedObjects) {
+                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, ValueUtil.SHARE_BONUS, context, true
+                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
         });
     }
@@ -105,7 +107,7 @@ public class ShareUtil {
                     return;
                 }
                 MongoSharedObjects objects = SharedObjectParser.parseSharedObject(response);
-                callback.onComplete(objects._id);
+                callback.onComplete(objects);
             }
         });
 
@@ -116,15 +118,13 @@ public class ShareUtil {
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
         webpage.webpageUrl = url;
-
         msg = new WXMediaMessage();
         msg.mediaObject = webpage;
-        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), img);
-        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
-        msg.setThumbImage(thumb);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), img);
+        msg.thumbData = BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.PNG);
+        msg.setThumbImage(bitmap);
         msg.title = title;
         msg.description = description;
-
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = transaction;
         req.message = msg;
@@ -137,23 +137,23 @@ public class ShareUtil {
 
         getShareObject(TYPE_SHOW, showId, context, new Callback(){
             @Override
-            public void onComplete(String result) {
-                shareToSina(result, context, weiboShareAPI);
+            public void onComplete(MongoSharedObjects sharedObjects) {
+                shareToSina(sharedObjects, context, weiboShareAPI);
             }
         });
 
     }
 
-    private static void shareToSina(String sharedObjectId, final Context context, IWeiboShareAPI weiboShareAPI) {
+    private static void shareToSina(MongoSharedObjects sharedObject, final Context context, IWeiboShareAPI weiboShareAPI) {
 
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         WebpageObject mediaObject = new WebpageObject();
         mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = ShareConfig.SHARE_SHOW_TITLE;
-        mediaObject.description = ShareConfig.SHARE_SHOW_DESCRIPTION;
+        mediaObject.title = sharedObject.title;
+        mediaObject.description = sharedObject.description;
         mediaObject.setThumbImage(BitmapFactory.decodeResource(context.getResources(), ShareConfig.IMG));
-        mediaObject.actionUrl = ShareConfig.SHARE_URL + sharedObjectId;
-        mediaObject.defaultText = ShareConfig.SHARE_SHOW_DESCRIPTION;
+        mediaObject.actionUrl = sharedObject.url+ "?_id=" + sharedObject._id;
+        mediaObject.defaultText = sharedObject.description;
 
         weiboMessage.mediaObject = mediaObject;
 
