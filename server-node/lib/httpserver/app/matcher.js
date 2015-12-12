@@ -339,7 +339,7 @@ matcher.remixByItem = {
 
                     var sharedObject = {
                         'master': {
-                            'itemSnapshot': req.injection.itemRef
+                            'itemSnapshot': req.injection.itemRef,
                             'rect' : data.master.rect
                         },
                         'slaves': []
