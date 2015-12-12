@@ -336,6 +336,22 @@ matcher.remixByItem = {
                         };
                     });
                     ResponseHelper.writeData(res, data);
+
+                    var sharedObject = {
+                        'master': {
+                            'itemSnapshot': req.injection.itemRef
+                            'rect' : data.master.rect
+                        },
+                        'slaves': []
+                    };
+
+                    data.slaves.forEach(function(element) {
+                        sharedObject.slaves.push({
+                            'itemSnapshot': element.itemRef,
+                            'rect': element.rect
+                        });
+                    });
+                    req.session.sharedObject =  sharedObject;
                     break;
                 }
             }

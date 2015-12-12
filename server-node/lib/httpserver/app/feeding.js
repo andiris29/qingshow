@@ -173,6 +173,28 @@ feeding.matchCreatedBy = {
     }
 };
 
+feeding.hot = {
+    'method': 'get',
+    'func': function(req, res) {
+        _feed(req, res, function(qsParam, callback) {
+            var now = new Date();
+            var yesterday = now;
+            yesterday.setDate(now.getDate() - 1);
+            var criteria = {
+                create: {
+                    '$gte': yesterday
+                }
+            };
+
+            MongoHelper.queryPaging(Show.find(criteria).sort({
+                numView: -1
+            }), show.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, shows, count) {
+                callback(err, shows, count);
+            });
+        });
+    }
+};
+
 var _buildFeaturedCriteria = function(req) {
     var criteria = [
     ];

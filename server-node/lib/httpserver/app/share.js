@@ -33,9 +33,7 @@ share.createShow = {
 		}, function(show, callback){
 			ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_SHOW, {
 				'show' : {
-					_id : show._id,
-					cover : show.cover,
-					coverForeground : show.coverForeground 
+                    'showSnapshot': show
 				}
 			}, callback);
 		}], function(err, sharedObject){
@@ -59,14 +57,7 @@ share.createTrade = {
 		}, function(trade, callback){
 			ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_TRADE, {
 				'trade' : {
-					_id : trade._id,
-					totalFee : trade.totalFee,
-					quantity : trade.quantity,
-					itemSnapshot : {
-						name : trade.itemSnapshot.name,
-						promoPrice : trade.itemSnapshot.promoPrice,
-						thumbnail : trade.itemSnapshot.thumbnail
-					}
+                    'remix': req.session.sharedObject
 				}
 			}, callback);
 		}], function(err, sharedObject){

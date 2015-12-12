@@ -26,25 +26,19 @@ var sharedObjectSchema = {
             withdrawTotal : Number
         },
         show : {
-            _id : {
-                type : Schema.Types.ObjectId,
-                ref : 'shows'
-            },
-            cover : String,
-            coverForeground : String
+            showSnapshot: Object
         },
         trade : {
-            _id : {
-                type : Schema.Types.ObjectId,
-                ref : 'trades'
-            },
-            itemSnapshot : {
-                name : String,
-                promoPrice : String,
-                thumbnail : String
-            },
-            totalFee : Number,
-            quantity : Number
+            remix : {
+                master: {
+                    itemSnapshot: Object,
+                    rect: Object
+                },
+                slaves: [{
+                    itemSnapshot: Object,
+                    rect: Object
+                }]
+            }
         }
     }
 }
