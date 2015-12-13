@@ -172,8 +172,6 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
             UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_BONUSES);
         if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE))
             UnreadHelper.userReadNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE);
-        if(UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_PARTICIPANT_BONUS))
-            UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_PARTICIPANT_BONUS);
     }
 
     @Override

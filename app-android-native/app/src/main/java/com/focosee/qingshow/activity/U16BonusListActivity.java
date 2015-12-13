@@ -19,6 +19,7 @@ import com.focosee.qingshow.util.bonus.BonusHelper;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.focosee.qingshow.widget.QSTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -79,14 +80,14 @@ public class U16BonusListActivity extends BaseActivity {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         u16Recycler.setLayoutManager(manager);
         QSRxApi.getOwnBonus()
-                .subscribe(new QSSubscriber<List<MongoBonus>>() {
+                .subscribe(new QSSubscriber<ArrayList<MongoBonus>>() {
                     @Override
                     public void onNetError(int message) {
                         ErrorHandler.handle(U16BonusListActivity.this, message);
                     }
 
                     @Override
-                    public void onNext(List<MongoBonus> bonuses) {
+                    public void onNext(ArrayList<MongoBonus> bonuses) {
                         adapter = new U16BonusListAdapter(bonuses, U16BonusListActivity.this, R.layout.item_u16_bonuses_list);
                         u16Recycler.setAdapter(adapter);
                     }

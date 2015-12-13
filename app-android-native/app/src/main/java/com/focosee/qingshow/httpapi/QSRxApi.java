@@ -20,6 +20,7 @@ import com.focosee.qingshow.model.vo.remix.RemixByModel;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -124,11 +125,11 @@ public class QSRxApi {
                 });
     }
 
-    public static Observable<List<MongoBonus>> getOwnBonus(){
+    public static Observable<ArrayList<MongoBonus>> getOwnBonus(){
         return RxRequest.createJsonRequest(Method.GET,QSAppWebAPI.getBonusOwn(),null)
-                .map(new Func1<JSONObject, List<MongoBonus>>() {
+                .map(new Func1<JSONObject, ArrayList<MongoBonus>>() {
                     @Override
-                    public List<MongoBonus> call(JSONObject jsonObject) {
+                    public ArrayList<MongoBonus> call(JSONObject jsonObject) {
                         return BonusParser.parseQuery(jsonObject);
                     }
                 });

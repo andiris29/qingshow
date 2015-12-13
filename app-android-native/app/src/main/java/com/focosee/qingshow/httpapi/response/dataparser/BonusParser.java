@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class BonusParser {
     public static ArrayList<MongoBonus> parseQuery(JSONObject response) {
         try {
-            String trades = response.getJSONObject("data").getJSONArray("bonuses").toString();
+            String bonuses = response.getJSONObject("data").getJSONArray("bonuses").toString();
             Gson gson = QSGsonFactory.create();
-            return gson.fromJson(trades, new TypeToken<ArrayList<MongoBonus>>() {
+            return gson.fromJson(bonuses, new TypeToken<ArrayList<MongoBonus>>() {
             }.getType());
         } catch (JSONException e) {
             return null;
