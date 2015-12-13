@@ -163,6 +163,9 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 break;
         }
     }
+
+
+
     @Override
     protected void onResume() {
         super.onResume();
