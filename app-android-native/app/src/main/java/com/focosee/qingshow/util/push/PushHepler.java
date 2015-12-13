@@ -53,6 +53,8 @@ public class PushHepler {
 
         if(command.equals(QSPushAPI.NEW_BONUSES)){
             intent = new Intent(context, U20NewBonus.class);
+            String id = PushUtil.getExtra(bundle, "_id");
+            intent.putExtra("id",id);
             EventBus.getDefault().post(ValueUtil.BONUES_COMING);
         }
 

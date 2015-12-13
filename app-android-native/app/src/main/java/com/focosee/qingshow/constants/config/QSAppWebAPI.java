@@ -120,13 +120,26 @@ public class QSAppWebAPI {
 
     private static String GETCONFIG = "/system/getConfig";
 
-    public static String getBonusOwn(){
+    public static String getQueryBonus(String... _ids) {
+        StringBuffer params = new StringBuffer();
+        for (String _id : _ids) {
+            params.append("_ids=");
+            params.append(_id);
+            params.append("&");
+        }
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_BONUS + "?" + params.substring(0, params.length() - 1);
+    }
+
+    private static String QUERY_BONUS = "/bonus/query";
+
+    public static String getBonusOwn() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + "/bonus/own";
     }
 
-    public static String getConfig(){
+    public static String getConfig() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + GETCONFIG;
     }
+
     public static String getQueryBuyers() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_BUYERS;
     }
@@ -240,9 +253,9 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_SHARE_API;
     }
 
-    public static String getPeopleQueryApi(String ..._ids) {
+    public static String getPeopleQueryApi(String... _ids) {
         StringBuffer params = new StringBuffer();
-        for (String _id : _ids){
+        for (String _id : _ids) {
             params.append("_ids=");
             params.append(_id);
             params.append("&");
@@ -332,7 +345,7 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERY_API + "?_id=" + _id + "&inProgress=" + inProgress + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getTradeApi(String _id){
+    public static String getTradeApi(String _id) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERY + "?_ids=" + _id;
     }
 

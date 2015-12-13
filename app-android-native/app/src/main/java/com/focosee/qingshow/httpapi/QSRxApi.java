@@ -134,4 +134,16 @@ public class QSRxApi {
                     }
                 });
     }
+
+    public static Observable<ArrayList<MongoBonus>> queryBonus(String ... ids){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getQueryBonus(ids),null)
+                .map(new Func1<JSONObject, ArrayList<MongoBonus>>() {
+                    @Override
+                    public ArrayList<MongoBonus> call(JSONObject jsonObject) {
+                        return BonusParser.parseQuery(jsonObject);
+                    }
+                });
+    }
+
+
 }

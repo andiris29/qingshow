@@ -11,7 +11,7 @@ import java.util.List;
 public class FeedingAggregation {
    public List<MongoPeople> topOwners;
    public List<MongoShow> topShows;
-   public int indexOfCurrentUser;
+   public int numViewOfCurrentUser;
    public int numOwners;
    public String key;
 }

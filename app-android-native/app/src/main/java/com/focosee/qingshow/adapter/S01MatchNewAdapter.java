@@ -77,8 +77,9 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
         final int to = from + 1;
 
         holder.setText(R.id.time, timeTemplate.replace("S", from + "").replace("E", to + ""));
-        if (data.indexOfCurrentUser < 0){
+        if (data.numViewOfCurrentUser < 0){
             holder.setImgeByUrl(R.id.current_head, QSModel.INSTANCE.getUser().portrait);
+            holder.setText(R.id.rank,data.numViewOfCurrentUser + "");
         }else{
             holder.setVisibility(R.id.current_head, View.GONE);
             holder.setVisibility(R.id.rank, View.GONE);
