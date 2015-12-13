@@ -1,5 +1,6 @@
 package com.focosee.qingshow.util.bonus;
 
+import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.StringUtil;
 import java.util.Collections;
@@ -15,45 +16,4 @@ public class BonusHelper {
     private static final int WITHDRAWING = 1;
     private static final int WITHDRAWED = 2;
 
-    public static String getBonusesNotWithDraw(List<MongoPeople.Bonuses> bonuses) {
-        return StringUtil.FormatPrice(getBonusesWithFloat(bonuses));
-    }
-
-    public static float getBonusesWithFloat(List<MongoPeople.Bonuses> bonuses) {
-        float total = 0;
-        for (MongoPeople.Bonuses bonus : bonuses) {
-            if (bonus.status.intValue() == NOT_WITHDRAW) {
-                total += bonus.money.floatValue();
-            }
-        }
-        return total;
-    }
-
-    public static String getTotalBonusesString(List<MongoPeople.Bonuses> bonuses) {
-        return StringUtil.FormatPrice(getTotalBonusesFloat(bonuses));
-    }
-
-    public static float getTotalBonusesFloat(List<MongoPeople.Bonuses> bonuses){
-        float total = 0;
-        if(null != bonuses){
-            for (MongoPeople.Bonuses bonus : bonuses){
-                total += bonus.money.floatValue();
-            }
-        }
-        return total;
-    }
-
-    public static String getBonusesMoneySign(MongoPeople.Bonuses bonuses){
-        if(null == bonuses)return "¥0.00";
-        return "¥" + StringUtil.formatPriceWithoutSign(String.valueOf(bonuses.money));
-    }
-
-    public static void bonusSort(List<MongoPeople.Bonuses> bonusesList){
-        Collections.sort(bonusesList, new Comparator<MongoPeople.Bonuses>() {
-            @Override
-            public int compare(MongoPeople.Bonuses lhs, MongoPeople.Bonuses rhs) {
-                return rhs.create.compareTo(lhs.create);
-            }
-        });
-    }
 }

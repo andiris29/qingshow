@@ -37,6 +37,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.aggregation.BonusAmount;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.receiver.PushGuideEvent;
@@ -52,6 +53,8 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -279,8 +282,21 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     private void setUserBaseMInfo() {
 
         userName.setText(user.nickname);
+        BonusAmount bonusAmount = QSModel.INSTANCE.getUser().__context.bonusAmountByStatus;
+        if (null != bonusAmount) {
+            float totalBonuses = 0f;
+            Map<String, Number> bonuses = bonusAmount.bonuses;
+            if (bonuses != null) {
+                if (bonuses.containsKey("0")) {
+                    totalBonuses += bonuses.get("0").floatValue();
+                }
+                if (bonuses.containsKey("1")) {
+                    totalBonuses += bonuses.get("1").floatValue();
+                }
+            }
+            userBonuses.setText(getString(R.string.get_bonuses_label) + StringUtil.FormatPrice(totalBonuses));
+        }
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
-        userBonuses.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(user.bonuses));
         if (!TextUtils.isEmpty(user.portrait))
             userHead.setImageURI(Uri.parse(user.portrait));
         if (!TextUtils.isEmpty(user.background))

@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.percent.PercentRelativeLayout;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
@@ -17,15 +19,24 @@ import android.graphics.Typeface;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.httpapi.QSRxApi;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.QSTextView;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
+import rx.functions.Func1;
 
 public class U21NewParticipantBonus extends BaseActivity {
 
@@ -50,7 +61,7 @@ public class U21NewParticipantBonus extends BaseActivity {
     @InjectView(R.id.u21_msg_line2)
     QSTextView u21MsgLine2;
 
-    private MongoPeople.Bonuses bonuses;
+    private MongoBonus bonuse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,23 +88,41 @@ public class U21NewParticipantBonus extends BaseActivity {
 
     private void init() {
 
-        bonuses = QSModel.INSTANCE.getUser().bonuses.get(QSModel.INSTANCE.getUser().bonuses.size() - 1);
-        u21ItemImage.setImageURI(Uri.parse(bonuses.icon));
-        u21ItemImage.setAspectRatio(0.5f);
+        String id = getIntent().getStringExtra("id");
 
-        u21UserHead.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
-        u21Nickname.setText(QSModel.INSTANCE.getUser().nickname);
+        QSRxApi.queryBonus(id)
+                .flatMap(new Func1<ArrayList<MongoBonus>, Observable<List<MongoPeople>>>() {
+                    @Override
+                    public Observable<List<MongoPeople>> call(ArrayList<MongoBonus> bonuses) {
+                       bonuse = bonuses.get(0);
+                        return QSRxApi.queryPeople(bonuses.get(0).ownerRef._id);
+                    }
+                })
+                .subscribe(new QSSubscriber<List<MongoPeople>>() {
+                    @Override
+                    public void onNetError(int message) {
 
-        SpannableString spannableString = new SpannableString("您获得了来自" + "陈华榕" + "的共享佣金");
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, "您获得了来自".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), ("您获得了来自" + "陈华榕").length(), spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
 
-        u21From.setText(spannableString);
+                    @Override
+                    public void onNext(List<MongoPeople> mongoPeoples) {
+                        u21ItemImage.setImageURI(Uri.parse(bonuse.icon));
+                        u21ItemImage.setAspectRatio(0.5f);
 
-        SpannableString price = new SpannableString("￥" + bonuses.money);
-        price.setSpan(new UnderlineSpan(), 0, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        u21Bonus.setText(price);
+                        u21UserHead.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+                        u21Nickname.setText(QSModel.INSTANCE.getUser().nickname);
 
+                        SpannableString spannableString = new SpannableString("您获得了来自" + mongoPeoples.get(0).nickname + "的共享佣金");
+                        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, "您获得了来自".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spannableString.setSpan(new StyleSpan(Typeface.BOLD), ("您获得了来自" + mongoPeoples.get(0).nickname).length(), spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                        u21From.setText(spannableString);
+
+                        SpannableString price = new SpannableString("￥" + bonuse.amount);
+                        price.setSpan(new UnderlineSpan(), 0, price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        u21Bonus.setText(price);
+                    }
+                });
     }
 
     @Override

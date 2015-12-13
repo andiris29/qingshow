@@ -87,8 +87,6 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         ButterKnife.inject(this);
         dialogs = new LoadingDialogs(U15BonusActivity.this);
         EventBus.getDefault().register(this);
-        reconn();
-        matchUI();
     }
 
     public void matchUI() {
@@ -171,6 +169,8 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         super.onResume();
         MobclickAgent.onPageStart("U13PersonalizeActivity");
         MobclickAgent.onResume(this);
+        reconn();
+        matchUI();
         if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES))
             UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_BONUSES);
         if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE))
