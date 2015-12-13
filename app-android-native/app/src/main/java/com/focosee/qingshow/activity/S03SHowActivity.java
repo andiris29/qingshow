@@ -617,9 +617,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 case R.id.share_wx_timeline:
                     ShareUtil.shareShowToWX(showDetailEntity._id, ValueUtil.SHARE_SHOW, context, true);
                     break;
-                case R.id.share_sina:
-                    ShareUtil.shareShowToSina(showDetailEntity._id, context, mWeiboShareAPI);
-                    break;
             }
         }
     }
