@@ -29,9 +29,6 @@ import java.util.Map;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by Administrator on 2015/11/19.
- */
 public class QSRxApi {
 
     public static Observable<List<FeedingAggregation>> queryFeedingaggregationLatest(){

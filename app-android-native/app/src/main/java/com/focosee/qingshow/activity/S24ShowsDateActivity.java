@@ -56,7 +56,7 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
         from = (GregorianCalendar) getIntent().getSerializableExtra("MATCH_NEW_FROM");
         to = (GregorianCalendar) getIntent().getSerializableExtra("MATCH_NEW_TO");
         String time = TimeUtil.formatDateTime_CN_Pre(from);
-        timeTv.setText(time);
+//        timeTv.setText(time);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_match);
         dataRv.setAdapter(adapter);
         dataRv.setLayoutManager(new GridLayoutManager(this, 2));

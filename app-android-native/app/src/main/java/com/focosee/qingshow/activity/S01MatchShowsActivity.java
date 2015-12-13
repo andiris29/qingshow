@@ -109,7 +109,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
-
+        
         getConfig();
 
         global.setOnClickListener(new View.OnClickListener() {
@@ -210,8 +210,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                                 if (!preferences.getBoolean(url, false)){
                                     global.setImageURI(Uri.parse(url));
                                     global.setVisibility(View.VISIBLE);
-                                    preferences.edit().putBoolean(url, true);
-                                    preferences.edit().apply();
+                                    SharedPreferences.Editor edit = preferences.edit();
+                                    edit.putBoolean(url, true);
+                                    edit.apply();
                                 }
 
                             }

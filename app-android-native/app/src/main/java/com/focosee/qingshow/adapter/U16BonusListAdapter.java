@@ -50,7 +50,9 @@ public class U16BonusListAdapter extends AbsAdapter<MongoBonus> {
                 , new SimpleDateFormat("yyyy.MM.dd HH:mm:ss")));
         holder.setText(R.id.item_u16_money, StringUtil.FormatPrice(bonuses.amount));
 
-        holder.setImgeByController(R.id.item_u16_portrait, ImgUtil.getImgSrc(bonuses.icon, ImgUtil.Meduim), 1f);
+        if (bonuses.icon != null){
+            holder.setImgeByController(R.id.item_u16_portrait, ImgUtil.getImgSrc(bonuses.icon, ImgUtil.Meduim), 1f);
+        }
 
         holder.setOnClickListener(new View.OnClickListener() {
             @Override

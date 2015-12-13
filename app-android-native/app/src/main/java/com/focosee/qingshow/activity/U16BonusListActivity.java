@@ -11,6 +11,7 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -81,7 +82,7 @@ public class U16BonusListActivity extends BaseActivity {
                 .subscribe(new QSSubscriber<List<MongoBonus>>() {
                     @Override
                     public void onNetError(int message) {
-
+                        ErrorHandler.handle(U16BonusListActivity.this, message);
                     }
 
                     @Override
