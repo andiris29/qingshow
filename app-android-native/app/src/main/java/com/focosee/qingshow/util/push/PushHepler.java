@@ -44,10 +44,6 @@ public class PushHepler {
             intent.putExtra(U01UserActivity.NEW_RECOMMANDATIONS, true);
         }
 
-        if (command.equals(QSPushAPI.QUEST_SHARING_PROGRESS) || command.equals(QSPushAPI.QUEST_SHARING_OBJECTIVE_COMPLETE)) {
-            intent = new Intent(context, PushWebActivity.class);
-        }
-
         if (command.equals(QSPushAPI.TRADE_SHIPPED)
                 || command.equals(QSPushAPI.TRADE_REFUND_COMPLETE)) {
             intent = new Intent(context, U09TradeListActivity.class);
@@ -55,28 +51,8 @@ public class PushHepler {
                 intent.putExtra(U09TradeListActivity.FROM_WHERE, U09TradeListActivity.PUSH_NOTIFICATION);
         }
 
-        if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.TRADE_INITIALIZED)) {
-            String _id = PushUtil.getExtra(bundle, "_id");
-            if(action.equals(JPushInterface.ACTION_NOTIFICATION_OPENED)) {
-                intent = new Intent(context, S01MatchShowsActivity.class);
-                intent.putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
-                intent.putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
-            }
-
-            if(action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
-                ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_TRADEID_NOTIFICATION, _id);
-                ((BaseActivity) context).getIntent().putExtra(S01MatchShowsActivity.S1_INPUT_SHOWABLE, true);
-                return null;
-            }
-        }
-
         if(command.equals(QSPushAPI.NEW_BONUSES)){
             intent = new Intent(context, U20NewBonus.class);
-            EventBus.getDefault().post(ValueUtil.BONUES_COMING);
-        }
-
-        if(command.equals(QSPushAPI.NEW_PARTICIPANT_BONUS)){
-            intent = new Intent(context, U21NewParticipantBonus.class);
             EventBus.getDefault().post(ValueUtil.BONUES_COMING);
         }
 
