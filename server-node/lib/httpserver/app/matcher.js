@@ -386,7 +386,7 @@ matcher.remixByItem = {
                             'rect': element.rect
                         });
                     });
-                    req.session.sharedObject =  sharedObject;
+                    req.session.sharedObject =  JSON.stringify(sharedObject);
                     break;
                 }
             }

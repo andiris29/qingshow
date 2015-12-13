@@ -57,7 +57,7 @@ share.createTrade = {
 		}, function(trade, callback){
 			ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_TRADE, {
 				'trade' : {
-                    'remix': req.session.sharedObject
+                    'remix': JSON.parse(req.session.sharedObject)
 				}
 			}, callback);
 		}], function(err, sharedObject){
