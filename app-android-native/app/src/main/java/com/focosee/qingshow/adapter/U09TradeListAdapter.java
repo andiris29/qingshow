@@ -164,22 +164,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             if (UnreadHelper.hasMyNotificationId(trade._id)) {
                 String command = UnreadHelper.getCommand(trade._id);
                 Log.d(U09TradeListAdapter.class.getSimpleName(), "command:" + command);
-                if (!TextUtils.isEmpty(command)) {
-                    if (command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.TRADE_INITIALIZED)) {
-//                        newDiscountCircleTip.setVisibility(View.VISIBLE);
-                        return;
-                    }
-                    if(command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)){
-                        btn2.setVisibility(View.VISIBLE);
-                        btn2.setText("查看折扣");
-                        btn2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                            }
-                        });
-                    }
-                }
             } else {
                 btn2.setVisibility(View.VISIBLE);
                 btn2.setText("立即付款");

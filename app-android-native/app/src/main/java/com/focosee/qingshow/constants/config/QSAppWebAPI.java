@@ -105,7 +105,7 @@ public class QSAppWebAPI {
 
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
-    private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
+    private static String USER_UPDATEREGISTRATIONID_API = "/user/bindJPush";
 
     private static String FEEDINGAGGREGATION_LATEST = "/feedingAggregation/latest";
 

@@ -174,9 +174,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
             navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
         if (getActivity() instanceof U09TradeListActivity) {
-            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)
-                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)
-                    || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED))
+            if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED))
                 navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray_dot);
             else
                 navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
@@ -196,9 +194,7 @@ public class MenuView extends Fragment implements View.OnClickListener {
             u01People.setImageResource(R.drawable.root_menu_flash_tip);
         }
 
-        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)
-                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_INITIALIZED)
-                || UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
+        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED)) {
             navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_dot);
         }
     }

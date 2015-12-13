@@ -101,8 +101,6 @@ public class U21NewParticipantBonus extends BaseActivity {
         super.onResume();
         MobclickAgent.onPageStart("U21NewParticipantBonus");
         MobclickAgent.onResume(this);
-        if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_PARTICIPANT_BONUS))
-            UnreadHelper.userReadNotificationCommand(QSPushAPI.NEW_PARTICIPANT_BONUS);
     }
 
     @Override

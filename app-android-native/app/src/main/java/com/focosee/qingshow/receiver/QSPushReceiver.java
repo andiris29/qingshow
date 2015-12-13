@@ -71,9 +71,8 @@ public class QSPushReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
             //推送消息指引
             final String command = PushUtil.getCommand(bundle);
-            if (command.equals(QSPushAPI.TRADE_INITIALIZED) || command.equals(QSPushAPI.TRADE_SHIPPED)
-                    || command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED) || command.equals(QSPushAPI.NEW_RECOMMANDATIONS)
-                    || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.NEW_PARTICIPANT_BONUS) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
+            if (command.equals(QSPushAPI.TRADE_SHIPPED) || command.equals(QSPushAPI.NEW_RECOMMANDATIONS)
+                    || command.equals(QSPushAPI.NEW_BONUSES) || command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
                 UserCommand.refresh(new Callback() {
                     @Override
                     public void onComplete() {

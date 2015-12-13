@@ -149,6 +149,7 @@ public class LaunchActivity extends InstrumentedActivity {
                 if(!MetadataParser.hasError(response)){
                     QSModel.INSTANCE.setUser(UserParser._parsePeople(response));
                     QSModel.INSTANCE.setUserStatus(MongoPeople.GET_GUEST_USER);
+
                     FileUtil.uploadDefaultPortrait(LaunchActivity.this);
                 }
             }

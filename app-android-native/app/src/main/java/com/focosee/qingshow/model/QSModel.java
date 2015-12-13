@@ -1,6 +1,8 @@
 package com.focosee.qingshow.model;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
+
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ValueUtil;
@@ -14,7 +16,7 @@ public enum QSModel {
     private MongoPeople user;
 
     public boolean loggedin() {
-        return null != user;
+        return !TextUtils.isEmpty(QSApplication.instance().getPreferences().getString("id",""));
     }
 
     public MongoPeople getUser() {
@@ -22,10 +24,7 @@ public enum QSModel {
     }
 
     public boolean isGuest(){
-        if(null == user) return true;
-        if(user.role == null) return false;
-        if(user.role.intValue() == 0) return true;
-        return false;
+        return QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID);
     }
 
     public void setUser(MongoPeople _user) {
@@ -36,6 +35,9 @@ public enum QSModel {
     public void saveUser(String id){
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
         editor.putString("id", id);
+        if(QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID)){
+            editor.remove(ValueUtil.GUEST_ID);
+        }
         editor.commit();
     }
 
@@ -62,6 +64,7 @@ public enum QSModel {
     }
 
     public int getUserStatus(){
+        System.out.println("status:" + QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 0));
         return QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 0);
     }
 
@@ -69,4 +72,9 @@ public enum QSModel {
         return getUserStatus() >= status;
     }
 
+    public boolean putGuestId(String guestId){
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.putString(ValueUtil.GUEST_ID, guestId);
+        return editor.commit();
+    }
 }

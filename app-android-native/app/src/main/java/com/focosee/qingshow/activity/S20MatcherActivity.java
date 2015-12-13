@@ -120,7 +120,6 @@ public class S20MatcherActivity extends BaseActivity {
         modelCategories = new ArrayList<>();
 
         if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
-            menu.setVisibility(View.GONE);
             s20GuideImageview.setVisibility(View.VISIBLE);
             s20GuideImageview.setOnClickListener(new View.OnClickListener() {
                 @Override
