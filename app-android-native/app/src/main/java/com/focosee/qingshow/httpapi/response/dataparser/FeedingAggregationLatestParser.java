@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/11/25.
  */
-public class FeedingAggregationParser {
+public class FeedingAggregationLatestParser {
 
     public static FeedingAggregation parse(JSONObject response){
         Gson gson = QSGsonFactory.create();

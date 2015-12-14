@@ -4,7 +4,7 @@ import com.android.volley.Request.Method;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RxRequest;
 import com.focosee.qingshow.httpapi.response.dataparser.BonusParser;
-import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationParser;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationLatestParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByModelParser;
@@ -37,7 +37,7 @@ public class QSRxApi {
                 .map(new Func1<JSONObject, List<FeedingAggregation>>() {
                     @Override
                     public List<FeedingAggregation> call(JSONObject jsonObject) {
-                    List<FeedingAggregation> feedingAggregations = FeedingAggregationParser.parseQuery(jsonObject);
+                    List<FeedingAggregation> feedingAggregations = FeedingAggregationLatestParser.parseQuery(jsonObject);
                     Collections.sort(feedingAggregations, new Comparator<FeedingAggregation>() {
                         @Override
                         public int compare(FeedingAggregation lhs, FeedingAggregation rhs) {
