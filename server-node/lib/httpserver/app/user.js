@@ -838,35 +838,31 @@ user.bindJPush = function(req, res){
     });
 };
 
-user.loginAsViewer = function(req, res){
-    var params = req.body;
-    async.waterfall([function(callback){
-        People.findOne({
-            'userInfo.id' : RequestHelper.getIp(req)
-        }, callback);
-    }, function(people, callback){
-        if (people) {
-            callback(null, people);
-        }else{
+user.loginAsViewer = [
+    require('../middleware/injectModelGenerator').generateInjectOne(People, 'exsited', function(req) {
+        return {'userInfo.id' : RequestHelper.getIp(req)};
+    }),
+    function(req, res, next) {
+        if (!req.injection.exsited) {
             var people = new People({
                 'role' : PeopleCode.ROLE_VIEWER,
-                'userInfo.id' : RequestHelper.getIp(req)
+                'userInfo.id' : RequestHelper.getIp(req),
+                'invitorRef' : RequestHelper.parseId(req.body.invitorRef)
             });
-            req.invitorRef = people.invitorRef = params.invitorRef;
-            people.save(function(err, people){
-                if (err) {
-                    callback(errors.genUnkownError);
-                }else{
-                    callback(null, people);
-                }
+            people.save(function(err, people) {
+                req.injection.exsited = people;
+                next(err);
             });
+        } else {
+            next();
         }
-    }], function(err, people){
-        ResponseHelper.response(res, err, {
-            'people' : people
-        });
-    });
-};
+    },
+    function(req, res, next) {
+        _replaceCurrectUser(req, req.injection.exsited);
+        ResponseHelper.writeData(res, {'people' : req.injection.exsited});
+        next();
+    }
+];
 
 var _replaceCurrectUser = function(req, people) {
     // Replace current user with db.people
