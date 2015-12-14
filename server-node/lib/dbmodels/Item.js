@@ -25,6 +25,11 @@ itemSchema = Schema({
     skuProperties : [String],
     skuTable : {},
     source : String,
+    sourceInfo : {
+        // taobao, tmall, jamy, hm
+        domain : String,
+        id : String
+    },
     numLike : Number,
     create : {
         type : Date,
