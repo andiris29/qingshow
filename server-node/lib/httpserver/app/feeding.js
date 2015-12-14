@@ -188,7 +188,7 @@ feeding.hot = {
 
             MongoHelper.queryPaging(Show.find(criteria).sort({
                 numView: -1
-            }), show.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, shows, count) {
+            }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, shows, count) {
                 callback(err, shows, count);
             });
         });
