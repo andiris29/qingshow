@@ -5,87 +5,101 @@ define([
 // @formatter:on
     var P03ShareTrade = function(dom, initOptions) {
         P03ShareTrade.superclass.constructor.apply(this, arguments);
+        var sharedObject = initOptions.entity;
 
-        // var imageArray = [];
-        // imageArray.push(__config.image.root + "/assets/slicing/p02/share_bonu_bg.png");
-        // imageArray.push(__config.image.root + "/assets/slicing/common/a1.jpg");
-        // imageArray.push(__config.image.root + "/assets/slicing/common/a3.jpg");
-        // imageArray.push(__config.image.root + "/assets/slicing/common/a4.jpg");
+        var trade = sharedObject.targetInfo.trade;
 
-        // var $doms = $('.p03-image-slider-block-image', this._dom);
-        // for (var index = 1; index < $doms.size(); index++) {
-        //     var dom = $doms[index];
-        //     $(dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
-        // }
-        // $('.p03-trade-item-actual-price-content', this._dom).css('background-image', violet.string.substitute('url({0})', __config.image.root + '/assets/slicing/p03/p03_trade_item_actual_price_container_bg.png'));
-
-        // $(window).resize( function() {
-        //     //TODO workaround
-        //     setTimeout(function (){
-        //         this._resizeHandler();
-        //     }.bind(this), 100);
-
-        // }.bind(this));
-
-
-
-        // $('.p03-image-slider-block-content', this._dom).hide();
-        // $('.p03-download', this._dom).on('click', __services.downloadService.download);
-
-
-        var trade = initOptions.entity.trade;   
-        var show = initOptions.entity.show;
-        var tradeMaster;
-        if(trade)
-        {
-            tradeMaster = trade.remix.master;
-        }
-
-
-         __services.httpService.request('/feeding/hot', 'get', {
-          
+        
+        //build user's nickName
+        __services.httpService.request('/people/query', 'get', {
+          "_ids":sharedObject.initiatorRef
         }, function(err, metadata, data) {
           if(!err){
-
-                //绑定item数据
-          }
-          else
-          {
-             $("#show2").html();
+            if(data.peoples)
+            {
+                currUser = data.peoples[0];
+                var strNickName = "--";
+                var strCreateData = " ";
+                if(currUser.nickname)
+                {
+                    strNickName = currUser.nickname;
+                }
+                $('.username').html(strNickName);
+                $('#navtab1').html(strNickName+"的其它美搭");
+                var strportrait = "images/avatar.png";
+                if(currUser.portrait)
+                {
+                    strportrait = currUser.portrait;
+                }
+                $("#portrait").attr("src",strportrait);
+            }
           }
 
         });
+        var strHotHTML = "";
+        __services.httpService.request('/feeding/hot', 'get', {
+          
+        }, function(err, metadata, data) {
+          if(!err){
+            if(data && data.shows)
+            {
+                var strNickName = "";
+                var strportrait = "";
+               $.each(data.shows, function(index){    
+                      if(index <=5){
+                            strNickName = this.ownerRef.nickname; 
+                            strportrait = this.ownerRef.portrait; 
+
+                            strHotHTML +=   "<div class=\"show-item pull-left\">";
+                            strHotHTML +=   "<div class=\"thumbnail\">";
+                            strHotHTML +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".","_s.")+"\" />";
+                            strHotHTML +=               "<div class=\"show-img-container\">"
+                            strHotHTML +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".","_s.") +"\" />";
+                            strHotHTML +=               "</div>";
+                            strHotHTML +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".","_s.") +"\" />";
+                            strHotHTML +=           "</div>";
+                            strHotHTML +=           "<div class=\"show-info clearfix\">";
+                            strHotHTML +=               "<div class=\"avatar\">";
+                            strHotHTML +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
+                            strHotHTML +=                   "<span class=\"flag-crown\"></span>";
+                            strHotHTML +=               "</div>"
+                            strHotHTML +=               "<p class=\"username\">"+strNickName+"</p>"
+                            strHotHTML +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ")+"</span></p>";
+                            strHotHTML +=               "<p class=\"hits pull-right\"><i class=\"icon-eye\"></i><span class=\"text\">"+ this.__context.numComments +"</span></p>";
+                            strHotHTML +=           "</div>";
+                            strHotHTML +=   "    </div><!-- /.show-item -->";
+                        }
+                 });    
+            }
+          }
+
+           $('#show2').html(strHotHTML);
+
+        });
+       
+
+
 
         var search = violet.url.search;
          var currUser;
          __services.httpService.request('/user/loginAsViewer', 'post', {
-              
+                
             }, function(err, metadata, data) {
 
-                if(show)
-                {
-                    //bind data
-                    if(show.showSnapshot && show.showSnapshot.cover)
-                    {
-                        $(".share-img").attr("src",show.showSnapshot.cover);            
-                    }
-                    if(show.showSnapshot && show.showSnapshot.coverForeground)
-                    {
-                        $(".share-imgmask").attr("src",show.showSnapshot.coverForeground);            
-                    }
-                      var screenHeight = window.screen.height
-                    $(".share-imagearea").height(screenHeight-40);
-                    $(".share-img").css("margin-top",110);  
-                }
+                //bind data
+                // if(show.showSnapshot && show.showSnapshot.cover)
+                // {
+                //     $(".share-img").attr("src",show.showSnapshot.cover);            
+                // }
+                // if(show.showSnapshot && show.showSnapshot.coverForeground)
+                // {
+                //     $(".share-imgmask").attr("src",show.showSnapshot.coverForeground);   
+                //     $(".share-deep").attr("src",show.showSnapshot.coverForeground);
+                // }
+
                 $('.appdown2', this._dom).on('click', __services.downloadService.download);
                 $('.download', this._dom).on('click', __services.downloadService.download);
-                if(tradeMaster)
-                {
-                     if(tradeMaster.itemSnapshot)
-                     {
-                        $('.showcase-title').html("<span>"+tradeMaster.itemSnapshot.name+"</span>");
-                     }
-                }
+
                 if(err)
                 {
                     //print error
@@ -94,61 +108,67 @@ define([
                 {
                     currUser = data.people;
                     //Bind user info on top navi
-                    var strNickName = "--";
-                    var strCreateData = " ";
-                    if(currUser.nickname)
-                    {
-                        strNickName = currUser.nickname;
-                    }
-                    $('.username').html(strNickName);
-                    $('.navtab1').html(strNickName+"的其它美搭");
+                 
                     if(currUser.create)
                     {
                         strCreateData = currUser.create.split("T")[0];
                     }
                     $('.date').html(strCreateData);
-                     if(currUser.portrait)
-                    {
-                        $("#portrait").attr("src",currUser.portrait);
-                    }
-                    else
-                    {
-                        $("#portrait").attr("src","images/avatar.png");
-                    }
-                 
+                   
+                     __services.httpService.request('/show/view', 'post', {
+                                '_id' : sharedObject._id || ""
+                            }, function(err, metadata, data) {
+                            });
                 }
+
+
+
+                $('#show1').html("");
+                var varUrPath = currUser.portrait;
+                  __services.httpService.request('/feeding/matchCreatedBy', 'get', {
+                      "_id":sharedObject.initiatorRef
+                    }, function(err, metadata, data) {
+                        var strMatchHtml = "";
+
+                        if(!err){
+
+                            if(data && data.shows)
+                            {
+                                var strNickName = "";
+                                var strportrait = "";
+                                $.each(data.shows, function(index){   
+                                    if(index <=5){
+                                        strNickName = this.ownerRef.nickname; 
+                                        strportrait = this.ownerRef.portrait; 
+
+                                        strMatchHtml +=   "<div class=\"show-item pull-left\">";
+                                        strMatchHtml +=   "<div class=\"thumbnail\">";
+                                        strMatchHtml +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".","_s.")+"\" />";
+                                        strMatchHtml +=               "<div class=\"show-img-container\">"
+                                        strMatchHtml +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".","_s.") +"\" />";
+                                        strMatchHtml +=               "</div>";
+                                        strMatchHtml +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".","_s.") +"\" />";
+                                        strMatchHtml +=           "</div>";
+                                        strMatchHtml +=           "<div class=\"show-info clearfix\">";
+                                        strMatchHtml +=               "<div class=\"avatar\">";
+                                        strMatchHtml +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
+                                        strMatchHtml +=                   "<span class=\"flag-crown\"></span>";
+                                        strMatchHtml +=               "</div>"
+                                        strMatchHtml +=               "<p class=\"username\">"+strNickName+"</p>"
+                                        strMatchHtml +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ")+"</span></p>";
+                                        strMatchHtml +=               "<p class=\"hits pull-right\"><i class=\"icon-eye\"></i><span class=\"text\">"+ this.__context.numComments +"</span></p>";
+                                        strMatchHtml +=           "</div>";
+                                        strMatchHtml +=   "    </div><!-- /.show-item -->";
+                                    }
+                                 });    
+                            }
+                        }
+
+                      $('#show1').html(strMatchHtml);
+                    });  
+
+
             });
-
-
-
-        // var originPrice = parseFloat(trade.itemSnapshot.promoPrice).toFixed(2);
-        // var actualPrice = (parseFloat(trade.totalFee) / parseFloat(trade.quantity)).toFixed(2);
-        // var discount = parseInt(actualPrice * 10 / originPrice + 0.5);
-        // discount = discount < 1 ? 1 : discount;
-        // discount = discount > 9 ? 9 : discount;
-
-        // $('.p03-trade-item-title', this._dom)[0].innerText = trade.itemSnapshot.name;
-        // $('.p03-trade-item-price-number', this._dom)[0].innerText = '￥' + originPrice;
-        // $('.p03-trade-item-actual-price-number', this._dom)[0].innerText = '￥' + actualPrice;
-        // $('.p03-trade-item-discount-number', this._dom)[0].innerText = discount + "折";
-        // $('.p03-trade-item-tmall-price-block', this._dom).css('background-image', violet.string.substitute('url({0})', imageArray[index]));
-        // $('.p03-trade-item-tmall-price-block', this._dom).css('background-image', violet.string.substitute('url({0})', trade.itemSnapshot.thumbnail));
-
-        // setTimeout(function() {
-        //     $('.p03-image-slider', this._dom).slick({
-        //         'infinite' : true,
-        //         'centerMode' : true,
-        //         'slidesToShow' : 1,
-        //         'centerPadding' : '15%'
-        //     });
-        //     $('.p03-image-slider-block-content', this._dom).show();
-
-        //     $('.slick-center', this._dom).resize(function () {
-        //         console.log('eeeaaa');
-        //     });
-
-        //     this._resizeHandler();
-        // }.bind(this), 0);
     };
     violet.oo.extend(P03ShareTrade, violet.ui.ViewBase);
 

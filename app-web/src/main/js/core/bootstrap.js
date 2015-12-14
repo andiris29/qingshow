@@ -69,7 +69,7 @@ define([
             } else if (shareObj.type === 1) {
                 //trade
                 navigationService.push('qs/views/P03ShareTrade', {
-                    'entity' : shareObj.targetInfo
+                    'entity' : shareObj//.targetInfo,
                 });
             } else if (shareObj.type === 2) {
                 //bonus

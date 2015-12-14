@@ -67,6 +67,8 @@ a {text-decoration:none; color:#282d5b;}
 .icon-share {background:url(../img/icon-share.png) no-repeat center center/ 100%; width:0.9rem; height:0.9rem; display:block;}
 
 .share-imagearea {margin:0 0.75rem; position:relative;}
+.share-imagearea .share-deep {width:100%; opacity:0;}
+.share-imagearea .share-img-container {position:absolute; left:0; right:0; top:0; bottom:0;}
 .share-imagearea .share-img {width:100%; position:relative; z-index:0;}
 .share-imagearea .share-imgmask {position:absolute; width:100%; left:0; top:0; z-index:1;}
 
@@ -97,8 +99,10 @@ a {text-decoration:none; color:#282d5b;}
 .shows {padding:0.25rem 0.18rem 2.5rem;}
 .show-item {margin:1%; border:#959595 1px solid; width:48%; box-sizing:border-box;}
 .show-item .thumbnail {width:100%; height:100%; overflow:hidden; position:relative;}
-.show-item .thumbnail .show-img {width:100%; position:relative;}
-.show-item .thumbnail .show-imgmask {position:absolute; left:0; top:0; width:100%; z-index:1;}
+.show-item .thumbnail .show-deep {width:100%; opacity:0;}
+.show-item .thumbnail .show-img-container {position:absolute; left:0; right:0; top:0; bottom:0;}
+.show-item .thumbnail .show-img {width:100%; position:relative; z-index:0;}
+.show-item .thumbnail .show-imgmask {position:absolute; width:100%; left:0; top:0; z-index:1;}
 .show-item .show-info {border-top:#d1d1d1 1px solid; height:2.05rem; position:relative;}
 .show-item .show-info .avatar {width:1.375rem; height:1.375rem; border-radius:100%; position:absolute; top:0.35rem; left:0.425rem;}
 .show-item .show-info .avatar .avatar-img {width:1.375rem; height:1.375rem; border-radius:100%;}
