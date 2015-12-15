@@ -121,8 +121,10 @@ share.query = {
                 criteria._id = {
                     '$in' : RequestHelper.parseIds(qsParam._ids)
                 };
+                MongoHelper.queryPaging(SharedObject.find(criteria), SharedObject.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            } else {
+                callback(errors.NotEnoughParam);
             }
-            MongoHelper.queryPaging(SharedObject.find(criteria), SharedObject.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         },function(sharedObjects){
             return {'sharedObjects': sharedObjects};
         });
