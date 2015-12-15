@@ -218,7 +218,7 @@
         [self.scheduleToShowCalendarBtnTimer invalidate];
         self.scheduleToShowCalendarBtnTimer = nil;
     }
-    self.scheduleToShowCalendarBtnTimer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(showCalendarBtn) userInfo:nil repeats:NO];
+    self.scheduleToShowCalendarBtnTimer = [NSTimer scheduledTimerWithTimeInterval:1.2f target:self selector:@selector(showCalendarBtn) userInfo:nil repeats:NO];
 }
 #pragma mark -
 - (void)didReceiveUserLoginNoti:(NSNotification*)noti {
