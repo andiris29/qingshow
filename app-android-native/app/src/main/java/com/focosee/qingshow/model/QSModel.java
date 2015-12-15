@@ -35,20 +35,25 @@ public enum QSModel {
     public void saveUser(String id){
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
         editor.putString("id", id);
-        if(QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID)){
-            editor.remove(ValueUtil.GUEST_ID);
-        }
         editor.commit();
     }
 
     public void login(MongoPeople _user){
         setUser(_user);
         saveUser(_user._id);
+        if(QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID)){
+            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+            editor.remove(ValueUtil.GUEST_ID);
+            editor.commit();
+        }
     }
 
     public void removeUser(){
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
         editor.remove("id");
+        if(QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID)){
+            editor.remove(ValueUtil.GUEST_ID);
+        }
         editor.commit();
         this.user = null;
     }

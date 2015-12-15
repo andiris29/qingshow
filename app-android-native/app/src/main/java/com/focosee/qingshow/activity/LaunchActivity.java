@@ -147,9 +147,10 @@ public class LaunchActivity extends InstrumentedActivity {
             public void onResponse(JSONObject response) {
                 Log.d(LaunchActivity.class.getSimpleName(), "response-userLoginAsGuest:" + response);
                 if(!MetadataParser.hasError(response)){
-                    QSModel.INSTANCE.setUser(UserParser._parsePeople(response));
+                    MongoPeople user = UserParser._parsePeople(response);
+                    QSModel.INSTANCE.setUser(user);
                     QSModel.INSTANCE.setUserStatus(MongoPeople.GET_GUEST_USER);
-
+                    QSModel.INSTANCE.putGuestId(user._id);
                     FileUtil.uploadDefaultPortrait(LaunchActivity.this);
                 }
             }
