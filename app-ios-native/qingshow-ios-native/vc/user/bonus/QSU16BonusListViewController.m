@@ -53,6 +53,10 @@
     self.provider.delegate = self;
     [self.provider reloadData];
 }
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.tableView.frame = self.view.bounds;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
