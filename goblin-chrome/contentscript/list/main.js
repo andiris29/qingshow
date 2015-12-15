@@ -4,16 +4,18 @@ var global = {
 		'updateWebItemDom' : null
 	},
 	'render' : {
+		'rendered' : function(dom) {
+			return $(dom).attr('qs-find');
+		},
 		'asFinding' : function(dom) {
-			$(dom).css('-webkit-filter', 'blur(3px)');
+			$(dom).attr('qs-find', true).
+				css('box-shadow', '0 0 6px blue');
 		},
 		'asFound' : function(dom) {
-			$(dom).css('-webkit-filter', '').
-				css('box-shadow', '0 0 12px red');
+			$(dom).css('box-shadow', '0 0 12px red');
 		},
 		'asNotFound' : function(dom) {
-			$(dom).css('-webkit-filter', '').
-				css('box-shadow', '0 0 12px green');
+			$(dom).css('box-shadow', '0 0 12px green');
 		}
 	}
 };
@@ -31,14 +33,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 // ------------------
 // Query fetch webItems
 // ------------------
+
 var interval = setInterval(function() {
 	var webItems = global.siteInjection.fetchWebItems();
-	if (webItems) {
-		clearInterval(interval);
-
+	if (webItems && webItems.length) {
 		chrome.runtime.sendMessage({
 			'type' : 'fetchWebItemsComplete', 
 			'webItems' : webItems
 		});
 	}
-}, 100);
+}, 1000);

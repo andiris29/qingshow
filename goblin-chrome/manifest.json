@@ -39,6 +39,14 @@
         ]
     }, {
         "matches": [
+            "*://list.tmall.com/*"
+        ],
+        "js": [
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
+            "/contentscript/list/main.js", "/contentscript/list/listtmall.js"
+        ]
+    }, {
+        "matches": [
             "*://item.taobao.com/item.htm*"
         ],
         "js": [

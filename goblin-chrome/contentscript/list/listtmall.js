@@ -1,6 +1,6 @@
 global.siteInjection.fetchWebItems = function() {
 	var webItems = [];
-	$('li.item[data-itemid]').each(function(index, dom) {
+	$('div.product[data-id]').each(function(index, dom) {
 		if (!global.render.rendered(dom)) {
 			global.render.asFinding(dom);
 
@@ -12,7 +12,7 @@ global.siteInjection.fetchWebItems = function() {
 };
 
 global.siteInjection.updateWebItemDom = function(webItem, item) {
-	$('li.item[data-itemid]').each(function(index, dom) {
+	$('div.product[data-id]').each(function(index, dom) {
 		var currentWebItem = _parse(dom);
 		if (currentWebItem.domain === webItem.domain && currentWebItem.id === webItem.id) {
 			if (item) {

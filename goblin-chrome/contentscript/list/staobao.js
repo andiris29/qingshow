@@ -1,9 +1,10 @@
 global.siteInjection.fetchWebItems = function() {
 	var webItems = [];
 	$('div.item').each(function(index, dom) {
-		webItems.push(_parse(dom));
-
-		global.render.asFinding(dom);
+		if (!global.render.rendered(dom)) {
+			global.render.asFinding(dom);
+			webItems.push(_parse(dom));
+		}
 	});
 
 	return webItems.length ? webItems : null;
@@ -27,5 +28,5 @@ var _parse = function(dom) {
 	return {
 		'domain' : goblin.parseUrl(a$.attr('href')).domain,
 		'id' : a$.attr('data-nid')
-	}
+	};
 };
