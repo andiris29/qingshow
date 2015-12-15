@@ -282,20 +282,24 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     private void setUserBaseMInfo() {
 
         userName.setText(user.nickname);
-        BonusAmount bonusAmount = QSModel.INSTANCE.getUser().__context.bonusAmountByStatus;
-        if (null != bonusAmount) {
-            float totalBonuses = 0f;
-            Map<String, Number> bonuses = bonusAmount.bonuses;
-            if (bonuses != null) {
-                if (bonuses.containsKey("0")) {
-                    totalBonuses += bonuses.get("0").floatValue();
-                }
-                if (bonuses.containsKey("1")) {
-                    totalBonuses += bonuses.get("1").floatValue();
+        float totalBonuses = 0f;
+        if(null != QSModel.INSTANCE.getUser().__context) {
+            if(null != QSModel.INSTANCE.getUser().__context.bonusAmountByStatus) {
+                BonusAmount bonusAmount = QSModel.INSTANCE.getUser().__context.bonusAmountByStatus;
+                if (null != bonusAmount) {
+                    Map<String, Number> bonuses = bonusAmount.bonuses;
+                    if (bonuses != null) {
+                        if (bonuses.containsKey("0")) {
+                            totalBonuses += bonuses.get("0").floatValue();
+                        }
+                        if (bonuses.containsKey("1")) {
+                            totalBonuses += bonuses.get("1").floatValue();
+                        }
+                    }
                 }
             }
-            userBonuses.setText(getString(R.string.get_bonuses_label) + StringUtil.FormatPrice(totalBonuses));
         }
+        userBonuses.setText(getString(R.string.get_bonuses_label) + StringUtil.FormatPrice(totalBonuses));
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
         if (!TextUtils.isEmpty(user.portrait))
             userHead.setImageURI(Uri.parse(user.portrait));
