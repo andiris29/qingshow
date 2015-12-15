@@ -46,6 +46,8 @@ itemSchema = Schema({
     remixCategoryAliases : String
 });
 
+itemSchema.index({'sourceInfo.domain': 1, 'sourceInfo.id': 1});
+
 var Item = mongoose.model('items', itemSchema);
 
 module.exports = Item;

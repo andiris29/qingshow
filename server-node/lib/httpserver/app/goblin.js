@@ -96,68 +96,25 @@ goblin.crawlItemFailed = {
     }
 };
 
-goblin.findItem = {
-    method: 'get',
-    func: function(req, res) {
-        var param = req.queryString;
-console.log(param.source);
-        var domain = _getDomain(param.source);
-        var id = '';
-        console.log(domain);
-
-        if (domain.indexOf('taobao') >= 0) {
-            id = _getIdFromSource(param.source, /id=(\d*)/);
-        } else if (domain.indexOf('') >= 0) {
-            id = _getIdFromSource(param.source, /id=(\d*)/);
-        } else if (domain.indexOf('thejamy') >= 0) {
-            id = _getIdFromSource(param.source, /product\/[a-zA-Z0-9]*/);
-        } else if (domain.indexOf('hm') >= 0) {
-            id = _getIdFromSource(param.source, /page.(\d*)/);
-        } else {
-            id = '';
+goblin.findItemBySourceInfo = {
+    'method' : 'get',
+    'func' : [
+        function(req, res, next) {
+            Item.findOne({
+                'sourceInfo.domain': req.queryString.domain,
+                'sourceInfo.id': req.queryString.id
+            }, function(err, item) {
+                if (err) {
+                    next(err);
+                } else {
+                    if (!item) {
+                        next(errors.ItemNotExist);
+                    } else {
+                        ResponseHelper.writeData(res, {'item' : item});
+                        next();
+                    }
+                }
+            });
         }
-
-        if (id == '') {
-            ResponseHelper.response(res, errors.ItemNotExist);
-            return;
-        }
-
-        Item.findOne({
-            'sourceInfo.id': id
-        }, function(error, item) {
-            if(error) {
-                ResponseHelper.response(res, error);
-            } else if (!item) {
-                ResponseHelper.response(res, errors.ItemNotExist);
-            } else {
-                ResponseHelper.response(res, error, {
-                    item: item
-                });
-            }
-        });
-    }
+    ]
 };
-
-var _getIdFromSource =  function(source, idRegex) {
-    var idComp = source.match(idRegex);
-    if (idComp && idComp.length > 1) {
-        return idComp[1];
-    } else {
-        return null;
-    }
-};
-
-var _getDomain = function(url) {
-    var domain;
-    //find & remove protocol (http, ftp, etc.) and get domain
-    if (url.indexOf("://") > -1) {
-        domain = url.split('/')[2];
-    } else {
-        domain = url.split('/')[0];
-    }
-
-    //find & remove port number
-    domain = domain.split(':')[0];
-
-    return domain;
-}
