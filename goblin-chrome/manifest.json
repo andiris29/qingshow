@@ -27,7 +27,7 @@
         ],
         "js": [
             "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
-            "/contentscript/list/main.js", "/contentscript/list/listtaobao.js"
+            "/contentscript/main.js", "/contentscript/list/listtaobao.js"
         ]
     }, {
         "matches": [
@@ -35,7 +35,7 @@
         ],
         "js": [
             "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
-            "/contentscript/list/main.js", "/contentscript/list/staobao.js"
+            "/contentscript/main.js", "/contentscript/list/staobao.js"
         ]
     }, {
         "matches": [
@@ -43,7 +43,7 @@
         ],
         "js": [
             "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
-            "/contentscript/list/main.js", "/contentscript/list/listtmall.js"
+            "/contentscript/main.js", "/contentscript/list/listtmall.js"
         ]
     }, {
         "matches": [
@@ -51,7 +51,7 @@
         ],
         "js": [
             "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
-            "/contentscript/detail/main.js", "/contentscript/detail/taobao.js"
+            "/contentscript/main.js", "/contentscript/detail/taobao.js"
         ]
     }, {
         "matches": [
@@ -59,7 +59,7 @@
         ],
         "js": [
             "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
-            "/contentscript/detail/main.js", "/contentscript/detail/tmall.js"
+            "/contentscript/main.js", "/contentscript/detail/tmall.js"
         ]
     }],
     "manifest_version": 2

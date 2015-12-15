@@ -9,14 +9,14 @@ var global = {
 		},
 		'asFinding' : function(dom) {
 			$(dom).attr('qs-find', true).
-				css('box-shadow', '0 0 6px blue');
+				css('box-shadow', '0 0 12px blue');
 		},
 		'asFound' : function(dom) {
-			$(dom).css('box-shadow', '0 0 12px red').
+			$(dom).css('box-shadow', '0 0 32px red').
 				css('opacity', .3);
 		},
 		'asNotFound' : function(dom) {
-			$(dom).css('box-shadow', '0 0 12px green');
+			$(dom).css('box-shadow', '0 0 32px green');
 		}
 	}
 };
