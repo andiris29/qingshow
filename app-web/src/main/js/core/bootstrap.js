@@ -30,21 +30,6 @@ define([
     };
 
 
-
-    // httpService.request('/user/loginAsViewer', 'post', {
-        
-    // }, function(err, metadata, data) {
-    //     if(err)
-    //     {
-    //         //print error
-    //     }
-    //     else
-    //     {
-    //       //  print data
-
-    //     }
-    // });
-
     // Bootstrap first page
     var search = violet.url.search;
  httpService.request('/trace/openShare', 'post', {
@@ -74,8 +59,8 @@ define([
             } else if (shareObj.type === 2) {
                 //bonus
                 navigationService.push('qs/views/P04ShareBonus', {
-                    'create' : shareObj.create,
-                    '_id' : search._id
+                    'create' : shareObj.create,//创建时间
+                    '_id' : search._id//查询ID
                 });
             } else {
                 navigationService.push('qs/views/P01NotFound');

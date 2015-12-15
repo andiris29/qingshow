@@ -78,13 +78,13 @@ define([
             context.clearRect(0, 0, width, height);
             context.beginPath();
             context.arc(width/2, height/2, radius, 0, Math.PI * 2, false);
-            context.strokeStyle = 'rgba(200, 16, 78, 1)';
+            context.strokeStyle = 'rgba(38, 44, 89, 1)';
             context.lineWidth = strokeWidth;
             context.stroke();
 
             context.beginPath();
             context.arc(width/2, height/2 - radius, 3, 0, Math.PI * 2, false);
-            context.fillStyle = 'rgba(200, 16, 78, 1)';
+            context.fillStyle = 'rgba(38, 44, 89, 1)';
             context.fill();
         } else {
             var nowDate = new Date();
@@ -95,7 +95,7 @@ define([
             var end = begin + 2 * Math.PI * (nowDate - this._createDate) / this._maxTimeInterval;
             context.beginPath();
             context.arc(width/2, height/2, radius, begin, end, false);
-            context.strokeStyle = 'rgba(200, 16, 78, 1)';
+            context.strokeStyle = 'rgba(38, 44, 89, 1)';
             context.lineWidth = strokeWidth;
             context.stroke();
 
@@ -107,7 +107,7 @@ define([
             this._updateRemainTimeText(this._maxTimeInterval - (nowDate - this._createDate));
             context.beginPath();
             context.arc(width/2 + radius * Math.cos(end), height/2 + radius * Math.sin(end), 3, 0, Math.PI * 2, false);
-            context.fillStyle = 'rgba(200, 16, 78, 1)';
+            context.fillStyle = 'rgba(38, 44, 89, 1)';
             context.fill();
 
         }
