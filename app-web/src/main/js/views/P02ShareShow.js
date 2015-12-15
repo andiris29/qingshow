@@ -62,7 +62,11 @@ define([
                                     strHotHTML +=           "<div class=\"show-info clearfix\">";
                                     strHotHTML +=               "<div class=\"avatar\">";
                                     strHotHTML +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
-                                    strHotHTML +=                   "<span class=\"flag-crown\"></span>";
+
+                                    if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
+                                    {
+                                        strHotHTML +=                   "<span class=\"flag-crown\"></span>";
+                                    }
                                     strHotHTML +=               "</div>"
                                     strHotHTML +=               "<p class=\"username\">"+strNickName+"</p>"
                                     strHotHTML +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ")+"</span></p>";
@@ -153,7 +157,10 @@ define([
                                         strMatchHtml +=           "<div class=\"show-info clearfix\">";
                                         strMatchHtml +=               "<div class=\"avatar\">";
                                         strMatchHtml +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
-                                        strMatchHtml +=                   "<span class=\"flag-crown\"></span>";
+                                        if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
+                                        {
+                                            strMatchHtml +=                   "<span class=\"flag-crown\"></span>";
+                                        }
                                         strMatchHtml +=               "</div>"
                                         strMatchHtml +=               "<p class=\"username\">"+strNickName+"</p>"
                                         strMatchHtml +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ")+"</span></p>";
