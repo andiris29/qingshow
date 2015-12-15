@@ -69,7 +69,6 @@ public enum QSModel {
     }
 
     public int getUserStatus(){
-        System.out.println("status:" + QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 0));
         return QSApplication.instance().getPreferences().getInt(ValueUtil.USER_STATUS, 0);
     }
 
