@@ -124,7 +124,8 @@ item.findOneAndStartSync = {
                     '$or' : RequestHelper.parseArray(req.queryString.domains).map(function(domain) {
                         return {'sourceInfo.domain' : domain};
                     }),
-                    'syncEnabled' : {'$ne' : false}
+                    'syncEnabled' : {'$ne' : false},
+                    'syncStartAt' : null
                 };
                 next();
             } else {
