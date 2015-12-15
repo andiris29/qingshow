@@ -19,10 +19,9 @@ var MongoHelper = require('../../helpers/MongoHelper.js');
 var RelationshipHelper = require('../../helpers/RelationshipHelper');
 var TraceHelper = require('../../helpers/TraceHelper');
 var ContextHelper = require('../../helpers/ContextHelper');
+var ItemSyncHelper = require('../../helpers/ItemSyncHelper');
 
 var injectModelGenerator = require('../middleware/injectModelGenerator');
-
-var GoblinScheduler = require('./goblin/GoblinScheduler');
 
 var errors = require('../../errors');
 
@@ -376,10 +375,10 @@ matcher.remixByItem = {
             }
             next();
             
-            // Register items to goblin scheduler
-            GoblinScheduler.registerItem(req.injection.itemRef);
+            // Register items as sync requested
+            ItemSyncHelper.request(req.injection.itemRef);
             req.injection.remixItems.forEach(function(item, index) {
-                GoblinScheduler.registerItem(item);
+                ItemSyncHelper.request(item);
             });
         }
     ]

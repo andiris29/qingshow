@@ -43,6 +43,8 @@ itemSchema = Schema({
         'default' : true
     },
     sync : Date,
+    syncRequestAt : Date,
+    syncStartAt : Date,
     remixCategoryAliases : String
 });
 

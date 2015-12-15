@@ -12,7 +12,8 @@ var global = {
 				css('box-shadow', '0 0 6px blue');
 		},
 		'asFound' : function(dom) {
-			$(dom).css('box-shadow', '0 0 12px red');
+			$(dom).css('box-shadow', '0 0 12px red').
+				css('opacity', .3);
 		},
 		'asNotFound' : function(dom) {
 			$(dom).css('box-shadow', '0 0 12px green');

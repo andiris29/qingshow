@@ -10,13 +10,13 @@ chrome.runtime.onMessage.addListener(function (request, sender) {
 // ------------------
 // Server interaction
 // ------------------
-// var SERVER_URL = 'http://dev.chingshow.com';
-var SERVER_URL = 'http://127.0.0.1:30001';
+var SERVER_URL = 'http://dev.chingshow.com';
+// var SERVER_URL = 'http://127.0.0.1:30001';
 
 var _find = function(tabId, webItems) {
     async.parallelLimit(webItems.map(function(webItem, index) {
         return function(callback) {
-            $.ajax(SERVER_URL + '/services/goblin/findItemBySourceInfo', {
+            $.ajax(SERVER_URL + '/services/item/findOneBySourceInfo', {
                 'type' : 'GET',
                 'dataType' : 'json',
                 'data' : {
