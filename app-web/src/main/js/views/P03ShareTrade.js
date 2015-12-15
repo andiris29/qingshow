@@ -111,7 +111,7 @@ define([
 
                         strItemHTML = ""; 
                         strItemHTML += "<div class=\"item-container\" style=\"background:url("+ itemMaster.itemSnapshot.thumbnail  +") no-repeat center center / contain;left:"+itemMaster.rect[0]+"%; top:"+itemMaster.rect[1]+"%; width:"+itemMaster.rect[2]+"%; height:"+itemMaster.rect[3]+"%;\">";   
-                        strItemHTML += "    <span class=\"flag\">立减<em>90</em></span></div>"
+                        strItemHTML += "    <span class=\"flag\">立减<em>"+itemMaster.itemSnapshot.expectable.reduction+"</em></span></div>"
                         strTopImgAreaHTML += strItemHTML;
                     }
                 }
@@ -131,6 +131,7 @@ define([
                 });
                 $('.showcase-container').width(imgAreaWidth);
                 $('.showcase-container').height(imgAreaHeight);
+                $('.showcase-container').css("margin-left",window.screen.width*0.1);
                 $(".showcase-container").html(strTopImgAreaHTML);
                 if(err)
                 {
