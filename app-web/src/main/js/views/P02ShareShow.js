@@ -31,7 +31,7 @@ define([
                 {
                     strportrait = currUser.portrait;
                 }
-                $("#portrait").attr("src",strportrait);
+                $("#currUserHeaderImg").attr("src",strportrait);
             }
           }
 
@@ -126,6 +126,10 @@ define([
                     if(currUser.create)
                     {
                         strCreateData = currUser.create.split("T")[0];
+                         var dateStrs = currUser.create.split("-");
+                         var month = parseInt(dateStrs[1], 10)-1;
+                         var day = parseInt(dateStrs[2], 10);
+                        strCreateData = monthArr[month]+"."+day;
                     }
                     $('.date').html(strCreateData);
                    
