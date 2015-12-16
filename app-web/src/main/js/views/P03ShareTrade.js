@@ -30,7 +30,7 @@ define([
                 var strportrait = "images/avatar.png";
                 if(currUser.portrait)
                 {
-                    strportrait = currUser.portrait;
+                    strportrait = currUser.portrait.replace(".jp","_50.jp").replace(".png","_50.png");
                 }
                 $("#portrait").attr("src",strportrait);
             }
@@ -53,15 +53,15 @@ define([
 
                             strHotHTML +=   "<div class=\"show-item pull-left\">";
                             strHotHTML +=   "<div class=\"thumbnail\">";
-                            strHotHTML +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".","_s.")+"\" />";
+                            strHotHTML +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png")+"\" />";
                             strHotHTML +=               "<div class=\"show-img-container\">"
-                            strHotHTML +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".","_s.") +"\" />";
+                            strHotHTML +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".jp","_s.jp").replace(".png","_s.png") +"\" />";
                             strHotHTML +=               "</div>";
-                            strHotHTML +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".","_s.") +"\" />";
+                            strHotHTML +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png") +"\" />";
                             strHotHTML +=           "</div>";
                             strHotHTML +=           "<div class=\"show-info clearfix\">";
                             strHotHTML +=               "<div class=\"avatar\">";
-                            strHotHTML +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
+                            strHotHTML +=                   "<img src=\""+ strportrait.replace(".jp","_50.jp").replace(".png","_50.png")  +"\" class=\"avatar-img\" />";
 
                             if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
                             {
@@ -115,7 +115,7 @@ define([
                         var itemHeight =  itemMaster.rect[3];
 
                         strItemHTML = ""; 
-                        strItemHTML += "<div class=\"item-container\" style=\"background:url("+ itemMaster.itemSnapshot.thumbnail  +") no-repeat center center / contain;left:"+itemMaster.rect[0]+"%; top:"+itemMaster.rect[1]+"%; width:"+itemMaster.rect[2]+"%; height:"+itemMaster.rect[3]+"%;\">";   
+                        strItemHTML += "<div class=\"item-container\" style=\"background:url("+ itemMaster.itemSnapshot.thumbnail.replace(".jp","_s.jp").replace(".png","_s.png")  +") no-repeat center center / contain;left:"+itemMaster.rect[0]+"%; top:"+itemMaster.rect[1]+"%; width:"+itemMaster.rect[2]+"%; height:"+itemMaster.rect[3]+"%;\">";   
                         strItemHTML += "    <span class=\"flag\">立减<em>"+itemMaster.itemSnapshot.expectable.reduction+"</em></span></div>"
                         strTopImgAreaHTML += strItemHTML;
                     }
@@ -125,7 +125,7 @@ define([
                     if(this)
                     {
                         strItemHTML = ""; 
-                        strItemHTML += "<div class=\"item-container\" style=\"background:url("+ this.itemSnapshot.thumbnail  +") no-repeat center center / contain;left:"+this.rect[0]+"%; top:"+this.rect[1]+"%; width:"+this.rect[2]+"%; height:"+this.rect[3]+"%;\">";   
+                        strItemHTML += "<div class=\"item-container\" style=\"background:url("+ this.itemSnapshot.thumbnail.replace(".jp","_s.jp").replace(".png","_s.png")   +") no-repeat center center / contain;left:"+this.rect[0]+"%; top:"+this.rect[1]+"%; width:"+this.rect[2]+"%; height:"+this.rect[3]+"%;\">";   
                         if(this.itemSnapshot.expectable && this.itemSnapshot.expectable.reduction && this.itemSnapshot.expectable.reduction>0)
                         {
                             strItemHTML += "    <span class=\"flag\">立减<em>"+this.itemSnapshot.expectable.reduction+"</em></span></div>"   
@@ -150,7 +150,7 @@ define([
                     if(currUser.create)
                     {
                         strCreateData = currUser.create.split("T")[0];
-                    
+
                          var dateStrs = currUser.create.split("-");
                          var month = parseInt(dateStrs[1], 10)-1;
                          var day = parseInt(dateStrs[2], 10);
@@ -186,15 +186,15 @@ define([
 
                                         strMatchHtml +=   "<div class=\"show-item pull-left\">";
                                         strMatchHtml +=   "<div class=\"thumbnail\">";
-                                        strMatchHtml +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".","_s.")+"\" />";
+                                        strMatchHtml +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png")+"\" />";
                                         strMatchHtml +=               "<div class=\"show-img-container\">"
-                                        strMatchHtml +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".","_s.") +"\" />";
+                                        strMatchHtml +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".jp","_s.jp").replace(".png","_s.png")+"\" />";
                                         strMatchHtml +=               "</div>";
-                                        strMatchHtml +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".","_s.") +"\" />";
+                                        strMatchHtml +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png") +"\" />";
                                         strMatchHtml +=           "</div>";
                                         strMatchHtml +=           "<div class=\"show-info clearfix\">";
                                         strMatchHtml +=               "<div class=\"avatar\">";
-                                        strMatchHtml +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
+                                        strMatchHtml +=                   "<img src=\""+ strportrait.replace(".jp","_50.jp").replace(".png","_50.png") +"\" class=\"avatar-img\" />";
 
                                         if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
                                         {

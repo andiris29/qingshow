@@ -29,9 +29,9 @@ define([
                 var strportrait = "images/avatar.png";
                 if(currUser.portrait)
                 {
-                    strportrait = currUser.portrait;
+                    strportrait = currUser.portrait.replace(".jp","_50.jp").replace(".png","_50.png");
                 }
-                $("#currUserHeaderImg").attr("src",strportrait);
+                $("#portrait").attr("src",strportrait);
             }
           }
 
@@ -55,15 +55,15 @@ define([
 
                                     strHotHTML +=   "<div class=\"show-item pull-left\">";
                                     strHotHTML +=   "<div class=\"thumbnail\">";
-                                    strHotHTML +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".jp","_s.jp")+"\" />";
+                                    strHotHTML +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png")+"\" />";
                                     strHotHTML +=               "<div class=\"show-img-container\">"
-                                    strHotHTML +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".jp","_s.jp") +"\" />";
+                                    strHotHTML +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".jp","_s.jp").replace(".png","_s.png") +"\" />";
                                     strHotHTML +=               "</div>";
-                                    strHotHTML +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".jp","_s.jp") +"\" />";
+                                    strHotHTML +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png") +"\" />";
                                     strHotHTML +=           "</div>";
                                     strHotHTML +=           "<div class=\"show-info clearfix\">";
                                     strHotHTML +=               "<div class=\"avatar\">";
-                                    strHotHTML +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
+                                    strHotHTML +=                   "<img src=\""+ strportrait.replace(".jp","_50.jp").replace(".png","_50.png")  +"\" class=\"avatar-img\" />";
 
                                     if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
                                     {
@@ -103,12 +103,12 @@ define([
                 //bind data
                 if(show.showSnapshot && show.showSnapshot.cover)
                 {
-                    $(".share-img").attr("src",show.showSnapshot.cover);            
+                    $(".share-img").attr("src",show.showSnapshot.cover.replace(".png","_s.png"));            
                 }
                 if(show.showSnapshot && show.showSnapshot.coverForeground)
                 {
-                    $(".share-imgmask").attr("src",show.showSnapshot.coverForeground);   
-                    $(".share-deep").attr("src",show.showSnapshot.coverForeground);
+                    $(".share-imgmask").attr("src",show.showSnapshot.coverForeground.replace(".png","_s.png"));   
+                    $(".share-deep").attr("src",show.showSnapshot.coverForeground.replace(".png","_s.png"));
                 }
 
                 $('.appdown2', this._dom).on('click', __services.downloadService.download);
@@ -161,15 +161,15 @@ define([
 
                                         strMatchHtml +=   "<div class=\"show-item pull-left\">";
                                         strMatchHtml +=   "<div class=\"thumbnail\">";
-                                        strMatchHtml +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".jp","_s.jp")+"\" />";
+                                        strMatchHtml +=               "<img class=\"show-deep\" src=\""+this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png")+"\" />";
                                         strMatchHtml +=               "<div class=\"show-img-container\">"
-                                        strMatchHtml +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".jp","_s.jp") +"\" />";
+                                        strMatchHtml +=                   "<img class=\"show-img\" style=\"width:93%; margin:33% auto auto 4%;\" src=\""+ this.cover.replace(".jp","_s.jp").replace(".png","_s.png") +"\" />";
                                         strMatchHtml +=               "</div>";
-                                        strMatchHtml +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".jp","_s.jp") +"\" />";
+                                        strMatchHtml +=               "<img class=\"show-imgmask\" src=\""+ this.coverForeground.replace(".jp","_s.jp").replace(".png","_s.png") +"\" />";
                                         strMatchHtml +=           "</div>";
                                         strMatchHtml +=           "<div class=\"show-info clearfix\">";
                                         strMatchHtml +=               "<div class=\"avatar\">";
-                                        strMatchHtml +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
+                                        strMatchHtml +=                   "<img src=\""+ strportrait.replace(".jp","_50.jp").replace(".png","_50.png")  +"\" class=\"avatar-img\" />";
                                         if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
                                         {
                                             strMatchHtml +=                   "<span class=\"flag-crown\"></span>";
