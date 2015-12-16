@@ -69,7 +69,7 @@ define([
 
                             strHotHTML +=               "</div>"
                             strHotHTML +=               "<p class=\"username\">"+strNickName+"</p>"
-                            strHotHTML +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ")+"</span></p>";
+                            strHotHTML +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ").replace("Z"," ")+"</span></p>";
                             strHotHTML +=               "<p class=\"hits pull-right\"><i class=\"icon-eye\"></i><span class=\"text\">"+ this.__context.numComments +"</span></p>";
                             strHotHTML +=           "</div>";
                             strHotHTML +=   "    </div><!-- /.show-item -->";
