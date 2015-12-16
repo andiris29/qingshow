@@ -24,7 +24,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
+import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
@@ -101,7 +101,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
             }
         });
         recyclerView.setHasFixedSize(true);
-        matchNewAdapter = new S01MatchNewAdapter(new LinkedList<FeedingAggregation>(), this, R.layout.item_matchnew);
+        matchNewAdapter = new S01MatchNewAdapter(new LinkedList<FeedingAggregationLatest>(), this, R.layout.item_matchnew);
         recyclerView.setAdapter(matchNewAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -177,14 +177,14 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     private void getLatest() {
         QSRxApi.queryFeedingaggregationLatest()
-                .subscribe(new QSSubscriber<List<FeedingAggregation>>() {
+                .subscribe(new QSSubscriber<List<FeedingAggregationLatest>>() {
                     @Override
                     public void onNetError(int message) {
                         ErrorHandler.handle(S01MatchShowsActivity.this, message);
                     }
 
                     @Override
-                    public void onNext(List<FeedingAggregation> feedingAggregations) {
+                    public void onNext(List<FeedingAggregationLatest> feedingAggregations) {
                         matchNewAdapter.addDataAtTop(feedingAggregations);
                     }
 

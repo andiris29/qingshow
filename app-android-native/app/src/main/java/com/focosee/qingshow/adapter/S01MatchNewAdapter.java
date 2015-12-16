@@ -10,7 +10,7 @@ import android.view.View;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S24ShowsDateActivity;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
+import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
@@ -23,10 +23,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/27.
  */
-public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
+public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregationLatest>{
 
     private GregorianCalendar calendar;
-    public S01MatchNewAdapter(@NonNull List<FeedingAggregation> datas, Context context, int... layoutId) {
+    public S01MatchNewAdapter(@NonNull List<FeedingAggregationLatest> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
         calendar = new GregorianCalendar();
     }
@@ -38,7 +38,7 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregation>{
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-        FeedingAggregation data = datas.get(position);
+        FeedingAggregationLatest data = datas.get(position);
         int[] imgId = new int[]{R.id.item_new_img1, R.id.item_new_img2, R.id.item_new_img3};
         int[] pimgId= new int[]{R.id.item_new_pg_img1,R.id.item_new_pg_img2,R.id.item_new_pg_img3};
         int[] layoutId = new int[]{R.id.layout1,R.id.layout2,R.id.layout3};

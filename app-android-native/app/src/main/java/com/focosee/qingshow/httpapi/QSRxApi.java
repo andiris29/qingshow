@@ -10,7 +10,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByModelParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
-import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
+import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
 import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -32,28 +32,28 @@ import rx.functions.Func1;
 
 public class QSRxApi {
 
-    public static Observable<List<FeedingAggregation>> queryFeedingaggregationLatest(){
+    public static Observable<List<FeedingAggregationLatest>> queryFeedingaggregationLatest(){
         return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getFeedingaggregationLatest(), null)
-                .map(new Func1<JSONObject, List<FeedingAggregation>>() {
+                .map(new Func1<JSONObject, List<FeedingAggregationLatest>>() {
                     @Override
-                    public List<FeedingAggregation> call(JSONObject jsonObject) {
-                    List<FeedingAggregation> feedingAggregations = FeedingAggregationLatestParser.parseQuery(jsonObject);
-                    Collections.sort(feedingAggregations, new Comparator<FeedingAggregation>() {
+                    public List<FeedingAggregationLatest> call(JSONObject jsonObject) {
+                    List<FeedingAggregationLatest> feedingAggregations = FeedingAggregationLatestParser.parseQuery(jsonObject);
+                    Collections.sort(feedingAggregations, new Comparator<FeedingAggregationLatest>() {
                         @Override
-                        public int compare(FeedingAggregation lhs, FeedingAggregation rhs) {
+                        public int compare(FeedingAggregationLatest lhs, FeedingAggregationLatest rhs) {
                             return Integer.parseInt(rhs.key) - Integer.parseInt(lhs.key);
                         }
                     });
                     return feedingAggregations;
                     }
-                }).flatMap(new Func1<List<FeedingAggregation>, Observable<FeedingAggregation>>() {
+                }).flatMap(new Func1<List<FeedingAggregationLatest>, Observable<FeedingAggregationLatest>>() {
                     @Override
-                    public Observable<FeedingAggregation> call(List<FeedingAggregation> feedingAggregations) {
+                    public Observable<FeedingAggregationLatest> call(List<FeedingAggregationLatest> feedingAggregations) {
                         return Observable.from(feedingAggregations);
                     }
-                }).filter(new Func1<FeedingAggregation, Boolean>() {
+                }).filter(new Func1<FeedingAggregationLatest, Boolean>() {
                     @Override
-                    public Boolean call(FeedingAggregation feedingAggregation) {
+                    public Boolean call(FeedingAggregationLatest feedingAggregation) {
                         return feedingAggregation.topShows.size() > 0;
                     }
                 }).toList();
