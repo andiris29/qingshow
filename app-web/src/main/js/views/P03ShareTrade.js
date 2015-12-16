@@ -9,6 +9,7 @@ define([
 
         var trade = sharedObject.targetInfo.trade;
 
+        var monthArr = ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"]
         
         //build user's nickName
         __services.httpService.request('/people/query', 'get', {
@@ -69,7 +70,11 @@ define([
 
                             strHotHTML +=               "</div>"
                             strHotHTML +=               "<p class=\"username\">"+strNickName+"</p>"
-                            strHotHTML +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ").replace("Z"," ")+"</span></p>";
+                            var dateStrs =this.create.split("-");
+                            var month = parseInt(dateStrs[1], 10)-1;
+                            var day = parseInt(dateStrs[2], 10);
+                            var strTime = monthArr[month]+"."+day;
+                            strHotHTML +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ strTime +"</span></p>";
                             strHotHTML +=               "<p class=\"hits pull-right\"><i class=\"icon-eye\"></i><span class=\"text\">"+ this.__context.numComments +"</span></p>";
                             strHotHTML +=           "</div>";
                             strHotHTML +=   "    </div><!-- /.show-item -->";
@@ -192,7 +197,13 @@ define([
                                         }
                                         strMatchHtml +=               "</div>"
                                         strMatchHtml +=               "<p class=\"username\">"+strNickName+"</p>"
-                                        strMatchHtml +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ this.create.replace("T"," ")+"</span></p>";
+
+                                        var dateStrs =this.create.split("-");
+                                        var month = parseInt(dateStrs[1], 10)-1;
+                                        var day = parseInt(dateStrs[2], 10);
+                                        var strTime = monthArr[month]+"."+day;
+
+                                        strMatchHtml +=               "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">"+ strTime+"</span></p>";
                                         strMatchHtml +=               "<p class=\"hits pull-right\"><i class=\"icon-eye\"></i><span class=\"text\">"+ this.__context.numComments +"</span></p>";
                                         strMatchHtml +=           "</div>";
                                         strMatchHtml +=   "    </div><!-- /.show-item -->";
