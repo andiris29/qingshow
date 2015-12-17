@@ -70,7 +70,11 @@ a {text-decoration:none; color:#282d5b;}
 .share-imagearea .share-deep {width:100%; opacity:0;}
 .share-imagearea .share-img-container {position:absolute; left:0; right:0; top:0; bottom:0;}
 .share-imagearea .share-img {width:100%; position:relative; z-index:0;}
+.share-imagearea .img-mask {position:relative;}
 .share-imagearea .share-imgmask {position:absolute; width:100%; left:0; top:0; z-index:1;}
+.share-imagearea .share-item-box {position:absolute; z-index:1;}
+.share-imagearea .flag {background:url(../img/flag.png) no-repeat center center / 100%; width:2.25rem; padding-left:0.25rem; height:0.75rem; line-height:0.75rem; position:absolute; z-index:7; color:#fff; left:50%; margin-left:-1.25rem; top:50%; margin-top:-0.375rem; font-size:0.375rem; text-align:center;}
+.share-imagearea .flag em {font-size:0.475rem; margin-left:0.1rem;}
 
 
 
@@ -120,6 +124,7 @@ a {text-decoration:none; color:#282d5b;}
 .showcase-title span {display:inline-block; width:90%; text-align:center; box-sizing:border-box; padding:0 1rem 0 0.75rem; background-color:#fff; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 .showcase-container {position:relative;}
 .showcase .item-container {position:absolute;}
+.showcase .active {border:#302d4a 1px solid;}
 .showcase .item-container .item-img {width:100%;}
 .showcase .item-container .flag {background:url(../img/flag.png) no-repeat center center / 100%; width:2.25rem; padding-left:0.25rem; height:0.75rem; line-height:0.75rem; position:absolute; z-index:7; left:50%; margin-left:-1.25rem; top:50%; margin-top:-0.375rem; color:#fff; font-size:0.375rem; text-align:center;}
 .showcase .item-container .flag em {font-size:0.475rem; margin-left:0.1rem;}

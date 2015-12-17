@@ -10,6 +10,85 @@ define([
         var trade = sharedObject.targetInfo.trade;
 
         var monthArr = ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"]
+        var tradeSnapshot = trade.tradeSnapshot;
+
+        var tradeItemArr =  new Array();
+        var idsArr = new Array()
+        idsArr[0] = tradeSnapshot.itemRef;
+        idsArr[1] = trade.remix.master.itemRef;
+        tradeItemArr[0] = trade.remix.master;
+        var _index  = 2;
+        if( trade.remix.slaves)
+        {
+              $.each(trade.remix.slaves, function(index){   
+                    if(this.itemRef)
+                    {
+                        idsArr[_index] = this.itemRef;
+                        tradeItemArr[_index-1] = this;
+                        _index++;
+
+                    }
+               });
+        }
+        __services.httpService.request('/item/query', 'get', {
+          "_ids":idsArr
+        }, function(err, metadata, data) {
+          if(!err){     
+            if(data.items)
+            {   
+    
+                var imgAreaWidth = window.screen.width*0.8;
+                var imgAreaHeight = imgAreaWidth * 15 /13;
+                var strTopImgAreaHTML = "";
+                var strItemHTML = "";
+                   $.each(data.items, function(index){    
+                         var strActive = "";
+                          if(this._id == idsArr[0])
+                          { 
+                            $('.showcase-title').html("<span>"+ this.shopRef.nickname +"</span>");
+                            strActive = "active";
+                          }
+
+                          var rectItem = tradeItemArr[0];
+                          if(tradeItemArr)
+                          {
+
+                            for (var i = tradeItemArr.length - 1; i >= 0; i--) {
+                                if(tradeItemArr[i].itemRef == this._id)
+                                {
+                                    rectItem = tradeItemArr[i];
+                                   break;
+                                }
+                            };
+
+                          }
+                        strItemHTML = ""; 
+                        strItemHTML += "<div class=\"item-container "+strActive+"\" style=\"background:url("+ this.thumbnail.replace(".jp","_s.jp").replace(".png","_s.png")   +") no-repeat center center / contain;left:"+rectItem.rect[0]+"%; top:"+rectItem.rect[1]+"%; width:"+rectItem.rect[2]+"%; height:"+rectItem.rect[3]+"%;\">";   
+                        if(this.expectable && this.expectable.reduction && this.expectable.reduction>0)
+                        {
+                            strItemHTML += "    <span class=\"flag\">立减<em>"+this.expectable.reduction+"</em></span></div>"   
+                        }
+
+                        strTopImgAreaHTML += strItemHTML;
+
+
+                     });    
+                }
+
+                $('.showcase-container').width(imgAreaWidth);
+                $('.showcase-container').height(imgAreaHeight);
+                $('.showcase-container').css("margin-left",window.screen.width*0.1);
+                $(".showcase-container").html(strTopImgAreaHTML);
+          }
+
+        });
+
+
+
+
+
+
+
         
         //build user's nickName
         __services.httpService.request('/people/query', 'get', {
@@ -97,52 +176,10 @@ define([
          __services.httpService.request('/user/loginAsViewer', 'post', {
                 
             }, function(err, metadata, data) {
-
-                //bind data
-                $('.showcase-title').html("<span>"+ sharedObject.title +"</span>");
+              
                 $('.appdown2', this._dom).on('click', __services.downloadService.download);
                 $('.download', this._dom).on('click', __services.downloadService.download);
                 var strTopImgAreaHTML = "";
-                if(trade && trade.remix)
-                {
-                    var itemMaster =  trade.remix.master;
-                    var slavesArr =  trade.remix.slaves;
-                    var strItemHTML = "";
-
-                var imgAreaWidth = window.screen.width*0.8;
-                var imgAreaHeight = imgAreaWidth * 15 /13;
-
-                    if(itemMaster)
-                    {
-                        var leftMargin =  itemMaster.rect[0];
-                        var topMargin =  itemMaster.rect[1];
-                        var itemWidth =  itemMaster.rect[2];
-                        var itemHeight =  itemMaster.rect[3];
-
-                        strItemHTML = ""; 
-                        strItemHTML += "<div class=\"item-container\" style=\"background:url("+ itemMaster.itemSnapshot.thumbnail.replace(".jp","_s.jp").replace(".png","_s.png")  +") no-repeat center center / contain;left:"+itemMaster.rect[0]+"%; top:"+itemMaster.rect[1]+"%; width:"+itemMaster.rect[2]+"%; height:"+itemMaster.rect[3]+"%;\">";   
-                        strItemHTML += "    <span class=\"flag\">立减<em>"+itemMaster.itemSnapshot.expectable.reduction+"</em></span></div>"
-                        strTopImgAreaHTML += strItemHTML;
-                    }
-                }
-                $.each(trade.remix.slaves,function(index){
-                    strItemHTML = "";
-                    if(this)
-                    {
-                        strItemHTML = ""; 
-                        strItemHTML += "<div class=\"item-container\" style=\"background:url("+ this.itemSnapshot.thumbnail.replace(".jp","_s.jp").replace(".png","_s.png")   +") no-repeat center center / contain;left:"+this.rect[0]+"%; top:"+this.rect[1]+"%; width:"+this.rect[2]+"%; height:"+this.rect[3]+"%;\">";   
-                        if(this.itemSnapshot.expectable && this.itemSnapshot.expectable.reduction && this.itemSnapshot.expectable.reduction>0)
-                        {
-                            strItemHTML += "    <span class=\"flag\">立减<em>"+this.itemSnapshot.expectable.reduction+"</em></span></div>"   
-                        }
-
-                        strTopImgAreaHTML += strItemHTML;
-                    }
-                });
-                $('.showcase-container').width(imgAreaWidth);
-                $('.showcase-container').height(imgAreaHeight);
-                $('.showcase-container').css("margin-left",window.screen.width*0.1);
-                $(".showcase-container").html(strTopImgAreaHTML);
                 if(err)
                 {
                     //print error
