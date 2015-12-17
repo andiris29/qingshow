@@ -26,7 +26,10 @@ var sharedObjectSchema = {
             withdrawTotal : Number
         },
         show : {
-            showSnapshot: Object
+            showRef : {
+                type : Schema.Types.ObjectId,
+                ref : 'shows'
+            },
         },
         trade : {
             remix : {
@@ -41,7 +44,7 @@ var sharedObjectSchema = {
             }
         }
     }
-}
+};
 
 var SharedObject = mongoose.model('sharedObjects', sharedObjectSchema);
 

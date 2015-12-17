@@ -22,28 +22,21 @@ var errors = require('../../errors');
 var share = module.exports;
 
 share.createShow = {
-	method : 'post',
-    permissionValidators : ['loginValidator'],
-    func : function(req, res){
-    	var params = req.body;
-    	async.waterfall([function(callback){
-    		Show.findOne({
-    			'_id' : RequestHelper.parseId(params._id)
-    		}, callback);
-		}, function(show, callback){
-			ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_SHOW, {
-				'show' : {
-                    'showSnapshot': show
-				}
-			}, callback);
-		}], function(err, sharedObject){
-			ResponseHelper.response(res, err, {
-                'sharedObject' : sharedObject 
+	'method' : 'post',
+	'func' : [
+        require('../middleware/validateLogin'),
+        function(req, res, next) {
+            ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_SHOW, {
+                'show' : {
+                    'showRef': RequestHelper.parseId(req.body._id)
+                }
+            }, function(err, sharedObject) {
+                ResponseHelper.writeData(res, {'sharedObject' : sharedObject});
+                next();
             });
-		});
-    }
+        }
+    ]
 };
-
 
 share.createTrade = {
 	method : 'post',
