@@ -25,7 +25,11 @@ itemSchema = Schema({
     skuProperties : [String],
     skuTable : {},
     source : String,
-    numLike : Number,
+    sourceInfo : {
+        // taobao, tmall, jamy, hm
+        domain : String,
+        id : String
+    },
     create : {
         type : Date,
         'default' : Date.now
@@ -38,8 +42,12 @@ itemSchema = Schema({
         'default' : true
     },
     sync : Date,
+    syncRequestAt : Date,
+    syncStartAt : Date,
     remixCategoryAliases : String
 });
+
+itemSchema.index({'sourceInfo.domain': 1, 'sourceInfo.id': 1});
 
 var Item = mongoose.model('items', itemSchema);
 
