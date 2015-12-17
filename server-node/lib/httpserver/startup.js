@@ -28,7 +28,6 @@ var servicesNames = [
     'shop', 
     'item', 
     'dashboard', 
-    'goblin', 
     'system',
     'share',
     'trace'

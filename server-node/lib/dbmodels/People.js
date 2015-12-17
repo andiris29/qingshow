@@ -93,11 +93,6 @@ peopleSchema = Schema({
             receiverUuid : String
         }
     },
-    shopInfo : {
-        taobao : {
-            sid : String
-        }
-    },
     rank : Number
 });
 
