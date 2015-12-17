@@ -371,21 +371,20 @@ matcher.remixByItem = {
                     });
                     ResponseHelper.writeData(res, data);
 
-                    var sharedObject = {
-                        'master': {
-                            'itemSnapshot': req.injection.itemRef,
-                            'rect' : data.master.rect
-                        },
-                        'slaves': []
+                    req.session.shareTradeTargetInfo = {
+                        'remix' : {
+                            'master' : {
+                                'itemRef' : req.injection.itemRef._id,
+                                'rect' : data.master.rect
+                            },
+                            'slaves' : data.slaves.map(function(slave) {
+                                return {
+                                    'itemRef' : slave.itemRef._id,
+                                    'rect' : slave.rect
+                                };
+                            })
+                        }
                     };
-
-                    data.slaves.forEach(function(element) {
-                        sharedObject.slaves.push({
-                            'itemSnapshot': element.itemRef,
-                            'rect': element.rect
-                        });
-                    });
-                    req.session.sharedObject =  JSON.stringify(sharedObject);
                     break;
                 }
             }
