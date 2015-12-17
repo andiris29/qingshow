@@ -32,13 +32,14 @@ var sharedObjectSchema = {
             },
         },
         trade : {
+            tradeSnapshot : Object,
             remix : {
                 master: {
-                    itemSnapshot: Object,
+                    itemRef: Object,
                     rect: Object
                 },
                 slaves: [{
-                    itemSnapshot: Object,
+                    itemRef: Object,
                     rect: Object
                 }]
             }

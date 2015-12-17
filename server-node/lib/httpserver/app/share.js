@@ -39,26 +39,25 @@ share.createShow = {
 };
 
 share.createTrade = {
-	method : 'post',
-	permissionValidators : ['loginValidator'],
-	func : function(req, res){
-		var params = req.body;
-    	async.waterfall([function(callback){
-    		Trade.findOne({
-    			'_id' : RequestHelper.parseId(params._id)
-    		}, callback);
-		}, function(trade, callback){
-			ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_TRADE, {
-				'trade' : {
-                    'remix': JSON.parse(req.session.sharedObject)
-				}
-			}, callback);
-		}], function(err, sharedObject){
-			ResponseHelper.response(res, err, {
-                'sharedObject' : sharedObject 
-            });
-		});
-	}
+	'method' : 'post',
+    'func' : [
+        require('../middleware/validateLogin'),
+        function(req, res, next) {
+            if (req.session.shareTradeTargetInfo &&
+                req.session.shareTradeTargetInfo.tradeSnapshot._id.toString() === req.body._id) {
+                ShareHelper.create(req.qsCurrentUserId, SharedObjectCode.TYPE_SHARE_TRADE, {
+                    'trade' : req.session.shareTradeTargetInfo
+                }, function(err, sharedObject) {
+                    delete req.session.shareTradeTargetInfo;
+                    
+                    ResponseHelper.writeData(res, {'sharedObject' : sharedObject});
+                    next();
+                });
+            } else {
+                next(errors.ERR_INVALID_TRADE);
+            }
+        }
+    ]
 };
 
 share.createBonus = {

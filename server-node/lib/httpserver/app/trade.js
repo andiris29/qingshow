@@ -51,6 +51,15 @@ trade.create = {
                         '_tradeId' : trade._id.toString(),
                         'selectedSkuProperties' : trade.selectedSkuProperties
                     });
+                    
+                    // Save session
+                    req.session.shareTradeTargetInfo = req.session.shareTradeTargetInfo || {};
+                    req.session.shareTradeTargetInfo.tradeSnapshot = {
+                        '_id' : trade._id,
+                        'ownerRef' : req.injection.qsCurrentUser.toJSON(),
+                        'itemRef' : req.injection.itemRef._id
+                    };
+            
                     next();
                 }
             });
