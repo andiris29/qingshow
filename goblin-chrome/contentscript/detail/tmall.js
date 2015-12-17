@@ -36,3 +36,16 @@ global.siteInjection.fetchWebItems = function() {
 	return webItems;
 };
 
+
+// Build json
+var interval = setInterval(function() {
+	var title$ = $('div.tb-detail-hd');
+	if (title$.length) {
+		clearInterval(interval);
+
+		__popup(title$, {
+			'name' : title$.text().trim(),
+			'source' : 'https://item.taobao.com/item.htm?id=' + goblin.parseUrl(location.href).id
+		});
+	}
+}, 1000);

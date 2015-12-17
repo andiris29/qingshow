@@ -49,17 +49,23 @@
         "matches": [
             "*://item.taobao.com/item.htm*"
         ],
+        "css": [
+            "libs/json-highlight.css", "libs/Popup-master/assets/css/popup.css"
+        ],
         "js": [
-            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
-            "/contentscript/main.js", "/contentscript/detail/taobao.js"
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/Popup-master/assets/js/jquery.popup.js", "/libs/goblin.js",
+            "/contentscript/main.js", "/contentscript/detail/main.js", "/contentscript/detail/taobao.js"
         ]
     }, {
         "matches": [
             "*://detail.tmall.com/item.htm*"
         ],
+        "css": [
+            "libs/json-highlight.css", "libs/Popup-master/assets/css/popup.css"
+        ],
         "js": [
-            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
-            "/contentscript/main.js", "/contentscript/detail/tmall.js"
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/Popup-master/assets/js/jquery.popup.js", "/libs/goblin.js",
+            "/contentscript/main.js", "/contentscript/detail/main.js", "/contentscript/detail/tmall.js"
         ]
     }],
     "manifest_version": 2

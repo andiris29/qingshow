@@ -25,3 +25,16 @@ global.siteInjection.fetchWebItems = function() {
 
 	return webItems;
 };
+
+// Build json
+var interval = setInterval(function() {
+	var title$ = $('h3.tb-main-title');
+	if (title$.length) {
+		clearInterval(interval);
+
+		__popup(title$, {
+			'name' : title$.attr('data-title').trim(),
+			'source' : 'https://detail.tmall.com/item.htm?id=' + goblin.parseUrl(location.href).id
+		});
+	}
+}, 1000);

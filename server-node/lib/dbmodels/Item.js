@@ -30,7 +30,6 @@ itemSchema = Schema({
         domain : String,
         id : String
     },
-    numLike : Number,
     create : {
         type : Date,
         'default' : Date.now
