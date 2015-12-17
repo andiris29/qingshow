@@ -314,11 +314,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 quitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ConfirmDialog dialog = new ConfirmDialog(getActivity());
+                        final ConfirmDialog dialog = new ConfirmDialog(getActivity());
                         dialog.setTitle("确定退出登陆？");
                         dialog.setConfirm(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                dialog.dismiss();
                                 UserCommand.logOut(new Callback() {
                                     @Override
                                     public void onComplete() {
