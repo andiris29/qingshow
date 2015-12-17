@@ -8,6 +8,8 @@ var moment = require('moment');
 var ItemSourceType = require('../goblin-common/ItemSourceType');
 var GoblinError = require('../goblin-common/GoblinError');
 
+var goblin = require('../goblin');
+
 var GoblinCrawler = require('./crawler/GoblinCrawler');
 
 var GoblinSlave = module.exports;
@@ -88,16 +90,22 @@ var _next = function (type) {
     });
 };
 
+var _typeToDomains = function(type) {
+    if (type === (ItemSourceType.Taobao | ItemSourceType.Tmall)) {
+        return goblin.domain.TAOBAO + ',' + goblin.domain.TMALL;
+    } else if (type === ItemSourceType.Hm) {
+        return goblin.domain.HM;
+    } else if (type === ItemSourceType.Jamy) {
+        return goblin.domain.JAMY;
+    }
+};
+
 var _queryNextItem = function (type, callback) {
-    var path = slaverModel.config.server.path + '/services/goblin/nextItem';
+    var path = slaverModel.config.server.path + '/services/item/findOneAndStartSync';
 
     // winston.debug('query nextItem: ' + type);
-    request.post({
-        url: path,
-        form: {
-            type : type,
-            'version' : slaverModel.config.version
-        }
+    request.get({
+        url: path + '?domains=' + _typeToDomains(type) + '&version=' + slaverModel.config.version
     }, function(err, httpResponse, body){
         if (err) {
             // winston.debug('query nextItem failed: ' + type);
@@ -130,7 +138,7 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
 
     var param = {};
     if (item && item._id) {
-        param.itemId = item._id;
+        param.itemRef = item._id;
     }
     if (itemInfo) {
         param.itemInfo = itemInfo;
@@ -149,7 +157,7 @@ var _postItemInfo = function (item, itemInfo, err, callback) {
         winston.info('    complete');
     }
 
-    var path = slaverModel.config.server.path + '/services/goblin/crawlItemComplete';
+    var path = slaverModel.config.server.path + '/services/item/syncComplete';
 
     request.post({
         url: path,

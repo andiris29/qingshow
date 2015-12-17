@@ -51,7 +51,12 @@ define([
                        $.each(data.shows, function(index){    
                               if(index <=5){
                                     strNickName = this.ownerRef.nickname; 
-                                    strportrait = this.ownerRef.portrait; 
+                                   
+                                    if(this.ownerRef.portrait)
+                                    {
+                                         strportrait = this.ownerRef.portrait;
+                                        strportrait = strportrait.replace(".jp","_50.jp").replace(".png","_50.png");
+                                    } 
 
                                     strHotHTML +=   "<div class=\"show-item pull-left\">";
                                     strHotHTML +=   "<div class=\"thumbnail\">";
@@ -63,7 +68,7 @@ define([
                                     strHotHTML +=           "</div>";
                                     strHotHTML +=           "<div class=\"show-info clearfix\">";
                                     strHotHTML +=               "<div class=\"avatar\">";
-                                    strHotHTML +=                   "<img src=\""+ strportrait.replace(".jp","_50.jp").replace(".png","_50.png")  +"\" class=\"avatar-img\" />";
+                                    strHotHTML +=                   "<img src=\""+ strportrait +"\" class=\"avatar-img\" />";
 
                                     if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
                                     {
@@ -157,7 +162,10 @@ define([
                                 $.each(data.shows, function(index){   
                                     if(index <=5){
                                         strNickName = this.ownerRef.nickname; 
-                                        strportrait = this.ownerRef.portrait; 
+                                        if(this.ownerRef.portrait)
+                                        {
+                                            strportrait = this.ownerRef.portrait.replace(".jp","_50.jp").replace(".png","_50.png"); 
+                                        }
 
                                         strMatchHtml +=   "<div class=\"show-item pull-left\">";
                                         strMatchHtml +=   "<div class=\"thumbnail\">";
@@ -169,7 +177,7 @@ define([
                                         strMatchHtml +=           "</div>";
                                         strMatchHtml +=           "<div class=\"show-info clearfix\">";
                                         strMatchHtml +=               "<div class=\"avatar\">";
-                                        strMatchHtml +=                   "<img src=\""+ strportrait.replace(".jp","_50.jp").replace(".png","_50.png")  +"\" class=\"avatar-img\" />";
+                                        strMatchHtml +=                   "<img src=\""+ strportrait  +"\" class=\"avatar-img\" />";
                                         if(this.ownerRef.rank && (this.ownerRef.rank ==0 ||this.ownerRef.rank ==1 ) )
                                         {
                                             strMatchHtml +=                   "<span class=\"flag-crown\"></span>";

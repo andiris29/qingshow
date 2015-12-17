@@ -1,0 +1,72 @@
+{
+    "name": "倾秀哥布林",
+    "version": "1.0",
+    "permissions": [
+        "tabs"
+    ],
+    "icons": {
+        "16": "/images/chingshow.png",
+        "32": "/images/chingshow.png",
+        "48": "/images/chingshow.png",
+        "128": "/images/chingshow.png"
+    },
+    "browser_action": {
+        "default_title" : "倾秀哥布林",
+        "default_icon" : "/images/chingshow.png"
+    },
+    "background": {
+        "scripts": [
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", 
+            "/background/background.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts" : [{
+        "matches": [
+            "*://list.taobao.com/*"
+        ],
+        "js": [
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
+            "/contentscript/main.js", "/contentscript/list/listtaobao.js"
+        ]
+    }, {
+        "matches": [
+            "*://s.taobao.com/*"
+        ],
+        "js": [
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
+            "/contentscript/main.js", "/contentscript/list/staobao.js"
+        ]
+    }, {
+        "matches": [
+            "*://list.tmall.com/*"
+        ],
+        "js": [
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/goblin.js",
+            "/contentscript/main.js", "/contentscript/list/listtmall.js"
+        ]
+    }, {
+        "matches": [
+            "*://item.taobao.com/item.htm*"
+        ],
+        "css": [
+            "libs/json-highlight.css", "libs/Popup-master/assets/css/popup.css"
+        ],
+        "js": [
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/Popup-master/assets/js/jquery.popup.js", "/libs/goblin.js",
+            "/contentscript/main.js", "/contentscript/detail/main.js", "/contentscript/detail/taobao.js"
+        ]
+    }, {
+        "matches": [
+            "*://detail.tmall.com/item.htm*"
+        ],
+        "css": [
+            "libs/json-highlight.css", "libs/Popup-master/assets/css/popup.css"
+        ],
+        "js": [
+            "/libs/jquery-2.1.1/jquery-2.1.1.js", "/libs/async-0.9.0/lib/async.js", "/libs/Popup-master/assets/js/jquery.popup.js", "/libs/goblin.js",
+            "/contentscript/main.js", "/contentscript/detail/main.js", "/contentscript/detail/tmall.js"
+        ]
+    }],
+    "manifest_version": 2
+}
