@@ -73,11 +73,11 @@ define([
                 if(trueShowItem.itemRects)
                 {
                      $.each(trueShowItem.itemRects, function(index){  
-                         if(trueShowItem.itemRefs[index].name)
+                         if(!trueShowItem.itemRefs[index].delist)
                          {
                             strItemHTML  = "";
                             strItemHTML += " <div class=\"share-item-box\" style=\"left:"+ this[0] +"%; top:"+ this[1] +"%;width:"+ this[2] +"%; height:"+ this[3] +"%; \">"
-                            strItemHTML +=    "<span class=\"flag\">立减<em>"+ trueShowItem.itemRefs[index].expectable.reduction +"</em></span>";
+                            strItemHTML +=    "<span class=\"flag\">&nbsp;<em>"+ trueShowItem.itemRefs[index].expectable.reduction +"</em></span>";
                             strItemHTML += "</div>";
                             strTagHTML += strItemHTML;
                         }
@@ -145,8 +145,6 @@ define([
                       $('#show1').html(strMatchHtml);
                     });  
                     // end--绑定 我的美搭
-
-
             }
           }
 

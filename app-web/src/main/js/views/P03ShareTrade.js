@@ -45,7 +45,13 @@ define([
                          var strActive = "";
                           if(this._id == idsArr[0])
                           { 
-                            $('.showcase-title').html("<span>"+ this.shopRef.nickname +"</span>");
+                            var strNickName = "--"
+                            if(this.shopRef)
+                            {
+                                strNickName = this.shopRef.nickname 
+                            }
+                            $('.showcase-title').html("<span>"+ strNickName +"</span>");
+
                             strActive = "active";
                           }
 
@@ -66,7 +72,7 @@ define([
                         strItemHTML += "<div class=\"item-container "+strActive+"\" style=\"background:url("+ this.thumbnail.replace(".jp","_s.jp").replace(".png","_s.png")   +") no-repeat center center / contain;left:"+rectItem.rect[0]+"%; top:"+rectItem.rect[1]+"%; width:"+rectItem.rect[2]+"%; height:"+rectItem.rect[3]+"%;\">";   
                         if(this.expectable && this.expectable.reduction && this.expectable.reduction>0)
                         {
-                            strItemHTML += "    <span class=\"flag\">立减<em>"+this.expectable.reduction+"</em></span></div>"   
+                            strItemHTML += "    <span class=\"flag\">&nbsp;<em>"+this.expectable.reduction+"</em></span></div>"   
                         }
 
                         strTopImgAreaHTML += strItemHTML;
