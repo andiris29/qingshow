@@ -83,7 +83,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout bodyTypeRelativeLayout;
-    private RelativeLayout bonusRelativeLayout;
     private RelativeLayout addresslistRelativeLayout;
     private RelativeLayout dressStyleRelativeLayout;
     private RelativeLayout effectRelativeLayout;
@@ -277,7 +276,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
         bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
-        bonusRelativeLayout = (RelativeLayout) view.findViewById(R.id.bonusRelativeLayout);
         addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
         dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
         effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
@@ -569,13 +567,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-        bonusRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bonusTip.setVisibility(View.GONE);
-                getActivity().startActivity(new Intent(getActivity(), U15BonusActivity.class));
-            }
-        });
 
         addresslistRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

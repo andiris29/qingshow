@@ -119,6 +119,9 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     FrameLayout container;
     @InjectView(R.id.u01_setting)
     ImageView setting;
+    @InjectView(R.id.bonus)
+    TextView bonus;
+
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -166,6 +169,13 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
             public void onClick(View v) {
                 Intent intent = new Intent(U01UserActivity.this, U02SettingsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        bonus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                U01UserActivity.this.startActivity(new Intent(U01UserActivity.this, U15BonusActivity.class));
             }
         });
     }

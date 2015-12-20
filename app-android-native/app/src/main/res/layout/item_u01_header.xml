@@ -67,6 +67,17 @@
         android:layout_marginRight="10dp"
         android:src="@drawable/follow_btn"/>
 
+    <TextView
+        android:id="@+id/bonus"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_alignLeft="@id/user_follow_btn"
+        android:layout_below="@id/user_follow_btn"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:text="收益账户"
+        android:background="@drawable/gay_btn_ring"/>
+
     <LinearLayout
         android:id="@+id/user_tab_layout"
         android:layout_width="match_parent"
