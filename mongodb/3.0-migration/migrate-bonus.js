@@ -1,5 +1,4 @@
-
-var peoples = db.getCollection('peoples').find({});
+var peoples = db.getCollection('peoples').find({'bonuses' : {'$ne' : null}});
 
 peoples.forEach(function(people) {
     var legacyBonuses = people.bonuses || [],

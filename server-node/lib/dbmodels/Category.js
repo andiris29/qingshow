@@ -18,6 +18,7 @@ var categorySchema = {
         type : Schema.Types.ObjectId,
         ref : 'categories'
     },
+    alias : String,
     remixCategoryAliases : String
 };
 
