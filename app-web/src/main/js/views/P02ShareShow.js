@@ -102,7 +102,7 @@ define([
                             if(data && data.shows)
                             {
                                 var strNickName = "";
-                                var strportrait = "";
+                                var strportrait = "images/avatar.png";
                                 $.each(data.shows, function(index){   
                                     if(index <=5){
                                         strNickName = this.ownerRef.nickname; 
@@ -160,7 +160,7 @@ define([
                     if(data && data.shows)
                     {
                         var strNickName = "";
-                        var strportrait = "";
+                        var strportrait = "images/avatar.png";
                        $.each(data.shows, function(index){    
                               if(index <=5){
                                     strNickName = this.ownerRef.nickname; 
