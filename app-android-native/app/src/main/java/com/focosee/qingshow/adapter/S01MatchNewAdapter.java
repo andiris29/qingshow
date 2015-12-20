@@ -12,6 +12,7 @@ import com.focosee.qingshow.activity.S24ShowsDateActivity;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
@@ -57,8 +58,8 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregationLatest>{
 
         for (int i = 0; i < topShows.size(); i++) {
             if (i > 3) break;
-            holder.setImgeByUrl(imgId[i], topShows.get(i).cover).setVisibility(imgId[i], View.VISIBLE);
-            holder.setImgeByUrl(pimgId[i], topShows.get(i).coverForeground).setVisibility(pimgId[i], View.VISIBLE);
+            holder.setImgeByUrl(imgId[i], ImgUtil.getImgSrc(topShows.get(i).cover, ImgUtil.Meduim)).setVisibility(imgId[i], View.VISIBLE);
+            holder.setImgeByUrl(pimgId[i], ImgUtil.getImgSrc(topShows.get(i).coverForeground, ImgUtil.Meduim)).setVisibility(pimgId[i], View.VISIBLE);
             holder.setVisibility(layoutId[i],View.VISIBLE);
         }
         final int key = Integer.parseInt(data.key);
@@ -78,8 +79,8 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregationLatest>{
 
         holder.setText(R.id.time, timeTemplate.replace("S", from + "").replace("E", to + ""));
         if(QSModel.INSTANCE.getUser() != null){
-            if (data.numViewOfCurrentUser > 0){
-                holder.setImgeByUrl(R.id.current_head, QSModel.INSTANCE.getUser().portrait);
+            if (data.numViewOfCurrentUser >= 0){
+                holder.setImgeByUrl(R.id.current_head, ImgUtil.getImgSrc(QSModel.INSTANCE.getUser().portrait,"50"));
                 holder.setText(R.id.rank,data.numViewOfCurrentUser + "");
             }else{
                 holder.setVisibility(R.id.current_head, View.GONE);

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 
@@ -25,6 +26,6 @@ public class TopOwnerAdapter extends AbsAdapter<MongoPeople> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-        holder.setImgeByUrl(R.id.portrait, datas.get(position).portrait);
+        holder.setImgeByUrl(R.id.portrait, ImgUtil.getImgSrc(datas.get(position).portrait,"50"));
     }
 }
