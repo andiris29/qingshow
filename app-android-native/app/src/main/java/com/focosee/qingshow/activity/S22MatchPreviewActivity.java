@@ -42,6 +42,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -226,15 +228,14 @@ public class S22MatchPreviewActivity extends BaseActivity {
                 }
                 show = ShowParser.parse(response);
                 allowClick();
-                Class _class = S03SHowActivity.class;
-                Intent intent = new Intent();
-                if (QSModel.INSTANCE.isGuest()) {
-                    _class = S01MatchShowsActivity.class;
-                }
-                intent.setClass(S22MatchPreviewActivity.this, _class);
-                intent.putExtra(S01MatchShowsActivity.INTENT_CURRENT_TYPE, 1);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
-                intent.putExtra(S03SHowActivity.CLASS_NAME, S22MatchPreviewActivity.class.getSimpleName());
+                Intent intent = new Intent(S22MatchPreviewActivity.this, S24ShowsDateActivity.class);
+                GregorianCalendar calendar = new GregorianCalendar();
+                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_TO,
+                        new GregorianCalendar(calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH),
+                        calendar.get(Calendar.HOUR_OF_DAY) + 1, 0));
+                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_FROM, calendar);
                 S22MatchPreviewActivity.this.startActivity(intent);
                 S22MatchPreviewActivity.this.finish();
             }

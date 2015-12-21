@@ -35,6 +35,8 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
     @InjectView(R.id.s24_refresh)
     BGARefreshLayout refresh;
 
+    public static String MATCH_NEW_FROM = "MATCH_NEW_FROM";
+    public static String MATCH_NEW_TO = "MATCH_NEW_TO";
     private AbsAdapter<MongoShow> adapter;
 
     private int mPageNo = 1;
@@ -53,8 +55,8 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s24_shows_date);
         ButterKnife.inject(this);
-        from = (GregorianCalendar) getIntent().getSerializableExtra("MATCH_NEW_FROM");
-        to = (GregorianCalendar) getIntent().getSerializableExtra("MATCH_NEW_TO");
+        from = (GregorianCalendar) getIntent().getSerializableExtra(MATCH_NEW_FROM);
+        to = (GregorianCalendar) getIntent().getSerializableExtra(MATCH_NEW_TO);
         String time = TimeUtil.formatDateTime_CN_Pre(from);
 //        timeTv.setText(time);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_match);
