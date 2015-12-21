@@ -305,6 +305,9 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
                         if (bonuses.containsKey("1")) {
                             totalBonuses += bonuses.get("1").floatValue();
                         }
+                        if (bonuses.containsKey("2")) {
+                            totalBonuses += bonuses.get("2").floatValue();
+                        }
                     }
                 }
             }
