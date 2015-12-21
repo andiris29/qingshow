@@ -118,6 +118,13 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 global.setVisibility(View.GONE);
             }
         });
+
+        container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (calendarPicker.isShown()) calendarPicker.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     private void initCalendar() {
