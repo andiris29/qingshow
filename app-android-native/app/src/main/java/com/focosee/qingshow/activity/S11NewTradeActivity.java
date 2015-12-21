@@ -402,8 +402,8 @@ public class S11NewTradeActivity extends BaseActivity {
                 }
                 EventBus.getDefault().post(ValueUtil.SUBMIT_TRADE_SUCCESSED);
                 t = TradeParser.parse(response);
-                //ShareUtil.shareTradeToWX(t._id, ValueUtil.SHARE_TRADE, S11NewTradeActivity.this, true);
-                EventBus.getDefault().post(new ShareTradeEvent(true));
+                ShareUtil.shareTradeToWX(t._id, ValueUtil.SHARE_TRADE, S11NewTradeActivity.this, true);
+//                EventBus.getDefault().post(new ShareTradeEvent(true));
             }
         }, new Response.ErrorListener() {
             @Override

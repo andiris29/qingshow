@@ -292,7 +292,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
         container = (FrameLayout) view.findViewById(R.id.container);
-        bonusTip = view.findViewById(R.id.u02_bonus_tip);
+//        bonusTip = view.findViewById(R.id.u02_bonus_tip);
         title = (QSTextView) view.findViewById(R.id.u02_title);
     }
 
