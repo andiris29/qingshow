@@ -104,6 +104,8 @@ public class S11NewTradeActivity extends BaseActivity {
     TextView text;
     @InjectView(R.id.share)
     QSTextView share;
+    @InjectView(R.id.s11_go_det)
+    TextView goDet;
 
     private MongoItem itemEntity;
     private MongoTrade trade;
@@ -177,6 +179,15 @@ public class S11NewTradeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 S11NewTradeActivity.this.finish();
+            }
+        });
+
+        goDet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S11NewTradeActivity.this, S10ItemDetailActivity.class);
+                intent.putExtra(S10ItemDetailActivity.INPUT_ITEM_ENTITY, itemEntity);
+                S11NewTradeActivity.this.startActivity(intent);
             }
         });
     }

@@ -47,7 +47,6 @@ public class S10ItemDetailActivity extends BaseActivity {
     private final int LOADING_FINISH = 0x1;
     private final int LOADING_START = 0x2;
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
-    public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
     public static final String BONUSES_ITEMID = "BONUSES_ITEMID";
     public static final String PROMOTRER = "promoterRef";
 
