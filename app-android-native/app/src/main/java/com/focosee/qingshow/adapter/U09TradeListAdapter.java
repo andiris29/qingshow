@@ -104,7 +104,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, S10ItemDetailActivity.class);
-                    intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, datas.get(position - 1).itemSnapshot._id);
+                    intent.putExtra(S10ItemDetailActivity.INPUT_ITEM_ENTITY, datas.get(position - 1).itemSnapshot);
                     context.startActivity(intent);
                 }
             });
@@ -113,7 +113,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, S10ItemDetailActivity.class);
-                    intent.putExtra(S10ItemDetailActivity.BONUSES_ITEMID, datas.get(position - 1).itemSnapshot._id);
+                    intent.putExtra(S10ItemDetailActivity.INPUT_ITEM_ENTITY, datas.get(position - 1).itemSnapshot);
                     context.startActivity(intent);
                 }
             });

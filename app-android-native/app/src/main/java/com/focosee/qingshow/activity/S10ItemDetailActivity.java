@@ -100,6 +100,13 @@ public class S10ItemDetailActivity extends BaseActivity {
 
         itemEntity = new MongoItem();
         itemEntity._id = getIntent().getStringExtra(BONUSES_ITEMID);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S10ItemDetailActivity.this.finish();
+            }
+        });
     }
 
     @Override
