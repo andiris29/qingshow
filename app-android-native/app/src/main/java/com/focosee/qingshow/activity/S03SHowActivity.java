@@ -139,6 +139,8 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
+    List<String> modelRefs = new ArrayList<>();
+
     private List<TextView> tagViewList;
     private MenuView menuView;
     private LoadingDialogs dialogs;
@@ -368,7 +370,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                     try {
                         String modelParentCategory = response.getJSONObject("metadata").get("modelCategoryRef").toString();
                         ArrayList<MongoCategories> categories = CategoryParser.parseQuery(response);
-                        List<String> modelRefs = new ArrayList<>();
                         for (MongoCategories category : categories) {
                             if (category.parentRef != null && category.parentRef._id.equals(modelParentCategory)){
                                 modelRefs.add(category._id);
@@ -404,6 +405,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                                 startActivity(intent);
                             }
                         });
+                        tag.setTag(item._id);
                         return tag;
                     }
                 }).subscribe(new Action1<TextView>() {
@@ -413,6 +415,24 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 tagFl.addView(tagView);
             }
         });
+
+        Observable.from(show.itemRefs)
+                .filter(new Func1<MongoItem, Boolean>() {
+                    @Override
+                    public Boolean call(MongoItem mongoItem) {
+                        return mongoItem.delist != null || modelRefs.contains(mongoItem.categoryRef._id);
+                    }
+                })
+                .subscribe(new Action1<MongoItem>() {
+                    @Override
+                    public void call(MongoItem mongoItem) {
+                        for (TextView view : tagViewList) {
+                            if (view.getTag().equals(mongoItem._id)){
+                                view.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
     }
 
     private TextView initTag(RectF rectF){
