@@ -57,11 +57,10 @@
 
 - (void)didReceiveShowNewParticipantBonusVcNoti:(NSNotification*)noti {
     NSString* bonusId = [noti.userInfo stringValueForKeyPath:@"_id"];
-    [[[UIAlertView alloc] initWithTitle:bonusId message:@"2" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"aa", nil] show];
     if (!bonusId) {
         return;
     }
-    [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateParticipant];
+    [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateAbout];
 }
 
 - (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {
