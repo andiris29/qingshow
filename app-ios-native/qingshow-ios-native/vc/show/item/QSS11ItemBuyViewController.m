@@ -301,6 +301,8 @@
         cacheRemixInfo = nil;
     }
     
+    self.itemDict = self.masterDict;
+    [self _bindWithItemDict:self.itemDict];
     if (f && cacheRemixInfo) {
         [self.remixArray addObject:cacheRemixInfo];
         self.currentRemixIndex = self.remixArray.count - 1;
