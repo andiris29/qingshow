@@ -33,9 +33,10 @@
 @property (nonatomic, strong) QSMatcherTableViewProvider* newestProvider;
 @property (strong, nonatomic) CKCalendarView* calendarView;
 
-@property (strong, nonatomic) NSTimer* scheduleToShowCalendarBtnTimer;
-
 - (IBAction)backToTopBtnPressed:(id)sender;
+
+@property (assign, nonatomic) BOOL fShouldTrackDraging;
+@property (assign, nonatomic) CGPoint initOffset;
 @end
 
 @implementation QSS01MatchShowsViewController
@@ -44,6 +45,8 @@
 - (instancetype)init {
     self = [super initWithNibName:@"QSS01MatchShowsViewController" bundle:nil];
     if (self) {
+        self.fShouldTrackDraging = NO;
+        self.initOffset = CGPointZero;
     }
     return self;
 }
@@ -89,27 +92,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    UIScrollView* sv = self.newestTableView;
-    if (sv.contentOffset.y != 0) {
-        _backToTopbtn.hidden = NO;
-        [self hideCalendarBtn];
-    } else {
-        _backToTopbtn.hidden = YES;
-        [self showCalendarBtn];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self showCalendarBtnLater];
-}
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerat {
-    if (!decelerat) {
-        [self showCalendarBtnLater];
-    }
 }
 
 #pragma mark - IBAction
@@ -200,28 +182,69 @@
 
 #pragma mark - 
 - (void)showCalendarBtn {
-    if (self.scheduleToShowCalendarBtnTimer) {
-        [self.scheduleToShowCalendarBtnTimer invalidate];
-        self.scheduleToShowCalendarBtnTimer = nil;
+    if (!self.calendarBtn.hidden) {
+        return;
     }
     self.calendarBtn.hidden = NO;
 }
 - (void)hideCalendarBtn {
-    if (self.scheduleToShowCalendarBtnTimer) {
-        [self.scheduleToShowCalendarBtnTimer invalidate];
-        self.scheduleToShowCalendarBtnTimer = nil;
+    if (self.calendarBtn.hidden) {
+        return;
     }
     self.calendarBtn.hidden = YES;
 }
-- (void)showCalendarBtnLater {
-    if (self.scheduleToShowCalendarBtnTimer) {
-        [self.scheduleToShowCalendarBtnTimer invalidate];
-        self.scheduleToShowCalendarBtnTimer = nil;
-    }
-    self.scheduleToShowCalendarBtnTimer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(showCalendarBtn) userInfo:nil repeats:NO];
-}
+
 #pragma mark -
 - (void)didReceiveUserLoginNoti:(NSNotification*)noti {
     [self.newestProvider reloadData];
 }
+
+#pragma mark - for Scroll View
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    UIScrollView* sv = self.newestTableView;
+    if (sv.contentOffset.y != 0) {
+        _backToTopbtn.hidden = NO;
+    } else {
+        _backToTopbtn.hidden = YES;
+        [self showCalendarBtn];
+    }
+    
+    if (self.fShouldTrackDraging) {
+        [self _handleCalendarBtnVisible:scrollView.contentOffset];
+    }
+    
+//    [self _updateRecordContentOffset:scrollView.contentOffset isBegin:false];
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.initOffset = scrollView.contentOffset;
+    self.fShouldTrackDraging = YES;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerat {
+    if (!decelerat) {
+        self.fShouldTrackDraging = NO;
+    }
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.fShouldTrackDraging = NO;
+}
+
+
+- (void)_handleCalendarBtnVisible:(CGPoint)offset {
+    if (offset.y == 0) {
+        [self showCalendarBtn];
+        return;
+    }
+    
+    CGFloat screenHeight = self.newestTableView.bounds.size.height;
+    CGFloat deltaOffset = offset.y - self.initOffset.y;
+    if (deltaOffset < -screenHeight * 0.8) {
+        [self showCalendarBtn];
+        self.fShouldTrackDraging = NO;
+    } else if (deltaOffset > screenHeight / 8) {
+        [self hideCalendarBtn];
+        self.fShouldTrackDraging = NO;
+    }
+}
+
 @end
