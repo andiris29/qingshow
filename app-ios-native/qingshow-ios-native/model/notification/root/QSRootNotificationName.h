@@ -16,8 +16,7 @@
 
 #define kShowNewBonusVcNotificationName @"kShowNewBonusVcNotificationName"
 #define kHideNewBonusVcNotificationName @"kHideNewBonusVcNotificationName"
-#define kShowNewParticipantBonusVcNotificationName @"kShowNewParticipantBonusVcNotificationName"
-#define kHideNewParticipantBonusVcNotificationName @"kHideNewParticipantBonusVcNotificationName"
+
 
 #define kShowBonusListVcNotificatinName @"kShowBonusListVcNotificatinName"
 

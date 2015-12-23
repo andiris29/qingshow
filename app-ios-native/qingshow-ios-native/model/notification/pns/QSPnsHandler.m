@@ -122,13 +122,9 @@
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-
-        
         int bonusType = [noti.userInfo numberValueForKeyPath:@"type"].intValue;
         if (bonusType == 0) {
             [QSRootNotificationHelper postShowNewBonusVcNoti:noti.userInfo];
-        } else if (bonusType == 1) {
-            [QSRootNotificationHelper postShowNewParticipantBonusVcNoti:noti.userInfo];
         } else if (bonusType == 2) {
             [QSRootNotificationHelper postShowBonusListVcNotificationName];
         }

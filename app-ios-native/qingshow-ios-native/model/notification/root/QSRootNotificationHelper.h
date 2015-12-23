@@ -17,8 +17,6 @@
 
 + (void)postShowNewBonusVcNoti:(NSDictionary*)userInfo;
 + (void)postHideNewBonusVcNoti;
-+ (void)postShowNewParticipantBonusVcNoti:(NSDictionary*)userInfo;
-+ (void)postHideNewParticipantBonusVcNoti;
 
 + (void)postShowBonusListVcNotificationName;
 

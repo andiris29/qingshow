@@ -29,13 +29,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kHideNewBonusVcNotificationName object:nil];
 }
 
-+ (void)postShowNewParticipantBonusVcNoti:(NSDictionary*)userInfo {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kShowNewParticipantBonusVcNotificationName object:nil userInfo:userInfo];
-}
 
-+ (void)postHideNewParticipantBonusVcNoti {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kHideNewParticipantBonusVcNotificationName object:nil];
-}
 
 + (void)postShowBonusListVcNotificationName {
     [[NSNotificationCenter defaultCenter] postNotificationName:kShowBonusListVcNotificatinName object:nil];
