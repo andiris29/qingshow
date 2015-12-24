@@ -16,6 +16,7 @@ import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.activity.U14PayActivity;
+import com.focosee.qingshow.activity.U23BindMobile;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -132,7 +133,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 }
                 QSModel.INSTANCE.login(user);
                 if(TextUtils.isEmpty(user.mobile)){
-                    Intent intent = new Intent(WXEntryActivity.this, U11EditAddressActivity.class);
+                    Intent intent = new Intent(WXEntryActivity.this, U23BindMobile.class);
                     startActivity(intent);
                     return;
                 }

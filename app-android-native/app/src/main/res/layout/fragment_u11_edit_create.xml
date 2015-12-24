@@ -164,47 +164,6 @@
             android:layout_height="1dp"
             android:background="@color/line_activity_settings" />
 
-        <LinearLayout
-            android:id="@+id/consigee_verification_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/item_height_activity_settings"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp">
-
-            <com.focosee.qingshow.widget.QSEditText
-                android:id="@+id/consigee_verification"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:paddingLeft="10dp"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@null"
-                android:hint="@string/consignee_verification"
-                android:inputType="phone"
-                android:maxLength="11"
-                android:singleLine="true"
-                android:textColor="@color/gary"
-                android:textColorHint="@color/hint_text_color"
-                android:textSize="16dp" />
-
-            <com.focosee.qingshow.widget.QSButton
-                android:id="@+id/verification_code_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:background="@drawable/pink_btn_fall"
-                android:layout_marginRight="20dp"
-                app:clickGround="@drawable/pink_btn_fall"
-                android:layout_centerVertical="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="发送验证码"
-                android:textSize="12sp"
-                android:textColor="@color/white"/>
-
-        </LinearLayout>
-
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/error_text"
             android:layout_height="wrap_content"

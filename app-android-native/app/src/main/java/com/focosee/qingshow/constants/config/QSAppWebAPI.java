@@ -120,6 +120,12 @@ public class QSAppWebAPI {
 
     private static String GETCONFIG = "/system/getConfig";
 
+    private static String BIND_MOBILE_API = "/bindMobile";
+
+    public static String getBindMobileApi() {
+        return BIND_MOBILE_API;
+    }
+
     public static String getQueryBonus(String... _ids) {
         StringBuffer params = new StringBuffer();
         for (String _id : _ids) {

@@ -10,6 +10,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByModelParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
 import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -141,6 +142,20 @@ public class QSRxApi {
                     @Override
                     public ArrayList<MongoBonus> call(JSONObject jsonObject) {
                         return BonusParser.parseQuery(jsonObject);
+                    }
+                });
+    }
+
+    public static Observable<MongoPeople> bindMobile(String mobile, String verificationCode){
+
+        Map<String,String> params = new HashMap<>();
+        params.put("mobile", mobile);
+        params.put("verificationCode", verificationCode);
+        return RxRequest.createJsonRequest(Method.POST, QSAppWebAPI.getBindMobileApi(), new JSONObject(params))
+                .map(new Func1<JSONObject, MongoPeople>() {
+                    @Override
+                    public MongoPeople call(JSONObject jsonObject) {
+                        return UserParser._parsePeople(jsonObject);
                     }
                 });
     }

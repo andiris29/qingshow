@@ -1,0 +1,154 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/login_background"
+        android:alpha="0.8"/>
+
+    <ImageButton
+        android:id="@+id/backImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:padding="10dp"
+        android:background="@null"
+        android:onClick="onClick"
+        android:src="@drawable/nav_btn_back_white"/>
+
+    <LinearLayout
+        style="@style/login_linearlayout"
+        app:layout_heightPercent="50%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_marginRightPercent="5%"
+        app:layout_marginTopPercent="25%">
+
+
+        <RelativeLayout
+            android:id="@+id/confirmRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:id="@+id/confirmTextView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/phone" />
+
+            <com.focosee.qingshow.widget.QSEditText
+                android:id="@+id/phoneEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@id/confirmTextView"
+                android:background="@null"
+                android:focusableInTouchMode="true"
+                android:hint="@string/phone_email_activity_register"
+                android:textColor="@color/white"
+                android:inputType="phone"
+                android:singleLine="true"
+                android:textColorHint="@color/white" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_background" />
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/verificationCodeRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/yanzhenma" />
+
+            <com.focosee.qingshow.widget.QSEditText
+                android:id="@+id/verification_code"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:focusableInTouchMode="true"
+                android:hint="@string/verification_code_activity_register"
+                android:textColor="@color/white"
+                android:inputType="number"
+                android:digits="@string/only_number"
+                android:layout_toLeftOf="@+id/verification_code_btn"
+                android:paddingLeft="35dp"
+                android:singleLine="true"
+                android:layout_marginLeft="10dp"
+                android:textColorHint="@color/white" />
+
+            <com.focosee.qingshow.widget.QSButton
+                android:id="@+id/verification_code_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_heightPercent="60%"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/pink_deep_btn"
+                app:clickGround="@drawable/white_small"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="发送验证码"
+                android:textSize="12sp"
+                android:onClick="onClick"
+                android:textColor="@color/white"/>
+        </android.support.percent.PercentRelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/gray_background" />
+
+        <android.support.percent.PercentRelativeLayout
+            style="@style/login_percent_relative">
+
+            <com.focosee.qingshow.widget.QSButton
+                android:id="@+id/submitButton"
+                android:text="确定"
+                app:layout_marginLeftPercent="15%"
+                app:layout_marginRightPercent="15%"
+                app:layout_marginBottomPercent="15%"
+                android:onClick="onClick"
+                app:clickGround="@drawable/round_btn_background"
+                style="@style/login_submit_btn"/>
+        </android.support.percent.PercentRelativeLayout>
+    </LinearLayout>
+
+    <com.focosee.qingshow.widget.QSTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="完善用户信息"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/red"
+        app:layout_marginTopPercent="21%"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:textSize="25sp"/>
+</android.support.percent.PercentRelativeLayout>
