@@ -359,6 +359,16 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void showTag(final MongoShow show) {
+        tagFl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getVisibility() == View.VISIBLE){
+                    v.setVisibility(View.INVISIBLE);
+                }else {
+                    v.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         for (TextView tag : tagViewList) {
             tagFl.removeView(tag);
         }
