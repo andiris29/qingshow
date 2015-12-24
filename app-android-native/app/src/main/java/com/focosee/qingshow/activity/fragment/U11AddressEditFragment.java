@@ -74,7 +74,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
     private MongoPeople.Receiver receiver;
     private QSButton verificationBtn;
-    private QSEditText consigee_verificationCode;
     private QSButton saveBtn;
     private LinearLayout verification_layout;
 
@@ -138,8 +137,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         area_layout = (LinearLayout) view.findViewById(R.id.consignee_area_layout);
         errorText = (TextView) view.findViewById(R.id.error_text);
         verificationBtn = (QSButton) view.findViewById(R.id.verification_code_btn);
-        consigee_verificationCode = (QSEditText) view.findViewById(R.id.consigee_verification);
-        verification_layout = (LinearLayout) view.findViewById(R.id.consigee_verification_layout);
 
         consigeeNameET.setOnFocusChangeListener(this);
         consigeePhoneET.setOnFocusChangeListener(this);
@@ -154,20 +151,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         area_layout.setTag(ViewName.AREA);
 
-        if (TextUtils.isEmpty(people.mobile) && null == receiver) {
-            verificationBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (TextUtils.isEmpty(consigeePhoneET.getText().toString())) {
-                        ToastUtil.showShortToast(getActivity(), "请输入手机号码");
-                        return;
-                    }
-                    new VerificationHelper().getVerification(consigeePhoneET.getText().toString(), verificationBtn, getActivity());
-                }
-            });
-        } else {
-            verification_layout.setVisibility(View.GONE);
-        }
         setData();
     }
 
@@ -228,12 +211,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             saveBtn.setEnabled(true);
             return;
         }
-
-        if (TextUtils.isEmpty(people.mobile) && null == receiver) {
-            validateMobile(params);
-        } else {
-            commit(params);
-        }
+        commit(params);
     }
 
     private void commit(final Map params) {
@@ -257,57 +235,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                 EventBus.getDefault().post(receiver);
                 saveBtn.setEnabled(true);
                 getActivity().finish();
-            }
-        });
-    }
-
-    private void validateMobile(final Map pa) {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("mobile", consigeePhoneET.getText().toString());
-        params.put("verificationCode", consigee_verificationCode.getText().toString());
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getValidateMobileApi()
-                , new JSONObject(params), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(U11AddressEditFragment.class.getSimpleName(), "response:" + response);
-                if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(QSApplication.instance(), MetadataParser.getError(response));
-                    saveBtn.setEnabled(true);
-                    return;
-                }
-
-                try {
-                    if (response.getJSONObject("data").getBoolean("success")) {
-                        udpatePeople(pa);
-                    } else {
-                        ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
-                        saveBtn.setEnabled(true);
-                        return;
-                    }
-                } catch (JSONException e) {
-                    ToastUtil.showShortToast(getActivity(), "验证失败，请重试");
-                }
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
-    private void udpatePeople(final Map pa){
-        Map<String, String> params = new HashMap<>();
-        params.put("mobile", consigeePhoneET.getText().toString());
-        UserCommand.update(params, new Callback(){
-            @Override
-            public void onError(int errorCode) {
-                saveBtn.setEnabled(true);
-                ErrorHandler.handle(QSApplication.instance(), errorCode);
-            }
-
-            @Override
-            public void onComplete() {
-                commit(pa);
             }
         });
     }

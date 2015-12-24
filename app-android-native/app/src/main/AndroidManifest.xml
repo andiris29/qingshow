@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focosee.qingshow" >
+    package="com.focosee.qingshow">
 
     <!-- Required 自定义用来收发消息的相关权限 -->
     <permission
@@ -45,13 +45,13 @@
         android:configChanges="orientation|keyboardHidden"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
@@ -70,7 +70,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -82,8 +82,8 @@
         <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
-            <intent-filter android:priority="1000" >
+            android:enabled="true">
+            <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                 <!-- Required  显示通知栏 -->
                 <category android:name="com.focosee.qingshow" />
@@ -107,7 +107,7 @@
         <!-- User defined.    用户自定义的广播接收器 -->
         <receiver
             android:name=".receiver.QSPushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
                 <!-- Required  用户注册SDK的intent -->
@@ -213,7 +213,7 @@
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s03_show"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
@@ -231,7 +231,7 @@
             android:name=".activity.LaunchActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_launch"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -291,63 +291,58 @@
             android:name=".activity.U16BonusListActivity"
             android:label="@string/title_activity_u16_bonus_list"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.T01HighlightedTradeListActivity"
             android:label="@string/title_activity_t01_highlighted_trade_list"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.U17ResetPasswordStep1Activity"
             android:label="@string/title_activity_u17_reset_password_step1"
             android:parentActivityName=".activity.U06LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".activity.U18ResetPasswordStep2Activity"
             android:label="@string/title_activity_u18_reset_password_step2"
             android:parentActivityName=".activity.U17ResetPasswordStep1Activity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".activity.U19LoginGuideActivity"
             android:label="@string/title_activity_u06_login"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".activity.U20NewBonus"
             android:label="@string/title_activity_u20_new_bonus"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".activity.U21NewParticipantBonus"
             android:label="@string/title_activity_u21_new_participant_bonus"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".activity.TradeNotifyActivity"
             android:label="@string/title_activity_trade_notify"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".activity.S23SearchActivity"
             android:label="@string/title_activity_s23_search"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.S24ShowsDateActivity" />
-        <activity android:name=".activity.S11NewTradeActivity" >
-        </activity>
+        <activity android:name=".activity.S11NewTradeActivity"></activity>
+        <activity
+            android:name=".activity.U23BindMobile"
+            android:label="@string/title_activity_u23_bind_mobile"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
