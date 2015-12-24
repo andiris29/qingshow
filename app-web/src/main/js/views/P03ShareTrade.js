@@ -36,7 +36,6 @@ define([
           if(!err){     
             if(data.items)
             {   
-    
                 var imgAreaWidth = window.screen.width*0.8;
                 var imgAreaHeight = imgAreaWidth * 15 /13;
                 var strTopImgAreaHTML = "";
