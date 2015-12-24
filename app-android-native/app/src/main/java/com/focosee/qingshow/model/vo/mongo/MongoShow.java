@@ -21,6 +21,7 @@ public class MongoShow implements Serializable {
     public int numLike;
     public MongoPeople ownerRef;
     public boolean hideAgainstOwner;
+    public boolean itemReductionEnabled;
 
     public Recommend recommend;
     public class Recommend implements Serializable {
