@@ -8,6 +8,8 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +57,8 @@ import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
+import com.focosee.qingshow.widget.QSCanvasView;
+import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
@@ -143,11 +147,11 @@ public class S11NewTradeActivity extends BaseActivity {
         if (itemEntity.promoPrice != null) {
             basePrice = itemEntity.promoPrice.doubleValue();
         }
-        initDes();
+        initDes(itemEntity);
         if (null != itemEntity.skuTable && !Collections.emptyList().equals(itemEntity.skuTable)
                 && itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
-            initProps();
-            initSkuTable();
+            initProps(itemEntity);
+            initSkuTable(itemEntity);
         } else {
             changeBtnClickable(false);
         }
@@ -199,7 +203,12 @@ public class S11NewTradeActivity extends BaseActivity {
     }
 
     //skuTable(没有库存的商品)
-    private void initSkuTable() {
+    private void initSkuTable(MongoItem itemEntity) {
+        if (itemEntity.skuTable == null){
+            propsLayout.removeAllViews();
+            return;
+        }
+
         for (String key : itemEntity.skuTable.keySet()) {
             if (SkuHelper.obtainSkuStock(itemEntity.skuTable, key) < 1) {
                 skuTable.put(key, itemEntity.skuTable.get(key));
@@ -251,7 +260,8 @@ public class S11NewTradeActivity extends BaseActivity {
         }
     };
 
-    private void initProps() {
+    private void initProps(MongoItem itemEntity) {
+        propsLayout.removeAllViews();
         keys_order = SkuUtil.getKeyOrder(itemEntity.skuProperties);
         props = SkuUtil.filter(itemEntity.skuProperties, keys_order);
         checkIndex = new int[props.size()];
@@ -308,7 +318,7 @@ public class S11NewTradeActivity extends BaseActivity {
     }
 
 
-    private void initDes() {
+    private void initDes(MongoItem itemEntity) {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
         if (itemEntity != null) {
@@ -441,9 +451,28 @@ public class S11NewTradeActivity extends BaseActivity {
 
     //canvas
     //------------------------------------------------------------------------------------
-    private void addCanvas(String itemRef) {
-        final FrameLayout canvas = new FrameLayout(this);
 
+    Handler skuPropHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            MongoItem item = (MongoItem)msg.obj;
+            initDes(item);
+            initProps(item);
+            initSkuTable(item);
+            super.handleMessage(msg);
+        }
+    };
+
+    private void addCanvas(String itemRef) {
+        final QSCanvasView canvas = new QSCanvasView(this);
+        canvas.setOnCheckedChangeListener(new QSCanvasView.OnCheckedChangeListener() {
+            @Override
+            public void checkedChanged(QSImageView view) {
+                Message message = skuPropHandler.obtainMessage();
+                message.obj = view.getTag();
+                skuPropHandler.sendMessage(message);
+            }
+        });
         QSRxApi.remixByItem(itemRef)
                 .subscribe(new QSSubscriber<RemixByItem>() {
                     @Override
@@ -470,16 +499,19 @@ public class S11NewTradeActivity extends BaseActivity {
 
     }
 
-    private void addItemToCanvas(ViewGroup canvas, MongoItem item, final RectF rectF) {
-        final ImageView imageView = new ImageView(this);
+    private void addItemToCanvas(QSCanvasView canvas, MongoItem item, final RectF rectF) {
+        final QSImageView imageView = new QSImageView(this);
+        imageView.setTag(item);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-        canvas.addView(imageView, layoutParams);
-        ImageLoader.getInstance().displayImage(item.thumbnail, imageView, AppUtil.getShowDisplayOptions(), new SimpleImageLoadingListener() {
+        imageView.setLayoutParams(layoutParams);
+        imageView.setRemoveEnable(false);
+        canvas.attach(imageView);
+        ImageLoader.getInstance().displayImage(item.thumbnail, imageView.getImageView(), AppUtil.getShowDisplayOptions(), new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
-                PointF point = RectUtil.getImageViewDrawablePoint(imageView);
+                PointF point = RectUtil.getImageViewDrawablePoint(imageView.getImageView());
                 RectUtil.locateView(rectF, imageView, point.x, point.y);
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);

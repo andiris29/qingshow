@@ -91,6 +91,7 @@ public class QSImageView extends RelativeLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!removeEnable){
+            setChecked(true);
             return true;
         }
         this.bringToFront();
