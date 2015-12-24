@@ -110,6 +110,8 @@ public class S11NewTradeActivity extends BaseActivity {
     QSTextView share;
     @InjectView(R.id.s11_go_det)
     TextView goDet;
+    @InjectView(R.id.s11_hint)
+    TextView hint;
 
     private MongoItem itemEntity;
     private MongoTrade trade;
@@ -321,6 +323,7 @@ public class S11NewTradeActivity extends BaseActivity {
     private void initDes(MongoItem itemEntity) {
         desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
         itemName.setText(itemEntity.name);
+        hint.setText(itemEntity.expectable.message);
         if (itemEntity != null) {
             price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
         }
