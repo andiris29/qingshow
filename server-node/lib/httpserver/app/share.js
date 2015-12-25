@@ -38,6 +38,44 @@ share.createShow = {
     ]
 };
 
+share.like = {
+    'method' : 'post',
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(SharedObject, '_id', 'sharedObjectRef'),
+        function(req, res, next) {
+            var sharedObjectRef = req.injection.sharedObjectRef;
+            if (sharedObjectRef) {
+                sharedObjectRef.numLike++;
+                sharedObjectRef.save(function(err) {
+                    ResponseHelper.writeData(res, {'sharedObject' : sharedObjectRef});
+                    next();
+                });
+            } else {
+                next(errors.NotEnoughParam);
+            }
+        }
+    ]
+};
+
+share.dislike = {
+    'method' : 'post',
+    'func' : [
+        require('../middleware/injectModelGenerator').generateInjectOneByObjectId(SharedObject, '_id', 'sharedObjectRef'),
+        function(req, res, next) {
+            var sharedObjectRef = req.injection.sharedObjectRef;
+            if (sharedObjectRef) {
+                sharedObjectRef.numDislike++;
+                sharedObjectRef.save(function(err) {
+                    ResponseHelper.writeData(res, {'sharedObject' : sharedObjectRef});
+                    next();
+                });
+            } else {
+                next(errors.NotEnoughParam);
+            }
+        }
+    ]
+};
+
 share.createTrade = {
 	'method' : 'post',
     'func' : [

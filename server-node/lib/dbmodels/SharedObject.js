@@ -8,6 +8,8 @@ var sharedObjectSchema = {
         'default' : Date.now
     },
     type : Number,
+    numLike : {'type' : Number, 'default' : 0},
+    numDislike : {'type' : Number, 'default' : 0},
     title : String,
     description : String,
     url : String,
