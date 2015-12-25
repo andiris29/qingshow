@@ -286,4 +286,5 @@
     <string name="s11_follow">随心搭</string>
     <string name="s11_hint">将你的随心搭分享到朋友圈可获得惊喜低价哦</string>
     <string name="details">查看详情</string>
+    <string name="title_activity_u23_bind_mobile">U23BindMobile</string>
 </resources>

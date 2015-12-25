@@ -51,4 +51,5 @@
     <!-- guide page -->
     <dimen name="guide_page_textSize">40sp</dimen>
     <dimen name="guide_page_textSize_small">20sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
