@@ -54,3 +54,68 @@ bonus.own = {
         });
     }
 };
+
+bonus.withdraw = {
+    'method' : 'post',
+    'func' : [
+        require('../middleware/injectCurrentUser'),
+        require('../middleware/validateLoginAsUser'),
+        function(req, res, next) {
+            var ownerRef = req.injection.qsCurrentUser;
+            
+            if (!ownerRef.userInfo.weixin) {
+                next(errors.ERR_WEIXIN_NOT_BOUND);
+            } else {
+                BonusHelper.aggregate(ownerRef._id, function(err, amountByStatus) {
+                    if (err) {
+                        next(errors.genUnkownError(err));
+                    } else {
+                        var amount = amountByStatus[BonusCode.STATUS_INIT] +
+                            amountByStatus[BonusCode.STATUS_REQUESTED];
+                        // Send red pack
+                        request({
+                            'url' : global.qsConfig.payment.url + '/payment/wechat/sendRedPack',
+                            'method' : 'post',
+                            'form' : {
+                                'id' : Date.now().toString(),
+                                'openid' : ownerRef.userInfo.weixin.openid,
+                                'amount' : amount,
+                                'clientIp' : RequestHelper.getIp(req),
+                                'event' : global.qsConfig.bonus.event,
+                                'message' : global.qsConfig.bonus.message,
+                                'note' : global.qsConfig.bonus.note
+                            }
+                        }, function(err, response, body) {
+                            try {
+                                body = JSON.parse(body);
+                            } catch (err) {
+                                next(errors.genUnkownError(err));
+                                return;
+                            }
+                            
+                            if (body.metadata && body.metadata.error) {
+                                next(errors.ERR_SEND_WEIXIN_RED_PACK_FAILED);
+                            } else {
+                                Bonus.update(
+                                    {
+                                        'ownerRef' : ownerRef._id, 
+                                        '$or' : [{'status' : BonusCode.STATUS_INIT}, {'status' : BonusCode.STATUS_REQUESTED}]},
+                                    {'$set' : {
+                                        'status' : BonusCode.STATUS_COMPLETE,
+                                        'weixinRedPack' : {
+                                            'create' : Date.now(),
+                                            'send_listid' : body.data.send_listid
+                                            }
+                                        }
+                                    },
+                                    {'multi' : true},
+                                    next
+                                );
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    ]
+};
