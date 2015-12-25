@@ -27,7 +27,7 @@ bonus.query = {
                 '$in' : RequestHelper.parseIds(qsParam._ids)
             };
             MongoHelper.queryPaging(
-                Bonus.find(criteria).populate('trigger.tradeRef').populate('participants'), 
+                Bonus.find(criteria).populate('trigger.tradeRef'), 
                 Bonus.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, function(bonuses) {
             return {
