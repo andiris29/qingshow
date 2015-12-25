@@ -124,6 +124,32 @@ matcher.queryItems = {
     ]
 };
 
+matcher.queryShopItems = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        Item.findOne({
+            '_id' : RequestHelper.parseId(req.queryString.itemRef),
+        }, function(err, itemRef) {
+            if (itemRef) {
+                ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+                    var criteria = {
+                        'shopRef' : itemRef.shopRef,
+                        'delist' : null,
+                        '_id' : {'$ne' : itemRef._id}
+                    };
+                    MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+                }, function(models) {
+                    return {
+                        'items' : models
+                    };
+                });
+            } else {
+                ResponseHelper.response(res, errors.ERR_INVALID_ITEM);
+            }
+        });
+    }
+};
+
 matcher.save = {
     'method' : 'post',
     'func' : [
