@@ -4,7 +4,6 @@ var async = require('async');
 var Shows = require('../dbmodels').Show;
 var ShowComments = require('../dbmodels').ShowComment;
 var RPeopleLikeShow = require('../dbmodels').RPeopleLikeShow;
-var RPeopleShareShow = require('../dbmodels').RPeopleShareShow;
 var RPeopleFollowPeople = require('../dbmodels').RPeopleFollowPeople;
 var People = require('../dbmodels').People;
 var Item = require('../dbmodels').Item;
@@ -90,13 +89,9 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     var likedByCurrentUser = function(callback) {
         _rInitiator(RPeopleLikeShow, qsCurrentUserId, shows, 'likedByCurrentUser', callback);
     };
-    // __context.sharedByCurrentUser
-    var sharedByCurrentUser = function(callback) {
-        _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
-    };
 
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function(err) {
+    async.parallel([numComments, likedByCurrentUser], function(err) {
         callback(null, shows);
     });
 };
