@@ -384,21 +384,6 @@ matcher.remixByItem = {
                         };
                     });
                     ResponseHelper.writeData(res, data);
-
-                    req.session.shareTradeTargetInfo = {
-                        'remix' : {
-                            'master' : {
-                                'itemRef' : req.injection.itemRef._id,
-                                'rect' : data.master.rect
-                            },
-                            'slaves' : data.slaves.map(function(slave) {
-                                return {
-                                    'itemRef' : slave.itemRef._id,
-                                    'rect' : slave.rect
-                                };
-                            })
-                        }
-                    };
                     break;
                 }
             }
