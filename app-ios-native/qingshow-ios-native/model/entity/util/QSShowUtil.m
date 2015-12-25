@@ -372,12 +372,6 @@
     return date;
 }
 
-+ (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict
-{
-    NSNumber* like = [showDict valueForKeyPath:@"__context.sharedByCurrentUser"];
-    return like.boolValue;
-}
-
 + (NSDictionary*)getPromotionRef:(NSDictionary*)showDict
 {
     NSDictionary* dict = [showDict valueForKey:@"__context.promotionRef"];
