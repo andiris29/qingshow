@@ -1,7 +1,9 @@
 var schedule = require('node-schedule'),
     async = require('async');
 
-var Show = require('../../dbmodels').Show;
+var Show = require('../../dbmodels').Show,
+    SharedObject = require('../../dbmodels').SharedObject,
+    SharedObjectCode = require('../../dbmodels').SharedObjectCode;
 
 var logger = require('../../runtime').loggers.get('scheduled');
 
@@ -22,11 +24,24 @@ var _run = function() {
             {'create' : {'$lt' : new Date(date.getTime() - 23 * ONE_HOUR)}}
         ]
     }, function(err, shows) {
-        shows.forEach(function(show) {
-            show.itemReductionEnabled = false;
-            show.numViewFirstDay = show.numView;
-            show.save(function(){});
-        });
+        async.parallel(shows.map(function(show) {
+            return function(callback) {
+                SharedObject.count({
+                    'initiatorRef' : show.ownerRef,
+                    'type' : SharedObjectCode.TYPE_SHARE_SHOW,
+                    'targetInfo.show.showRef' : show._id
+                }, function(err, count) {
+                    show.itemReductionEnabled = false;
+                    if (count) {
+                        show.numViewFirstDay = show.numView * 2;
+                    } else {
+                        show.numViewFirstDay = show.numView;
+                    }
+                    show.save(function(){});
+                    callback();
+                });
+            };
+        }), function() {});
     });
 };
 
