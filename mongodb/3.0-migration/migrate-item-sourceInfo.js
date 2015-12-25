@@ -50,7 +50,8 @@ items.forEach(function(item) {
 
         item.sourceInfo = {
             'domain': domain,
-            'id': id
+            'id': id,
+            'icon' : 'http://trial01.focosee.com/img/item/source/' + domain + '.png'
         }
 
         db.getCollection('items').save(item);
