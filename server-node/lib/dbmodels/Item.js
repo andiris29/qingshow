@@ -17,7 +17,6 @@ itemSchema = Schema({
         message : String,
         expired : Boolean
     },
-    remix : Boolean,
     thumbnail : String,
     name : String,
     price: Number,

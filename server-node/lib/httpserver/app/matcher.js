@@ -133,9 +133,9 @@ matcher.queryShopItems = {
             if (itemRef) {
                 ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
                     var criteria = {
+                        '_id' : {'$ne' : itemRef._id},
                         'shopRef' : itemRef.shopRef,
-                        'delist' : null,
-                        '_id' : {'$ne' : itemRef._id}
+                        'delist' : null
                     };
                     MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
                 }, function(models) {
@@ -331,54 +331,42 @@ matcher.remixByModel = {
     ]
 };
 
+var _randomIndexes = function(totalCount, randomCount) {
+    var indexes = [],
+        count = Math.min(totalCount, randomCount);
+    while (indexes.length < count) {
+        var index = _.random(0, totalCount);
+        if (indexes.indexOf(index) === -1) {
+            indexes.push(index);
+        }
+    }
+    return indexes;
+};
+
 matcher.remixByItem = {
     'method' : 'get',
     'func' : [
         require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, 'itemRef'),
         function(req, res, next) {
-            req.injection.itemRef.populate('categoryRef', function() {
-                if (req.injection.itemRef.categoryRef) {
-                    req.injection.remixCategoryAliases = req.injection.itemRef.categoryRef.remixCategoryAliases.split(',');
+            var itemRef = req.injection.itemRef,
+                criteria = {
+                '_id' : {'$ne' : itemRef._id},
+                'shopRef' : itemRef.shopRef,
+                'delist' : null
+            };
+            Item.find(criteria).count(function(err, count) {
+                var indexes = _randomIndexes(count, 3);
+                async.parallel(indexes.map(function(index) {
+                    return function(callback) {
+                        Item.find(criteria).populate('shopRef').skip(index).limit(1).exec(function(err, items) {
+                            callback(err, items[0]);
+                        });
+                    };
+                }), function(err, results) {
+                    req.injection.remixItems = results;
                     next();
-                } else {
-                    next(errors.ERR_INVALID_ITEM);
-                }
-            });
-        },
-        _injectRemixCategories,
-        function(req, res, next) {
-            async.parallel(req.injection.remixCategories.map(function(category) {
-                return function(callback) {
-                    async.waterfall([
-                        // Find item in same shop
-                        function(callback) {
-                            if (req.injection.itemRef.shopRef) {
-                                _findRandomItem(category, {'shopRef' : req.injection.itemRef.shopRef}, callback);
-                            } else {
-                                callback(null, null);
-                            }
-                        },
-                        // Find item remix only
-                        function(item, callback) {
-                            if (item) {
-                                callback(null, item);
-                            } else {
-                                _findRandomItem(category, {'remix' : true}, callback);
-                            }
-                        },
-                        // Find all items
-                        function(item, callback) {
-                            if (item) {
-                                callback(null, item);
-                            } else {
-                                _findRandomItem(category, {}, callback);
-                            }
-                        }
-                    ], callback);
-                };
-            }), function(err, results) {
-                req.injection.remixItems = results;
-                next();
+                });
+                
             });
         },
         function(req, res, next) {
