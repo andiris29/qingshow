@@ -451,22 +451,7 @@
 {
     [self.shareVc hideSharePanel];
 }
-- (void)didShareWeiboSuccess
-{
 
-    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
-        [self showSuccessHudWithText:@"分享成功"];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
-}
-- (void)didShareWechatSuccess {
-    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
-        [self showSuccessHudWithText:@"分享成功"];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
-}
 
 #pragma mark - Override
 #pragma mark Data

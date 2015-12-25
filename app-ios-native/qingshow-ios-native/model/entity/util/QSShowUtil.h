@@ -36,7 +36,6 @@
 + (NSString*)getVideoPath:(NSDictionary*)showDict;
 
 + (NSDate*)getCreatedDate:(NSDictionary*)showDict;
-+ (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict;
 + (NSString*)getNumberViewDesc:(NSDictionary*)showDict;
 //新增获取图片高度的方法
 + (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic;
