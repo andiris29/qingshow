@@ -15,7 +15,7 @@
 //Path
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
 #define PATH_FEEDING_BY_MODEL @"feeding/byModel"
-#define PATH_FEEDING_HOT @"feeding/hot"
+
 #define PATH_FEEDING_BY_TAGS @"feeding/byTags"
 #define PATH_FEEDING_STUDIO @"feeding/studio"
 #define PATH_FEEDING_LIKE @"feeding/like"
@@ -26,7 +26,7 @@
 #define PATH_FEEDING_BY_TOPIC @"feeding/byTopic"
 #define PATH_FEEDING_MATCH_CREATE_BY @"feeding/matchCreatedBy"
 #define PATH_FEEDING_MATCH_TIME @"feeding/time"
-
+#define PATH_FEEDING_HOT @"feeding/hot"
 
 @interface QSNetworkEngine (Private)
 
@@ -159,12 +159,7 @@
     return [self getFeedingPath:PATH_FEEDING_BY_TOPIC otherParam:@{@"_id" : [QSEntityUtil getIdOrEmptyStr:topicDic]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
-- (MKNetworkOperation *)getHotFeedingPage:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock
-{
-    return [self getFeedingPath:PATH_FEEDING_HOT otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
-}
+
 - (MKNetworkOperation*)feedingMatchCreateBy:(NSDictionary*)peopleDict
                                        page:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
@@ -191,4 +186,27 @@
                       onSucceed:succeedBlock
                         onError:errorBlock];
 }
+
+- (MKNetworkOperation *)getfeedingHotMatchTimeFromDate:(NSDate*)fromDate
+                                             toDate:(NSDate*)toDate
+                                               page:(int)page
+                                          onSucceed:(ArraySuccessBlock)succeedBlock
+                                            onError:(ErrorBlock)errorBlock
+{
+    NSMutableDictionary* params = [@{} mutableCopy];
+    if (fromDate) {
+        params[@"from"] = [fromDate description];
+    }
+    if (toDate) {
+        params[@"to"] = [toDate description];
+    }
+    
+    return [self getFeedingPath:PATH_FEEDING_HOT
+                     otherParam:params
+                           page:page
+                      onSucceed:succeedBlock
+                        onError:errorBlock];
+}
+
+
 @end

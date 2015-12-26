@@ -44,9 +44,6 @@
                                  page:(int)page
                             onSucceed:(ArraySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)getHotFeedingPage:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)feedingMatchCreateBy:(NSDictionary*)peopleDict
                                        page:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
@@ -57,4 +54,9 @@
                                                    page:(int)page
                                               onSucceed:(ArraySuccessBlock)succeedBlock
                                                 onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)getfeedingHotMatchTimeFromDate:(NSDate*)fromDate
+                                                toDate:(NSDate*)toDate
+                                                  page:(int)page
+                                             onSucceed:(ArraySuccessBlock)succeedBlock
+                                               onError:(ErrorBlock)errorBlock;
 @end

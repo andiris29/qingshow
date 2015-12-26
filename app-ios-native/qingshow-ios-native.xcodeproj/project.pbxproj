@@ -230,8 +230,8 @@
 		EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF921FBB1ACBB11100669124 /* libc++.dylib */; };
 		EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */; };
 		EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */; };
-		EF98A12E1C04CAE400B0B5BC /* QSNewestHourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF98A12C1C04CAE400B0B5BC /* QSNewestHourViewController.m */; };
-		EF98A12F1C04CAE400B0B5BC /* QSNewestHourViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF98A12D1C04CAE400B0B5BC /* QSNewestHourViewController.xib */; };
+		EF98A12E1C04CAE400B0B5BC /* QSS24ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF98A12C1C04CAE400B0B5BC /* QSS24ViewController.m */; };
+		EF98A12F1C04CAE400B0B5BC /* QSS24ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF98A12D1C04CAE400B0B5BC /* QSS24ViewController.xib */; };
 		EF994D8C1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D8B1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m */; };
 		EF994D951B693C4F00715B0E /* QSDiscountInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF994D931B693C4F00715B0E /* QSDiscountInfoCell.m */; };
 		EF994D961B693C4F00715B0E /* QSDiscountInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF994D941B693C4F00715B0E /* QSDiscountInfoCell.xib */; };
@@ -823,9 +823,9 @@
 		EF92B7231A3C9F6A00A08F08 /* QSBigImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBigImageTableViewCell.h; sourceTree = "<group>"; };
 		EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBigImageTableViewCell.m; sourceTree = "<group>"; };
 		EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBigImageTableViewCell.xib; sourceTree = "<group>"; };
-		EF98A12B1C04CAE400B0B5BC /* QSNewestHourViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNewestHourViewController.h; sourceTree = "<group>"; };
-		EF98A12C1C04CAE400B0B5BC /* QSNewestHourViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNewestHourViewController.m; sourceTree = "<group>"; };
-		EF98A12D1C04CAE400B0B5BC /* QSNewestHourViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSNewestHourViewController.xib; sourceTree = "<group>"; };
+		EF98A12B1C04CAE400B0B5BC /* QSS24ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS24ViewController.h; sourceTree = "<group>"; };
+		EF98A12C1C04CAE400B0B5BC /* QSS24ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS24ViewController.m; sourceTree = "<group>"; };
+		EF98A12D1C04CAE400B0B5BC /* QSS24ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS24ViewController.xib; sourceTree = "<group>"; };
 		EF994D8A1B693C2700715B0E /* QSAbstractDiscountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractDiscountTableViewCell.h; sourceTree = "<group>"; };
 		EF994D8B1B693C2700715B0E /* QSAbstractDiscountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractDiscountTableViewCell.m; sourceTree = "<group>"; };
 		EF994D921B693C4F00715B0E /* QSDiscountInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDiscountInfoCell.h; sourceTree = "<group>"; };
@@ -1184,9 +1184,9 @@
 				68D16CFF1B341A4700A4646C /* QSS01MatchShowsViewController.h */,
 				68D16D001B341A4700A4646C /* QSS01MatchShowsViewController.m */,
 				68D16D011B341A4700A4646C /* QSS01MatchShowsViewController.xib */,
-				EF98A12B1C04CAE400B0B5BC /* QSNewestHourViewController.h */,
-				EF98A12C1C04CAE400B0B5BC /* QSNewestHourViewController.m */,
-				EF98A12D1C04CAE400B0B5BC /* QSNewestHourViewController.xib */,
+				EF98A12B1C04CAE400B0B5BC /* QSS24ViewController.h */,
+				EF98A12C1C04CAE400B0B5BC /* QSS24ViewController.m */,
+				EF98A12D1C04CAE400B0B5BC /* QSS24ViewController.xib */,
 			);
 			path = matchshows;
 			sourceTree = "<group>";
@@ -2997,7 +2997,7 @@
 				EF3F343C1C0CA23B004B16DA /* QSItemTagView.xib in Resources */,
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF8CD2CB1C0378E50040611D /* QSU10ReceiverListViewController.xib in Resources */,
-				EF98A12F1C04CAE400B0B5BC /* QSNewestHourViewController.xib in Resources */,
+				EF98A12F1C04CAE400B0B5BC /* QSS24ViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */,
 				EF8CD2A91C0378E50040611D /* QSU06LoginViewController.xib in Resources */,
@@ -3179,7 +3179,7 @@
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
 				EF8CD2B01C0378E50040611D /* QSU19LoginGuideViewController.m in Sources */,
 				EF8080401B4F44D6005198B6 /* QSMatcherItemPageSelectionView.m in Sources */,
-				EF98A12E1C04CAE400B0B5BC /* QSNewestHourViewController.m in Sources */,
+				EF98A12E1C04CAE400B0B5BC /* QSS24ViewController.m in Sources */,
 				EF8CD3971C0379880040611D /* QSImageNameUtil.m in Sources */,
 				EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */,
 				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,
