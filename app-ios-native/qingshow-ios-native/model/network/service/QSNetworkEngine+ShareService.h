@@ -15,10 +15,6 @@
                               onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation *)shareCreateTrade:(NSString *)tradeId
-                              onSucceed:(DicBlock)succeedBlock
-                                onError:(ErrorBlock)errorBlock;
-
 - (MKNetworkOperation *)shareCreateBonus:(NSString *)peopleId
                               onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;

@@ -202,17 +202,9 @@
                   selectedSkuProperties:selectedSku
                                quantity:self.quantityCell.quantity
                               onSucceed:^(NSDictionary *dict) {
-                                  [[QSPaymentService shareService] sharedForTrade:dict onSucceed:^(NSDictionary *dict) {                                      QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:dict];
-                                      [self.navigationController pushViewController:vc animated:YES];
-                                      self.createTradeOp = nil;
-                                  } onError:^(NSError *error) {
-                                      self.createTradeOp = nil;
-                                      if (error) {
-                                          [self handleError:error];
-                                      }
-
-                                  }];
-                                  
+                                  self.createTradeOp = nil;
+                                  QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:dict];
+                                  [self.navigationController pushViewController:vc animated:YES];
                               }
                                 onError:^(NSError *error) {
                                     [self handleError:error];
