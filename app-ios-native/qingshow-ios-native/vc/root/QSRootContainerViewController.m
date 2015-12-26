@@ -378,23 +378,12 @@
 - (void)_handleSystemConfig {
     [SHARE_NW_ENGINE systemGetConfigOnSucceed:^(NSDictionary * config) {
         QSUserManager* userMgr = [QSUserManager shareUserManager];
-        NSString* imgPath = [config stringValueForKeyPath:@"guide.global"];
-        if (imgPath && ![userMgr.configEventImagePath isEqualToString:imgPath] && !self.activityVc) {
-            QSActivityViewController* vc = [[QSActivityViewController alloc] initWithImgPath:imgPath];;
-            if ([self _showVcInPopoverContainer:vc withAnimation:YES]) {
-                self.activityVc = vc;
-                self.activityVc.delegate = self;
-            }
-        }
         userMgr.faqContentPath = [config stringValueForKeyPath:@"guide.bonus.faq"];
-        userMgr.bonusWithdrawImgPath = [config stringValueForKeyPath:@"guide.bonus.withdraw"];
-        
-        
     } onError:nil];
 }
 
 - (void)activityVcShouldDismiss:(QSActivityViewController*)vc {
-    [QSUserManager shareUserManager].configEventImagePath = self.activityVc.path;
+//    [QSUserManager shareUserManager].configEventImagePath = self.activityVc.path;
     [self _hideVcInPopoverContainer:self.activityVc withAnimation:YES];
     self.activityVc = nil;
 }

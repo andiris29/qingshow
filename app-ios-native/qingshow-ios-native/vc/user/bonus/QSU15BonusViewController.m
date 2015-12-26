@@ -109,7 +109,6 @@
         return;
     }
     self.fHasClickWithdraw = YES;
-    [self showWithdrawMsgLayer];
 }
 
 - (IBAction)faqBtnPressed:(id)sender {
@@ -160,11 +159,7 @@
     [self.containerView addSubview:self.bonusContentView];
     [self.faqContentImgView setImageFromURL:[NSURL URLWithString:[QSUserManager shareUserManager].faqContentPath]];
     
-    
-
-    
-    [self.withdrawMsgImgView setImageFromURL:[NSURL URLWithString:[QSUserManager shareUserManager].bonusWithdrawImgPath]];
-    
+    self.withdrawMsgLayer.hidden = YES;
     self.withdrawMsgLayer.userInteractionEnabled = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapWithdrawMsgLayer:)];
     [self.withdrawMsgLayer addGestureRecognizer:ges];
