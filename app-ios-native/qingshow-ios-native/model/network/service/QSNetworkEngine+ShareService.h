@@ -14,8 +14,4 @@
 - (MKNetworkOperation *)shareCreateShow:(NSString *)showId
                               onSucceed:(DicBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation *)shareCreateBonus:(NSString *)peopleId
-                              onSucceed:(DicBlock)succeedBlock
-                                onError:(ErrorBlock)errorBlock;
 @end
