@@ -47,4 +47,7 @@
                             onSucceed:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation*)queryBuyer:(NSString*)itemId
+                        onSucceed:(DicBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock;
 @end

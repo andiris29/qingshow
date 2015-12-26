@@ -20,6 +20,7 @@
 #import "QSS11ItemBuyViewController.h"
 #import "QSDiscountQuantityCell.h"
 #import "QSS10ItemDetailViewController.h"
+#import "QSBuyerCell.h"
 
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
@@ -35,11 +36,12 @@
 @property (copy, nonatomic) NSString* promoterId;
 
 #pragma mark Cell
-@property (strong, nonatomic) NSArray* cellArray;
+@property (strong, nonatomic) NSMutableArray* cellArray;
 
 @property (strong, nonatomic) QSDiscountRemixCell* remixCell;
 @property (strong, nonatomic) QSDiscountQuantityCell* quantityCell;
 @property (strong, nonatomic) NSArray* propCellArray;
+@property (strong, nonatomic) QSBuyerCell* buyerCell;
 
 @property (strong, nonatomic) MKNetworkOperation* updateRemixOp;
 @property (strong, nonatomic) MKNetworkOperation* createTradeOp;
@@ -78,6 +80,14 @@
         self.masterDict = data;
         [self _bindWithItemDict:self.itemDict];
     } onError:nil];
+    
+    [SHARE_NW_ENGINE queryBuyer:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *info) {
+        [self.buyerCell bindWithBuyerInfo:info];
+    } onError:^(NSError *error) {
+        [self.cellArray removeObject:self.buyerCell];
+        [self.tableView reloadData];
+    }];
+    
     self.btnContainer.layer.shadowColor = [UIColor blackColor].CGColor;
     self.btnContainer.layer.shadowOffset = CGSizeMake(0, -4);
     self.btnContainer.layer.shadowOpacity = 0.5f;
@@ -241,6 +251,10 @@
     self.quantityCell.delegate = self;
     [array addObject:self.quantityCell];
     
+    self.buyerCell = [QSBuyerCell generateCell];
+    [array addObject:self.buyerCell];
+    
+    
     self.cellArray = array;
     self.propCellArray = propCells;
 }
@@ -302,6 +316,9 @@
     } else {
         self.updateRemixOp = [SHARE_NW_ENGINE matcherRemixByItem:self.masterDict
                                                        onSucceed:^(NSDictionary *remixInfo) {
+                                                           if (!remixInfo) {
+                                                               return;
+                                                           }
                                                            self.updateRemixOp = nil;
                                                            [self.remixArray addObject:remixInfo];
                                                            self.currentRemixIndex = self.remixArray.count - 1;

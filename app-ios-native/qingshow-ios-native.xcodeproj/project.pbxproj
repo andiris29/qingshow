@@ -69,6 +69,8 @@
 		EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */; };
 		EF25AEB21C104A1C00F1CE19 /* QSActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF25AEB01C104A1C00F1CE19 /* QSActivityViewController.m */; };
 		EF25AEB31C104A1C00F1CE19 /* QSActivityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF25AEB11C104A1C00F1CE19 /* QSActivityViewController.xib */; };
+		EF2860BB1C2EE97B0091DE2C /* QSBuyerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2860BA1C2EE97B0091DE2C /* QSBuyerCell.m */; };
+		EF2860BD1C2EE9870091DE2C /* QSBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF2860BC1C2EE9870091DE2C /* QSBuyerCell.xib */; };
 		EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013451AC31AFC00568D92 /* QSPaymentService.m */; };
 		EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013481AC31BD700568D92 /* AlipayOrder.m */; };
 		EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */; };
@@ -464,6 +466,9 @@
 		EF25AEAF1C104A1C00F1CE19 /* QSActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSActivityViewController.h; sourceTree = "<group>"; };
 		EF25AEB01C104A1C00F1CE19 /* QSActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSActivityViewController.m; sourceTree = "<group>"; };
 		EF25AEB11C104A1C00F1CE19 /* QSActivityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSActivityViewController.xib; sourceTree = "<group>"; };
+		EF2860B91C2EE97B0091DE2C /* QSBuyerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBuyerCell.h; sourceTree = "<group>"; };
+		EF2860BA1C2EE97B0091DE2C /* QSBuyerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBuyerCell.m; sourceTree = "<group>"; };
+		EF2860BC1C2EE9870091DE2C /* QSBuyerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBuyerCell.xib; sourceTree = "<group>"; };
 		EF3013441AC31AFC00568D92 /* QSPaymentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPaymentService.h; sourceTree = "<group>"; };
 		EF3013451AC31AFC00568D92 /* QSPaymentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPaymentService.m; sourceTree = "<group>"; };
 		EF3013471AC31BD700568D92 /* AlipayOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayOrder.h; sourceTree = "<group>"; };
@@ -2136,6 +2141,9 @@
 				EF994D9C1B693CB900715B0E /* QSDiscountQuantityCell.h */,
 				EF994D9D1B693CB900715B0E /* QSDiscountQuantityCell.m */,
 				EF994D9E1B693CB900715B0E /* QSDiscountQuantityCell.xib */,
+				EF2860B91C2EE97B0091DE2C /* QSBuyerCell.h */,
+				EF2860BA1C2EE97B0091DE2C /* QSBuyerCell.m */,
+				EF2860BC1C2EE9870091DE2C /* QSBuyerCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -2981,6 +2989,7 @@
 				EF8CD33D1C03794C0040611D /* AlipaySDK.bundle in Resources */,
 				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
 				EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */,
+				EF2860BD1C2EE9870091DE2C /* QSBuyerCell.xib in Resources */,
 				EF8CD29D1C0378E50040611D /* QSU15BonusViewController.xib in Resources */,
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
 				EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */,
@@ -3170,6 +3179,7 @@
 				EF994D9F1B693CB900715B0E /* QSDiscountQuantityCell.m in Sources */,
 				EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */,
 				EF8CD39B1C0379880040611D /* QSRectUtil.m in Sources */,
+				EF2860BB1C2EE97B0091DE2C /* QSBuyerCell.m in Sources */,
 				EF9D096C1B9DE7D800F39341 /* QSNetworkEngine+ItemService.m in Sources */,
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF8CD3871C0379880040611D /* NSFileManager+QSExtension.m in Sources */,
