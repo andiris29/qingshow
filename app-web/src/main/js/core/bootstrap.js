@@ -49,7 +49,7 @@ define([
             if (shareObj.type === 0) {
                 //show
                 navigationService.push('qs/views/P02ShareShow', {
-                    'entity' : shareObj.targetInfo.show
+                    'entity' : shareObj
                 });
             } else if (shareObj.type === 1) {
                 //trade
