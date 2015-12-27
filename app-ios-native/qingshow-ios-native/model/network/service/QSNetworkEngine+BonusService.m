@@ -13,8 +13,22 @@
 
 #define PATH_BONUS_QUERY @"bonus/query"
 #define PATH_BONUS_OWN @"bonus/own"
+#define PATH_BONUS_WITHDRAW @"bonus/withdraw"
 
 @implementation QSNetworkEngine(BonusService)
+
+- (MKNetworkOperation*)withdrawBonusOnSucceed:(VoidBlock)succeedBlock
+                                      onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_BONUS_WITHDRAW method:@"POST" paramers:@{} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 
 - (MKNetworkOperation*)queryBonusWithIds:(NSArray*)bonusIds
                                onSucceed:(ArraySuccessBlock)succeedBlock

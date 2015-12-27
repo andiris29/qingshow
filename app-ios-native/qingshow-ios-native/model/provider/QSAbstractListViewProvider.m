@@ -23,15 +23,6 @@
 @end
 
 @implementation QSAbstractListViewProvider
-
-- (void)setAdditionalResult:(NSArray *)additionalResult
-{
-    _additionalResult = additionalResult;
-    if (!self.resultArray.count) {
-        [self.resultArray addObjectsFromArray:additionalResult];
-    }
-}
-
 - (id)init
 {
     self = [super init];
@@ -95,9 +86,6 @@
         self.metadataDict = metadata;
         if (page == 1) {
             [self.resultArray removeAllObjects];
-            if (self.additionalResult) {
-                [self.resultArray addObjectsFromArray:self.additionalResult];
-            }
             self.refreshOperation = nil;
             self.currentPage = 1;
         }
@@ -120,9 +108,6 @@
         }
         if (page == 1) {
             [self.resultArray removeAllObjects];
-            if (self.additionalResult) {
-                [self.resultArray addObjectsFromArray:self.additionalResult];
-            }
             self.refreshOperation = nil;
             self.currentPage = 1;
             refreshBlock();

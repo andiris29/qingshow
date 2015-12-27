@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSNewestHourViewController : UIViewController
+@interface QSS24ViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 - (instancetype)initWithFromDate:(NSDate*)fromDate toDate:(NSDate*)toDate;

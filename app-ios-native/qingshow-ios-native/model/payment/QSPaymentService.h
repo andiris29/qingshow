@@ -17,9 +17,6 @@
 
 + (QSPaymentService*)shareService;
 - (NSString*)getPaymentHost;
-- (void)sharedForTrade:(NSDictionary*)tradeDict
-             onSucceed:(DicBlock)succeedBlock
-               onError:(ErrorBlock)errorBlock;
 
 - (void)payForTrade:(NSDictionary *)tradeDict
           onSuccess:(VoidBlock)succeedBlock

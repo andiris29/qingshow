@@ -18,6 +18,7 @@
 @interface QSMatcherCollectionViewHeaderUserRowView : UIView
 
 @property (weak, nonatomic) NSObject<QSMatcherCollectionViewHeaderUserRowViewDelegate>* delegate;
+@property (assign, nonatomic) BOOL alignCenter;
 - (instancetype)init;
 - (void)bindWithUsers:(NSArray*)users;
 

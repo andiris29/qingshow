@@ -21,6 +21,7 @@
 #define PATH_PEOPLE_QUERY_FOLLOWED_BRAND @"brand/queryFollowed"
 #define PATH_PEOPLE_QUERY_DETAIL @"people/query"
 
+#define PATH_PEOPLE_QUERY_BUYERS @"people/queryBuyers"
 
 @implementation QSNetworkEngine(PeopleService)
 
@@ -245,4 +246,22 @@
             }];
 }
 
+
+- (MKNetworkOperation*)queryBuyer:(NSString*)itemId
+                        onSucceed:(DicBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_BUYERS
+                                 method:@"GET"
+                               paramers:@{@"_id" : itemId}
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock(completedOperation.responseJSON);
+        }
+    }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 @end

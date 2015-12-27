@@ -17,5 +17,6 @@
 - (MKNetworkOperation*)queryOwnedBonusPage:(int)page
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation*)withdrawBonusOnSucceed:(VoidBlock)succeedBlock
+                                      onError:(ErrorBlock)errorBlock;
 @end

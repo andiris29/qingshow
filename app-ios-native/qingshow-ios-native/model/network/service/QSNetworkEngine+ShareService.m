@@ -12,8 +12,6 @@
 #import "QSEntityUtil.h"
 
 #define PATH_SHARE_CREATE_SHOW @"share/createShow"
-#define PATH_SHARE_CREATE_TRADE @"share/createTrade"
-#define PATH_SHARE_CREATE_BONUS @"share/createBonus"
 
 @implementation QSNetworkEngine (ShareService)
 
@@ -37,40 +35,4 @@
    
 }
 
-- (MKNetworkOperation *)shareCreateTrade:(NSString *)tradeId
-                               onSucceed:(DicBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_SHARE_CREATE_TRADE method:@"POST" paramers:@{@"_id":tradeId} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            NSDictionary *retDict = completedOperation.responseJSON;
-            NSDictionary *shareDict = [QSEntityUtil getDictValue:retDict keyPath:@"data.sharedObject"];
-            succeedBlock(shareDict);
-
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-
-}
-
-- (MKNetworkOperation *)shareCreateBonus:(NSString *)peopleId
-                               onSucceed:(DicBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_SHARE_CREATE_BONUS method:@"POST" paramers:@{@"_id":peopleId} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            NSDictionary *retDict = completedOperation.responseJSON;
-            NSDictionary *shareDict = [QSEntityUtil getDictValue:retDict keyPath:@"data.sharedObject"];
-            succeedBlock(shareDict);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-
-}
 @end
