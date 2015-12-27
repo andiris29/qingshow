@@ -335,7 +335,7 @@ var _randomIndexes = function(totalCount, randomCount) {
     var indexes = [],
         count = Math.min(totalCount, randomCount);
     while (indexes.length < count) {
-        var index = _.random(0, totalCount);
+        var index = _.random(0, totalCount - 1);
         if (indexes.indexOf(index) === -1) {
             indexes.push(index);
         }
@@ -370,23 +370,24 @@ matcher.remixByItem = {
             });
         },
         function(req, res, next) {
+            var config;
             for(var composition in global.qsConfig.itemRemix) {
-                var config = global.qsConfig.itemRemix[composition];
+                config = global.qsConfig.itemRemix[composition];
                 if (_.keys(config).length === req.injection.remixItems.length + 1) {
-                    var data = {
-                        'master' : {'rect' : _parseRect(config.master.rect)},
-                        'slaves' : []
-                    };
-                    req.injection.remixItems.forEach(function(item, index) {
-                        data.slaves[index] = {
-                            'itemRef' : item,
-                            'rect' : _parseRect(config['slave' + index].rect)
-                        };
-                    });
-                    ResponseHelper.writeData(res, data);
                     break;
                 }
             }
+            var data = {
+                'master' : {'rect' : _parseRect(config.master.rect)},
+                'slaves' : []
+            };
+            req.injection.remixItems.forEach(function(item, index) {
+                data.slaves[index] = {
+                    'itemRef' : item,
+                    'rect' : _parseRect(config['slave' + index].rect)
+                };
+            });
+            ResponseHelper.writeData(res, data);
             next();
             
             // Register items as sync requested
