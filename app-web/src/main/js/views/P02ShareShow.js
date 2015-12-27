@@ -134,8 +134,15 @@ function() {
                 strHotHTML += "<div class=\"avatar\">";
                 strHotHTML += "<img src=\"" + strportrait + "\" class=\"avatar-img\" />";
 
-                if (this.ownerRef.rank && (this.ownerRef.rank == 0 || this.ownerRef.rank == 1)) {
-                    strHotHTML += "<span class=\"flag-crown\"></span>";
+                if (this.ownerRef.rank) {
+                    if(this.ownerRef.rank == 0)
+                    {//金冠
+                        strHotHTML += "<span class=\"flag-crown\"></span>";
+                    }
+                    else if(this.ownerRef.rank == 1)
+                    {//银冠
+                        strHotHTML += "<span class=\"flag-sliver\"></span>";
+                    }
                 }
                 strHotHTML += "</div>";
                 strHotHTML += "<p class=\"username\">" + strNickName + "</p>";

@@ -139,7 +139,10 @@ a {text-decoration:none; color:#282d5b;}
 .show-item .show-info {border-top:#d1d1d1 1px solid; height:2.05rem; position:relative;}
 .show-item .show-info .avatar {width:1.375rem; height:1.375rem; border-radius:100%; position:absolute; top:0.35rem; left:0.425rem;}
 .show-item .show-info .avatar .avatar-img {width:1.375rem; height:1.375rem; border-radius:100%;}
-.show-item .show-info .avatar .flag-crown {background:url(../img/icon-crownnew2.png) no-repeat center center/100%; width:0.8rem; height:0.8rem; border-radius:100%; display:block; position:absolute; left:-0.3rem; top:-0.3rem;}
+
+.show-item .show-info .avatar .flag-crown {background:url(../img/icon-crown.png) no-repeat center center/100%; width:0.8rem; height:0.8rem; border-radius:100%; display:block; position:absolute; left:-0.3rem; top:-0.3rem;}
+.show-item .show-info .avatar .flag-sliver {background:url(../img/icon-crownnew2.png) no-repeat center center/100%; width:0.8rem; height:0.8rem; border-radius:100%; display:block; position:absolute; left:-0.3rem; top:-0.3rem;}
+
 .show-item .show-info .username {font-size:0.45rem; color:#707070; position:absolute; top:0.5rem; left:2.075rem; width:3.5rem; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 .show-item .show-info .time {position:absolute; left:2.075rem; top:1.2rem; color:#707070;}
 .show-item .show-info .time .icon-clock {background:url(../img/icon-clocknew.png) no-repeat center center / 100%; width:0.5rem; height:0.5rem; display:block;}
