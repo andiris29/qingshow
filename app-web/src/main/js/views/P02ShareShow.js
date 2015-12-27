@@ -26,38 +26,38 @@ var P02ShareShow = function(dom, initOptions) {
             if(data.shows)
             {
 
-                bindTappClickEvent(showid);
-                bindFirstScreen(data);
+                bindTappClickEvent.call(this, showid);
+                bindFirstScreen.call(this, data);
 
 
-                $('#show1').html("");
+                this.$('#show1').html("");
                 __services.httpService.request('/feeding/matchCreatedBy', 'get', {
                   "_id":data.shows[0].ownerRef._id
               }, function(err, metadata, data) {
                 if(!err) {
                     if(data && data.shows)
                     {   
-                        bindShowList("show1",data.shows);   
+                        bindShowList.call(this, "show1",data.shows);   
                     }
                 }
-            });
+            }.bind(this));
 
 
-                $('#show2').html("");
+                this.$('#show2').html("");
                 __services.httpService.request('/feeding/hot', 'get', {
 
                 }, function(err, metadata, data) {
                     if(!err){
                         if(data && data.shows)
                         {
-                            bindShowList("show2",data.shows);
+                            bindShowList.call(this, "show2",data.shows);
                         }
                     }
-                });
+                }.bind(this));
 
             }
         }
-    });
+    }.bind(this));
 };
 
 function bindShowList(panelID,showList)
@@ -106,9 +106,9 @@ function bindShowList(panelID,showList)
     }
 });  
 var listID =  '#'+panelID
-$(listID).html(strHotHTML);  
-$('.thumbnail').unbind("click"); 
-$('.thumbnail').on('click', function(){ 
+this.$(listID).html(strHotHTML);  
+this.$('.thumbnail').unbind("click"); 
+this.$('.thumbnail').on('click', function(){ 
     var  _id = this.id;
     __services.httpService.request('/show/query', 'get', {
       "_ids":[_id]
@@ -152,14 +152,14 @@ function bindFirstScreen(data)
     {
         strNickName = currUser.nickname;
     }
-    $('.username').html(strNickName);
-    $('#navtab1').html(strNickName+"的其它美搭");
+    this.$('.username').html(strNickName);
+    this.$('#navtab1').html(strNickName+"的其它美搭");
     var strportrait = "images/avatar.png";
     if(currUser.portrait)
     {
         strportrait = currUser.portrait.replace(".jp","_50.jp").replace(".png","_50.png");
     }
-    $("#portrait").attr("src",strportrait);
+    this.$("#portrait").attr("src",strportrait);
         // if(currUser.create)
         // {
         //     strCreateData = currUser.create.split("T")[0];
@@ -168,16 +168,16 @@ function bindFirstScreen(data)
         //      var day = parseInt(dateStrs[2], 10);
         //     strCreateData = monthArr[month]+"."+day;
         // }
-        // $('.date').html(strCreateData);
+        // this.$('.date').html(strCreateData);
 
         if(trueShowItem && trueShowItem.cover)
         {
-            $(".share-img").attr("src",trueShowItem.cover.replace(".png","_s.png"));            
+            this.$(".share-img").attr("src",trueShowItem.cover.replace(".png","_s.png"));            
         }
         if(trueShowItem && trueShowItem.coverForeground)
         {
-            $(".share-imgmask").attr("src",trueShowItem.coverForeground.replace(".png","_s.png"));   
-            $(".share-deep").attr("src",trueShowItem.coverForeground.replace(".png","_s.png"));
+            this.$(".share-imgmask").attr("src",trueShowItem.coverForeground.replace(".png","_s.png"));   
+            this.$(".share-deep").attr("src",trueShowItem.coverForeground.replace(".png","_s.png"));
         }
 
         var strTagHTML = "";
@@ -198,9 +198,9 @@ function bindFirstScreen(data)
 
      }
      strTagHTML =  "<img class=\"share-img\" style=\"width:100%;\" src=\""+trueShowItem.cover.replace(".png","_s.png")+"\" />" + strTagHTML;
-     $(".img-mask").html(strTagHTML);
-     $(".share-item-box").unbind("click");
-     $('.share-item-box').on('click', function(){ 
+     this.$(".img-mask").html(strTagHTML);
+     this.$(".share-item-box").unbind("click");
+     this.$('.share-item-box').on('click', function(){ 
         var  _id = this.id;
 
         // var url = window.location.href.replace(window.location.search,"");
@@ -241,37 +241,37 @@ function bindFirstScreen(data)
  function bindTappClickEvent(showid)
  {
         //bind Click
-        $('#navtab1').unbind("click"); 
-        $('#navtab1').on('click', function(){ 
-            $('#show1').css("display","block");
-            $('#show2').css("display","none");
+        this.$('#navtab1').unbind("click"); 
+        this.$('#navtab1').on('click', function(){ 
+            this.$('#show1').css("display","block");
+            this.$('#show2').css("display","none");
 
-            $('#navtab1').attr("class", "navtab-item navtab-x2 active pull-left"); 
-            $('#navtab2').attr("class", "navtab-item navtab-x2 pull-left"); 
-
-
-        });
-
-        $('#navtab2').unbind("click"); 
-        $('#navtab2').on('click', function(){ 
-            $('#show2').css("display","block");
-            $('#show1').css("display","none");
-
-            $('#navtab2').attr("class", "navtab-item navtab-x2 active pull-left"); 
-            $('#navtab1').attr("class", "navtab-item navtab-x2 pull-left"); 
+            this.$('#navtab1').attr("class", "navtab-item navtab-x2 active pull-left"); 
+            this.$('#navtab2').attr("class", "navtab-item navtab-x2 pull-left"); 
 
 
         });
 
-        $('.appdown2', this._dom).on('click', __services.downloadService.download);
-        $('.download', this._dom).on('click', __services.downloadService.download);
+        this.$('#navtab2').unbind("click"); 
+        this.$('#navtab2').on('click', function(){ 
+            this.$('#show2').css("display","block");
+            this.$('#show1').css("display","none");
 
-        $('.face-like').unbind("click"); 
-        $('.face-like').on('click', function(){ 
+            this.$('#navtab2').attr("class", "navtab-item navtab-x2 active pull-left"); 
+            this.$('#navtab1').attr("class", "navtab-item navtab-x2 pull-left"); 
+
+
+        });
+
+        this.$('.appdown2', this._dom).on('click', __services.downloadService.download);
+        this.$('.download', this._dom).on('click', __services.downloadService.download);
+
+        this.$('.face-like').unbind("click"); 
+        this.$('.face-like').on('click', function(){ 
             __services.httpService.request('/share/like', 'post', {
               "_id":showid
           }, function(err, metadata, data) {
-            $('.dialog-box').show()
+            this.$('.dialog-box').show()
 
             
             if(!err && data)
@@ -282,12 +282,12 @@ function bindFirstScreen(data)
         });
         });
 
-        $('.face-unlike').unbind("click"); 
-        $('.face-unlike').on('click', function(){ 
+        this.$('.face-unlike').unbind("click"); 
+        this.$('.face-unlike').on('click', function(){ 
             __services.httpService.request('/share/unlike', 'post', {
               "_id":showid
           }, function(err, metadata, data) {
-             $('.dialog-box').show()
+             this.$('.dialog-box').show()
             if(!err && data)
             {
 
@@ -299,8 +299,8 @@ function bindFirstScreen(data)
     violet.oo.extend(P02ShareShow, violet.ui.ViewBase);
 
     P02ShareShow.prototype._resizeHandler = function() {
-        $('.p02-image-slider-block-image', this._dom).css({
-            'height' : $('.slick-center', this._dom).width() / 9 * 16 + 'px'
+        this.$('.p02-image-slider-block-image', this._dom).css({
+            'height' : this.$('.slick-center', this._dom).width() / 9 * 16 + 'px'
         });
     };
 
