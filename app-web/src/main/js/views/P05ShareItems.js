@@ -1,37 +1,85 @@
 // @formatter:off
 define([
 ], function(
-    ) {
+) {
 // @formatter:on
     var P05ShareItems = function(dom, initOptions) {
         P05ShareItems.superclass.constructor.apply(this, arguments);
-  
-        var strHTML = "";
+       
 
-        for (var i = 0; i <= 10; i++) {
+          var _itemid = initOptions._itemid;
+          pageLoadCall(_itemid);
 
-            strHTML += "<div class=\"win pull-left\">"
-            strHTML += "        <div class=\"win-thumbnail\">"
-            strHTML += "            <img src=\"images/02.jpg\" class=\"win-img\" />"
-            strHTML += "           <span class=\"flag-label\">5折</span>"
-            strHTML += "        </div>"
-            strHTML += "        <div class=\"win-info\">"
-            strHTML += "            <p class=\"win-title\">H&M驼色大衣</p>"
-            strHTML += "            <p class=\"price clearfix\"><em class=\"pull-left\">￥450.00</em> <del class=\"pull-right\">￥500.00</del></p>"
-            strHTML += "        </div></div><!-- /.win -->"
+         __services.httpService.request('/matcher/queryShopItems', 'get', {
+          "itemRef":_itemid,
+          "pageNo":1,
+          "pageSize":10
+          }, function(err, metadata, data) {
+            if(!err)
+            {
+                if(data && data.items)
+                {
+                    var strListHTML = "";
+                    $.each(data.items, function(index){  
+                         if(this.thumbnail)
+                         {
+                            if(this.taobaoInfo && this.taobaoInfo.nick)
+                            {
+                                $(".shopwin-title").html(this.taobaoInfo.nick);
+                            }
+                            strListHTML += "<div class=\"win pull-left\">";
+                            strListHTML +=      "<div class=\"win-thumbnail\">";
+                            strListHTML +=          "<img src=\""+this.thumbnail+"\" class=\"win-img\" />";
+                             if(this.promoPrice != this.price)
+                            {
+                                var discount = parseInt(this.promoPrice / this.price * 10);
+                                if(discount<10)
+                                {
+                                    strListHTML +=          "<span class=\"flag-label\">"+discount+"折</span>";
+                                }
+                            }
+                            strListHTML +=      "</div>";
+                            strListHTML +=      "<div class=\"win-info\">";
+                            strListHTML +=          "<p class=\"win-title\">"+this.name+"</p>";
+                            if(this.promoPrice != this.price)
+                            {
+                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\">￥"+this.promoPrice+"</em> <del class=\"pull-right\">￥"+this.price+"</del></p>";
+                            }
+                            else
+                            {
+                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\" style='dis'>￥"+this.promoPrice+"</em> </p>";
+                            }
+                            strListHTML +=      "</div>";
+                            strListHTML += "</div>";
+                         }
+                    });
+                    $("#winItemList").html(strListHTML); 
 
-        };
-
-        $(".winlist").html(strHTML);
-
-        
-    violet.oo.extend(P05ShareItems, violet.ui.ViewBase);
-
-    P05ShareItems.prototype._resizeHandler = function() {
-        $('.p02-image-slider-block-image', this._dom).css({
-            'height' : $('.slick-center', this._dom).width() / 9 * 16 + 'px'
+                }
+                else
+                {
+                    __services.navigationService.push('qs/views/P01NotFound');
+                }
+            }
         });
+
+
     };
+
+    function pageLoadCall(showid)
+    {
+     var search = violet.url.search;
+     __services.httpService.request('/user/loginAsViewer', 'post', {
+     }, function(err, metadata, data) {});
+
+     if(showid != "")
+     {
+         __services.httpService.request('/show/view', 'post', {
+            '_id' : showid
+        }, function(err, metadata, data) {});
+     }
+    }
+    violet.oo.extend(P05ShareItems, violet.ui.ViewBase);
 
     return P05ShareItems;
 });

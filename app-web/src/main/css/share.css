@@ -96,7 +96,7 @@ a {text-decoration:none; color:#282d5b;}
 .vote-options>.face-normal>.words {color:#038874;}
 .vote-options>.face-unlike>.words {color:#7e6b5a;}
 
-.dialog-box {height:13.25rem; padding:0 1.35rem; position:absolute; z-index:101; left:0; right:0; top:50%; margin-top:-6.625rem;}
+.dialog-box {height:13.25rem; padding:0 1.35rem; position:absolute; z-index:101; left:0; right:0; top:80%; margin-top:-6.625rem;}
 .dialog-box>.inner {background-color:rgba(0,0,0,0.7); height:13.25rem; border-radius:0.5rem; position:relative;}
 .dialog-box>.inner>.close {background:url(../img/icon-close.png) no-repeat center center/100%; width:1.1rem; height:1.1rem; display:block; position:absolute; right:0.55rem; top:0.55rem;}
 .dialog-box>.inner>.dialog-title {font-size:0.95rem; text-align:center; color:#fff; padding-top:3.5rem; font-weight:normal;}
