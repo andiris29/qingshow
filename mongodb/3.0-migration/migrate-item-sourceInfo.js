@@ -48,13 +48,19 @@ items.forEach(function(item) {
             return;
         }
 
-        item.sourceInfo = {
+        var sourceInfo = {
             'domain': domain,
             'id': id,
             'icon' : 'http://trial01.focosee.com/img/item/source/' + domain + '.png'
         }
 
-        db.getCollection('items').save(item);
+        if (!item.sourceInfo ||
+            item.sourceInfo.domain !== sourceInfo.domain ||
+            item.sourceInfo.id !== sourceInfo.id ||
+            item.sourceInfo.icon !== sourceInfo.icon) {
+            item.sourceInfo = sourceInfo;
+            db.getCollection('items').save(item);
+    }
     }
 });
 
