@@ -37,7 +37,16 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QSMatcherTableViewCellHeight * w / 320;
+    NSDictionary* dict = self.resultArray[indexPath.row];
+
+    NSString* stickyUrl = [dict stringValueForKeyPath:@"data.stickyShow.stickyCover"];
+    if (stickyUrl) {
+        return (QSMatcherTableViewCellHeight + QSMatcherTableViewCellStickyImageHeight) * w / 320;
+    } else {
+        return QSMatcherTableViewCellHeight * w / 320;
+    }
+    
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

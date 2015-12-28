@@ -116,6 +116,20 @@
             backgroundView.hidden = YES;
         }
     }
+    
+    NSString* stickyUrl = [dict stringValueForKeyPath:@"data.stickyShow.stickyCover"];
+    if (stickyUrl) {
+        [self.stickyImageView setImageFromURL:[NSURL URLWithString:stickyUrl]];
+        self.stickyImageView.hidden = NO;
+        CGRect f = self.bottomContainer.frame;
+        f.size.height = 417;
+        self.bottomContainer.frame = f;
+    } else {
+        self.stickyImageView.hidden = YES;
+        CGRect f = self.bottomContainer.frame;
+        f.size.height = 417 - QSMatcherTableViewCellStickyImageHeight - 5;
+        self.bottomContainer.frame = f;
+    }
 }
 
 - (void)userRowView:(QSMatcherCollectionViewHeaderUserRowView*)view didClickIndex:(NSUInteger)index {

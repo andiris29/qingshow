@@ -11,6 +11,7 @@
 
 #define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
 #define QSMatcherTableViewCellHeight 300.f
+#define QSMatcherTableViewCellStickyImageHeight 170.f
 
 @class QSMatcherTableViewCell;
 @protocol QSMatcherTableViewCellDelegate <NSObject>
@@ -32,6 +33,8 @@
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *showBackgroundViews;
 @property (weak, nonatomic) NSObject<QSMatcherTableViewCellDelegate>* delegate;
 @property (weak, nonatomic) IBOutlet UIImageView* rankImgView;
+
+@property (weak, nonatomic) IBOutlet UIImageView* stickyImageView;
 
 @property (weak, nonatomic) IBOutlet UIView* bottomContainer;
 

@@ -95,6 +95,9 @@
 
         } else {
             imageView = [self getViewForPage:imageIndex];
+            imageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapImgView:)];
+            [imageView addGestureRecognizer:ges];
             [self.scrollView addSubview:imageView];
             [self.imageViewArray addObject:imageView];
         }
@@ -238,5 +241,11 @@
 - (void)loadAllImages
 {
     [self updateImagesWithLazyLoad:NO];
+}
+
+- (void)_didTapImgView:(UITapGestureRecognizer*)ges {
+    if ([self.delegate respondsToSelector:@selector(imageScrollViewDidTapImgView:)]) {
+        [self.delegate imageScrollViewDidTapImgView:self];
+    }
 }
 @end

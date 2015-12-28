@@ -270,14 +270,16 @@
 
         if ([QSEntityUtil checkIsDict:itemDict] &&
             ![QSItemUtil getDelist:itemDict] &&
-            [QSItemUtil getExpectableReduction:itemDict] &&
             rects.count == 4) {
             NSNumber* reduction = [QSItemUtil getExpectableReduction:itemDict];
-            labelView.tagLabel.text = [NSString stringWithFormat:@"%@", reduction];
-            CGSize labelSize = [QSLayoutUtil sizeForString:labelView.tagLabel.text withMaxWidth:INFINITY height:labelView.tagLabel.bounds.size.height font:labelView.tagLabel.font];
-            CGRect rect = labelView.frame;
-            rect.size.width = labelSize.width + 40;
-            labelView.frame = rect;
+            if (reduction) {
+                labelView.tagLabel.text = [NSString stringWithFormat:@"%@", reduction];
+            } else {
+#warning TODO 改为圆圈
+                labelView.tagLabel.text = [NSString stringWithFormat:@"%d", 0];
+            }
+            
+            [labelView updateSize];
             labelView.transform = CGAffineTransformMakeScale(1.1, 1.1);
             
             CGFloat x = ((NSNumber*)rects[0]).floatValue + ((NSNumber*)rects[2]).floatValue / 2;
@@ -310,7 +312,7 @@
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
 {
     self.coverLabelContainerView.hidden = ![QSShowUtil getItemReductionEnabled:dict];
-    self.playBtn.hidden = !self.generateVideoPath;
+    self.videoIcon.hidden = !self.generateVideoPath;
 
     //Like Btn
     [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
@@ -325,7 +327,7 @@
         self.releaseDateLabel.hidden = NO;
         self.trashBtn.hidden = NO;
         self.favorBtn.hidden = YES;
-        self.playBtn.hidden = YES;
+        self.videoIcon.hidden = YES;
         self.pauseBtn.hidden = YES;
         NSDate* createDate = [QSShowUtil getCreatedDate:dict];
         self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
@@ -519,6 +521,19 @@
     for (UIView* v  in self.itemLabelArray) {
         v.hidden = !self.showShouldLabel;
     }
+    
+    if (!self.showShouldLabel && [self generateVideoPath]) {
+        [self playOrPauseBtnPressed:nil];
+    }
+    
 }
 
+
+- (void)imageScrollViewDidTapImgView:(QSImageScrollViewBase *)view {
+    [self playOrPauseBtnPressed:nil];
+}
+- (void)pauseVideo {
+    [super pauseVideo];
+    [self didTapLabelContainer:nil];
+}
 @end

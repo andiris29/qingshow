@@ -19,7 +19,7 @@
 @interface QSS10ItemDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* itemDict;
-
+@property (strong, nonatomic) NSURL* url;
 @end
 
 @implementation QSS10ItemDetailViewController
@@ -28,10 +28,17 @@
     self = [super initWithNibName:@"QSS10ItemDetailViewController" bundle:nil];
     if (self) {
         self.itemDict = item;
+        self.url = [QSItemUtil getShopUrl:self.itemDict];
     }
     return self;
 }
-
+- (instancetype)initWithUrlStr:(NSString*)urlStr {
+    self = [super initWithNibName:@"QSS10ItemDetailViewController" bundle:nil];
+    if (self) {
+        self.url = [NSURL URLWithString:urlStr];
+    }
+    return self;
+}
 #pragma mark - Life Cycle
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -53,12 +60,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     self.webView.delegate = self;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     [self.webView setScalesPageToFit:YES];
     
-    [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
+    if (self.itemDict) {
+        [MobClick event:@"viewItemSource" attributes:@{@"itemId": [QSEntityUtil getIdOrEmptyStr:self.itemDict]} counter:1];
+    }
+
     
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,

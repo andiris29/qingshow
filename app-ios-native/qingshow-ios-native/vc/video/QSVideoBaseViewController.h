@@ -16,10 +16,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIView *scrollViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *videoContainerView;
-@property (weak, nonatomic) IBOutlet UIButton *playBtn;
+//@property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
 @property (strong, nonatomic) QSSingleImageScrollView* imageScrollView;
-
+@property (weak, nonatomic) IBOutlet UIImageView *videoIcon;
 @property (assign, nonatomic) BOOL fNeedScreenShot;
 
 - (void)playMovie:(NSString *)path;
@@ -39,4 +39,5 @@
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden;
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime;
+- (BOOL)isPlay;
 @end

@@ -19,5 +19,6 @@
 
 @property (strong, nonatomic) IBOutlet UIView *btnContainer;
 - (instancetype)initWithItem:(NSDictionary*)itemDict promoterId:(NSString*)promoterId;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *infoWidth;
 
 @end
