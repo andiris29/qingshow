@@ -49,14 +49,10 @@ define([
             if (shareObj.type === 0) {
                 //show
                 navigationService.push('qs/views/P02ShareShow', {
-                    'entity' : shareObj
+                    'paraObj':shareObj,
+                    'entity' : shareObj.targetInfo.show
                 });
-            } else if (shareObj.type === 1) {
-                //trade
-                navigationService.push('qs/views/P03ShareTrade', {
-                    'entity' : shareObj//.targetInfo,
-                });
-            } else if (shareObj.type === 2) {
+            }  else if (shareObj.type === 2) {
                 //bonus
                 navigationService.push('qs/views/P04ShareBonus', {
                     'create' : shareObj.create,//创建时间

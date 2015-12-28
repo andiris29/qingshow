@@ -4,20 +4,18 @@ function() {
     // @formatter:on
     var P02ShareShow = function(dom, initOptions) {
         P02ShareShow.superclass.constructor.apply(this, arguments);
-        var shareObj = initOptions.entity
-        var show = shareObj.targetInfo.show;
-        //bind vote data-Begin
-        var totalVoteCount = "";
-        if (shareObj.numDislike && shareObj.numLike) {
-            totalVoteCount = shareObj.numDislike + shareObj.numLike;
+        // var shareObj = initOptions.entity;
+        var show = initOptions.entity;
+        var shareObj;
+        if(initOptions.paraObj)
+        {
+            shareObj = initOptions.paraObj;
         }
-        this.$(".totalVoteCount").html(totalVoteCount);
-        //bind vote data-End
-
         var showid = "";
         if (show && show.showRef) {
             showid = show.showRef
-        } else if (show && show._id) {
+        }
+         else if (show && show._id) {
             showid = show._id
         }
         pageLoadCall(showid);
@@ -29,15 +27,50 @@ function() {
             if (!err) {
                 if (data.shows) {
 
+                     var totalVoteCount = "";
+                    if (shareObj && shareObj.numDislike && shareObj.numLike) {
+                        totalVoteCount = shareObj.numDislike + shareObj.numLike;
+                        this.$(".totalVoteCount").html(totalVoteCount);
+                    }
+                    else
+                    {
+                        $(".navbar-right").hide();
+                        $(".vote-options").hide();
+                    }
+
                     bindTappClickEvent.call(this, showid);
                     bindFirstScreen.call(this, data);
 
+                    
                     __services.httpService.request('/people/query', 'get', {
-                        '_id': data.shows[0].ownerRef._id
+                        '_ids': [data.shows[0].ownerRef._id]
                     },function(err, metadata, data) {
-                        $(".income").html("<p>收益￥90.00</p>");
-                    });
+                        if(!err)
+                        {
 
+                            var inComeTotal = 0;
+                            var incomeArr = data.peoples[0].__context.bonusAmountByStatus;
+                            if(incomeArr)
+                            {
+                                $.each(incomeArr,function(index){
+                                    if(index < 2)
+                                    {
+                                        inComeTotal += this;
+                                    }
+                                });
+                                $(".income").html("<p>收益￥"+inComeTotal.toFixed(2)+"</p>");
+                            }
+                            else
+                            {
+                                $(".income").html("<p>收益￥"+inComeTotal.toFixed(2)+"</p>");
+                            }
+                        }
+                        else
+                        {
+                            $(".income").hide();
+                        }
+                    });
+                
 
                     this.$('#show1').html("");
                     __services.httpService.request('/feeding/matchCreatedBy', 'get', {
@@ -79,7 +112,7 @@ function() {
     function bindShowList(panelID, showList) {
         var monthArr = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
         var strNickName = "";
-        var strportrait = "images/avatar.png";
+        var strportrait = "img/avatar.png";
         var strHotHTML = "";
         $.each(showList,
         function(index) {
@@ -101,8 +134,15 @@ function() {
                 strHotHTML += "<div class=\"avatar\">";
                 strHotHTML += "<img src=\"" + strportrait + "\" class=\"avatar-img\" />";
 
-                if (this.ownerRef.rank && (this.ownerRef.rank == 0 || this.ownerRef.rank == 1)) {
-                    strHotHTML += "<span class=\"flag-crown\"></span>";
+                if (this.ownerRef.rank) {
+                    if(this.ownerRef.rank == 0)
+                    {//金冠
+                        strHotHTML += "<span class=\"flag-crown\"></span>";
+                    }
+                    else if(this.ownerRef.rank == 1)
+                    {//银冠
+                        strHotHTML += "<span class=\"flag-sliver\"></span>";
+                    }
                 }
                 strHotHTML += "</div>";
                 strHotHTML += "<p class=\"username\">" + strNickName + "</p>";
@@ -156,6 +196,9 @@ function() {
     function bindFirstScreen(data) {
 
         var trueShowItem = data.shows[0];
+
+  
+
         var currUser = trueShowItem.ownerRef;
         var strNickName = "--";
         var strCreateData = " ";
@@ -164,11 +207,12 @@ function() {
         }
         this.$('.username').html(strNickName);
         this.$('#navtab1').html(strNickName + "的其它美搭");
-        var strportrait = "images/avatar.png";
+        var strportrait = "img/avatar.png";
         if (currUser.portrait) {
             strportrait = currUser.portrait.replace(".jp", "_50.jp").replace(".png", "_50.png");
         }
-        this.$("#portrait").attr("src", strportrait);
+        // this.$(".avatar").attr("src", strportrait);
+         $("img[name='portrait']").attr("src", strportrait);
         if (trueShowItem && trueShowItem.cover) {
             this.$(".share-img").attr("src", trueShowItem.cover.replace(".png", "_s.png"));
         }
@@ -255,8 +299,7 @@ function() {
         });
 
         this.$('.face-unlike').unbind("click");
-        this.$('.face-unlike').on('click',
-        function() {
+        this.$('.face-unlike').on('click',function() {
             __services.httpService.request('/share/dislike', 'post', {
                 "_id": search._id
             },
@@ -275,6 +318,16 @@ function() {
                 }
             });
         });
+
+
+        this.$('.face-normal').unbind("click");
+        this.$('.face-normal').on('click',function() {
+            $('.dialog-box').show()
+        });
+
+        
+
+
     }
 
     violet.oo.extend(P02ShareShow, violet.ui.ViewBase);
