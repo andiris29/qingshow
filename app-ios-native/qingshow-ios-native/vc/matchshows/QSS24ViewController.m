@@ -108,8 +108,7 @@ typedef NS_ENUM(NSUInteger, QSS24Type) {
 
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
 {
-    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showShowDetailViewController:showDict];
 }
 
 - (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider

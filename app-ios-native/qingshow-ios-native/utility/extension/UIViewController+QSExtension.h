@@ -12,7 +12,7 @@
 @interface UIViewController(Network)
 
 - (void)handleError:(NSError*)error;
-- (void)showShowDetailViewController:(NSDictionary*)showDict;
+- (UIViewController*)showShowDetailViewController:(NSDictionary*)showDict;
 - (void)hideNaviBackBtnTitle;
 - (void)disableAutoAdjustScrollViewInset;
 

@@ -34,6 +34,7 @@
 + (NSDate*)getRecommendDate:(NSDictionary*)showDict;
 + (NSString*)getRecommentDesc:(NSDictionary*)showDict;
 + (NSString*)getVideoPath:(NSDictionary*)showDict;
++ (NSString*)getHref:(NSDictionary*)showDict;
 
 + (NSDate*)getCreatedDate:(NSDictionary*)showDict;
 + (NSString*)getNumberViewDesc:(NSDictionary*)showDict;

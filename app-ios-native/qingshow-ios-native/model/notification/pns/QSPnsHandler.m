@@ -89,6 +89,7 @@
             NSDictionary* userInfo = noti.userInfo;
             NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"showId"];
             [nav popToRootViewControllerAnimated:NO];
+            //Ignore Href
             [nav pushViewController:[[QSS03ShowDetailViewController alloc] initWithShowId:showId] animated:NO];
             [nav pushViewController:[[QSS04CommentListViewController alloc] initWithShowId:showId] animated:NO];
         }

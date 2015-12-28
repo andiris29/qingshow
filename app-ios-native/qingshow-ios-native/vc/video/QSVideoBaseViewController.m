@@ -98,7 +98,7 @@
     [self.movieController play];
     [self setPlayModeBtnsHidden:YES];
     self.videoContainerView.userInteractionEnabled = YES;
-    self.playBtn.hidden = YES;
+    self.videoIcon.hidden = YES;
     self.pauseBtn.hidden = NO;
 }
 - (void)pauseVideo
@@ -110,7 +110,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveThunbnailImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
     [self.movieController requestThumbnailImagesAtTimes:@[@(self.movieController.currentPlaybackTime)] timeOption:MPMovieTimeOptionExact];
     [self setPlayModeBtnsHidden:NO];
-    self.playBtn.hidden = NO;
+    self.videoIcon.hidden = NO;
     self.pauseBtn.hidden = YES;
 }
 
@@ -127,7 +127,7 @@
         [self updateShowImgScrollView];
         
     }
-    self.playBtn.hidden = NO;
+    self.videoIcon.hidden = NO;
     self.pauseBtn.hidden = YES;
 }
 
@@ -209,10 +209,17 @@
 
 
 #pragma mark - IBAction
+- (BOOL)isPlay {
+    if (![self generateVideoPath]) {
+        return NO;
+    } else {
+        return !(!self.movieController || self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped);
+    }
+}
 - (IBAction)playOrPauseBtnPressed:(id)sender {
     NSString* video = [self generateVideoPath];
     if (video) {
-        if (!self.movieController || self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
+        if (![self isPlay]) {
             [self playMovie:video];
         } else {
             [self pauseVideo];

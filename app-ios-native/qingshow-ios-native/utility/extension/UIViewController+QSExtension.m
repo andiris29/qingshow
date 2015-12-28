@@ -13,6 +13,7 @@
 #import "QSUserLoginAlertHandler.h"
 #import "QSS10ItemDetailViewController.h"
 #import "QSPeopleUtil.h"
+#import "QSShowUtil.h"
 
 #import <objc/runtime.h>
 
@@ -89,10 +90,19 @@ static char versionUpdateHandlerKey;
 }
 
 #pragma mark - Detail
-- (void)showShowDetailViewController:(NSDictionary*)showDict
+- (UIViewController*)showShowDetailViewController:(NSDictionary*)showDict
 {
-    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    NSString* url = [QSShowUtil getHref:showDict];
+    UIViewController* vc = nil;
+
+    if (url) {
+        vc = [[QSS10ItemDetailViewController alloc] initWithUrlStr:url];
+    } else {
+        vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    }
+
     [self.navigationController pushViewController:vc animated:YES];
+    return vc;
 }
 
 

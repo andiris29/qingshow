@@ -142,7 +142,7 @@
     if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     }
-    NSArray* posters = dict[@"posters"];
+    NSArray* posters = dict[@"videoPosters"];
     NSMutableArray* urlArray = [@[] mutableCopy];
     if (posters && posters.count) {
         for (NSString* path in posters) {
@@ -403,5 +403,8 @@
     } else {
         return YES;
     }
+}
++ (NSString*)getHref:(NSDictionary*)showDict {
+    return [showDict stringValueForKeyPath:@"href"];
 }
 @end

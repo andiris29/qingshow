@@ -13,7 +13,7 @@
 @protocol QSImageScrollViewBaseDelegate <NSObject>
 @optional
 - (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page;
-
+- (void)imageScrollViewDidTapImgView:(QSImageScrollViewBase*)view;
 @end
 
 typedef NS_ENUM(NSInteger, QSImageScrollViewDirection) {
