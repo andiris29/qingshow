@@ -333,11 +333,17 @@
 }
 - (void)_bindWithItemDict:(NSDictionary*)dict {
     NSNumber* reduction = [QSItemUtil getExpectableReduction:dict];
-    
-    self.discountInfoBtn.hidden = NO;
-    [self.discountInfoBtn setTitle:[NSString stringWithFormat:@"分享搭配立减%.2f元", reduction.floatValue] forState:UIControlStateNormal];
+    if (reduction) {
+        self.discountInfoBtn.hidden = NO;
+        [self.discountInfoBtn setTitle:[NSString stringWithFormat:@"活动立减%.2f元", reduction.floatValue] forState:UIControlStateNormal];
+        [self.buyBtn setTitle:[NSString stringWithFormat:@"%.2f 购买", ([QSItemUtil getPromoPrice:dict].doubleValue - reduction.doubleValue)] forState:UIControlStateNormal];
+        self.infoWidth.constant = [UIScreen mainScreen].bounds.size.width / 2;
+    } else {
+        self.discountInfoBtn.hidden = YES;
+        [self.buyBtn setTitle:[NSString stringWithFormat:@"立即购买"] forState:UIControlStateNormal];
+        self.infoWidth.constant = 0;
+    }
 
-    [self.buyBtn setTitle:[NSString stringWithFormat:@"%.2f 购买", ([QSItemUtil getPromoPrice:dict].doubleValue - reduction.doubleValue)] forState:UIControlStateNormal];
     [self.tableView reloadData];
     self.titleLabel.text = [QSItemUtil getShopNickName:dict];
 }

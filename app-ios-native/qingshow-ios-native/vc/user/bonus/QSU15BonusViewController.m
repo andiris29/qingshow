@@ -136,9 +136,9 @@
     NSDictionary* userDict = [QSUserManager shareUserManager].userInfo;
     //Withdraw Btn
     if ([QSPeopleUtil hasBindWechat:userDict]) {
-        [self.withdrawBtn setTitle:@"分享提现" forState:UIControlStateNormal];
+        [self.withdrawBtn setTitle:@"立即提现" forState:UIControlStateNormal];
     } else {
-        [self.withdrawBtn setTitle:@"登陆微信分享提现" forState:UIControlStateNormal];
+        [self.withdrawBtn setTitle:@"登陆微信后提现" forState:UIControlStateNormal];
     }
     self.withdrawBtn.layer.cornerRadius = self.withdrawBtn.bounds.size.height / 2;
     

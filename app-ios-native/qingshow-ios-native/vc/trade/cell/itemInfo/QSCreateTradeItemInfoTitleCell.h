@@ -12,7 +12,7 @@
 @interface QSCreateTradeItemInfoTitleCell : QSCreateTradeTableViewCellBase
 
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel* priceLabel;
+@property (weak, nonatomic) IBOutlet UILabelStrikeThrough* priceLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView* iconImageView;
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
