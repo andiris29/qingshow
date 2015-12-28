@@ -8,7 +8,10 @@ showSchema = Schema({
     cover : String,
     coverForeground : String,
     video : String,
-    posters : [String],
+    videoPosters : [String],
+    href : String,
+    sticky : {'type' : Boolean, 'default' : false},
+    stickyCover : String,
     numView : {
         type : Number,
         'default' : 0

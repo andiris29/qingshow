@@ -20,6 +20,7 @@ var ONE_DAY = 24 * 3600 * 1000;
 // ------------------
 var _buildCriteria = function(date, gap) {
     return {
+        'sticky' : false,
         '$and' : [
             {'create' : {'$gte' : new Date(date.getTime())}},
             {'create' : {'$lt' : new Date(date.getTime() + gap)}}
@@ -80,6 +81,11 @@ var _queryTopShows = function(criteria, callback) {
     });
 };
 
+var _queryStickyShow = function(criteria, callback) {
+    Show.findOne(criteria, function(err, show) {
+        callback(err, {'stickyShow' : show});
+    });
+};
 
 var _cache = {};
 setInterval(function() {
@@ -146,6 +152,24 @@ feedingAggregation.latest = {
                         }
                     };
                 })(offset));
+                // Sticky show
+                tasks.push((function(offset) {
+                    return function(callback) {
+                        var from = new Date(date.getTime() - ONE_HOUR * offset),
+                            criteria = _buildCriteria(from, ONE_HOUR),
+                            keyword = from.getTime();
+                        criteria.sticky = true;
+                        var cache = _readCache('_queryStickyShow', keyword);
+                        if (offset > 0 && cache) {
+                            callback(null, cache);
+                        } else {
+                            _queryStickyShow(criteria, function(err, result) {
+                                _writeCache('_queryStickyShow', keyword, result);
+                                callback(err, result);
+                            });
+                        }
+                    };
+                })(offset));
             }
             async.parallel(tasks, function(err, results) {
                 var data = {};
@@ -153,15 +177,18 @@ feedingAggregation.latest = {
                     next(errors.genUnkownError(err));
                 } else {
                     results.forEach(function(result, index) {
-                        var offset = parseInt(index / 2),
+                        var offset = parseInt(index / 3),
                             x = date.getHours() - offset;
                         data[x] = data[x] || {};
-                        if (index % 2 === 0) {
+                        
+                        if (index % 3 === 0) {
                             data[x].topOwners = result.topOwners;
                             data[x].numOwners = result.numOwners;
                             data[x].numViewOfCurrentUser = result.numViewOfCurrentUser;
-                        } else {
+                        } else if (index % 3 === 1) {
                             data[x].topShows = result.topShows;
+                        } else {
+                            data[x].stickyShow = result.stickyShow;
                         }
                     });
                     ResponseHelper.writeData(res, data);
