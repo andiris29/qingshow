@@ -51,7 +51,7 @@ items.forEach(function(item) {
         var sourceInfo = {
             'domain': domain,
             'id': id,
-            'icon' : 'http://trial01.focosee.com/img/item/source/' + domain + '.png'
+            'icon' : 'http://trial01.focosee.com/img/item/source/' + domain + '.jpg'
         }
 
         if (!item.sourceInfo ||
