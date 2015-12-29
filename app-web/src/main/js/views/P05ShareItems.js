@@ -6,8 +6,9 @@ define([
     var P05ShareItems = function(dom, initOptions) {
         P05ShareItems.superclass.constructor.apply(this, arguments);
        
-
+          $("div[name='mask']").show();
           var _itemid = initOptions._itemid;
+          var _title = initOptions._title;
           pageLoadCall(_itemid);
 
          __services.httpService.request('/matcher/queryShopItems', 'get', {
@@ -16,6 +17,7 @@ define([
           "pageSize":1000
           }, function(err, metadata, data) {
 
+            $("div[name='mask']").show();
             $(".topback").on("click",function(){
               __services.navigationService.pop();
             });
@@ -23,7 +25,7 @@ define([
             if(!err)
             {
 
-                $(".shopwin-title").html("");
+                $(".shopwin-title").html(_title);
                 if(data && data.items)
                 {
                     var strListHTML = "";
@@ -54,7 +56,7 @@ define([
                             strListHTML +=          "<p class=\"win-title\">"+this.name+"</p>";
                             if(promoPrice != price)
                             {
-                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\">￥"+promoPrice.toFixed(2)+"</em> <del class=\"pull-right\">￥"+price.toFixed(2)+"</del></p>";
+                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\">￥"+promoPrice.toFixed(2)+"</em> <del style=\"margin-left:10pt;\">￥"+price.toFixed(2)+"</del></p>";
                             }
                             else
                             {
@@ -65,6 +67,7 @@ define([
                          }
                     });
                     $("#winItemList").html(strListHTML); 
+                    $("div[name='mask']").hide();
 
                 }
                 else
