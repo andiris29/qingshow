@@ -1,5 +1,4 @@
-var async = require('async'),
-    request = require('request');
+var async = require('async');
 
 var Show = require('../../dbmodels').Show,
     Trade = require('../../dbmodels').Trade,
