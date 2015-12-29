@@ -1,4 +1,5 @@
-var async = require('async');
+var async = require('async'),
+    request = require('request');
 
 var Bonus = require('../../dbmodels').Bonus,
     BonusCode = require('../../dbmodels').BonusCode;
