@@ -84,7 +84,7 @@
     
     if ([QSPeopleUtil hasBindWechat:peopleDic]) {
         [SHARE_NW_ENGINE withdrawBonusOnSucceed:^{
-            [[[UIAlertView alloc] initWithTitle:@"系统正在处理您的申请，请至分享页面领取红包" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"请至微信领取红包" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
             [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
                 [self _reloadData];
                 
@@ -109,6 +109,7 @@
         return;
     }
     self.fHasClickWithdraw = YES;
+    [self _handleWithdraw];
 }
 
 - (IBAction)faqBtnPressed:(id)sender {
