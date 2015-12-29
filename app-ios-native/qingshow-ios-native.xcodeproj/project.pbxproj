@@ -323,6 +323,8 @@
 		EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */; };
 		EFEB718A1C32AE7A00B22109 /* QSS25ShowHrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEB71881C32AE7A00B22109 /* QSS25ShowHrefViewController.m */; };
 		EFEB718B1C32AE7A00B22109 /* QSS25ShowHrefViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFEB71891C32AE7A00B22109 /* QSS25ShowHrefViewController.xib */; };
+		EFEB71901C32D2F800B22109 /* QSMatchStickyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEB718E1C32D2F800B22109 /* QSMatchStickyTableViewCell.m */; };
+		EFEB71911C32D2F800B22109 /* QSMatchStickyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFEB718F1C32D2F800B22109 /* QSMatchStickyTableViewCell.xib */; };
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
 		EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */; };
@@ -986,6 +988,9 @@
 		EFEB71871C32AE7A00B22109 /* QSS25ShowHrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS25ShowHrefViewController.h; sourceTree = "<group>"; };
 		EFEB71881C32AE7A00B22109 /* QSS25ShowHrefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS25ShowHrefViewController.m; sourceTree = "<group>"; };
 		EFEB71891C32AE7A00B22109 /* QSS25ShowHrefViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS25ShowHrefViewController.xib; sourceTree = "<group>"; };
+		EFEB718D1C32D2F800B22109 /* QSMatchStickyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatchStickyTableViewCell.h; sourceTree = "<group>"; };
+		EFEB718E1C32D2F800B22109 /* QSMatchStickyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatchStickyTableViewCell.m; sourceTree = "<group>"; };
+		EFEB718F1C32D2F800B22109 /* QSMatchStickyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatchStickyTableViewCell.xib; sourceTree = "<group>"; };
 		EFEBAAE31ABEB0000000FEEE /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
 		EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeUtil.h; sourceTree = "<group>"; };
 		EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeUtil.m; sourceTree = "<group>"; };
@@ -1210,6 +1215,9 @@
 				EF651F521BFE403100B35AB0 /* QSMatcherTableViewCell.h */,
 				EF651F531BFE403100B35AB0 /* QSMatcherTableViewCell.m */,
 				EF651F541BFE403100B35AB0 /* QSMatcherTableViewCell.xib */,
+				EFEB718D1C32D2F800B22109 /* QSMatchStickyTableViewCell.h */,
+				EFEB718E1C32D2F800B22109 /* QSMatchStickyTableViewCell.m */,
+				EFEB718F1C32D2F800B22109 /* QSMatchStickyTableViewCell.xib */,
 			);
 			path = matchcell;
 			sourceTree = "<group>";
@@ -3005,6 +3013,7 @@
 				EF80803F1B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.xib in Resources */,
 				68D16CBA1B32DDA500A4646C /* QSS21CategorySelectionViewController.xib in Resources */,
 				EF0A12A61C009BD700DBF23E /* right_arrow.png in Resources */,
+				EFEB71911C32D2F800B22109 /* QSMatchStickyTableViewCell.xib in Resources */,
 				EF36C1101C0AD0E7009ECE91 /* QSDiscountRemixCell.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EF8CD2D11C0378E50040611D /* QSUserLocationTableViewCell.xib in Resources */,
@@ -3071,6 +3080,7 @@
 				68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */,
 				EF8CD3431C03794C0040611D /* DataSigner.m in Sources */,
 				EF994D951B693C4F00715B0E /* QSDiscountInfoCell.m in Sources */,
+				EFEB71901C32D2F800B22109 /* QSMatchStickyTableViewCell.m in Sources */,
 				EF810F4D1AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m in Sources */,
 				EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */,
 				EFAB9C6C1B346FE5008A4EF5 /* QSPeopleListTableViewProvider.m in Sources */,

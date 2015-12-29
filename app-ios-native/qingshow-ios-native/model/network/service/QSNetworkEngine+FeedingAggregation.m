@@ -35,14 +35,21 @@
                 NSString* hourStr = @(hour - i).stringValue;
                 NSDictionary* dict = [data dictValueForKeyPath:hourStr];
                 NSArray* topOwners = [dict arrayValueForKeyPath:@"topOwners"];
+                NSDate* targetDay = day;
+                NSInteger targetHour = hour - i;
                 if (topOwners && topOwners.count) {
-                    NSDate* targetDay = day;
-                    NSInteger targetHour = hour - i;
+
                     if (targetHour < 0) {
                         targetDay = [day dateByAddingTimeInterval:- 24 * 60 * 60];
                         targetHour += 24;
                     }
                     
+                    [retArray addObject:@{
+                                          @"hour" : @(targetHour),
+                                          @"date" : targetDay,
+                                          @"data" : dict
+                                          }];
+                } else if ([dict stringValueForKeyPath:@"stickyShow.stickyCover"]) {
                     [retArray addObject:@{
                                           @"hour" : @(targetHour),
                                           @"date" : targetDay,
