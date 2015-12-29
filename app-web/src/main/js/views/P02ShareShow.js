@@ -28,7 +28,7 @@ function() {
                 if (data.shows) {
 
                      var totalVoteCount = "";
-                    if (shareObj && shareObj.numDislike && shareObj.numLike) {
+                    if (shareObj) {
                         totalVoteCount = shareObj.numDislike + shareObj.numLike;
                         this.$(".totalVoteCount").html(totalVoteCount);
                     }
@@ -38,7 +38,7 @@ function() {
                         $(".vote-options").hide();
                     }
 
-                    bindTappClickEvent.call(this, showid);
+                    bindTappClickEvent.call(this, showid,shareObj);
                     bindFirstScreen.call(this, data);
 
                     
@@ -248,7 +248,7 @@ function() {
         });
     }
 
-    function bindTappClickEvent(showid) {
+    function bindTappClickEvent(showid,shareObj) {
 
         this.$("div[name='navtab1']").on('click',
         function() {
@@ -322,12 +322,38 @@ function() {
 
         this.$('.face-normal').unbind("click");
         this.$('.face-normal').on('click',function() {
-            $('.dialog-box').show()
+
+            if(shareObj)
+            {
+                 __services.httpService.request('/share/query', 'get', {
+                        '_ids' : [search._id]
+                    }, function(err, metadata, data) {
+                        var shareObj = data && data.sharedObjects && data.sharedObjects[0];
+                        if (err || !shareObj) {
+                            alert("查询投票失败");
+                        } 
+                        else {
+
+                            var likeNum =  shareObj.numLike;
+                            var unlikeNum = shareObj.numDislike;
+                            
+                            if(likeNum>0 || unlikeNum>0)
+                            {
+                                var likepercent = parseInt(likeNum / (likeNum + unlikeNum) * 100);
+                                var unlikepercent = 100 - likepercent;
+                                $("span[name='numlike']").html(likepercent + "%");
+                                $("span[name='numunlike']").html(unlikepercent + "%");
+                            }
+                            else
+                            {
+                                $("span[name='numlike']").html("50%");
+                                $("span[name='numunlike']").html("50%");
+                            }
+                            $('.dialog-box').show();
+                        }
+                    })
+            }
         });
-
-        
-
-
     }
 
     violet.oo.extend(P02ShareShow, violet.ui.ViewBase);
