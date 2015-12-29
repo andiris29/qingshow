@@ -71,4 +71,9 @@
         [self.delegate provider:self didClickPeople:dict];
     }
 }
+- (void)cell:(QSMatcherTableViewCell*)cell didClickStickyShow:(NSDictionary*)dict {
+    if ([self.delegate respondsToSelector:@selector(provider:didClickShow:)]) {
+        [self.delegate provider:self didClickShow:dict];
+    }
+}
 @end

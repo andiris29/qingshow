@@ -11,7 +11,6 @@
 @interface QSS10ItemDetailViewController : UIViewController<UIAlertViewDelegate, UIWebViewDelegate>
 
 - (instancetype)initWithItem:(NSDictionary*)item;
-- (instancetype)initWithUrlStr:(NSString*)urlStr;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @end

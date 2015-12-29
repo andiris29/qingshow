@@ -125,6 +125,7 @@
 - (void)_configNav
 {
     self.title = @"美搭榜单";
+    [self hideNaviBackBtnTitle];
 }
 
 - (void)_reloadCurrentProvider {
@@ -172,6 +173,9 @@
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)provider:(QSMatcherTableViewProvider *)provider didClickShow:(NSDictionary*)showDict {
+    [self showShowDetailViewController:showDict];
 }
 - (void)showLatestS24Vc {
     NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-1];

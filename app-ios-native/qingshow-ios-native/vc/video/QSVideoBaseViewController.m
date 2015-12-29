@@ -69,7 +69,9 @@
 #pragma mark - Movie
 #pragma mark Init MovieController
 -(void)playMovie:(NSString *)path{
+    BOOL f = NO;
     if (!self.movieController) {
+        f = YES;
         NSURL *url = [NSURL URLWithString:path];
         self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
         self.movieController.view.frame = self.videoContainerView.frame;
@@ -77,7 +79,9 @@
         self.movieController.controlStyle = MPMovieControlStyleNone;
         [self.videoContainerView addSubview:self.movieController.view];
         self.movieController.view.userInteractionEnabled = NO;
-        
+    }
+    [self startVideo];
+    if (f) {
         //Notification
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(myMovieFinishedCallback:)
@@ -88,7 +92,6 @@
                                                      name:MPMoviePlayerPlaybackStateDidChangeNotification
                                                    object:nil];
     }
-    [self startVideo];
 }
 #pragma mark - Movie
 #pragma mark Basic Control Method
@@ -216,7 +219,7 @@
         return !(!self.movieController || self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped);
     }
 }
-- (IBAction)playOrPauseBtnPressed:(id)sender {
+- (void)playOrPauseBtnPressed:(id)sender {
     NSString* video = [self generateVideoPath];
     if (video) {
         if (![self isPlay]) {
@@ -225,6 +228,9 @@
             [self pauseVideo];
         }
     }
+}
+- (IBAction)pauseBtnPressed:(id)sender {
+    [self pauseVideo];
 }
 
 - (IBAction)backBtnPressed:(id)sender {

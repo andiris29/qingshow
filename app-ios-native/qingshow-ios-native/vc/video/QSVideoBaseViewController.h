@@ -28,7 +28,8 @@
 - (void)stopMovie;
 
 - (void)updateShowImgScrollView;
-- (IBAction)playOrPauseBtnPressed:(id)sender;
+- (void)playOrPauseBtnPressed:(id)sender;
+- (IBAction)pauseBtnPressed:(id)sender;
 - (IBAction)backBtnPressed:(id)sender;
 #pragma mark - Method To Be Override
 - (NSArray*)generateImagesData;

@@ -13,6 +13,7 @@
 
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date;
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickPeople:(NSDictionary*)peopleDict;
+- (void)provider:(QSMatcherTableViewProvider *)provider didClickShow:(NSDictionary*)showDict;
 
 @end
 

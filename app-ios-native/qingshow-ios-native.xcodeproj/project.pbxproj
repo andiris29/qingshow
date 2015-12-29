@@ -321,6 +321,8 @@
 		EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */; };
 		EFCC1B8E1B0203FB00E13279 /* QSThirdPartLoginService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCC1B8D1B0203FB00E13279 /* QSThirdPartLoginService.m */; };
 		EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */; };
+		EFEB718A1C32AE7A00B22109 /* QSS25ShowHrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEB71881C32AE7A00B22109 /* QSS25ShowHrefViewController.m */; };
+		EFEB718B1C32AE7A00B22109 /* QSS25ShowHrefViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFEB71891C32AE7A00B22109 /* QSS25ShowHrefViewController.xib */; };
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
 		EFECFF3B1BB6DD2500146BD7 /* QSUnreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFECFF3A1BB6DD2500146BD7 /* QSUnreadManager.m */; };
@@ -981,6 +983,9 @@
 		EFCC1B8D1B0203FB00E13279 /* QSThirdPartLoginService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSThirdPartLoginService.m; sourceTree = "<group>"; };
 		EFD0B7EE1A1A4FC500BCDFBA /* QSUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserManager.h; sourceTree = "<group>"; };
 		EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserManager.m; sourceTree = "<group>"; };
+		EFEB71871C32AE7A00B22109 /* QSS25ShowHrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS25ShowHrefViewController.h; sourceTree = "<group>"; };
+		EFEB71881C32AE7A00B22109 /* QSS25ShowHrefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS25ShowHrefViewController.m; sourceTree = "<group>"; };
+		EFEB71891C32AE7A00B22109 /* QSS25ShowHrefViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS25ShowHrefViewController.xib; sourceTree = "<group>"; };
 		EFEBAAE31ABEB0000000FEEE /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
 		EFEBAAF11ABF09350000FEEE /* QSTradeUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeUtil.h; sourceTree = "<group>"; };
 		EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeUtil.m; sourceTree = "<group>"; };
@@ -2578,6 +2583,9 @@
 				EF3F34371C0CA22B004B16DA /* QSItemTagView.h */,
 				EF3F34381C0CA22B004B16DA /* QSItemTagView.m */,
 				EF3F343B1C0CA23B004B16DA /* QSItemTagView.xib */,
+				EFEB71871C32AE7A00B22109 /* QSS25ShowHrefViewController.h */,
+				EFEB71881C32AE7A00B22109 /* QSS25ShowHrefViewController.m */,
+				EFEB71891C32AE7A00B22109 /* QSS25ShowHrefViewController.xib */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -3009,6 +3017,7 @@
 				EF98A12F1C04CAE400B0B5BC /* QSS24ViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */,
+				EFEB718B1C32AE7A00B22109 /* QSS25ShowHrefViewController.xib in Resources */,
 				EF8CD2A91C0378E50040611D /* QSU06LoginViewController.xib in Resources */,
 				EF80804E1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib in Resources */,
 				A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */,
@@ -3168,6 +3177,7 @@
 				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
 				EF80803E1B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.m in Sources */,
 				EF814EBB1C03379D00450BE7 /* QSNetworkEngine+FeedingAggregation.m in Sources */,
+				EFEB718A1C32AE7A00B22109 /* QSS25ShowHrefViewController.m in Sources */,
 				68D16D041B341A4700A4646C /* QSS01MatchShowsViewController.m in Sources */,
 				EFAB9C6A1B346FE5008A4EF5 /* QSCommentListTableViewProvider.m in Sources */,
 				EF8CD2B51C0378E50040611D /* QSU02InfoBaseCell.m in Sources */,
