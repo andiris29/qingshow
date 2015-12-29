@@ -29,13 +29,7 @@
     if (self) {
         self.itemDict = item;
         self.url = [QSItemUtil getShopUrl:self.itemDict];
-    }
-    return self;
-}
-- (instancetype)initWithUrlStr:(NSString*)urlStr {
-    self = [super initWithNibName:@"QSS10ItemDetailViewController" bundle:nil];
-    if (self) {
-        self.url = [NSURL URLWithString:urlStr];
+        self.title = @"商品详情";
     }
     return self;
 }
@@ -72,7 +66,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
-    self.title = @"商品详情";
+
 }
 
 - (void)didReceiveMemoryWarning {

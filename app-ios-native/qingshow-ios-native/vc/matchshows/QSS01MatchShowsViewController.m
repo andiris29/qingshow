@@ -125,6 +125,7 @@
 - (void)_configNav
 {
     self.title = @"美搭榜单";
+    [self hideNaviBackBtnTitle];
 }
 
 - (void)_reloadCurrentProvider {

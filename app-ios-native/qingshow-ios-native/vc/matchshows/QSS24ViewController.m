@@ -50,6 +50,7 @@ typedef NS_ENUM(NSUInteger, QSS24Type) {
     [self _configNav];
     [self _configProvider];
     [self _updateBtnVisible];
+    [self hideNaviBackBtnTitle];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

@@ -12,6 +12,7 @@
 #import "QSError.h"
 #import "QSUserLoginAlertHandler.h"
 #import "QSS10ItemDetailViewController.h"
+#import "QSS25ShowHrefViewController.h"
 #import "QSPeopleUtil.h"
 #import "QSShowUtil.h"
 
@@ -96,7 +97,7 @@ static char versionUpdateHandlerKey;
     UIViewController* vc = nil;
 
     if (url) {
-        vc = [[QSS10ItemDetailViewController alloc] initWithUrlStr:url];
+        vc = [[QSS25ShowHrefViewController alloc] initWithShow:showDict];
     } else {
         vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
     }
