@@ -13,26 +13,37 @@ define([
          __services.httpService.request('/matcher/queryShopItems', 'get', {
           "itemRef":_itemid,
           "pageNo":1,
-          "pageSize":10
+          "pageSize":1000
           }, function(err, metadata, data) {
+
+            $(".topback").on("click",function(){
+              __services.navigationService.pop();
+            });
+
             if(!err)
             {
+
+                $(".shopwin-title").html("");
                 if(data && data.items)
                 {
                     var strListHTML = "";
                     $.each(data.items, function(index){  
-                         if(this.thumbnail)
+                         if(this.thumbnail )
                          {
-                            if(this.taobaoInfo && this.taobaoInfo.nick)
+                            if(this.shopref && this.shopref.nickname)
                             {
                                 $(".shopwin-title").html(this.taobaoInfo.nick);
                             }
+
+                            var promoPrice = parseFloat(this.promoPrice);
+                            var price = parseFloat(this.price);
+
                             strListHTML += "<div class=\"win pull-left\">";
-                            strListHTML +=      "<div class=\"win-thumbnail\">";
-                            strListHTML +=          "<img src=\""+this.thumbnail+"\" class=\"win-img\" />";
-                             if(this.promoPrice != this.price)
+                            strListHTML +=      "<div class=\"win-thumbnail\" style=\"background-image:url("+this.thumbnail+");\">";
+                            strListHTML +=          "<img src=\"assets/img/imgbg.png\" class=\"win-z\" />";
+                             if(promoPrice != price)
                             {
-                                var discount = parseInt(this.promoPrice / this.price * 10);
+                                var discount = parseInt(promoPrice / price * 10);
                                 if(discount<10)
                                 {
                                     strListHTML +=          "<span class=\"flag-label\">"+discount+"折</span>";
@@ -41,13 +52,13 @@ define([
                             strListHTML +=      "</div>";
                             strListHTML +=      "<div class=\"win-info\">";
                             strListHTML +=          "<p class=\"win-title\">"+this.name+"</p>";
-                            if(this.promoPrice != this.price)
+                            if(promoPrice != price)
                             {
-                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\">￥"+this.promoPrice+"</em> <del class=\"pull-right\">￥"+this.price+"</del></p>";
+                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\">￥"+promoPrice.toFixed(2)+"</em> <del class=\"pull-right\">￥"+price.toFixed(2)+"</del></p>";
                             }
                             else
                             {
-                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\" style='dis'>￥"+this.promoPrice+"</em> </p>";
+                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\" style='dis'>￥"+promoPrice.toFixed(2)+"</em> </p>";
                             }
                             strListHTML +=      "</div>";
                             strListHTML += "</div>";

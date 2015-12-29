@@ -45,6 +45,18 @@ show.query = {
             }).populate('ownerRef').populate('itemRefs').exec(callback);
         },
         function(shows, callback) {
+            var itemRefs = [];
+            shows.forEach(function(show) {
+                itemRefs = itemRefs.concat(show.itemRefs);
+            });
+            Item.populate(itemRefs, {
+                'path' : 'shopRef',
+                'model' : 'peoples'
+            }, function() {
+                callback(null, shows);
+            });
+        },
+        function(shows, callback) {
             // Append followed by current user
             ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
