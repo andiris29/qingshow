@@ -5,6 +5,9 @@ function() {
     var P02ShareShow = function(dom, initOptions) {
         P02ShareShow.superclass.constructor.apply(this, arguments);
         // var shareObj = initOptions.entity;
+
+
+     
         var show = initOptions.entity;
         var shareObj;
         if(initOptions.paraObj)
@@ -87,6 +90,8 @@ function() {
                         if (!err) {
                             if (data && data.shows) {
                                 bindShowList.call(this, "show2", data.shows);
+
+                                $("div[name='mask']").hide();
                             }
                         }
                     }.bind(this));
@@ -158,6 +163,8 @@ function() {
         this.$('.thumbnail').unbind("click");
         this.$('.thumbnail').on('click',
         function() {
+
+            $("div[name='mask']").show();
             var _id = this.id;
             __services.httpService.request('/show/query', 'get', {
                 "_ids": [_id]
@@ -171,6 +178,8 @@ function() {
                 } else {
                     __services.navigationService.push('qs/views/P01NotFound');
                 }
+                
+                 $("div[name='mask']").hide();
             });
         });
 
@@ -188,6 +197,7 @@ function() {
         }
     }
     var isFlagShow = false;
+    var naviTitle = "";
     function bindFirstScreen(data) {
 
         var trueShowItem = data.shows[0];
@@ -224,11 +234,16 @@ function() {
                 if (!trueShowItem.itemRefs[index].delist) {
                     strItemHTML = "";
                     strItemHTML += " <div class=\"share-item-box\"  style=\"left:" + this[0] + "%; top:" + this[1] + "%;width:" + this[2] + "%; height:" + this[3] + "%; \">";
-                     if(trueShowItem.itemReductionEnabled && trueShowItem.itemReductionEnabled == true)
-                     {
+                     // if(trueShowItem.itemReductionEnabled && trueShowItem.itemReductionEnabled == true)
+                     // {
                         isFlagShow = true;
-                        strItemHTML += "<span class=\"flag\"   id=\"" + trueShowItem.itemRefs[index]._id + "\"   >&nbsp;<em>" + trueShowItem.itemRefs[index].expectable.reduction + "</em></span>";
-                    }
+                        var strNameHTML = "";
+                        // if(trueShowItem.itemRefs[index].shopRef)
+                        // {
+                        //     strNameHTML = "name='+ trueShowItem.itemRefs[index].shopRef +'";
+                        // }
+                        strItemHTML += "<span class=\"flag\"   id=\"" + trueShowItem.itemRefs[index]._id + "\"  >&nbsp;<em>" + trueShowItem.itemRefs[index].expectable.reduction + "</em></span>";
+                    // }
 
                     strItemHTML += "</div>";
                     strTagHTML += strItemHTML;

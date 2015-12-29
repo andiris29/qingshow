@@ -6,7 +6,7 @@ define([
     var P05ShareItems = function(dom, initOptions) {
         P05ShareItems.superclass.constructor.apply(this, arguments);
        
-
+          $("div[name='mask']").show();
           var _itemid = initOptions._itemid;
           pageLoadCall(_itemid);
 
@@ -16,6 +16,7 @@ define([
           "pageSize":1000
           }, function(err, metadata, data) {
 
+            $("div[name='mask']").show();
             $(".topback").on("click",function(){
               __services.navigationService.pop();
             });
@@ -65,6 +66,7 @@ define([
                          }
                     });
                     $("#winItemList").html(strListHTML); 
+                    $("div[name='mask']").hide();
 
                 }
                 else
