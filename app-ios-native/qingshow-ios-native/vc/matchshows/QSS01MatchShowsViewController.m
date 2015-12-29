@@ -174,6 +174,9 @@
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
 }
+- (void)provider:(QSMatcherTableViewProvider *)provider didClickShow:(NSDictionary*)showDict {
+    [self showShowDetailViewController:showDict];
+}
 - (void)showLatestS24Vc {
     NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-1];
     date = [QSDateUtil clearMinuteFromDate:date];

@@ -20,6 +20,7 @@
 @property (strong, nonatomic) QSMatcherCollectionViewHeaderUserRowView* userHeadsView;
 @property (weak, nonatomic) NSArray* userArray;
 @property (weak, nonatomic) NSDictionary* singleUser;
+@property (strong, nonatomic) NSDictionary* stickyShow;
 @property (weak, nonatomic) IBOutlet UILabel* topLabel;
 @end
 
@@ -37,6 +38,9 @@
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapUserImgView:)];
     self.userHeadImgView.userInteractionEnabled = YES;
     [self.userHeadImgView addGestureRecognizer:ges];
+    ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapStickyView:)];
+    self.stickyImageView.userInteractionEnabled = YES;
+    [self.stickyImageView addGestureRecognizer:ges];
 }
 
 - (void)layoutSubviews {
@@ -119,12 +123,14 @@
     
     NSString* stickyUrl = [dict stringValueForKeyPath:@"data.stickyShow.stickyCover"];
     if (stickyUrl) {
+        self.stickyShow = [dict dictValueForKeyPath:@"data.stickyShow"];
         [self.stickyImageView setImageFromURL:[NSURL URLWithString:stickyUrl]];
         self.stickyImageView.hidden = NO;
         CGRect f = self.bottomContainer.frame;
         f.size.height = 417;
         self.bottomContainer.frame = f;
     } else {
+        self.stickyShow = nil;
         self.stickyImageView.hidden = YES;
         CGRect f = self.bottomContainer.frame;
         f.size.height = 417 - QSMatcherTableViewCellStickyImageHeight - 5;
@@ -143,6 +149,11 @@
 - (void)didTapUserImgView:(UITapGestureRecognizer*)ges {
     if (self.singleUser && [self.delegate respondsToSelector:@selector(cell:didClickUser:)]) {
         [self.delegate cell:self didClickUser:self.singleUser];
+    }
+}
+- (void)didTapStickyView:(UITapGestureRecognizer*)ges {
+    if (self.stickyShow && [self.delegate respondsToSelector:@selector(cell:didClickStickyShow:)]) {
+        [self.delegate cell:self didClickStickyShow:self.stickyShow];
     }
 }
 @end

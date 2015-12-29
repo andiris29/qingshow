@@ -17,7 +17,7 @@
 @protocol QSMatcherTableViewCellDelegate <NSObject>
 
 - (void)cell:(QSMatcherTableViewCell*)cell didClickUser:(NSDictionary*)dict;
-
+- (void)cell:(QSMatcherTableViewCell*)cell didClickStickyShow:(NSDictionary*)dict;
 @end
 
 @interface QSMatcherTableViewCell : UITableViewCell
