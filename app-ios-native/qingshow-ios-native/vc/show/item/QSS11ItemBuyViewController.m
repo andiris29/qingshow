@@ -7,6 +7,7 @@
 //
 
 #import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 #import "QSAbstractDiscountTableViewCell.h"
 #import "QSDiscountTaobaoInfoCell.h"
 #import "QSDiscountInfoCell.h"
@@ -80,9 +81,10 @@
         self.masterDict = data;
         [self _bindWithItemDict:self.itemDict];
     } onError:nil];
+
     
-    [SHARE_NW_ENGINE queryBuyer:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSDictionary *info) {
-        [self.buyerCell bindWithBuyerInfo:info];
+    [SHARE_NW_ENGINE queryBuyer:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSArray *peoples, NSDictionary* metadata) {
+        [self.buyerCell bindWithBuyers:peoples count:[metadata numberValueForKeyPath:@"numTotal"].intValue];
     } onError:^(NSError *error) {
         [self.cellArray removeObject:self.buyerCell];
         [self.tableView reloadData];

@@ -13,5 +13,5 @@
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 @property (strong, nonatomic) IBOutlet UIView* buyerContainerView;
 + (instancetype)generateCell;
-- (void)bindWithBuyerInfo:(NSDictionary*)dict;
+- (void)bindWithBuyers:(NSArray*)buyers count:(int)count;
 @end

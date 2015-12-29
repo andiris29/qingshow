@@ -11,6 +11,7 @@
 #import "NSArray+QSExtension.h"
 #import "QSPeopleUtil.h"
 #import "QSError.h"
+#import "NSDictionary+QSExtension.h"
 
 // People
 #define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
@@ -248,14 +249,17 @@
 
 
 - (MKNetworkOperation*)queryBuyer:(NSString*)itemId
-                        onSucceed:(DicBlock)succeedBlock
+                        onSucceed:(ArraySuccessBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_PEOPLE_QUERY_BUYERS
                                  method:@"GET"
                                paramers:@{@"_id" : itemId}
                             onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
-            succeedBlock(completedOperation.responseJSON);
+            NSDictionary* dict = completedOperation.responseJSON;
+            NSDictionary* metadata = [dict dictValueForKeyPath:@"metadata"];
+            NSArray* peoples = [dict arrayValueForKeyPath:@"data.peoples"];
+            succeedBlock(peoples, metadata);
         }
     }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error) {

@@ -39,7 +39,7 @@
                     <view contentMode="scaleToFill" id="1gk-i1-TpC">
                         <rect key="frame" x="8" y="30" width="304" height="37"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
             </tableViewCellContentView>

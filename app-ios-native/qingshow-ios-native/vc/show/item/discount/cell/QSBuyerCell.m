@@ -39,8 +39,8 @@
 - (void)bindWithData:(NSDictionary *)itemDict {
     
 }
-- (void)bindWithBuyerInfo:(NSDictionary*)dict {
-#warning TODO Bind With Users
-    
+- (void)bindWithBuyers:(NSArray*)buyers count:(int)count {
+    [self.headView bindWithUsers:buyers];
+    self.titleLabel.text = [NSString stringWithFormat:@"%d位用户已通过分享获得优惠", count];
 }
 @end
