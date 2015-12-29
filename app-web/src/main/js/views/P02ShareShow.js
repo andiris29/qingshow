@@ -165,6 +165,7 @@ function() {
         function() {
 
             $("div[name='mask']").show();
+            var name = this.name
             var _id = this.id;
             __services.httpService.request('/show/query', 'get', {
                 "_ids": [_id]
@@ -178,7 +179,7 @@ function() {
                 } else {
                     __services.navigationService.push('qs/views/P01NotFound');
                 }
-                
+
                  $("div[name='mask']").hide();
             });
         });
@@ -234,16 +235,16 @@ function() {
                 if (!trueShowItem.itemRefs[index].delist) {
                     strItemHTML = "";
                     strItemHTML += " <div class=\"share-item-box\"  style=\"left:" + this[0] + "%; top:" + this[1] + "%;width:" + this[2] + "%; height:" + this[3] + "%; \">";
-                     // if(trueShowItem.itemReductionEnabled && trueShowItem.itemReductionEnabled == true)
-                     // {
+                     if(trueShowItem.itemReductionEnabled && trueShowItem.itemReductionEnabled == true)
+                     {
                         isFlagShow = true;
                         var strNameHTML = "";
-                        // if(trueShowItem.itemRefs[index].shopRef)
-                        // {
-                        //     strNameHTML = "name='+ trueShowItem.itemRefs[index].shopRef +'";
-                        // }
-                        strItemHTML += "<span class=\"flag\"   id=\"" + trueShowItem.itemRefs[index]._id + "\"  >&nbsp;<em>" + trueShowItem.itemRefs[index].expectable.reduction + "</em></span>";
-                    // }
+                        if(trueShowItem.itemRefs[index].shopRef)
+                        {
+                            strNameHTML = trueShowItem.itemRefs[index].shopRef.nickname ;
+                        }
+                        strItemHTML += "<span class=\"flag\"  title=\""+strNameHTML+"\"  id=\"" + trueShowItem.itemRefs[index]._id + "\" "+strNameHTML+" >&nbsp;<em>" + trueShowItem.itemRefs[index].expectable.reduction + "</em></span>";
+                     }
 
                     strItemHTML += "</div>";
                     strTagHTML += strItemHTML;
@@ -256,8 +257,15 @@ function() {
         this.$('.flag').on('click',
         function() {
             var _id = this.id;
+            var _title = "";
+            if(this.title)
+            {
+                _title = this.title;
+
+            }
             __services.navigationService.push('qs/views/P05ShareItems', {
                 '_itemid': _id,
+                '_title':_title
             });
         });
         if(trueShowItem.itemReductionEnabled == true)

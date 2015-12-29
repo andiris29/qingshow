@@ -8,6 +8,7 @@ define([
        
           $("div[name='mask']").show();
           var _itemid = initOptions._itemid;
+          var _title = initOptions._title;
           pageLoadCall(_itemid);
 
          __services.httpService.request('/matcher/queryShopItems', 'get', {
@@ -24,7 +25,7 @@ define([
             if(!err)
             {
 
-                $(".shopwin-title").html("");
+                $(".shopwin-title").html(_title);
                 if(data && data.items)
                 {
                     var strListHTML = "";
