@@ -172,9 +172,26 @@ a {text-decoration:none; color:#282d5b;}
 .windows>.win>.win-info {border-bottom:#000 1pt solid; font-size:0.575rem; padding:0.85rem 0.3rem 0.5rem;}
 .windows>.win>.win-info>.win-title {margin-bottom:0.25rem; height:1.4rem; line-height:0.7rem; overflow:hidden;}
 .windows>.win>.win-info>.price del {color:#9a9a9a;}
+.windows>.win>.win-info>.price em {margin-right:0.3rem;}
 
 .appdown2 {background-color:#dcdcdc; color:#262c59; height:2.9rem; position:relative;}
 .fix-bottom {position:fixed; bottom:0; left:0; right:0; z-index:100;}
 .appdown2 .logo {background:url(../assets/img/logonew.png) no-repeat center center/ 100%; width:2.25rem; height:2.25rem; display:block; position:absolute; top:0.325rem; left:0.75rem;}
 .appdown2 .text {font-size:0.625rem; top:1.1rem; left:3.2rem; position:absolute;}
 .appdown2 .download {background:url(../assets/img/downloadnew.png) no-repeat center center/100%; width:4.45rem; height:1.75rem; display:block; text-indent:-999em; color:#fff; position:absolute; right:0.55rem; top:0.575rem;}
+
+.mask {position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999;}
+.loading {position:absolute; left:50%; top:50%; margin:-0.15rem auto auto -0.15rem;}
+.loading i{display:block; width:0.3rem;height:0.3rem;border-radius:50%; background-color:#eee; position:absolute;}
+.loading i:nth-child(1){top:0.625rem;left:0;-webkit-animation:loading 1s ease 0s infinite;}
+.loading i:nth-child(2){top:0.425rem;left:0.425rem;-webkit-animation:loading 1s ease -0.12s infinite;}
+.loading i:nth-child(3){top:0px;left:0.625rem;-webkit-animation:loading 1s ease -0.24s infinite;}
+.loading i:nth-child(4){top:-0.425rem;left:0.425rem;-webkit-animation:loading 1s ease -0.36s infinite;}
+.loading i:nth-child(5){top:-0.625rem;left:0;-webkit-animation:loading 1s ease -0.48s infinite;}
+.loading i:nth-child(6){top:-0.425rem;left:-0.425rem;-webkit-animation:loading 1s ease -0.6s infinite;}
+.loading i:nth-child(7){top:0px;left:-0.625rem;-webkit-animation:loading 1s ease -0.72s infinite;}
+.loading i:nth-child(8){top:0.425rem;left:-0.425rem;-webkit-animation:loading 1s ease -0.84s infinite;}
+@-webkit-keyframes loading{
+	50%{ transform:scale(0.4); opacity:.4;}
+	100%{ transform:scale(1); opacity:1;}
+	}

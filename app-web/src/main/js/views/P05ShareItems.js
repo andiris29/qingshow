@@ -54,7 +54,7 @@ define([
                             strListHTML +=          "<p class=\"win-title\">"+this.name+"</p>";
                             if(promoPrice != price)
                             {
-                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\">￥"+promoPrice.toFixed(2)+"</em> <del class=\"pull-right\">￥"+price.toFixed(2)+"</del></p>";
+                                strListHTML +=          "<p class=\"price clearfix\"><em class=\"pull-left\">￥"+promoPrice.toFixed(2)+"</em> <del style=\"margin-left:10pt;\">￥"+price.toFixed(2)+"</del></p>";
                             }
                             else
                             {

@@ -22,22 +22,17 @@ function() {
         __services.httpService.request('/show/query', 'get', {
             "_ids": showid
         },
-
         function(err, metadata, data) {
+
+            $('.appdown2').on('click', __services.downloadService.download);
+            $('.download').on('click', __services.downloadService.download);
             if (!err) {
                 if (data.shows) {
 
-                     var totalVoteCount = "";
-                    if (shareObj) {
-                        totalVoteCount = shareObj.numDislike + shareObj.numLike;
-                        this.$(".totalVoteCount").html(totalVoteCount);
-                    }
-                    else
-                    {
+                    if (!shareObj) {
                         $(".navbar-right").hide();
                         $(".vote-options").hide();
                     }
-
                     bindTappClickEvent.call(this, showid,shareObj);
                     bindFirstScreen.call(this, data);
 
@@ -153,7 +148,7 @@ function() {
                 var strTime = monthArr[month] + "." + day;
 
                 strHotHTML += "<p class=\"time clearfix\"><i class=\"icon-clock pull-left\"></i><span class=\"pull-left text\">" + strTime + "</span></p>";
-                strHotHTML += "<p class=\"hits pull-right\"><i class=\"icon-eye\"></i><span class=\"text\">" + this.__context.numComments + "</span></p>";
+                strHotHTML += "<p class=\"hits pull-right\"><i class=\"icon-eye\"></i><span class=\"text\">" + this.numView + "</span></p>";
                 strHotHTML += "</div>";
                 strHotHTML += "    </div><!-- /.show-item -->";
             }
@@ -192,12 +187,10 @@ function() {
             function(err, metadata, data) {});
         }
     }
-
+    var isFlagShow = false;
     function bindFirstScreen(data) {
 
         var trueShowItem = data.shows[0];
-
-  
 
         var currUser = trueShowItem.ownerRef;
         var strNickName = "--";
@@ -211,6 +204,8 @@ function() {
         if (currUser.portrait) {
             strportrait = currUser.portrait.replace(".jp", "_50.jp").replace(".png", "_50.png");
         }
+
+        this.$(".totalVoteCount").html(trueShowItem.numView);
         // this.$(".avatar").attr("src", strportrait);
          $("img[name='portrait']").attr("src", strportrait);
         if (trueShowItem && trueShowItem.cover) {
@@ -228,24 +223,43 @@ function() {
             function(index) {
                 if (!trueShowItem.itemRefs[index].delist) {
                     strItemHTML = "";
-                    strItemHTML += " <div class=\"share-item-box\"  id=\"" + trueShowItem.itemRefs[index]._id + "\"   style=\"left:" + this[0] + "%; top:" + this[1] + "%;width:" + this[2] + "%; height:" + this[3] + "%; \">";
-                    strItemHTML += "<span class=\"flag\"  >&nbsp;<em>" + trueShowItem.itemRefs[index].expectable.reduction + "</em></span>";
+                    strItemHTML += " <div class=\"share-item-box\"  style=\"left:" + this[0] + "%; top:" + this[1] + "%;width:" + this[2] + "%; height:" + this[3] + "%; \">";
+                     if(trueShowItem.itemReductionEnabled && trueShowItem.itemReductionEnabled == true)
+                     {
+                        isFlagShow = true;
+                        strItemHTML += "<span class=\"flag\"   id=\"" + trueShowItem.itemRefs[index]._id + "\"   >&nbsp;<em>" + trueShowItem.itemRefs[index].expectable.reduction + "</em></span>";
+                    }
+
                     strItemHTML += "</div>";
                     strTagHTML += strItemHTML;
                 }
             });
-
         }
         strTagHTML = "<img class=\"share-img\" style=\"width:100%;\" src=\"" + trueShowItem.cover.replace(".png", "_s.png") + "\" />" + strTagHTML;
         this.$(".img-mask").html(strTagHTML);
-        this.$(".share-item-box").unbind("click");
-        this.$('.share-item-box').on('click',
+        this.$(".flag").unbind("click");
+        this.$('.flag').on('click',
         function() {
             var _id = this.id;
             __services.navigationService.push('qs/views/P05ShareItems', {
                 '_itemid': _id,
             });
         });
+        if(trueShowItem.itemReductionEnabled == true)
+        {
+            this.$(".share-imgmask").on("click",function(){
+                if(isFlagShow)
+                {
+                    isFlagShow = false;
+                    $(".flag").hide();
+                }
+                else
+                {
+                    $(".flag").show();
+                    isFlagShow = true;
+                }
+            });
+        }
     }
 
     function bindTappClickEvent(showid,shareObj) {
@@ -270,8 +284,6 @@ function() {
 
         });
 
-        this.$('.appdown2', this._dom).on('click', __services.downloadService.download);
-        this.$('.download', this._dom).on('click', __services.downloadService.download);
 
         var search = violet.url.search;
         this.$('.face-like').unbind("click");
