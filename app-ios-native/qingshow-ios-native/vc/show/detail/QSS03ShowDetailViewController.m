@@ -252,6 +252,9 @@
     }
     [self.itemLabelArray removeAllObjects];
     
+    if (![QSShowUtil getItemReductionEnabled:self.showDict]) {
+        return;
+    }
     NSArray* itemArray = [QSShowUtil getAllItemArray:self.showDict];
     NSArray* itemRects = [QSShowUtil getItemRects:self.showDict];
     for (int i = 0; i < itemArray.count; i++) {
@@ -311,7 +314,7 @@
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
 {
-    self.coverLabelContainerView.hidden = ![QSShowUtil getItemReductionEnabled:dict];
+//    self.coverLabelContainerView.hidden = ![QSShowUtil getItemReductionEnabled:dict];
     self.videoIcon.hidden = !self.generateVideoPath;
 
     //Like Btn

@@ -8,7 +8,7 @@
 
 #import "QSMatcherTableViewProvider.h"
 #import "QSMatcherTableViewCell.h"
-#import "QSMatchStickyTableViewCell.h"
+//#import "QSMatchStickyTableViewCell.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSDateUtil.h"
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -24,43 +24,23 @@
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSMatcherTableViewCell" bundle:nil] forCellReuseIdentifier:QSMatcherTableViewCellId];
-    [self.view registerNib:[UINib nibWithNibName:@"QSMatchStickyTableViewCell" bundle:nil] forCellReuseIdentifier:QSMatchStickyTableViewCellIdentifier];
 }
 
 #pragma mark - Table View
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary* dict = self.resultArray[indexPath.row];
-    NSArray* topOwners = [dict arrayValueForKeyPath:@"data.topOwners"];
-    if (topOwners.count) {
-        QSMatcherTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSMatcherTableViewCellId forIndexPath:indexPath];
-        
-        [cell bindWithDict:dict];
-        cell.delegate = self;
-        cell.contentView.transform = CGAffineTransformMakeScale(w / 320, w / 320);
-        return cell;
-    } else {
-        QSMatchStickyTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSMatchStickyTableViewCellIdentifier forIndexPath:indexPath];
-        [cell bindWithDict:dict];
-        cell.contentView.transform = CGAffineTransformMakeScale(w / 320, w / 320);
-        return cell;
-    }
+    QSMatcherTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSMatcherTableViewCellId forIndexPath:indexPath];
+    
+    [cell bindWithDict:dict];
+    cell.delegate = self;
+    cell.contentView.transform = CGAffineTransformMakeScale(w / 320, w / 320);
+    return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary* dict = self.resultArray[indexPath.row];
-
-    NSString* stickyUrl = [dict stringValueForKeyPath:@"data.stickyShow.stickyCover"];
-    NSArray* topOwners = [dict arrayValueForKeyPath:@"data.topOwners"];
-    if (topOwners.count) {
-        if (stickyUrl) {
-            return (QSMatcherTableViewCellHeight + QSMatcherTableViewCellStickyImageHeight) * w / 320;
-        } else {
-            return QSMatcherTableViewCellHeight * w / 320;
-        }
-    } else {
-        return QSMatchStickyTableViewCellHeight * w / 320;
-    }
+    return [QSMatcherTableViewCell getHeightWithDict:dict] * w / 320;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

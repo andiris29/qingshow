@@ -10,8 +10,6 @@
 
 
 #define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
-#define QSMatcherTableViewCellHeight 300.f
-#define QSMatcherTableViewCellStickyImageHeight 170.f
 
 @class QSMatcherTableViewCell;
 @protocol QSMatcherTableViewCellDelegate <NSObject>
@@ -38,6 +36,11 @@
 
 @property (weak, nonatomic) IBOutlet UIView* bottomContainer;
 
-- (void)bindWithDict:(NSDictionary*)dict;
+@property (strong, nonatomic) IBOutlet UIView* userHeadContainer;
+@property (strong, nonatomic) IBOutlet UIView* showContainer;
+@property (strong, nonatomic) IBOutlet UIView* stickyContainer;
+@property (strong, nonatomic) IBOutlet UIImageView* bottomContainerBackground;
 
+- (void)bindWithDict:(NSDictionary*)dict;
++ (CGFloat)getHeightWithDict:(NSDictionary*)dict;
 @end

@@ -16,6 +16,14 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSLayoutUtil.h"
 
+#define QSMatcherTableViewCellBottomContainerSpaceY 4.f
+#define QSMatcherTableViewCellBottomContainerBottomSpaceY 10.f
+#define QSMatcherTableViewCellBottomContainerBaseY 60.f
+#define QSmatcherTableViewCellUserHeadContainerHeight 45.f
+#define QSmatcherTableViewCellShowContainerHeight 177.f
+#define QSmatcherTableViewCellStickyContainerHeight 170.f
+
+
 @interface QSMatcherTableViewCell () <QSMatcherCollectionViewHeaderUserRowViewDelegate>
 @property (strong, nonatomic) QSMatcherCollectionViewHeaderUserRowView* userHeadsView;
 @property (weak, nonatomic) NSArray* userArray;
@@ -54,6 +62,32 @@
     // Configure the view for the selected state
 }
 
+- (void)_clearAllContainer {
+    for (UIView* v in @[self.userHeadContainer, self.showContainer, self.stickyContainer]) {
+        [v removeFromSuperview];
+    }
+}
+- (void)_showContainer:(NSArray*)array {
+    [self _clearAllContainer];
+    CGFloat offset = 0;
+    for (UIView* v in array) {
+        offset += QSMatcherTableViewCellBottomContainerSpaceY;
+        CGRect rect = v.frame;
+        rect.origin.x = 0;
+        rect.origin.y = offset;
+        v.frame =rect;
+        offset += rect.size.height;
+        [self.bottomContainer addSubview:v];
+    }
+    offset += QSMatcherTableViewCellBottomContainerBottomSpaceY;
+    CGRect r = self.bottomContainer.frame;
+    r.size.height = offset;
+    self.bottomContainer.frame = r;
+    r = self.bottomContainerBackground.frame;
+    r.size.height = offset;
+    self.bottomContainerBackground.frame = r;
+}
+
 - (void)bindWithDict:(NSDictionary*)dict {
     NSNumber* hour = [dict numberValueForKeyPath:@"hour"];
     NSDictionary* data = [dict dictValueForKeyPath:@"data"];
@@ -61,8 +95,14 @@
     self.dateLabel.text = [QSDateUtil buildDayStringFromDate:date];
     self.timeLabel.text = [NSString stringWithFormat:@"%d:00~%2d:00", hour.intValue, hour.intValue + 1];
     
+    NSMutableArray* containerArray = [@[] mutableCopy];
+    
     NSArray* topOwners = [data arrayValueForKeyPath:@"topOwners"];
     [self.userHeadsView bindWithUsers:topOwners];
+    if (topOwners.count) {
+        [containerArray addObject:self.userHeadContainer];
+    }
+    
     NSNumber* numOwners = [data numberValueForKeyPath:@"numOwners"];
     self.numLabel.text = [NSString stringWithFormat:@"+%d", numOwners.intValue];
     
@@ -102,6 +142,9 @@
     }
 
     NSArray* topShows = [data arrayValueForKeyPath:@"topShows"];
+    if (topShows.count) {
+        [containerArray addObject:self.showContainer];
+    }
     for (int i = 0; i < self.showImgViews.count; i++) {
         UIImageView* imgView = self.showImgViews[i];
         UIImageView* foregroundView = self.showForegroundImgViews[i];
@@ -123,19 +166,15 @@
     
     NSString* stickyUrl = [dict stringValueForKeyPath:@"data.stickyShow.stickyCover"];
     if (stickyUrl) {
+        [containerArray addObject:self.stickyContainer];
         self.stickyShow = [dict dictValueForKeyPath:@"data.stickyShow"];
         [self.stickyImageView setImageFromURL:[NSURL URLWithString:stickyUrl]];
         self.stickyImageView.hidden = NO;
-        CGRect f = self.bottomContainer.frame;
-        f.size.height = 417;
-        self.bottomContainer.frame = f;
     } else {
         self.stickyShow = nil;
         self.stickyImageView.hidden = YES;
-        CGRect f = self.bottomContainer.frame;
-        f.size.height = 417 - QSMatcherTableViewCellStickyImageHeight - 5;
-        self.bottomContainer.frame = f;
     }
+    [self _showContainer:containerArray];
 }
 
 - (void)userRowView:(QSMatcherCollectionViewHeaderUserRowView*)view didClickIndex:(NSUInteger)index {
@@ -155,5 +194,27 @@
     if (self.stickyShow && [self.delegate respondsToSelector:@selector(cell:didClickStickyShow:)]) {
         [self.delegate cell:self didClickStickyShow:self.stickyShow];
     }
+}
++ (CGFloat)getHeightWithDict:(NSDictionary*)dict {
+    CGFloat height = QSMatcherTableViewCellBottomContainerBaseY;
+    
+    NSDictionary* data = [dict dictValueForKeyPath:@"data"];
+    NSArray* topOwners = [data arrayValueForKeyPath:@"topOwners"];
+    if (topOwners.count) {
+        height += QSMatcherTableViewCellBottomContainerSpaceY;
+        height += QSmatcherTableViewCellUserHeadContainerHeight;
+    }
+    NSArray* topShows = [data arrayValueForKeyPath:@"topShows"];
+    if (topShows.count) {
+        height += QSMatcherTableViewCellBottomContainerSpaceY;
+        height += QSmatcherTableViewCellShowContainerHeight;
+    }
+    NSString* stickyUrl = [dict stringValueForKeyPath:@"data.stickyShow.stickyCover"];
+    if (stickyUrl) {
+        height += QSMatcherTableViewCellBottomContainerSpaceY;
+        height += QSmatcherTableViewCellStickyContainerHeight;
+    }
+    height += QSMatcherTableViewCellBottomContainerBottomSpaceY;
+    return height;
 }
 @end
