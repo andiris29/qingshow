@@ -46,4 +46,5 @@
 
 + (NSString*)getExpectableMessage:(NSDictionary*)dict;
 + (NSString*)getShopNickName:(NSDictionary*)itemDict;
++ (NSURL*)getShopIconUrl:(NSDictionary*)itemDict;
 @end

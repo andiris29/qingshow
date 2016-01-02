@@ -43,6 +43,7 @@
         self.priceLabel.text = @"";
     }
     [self.priceLabel sizeToFit];
+    [self.shopIconImgView setImageFromURL:[QSItemUtil getShopIconUrl:itemDict]];
 }
 
 + (instancetype)generateCell {
