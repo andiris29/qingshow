@@ -32,6 +32,7 @@
 
 #import "QSUserManager.h"
 #import "QSU01UserDetailViewController.h"
+#import "QSCircleAnimationView.h"
 
 #define PAGE_ID @"S03 - 秀"
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -264,25 +265,31 @@
         NSDictionary* itemDict = itemArray[i];
         NSArray* rects = itemRects[i];
         
-        QSItemTagView* labelView = [QSItemTagView generateView];
-        labelView.hidden = !fShowLabel;
-        [self.itemLabelArray addObject:labelView];
-        labelView.userInteractionEnabled = YES;
-        UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
         
 
         if ([QSEntityUtil checkIsDict:itemDict] &&
             ![QSItemUtil getDelist:itemDict] &&
             rects.count == 4) {
+            
+            UIView* labelView = nil;
+            UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
+
             NSNumber* reduction = [QSItemUtil getExpectableReduction:itemDict];
             if (reduction) {
-                labelView.tagLabel.text = [NSString stringWithFormat:@"%@", reduction];
+                QSItemTagView* tagView = [QSItemTagView generateView];
+                tagView.tagLabel.text = [NSString stringWithFormat:@"%@", reduction];
+                labelView = tagView;
+                [tagView updateSize];
             } else {
-#warning TODO 改为圆圈
-                labelView.tagLabel.text = [NSString stringWithFormat:@"%d", 0];
+                QSCircleAnimationView* circle = [[QSCircleAnimationView alloc] init];;
+                labelView = circle;
+//                labelView.tagLabel.text = [NSString stringWithFormat:@"%d", 0];
             }
             
-            [labelView updateSize];
+            labelView.hidden = !fShowLabel;
+            [self.itemLabelArray addObject:labelView];
+            labelView.userInteractionEnabled = YES;
+
             labelView.transform = CGAffineTransformMakeScale(1.1, 1.1);
             
             CGFloat x = ((NSNumber*)rects[0]).floatValue + ((NSNumber*)rects[2]).floatValue / 2;
@@ -292,8 +299,13 @@
             labelView.center = CGPointMake(origin.x + x, origin.y + y);
             [labelView addGestureRecognizer:ges];
             [self.coverLabelContainerView addSubview:labelView];
+        } else {
+            //Place holder
+            QSItemTagView* labelView = [QSItemTagView generateView];
+            labelView.hidden = !fShowLabel;
+            [self.itemLabelArray addObject:labelView];
+            labelView.userInteractionEnabled = YES;
         }
-        
     }
 }
 

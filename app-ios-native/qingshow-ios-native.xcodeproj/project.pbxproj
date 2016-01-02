@@ -228,6 +228,9 @@
 		EF8CD3A31C0387D60040611D /* QSMatcherCollectionViewHeaderUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD3A21C0387D60040611D /* QSMatcherCollectionViewHeaderUserView.m */; };
 		EF8CD3A61C0387EB0040611D /* QSMatcherCollectionViewHeaderUserRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8CD3A51C0387EB0040611D /* QSMatcherCollectionViewHeaderUserRowView.m */; };
 		EF8CD3A81C0388070040611D /* QSMatcherCollectionViewHeaderUserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8CD3A71C0388070040611D /* QSMatcherCollectionViewHeaderUserView.xib */; };
+		EF8F03941C3819B70049F8E7 /* QSCircleAnimationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8F038F1C3819B70049F8E7 /* QSCircleAnimationLayer.m */; };
+		EF8F03951C3819B70049F8E7 /* QSCircleAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8F03911C3819B70049F8E7 /* QSCircleAnimationView.m */; };
+		EF8F03961C3819B70049F8E7 /* QSRingLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8F03931C3819B70049F8E7 /* QSRingLayer.m */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
 		EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF921FBB1ACBB11100669124 /* libc++.dylib */; };
 		EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */; };
@@ -824,6 +827,12 @@
 		EF8CD3A41C0387EB0040611D /* QSMatcherCollectionViewHeaderUserRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSMatcherCollectionViewHeaderUserRowView.h; path = view/QSMatcherCollectionViewHeaderUserRowView.h; sourceTree = "<group>"; };
 		EF8CD3A51C0387EB0040611D /* QSMatcherCollectionViewHeaderUserRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSMatcherCollectionViewHeaderUserRowView.m; path = view/QSMatcherCollectionViewHeaderUserRowView.m; sourceTree = "<group>"; };
 		EF8CD3A71C0388070040611D /* QSMatcherCollectionViewHeaderUserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherCollectionViewHeaderUserView.xib; sourceTree = "<group>"; };
+		EF8F038E1C3819B70049F8E7 /* QSCircleAnimationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCircleAnimationLayer.h; sourceTree = "<group>"; };
+		EF8F038F1C3819B70049F8E7 /* QSCircleAnimationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCircleAnimationLayer.m; sourceTree = "<group>"; };
+		EF8F03901C3819B70049F8E7 /* QSCircleAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCircleAnimationView.h; sourceTree = "<group>"; };
+		EF8F03911C3819B70049F8E7 /* QSCircleAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCircleAnimationView.m; sourceTree = "<group>"; };
+		EF8F03921C3819B70049F8E7 /* QSRingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRingLayer.h; sourceTree = "<group>"; };
+		EF8F03931C3819B70049F8E7 /* QSRingLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRingLayer.m; sourceTree = "<group>"; };
 		EF8F0EF01A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8F0EF11A65679B00D1DADE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -2103,6 +2112,19 @@
 			name = view;
 			sourceTree = "<group>";
 		};
+		EF8F038D1C3819B70049F8E7 /* circle */ = {
+			isa = PBXGroup;
+			children = (
+				EF8F038E1C3819B70049F8E7 /* QSCircleAnimationLayer.h */,
+				EF8F038F1C3819B70049F8E7 /* QSCircleAnimationLayer.m */,
+				EF8F03901C3819B70049F8E7 /* QSCircleAnimationView.h */,
+				EF8F03911C3819B70049F8E7 /* QSCircleAnimationView.m */,
+				EF8F03921C3819B70049F8E7 /* QSRingLayer.h */,
+				EF8F03931C3819B70049F8E7 /* QSRingLayer.m */,
+			);
+			path = circle;
+			sourceTree = "<group>";
+		};
 		EF90A6121BE0FD7500DBD573 /* protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -2585,6 +2607,7 @@
 		EFC7ADA61A10E2130078D1F9 /* detail */ = {
 			isa = PBXGroup;
 			children = (
+				EF8F038D1C3819B70049F8E7 /* circle */,
 				EFC7ADA71A10E22B0078D1F9 /* QSS03ShowDetailViewController.h */,
 				EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */,
 				EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */,
@@ -3109,6 +3132,7 @@
 				EF8CD2BD1C0378E50040611D /* QSU02AbstractTableViewCell.m in Sources */,
 				EF810F731AB601E50079BA76 /* QSCreateTradeReceiverInfoTextCell.m in Sources */,
 				EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */,
+				EF8F03941C3819B70049F8E7 /* QSCircleAnimationLayer.m in Sources */,
 				EFAB9C6D1B346FE5008A4EF5 /* QSTradeListTableViewProvider.m in Sources */,
 				EF6753BF1A6416C90045E96C /* QSS10ItemDetailViewController.m in Sources */,
 				EFCC1B8E1B0203FB00E13279 /* QSThirdPartLoginService.m in Sources */,
@@ -3194,6 +3218,7 @@
 				EF8CD3841C0379880040611D /* NSArray+QSExtension.m in Sources */,
 				EF8CD2AE1C0378E50040611D /* QSU18ResetPswStep2ViewController.m in Sources */,
 				EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */,
+				EF8F03951C3819B70049F8E7 /* QSCircleAnimationView.m in Sources */,
 				EFFC58921BEA512C0098FD01 /* QSBonusUtil.m in Sources */,
 				EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */,
 				EF994D9F1B693CB900715B0E /* QSDiscountQuantityCell.m in Sources */,
@@ -3220,6 +3245,7 @@
 				EF8CD3441C03794C0040611D /* DataVerifier.m in Sources */,
 				EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */,
 				EF8CD2D01C0378E50040611D /* QSUserLocationTableViewCell.m in Sources */,
+				EF8F03961C3819B70049F8E7 /* QSRingLayer.m in Sources */,
 				EF8CD2A61C0378E50040611D /* QSBindMobileViewController.m in Sources */,
 				EFAA5A3A1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m in Sources */,
 				EF8CD2C21C0378E50040611D /* QSU08PasswordViewController.m in Sources */,
