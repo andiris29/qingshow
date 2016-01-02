@@ -533,10 +533,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
                 commitForm();
-                menuView = new MenuView();
-                menuView.show(getActivity().getSupportFragmentManager(), U02SettingsFragment.class.getSimpleName(), container);
+                if(null != getActivity())
+                    getActivity().finish();
             }
         });
 
@@ -604,13 +603,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     public void onEventMainThread(PushGuideEvent event) {
         if (event.unread) {
-            backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
             if (event.command.equals(QSPushAPI.NEW_BONUSES) || event.command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
                 bonusTip.setVisibility(View.VISIBLE);
             }
         } else {
-            if (!UnreadHelper.hasUnread())
-                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
+//            if (!UnreadHelper.hasUnread())
+//                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 
@@ -624,7 +622,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         super.onResume();
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
         if (UnreadHelper.hasUnread()) {
-            backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
             if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)
                     || UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)) {
                 bonusTip.setVisibility(View.VISIBLE);

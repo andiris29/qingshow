@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/nav_btn_menu_n" />
+                android:src="@drawable/nav_btn_back" />
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/u02_title"
