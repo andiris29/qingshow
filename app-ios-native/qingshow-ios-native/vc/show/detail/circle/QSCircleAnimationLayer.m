@@ -31,7 +31,7 @@
 
         self.shadowLayer = [QSRingLayer layer];
         self.shadowLayer.circleColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
-        self.shadowLayer.opacity = 0.2;
+        self.shadowLayer.opacity = 0.4;
         self.shadowLayer.innerRadius = 5.f;
         self.shadowLayer.outterRadius = 5.f;
         [self addSublayer:self.shadowLayer];
@@ -86,7 +86,7 @@
                            @0,   @0.2, @0.3, @0.35, @0.4, @0.5, @0.55,  @0.6, @1.0
                            ];
     keyframe2.values = @[
-                           @0.3, @0.3, @0.0, @0.0,  @0.3, @0.0, @0,     @0.3, @0.3];
+                           @0.4, @0.4, @0.0, @0.0,  @0.4, @0.0, @0,     @0.4, @0.4];
     keyframe2.repeatCount = INFINITY;
     [self.shadowLayer addAnimation:keyframe2 forKey:@"kf3"];
 }
