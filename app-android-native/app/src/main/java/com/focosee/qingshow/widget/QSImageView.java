@@ -180,6 +180,7 @@ public class QSImageView extends RelativeLayout {
                     lastY = event.getRawY();
                     return true;
                 }
+                break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 goneDelBtn(1000);
@@ -302,6 +303,8 @@ public class QSImageView extends RelativeLayout {
         btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         btnParams.setMargins(2,2,2,2);
         delBtn.setLayoutParams(btnParams);
+        delBtn.setScaleX(lastScaleFactor);
+        delBtn.setScaleY(lastScaleFactor);
         delBtn.setOnClickListener(onDelClickListener);
         this.addView(delBtn);
 
