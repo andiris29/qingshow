@@ -346,6 +346,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.S24ShowsDateActivity" />
+        <activity
+            android:name=".activity.S25ShowHrefActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.S11NewTradeActivity" >
         </activity>
     </application>

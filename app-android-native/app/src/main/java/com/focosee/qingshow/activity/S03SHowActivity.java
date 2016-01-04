@@ -170,7 +170,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
-        } else showId = "";
+    } else showId = "";
         className = getIntent().getStringExtra(CLASS_NAME);
         position = getIntent().getIntExtra(POSITION, Integer.MAX_VALUE);
         if (TextUtils.isEmpty(showId)) {

@@ -5,10 +5,12 @@ import com.focosee.qingshow.httpapi.gson.deserializer.MongoCategoryIdDeserialize
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoItemIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoParentCategoryIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoPeopleDeserializer;
+import com.focosee.qingshow.httpapi.gson.deserializer.MongoStickyShowDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.NumberDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.QSRectDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.UTCDeserializer;
 import com.focosee.qingshow.model.vo.aggregation.BonusAmount;
+import com.focosee.qingshow.model.vo.mongo.MongoStickyShow;
 import com.focosee.qingshow.model.vo.remix.QSRect;
 import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -43,6 +45,7 @@ public class QSGsonFactory {
                 .registerTypeAdapter(MongoParentCategories.class, new MongoParentCategoryIdDeserializer())
                 .registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer())
                 .registerTypeAdapter(BonusAmount.class, new BonusAmountDeserializer());
+
     }
 
     private static GsonBuilder createDeserializerBuilder(TypeToken omit) {
