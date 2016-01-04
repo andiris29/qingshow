@@ -27,6 +27,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.squareup.timessquare.CalendarPickerView;
@@ -133,6 +134,10 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         calendarPicker.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
+                if (date.after(new Date())) {
+                    ToastUtil.showShortToast(S01MatchShowsActivity.this, "超过当日");
+                }
+
                 GregorianCalendar from = new GregorianCalendar();
                 from.setTime(date);
                 GregorianCalendar to = new GregorianCalendar();
