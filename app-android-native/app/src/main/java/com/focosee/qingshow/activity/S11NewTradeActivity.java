@@ -45,6 +45,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.S11Cache;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
@@ -160,7 +161,12 @@ public class S11NewTradeActivity extends BaseActivity {
     checkNum();
 
     if (itemEntity != null) {
-      addCanvas(itemEntity._id);
+      QSCanvasView canvas = initCanvas();
+      if (S11Cache.getInstance().get(itemEntity._id) != null) {
+        onNext(canvas, S11Cache.getInstance().get(itemEntity._id));
+      }else {
+        addCanvas(itemEntity._id);
+      }
     }
     follow.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -197,11 +203,10 @@ public class S11NewTradeActivity extends BaseActivity {
     left.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         int currentItem = canvasPager.getCurrentItem();
-        if (currentItem > 0){
+        if (currentItem > 0) {
           currentItem--;
           canvasPager.setCurrentItem(currentItem);
         }
-
       }
     });
 
@@ -489,7 +494,7 @@ public class S11NewTradeActivity extends BaseActivity {
     }
   };
 
-  private void addCanvas(String itemRef) {
+  private QSCanvasView initCanvas() {
     final QSCanvasView canvas = new QSCanvasView(this);
     canvas.setOnCheckedChangeListener(new QSCanvasView.OnCheckedChangeListener() {
       @Override
@@ -499,6 +504,11 @@ public class S11NewTradeActivity extends BaseActivity {
         skuPropHandler.sendMessage(message);
       }
     });
+    return canvas;
+  }
+
+  private void addCanvas(final String itemRef) {
+    final QSCanvasView canvas = initCanvas();
     QSRxApi.remixByItem(itemRef)
         .subscribe(new QSSubscriber<RemixByItem>() {
           @Override
@@ -507,21 +517,26 @@ public class S11NewTradeActivity extends BaseActivity {
           }
 
           @Override
-          public void onNext(RemixByItem remixByItem) {
-            final Point canvasPoint = new Point();
-            canvasPoint.x = canvasPager.getWidth();
-            canvasPoint.y = canvasPager.getHeight();
-            RectF rect = remixByItem.master.rect.getRect(canvasPoint);
-            addItemToCanvas(canvas, itemEntity, rect);
-
-            for (RemixByItem.Slave slave : remixByItem.slaves) {
-              addItemToCanvas(canvas, slave.itemRef, slave.rect.getRect(canvasPoint));
-            }
-            canvasList.add(canvas);
-            adapter.notifyDataSetChanged();
-            canvasPager.setCurrentItem(canvasList.size(), true);
+          public void onNext(final RemixByItem remixByItem) {
+            S11Cache.getInstance().put(itemRef, remixByItem);
+            S11NewTradeActivity.this.onNext(canvas, remixByItem);
           }
         });
+  }
+
+  private void onNext(QSCanvasView canvas, RemixByItem remixByItem) {
+    final Point canvasPoint = new Point();
+    canvasPoint.x = canvasPager.getWidth();
+    canvasPoint.y = canvasPager.getHeight();
+    RectF rect = remixByItem.master.rect.getRect(canvasPoint);
+    addItemToCanvas(canvas, itemEntity, rect);
+
+    for (RemixByItem.Slave slave : remixByItem.slaves) {
+      addItemToCanvas(canvas, slave.itemRef, slave.rect.getRect(canvasPoint));
+    }
+    canvasList.add(canvas);
+    adapter.notifyDataSetChanged();
+    canvasPager.setCurrentItem(canvasList.size(), true);
   }
 
   private void addItemToCanvas(QSCanvasView canvas, MongoItem item, final RectF rectF) {

@@ -303,8 +303,6 @@ public class QSImageView extends RelativeLayout {
         btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
         btnParams.setMargins(2,2,2,2);
         delBtn.setLayoutParams(btnParams);
-        delBtn.setScaleX(lastScaleFactor);
-        delBtn.setScaleY(lastScaleFactor);
         delBtn.setOnClickListener(onDelClickListener);
         this.addView(delBtn);
 
