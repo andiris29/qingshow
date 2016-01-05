@@ -71,7 +71,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.locationProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.locationPicker];
-    
+    self.locationProvider.delegate = self;
 
     [self configCellArray];
     [self configView];
@@ -150,8 +150,8 @@
 - (void)configView
 {
     self.title = @"确认订单";
-    self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
-    self.view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+//    self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+//    self.view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     
     if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
         self.tableView.separatorInset = UIEdgeInsetsZero;
@@ -308,7 +308,9 @@
 }
 - (BOOL)checkFullInfo
 {
-    
+    if ([self.receiverInfoLocationCell.label.text isEqualToString:@"所在区域"]) {
+        return NO;
+    }
     if (!self.receiverInfoNameCell.getInputData ||
         !self.receiverInfoPhoneCell.getInputData ||
         !self.receiverInfoLocationCell.getInputData ||
@@ -385,7 +387,13 @@
     self.receiverInfoNameCell.textField.text = [QSReceiverUtil getName:r];
     self.receiverInfoPhoneCell.textField.text = [QSReceiverUtil getPhone:r];
     self.receiverInfoDetailLocationCell.textField.text = [QSReceiverUtil getAddress:r];
-    self.receiverInfoLocationCell.label.text = [QSReceiverUtil getProvince:r];
+    NSString* province = [QSReceiverUtil getProvince:r];
+    if (province && province.length) {
+        self.receiverInfoLocationCell.label.text = province;
+    } else {
+        self.receiverInfoLocationCell.label.text = @"所在区域";
+    }
+
 
 }
 
@@ -420,7 +428,13 @@
 #pragma mark - QSLocationPickerProviderDelegate
 - (void)locationValueChange:(QSLocationPickerProvider*)provider
 {
-    self.receiverInfoLocationCell.label.text = [provider getSelectedValue];
+    NSString* str = [provider getSelectedValue];
+    if (str && str.length) {
+        self.receiverInfoLocationCell.label.text = str;
+    } else {
+        self.receiverInfoLocationCell.label.text = @"所在区域";
+    }
+
 }
 
 #pragma mark - Keyboard
