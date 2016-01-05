@@ -446,7 +446,7 @@
 }
 
 - (void)keyboardWillShow:(NSNotification *)notif {
-    self.isShowKeyboard = NO;
+    self.isShowKeyboard = YES;
     [self configContentInset:300.f];
 }
 
