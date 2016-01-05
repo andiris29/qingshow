@@ -27,6 +27,7 @@ itemSchema = Schema({
     sourceInfo : {
         // taobao, tmall, jamy, hm
         domain : String,
+        icon : String,
         id : String
     },
     create : {
