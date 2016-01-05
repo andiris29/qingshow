@@ -295,7 +295,7 @@
     _monthShowing = aMonthShowing;
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"MMMM YYYY";
+    dateFormatter.dateFormat = @"MMMM yyyy";
     self.titleLabel.text = [dateFormatter stringFromDate:aMonthShowing];
     [self setNeedsLayout];
 }
