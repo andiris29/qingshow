@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="horizontal"
-    android:paddingBottom="20dp"
-    android:paddingLeft="20dp"
-    android:paddingTop="20dp">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:paddingBottom="20dp"
+              android:paddingLeft="20dp"
+              android:paddingTop="20dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/desImg"
@@ -18,7 +18,7 @@
         app:actualImageScaleType="fitCenter"
         app:roundedCornerRadius="5dp"
         app:roundingBorderColor="@color/master_blue"
-        app:roundingBorderWidth="1dp" />
+        app:roundingBorderWidth="1dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -33,21 +33,41 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:textColor="@color/master_blue"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
-        <com.focosee.qingshow.widget.QSTextView
-            android:id="@+id/s11_details_price"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            >
+
+            <com.focosee.qingshow.widget.QSTextView
+                android:id="@+id/s11_details_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/iv_s17_details_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:paddingLeft="5dp"
+                android:visibility="gone"
+                android:background="@drawable/show_tag_background"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/props"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:orientation="vertical" />
+            android:orientation="vertical"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="数量:"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/S11_num"
@@ -69,7 +89,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="1"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
         </LinearLayout>
 

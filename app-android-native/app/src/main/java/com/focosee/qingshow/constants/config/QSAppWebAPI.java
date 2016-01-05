@@ -6,7 +6,9 @@ import com.focosee.qingshow.QSApplication;
  * Created by jackyu on 11/22/14.
  */
 public class QSAppWebAPI {
-    public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
+   // public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
+    //http://trial01.focosee.com/img/user/default_portrait_50.png
+   public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img/user/default_portrait_50.png";
     public static final String host_name = "HOST_NAEM";
     public static final String host_address_payment = "HOST_ADDRESS_PAYMENT";
     public static final String host_address_appweb = "HOST_ADDRESS_APPWEB";
@@ -101,8 +103,9 @@ public class QSAppWebAPI {
 
     private static String SHARE_CREATE_TRADE_API = "/share/createTrade";
 
-    private static String SHARE_CREATE_BONUS_API = "/share/createBonus";
-
+   // private static String SHARE_CREATE_BONUS_API = "/share/createBonus";
+   //private static String SHARE_CREATE_BONUS_API = "bonus/withdraw";
+   private static String SHARE_CREATE_BONUS_API = "share/withdraw";
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
     private static String USER_UPDATEREGISTRATIONID_API = "/user/bindJPush";

@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="12sp"
+            android:text="1111"
             android:textColor="@color/darker_gray" />
     </LinearLayout>
 
@@ -62,7 +63,7 @@
         android:layout_width="65dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/user_head"
+        android:layout_alignBottom="@id/user_head"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/follow_btn"/>
@@ -71,10 +72,12 @@
         android:id="@+id/bonus"
         android:textSize="12sp"
         android:gravity="center"
-        android:layout_alignLeft="@id/user_follow_btn"
-        android:layout_below="@id/user_follow_btn"
+       android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:layout_below="@id/bg"
         android:layout_width="65dp"
         android:layout_height="25dp"
+        android:layout_marginTop="20dp"
         android:text="收益账户"
         android:background="@drawable/gay_btn_ring"/>
 

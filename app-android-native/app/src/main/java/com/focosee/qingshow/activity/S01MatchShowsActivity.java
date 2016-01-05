@@ -6,12 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.alipay.sdk.util.LogUtils;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -25,6 +27,7 @@ import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
+import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ToastUtil;
@@ -36,10 +39,12 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -128,6 +133,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         });
     }
 
+    /**
+     * 初始化日历
+     */
     private void initCalendar() {
         calendarPicker.init(new GregorianCalendar(2015, 1, 1).getTime(), new Date());
         calendarPicker.scrollToDate(new Date());
@@ -142,7 +150,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 from.setTime(date);
                 GregorianCalendar to = new GregorianCalendar();
                 to.setTimeInMillis(date.getTime() + 24 * 3600 * 1000);
-                jump(from, to);
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd");
+                String title = sdf1.format(date);
+                jump(from, to ,title);
             }
 
             @Override
@@ -152,10 +162,16 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         });
     }
 
-    private void jump(GregorianCalendar from, GregorianCalendar to){
+    /**
+     * 跳转
+     * @param from 从哪里
+     * @param to  到哪里
+     */
+    private void jump(GregorianCalendar from, GregorianCalendar to ,String data){
         Intent intent = new Intent(S01MatchShowsActivity.this, S24ShowsDateActivity.class);
         intent.putExtra("MATCH_NEW_FROM", from);
         intent.putExtra("MATCH_NEW_TO", to);
+        intent.putExtra("title", data);
         this.startActivity(intent);
     }
 
@@ -214,7 +230,9 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         try {
+                            //Log.e("test_i","------------- >  "+response.toString());
                             if (response.getJSONObject("data").getJSONObject("guide").has("global")){
                                 final String url = response.getJSONObject("data").getJSONObject("guide").get("global").toString();
                                 final SharedPreferences preferences = QSApplication.instance().getPreferences();

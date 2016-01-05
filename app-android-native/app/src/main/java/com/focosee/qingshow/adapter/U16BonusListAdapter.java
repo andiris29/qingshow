@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S10ItemDetailActivity;
+import com.focosee.qingshow.constants.config.UserConfig;
 import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ImgUtil;
@@ -51,7 +52,10 @@ public class U16BonusListAdapter extends AbsAdapter<MongoBonus> {
         holder.setText(R.id.item_u16_money, StringUtil.FormatPrice(bonuses.amount));
 
         if (bonuses.icon != null){
-            holder.setImgeByController(R.id.item_u16_portrait, ImgUtil.getImgSrc(bonuses.icon, ImgUtil.Meduim), 1f);
+           // holder.setImgeByController(R.id.item_u16_portrait, ImgUtil.getImgSrc(bonuses.icon, ImgUtil.Meduim), 1f);
+            holder.setImgeByUrl(R.id.item_u16_portrait , bonuses.icon);
+        }else {
+            holder.setImgeByUrl(R.id.item_u16_portrait, UserConfig.USER_PORTRAIT_100);
         }
 
         holder.setOnClickListener(new View.OnClickListener() {

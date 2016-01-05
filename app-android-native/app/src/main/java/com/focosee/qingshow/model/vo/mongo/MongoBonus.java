@@ -9,7 +9,8 @@ import java.util.List;
  */
 public class MongoBonus implements Serializable {
     public String _id;
-    public MongoPeople ownerRef;
+    //public MongoPeople ownerRef;
+    public String ownerRef;
     public String[] participants;
     public Number type;
     public Number status;
@@ -18,9 +19,11 @@ public class MongoBonus implements Serializable {
     public GregorianCalendar create;
     public String icon;
     public Trigger trigger;
+    public Number __v;
 
     public class Trigger implements Serializable{
         public MongoTrade tradeRef;
-        public List<MongoShow> showRefs;
+       // public List<MongoShow> showRefs;
+        public List<String> showRefs;
     }
 }
