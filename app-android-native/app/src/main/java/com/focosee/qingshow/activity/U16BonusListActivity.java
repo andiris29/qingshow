@@ -61,6 +61,11 @@ public class U16BonusListActivity extends BaseActivity {
                 people = QSModel.INSTANCE.getUser();
                 initList();
             }
+
+            @Override
+            public void onError(int errorCode) {
+                super.onError(errorCode);
+            }
         });
     }
 

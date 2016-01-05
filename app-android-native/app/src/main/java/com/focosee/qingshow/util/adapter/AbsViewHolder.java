@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.R;
 import com.focosee.qingshow.httpapi.fresco.factory.QSDraweeControllerFactory;
 import com.focosee.qingshow.util.ImgUtil;
 
@@ -106,6 +107,10 @@ public class AbsViewHolder extends RecyclerView.ViewHolder {
         this.onClickListener = onClickListener;
         if (null != onClickListener) {
             itemView.setOnClickListener(onClickListener);
+            ImageView iv = (ImageView) itemView.findViewById(R.id.iv_item_matchnew_s03);
+            if(iv != null){
+                iv.setOnClickListener(onClickListener);
+            }
         }
     }
 

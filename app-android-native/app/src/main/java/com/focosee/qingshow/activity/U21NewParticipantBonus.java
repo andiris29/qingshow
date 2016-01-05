@@ -95,7 +95,8 @@ public class U21NewParticipantBonus extends BaseActivity {
                     @Override
                     public Observable<List<MongoPeople>> call(ArrayList<MongoBonus> bonuses) {
                        bonuse = bonuses.get(0);
-                        return QSRxApi.queryPeople(bonuses.get(0).ownerRef._id);
+                        return QSRxApi.queryPeople(bonuses.get(0)._id);
+                     //   return QSRxApi.queryPeople(bonuses.get(0).ownerRef._id);
                     }
                 })
                 .subscribe(new QSSubscriber<List<MongoPeople>>() {

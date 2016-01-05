@@ -1,8 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -69,8 +68,10 @@ public class U23BindMobile extends AppCompatActivity implements View.OnClickList
                     ToastUtil.showShortToast(U23BindMobile.this, "请输入验证码");
                     return;
                 }
+
                 QSRxApi.bindMobile(phoneEditText.getText().toString()
                         , verificationCode.getText().toString());
+
                 break;
         }
 

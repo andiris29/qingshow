@@ -110,6 +110,8 @@ public class S11NewTradeActivity extends BaseActivity {
     QSTextView share;
     @InjectView(R.id.s11_go_det)
     TextView goDet;
+    @InjectView(R.id.iv_s11_go_det_logo)
+    SimpleDraweeView ivLogo;
     @InjectView(R.id.s11_hint)
     TextView hint;
 
@@ -130,6 +132,7 @@ public class S11NewTradeActivity extends BaseActivity {
     private int checkIndex[];
     private MongoTrade t;
     private Map<String, String> skuTable = new HashMap<>();
+    private boolean isCheck = true;
 
 
     public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
@@ -144,8 +147,8 @@ public class S11NewTradeActivity extends BaseActivity {
 
         itemEntity = (MongoItem) this.getIntent().getExtras().getSerializable(OUTPUT_ITEM_ENTITY);
         trade = new MongoTrade();
-        selectProps = new HashMap<>();
-        selectRadioButton = new HashMap<>();
+        selectProps = new HashMap<String, List<String>>();
+        selectRadioButton = new HashMap<String, List<FlowRadioButton>>();
         if (itemEntity.promoPrice != null) {
             basePrice = itemEntity.promoPrice.doubleValue();
         }
@@ -157,7 +160,7 @@ public class S11NewTradeActivity extends BaseActivity {
         } else {
             changeBtnClickable(false);
         }
-        canvasList = new ArrayList<>();
+        canvasList = new ArrayList<FrameLayout>();
         adapter = new S11CanvasPagerAdapter(canvasList);
         canvasPager.setAdapter(adapter);
 
@@ -169,17 +172,25 @@ public class S11NewTradeActivity extends BaseActivity {
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemEntity != null){
+                if (itemEntity != null) {
                     addCanvas(itemEntity._id);
                 }
             }
         });
 
         initBuyers(itemEntity._id);
+        if( itemEntity != null && itemEntity.expectable != null) {
+            float price = itemEntity.promoPrice.floatValue() - itemEntity.expectable.reduction.floatValue();
+            if(price < 0) {
+                price = 0 ;
+            }
+            submit.setText(StringUtil.FormatPrice(price)+ " 购买");
+            share.setText("活动立减" + itemEntity.expectable.reduction.floatValue() + "元");
+        }else {
+            share.setVisibility(View.GONE);
+            submit.setText( " 立即购买");
+        }
 
-        submit.setText(StringUtil.FormatPrice(itemEntity.promoPrice.floatValue() - itemEntity.expectable.reduction.floatValue())
-                + " 购买");
-        share.setText("分享搭配立减" + itemEntity.expectable.reduction.floatValue() + "元");
 
         findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,7 +287,7 @@ public class S11NewTradeActivity extends BaseActivity {
 
     //选择属性时，同步更新其他属性的状态。
     private void checkNotExistItem(String prop, int index) {
-        Map<String, List<String>> tempMap = new HashMap<>(selectProps);
+        Map<String, List<String>> tempMap = new HashMap<String, List<String>>(selectProps);
         for (String p : keys_order) {
             if (p.equals(prop)) {
                 continue;
@@ -316,15 +327,23 @@ public class S11NewTradeActivity extends BaseActivity {
     }
 
     private void changeBtnClickable(boolean clickable) {
-        submit.setClickable(clickable);
+        isCheck = clickable;
+      //  submit.setClickable(clickable);
     }
 
 
     private void initDes(MongoItem itemEntity) {
-        desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
-        itemName.setText(itemEntity.name);
-        hint.setText(itemEntity.expectable.message);
-        if (itemEntity != null) {
+
+        if( itemEntity != null){
+            desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
+            itemName.setText(itemEntity.name);
+            if( itemEntity.expectable != null){
+                hint.setText(itemEntity.expectable.message);
+            }
+            //ivLogo
+       //     Log.e("test_i" ,"itemEntity.thumbnail  --> "+ itemEntity.thumbnail);
+            ivLogo.setImageURI(Uri.parse(itemEntity.sourceInfo.icon));
+
             price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
         }
     }
@@ -366,35 +385,45 @@ public class S11NewTradeActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
-            GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-            return;
+        if (isCheck) {
+            if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
+                GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+                Log.e("submitBtn --> ","QSModel.INSTANCE.loggedin() --> "+QSModel.INSTANCE.loggedin() +"  QSModel.INSTANCE.isGuest()---> "+QSModel.INSTANCE.isGuest());
+                return;
+            }
+
+            UserCommand.refresh(new Callback() {
+                @Override
+                public void onComplete() {
+                    if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
+                        return;
+                    }
+                    //submit.setClickable(false);
+                    if (selectProps.size() > 0){
+                        trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
+                        trade.itemSnapshot = itemEntity;
+                        trade.quantity = num;
+                        submitToNet(trade);
+                    }else {
+                        ToastUtil.showShortToast(S11NewTradeActivity.this,"选择商品属性哦~");
+                    }
+                }
+            });
+        }else {
+            ToastUtil.showShortToast(this ,"系统有误，请稍后！");
         }
 
-        UserCommand.refresh(new Callback() {
-            @Override
-            public void onComplete() {
-                if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
-                    return;
-                }
-
-                submit.setClickable(false);
-                if (selectProps.size() > 0){
-                    trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
-                    trade.itemSnapshot = itemEntity;
-                    trade.quantity = num;
-                    submitToNet(trade);
-                }else {
-                    ToastUtil.showShortToast(S11NewTradeActivity.this,"选择商品属性哦~");
-                }
-            }
-        });
     }
 
+    /***
+     * 提交订单
+     * @param trade
+     */
     private void submitToNet(MongoTrade trade) {
         Map params = new HashMap();
         params.put("expectedPrice", trade.expectedPrice);
         if (trade.selectedSkuProperties == null || trade.selectedSkuProperties.size() < 0){
+            ToastUtil.showShortToast(S11NewTradeActivity.this,"expectedPrice 为空");
             return;
         }
         try {
@@ -416,7 +445,7 @@ public class S11NewTradeActivity extends BaseActivity {
                 EventBus.getDefault().post(ValueUtil.SUBMIT_TRADE_SUCCESSED);
                 t = TradeParser.parse(response);
                 ShareUtil.shareTradeToWX(t._id, ValueUtil.SHARE_TRADE, S11NewTradeActivity.this, true);
-//                EventBus.getDefault().post(new ShareTradeEvent(true));
+                EventBus.getDefault().post(new ShareTradeEvent(true));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -429,7 +458,7 @@ public class S11NewTradeActivity extends BaseActivity {
 
     //buyers
     //------------------------------------------------------------------------------------
-    private void initBuyers(String itemRef){
+    private void initBuyers(String itemRef) {
         QSRxApi.queryBuyers(itemRef)
                 .subscribe(new QSSubscriber<List<MongoPeople>>() {
                     @Override

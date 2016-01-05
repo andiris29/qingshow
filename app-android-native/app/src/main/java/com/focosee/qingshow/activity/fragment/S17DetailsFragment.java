@@ -8,7 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
@@ -32,6 +35,8 @@ public class S17DetailsFragment extends Fragment {
     QSTextView itemName;
     @InjectView(R.id.s11_details_price)
     QSTextView price;
+    @InjectView(R.id.iv_s17_details_price)
+    TextView ivPriceIcon;
     @InjectView(R.id.S11_num)
     QSTextView num;
     @InjectView(R.id.props)
@@ -77,12 +82,22 @@ public class S17DetailsFragment extends Fragment {
     private void initDes() {
         if(null != trade.itemSnapshot) {
             itemName.setText(trade.itemSnapshot.name);
-            price.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+            //减价的
+            if(null != trade.itemSnapshot.expectable){
+                price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+                price.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+                price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);  // 设置中划线并加清晰
+                ivPriceIcon.setVisibility(View.VISIBLE);
+                ivPriceIcon.setText("减" + trade.itemSnapshot.expectable.reduction.intValue());
+            } else {//不减价
+                price.setText(StringUtil.FormatPrice(trade.itemSnapshot.promoPrice));
+                price.getPaint().setFlags(0);  // 取消设置的的划线
+                ivPriceIcon.setVisibility(View.GONE);
+            }
             desImg.setImageURI(Uri.parse(trade.itemSnapshot.thumbnail));
         }
         num.setText(String.valueOf(trade.quantity));
     }
-
 
     @Override
     public void onDestroyView() {

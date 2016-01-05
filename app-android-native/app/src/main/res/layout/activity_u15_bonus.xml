@@ -109,7 +109,6 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/blue_radio"
             android:gravity="center"
-            android:onClick="onClick"
             android:text="@string/u15_btn_text"
             android:textColor="@color/white"
             android:textSize="18sp"

@@ -30,6 +30,7 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.constants.config.UserConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -293,7 +294,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
 
         userName.setText(user.nickname);
         float totalBonuses = 0f;
-        if(null != QSModel.INSTANCE.getUser().__context) {
+        if(null != QSModel.INSTANCE.getUser() &&  null != QSModel.INSTANCE.getUser().__context) {
             if(null != QSModel.INSTANCE.getUser().__context.bonusAmountByStatus) {
                 BonusAmount bonusAmount = QSModel.INSTANCE.getUser().__context.bonusAmountByStatus;
                 if (null != bonusAmount) {
@@ -314,10 +315,16 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         }
         userBonuses.setText(getString(R.string.get_bonuses_label) + StringUtil.FormatPrice(totalBonuses));
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
-        if (!TextUtils.isEmpty(user.portrait))
+        if (!TextUtils.isEmpty(user.portrait)){
             userHead.setImageURI(Uri.parse(user.portrait));
-        if (!TextUtils.isEmpty(user.background))
+        }else {
+            userHead.setImageURI(Uri.parse(UserConfig.USER_PORTRAIT_50));
+        }
+        if (!TextUtils.isEmpty(user.background)){
             userBg.setImageURI(Uri.parse(user.background));
+        }else {
+            userBg.setImageURI(Uri.parse(UserConfig.USER_HEAD_BG));
+        }
         if (null != user.__context)
             if (user.__context.followedByCurrentUser)
                 userFollowBtn.setImageResource(R.drawable.unfollow_btn);

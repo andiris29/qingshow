@@ -70,6 +70,7 @@ public class ShareUtil {
         getShareObject(TYPE_BONUS, QSModel.INSTANCE.getUserId(), context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
+                Log.e("test_i","sharedObjects ---> "+sharedObjects.toString());
                 shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, ValueUtil.SHARE_BONUS, context, true
                         , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
             }
@@ -77,7 +78,7 @@ public class ShareUtil {
     }
 
     private static void getShareObject(int type, String _id, final Context context, final Callback callback) {
-
+                Log.e("test_i","-------------------");
         String url;
 
         switch (type){
@@ -101,7 +102,8 @@ public class ShareUtil {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(ShareUtil.class.getSimpleName(), "getShareObject-response:" + response);
+
+                Log.e(ShareUtil.class.getSimpleName(), "getShareObject-response:" + response.toString());
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;

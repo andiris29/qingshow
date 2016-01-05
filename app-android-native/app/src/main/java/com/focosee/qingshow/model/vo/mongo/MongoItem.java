@@ -27,6 +27,8 @@ public class MongoItem implements Serializable {
     public GregorianCalendar sync;
     public ReturnInfo returnInfo;
     public Expectable expectable;
+    public Number minExpectedPrice;
+    public SourceInfo sourceInfo;
 
     public class ReturnInfo implements Serializable {
         public String name;
@@ -40,5 +42,15 @@ public class MongoItem implements Serializable {
         public String message;
         public Number reduction;
     }
+
+    public class SourceInfo implements Serializable{
+        public String  id; //43001925539";
+        public String  domain;  //tmall";
+        public String  icon;  //http://trial01.focosee.com/img/item/source/tmall.jpg";
+    }
+
+//    public  class ShopRef implements  Serializable{
+//
+//    }
 
 }

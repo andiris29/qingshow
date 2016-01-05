@@ -84,6 +84,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
+import static com.focosee.qingshow.R.id.forget_password_btn;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener {
@@ -139,7 +140,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
-    List<String> modelRefs = new ArrayList<>();
+    List<String> modelRefs = new ArrayList<String>();
 
     private List<TextView> tagViewList;
     private MenuView menuView;
@@ -179,7 +180,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        tagViewList = new ArrayList<>();
+        tagViewList = new ArrayList<TextView>();
         if (S22MatchPreviewActivity.class.getSimpleName().equals(className)) {
             s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
@@ -359,16 +360,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     }
 
     private void showTag(final MongoShow show) {
-        tagFl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getVisibility() == View.VISIBLE){
-                    v.setVisibility(View.INVISIBLE);
-                }else {
-                    v.setVisibility(View.VISIBLE);
-                }
-            }
-        });
         for (TextView tag : tagViewList) {
             tagFl.removeView(tag);
         }
@@ -393,6 +384,18 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+        tagFl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (TextView tag : tagViewList) {
+                        if (tag.getVisibility() == View.VISIBLE){
+                            tag.setVisibility(View.INVISIBLE);
+                        }else if(tag.getVisibility() == View.INVISIBLE){
+                            tag.setVisibility(View.VISIBLE);
+                        }
+                }
+            }
+        });
     }
 
     private void addTagTo(MongoShow show){
@@ -404,18 +407,25 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                     public TextView call(QSRect qsRect, final MongoItem item) {
                         Point point = new Point(image.getWidth(), image.getHeight());
                         TextView tag = initTag(qsRect.getRect(point));
-                        if (item.expectable.reduction != null) {
-                            tag.setText("减" + item.expectable.reduction.intValue());
-                        }
-                        tag.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(S03SHowActivity.this, S11NewTradeActivity.class);
-                                intent.putExtra(S11NewTradeActivity.OUTPUT_ITEM_ENTITY, item);
-                                startActivity(intent);
+                        if(item != null){
+                            if(item.expectable != null ){
+                                if (item.expectable.reduction != null) {
+                                    tag.setText("减" + item.expectable.reduction.intValue());
+                                }
+                            }else{
+                                tag.setText("");
+                                tag.setBackgroundResource(R.drawable.point_white);
                             }
-                        });
-                        tag.setTag(item._id);
+                            tag.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(S03SHowActivity.this, S11NewTradeActivity.class);
+                                    intent.putExtra(S11NewTradeActivity.OUTPUT_ITEM_ENTITY, item);
+                                    startActivity(intent);
+                                }
+                            });
+                            tag.setTag(item._id);
+                        }
                         return tag;
                     }
                 }).subscribe(new Action1<TextView>() {

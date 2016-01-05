@@ -338,11 +338,18 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.S24ShowsDateActivity" />
+
         <activity android:name=".activity.S11NewTradeActivity"></activity>
         <activity
             android:name=".activity.U23BindMobile"
             android:label="@string/title_activity_u23_bind_mobile"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+
+        <activity
+            android:name=".activity.S25ShowHrefActivity"
+            android:screenOrientation="portrait" />
+
+
     </application>
 
 </manifest>

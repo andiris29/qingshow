@@ -1,5 +1,7 @@
 package com.focosee.qingshow.httpapi.request;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,6 +21,10 @@ import rx.Subscriber;
 public class RxRequest {
 
     public static Observable<JSONObject> createJsonRequest(final int method, final String url, final JSONObject jsonRequest){
+        Log.e("test_i","------>  "+url);
+        if (null != jsonRequest){
+            Log.e("test_i","jsonRequest---> "+jsonRequest.toString());
+        }
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
             public void call(final Subscriber<? super JSONObject> subscriber) {
@@ -31,6 +37,7 @@ public class RxRequest {
                             subscriber.onError(errorCode);
                             subscriber.onCompleted();
                         }
+                        Log.e("test_i" ,"response.toString() --> "+ response.toString());
                         subscriber.onNext(response);
                         subscriber.onCompleted();
                     }

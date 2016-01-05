@@ -137,8 +137,6 @@ public class S10ItemDetailActivity extends BaseActivity {
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
-
-
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
             }
@@ -156,6 +154,9 @@ public class S10ItemDetailActivity extends BaseActivity {
             }
         });
         webview.loadUrl(url);
+    }
+    public void onClick(View view){
+        finish();
     }
 
     @Override
