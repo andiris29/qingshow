@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.focosee.qingshow.R;
@@ -135,9 +136,11 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregationLatest>{
                                 intent.putExtra("url" , info.href);
                                context.startActivity(intent);
                             }else {
-//                                Intent intent = new Intent(context , S03SHowActivity.class);
-//                                intent.putExtra("url" , info.href);
-//                                context.startActivity(intent);
+                                Intent intent = new Intent(context, S03SHowActivity.class);
+                                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, info._id);
+                                intent.putExtra(S03SHowActivity.CLASS_NAME, "S01MatchShowsActivity");
+                                intent.putExtra(S03SHowActivity.POSITION, 0);
+                                context.startActivity(intent);
                             }
                         }
                         break;

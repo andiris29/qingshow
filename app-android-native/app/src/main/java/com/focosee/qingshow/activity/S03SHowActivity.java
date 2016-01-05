@@ -139,7 +139,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
-    List<String> modelRefs = new ArrayList<>();
+    List<String> modelRefs = new ArrayList<String>();
 
     private List<TextView> tagViewList;
     private MenuView menuView;

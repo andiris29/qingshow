@@ -31,10 +31,11 @@ public class S25ShowHrefActivity extends BaseActivity implements OnClickListener
         tvTitle.setText(R.string.s25_title);
         ivBack.setOnClickListener(this);
         WebSettings webSettings =   wv.getSettings();
-        webSettings.setUseWideViewPort(true);//设置此属性，可任意比例缩放
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setLoadsImagesAutomatically(true);
+//        webSettings.setUseWideViewPort(true);//设置此属性，可任意比例缩放
+//        webSettings.setLoadWithOverviewMode(true);
+//        webSettings.setLoadsImagesAutomatically(true);
         webSettings.setBlockNetworkImage(false);
+        webSettings.setJavaScriptEnabled(true);
         String url = getIntent().getExtras().getString("url");
         wv.loadUrl(url);
     }

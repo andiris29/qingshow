@@ -353,6 +353,7 @@ public class S11NewTradeActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
+        Log.e("test_i","2222222222222222222222222222222222222");
         if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             return;
@@ -364,8 +365,7 @@ public class S11NewTradeActivity extends BaseActivity {
                 if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
                     return;
                 }
-
-                submit.setClickable(false);
+              //  submit.setClickable(false);
                 if (selectProps.size() > 0){
                     trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
                     trade.itemSnapshot = itemEntity;
