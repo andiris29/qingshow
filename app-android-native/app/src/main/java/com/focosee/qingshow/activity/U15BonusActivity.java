@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.facebook.stetho.common.LogUtil;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.BonusCommand;
 import com.focosee.qingshow.command.Callback;
@@ -32,6 +36,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.aggregation.BonusAmount;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
@@ -56,6 +61,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 import rx.functions.Func1;
 
@@ -161,9 +167,17 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.u15_withDrawBtn:
                 ShareUtil.shareBonusToWX(U15BonusActivity.this);
-                // withDrawBtn.setEnabled(false);
+                 withDrawBtn.setEnabled(false);
                 break;
             case R.id.u15_qa:
+                SharedPreferences preferences = QSApplication.instance().getPreferences();
+                String url = preferences.getString("faq","");
+                if(!TextUtils.isEmpty(url)) {
+
+                }else {
+                    Log.e("test_" ,"faq --> "+"null");
+            }
+
                 break;
 
         }

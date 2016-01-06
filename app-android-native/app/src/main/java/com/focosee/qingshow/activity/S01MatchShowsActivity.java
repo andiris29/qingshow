@@ -115,7 +115,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
-        
+
         getConfig();
 
         global.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +152,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 to.setTimeInMillis(date.getTime() + 24 * 3600 * 1000);
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd");
                 String title = sdf1.format(date);
-                jump(from, to ,title);
+                jump(from, to, title);
             }
 
             @Override
@@ -164,10 +164,11 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     /**
      * 跳转
+     *
      * @param from 从哪里
-     * @param to  到哪里
+     * @param to   到哪里
      */
-    private void jump(GregorianCalendar from, GregorianCalendar to ,String data){
+    private void jump(GregorianCalendar from, GregorianCalendar to, String data) {
         Intent intent = new Intent(S01MatchShowsActivity.this, S24ShowsDateActivity.class);
         intent.putExtra("MATCH_NEW_FROM", from);
         intent.putExtra("MATCH_NEW_TO", to);
@@ -177,7 +178,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     @Override
     public void reconn() {
-       mRefreshLayout.beginRefreshing();
+        mRefreshLayout.beginRefreshing();
     }
 
     public void onEventMainThread(String event) {
@@ -225,27 +226,34 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 });
     }
 
-    private void getConfig(){
+    private void getConfig() {
         QSJsonObjectRequest request = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getConfig(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
                         try {
-                            //Log.e("test_i","------------- >  "+response.toString());
-                            if (response.getJSONObject("data").getJSONObject("guide").has("global")){
+                            //   Log.e("test_i","------------- >  "+response.toString());
+                            JSONObject obj = response.getJSONObject("data").getJSONObject("guide");
+                            final SharedPreferences preferences = QSApplication.instance().getPreferences();
+                            SharedPreferences.Editor edit = preferences.edit();
+                            if (obj.has("global")) {
+                                //玩搭配 赢收益图片
                                 final String url = response.getJSONObject("data").getJSONObject("guide").get("global").toString();
-                                final SharedPreferences preferences = QSApplication.instance().getPreferences();
 
-                                if (!preferences.getBoolean(url, false)){
+                                if (!preferences.getBoolean(url, false)) {
                                     global.setImageURI(Uri.parse(url));
                                     global.setVisibility(View.VISIBLE);
-                                    SharedPreferences.Editor edit = preferences.edit();
                                     edit.putBoolean(url, true);
-                                    edit.apply();
                                 }
 
                             }
+                            if (obj.has("bonus") && obj.getJSONObject("bonus").has("faq")) {
+                                String url = obj.getJSONObject("bonus").getString("faq");
+                                edit.putString("faq", url);
+                            }
+                            edit.apply();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

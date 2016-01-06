@@ -114,21 +114,24 @@ public class U20NewBonus extends BaseActivity {
 
                     @Override
                     public void onNext(ArrayList<MongoBonus> bonuses) {
-                        bonus = bonuses.get(0);
-                        u20ItemImage.setImageURI(Uri.parse(bonus.icon));
-                        u20ItemImage.setAspectRatio(0.5f);
+                        if (null !=bonuses){
+                            bonus = bonuses.get(0);
+                            u20ItemImage.setImageURI(Uri.parse(bonus.icon));
+                            u20ItemImage.setAspectRatio(0.5f);
 
-                        u20UserHead.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
-                        u20Nickname.setText(QSModel.INSTANCE.getUser().nickname);
+                            u20UserHead.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+                            u20Nickname.setText(QSModel.INSTANCE.getUser().nickname);
 
-                        SpannableString spannableString = new SpannableString("获得了￥" + bonus.amount + "的佣金");
+                            SpannableString spannableString = new SpannableString("获得了￥" + bonus.amount + "的佣金");
 
-                        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.pink_deep))
-                                , "获得了￥".length() - 1, ("获得了￥" + bonus.amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.pink_deep))
+                                    , "获得了￥".length() - 1, ("获得了￥" + bonus.amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                        u20MsgLine2.setText(spannableString);
+                            u20MsgLine2.setText(spannableString);
 
-                        getPeoplesFromNet();
+                            getPeoplesFromNet();
+                        }
+
                     }
                 });
     }

@@ -45,6 +45,7 @@ public class RxRequest {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Throwable errorCode = new Throwable("8888", error);
+                        Log.e("test_i" ,"error ---------->  "+ error.toString());
                         subscriber.onError(errorCode);
                         subscriber.onCompleted();
                     }

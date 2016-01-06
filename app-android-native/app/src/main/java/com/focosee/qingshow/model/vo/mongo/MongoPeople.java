@@ -70,8 +70,18 @@ public class MongoPeople implements Serializable {
 
     public class Trigger implements Serializable {
         public String forgerRef;
+        public WeiXinInfo weixin;
         public String tradeRef;
         public String itemRef;
+    }
+    public class WeiXinInfo implements Serializable{
+        public String unionid;
+        public String headimgurl;
+        public String country;
+        public String province;
+        public String nickname;
+        public String openid;
+
     }
 
     public class UnreadNotification implements Serializable {

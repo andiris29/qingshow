@@ -100,7 +100,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
-        dialog = new LoadingDialogs(this, R.style.dialog);
+        dialog = new LoadingDialogs(S22MatchPreviewActivity.this, R.style.dialog);
         dialog.setCanceledOnTouchOutside(false);
         innerItemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         innerItemRects = getIntent().getParcelableArrayListExtra(S20MatcherActivity.S20_ITEMRECTS);
@@ -259,6 +259,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
                 bitmap.recycle();
             }
         }
+
         super.onDestroy();
     }
 

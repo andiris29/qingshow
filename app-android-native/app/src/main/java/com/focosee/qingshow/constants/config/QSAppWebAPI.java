@@ -104,8 +104,8 @@ public class QSAppWebAPI {
     private static String SHARE_CREATE_TRADE_API = "/share/createTrade";
 
    // private static String SHARE_CREATE_BONUS_API = "/share/createBonus";
-   //private static String SHARE_CREATE_BONUS_API = "bonus/withdraw";
-   private static String SHARE_CREATE_BONUS_API = "share/withdraw";
+   private static String SHARE_CREATE_BONUS_API = "/bonus/withdraw";
+  // private static String SHARE_CREATE_BONUS_API = "share/withdraw";
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
     private static String USER_UPDATEREGISTRATIONID_API = "/user/bindJPush";
