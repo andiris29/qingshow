@@ -143,8 +143,8 @@ var _saveWeixinUser = function(req, res, next) {
     async.waterfall([
         function(callback) {
             // Download portrait
-            if (!people.userInfo.weixin ||
-                people.userInfo.weixin.headimgurl !== weixinUser.headimgurl) {
+            if (weixinUser.headimgurl && 
+                (!people.userInfo.weixin || people.userInfo.weixin.headimgurl !== weixinUser.headimgurl)) {
                 //download headIcon
                 _downloadHeadIcon(weixinUser.headimgurl, function (err, tempPath) {
                     if (err) {
