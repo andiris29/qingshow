@@ -17,6 +17,11 @@ public class MongoPeople implements Serializable {
 
     public String _id;
 
+    public String update;
+    public Number __v;
+    public String create;
+    public RegistrationIDsInfo registrationIDs;
+
     public String nickname;
     public Number role;
     public String name;
@@ -58,6 +63,7 @@ public class MongoPeople implements Serializable {
         public String id;
         public String password;
         public String encryptedPassword;
+        public WeiXinInfo weixin;
     }
 
     public class MeasureInfo implements Serializable {
@@ -65,6 +71,7 @@ public class MongoPeople implements Serializable {
         public Number bust;
         public Number waist;
         public Number hips;
+        public Number shoeSize;
 
     }
 
@@ -93,5 +100,9 @@ public class MongoPeople implements Serializable {
         public String _id;
         public String command;
         public int index;
+    }
+
+    public class RegistrationIDsInfo{
+        public List<String> registrationIDs;
     }
 }

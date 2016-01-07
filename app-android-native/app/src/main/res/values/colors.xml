@@ -57,5 +57,6 @@
     <color name="pink_100">#64f095a4</color>
     <color name="accent_material_dark">#96000000</color>
     <color name="primary_dark_material_light_1">#6e5353</color>
+    <color name="gray05">#EAEAEA</color>
 
 </resources>

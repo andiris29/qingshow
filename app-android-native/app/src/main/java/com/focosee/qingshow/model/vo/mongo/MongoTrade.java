@@ -28,15 +28,25 @@ public class MongoTrade implements Serializable {
     public int quantity;
     public float expectedPrice;
     public MongoItem itemSnapshot;
-    public MongoItem itemRef;
+   // public MongoItem itemRef;
+    public String itemRef;
     public List<String> selectedSkuProperties;
+    public String statusOrder;
+    public  Number __v;
+    public String highlight;
+    public String ownerRef;
+    public String promoterRef;
 
     public class Pay implements Serializable {
 
         public Weixin weixin;
+        public ForgeInfo forge;
 
         public class Weixin implements Serializable {
             public String prepayid;
+        }
+        public class ForgeInfo{
+            public  String date;
         }
 
     }

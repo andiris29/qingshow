@@ -251,7 +251,7 @@ public class S20MatcherActivity extends BaseActivity {
                     @Override
                     public void onNext(RemixByModel remixByModel) {
                         super.onNext(remixByModel);
-                        Select modelSelect = allSelect.get(data.categoryRef._id);
+                        Select modelSelect = allSelect.get(data._id);
                         final Point canvasPoint = new Point();
                         canvasPoint.x = canvas.getWidth();
                         canvasPoint.y = canvas.getHeight();
@@ -272,8 +272,8 @@ public class S20MatcherActivity extends BaseActivity {
 
                         RectF rect = remixByModel.master.rect.getRect(canvasPoint);
                         modelSelect.rect = rect;
-                        allSelect.put(data.categoryRef._id, modelSelect);
-                        addItemsToCanvas(data.categoryRef._id, data.thumbnail);
+                        allSelect.put(data._id, modelSelect);
+                        addItemsToCanvas(data._id, data.thumbnail);
 
                         for (RemixByModel.Slave slave : remixByModel.slaves) {
 
@@ -303,7 +303,7 @@ public class S20MatcherActivity extends BaseActivity {
 
                 for (MongoCategories category : modelCategories) {
 
-                    if (datas.categoryRef._id.equals(category._id)){
+                    if (datas._id.equals(category._id)){
                         enforceRemix(datas);
                     }
                 }
@@ -395,7 +395,7 @@ public class S20MatcherActivity extends BaseActivity {
                 }
 
                 for (MongoCategories category : modelCategories) {
-                    if (datas.get(0).categoryRef._id.equals(category._id)){
+                    if (datas.get(0)._id.equals(category._id)){
                         enforceRemix(datas.get(0));
                         return;
                     }

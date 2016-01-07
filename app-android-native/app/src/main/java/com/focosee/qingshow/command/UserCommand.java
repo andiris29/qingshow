@@ -46,7 +46,6 @@ public class UserCommand {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUserApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(UserCommand.class.getSimpleName(), "refresh-response:" + response);
                 MongoPeople user = UserParser.parseGet(response);
                 if(null != user) {
                     QSModel.INSTANCE.setUser(user);
@@ -58,7 +57,7 @@ public class UserCommand {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(UserCommand.class.getSimpleName(), "error");
+                Log.e(UserCommand.class.getSimpleName(), "error");
                 callback.onError();
             }
         });
@@ -70,11 +69,11 @@ public class UserCommand {
     }
 
     public static void update(JSONObject jsonObject,final Callback callback){
-        Log.d(UserCommand.class.getSimpleName(), "jsonObject:" + jsonObject.toString());
+        Log.e(UserCommand.class.getSimpleName(), "jsonObject:" + jsonObject.toString());
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(UserCommand.class.getSimpleName(), "response:" + response);
+                Log.e(UserCommand.class.getSimpleName(), "response:" + response);
                 if (MetadataParser.hasError(response)) {
                     callback.onError(MetadataParser.getError(response));
                 } else {
@@ -136,7 +135,7 @@ public class UserCommand {
                 , new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(UserCommand.class.getSimpleName(), "readNotification-response:" + response);
+                Log.e(UserCommand.class.getSimpleName(), "readNotification-response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;

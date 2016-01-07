@@ -440,7 +440,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 .filter(new Func1<MongoItem, Boolean>() {
                     @Override
                     public Boolean call(MongoItem mongoItem) {
-                        return mongoItem.delist != null || modelRefs.contains(mongoItem.categoryRef._id);
+                        return mongoItem.delist != null || modelRefs.contains(mongoItem._id);
                     }
                 })
                 .subscribe(new Action1<MongoItem>() {

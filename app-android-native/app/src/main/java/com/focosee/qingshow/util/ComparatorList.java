@@ -13,7 +13,7 @@ public class ComparatorList {
         return new java.util.Comparator<MongoItem>() {
             @Override
             public int compare(MongoItem lhs, MongoItem rhs) {
-                return CategoriesModel.INSTANCE.getCategories().get(lhs.categoryRef._id).order.compareTo(CategoriesModel.INSTANCE.getCategories().get(rhs.categoryRef._id).order);
+                return CategoriesModel.INSTANCE.getCategories().get(lhs._id).order.compareTo(CategoriesModel.INSTANCE.getCategories().get(rhs._id).order);
             }
         };
     }

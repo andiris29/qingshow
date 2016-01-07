@@ -11,7 +11,8 @@ import java.util.List;
 public class MongoItem implements Serializable {
 
     public String _id;
-    public MongoCategories categoryRef;
+    //public MongoCategories categoryRef;
+    public String categoryRef;
     public String name;
     public String source;
     public String thumbnail;
@@ -29,6 +30,8 @@ public class MongoItem implements Serializable {
     public Expectable expectable;
     public Number minExpectedPrice;
     public SourceInfo sourceInfo;
+    public Number __v;
+
 
     public class ReturnInfo implements Serializable {
         public String name;
@@ -41,6 +44,9 @@ public class MongoItem implements Serializable {
         public boolean expired;
         public String message;
         public Number reduction;
+        public String messageForBuy;//此商品为韩国代购，代购时间7-15天。无质量问题不提供退货。",
+        public String messageForPay;//您选择的这款代购时间较长，请尽快付款哦！",
+        public Number price;
     }
 
     public class SourceInfo implements Serializable{

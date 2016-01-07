@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
+import com.focosee.qingshow.activity.U08ChangPasswordActivity;
 import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
@@ -86,6 +87,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout addresslistRelativeLayout;
     private RelativeLayout dressStyleRelativeLayout;
     private RelativeLayout effectRelativeLayout;
+    private RelativeLayout rlChangePassword;
     private ImageView portraitImageView;
     private ImageView backgroundImageView;
     private EditText nameEditText;
@@ -292,6 +294,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
         container = (FrameLayout) view.findViewById(R.id.container);
+        rlChangePassword = (RelativeLayout) view.findViewById(R.id.rl_change_password);
 //        bonusTip = view.findViewById(R.id.u02_bonus_tip);
         title = (QSTextView) view.findViewById(R.id.u02_title);
     }
@@ -534,7 +537,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 commitForm();
-                if(null != getActivity())
+                if (null != getActivity())
                     getActivity().finish();
             }
         });
@@ -597,6 +600,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, 0, 0, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
                 U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
+            }
+        });
+        rlChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),U08ChangPasswordActivity.class));
             }
         });
     }

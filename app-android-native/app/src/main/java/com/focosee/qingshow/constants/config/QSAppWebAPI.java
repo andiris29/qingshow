@@ -23,6 +23,8 @@ public class QSAppWebAPI {
     private static String USER_REMOVE_RECEIVER_API = "/user/removeReceiver";
     private static String USER_LOGIN_WX_API = "/user/loginViaWeixin";
 
+
+
     private static String USER_LOGOUT = "/user/logout";
 
     private static String USER_LOGIN_WB_API = "/user/loginViaWeibo";
@@ -109,6 +111,7 @@ public class QSAppWebAPI {
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
     private static String USER_UPDATEREGISTRATIONID_API = "/user/bindJPush";
+    private static String USER_BING_WEIXIN = "/user/bindWeixin";
 
     private static String FEEDINGAGGREGATION_LATEST = "/feedingAggregation/latest";
 
@@ -286,6 +289,10 @@ public class QSAppWebAPI {
 
     public static String getUserLoginWxApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGIN_WX_API;
+    }
+
+    public static String getUserBingWeixinWxApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_BING_WEIXIN;
     }
 
     public static String getQueryItems(int pageNo, int pageSize, String categoryRef) {

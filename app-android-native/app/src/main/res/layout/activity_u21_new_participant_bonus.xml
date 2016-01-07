@@ -48,8 +48,8 @@
                 android:background="@drawable/white"
                 app:layout_marginTopPercent="5%"
                 fresco:actualImageScaleType="fitCenter"
-                fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
-
+               />
+            <!-- fresco:placeholderImage="@drawable/root_cell_placehold_image1"-->
         </android.support.percent.PercentRelativeLayout>
 
         <com.facebook.drawee.view.SimpleDraweeView

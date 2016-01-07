@@ -139,7 +139,7 @@ public class U20NewBonus extends BaseActivity {
     private void getPeoplesFromNet() {
         String[] pIds = bonus.participants;
 
-        if (pIds.length == 0 || pIds == null) return;
+        if (null != pIds && pIds.length == 0 || pIds == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(pIds), new Response.Listener<JSONObject>() {
             @Override

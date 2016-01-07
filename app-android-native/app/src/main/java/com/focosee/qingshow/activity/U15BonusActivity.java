@@ -29,6 +29,7 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.request.RxRequest;
@@ -50,11 +51,17 @@ import com.focosee.qingshow.widget.QSButton;
 import com.focosee.qingshow.widget.QSEditText;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.wxapi.ShareBonusEvent;
+import com.focosee.qingshow.wxapi.WXEntryActivity;
+import com.focosee.qingshow.wxapi.WxLoginedEvent;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -87,6 +94,8 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
     private MongoPeople people;
     private boolean isCanWithDrwa = false;
     private LoadingDialogs dialogs;
+    private IWXAPI wxApi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +103,8 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_u15_bonus);
         ButterKnife.inject(this);
         dialogs = new LoadingDialogs(U15BonusActivity.this);
+        wxApi = QSApplication.instance().getWxApi();
+
         EventBus.getDefault().register(this);
     }
 
@@ -110,32 +121,44 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         SpannableString ss = new SpannableString(hint);
         Drawable drawable = getResources().getDrawable(R.drawable.u15_notify);
         assert drawable != null;
-        drawable.setBounds(0, 0, (int)AppUtil.transformToDip(30f,this), (int)AppUtil.transformToDip(30f,this));
+        drawable.setBounds(0, 0, (int) AppUtil.transformToDip(30f, this), (int) AppUtil.transformToDip(30f, this));
         ss.setSpan(new ImageSpan(drawable), hint.length() - 3, hint.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         u15HintText.setText(ss);
-
         setData();
     }
-
+    float draw = 0;
     public void setData() {
         UserCommand.refresh(new Callback(){
             @Override
             public void onComplete() {
                 BonusAmount amountByStatus = QSModel.INSTANCE.getUser().__context.bonusAmountByStatus;
+                //0 和 1 代表未提现   故 可提现金额为 0+1   2代表已提现
                 float total = 0;
-                float draw = 0;
                 if (amountByStatus.bonuses.containsKey("0")){
                     total += amountByStatus.bonuses.get("0").floatValue();
                     draw += amountByStatus.bonuses.get("0").floatValue();
                 }
                 if (amountByStatus.bonuses.containsKey("1")){
-                    total += amountByStatus.bonuses.get("1").floatValue();
+                    draw =draw + amountByStatus.bonuses.get("1").floatValue();
                 }
                 if (amountByStatus.bonuses.containsKey("2")){
                     total += amountByStatus.bonuses.get("2").floatValue();
                 }
                 u15Total.setText(StringUtil.FormatPrice(total));
                 u15Draw.setText(StringUtil.FormatPrice(draw));
+                MongoPeople.WeiXinInfo weixin = QSModel.INSTANCE.getUser().userInfo.weixin;
+                if (null != weixin && !TextUtils.isEmpty(weixin.openid)) {
+                    withDrawBtn.setText("立即提现");
+                    if (draw < 1 ){
+                        withDrawBtn.setBackgroundResource(R.drawable.u15_gray_btn);
+                    }else {
+                        withDrawBtn.setBackgroundResource(R.drawable.u15_pink_btn);
+                    }
+
+                }else {
+                    withDrawBtn.setText("登录微信后提现");
+                }
+
             }
         });
  
@@ -166,8 +189,28 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(U15BonusActivity.this, U16BonusListActivity.class));
                 break;
             case R.id.u15_withDrawBtn:
-                ShareUtil.shareBonusToWX(U15BonusActivity.this);
-                 withDrawBtn.setEnabled(false);
+                //如果用户没有微信信息，则跳转到“微信”登陆，返回“倾秀”后发送 user/bindWeixin，成功后调用 bonus/withdraw
+               // 如果用户已经有微信信息，直接调用 bonus/withdraw
+               if (null != QSModel.INSTANCE.getUser().userInfo.weixin && !TextUtils.isEmpty(QSModel.INSTANCE.getUser().userInfo.weixin.openid)){
+                       if (draw < 1){
+                           ToastUtil.showShortToast(this , "佣金需要1元以上才能发红包");
+                       }else {
+                           ShareUtil.shareBonusToWX(U15BonusActivity.this);
+                           withDrawBtn.setEnabled(false);
+                       }
+               }else {
+                   // send oauth request
+                   if (!wxApi.isWXAppInstalled()) {
+                       //提醒用户没有按照微信
+                       ToastUtil.showShortToast(getApplicationContext(), "您还没有安装微信，请先安装微信");
+                       return;
+                   }
+                 //  dialogs.show();
+                   final SendAuth.Req req = new SendAuth.Req();
+                   req.scope = "snsapi_userinfo";
+                   req.state = "qingshow_wxbind";
+                   wxApi.sendReq(req);
+               }
                 break;
             case R.id.u15_qa:
                 SharedPreferences preferences = QSApplication.instance().getPreferences();
@@ -177,13 +220,10 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 }else {
                     Log.e("test_" ,"faq --> "+"null");
             }
-
                 break;
 
         }
     }
-
-
 
     @Override
     protected void onResume() {

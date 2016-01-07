@@ -103,6 +103,7 @@
     <string name="phone_activity_addresslist">电话:</string>
     <string name="address_activity_addresslist">地址:</string>
     <string name="choose_address_please">请选择收货地址</string>
+    <string name="change_password">修改密码</string>
 
     <!-- Return Activity -->
     <string name="title_activity_return">ReturnActivity</string>
@@ -233,6 +234,7 @@
     <string name="title_activity_city">CityActivity</string>
 
     <string name="only_number">0123456789</string>
+    <string name="number_letter">abckefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
     <!-- U15BonusActivity -->
     <string name="title_activity_u15_bonus">U15BonusActivity</string>
@@ -267,7 +269,9 @@
     <string name="u20_msg_line1">您搭配的单品已被购买</string>
     <string name="u20_submit_btn">马上提现</string>
     <string name="u20_msg3">最近搭配过该商品的用户也可以获得共享佣金哦</string>
+    <string name="u20_msg4">什么是销售佣金？</string>
     <string name="title_activity_u21_new_participant_bonus">U21NewParticipantBonus</string>
+    <string name="u20_sale">销售佣金</string>
 
     <!-- u21 -->
     <string name="u21_msg_line1">她与你搭配了同一款单品，当她得到佣金时</string>
@@ -291,5 +295,9 @@
     <string name="title_activity_u23_bind_mobile">U23BindMobile</string>
     <!--s25show-->
     <string name="s25_title">潮流前沿</string>
+    <!-- u08-->
+    <string name="u08_cur_password">当前密码</string>
+    <string name="u08_new_password">新密码</string>
+    <string name="u08_cur_hint_text">英文数字8-12字符</string>
 
 </resources>

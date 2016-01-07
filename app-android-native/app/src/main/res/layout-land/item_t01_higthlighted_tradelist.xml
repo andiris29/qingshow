@@ -121,7 +121,7 @@
                 android:layout_alignTop="@+id/item_t01_msg_relative"
                 app:layout_widthPercent="30%"
                 fresco:actualImageScaleType="fitCenter"
-                fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+                />
 
             <android.support.percent.PercentRelativeLayout
                 android:id="@+id/item_t01_msg_relative"

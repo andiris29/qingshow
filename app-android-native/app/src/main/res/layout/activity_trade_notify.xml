@@ -59,7 +59,7 @@
         android:layout_centerHorizontal="true"
         app:layout_marginTopPercent="5%"
         android:layout_below="@id/describe"
-        fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
+       />
 
         <com.focosee.qingshow.widget.QSTextView
             android:layout_width="0dp"

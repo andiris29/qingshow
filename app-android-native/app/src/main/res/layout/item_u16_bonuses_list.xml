@@ -15,7 +15,7 @@
         fresco:actualImageScaleType="fitCenter"
         android:padding="5dp"
         fresco:roundAsCircle="true"
-        fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
+        />
 
     <com.focosee.qingshow.widget.QSTextView
         android:id="@+id/item_u16_description"

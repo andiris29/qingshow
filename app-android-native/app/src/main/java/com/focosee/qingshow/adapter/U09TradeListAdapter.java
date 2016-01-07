@@ -120,10 +120,16 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
         }
 
         String properties = StringUtil.formatSKUProperties(trade.selectedSkuProperties);
-        if (!TextUtils.isEmpty(properties)) {
+        List<String> listProper =  trade.selectedSkuProperties;
+        if (listProper != null && listProper.size() > 0) {
             properTextView.setVisibility(View.VISIBLE);
             properTab.setVisibility(View.VISIBLE);
-            properTextView.setText(properties);
+            if (listProper.size() == 1){
+                properTextView.setText(listProper.get(0));
+            }else {
+                properTextView.setText(listProper.get(0)+"\n"+listProper.get(1));
+            }
+
         }
         holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.quantity));
 
@@ -151,9 +157,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             });
 
             //new discount
-            if (null == trade.itemRef) return;
-            if (null == trade.itemRef.expectable) return;
-            if (trade.itemRef.expectable.expired) {
+            if (null == trade.itemSnapshot) return;
+            if (null == trade.itemSnapshot.expectable) return;
+            if (trade.itemSnapshot.expectable.expired) {
                 if(UnreadHelper.hasMyNotificationId(trade._id)){
                     UnreadHelper.userReadNotificationId(trade._id);
                 }

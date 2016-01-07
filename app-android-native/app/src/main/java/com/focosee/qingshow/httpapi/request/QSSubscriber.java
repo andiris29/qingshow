@@ -1,5 +1,7 @@
 package com.focosee.qingshow.httpapi.request;
 
+import android.text.TextUtils;
+
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 
 import org.json.JSONObject;
@@ -15,7 +17,9 @@ public abstract class QSSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
-        onNetError(Integer.parseInt(e.getMessage()));
+        if (!TextUtils.isEmpty(e.getMessage())){
+            onNetError(Integer.parseInt(e.getMessage()));
+        }
     }
 
     @Override

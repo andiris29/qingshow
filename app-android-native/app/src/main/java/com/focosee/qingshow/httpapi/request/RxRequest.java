@@ -21,9 +21,9 @@ import rx.Subscriber;
 public class RxRequest {
 
     public static Observable<JSONObject> createJsonRequest(final int method, final String url, final JSONObject jsonRequest){
-        Log.e("test_i","------>  "+url);
+        Log.e("test_i","请求路径 ------>  "+url);
         if (null != jsonRequest){
-            Log.e("test_i","jsonRequest---> "+jsonRequest.toString());
+            Log.e("test_i","请求参数---> "+jsonRequest.toString());
         }
         return Observable.create(new Observable.OnSubscribe<JSONObject>() {
             @Override
@@ -37,7 +37,7 @@ public class RxRequest {
                             subscriber.onError(errorCode);
                             subscriber.onCompleted();
                         }
-                        Log.e("test_i" ,"response.toString() --> "+ response.toString());
+                        Log.e("test_i" ,"请求返回结果 -----> "+ response.toString());
                         subscriber.onNext(response);
                         subscriber.onCompleted();
                     }
@@ -45,7 +45,7 @@ public class RxRequest {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Throwable errorCode = new Throwable("8888", error);
-                        Log.e("test_i" ,"error ---------->  "+ error.toString());
+                        Log.e("test_i" ,"请求错误 ---------->  "+ error.toString());
                         subscriber.onError(errorCode);
                         subscriber.onCompleted();
                     }

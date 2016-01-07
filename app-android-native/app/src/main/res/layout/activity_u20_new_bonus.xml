@@ -1,31 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
     android:layout_marginBottom="50dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="20dp"
     app:cardCornerRadius="15dp"
     tools:context="com.focosee.qingshow.activity.U20NewBonus">
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/close"
-            android:layout_width="50dp"
+        <RelativeLayout
+            android:id="@+id/rl_u20_title"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right"
-            android:onClick="onClick"
-            android:padding="10dp"
-            android:src="@drawable/collect_icon_close"
-            app:layout_marginPercent="2%" />
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/u20_sale"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                />
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/close"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line_activity_settings"/>
+        </RelativeLayout>
 
         <android.support.percent.PercentRelativeLayout
+            android:layout_below="@id/rl_u20_title"
             android:id="@+id/u20_item_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -47,7 +74,8 @@
                 android:background="@drawable/white"
                 app:layout_marginTopPercent="5%"
                 fresco:actualImageScaleType="fitCenter"
-                fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+                />
+           <!-- fresco:placeholderImage="@drawable/root_cell_placehold_image1"-->
 
         </android.support.percent.PercentRelativeLayout>
 
@@ -61,7 +89,7 @@
             fresco:actualImageScaleType="focusCrop"
             fresco:roundAsCircle="true"
             fresco:roundingBorderColor="@color/white"
-            fresco:roundingBorderWidth="5dp" />
+            fresco:roundingBorderWidth="5dp"/>
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/u20_nickname"
@@ -72,7 +100,7 @@
             android:layout_marginTop="10dp"
             android:text="kelly"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/u20_msg_line1"
@@ -84,7 +112,7 @@
             android:text="@string/u20_msg_line1"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/u20_msg_line2"
@@ -95,7 +123,7 @@
             android:layout_marginTop="5dp"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/u20_submit_btn"
@@ -104,48 +132,44 @@
             android:layout_below="@id/u20_msg_line2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/pink_deep_btn2"
+            android:background="@drawable/u15_pink_btn"
             android:text="@string/u20_submit_btn"
             android:textColor="@color/white"
             android:textSize="35sp"
             android:textStyle="bold"
             app:layout_heightPercent="10%"
-            app:layout_widthPercent="55%" />
+            app:layout_widthPercent="55%"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/u20_msg3_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/u20_submit_btn"
             android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:orientation="horizontal"
             app:layout_marginTopPercent="5%">
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_dashed"
-                android:layerType="software" />
+                android:layout_centerInParent="true"
+                style="@style/horizontal_line"/>
 
             <TextView
                 android:id="@+id/u20_msg3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="@string/u20_msg3"
+                android:layout_centerInParent="true"
+                android:background="@color/white"
+                android:text="@string/u20_msg4"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_lsmall"
-                android:textStyle="bold" />
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textStyle="bold"/>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_dashed"
-                android:layerType="software" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/u20_heads"

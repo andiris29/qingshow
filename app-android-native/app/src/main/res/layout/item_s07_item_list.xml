@@ -13,7 +13,6 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         freso:actualImageScaleType="fitCenter"
-        freso:placeholderImage="@drawable/root_cell_placehold_image1"
         freso:roundAsCircle="true" />
 
     <LinearLayout
