@@ -45,7 +45,7 @@ public class MongoTrade implements Serializable {
         public class Weixin implements Serializable {
             public String prepayid;
         }
-        public class ForgeInfo{
+        public class ForgeInfo implements Serializable{
             public  String date;
         }
 

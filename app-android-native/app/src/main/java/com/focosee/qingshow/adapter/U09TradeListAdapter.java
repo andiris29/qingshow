@@ -190,10 +190,11 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             btn1.setText("申请退货");
             btn2.setText("物流信息");
             //push guide
-            if (UnreadHelper.hasMyNotificationId(trade._id))
+           // if (UnreadHelper.hasMyNotificationId(trade._id))
                 btn2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.e("test_i","------------> ");
                         //push guide
                         UnreadHelper.userReadNotificationId(trade._id);
 
@@ -201,6 +202,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                         if (null != trade.logistic) {
                             msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingId == null ? "" : trade.logistic.trackingId);
                         }
+                        Log.e("test_i","------------> "+msg);
                         final ConfirmDialog dialog = new ConfirmDialog(context);
                         dialog.setTitle(msg);
                         dialog.setConfirm(new View.OnClickListener() {
@@ -209,9 +211,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                                 dialog.dismiss();
                             }
                         });
-                        dialog.show();
                         dialog.hideCancel();
-                }
+                        dialog.show();
+                    }
             });
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
