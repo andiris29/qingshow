@@ -55,7 +55,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
             return;
 
         final MongoItem item = getItemData(position);
-       // if(!item.categoryRef.activate)return;
+        if(!item.categoryRef.activate)return;
         //TODO item.thumbnail用最小的图
         holder.setImgeByUrl(R.id.item_s07_category, ImgUtil.getImgSrc(item.thumbnail, ImgUtil.Meduim));
         holder.setText(R.id.item_s07_name, item.name);

@@ -87,10 +87,12 @@ public class QSImageView extends RelativeLayout {
     }
 
     double nLenStart = 0;
+    long startTime = 0;
+    long endTime = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!removeEnable){
+        if (!removeEnable) {
             setChecked(true);
             return true;
         }
@@ -119,7 +121,7 @@ public class QSImageView extends RelativeLayout {
             } else {
                 scaleTo(lastScaleFactor);
             }
-            Log.i("tag", lastScaleFactor + "");
+            // Log.i("tag", lastScaleFactor + "");
             return true;
         }
 
@@ -141,6 +143,7 @@ public class QSImageView extends RelativeLayout {
                 setChecked(true);
                 lastX = event.getRawX();
                 lastY = event.getRawY();
+                startTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (!isMoveable()) {
@@ -182,6 +185,12 @@ public class QSImageView extends RelativeLayout {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                endTime = System.currentTimeMillis();
+//                Log.e("test_i", "time --> " + (endTime - startTime));
+//                if (endTime - startTime > 100) {
+//                    Log.e("test_i", "************************");
+//
+//                }
             case MotionEvent.ACTION_CANCEL:
                 goneDelBtn(1000);
                 break;
@@ -210,7 +219,7 @@ public class QSImageView extends RelativeLayout {
     }
 
     public void scaleTo(float scale) {
-        goneDelBtn();
+        goneDelBtn("");
         setScaleX(scale);
         setScaleY(scale);
         lastScaleFactor = scale;
@@ -301,7 +310,7 @@ public class QSImageView extends RelativeLayout {
                 (int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()));
         btnParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        btnParams.setMargins(2,2,2,2);
+        btnParams.setMargins(2, 2, 2, 2);
         delBtn.setLayoutParams(btnParams);
         delBtn.setOnClickListener(onDelClickListener);
         this.addView(delBtn);
@@ -328,8 +337,19 @@ public class QSImageView extends RelativeLayout {
     }
 
     public void goneDelBtn() {
-        if (null != delBtn)
+        if (null != delBtn) {
+            if (endTime - startTime > 100) {
+                QSImageView.this.removeView(delBtn);
+                endTime = 0;
+                startTime = 0;
+            }
+        }
+    }
+
+    public void goneDelBtn(String sace) {
+        if (null != delBtn) {
             QSImageView.this.removeView(delBtn);
+        }
     }
 
     public boolean isMoveable() {

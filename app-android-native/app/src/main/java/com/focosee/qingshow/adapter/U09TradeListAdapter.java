@@ -157,9 +157,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
             });
 
             //new discount
-            if (null == trade.itemSnapshot) return;
-            if (null == trade.itemSnapshot.expectable) return;
-            if (trade.itemSnapshot.expectable.expired) {
+            if (null == trade.itemRef) return;
+            if (null == trade.itemRef.expectable) return;
+            if (trade.itemRef.expectable.expired) {
                 if(UnreadHelper.hasMyNotificationId(trade._id)){
                     UnreadHelper.userReadNotificationId(trade._id);
                 }

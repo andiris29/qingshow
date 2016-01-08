@@ -303,7 +303,7 @@ public class S20MatcherActivity extends BaseActivity {
 
                 for (MongoCategories category : modelCategories) {
 
-                    if (datas._id.equals(category._id)){
+                    if (datas.categoryRef._id.equals(category._id)){
                         enforceRemix(datas);
                     }
                 }
@@ -395,7 +395,7 @@ public class S20MatcherActivity extends BaseActivity {
                 }
 
                 for (MongoCategories category : modelCategories) {
-                    if (datas.get(0)._id.equals(category._id)){
+                    if (datas.get(0).categoryRef._id.equals(category._id)){
                         enforceRemix(datas.get(0));
                         return;
                     }
