@@ -194,7 +194,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                 btn2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("test_i","------------> ");
                         //push guide
                         UnreadHelper.userReadNotificationId(trade._id);
 
@@ -202,7 +201,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> {
                         if (null != trade.logistic) {
                             msg = "物流公司：" + trade.logistic.company + "\n物流单号：" + (trade.logistic.trackingId == null ? "" : trade.logistic.trackingId);
                         }
-                        Log.e("test_i","------------> "+msg);
                         final ConfirmDialog dialog = new ConfirmDialog(context);
                         dialog.setTitle(msg);
                         dialog.setConfirm(new View.OnClickListener() {

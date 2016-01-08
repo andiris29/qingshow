@@ -125,7 +125,7 @@ public class U19LoginGuideActivity extends BaseActivity implements View.OnClickL
         req.state = "qingshow_wxlogin";
         wxApi.sendReq(req);
 
-        dialogs.show();
+      //  dialogs.show();
     }
 
     @Override

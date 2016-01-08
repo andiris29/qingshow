@@ -39,6 +39,7 @@ import com.focosee.qingshow.model.vo.aggregation.BonusAmount;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.DialogUtils;
 import com.focosee.qingshow.util.ShareUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.ToastUtil;
@@ -216,7 +217,17 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
                 SharedPreferences preferences = QSApplication.instance().getPreferences();
                 String url = preferences.getString("faq","");
                 if(!TextUtils.isEmpty(url)) {
+                    DialogUtils.ShowDialog(U15BonusActivity.this, getResources().getString(R.string.u15_qa), url, new DialogUtils.DialogClickListener() {
+                        @Override
+                        public void confirm() {
 
+                        }
+
+                        @Override
+                        public void cancel() {
+
+                        }
+                    });
                 }else {
                     Log.e("test_" ,"faq --> "+"null");
             }

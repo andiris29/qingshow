@@ -11,8 +11,8 @@ import java.util.List;
 public class MongoItem implements Serializable {
 
     public String _id;
-    //public MongoCategories categoryRef;
-    public String categoryRef;
+    public MongoCategories categoryRef;
+   // public String categoryRef;
     public String name;
     public String source;
     public String thumbnail;
