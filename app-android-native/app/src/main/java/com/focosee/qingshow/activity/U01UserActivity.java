@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -108,6 +109,8 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     TextView userFansText;
     @InjectView(R.id.user_head)
     SimpleDraweeView userHead;
+    @InjectView(R.id.iv_rank_gold)
+    ImageView ivRank;
     @InjectView(R.id.user_nav_btn)
     ImageView userNavBtn;
     @InjectView(R.id.circle_tip)
@@ -277,6 +280,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(uId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.e("test_i","response --> "+response.toString());
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
                     return;
@@ -315,6 +319,11 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         }
         userBonuses.setText(getString(R.string.get_bonuses_label) + StringUtil.FormatPrice(totalBonuses));
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
+        if("0".equals(user.rank)){
+            ivRank.setVisibility(View.VISIBLE);
+        }else {
+            ivRank.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(user.portrait)){
             userHead.setImageURI(Uri.parse(user.portrait));
         }else {

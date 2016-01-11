@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    card_view:cardUseCompatPadding="true"
-    android:background="@null"
-    tools:context="com.focosee.qingshow.activity.S01MatchShowsActivity">
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    card_view:cardUseCompatPadding="true"
+                                    tools:context="com.focosee.qingshow.activity.S01MatchShowsActivity">
 
 
-    <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/item_s01_matchlist_layout"
-        android:layout_width="match_parent"
-        android:layout_height="360dp"
-        android:background="@color/white">
+    <android.support.percent.PercentRelativeLayout android:id="@+id/item_s01_matchlist_layout"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="360dp"
+                                                   android:background="@color/white">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_s01_img"
@@ -26,20 +26,20 @@
             app:layout_marginTopPercent="15%"
             app:layout_widthPercent="93%"
             fresco:actualImageScaleType="fitCenter"
-             />
+            />
         <!-- fresco:placeholderImage="@drawable/root_cell_placehold_image1"-->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_s01_preground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="47dp"
-            fresco:actualImageScaleType="fitXY" />
+            fresco:actualImageScaleType="fitXY"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_above="@+id/item_s01_bottom_layout"
-            android:background="@color/gray_background" />
+            android:background="@color/gray_background"/>
 
         <LinearLayout
             android:id="@+id/item_s01_bottom_layout"
@@ -48,16 +48,36 @@
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
             <!--TODO 头像与字齐平-->
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/item_s01_head_img"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                fresco:placeholderImage="@drawable/root_cell_placehold_head"
-                fresco:roundAsCircle="true" />
+
+
+            <RelativeLayout
+                android:id="@+id/rl_urse_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                >
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/item_s01_head_img"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    fresco:placeholderImage="@drawable/root_cell_placehold_head"
+                    fresco:roundAsCircle="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_rank_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/gold_wangguan"
+                    android:visibility="gone"
+                    />
+
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -74,7 +94,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/darker_gray"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@+id/item_s01_clock"
@@ -83,7 +103,7 @@
                     android:layout_below="@+id/item_s01_nikename"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/gray_clock" />
+                    android:src="@drawable/gray_clock"/>
 
                 <com.focosee.qingshow.widget.QSTextView
                     android:id="@+id/item_s01_time"
@@ -93,7 +113,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/item_s01_clock"
                     android:textColor="@color/darker_gray"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@+id/item_s01_favor_image"
@@ -101,19 +121,19 @@
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/eye" />
+                    android:src="@drawable/eye"/>
 
                 <com.focosee.qingshow.widget.QSTextView
                     android:id="@+id/item_s01_likeNum"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/item_s01_time"
                     android:layout_alignLeft="@+id/item_s01_favor_image"
                     android:layout_below="@+id/item_s01_favor_image"
-                    android:layout_alignBottom="@+id/item_s01_time"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="@color/darker_gray"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"/>
             </RelativeLayout>
         </LinearLayout>
     </android.support.percent.PercentRelativeLayout>

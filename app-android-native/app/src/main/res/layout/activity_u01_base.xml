@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout android:id="@+id/container"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fresco="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/context"
@@ -14,7 +14,7 @@
             android:id="@+id/user_viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:id="@+id/user_head_layout"
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 fresco:placeholderImage="@drawable/user_background_default"
-                fresco:placeholderImageScaleType="fitXY" />
+                fresco:placeholderImageScaleType="fitXY"/>
 
             <ImageButton
                 android:id="@+id/user_nav_btn"
@@ -40,22 +40,22 @@
                 android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/menu_gray"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/u01_setting"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:scaleType="fitCenter"
                 android:padding="10dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/u01_setting_btn"
                 />
 
-            <include layout="@layout/item_u01_header" />
+            <include layout="@layout/item_u01_header"/>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -70,5 +70,5 @@
         android:background="@null"
         android:scaleType="fitCenter"
         android:src="@drawable/back_top"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 </FrameLayout>
