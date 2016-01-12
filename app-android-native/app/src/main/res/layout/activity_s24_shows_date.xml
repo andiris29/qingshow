@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.focosee.qingshow.activity.S24ShowsDateActivity"
-    android:background="@android:color/white">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                tools:context="com.focosee.qingshow.activity.S24ShowsDateActivity"
+                android:background="@android:color/white">
 
     <RelativeLayout
         android:id="@+id/s24_tab"
@@ -44,4 +45,14 @@
             android:background="@android:color/white"
              />
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+    <ImageView
+        android:id="@+id/iv_new_or_hot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/match"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        />
 </RelativeLayout>

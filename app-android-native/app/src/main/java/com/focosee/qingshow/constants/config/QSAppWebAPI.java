@@ -53,7 +53,6 @@ public class QSAppWebAPI {
     private static String TRADE_REFRESH = "/trade/refreshPaymentStatus";
 
     private static String TRADE_GET_RETURNRECEIVER = "/trade/getReturnReceiver";
-    private static String TOP_API = "/feeding/hot";
     private static String BYDATE_API = "/feeding/byRecommendDate";
 
     private static String SPREAD_FIRSTLANUCH_API = "/spread/firstLaunch";
@@ -121,7 +120,7 @@ public class QSAppWebAPI {
 
     private static String REMIX_BY_ITEM = "/matcher/remixByItem";
     private static final String FEEDING_TIME = "/feeding/time";
-
+    private static String TOP_API = "/feeding/hot";
     private static String QUERY_BUYERS = "/people/queryBuyers";
 
     private static String GETCONFIG = "/system/getConfig";
@@ -314,6 +313,9 @@ public class QSAppWebAPI {
     public static String getFeedingTimeApi(int pageNo, int pageSize, String from, String to) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_TIME + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
     }
+    public static String getTopApi(int pageNo, int pageSize, String from, String to) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TOP_API+ "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
+    }
 
     public static String getQueryCategories() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_CATEGORIES;
@@ -329,9 +331,7 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + BYDATE_API + "?date=" + date;
     }
 
-    public static String getTopApi() {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TOP_API;
-    }
+
 
     public static String getFeedingRecommendationApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_RECOMMENDATION_API;

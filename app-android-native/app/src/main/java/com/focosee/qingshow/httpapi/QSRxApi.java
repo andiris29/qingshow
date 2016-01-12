@@ -76,6 +76,20 @@ public class QSRxApi {
                 });
     }
 
+    public static Observable<List<MongoShow>> feedingHot(int pageNo, int pageSize, String from, String to){
+        Map<String, Object> reqData = new HashMap<String, Object>();
+        reqData.put("from", from);
+        reqData.put("to", to);
+
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getTopApi(pageNo, pageSize, from, to), null)
+                .map(new Func1<JSONObject, List<MongoShow>>() {
+                    @Override
+                    public List<MongoShow> call(JSONObject jsonObject) {
+                        return ShowParser.parseQuery(jsonObject);
+                    }
+                });
+    }
+
     public static Observable<List<MongoTrade>> tradeOwn(int pageNo, int pageSize){
         return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getTradeOwn(pageNo, pageSize), null)
             .map(new Func1<JSONObject, List<MongoTrade>>() {

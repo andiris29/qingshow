@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
@@ -25,7 +26,7 @@ import butterknife.InjectView;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
-public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate {
+public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayout.BGARefreshLayoutDelegate ,View.OnClickListener{
 
 
     @InjectView(R.id.s24_rv)
@@ -34,6 +35,9 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
     TextView timeTv;
     @InjectView(R.id.s24_refresh)
     BGARefreshLayout refresh;
+
+    @InjectView(R.id.iv_new_or_hot)
+    private ImageView ivNewOrHot;
 
     public static String MATCH_NEW_FROM = "MATCH_NEW_FROM";
     public static String MATCH_NEW_TO = "MATCH_NEW_TO";
@@ -44,6 +48,7 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
     private GregorianCalendar from;
     private GregorianCalendar to;
     private boolean chouldLoadMore;
+    private boolean isHot = true;
 
     @Override
     public void reconn() {
@@ -55,6 +60,7 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s24_shows_date);
         ButterKnife.inject(this);
+        ivNewOrHot.setOnClickListener(this);
         from = (GregorianCalendar) getIntent().getSerializableExtra(MATCH_NEW_FROM);
         to = (GregorianCalendar) getIntent().getSerializableExtra(MATCH_NEW_TO);
         String title = getIntent().getExtras().getString("title");
@@ -86,8 +92,46 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
         //mRefreshLayout.setIsShowLoadingMoreView(false);
     }
 
+    /**
+     * 时间网络数据
+     * @param pageNo
+     * @param pageSize
+     * @param from
+     * @param to
+     */
     private void bindDataFromNet(int pageNo, final int pageSize, GregorianCalendar from, GregorianCalendar to) {
         QSRxApi.feedingTime(pageNo, pageSize, TimeUtil.formatTime(from), TimeUtil.formatTime(to))
+                .subscribe(new QSSubscriber<List<MongoShow>>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S24ShowsDateActivity.this, message);
+                    }
+
+                    @Override
+                    public void onNext(List<MongoShow> mongoShows) {
+                        if (mongoShows.size() < pageSize) {
+                            chouldLoadMore = false;
+                        } else {
+                            chouldLoadMore = true;
+                        }
+                        mPageNo = 1;
+                        adapter.clearData();
+                        adapter.addDataAtTop(mongoShows);
+                        adapter.notifyDataSetChanged();
+                        refresh.endRefreshing();
+                    }
+                });
+    }
+
+    /**
+     * 热度网络数据
+     * @param pageNo
+     * @param pageSize
+     * @param from
+     * @param to
+     */
+    private void bindDataFromNetHot(int pageNo, final int pageSize, GregorianCalendar from, GregorianCalendar to) {
+        QSRxApi.feedingHot(pageNo, pageSize, TimeUtil.formatTime(from), TimeUtil.formatTime(to))
                 .subscribe(new QSSubscriber<List<MongoShow>>() {
                     @Override
                     public void onNetError(int message) {
@@ -144,5 +188,25 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
             loadMore(mPageNo, pageSize, from, to);
         }
         return chouldLoadMore;
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.iv_new_or_hot:
+                if (isHot){
+                    isHot = false;
+                    ivNewOrHot.setImageResource(R.drawable.match_pink);
+                }else {
+                    isHot = true;
+                    ivNewOrHot.setImageResource(R.drawable.match);
+                }
+                break;
+        }
     }
 }
