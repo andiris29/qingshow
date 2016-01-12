@@ -134,7 +134,6 @@ feeding.time = {
             function(callback) {
                 var criteria = _buildFeaturedCriteria(req);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'sticky' : -1,
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
             }], callback);
@@ -182,7 +181,6 @@ feeding.hot = {
             function(callback) {
                 var criteria = _buildFeaturedCriteria(req);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
-                    'sticky' : -1,
                     'numView' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
             }], callback);
@@ -192,6 +190,7 @@ feeding.hot = {
 
 var _buildFeaturedCriteria = function(req) {
     var criteria = [
+        {'sticky' : {'$ne' : true}}
     ];
     if (req.queryString.from) {
         criteria.push({'create' : {'$gte' : RequestHelper.parseDate(req.queryString.from)}});
