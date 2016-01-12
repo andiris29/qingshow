@@ -38,6 +38,7 @@
     <string name="others_activity_settings">其他</string>
     <string name="change_password_activity_settings">更改密码</string>
     <string name="bonus_activity_settings">佣金账户</string>
+    <string name="bonus_shouyi">收益账户</string>
     <string name="change_email_activity_settings">更改邮件地址</string>
     <string name="inform_activity_settings">通知设定</string>
     <string name="rules_activity_settings">使用条例</string>
@@ -244,7 +245,7 @@
     <string name="u15_hint_edit">请输入支付宝账号</string>
     <string name="u15_hint">*分享微信朋友圈完成提现后，系统自动将佣金通过微信红包发送给您，请注意服务通知/ba</string>
     <string name="u15_btn_text">朋友圈分享提现</string>
-    <string name="u15_title_right_btn">佣金明细</string>
+    <string name="u15_title_right_btn">收益明细</string>
     <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>
     <string name="title_activity_t01_highlighted_trade_list">T01HighlightedTradeListActivity</string>
 
@@ -284,7 +285,7 @@
     <string name="title_activity_s23_search">S23SearchActivity</string>
     <string name="top_list_title">TOP LIST</string>
     <string name="withdraw">可提现金额</string>
-    <string name="total_bonus">佣金总额</string>
+    <string name="total_bonus">收益总额</string>
     <string name="u15_packet_hint">购物新时尚，天猫折上折，倾秀来搞定!</string>
     <string name="u15_qa"><![CDATA[常见问题Q&A]]></string>
 

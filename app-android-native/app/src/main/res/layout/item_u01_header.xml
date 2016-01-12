@@ -76,11 +76,11 @@
     <ImageView
         android:id="@+id/user_follow_btn"
         android:layout_width="65dp"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@id/rl_urse_head"
+        android:layout_height="25dp"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_below="@id/bg"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/follow_btn"/>
 
     <TextView

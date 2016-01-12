@@ -155,9 +155,13 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
             mySelf();
+            setting.setVisibility(View.VISIBLE);
+            bonus.setVisibility(View.VISIBLE);
         } else {
             isMyself = false;
             others();
+            setting.setVisibility(View.GONE);
+            bonus.setVisibility(View.GONE);
         }
         eventBus = EventBus.getDefault();
         eventBus.register(this);
@@ -167,6 +171,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         userViewPager.setOffscreenPageLimit(5);
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
+
 
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +220,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
 
     private void others() {
         userNavBtn.setVisibility(View.VISIBLE);
-        userNavBtn.setImageResource(R.drawable.back_gray);
+        userNavBtn.setImageResource(R.drawable.s10_back);
         userNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

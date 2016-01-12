@@ -80,6 +80,18 @@ public class QSImageView extends RelativeLayout {
                 , (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()), (int) AppUtil.transformToDip(padding / lastScaleFactor, getContext()));
         addView(imageView);
 
+        delBtn = new ImageView(getContext());
+        delBtn.setBackgroundResource(R.drawable.canvas_del);
+        LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()),
+                (int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()));
+        btnParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        btnParams.setMargins(2, 2, 2, 2);
+        delBtn.setLayoutParams(btnParams);
+        delBtn.setVisibility(View.GONE);
+        delBtn.setOnClickListener(onDelClickListener);
+        this.addView(delBtn);
+
     }
 
     public void setImage(Bitmap bitmap) {
@@ -87,12 +99,11 @@ public class QSImageView extends RelativeLayout {
     }
 
     double nLenStart = 0;
-    long startTime = 0;
-    long endTime = 0;
+    boolean isFlag = false;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!removeEnable) {
+        if (!removeEnable){
             setChecked(true);
             return true;
         }
@@ -121,7 +132,7 @@ public class QSImageView extends RelativeLayout {
             } else {
                 scaleTo(lastScaleFactor);
             }
-            // Log.i("tag", lastScaleFactor + "");
+          //  Log.i("tag", lastScaleFactor + "");
             return true;
         }
 
@@ -139,17 +150,22 @@ public class QSImageView extends RelativeLayout {
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
+                long startTime = 0 ;
                 showDelBtn();
                 setChecked(true);
                 lastX = event.getRawX();
                 lastY = event.getRawY();
-                startTime = System.currentTimeMillis();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isFlag = true;
+                    }
+                } , 1001);
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (!isMoveable()) {
                     return false;
                 }
-
                 if (pointerCount == 1) {
                     distanceX = lastX - event.getRawX();
                     distanceY = lastY - event.getRawY();
@@ -183,16 +199,12 @@ public class QSImageView extends RelativeLayout {
                     lastY = event.getRawY();
                     return true;
                 }
-                break;
             case MotionEvent.ACTION_UP:
-                endTime = System.currentTimeMillis();
-//                Log.e("test_i", "time --> " + (endTime - startTime));
-//                if (endTime - startTime > 100) {
-//                    Log.e("test_i", "************************");
-//
-//                }
             case MotionEvent.ACTION_CANCEL:
-                goneDelBtn(1000);
+                if (isFlag) {
+                    isFlag = false;
+                    goneDelBtn(1000);
+                }
                 break;
         }
         return true;
@@ -219,7 +231,7 @@ public class QSImageView extends RelativeLayout {
     }
 
     public void scaleTo(float scale) {
-        goneDelBtn("");
+        goneDelBtn();
         setScaleX(scale);
         setScaleY(scale);
         lastScaleFactor = scale;
@@ -251,7 +263,7 @@ public class QSImageView extends RelativeLayout {
     private void onCheckedChanged(boolean isCheck) {
         resetPadding();
         if (isCheck) {
-            goneDelBtn();
+           // goneDelBtn();
             this.setBackgroundResource(R.drawable.bg_canvas_item);
         } else {
             goneDelBtn();
@@ -303,25 +315,28 @@ public class QSImageView extends RelativeLayout {
     }
 
     public void showDelBtn() {
-        goneDelBtn();
-        delBtn = new ImageView(getContext());
-        delBtn.setBackgroundResource(R.drawable.canvas_del);
-        LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()),
-                (int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()));
-        btnParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        btnParams.setMargins(2, 2, 2, 2);
-        delBtn.setLayoutParams(btnParams);
-        delBtn.setOnClickListener(onDelClickListener);
-        this.addView(delBtn);
+        delBtn.setVisibility(View.VISIBLE);
+       // goneDelBtn();
+//        delBtn = new ImageView(getContext());
+//        delBtn.setBackgroundResource(R.drawable.canvas_del);
+//        LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()),
+//                (int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()));
+//        btnParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//        btnParams.setMargins(2,2,2,2);
+//        delBtn.setLayoutParams(btnParams);
+//        delBtn.setOnClickListener(onDelClickListener);
+//        this.addView(delBtn);
 
     }
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (null != delBtn)
-                QSImageView.this.removeView(delBtn);
+            if (null != delBtn){
+                delBtn.setVisibility(View.GONE);
+                // QSImageView.this.removeView(delBtn);
+            }
             return false;
         }
     });
@@ -337,18 +352,9 @@ public class QSImageView extends RelativeLayout {
     }
 
     public void goneDelBtn() {
-        if (null != delBtn) {
-            if (endTime - startTime > 100) {
-                QSImageView.this.removeView(delBtn);
-                endTime = 0;
-                startTime = 0;
-            }
-        }
-    }
-
-    public void goneDelBtn(String sace) {
-        if (null != delBtn) {
-            QSImageView.this.removeView(delBtn);
+        if (null != delBtn){
+            delBtn.setVisibility(View.GONE);
+            // QSImageView.this.removeView(delBtn);
         }
     }
 

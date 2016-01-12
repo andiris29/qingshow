@@ -115,7 +115,7 @@ public class U15BonusActivity extends BaseActivity implements View.OnClickListen
         btnU15.setOnClickListener(this);
         withDrawBtn.setOnClickListener(this);
         rightBtn.setVisibility(View.VISIBLE);
-        rightBtn.setText(getText(R.string.u15_title_right_btn));
+        rightBtn.setText(getText(R.string.bonus_shouyi));
         rightBtn.setOnClickListener(this);
         rightBtn.setTextColor(getResources().getColor(android.R.color.black));
         String hint = getString(R.string.u15_hint);

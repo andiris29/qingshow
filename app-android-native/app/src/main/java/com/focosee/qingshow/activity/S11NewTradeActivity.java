@@ -63,6 +63,7 @@ import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -114,6 +115,8 @@ public class S11NewTradeActivity extends BaseActivity {
     SimpleDraweeView ivLogo;
     @InjectView(R.id.s11_hint)
     TextView hint;
+    @InjectView(R.id.tv_s11_title)
+    TextView tvTitle;
 
     private MongoItem itemEntity;
     private MongoTrade trade;
@@ -332,7 +335,7 @@ public class S11NewTradeActivity extends BaseActivity {
     }
 
 
-    private void initDes(MongoItem itemEntity) {
+    private void initDes(MongoItem itemEntity)  {
 
         if( itemEntity != null){
             desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
@@ -345,8 +348,16 @@ public class S11NewTradeActivity extends BaseActivity {
             if (null != itemEntity.sourceInfo) {
                 ivLogo.setImageURI(Uri.parse(itemEntity.sourceInfo.icon));
             }
-
-
+            Gson gson = new Gson();
+            String json = gson.toJson(itemEntity.shopRef);
+            try {
+                JSONObject obj = new JSONObject(json);
+                if (obj.has("nickname")){
+                    tvTitle.setText(obj.getString("nickname"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
         }
     }

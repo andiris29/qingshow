@@ -35,10 +35,6 @@
     <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false"/>
-
     <application
         android:name=".QSApplication"
         android:allowBackup="true"
@@ -144,13 +140,13 @@
         <activity
             android:name=".activity.U01UserActivity"
             android:configChanges="keyboardHidden|orientation"/>
+        <!--android:launchMode="singleTask"  向下  是U02SettingsActivity的-->
         <activity
             android:name=".activity.U02SettingsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_settings"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
         <activity
             android:name=".activity.S10ItemDetailActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -161,18 +157,18 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_register"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.U06LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_login"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
@@ -202,11 +198,12 @@
             android:label="@string/title_activity_u13_person"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged"/>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.U15BonusActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_u15_bonus"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
@@ -220,11 +217,11 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <!--android:launchMode="singleTop"-->
         <activity
             android:name=".activity.S04CommentActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s04_comment"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
         <activity
@@ -268,29 +265,33 @@
             android:label="@string/title_activity_g02_welcome"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.S21CategoryActivity"/>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.S20MatcherActivity"
-            android:launchMode="singleTask"
+
             android:screenOrientation="behind"/>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.S22MatchPreviewActivity"
-            android:launchMode="singleTask"/>
+            />
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:label="@string/title_activity_s01_match_shows"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <!--android:launchMode="singleTop"-->
         <activity
             android:name=".activity.PushWebActivity"
-            android:launchMode="singleTop"/>
+            />
         <activity
             android:name=".activity.CityActivity"
             android:label="@string/title_activity_city"
             android:screenOrientation="portrait"/>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.U16BonusListActivity"
             android:label="@string/title_activity_u16_bonus_list"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.T01HighlightedTradeListActivity"
@@ -308,34 +309,39 @@
             android:parentActivityName=".activity.U17ResetPasswordStep1Activity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.U19LoginGuideActivity"
             android:label="@string/title_activity_u06_login"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.U20NewBonus"
             android:label="@string/title_activity_u20_new_bonus"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.U21NewParticipantBonus"
             android:label="@string/title_activity_u21_new_participant_bonus"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.TradeNotifyActivity"
             android:label="@string/title_activity_trade_notify"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <!--android:launchMode="singleTask"-->
         <activity
             android:name=".activity.S23SearchActivity"
             android:label="@string/title_activity_s23_search"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.S24ShowsDateActivity"/>
 
@@ -356,5 +362,9 @@
 
 
     </application>
+
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
 
 </manifest>

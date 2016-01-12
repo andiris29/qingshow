@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,7 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
     BGARefreshLayout refresh;
 
     @InjectView(R.id.iv_new_or_hot)
-    private ImageView ivNewOrHot;
+    ImageView ivNewOrHot;
 
     public static String MATCH_NEW_FROM = "MATCH_NEW_FROM";
     public static String MATCH_NEW_TO = "MATCH_NEW_TO";
@@ -47,8 +48,10 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
     private int pageSize = 30;
     private GregorianCalendar from;
     private GregorianCalendar to;
+    private int type = 0;
     private boolean chouldLoadMore;
     private boolean isHot = true;
+
 
     @Override
     public void reconn() {
@@ -63,6 +66,8 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
         ivNewOrHot.setOnClickListener(this);
         from = (GregorianCalendar) getIntent().getSerializableExtra(MATCH_NEW_FROM);
         to = (GregorianCalendar) getIntent().getSerializableExtra(MATCH_NEW_TO);
+        //是从哪个类跳过来的   这里只有 S22MatchPreviewActivity
+        type = (int)getIntent().getSerializableExtra("type");
         String title = getIntent().getExtras().getString("title");
         String time = TimeUtil.formatDateTime_CN_Pre(from);
         timeTv.setText(title);
@@ -73,6 +78,10 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
         findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (type == 1) {
+                    Intent intent = new Intent(context , S01MatchShowsActivity.class);
+                    startActivity(intent);
+                }
                 S24ShowsDateActivity.this.finish();
             }
         });
@@ -140,9 +149,9 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
 
                     @Override
                     public void onNext(List<MongoShow> mongoShows) {
-                        if (mongoShows.size() < pageSize){
+                        if (mongoShows.size() < pageSize) {
                             chouldLoadMore = false;
-                        }else {
+                        } else {
                             chouldLoadMore = true;
                         }
                         mPageNo = 1;
@@ -176,16 +185,48 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
                     }
                 });
     }
+    private void loadMoreHot(final int pageNo, final int pageSize, GregorianCalendar from, GregorianCalendar to) {
+        QSRxApi.feedingHot(pageNo, pageSize, TimeUtil.formatTime(from), TimeUtil.formatTime(to))
+                .subscribe(new QSSubscriber<List<MongoShow>>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(S24ShowsDateActivity.this, message);
+                    }
+
+                    @Override
+                    public void onNext(List<MongoShow> mongoShows) {
+                        if (mongoShows.size() < pageSize){
+                            chouldLoadMore = false;
+                        }else {
+                            chouldLoadMore = true;
+                        }
+                        mPageNo++;
+                        adapter.addDataAtLast(mongoShows);
+                        adapter.notifyDataSetChanged();
+                        refresh.endLoadingMore();
+                    }
+                });
+    }
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-        bindDataFromNet(mPageNo, pageSize, from, to);
+        if (isHot){
+            bindDataFromNet(mPageNo, pageSize, from, to);
+        }else {
+            bindDataFromNetHot(mPageNo, pageSize, from, to);
+        }
+
     }
 
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         if (chouldLoadMore){
-            loadMore(mPageNo, pageSize, from, to);
+            if (isHot){
+                loadMore(mPageNo, pageSize, from, to);
+            }else {
+                loadMoreHot(mPageNo, pageSize, from, to);
+            }
+
         }
         return chouldLoadMore;
     }
@@ -197,14 +238,17 @@ public class S24ShowsDateActivity extends BaseActivity implements BGARefreshLayo
      */
     @Override
     public void onClick(View v) {
+        mPageNo = 1;
         switch (v.getId()){
             case R.id.iv_new_or_hot:
                 if (isHot){
                     isHot = false;
-                    ivNewOrHot.setImageResource(R.drawable.match_pink);
+                    ivNewOrHot.setImageResource(R.drawable.s24_new_btn2x);
+                    bindDataFromNetHot(1, pageSize, from, to);
                 }else {
                     isHot = true;
-                    ivNewOrHot.setImageResource(R.drawable.match);
+                    ivNewOrHot.setImageResource(R.drawable.s24_hot_btn2x);
+                    bindDataFromNet(1, pageSize, from, to);
                 }
                 break;
         }

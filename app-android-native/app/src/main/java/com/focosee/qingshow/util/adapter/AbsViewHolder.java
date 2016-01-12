@@ -3,6 +3,7 @@ package com.focosee.qingshow.util.adapter;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +16,7 @@ import com.focosee.qingshow.util.ImgUtil;
 /**
  * Created by Administrator on 2015/4/23.
  */
-public class AbsViewHolder extends RecyclerView.ViewHolder {
+public class AbsViewHolder extends RecyclerView.ViewHolder  {
 
     private SparseArray<View> views;
     private View itemView;
@@ -128,4 +129,5 @@ public class AbsViewHolder extends RecyclerView.ViewHolder {
         }
         return this;
     }
+
 }

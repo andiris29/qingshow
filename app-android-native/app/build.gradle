@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.focosee.qingshow"
         minSdkVersion 15
-        targetSdkVersion 15
+        targetSdkVersion 23
         versionCode 102
         versionName "2.2.0"
     }

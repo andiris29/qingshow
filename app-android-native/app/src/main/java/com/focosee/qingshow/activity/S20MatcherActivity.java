@@ -114,10 +114,10 @@ public class S20MatcherActivity extends BaseActivity {
         setContentView(R.layout.activity_s20_matcher);
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
-        allSelect = new HashMap<>();
-        categoryRefs = new ArrayList<>();
-        lastCategoryRefs = new ArrayList<>();
-        modelCategories = new ArrayList<>();
+        allSelect = new HashMap<String, Select>();
+        categoryRefs = new ArrayList<String>();
+        lastCategoryRefs = new ArrayList<String>();
+        modelCategories = new ArrayList<MongoCategories>();
 
         if (!QSModel.INSTANCE.isFinished(MongoPeople.MATCH_FINISHED)) {
             s20GuideImageview.setVisibility(View.VISIBLE);
@@ -291,7 +291,7 @@ public class S20MatcherActivity extends BaseActivity {
 
 
     private void initSelectRV() {
-        datas = new LinkedList<>();
+        datas = new LinkedList<MongoItem>();
         adapter = new S20SelectAdapter(datas, this, R.layout.item_s20_select);
         allSelect.containsKey(mCategoryRef);
         adapter.setOnCheckedChangeListener(new S20SelectAdapter.OnCheckedChangeListener() {

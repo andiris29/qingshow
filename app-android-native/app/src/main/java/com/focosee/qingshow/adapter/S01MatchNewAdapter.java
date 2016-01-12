@@ -93,15 +93,24 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregationLatest>{
         final int from;
 
         String timeTemplate = "S:00~E:00";
-
+        String month = "";
+        if (calendar.get(Calendar.MONTH)+1 < 10){
+            month ="0"+(calendar.get(Calendar.MONTH)+1);
+        }else {
+            month = (calendar.get(Calendar.MONTH)+1)+"";
+        }
         if (key < 0){
             from = 24 + key;
-            holder.setText(R.id.day,  (calendar.get(Calendar.DAY_OF_MONTH) - 1) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
+          //  holder.setText(R.id.day,  (calendar.get(Calendar.DAY_OF_MONTH) - 1) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
+
+            holder.setText(R.id.day,  calendar.get(Calendar.YEAR)+"."+month+ "." +(calendar.get(Calendar.DAY_OF_MONTH) - 1));
 
         }else {
             from = key;
-            holder.setText(R.id.day,  "TODAY | " + calendar.get(Calendar.DAY_OF_MONTH) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
+           // holder.setText(R.id.day,  "TODAY | " + calendar.get(Calendar.DAY_OF_MONTH) + "." +  TimeUtil.formatManthInfo(calendar.get(Calendar.MONTH)));
+            holder.setText(R.id.day,  calendar.get(Calendar.YEAR)+"."+month + "." +calendar.get(Calendar.DAY_OF_MONTH));
         }
+
         final int to = from + 1;
 
         holder.setText(R.id.time, timeTemplate.replace("S", from + "").replace("E", to + ""));
@@ -119,7 +128,7 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregationLatest>{
         }
 
         // top owner
-        holder.setText(R.id.num_owners, data.numOwners + "");
+        holder.setText(R.id.num_owners, "+"+data.numOwners);
         RecyclerView portraits = holder.getView(R.id.top_owner);
         portraits.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         portraits.setAdapter(new TopOwnerAdapter(data.topOwners, context, R.layout.item_portrait));
@@ -154,6 +163,7 @@ public class S01MatchNewAdapter extends AbsAdapter<FeedingAggregationLatest>{
                             intent.putExtra("MATCH_NEW_TO", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) - 1, to, 0));
                         }
                             intent.putExtra("title",from+":00");
+                        intent.putExtra("type" ,0);
                         context.startActivity(intent);
                         break;
                 }

@@ -100,7 +100,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s20_preview);
         ButterKnife.inject(this);
-        dialog = new LoadingDialogs(S22MatchPreviewActivity.this, R.style.dialog);
+        dialog = new LoadingDialogs(this, R.style.dialog);
         dialog.setCanceledOnTouchOutside(false);
         innerItemRefs = getIntent().getStringArrayListExtra(S20MatcherActivity.S20_ITEMREFS);
         innerItemRects = getIntent().getParcelableArrayListExtra(S20MatcherActivity.S20_ITEMRECTS);
@@ -228,15 +228,19 @@ public class S22MatchPreviewActivity extends BaseActivity {
                 }
                 show = ShowParser.parse(response);
                 allowClick();
-                Intent intent = new Intent(S22MatchPreviewActivity.this, S24ShowsDateActivity.class);
-                GregorianCalendar calendar = new GregorianCalendar();
-                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_TO,
-                        new GregorianCalendar(calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH),
-                        calendar.get(Calendar.HOUR_OF_DAY) + 1, 0));
-                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_FROM, calendar);
-                S22MatchPreviewActivity.this.startActivity(intent);
+//                Intent intent = new Intent(S22MatchPreviewActivity.this, S24ShowsDateActivity.class);
+//                GregorianCalendar calendar = new GregorianCalendar();
+//                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_TO,
+//                        new GregorianCalendar(calendar.get(Calendar.YEAR),
+//                                calendar.get(Calendar.MONTH),
+//                                calendar.get(Calendar.DAY_OF_MONTH),
+//                                calendar.get(Calendar.HOUR_OF_DAY) + 1, 0));
+//                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_FROM, calendar);
+//                calendar.get(Calendar.HOUR_OF_DAY);
+//                //from=2016-01-12T17:52:33%2B0800    &to=2016-01-12T18:00:00%2B0800
+              //  S22MatchPreviewActivity.this.startActivity(intent);
+                jump();
+                appManager.finishActivity(S20MatcherActivity.class);
                 S22MatchPreviewActivity.this.finish();
             }
         }, new QSResponseErrorListener() {
@@ -252,6 +256,17 @@ public class S22MatchPreviewActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 
+    private void jump() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        Intent intent = new Intent(S22MatchPreviewActivity.this, S24ShowsDateActivity.class);
+        intent.putExtra("MATCH_NEW_FROM", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY), 0));
+        intent.putExtra("MATCH_NEW_TO", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), (calendar.get(Calendar.HOUR_OF_DAY)+1), 0));
+        intent.putExtra("title",  calendar.get(Calendar.HOUR_OF_DAY)+":00");
+        //是从哪个类跳过去的
+        intent.putExtra("type", 1);
+        this.startActivity(intent);
+    }
+
     @Override
     protected void onDestroy() {
         if (null != bitmap) {
@@ -259,7 +274,6 @@ public class S22MatchPreviewActivity extends BaseActivity {
                 bitmap.recycle();
             }
         }
-
         super.onDestroy();
     }
 

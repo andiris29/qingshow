@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -13,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.alipay.sdk.util.LogUtils;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -27,7 +27,6 @@ import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
-import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
 import com.focosee.qingshow.util.ToastUtil;
@@ -44,7 +43,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -80,6 +78,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     private S01MatchNewAdapter matchNewAdapter;
 
     private MenuView menuView;
+    private int mScrollThreshold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,13 +105,38 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
             }
         });
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            /**
+             * Callback method to be invoked when the RecyclerView has been scrolled. This will be
+             * called after the scroll has completed.
+             * <p/>
+             * This callback will also be called if visible item range changes after a layout
+             * calculation. In that case, dx and dy will be 0.
+             *
+             * @param recyclerView The RecyclerView which scrolled.
+             * @param dx           The amount of horizontal scroll.
+             * @param dy           The amount of vertical scroll.
+             */
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                boolean isSignificantDelta = Math.abs(dy) > mScrollThreshold;
+                if (isSignificantDelta) {
+                    if (dy > 0) {
+                        timeBtn.setVisibility(View.GONE);
+                    } else {
+                        timeBtn.setVisibility(View.VISIBLE);
+                    }
+                }
+
+            }
+        });
         recyclerView.setHasFixedSize(true);
         matchNewAdapter = new S01MatchNewAdapter(new LinkedList<FeedingAggregationLatest>(), this, R.layout.item_matchnew);
         recyclerView.setAdapter(matchNewAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(matchNewAdapter);
-
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
 
@@ -173,6 +197,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         intent.putExtra("MATCH_NEW_FROM", from);
         intent.putExtra("MATCH_NEW_TO", to);
         intent.putExtra("title", data);
+        intent.putExtra("type" ,0);
         this.startActivity(intent);
     }
 
@@ -281,6 +306,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     @Override
     public void onResume() {
         super.onResume();
+        appManager.popAllActivityExceptOne(S01MatchShowsActivity.class);
         MobclickAgent.onResume(this);
         if (UnreadHelper.hasUnread()) {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);

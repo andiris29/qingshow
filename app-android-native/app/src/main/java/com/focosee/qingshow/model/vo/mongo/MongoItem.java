@@ -1,5 +1,7 @@
 package com.focosee.qingshow.model.vo.mongo;
 
+import android.content.Intent;
+
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -31,6 +33,8 @@ public class MongoItem implements Serializable {
     public Number minExpectedPrice;
     public SourceInfo sourceInfo;
     public Number __v;
+   public Object shopRef;
+    //public List<Intent> rect;
 
 
     public class ReturnInfo implements Serializable {
@@ -55,8 +59,36 @@ public class MongoItem implements Serializable {
         public String  icon;  //http://trial01.focosee.com/img/item/source/tmall.jpg";
     }
 
-//    public  class ShopRef implements  Serializable{
-//
-//    }
+    public  class ShopRef implements  Serializable{
+        public GregorianCalendar update;
+        public  String _id;
+        public String nickname;
+        public  ShopInfo  shopInfo;
+        public String __v;
+        public Object expectations;
+        public String role;
+        public Object unreadNotifications;
+        public UserInfo userInfo;
+        public GregorianCalendar create;
+        public Object receivers;
+    }
+    public class ShopInfo implements Serializable{
+        public Object taobao;
+    }
+    public class UserInfo implements Serializable {
+        public String id;
+        public String password;
+        public String encryptedPassword;
+        public WeiXinInfo weixin;
+    }
+    public class WeiXinInfo implements Serializable{
+        public String unionid;
+        public String headimgurl;
+        public String country;
+        public String province;
+        public String nickname;
+        public String openid;
+
+    }
 
 }

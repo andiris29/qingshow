@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="com.focosee.qingshow.activity.S24ShowsDateActivity"
-                android:background="@android:color/white">
+                android:background="@android:color/white"
+                tools:context="com.focosee.qingshow.activity.S24ShowsDateActivity">
 
     <RelativeLayout
         android:id="@+id/s24_tab"
@@ -19,7 +19,7 @@
             android:background="@null"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/nav_btn_back" />
+            android:src="@drawable/nav_btn_back"/>
 
         <TextView
             android:id="@+id/s24_time"
@@ -29,11 +29,13 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
             android:text="01.Nov 2015"
-            android:textSize="18dp" />
+            android:textSize="18dp"/>
     </RelativeLayout>
 
-    <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
         android:id="@+id/s24_refresh"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/s24_tab">
@@ -43,16 +45,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-             />
+            />
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+
     <ImageView
         android:id="@+id/iv_new_or_hot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/match"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
+        android:src="@drawable/s24_hot_btn2x"
         />
+
 </RelativeLayout>
