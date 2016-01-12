@@ -105,7 +105,12 @@
     
     self.itemDict = itemDict;
     
-    NSString* str = [QSItemUtil getSkuProperties:itemDict][self.infoIndex];
+    
+    NSArray* array = [QSItemUtil getSkuProperties:itemDict];
+    NSString* str = nil;
+    if (array.count > self.infoIndex) {
+        str = array[self.infoIndex];
+    }
     NSArray* comps = [str componentsSeparatedByString:@":"];
     self.title = comps[0];
     self.compInfos = [comps subarrayWithRange:NSMakeRange(1, comps.count - 1)];

@@ -8,7 +8,6 @@
 
 #import "QSS23MatcherPreviewViewController.h"
 #import "QSNetworkKit.h"
-#import "QSS03ShowDetailViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"

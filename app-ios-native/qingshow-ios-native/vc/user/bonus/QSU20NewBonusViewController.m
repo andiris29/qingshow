@@ -76,7 +76,7 @@
 
 #pragma mark - IBAction
 - (IBAction)withdrawBtnPressed:(id)sender {
-    [QSRootNotificationHelper postHideNewParticipantBonusVcNoti];
+    [QSRootNotificationHelper postHideNewBonusVcNoti];
     [QSRootNotificationHelper postShowBonusListVcNotificationName];
 }
 

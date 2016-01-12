@@ -18,7 +18,7 @@ peopleSchema = Schema({
         type : Number,
         'default' : 0
     },
-    initiatorRef : {
+    invitorRef : {
         type : Schema.Types.ObjectId,
         ref : 'peoples'
     },
@@ -41,8 +41,7 @@ peopleSchema = Schema({
         },
         passwordUpdatedDate : {
             type : Date,
-            select : false,
-            'default' : Date.now
+            select : false
         },
         weixin : {
             openid : String,

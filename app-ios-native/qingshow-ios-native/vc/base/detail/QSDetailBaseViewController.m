@@ -247,8 +247,7 @@
 #pragma mark - 
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
 {
-    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showShowDetailViewController:showDict];
 }
 
 - (void)didClickPeople:(NSDictionary *)peopleDict provider:(QSAbstractListViewProvider *)provider

@@ -17,7 +17,6 @@ itemSchema = Schema({
         message : String,
         expired : Boolean
     },
-    remix : Boolean,
     thumbnail : String,
     name : String,
     price: Number,
@@ -28,6 +27,7 @@ itemSchema = Schema({
     sourceInfo : {
         // taobao, tmall, jamy, hm
         domain : String,
+        icon : String,
         id : String
     },
     create : {

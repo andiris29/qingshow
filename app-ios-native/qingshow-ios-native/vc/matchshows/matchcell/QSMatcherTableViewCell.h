@@ -10,13 +10,12 @@
 
 
 #define QSMatcherTableViewCellId @"QSMatcherTableViewCellId"
-#define QSMatcherTableViewCellHeight 300.f
 
 @class QSMatcherTableViewCell;
 @protocol QSMatcherTableViewCellDelegate <NSObject>
 
 - (void)cell:(QSMatcherTableViewCell*)cell didClickUser:(NSDictionary*)dict;
-
+- (void)cell:(QSMatcherTableViewCell*)cell didClickStickyShow:(NSDictionary*)dict;
 @end
 
 @interface QSMatcherTableViewCell : UITableViewCell
@@ -33,8 +32,15 @@
 @property (weak, nonatomic) NSObject<QSMatcherTableViewCellDelegate>* delegate;
 @property (weak, nonatomic) IBOutlet UIImageView* rankImgView;
 
+@property (weak, nonatomic) IBOutlet UIImageView* stickyImageView;
+
 @property (weak, nonatomic) IBOutlet UIView* bottomContainer;
 
-- (void)bindWithDict:(NSDictionary*)dict;
+@property (strong, nonatomic) IBOutlet UIView* userHeadContainer;
+@property (strong, nonatomic) IBOutlet UIView* showContainer;
+@property (strong, nonatomic) IBOutlet UIView* stickyContainer;
+@property (strong, nonatomic) IBOutlet UIImageView* bottomContainerBackground;
 
+- (void)bindWithDict:(NSDictionary*)dict;
++ (CGFloat)getHeightWithDict:(NSDictionary*)dict;
 @end

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -30,13 +30,13 @@
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
                 <outlet property="modelNameLabel" destination="ZEr-7p-gCN" id="ZTs-fd-ik4"/>
                 <outlet property="pauseBtn" destination="DXm-AO-FLL" id="PLW-Vz-DQv"/>
-                <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
                 <outlet property="rankImgView" destination="Pzb-1e-rv4" id="jxq-0h-1bn"/>
                 <outlet property="releaseDateLabel" destination="BA9-v6-Qeh" id="UoE-IW-tkj"/>
                 <outlet property="scrollViewContainer" destination="Rzs-4O-hfv" id="pTH-la-QN4"/>
                 <outlet property="shareBtn" destination="1sR-pr-gUL" id="Z3n-9V-5n1"/>
                 <outlet property="trashBtn" destination="FTF-zf-f41" id="LWm-6O-hBY"/>
                 <outlet property="videoContainerView" destination="5Fn-9j-ahl" id="xg0-iQ-TbL"/>
+                <outlet property="videoIcon" destination="XLm-bg-5Ib" id="WaD-KI-dK8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -179,26 +179,20 @@
                         <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="273-Rx-Vd4"/>
                     </connections>
                 </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4rz-ET-nsL">
-                    <rect key="frame" x="267" y="455" width="38" height="38"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <state key="normal" image="s03_play_btn">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="fta-h5-T8J"/>
-                    </connections>
-                </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DXm-AO-FLL">
-                    <rect key="frame" x="267" y="455" width="38" height="38"/>
+                    <rect key="frame" x="237" y="435" width="65" height="65"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <state key="normal" image="s03_pause_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="Upi-BR-alS"/>
+                        <action selector="pauseBtnPressed:" destination="-1" eventType="touchUpInside" id="FAF-44-d8n"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s03_video_icon" id="XLm-bg-5Ib">
+                    <rect key="frame" x="260" y="26" width="46" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -211,9 +205,9 @@
         <image name="s03_comment_btn" width="32" height="32"/>
         <image name="s03_like_btnIcon" width="31" height="27"/>
         <image name="s03_model_shadow" width="320" height="92"/>
-        <image name="s03_pause_btn" width="38" height="38"/>
-        <image name="s03_play_btn" width="38" height="38"/>
+        <image name="s03_pause_btn" width="65" height="65"/>
         <image name="s03_share_btn" width="38" height="38"/>
+        <image name="s03_video_icon" width="46" height="30"/>
         <image name="s20_canvas_remove_white" width="38" height="38"/>
     </resources>
 </document>

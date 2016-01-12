@@ -14,5 +14,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView* backgroundImageView;
 
 + (instancetype)generateView;
-
+- (void)updateSize;
 @end

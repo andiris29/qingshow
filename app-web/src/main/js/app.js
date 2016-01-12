@@ -17,7 +17,6 @@
             return module.replace('qs/', './js/') + '.html';
         }
     });
-
     $(function() {
         var settings = {
             'url' : 'http://chingshow.com/services/system/get?version=' + window.__config.VERSION,
@@ -28,7 +27,6 @@
                 'withCredentials' : true
             }
         };
-
         $.ajax(settings).done(function(json){
             window.__config.appServiceRoot = json.data.deployment.appServiceRoot;
 

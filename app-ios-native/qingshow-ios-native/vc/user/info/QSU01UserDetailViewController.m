@@ -337,10 +337,12 @@
 
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
 {
-    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
-    [self.navigationController pushViewController:vc animated:YES];
-    
+    UIViewController* detailVc = [self showShowDetailViewController:showDict];
+    if ([detailVc isKindOfClass:[QSS03ShowDetailViewController class]]) {
+        QSS03ShowDetailViewController* vc = (QSS03ShowDetailViewController*)detailVc;
+        vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
+    }
+
 }
 
 - (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider

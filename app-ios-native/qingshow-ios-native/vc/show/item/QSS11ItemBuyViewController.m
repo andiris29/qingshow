@@ -7,6 +7,7 @@
 //
 
 #import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 #import "QSAbstractDiscountTableViewCell.h"
 #import "QSDiscountTaobaoInfoCell.h"
 #import "QSDiscountInfoCell.h"
@@ -20,6 +21,7 @@
 #import "QSS11ItemBuyViewController.h"
 #import "QSDiscountQuantityCell.h"
 #import "QSS10ItemDetailViewController.h"
+#import "QSBuyerCell.h"
 
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
@@ -35,11 +37,12 @@
 @property (copy, nonatomic) NSString* promoterId;
 
 #pragma mark Cell
-@property (strong, nonatomic) NSArray* cellArray;
+@property (strong, nonatomic) NSMutableArray* cellArray;
 
 @property (strong, nonatomic) QSDiscountRemixCell* remixCell;
 @property (strong, nonatomic) QSDiscountQuantityCell* quantityCell;
 @property (strong, nonatomic) NSArray* propCellArray;
+@property (strong, nonatomic) QSBuyerCell* buyerCell;
 
 @property (strong, nonatomic) MKNetworkOperation* updateRemixOp;
 @property (strong, nonatomic) MKNetworkOperation* createTradeOp;
@@ -78,6 +81,15 @@
         self.masterDict = data;
         [self _bindWithItemDict:self.itemDict];
     } onError:nil];
+
+    
+    [SHARE_NW_ENGINE queryBuyer:[QSEntityUtil getIdOrEmptyStr:self.itemDict] onSucceed:^(NSArray *peoples, NSDictionary* metadata) {
+        [self.buyerCell bindWithBuyers:peoples count:[metadata numberValueForKeyPath:@"numTotal"].intValue];
+    } onError:^(NSError *error) {
+        [self.cellArray removeObject:self.buyerCell];
+        [self.tableView reloadData];
+    }];
+    
     self.btnContainer.layer.shadowColor = [UIColor blackColor].CGColor;
     self.btnContainer.layer.shadowOffset = CGSizeMake(0, -4);
     self.btnContainer.layer.shadowOpacity = 0.5f;
@@ -202,17 +214,9 @@
                   selectedSkuProperties:selectedSku
                                quantity:self.quantityCell.quantity
                               onSucceed:^(NSDictionary *dict) {
-                                  [[QSPaymentService shareService] sharedForTrade:dict onSucceed:^(NSDictionary *dict) {                                      QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:dict];
-                                      [self.navigationController pushViewController:vc animated:YES];
-                                      self.createTradeOp = nil;
-                                  } onError:^(NSError *error) {
-                                      self.createTradeOp = nil;
-                                      if (error) {
-                                          [self handleError:error];
-                                      }
-
-                                  }];
-                                  
+                                  self.createTradeOp = nil;
+                                  QSU14CreateTradeViewController* vc =[[QSU14CreateTradeViewController alloc] initWithDict:dict];
+                                  [self.navigationController pushViewController:vc animated:YES];
                               }
                                 onError:^(NSError *error) {
                                     [self handleError:error];
@@ -248,6 +252,10 @@
     self.quantityCell = [QSDiscountQuantityCell generateCell];
     self.quantityCell.delegate = self;
     [array addObject:self.quantityCell];
+    
+    self.buyerCell = [QSBuyerCell generateCell];
+    [array addObject:self.buyerCell];
+    
     
     self.cellArray = array;
     self.propCellArray = propCells;
@@ -310,6 +318,9 @@
     } else {
         self.updateRemixOp = [SHARE_NW_ENGINE matcherRemixByItem:self.masterDict
                                                        onSucceed:^(NSDictionary *remixInfo) {
+                                                           if (!remixInfo) {
+                                                               return;
+                                                           }
                                                            self.updateRemixOp = nil;
                                                            [self.remixArray addObject:remixInfo];
                                                            self.currentRemixIndex = self.remixArray.count - 1;
@@ -324,11 +335,17 @@
 }
 - (void)_bindWithItemDict:(NSDictionary*)dict {
     NSNumber* reduction = [QSItemUtil getExpectableReduction:dict];
-    
-    self.discountInfoBtn.hidden = NO;
-    [self.discountInfoBtn setTitle:[NSString stringWithFormat:@"分享搭配立减%.2f元", reduction.floatValue] forState:UIControlStateNormal];
+    if (reduction) {
+        self.discountInfoBtn.hidden = NO;
+        [self.discountInfoBtn setTitle:[NSString stringWithFormat:@"活动立减%.2f元", reduction.floatValue] forState:UIControlStateNormal];
+        [self.buyBtn setTitle:[NSString stringWithFormat:@"%.2f 购买", ([QSItemUtil getPromoPrice:dict].doubleValue - reduction.doubleValue)] forState:UIControlStateNormal];
+        self.infoWidth.constant = [UIScreen mainScreen].bounds.size.width / 2;
+    } else {
+        self.discountInfoBtn.hidden = YES;
+        [self.buyBtn setTitle:[NSString stringWithFormat:@"立即购买"] forState:UIControlStateNormal];
+        self.infoWidth.constant = 0;
+    }
 
-    [self.buyBtn setTitle:[NSString stringWithFormat:@"%.2f 购买", ([QSItemUtil getPromoPrice:dict].doubleValue - reduction.doubleValue)] forState:UIControlStateNormal];
     [self.tableView reloadData];
     self.titleLabel.text = [QSItemUtil getShopNickName:dict];
 }

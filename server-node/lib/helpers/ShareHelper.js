@@ -9,6 +9,7 @@ ShareHelper.create = function(initiatorRef, type, targetInfo, callback){
     sharedObject.icon = global.qsConfig.share[type].icon;
     sharedObject.title = global.qsConfig.share[type].title;
 	sharedObject.initiatorRef = initiatorRef;
+	sharedObject.targetInfo = {};
 	for(var key in targetInfo){
 		sharedObject.targetInfo[key] = targetInfo[key];
 	}

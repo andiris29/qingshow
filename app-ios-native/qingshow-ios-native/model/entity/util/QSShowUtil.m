@@ -142,7 +142,7 @@
     if ([QSEntityUtil checkIsNil:dict]) {
         return nil;
     }
-    NSArray* posters = dict[@"posters"];
+    NSArray* posters = dict[@"videoPosters"];
     NSMutableArray* urlArray = [@[] mutableCopy];
     if (posters && posters.count) {
         for (NSString* path in posters) {
@@ -372,12 +372,6 @@
     return date;
 }
 
-+ (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict
-{
-    NSNumber* like = [showDict valueForKeyPath:@"__context.sharedByCurrentUser"];
-    return like.boolValue;
-}
-
 + (NSDictionary*)getPromotionRef:(NSDictionary*)showDict
 {
     NSDictionary* dict = [showDict valueForKey:@"__context.promotionRef"];
@@ -409,5 +403,8 @@
     } else {
         return YES;
     }
+}
++ (NSString*)getHref:(NSDictionary*)showDict {
+    return [showDict stringValueForKeyPath:@"href"];
 }
 @end

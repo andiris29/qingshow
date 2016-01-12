@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel* nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel* priceLabel;
 @property (weak, nonatomic) IBOutlet UIButton* detailBtn;
-
+@property (weak, nonatomic) IBOutlet UIImageView* shopIconImgView;
 
 - (IBAction)detailBtnPressed:(id)sender;
 @end

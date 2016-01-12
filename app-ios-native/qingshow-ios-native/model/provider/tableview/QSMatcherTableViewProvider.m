@@ -8,6 +8,7 @@
 
 #import "QSMatcherTableViewProvider.h"
 #import "QSMatcherTableViewCell.h"
+//#import "QSMatchStickyTableViewCell.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSDateUtil.h"
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -28,8 +29,9 @@
 #pragma mark - Table View
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSMatcherTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSMatcherTableViewCellId forIndexPath:indexPath];
     NSDictionary* dict = self.resultArray[indexPath.row];
+    QSMatcherTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSMatcherTableViewCellId forIndexPath:indexPath];
+    
     [cell bindWithDict:dict];
     cell.delegate = self;
     cell.contentView.transform = CGAffineTransformMakeScale(w / 320, w / 320);
@@ -37,29 +39,42 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QSMatcherTableViewCellHeight * w / 320;
+    NSDictionary* dict = self.resultArray[indexPath.row];
+    return [QSMatcherTableViewCell getHeightWithDict:dict] * w / 320;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary* dict = self.resultArray[indexPath.row];
-    NSNumber* hour = [dict numberValueForKeyPath:@"hour"];
-    NSDate* date = [dict dateValueForKeyPath:@"date"];
-    NSString* dateStr = [QSDateUtil buildDateStringFromDate:date];
-    if (!dateStr) {
-        return;
+    NSArray* topOwners = [dict arrayValueForKeyPath:@"data.topOwners"];
+    NSDictionary* stickyShow = [dict dictValueForKeyPath:@"data.stickyShow"];
+    if (topOwners.count) {
+        NSNumber* hour = [dict numberValueForKeyPath:@"hour"];
+        NSDate* date = [dict dateValueForKeyPath:@"date"];
+        NSString* dateStr = [QSDateUtil buildDateStringFromDate:date];
+        if (!dateStr) {
+            return;
+        }
+        
+        NSDate* retDate = [date dateByAddingTimeInterval:hour.intValue * 60 * 60];
+        if ([self.delegate respondsToSelector:@selector(provider:didClickDate:)]) {
+            [self.delegate provider:self didClickDate:retDate];
+        }
+    } else {
+        if ([self.delegate respondsToSelector:@selector(provider:didClickShow:)]) {
+            [self.delegate provider:self didClickShow:stickyShow];
+        }
     }
-    
-    NSDate* retDate = [date dateByAddingTimeInterval:hour.intValue * 60 * 60];
-    if ([self.delegate respondsToSelector:@selector(provider:didClickDate:)]) {
-        [self.delegate provider:self didClickDate:retDate];
-    }
-    
 }
 
 - (void)cell:(QSMatcherTableViewCell*)cell didClickUser:(NSDictionary*)dict {
     if ([self.delegate respondsToSelector:@selector(provider:didClickPeople:)]) {
         [self.delegate provider:self didClickPeople:dict];
+    }
+}
+- (void)cell:(QSMatcherTableViewCell*)cell didClickStickyShow:(NSDictionary*)dict {
+    if ([self.delegate respondsToSelector:@selector(provider:didClickShow:)]) {
+        [self.delegate provider:self didClickShow:dict];
     }
 }
 @end

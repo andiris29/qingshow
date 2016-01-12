@@ -35,7 +35,11 @@ trade.create = {
             trade.ownerRef = req.qsCurrentUserId;
             trade.quantity = req.body.quantity;
             trade.itemSnapshot = req.injection.itemRef.toJSON();
-            trade.totalFee = trade.quantity * (trade.itemSnapshot.promoPrice * 100 - trade.itemSnapshot.expectable.reduction * 100) / 100;
+            var price = trade.itemSnapshot.promoPrice;
+            if (trade.itemSnapshot.expectable && trade.itemSnapshot.expectable.reduction) {
+                price = (trade.itemSnapshot.promoPrice * 100 - trade.itemSnapshot.expectable.reduction * 100) / 100;
+            }
+            trade.totalFee = trade.quantity * price;
             trade.selectedSkuProperties = req.body.selectedSkuProperties;
             trade.itemRef = req.injection.itemRef._id;
             if (req.body.promoterRef) {
@@ -51,6 +55,7 @@ trade.create = {
                         '_tradeId' : trade._id.toString(),
                         'selectedSkuProperties' : trade.selectedSkuProperties
                     });
+                    
                     next();
                 }
             });

@@ -9,7 +9,10 @@
 #import "QSCreateTradeReceiverInfoTextCell.h"
 
 @implementation QSCreateTradeReceiverInfoTextCell
-
+- (void)awakeFromNib {
+    self.textField.tintColor = [UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:91.f/255.f alpha:1.f];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

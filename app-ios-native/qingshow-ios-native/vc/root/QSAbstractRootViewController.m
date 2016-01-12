@@ -13,7 +13,6 @@
 #import "UIView+ScreenShot.h"
 #import "UIViewController+QSExtension.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSAppDelegate.h"

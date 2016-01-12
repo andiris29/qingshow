@@ -15,12 +15,6 @@ var bonusSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    participants : {
-        type : [{
-            type : Schema.Types.ObjectId,
-            ref : 'peoples'
-        }]
-    },
     trigger : {
         tradeRef : {    
             type : Schema.Types.ObjectId,

@@ -110,9 +110,7 @@
     
     NSArray *array = [NSArray arrayWithObjects:self.thinButton,self.JKButton,self.EAButton,self.hightButton,self.shenButton,self.tunButton,self.duButton,self.armButton,self.OKButton, nil];
     for (UIButton *btn in array) {
-        
-            [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
-       
+        [btn setTitleColor:[UIColor colorWithRed:40.f/255.f green:45.f/255.f blue:92.f/255.f alpha:1.0f] forState:UIControlStateSelected];
     }
     
 }

@@ -262,4 +262,12 @@
         return promoPrice;
     }
 }
++ (NSURL*)getShopIconUrl:(NSDictionary*)itemDict {
+    NSString* str = [itemDict stringValueForKeyPath:@"sourceInfo.icon"];
+    if (!str) {
+        return nil;
+    } else {
+        return [NSURL URLWithString:str];
+    }
+}
 @end

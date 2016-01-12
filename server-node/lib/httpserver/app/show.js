@@ -5,7 +5,6 @@ var Show = require('../../dbmodels').Show;
 var Item = require('../../dbmodels').Item;
 var ShowComment = require('../../dbmodels').ShowComment;
 var RPeopleLikeShow = require('../../dbmodels').RPeopleLikeShow;
-var RPeopleShareShow = require('../../dbmodels').RPeopleShareShow;
 var People = require('../../dbmodels').People;
 var jPushAudiences = require('../../dbmodels').JPushAudience;
 var RPeopleViewShow = require('../../dbmodels').RPeopleViewShow;
@@ -44,6 +43,18 @@ show.query = {
                     '$in' : _ids
                 }
             }).populate('ownerRef').populate('itemRefs').exec(callback);
+        },
+        function(shows, callback) {
+            var itemRefs = [];
+            shows.forEach(function(show) {
+                itemRefs = itemRefs.concat(show.itemRefs);
+            });
+            Item.populate(itemRefs, {
+                'path' : 'shopRef',
+                'model' : 'peoples'
+            }, function() {
+                callback(null, shows);
+            });
         },
         function(shows, callback) {
             // Append followed by current user
@@ -231,34 +242,6 @@ show.deleteComment = {
         }], function(err) {
             ResponseHelper.response(res, err);
         });
-    }
-};
-
-show.share= {
-    'method' : 'post',
-    'permissionValidators' : ['loginValidator'],
-    'func' : function(req, res) {
-        var targetRef, initiatorRef;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.body;
-                targetRef = RequestHelper.parseId(param._id);
-                initiatorRef = req.qsCurrentUserId;
-            } catch (err) {
-                callback(err);
-            }
-            callback();
-        },
-        function(callback) {
-            // Like
-            RelationshipHelper.create(RPeopleShareShow, initiatorRef, targetRef, function(err, relationship) {
-                callback(err);
-            });
-        }], function(err) {
-            ResponseHelper.response(res, err);
-        });
-
     }
 };
 

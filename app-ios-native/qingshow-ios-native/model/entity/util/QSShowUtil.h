@@ -34,9 +34,9 @@
 + (NSDate*)getRecommendDate:(NSDictionary*)showDict;
 + (NSString*)getRecommentDesc:(NSDictionary*)showDict;
 + (NSString*)getVideoPath:(NSDictionary*)showDict;
++ (NSString*)getHref:(NSDictionary*)showDict;
 
 + (NSDate*)getCreatedDate:(NSDictionary*)showDict;
-+ (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict;
 + (NSString*)getNumberViewDesc:(NSDictionary*)showDict;
 //新增获取图片高度的方法
 + (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic;

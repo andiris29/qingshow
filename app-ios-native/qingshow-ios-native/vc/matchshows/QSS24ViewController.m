@@ -6,7 +6,7 @@
 //  Copyright © 2015年 QS. All rights reserved.
 //
 
-#import "QSNewestHourViewController.h"
+#import "QSS24ViewController.h"
 #import "QSShowCollectionViewProvider.h"
 #import "QSNetworkKit.h"
 #import "QSS03ShowDetailViewController.h"
@@ -14,21 +14,32 @@
 #import "UIViewController+QSExtension.h"
 #import "QSDateUtil.h"
 
-@interface QSNewestHourViewController () <QSShowProviderDelegate>
+typedef NS_ENUM(NSUInteger, QSS24Type) {
+    QSS24TypeNew = 0,
+    QSS24TypeHot = 1
+};
+
+@interface QSS24ViewController () <QSShowProviderDelegate>
 
 @property (strong, nonatomic) NSDate* fromDate;
 @property (strong, nonatomic) NSDate* toDate;
 @property (strong,nonatomic) QSShowCollectionViewProvider *provider;
+@property (assign, nonatomic) QSS24Type type;
+
+@property (weak, nonatomic) IBOutlet UIButton *hotestBtn;
+@property (weak, nonatomic) IBOutlet UIButton *newestBtn;
+
 @end
 
-@implementation QSNewestHourViewController
+@implementation QSS24ViewController
 
 #pragma mark - Init
 - (instancetype)initWithFromDate:(NSDate*)fromDate toDate:(NSDate*)toDate {
-    self = [super initWithNibName:@"QSNewestHourViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS24ViewController" bundle:nil];
     if (self) {
         self.fromDate = fromDate;
         self.toDate = toDate;
+        self.type = QSS24TypeNew;
     }
     return self;
 }
@@ -38,6 +49,8 @@
 
     [self _configNav];
     [self _configProvider];
+    [self _updateBtnVisible];
+    [self hideNaviBackBtnTitle];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -73,13 +86,21 @@
 - (void)_configProvider {
     self.provider = [[QSShowCollectionViewProvider alloc] init];
     [self.provider bindWithCollectionView:self.collectionView];
-    QSNewestHourViewController* weakSelf = self;
+    QSS24ViewController* weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getfeedingMatchTimeFromDate:weakSelf.fromDate
-                                                     toDate:weakSelf.toDate
-                                                       page:page
-                                                  onSucceed:succeedBlock
-                                                    onError:errorBlock];
+        if (weakSelf.type == QSS24TypeNew) {
+            return [SHARE_NW_ENGINE getfeedingMatchTimeFromDate:weakSelf.fromDate
+                                                         toDate:weakSelf.toDate
+                                                           page:page
+                                                      onSucceed:succeedBlock
+                                                        onError:errorBlock];
+        } else {
+            return [SHARE_NW_ENGINE getfeedingHotMatchTimeFromDate:weakSelf.fromDate
+                                                            toDate:weakSelf.toDate
+                                                              page:page
+                                                         onSucceed:succeedBlock
+                                                           onError:errorBlock];
+        }
     };
     self.provider.delegate = self;
     [self.provider reloadData];
@@ -88,8 +109,7 @@
 
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
 {
-    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showShowDetailViewController:showDict];
 }
 
 - (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider
@@ -99,6 +119,20 @@
 }
 
 - (void)didReceiveUserLoginNoti:(NSNotification*)noti {
+    [self.provider reloadData];
+}
+
+- (void)_updateBtnVisible {
+    self.hotestBtn.hidden = self.type != QSS24TypeNew;
+    self.newestBtn.hidden = self.type == QSS24TypeNew;
+}
+- (IBAction)hotOrNewBtnPressed:(id)sender {
+    if (self.type == QSS24TypeNew) {
+        self.type = QSS24TypeHot;
+    } else {
+        self.type = QSS24TypeNew;
+    }
+    [self _updateBtnVisible];
     [self.provider reloadData];
 }
 @end

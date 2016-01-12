@@ -20,8 +20,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowNewBonusVcNoti:) name:kShowNewBonusVcNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideNewBonusVcNoti:) name:kHideNewBonusVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowNewParticipantBonusVcNoti:) name:kShowNewParticipantBonusVcNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveHideNewParticipantBonusVcNoti:) name:kHideNewParticipantBonusVcNotificationName object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShowBonusListVcNoti:) name:kShowBonusListVcNotificatinName object:nil];
     
@@ -55,18 +53,6 @@
     [self hideNewBonusVc];
 }
 
-- (void)didReceiveShowNewParticipantBonusVcNoti:(NSNotification*)noti {
-    NSString* bonusId = [noti.userInfo stringValueForKeyPath:@"_id"];
-    [[[UIAlertView alloc] initWithTitle:bonusId message:@"2" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"aa", nil] show];
-    if (!bonusId) {
-        return;
-    }
-    [self showNewBonusVcWithId:bonusId type:QSU20NewBonusViewControllerStateParticipant];
-}
-
-- (void)didReceiveHideNewParticipantBonusVcNoti:(NSNotification*)noti {
-    [self hideNewBonusVc];
-}
 
 
 - (void)didReceiveShowBonusListVcNoti:(NSNotification*)noti {

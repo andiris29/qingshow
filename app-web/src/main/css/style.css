@@ -327,7 +327,8 @@ body {
 .p04-title {
     font-size: 22px;
     font-family: "Lantinghei SC";
-    color: #c8104e;
+    /*color: #c8104e;*/
+	color:#282d5b;
 }
 
 .p04-subtitle {
@@ -380,12 +381,14 @@ body {
 
 .p04-circle-count-remain-time-title {
     font-size: 10px;
-    color: #d60051;
+    /*color: #d60051; update 20151215*/
+	color:#262c59;
 }
 
 .p04-circle-count-remain-time-number {
     font-size: 34px;
-    color: #d60051;
+    /*color: #d60051;*/
+	color:#282d5b;
 }
 
 .p04-circle-count-request-complete-container {
@@ -410,7 +413,8 @@ body {
 .p04-circle-count-request-complete-text {
     margin-top: 5%;
     font-size: 24px;
-    color: #d60051;
+    /*color: #d60051;*/
+	color:#262c59;
 }
 
 
@@ -468,7 +472,8 @@ body {
     top: 60%;
     width: 100%;
     height: 1px;
-    background-color: #a91a4e;
+    /*background-color: #a91a4e;*/
+	background-color: #282d5b;
 }
 
 .p04-withdraw-success-alert-OK {
@@ -477,7 +482,7 @@ body {
     height: 29%;
     left : 0;
     width: 100%;
-    color : #c8104e;
+    /*color : #c8104e;*/color:#282d5b;
     font-size: 15px;
     padding-top: 5%;
 }

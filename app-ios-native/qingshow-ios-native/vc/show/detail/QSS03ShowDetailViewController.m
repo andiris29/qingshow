@@ -32,6 +32,7 @@
 
 #import "QSUserManager.h"
 #import "QSU01UserDetailViewController.h"
+#import "QSCircleAnimationView.h"
 
 #define PAGE_ID @"S03 - 秀"
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -252,6 +253,9 @@
     }
     [self.itemLabelArray removeAllObjects];
     
+    if (![QSShowUtil getItemReductionEnabled:self.showDict]) {
+        return;
+    }
     NSArray* itemArray = [QSShowUtil getAllItemArray:self.showDict];
     NSArray* itemRects = [QSShowUtil getItemRects:self.showDict];
     for (int i = 0; i < itemArray.count; i++) {
@@ -261,23 +265,31 @@
         NSDictionary* itemDict = itemArray[i];
         NSArray* rects = itemRects[i];
         
-        QSItemTagView* labelView = [QSItemTagView generateView];
-        labelView.hidden = !fShowLabel;
-        [self.itemLabelArray addObject:labelView];
-        labelView.userInteractionEnabled = YES;
-        UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
         
 
         if ([QSEntityUtil checkIsDict:itemDict] &&
             ![QSItemUtil getDelist:itemDict] &&
-            [QSItemUtil getExpectableReduction:itemDict] &&
             rects.count == 4) {
+            
+            UIView* labelView = nil;
+            UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapItemLabel:)];
+
             NSNumber* reduction = [QSItemUtil getExpectableReduction:itemDict];
-            labelView.tagLabel.text = [NSString stringWithFormat:@"%@", reduction];
-            CGSize labelSize = [QSLayoutUtil sizeForString:labelView.tagLabel.text withMaxWidth:INFINITY height:labelView.tagLabel.bounds.size.height font:labelView.tagLabel.font];
-            CGRect rect = labelView.frame;
-            rect.size.width = labelSize.width + 40;
-            labelView.frame = rect;
+            if (reduction) {
+                QSItemTagView* tagView = [QSItemTagView generateView];
+                tagView.tagLabel.text = [NSString stringWithFormat:@"%@", reduction];
+                labelView = tagView;
+                [tagView updateSize];
+            } else {
+                QSCircleAnimationView* circle = [[QSCircleAnimationView alloc] init];;
+                labelView = circle;
+//                labelView.tagLabel.text = [NSString stringWithFormat:@"%d", 0];
+            }
+            
+            labelView.hidden = !fShowLabel;
+            [self.itemLabelArray addObject:labelView];
+            labelView.userInteractionEnabled = YES;
+
             labelView.transform = CGAffineTransformMakeScale(1.1, 1.1);
             
             CGFloat x = ((NSNumber*)rects[0]).floatValue + ((NSNumber*)rects[2]).floatValue / 2;
@@ -287,8 +299,13 @@
             labelView.center = CGPointMake(origin.x + x, origin.y + y);
             [labelView addGestureRecognizer:ges];
             [self.coverLabelContainerView addSubview:labelView];
+        } else {
+            //Place holder
+            QSItemTagView* labelView = [QSItemTagView generateView];
+            labelView.hidden = !fShowLabel;
+            [self.itemLabelArray addObject:labelView];
+            labelView.userInteractionEnabled = YES;
         }
-        
     }
 }
 
@@ -309,8 +326,8 @@
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
 {
-    self.coverLabelContainerView.hidden = ![QSShowUtil getItemReductionEnabled:dict];
-    self.playBtn.hidden = !self.generateVideoPath;
+//    self.coverLabelContainerView.hidden = ![QSShowUtil getItemReductionEnabled:dict];
+    self.videoIcon.hidden = !self.generateVideoPath;
 
     //Like Btn
     [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
@@ -325,7 +342,7 @@
         self.releaseDateLabel.hidden = NO;
         self.trashBtn.hidden = NO;
         self.favorBtn.hidden = YES;
-        self.playBtn.hidden = YES;
+        self.videoIcon.hidden = YES;
         self.pauseBtn.hidden = YES;
         NSDate* createDate = [QSShowUtil getCreatedDate:dict];
         self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
@@ -451,22 +468,7 @@
 {
     [self.shareVc hideSharePanel];
 }
-- (void)didShareWeiboSuccess
-{
 
-    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
-        [self showSuccessHudWithText:@"分享成功"];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
-}
-- (void)didShareWechatSuccess {
-    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
-        [self showSuccessHudWithText:@"分享成功"];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
-}
 
 #pragma mark - Override
 #pragma mark Data
@@ -534,6 +536,19 @@
     for (UIView* v  in self.itemLabelArray) {
         v.hidden = !self.showShouldLabel;
     }
+    
+    if (!self.showShouldLabel && [self generateVideoPath]) {
+        [self playOrPauseBtnPressed:nil];
+    }
+    
 }
 
+
+- (void)imageScrollViewDidTapImgView:(QSImageScrollViewBase *)view {
+    [self playOrPauseBtnPressed:nil];
+}
+- (void)pauseVideo {
+    [super pauseVideo];
+    [self didTapLabelContainer:nil];
+}
 @end

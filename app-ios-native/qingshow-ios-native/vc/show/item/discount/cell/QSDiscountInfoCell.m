@@ -40,9 +40,10 @@
     if ([QSItemUtil getPromoPrice:itemDict]) {
         self.priceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
     } else {
-        self.priceLabel.text = [NSString stringWithFormat:@"￥%@",[QSItemUtil getPromoPriceDesc:itemDict]];
+        self.priceLabel.text = @"";
     }
     [self.priceLabel sizeToFit];
+    [self.shopIconImgView setImageFromURL:[QSItemUtil getShopIconUrl:itemDict]];
 }
 
 + (instancetype)generateCell {

@@ -81,12 +81,13 @@
 }
 - (void)_handleWithdraw {
     NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    NSString *peopleId = [QSPeopleUtil getPeopleId:peopleDic];
     
     if ([QSPeopleUtil hasBindWechat:peopleDic]) {
-        [SHARE_NW_ENGINE shareCreateBonus:peopleId onSucceed:^(NSDictionary *shareDic) {
-            [[QSShareService shareService]shareWithWechatMoment:[QSShareUtil getShareTitle:shareDic] desc:[QSShareUtil getShareDesc:shareDic] imagePath:[QSShareUtil getShareIcon:shareDic] url:[QSShareUtil getshareUrl:shareDic] onSucceed:^{
-                [[[UIAlertView alloc] initWithTitle:@"系统正在处理您的申请，请至分享页面领取红包" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        [SHARE_NW_ENGINE withdrawBonusOnSucceed:^{
+            [[[UIAlertView alloc] initWithTitle:@"请至微信领取红包" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+            [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+                [self _reloadData];
+                
             } onError:nil];
         } onError:^(NSError *error) {
             [self handleError:error];
@@ -108,7 +109,7 @@
         return;
     }
     self.fHasClickWithdraw = YES;
-    [self showWithdrawMsgLayer];
+    [self _handleWithdraw];
 }
 
 - (IBAction)faqBtnPressed:(id)sender {
@@ -136,9 +137,9 @@
     NSDictionary* userDict = [QSUserManager shareUserManager].userInfo;
     //Withdraw Btn
     if ([QSPeopleUtil hasBindWechat:userDict]) {
-        [self.withdrawBtn setTitle:@"分享提现" forState:UIControlStateNormal];
+        [self.withdrawBtn setTitle:@"立即提现" forState:UIControlStateNormal];
     } else {
-        [self.withdrawBtn setTitle:@"登陆微信分享提现" forState:UIControlStateNormal];
+        [self.withdrawBtn setTitle:@"登陆微信后提现" forState:UIControlStateNormal];
     }
     self.withdrawBtn.layer.cornerRadius = self.withdrawBtn.bounds.size.height / 2;
     
@@ -159,11 +160,7 @@
     [self.containerView addSubview:self.bonusContentView];
     [self.faqContentImgView setImageFromURL:[NSURL URLWithString:[QSUserManager shareUserManager].faqContentPath]];
     
-    
-
-    
-    [self.withdrawMsgImgView setImageFromURL:[NSURL URLWithString:[QSUserManager shareUserManager].bonusWithdrawImgPath]];
-    
+    self.withdrawMsgLayer.hidden = YES;
     self.withdrawMsgLayer.userInteractionEnabled = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapWithdrawMsgLayer:)];
     [self.withdrawMsgLayer addGestureRecognizer:ges];
@@ -186,7 +183,7 @@
     
     self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.availableMoney];
     self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.totalMoney];
-    if (self.availableMoney  ==  0) {
+    if (self.totalMoney  ==  0) {
         self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
         self.withdrawBtn.userInteractionEnabled = NO;
         self.navigationItem.rightBarButtonItem.enabled = NO;

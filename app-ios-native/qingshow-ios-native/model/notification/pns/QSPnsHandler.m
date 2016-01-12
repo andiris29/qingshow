@@ -89,6 +89,7 @@
             NSDictionary* userInfo = noti.userInfo;
             NSString* showId = [QSEntityUtil getStringValue:userInfo keyPath:@"showId"];
             [nav popToRootViewControllerAnimated:NO];
+            //Ignore Href
             [nav pushViewController:[[QSS03ShowDetailViewController alloc] initWithShowId:showId] animated:NO];
             [nav pushViewController:[[QSS04CommentListViewController alloc] initWithShowId:showId] animated:NO];
         }
@@ -122,13 +123,9 @@
 }
 - (void)pnsNewBonus:(NSNotification*)noti {
     [self handlePnsWithHandler:^{
-
-        
         int bonusType = [noti.userInfo numberValueForKeyPath:@"type"].intValue;
         if (bonusType == 0) {
             [QSRootNotificationHelper postShowNewBonusVcNoti:noti.userInfo];
-        } else if (bonusType == 1) {
-            [QSRootNotificationHelper postShowNewParticipantBonusVcNoti:noti.userInfo];
         } else if (bonusType == 2) {
             [QSRootNotificationHelper postShowBonusListVcNotificationName];
         }

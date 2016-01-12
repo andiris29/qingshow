@@ -10,7 +10,7 @@
 
 #define kGlobalFirstLaunchShowDueDate @"kGlobalFirstLaunchShowDueDate"
 #define kGlobalFirstLaunchShowTitle @"kGlobalFirstLaunchShowTitle"
-#define kConfigEventImage @"kConfigEventImagePath"
+
 @interface QSUserManager ()
 
 @property (strong, nonatomic) NSUserDefaults* userDefault;
@@ -21,7 +21,6 @@
 
 @synthesize globalFirstLaunchShowDueDate = _globalFirstLaunchShowDueDate;
 @synthesize globalFirstLaunchTitle = _globalFirstLaunchTitle;
-@synthesize configEventImagePath = _configEventImagePath;
 
 - (instancetype)init {
     self = [super init];
@@ -73,16 +72,4 @@
     return _globalFirstLaunchTitle;
 }
 
-- (void)setConfigEventImagePath:(NSString *)configEventImagePath {
-    _configEventImagePath = configEventImagePath;
-    [self.userDefault setValue:configEventImagePath forKey:kConfigEventImage];
-    [self.userDefault synchronize];
-}
-
-- (NSString*)configEventImagePath {
-    if (!_configEventImagePath) {
-        _configEventImagePath = [self.userDefault valueForKey:kConfigEventImage];
-    }
-    return _configEventImagePath;
-}
 @end

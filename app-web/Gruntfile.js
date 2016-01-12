@@ -13,8 +13,7 @@ module.exports = function(grunt) {
                     include: [
                         "qs/views/P01NotFound",
                         "qs/views/P02ShareShow",
-                        "qs/views/P03ShareTrade",
-                        "qs/views/P04ShareBonus"
+                        "qs/views/P05ShareItems"
                     ],
                     out: "target/js/qingshow-aio.js"
                 }

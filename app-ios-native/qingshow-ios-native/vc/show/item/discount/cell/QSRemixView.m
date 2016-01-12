@@ -71,7 +71,8 @@
 - (void)didTapImgView:(UITapGestureRecognizer*)ges {
     QSRemixImageView* imgView = (QSRemixImageView*)ges.view;
     NSDictionary* itemDict = imgView.userInfo;
-    if ([QSItemUtil getReadOnly:itemDict]) {
+    NSArray* skuProperties = [QSItemUtil getSkuProperties:itemDict];
+    if ([QSItemUtil getReadOnly:itemDict] || !skuProperties) {
         return;
     }
     

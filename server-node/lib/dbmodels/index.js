@@ -8,7 +8,6 @@ module.exports = {
     'BonusCode' : require('./BonusCode'),
     'RPeopleFollowPeople' : require('./RPeopleFollowPeople'),
     'RPeopleLikeShow' : require('./RPeopleLikeShow'),
-    'RPeopleShareShow' : require('./RPeopleShareShow'),
     'ShowComment' : require('./ShowComment'),
     'Show' : require('./Show'),
     'ShowCode' : require('./ShowCode'),

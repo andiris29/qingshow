@@ -129,14 +129,14 @@ feeding.like = {
 feeding.time = {
     'method' : 'get',
     'func' : function(req, res) {
-        _feed(req, res, function(qsParam, outCallback) {
+        _feed(req, res, function(qsParam, callback) {
             async.waterfall([
             function(callback) {
                 var criteria = _buildFeaturedCriteria(req);
                 MongoHelper.queryPaging(Show.find(criteria).sort({
                     'create' : -1
-                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
-            }], outCallback);
+                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            }], callback);
         });
     }
 };
@@ -173,8 +173,24 @@ feeding.matchCreatedBy = {
     }
 };
 
+feeding.hot = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function(qsParam, callback) {
+            async.waterfall([
+            function(callback) {
+                var criteria = _buildFeaturedCriteria(req);
+                MongoHelper.queryPaging(Show.find(criteria).sort({
+                    'numView' : -1
+                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            }], callback);
+        });
+    }
+};
+
 var _buildFeaturedCriteria = function(req) {
     var criteria = [
+        {'sticky' : {'$ne' : true}}
     ];
     if (req.queryString.from) {
         criteria.push({'create' : {'$gte' : RequestHelper.parseDate(req.queryString.from)}});

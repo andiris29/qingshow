@@ -48,13 +48,10 @@
 
 + (NSURL*)getHeadIconUrl:(NSDictionary *)peopleDict type:(QSImageNameType)type {
     NSString* path = [peopleDict stringValueForKeyPath:@"portrait"];
-    if (path && path.length) {
-        return [NSURL URLWithString:[QSImageNameUtil appendImageName:path type:type]];
-    } else {
-        return [[NSBundle mainBundle] URLForResource:@"user_head_default@2x" withExtension:@"jpg"];
+    if (!path) {
+        path = @"http://trial01.focosee.com/img/user/default_portrait.png";
     }
-    
-    return nil;
+    return [NSURL URLWithString:[QSImageNameUtil appendImageName:path type:type]];
 }
 
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict
@@ -65,11 +62,10 @@
 + (NSURL*)getBackgroundUrl:(NSDictionary*)peopleDict
 {
     NSString* path = [peopleDict stringValueForKeyPath:@"background"];
-    if (path && path.length) {
-        return [NSURL URLWithString:path];
-    } else {
-        return [[NSBundle mainBundle] URLForResource:@"user_bg_default" withExtension:@"png"];
+    if (!path) {
+        path = @"http://trial01.focosee.com/img/user/default_bg.jpg";
     }
+    return [NSURL URLWithString:path];
 }
 
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict

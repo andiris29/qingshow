@@ -7,7 +7,7 @@
 //
 
 #import "QSS01MatchShowsViewController.h"
-#import "QSNewestHourViewController.h"
+#import "QSS24ViewController.h"
 #import "QSMatcherTableViewProvider.h"
 #import "QSError.h"
 #import "QSBlock.h"
@@ -125,6 +125,7 @@
 - (void)_configNav
 {
     self.title = @"美搭榜单";
+    [self hideNaviBackBtnTitle];
 }
 
 - (void)_reloadCurrentProvider {
@@ -139,7 +140,7 @@
         self.calendarView.selectedDate = date;
         date = [QSDateUtil clearTimeFromDate:date];
         NSDate* toDate = [date dateByAddingTimeInterval:24 * 60 * 60];
-        QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:toDate];
+        QSS24ViewController* vc = [[QSS24ViewController alloc] initWithFromDate:date toDate:toDate];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -165,7 +166,7 @@
 #pragma mark - QSMatcherTableViewProvider
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickDate:(NSDate*)date {
     NSDate* toDate = [date dateByAddingTimeInterval:60 * 60];
-    QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:toDate];
+    QSS24ViewController* vc = [[QSS24ViewController alloc] initWithFromDate:date toDate:toDate];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)provider:(QSMatcherTableViewProvider*)provider didClickPeople:(NSDictionary*)peopleDict {
@@ -173,10 +174,13 @@
     vc.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:vc animated:YES];
 }
+- (void)provider:(QSMatcherTableViewProvider *)provider didClickShow:(NSDictionary*)showDict {
+    [self showShowDetailViewController:showDict];
+}
 - (void)showLatestS24Vc {
     NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-1];
     date = [QSDateUtil clearMinuteFromDate:date];
-    QSNewestHourViewController* vc = [[QSNewestHourViewController alloc] initWithFromDate:date toDate:[date dateByAddingTimeInterval:60 * 60]];
+    QSS24ViewController* vc = [[QSS24ViewController alloc] initWithFromDate:date toDate:[date dateByAddingTimeInterval:60 * 60]];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

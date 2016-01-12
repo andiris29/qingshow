@@ -8,6 +8,7 @@
 
 #import "QSNetworkOperation.h"
 #import "NSDictionary+QSExtension.h"
+#import "NSArray+QSExtension.h"
 
 @implementation QSNetworkOperation
 - (QSError*)checkCustomerError
@@ -44,5 +45,14 @@
     [super operationFailedWithError:error];
 }
 
-
+- (id)responseJSON {
+    id ret = [super responseJSON];
+    if ([ret isKindOfClass:[NSArray class]]) {
+        return [((NSArray*)ret) deepMutableCopy];
+    } else if ([ret isKindOfClass:[NSDictionary class]]) {
+        return [((NSDictionary*)ret) deepMutableCopy];
+    } else {
+        return ret;
+    }
+}
 @end

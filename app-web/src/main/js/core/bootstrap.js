@@ -29,12 +29,13 @@ define([
         'downloadService' : downloadService
     };
 
+
     // Bootstrap first page
     var search = violet.url.search;
-
-    httpService.request('/trace/openShare', 'post', {
+ httpService.request('/trace/openShare', 'post', {
         '_id' : search._id
     }, function(err, metadata, data) {});
+
 
     httpService.request('/share/query', 'get', {
         '_ids' : [search._id]
@@ -43,21 +44,19 @@ define([
         if (err || !shareObj) {
             navigationService.push('qs/views/P01NotFound');
         } else {
+
+           
             if (shareObj.type === 0) {
                 //show
                 navigationService.push('qs/views/P02ShareShow', {
+                    'paraObj':shareObj,
                     'entity' : shareObj.targetInfo.show
                 });
-            } else if (shareObj.type === 1) {
-                //trade
-                navigationService.push('qs/views/P03ShareTrade', {
-                    'entity' : shareObj.targetInfo.trade
-                });
-            } else if (shareObj.type === 2) {
+            }  else if (shareObj.type === 2) {
                 //bonus
                 navigationService.push('qs/views/P04ShareBonus', {
-                    'create' : shareObj.create,
-                    '_id' : search._id
+                    'create' : shareObj.create,//创建时间
+                    '_id' : search._id//查询ID
                 });
             } else {
                 navigationService.push('qs/views/P01NotFound');

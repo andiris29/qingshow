@@ -109,9 +109,9 @@ people.query = {
 
 
 people.queryBuyers = {
-    method : 'post',
+    method : 'get',
     func : function(req, res) {
-        var itemRef = req.body.itemRef;
+        var itemRef = req.queryString.itemRef;
         Trade.find({
             'itemRef' : itemRef
         }).exec(function(err, trades){
@@ -135,10 +135,8 @@ people.queryBuyers = {
             },function(peoples){
                 return {
                     'peoples' : peoples
-                }
+                };
             });
         });            
     }
-}
-
-
+};

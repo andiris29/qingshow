@@ -34,5 +34,7 @@
 + (NSString*)getTradeItemId:(NSDictionary*)dict {
     return [QSEntityUtil getStringValue:dict keyPath:@"trigger.tradeRef.itemRef"];
 }
-
++ (NSNumber*)getType:(NSDictionary*)dict {
+    return [dict numberValueForKeyPath:@"type"];
+}
 @end

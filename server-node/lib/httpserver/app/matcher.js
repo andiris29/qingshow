@@ -124,6 +124,32 @@ matcher.queryItems = {
     ]
 };
 
+matcher.queryShopItems = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        Item.findOne({
+            '_id' : RequestHelper.parseId(req.queryString.itemRef),
+        }, function(err, itemRef) {
+            if (itemRef) {
+                ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+                    var criteria = {
+                        '_id' : {'$ne' : itemRef._id},
+                        'shopRef' : itemRef.shopRef,
+                        'delist' : null
+                    };
+                    MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+                }, function(models) {
+                    return {
+                        'items' : models
+                    };
+                });
+            } else {
+                ResponseHelper.response(res, errors.ERR_INVALID_ITEM);
+            }
+        });
+    }
+};
+
 matcher.save = {
     'method' : 'post',
     'func' : [
@@ -305,74 +331,63 @@ matcher.remixByModel = {
     ]
 };
 
+var _randomIndexes = function(totalCount, randomCount) {
+    var indexes = [],
+        count = Math.min(totalCount, randomCount);
+    while (indexes.length < count) {
+        var index = _.random(0, totalCount - 1);
+        if (indexes.indexOf(index) === -1) {
+            indexes.push(index);
+        }
+    }
+    return indexes;
+};
+
 matcher.remixByItem = {
     'method' : 'get',
     'func' : [
         require('../middleware/injectModelGenerator').generateInjectOneByObjectId(Item, 'itemRef'),
         function(req, res, next) {
-            req.injection.itemRef.populate('categoryRef', function() {
-                if (req.injection.itemRef.categoryRef) {
-                    req.injection.remixCategoryAliases = req.injection.itemRef.categoryRef.remixCategoryAliases.split(',');
-                    next();
-                } else {
-                    next(errors.ERR_INVALID_ITEM);
-                }
-            });
-        },
-        _injectRemixCategories,
-        function(req, res, next) {
-            async.parallel(req.injection.remixCategories.map(function(category) {
-                return function(callback) {
-                    async.waterfall([
-                        // Find item in same shop
-                        function(callback) {
-                            if (req.injection.itemRef.shopRef) {
-                                _findRandomItem(category, {'shopRef' : req.injection.itemRef.shopRef}, callback);
-                            } else {
-                                callback(null, null);
-                            }
-                        },
-                        // Find item remix only
-                        function(item, callback) {
-                            if (item) {
-                                callback(null, item);
-                            } else {
-                                _findRandomItem(category, {'remix' : true}, callback);
-                            }
-                        },
-                        // Find all items
-                        function(item, callback) {
-                            if (item) {
-                                callback(null, item);
-                            } else {
-                                _findRandomItem(category, {}, callback);
-                            }
-                        }
-                    ], callback);
-                };
-            }), function(err, results) {
-                req.injection.remixItems = results;
-                next();
-            });
-        },
-        function(req, res, next) {
-            for(var composition in global.qsConfig.itemRemix) {
-                var config = global.qsConfig.itemRemix[composition];
-                if (_.keys(config).length === req.injection.remixItems.length + 1) {
-                    var data = {
-                        'master' : {'rect' : _parseRect(config.master.rect)},
-                        'slaves' : []
+            var itemRef = req.injection.itemRef,
+                criteria = {
+                '_id' : {'$ne' : itemRef._id},
+                'shopRef' : itemRef.shopRef,
+                'delist' : null
+            };
+            Item.find(criteria).count(function(err, count) {
+                var indexes = _randomIndexes(count, 3);
+                async.parallel(indexes.map(function(index) {
+                    return function(callback) {
+                        Item.find(criteria).populate('shopRef').skip(index).limit(1).exec(function(err, items) {
+                            callback(err, items[0]);
+                        });
                     };
-                    req.injection.remixItems.forEach(function(item, index) {
-                        data.slaves[index] = {
-                            'itemRef' : item,
-                            'rect' : _parseRect(config['slave' + index].rect)
-                        };
-                    });
-                    ResponseHelper.writeData(res, data);
+                }), function(err, results) {
+                    req.injection.remixItems = results;
+                    next();
+                });
+                
+            });
+        },
+        function(req, res, next) {
+            var config;
+            for(var composition in global.qsConfig.itemRemix) {
+                config = global.qsConfig.itemRemix[composition];
+                if (_.keys(config).length === req.injection.remixItems.length + 1) {
                     break;
                 }
             }
+            var data = {
+                'master' : {'rect' : _parseRect(config.master.rect)},
+                'slaves' : []
+            };
+            req.injection.remixItems.forEach(function(item, index) {
+                data.slaves[index] = {
+                    'itemRef' : item,
+                    'rect' : _parseRect(config['slave' + index].rect)
+                };
+            });
+            ResponseHelper.writeData(res, data);
             next();
             
             // Register items as sync requested

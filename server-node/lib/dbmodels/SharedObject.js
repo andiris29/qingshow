@@ -8,6 +8,8 @@ var sharedObjectSchema = {
         'default' : Date.now
     },
     type : Number,
+    numLike : {'type' : Number, 'default' : 0},
+    numDislike : {'type' : Number, 'default' : 0},
     title : String,
     description : String,
     url : String,
@@ -26,28 +28,26 @@ var sharedObjectSchema = {
             withdrawTotal : Number
         },
         show : {
-            _id : {
+            showRef : {
                 type : Schema.Types.ObjectId,
                 ref : 'shows'
             },
-            cover : String,
-            coverForeground : String
         },
         trade : {
-            _id : {
-                type : Schema.Types.ObjectId,
-                ref : 'trades'
-            },
-            itemSnapshot : {
-                name : String,
-                promoPrice : String,
-                thumbnail : String
-            },
-            totalFee : Number,
-            quantity : Number
+            tradeSnapshot : Object,
+            remix : {
+                master: {
+                    itemRef: Object,
+                    rect: Object
+                },
+                slaves: [{
+                    itemRef: Object,
+                    rect: Object
+                }]
+            }
         }
     }
-}
+};
 
 var SharedObject = mongoose.model('sharedObjects', sharedObjectSchema);
 

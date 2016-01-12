@@ -34,8 +34,6 @@
 @property (assign, nonatomic) BOOL hasRefreshControl;
 @property (assign, nonatomic) BOOL hasPaging;
 
-@property (strong, nonatomic) NSArray* additionalResult;
-
 @property (strong, nonatomic) VoidBlock networkDataFinalHandlerBlock;
 
 #pragma mark - Network

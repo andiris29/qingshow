@@ -17,5 +17,5 @@
 + (NSString*)getCreate:(NSDictionary *)dict;
 + (NSString*)getIcon:(NSDictionary*)dict;
 + (NSString*)getTradeItemId:(NSDictionary*)dict;
-
++ (NSNumber*)getType:(NSDictionary*)dict;
 @end

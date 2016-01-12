@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS24ViewController">
+            <connections>
+                <outlet property="collectionView" destination="fJw-P2-QI8" id="hMN-O8-pg2"/>
+                <outlet property="hotestBtn" destination="ZGo-6i-Ei3" id="RZ5-wp-55d"/>
+                <outlet property="newestBtn" destination="ND4-hf-wNF" id="har-uM-azp"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="fJw-P2-QI8">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qNh-Bq-gDm">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ND4-hf-wNF">
+                    <rect key="frame" x="237" y="421" width="75" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="4sB-M5-4Tx"/>
+                        <constraint firstAttribute="width" constant="75" id="iAW-31-wr7"/>
+                    </constraints>
+                    <state key="normal" image="s24_new_btn"/>
+                    <connections>
+                        <action selector="hotOrNewBtnPressed:" destination="-1" eventType="touchUpInside" id="Ro9-lj-bTs"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGo-6i-Ei3">
+                    <rect key="frame" x="237" y="421" width="75" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="CQB-tX-ADe"/>
+                        <constraint firstAttribute="width" constant="75" id="HAK-uO-mYp"/>
+                    </constraints>
+                    <state key="normal" image="s24_hot_btn"/>
+                    <connections>
+                        <action selector="hotOrNewBtnPressed:" destination="-1" eventType="touchUpInside" id="frJ-Dd-1MU"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ND4-hf-wNF" secondAttribute="trailing" constant="8" id="2YZ-zo-L03"/>
+                <constraint firstAttribute="bottom" secondItem="ND4-hf-wNF" secondAttribute="bottom" constant="8" id="9GO-PJ-9tn"/>
+                <constraint firstAttribute="bottom" secondItem="ZGo-6i-Ei3" secondAttribute="bottom" constant="8" id="CXv-7b-lQk"/>
+                <constraint firstItem="fJw-P2-QI8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="F2H-KC-CzT"/>
+                <constraint firstItem="fJw-P2-QI8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Lj9-f6-WMS"/>
+                <constraint firstAttribute="trailing" secondItem="ZGo-6i-Ei3" secondAttribute="trailing" constant="8" id="Oow-8b-Le7"/>
+                <constraint firstAttribute="bottom" secondItem="fJw-P2-QI8" secondAttribute="bottom" id="X1m-Wy-j2x"/>
+                <constraint firstAttribute="trailing" secondItem="fJw-P2-QI8" secondAttribute="trailing" id="XXV-og-RfN"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <point key="canvasLocation" x="253" y="235"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="s24_hot_btn" width="75" height="75"/>
+        <image name="s24_new_btn" width="75" height="75"/>
+    </resources>
+</document>

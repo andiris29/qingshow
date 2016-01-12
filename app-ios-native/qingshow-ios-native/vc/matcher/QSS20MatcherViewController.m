@@ -18,7 +18,6 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 #import "UIView+ScreenShot.h"
-#import "QSS03ShowDetailViewController.h"
 
 #import "QSMatcherItemScrollSelectionView.h"
 
