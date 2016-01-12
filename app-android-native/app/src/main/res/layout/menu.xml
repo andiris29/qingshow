@@ -16,7 +16,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#40000000"
+        android:background="#80000000"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -24,7 +24,7 @@
             android:id="@+id/navigation_btn_match"
             style="@style/navigation_btn"
             android:background="@null"
-            android:src="@drawable/root_menu_icon_meida" />
+            android:src="@drawable/root_menu_icon_meida2x" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/navigation_btn_match_tv"
@@ -36,7 +36,7 @@
             style="@style/navigation_btn"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:src="@drawable/root_menu_match" />
+            android:src="@drawable/root_menu_icon_meida2x" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/navigation_btn_good_match_tv"
@@ -48,24 +48,24 @@
             style="@style/navigation_btn"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:src="@drawable/root_menu_discount" />
+            android:src="@drawable/root_menu_icon_discount2x" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/navigation_btn_discount_tv"
             style="@style/navigation_text"
-            android:text="我的折扣" />
+            android:text="我的订单" />
 
         <ImageButton
             android:id="@+id/u01_people"
             style="@style/navigation_btn"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:src="@drawable/root_menu_flash" />
+            android:src="@drawable/root_menu_icon_setting2x" />
 
         <com.focosee.qingshow.widget.QSTextView
             android:id="@+id/u01_people_tv"
             style="@style/navigation_text"
-            android:text="我的搭配" />
+            android:text="个人中心" />
 
     </LinearLayout>
 </FrameLayout>

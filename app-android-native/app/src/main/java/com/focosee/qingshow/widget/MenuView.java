@@ -166,26 +166,26 @@ public class MenuView extends Fragment implements View.OnClickListener {
 
     private void initBtnColor() {
         if (getActivity() instanceof S01MatchShowsActivity) {
-            navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_gray);
-            navigationBtnMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
+            navigationBtnMatch.setImageResource(R.drawable.root_menu_icon_meida_hover2x);
+         //   navigationBtnMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
         if (getActivity() instanceof S20MatcherActivity) {
-            navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_match_gray);
-            navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
+            navigationBtnGoodMatch.setImageResource(R.drawable.root_menu_icon_matcher_hover2x);
+          //  navigationBtnGoodMatchTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
         if (getActivity() instanceof U09TradeListActivity) {
             if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.TRADE_SHIPPED))
-                navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray_dot);
+                navigationBtnDiscount.setImageResource(R.drawable.root_menu_icon_discount_hover2x);
             else
-                navigationBtnDiscount.setImageResource(R.drawable.root_menu_discount_gray);
-            navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
+                navigationBtnDiscount.setImageResource(R.drawable.root_menu_icon_discount_hover2x);
+          //  navigationBtnDiscountTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
         if (getActivity() instanceof U01UserActivity) {
             if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_RECOMMANDATIONS))
-                u01People.setImageResource(R.drawable.root_menu_flash_gray_dot);
+                u01People.setImageResource(R.drawable.root_menu_icon_setting_hover2x);
             else
-                u01People.setImageResource(R.drawable.root_menu_flash_gray);
-            u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
+                u01People.setImageResource(R.drawable.root_menu_icon_setting_hover2x);
+         //   u01PeopleTv.setTextColor(getResources().getColor(R.color.darker_gray));
         }
     }
 
