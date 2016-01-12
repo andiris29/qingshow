@@ -183,7 +183,7 @@
     
     self.currBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.availableMoney];
     self.allBonusLabel.text = [NSString stringWithFormat:@"￥%.2f",self.totalMoney];
-    if (self.availableMoney  ==  0) {
+    if (self.totalMoney  ==  0) {
         self.withdrawBtn.backgroundColor = [UIColor lightGrayColor];
         self.withdrawBtn.userInteractionEnabled = NO;
         self.navigationItem.rightBarButtonItem.enabled = NO;
