@@ -27,11 +27,15 @@ import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.httpapi.QSRxApi;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSSubscriber;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.QSTextView;
@@ -64,7 +68,7 @@ public class U20NewBonus extends BaseActivity {
     @InjectView(R.id.u20_msg_line2)
     TextView u20MsgLine2;
     private List<MongoPeople> peoples;
-    private MongoPeople.Bonuses bonuses;
+    private MongoBonus bonus;
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -99,27 +103,43 @@ public class U20NewBonus extends BaseActivity {
     }
 
     private void init() {
-        bonuses = QSModel.INSTANCE.getUser().bonuses.get(QSModel.INSTANCE.getUser().bonuses.size() - 1);
-        u20ItemImage.setImageURI(Uri.parse(bonuses.icon));
-        u20ItemImage.setAspectRatio(0.5f);
+        String id = getIntent().getStringExtra("id");
 
-        u20UserHead.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
-        u20Nickname.setText(QSModel.INSTANCE.getUser().nickname);
+        QSRxApi.queryBonus(id)
+                .subscribe(new QSSubscriber<ArrayList<MongoBonus>>() {
+                    @Override
+                    public void onNetError(int message) {
+                        ErrorHandler.handle(U20NewBonus.this, message);
+                    }
 
-        SpannableString spannableString = new SpannableString("获得了￥" + bonuses.money + "的佣金");
+                    @Override
+                    public void onNext(ArrayList<MongoBonus> bonuses) {
+                        if (null !=bonuses){
+                            bonus = bonuses.get(0);
+                            u20ItemImage.setImageURI(Uri.parse(bonus.icon));
+                            u20ItemImage.setAspectRatio(0.5f);
 
-        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.pink_deep))
-                , "获得了￥".length() - 1, ("获得了￥" + bonuses.money).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            u20UserHead.setImageURI(Uri.parse(QSModel.INSTANCE.getUser().portrait));
+                            u20Nickname.setText(QSModel.INSTANCE.getUser().nickname);
 
-        u20MsgLine2.setText(spannableString);
+                            SpannableString spannableString = new SpannableString("获得了￥" + bonus.amount + "的佣金");
 
-        getPeoplesFromNet();
+                            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.pink_deep))
+                                    , "获得了￥".length() - 1, ("获得了￥" + bonus.amount).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                            u20MsgLine2.setText(spannableString);
+
+                            getPeoplesFromNet();
+                        }
+
+                    }
+                });
     }
 
     private void getPeoplesFromNet() {
-        String[] pIds = bonuses.participants;
+        String[] pIds = bonus.participants;
 
-        if (pIds.length == 0 || pIds == null) return;
+        if (null != pIds && pIds.length == 0 || pIds == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(pIds), new Response.Listener<JSONObject>() {
             @Override

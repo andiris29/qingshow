@@ -33,6 +33,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.RectUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.widget.LoadingDialogs;
 import com.umeng.analytics.MobclickAgent;
 
@@ -41,6 +42,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +82,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if(msg.what == TIME_OUT){
+            if (msg.what == TIME_OUT) {
                 sublit();
                 return true;
             }
@@ -105,12 +108,12 @@ public class S22MatchPreviewActivity extends BaseActivity {
         timerSubmit();
     }
 
-    private void timerSubmit(){
+    private void timerSubmit() {
         timer = new Timer(true);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                if(submitBtn.isEnabled())
+                if (submitBtn.isEnabled())
                     handler.sendEmptyMessage(TIME_OUT);
             }
         };
@@ -126,10 +129,15 @@ public class S22MatchPreviewActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void sublit() {
-        timer.purge();
-        timer.cancel();
-        timer = null;
-        saveMatch();
+        if (timer != null) {
+            timer.purge();
+            timer.cancel();
+            timer = null;
+        }
+
+        if (QSModel.INSTANCE.loggedin()) {
+            saveMatch();
+        }
     }
 
     @OnClick(R.id.back)
@@ -161,7 +169,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
             for (RectF rect : innerItemRects) {
                 list.add(RectUtil.rectSerializer(rect));
             }
-            JSONArray itemRects = new JSONArray(list);
+            JSONArray itemRects = new JSONArray(QSGsonFactory.create().toJson(list));
             JSONArray itemRefs = new JSONArray(QSGsonFactory.create().toJson(innerItemRefs));
 
             map.put("itemRects", itemRects);
@@ -182,8 +190,8 @@ public class S22MatchPreviewActivity extends BaseActivity {
                     QSModel.INSTANCE.setUserStatus(MongoPeople.MATCH_FINISHED);
                 }
 
-                if(null != bitmap)
-                    if(!bitmap.isRecycled())
+                if (null != bitmap)
+                    if (!bitmap.isRecycled())
                         uploadImage();
             }
         }, new QSResponseErrorListener() {
@@ -206,22 +214,33 @@ public class S22MatchPreviewActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 Log.d(S22MatchPreviewActivity.class.getSimpleName(), "uploadImage_response:" + response);
                 if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(S22MatchPreviewActivity.this, MetadataParser.getError(response));
+                    try {
+                        if (response.getJSONObject("metadata").has("limitMessage")) {
+                            ToastUtil.showShortToast(S22MatchPreviewActivity.this, response.getJSONObject("metadata").get("limitMessage").toString());
+                        } else {
+                            ErrorHandler.handle(S22MatchPreviewActivity.this, MetadataParser.getError(response));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     allowClick();
                     return;
                 }
                 show = ShowParser.parse(response);
                 allowClick();
-                Class _class = S03SHowActivity.class;
-                Intent intent = new Intent();
-                if(QSModel.INSTANCE.isGuest()){
-                    _class = S01MatchShowsActivity.class;
-                }
-                intent.setClass(S22MatchPreviewActivity.this, _class);
-                intent.putExtra(S01MatchShowsActivity.INTENT_CURRENT_TYPE, 1);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
-                intent.putExtra(S03SHowActivity.CLASS_NAME, S22MatchPreviewActivity.class.getSimpleName());
-                S22MatchPreviewActivity.this.startActivity(intent);
+//                Intent intent = new Intent(S22MatchPreviewActivity.this, S24ShowsDateActivity.class);
+//                GregorianCalendar calendar = new GregorianCalendar();
+//                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_TO,
+//                        new GregorianCalendar(calendar.get(Calendar.YEAR),
+//                                calendar.get(Calendar.MONTH),
+//                                calendar.get(Calendar.DAY_OF_MONTH),
+//                                calendar.get(Calendar.HOUR_OF_DAY) + 1, 0));
+//                intent.putExtra(S24ShowsDateActivity.MATCH_NEW_FROM, calendar);
+//                calendar.get(Calendar.HOUR_OF_DAY);
+//                //from=2016-01-12T17:52:33%2B0800    &to=2016-01-12T18:00:00%2B0800
+              //  S22MatchPreviewActivity.this.startActivity(intent);
+                jump();
+                appManager.finishActivity(S20MatcherActivity.class);
                 S22MatchPreviewActivity.this.finish();
             }
         }, new QSResponseErrorListener() {
@@ -237,9 +256,20 @@ public class S22MatchPreviewActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(multipartRequest);
     }
 
+    private void jump() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        Intent intent = new Intent(S22MatchPreviewActivity.this, S24ShowsDateActivity.class);
+        intent.putExtra("MATCH_NEW_FROM", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.HOUR_OF_DAY), 0));
+        intent.putExtra("MATCH_NEW_TO", new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), (calendar.get(Calendar.HOUR_OF_DAY)+1), 0));
+        intent.putExtra("title",  calendar.get(Calendar.HOUR_OF_DAY)+":00");
+        //是从哪个类跳过去的
+        intent.putExtra("type", 1);
+        this.startActivity(intent);
+    }
+
     @Override
     protected void onDestroy() {
-        if(null != bitmap) {
+        if (null != bitmap) {
             if (!bitmap.isRecycled()) {
                 bitmap.recycle();
             }
@@ -250,7 +280,7 @@ public class S22MatchPreviewActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (null == bitmap){
+        if (null == bitmap) {
             finish();
         }
         MobclickAgent.onPageStart("S22MatcherPreviewActivity");

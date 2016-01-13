@@ -158,9 +158,7 @@ public class U09TradeListActivity extends BaseActivity implements BGARefreshLayo
 
     public void onEventMainThread(PushGuideEvent event) {
         if (event.unread) {
-            if (event.command.equals(QSPushAPI.TRADE_SHIPPED)
-                    || event.command.equals(QSPushAPI.TRADE_INITIALIZED)
-                    || event.command.equals(QSPushAPI.ITEM_EXPECTABLE_PRICEUPDATED)) {
+            if (event.command.equals(QSPushAPI.TRADE_SHIPPED)) {
                 reconn();
             }
         } else {

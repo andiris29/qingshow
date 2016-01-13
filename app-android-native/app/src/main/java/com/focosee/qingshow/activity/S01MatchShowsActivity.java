@@ -1,30 +1,44 @@
 package com.focosee.qingshow.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01MatchNewAdapter;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.QSRxApi;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSSubscriber;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
+import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
 import com.focosee.qingshow.receiver.PushGuideEvent;
 import com.focosee.qingshow.util.RecyclerViewUtil;
-import com.focosee.qingshow.util.TimeUtil;
+import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.user.UnreadHelper;
 import com.focosee.qingshow.widget.MenuView;
 import com.squareup.timessquare.CalendarPickerView;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -58,9 +72,13 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     @InjectView(R.id.home_time)
     ImageView timeBtn;
 
+    @InjectView(R.id.guide)
+    SimpleDraweeView global;
+
     private S01MatchNewAdapter matchNewAdapter;
 
     private MenuView menuView;
+    private int mScrollThreshold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,28 +105,78 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                 menuView.show(getSupportFragmentManager(), S01MatchShowsActivity.class.getSimpleName(), container);
             }
         });
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            /**
+             * Callback method to be invoked when the RecyclerView has been scrolled. This will be
+             * called after the scroll has completed.
+             * <p/>
+             * This callback will also be called if visible item range changes after a layout
+             * calculation. In that case, dx and dy will be 0.
+             *
+             * @param recyclerView The RecyclerView which scrolled.
+             * @param dx           The amount of horizontal scroll.
+             * @param dy           The amount of vertical scroll.
+             */
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                boolean isSignificantDelta = Math.abs(dy) > mScrollThreshold;
+                if (isSignificantDelta) {
+                    if (dy > 0) {
+                        timeBtn.setVisibility(View.GONE);
+                    } else {
+                        timeBtn.setVisibility(View.VISIBLE);
+                    }
+                }
+
+            }
+        });
         recyclerView.setHasFixedSize(true);
-        matchNewAdapter = new S01MatchNewAdapter(new LinkedList<FeedingAggregation>(), this, R.layout.item_matchnew);
+        matchNewAdapter = new S01MatchNewAdapter(new LinkedList<FeedingAggregationLatest>(), this, R.layout.item_matchnew);
         recyclerView.setAdapter(matchNewAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(matchNewAdapter);
-
         RecyclerViewUtil.setBackTop(recyclerView, s01BackTopBtn, layoutManager);
         mRefreshLayout.beginRefreshing();
+
+        getConfig();
+
+        global.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                global.setVisibility(View.GONE);
+            }
+        });
+
+        container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (calendarPicker.isShown()) calendarPicker.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
+    /**
+     * 初始化日历
+     */
     private void initCalendar() {
         calendarPicker.init(new GregorianCalendar(2015, 1, 1).getTime(), new Date());
         calendarPicker.scrollToDate(new Date());
         calendarPicker.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
+                if (date.after(new Date())) {
+                    ToastUtil.showShortToast(S01MatchShowsActivity.this, "超过当日");
+                }
+
                 GregorianCalendar from = new GregorianCalendar();
                 from.setTime(date);
                 GregorianCalendar to = new GregorianCalendar();
                 to.setTimeInMillis(date.getTime() + 24 * 3600 * 1000);
-                jump(from, to);
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd");
+                String title = sdf1.format(date);
+                jump(from, to, title);
             }
 
             @Override
@@ -118,16 +186,24 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
         });
     }
 
-    private void jump(GregorianCalendar from, GregorianCalendar to){
+    /**
+     * 跳转
+     *
+     * @param from 从哪里
+     * @param to   到哪里
+     */
+    private void jump(GregorianCalendar from, GregorianCalendar to, String data) {
         Intent intent = new Intent(S01MatchShowsActivity.this, S24ShowsDateActivity.class);
         intent.putExtra("MATCH_NEW_FROM", from);
         intent.putExtra("MATCH_NEW_TO", to);
+        intent.putExtra("title", data);
+        intent.putExtra("type" ,0);
         this.startActivity(intent);
     }
 
     @Override
     public void reconn() {
-       mRefreshLayout.beginRefreshing();
+        mRefreshLayout.beginRefreshing();
     }
 
     public void onEventMainThread(String event) {
@@ -155,14 +231,14 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
 
     private void getLatest() {
         QSRxApi.queryFeedingaggregationLatest()
-                .subscribe(new QSSubscriber<List<FeedingAggregation>>() {
+                .subscribe(new QSSubscriber<List<FeedingAggregationLatest>>() {
                     @Override
                     public void onNetError(int message) {
                         ErrorHandler.handle(S01MatchShowsActivity.this, message);
                     }
 
                     @Override
-                    public void onNext(List<FeedingAggregation> feedingAggregations) {
+                    public void onNext(List<FeedingAggregationLatest> feedingAggregations) {
                         matchNewAdapter.addDataAtTop(feedingAggregations);
                     }
 
@@ -173,6 +249,42 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
                         matchNewAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    private void getConfig() {
+        QSJsonObjectRequest request = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getConfig(), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            //   Log.e("test_i","------------- >  "+response.toString());
+                            JSONObject obj = response.getJSONObject("data").getJSONObject("guide");
+                            final SharedPreferences preferences = QSApplication.instance().getPreferences();
+                            SharedPreferences.Editor edit = preferences.edit();
+                            if (obj.has("global")) {
+                                //玩搭配 赢收益图片
+                                final String url = response.getJSONObject("data").getJSONObject("guide").get("global").toString();
+
+                                if (!preferences.getBoolean(url, false)) {
+                                    global.setImageURI(Uri.parse(url));
+                                    global.setVisibility(View.VISIBLE);
+                                    edit.putBoolean(url, true);
+                                }
+
+                            }
+                            if (obj.has("bonus") && obj.getJSONObject("bonus").has("faq")) {
+                                String url = obj.getJSONObject("bonus").getString("faq");
+                                edit.putString("faq", url);
+                            }
+                            edit.apply();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        RequestQueueManager.INSTANCE.getQueue().add(request);
     }
 
     @Override
@@ -194,6 +306,7 @@ public class S01MatchShowsActivity extends BaseActivity implements BGARefreshLay
     @Override
     public void onResume() {
         super.onResume();
+        appManager.popAllActivityExceptOne(S01MatchShowsActivity.class);
         MobclickAgent.onResume(this);
         if (UnreadHelper.hasUnread()) {
             s01MenuBtn.setImageResource(R.drawable.nav_btn_menu_n_dot);

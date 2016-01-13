@@ -49,21 +49,27 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal"
-            android:padding="15dp">
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货人姓名 ： "
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                />
 
             <com.focosee.qingshow.widget.QSEditText
                 android:id="@+id/s11_receipt_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
                 android:background="@null"
-                android:editable="false"
-                android:hint="收货人姓名"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -76,27 +82,37 @@
         <LinearLayout
             android:id="@+id/s11_receipt_province_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal"
-            android:padding="15dp">
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="所在区域 ： "
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/master_blue"
+                android:textSize="15sp"
+                />
 
             <com.focosee.qingshow.widget.QSTextView
                 android:id="@+id/s11_receipt_province"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_height="match_parent"
                 android:layout_weight="11"
-                android:paddingLeft="10dp"
-                android:text="所在区域"
+                android:gravity="center_vertical"
                 android:textColor="@color/master_blue"
                 android:textSize="15sp" />
-
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text=">" />
+                android:text=">"
+                android:textColor="@color/master_blue"
+                android:textSize="18sp"
+                />
+
+
         </LinearLayout>
 
         <View
@@ -106,20 +122,26 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal"
-            android:padding="15dp">
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="详细地址 ： "
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                />
 
             <com.focosee.qingshow.widget.QSEditText
                 android:id="@+id/s11_receipt_address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
                 android:background="@null"
-                android:editable="false"
-                android:hint="详细地址"
                 android:paddingLeft="10dp"
                 android:textSize="15sp" />
 
@@ -132,21 +154,26 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal"
-            android:padding="15dp">
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货人手机号码 ： "
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                />
 
             <com.focosee.qingshow.widget.QSEditText
                 android:id="@+id/s11_receipt_phone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:layout_marginRight="10dp"
                 android:background="@null"
-                android:editable="false"
-                android:hint="收货人手机号码"
                 android:inputType="number"
                 android:numeric="integer"
                 android:textSize="15sp" />

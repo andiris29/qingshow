@@ -1,6 +1,8 @@
 package com.focosee.qingshow.model;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
+
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.ValueUtil;
@@ -14,7 +16,7 @@ public enum QSModel {
     private MongoPeople user;
 
     public boolean loggedin() {
-        return null != user;
+        return !TextUtils.isEmpty(QSApplication.instance().getPreferences().getString("id",""));
     }
 
     public MongoPeople getUser() {
@@ -22,10 +24,7 @@ public enum QSModel {
     }
 
     public boolean isGuest(){
-        if(null == user) return true;
-        if(user.role == null) return false;
-        if(user.role.intValue() == 0) return true;
-        return false;
+        return QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID);
     }
 
     public void setUser(MongoPeople _user) {
@@ -42,11 +41,19 @@ public enum QSModel {
     public void login(MongoPeople _user){
         setUser(_user);
         saveUser(_user._id);
+        if(QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID)){
+            SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+            editor.remove(ValueUtil.GUEST_ID);
+            editor.commit();
+        }
     }
 
     public void removeUser(){
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
         editor.remove("id");
+        if(QSApplication.instance().getPreferences().contains(ValueUtil.GUEST_ID)){
+            editor.remove(ValueUtil.GUEST_ID);
+        }
         editor.commit();
         this.user = null;
     }
@@ -69,4 +76,9 @@ public enum QSModel {
         return getUserStatus() >= status;
     }
 
+    public boolean putGuestId(String guestId){
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.putString(ValueUtil.GUEST_ID, guestId);
+        return editor.commit();
+    }
 }

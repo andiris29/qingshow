@@ -6,7 +6,9 @@ import com.focosee.qingshow.QSApplication;
  * Created by jackyu on 11/22/14.
  */
 public class QSAppWebAPI {
-    public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
+   // public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img//user/portrait/1.png";//识别头像是否是用倾秀上传
+    //http://trial01.focosee.com/img/user/default_portrait_50.png
+   public static final String USER_DEFAULT_PORTRAIT = "http://trial01.focosee.com/img/user/default_portrait_50.png";
     public static final String host_name = "HOST_NAEM";
     public static final String host_address_payment = "HOST_ADDRESS_PAYMENT";
     public static final String host_address_appweb = "HOST_ADDRESS_APPWEB";
@@ -20,6 +22,8 @@ public class QSAppWebAPI {
     private static String USER_SAVE_RECEIVER_API = "/user/saveReceiver";
     private static String USER_REMOVE_RECEIVER_API = "/user/removeReceiver";
     private static String USER_LOGIN_WX_API = "/user/loginViaWeixin";
+
+
 
     private static String USER_LOGOUT = "/user/logout";
 
@@ -49,7 +53,6 @@ public class QSAppWebAPI {
     private static String TRADE_REFRESH = "/trade/refreshPaymentStatus";
 
     private static String TRADE_GET_RETURNRECEIVER = "/trade/getReturnReceiver";
-    private static String TOP_API = "/feeding/hot";
     private static String BYDATE_API = "/feeding/byRecommendDate";
 
     private static String SPREAD_FIRSTLANUCH_API = "/spread/firstLaunch";
@@ -101,11 +104,13 @@ public class QSAppWebAPI {
 
     private static String SHARE_CREATE_TRADE_API = "/share/createTrade";
 
-    private static String SHARE_CREATE_BONUS_API = "/share/createBonus";
-
+   // private static String SHARE_CREATE_BONUS_API = "/share/createBonus";
+   private static String SHARE_CREATE_BONUS_API = "/bonus/withdraw";
+  // private static String SHARE_CREATE_BONUS_API = "share/withdraw";
     private static String USER_LOGINASGUEST_API = "/user/loginAsGuest";
 
-    private static String USER_UPDATEREGISTRATIONID_API = "/user/updateRegistrationId";
+    private static String USER_UPDATEREGISTRATIONID_API = "/user/bindJPush";
+    private static String USER_BING_WEIXIN = "/user/bindWeixin";
 
     private static String FEEDINGAGGREGATION_LATEST = "/feedingAggregation/latest";
 
@@ -115,8 +120,36 @@ public class QSAppWebAPI {
 
     private static String REMIX_BY_ITEM = "/matcher/remixByItem";
     private static final String FEEDING_TIME = "/feeding/time";
-
+    private static String TOP_API = "/feeding/hot";
     private static String QUERY_BUYERS = "/people/queryBuyers";
+
+    private static String GETCONFIG = "/system/getConfig";
+
+    private static String BIND_MOBILE_API = "/bindMobile";
+
+    public static String getBindMobileApi() {
+        return BIND_MOBILE_API;
+    }
+
+    public static String getQueryBonus(String... _ids) {
+        StringBuffer params = new StringBuffer();
+        for (String _id : _ids) {
+            params.append("_ids=");
+            params.append(_id);
+            params.append("&");
+        }
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_BONUS + "?" + params.substring(0, params.length() - 1);
+    }
+
+    private static String QUERY_BONUS = "/bonus/query";
+
+    public static String getBonusOwn() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + "/bonus/own";
+    }
+
+    public static String getConfig() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + GETCONFIG;
+    }
 
     public static String getQueryBuyers() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_BUYERS;
@@ -231,9 +264,9 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_SHARE_API;
     }
 
-    public static String getPeopleQueryApi(String ..._ids) {
+    public static String getPeopleQueryApi(String... _ids) {
         StringBuffer params = new StringBuffer();
-        for (String _id : _ids){
+        for (String _id : _ids) {
             params.append("_ids=");
             params.append(_id);
             params.append("&");
@@ -257,6 +290,10 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_LOGIN_WX_API;
     }
 
+    public static String getUserBingWeixinWxApi() {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + USER_BING_WEIXIN;
+    }
+
     public static String getQueryItems(int pageNo, int pageSize, String categoryRef) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_ITEMS + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&categoryRef=" + categoryRef;
     }
@@ -276,6 +313,9 @@ public class QSAppWebAPI {
     public static String getFeedingTimeApi(int pageNo, int pageSize, String from, String to) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_TIME + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
     }
+    public static String getTopApi(int pageNo, int pageSize, String from, String to) {
+        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TOP_API+ "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&from=" + from + "&to=" + to;
+    }
 
     public static String getQueryCategories() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + QUERY_CATEGORIES;
@@ -291,9 +331,7 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + BYDATE_API + "?date=" + date;
     }
 
-    public static String getTopApi() {
-        return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TOP_API;
-    }
+
 
     public static String getFeedingRecommendationApi() {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + FEEDING_RECOMMENDATION_API;
@@ -323,7 +361,7 @@ public class QSAppWebAPI {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERY_API + "?_id=" + _id + "&inProgress=" + inProgress + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getTradeApi(String _id){
+    public static String getTradeApi(String _id) {
         return QSApplication.instance().getPreferences().getString(QSAppWebAPI.host_name, "") + TRADE_QUERY + "?_ids=" + _id;
     }
 

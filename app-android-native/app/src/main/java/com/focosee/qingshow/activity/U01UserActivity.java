@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -30,6 +31,7 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.QSPushAPI;
+import com.focosee.qingshow.constants.config.UserConfig;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -37,6 +39,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.aggregation.BonusAmount;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.receiver.PushGuideEvent;
@@ -52,6 +55,8 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -104,6 +109,8 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     TextView userFansText;
     @InjectView(R.id.user_head)
     SimpleDraweeView userHead;
+    @InjectView(R.id.iv_rank_gold)
+    ImageView ivRank;
     @InjectView(R.id.user_nav_btn)
     ImageView userNavBtn;
     @InjectView(R.id.circle_tip)
@@ -114,6 +121,11 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     QSTextView userBonuses;
     @InjectView(R.id.container)
     FrameLayout container;
+    @InjectView(R.id.u01_setting)
+    ImageView setting;
+    @InjectView(R.id.bonus)
+    TextView bonus;
+
 
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
@@ -143,9 +155,13 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         initUserInfo();
         if (user._id.equals(QSModel.INSTANCE.getUserId())) {//进入自己的页面时不显示关注按钮
             mySelf();
+            setting.setVisibility(View.VISIBLE);
+            bonus.setVisibility(View.VISIBLE);
         } else {
             isMyself = false;
             others();
+            setting.setVisibility(View.GONE);
+            bonus.setVisibility(View.GONE);
         }
         eventBus = EventBus.getDefault();
         eventBus.register(this);
@@ -155,6 +171,22 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         userViewPager.setOffscreenPageLimit(5);
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
+
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(U01UserActivity.this, U02SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        bonus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                U01UserActivity.this.startActivity(new Intent(U01UserActivity.this, U15BonusActivity.class));
+            }
+        });
     }
 
     private void mySelf() {
@@ -188,7 +220,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
 
     private void others() {
         userNavBtn.setVisibility(View.VISIBLE);
-        userNavBtn.setImageResource(R.drawable.back_gray);
+        userNavBtn.setImageResource(R.drawable.s10_back);
         userNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,6 +285,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(uId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.e("test_i","response --> "+response.toString());
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
                     return;
@@ -269,12 +302,43 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     private void setUserBaseMInfo() {
 
         userName.setText(user.nickname);
+        float totalBonuses = 0f;
+        if(null != QSModel.INSTANCE.getUser() &&  null != QSModel.INSTANCE.getUser().__context) {
+            if(null != QSModel.INSTANCE.getUser().__context.bonusAmountByStatus) {
+                BonusAmount bonusAmount = QSModel.INSTANCE.getUser().__context.bonusAmountByStatus;
+                if (null != bonusAmount) {
+                    Map<String, Number> bonuses = bonusAmount.bonuses;
+                    if (bonuses != null) {
+                        if (bonuses.containsKey("0")) {
+                            totalBonuses += bonuses.get("0").floatValue();
+                        }
+                        if (bonuses.containsKey("1")) {
+                            totalBonuses += bonuses.get("1").floatValue();
+                        }
+                        if (bonuses.containsKey("2")) {
+                            totalBonuses += bonuses.get("2").floatValue();
+                        }
+                    }
+                }
+            }
+        }
+        userBonuses.setText(getString(R.string.get_bonuses_label) + StringUtil.FormatPrice(totalBonuses));
         userHw.setText(StringUtil.formatHeightAndWeight(user.height, user.weight));
-        userBonuses.setText(getText(R.string.get_bonuses_label) + BonusHelper.getTotalBonusesString(user.bonuses));
-        if (!TextUtils.isEmpty(user.portrait))
+        if("0".equals(user.rank)){
+            ivRank.setVisibility(View.VISIBLE);
+        }else {
+            ivRank.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(user.portrait)){
             userHead.setImageURI(Uri.parse(user.portrait));
-        if (!TextUtils.isEmpty(user.background))
+        }else {
+            userHead.setImageURI(Uri.parse(UserConfig.USER_PORTRAIT_50));
+        }
+        if (!TextUtils.isEmpty(user.background)){
             userBg.setImageURI(Uri.parse(user.background));
+        }else {
+            userBg.setImageURI(Uri.parse(UserConfig.USER_HEAD_BG));
+        }
         if (null != user.__context)
             if (user.__context.followedByCurrentUser)
                 userFollowBtn.setImageResource(R.drawable.unfollow_btn);

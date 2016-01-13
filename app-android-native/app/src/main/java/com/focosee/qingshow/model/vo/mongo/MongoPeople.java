@@ -17,8 +17,14 @@ public class MongoPeople implements Serializable {
 
     public String _id;
 
+    public String update;
+    public Number __v;
+    public String create;
+    public RegistrationIDsInfo registrationIDs;
+
     public String nickname;
     public Number role;
+    public String rank;
     public String name;
     public String portrait;
     public String background;
@@ -32,7 +38,6 @@ public class MongoPeople implements Serializable {
     public UserInfo userInfo;
     public LinkedList<Receiver> receivers;
     public MeasureInfo measureInfo;
-    public List<Bonuses> bonuses;
     public boolean bonusWithdrawRequested;
     public List<UnreadNotification> unreadNotifications;
 
@@ -59,6 +64,7 @@ public class MongoPeople implements Serializable {
         public String id;
         public String password;
         public String encryptedPassword;
+        public WeiXinInfo weixin;
     }
 
     public class MeasureInfo implements Serializable {
@@ -66,24 +72,24 @@ public class MongoPeople implements Serializable {
         public Number bust;
         public Number waist;
         public Number hips;
+        public Number shoeSize;
 
-    }
-
-    public class Bonuses implements Serializable {
-        public Number money;
-        public Number status;
-        public String notes;
-        public String alipayId;
-        public GregorianCalendar create;
-        public Trigger trigger;
-        public String icon;
-        public String[] participants;
     }
 
     public class Trigger implements Serializable {
         public String forgerRef;
+        public WeiXinInfo weixin;
         public String tradeRef;
         public String itemRef;
+    }
+    public class WeiXinInfo implements Serializable{
+        public String unionid;
+        public String headimgurl;
+        public String country;
+        public String province;
+        public String nickname;
+        public String openid;
+
     }
 
     public class UnreadNotification implements Serializable {
@@ -95,5 +101,9 @@ public class MongoPeople implements Serializable {
         public String _id;
         public String command;
         public int index;
+    }
+
+    public class RegistrationIDsInfo{
+        public List<String> registrationIDs;
     }
 }

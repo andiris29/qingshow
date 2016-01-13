@@ -55,9 +55,9 @@ public class AppUtil {
     public static DisplayImageOptions getShowDisplayOptions() {
         if (null == showDisplayOptions) {
             showDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.root_cell_placehold_image1) //设置图片在下载期间显示的图片
-                    .showImageForEmptyUri(R.drawable.root_cell_placehold_image2)//设置图片Uri为空或是错误的时候显示的图片
-                    .showImageOnFail(R.drawable.root_cell_placehold_image2)  //设置图片加载/解码过程中错误时候显示的图片
+//                    .showImageOnLoading(R.drawable.root_cell_placehold_image1) //设置图片在下载期间显示的图片
+//                    .showImageForEmptyUri(R.drawable.root_cell_placehold_image2)//设置图片Uri为空或是错误的时候显示的图片
+//                    .showImageOnFail(R.drawable.root_cell_placehold_image2)  //设置图片加载/解码过程中错误时候显示的图片
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                             //.bitmapConfig(Bitmap.Config.RGB_565)
@@ -72,9 +72,9 @@ public class AppUtil {
     public static DisplayImageOptions getModelBackgroundDisplayOptions() {
         if (null == modelBackgroundDisplayOptions) {
             modelBackgroundDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageForEmptyUri(R.drawable.user_background_default)
-                    .showImageOnLoading(R.drawable.user_background_default)
-                    .showImageOnFail(R.drawable.user_background_default)
+//                    .showImageForEmptyUri(R.drawable.user_background_default)
+//                    .showImageOnLoading(R.drawable.user_background_default)
+//                    .showImageOnFail(R.drawable.user_background_default)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .build();

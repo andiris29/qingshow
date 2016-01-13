@@ -67,6 +67,7 @@ import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -78,9 +79,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.functions.Func2;
 
+import static com.focosee.qingshow.R.id.forget_password_btn;
 import static com.focosee.qingshow.R.id.s03_nickname;
 
 public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Response, View.OnClickListener {
@@ -136,6 +140,8 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
     private String showId;
     private String className;
 
+    List<String> modelRefs = new ArrayList<String>();
+
     private List<TextView> tagViewList;
     private MenuView menuView;
     private LoadingDialogs dialogs;
@@ -162,6 +168,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         ButterKnife.inject(this);
         EventBus.getDefault().register(this);
         dialogs = new LoadingDialogs(S03SHowActivity.this);
+
         if (!TextUtils.isEmpty(getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID))) {
             showId = getIntent().getStringExtra(INPUT_SHOW_ENTITY_ID);
         } else showId = "";
@@ -173,7 +180,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
-        tagViewList = new ArrayList<>();
+        tagViewList = new ArrayList<TextView>();
         if (S22MatchPreviewActivity.class.getSimpleName().equals(className)) {
             s03BackBtn.setImageResource(R.drawable.nav_btn_menu_n);
             s03BackBtn.setOnClickListener(new View.OnClickListener() {
@@ -259,9 +266,11 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 .subscribe(new QSSubscriber<JSONObject>() {
                     @Override
                     public void onNetError(int message) {
-                        ErrorHandler.handle(S03SHowActivity.this, message);
-                        if (message == ErrorCode.AlreadyRelated)
+                        if (message == ErrorCode.AlreadyRelated){
                             isAlreadyRelated = true;
+                        }else {
+                            isAlreadyRelated = false;
+                        }
                     }
                 });
     }
@@ -318,7 +327,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
 
         showBonus(showDetailEntity);
 
-        if (showDetailEntity.itemRects != null && !showDetailEntity.itemRects.isEmpty())
+        if (showDetailEntity.itemRects != null && !showDetailEntity.itemRects.isEmpty() && showDetailEntity.itemReductionEnabled)
             showTag(showDetailEntity);
     }
 
@@ -333,14 +342,14 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                     @Override
                     public void onNext(List<MongoPeople> mongoPeoples) {
                         BonusAmount bonusAmount;
-                        if ((bonusAmount = mongoPeoples.get(0).__context.bonusAmountByStatus) != null){
+                        if ((bonusAmount = mongoPeoples.get(0).__context.bonusAmountByStatus) != null) {
                             float totalBonuses = 0f;
                             Map<String, Number> bonuses = bonusAmount.bonuses;
-                            if (bonuses != null){
-                                if (bonuses.containsKey("0")){
-                                    totalBonuses +=  bonuses.get("0").floatValue();
+                            if (bonuses != null) {
+                                if (bonuses.containsKey("0")) {
+                                    totalBonuses += bonuses.get("0").floatValue();
                                 }
-                                if (bonuses.containsKey("1")){
+                                if (bonuses.containsKey("1")) {
                                     totalBonuses += bonuses.get("1").floatValue();
                                 }
                             }
@@ -350,10 +359,46 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 });
     }
 
-    private void showTag(MongoShow show) {
+    private void showTag(final MongoShow show) {
         for (TextView tag : tagViewList) {
             tagFl.removeView(tag);
         }
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (!MetadataParser.hasError(response)) {
+                    try {
+                        String modelParentCategory = response.getJSONObject("metadata").get("modelCategoryRef").toString();
+                        ArrayList<MongoCategories> categories = CategoryParser.parseQuery(response);
+                        for (MongoCategories category : categories) {
+                            if (category.parentRef != null && category.parentRef._id.equals(modelParentCategory)){
+                                modelRefs.add(category._id);
+                            }
+                        }
+                        addTagTo(show);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+        tagFl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (TextView tag : tagViewList) {
+                        if (tag.getVisibility() == View.VISIBLE){
+                            tag.setVisibility(View.INVISIBLE);
+                        }else if(tag.getVisibility() == View.INVISIBLE){
+                            tag.setVisibility(View.VISIBLE);
+                        }
+                }
+            }
+        });
+    }
+
+    private void addTagTo(MongoShow show){
         Observable.zip(
                 Observable.from(show.itemRects),
                 Observable.from(show.itemRefs),
@@ -362,17 +407,25 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                     public TextView call(QSRect qsRect, final MongoItem item) {
                         Point point = new Point(image.getWidth(), image.getHeight());
                         TextView tag = initTag(qsRect.getRect(point));
-                        if (item.expectable.reduction != null) {
-                            tag.setText("减" + item.expectable.reduction.intValue());
-                        }
-                        tag.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(S03SHowActivity.this, S11NewTradeActivity.class);
-                                intent.putExtra(S11NewTradeActivity.OUTPUT_ITEM_ENTITY, item);
-                                startActivity(intent);
+                        if(item != null){
+                            if(item.expectable != null ){
+                                if (item.expectable.reduction != null) {
+                                    tag.setText("减" + item.expectable.reduction.intValue());
+                                }
+                            }else{
+                                tag.setText("");
+                                tag.setBackgroundResource(R.drawable.point_white);
                             }
-                        });
+                            tag.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(S03SHowActivity.this, S11NewTradeActivity.class);
+                                    intent.putExtra(S11NewTradeActivity.OUTPUT_ITEM_ENTITY, item);
+                                    startActivity(intent);
+                                }
+                            });
+                            tag.setTag(item._id);
+                        }
                         return tag;
                     }
                 }).subscribe(new Action1<TextView>() {
@@ -382,6 +435,24 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                 tagFl.addView(tagView);
             }
         });
+
+        Observable.from(show.itemRefs)
+                .filter(new Func1<MongoItem, Boolean>() {
+                    @Override
+                    public Boolean call(MongoItem mongoItem) {
+                        return mongoItem.delist != null || modelRefs.contains(mongoItem.categoryRef._id);
+                    }
+                })
+                .subscribe(new Action1<MongoItem>() {
+                    @Override
+                    public void call(MongoItem mongoItem) {
+                        for (TextView view : tagViewList) {
+                            if (view.getTag().equals(mongoItem._id)){
+                                view.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
     }
 
     private TextView initTag(RectF rectF){
@@ -394,7 +465,7 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         tag.setTextColor(Color.WHITE);
         tag.setGravity(Gravity.CENTER);
         tag.setTextSize(12);
-        tag.setPadding(38,10,20,10);
+        tag.setPadding(38, 10, 20, 10);
         tag.setBackgroundDrawable(getResources().getDrawable(R.drawable.show_tag_background));
         return tag;
     }
@@ -549,23 +620,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
         }
     }
 
-    private void getCategories() {
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (!MetadataParser.hasError(response)) {
-                    Map<String, MongoCategories> categoriesMap = new HashMap<>();
-                    for (MongoCategories categories : CategoryParser.parseQuery(response)) {
-                        categoriesMap.put(categories._id, categories);
-                    }
-                    CategoriesModel.INSTANCE.setCategories(categoriesMap);
-                }
-            }
-        });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
     private void hideShow() {
         Map<String, String> params = new HashMap<>();
         params.put("_id", showDetailEntity._id);
@@ -602,9 +656,6 @@ public class S03SHowActivity extends BaseActivity implements IWeiboHandler.Respo
                     break;
                 case R.id.share_wx_timeline:
                     ShareUtil.shareShowToWX(showDetailEntity._id, ValueUtil.SHARE_SHOW, context, true);
-                    break;
-                case R.id.share_sina:
-                    ShareUtil.shareShowToSina(showDetailEntity._id, context, mWeiboShareAPI);
                     break;
             }
         }

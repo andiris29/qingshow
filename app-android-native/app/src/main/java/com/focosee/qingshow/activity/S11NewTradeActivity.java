@@ -8,6 +8,8 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,10 +57,13 @@ import com.focosee.qingshow.util.ToastUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.sku.SkuHelper;
 import com.focosee.qingshow.util.sku.SkuUtil;
+import com.focosee.qingshow.widget.QSCanvasView;
+import com.focosee.qingshow.widget.QSImageView;
 import com.focosee.qingshow.widget.QSTextView;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 import com.focosee.qingshow.wxapi.ShareTradeEvent;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -104,6 +109,14 @@ public class S11NewTradeActivity extends BaseActivity {
     TextView text;
     @InjectView(R.id.share)
     QSTextView share;
+    @InjectView(R.id.s11_go_det)
+    TextView goDet;
+    @InjectView(R.id.iv_s11_go_det_logo)
+    SimpleDraweeView ivLogo;
+    @InjectView(R.id.s11_hint)
+    TextView hint;
+    @InjectView(R.id.tv_s11_title)
+    TextView tvTitle;
 
     private MongoItem itemEntity;
     private MongoTrade trade;
@@ -122,6 +135,7 @@ public class S11NewTradeActivity extends BaseActivity {
     private int checkIndex[];
     private MongoTrade t;
     private Map<String, String> skuTable = new HashMap<>();
+    private boolean isCheck = true;
 
 
     public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
@@ -136,20 +150,20 @@ public class S11NewTradeActivity extends BaseActivity {
 
         itemEntity = (MongoItem) this.getIntent().getExtras().getSerializable(OUTPUT_ITEM_ENTITY);
         trade = new MongoTrade();
-        selectProps = new HashMap<>();
-        selectRadioButton = new HashMap<>();
+        selectProps = new HashMap<String, List<String>>();
+        selectRadioButton = new HashMap<String, List<FlowRadioButton>>();
         if (itemEntity.promoPrice != null) {
             basePrice = itemEntity.promoPrice.doubleValue();
         }
-        initDes();
+        initDes(itemEntity);
         if (null != itemEntity.skuTable && !Collections.emptyList().equals(itemEntity.skuTable)
                 && itemEntity.skuProperties != null && itemEntity.skuProperties.size() != 0) {
-            initProps();
-            initSkuTable();
+            initProps(itemEntity);
+            initSkuTable(itemEntity);
         } else {
             changeBtnClickable(false);
         }
-        canvasList = new ArrayList<>();
+        canvasList = new ArrayList<FrameLayout>();
         adapter = new S11CanvasPagerAdapter(canvasList);
         canvasPager.setAdapter(adapter);
 
@@ -161,22 +175,39 @@ public class S11NewTradeActivity extends BaseActivity {
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemEntity != null){
+                if (itemEntity != null) {
                     addCanvas(itemEntity._id);
                 }
             }
         });
 
         initBuyers(itemEntity._id);
+        if( itemEntity != null && itemEntity.expectable != null) {
+            float price = itemEntity.promoPrice.floatValue() - itemEntity.expectable.reduction.floatValue();
+            if(price < 0) {
+                price = 0 ;
+            }
+            submit.setText(StringUtil.FormatPrice(price)+ " 购买");
+            share.setText("活动立减" + itemEntity.expectable.reduction.floatValue() + "元");
+        }else {
+            share.setVisibility(View.GONE);
+            submit.setText( " 立即购买");
+        }
 
-        submit.setText(StringUtil.FormatPrice(itemEntity.promoPrice.floatValue() - itemEntity.expectable.reduction.floatValue())
-                + " 购买");
-        share.setText("分享搭配立减" + itemEntity.expectable.reduction.floatValue() + "元");
 
         findViewById(R.id.backImageView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 S11NewTradeActivity.this.finish();
+            }
+        });
+
+        goDet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S11NewTradeActivity.this, S10ItemDetailActivity.class);
+                intent.putExtra(S10ItemDetailActivity.INPUT_ITEM_ENTITY, itemEntity);
+                S11NewTradeActivity.this.startActivity(intent);
             }
         });
     }
@@ -188,7 +219,12 @@ public class S11NewTradeActivity extends BaseActivity {
     }
 
     //skuTable(没有库存的商品)
-    private void initSkuTable() {
+    private void initSkuTable(MongoItem itemEntity) {
+        if (itemEntity.skuTable == null){
+            propsLayout.removeAllViews();
+            return;
+        }
+
         for (String key : itemEntity.skuTable.keySet()) {
             if (SkuHelper.obtainSkuStock(itemEntity.skuTable, key) < 1) {
                 skuTable.put(key, itemEntity.skuTable.get(key));
@@ -240,7 +276,8 @@ public class S11NewTradeActivity extends BaseActivity {
         }
     };
 
-    private void initProps() {
+    private void initProps(MongoItem itemEntity) {
+        propsLayout.removeAllViews();
         keys_order = SkuUtil.getKeyOrder(itemEntity.skuProperties);
         props = SkuUtil.filter(itemEntity.skuProperties, keys_order);
         checkIndex = new int[props.size()];
@@ -253,7 +290,7 @@ public class S11NewTradeActivity extends BaseActivity {
 
     //选择属性时，同步更新其他属性的状态。
     private void checkNotExistItem(String prop, int index) {
-        Map<String, List<String>> tempMap = new HashMap<>(selectProps);
+        Map<String, List<String>> tempMap = new HashMap<String, List<String>>(selectProps);
         for (String p : keys_order) {
             if (p.equals(prop)) {
                 continue;
@@ -293,14 +330,34 @@ public class S11NewTradeActivity extends BaseActivity {
     }
 
     private void changeBtnClickable(boolean clickable) {
-        submit.setClickable(clickable);
+        isCheck = clickable;
+      //  submit.setClickable(clickable);
     }
 
 
-    private void initDes() {
-        desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
-        itemName.setText(itemEntity.name);
-        if (itemEntity != null) {
+    private void initDes(MongoItem itemEntity)  {
+
+        if( itemEntity != null){
+            desImg.setImageURI(Uri.parse(itemEntity.thumbnail));
+            itemName.setText(itemEntity.name);
+            if( itemEntity.expectable != null){
+                hint.setText(itemEntity.expectable.message);
+            }
+            //ivLogo
+       //     Log.e("test_i" ,"itemEntity.thumbnail  --> "+ itemEntity.thumbnail);
+            if (null != itemEntity.sourceInfo) {
+                ivLogo.setImageURI(Uri.parse(itemEntity.sourceInfo.icon));
+            }
+            Gson gson = new Gson();
+            String json = gson.toJson(itemEntity.shopRef);
+            try {
+                JSONObject obj = new JSONObject(json);
+                if (obj.has("nickname")){
+                    tvTitle.setText(obj.getString("nickname"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             price.setText(StringUtil.FormatPrice(itemEntity.promoPrice));
         }
     }
@@ -342,35 +399,45 @@ public class S11NewTradeActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-        if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
-            GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-            return;
+        if (isCheck) {
+            if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
+                GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+                Log.e("submitBtn --> ","QSModel.INSTANCE.loggedin() --> "+QSModel.INSTANCE.loggedin() +"  QSModel.INSTANCE.isGuest()---> "+QSModel.INSTANCE.isGuest());
+                return;
+            }
+
+            UserCommand.refresh(new Callback() {
+                @Override
+                public void onComplete() {
+                    if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
+                        return;
+                    }
+                    //submit.setClickable(false);
+                    if (selectProps.size() > 0){
+                        trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
+                        trade.itemSnapshot = itemEntity;
+                        trade.quantity = num;
+                        submitToNet(trade);
+                    }else {
+                        ToastUtil.showShortToast(S11NewTradeActivity.this,"选择商品属性哦~");
+                    }
+                }
+            });
+        }else {
+            ToastUtil.showShortToast(this ,"系统有误，请稍后！");
         }
 
-        UserCommand.refresh(new Callback() {
-            @Override
-            public void onComplete() {
-                if (TextUtils.isEmpty(QSModel.INSTANCE.getUser().mobile)) {
-                    return;
-                }
-
-                submit.setClickable(false);
-                if (selectProps.size() > 0){
-                    trade.selectedSkuProperties = SkuUtil.propParser(selectProps, keys_order);
-                    trade.itemSnapshot = itemEntity;
-                    trade.quantity = num;
-                    submitToNet(trade);
-                }else {
-                    ToastUtil.showShortToast(S11NewTradeActivity.this,"选择商品属性哦~");
-                }
-            }
-        });
     }
 
+    /***
+     * 提交订单
+     * @param trade
+     */
     private void submitToNet(MongoTrade trade) {
         Map params = new HashMap();
         params.put("expectedPrice", trade.expectedPrice);
         if (trade.selectedSkuProperties == null || trade.selectedSkuProperties.size() < 0){
+            ToastUtil.showShortToast(S11NewTradeActivity.this,"expectedPrice 为空");
             return;
         }
         try {
@@ -391,7 +458,7 @@ public class S11NewTradeActivity extends BaseActivity {
                 }
                 EventBus.getDefault().post(ValueUtil.SUBMIT_TRADE_SUCCESSED);
                 t = TradeParser.parse(response);
-                //ShareUtil.shareTradeToWX(t._id, ValueUtil.SHARE_TRADE, S11NewTradeActivity.this, true);
+                ShareUtil.shareTradeToWX(t._id, ValueUtil.SHARE_TRADE, S11NewTradeActivity.this, true);
                 EventBus.getDefault().post(new ShareTradeEvent(true));
             }
         }, new Response.ErrorListener() {
@@ -405,7 +472,7 @@ public class S11NewTradeActivity extends BaseActivity {
 
     //buyers
     //------------------------------------------------------------------------------------
-    private void initBuyers(String itemRef){
+    private void initBuyers(String itemRef) {
         QSRxApi.queryBuyers(itemRef)
                 .subscribe(new QSSubscriber<List<MongoPeople>>() {
                     @Override
@@ -430,9 +497,28 @@ public class S11NewTradeActivity extends BaseActivity {
 
     //canvas
     //------------------------------------------------------------------------------------
-    private void addCanvas(String itemRef) {
-        final FrameLayout canvas = new FrameLayout(this);
 
+    Handler skuPropHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            MongoItem item = (MongoItem)msg.obj;
+            initDes(item);
+            initProps(item);
+            initSkuTable(item);
+            super.handleMessage(msg);
+        }
+    };
+
+    private void addCanvas(String itemRef) {
+        final QSCanvasView canvas = new QSCanvasView(this);
+        canvas.setOnCheckedChangeListener(new QSCanvasView.OnCheckedChangeListener() {
+            @Override
+            public void checkedChanged(QSImageView view) {
+                Message message = skuPropHandler.obtainMessage();
+                message.obj = view.getTag();
+                skuPropHandler.sendMessage(message);
+            }
+        });
         QSRxApi.remixByItem(itemRef)
                 .subscribe(new QSSubscriber<RemixByItem>() {
                     @Override
@@ -459,16 +545,19 @@ public class S11NewTradeActivity extends BaseActivity {
 
     }
 
-    private void addItemToCanvas(ViewGroup canvas, MongoItem item, final RectF rectF) {
-        final ImageView imageView = new ImageView(this);
+    private void addItemToCanvas(QSCanvasView canvas, MongoItem item, final RectF rectF) {
+        final QSImageView imageView = new QSImageView(this);
+        imageView.setTag(item);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-        canvas.addView(imageView, layoutParams);
-        ImageLoader.getInstance().displayImage(item.thumbnail, imageView, AppUtil.getShowDisplayOptions(), new SimpleImageLoadingListener() {
+        imageView.setLayoutParams(layoutParams);
+        imageView.setRemoveEnable(false);
+        canvas.attach(imageView);
+        ImageLoader.getInstance().displayImage(item.thumbnail, imageView.getImageView(), AppUtil.getShowDisplayOptions(), new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
-                PointF point = RectUtil.getImageViewDrawablePoint(imageView);
+                PointF point = RectUtil.getImageViewDrawablePoint(imageView.getImageView());
                 RectUtil.locateView(rectF, imageView, point.x, point.y);
                 ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", 0, 1.0f);
                 animator.setDuration(500);

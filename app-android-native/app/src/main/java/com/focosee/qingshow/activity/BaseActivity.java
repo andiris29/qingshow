@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.CategoriesCommand;
 import com.focosee.qingshow.command.SystemCommand;
+import com.focosee.qingshow.util.AppManager;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ValueUtil;
 import com.focosee.qingshow.util.push.PushHepler;
@@ -31,7 +33,8 @@ import cn.jpush.android.api.JPushInterface;
  * Created by Administrator on 2015/2/5.
  */
 public abstract class BaseActivity extends FragmentActivity {
-
+    public AppManager appManager;
+    public final Activity context = this;
     public static String NOTNET = "not_net";
     public static String PUSHNOTIFY = "PUSHNOTIFY";
     public static String SHOW_GUIDE = "SHOW_GUIDE";
@@ -111,6 +114,8 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appManager = AppManager.getAppManager();
+        appManager.addActivity(context);
         if (QSApplication.instance().getPreferences().getBoolean(ValueUtil.UPDATE_APP_FORCE, false)) {
             showUpdateDialog();
         }
@@ -138,6 +143,8 @@ public abstract class BaseActivity extends FragmentActivity {
         unregisterReceiver(netReceiver);
         unregisterReceiver(pushReceiver);
         unregisterReceiver(showGuideReceiver);
+        appManager.finishActivity(context);
+        appManager = null;
         super.onDestroy();
     }
 

@@ -38,6 +38,7 @@
     <string name="others_activity_settings">其他</string>
     <string name="change_password_activity_settings">更改密码</string>
     <string name="bonus_activity_settings">佣金账户</string>
+    <string name="bonus_shouyi">收益账户</string>
     <string name="change_email_activity_settings">更改邮件地址</string>
     <string name="inform_activity_settings">通知设定</string>
     <string name="rules_activity_settings">使用条例</string>
@@ -103,6 +104,7 @@
     <string name="phone_activity_addresslist">电话:</string>
     <string name="address_activity_addresslist">地址:</string>
     <string name="choose_address_please">请选择收货地址</string>
+    <string name="change_password">修改密码</string>
 
     <!-- Return Activity -->
     <string name="title_activity_return">ReturnActivity</string>
@@ -179,7 +181,7 @@
     <string name="apply_return_activity_trade">申请退货</string>
     <string name="comfirm_receive_activity_trade">确认收货</string>
     <string name="service_text">客服热线:</string>
-    <string name="service_phone_number">4008- 123- 655</string>
+    <string name="service_phone_number">4007- 501- 010</string>
     <string name="service_describe1">7天退货</string>
     <string name="service_describe2">极速发货</string>
     <string name="service_describe3">全场免运</string>
@@ -233,6 +235,7 @@
     <string name="title_activity_city">CityActivity</string>
 
     <string name="only_number">0123456789</string>
+    <string name="number_letter">abckefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
     <!-- U15BonusActivity -->
     <string name="title_activity_u15_bonus">U15BonusActivity</string>
@@ -242,7 +245,7 @@
     <string name="u15_hint_edit">请输入支付宝账号</string>
     <string name="u15_hint">*分享微信朋友圈完成提现后，系统自动将佣金通过微信红包发送给您，请注意服务通知/ba</string>
     <string name="u15_btn_text">朋友圈分享提现</string>
-    <string name="u15_title_right_btn">佣金明细</string>
+    <string name="u15_title_right_btn">收益明细</string>
     <string name="title_activity_u16_bonus_list">U16BonusListActivity</string>
     <string name="title_activity_t01_highlighted_trade_list">T01HighlightedTradeListActivity</string>
 
@@ -267,7 +270,9 @@
     <string name="u20_msg_line1">您搭配的单品已被购买</string>
     <string name="u20_submit_btn">马上提现</string>
     <string name="u20_msg3">最近搭配过该商品的用户也可以获得共享佣金哦</string>
+    <string name="u20_msg4">什么是销售佣金？</string>
     <string name="title_activity_u21_new_participant_bonus">U21NewParticipantBonus</string>
+    <string name="u20_sale">销售佣金</string>
 
     <!-- u21 -->
     <string name="u21_msg_line1">她与你搭配了同一款单品，当她得到佣金时</string>
@@ -280,10 +285,20 @@
     <string name="title_activity_s23_search">S23SearchActivity</string>
     <string name="top_list_title">TOP LIST</string>
     <string name="withdraw">可提现金额</string>
-    <string name="total_bonus">佣金总额</string>
+    <string name="total_bonus">收益总额</string>
     <string name="u15_packet_hint">购物新时尚，天猫折上折，倾秀来搞定!</string>
     <string name="u15_qa"><![CDATA[常见问题Q&A]]></string>
+
+
     <string name="s11_follow">随心搭</string>
     <string name="s11_hint">将你的随心搭分享到朋友圈可获得惊喜低价哦</string>
     <string name="details">查看详情</string>
+    <string name="title_activity_u23_bind_mobile">U23BindMobile</string>
+    <!--s25show-->
+    <string name="s25_title">潮流前沿</string>
+    <!-- u08-->
+    <string name="u08_cur_password">当前密码</string>
+    <string name="u08_new_password">新密码</string>
+    <string name="u08_cur_hint_text">英文数字8-12字符</string>
+
 </resources>

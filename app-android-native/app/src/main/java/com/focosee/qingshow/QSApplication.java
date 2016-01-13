@@ -11,11 +11,6 @@ import android.graphics.Point;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.focosee.qingshow.activity.BaseActivity;
-import com.focosee.qingshow.activity.U06LoginActivity;
-import com.focosee.qingshow.activity.U07RegisterActivity;
-import com.focosee.qingshow.activity.U17ResetPasswordStep1Activity;
-import com.focosee.qingshow.activity.U18ResetPasswordStep2Activity;
-import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.fresco.factory.QSImagePipelineConfigFactory;
 import com.focosee.qingshow.model.QSModel;
@@ -31,7 +26,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import java.io.File;
@@ -65,9 +59,7 @@ public class QSApplication extends Application {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
         if(AppUtil.isApkInDebug(this)){
-            LeakCanary.install(this);
         }
-
         showLoginGuide();
     }
 
@@ -118,7 +110,7 @@ public class QSApplication extends Application {
     private void showLoginGuide(){
 
         if(QSModel.INSTANCE.getUserStatus() == MongoPeople.MATCH_FINISHED
-                || (QSModel.INSTANCE.getUserStatus() == MongoPeople.LOGIN_GUIDE_FINISHED && QSModel.INSTANCE.isGuest())) {
+                || (QSModel.INSTANCE.getUserStatus() == MongoPeople.LOGIN_GUIDE_FINISHED && QSModel.INSTANCE.isGuest()) || !QSModel.INSTANCE.loggedin()) {
             timer = new Timer(true);
             TimerTask timerTask = new TimerTask() {
                 @Override

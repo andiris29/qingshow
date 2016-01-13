@@ -1,24 +1,29 @@
 package com.focosee.qingshow.httpapi;
 
+import android.util.Log;
+
 import com.android.volley.Request.Method;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RxRequest;
-import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationParser;
+import com.focosee.qingshow.httpapi.response.dataparser.BonusParser;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingAggregationLatestParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByItemParser;
 import com.focosee.qingshow.httpapi.response.dataparser.RemixByModelParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.model.vo.aggregation.FeedingAggregationLatest;
+import com.focosee.qingshow.model.vo.mongo.MongoBonus;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.model.vo.remix.RemixByItem;
-import com.focosee.qingshow.model.vo.remix.RemixByModel;
-import com.focosee.qingshow.model.vo.aggregation.FeedingAggregation;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.model.vo.remix.RemixByItem;
+import com.focosee.qingshow.model.vo.remix.RemixByModel;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,33 +33,30 @@ import java.util.Map;
 import rx.Observable;
 import rx.functions.Func1;
 
-/**
- * Created by Administrator on 2015/11/19.
- */
 public class QSRxApi {
 
-    public static Observable<List<FeedingAggregation>> queryFeedingaggregationLatest(){
+    public static Observable<List<FeedingAggregationLatest>> queryFeedingaggregationLatest(){
         return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getFeedingaggregationLatest(), null)
-                .map(new Func1<JSONObject, List<FeedingAggregation>>() {
+                .map(new Func1<JSONObject, List<FeedingAggregationLatest>>() {
                     @Override
-                    public List<FeedingAggregation> call(JSONObject jsonObject) {
-                    List<FeedingAggregation> feedingAggregations = FeedingAggregationParser.parseQuery(jsonObject);
-                    Collections.sort(feedingAggregations, new Comparator<FeedingAggregation>() {
+                    public List<FeedingAggregationLatest> call(JSONObject jsonObject) {
+                    List<FeedingAggregationLatest> feedingAggregations = FeedingAggregationLatestParser.parseQuery(jsonObject);
+                    Collections.sort(feedingAggregations, new Comparator<FeedingAggregationLatest>() {
                         @Override
-                        public int compare(FeedingAggregation lhs, FeedingAggregation rhs) {
+                        public int compare(FeedingAggregationLatest lhs, FeedingAggregationLatest rhs) {
                             return Integer.parseInt(rhs.key) - Integer.parseInt(lhs.key);
                         }
                     });
                     return feedingAggregations;
                     }
-                }).flatMap(new Func1<List<FeedingAggregation>, Observable<FeedingAggregation>>() {
+                }).flatMap(new Func1<List<FeedingAggregationLatest>, Observable<FeedingAggregationLatest>>() {
                     @Override
-                    public Observable<FeedingAggregation> call(List<FeedingAggregation> feedingAggregations) {
+                    public Observable<FeedingAggregationLatest> call(List<FeedingAggregationLatest> feedingAggregations) {
                         return Observable.from(feedingAggregations);
                     }
-                }).filter(new Func1<FeedingAggregation, Boolean>() {
+                }).filter(new Func1<FeedingAggregationLatest, Boolean>() {
                     @Override
-                    public Boolean call(FeedingAggregation feedingAggregation) {
+                    public Boolean call(FeedingAggregationLatest feedingAggregation) {
                         return feedingAggregation.topShows.size() > 0;
                     }
                 }).toList();
@@ -66,6 +68,20 @@ public class QSRxApi {
         reqData.put("to", to);
 
         return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getFeedingTimeApi(pageNo, pageSize, from, to), null)
+                .map(new Func1<JSONObject, List<MongoShow>>() {
+                    @Override
+                    public List<MongoShow> call(JSONObject jsonObject) {
+                        return ShowParser.parseQuery(jsonObject);
+                    }
+                });
+    }
+
+    public static Observable<List<MongoShow>> feedingHot(int pageNo, int pageSize, String from, String to){
+        Map<String, Object> reqData = new HashMap<String, Object>();
+        reqData.put("from", from);
+        reqData.put("to", to);
+
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getTopApi(pageNo, pageSize, from, to), null)
                 .map(new Func1<JSONObject, List<MongoShow>>() {
                     @Override
                     public List<MongoShow> call(JSONObject jsonObject) {
@@ -125,4 +141,40 @@ public class QSRxApi {
                     }
                 });
     }
+
+    public static Observable<ArrayList<MongoBonus>> getOwnBonus(){
+        return RxRequest.createJsonRequest(Method.GET,QSAppWebAPI.getBonusOwn(),null)
+                .map(new Func1<JSONObject, ArrayList<MongoBonus>>() {
+                    @Override
+                    public ArrayList<MongoBonus> call(JSONObject jsonObject) {
+                        return BonusParser.parseQuery(jsonObject);
+                    }
+                });
+    }
+
+    public static Observable<ArrayList<MongoBonus>> queryBonus(String ... ids){
+        return RxRequest.createJsonRequest(Method.GET, QSAppWebAPI.getQueryBonus(ids),null)
+                .map(new Func1<JSONObject, ArrayList<MongoBonus>>() {
+                    @Override
+                    public ArrayList<MongoBonus> call(JSONObject jsonObject) {
+                        return BonusParser.parseQuery(jsonObject);
+                    }
+                });
+    }
+
+    public static Observable<MongoPeople> bindMobile(String mobile, String verificationCode){
+
+        Map<String,String> params = new HashMap<>();
+        params.put("mobile", mobile);
+        params.put("verificationCode", verificationCode);
+        return RxRequest.createJsonRequest(Method.POST, QSAppWebAPI.getBindMobileApi(), new JSONObject(params))
+                .map(new Func1<JSONObject, MongoPeople>() {
+                    @Override
+                    public MongoPeople call(JSONObject jsonObject) {
+                        return UserParser._parsePeople(jsonObject);
+                    }
+                });
+    }
+
+
 }

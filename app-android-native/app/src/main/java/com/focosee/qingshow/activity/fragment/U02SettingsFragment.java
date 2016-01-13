@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S01MatchShowsActivity;
+import com.focosee.qingshow.activity.U08ChangPasswordActivity;
 import com.focosee.qingshow.activity.U19LoginGuideActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.activity.U15BonusActivity;
@@ -83,10 +84,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout bodyTypeRelativeLayout;
-    private RelativeLayout bonusRelativeLayout;
     private RelativeLayout addresslistRelativeLayout;
     private RelativeLayout dressStyleRelativeLayout;
     private RelativeLayout effectRelativeLayout;
+    private RelativeLayout rlChangePassword;
     private ImageView portraitImageView;
     private ImageView backgroundImageView;
     private EditText nameEditText;
@@ -277,7 +278,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
         bodyTypeRelativeLayout = (RelativeLayout) view.findViewById(R.id.bodyTypeRelativeLayout);
-        bonusRelativeLayout = (RelativeLayout) view.findViewById(R.id.bonusRelativeLayout);
         addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
         dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
         effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
@@ -294,7 +294,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
         container = (FrameLayout) view.findViewById(R.id.container);
-        bonusTip = view.findViewById(R.id.u02_bonus_tip);
+        rlChangePassword = (RelativeLayout) view.findViewById(R.id.rl_change_password);
+//        bonusTip = view.findViewById(R.id.u02_bonus_tip);
         title = (QSTextView) view.findViewById(R.id.u02_title);
     }
 
@@ -314,11 +315,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 quitButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ConfirmDialog dialog = new ConfirmDialog(getActivity());
+                        final ConfirmDialog dialog = new ConfirmDialog(getActivity());
                         dialog.setTitle("确定退出登陆？");
                         dialog.setConfirm(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                dialog.dismiss();
                                 UserCommand.logOut(new Callback() {
                                     @Override
                                     public void onComplete() {
@@ -534,10 +536,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
                 commitForm();
-                menuView = new MenuView();
-                menuView.show(getActivity().getSupportFragmentManager(), U02SettingsFragment.class.getSimpleName(), container);
+                if (null != getActivity())
+                    getActivity().finish();
             }
         });
 
@@ -568,13 +569,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-        bonusRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bonusTip.setVisibility(View.GONE);
-                getActivity().startActivity(new Intent(getActivity(), U15BonusActivity.class));
-            }
-        });
 
         addresslistRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -608,17 +602,22 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 U02Model.INSTANCE.set_class(U02SelectExceptionFragment.class);
             }
         });
+        rlChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),U08ChangPasswordActivity.class));
+            }
+        });
     }
 
     public void onEventMainThread(PushGuideEvent event) {
         if (event.unread) {
-            backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
             if (event.command.equals(QSPushAPI.NEW_BONUSES) || event.command.equals(QSPushAPI.BONUS_WITHDRAW_COMPLETE)) {
                 bonusTip.setVisibility(View.VISIBLE);
             }
         } else {
-            if (!UnreadHelper.hasUnread())
-                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
+//            if (!UnreadHelper.hasUnread())
+//                backTextView.setImageResource(R.drawable.nav_btn_menu_n);
         }
     }
 
@@ -632,7 +631,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         super.onResume();
         MobclickAgent.onPageStart("U02SettingsFragment"); //统计页面
         if (UnreadHelper.hasUnread()) {
-            backTextView.setImageResource(R.drawable.nav_btn_menu_n_dot);
             if (UnreadHelper.hasMyNotificationCommand(QSPushAPI.BONUS_WITHDRAW_COMPLETE)
                     || UnreadHelper.hasMyNotificationCommand(QSPushAPI.NEW_BONUSES)) {
                 bonusTip.setVisibility(View.VISIBLE);

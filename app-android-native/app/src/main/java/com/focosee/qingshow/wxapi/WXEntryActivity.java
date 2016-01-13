@@ -7,14 +7,18 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alipay.sdk.util.LogUtils;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.facebook.stetho.common.LogUtil;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
+import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.activity.U14PayActivity;
+import com.focosee.qingshow.activity.U23BindMobile;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -51,22 +55,37 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_wxentry);
         QSApplication.instance().getWxApi().handleIntent(getIntent(), this);
     }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//
+//        setIntent(intent);
+//        QSApplication.instance().getWxApi().handleIntent(getIntent(), this);
+//    }
 
+    // 微信发送请求到第三方应用时，会回调到该方法
     @Override
     public void onReq(BaseReq baseReq) {
 
     }
-
+    // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
     @Override
     public void onResp(BaseResp baseResp) {
+
+
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp resp = (SendAuth.Resp) baseResp;
-            loginWX(resp.code);
-            finish();
+            if (resp.state.equals(ValueUtil.WX_BING)){
+                bindWx(resp.code);
+                Log.e("test_i","resp.code --> "+resp.code);
+                finish();
+            }else {
+                loginWX(resp.code);
+                finish();
+            }
             return;
         }
         if (baseResp instanceof SendMessageToWX.Resp) {
@@ -108,7 +127,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     private void loginWX(final String code) {
-
         Map<String, String> map = new HashMap<>();
         map.put("code", code);
         map.put("registrationId", PushModel.INSTANCE.getRegId());
@@ -130,6 +148,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     FileUtil.uploadDefaultPortrait(WXEntryActivity.this);
                 }
                 QSModel.INSTANCE.login(user);
+                if(TextUtils.isEmpty(user.mobile)){
+                    Intent intent = new Intent(WXEntryActivity.this, U23BindMobile.class);
+                    startActivity(intent);
+                    return;
+                }
                 if(QSModel.INSTANCE.isGuest()){
                     startActivity(new Intent(WXEntryActivity.this, U07RegisterActivity.class));
                     finish();
@@ -149,5 +172,20 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(150000, 0, 1f));
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private  void bindWx(String code ){
+        Map<String, String> map = new HashMap<>();
+        map.put("code", code);
+     //   map.put("registrationId", PushModel.INSTANCE.getRegId());
+        JSONObject jsonObject = new JSONObject(map);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserBingWeixinWxApi(), jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+              //  Log.e("test_i","bind_weixin "+response.toString());
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
     }
 }

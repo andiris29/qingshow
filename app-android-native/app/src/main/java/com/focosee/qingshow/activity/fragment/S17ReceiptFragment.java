@@ -47,6 +47,7 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
         phoneView = (EditText) rootView.findViewById(R.id.s11_receipt_phone);
         addressView = (EditText) rootView.findViewById(R.id.s11_receipt_address);
         provinceView = (TextView) rootView.findViewById(R.id.s11_receipt_province);
+        provinceView.setOnClickListener(this);
         provinceLayout = (LinearLayout) rootView.findViewById(R.id.s11_receipt_province_layout);
 
         rootView.findViewById(R.id.s11_receipt_manage).setOnClickListener(this);
@@ -97,6 +98,9 @@ public class S17ReceiptFragment extends Fragment implements View.OnClickListener
                 Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
                 intent.putExtra(TO_U10,TO_U10);
                 startActivity(intent);
+                break;
+            case R.id.s11_receipt_province:
+                getActivity().startActivity(new Intent(getActivity(),CityActivity.class));
                 break;
         }
     }

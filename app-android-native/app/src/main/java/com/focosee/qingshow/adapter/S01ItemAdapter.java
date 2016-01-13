@@ -84,6 +84,11 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
         if(!TextUtils.isEmpty(user.portrait)) {
             holder.setImgeByController(R.id.item_s01_head_img, ImgUtil.getImgSrc(user.portrait, ImgUtil.PORTRAIT_LARGE), 1f);
         }
+        if ("0".equals(user.rank)) {
+            holder.setVisibility(R.id.iv_rank_gold,View.VISIBLE);
+        }else {
+            holder.setVisibility(R.id.iv_rank_gold,View.GONE);
+      }
 
         holder.setText(R.id.item_s01_nikename, user.nickname);
 

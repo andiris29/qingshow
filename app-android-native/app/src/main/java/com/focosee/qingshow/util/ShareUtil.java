@@ -5,7 +5,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.View;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
@@ -20,7 +24,10 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoSharedObjects;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
@@ -33,7 +40,9 @@ import com.sina.weibo.sdk.utils.Utility;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
+
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,11 +56,15 @@ public class ShareUtil {
     private final static int TYPE_BONUS = 2;
 
     public static void shareShowToWX(final String showId, final String transaction, final Context context, final boolean isTimelineCb) {
+
         getShareObject(TYPE_SHOW, showId, context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
-                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
+                if (null != sharedObjects) {
+                   // getBitmap(sharedObjects.icon, context, ShareConfig.IMG);
+                    getBitmap(sharedObjects.url, sharedObjects.icon, transaction, context, isTimelineCb
+                            , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
+                }
             }
         });
     }
@@ -60,8 +73,11 @@ public class ShareUtil {
         getShareObject(TYPE_TRADE, tradeId, context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, transaction, context, isTimelineCb
-                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
+                if (null != sharedObjects) {
+                   // getBitmap(sharedObjects.icon, context, ShareConfig.IMG);
+                    getBitmap(sharedObjects.url, sharedObjects.icon, transaction, context, isTimelineCb
+                            , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
+                }
             }
         });
     }
@@ -70,17 +86,19 @@ public class ShareUtil {
         getShareObject(TYPE_BONUS, QSModel.INSTANCE.getUserId(), context, new Callback() {
             @Override
             public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToWX(sharedObjects.url + "?_id=" + sharedObjects._id, ValueUtil.SHARE_BONUS, context, true
-                        , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
+                if (null != sharedObjects) {
+                    //getBitmap(sharedObjects.icon, context, ShareConfig.IMG);
+                    getBitmap(sharedObjects.url, sharedObjects.icon, ValueUtil.SHARE_BONUS, context, true
+                            , ShareConfig.IMG, sharedObjects.title, sharedObjects.description);
+                }
             }
         });
     }
 
     private static void getShareObject(int type, String _id, final Context context, final Callback callback) {
-
         String url;
 
-        switch (type){
+        switch (type) {
             case TYPE_SHOW:
                 url = QSAppWebAPI.getShareCreateShowApi();
                 break;
@@ -95,13 +113,13 @@ public class ShareUtil {
                 break;
         }
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("_id", _id);
-
+        // Log.e("test_i", "url :" + url);
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(ShareUtil.class.getSimpleName(), "getShareObject-response:" + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
@@ -114,76 +132,86 @@ public class ShareUtil {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    public static void shareToWX(String url, String transaction, Context context, boolean isTimelineCb, int img, String title, String description) {
-        WXWebpageObject webpage = new WXWebpageObject();
-        WXMediaMessage msg;
-        webpage.webpageUrl = url;
-        msg = new WXMediaMessage();
-        msg.mediaObject = webpage;
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), img);
-        msg.thumbData = BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.PNG);
-        msg.setThumbImage(bitmap);
-        msg.title = title;
-        msg.description = description;
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = transaction;
-        req.message = msg;
-        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-        UmengCountUtil.countShareShow(context, "weixin");
-        QSApplication.instance().getWxApi().sendReq(req);
-    }
+//    public static void shareToWX(String url, String icon, String transaction, Context context, boolean isTimelineCb, int img, String title, String description) {
+//
+//        WXWebpageObject webpage = new WXWebpageObject();
+//        WXMediaMessage msg;
+//        webpage.webpageUrl = url;
+//        msg = new WXMediaMessage();
+//        msg.mediaObject = webpage;
+//        msg.thumbData = BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.PNG);
+//        msg.setThumbImage(bitmap);
+//        msg.title = title;
+//        msg.description = description;
+//        SendMessageToWX.Req req = new SendMessageToWX.Req();
+//        req.transaction = transaction;
+//        req.message = msg;
+//        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+//        UmengCountUtil.countShareShow(context, "weixin");
+//        QSApplication.instance().getWxApi().sendReq(req);
+//        if (bitmap != null) {
+//            bitmap.recycle();
+//            bitmap = null;
+//        }
+//
+//    }
 
-    public static void shareShowToSina(final String showId, final Context context, final IWeiboShareAPI weiboShareAPI) {
+    public static void getBitmap(final String url, final String icon, final String transaction, final Context context, final boolean isTimelineCb, final int img, final String title, final String description) {
 
-        getShareObject(TYPE_SHOW, showId, context, new Callback(){
+        ImageLoader.getInstance().loadImage(icon, new ImageLoadingListener() {
             @Override
-            public void onComplete(MongoSharedObjects sharedObjects) {
-                shareToSina(sharedObjects, context, weiboShareAPI);
+            public void onLoadingStarted(String imageUri, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                Bitmap bitmap =BitmapFactory.decodeResource(context.getResources(), img);
+                WXWebpageObject webpage = new WXWebpageObject();
+                WXMediaMessage msg;
+                webpage.webpageUrl = url;
+                msg = new WXMediaMessage();
+                msg.mediaObject = webpage;
+                msg.thumbData = BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.PNG);
+                msg.setThumbImage(bitmap);
+                msg.title = title;
+                msg.description = description;
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = transaction;
+                req.message = msg;
+                req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+                UmengCountUtil.countShareShow(context, "weixin");
+                QSApplication.instance().getWxApi().sendReq(req);
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                Bitmap bitmap = loadedImage;
+                if (null == bitmap) {
+                    bitmap = BitmapFactory.decodeResource(context.getResources(), img);
+                }
+                WXWebpageObject webpage = new WXWebpageObject();
+                WXMediaMessage msg;
+                webpage.webpageUrl = url;
+                msg = new WXMediaMessage();
+                msg.mediaObject = webpage;
+                msg.thumbData = BitMapUtil.bmpToByteArray(bitmap, false, Bitmap.CompressFormat.PNG);
+                msg.setThumbImage(bitmap);
+                msg.title = title;
+                msg.description = description;
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = transaction;
+                req.message = msg;
+                req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+                UmengCountUtil.countShareShow(context, "weixin");
+                QSApplication.instance().getWxApi().sendReq(req);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+
             }
         });
-
     }
-
-    private static void shareToSina(MongoSharedObjects sharedObject, final Context context, IWeiboShareAPI weiboShareAPI) {
-
-        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-        WebpageObject mediaObject = new WebpageObject();
-        mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = sharedObject.title;
-        mediaObject.description = sharedObject.description;
-        mediaObject.setThumbImage(BitmapFactory.decodeResource(context.getResources(), ShareConfig.IMG));
-        mediaObject.actionUrl = sharedObject.url+ "?_id=" + sharedObject._id;
-        mediaObject.defaultText = sharedObject.description;
-
-        weiboMessage.mediaObject = mediaObject;
-
-        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.multiMessage = weiboMessage;
-        AuthInfo authInfo = new AuthInfo(context, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
-        Oauth2AccessToken accessToken = SinaAccessTokenKeeper.readAccessToken(context);
-        String token = "";
-        if (accessToken != null) {
-            token = accessToken.getToken();
-        }
-        weiboShareAPI.sendRequest((Activity) context, request, authInfo, token, new WeiboAuthListener() {
-
-            @Override
-            public void onWeiboException(WeiboException arg0) {
-            }
-
-            @Override
-            public void onComplete(Bundle bundle) {
-                Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
-                SinaAccessTokenKeeper.writeAccessToken(context, newToken);
-            }
-
-            @Override
-            public void onCancel() {
-            }
-        });
-
-    }
-
 
 }

@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
@@ -86,7 +87,6 @@ public class U06LoginActivity extends BaseActivity {
                 map.put("id", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
                 Log.i("JPush_QS", "login" + PushModel.INSTANCE.getRegId());
-                map.put("registrationId", PushModel.INSTANCE.getRegId());
 
                 QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
                         QSAppWebAPI.getLoginServiceUrl(),
@@ -116,6 +116,19 @@ public class U06LoginActivity extends BaseActivity {
                                         }
                                     }
                                     sendBroadcast(new Intent(LOGIN_SUCCESS));
+                                    /**
+                                     * 登录成功后发送registrationid给服务端
+                                     */
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("registrationId", PushModel.INSTANCE.getRegId());
+                                    QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserUpdateregistrationidApi()
+                                            , new JSONObject(params), new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+
+                                        }
+                                    });
+                                    RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
                                     finish();
                                 }
                             }

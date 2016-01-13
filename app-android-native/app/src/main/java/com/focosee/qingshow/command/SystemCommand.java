@@ -57,7 +57,7 @@ public class SystemCommand {
                     SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
                     editor.putString(QSAppWebAPI.host_name, response.getJSONObject("data").getJSONObject("deployment").getString("appServiceRoot"));
 //                    editor.putString(QSAppWebAPI.host_name, "http://192.168.1.110:30001/services");
-//                    editor.putString(QSAppWebAPI.host_name, "http://dev.chingshow.com/services");
+//                    editor.putString(QSAppWebAPI.host_name, "http://chingshow.com/services");
                     editor.putString(QSAppWebAPI.host_address_payment, QSAppWebAPI.HOST_ADDRESS_PAYMENT);
                     editor.putString(QSAppWebAPI.host_address_appweb, QSAppWebAPI.HOST_ADDRESS_APPWEB);
                     editor.putBoolean(ValueUtil.UPDATE_APP_FORCE, false);

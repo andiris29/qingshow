@@ -36,7 +36,7 @@
                     app:layout_widthPercent="90%"
                     fresco:actualImageScaleType="fitCenter"
                     android:onClick="onClick"
-                    fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+                     />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/S03_image_preground"
@@ -117,8 +117,9 @@
                             <TextView
                                 android:gravity="center"
                                 android:id="@+id/s03_bonus"
+                                android:minWidth="80dp"
                                 android:layout_width="wrap_content"
-                                android:layout_height="25dp"
+                                android:layout_height="wrap_content"
                                 android:layout_alignBottom="@id/s03_portrait"
                                 android:layout_alignLeft="@+id/s03_nickname"
                                 android:layout_below="@+id/s03_nickname"

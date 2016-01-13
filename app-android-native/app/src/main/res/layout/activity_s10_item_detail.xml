@@ -23,27 +23,6 @@
         android:src="@drawable/s10_back"
         android:onClick="onClick" />
 
-    <ImageView
-        android:id="@+id/s10_bay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@null"
-        android:scaleType="fitCenter"
-        android:onClick="onClick"
-        android:src="@drawable/sale"
-        app:layout_marginBottomPercent="10%"
-        app:layout_marginRightPercent="3%"
-        app:layout_widthPercent="40%"
-        android:adjustViewBounds="true"
-        />
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 </android.support.percent.PercentRelativeLayout>
 
 

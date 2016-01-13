@@ -3,18 +3,20 @@ package com.focosee.qingshow.util.adapter;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.R;
 import com.focosee.qingshow.httpapi.fresco.factory.QSDraweeControllerFactory;
 import com.focosee.qingshow.util.ImgUtil;
 
 /**
  * Created by Administrator on 2015/4/23.
  */
-public class AbsViewHolder extends RecyclerView.ViewHolder {
+public class AbsViewHolder extends RecyclerView.ViewHolder  {
 
     private SparseArray<View> views;
     private View itemView;
@@ -106,6 +108,10 @@ public class AbsViewHolder extends RecyclerView.ViewHolder {
         this.onClickListener = onClickListener;
         if (null != onClickListener) {
             itemView.setOnClickListener(onClickListener);
+            ImageView iv = (ImageView) itemView.findViewById(R.id.iv_item_matchnew_s03);
+            if(iv != null){
+                iv.setOnClickListener(onClickListener);
+            }
         }
     }
 
@@ -123,4 +129,5 @@ public class AbsViewHolder extends RecyclerView.ViewHolder {
         }
         return this;
     }
+
 }

@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -164,21 +165,14 @@ public class RectUtil {
         view.setScaleY(1.0f);
         float maxWidth = rect.width();
         float maxHeight = rect.height();
+        moveView(view,
+                view.getX(),
+                view.getY(),
+                rect.left + maxWidth / 2 - width / 2,
+                rect.top + maxHeight / 2 - height / 2);
         float radio = (maxWidth / width) > (maxHeight / height) ? (maxHeight / height) : (maxWidth / width);
         view.setScaleX(radio);
         view.setScaleY(radio);
-
-        float minus;
-        if (radio < 1) {
-            minus = -1;
-        } else {
-            minus = 1;
-        }
-
-        float dx = minus * Math.abs(width * (1.0f - radio) / 2.0f);
-        float dy = minus * Math.abs(height * (1.0f - radio) / 2.0f);
-
-        moveView(view, view.getX(), view.getY(), rect.left + dx, rect.top + dy);
     }
 
     public static PointF getImageViewDrawablePoint(ImageView view) {

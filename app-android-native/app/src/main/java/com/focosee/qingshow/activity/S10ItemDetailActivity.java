@@ -42,12 +42,11 @@ import butterknife.InjectView;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class S10ItemDetailActivity extends BaseActivity implements View.OnClickListener {
+public class S10ItemDetailActivity extends BaseActivity {
 
     private final int LOADING_FINISH = 0x1;
     private final int LOADING_START = 0x2;
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
-    public static final String OUTPUT_ITEM_ENTITY = "OUTPUT_ITEM_ENTITY";
     public static final String BONUSES_ITEMID = "BONUSES_ITEMID";
     public static final String PROMOTRER = "promoterRef";
 
@@ -55,29 +54,24 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     WebView webview;
     @InjectView(R.id.s10_back_btn)
     ImageView back;
-    @InjectView(R.id.s10_bay)
-    ImageView bay;
-    @InjectView(R.id.container)
-    FrameLayout container;
 
     private MongoItem itemEntity, innerItemEntity;
     private LoadingDialogs dialog;
 
-    private boolean showble = false;
 
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case LOADING_START:
-                    if(null != dialog) {
+                    if (null != dialog) {
                         if (!dialog.isShowing())
                             dialog.show();
                     }
                     return true;
                 case LOADING_FINISH:
-                    if(null != dialog){
-                        if(dialog.isShowing()){
+                    if (null != dialog) {
+                        if (dialog.isShowing()) {
                             dialog.dismiss();
                         }
                     }
@@ -94,27 +88,25 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         ButterKnife.inject(this);
         DeployWebView(webview);
         dialog = new LoadingDialogs(this, R.style.dialog);
-        if(null != getIntent().getExtras()){
-            if(null != getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY)){
+        if (null != getIntent().getExtras()) {
+            if (null != getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY)) {
                 itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
                 if (itemEntity != null) {
                     loadWebView(itemEntity.source);
-                    if (itemEntity.readOnly || null != itemEntity.delist) {
-                        bay.setVisibility(View.GONE);
-                    }
                     return;
-                } else {
-                    bay.setVisibility(View.GONE);
                 }
             }
         }
 
         itemEntity = new MongoItem();
         itemEntity._id = getIntent().getStringExtra(BONUSES_ITEMID);
-        if(!TextUtils.isEmpty(itemEntity._id)){
-            getItemFormNet(itemEntity._id);
-        }
-        dialog.show();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S10ItemDetailActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -145,8 +137,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
-
-
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
             }
@@ -165,70 +155,8 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         });
         webview.loadUrl(url);
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.s10_bay:
-                if (!QSModel.INSTANCE.loggedin() || QSModel.INSTANCE.isGuest()) {
-                    GoToWhereAfterLoginModel.INSTANCE.set_class(null);
-                    startActivity(new Intent(S10ItemDetailActivity.this, U19LoginGuideActivity.class));
-                    return;
-                }
-                dialog.show();
-                showble = true;
-                getItemFormNet(itemEntity._id);
-                break;
-            case R.id.s10_back_btn:
-                finish();
-                break;
-        }
-    }
-
-
-    private void getItemFormNet(String id) {
-        Map map = new HashMap();
-        Log.d(S10ItemDetailActivity.class.getSimpleName(), "_id:" + id);
-        map.put("_id", id);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getItemSyncApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                Log.i("S10ItemDetailActivity",response.toString());
-                handler.sendEmptyMessage(LOADING_FINISH);
-                if (MetadataParser.hasError(response)) {
-                    final ConfirmDialog confirmDialog = new ConfirmDialog(S10ItemDetailActivity.this);
-                    confirmDialog.setTitle(getResources().getString(R.string.s10_scale_close));
-                    View.OnClickListener onClickListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            bay.setVisibility(View.GONE);
-                            confirmDialog.dismiss();
-                        }
-                    };
-
-                    confirmDialog.setConfirm(onClickListener);
-                    confirmDialog.setCancel(onClickListener);
-                    confirmDialog.show();
-                    return;
-                }
-
-                if(showble) {
-                    innerItemEntity = ItemFeedingParser.parseOne(response);
-                    showble = false;
-                }else{
-                    itemEntity = ItemFeedingParser.parseOne(response);
-                    loadWebView(itemEntity.source);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handler.sendEmptyMessage(LOADING_FINISH);
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    public void onClick(View view){
+        finish();
     }
 
     @Override

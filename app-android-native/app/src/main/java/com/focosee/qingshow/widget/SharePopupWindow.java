@@ -41,7 +41,6 @@ public class SharePopupWindow extends PopupWindow {
         this.setFocusable(true);
 
         mainview.findViewById(R.id.share_wechat).setOnClickListener(itemclick);
-        mainview.findViewById(R.id.share_sina).setOnClickListener(itemclick);
         mainview.findViewById(R.id.share_wx_timeline).setOnClickListener(itemclick);
 
     }
