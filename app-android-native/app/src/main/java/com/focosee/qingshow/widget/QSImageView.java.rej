@@ -1,0 +1,10 @@
+diff a/app-android-native/app/src/main/java/com/focosee/qingshow/widget/QSImageView.java b/app-android-native/app/src/main/java/com/focosee/qingshow/widget/QSImageView.java	(rejected hunks)
+@@ -310,7 +310,7 @@
+                 (int) AppUtil.transformToDip(50 / lastScaleFactor, getContext()));
+         btnParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+         btnParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+-        btnParams.setMargins(2,2,2,2);
++        btnParams.setMargins(2, 2, 2, 2);
+         delBtn.setLayoutParams(btnParams);
+         delBtn.setOnClickListener(onDelClickListener);
+         this.addView(delBtn);
